@@ -4,7 +4,6 @@ README.md
 pyproject.toml
 requirements-dev.txt
 requirements.txt
-smithy_python/BUILD
 smithy_python/__init__.py
 smithy_python/async_utils.py
 smithy_python/exceptions.py
@@ -35,7 +34,6 @@ smithy_python/interfaces/http.py
 smithy_python/interfaces/identity.py
 smithy_python/interfaces/interceptor.py
 smithy_python/interfaces/retries.py
-tests/BUILD
 tests/__init__.py
 tests/py.typed
 tests/functional/__init__.py

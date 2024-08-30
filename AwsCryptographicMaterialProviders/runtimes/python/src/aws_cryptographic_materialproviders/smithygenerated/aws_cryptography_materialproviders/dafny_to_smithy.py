@@ -61,8 +61,8 @@ import aws_cryptographic_materialproviders.internaldafny.generated.module_
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models
+import aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk
 import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy
-import com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk
 from smithy_dafny_standard_library.internaldafny.generated import UTF8
 
 
@@ -1182,7 +1182,7 @@ def aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(dafny_input):
             else None
         ),
         kms_key_id=dafny_input.kmsKeyId.VerbatimString(False),
-        encryption_algorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_EncryptionAlgorithmSpec(
+        encryption_algorithm=aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_EncryptionAlgorithmSpec(
             dafny_input.encryptionAlgorithm
         ),
         kms_client=(

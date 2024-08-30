@@ -1,5 +1,5 @@
-from standard_library.internaldafny.generated.SortedSets import *
-import standard_library.internaldafny.generated.SortedSets
+from smithy_dafny_standard_library.internaldafny.generated.SortedSets import *
+import smithy_dafny_standard_library.internaldafny.generated.SortedSets
 import _dafny
 
 class default__:
@@ -61,4 +61,4 @@ class Comparer:
       return 1
 
 # Export extern
-standard_library.internaldafny.generated.SortedSets.default__ = default__
+smithy_dafny_standard_library.internaldafny.generated.SortedSets.default__ = default__

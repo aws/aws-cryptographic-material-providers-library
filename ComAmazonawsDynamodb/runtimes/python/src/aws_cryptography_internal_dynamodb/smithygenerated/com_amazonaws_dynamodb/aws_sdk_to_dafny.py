@@ -4,7 +4,7 @@
 
 import _dafny
 from _dafny import Map, Seq
-from com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes import (
+from aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes import (
     ArchivalSummary_ArchivalSummary as DafnyArchivalSummary,
     AttributeAction_ADD,
     AttributeAction_DELETE,
@@ -390,8 +390,8 @@ from com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes im
     Update_Update as DafnyUpdate,
     WriteRequest_WriteRequest as DafnyWriteRequest,
 )
-import com_amazonaws_dynamodb.internaldafny.generated.module_
-import com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny
+import aws_cryptography_internal_dynamodb.internaldafny.generated.module_
+import aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny
 from smithy_dafny_standard_library.internaldafny.generated.Wrappers import (
     Option_None,
     Option_Some,
@@ -577,7 +577,7 @@ def com_amazonaws_dynamodb_TransactionCanceledException(native_input):
         Message=Seq(native_input["Error"]["Message"]),
         CancellationReasons=Seq(
             [
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_CancellationReason(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_CancellationReason(
                     list_element
                 )
                 for list_element in native_input["CancellationReasons"]
@@ -594,7 +594,7 @@ def com_amazonaws_dynamodb_CancellationReason(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
                         for (key, value) in native_input["Item"].items()
@@ -642,7 +642,7 @@ def com_amazonaws_dynamodb_AttributeValue(native_input):
                 {
                     Seq(
                         key
-                    ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                    ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                         value
                     )
                     for (key, value) in native_input["M"].items()
@@ -653,7 +653,7 @@ def com_amazonaws_dynamodb_AttributeValue(native_input):
         AttributeValue_union_value = AttributeValue_L(
             Seq(
                 [
-                    com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                    aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                         list_element
                     )
                     for list_element in native_input["L"]
@@ -688,7 +688,7 @@ def com_amazonaws_dynamodb_BatchExecuteStatementInput(native_input):
     return DafnyBatchExecuteStatementInput(
         Statements=Seq(
             [
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BatchStatementRequest(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BatchStatementRequest(
                     list_element
                 )
                 for list_element in native_input["Statements"]
@@ -696,7 +696,7 @@ def com_amazonaws_dynamodb_BatchExecuteStatementInput(native_input):
         ),
         ReturnConsumedCapacity=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
                     native_input["ReturnConsumedCapacity"]
                 )
             )
@@ -713,7 +713,7 @@ def com_amazonaws_dynamodb_BatchStatementRequest(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             list_element
                         )
                         for list_element in native_input["Parameters"]
@@ -749,7 +749,7 @@ def com_amazonaws_dynamodb_BatchExecuteStatementOutput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BatchStatementResponse(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BatchStatementResponse(
                             list_element
                         )
                         for list_element in native_input["Responses"]
@@ -763,7 +763,7 @@ def com_amazonaws_dynamodb_BatchExecuteStatementOutput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
                             list_element
                         )
                         for list_element in native_input["ConsumedCapacity"]
@@ -780,7 +780,7 @@ def com_amazonaws_dynamodb_BatchStatementResponse(native_input):
     return DafnyBatchStatementResponse(
         Error=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BatchStatementError(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BatchStatementError(
                     native_input["Error"]
                 )
             )
@@ -798,7 +798,7 @@ def com_amazonaws_dynamodb_BatchStatementResponse(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
                         for (key, value) in native_input["Item"].items()
@@ -815,7 +815,7 @@ def com_amazonaws_dynamodb_BatchStatementError(native_input):
     return DafnyBatchStatementError(
         Code=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BatchStatementErrorCodeEnum(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BatchStatementErrorCodeEnum(
                     native_input["Code"]
                 )
             )
@@ -882,7 +882,7 @@ def com_amazonaws_dynamodb_ConsumedCapacity(native_input):
         ),
         Table=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Capacity(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Capacity(
                     native_input["Table"]
                 )
             )
@@ -895,7 +895,7 @@ def com_amazonaws_dynamodb_ConsumedCapacity(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Capacity(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Capacity(
                             value
                         )
                         for (key, value) in native_input[
@@ -913,7 +913,7 @@ def com_amazonaws_dynamodb_ConsumedCapacity(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Capacity(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Capacity(
                             value
                         )
                         for (key, value) in native_input[
@@ -954,7 +954,7 @@ def com_amazonaws_dynamodb_BatchGetItemInput(native_input):
             {
                 Seq(
                     key
-                ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeysAndAttributes(
+                ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeysAndAttributes(
                     value
                 )
                 for (key, value) in native_input["RequestItems"].items()
@@ -962,7 +962,7 @@ def com_amazonaws_dynamodb_BatchGetItemInput(native_input):
         ),
         ReturnConsumedCapacity=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
                     native_input["ReturnConsumedCapacity"]
                 )
             )
@@ -980,7 +980,7 @@ def com_amazonaws_dynamodb_KeysAndAttributes(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
                         for (key, value) in list_element.items()
@@ -1040,7 +1040,7 @@ def com_amazonaws_dynamodb_BatchGetItemOutput(native_input):
                                     {
                                         Seq(
                                             key
-                                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                                             value
                                         )
                                         for (key, value) in list_element.items()
@@ -1062,7 +1062,7 @@ def com_amazonaws_dynamodb_BatchGetItemOutput(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeysAndAttributes(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeysAndAttributes(
                             value
                         )
                         for (key, value) in native_input["UnprocessedKeys"].items()
@@ -1076,7 +1076,7 @@ def com_amazonaws_dynamodb_BatchGetItemOutput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
                             list_element
                         )
                         for list_element in native_input["ConsumedCapacity"]
@@ -1095,7 +1095,7 @@ def com_amazonaws_dynamodb_BatchWriteItemInput(native_input):
             {
                 Seq(key): Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_WriteRequest(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_WriteRequest(
                             list_element
                         )
                         for list_element in value
@@ -1106,7 +1106,7 @@ def com_amazonaws_dynamodb_BatchWriteItemInput(native_input):
         ),
         ReturnConsumedCapacity=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
                     native_input["ReturnConsumedCapacity"]
                 )
             )
@@ -1115,7 +1115,7 @@ def com_amazonaws_dynamodb_BatchWriteItemInput(native_input):
         ),
         ReturnItemCollectionMetrics=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnItemCollectionMetrics(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnItemCollectionMetrics(
                     native_input["ReturnItemCollectionMetrics"]
                 )
             )
@@ -1129,7 +1129,7 @@ def com_amazonaws_dynamodb_WriteRequest(native_input):
     return DafnyWriteRequest(
         PutRequest=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_PutRequest(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_PutRequest(
                     native_input["PutRequest"]
                 )
             )
@@ -1138,7 +1138,7 @@ def com_amazonaws_dynamodb_WriteRequest(native_input):
         ),
         DeleteRequest=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DeleteRequest(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DeleteRequest(
                     native_input["DeleteRequest"]
                 )
             )
@@ -1154,7 +1154,7 @@ def com_amazonaws_dynamodb_PutRequest(native_input):
             {
                 Seq(
                     key
-                ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     value
                 )
                 for (key, value) in native_input["Item"].items()
@@ -1169,7 +1169,7 @@ def com_amazonaws_dynamodb_DeleteRequest(native_input):
             {
                 Seq(
                     key
-                ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     value
                 )
                 for (key, value) in native_input["Key"].items()
@@ -1196,7 +1196,7 @@ def com_amazonaws_dynamodb_BatchWriteItemOutput(native_input):
                     {
                         Seq(key): Seq(
                             [
-                                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_WriteRequest(
+                                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_WriteRequest(
                                     list_element
                                 )
                                 for list_element in value
@@ -1215,7 +1215,7 @@ def com_amazonaws_dynamodb_BatchWriteItemOutput(native_input):
                     {
                         Seq(key): Seq(
                             [
-                                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ItemCollectionMetrics(
+                                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ItemCollectionMetrics(
                                     list_element
                                 )
                                 for list_element in value
@@ -1234,7 +1234,7 @@ def com_amazonaws_dynamodb_BatchWriteItemOutput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
                             list_element
                         )
                         for list_element in native_input["ConsumedCapacity"]
@@ -1255,7 +1255,7 @@ def com_amazonaws_dynamodb_ItemCollectionMetrics(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
                         for (key, value) in native_input["ItemCollectionKey"].items()
@@ -1291,7 +1291,7 @@ def com_amazonaws_dynamodb_CreateBackupOutput(native_input):
     return DafnyCreateBackupOutput(
         BackupDetails=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupDetails(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupDetails(
                     native_input["BackupDetails"]
                 )
             )
@@ -1310,10 +1310,10 @@ def com_amazonaws_dynamodb_BackupDetails(native_input):
             if "BackupSizeBytes" in native_input.keys()
             else Option_None()
         ),
-        BackupStatus=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupStatus(
+        BackupStatus=aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupStatus(
             native_input["BackupStatus"]
         ),
-        BackupType=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupType(
+        BackupType=aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupType(
             native_input["BackupType"]
         ),
         BackupCreationDateTime=_dafny.Seq(
@@ -1356,7 +1356,7 @@ def com_amazonaws_dynamodb_CreateGlobalTableInput(native_input):
         GlobalTableName=Seq(native_input["GlobalTableName"]),
         ReplicationGroup=Seq(
             [
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Replica(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Replica(
                     list_element
                 )
                 for list_element in native_input["ReplicationGroup"]
@@ -1379,7 +1379,7 @@ def com_amazonaws_dynamodb_CreateGlobalTableOutput(native_input):
     return DafnyCreateGlobalTableOutput(
         GlobalTableDescription=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalTableDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalTableDescription(
                     native_input["GlobalTableDescription"]
                 )
             )
@@ -1395,7 +1395,7 @@ def com_amazonaws_dynamodb_GlobalTableDescription(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaDescription(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaDescription(
                             list_element
                         )
                         for list_element in native_input["ReplicationGroup"]
@@ -1417,7 +1417,7 @@ def com_amazonaws_dynamodb_GlobalTableDescription(native_input):
         ),
         GlobalTableStatus=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalTableStatus(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalTableStatus(
                     native_input["GlobalTableStatus"]
                 )
             )
@@ -1441,7 +1441,7 @@ def com_amazonaws_dynamodb_ReplicaDescription(native_input):
         ),
         ReplicaStatus=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaStatus(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaStatus(
                     native_input["ReplicaStatus"]
                 )
             )
@@ -1465,7 +1465,7 @@ def com_amazonaws_dynamodb_ReplicaDescription(native_input):
         ),
         ProvisionedThroughputOverride=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputOverride(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputOverride(
                     native_input["ProvisionedThroughputOverride"]
                 )
             )
@@ -1476,7 +1476,7 @@ def com_amazonaws_dynamodb_ReplicaDescription(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription(
                             list_element
                         )
                         for list_element in native_input["GlobalSecondaryIndexes"]
@@ -1495,7 +1495,7 @@ def com_amazonaws_dynamodb_ReplicaDescription(native_input):
         ),
         ReplicaTableClassSummary=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClassSummary(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClassSummary(
                     native_input["ReplicaTableClassSummary"]
                 )
             )
@@ -1558,7 +1558,7 @@ def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription(native_input):
         ),
         ProvisionedThroughputOverride=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputOverride(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputOverride(
                     native_input["ProvisionedThroughputOverride"]
                 )
             )
@@ -1572,7 +1572,7 @@ def com_amazonaws_dynamodb_TableClassSummary(native_input):
     return DafnyTableClassSummary(
         TableClass=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClass(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClass(
                     native_input["TableClass"]
                 )
             )
@@ -1601,7 +1601,7 @@ def com_amazonaws_dynamodb_CreateTableInput(native_input):
     return DafnyCreateTableInput(
         AttributeDefinitions=Seq(
             [
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeDefinition(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeDefinition(
                     list_element
                 )
                 for list_element in native_input["AttributeDefinitions"]
@@ -1610,7 +1610,7 @@ def com_amazonaws_dynamodb_CreateTableInput(native_input):
         TableName=Seq(native_input["TableName"]),
         KeySchema=Seq(
             [
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
                     list_element
                 )
                 for list_element in native_input["KeySchema"]
@@ -1620,7 +1620,7 @@ def com_amazonaws_dynamodb_CreateTableInput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_LocalSecondaryIndex(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_LocalSecondaryIndex(
                             list_element
                         )
                         for list_element in native_input["LocalSecondaryIndexes"]
@@ -1634,7 +1634,7 @@ def com_amazonaws_dynamodb_CreateTableInput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndex(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndex(
                             list_element
                         )
                         for list_element in native_input["GlobalSecondaryIndexes"]
@@ -1646,7 +1646,7 @@ def com_amazonaws_dynamodb_CreateTableInput(native_input):
         ),
         BillingMode=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
                     native_input["BillingMode"]
                 )
             )
@@ -1655,7 +1655,7 @@ def com_amazonaws_dynamodb_CreateTableInput(native_input):
         ),
         ProvisionedThroughput=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
                     native_input["ProvisionedThroughput"]
                 )
             )
@@ -1664,7 +1664,7 @@ def com_amazonaws_dynamodb_CreateTableInput(native_input):
         ),
         StreamSpecification=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_StreamSpecification(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_StreamSpecification(
                     native_input["StreamSpecification"]
                 )
             )
@@ -1673,7 +1673,7 @@ def com_amazonaws_dynamodb_CreateTableInput(native_input):
         ),
         SSESpecification=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSESpecification(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSESpecification(
                     native_input["SSESpecification"]
                 )
             )
@@ -1684,7 +1684,7 @@ def com_amazonaws_dynamodb_CreateTableInput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Tag(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Tag(
                             list_element
                         )
                         for list_element in native_input["Tags"]
@@ -1696,7 +1696,7 @@ def com_amazonaws_dynamodb_CreateTableInput(native_input):
         ),
         TableClass=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClass(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClass(
                     native_input["TableClass"]
                 )
             )
@@ -1709,7 +1709,7 @@ def com_amazonaws_dynamodb_CreateTableInput(native_input):
 def com_amazonaws_dynamodb_AttributeDefinition(native_input):
     return DafnyAttributeDefinition(
         AttributeName=Seq(native_input["AttributeName"]),
-        AttributeType=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ScalarAttributeType(
+        AttributeType=aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ScalarAttributeType(
             native_input["AttributeType"]
         ),
     )
@@ -1730,7 +1730,7 @@ def com_amazonaws_dynamodb_ScalarAttributeType(native_input):
 def com_amazonaws_dynamodb_KeySchemaElement(native_input):
     return DafnyKeySchemaElement(
         AttributeName=Seq(native_input["AttributeName"]),
-        KeyType=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeyType(
+        KeyType=aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeyType(
             native_input["KeyType"]
         ),
     )
@@ -1751,13 +1751,13 @@ def com_amazonaws_dynamodb_LocalSecondaryIndex(native_input):
         IndexName=Seq(native_input["IndexName"]),
         KeySchema=Seq(
             [
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
                     list_element
                 )
                 for list_element in native_input["KeySchema"]
             ]
         ),
-        Projection=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Projection(
+        Projection=aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Projection(
             native_input["Projection"]
         ),
     )
@@ -1767,7 +1767,7 @@ def com_amazonaws_dynamodb_Projection(native_input):
     return DafnyProjection(
         ProjectionType=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProjectionType(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProjectionType(
                     native_input["ProjectionType"]
                 )
             )
@@ -1806,18 +1806,18 @@ def com_amazonaws_dynamodb_GlobalSecondaryIndex(native_input):
         IndexName=Seq(native_input["IndexName"]),
         KeySchema=Seq(
             [
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
                     list_element
                 )
                 for list_element in native_input["KeySchema"]
             ]
         ),
-        Projection=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Projection(
+        Projection=aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Projection(
             native_input["Projection"]
         ),
         ProvisionedThroughput=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
                     native_input["ProvisionedThroughput"]
                 )
             )
@@ -1849,7 +1849,7 @@ def com_amazonaws_dynamodb_StreamSpecification(native_input):
         StreamEnabled=native_input["StreamEnabled"],
         StreamViewType=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_StreamViewType(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_StreamViewType(
                     native_input["StreamViewType"]
                 )
             )
@@ -1882,7 +1882,7 @@ def com_amazonaws_dynamodb_SSESpecification(native_input):
         ),
         SSEType=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSEType(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSEType(
                     native_input["SSEType"]
                 )
             )
@@ -1918,7 +1918,7 @@ def com_amazonaws_dynamodb_CreateTableOutput(native_input):
     return DafnyCreateTableOutput(
         TableDescription=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableDescription(
                     native_input["TableDescription"]
                 )
             )
@@ -1934,7 +1934,7 @@ def com_amazonaws_dynamodb_TableDescription(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeDefinition(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeDefinition(
                             list_element
                         )
                         for list_element in native_input["AttributeDefinitions"]
@@ -1953,7 +1953,7 @@ def com_amazonaws_dynamodb_TableDescription(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
                             list_element
                         )
                         for list_element in native_input["KeySchema"]
@@ -1965,7 +1965,7 @@ def com_amazonaws_dynamodb_TableDescription(native_input):
         ),
         TableStatus=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableStatus(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableStatus(
                     native_input["TableStatus"]
                 )
             )
@@ -1979,7 +1979,7 @@ def com_amazonaws_dynamodb_TableDescription(native_input):
         ),
         ProvisionedThroughput=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputDescription(
                     native_input["ProvisionedThroughput"]
                 )
             )
@@ -2008,7 +2008,7 @@ def com_amazonaws_dynamodb_TableDescription(native_input):
         ),
         BillingModeSummary=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingModeSummary(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingModeSummary(
                     native_input["BillingModeSummary"]
                 )
             )
@@ -2019,7 +2019,7 @@ def com_amazonaws_dynamodb_TableDescription(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_LocalSecondaryIndexDescription(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_LocalSecondaryIndexDescription(
                             list_element
                         )
                         for list_element in native_input["LocalSecondaryIndexes"]
@@ -2033,7 +2033,7 @@ def com_amazonaws_dynamodb_TableDescription(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndexDescription(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndexDescription(
                             list_element
                         )
                         for list_element in native_input["GlobalSecondaryIndexes"]
@@ -2045,7 +2045,7 @@ def com_amazonaws_dynamodb_TableDescription(native_input):
         ),
         StreamSpecification=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_StreamSpecification(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_StreamSpecification(
                     native_input["StreamSpecification"]
                 )
             )
@@ -2071,7 +2071,7 @@ def com_amazonaws_dynamodb_TableDescription(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaDescription(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaDescription(
                             list_element
                         )
                         for list_element in native_input["Replicas"]
@@ -2083,7 +2083,7 @@ def com_amazonaws_dynamodb_TableDescription(native_input):
         ),
         RestoreSummary=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_RestoreSummary(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_RestoreSummary(
                     native_input["RestoreSummary"]
                 )
             )
@@ -2092,7 +2092,7 @@ def com_amazonaws_dynamodb_TableDescription(native_input):
         ),
         SSEDescription=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSEDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSEDescription(
                     native_input["SSEDescription"]
                 )
             )
@@ -2101,7 +2101,7 @@ def com_amazonaws_dynamodb_TableDescription(native_input):
         ),
         ArchivalSummary=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ArchivalSummary(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ArchivalSummary(
                     native_input["ArchivalSummary"]
                 )
             )
@@ -2110,7 +2110,7 @@ def com_amazonaws_dynamodb_TableDescription(native_input):
         ),
         TableClassSummary=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClassSummary(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClassSummary(
                     native_input["TableClassSummary"]
                 )
             )
@@ -2174,7 +2174,7 @@ def com_amazonaws_dynamodb_BillingModeSummary(native_input):
     return DafnyBillingModeSummary(
         BillingMode=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
                     native_input["BillingMode"]
                 )
             )
@@ -2204,7 +2204,7 @@ def com_amazonaws_dynamodb_LocalSecondaryIndexDescription(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
                             list_element
                         )
                         for list_element in native_input["KeySchema"]
@@ -2216,7 +2216,7 @@ def com_amazonaws_dynamodb_LocalSecondaryIndexDescription(native_input):
         ),
         Projection=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Projection(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Projection(
                     native_input["Projection"]
                 )
             )
@@ -2252,7 +2252,7 @@ def com_amazonaws_dynamodb_GlobalSecondaryIndexDescription(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
                             list_element
                         )
                         for list_element in native_input["KeySchema"]
@@ -2264,7 +2264,7 @@ def com_amazonaws_dynamodb_GlobalSecondaryIndexDescription(native_input):
         ),
         Projection=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Projection(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Projection(
                     native_input["Projection"]
                 )
             )
@@ -2273,7 +2273,7 @@ def com_amazonaws_dynamodb_GlobalSecondaryIndexDescription(native_input):
         ),
         IndexStatus=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_IndexStatus(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_IndexStatus(
                     native_input["IndexStatus"]
                 )
             )
@@ -2287,7 +2287,7 @@ def com_amazonaws_dynamodb_GlobalSecondaryIndexDescription(native_input):
         ),
         ProvisionedThroughput=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputDescription(
                     native_input["ProvisionedThroughput"]
                 )
             )
@@ -2333,7 +2333,7 @@ def com_amazonaws_dynamodb_SSEDescription(native_input):
     return DafnySSEDescription(
         Status=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSEStatus(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSEStatus(
                     native_input["Status"]
                 )
             )
@@ -2342,7 +2342,7 @@ def com_amazonaws_dynamodb_SSEDescription(native_input):
         ),
         SSEType=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSEType(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSEType(
                     native_input["SSEType"]
                 )
             )
@@ -2424,7 +2424,7 @@ def com_amazonaws_dynamodb_DeleteBackupOutput(native_input):
     return DafnyDeleteBackupOutput(
         BackupDescription=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupDescription(
                     native_input["BackupDescription"]
                 )
             )
@@ -2438,7 +2438,7 @@ def com_amazonaws_dynamodb_BackupDescription(native_input):
     return DafnyBackupDescription(
         BackupDetails=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupDetails(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupDetails(
                     native_input["BackupDetails"]
                 )
             )
@@ -2447,7 +2447,7 @@ def com_amazonaws_dynamodb_BackupDescription(native_input):
         ),
         SourceTableDetails=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SourceTableDetails(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SourceTableDetails(
                     native_input["SourceTableDetails"]
                 )
             )
@@ -2456,7 +2456,7 @@ def com_amazonaws_dynamodb_BackupDescription(native_input):
         ),
         SourceTableFeatureDetails=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SourceTableFeatureDetails(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SourceTableFeatureDetails(
                     native_input["SourceTableFeatureDetails"]
                 )
             )
@@ -2482,7 +2482,7 @@ def com_amazonaws_dynamodb_SourceTableDetails(native_input):
         ),
         KeySchema=Seq(
             [
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
                     list_element
                 )
                 for list_element in native_input["KeySchema"]
@@ -2491,7 +2491,7 @@ def com_amazonaws_dynamodb_SourceTableDetails(native_input):
         TableCreationDateTime=_dafny.Seq(
             native_input["TableCreationDateTime"].isoformat()
         ),
-        ProvisionedThroughput=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
+        ProvisionedThroughput=aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
             native_input["ProvisionedThroughput"]
         ),
         ItemCount=(
@@ -2501,7 +2501,7 @@ def com_amazonaws_dynamodb_SourceTableDetails(native_input):
         ),
         BillingMode=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
                     native_input["BillingMode"]
                 )
             )
@@ -2517,7 +2517,7 @@ def com_amazonaws_dynamodb_SourceTableFeatureDetails(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_LocalSecondaryIndexInfo(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_LocalSecondaryIndexInfo(
                             list_element
                         )
                         for list_element in native_input["LocalSecondaryIndexes"]
@@ -2531,7 +2531,7 @@ def com_amazonaws_dynamodb_SourceTableFeatureDetails(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndexInfo(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndexInfo(
                             list_element
                         )
                         for list_element in native_input["GlobalSecondaryIndexes"]
@@ -2543,7 +2543,7 @@ def com_amazonaws_dynamodb_SourceTableFeatureDetails(native_input):
         ),
         StreamDescription=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_StreamSpecification(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_StreamSpecification(
                     native_input["StreamDescription"]
                 )
             )
@@ -2552,7 +2552,7 @@ def com_amazonaws_dynamodb_SourceTableFeatureDetails(native_input):
         ),
         TimeToLiveDescription=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TimeToLiveDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TimeToLiveDescription(
                     native_input["TimeToLiveDescription"]
                 )
             )
@@ -2561,7 +2561,7 @@ def com_amazonaws_dynamodb_SourceTableFeatureDetails(native_input):
         ),
         SSEDescription=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSEDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSEDescription(
                     native_input["SSEDescription"]
                 )
             )
@@ -2582,7 +2582,7 @@ def com_amazonaws_dynamodb_LocalSecondaryIndexInfo(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
                             list_element
                         )
                         for list_element in native_input["KeySchema"]
@@ -2594,7 +2594,7 @@ def com_amazonaws_dynamodb_LocalSecondaryIndexInfo(native_input):
         ),
         Projection=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Projection(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Projection(
                     native_input["Projection"]
                 )
             )
@@ -2615,7 +2615,7 @@ def com_amazonaws_dynamodb_GlobalSecondaryIndexInfo(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
                             list_element
                         )
                         for list_element in native_input["KeySchema"]
@@ -2627,7 +2627,7 @@ def com_amazonaws_dynamodb_GlobalSecondaryIndexInfo(native_input):
         ),
         Projection=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Projection(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Projection(
                     native_input["Projection"]
                 )
             )
@@ -2636,7 +2636,7 @@ def com_amazonaws_dynamodb_GlobalSecondaryIndexInfo(native_input):
         ),
         ProvisionedThroughput=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
                     native_input["ProvisionedThroughput"]
                 )
             )
@@ -2650,7 +2650,7 @@ def com_amazonaws_dynamodb_TimeToLiveDescription(native_input):
     return DafnyTimeToLiveDescription(
         TimeToLiveStatus=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TimeToLiveStatus(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TimeToLiveStatus(
                     native_input["TimeToLiveStatus"]
                 )
             )
@@ -2686,7 +2686,7 @@ def com_amazonaws_dynamodb_DeleteItemInput(native_input):
             {
                 Seq(
                     key
-                ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     value
                 )
                 for (key, value) in native_input["Key"].items()
@@ -2698,7 +2698,7 @@ def com_amazonaws_dynamodb_DeleteItemInput(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExpectedAttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExpectedAttributeValue(
                             value
                         )
                         for (key, value) in native_input["Expected"].items()
@@ -2710,7 +2710,7 @@ def com_amazonaws_dynamodb_DeleteItemInput(native_input):
         ),
         ConditionalOperator=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConditionalOperator(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConditionalOperator(
                     native_input["ConditionalOperator"]
                 )
             )
@@ -2719,7 +2719,7 @@ def com_amazonaws_dynamodb_DeleteItemInput(native_input):
         ),
         ReturnValues=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValue(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValue(
                     native_input["ReturnValues"]
                 )
             )
@@ -2728,7 +2728,7 @@ def com_amazonaws_dynamodb_DeleteItemInput(native_input):
         ),
         ReturnConsumedCapacity=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
                     native_input["ReturnConsumedCapacity"]
                 )
             )
@@ -2737,7 +2737,7 @@ def com_amazonaws_dynamodb_DeleteItemInput(native_input):
         ),
         ReturnItemCollectionMetrics=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnItemCollectionMetrics(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnItemCollectionMetrics(
                     native_input["ReturnItemCollectionMetrics"]
                 )
             )
@@ -2769,7 +2769,7 @@ def com_amazonaws_dynamodb_DeleteItemInput(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
                         for (key, value) in native_input[
@@ -2788,7 +2788,7 @@ def com_amazonaws_dynamodb_ExpectedAttributeValue(native_input):
     return DafnyExpectedAttributeValue(
         Value=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     native_input["Value"]
                 )
             )
@@ -2802,7 +2802,7 @@ def com_amazonaws_dynamodb_ExpectedAttributeValue(native_input):
         ),
         ComparisonOperator=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ComparisonOperator(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ComparisonOperator(
                     native_input["ComparisonOperator"]
                 )
             )
@@ -2813,7 +2813,7 @@ def com_amazonaws_dynamodb_ExpectedAttributeValue(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             list_element
                         )
                         for list_element in native_input["AttributeValueList"]
@@ -2892,7 +2892,7 @@ def com_amazonaws_dynamodb_DeleteItemOutput(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
                         for (key, value) in native_input["Attributes"].items()
@@ -2904,7 +2904,7 @@ def com_amazonaws_dynamodb_DeleteItemOutput(native_input):
         ),
         ConsumedCapacity=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
                     native_input["ConsumedCapacity"]
                 )
             )
@@ -2913,7 +2913,7 @@ def com_amazonaws_dynamodb_DeleteItemOutput(native_input):
         ),
         ItemCollectionMetrics=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ItemCollectionMetrics(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ItemCollectionMetrics(
                     native_input["ItemCollectionMetrics"]
                 )
             )
@@ -2933,7 +2933,7 @@ def com_amazonaws_dynamodb_DeleteTableOutput(native_input):
     return DafnyDeleteTableOutput(
         TableDescription=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableDescription(
                     native_input["TableDescription"]
                 )
             )
@@ -2953,7 +2953,7 @@ def com_amazonaws_dynamodb_DescribeBackupOutput(native_input):
     return DafnyDescribeBackupOutput(
         BackupDescription=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupDescription(
                     native_input["BackupDescription"]
                 )
             )
@@ -2973,7 +2973,7 @@ def com_amazonaws_dynamodb_DescribeContinuousBackupsOutput(native_input):
     return DafnyDescribeContinuousBackupsOutput(
         ContinuousBackupsDescription=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContinuousBackupsDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContinuousBackupsDescription(
                     native_input["ContinuousBackupsDescription"]
                 )
             )
@@ -2985,12 +2985,12 @@ def com_amazonaws_dynamodb_DescribeContinuousBackupsOutput(native_input):
 
 def com_amazonaws_dynamodb_ContinuousBackupsDescription(native_input):
     return DafnyContinuousBackupsDescription(
-        ContinuousBackupsStatus=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContinuousBackupsStatus(
+        ContinuousBackupsStatus=aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContinuousBackupsStatus(
             native_input["ContinuousBackupsStatus"]
         ),
         PointInTimeRecoveryDescription=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_PointInTimeRecoveryDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_PointInTimeRecoveryDescription(
                     native_input["PointInTimeRecoveryDescription"]
                 )
             )
@@ -3014,7 +3014,7 @@ def com_amazonaws_dynamodb_PointInTimeRecoveryDescription(native_input):
     return DafnyPointInTimeRecoveryDescription(
         PointInTimeRecoveryStatus=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_PointInTimeRecoveryStatus(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_PointInTimeRecoveryStatus(
                     native_input["PointInTimeRecoveryStatus"]
                 )
             )
@@ -3085,7 +3085,7 @@ def com_amazonaws_dynamodb_DescribeContributorInsightsOutput(native_input):
         ),
         ContributorInsightsStatus=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContributorInsightsStatus(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContributorInsightsStatus(
                     native_input["ContributorInsightsStatus"]
                 )
             )
@@ -3099,7 +3099,7 @@ def com_amazonaws_dynamodb_DescribeContributorInsightsOutput(native_input):
         ),
         FailureException=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_FailureException(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_FailureException(
                     native_input["FailureException"]
                 )
             )
@@ -3148,7 +3148,7 @@ def com_amazonaws_dynamodb_DescribeEndpointsResponse(native_input):
     return DafnyDescribeEndpointsResponse(
         Endpoints=Seq(
             [
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Endpoint(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Endpoint(
                     list_element
                 )
                 for list_element in native_input["Endpoints"]
@@ -3174,7 +3174,7 @@ def com_amazonaws_dynamodb_DescribeExportOutput(native_input):
     return DafnyDescribeExportOutput(
         ExportDescription=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportDescription(
                     native_input["ExportDescription"]
                 )
             )
@@ -3193,7 +3193,7 @@ def com_amazonaws_dynamodb_ExportDescription(native_input):
         ),
         ExportStatus=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportStatus(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportStatus(
                     native_input["ExportStatus"]
                 )
             )
@@ -3252,7 +3252,7 @@ def com_amazonaws_dynamodb_ExportDescription(native_input):
         ),
         S3SseAlgorithm=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_S3SseAlgorithm(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_S3SseAlgorithm(
                     native_input["S3SseAlgorithm"]
                 )
             )
@@ -3276,7 +3276,7 @@ def com_amazonaws_dynamodb_ExportDescription(native_input):
         ),
         ExportFormat=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportFormat(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportFormat(
                     native_input["ExportFormat"]
                 )
             )
@@ -3338,7 +3338,7 @@ def com_amazonaws_dynamodb_DescribeGlobalTableOutput(native_input):
     return DafnyDescribeGlobalTableOutput(
         GlobalTableDescription=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalTableDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalTableDescription(
                     native_input["GlobalTableDescription"]
                 )
             )
@@ -3365,7 +3365,7 @@ def com_amazonaws_dynamodb_DescribeGlobalTableSettingsOutput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaSettingsDescription(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaSettingsDescription(
                             list_element
                         )
                         for list_element in native_input["ReplicaSettings"]
@@ -3383,7 +3383,7 @@ def com_amazonaws_dynamodb_ReplicaSettingsDescription(native_input):
         RegionName=Seq(native_input["RegionName"]),
         ReplicaStatus=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaStatus(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaStatus(
                     native_input["ReplicaStatus"]
                 )
             )
@@ -3392,7 +3392,7 @@ def com_amazonaws_dynamodb_ReplicaSettingsDescription(native_input):
         ),
         ReplicaBillingModeSummary=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingModeSummary(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingModeSummary(
                     native_input["ReplicaBillingModeSummary"]
                 )
             )
@@ -3406,7 +3406,7 @@ def com_amazonaws_dynamodb_ReplicaSettingsDescription(native_input):
         ),
         ReplicaProvisionedReadCapacityAutoScalingSettings=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
                     native_input["ReplicaProvisionedReadCapacityAutoScalingSettings"]
                 )
             )
@@ -3421,7 +3421,7 @@ def com_amazonaws_dynamodb_ReplicaSettingsDescription(native_input):
         ),
         ReplicaProvisionedWriteCapacityAutoScalingSettings=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
                     native_input["ReplicaProvisionedWriteCapacityAutoScalingSettings"]
                 )
             )
@@ -3433,7 +3433,7 @@ def com_amazonaws_dynamodb_ReplicaSettingsDescription(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsDescription(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsDescription(
                             list_element
                         )
                         for list_element in native_input[
@@ -3447,7 +3447,7 @@ def com_amazonaws_dynamodb_ReplicaSettingsDescription(native_input):
         ),
         ReplicaTableClassSummary=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClassSummary(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClassSummary(
                     native_input["ReplicaTableClassSummary"]
                 )
             )
@@ -3483,7 +3483,7 @@ def com_amazonaws_dynamodb_AutoScalingSettingsDescription(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingPolicyDescription(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingPolicyDescription(
                             list_element
                         )
                         for list_element in native_input["ScalingPolicies"]
@@ -3501,7 +3501,7 @@ def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsDescription(native
         IndexName=Seq(native_input["IndexName"]),
         IndexStatus=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_IndexStatus(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_IndexStatus(
                     native_input["IndexStatus"]
                 )
             )
@@ -3515,7 +3515,7 @@ def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsDescription(native
         ),
         ProvisionedReadCapacityAutoScalingSettings=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
                     native_input["ProvisionedReadCapacityAutoScalingSettings"]
                 )
             )
@@ -3529,7 +3529,7 @@ def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsDescription(native
         ),
         ProvisionedWriteCapacityAutoScalingSettings=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
                     native_input["ProvisionedWriteCapacityAutoScalingSettings"]
                 )
             )
@@ -3548,7 +3548,7 @@ def com_amazonaws_dynamodb_AutoScalingPolicyDescription(native_input):
         ),
         TargetTrackingScalingPolicyConfiguration=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingTargetTrackingScalingPolicyConfigurationDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingTargetTrackingScalingPolicyConfigurationDescription(
                     native_input["TargetTrackingScalingPolicyConfiguration"]
                 )
             )
@@ -3589,7 +3589,7 @@ def com_amazonaws_dynamodb_DescribeImportInput(native_input):
 
 def com_amazonaws_dynamodb_DescribeImportOutput(native_input):
     return DafnyDescribeImportOutput(
-        ImportTableDescription=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ImportTableDescription(
+        ImportTableDescription=aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ImportTableDescription(
             native_input["ImportTableDescription"]
         ),
     )
@@ -3604,7 +3604,7 @@ def com_amazonaws_dynamodb_ImportTableDescription(native_input):
         ),
         ImportStatus=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ImportStatus(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ImportStatus(
                     native_input["ImportStatus"]
                 )
             )
@@ -3628,7 +3628,7 @@ def com_amazonaws_dynamodb_ImportTableDescription(native_input):
         ),
         S3BucketSource=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_S3BucketSource(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_S3BucketSource(
                     native_input["S3BucketSource"]
                 )
             )
@@ -3647,7 +3647,7 @@ def com_amazonaws_dynamodb_ImportTableDescription(native_input):
         ),
         InputFormat=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InputFormat(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InputFormat(
                     native_input["InputFormat"]
                 )
             )
@@ -3656,7 +3656,7 @@ def com_amazonaws_dynamodb_ImportTableDescription(native_input):
         ),
         InputFormatOptions=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InputFormatOptions(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InputFormatOptions(
                     native_input["InputFormatOptions"]
                 )
             )
@@ -3665,7 +3665,7 @@ def com_amazonaws_dynamodb_ImportTableDescription(native_input):
         ),
         InputCompressionType=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InputCompressionType(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InputCompressionType(
                     native_input["InputCompressionType"]
                 )
             )
@@ -3674,7 +3674,7 @@ def com_amazonaws_dynamodb_ImportTableDescription(native_input):
         ),
         TableCreationParameters=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableCreationParameters(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableCreationParameters(
                     native_input["TableCreationParameters"]
                 )
             )
@@ -3767,7 +3767,7 @@ def com_amazonaws_dynamodb_InputFormatOptions(native_input):
     return DafnyInputFormatOptions(
         Csv=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_CsvOptions(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_CsvOptions(
                     native_input["Csv"]
                 )
             )
@@ -3794,7 +3794,7 @@ def com_amazonaws_dynamodb_TableCreationParameters(native_input):
         TableName=Seq(native_input["TableName"]),
         AttributeDefinitions=Seq(
             [
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeDefinition(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeDefinition(
                     list_element
                 )
                 for list_element in native_input["AttributeDefinitions"]
@@ -3802,7 +3802,7 @@ def com_amazonaws_dynamodb_TableCreationParameters(native_input):
         ),
         KeySchema=Seq(
             [
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
                     list_element
                 )
                 for list_element in native_input["KeySchema"]
@@ -3810,7 +3810,7 @@ def com_amazonaws_dynamodb_TableCreationParameters(native_input):
         ),
         BillingMode=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
                     native_input["BillingMode"]
                 )
             )
@@ -3819,7 +3819,7 @@ def com_amazonaws_dynamodb_TableCreationParameters(native_input):
         ),
         ProvisionedThroughput=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
                     native_input["ProvisionedThroughput"]
                 )
             )
@@ -3828,7 +3828,7 @@ def com_amazonaws_dynamodb_TableCreationParameters(native_input):
         ),
         SSESpecification=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSESpecification(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSESpecification(
                     native_input["SSESpecification"]
                 )
             )
@@ -3839,7 +3839,7 @@ def com_amazonaws_dynamodb_TableCreationParameters(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndex(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndex(
                             list_element
                         )
                         for list_element in native_input["GlobalSecondaryIndexes"]
@@ -3886,7 +3886,7 @@ def com_amazonaws_dynamodb_DescribeKinesisStreamingDestinationOutput(native_inpu
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KinesisDataStreamDestination(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KinesisDataStreamDestination(
                             list_element
                         )
                         for list_element in native_input[
@@ -3910,7 +3910,7 @@ def com_amazonaws_dynamodb_KinesisDataStreamDestination(native_input):
         ),
         DestinationStatus=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DestinationStatus(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DestinationStatus(
                     native_input["DestinationStatus"]
                 )
             )
@@ -3980,7 +3980,7 @@ def com_amazonaws_dynamodb_DescribeTableOutput(native_input):
     return DafnyDescribeTableOutput(
         Table=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableDescription(
                     native_input["Table"]
                 )
             )
@@ -4000,7 +4000,7 @@ def com_amazonaws_dynamodb_DescribeTableReplicaAutoScalingOutput(native_input):
     return DafnyDescribeTableReplicaAutoScalingOutput(
         TableAutoScalingDescription=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableAutoScalingDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableAutoScalingDescription(
                     native_input["TableAutoScalingDescription"]
                 )
             )
@@ -4019,7 +4019,7 @@ def com_amazonaws_dynamodb_TableAutoScalingDescription(native_input):
         ),
         TableStatus=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableStatus(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableStatus(
                     native_input["TableStatus"]
                 )
             )
@@ -4030,7 +4030,7 @@ def com_amazonaws_dynamodb_TableAutoScalingDescription(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaAutoScalingDescription(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaAutoScalingDescription(
                             list_element
                         )
                         for list_element in native_input["Replicas"]
@@ -4054,7 +4054,7 @@ def com_amazonaws_dynamodb_ReplicaAutoScalingDescription(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingDescription(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingDescription(
                             list_element
                         )
                         for list_element in native_input["GlobalSecondaryIndexes"]
@@ -4066,7 +4066,7 @@ def com_amazonaws_dynamodb_ReplicaAutoScalingDescription(native_input):
         ),
         ReplicaProvisionedReadCapacityAutoScalingSettings=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
                     native_input["ReplicaProvisionedReadCapacityAutoScalingSettings"]
                 )
             )
@@ -4076,7 +4076,7 @@ def com_amazonaws_dynamodb_ReplicaAutoScalingDescription(native_input):
         ),
         ReplicaProvisionedWriteCapacityAutoScalingSettings=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
                     native_input["ReplicaProvisionedWriteCapacityAutoScalingSettings"]
                 )
             )
@@ -4086,7 +4086,7 @@ def com_amazonaws_dynamodb_ReplicaAutoScalingDescription(native_input):
         ),
         ReplicaStatus=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaStatus(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaStatus(
                     native_input["ReplicaStatus"]
                 )
             )
@@ -4107,7 +4107,7 @@ def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingDescription(
         ),
         IndexStatus=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_IndexStatus(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_IndexStatus(
                     native_input["IndexStatus"]
                 )
             )
@@ -4116,7 +4116,7 @@ def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingDescription(
         ),
         ProvisionedReadCapacityAutoScalingSettings=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
                     native_input["ProvisionedReadCapacityAutoScalingSettings"]
                 )
             )
@@ -4125,7 +4125,7 @@ def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingDescription(
         ),
         ProvisionedWriteCapacityAutoScalingSettings=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
                     native_input["ProvisionedWriteCapacityAutoScalingSettings"]
                 )
             )
@@ -4145,7 +4145,7 @@ def com_amazonaws_dynamodb_DescribeTimeToLiveOutput(native_input):
     return DafnyDescribeTimeToLiveOutput(
         TimeToLiveDescription=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TimeToLiveDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TimeToLiveDescription(
                     native_input["TimeToLiveDescription"]
                 )
             )
@@ -4176,7 +4176,7 @@ def com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput(native_input
         ),
         DestinationStatus=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DestinationStatus(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DestinationStatus(
                     native_input["DestinationStatus"]
                 )
             )
@@ -4207,7 +4207,7 @@ def com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput(native_input)
         ),
         DestinationStatus=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DestinationStatus(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DestinationStatus(
                     native_input["DestinationStatus"]
                 )
             )
@@ -4224,7 +4224,7 @@ def com_amazonaws_dynamodb_ExecuteStatementInput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             list_element
                         )
                         for list_element in native_input["Parameters"]
@@ -4246,7 +4246,7 @@ def com_amazonaws_dynamodb_ExecuteStatementInput(native_input):
         ),
         ReturnConsumedCapacity=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
                     native_input["ReturnConsumedCapacity"]
                 )
             )
@@ -4271,7 +4271,7 @@ def com_amazonaws_dynamodb_ExecuteStatementOutput(native_input):
                             {
                                 Seq(
                                     key
-                                ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                                ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                                     value
                                 )
                                 for (key, value) in list_element.items()
@@ -4291,7 +4291,7 @@ def com_amazonaws_dynamodb_ExecuteStatementOutput(native_input):
         ),
         ConsumedCapacity=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
                     native_input["ConsumedCapacity"]
                 )
             )
@@ -4304,7 +4304,7 @@ def com_amazonaws_dynamodb_ExecuteStatementOutput(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
                         for (key, value) in native_input["LastEvaluatedKey"].items()
@@ -4321,7 +4321,7 @@ def com_amazonaws_dynamodb_ExecuteTransactionInput(native_input):
     return DafnyExecuteTransactionInput(
         TransactStatements=Seq(
             [
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ParameterizedStatement(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ParameterizedStatement(
                     list_element
                 )
                 for list_element in native_input["TransactStatements"]
@@ -4334,7 +4334,7 @@ def com_amazonaws_dynamodb_ExecuteTransactionInput(native_input):
         ),
         ReturnConsumedCapacity=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
                     native_input["ReturnConsumedCapacity"]
                 )
             )
@@ -4351,7 +4351,7 @@ def com_amazonaws_dynamodb_ParameterizedStatement(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             list_element
                         )
                         for list_element in native_input["Parameters"]
@@ -4370,7 +4370,7 @@ def com_amazonaws_dynamodb_ExecuteTransactionOutput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ItemResponse(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ItemResponse(
                             list_element
                         )
                         for list_element in native_input["Responses"]
@@ -4384,7 +4384,7 @@ def com_amazonaws_dynamodb_ExecuteTransactionOutput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
                             list_element
                         )
                         for list_element in native_input["ConsumedCapacity"]
@@ -4405,7 +4405,7 @@ def com_amazonaws_dynamodb_ItemResponse(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
                         for (key, value) in native_input["Item"].items()
@@ -4444,7 +4444,7 @@ def com_amazonaws_dynamodb_ExportTableToPointInTimeInput(native_input):
         ),
         S3SseAlgorithm=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_S3SseAlgorithm(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_S3SseAlgorithm(
                     native_input["S3SseAlgorithm"]
                 )
             )
@@ -4458,7 +4458,7 @@ def com_amazonaws_dynamodb_ExportTableToPointInTimeInput(native_input):
         ),
         ExportFormat=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportFormat(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportFormat(
                     native_input["ExportFormat"]
                 )
             )
@@ -4472,7 +4472,7 @@ def com_amazonaws_dynamodb_ExportTableToPointInTimeOutput(native_input):
     return DafnyExportTableToPointInTimeOutput(
         ExportDescription=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportDescription(
                     native_input["ExportDescription"]
                 )
             )
@@ -4489,7 +4489,7 @@ def com_amazonaws_dynamodb_GetItemInput(native_input):
             {
                 Seq(
                     key
-                ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     value
                 )
                 for (key, value) in native_input["Key"].items()
@@ -4514,7 +4514,7 @@ def com_amazonaws_dynamodb_GetItemInput(native_input):
         ),
         ReturnConsumedCapacity=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
                     native_input["ReturnConsumedCapacity"]
                 )
             )
@@ -4551,7 +4551,7 @@ def com_amazonaws_dynamodb_GetItemOutput(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
                         for (key, value) in native_input["Item"].items()
@@ -4563,7 +4563,7 @@ def com_amazonaws_dynamodb_GetItemOutput(native_input):
         ),
         ConsumedCapacity=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
                     native_input["ConsumedCapacity"]
                 )
             )
@@ -4580,15 +4580,15 @@ def com_amazonaws_dynamodb_ImportTableInput(native_input):
             if "ClientToken" in native_input.keys()
             else Option_None()
         ),
-        S3BucketSource=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_S3BucketSource(
+        S3BucketSource=aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_S3BucketSource(
             native_input["S3BucketSource"]
         ),
-        InputFormat=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InputFormat(
+        InputFormat=aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InputFormat(
             native_input["InputFormat"]
         ),
         InputFormatOptions=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InputFormatOptions(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InputFormatOptions(
                     native_input["InputFormatOptions"]
                 )
             )
@@ -4597,14 +4597,14 @@ def com_amazonaws_dynamodb_ImportTableInput(native_input):
         ),
         InputCompressionType=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InputCompressionType(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InputCompressionType(
                     native_input["InputCompressionType"]
                 )
             )
             if "InputCompressionType" in native_input.keys()
             else Option_None()
         ),
-        TableCreationParameters=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableCreationParameters(
+        TableCreationParameters=aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableCreationParameters(
             native_input["TableCreationParameters"]
         ),
     )
@@ -4612,7 +4612,7 @@ def com_amazonaws_dynamodb_ImportTableInput(native_input):
 
 def com_amazonaws_dynamodb_ImportTableOutput(native_input):
     return DafnyImportTableOutput(
-        ImportTableDescription=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ImportTableDescription(
+        ImportTableDescription=aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ImportTableDescription(
             native_input["ImportTableDescription"]
         ),
     )
@@ -4647,7 +4647,7 @@ def com_amazonaws_dynamodb_ListBackupsInput(native_input):
         ),
         BackupType=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupTypeFilter(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupTypeFilter(
                     native_input["BackupType"]
                 )
             )
@@ -4677,7 +4677,7 @@ def com_amazonaws_dynamodb_ListBackupsOutput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupSummary(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupSummary(
                             list_element
                         )
                         for list_element in native_input["BackupSummaries"]
@@ -4734,7 +4734,7 @@ def com_amazonaws_dynamodb_BackupSummary(native_input):
         ),
         BackupStatus=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupStatus(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupStatus(
                     native_input["BackupStatus"]
                 )
             )
@@ -4743,7 +4743,7 @@ def com_amazonaws_dynamodb_BackupSummary(native_input):
         ),
         BackupType=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupType(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupType(
                     native_input["BackupType"]
                 )
             )
@@ -4784,7 +4784,7 @@ def com_amazonaws_dynamodb_ListContributorInsightsOutput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContributorInsightsSummary(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContributorInsightsSummary(
                             list_element
                         )
                         for list_element in native_input["ContributorInsightsSummaries"]
@@ -4816,7 +4816,7 @@ def com_amazonaws_dynamodb_ContributorInsightsSummary(native_input):
         ),
         ContributorInsightsStatus=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContributorInsightsStatus(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContributorInsightsStatus(
                     native_input["ContributorInsightsStatus"]
                 )
             )
@@ -4852,7 +4852,7 @@ def com_amazonaws_dynamodb_ListExportsOutput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportSummary(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportSummary(
                             list_element
                         )
                         for list_element in native_input["ExportSummaries"]
@@ -4879,7 +4879,7 @@ def com_amazonaws_dynamodb_ExportSummary(native_input):
         ),
         ExportStatus=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportStatus(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportStatus(
                     native_input["ExportStatus"]
                 )
             )
@@ -4915,7 +4915,7 @@ def com_amazonaws_dynamodb_ListGlobalTablesOutput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalTable(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalTable(
                             list_element
                         )
                         for list_element in native_input["GlobalTables"]
@@ -4944,7 +4944,7 @@ def com_amazonaws_dynamodb_GlobalTable(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Replica(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Replica(
                             list_element
                         )
                         for list_element in native_input["ReplicationGroup"]
@@ -4983,7 +4983,7 @@ def com_amazonaws_dynamodb_ListImportsOutput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ImportSummary(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ImportSummary(
                             list_element
                         )
                         for list_element in native_input["ImportSummaryList"]
@@ -5010,7 +5010,7 @@ def com_amazonaws_dynamodb_ImportSummary(native_input):
         ),
         ImportStatus=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ImportStatus(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ImportStatus(
                     native_input["ImportStatus"]
                 )
             )
@@ -5024,7 +5024,7 @@ def com_amazonaws_dynamodb_ImportSummary(native_input):
         ),
         S3BucketSource=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_S3BucketSource(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_S3BucketSource(
                     native_input["S3BucketSource"]
                 )
             )
@@ -5038,7 +5038,7 @@ def com_amazonaws_dynamodb_ImportSummary(native_input):
         ),
         InputFormat=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InputFormat(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InputFormat(
                     native_input["InputFormat"]
                 )
             )
@@ -5107,7 +5107,7 @@ def com_amazonaws_dynamodb_ListTagsOfResourceOutput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Tag(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Tag(
                             list_element
                         )
                         for list_element in native_input["Tags"]
@@ -5132,7 +5132,7 @@ def com_amazonaws_dynamodb_PutItemInput(native_input):
             {
                 Seq(
                     key
-                ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     value
                 )
                 for (key, value) in native_input["Item"].items()
@@ -5144,7 +5144,7 @@ def com_amazonaws_dynamodb_PutItemInput(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExpectedAttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExpectedAttributeValue(
                             value
                         )
                         for (key, value) in native_input["Expected"].items()
@@ -5156,7 +5156,7 @@ def com_amazonaws_dynamodb_PutItemInput(native_input):
         ),
         ReturnValues=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValue(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValue(
                     native_input["ReturnValues"]
                 )
             )
@@ -5165,7 +5165,7 @@ def com_amazonaws_dynamodb_PutItemInput(native_input):
         ),
         ReturnConsumedCapacity=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
                     native_input["ReturnConsumedCapacity"]
                 )
             )
@@ -5174,7 +5174,7 @@ def com_amazonaws_dynamodb_PutItemInput(native_input):
         ),
         ReturnItemCollectionMetrics=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnItemCollectionMetrics(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnItemCollectionMetrics(
                     native_input["ReturnItemCollectionMetrics"]
                 )
             )
@@ -5183,7 +5183,7 @@ def com_amazonaws_dynamodb_PutItemInput(native_input):
         ),
         ConditionalOperator=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConditionalOperator(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConditionalOperator(
                     native_input["ConditionalOperator"]
                 )
             )
@@ -5215,7 +5215,7 @@ def com_amazonaws_dynamodb_PutItemInput(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
                         for (key, value) in native_input[
@@ -5238,7 +5238,7 @@ def com_amazonaws_dynamodb_PutItemOutput(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
                         for (key, value) in native_input["Attributes"].items()
@@ -5250,7 +5250,7 @@ def com_amazonaws_dynamodb_PutItemOutput(native_input):
         ),
         ConsumedCapacity=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
                     native_input["ConsumedCapacity"]
                 )
             )
@@ -5259,7 +5259,7 @@ def com_amazonaws_dynamodb_PutItemOutput(native_input):
         ),
         ItemCollectionMetrics=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ItemCollectionMetrics(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ItemCollectionMetrics(
                     native_input["ItemCollectionMetrics"]
                 )
             )
@@ -5279,7 +5279,7 @@ def com_amazonaws_dynamodb_QueryInput(native_input):
         ),
         Select=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Select(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Select(
                     native_input["Select"]
                 )
             )
@@ -5314,7 +5314,7 @@ def com_amazonaws_dynamodb_QueryInput(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Condition(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Condition(
                             value
                         )
                         for (key, value) in native_input["KeyConditions"].items()
@@ -5330,7 +5330,7 @@ def com_amazonaws_dynamodb_QueryInput(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Condition(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Condition(
                             value
                         )
                         for (key, value) in native_input["QueryFilter"].items()
@@ -5342,7 +5342,7 @@ def com_amazonaws_dynamodb_QueryInput(native_input):
         ),
         ConditionalOperator=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConditionalOperator(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConditionalOperator(
                     native_input["ConditionalOperator"]
                 )
             )
@@ -5360,7 +5360,7 @@ def com_amazonaws_dynamodb_QueryInput(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
                         for (key, value) in native_input["ExclusiveStartKey"].items()
@@ -5372,7 +5372,7 @@ def com_amazonaws_dynamodb_QueryInput(native_input):
         ),
         ReturnConsumedCapacity=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
                     native_input["ReturnConsumedCapacity"]
                 )
             )
@@ -5414,7 +5414,7 @@ def com_amazonaws_dynamodb_QueryInput(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
                         for (key, value) in native_input[
@@ -5449,7 +5449,7 @@ def com_amazonaws_dynamodb_Condition(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             list_element
                         )
                         for list_element in native_input["AttributeValueList"]
@@ -5459,7 +5459,7 @@ def com_amazonaws_dynamodb_Condition(native_input):
             if "AttributeValueList" in native_input.keys()
             else Option_None()
         ),
-        ComparisonOperator=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ComparisonOperator(
+        ComparisonOperator=aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ComparisonOperator(
             native_input["ComparisonOperator"]
         ),
     )
@@ -5475,7 +5475,7 @@ def com_amazonaws_dynamodb_QueryOutput(native_input):
                             {
                                 Seq(
                                     key
-                                ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                                ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                                     value
                                 )
                                 for (key, value) in list_element.items()
@@ -5504,7 +5504,7 @@ def com_amazonaws_dynamodb_QueryOutput(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
                         for (key, value) in native_input["LastEvaluatedKey"].items()
@@ -5516,7 +5516,7 @@ def com_amazonaws_dynamodb_QueryOutput(native_input):
         ),
         ConsumedCapacity=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
                     native_input["ConsumedCapacity"]
                 )
             )
@@ -5532,7 +5532,7 @@ def com_amazonaws_dynamodb_RestoreTableFromBackupInput(native_input):
         BackupArn=Seq(native_input["BackupArn"]),
         BillingModeOverride=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
                     native_input["BillingModeOverride"]
                 )
             )
@@ -5543,7 +5543,7 @@ def com_amazonaws_dynamodb_RestoreTableFromBackupInput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndex(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndex(
                             list_element
                         )
                         for list_element in native_input["GlobalSecondaryIndexOverride"]
@@ -5557,7 +5557,7 @@ def com_amazonaws_dynamodb_RestoreTableFromBackupInput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_LocalSecondaryIndex(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_LocalSecondaryIndex(
                             list_element
                         )
                         for list_element in native_input["LocalSecondaryIndexOverride"]
@@ -5569,7 +5569,7 @@ def com_amazonaws_dynamodb_RestoreTableFromBackupInput(native_input):
         ),
         ProvisionedThroughputOverride=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
                     native_input["ProvisionedThroughputOverride"]
                 )
             )
@@ -5578,7 +5578,7 @@ def com_amazonaws_dynamodb_RestoreTableFromBackupInput(native_input):
         ),
         SSESpecificationOverride=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSESpecification(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSESpecification(
                     native_input["SSESpecificationOverride"]
                 )
             )
@@ -5592,7 +5592,7 @@ def com_amazonaws_dynamodb_RestoreTableFromBackupOutput(native_input):
     return DafnyRestoreTableFromBackupOutput(
         TableDescription=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableDescription(
                     native_input["TableDescription"]
                 )
             )
@@ -5627,7 +5627,7 @@ def com_amazonaws_dynamodb_RestoreTableToPointInTimeInput(native_input):
         ),
         BillingModeOverride=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
                     native_input["BillingModeOverride"]
                 )
             )
@@ -5638,7 +5638,7 @@ def com_amazonaws_dynamodb_RestoreTableToPointInTimeInput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndex(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndex(
                             list_element
                         )
                         for list_element in native_input["GlobalSecondaryIndexOverride"]
@@ -5652,7 +5652,7 @@ def com_amazonaws_dynamodb_RestoreTableToPointInTimeInput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_LocalSecondaryIndex(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_LocalSecondaryIndex(
                             list_element
                         )
                         for list_element in native_input["LocalSecondaryIndexOverride"]
@@ -5664,7 +5664,7 @@ def com_amazonaws_dynamodb_RestoreTableToPointInTimeInput(native_input):
         ),
         ProvisionedThroughputOverride=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
                     native_input["ProvisionedThroughputOverride"]
                 )
             )
@@ -5673,7 +5673,7 @@ def com_amazonaws_dynamodb_RestoreTableToPointInTimeInput(native_input):
         ),
         SSESpecificationOverride=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSESpecification(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSESpecification(
                     native_input["SSESpecificationOverride"]
                 )
             )
@@ -5687,7 +5687,7 @@ def com_amazonaws_dynamodb_RestoreTableToPointInTimeOutput(native_input):
     return DafnyRestoreTableToPointInTimeOutput(
         TableDescription=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableDescription(
                     native_input["TableDescription"]
                 )
             )
@@ -5724,7 +5724,7 @@ def com_amazonaws_dynamodb_ScanInput(native_input):
         ),
         Select=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Select(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Select(
                     native_input["Select"]
                 )
             )
@@ -5737,7 +5737,7 @@ def com_amazonaws_dynamodb_ScanInput(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Condition(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Condition(
                             value
                         )
                         for (key, value) in native_input["ScanFilter"].items()
@@ -5749,7 +5749,7 @@ def com_amazonaws_dynamodb_ScanInput(native_input):
         ),
         ConditionalOperator=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConditionalOperator(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConditionalOperator(
                     native_input["ConditionalOperator"]
                 )
             )
@@ -5762,7 +5762,7 @@ def com_amazonaws_dynamodb_ScanInput(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
                         for (key, value) in native_input["ExclusiveStartKey"].items()
@@ -5774,7 +5774,7 @@ def com_amazonaws_dynamodb_ScanInput(native_input):
         ),
         ReturnConsumedCapacity=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
                     native_input["ReturnConsumedCapacity"]
                 )
             )
@@ -5821,7 +5821,7 @@ def com_amazonaws_dynamodb_ScanInput(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
                         for (key, value) in native_input[
@@ -5851,7 +5851,7 @@ def com_amazonaws_dynamodb_ScanOutput(native_input):
                             {
                                 Seq(
                                     key
-                                ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                                ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                                     value
                                 )
                                 for (key, value) in list_element.items()
@@ -5880,7 +5880,7 @@ def com_amazonaws_dynamodb_ScanOutput(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
                         for (key, value) in native_input["LastEvaluatedKey"].items()
@@ -5892,7 +5892,7 @@ def com_amazonaws_dynamodb_ScanOutput(native_input):
         ),
         ConsumedCapacity=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
                     native_input["ConsumedCapacity"]
                 )
             )
@@ -5907,7 +5907,7 @@ def com_amazonaws_dynamodb_TagResourceInput(native_input):
         ResourceArn=Seq(native_input["ResourceArn"]),
         Tags=Seq(
             [
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Tag(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Tag(
                     list_element
                 )
                 for list_element in native_input["Tags"]
@@ -5920,7 +5920,7 @@ def com_amazonaws_dynamodb_TransactGetItemsInput(native_input):
     return DafnyTransactGetItemsInput(
         TransactItems=Seq(
             [
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TransactGetItem(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TransactGetItem(
                     list_element
                 )
                 for list_element in native_input["TransactItems"]
@@ -5928,7 +5928,7 @@ def com_amazonaws_dynamodb_TransactGetItemsInput(native_input):
         ),
         ReturnConsumedCapacity=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
                     native_input["ReturnConsumedCapacity"]
                 )
             )
@@ -5940,7 +5940,7 @@ def com_amazonaws_dynamodb_TransactGetItemsInput(native_input):
 
 def com_amazonaws_dynamodb_TransactGetItem(native_input):
     return DafnyTransactGetItem(
-        Get=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Get(
+        Get=aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Get(
             native_input["Get"]
         ),
     )
@@ -5952,7 +5952,7 @@ def com_amazonaws_dynamodb_Get(native_input):
             {
                 Seq(
                     key
-                ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     value
                 )
                 for (key, value) in native_input["Key"].items()
@@ -5987,7 +5987,7 @@ def com_amazonaws_dynamodb_TransactGetItemsOutput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
                             list_element
                         )
                         for list_element in native_input["ConsumedCapacity"]
@@ -6001,7 +6001,7 @@ def com_amazonaws_dynamodb_TransactGetItemsOutput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ItemResponse(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ItemResponse(
                             list_element
                         )
                         for list_element in native_input["Responses"]
@@ -6018,7 +6018,7 @@ def com_amazonaws_dynamodb_TransactWriteItemsInput(native_input):
     return DafnyTransactWriteItemsInput(
         TransactItems=Seq(
             [
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TransactWriteItem(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TransactWriteItem(
                     list_element
                 )
                 for list_element in native_input["TransactItems"]
@@ -6026,7 +6026,7 @@ def com_amazonaws_dynamodb_TransactWriteItemsInput(native_input):
         ),
         ReturnConsumedCapacity=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
                     native_input["ReturnConsumedCapacity"]
                 )
             )
@@ -6035,7 +6035,7 @@ def com_amazonaws_dynamodb_TransactWriteItemsInput(native_input):
         ),
         ReturnItemCollectionMetrics=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnItemCollectionMetrics(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnItemCollectionMetrics(
                     native_input["ReturnItemCollectionMetrics"]
                 )
             )
@@ -6054,7 +6054,7 @@ def com_amazonaws_dynamodb_TransactWriteItem(native_input):
     return DafnyTransactWriteItem(
         ConditionCheck=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConditionCheck(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConditionCheck(
                     native_input["ConditionCheck"]
                 )
             )
@@ -6063,7 +6063,7 @@ def com_amazonaws_dynamodb_TransactWriteItem(native_input):
         ),
         Put=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Put(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Put(
                     native_input["Put"]
                 )
             )
@@ -6072,7 +6072,7 @@ def com_amazonaws_dynamodb_TransactWriteItem(native_input):
         ),
         Delete=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Delete(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Delete(
                     native_input["Delete"]
                 )
             )
@@ -6081,7 +6081,7 @@ def com_amazonaws_dynamodb_TransactWriteItem(native_input):
         ),
         Update=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Update(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Update(
                     native_input["Update"]
                 )
             )
@@ -6097,7 +6097,7 @@ def com_amazonaws_dynamodb_ConditionCheck(native_input):
             {
                 Seq(
                     key
-                ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     value
                 )
                 for (key, value) in native_input["Key"].items()
@@ -6125,7 +6125,7 @@ def com_amazonaws_dynamodb_ConditionCheck(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
                         for (key, value) in native_input[
@@ -6139,7 +6139,7 @@ def com_amazonaws_dynamodb_ConditionCheck(native_input):
         ),
         ReturnValuesOnConditionCheckFailure=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
                     native_input["ReturnValuesOnConditionCheckFailure"]
                 )
             )
@@ -6155,7 +6155,7 @@ def com_amazonaws_dynamodb_Put(native_input):
             {
                 Seq(
                     key
-                ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     value
                 )
                 for (key, value) in native_input["Item"].items()
@@ -6187,7 +6187,7 @@ def com_amazonaws_dynamodb_Put(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
                         for (key, value) in native_input[
@@ -6201,7 +6201,7 @@ def com_amazonaws_dynamodb_Put(native_input):
         ),
         ReturnValuesOnConditionCheckFailure=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
                     native_input["ReturnValuesOnConditionCheckFailure"]
                 )
             )
@@ -6217,7 +6217,7 @@ def com_amazonaws_dynamodb_Delete(native_input):
             {
                 Seq(
                     key
-                ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     value
                 )
                 for (key, value) in native_input["Key"].items()
@@ -6249,7 +6249,7 @@ def com_amazonaws_dynamodb_Delete(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
                         for (key, value) in native_input[
@@ -6263,7 +6263,7 @@ def com_amazonaws_dynamodb_Delete(native_input):
         ),
         ReturnValuesOnConditionCheckFailure=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
                     native_input["ReturnValuesOnConditionCheckFailure"]
                 )
             )
@@ -6279,7 +6279,7 @@ def com_amazonaws_dynamodb_Update(native_input):
             {
                 Seq(
                     key
-                ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     value
                 )
                 for (key, value) in native_input["Key"].items()
@@ -6312,7 +6312,7 @@ def com_amazonaws_dynamodb_Update(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
                         for (key, value) in native_input[
@@ -6326,7 +6326,7 @@ def com_amazonaws_dynamodb_Update(native_input):
         ),
         ReturnValuesOnConditionCheckFailure=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
                     native_input["ReturnValuesOnConditionCheckFailure"]
                 )
             )
@@ -6352,7 +6352,7 @@ def com_amazonaws_dynamodb_TransactWriteItemsOutput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
                             list_element
                         )
                         for list_element in native_input["ConsumedCapacity"]
@@ -6368,7 +6368,7 @@ def com_amazonaws_dynamodb_TransactWriteItemsOutput(native_input):
                     {
                         Seq(key): Seq(
                             [
-                                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ItemCollectionMetrics(
+                                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ItemCollectionMetrics(
                                     list_element
                                 )
                                 for list_element in value
@@ -6396,7 +6396,7 @@ def com_amazonaws_dynamodb_UntagResourceInput(native_input):
 def com_amazonaws_dynamodb_UpdateContinuousBackupsInput(native_input):
     return DafnyUpdateContinuousBackupsInput(
         TableName=Seq(native_input["TableName"]),
-        PointInTimeRecoverySpecification=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_PointInTimeRecoverySpecification(
+        PointInTimeRecoverySpecification=aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_PointInTimeRecoverySpecification(
             native_input["PointInTimeRecoverySpecification"]
         ),
     )
@@ -6412,7 +6412,7 @@ def com_amazonaws_dynamodb_UpdateContinuousBackupsOutput(native_input):
     return DafnyUpdateContinuousBackupsOutput(
         ContinuousBackupsDescription=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContinuousBackupsDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContinuousBackupsDescription(
                     native_input["ContinuousBackupsDescription"]
                 )
             )
@@ -6430,7 +6430,7 @@ def com_amazonaws_dynamodb_UpdateContributorInsightsInput(native_input):
             if "IndexName" in native_input.keys()
             else Option_None()
         ),
-        ContributorInsightsAction=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContributorInsightsAction(
+        ContributorInsightsAction=aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContributorInsightsAction(
             native_input["ContributorInsightsAction"]
         ),
     )
@@ -6460,7 +6460,7 @@ def com_amazonaws_dynamodb_UpdateContributorInsightsOutput(native_input):
         ),
         ContributorInsightsStatus=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContributorInsightsStatus(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContributorInsightsStatus(
                     native_input["ContributorInsightsStatus"]
                 )
             )
@@ -6475,7 +6475,7 @@ def com_amazonaws_dynamodb_UpdateGlobalTableInput(native_input):
         GlobalTableName=Seq(native_input["GlobalTableName"]),
         ReplicaUpdates=Seq(
             [
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaUpdate(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaUpdate(
                     list_element
                 )
                 for list_element in native_input["ReplicaUpdates"]
@@ -6488,7 +6488,7 @@ def com_amazonaws_dynamodb_ReplicaUpdate(native_input):
     return DafnyReplicaUpdate(
         Create=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_CreateReplicaAction(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_CreateReplicaAction(
                     native_input["Create"]
                 )
             )
@@ -6497,7 +6497,7 @@ def com_amazonaws_dynamodb_ReplicaUpdate(native_input):
         ),
         Delete=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DeleteReplicaAction(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DeleteReplicaAction(
                     native_input["Delete"]
                 )
             )
@@ -6523,7 +6523,7 @@ def com_amazonaws_dynamodb_UpdateGlobalTableOutput(native_input):
     return DafnyUpdateGlobalTableOutput(
         GlobalTableDescription=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalTableDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalTableDescription(
                     native_input["GlobalTableDescription"]
                 )
             )
@@ -6538,7 +6538,7 @@ def com_amazonaws_dynamodb_UpdateGlobalTableSettingsInput(native_input):
         GlobalTableName=Seq(native_input["GlobalTableName"]),
         GlobalTableBillingMode=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
                     native_input["GlobalTableBillingMode"]
                 )
             )
@@ -6552,7 +6552,7 @@ def com_amazonaws_dynamodb_UpdateGlobalTableSettingsInput(native_input):
         ),
         GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
                     native_input[
                         "GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate"
                     ]
@@ -6566,7 +6566,7 @@ def com_amazonaws_dynamodb_UpdateGlobalTableSettingsInput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalTableGlobalSecondaryIndexSettingsUpdate(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalTableGlobalSecondaryIndexSettingsUpdate(
                             list_element
                         )
                         for list_element in native_input[
@@ -6582,7 +6582,7 @@ def com_amazonaws_dynamodb_UpdateGlobalTableSettingsInput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaSettingsUpdate(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaSettingsUpdate(
                             list_element
                         )
                         for list_element in native_input["ReplicaSettingsUpdate"]
@@ -6619,7 +6619,7 @@ def com_amazonaws_dynamodb_AutoScalingSettingsUpdate(native_input):
         ),
         ScalingPolicyUpdate=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingPolicyUpdate(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingPolicyUpdate(
                     native_input["ScalingPolicyUpdate"]
                 )
             )
@@ -6636,7 +6636,7 @@ def com_amazonaws_dynamodb_AutoScalingPolicyUpdate(native_input):
             if "PolicyName" in native_input.keys()
             else Option_None()
         ),
-        TargetTrackingScalingPolicyConfiguration=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingTargetTrackingScalingPolicyConfigurationUpdate(
+        TargetTrackingScalingPolicyConfiguration=aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingTargetTrackingScalingPolicyConfigurationUpdate(
             native_input["TargetTrackingScalingPolicyConfiguration"]
         ),
     )
@@ -6675,7 +6675,7 @@ def com_amazonaws_dynamodb_GlobalTableGlobalSecondaryIndexSettingsUpdate(native_
         ),
         ProvisionedWriteCapacityAutoScalingSettingsUpdate=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
                     native_input["ProvisionedWriteCapacityAutoScalingSettingsUpdate"]
                 )
             )
@@ -6696,7 +6696,7 @@ def com_amazonaws_dynamodb_ReplicaSettingsUpdate(native_input):
         ),
         ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
                     native_input[
                         "ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate"
                     ]
@@ -6710,7 +6710,7 @@ def com_amazonaws_dynamodb_ReplicaSettingsUpdate(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsUpdate(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsUpdate(
                             list_element
                         )
                         for list_element in native_input[
@@ -6724,7 +6724,7 @@ def com_amazonaws_dynamodb_ReplicaSettingsUpdate(native_input):
         ),
         ReplicaTableClass=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClass(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClass(
                     native_input["ReplicaTableClass"]
                 )
             )
@@ -6744,7 +6744,7 @@ def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsUpdate(native_inpu
         ),
         ProvisionedReadCapacityAutoScalingSettingsUpdate=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
                     native_input["ProvisionedReadCapacityAutoScalingSettingsUpdate"]
                 )
             )
@@ -6765,7 +6765,7 @@ def com_amazonaws_dynamodb_UpdateGlobalTableSettingsOutput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaSettingsDescription(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaSettingsDescription(
                             list_element
                         )
                         for list_element in native_input["ReplicaSettings"]
@@ -6785,7 +6785,7 @@ def com_amazonaws_dynamodb_UpdateItemInput(native_input):
             {
                 Seq(
                     key
-                ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     value
                 )
                 for (key, value) in native_input["Key"].items()
@@ -6797,7 +6797,7 @@ def com_amazonaws_dynamodb_UpdateItemInput(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValueUpdate(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValueUpdate(
                             value
                         )
                         for (key, value) in native_input["AttributeUpdates"].items()
@@ -6813,7 +6813,7 @@ def com_amazonaws_dynamodb_UpdateItemInput(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExpectedAttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExpectedAttributeValue(
                             value
                         )
                         for (key, value) in native_input["Expected"].items()
@@ -6825,7 +6825,7 @@ def com_amazonaws_dynamodb_UpdateItemInput(native_input):
         ),
         ConditionalOperator=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConditionalOperator(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConditionalOperator(
                     native_input["ConditionalOperator"]
                 )
             )
@@ -6834,7 +6834,7 @@ def com_amazonaws_dynamodb_UpdateItemInput(native_input):
         ),
         ReturnValues=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValue(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValue(
                     native_input["ReturnValues"]
                 )
             )
@@ -6843,7 +6843,7 @@ def com_amazonaws_dynamodb_UpdateItemInput(native_input):
         ),
         ReturnConsumedCapacity=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
                     native_input["ReturnConsumedCapacity"]
                 )
             )
@@ -6852,7 +6852,7 @@ def com_amazonaws_dynamodb_UpdateItemInput(native_input):
         ),
         ReturnItemCollectionMetrics=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnItemCollectionMetrics(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnItemCollectionMetrics(
                     native_input["ReturnItemCollectionMetrics"]
                 )
             )
@@ -6889,7 +6889,7 @@ def com_amazonaws_dynamodb_UpdateItemInput(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
                         for (key, value) in native_input[
@@ -6908,7 +6908,7 @@ def com_amazonaws_dynamodb_AttributeValueUpdate(native_input):
     return DafnyAttributeValueUpdate(
         Value=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     native_input["Value"]
                 )
             )
@@ -6917,7 +6917,7 @@ def com_amazonaws_dynamodb_AttributeValueUpdate(native_input):
         ),
         Action=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeAction(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeAction(
                     native_input["Action"]
                 )
             )
@@ -6947,7 +6947,7 @@ def com_amazonaws_dynamodb_UpdateItemOutput(native_input):
                     {
                         Seq(
                             key
-                        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
                         for (key, value) in native_input["Attributes"].items()
@@ -6959,7 +6959,7 @@ def com_amazonaws_dynamodb_UpdateItemOutput(native_input):
         ),
         ConsumedCapacity=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
                     native_input["ConsumedCapacity"]
                 )
             )
@@ -6968,7 +6968,7 @@ def com_amazonaws_dynamodb_UpdateItemOutput(native_input):
         ),
         ItemCollectionMetrics=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ItemCollectionMetrics(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ItemCollectionMetrics(
                     native_input["ItemCollectionMetrics"]
                 )
             )
@@ -6984,7 +6984,7 @@ def com_amazonaws_dynamodb_UpdateTableInput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeDefinition(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeDefinition(
                             list_element
                         )
                         for list_element in native_input["AttributeDefinitions"]
@@ -6997,7 +6997,7 @@ def com_amazonaws_dynamodb_UpdateTableInput(native_input):
         TableName=Seq(native_input["TableName"]),
         BillingMode=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
                     native_input["BillingMode"]
                 )
             )
@@ -7006,7 +7006,7 @@ def com_amazonaws_dynamodb_UpdateTableInput(native_input):
         ),
         ProvisionedThroughput=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
                     native_input["ProvisionedThroughput"]
                 )
             )
@@ -7017,7 +7017,7 @@ def com_amazonaws_dynamodb_UpdateTableInput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndexUpdate(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndexUpdate(
                             list_element
                         )
                         for list_element in native_input["GlobalSecondaryIndexUpdates"]
@@ -7029,7 +7029,7 @@ def com_amazonaws_dynamodb_UpdateTableInput(native_input):
         ),
         StreamSpecification=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_StreamSpecification(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_StreamSpecification(
                     native_input["StreamSpecification"]
                 )
             )
@@ -7038,7 +7038,7 @@ def com_amazonaws_dynamodb_UpdateTableInput(native_input):
         ),
         SSESpecification=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSESpecification(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSESpecification(
                     native_input["SSESpecification"]
                 )
             )
@@ -7049,7 +7049,7 @@ def com_amazonaws_dynamodb_UpdateTableInput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicationGroupUpdate(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicationGroupUpdate(
                             list_element
                         )
                         for list_element in native_input["ReplicaUpdates"]
@@ -7061,7 +7061,7 @@ def com_amazonaws_dynamodb_UpdateTableInput(native_input):
         ),
         TableClass=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClass(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClass(
                     native_input["TableClass"]
                 )
             )
@@ -7075,7 +7075,7 @@ def com_amazonaws_dynamodb_GlobalSecondaryIndexUpdate(native_input):
     return DafnyGlobalSecondaryIndexUpdate(
         Update=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateGlobalSecondaryIndexAction(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateGlobalSecondaryIndexAction(
                     native_input["Update"]
                 )
             )
@@ -7084,7 +7084,7 @@ def com_amazonaws_dynamodb_GlobalSecondaryIndexUpdate(native_input):
         ),
         Create=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction(
                     native_input["Create"]
                 )
             )
@@ -7093,7 +7093,7 @@ def com_amazonaws_dynamodb_GlobalSecondaryIndexUpdate(native_input):
         ),
         Delete=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DeleteGlobalSecondaryIndexAction(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DeleteGlobalSecondaryIndexAction(
                     native_input["Delete"]
                 )
             )
@@ -7106,7 +7106,7 @@ def com_amazonaws_dynamodb_GlobalSecondaryIndexUpdate(native_input):
 def com_amazonaws_dynamodb_UpdateGlobalSecondaryIndexAction(native_input):
     return DafnyUpdateGlobalSecondaryIndexAction(
         IndexName=Seq(native_input["IndexName"]),
-        ProvisionedThroughput=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
+        ProvisionedThroughput=aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
             native_input["ProvisionedThroughput"]
         ),
     )
@@ -7117,18 +7117,18 @@ def com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction(native_input):
         IndexName=Seq(native_input["IndexName"]),
         KeySchema=Seq(
             [
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
                     list_element
                 )
                 for list_element in native_input["KeySchema"]
             ]
         ),
-        Projection=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Projection(
+        Projection=aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Projection(
             native_input["Projection"]
         ),
         ProvisionedThroughput=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
                     native_input["ProvisionedThroughput"]
                 )
             )
@@ -7148,7 +7148,7 @@ def com_amazonaws_dynamodb_ReplicationGroupUpdate(native_input):
     return DafnyReplicationGroupUpdate(
         Create=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_CreateReplicationGroupMemberAction(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_CreateReplicationGroupMemberAction(
                     native_input["Create"]
                 )
             )
@@ -7157,7 +7157,7 @@ def com_amazonaws_dynamodb_ReplicationGroupUpdate(native_input):
         ),
         Update=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateReplicationGroupMemberAction(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateReplicationGroupMemberAction(
                     native_input["Update"]
                 )
             )
@@ -7166,7 +7166,7 @@ def com_amazonaws_dynamodb_ReplicationGroupUpdate(native_input):
         ),
         Delete=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DeleteReplicationGroupMemberAction(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DeleteReplicationGroupMemberAction(
                     native_input["Delete"]
                 )
             )
@@ -7186,7 +7186,7 @@ def com_amazonaws_dynamodb_CreateReplicationGroupMemberAction(native_input):
         ),
         ProvisionedThroughputOverride=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputOverride(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputOverride(
                     native_input["ProvisionedThroughputOverride"]
                 )
             )
@@ -7197,7 +7197,7 @@ def com_amazonaws_dynamodb_CreateReplicationGroupMemberAction(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndex(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndex(
                             list_element
                         )
                         for list_element in native_input["GlobalSecondaryIndexes"]
@@ -7209,7 +7209,7 @@ def com_amazonaws_dynamodb_CreateReplicationGroupMemberAction(native_input):
         ),
         TableClassOverride=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClass(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClass(
                     native_input["TableClassOverride"]
                 )
             )
@@ -7229,7 +7229,7 @@ def com_amazonaws_dynamodb_UpdateReplicationGroupMemberAction(native_input):
         ),
         ProvisionedThroughputOverride=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputOverride(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputOverride(
                     native_input["ProvisionedThroughputOverride"]
                 )
             )
@@ -7240,7 +7240,7 @@ def com_amazonaws_dynamodb_UpdateReplicationGroupMemberAction(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndex(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndex(
                             list_element
                         )
                         for list_element in native_input["GlobalSecondaryIndexes"]
@@ -7252,7 +7252,7 @@ def com_amazonaws_dynamodb_UpdateReplicationGroupMemberAction(native_input):
         ),
         TableClassOverride=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClass(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClass(
                     native_input["TableClassOverride"]
                 )
             )
@@ -7273,7 +7273,7 @@ def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndex(native_input):
         IndexName=Seq(native_input["IndexName"]),
         ProvisionedThroughputOverride=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputOverride(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputOverride(
                     native_input["ProvisionedThroughputOverride"]
                 )
             )
@@ -7287,7 +7287,7 @@ def com_amazonaws_dynamodb_UpdateTableOutput(native_input):
     return DafnyUpdateTableOutput(
         TableDescription=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableDescription(
                     native_input["TableDescription"]
                 )
             )
@@ -7303,7 +7303,7 @@ def com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingInput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndexAutoScalingUpdate(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndexAutoScalingUpdate(
                             list_element
                         )
                         for list_element in native_input["GlobalSecondaryIndexUpdates"]
@@ -7316,7 +7316,7 @@ def com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingInput(native_input):
         TableName=Seq(native_input["TableName"]),
         ProvisionedWriteCapacityAutoScalingUpdate=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
                     native_input["ProvisionedWriteCapacityAutoScalingUpdate"]
                 )
             )
@@ -7327,7 +7327,7 @@ def com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingInput(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaAutoScalingUpdate(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaAutoScalingUpdate(
                             list_element
                         )
                         for list_element in native_input["ReplicaUpdates"]
@@ -7349,7 +7349,7 @@ def com_amazonaws_dynamodb_GlobalSecondaryIndexAutoScalingUpdate(native_input):
         ),
         ProvisionedWriteCapacityAutoScalingUpdate=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
                     native_input["ProvisionedWriteCapacityAutoScalingUpdate"]
                 )
             )
@@ -7366,7 +7366,7 @@ def com_amazonaws_dynamodb_ReplicaAutoScalingUpdate(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingUpdate(
+                        aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingUpdate(
                             list_element
                         )
                         for list_element in native_input[
@@ -7380,7 +7380,7 @@ def com_amazonaws_dynamodb_ReplicaAutoScalingUpdate(native_input):
         ),
         ReplicaProvisionedReadCapacityAutoScalingUpdate=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
                     native_input["ReplicaProvisionedReadCapacityAutoScalingUpdate"]
                 )
             )
@@ -7399,7 +7399,7 @@ def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingUpdate(native_i
         ),
         ProvisionedReadCapacityAutoScalingUpdate=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
                     native_input["ProvisionedReadCapacityAutoScalingUpdate"]
                 )
             )
@@ -7413,7 +7413,7 @@ def com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingOutput(native_input):
     return DafnyUpdateTableReplicaAutoScalingOutput(
         TableAutoScalingDescription=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableAutoScalingDescription(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableAutoScalingDescription(
                     native_input["TableAutoScalingDescription"]
                 )
             )
@@ -7426,7 +7426,7 @@ def com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingOutput(native_input):
 def com_amazonaws_dynamodb_UpdateTimeToLiveInput(native_input):
     return DafnyUpdateTimeToLiveInput(
         TableName=Seq(native_input["TableName"]),
-        TimeToLiveSpecification=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TimeToLiveSpecification(
+        TimeToLiveSpecification=aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TimeToLiveSpecification(
             native_input["TimeToLiveSpecification"]
         ),
     )
@@ -7443,7 +7443,7 @@ def com_amazonaws_dynamodb_UpdateTimeToLiveOutput(native_input):
     return DafnyUpdateTimeToLiveOutput(
         TimeToLiveSpecification=(
             Option_Some(
-                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TimeToLiveSpecification(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TimeToLiveSpecification(
                     native_input["TimeToLiveSpecification"]
                 )
             )

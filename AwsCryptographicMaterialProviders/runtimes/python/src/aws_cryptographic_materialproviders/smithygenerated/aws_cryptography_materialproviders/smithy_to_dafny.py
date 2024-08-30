@@ -125,10 +125,12 @@ import aws_cryptographic_materialproviders.internaldafny.generated.module_
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny
+from aws_cryptography_internal_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
+    IKMSClient,
+)
+import aws_cryptography_internal_kms.internaldafny.generated.module_
+import aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny
 import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny
-from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import IKMSClient
-import com_amazonaws_kms.internaldafny.generated.module_
-import com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny
 from smithy_dafny_smithy_dafny_standard_library.internaldafny.generated.Wrappers import (
     Option_None,
     Option_Some,
@@ -168,12 +170,10 @@ def aws_cryptography_materialproviders_GetClientOutput(native_input):
 
 
 def aws_cryptography_materialproviders_KmsClientReference(native_input):
-    import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms
+    import aws_cryptography_internal_kms.internaldafny.generated.Com_Amazonaws_Kms
 
-    client = (
-        com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms.default__.KMSClient(
-            boto_client=native_input
-        )
+    client = aws_cryptography_internal_kms.internaldafny.generated.Com_Amazonaws_Kms.default__.KMSClient(
+        boto_client=native_input
     )
     client.value.impl = native_input
     return client.value
@@ -1389,7 +1389,7 @@ def aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(native_input)
             else (Option_None())
         ),
         kmsKeyId=Seq(native_input.kms_key_id),
-        encryptionAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
+        encryptionAlgorithm=aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
             native_input.encryption_algorithm
         ),
         kmsClient=(

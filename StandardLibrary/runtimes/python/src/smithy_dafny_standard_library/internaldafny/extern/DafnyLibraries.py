@@ -2,9 +2,9 @@ import _dafny
 from pathlib import Path
 import threading
 
-import standard_library.internaldafny.generated.DafnyLibraries
-from standard_library.internaldafny.generated.DafnyLibraries import *
-import standard_library.internaldafny.generated.Wrappers as Wrappers
+import smithy_dafny_standard_library.internaldafny.generated.DafnyLibraries
+from smithy_dafny_standard_library.internaldafny.generated.DafnyLibraries import *
+import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
 
 # This is copy-pasted from DafnyStandardLibraries:
 # https://github.com/dafny-lang/dafny/blob/f01af4a4e86a038ed4ea9f81464b2c9bca1955e4/Source/DafnyStandardLibraries/src/Std_Concurrent.py
@@ -23,7 +23,7 @@ class Lock:
         self.lock.release()
 
 
-class MutableMap(standard_library.internaldafny.generated.DafnyLibraries.MutableMap):
+class MutableMap(smithy_dafny_standard_library.internaldafny.generated.DafnyLibraries.MutableMap):
     def ctor__(self):
         pass
         
@@ -125,8 +125,8 @@ class FileIO:
             return (True, _dafny.Seq(), exc_seq)
 
 # Export externs
-standard_library.internaldafny.generated.DafnyLibraries.FileIO = FileIO
-standard_library.internaldafny.generated.DafnyLibraries.MutableMap = MutableMap
+smithy_dafny_standard_library.internaldafny.generated.DafnyLibraries.FileIO = FileIO
+smithy_dafny_standard_library.internaldafny.generated.DafnyLibraries.MutableMap = MutableMap
 
-import standard_library.internaldafny.generated.FileIO
-standard_library.internaldafny.generated.FileIO.DafnyLibraries = standard_library.internaldafny.generated.DafnyLibraries
+import smithy_dafny_standard_library.internaldafny.generated.FileIO
+smithy_dafny_standard_library.internaldafny.generated.FileIO.DafnyLibraries = smithy_dafny_standard_library.internaldafny.generated.DafnyLibraries

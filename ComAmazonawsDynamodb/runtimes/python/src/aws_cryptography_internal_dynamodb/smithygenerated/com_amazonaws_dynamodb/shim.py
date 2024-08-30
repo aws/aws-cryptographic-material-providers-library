@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-from com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes import (
+from aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes import (
     BatchExecuteStatementInput_BatchExecuteStatementInput as DafnyBatchExecuteStatementInput,
     BatchExecuteStatementOutput_BatchExecuteStatementOutput as DafnyBatchExecuteStatementOutput,
     BatchGetItemInput_BatchGetItemInput as DafnyBatchGetItemInput,
@@ -108,16 +108,16 @@ from com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes im
     UpdateTimeToLiveInput_UpdateTimeToLiveInput as DafnyUpdateTimeToLiveInput,
     UpdateTimeToLiveOutput_UpdateTimeToLiveOutput as DafnyUpdateTimeToLiveOutput,
 )
-import com_amazonaws_dynamodb.internaldafny.generated.module_
-import com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny
-import com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk
+import aws_cryptography_internal_dynamodb.internaldafny.generated.module_
+import aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny
+import aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk
 
 from . import dafny_to_aws_sdk
 
 
 import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
 from botocore.exceptions import ClientError
-import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes
+import aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes
 
 
 def _sdk_error_to_dafny_error(e: ClientError):
@@ -126,166 +126,166 @@ def _sdk_error_to_dafny_error(e: ClientError):
     into the corresponding Dafny error.
     """
     if e.response["Error"]["Code"] == "BackupInUseException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupInUseException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupInUseException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "BackupNotFoundException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupNotFoundException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupNotFoundException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "ConditionalCheckFailedException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConditionalCheckFailedException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConditionalCheckFailedException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "ContinuousBackupsUnavailableException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContinuousBackupsUnavailableException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContinuousBackupsUnavailableException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "DuplicateItemException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DuplicateItemException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DuplicateItemException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "ExportConflictException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportConflictException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportConflictException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "ExportNotFoundException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportNotFoundException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportNotFoundException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "GlobalTableAlreadyExistsException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalTableAlreadyExistsException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalTableAlreadyExistsException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "GlobalTableNotFoundException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalTableNotFoundException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalTableNotFoundException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "IdempotentParameterMismatchException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_IdempotentParameterMismatchException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_IdempotentParameterMismatchException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "ImportConflictException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ImportConflictException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ImportConflictException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "ImportNotFoundException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ImportNotFoundException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ImportNotFoundException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "IndexNotFoundException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_IndexNotFoundException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_IndexNotFoundException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "InternalServerError":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InternalServerError(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InternalServerError(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "InvalidEndpointException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InvalidEndpointException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InvalidEndpointException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "InvalidExportTimeException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InvalidExportTimeException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InvalidExportTimeException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "InvalidRestoreTimeException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InvalidRestoreTimeException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InvalidRestoreTimeException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "ItemCollectionSizeLimitExceededException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ItemCollectionSizeLimitExceededException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ItemCollectionSizeLimitExceededException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "LimitExceededException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_LimitExceededException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_LimitExceededException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "PointInTimeRecoveryUnavailableException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_PointInTimeRecoveryUnavailableException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_PointInTimeRecoveryUnavailableException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "ProvisionedThroughputExceededException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputExceededException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputExceededException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "ReplicaAlreadyExistsException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaAlreadyExistsException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaAlreadyExistsException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "ReplicaNotFoundException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaNotFoundException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaNotFoundException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "RequestLimitExceeded":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_RequestLimitExceeded(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_RequestLimitExceeded(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "ResourceInUseException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ResourceInUseException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ResourceInUseException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "ResourceNotFoundException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ResourceNotFoundException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ResourceNotFoundException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "TableAlreadyExistsException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableAlreadyExistsException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableAlreadyExistsException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "TableInUseException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableInUseException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableInUseException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "TableNotFoundException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableNotFoundException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableNotFoundException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "TransactionCanceledException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TransactionCanceledException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TransactionCanceledException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "TransactionConflictException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TransactionConflictException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TransactionConflictException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "TransactionInProgressException":
-        return com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TransactionInProgressException(
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TransactionInProgressException(
             e.response
         )
 
-    return com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes.Error_Opaque(
+    return aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes.Error_Opaque(
         obj=e
     )
 
@@ -298,7 +298,7 @@ class DynamoDBClientShim:
     def BatchExecuteStatement(
         self, input: DafnyBatchExecuteStatementInput
     ) -> DafnyBatchExecuteStatementOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BatchExecuteStatementInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BatchExecuteStatementInput(
             input
         )
         try:
@@ -307,13 +307,13 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BatchExecuteStatementOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BatchExecuteStatementOutput(
                 boto_response_dict
             )
         )
 
     def BatchGetItem(self, input: DafnyBatchGetItemInput) -> DafnyBatchGetItemOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BatchGetItemInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BatchGetItemInput(
             input
         )
         try:
@@ -322,7 +322,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BatchGetItemOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BatchGetItemOutput(
                 boto_response_dict
             )
         )
@@ -330,7 +330,7 @@ class DynamoDBClientShim:
     def BatchWriteItem(
         self, input: DafnyBatchWriteItemInput
     ) -> DafnyBatchWriteItemOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BatchWriteItemInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BatchWriteItemInput(
             input
         )
         try:
@@ -339,13 +339,13 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BatchWriteItemOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BatchWriteItemOutput(
                 boto_response_dict
             )
         )
 
     def CreateBackup(self, input: DafnyCreateBackupInput) -> DafnyCreateBackupOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_CreateBackupInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_CreateBackupInput(
             input
         )
         try:
@@ -354,7 +354,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_CreateBackupOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_CreateBackupOutput(
                 boto_response_dict
             )
         )
@@ -362,7 +362,7 @@ class DynamoDBClientShim:
     def CreateGlobalTable(
         self, input: DafnyCreateGlobalTableInput
     ) -> DafnyCreateGlobalTableOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_CreateGlobalTableInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_CreateGlobalTableInput(
             input
         )
         try:
@@ -371,13 +371,13 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_CreateGlobalTableOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_CreateGlobalTableOutput(
                 boto_response_dict
             )
         )
 
     def CreateTable(self, input: DafnyCreateTableInput) -> DafnyCreateTableOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_CreateTableInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_CreateTableInput(
             input
         )
         try:
@@ -386,13 +386,13 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_CreateTableOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_CreateTableOutput(
                 boto_response_dict
             )
         )
 
     def DeleteBackup(self, input: DafnyDeleteBackupInput) -> DafnyDeleteBackupOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DeleteBackupInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DeleteBackupInput(
             input
         )
         try:
@@ -401,13 +401,13 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DeleteBackupOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DeleteBackupOutput(
                 boto_response_dict
             )
         )
 
     def DeleteItem(self, input: DafnyDeleteItemInput) -> DafnyDeleteItemOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DeleteItemInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DeleteItemInput(
             input
         )
         try:
@@ -416,13 +416,13 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DeleteItemOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DeleteItemOutput(
                 boto_response_dict
             )
         )
 
     def DeleteTable(self, input: DafnyDeleteTableInput) -> DafnyDeleteTableOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DeleteTableInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DeleteTableInput(
             input
         )
         try:
@@ -431,7 +431,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DeleteTableOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DeleteTableOutput(
                 boto_response_dict
             )
         )
@@ -439,7 +439,7 @@ class DynamoDBClientShim:
     def DescribeBackup(
         self, input: DafnyDescribeBackupInput
     ) -> DafnyDescribeBackupOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeBackupInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeBackupInput(
             input
         )
         try:
@@ -448,7 +448,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeBackupOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeBackupOutput(
                 boto_response_dict
             )
         )
@@ -456,7 +456,7 @@ class DynamoDBClientShim:
     def DescribeContinuousBackups(
         self, input: DafnyDescribeContinuousBackupsInput
     ) -> DafnyDescribeContinuousBackupsOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeContinuousBackupsInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeContinuousBackupsInput(
             input
         )
         try:
@@ -467,7 +467,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeContinuousBackupsOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeContinuousBackupsOutput(
                 boto_response_dict
             )
         )
@@ -475,7 +475,7 @@ class DynamoDBClientShim:
     def DescribeContributorInsights(
         self, input: DafnyDescribeContributorInsightsInput
     ) -> DafnyDescribeContributorInsightsOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeContributorInsightsInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeContributorInsightsInput(
             input
         )
         try:
@@ -486,7 +486,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeContributorInsightsOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeContributorInsightsOutput(
                 boto_response_dict
             )
         )
@@ -494,7 +494,7 @@ class DynamoDBClientShim:
     def DescribeEndpoints(
         self, input: DafnyDescribeEndpointsRequest
     ) -> DafnyDescribeEndpointsResponse:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeEndpointsRequest(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeEndpointsRequest(
             input
         )
         try:
@@ -503,7 +503,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeEndpointsResponse(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeEndpointsResponse(
                 boto_response_dict
             )
         )
@@ -511,7 +511,7 @@ class DynamoDBClientShim:
     def DescribeExport(
         self, input: DafnyDescribeExportInput
     ) -> DafnyDescribeExportOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeExportInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeExportInput(
             input
         )
         try:
@@ -520,7 +520,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeExportOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeExportOutput(
                 boto_response_dict
             )
         )
@@ -528,7 +528,7 @@ class DynamoDBClientShim:
     def DescribeGlobalTable(
         self, input: DafnyDescribeGlobalTableInput
     ) -> DafnyDescribeGlobalTableOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeGlobalTableInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeGlobalTableInput(
             input
         )
         try:
@@ -537,7 +537,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeGlobalTableOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeGlobalTableOutput(
                 boto_response_dict
             )
         )
@@ -545,7 +545,7 @@ class DynamoDBClientShim:
     def DescribeGlobalTableSettings(
         self, input: DafnyDescribeGlobalTableSettingsInput
     ) -> DafnyDescribeGlobalTableSettingsOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeGlobalTableSettingsInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeGlobalTableSettingsInput(
             input
         )
         try:
@@ -556,7 +556,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeGlobalTableSettingsOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeGlobalTableSettingsOutput(
                 boto_response_dict
             )
         )
@@ -564,7 +564,7 @@ class DynamoDBClientShim:
     def DescribeImport(
         self, input: DafnyDescribeImportInput
     ) -> DafnyDescribeImportOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeImportInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeImportInput(
             input
         )
         try:
@@ -573,7 +573,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeImportOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeImportOutput(
                 boto_response_dict
             )
         )
@@ -581,7 +581,7 @@ class DynamoDBClientShim:
     def DescribeKinesisStreamingDestination(
         self, input: DafnyDescribeKinesisStreamingDestinationInput
     ) -> DafnyDescribeKinesisStreamingDestinationOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeKinesisStreamingDestinationInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeKinesisStreamingDestinationInput(
             input
         )
         try:
@@ -592,7 +592,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeKinesisStreamingDestinationOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeKinesisStreamingDestinationOutput(
                 boto_response_dict
             )
         )
@@ -600,7 +600,7 @@ class DynamoDBClientShim:
     def DescribeLimits(
         self, input: DafnyDescribeLimitsInput
     ) -> DafnyDescribeLimitsOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeLimitsInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeLimitsInput(
             input
         )
         try:
@@ -609,13 +609,13 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeLimitsOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeLimitsOutput(
                 boto_response_dict
             )
         )
 
     def DescribeTable(self, input: DafnyDescribeTableInput) -> DafnyDescribeTableOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeTableInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeTableInput(
             input
         )
         try:
@@ -624,7 +624,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeTableOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeTableOutput(
                 boto_response_dict
             )
         )
@@ -632,7 +632,7 @@ class DynamoDBClientShim:
     def DescribeTableReplicaAutoScaling(
         self, input: DafnyDescribeTableReplicaAutoScalingInput
     ) -> DafnyDescribeTableReplicaAutoScalingOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeTableReplicaAutoScalingInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeTableReplicaAutoScalingInput(
             input
         )
         try:
@@ -643,7 +643,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeTableReplicaAutoScalingOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeTableReplicaAutoScalingOutput(
                 boto_response_dict
             )
         )
@@ -651,7 +651,7 @@ class DynamoDBClientShim:
     def DescribeTimeToLive(
         self, input: DafnyDescribeTimeToLiveInput
     ) -> DafnyDescribeTimeToLiveOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeTimeToLiveInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DescribeTimeToLiveInput(
             input
         )
         try:
@@ -660,7 +660,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeTimeToLiveOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DescribeTimeToLiveOutput(
                 boto_response_dict
             )
         )
@@ -668,7 +668,7 @@ class DynamoDBClientShim:
     def DisableKinesisStreamingDestination(
         self, input: DafnyDisableKinesisStreamingDestinationInput
     ) -> DafnyDisableKinesisStreamingDestinationOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DisableKinesisStreamingDestinationInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DisableKinesisStreamingDestinationInput(
             input
         )
         try:
@@ -679,7 +679,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput(
                 boto_response_dict
             )
         )
@@ -687,7 +687,7 @@ class DynamoDBClientShim:
     def EnableKinesisStreamingDestination(
         self, input: DafnyEnableKinesisStreamingDestinationInput
     ) -> DafnyEnableKinesisStreamingDestinationOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_EnableKinesisStreamingDestinationInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_EnableKinesisStreamingDestinationInput(
             input
         )
         try:
@@ -698,7 +698,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput(
                 boto_response_dict
             )
         )
@@ -706,7 +706,7 @@ class DynamoDBClientShim:
     def ExecuteStatement(
         self, input: DafnyExecuteStatementInput
     ) -> DafnyExecuteStatementOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ExecuteStatementInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ExecuteStatementInput(
             input
         )
         try:
@@ -715,7 +715,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExecuteStatementOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExecuteStatementOutput(
                 boto_response_dict
             )
         )
@@ -723,7 +723,7 @@ class DynamoDBClientShim:
     def ExecuteTransaction(
         self, input: DafnyExecuteTransactionInput
     ) -> DafnyExecuteTransactionOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ExecuteTransactionInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ExecuteTransactionInput(
             input
         )
         try:
@@ -732,7 +732,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExecuteTransactionOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExecuteTransactionOutput(
                 boto_response_dict
             )
         )
@@ -740,7 +740,7 @@ class DynamoDBClientShim:
     def ExportTableToPointInTime(
         self, input: DafnyExportTableToPointInTimeInput
     ) -> DafnyExportTableToPointInTimeOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ExportTableToPointInTimeInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ExportTableToPointInTimeInput(
             input
         )
         try:
@@ -751,13 +751,13 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportTableToPointInTimeOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportTableToPointInTimeOutput(
                 boto_response_dict
             )
         )
 
     def GetItem(self, input: DafnyGetItemInput) -> DafnyGetItemOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_GetItemInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_GetItemInput(
             input
         )
         try:
@@ -766,13 +766,13 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GetItemOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GetItemOutput(
                 boto_response_dict
             )
         )
 
     def ImportTable(self, input: DafnyImportTableInput) -> DafnyImportTableOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ImportTableInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ImportTableInput(
             input
         )
         try:
@@ -781,13 +781,13 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ImportTableOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ImportTableOutput(
                 boto_response_dict
             )
         )
 
     def ListBackups(self, input: DafnyListBackupsInput) -> DafnyListBackupsOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ListBackupsInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ListBackupsInput(
             input
         )
         try:
@@ -796,7 +796,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ListBackupsOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ListBackupsOutput(
                 boto_response_dict
             )
         )
@@ -804,7 +804,7 @@ class DynamoDBClientShim:
     def ListContributorInsights(
         self, input: DafnyListContributorInsightsInput
     ) -> DafnyListContributorInsightsOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ListContributorInsightsInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ListContributorInsightsInput(
             input
         )
         try:
@@ -815,13 +815,13 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ListContributorInsightsOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ListContributorInsightsOutput(
                 boto_response_dict
             )
         )
 
     def ListExports(self, input: DafnyListExportsInput) -> DafnyListExportsOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ListExportsInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ListExportsInput(
             input
         )
         try:
@@ -830,7 +830,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ListExportsOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ListExportsOutput(
                 boto_response_dict
             )
         )
@@ -838,7 +838,7 @@ class DynamoDBClientShim:
     def ListGlobalTables(
         self, input: DafnyListGlobalTablesInput
     ) -> DafnyListGlobalTablesOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ListGlobalTablesInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ListGlobalTablesInput(
             input
         )
         try:
@@ -847,13 +847,13 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ListGlobalTablesOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ListGlobalTablesOutput(
                 boto_response_dict
             )
         )
 
     def ListImports(self, input: DafnyListImportsInput) -> DafnyListImportsOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ListImportsInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ListImportsInput(
             input
         )
         try:
@@ -862,13 +862,13 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ListImportsOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ListImportsOutput(
                 boto_response_dict
             )
         )
 
     def ListTables(self, input: DafnyListTablesInput) -> DafnyListTablesOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ListTablesInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ListTablesInput(
             input
         )
         try:
@@ -877,7 +877,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ListTablesOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ListTablesOutput(
                 boto_response_dict
             )
         )
@@ -885,7 +885,7 @@ class DynamoDBClientShim:
     def ListTagsOfResource(
         self, input: DafnyListTagsOfResourceInput
     ) -> DafnyListTagsOfResourceOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ListTagsOfResourceInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ListTagsOfResourceInput(
             input
         )
         try:
@@ -894,13 +894,13 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ListTagsOfResourceOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ListTagsOfResourceOutput(
                 boto_response_dict
             )
         )
 
     def PutItem(self, input: DafnyPutItemInput) -> DafnyPutItemOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_PutItemInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_PutItemInput(
             input
         )
         try:
@@ -909,13 +909,13 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_PutItemOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_PutItemOutput(
                 boto_response_dict
             )
         )
 
     def Query(self, input: DafnyQueryInput) -> DafnyQueryOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_QueryInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_QueryInput(
             input
         )
         try:
@@ -924,7 +924,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_QueryOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_QueryOutput(
                 boto_response_dict
             )
         )
@@ -932,7 +932,7 @@ class DynamoDBClientShim:
     def RestoreTableFromBackup(
         self, input: DafnyRestoreTableFromBackupInput
     ) -> DafnyRestoreTableFromBackupOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_RestoreTableFromBackupInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_RestoreTableFromBackupInput(
             input
         )
         try:
@@ -943,7 +943,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_RestoreTableFromBackupOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_RestoreTableFromBackupOutput(
                 boto_response_dict
             )
         )
@@ -951,7 +951,7 @@ class DynamoDBClientShim:
     def RestoreTableToPointInTime(
         self, input: DafnyRestoreTableToPointInTimeInput
     ) -> DafnyRestoreTableToPointInTimeOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_RestoreTableToPointInTimeInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_RestoreTableToPointInTimeInput(
             input
         )
         try:
@@ -962,13 +962,13 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_RestoreTableToPointInTimeOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_RestoreTableToPointInTimeOutput(
                 boto_response_dict
             )
         )
 
     def Scan(self, input: DafnyScanInput) -> DafnyScanOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ScanInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ScanInput(
             input
         )
         try:
@@ -977,13 +977,13 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ScanOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ScanOutput(
                 boto_response_dict
             )
         )
 
     def TagResource(self, input: DafnyTagResourceInput) -> None:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TagResourceInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TagResourceInput(
             input
         )
         try:
@@ -996,7 +996,7 @@ class DynamoDBClientShim:
     def TransactGetItems(
         self, input: DafnyTransactGetItemsInput
     ) -> DafnyTransactGetItemsOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TransactGetItemsInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TransactGetItemsInput(
             input
         )
         try:
@@ -1005,7 +1005,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TransactGetItemsOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TransactGetItemsOutput(
                 boto_response_dict
             )
         )
@@ -1013,7 +1013,7 @@ class DynamoDBClientShim:
     def TransactWriteItems(
         self, input: DafnyTransactWriteItemsInput
     ) -> DafnyTransactWriteItemsOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TransactWriteItemsInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TransactWriteItemsInput(
             input
         )
         try:
@@ -1022,13 +1022,13 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TransactWriteItemsOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TransactWriteItemsOutput(
                 boto_response_dict
             )
         )
 
     def UntagResource(self, input: DafnyUntagResourceInput) -> None:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_UntagResourceInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_UntagResourceInput(
             input
         )
         try:
@@ -1041,7 +1041,7 @@ class DynamoDBClientShim:
     def UpdateContinuousBackups(
         self, input: DafnyUpdateContinuousBackupsInput
     ) -> DafnyUpdateContinuousBackupsOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_UpdateContinuousBackupsInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_UpdateContinuousBackupsInput(
             input
         )
         try:
@@ -1052,7 +1052,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateContinuousBackupsOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateContinuousBackupsOutput(
                 boto_response_dict
             )
         )
@@ -1060,7 +1060,7 @@ class DynamoDBClientShim:
     def UpdateContributorInsights(
         self, input: DafnyUpdateContributorInsightsInput
     ) -> DafnyUpdateContributorInsightsOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_UpdateContributorInsightsInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_UpdateContributorInsightsInput(
             input
         )
         try:
@@ -1071,7 +1071,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateContributorInsightsOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateContributorInsightsOutput(
                 boto_response_dict
             )
         )
@@ -1079,7 +1079,7 @@ class DynamoDBClientShim:
     def UpdateGlobalTable(
         self, input: DafnyUpdateGlobalTableInput
     ) -> DafnyUpdateGlobalTableOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_UpdateGlobalTableInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_UpdateGlobalTableInput(
             input
         )
         try:
@@ -1088,7 +1088,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateGlobalTableOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateGlobalTableOutput(
                 boto_response_dict
             )
         )
@@ -1096,7 +1096,7 @@ class DynamoDBClientShim:
     def UpdateGlobalTableSettings(
         self, input: DafnyUpdateGlobalTableSettingsInput
     ) -> DafnyUpdateGlobalTableSettingsOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_UpdateGlobalTableSettingsInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_UpdateGlobalTableSettingsInput(
             input
         )
         try:
@@ -1107,13 +1107,13 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateGlobalTableSettingsOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateGlobalTableSettingsOutput(
                 boto_response_dict
             )
         )
 
     def UpdateItem(self, input: DafnyUpdateItemInput) -> DafnyUpdateItemOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_UpdateItemInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_UpdateItemInput(
             input
         )
         try:
@@ -1122,13 +1122,13 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateItemOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateItemOutput(
                 boto_response_dict
             )
         )
 
     def UpdateTable(self, input: DafnyUpdateTableInput) -> DafnyUpdateTableOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_UpdateTableInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_UpdateTableInput(
             input
         )
         try:
@@ -1137,7 +1137,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateTableOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateTableOutput(
                 boto_response_dict
             )
         )
@@ -1145,7 +1145,7 @@ class DynamoDBClientShim:
     def UpdateTableReplicaAutoScaling(
         self, input: DafnyUpdateTableReplicaAutoScalingInput
     ) -> DafnyUpdateTableReplicaAutoScalingOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingInput(
             input
         )
         try:
@@ -1156,7 +1156,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingOutput(
                 boto_response_dict
             )
         )
@@ -1164,7 +1164,7 @@ class DynamoDBClientShim:
     def UpdateTimeToLive(
         self, input: DafnyUpdateTimeToLiveInput
     ) -> DafnyUpdateTimeToLiveOutput:
-        boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_UpdateTimeToLiveInput(
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_UpdateTimeToLiveInput(
             input
         )
         try:
@@ -1173,7 +1173,7 @@ class DynamoDBClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateTimeToLiveOutput(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateTimeToLiveOutput(
                 boto_response_dict
             )
         )

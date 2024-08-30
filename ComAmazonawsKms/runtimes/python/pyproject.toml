@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "amazon-cryptography-internal-kms"
+name = "aws-cryptography-internal-kms"
 version = "0.1.0"
 description = ""
 authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
@@ -16,7 +16,7 @@ boto3 = "^1.28.38"
 # TODO: Depend on PyPi once Smithy-Python publishes their Python package there
 smithy-python = { path = "../../../StandardLibrary/runtimes/python/libs/aws-cryptography-internal-smithy-python", develop = false}
 DafnyRuntimePython = "~4.7.0"
-standard-library = { path = "../../../StandardLibrary/runtimes/python", develop = false}
+aws-cryptography-internal-standard-library = { path = "../../../StandardLibrary/runtimes/python", develop = false}
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.0"

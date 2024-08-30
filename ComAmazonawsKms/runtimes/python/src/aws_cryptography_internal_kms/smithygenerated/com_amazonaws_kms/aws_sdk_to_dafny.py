@@ -4,7 +4,7 @@
 
 import _dafny
 from _dafny import Map, Seq
-from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
+from aws_cryptography_internal_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     AlgorithmSpec_RSAES__OAEP__SHA__1,
     AlgorithmSpec_RSAES__OAEP__SHA__256,
     AlgorithmSpec_RSAES__PKCS1__V1__5,
@@ -292,8 +292,8 @@ from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     XksProxyConnectivityType_PUBLIC__ENDPOINT,
     XksProxyConnectivityType_VPC__ENDPOINT__SERVICE,
 )
-import com_amazonaws_kms.internaldafny.generated.module_
-import com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny
+import aws_cryptography_internal_kms.internaldafny.generated.module_
+import aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny
 from smithy_dafny_standard_library.internaldafny.generated.Wrappers import (
     Option_None,
     Option_Some,
@@ -643,7 +643,7 @@ def com_amazonaws_kms_CreateCustomKeyStoreRequest(native_input):
         ),
         CustomKeyStoreType=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomKeyStoreType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomKeyStoreType(
                     native_input["CustomKeyStoreType"]
                 )
             )
@@ -667,7 +667,7 @@ def com_amazonaws_kms_CreateCustomKeyStoreRequest(native_input):
         ),
         XksProxyAuthenticationCredential=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyAuthenticationCredentialType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyAuthenticationCredentialType(
                     native_input["XksProxyAuthenticationCredential"]
                 )
             )
@@ -676,7 +676,7 @@ def com_amazonaws_kms_CreateCustomKeyStoreRequest(native_input):
         ),
         XksProxyConnectivity=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyConnectivityType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyConnectivityType(
                     native_input["XksProxyConnectivity"]
                 )
             )
@@ -734,7 +734,7 @@ def com_amazonaws_kms_CreateGrantRequest(native_input):
         ),
         Operations=Seq(
             [
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GrantOperation(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GrantOperation(
                     list_element
                 )
                 for list_element in native_input["Operations"]
@@ -742,7 +742,7 @@ def com_amazonaws_kms_CreateGrantRequest(native_input):
         ),
         Constraints=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GrantConstraints(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GrantConstraints(
                     native_input["Constraints"]
                 )
             )
@@ -871,7 +871,7 @@ def com_amazonaws_kms_CreateKeyRequest(native_input):
         ),
         KeyUsage=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyUsageType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyUsageType(
                     native_input["KeyUsage"]
                 )
             )
@@ -880,7 +880,7 @@ def com_amazonaws_kms_CreateKeyRequest(native_input):
         ),
         CustomerMasterKeySpec=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomerMasterKeySpec(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomerMasterKeySpec(
                     native_input["CustomerMasterKeySpec"]
                 )
             )
@@ -889,7 +889,7 @@ def com_amazonaws_kms_CreateKeyRequest(native_input):
         ),
         KeySpec=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeySpec(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeySpec(
                     native_input["KeySpec"]
                 )
             )
@@ -898,7 +898,7 @@ def com_amazonaws_kms_CreateKeyRequest(native_input):
         ),
         Origin=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_OriginType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_OriginType(
                     native_input["Origin"]
                 )
             )
@@ -919,7 +919,7 @@ def com_amazonaws_kms_CreateKeyRequest(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_Tag(
+                        aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_Tag(
                             list_element
                         )
                         for list_element in native_input["Tags"]
@@ -1045,7 +1045,7 @@ def com_amazonaws_kms_CreateKeyResponse(native_input):
     return DafnyCreateKeyResponse(
         KeyMetadata=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyMetadata(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyMetadata(
                     native_input["KeyMetadata"]
                 )
             )
@@ -1085,7 +1085,7 @@ def com_amazonaws_kms_KeyMetadata(native_input):
         ),
         KeyUsage=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyUsageType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyUsageType(
                     native_input["KeyUsage"]
                 )
             )
@@ -1094,7 +1094,7 @@ def com_amazonaws_kms_KeyMetadata(native_input):
         ),
         KeyState=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyState(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyState(
                     native_input["KeyState"]
                 )
             )
@@ -1113,7 +1113,7 @@ def com_amazonaws_kms_KeyMetadata(native_input):
         ),
         Origin=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_OriginType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_OriginType(
                     native_input["Origin"]
                 )
             )
@@ -1132,7 +1132,7 @@ def com_amazonaws_kms_KeyMetadata(native_input):
         ),
         ExpirationModel=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ExpirationModelType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ExpirationModelType(
                     native_input["ExpirationModel"]
                 )
             )
@@ -1141,7 +1141,7 @@ def com_amazonaws_kms_KeyMetadata(native_input):
         ),
         KeyManager=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyManagerType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyManagerType(
                     native_input["KeyManager"]
                 )
             )
@@ -1150,7 +1150,7 @@ def com_amazonaws_kms_KeyMetadata(native_input):
         ),
         CustomerMasterKeySpec=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomerMasterKeySpec(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomerMasterKeySpec(
                     native_input["CustomerMasterKeySpec"]
                 )
             )
@@ -1159,7 +1159,7 @@ def com_amazonaws_kms_KeyMetadata(native_input):
         ),
         KeySpec=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeySpec(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeySpec(
                     native_input["KeySpec"]
                 )
             )
@@ -1170,7 +1170,7 @@ def com_amazonaws_kms_KeyMetadata(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
+                        aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
                             list_element
                         )
                         for list_element in native_input["EncryptionAlgorithms"]
@@ -1184,7 +1184,7 @@ def com_amazonaws_kms_KeyMetadata(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(
+                        aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(
                             list_element
                         )
                         for list_element in native_input["SigningAlgorithms"]
@@ -1198,7 +1198,7 @@ def com_amazonaws_kms_KeyMetadata(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyAgreementAlgorithmSpec(
+                        aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyAgreementAlgorithmSpec(
                             list_element
                         )
                         for list_element in native_input["KeyAgreementAlgorithms"]
@@ -1215,7 +1215,7 @@ def com_amazonaws_kms_KeyMetadata(native_input):
         ),
         MultiRegionConfiguration=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MultiRegionConfiguration(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MultiRegionConfiguration(
                     native_input["MultiRegionConfiguration"]
                 )
             )
@@ -1231,7 +1231,7 @@ def com_amazonaws_kms_KeyMetadata(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MacAlgorithmSpec(
+                        aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MacAlgorithmSpec(
                             list_element
                         )
                         for list_element in native_input["MacAlgorithms"]
@@ -1243,7 +1243,7 @@ def com_amazonaws_kms_KeyMetadata(native_input):
         ),
         XksKeyConfiguration=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksKeyConfigurationType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksKeyConfigurationType(
                     native_input["XksKeyConfiguration"]
                 )
             )
@@ -1345,7 +1345,7 @@ def com_amazonaws_kms_MultiRegionConfiguration(native_input):
     return DafnyMultiRegionConfiguration(
         MultiRegionKeyType=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MultiRegionKeyType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MultiRegionKeyType(
                     native_input["MultiRegionKeyType"]
                 )
             )
@@ -1354,7 +1354,7 @@ def com_amazonaws_kms_MultiRegionConfiguration(native_input):
         ),
         PrimaryKey=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MultiRegionKey(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MultiRegionKey(
                     native_input["PrimaryKey"]
                 )
             )
@@ -1365,7 +1365,7 @@ def com_amazonaws_kms_MultiRegionConfiguration(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MultiRegionKey(
+                        aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MultiRegionKey(
                             list_element
                         )
                         for list_element in native_input["ReplicaKeys"]
@@ -1456,7 +1456,7 @@ def com_amazonaws_kms_DecryptRequest(native_input):
         ),
         EncryptionAlgorithm=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
                     native_input["EncryptionAlgorithm"]
                 )
             )
@@ -1465,7 +1465,7 @@ def com_amazonaws_kms_DecryptRequest(native_input):
         ),
         Recipient=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RecipientInfo(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RecipientInfo(
                     native_input["Recipient"]
                 )
             )
@@ -1484,7 +1484,7 @@ def com_amazonaws_kms_RecipientInfo(native_input):
     return DafnyRecipientInfo(
         KeyEncryptionAlgorithm=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyEncryptionMechanism(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyEncryptionMechanism(
                     native_input["KeyEncryptionAlgorithm"]
                 )
             )
@@ -1521,7 +1521,7 @@ def com_amazonaws_kms_DecryptResponse(native_input):
         ),
         EncryptionAlgorithm=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
                     native_input["EncryptionAlgorithm"]
                 )
             )
@@ -1561,7 +1561,7 @@ def com_amazonaws_kms_DeleteImportedKeyMaterialRequest(native_input):
 def com_amazonaws_kms_DeriveSharedSecretRequest(native_input):
     return DafnyDeriveSharedSecretRequest(
         KeyId=Seq(native_input["KeyId"]),
-        KeyAgreementAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyAgreementAlgorithmSpec(
+        KeyAgreementAlgorithm=aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyAgreementAlgorithmSpec(
             native_input["KeyAgreementAlgorithm"]
         ),
         PublicKey=Seq(native_input["PublicKey"]),
@@ -1579,7 +1579,7 @@ def com_amazonaws_kms_DeriveSharedSecretRequest(native_input):
         ),
         Recipient=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RecipientInfo(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RecipientInfo(
                     native_input["Recipient"]
                 )
             )
@@ -1608,7 +1608,7 @@ def com_amazonaws_kms_DeriveSharedSecretResponse(native_input):
         ),
         KeyAgreementAlgorithm=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyAgreementAlgorithmSpec(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyAgreementAlgorithmSpec(
                     native_input["KeyAgreementAlgorithm"]
                 )
             )
@@ -1617,7 +1617,7 @@ def com_amazonaws_kms_DeriveSharedSecretResponse(native_input):
         ),
         KeyOrigin=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_OriginType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_OriginType(
                     native_input["KeyOrigin"]
                 )
             )
@@ -1658,7 +1658,7 @@ def com_amazonaws_kms_DescribeCustomKeyStoresResponse(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomKeyStoresListEntry(
+                        aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomKeyStoresListEntry(
                             list_element
                         )
                         for list_element in native_input["CustomKeyStores"]
@@ -1705,7 +1705,7 @@ def com_amazonaws_kms_CustomKeyStoresListEntry(native_input):
         ),
         ConnectionState=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ConnectionStateType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ConnectionStateType(
                     native_input["ConnectionState"]
                 )
             )
@@ -1714,7 +1714,7 @@ def com_amazonaws_kms_CustomKeyStoresListEntry(native_input):
         ),
         ConnectionErrorCode=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ConnectionErrorCodeType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ConnectionErrorCodeType(
                     native_input["ConnectionErrorCode"]
                 )
             )
@@ -1728,7 +1728,7 @@ def com_amazonaws_kms_CustomKeyStoresListEntry(native_input):
         ),
         CustomKeyStoreType=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomKeyStoreType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomKeyStoreType(
                     native_input["CustomKeyStoreType"]
                 )
             )
@@ -1737,7 +1737,7 @@ def com_amazonaws_kms_CustomKeyStoresListEntry(native_input):
         ),
         XksProxyConfiguration=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyConfigurationType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyConfigurationType(
                     native_input["XksProxyConfiguration"]
                 )
             )
@@ -1811,7 +1811,7 @@ def com_amazonaws_kms_XksProxyConfigurationType(native_input):
     return DafnyXksProxyConfigurationType(
         Connectivity=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyConnectivityType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyConnectivityType(
                     native_input["Connectivity"]
                 )
             )
@@ -1858,7 +1858,7 @@ def com_amazonaws_kms_DescribeKeyResponse(native_input):
     return DafnyDescribeKeyResponse(
         KeyMetadata=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyMetadata(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyMetadata(
                     native_input["KeyMetadata"]
                 )
             )
@@ -1932,7 +1932,7 @@ def com_amazonaws_kms_EncryptRequest(native_input):
         ),
         EncryptionAlgorithm=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
                     native_input["EncryptionAlgorithm"]
                 )
             )
@@ -1961,7 +1961,7 @@ def com_amazonaws_kms_EncryptResponse(native_input):
         ),
         EncryptionAlgorithm=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
                     native_input["EncryptionAlgorithm"]
                 )
             )
@@ -1993,7 +1993,7 @@ def com_amazonaws_kms_GenerateDataKeyRequest(native_input):
         ),
         KeySpec=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeySpec(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeySpec(
                     native_input["KeySpec"]
                 )
             )
@@ -2009,7 +2009,7 @@ def com_amazonaws_kms_GenerateDataKeyRequest(native_input):
         ),
         Recipient=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RecipientInfo(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RecipientInfo(
                     native_input["Recipient"]
                 )
             )
@@ -2074,7 +2074,7 @@ def com_amazonaws_kms_GenerateDataKeyPairRequest(native_input):
             else Option_None()
         ),
         KeyId=Seq(native_input["KeyId"]),
-        KeyPairSpec=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeyPairSpec(
+        KeyPairSpec=aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeyPairSpec(
             native_input["KeyPairSpec"]
         ),
         GrantTokens=(
@@ -2086,7 +2086,7 @@ def com_amazonaws_kms_GenerateDataKeyPairRequest(native_input):
         ),
         Recipient=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RecipientInfo(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RecipientInfo(
                     native_input["Recipient"]
                 )
             )
@@ -2147,7 +2147,7 @@ def com_amazonaws_kms_GenerateDataKeyPairResponse(native_input):
         ),
         KeyPairSpec=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeyPairSpec(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeyPairSpec(
                     native_input["KeyPairSpec"]
                 )
             )
@@ -2177,7 +2177,7 @@ def com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextRequest(native_input):
             else Option_None()
         ),
         KeyId=Seq(native_input["KeyId"]),
-        KeyPairSpec=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeyPairSpec(
+        KeyPairSpec=aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeyPairSpec(
             native_input["KeyPairSpec"]
         ),
         GrantTokens=(
@@ -2214,7 +2214,7 @@ def com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextResponse(native_input):
         ),
         KeyPairSpec=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeyPairSpec(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeyPairSpec(
                     native_input["KeyPairSpec"]
                 )
             )
@@ -2241,7 +2241,7 @@ def com_amazonaws_kms_GenerateDataKeyWithoutPlaintextRequest(native_input):
         ),
         KeySpec=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeySpec(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeySpec(
                     native_input["KeySpec"]
                 )
             )
@@ -2287,7 +2287,7 @@ def com_amazonaws_kms_GenerateMacRequest(native_input):
     return DafnyGenerateMacRequest(
         Message=Seq(native_input["Message"]),
         KeyId=Seq(native_input["KeyId"]),
-        MacAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MacAlgorithmSpec(
+        MacAlgorithm=aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MacAlgorithmSpec(
             native_input["MacAlgorithm"]
         ),
         GrantTokens=(
@@ -2314,7 +2314,7 @@ def com_amazonaws_kms_GenerateMacResponse(native_input):
         ),
         MacAlgorithm=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MacAlgorithmSpec(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MacAlgorithmSpec(
                     native_input["MacAlgorithm"]
                 )
             )
@@ -2343,7 +2343,7 @@ def com_amazonaws_kms_GenerateRandomRequest(native_input):
         ),
         Recipient=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RecipientInfo(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RecipientInfo(
                     native_input["Recipient"]
                 )
             )
@@ -2435,10 +2435,10 @@ def com_amazonaws_kms_GetKeyRotationStatusResponse(native_input):
 def com_amazonaws_kms_GetParametersForImportRequest(native_input):
     return DafnyGetParametersForImportRequest(
         KeyId=Seq(native_input["KeyId"]),
-        WrappingAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_AlgorithmSpec(
+        WrappingAlgorithm=aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_AlgorithmSpec(
             native_input["WrappingAlgorithm"]
         ),
-        WrappingKeySpec=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_WrappingKeySpec(
+        WrappingKeySpec=aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_WrappingKeySpec(
             native_input["WrappingKeySpec"]
         ),
     )
@@ -2528,7 +2528,7 @@ def com_amazonaws_kms_GetPublicKeyResponse(native_input):
         ),
         CustomerMasterKeySpec=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomerMasterKeySpec(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomerMasterKeySpec(
                     native_input["CustomerMasterKeySpec"]
                 )
             )
@@ -2537,7 +2537,7 @@ def com_amazonaws_kms_GetPublicKeyResponse(native_input):
         ),
         KeySpec=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeySpec(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeySpec(
                     native_input["KeySpec"]
                 )
             )
@@ -2546,7 +2546,7 @@ def com_amazonaws_kms_GetPublicKeyResponse(native_input):
         ),
         KeyUsage=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyUsageType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyUsageType(
                     native_input["KeyUsage"]
                 )
             )
@@ -2557,7 +2557,7 @@ def com_amazonaws_kms_GetPublicKeyResponse(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
+                        aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
                             list_element
                         )
                         for list_element in native_input["EncryptionAlgorithms"]
@@ -2571,7 +2571,7 @@ def com_amazonaws_kms_GetPublicKeyResponse(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(
+                        aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(
                             list_element
                         )
                         for list_element in native_input["SigningAlgorithms"]
@@ -2585,7 +2585,7 @@ def com_amazonaws_kms_GetPublicKeyResponse(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyAgreementAlgorithmSpec(
+                        aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyAgreementAlgorithmSpec(
                             list_element
                         )
                         for list_element in native_input["KeyAgreementAlgorithms"]
@@ -2610,7 +2610,7 @@ def com_amazonaws_kms_ImportKeyMaterialRequest(native_input):
         ),
         ExpirationModel=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ExpirationModelType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ExpirationModelType(
                     native_input["ExpirationModel"]
                 )
             )
@@ -2650,7 +2650,7 @@ def com_amazonaws_kms_ListAliasesResponse(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_AliasListEntry(
+                        aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_AliasListEntry(
                             list_element
                         )
                         for list_element in native_input["Aliases"]
@@ -2735,7 +2735,7 @@ def com_amazonaws_kms_ListGrantsResponse(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GrantListEntry(
+                        aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GrantListEntry(
                             list_element
                         )
                         for list_element in native_input["Grants"]
@@ -2799,7 +2799,7 @@ def com_amazonaws_kms_GrantListEntry(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GrantOperation(
+                        aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GrantOperation(
                             list_element
                         )
                         for list_element in native_input["Operations"]
@@ -2811,7 +2811,7 @@ def com_amazonaws_kms_GrantListEntry(native_input):
         ),
         Constraints=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GrantConstraints(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GrantConstraints(
                     native_input["Constraints"]
                 )
             )
@@ -2881,7 +2881,7 @@ def com_amazonaws_kms_ListKeyRotationsResponse(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RotationsListEntry(
+                        aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RotationsListEntry(
                             list_element
                         )
                         for list_element in native_input["Rotations"]
@@ -2918,7 +2918,7 @@ def com_amazonaws_kms_RotationsListEntry(native_input):
         ),
         RotationType=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RotationType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RotationType(
                     native_input["RotationType"]
                 )
             )
@@ -2959,7 +2959,7 @@ def com_amazonaws_kms_ListKeysResponse(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyListEntry(
+                        aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyListEntry(
                             list_element
                         )
                         for list_element in native_input["Keys"]
@@ -3019,7 +3019,7 @@ def com_amazonaws_kms_ListResourceTagsResponse(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_Tag(
+                        aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_Tag(
                             list_element
                         )
                         for list_element in native_input["Tags"]
@@ -3098,7 +3098,7 @@ def com_amazonaws_kms_ReEncryptRequest(native_input):
         ),
         SourceEncryptionAlgorithm=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
                     native_input["SourceEncryptionAlgorithm"]
                 )
             )
@@ -3107,7 +3107,7 @@ def com_amazonaws_kms_ReEncryptRequest(native_input):
         ),
         DestinationEncryptionAlgorithm=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
                     native_input["DestinationEncryptionAlgorithm"]
                 )
             )
@@ -3148,7 +3148,7 @@ def com_amazonaws_kms_ReEncryptResponse(native_input):
         ),
         SourceEncryptionAlgorithm=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
                     native_input["SourceEncryptionAlgorithm"]
                 )
             )
@@ -3157,7 +3157,7 @@ def com_amazonaws_kms_ReEncryptResponse(native_input):
         ),
         DestinationEncryptionAlgorithm=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
                     native_input["DestinationEncryptionAlgorithm"]
                 )
             )
@@ -3190,7 +3190,7 @@ def com_amazonaws_kms_ReplicateKeyRequest(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_Tag(
+                        aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_Tag(
                             list_element
                         )
                         for list_element in native_input["Tags"]
@@ -3207,7 +3207,7 @@ def com_amazonaws_kms_ReplicateKeyResponse(native_input):
     return DafnyReplicateKeyResponse(
         ReplicaKeyMetadata=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyMetadata(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyMetadata(
                     native_input["ReplicaKeyMetadata"]
                 )
             )
@@ -3223,7 +3223,7 @@ def com_amazonaws_kms_ReplicateKeyResponse(native_input):
             Option_Some(
                 Seq(
                     [
-                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_Tag(
+                        aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_Tag(
                             list_element
                         )
                         for list_element in native_input["ReplicaTags"]
@@ -3314,7 +3314,7 @@ def com_amazonaws_kms_ScheduleKeyDeletionResponse(native_input):
         ),
         KeyState=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyState(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyState(
                     native_input["KeyState"]
                 )
             )
@@ -3335,7 +3335,7 @@ def com_amazonaws_kms_SignRequest(native_input):
         Message=Seq(native_input["Message"]),
         MessageType=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MessageType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MessageType(
                     native_input["MessageType"]
                 )
             )
@@ -3349,7 +3349,7 @@ def com_amazonaws_kms_SignRequest(native_input):
             if "GrantTokens" in native_input.keys()
             else Option_None()
         ),
-        SigningAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(
+        SigningAlgorithm=aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(
             native_input["SigningAlgorithm"]
         ),
         DryRun=(
@@ -3384,7 +3384,7 @@ def com_amazonaws_kms_SignResponse(native_input):
         ),
         SigningAlgorithm=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(
                     native_input["SigningAlgorithm"]
                 )
             )
@@ -3399,7 +3399,7 @@ def com_amazonaws_kms_TagResourceRequest(native_input):
         KeyId=Seq(native_input["KeyId"]),
         Tags=Seq(
             [
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_Tag(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_Tag(
                     list_element
                 )
                 for list_element in native_input["Tags"]
@@ -3457,7 +3457,7 @@ def com_amazonaws_kms_UpdateCustomKeyStoreRequest(native_input):
         ),
         XksProxyAuthenticationCredential=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyAuthenticationCredentialType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyAuthenticationCredentialType(
                     native_input["XksProxyAuthenticationCredential"]
                 )
             )
@@ -3466,7 +3466,7 @@ def com_amazonaws_kms_UpdateCustomKeyStoreRequest(native_input):
         ),
         XksProxyConnectivity=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyConnectivityType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyConnectivityType(
                     native_input["XksProxyConnectivity"]
                 )
             )
@@ -3500,7 +3500,7 @@ def com_amazonaws_kms_VerifyRequest(native_input):
         Message=Seq(native_input["Message"]),
         MessageType=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MessageType(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MessageType(
                     native_input["MessageType"]
                 )
             )
@@ -3508,7 +3508,7 @@ def com_amazonaws_kms_VerifyRequest(native_input):
             else Option_None()
         ),
         Signature=Seq(native_input["Signature"]),
-        SigningAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(
+        SigningAlgorithm=aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(
             native_input["SigningAlgorithm"]
         ),
         GrantTokens=(
@@ -3540,7 +3540,7 @@ def com_amazonaws_kms_VerifyResponse(native_input):
         ),
         SigningAlgorithm=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(
                     native_input["SigningAlgorithm"]
                 )
             )
@@ -3554,7 +3554,7 @@ def com_amazonaws_kms_VerifyMacRequest(native_input):
     return DafnyVerifyMacRequest(
         Message=Seq(native_input["Message"]),
         KeyId=Seq(native_input["KeyId"]),
-        MacAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MacAlgorithmSpec(
+        MacAlgorithm=aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MacAlgorithmSpec(
             native_input["MacAlgorithm"]
         ),
         Mac=Seq(native_input["Mac"]),
@@ -3587,7 +3587,7 @@ def com_amazonaws_kms_VerifyMacResponse(native_input):
         ),
         MacAlgorithm=(
             Option_Some(
-                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MacAlgorithmSpec(
+                aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MacAlgorithmSpec(
                     native_input["MacAlgorithm"]
                 )
             )

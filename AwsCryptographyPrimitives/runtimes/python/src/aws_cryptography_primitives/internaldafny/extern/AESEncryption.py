@@ -5,7 +5,7 @@ from cryptography.exceptions import InvalidTag
 
 import _dafny
 
-import standard_library.internaldafny.generated.Wrappers as Wrappers
+import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
 import aws_cryptography_primitives.internaldafny.generated.AESEncryption
 from aws_cryptography_primitives.internaldafny.generated.AESEncryption import *
 from aws_cryptography_primitives.internaldafny.generated.HMAC import *

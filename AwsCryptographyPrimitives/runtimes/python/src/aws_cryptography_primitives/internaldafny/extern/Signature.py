@@ -26,7 +26,7 @@ from collections import namedtuple
 import _dafny
 from enum import Enum
 
-import standard_library.internaldafny.generated.Wrappers as Wrappers
+import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
 import aws_cryptography_primitives.internaldafny.generated.ExternDigest as ExternDigest
 from aws_cryptography_primitives.internaldafny.generated.Signature import *
 import aws_cryptography_primitives.internaldafny.generated.Signature

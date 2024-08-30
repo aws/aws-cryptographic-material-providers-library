@@ -31,4 +31,4 @@ INDEX_FILE_WITHOUT_EXTERN_STRING="module AtomicPrimitives refines AbstractAwsCry
 PYTHON_MODULE_NAME=aws_cryptography_primitives
 
 TRANSLATION_RECORD_PYTHON := \
-    --translation-record ../StandardLibrary/runtimes/python/src/standard_library/internaldafny/generated/dafny_src-py.dtr
+    --translation-record ../StandardLibrary/runtimes/python/src/smithy_dafny_standard_library/internaldafny/generated/dafny_src-py.dtr

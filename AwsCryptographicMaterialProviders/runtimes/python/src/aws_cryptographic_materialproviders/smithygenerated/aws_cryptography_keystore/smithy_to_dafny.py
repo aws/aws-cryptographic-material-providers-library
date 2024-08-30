@@ -30,12 +30,14 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
 import aws_cryptographic_materialproviders.internaldafny.generated.module_
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny
-from com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes import (
+from aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes import (
     IDynamoDBClient,
 )
-import com_amazonaws_dynamodb.internaldafny.generated.module_
-from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import IKMSClient
-import com_amazonaws_kms.internaldafny.generated.module_
+import aws_cryptography_internal_dynamodb.internaldafny.generated.module_
+from aws_cryptography_internal_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
+    IKMSClient,
+)
+import aws_cryptography_internal_kms.internaldafny.generated.module_
 from smithy_dafny_smithy_dafny_standard_library.internaldafny.generated.Wrappers import (
     Option_None,
     Option_Some,
@@ -326,9 +328,9 @@ def aws_cryptography_keystore_KeyStoreConfig(native_input):
 
 
 def aws_cryptography_keystore_DdbClientReference(native_input):
-    import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb
+    import aws_cryptography_internal_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb
 
-    client = com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb.default__.DynamoDBClient(
+    client = aws_cryptography_internal_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb.default__.DynamoDBClient(
         boto_client=native_input
     )
     client.value.impl = native_input
@@ -336,12 +338,10 @@ def aws_cryptography_keystore_DdbClientReference(native_input):
 
 
 def aws_cryptography_keystore_KmsClientReference(native_input):
-    import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms
+    import aws_cryptography_internal_kms.internaldafny.generated.Com_Amazonaws_Kms
 
-    client = (
-        com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms.default__.KMSClient(
-            boto_client=native_input
-        )
+    client = aws_cryptography_internal_kms.internaldafny.generated.Com_Amazonaws_Kms.default__.KMSClient(
+        boto_client=native_input
     )
     client.value.impl = native_input
     return client.value

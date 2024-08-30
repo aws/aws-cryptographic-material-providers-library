@@ -2,8 +2,8 @@ import datetime
 import pytz
 import _dafny
 
-import standard_library.internaldafny.generated.Time
-import standard_library.internaldafny.generated.Wrappers as Wrappers
+import smithy_dafny_standard_library.internaldafny.generated.Time
+import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
 
 class default__:
     def CurrentRelativeTime():
@@ -18,4 +18,4 @@ class default__:
         
 
 # Export externs
-standard_library.internaldafny.generated.Time.default__ = default__
+smithy_dafny_standard_library.internaldafny.generated.Time.default__ = default__

@@ -40,12 +40,12 @@ then decodes them under the expected decoding.
 import _dafny
 import struct
 
-import standard_library.internaldafny.generated.UTF8
-from standard_library.internaldafny.generated.UTF8 import *
+import smithy_dafny_standard_library.internaldafny.generated.UTF8
+from smithy_dafny_standard_library.internaldafny.generated.UTF8 import *
 
 
 # Extend the Dafny-generated class with our extern methods
-class default__(standard_library.internaldafny.generated.UTF8.default__):
+class default__(smithy_dafny_standard_library.internaldafny.generated.UTF8.default__):
 
   @staticmethod
   def Encode(dafny_string):
@@ -75,4 +75,4 @@ class default__(standard_library.internaldafny.generated.UTF8.default__):
 
 
 # Export externs
-standard_library.internaldafny.generated.UTF8.default__ = default__
+smithy_dafny_standard_library.internaldafny.generated.UTF8.default__ = default__

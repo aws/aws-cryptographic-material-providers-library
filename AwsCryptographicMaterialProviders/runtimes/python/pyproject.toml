@@ -15,10 +15,10 @@ python = "^3.11.0"
 # TODO: Depend on PyPi once Smithy-Python publishes their Python package there
 DafnyRuntimePython = "~4.7.0"
 smithy-python = { path = "../../../StandardLibrary/runtimes/python/libs/aws-cryptography-internal-smithy-python", develop = false}
-standard-library = { path = "../../../StandardLibrary/runtimes/python", develop = false}
-amazon-cryptography-internal-dafny-shim-kms = {path = "../../../ComAmazonawsKms/runtimes/python", develop = false}
-amazon-cryptography-internal-dafny-shim-ddb = {path = "../../../ComAmazonawsDynamodb/runtimes/python", develop = false}
-aws-cryptography-primitives = {path = "../../../AwsCryptographyPrimitives/runtimes/python", develop = false}
+aws-cryptography-internal-standard-library = { path = "../../../StandardLibrary/runtimes/python", develop = false}
+aws-cryptography-internal-kms = {path = "../../../ComAmazonawsKms/runtimes/python", develop = false}
+aws-cryptography-internal-dynamodb = {path = "../../../ComAmazonawsDynamodb/runtimes/python", develop = false}
+aws-cryptography-internal-primitives = {path = "../../../AwsCryptographyPrimitives/runtimes/python", develop = false}
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.0"
