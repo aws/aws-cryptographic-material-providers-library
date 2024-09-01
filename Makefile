@@ -5,7 +5,7 @@ PROJECT_ROOT := $(abspath $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 
 # This finds all Dafny projects in this repository
 # This makes building root level targets for each project easy
-PROJECTS = $(shell  find . -mindepth 2 -maxdepth 2 -type f -name "Makefile" | xargs dirname | xargs basename)
+PROJECTS = $(shell  find . -mindepth 2 -maxdepth 2 -type f -name "Makefile" | fgrep -v smithy-dafny | xargs dirname | xargs basename)
 
 verify:
 	$(foreach PROJECT, $(PROJECTS), \
