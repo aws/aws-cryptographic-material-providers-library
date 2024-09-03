@@ -88,6 +88,8 @@ class default__(smithy_dafny_standard_library.internaldafny.generated.UTF8.defau
       .join([c.to_bytes(2, byteorder="big") \
             if isinstance(c, int) \
             else ord(c).to_bytes(2, byteorder="big") \
+            if ord(c) <= 0xFFFF \
+            else ord(c).to_bytes(4, byteorder="big")
             for c in dafny_ascii_string])\
       .decode("utf-16-be", errors = 'strict')
     
