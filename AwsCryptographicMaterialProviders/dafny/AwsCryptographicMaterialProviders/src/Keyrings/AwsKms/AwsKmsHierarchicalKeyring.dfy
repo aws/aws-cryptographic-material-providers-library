@@ -14,6 +14,7 @@ include "../../CMCs/StormTracker.dfy"
 include "../../CMCs/StormTrackingCMC.dfy"
 include "../../CMCs/LocalCMC.dfy"
 include "../../CMCs/SynchronizedLocalCMC.dfy"
+include "../../CMCs/CacheIdentifiers.dfy"
 include "../../../Model/AwsCryptographyMaterialProvidersTypes.dfy"
 include "../../ErrorMessages.dfy"
 
@@ -31,6 +32,7 @@ module AwsKmsHierarchicalKeyring {
   import SynchronizedLocalCMC
   import StormTracker
   import StormTrackingCMC
+  import opened CacheIdentifiers
   import opened AlgorithmSuites
   import EdkWrapping
   import MaterialWrapping
@@ -117,7 +119,9 @@ module AwsKmsHierarchicalKeyring {
     res := cmc.PutCacheEntry(input);
   }
 
-  function method cacheEntryWithinLimits(
+  // Checks if (time_now - cache creation time of the extracted cache entry) is less than the allowed
+  // TTL of the current Hierarchical Keyring calling the getEntry method from the cache
+  predicate method cacheEntryWithinLimits(
     creationTime: Types.PositiveLong,
     now: Types.PositiveLong,
     ttlSeconds: Types.PositiveLong
@@ -415,16 +419,13 @@ module AwsKmsHierarchicalKeyring {
       );
       var hashAlgorithm := Crypto.DigestAlgorithm.SHA_384;
 
-      // Resource: Hierarchy Keyring [0x01]
-      var resourceId := [0x01];
+      // Resource: Keyring [0x02]
+      var resourceId : seq<uint8> := RESOURCE_ID_KEYRING;
 
       // Scope: Encryption [0x01]
-      var scopeId := [0x01];
+      var scopeId : seq<uint8> := SCOPE_ID_ENCRYPT;
 
-      var activeUtf8 :- UTF8.Encode(EXPRESSION_ATTRIBUTE_VALUE_STATUS_VALUE)
-      .MapFailure(WrapStringToError);
-
-      var identifier := resourceId + [0x00] + scopeId + [0x00] + partitionIdBytes + [0x00] + branchKeyIdUtf8 + [0x00] + activeUtf8;
+      var identifier := resourceId + [0x00] + scopeId + [0x00] + partitionIdBytes + [0x00] + branchKeyIdUtf8;
 
       var maybeCacheIdDigest := cryptoPrimitives
       .Digest(Crypto.DigestInput(digestAlgorithm := hashAlgorithm, message := identifier));
@@ -456,15 +457,15 @@ module AwsKmsHierarchicalKeyring {
       var getCacheInput := Types.GetCacheEntryInput(identifier := cacheId, bytesUsed := None);
       verifyValidStateCache(cache);
       var getCacheOutput := getEntry(cache, getCacheInput);
-      
+
       var now := Time.GetCurrent();
 
       if getCacheOutput.Failure? || !cacheEntryWithinLimits(
-            creationTime := getCacheOutput.value.creationTime,
-            now := now,
-            ttlSeconds := ttlSeconds
-          )
-        {
+           creationTime := getCacheOutput.value.creationTime,
+           now := now,
+           ttlSeconds := ttlSeconds
+         )
+      {
         var maybeGetActiveBranchKeyOutput := keyStore.GetActiveBranchKey(
           KeyStore.GetActiveBranchKeyInput(
             branchKeyIdentifier := branchKeyId
@@ -761,11 +762,11 @@ module AwsKmsHierarchicalKeyring {
       );
       var hashAlgorithm := Crypto.DigestAlgorithm.SHA_384;
 
-      // Resource: Hierarchy Keyring [0x01]
-      var resourceId := [0x01];
+      // Resource: Keyring [0x02]
+      var resourceId : seq<uint8> := RESOURCE_ID_KEYRING;
 
       // Scope: Decryption [0x02]
-      var scopeId := [0x02];
+      var scopeId : seq<uint8> := SCOPE_ID_DECRYPT;
 
       :- Need(
         UTF8.IsASCIIString(branchKeyVersion),
@@ -807,7 +808,14 @@ module AwsKmsHierarchicalKeyring {
       verifyValidStateCache(cache);
       var getCacheOutput := getEntry(cache, getCacheInput);
 
-      if getCacheOutput.Failure? {
+      var now := Time.GetCurrent();
+
+      if getCacheOutput.Failure? || !cacheEntryWithinLimits(
+           creationTime := getCacheOutput.value.creationTime,
+           now := now,
+           ttlSeconds := ttlSeconds
+         )
+      {
         var maybeGetBranchKeyVersionOutput := keyStore.GetBranchKeyVersion(
           KeyStore.GetBranchKeyVersionInput(
             branchKeyIdentifier := branchKeyId,

@@ -34,12 +34,12 @@ public class CreateAwsKmsHierarchicalKeyringInput {
   private final long ttlSeconds;
 
   /**
-   * Determines what type of cache will be constructed and bound to the Hierarchical Keyring. If the customer provides an already initialized 'Initialized' CacheType, it can be shared across multiple Hierarchical Keyrings. If any other type in CacheType is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If nothing is provided here, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
+   * Sets the cache bound OR the type of cache scoped (created & bound) to the Hierarchical Keyring. By providing an already 'Initialized' cache, users can determine the scope of the cache. i.e: When it is garbage collected or if the cache is bound to other Cryptographic Material Providers. If any other type in CacheType is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If not set, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
    */
   private final CacheType cache;
 
   /**
-   * Partition ID to distinguish between Hierarchical Keyrings writing to a shared cache. If the Partition ID is the same for two Hierarchical Keyrings, they can share the same cache entry in the shared cache.
+   * Partition ID to distinguish Cryptographic Material Providers (i.e: Keyrings) writing to a cache. If the Partition ID is the same for two Hierarchical Keyrings (or another Material Provider), they can share the same cache entries in the cache.
    */
   private final String partitionId;
 
@@ -81,14 +81,14 @@ public class CreateAwsKmsHierarchicalKeyringInput {
   }
 
   /**
-   * @return Determines what type of cache will be constructed and bound to the Hierarchical Keyring. If the customer provides an already initialized 'Initialized' CacheType, it can be shared across multiple Hierarchical Keyrings. If any other type in CacheType is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If nothing is provided here, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
+   * @return Sets the cache bound OR the type of cache scoped (created & bound) to the Hierarchical Keyring. By providing an already 'Initialized' cache, users can determine the scope of the cache. i.e: When it is garbage collected or if the cache is bound to other Cryptographic Material Providers. If any other type in CacheType is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If not set, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
    */
   public CacheType cache() {
     return this.cache;
   }
 
   /**
-   * @return Partition ID to distinguish between Hierarchical Keyrings writing to a shared cache. If the Partition ID is the same for two Hierarchical Keyrings, they can share the same cache entry in the shared cache.
+   * @return Partition ID to distinguish Cryptographic Material Providers (i.e: Keyrings) writing to a cache. If the Partition ID is the same for two Hierarchical Keyrings (or another Material Provider), they can share the same cache entries in the cache.
    */
   public String partitionId() {
     return this.partitionId;
@@ -144,22 +144,22 @@ public class CreateAwsKmsHierarchicalKeyringInput {
     long ttlSeconds();
 
     /**
-     * @param cache Determines what type of cache will be constructed and bound to the Hierarchical Keyring. If the customer provides an already initialized 'Initialized' CacheType, it can be shared across multiple Hierarchical Keyrings. If any other type in CacheType is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If nothing is provided here, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
+     * @param cache Sets the cache bound OR the type of cache scoped (created & bound) to the Hierarchical Keyring. By providing an already 'Initialized' cache, users can determine the scope of the cache. i.e: When it is garbage collected or if the cache is bound to other Cryptographic Material Providers. If any other type in CacheType is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If not set, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
      */
     Builder cache(CacheType cache);
 
     /**
-     * @return Determines what type of cache will be constructed and bound to the Hierarchical Keyring. If the customer provides an already initialized 'Initialized' CacheType, it can be shared across multiple Hierarchical Keyrings. If any other type in CacheType is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If nothing is provided here, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
+     * @return Sets the cache bound OR the type of cache scoped (created & bound) to the Hierarchical Keyring. By providing an already 'Initialized' cache, users can determine the scope of the cache. i.e: When it is garbage collected or if the cache is bound to other Cryptographic Material Providers. If any other type in CacheType is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If not set, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
      */
     CacheType cache();
 
     /**
-     * @param partitionId Partition ID to distinguish between Hierarchical Keyrings writing to a shared cache. If the Partition ID is the same for two Hierarchical Keyrings, they can share the same cache entry in the shared cache.
+     * @param partitionId Partition ID to distinguish Cryptographic Material Providers (i.e: Keyrings) writing to a cache. If the Partition ID is the same for two Hierarchical Keyrings (or another Material Provider), they can share the same cache entries in the cache.
      */
     Builder partitionId(String partitionId);
 
     /**
-     * @return Partition ID to distinguish between Hierarchical Keyrings writing to a shared cache. If the Partition ID is the same for two Hierarchical Keyrings, they can share the same cache entry in the shared cache.
+     * @return Partition ID to distinguish Cryptographic Material Providers (i.e: Keyrings) writing to a cache. If the Partition ID is the same for two Hierarchical Keyrings (or another Material Provider), they can share the same cache entries in the cache.
      */
     String partitionId();
 

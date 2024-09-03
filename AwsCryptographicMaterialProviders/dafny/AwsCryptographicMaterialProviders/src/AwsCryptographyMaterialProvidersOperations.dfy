@@ -288,7 +288,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       .MapFailure(e => Types.AwsCryptographicMaterialProvidersException(message := e));
     } else {
       var maybeUuid := UUID.GenerateUUID();
-      
+
       var uuid :- maybeUuid
       .MapFailure(e => Types.AwsCryptographicMaterialProvidersException(message := e));
 
