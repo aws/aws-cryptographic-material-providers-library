@@ -12,8 +12,6 @@ include = ["**/internaldafny/generated/*.py"]
 
 [tool.poetry.dependencies]
 python = "^3.11.0"
-# TODO: Depend on PyPi once Smithy-Python publishes their Python package there
-smithy-python = { path = "../../../StandardLibrary/runtimes/python/libs/aws-cryptography-internal-smithy-python", develop = false}
 DafnyRuntimePython = "~4.7.0"
 aws-cryptography-internal-standard-library = {path = "../../../StandardLibrary/runtimes/python", develop = false}
 cryptography = "^41.0.3"
