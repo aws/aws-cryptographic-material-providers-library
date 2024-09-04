@@ -41,6 +41,8 @@ module TestAwsKmsHierarchicalKeyring {
 
   // These tests require a keystore populated with these keys
   const BRANCH_KEY_ID := Fixtures.branchKeyId
+  const WEST_BRANCH_KEY_ID := Fixtures.WestBranchKey
+  const EAST_BRANCH_KEY_ID := Fixtures.EastBranchKey
 
   // Constants for TestBranchKeySupplier
   const BRANCH_KEY := UTF8.EncodeAscii("branchKey")
@@ -318,6 +320,336 @@ module TestAwsKmsHierarchicalKeyring {
     //# modified materials.
     expect encryptionMaterialsOut.materials.plaintextDataKey
         == decryptionMaterialsOut.materials.plaintextDataKey;
+  }
+
+  method {:test} TestSharedCacheWithSamePartitionId()
+  {
+    var branchKeyIdWest := WEST_BRANCH_KEY_ID;
+    var ttl : Types.PositiveLong := (1 * 60000) * 10;
+    var mpl :- expect MaterialProviders.MaterialProviders();
+
+    var regionWest := "us-west-2";
+    var regionEast := "us-east-2";
+
+    var kmsClientWest :- expect KMS.KMSClientForRegion(regionWest);
+    var kmsClientEast :- expect KMS.KMSClientForRegion(regionEast);
+    var ddbClient :- expect DDB.DynamoDBClient();
+    var kmsConfig := KeyStoreTypes.KMSConfiguration.kmsKeyArn(keyArn);
+
+    // Create a Key Store with the a KMS configuration and
+    // KMS client for a particular region (us-west-2 in this case)
+    var keyStoreConfigClientRegionWest := KeyStoreTypes.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient),
+      kmsClient := Some(kmsClientWest)
+    );
+
+    var keyStoreClientRegionWest :- expect KeyStore.KeyStore(keyStoreConfigClientRegionWest);
+
+    // Create a key store with the same branch key store and
+    // KMS key configuration but with different client region
+    // (us-east-2 in this case)
+    var keyStoreConfigClientRegionEast := KeyStoreTypes.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient),
+      kmsClient := Some(kmsClientEast)
+    );
+
+    var keyStoreClientRegionEast :- expect KeyStore.KeyStore(keyStoreConfigClientRegionEast);
+
+    // Initialize the Cryptographic Materials Cache
+    var initializedCacheInput :- expect mpl.CreateCryptographicMaterialsCache(
+      Types.CreateCryptographicMaterialsCacheInput(
+        cache := Types.CacheType.Default(
+          Types.DefaultCache(
+            entryCapacity := 100
+          )
+        )
+      )
+    );
+
+    // Wrap the initialized Cryptographic Materials Cache as an `Initialized` CacheType object
+    var initializedCache := Types.CacheType.Initialized(
+      initializedCacheInput
+    );
+
+    // Create a Hierarchy Keyring HK1 with branchKeyIdWest,
+    // keyStoreClientRegionWest and the initialized cache initializedCache
+    var hierarchyKeyring1 :- expect mpl.CreateAwsKmsHierarchicalKeyring(
+      Types.CreateAwsKmsHierarchicalKeyringInput(
+        branchKeyId := Some(branchKeyIdWest),
+        branchKeyIdSupplier := None,
+        keyStore := keyStoreClientRegionWest,
+        ttlSeconds := ttl,
+        cache := Some(initializedCache),
+        partitionId := Some("partitionId")
+      )
+    );
+
+    // Create a Hierarchy Keyring HK2 with branchKeyIdWest,
+    // keyStoreClientRegionEast and the initialized cache initializedCache
+    var hierarchyKeyring2 :- expect mpl.CreateAwsKmsHierarchicalKeyring(
+      Types.CreateAwsKmsHierarchicalKeyringInput(
+        branchKeyId := Some(branchKeyIdWest),
+        branchKeyIdSupplier := None,
+        keyStore := keyStoreClientRegionEast,
+        ttlSeconds := ttl,
+        cache := Some(initializedCache),
+        partitionId := Some("partitionId")
+      )
+    );
+
+    // Get test materials
+    var materials := GetTestMaterials(TEST_ESDK_ALG_SUITE_ID);
+    
+    // Try encrypting the test materials with HK2, which has branchKeyIdWest
+    // but its keystore is keyStoreClientRegionEast
+    var encryptionMaterialsOutMismatchedRegion := hierarchyKeyring2.OnEncrypt(
+      Types.OnEncryptInput(materials:=materials)
+    );
+
+    // This encryption should fail because of region mismatch
+    expect encryptionMaterialsOutMismatchedRegion.IsFailure();
+
+    // Encrypt and Decrypt round trip for the test materials with HK1,
+    // which has branchKeyIdWest and its keystore is keyStoreClientRegionWest
+    // This should pass
+    TestRoundtrip(hierarchyKeyring1, materials, TEST_ESDK_ALG_SUITE_ID, branchKeyIdWest);
+
+
+    // This should now pass because the material exists inside the cache
+    TestRoundtrip(hierarchyKeyring2, materials, TEST_ESDK_ALG_SUITE_ID, branchKeyIdWest);
+  }
+
+  method {:test} TestSharedCacheWithDifferentUnspecifiedPartitionId()
+  {
+    var branchKeyIdWest := WEST_BRANCH_KEY_ID;
+    var ttl : Types.PositiveLong := (1 * 60000) * 10;
+    var mpl :- expect MaterialProviders.MaterialProviders();
+
+    var regionWest := "us-west-2";
+    var regionEast := "us-east-2";
+
+    var kmsClientWest :- expect KMS.KMSClientForRegion(regionWest);
+    var kmsClientEast :- expect KMS.KMSClientForRegion(regionEast);
+    var ddbClient :- expect DDB.DynamoDBClient();
+    var kmsConfig := KeyStoreTypes.KMSConfiguration.kmsKeyArn(keyArn);
+
+    // Create a Key Store with the a KMS configuration and
+    // KMS client for a particular region (us-west-2 in this case)
+    var keyStoreConfigClientRegionWest := KeyStoreTypes.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient),
+      kmsClient := Some(kmsClientWest)
+    );
+
+    var keyStoreClientRegionWest :- expect KeyStore.KeyStore(keyStoreConfigClientRegionWest);
+
+    // Create a key store with the same branch key store and
+    // KMS key configuration but with different client region
+    var keyStoreConfigClientRegionEast := KeyStoreTypes.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient),
+      kmsClient := Some(kmsClientEast)
+    );
+
+    var keyStoreClientRegionEast :- expect KeyStore.KeyStore(keyStoreConfigClientRegionEast);
+
+    // Initialize the Cryptographic Materials Cache
+    var initializedCacheInput :- expect mpl.CreateCryptographicMaterialsCache(
+      Types.CreateCryptographicMaterialsCacheInput(
+        cache := Types.CacheType.Default(
+          Types.DefaultCache(
+            entryCapacity := 100
+          )
+        )
+      )
+    );
+
+    // Wrap the initialized Cryptographic Materials Cache as an `Initialized` CacheType object
+    var initializedCache := Types.CacheType.Initialized(
+      initializedCacheInput
+    );
+
+    // Create a Hierarchy Keyring HK1 with branchKeyIdWest,
+    // keyStoreClientRegionWest and the initialized cache initializedCache
+    var hierarchyKeyring1 :- expect mpl.CreateAwsKmsHierarchicalKeyring(
+      Types.CreateAwsKmsHierarchicalKeyringInput(
+        branchKeyId := Some(branchKeyIdWest),
+        branchKeyIdSupplier := None,
+        keyStore := keyStoreClientRegionWest,
+        ttlSeconds := ttl,
+        cache := Some(initializedCache)
+      )
+    );
+
+    // Create a Hierarchy Keyring HK2 with branchKeyIdWest,
+    // keyStoreClientRegionEast and the initialized cache initializedCache
+    var hierarchyKeyring2 :- expect mpl.CreateAwsKmsHierarchicalKeyring(
+      Types.CreateAwsKmsHierarchicalKeyringInput(
+        branchKeyId := Some(branchKeyIdWest),
+        branchKeyIdSupplier := None,
+        keyStore := keyStoreClientRegionEast,
+        ttlSeconds := ttl,
+        cache := Some(initializedCache)
+      )
+    );
+
+    // Get test materials
+    var materials := GetTestMaterials(TEST_ESDK_ALG_SUITE_ID);
+    
+    // Try encrypting the test materials with HK2, which has branchKeyIdWest
+    // but its keystore is keyStoreClientRegionEast
+    var encryptionMaterialsOutMismatchedRegion := hierarchyKeyring2.OnEncrypt(
+      Types.OnEncryptInput(materials:=materials)
+    );
+
+    // This encryption should fail because of region mismatch
+    expect encryptionMaterialsOutMismatchedRegion.IsFailure();
+
+    // Encrypt and Decrypt round trip for the test materials with HK1,
+    // which has branchKeyIdWest and its keystore is keyStoreClientRegionWest
+    // This should pass
+    TestRoundtrip(hierarchyKeyring1, materials, TEST_ESDK_ALG_SUITE_ID, branchKeyIdWest);
+
+    // Again, try encrypting the test materials with HK2, which has branchKeyIdWest
+    // but its keystore is keyStoreClientRegionEast
+    var encryptionMaterialsOutMismatchedRegionFromCache := hierarchyKeyring2.OnEncrypt(
+      Types.OnEncryptInput(materials:=materials)
+    );
+
+    // This encryption should fail because the partition IDs for HK1 and HK2 are different
+    // even though the partition IDs are unspecified. In such a case, partition IDs are
+    // initialized as UUIDs which have negligible probability of collision
+    expect encryptionMaterialsOutMismatchedRegionFromCache.IsFailure();
+  }
+
+  method {:test} TestSharedCacheWithDifferentSpecifiedPartitionId()
+  {
+    var branchKeyIdWest := WEST_BRANCH_KEY_ID;
+    var ttl : Types.PositiveLong := (1 * 60000) * 10;
+    var mpl :- expect MaterialProviders.MaterialProviders();
+
+    var regionWest := "us-west-2";
+    var regionEast := "us-east-2";
+
+    var kmsClientWest :- expect KMS.KMSClientForRegion(regionWest);
+    var kmsClientEast :- expect KMS.KMSClientForRegion(regionEast);
+    var ddbClient :- expect DDB.DynamoDBClient();
+    var kmsConfig := KeyStoreTypes.KMSConfiguration.kmsKeyArn(keyArn);
+
+    // Create a Key Store with the a KMS configuration and
+    // KMS client for a particular region (us-west-2 in this case)
+    var keyStoreConfigClientRegionWest := KeyStoreTypes.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient),
+      kmsClient := Some(kmsClientWest)
+    );
+
+    var keyStoreClientRegionWest :- expect KeyStore.KeyStore(keyStoreConfigClientRegionWest);
+
+    // Create a key store with the same branch key store and
+    // KMS key configuration but with different client region
+    var keyStoreConfigClientRegionEast := KeyStoreTypes.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient),
+      kmsClient := Some(kmsClientEast)
+    );
+
+    var keyStoreClientRegionEast :- expect KeyStore.KeyStore(keyStoreConfigClientRegionEast);
+
+    // Initialize the Cryptographic Materials Cache
+    var initializedCacheInput :- expect mpl.CreateCryptographicMaterialsCache(
+      Types.CreateCryptographicMaterialsCacheInput(
+        cache := Types.CacheType.Default(
+          Types.DefaultCache(
+            entryCapacity := 100
+          )
+        )
+      )
+    );
+
+    // Wrap the initialized Cryptographic Materials Cache as an `Initialized` CacheType object
+    var initializedCache := Types.CacheType.Initialized(
+      initializedCacheInput
+    );
+
+    // Create a Hierarchy Keyring HK1 with branchKeyIdWest,
+    // keyStoreClientRegionWest and the initialized cache initializedCache
+    var hierarchyKeyring1 :- expect mpl.CreateAwsKmsHierarchicalKeyring(
+      Types.CreateAwsKmsHierarchicalKeyringInput(
+        branchKeyId := Some(branchKeyIdWest),
+        branchKeyIdSupplier := None,
+        keyStore := keyStoreClientRegionWest,
+        ttlSeconds := ttl,
+        cache := Some(initializedCache),
+        partitionId := Some("partitionIdHK1")
+      )
+    );
+
+    // Create a Hierarchy Keyring HK2 with branchKeyIdWest,
+    // keyStoreClientRegionEast and the initialized cache initializedCache
+    var hierarchyKeyring2 :- expect mpl.CreateAwsKmsHierarchicalKeyring(
+      Types.CreateAwsKmsHierarchicalKeyringInput(
+        branchKeyId := Some(branchKeyIdWest),
+        branchKeyIdSupplier := None,
+        keyStore := keyStoreClientRegionEast,
+        ttlSeconds := ttl,
+        cache := Some(initializedCache),
+        partitionId := Some("partitionIdHK2")
+      )
+    );
+
+    // Get test materials
+    var materials := GetTestMaterials(TEST_ESDK_ALG_SUITE_ID);
+    
+    // Try encrypting the test materials with HK2, which has branchKeyIdWest
+    // but its keystore is keyStoreClientRegionEast
+    var encryptionMaterialsOutMismatchedRegion := hierarchyKeyring2.OnEncrypt(
+      Types.OnEncryptInput(materials:=materials)
+    );
+
+    // This encryption should fail because of region mismatch
+    expect encryptionMaterialsOutMismatchedRegion.IsFailure();
+
+    // Encrypt and Decrypt round trip for the test materials with HK1,
+    // which has branchKeyIdWest and its keystore is keyStoreClientRegionWest
+    // This should pass
+    TestRoundtrip(hierarchyKeyring1, materials, TEST_ESDK_ALG_SUITE_ID, branchKeyIdWest);
+
+
+    // Again, try encrypting the test materials with HK2, which has branchKeyIdWest
+    // but its keystore is keyStoreClientRegionEast
+    var encryptionMaterialsOutMismatchedRegionFromCache := hierarchyKeyring2.OnEncrypt(
+      Types.OnEncryptInput(materials:=materials)
+    );
+
+    // This encryption should fail because the partition IDs for HK1 and HK2 are different
+    expect encryptionMaterialsOutMismatchedRegionFromCache.IsFailure();
   }
 
   // Returns "hierarchy-test-v1" when EC contains kv pair "branchKey":"caseA"
