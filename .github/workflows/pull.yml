@@ -49,7 +49,7 @@ jobs:
       - pr-ci-verification
       - pr-ci-java
       - pr-ci-net
-      - pr-ci-interop-test
+      - pr-interop-test
     runs-on: ubuntu-latest
     steps:
       - name: Verify all required jobs passed
