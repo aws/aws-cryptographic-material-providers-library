@@ -419,8 +419,8 @@ module AwsKmsHierarchicalKeyring {
       );
       var hashAlgorithm := Crypto.DigestAlgorithm.SHA_384;
 
-      // Resource: Keyring [0x02]
-      var resourceId : seq<uint8> := RESOURCE_ID_KEYRING;
+      // Resource: Hierarchical Keyring [0x02]
+      var resourceId : seq<uint8> := RESOURCE_ID_HIERARCHICAL_KEYRING;
 
       // Scope: Encryption [0x01]
       var scopeId : seq<uint8> := SCOPE_ID_ENCRYPT;
@@ -762,8 +762,8 @@ module AwsKmsHierarchicalKeyring {
       );
       var hashAlgorithm := Crypto.DigestAlgorithm.SHA_384;
 
-      // Resource: Keyring [0x02]
-      var resourceId : seq<uint8> := RESOURCE_ID_KEYRING;
+      // Resource: Hierarchical Keyring [0x02]
+      var resourceId : seq<uint8> := RESOURCE_ID_HIERARCHICAL_KEYRING;
 
       // Scope: Decryption [0x02]
       var scopeId : seq<uint8> := SCOPE_ID_DECRYPT;

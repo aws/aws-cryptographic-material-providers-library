@@ -41,8 +41,6 @@ module TestAwsKmsHierarchicalKeyring {
 
   // These tests require a keystore populated with these keys
   const BRANCH_KEY_ID := Fixtures.branchKeyId
-  const WEST_BRANCH_KEY_ID := Fixtures.WestBranchKey
-  const EAST_BRANCH_KEY_ID := Fixtures.EastBranchKey
 
   // Constants for TestBranchKeySupplier
   const BRANCH_KEY := UTF8.EncodeAscii("branchKey")
@@ -324,7 +322,7 @@ module TestAwsKmsHierarchicalKeyring {
 
   method {:test} TestSharedCacheWithSamePartitionId()
   {
-    var branchKeyIdWest := WEST_BRANCH_KEY_ID;
+    var branchKeyIdWest := BRANCH_KEY_ID;
     var ttl : Types.PositiveLong := (1 * 60000) * 10;
     var mpl :- expect MaterialProviders.MaterialProviders();
 

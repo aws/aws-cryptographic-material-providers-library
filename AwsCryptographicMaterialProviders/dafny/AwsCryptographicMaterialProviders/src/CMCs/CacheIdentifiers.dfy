@@ -14,7 +14,7 @@ module CacheIdentifiers {
 
   // Resource Id
   const RESOURCE_ID_CACHING_CMM: seq<uint8> := [0x01]
-  const RESOURCE_ID_KEYRING: seq<uint8> := [0x02]
+  const RESOURCE_ID_HIERARCHICAL_KEYRING: seq<uint8> := [0x02]
 
   // Scope Id
   const SCOPE_ID_ENCRYPT: seq<uint8> := [0x01]
