@@ -429,7 +429,7 @@ module TestAwsKmsHierarchicalKeyring {
 
   method {:test} TestSharedCacheWithDifferentUnspecifiedPartitionId()
   {
-    var branchKeyIdWest := WEST_BRANCH_KEY_ID;
+    var branchKeyIdWest := BRANCH_KEY_ID;
     var ttl : Types.PositiveLong := (1 * 60000) * 10;
     var mpl :- expect MaterialProviders.MaterialProviders();
 
@@ -540,7 +540,7 @@ module TestAwsKmsHierarchicalKeyring {
 
   method {:test} TestSharedCacheWithDifferentSpecifiedPartitionId()
   {
-    var branchKeyIdWest := WEST_BRANCH_KEY_ID;
+    var branchKeyIdWest := BRANCH_KEY_ID;
     var ttl : Types.PositiveLong := (1 * 60000) * 10;
     var mpl :- expect MaterialProviders.MaterialProviders();
 
