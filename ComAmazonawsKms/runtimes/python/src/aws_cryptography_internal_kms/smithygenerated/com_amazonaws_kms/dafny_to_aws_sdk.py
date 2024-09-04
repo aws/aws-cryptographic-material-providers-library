@@ -147,7 +147,9 @@ from datetime import datetime
 def com_amazonaws_kms_AlreadyExistsException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -155,7 +157,9 @@ def com_amazonaws_kms_AlreadyExistsException(dafny_input):
 def com_amazonaws_kms_CloudHsmClusterInUseException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -163,7 +167,9 @@ def com_amazonaws_kms_CloudHsmClusterInUseException(dafny_input):
 def com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -171,7 +177,9 @@ def com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException(dafny_input):
 def com_amazonaws_kms_CloudHsmClusterNotActiveException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -179,7 +187,9 @@ def com_amazonaws_kms_CloudHsmClusterNotActiveException(dafny_input):
 def com_amazonaws_kms_CloudHsmClusterNotFoundException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -187,7 +197,9 @@ def com_amazonaws_kms_CloudHsmClusterNotFoundException(dafny_input):
 def com_amazonaws_kms_CloudHsmClusterNotRelatedException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -195,7 +207,9 @@ def com_amazonaws_kms_CloudHsmClusterNotRelatedException(dafny_input):
 def com_amazonaws_kms_ConflictException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -203,7 +217,9 @@ def com_amazonaws_kms_ConflictException(dafny_input):
 def com_amazonaws_kms_CustomKeyStoreHasCMKsException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -211,7 +227,9 @@ def com_amazonaws_kms_CustomKeyStoreHasCMKsException(dafny_input):
 def com_amazonaws_kms_CustomKeyStoreInvalidStateException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -219,7 +237,9 @@ def com_amazonaws_kms_CustomKeyStoreInvalidStateException(dafny_input):
 def com_amazonaws_kms_CustomKeyStoreNameInUseException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -227,7 +247,9 @@ def com_amazonaws_kms_CustomKeyStoreNameInUseException(dafny_input):
 def com_amazonaws_kms_CustomKeyStoreNotFoundException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -235,7 +257,9 @@ def com_amazonaws_kms_CustomKeyStoreNotFoundException(dafny_input):
 def com_amazonaws_kms_DependencyTimeoutException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -243,7 +267,9 @@ def com_amazonaws_kms_DependencyTimeoutException(dafny_input):
 def com_amazonaws_kms_DisabledException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -251,7 +277,9 @@ def com_amazonaws_kms_DisabledException(dafny_input):
 def com_amazonaws_kms_DryRunOperationException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -259,7 +287,9 @@ def com_amazonaws_kms_DryRunOperationException(dafny_input):
 def com_amazonaws_kms_ExpiredImportTokenException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -267,7 +297,9 @@ def com_amazonaws_kms_ExpiredImportTokenException(dafny_input):
 def com_amazonaws_kms_IncorrectKeyException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -275,7 +307,9 @@ def com_amazonaws_kms_IncorrectKeyException(dafny_input):
 def com_amazonaws_kms_IncorrectKeyMaterialException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -283,7 +317,9 @@ def com_amazonaws_kms_IncorrectKeyMaterialException(dafny_input):
 def com_amazonaws_kms_IncorrectTrustAnchorException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -291,7 +327,9 @@ def com_amazonaws_kms_IncorrectTrustAnchorException(dafny_input):
 def com_amazonaws_kms_InvalidAliasNameException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -299,7 +337,9 @@ def com_amazonaws_kms_InvalidAliasNameException(dafny_input):
 def com_amazonaws_kms_InvalidArnException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -307,7 +347,9 @@ def com_amazonaws_kms_InvalidArnException(dafny_input):
 def com_amazonaws_kms_InvalidCiphertextException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -315,7 +357,9 @@ def com_amazonaws_kms_InvalidCiphertextException(dafny_input):
 def com_amazonaws_kms_InvalidGrantIdException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -323,7 +367,9 @@ def com_amazonaws_kms_InvalidGrantIdException(dafny_input):
 def com_amazonaws_kms_InvalidGrantTokenException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -331,7 +377,9 @@ def com_amazonaws_kms_InvalidGrantTokenException(dafny_input):
 def com_amazonaws_kms_InvalidImportTokenException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -339,7 +387,9 @@ def com_amazonaws_kms_InvalidImportTokenException(dafny_input):
 def com_amazonaws_kms_InvalidKeyUsageException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -347,7 +397,9 @@ def com_amazonaws_kms_InvalidKeyUsageException(dafny_input):
 def com_amazonaws_kms_InvalidMarkerException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -355,7 +407,9 @@ def com_amazonaws_kms_InvalidMarkerException(dafny_input):
 def com_amazonaws_kms_KeyUnavailableException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -363,7 +417,9 @@ def com_amazonaws_kms_KeyUnavailableException(dafny_input):
 def com_amazonaws_kms_KMSInternalException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -371,7 +427,9 @@ def com_amazonaws_kms_KMSInternalException(dafny_input):
 def com_amazonaws_kms_KMSInvalidMacException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -379,7 +437,9 @@ def com_amazonaws_kms_KMSInvalidMacException(dafny_input):
 def com_amazonaws_kms_KMSInvalidSignatureException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -387,7 +447,9 @@ def com_amazonaws_kms_KMSInvalidSignatureException(dafny_input):
 def com_amazonaws_kms_KMSInvalidStateException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -395,7 +457,9 @@ def com_amazonaws_kms_KMSInvalidStateException(dafny_input):
 def com_amazonaws_kms_LimitExceededException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -403,7 +467,9 @@ def com_amazonaws_kms_LimitExceededException(dafny_input):
 def com_amazonaws_kms_MalformedPolicyDocumentException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -411,7 +477,9 @@ def com_amazonaws_kms_MalformedPolicyDocumentException(dafny_input):
 def com_amazonaws_kms_NotFoundException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -419,7 +487,9 @@ def com_amazonaws_kms_NotFoundException(dafny_input):
 def com_amazonaws_kms_TagException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -427,7 +497,9 @@ def com_amazonaws_kms_TagException(dafny_input):
 def com_amazonaws_kms_UnsupportedOperationException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -435,7 +507,9 @@ def com_amazonaws_kms_UnsupportedOperationException(dafny_input):
 def com_amazonaws_kms_XksKeyAlreadyInUseException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -443,7 +517,9 @@ def com_amazonaws_kms_XksKeyAlreadyInUseException(dafny_input):
 def com_amazonaws_kms_XksKeyInvalidConfigurationException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -451,7 +527,9 @@ def com_amazonaws_kms_XksKeyInvalidConfigurationException(dafny_input):
 def com_amazonaws_kms_XksKeyNotFoundException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -459,7 +537,9 @@ def com_amazonaws_kms_XksKeyNotFoundException(dafny_input):
 def com_amazonaws_kms_XksProxyIncorrectAuthenticationCredentialException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -467,7 +547,9 @@ def com_amazonaws_kms_XksProxyIncorrectAuthenticationCredentialException(dafny_i
 def com_amazonaws_kms_XksProxyInvalidConfigurationException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -475,7 +557,9 @@ def com_amazonaws_kms_XksProxyInvalidConfigurationException(dafny_input):
 def com_amazonaws_kms_XksProxyInvalidResponseException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -483,7 +567,9 @@ def com_amazonaws_kms_XksProxyInvalidResponseException(dafny_input):
 def com_amazonaws_kms_XksProxyUriEndpointInUseException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -491,7 +577,9 @@ def com_amazonaws_kms_XksProxyUriEndpointInUseException(dafny_input):
 def com_amazonaws_kms_XksProxyUriInUseException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -499,7 +587,9 @@ def com_amazonaws_kms_XksProxyUriInUseException(dafny_input):
 def com_amazonaws_kms_XksProxyUriUnreachableException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -507,7 +597,9 @@ def com_amazonaws_kms_XksProxyUriUnreachableException(dafny_input):
 def com_amazonaws_kms_XksProxyVpcEndpointServiceInUseException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -517,7 +609,9 @@ def com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException(
 ):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -525,28 +619,36 @@ def com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException(
 def com_amazonaws_kms_XksProxyVpcEndpointServiceNotFoundException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
-        output["message"] = dafny_input.message.value.VerbatimString(False)
+        output["message"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.message.value
+        ).decode("utf-16-be")
 
     return output
 
 
 def com_amazonaws_kms_CancelKeyDeletionRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     return output
 
 
 def com_amazonaws_kms_CancelKeyDeletionResponse(dafny_input):
     output = {}
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     return output
 
 
 def com_amazonaws_kms_ConnectCustomKeyStoreRequest(dafny_input):
     output = {}
-    output["CustomKeyStoreId"] = dafny_input.CustomKeyStoreId.VerbatimString(False)
+    output["CustomKeyStoreId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.CustomKeyStoreId
+    ).decode("utf-16-be")
     return output
 
 
@@ -557,8 +659,12 @@ def com_amazonaws_kms_ConnectCustomKeyStoreResponse(dafny_input):
 
 def com_amazonaws_kms_CreateAliasRequest(dafny_input):
     output = {}
-    output["AliasName"] = dafny_input.AliasName.VerbatimString(False)
-    output["TargetKeyId"] = dafny_input.TargetKeyId.VerbatimString(False)
+    output["AliasName"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.AliasName
+    ).decode("utf-16-be")
+    output["TargetKeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.TargetKeyId
+    ).decode("utf-16-be")
     return output
 
 
@@ -576,8 +682,12 @@ def com_amazonaws_kms_CustomKeyStoreType(dafny_input):
 
 def com_amazonaws_kms_XksProxyAuthenticationCredentialType(dafny_input):
     output = {}
-    output["AccessKeyId"] = dafny_input.AccessKeyId.VerbatimString(False)
-    output["RawSecretAccessKey"] = dafny_input.RawSecretAccessKey.VerbatimString(False)
+    output["AccessKeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.AccessKeyId
+    ).decode("utf-16-be")
+    output["RawSecretAccessKey"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.RawSecretAccessKey
+    ).decode("utf-16-be")
     return output
 
 
@@ -595,21 +705,23 @@ def com_amazonaws_kms_XksProxyConnectivityType(dafny_input):
 
 def com_amazonaws_kms_CreateCustomKeyStoreRequest(dafny_input):
     output = {}
-    output["CustomKeyStoreName"] = dafny_input.CustomKeyStoreName.VerbatimString(False)
+    output["CustomKeyStoreName"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.CustomKeyStoreName
+    ).decode("utf-16-be")
     if dafny_input.CloudHsmClusterId.is_Some:
-        output["CloudHsmClusterId"] = (
-            dafny_input.CloudHsmClusterId.value.VerbatimString(False)
-        )
+        output["CloudHsmClusterId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.CloudHsmClusterId.value
+        ).decode("utf-16-be")
 
     if dafny_input.TrustAnchorCertificate.is_Some:
-        output["TrustAnchorCertificate"] = (
-            dafny_input.TrustAnchorCertificate.value.VerbatimString(False)
-        )
+        output["TrustAnchorCertificate"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.TrustAnchorCertificate.value
+        ).decode("utf-16-be")
 
     if dafny_input.KeyStorePassword.is_Some:
-        output["KeyStorePassword"] = dafny_input.KeyStorePassword.value.VerbatimString(
-            False
-        )
+        output["KeyStorePassword"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyStorePassword.value
+        ).decode("utf-16-be")
 
     if dafny_input.CustomKeyStoreType.is_Some:
         output["CustomKeyStoreType"] = (
@@ -619,19 +731,20 @@ def com_amazonaws_kms_CreateCustomKeyStoreRequest(dafny_input):
         )
 
     if dafny_input.XksProxyUriEndpoint.is_Some:
-        output["XksProxyUriEndpoint"] = (
-            dafny_input.XksProxyUriEndpoint.value.VerbatimString(False)
-        )
+        output["XksProxyUriEndpoint"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.XksProxyUriEndpoint.value
+        ).decode("utf-16-be")
 
     if dafny_input.XksProxyUriPath.is_Some:
-        output["XksProxyUriPath"] = dafny_input.XksProxyUriPath.value.VerbatimString(
-            False
-        )
+        output["XksProxyUriPath"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.XksProxyUriPath.value
+        ).decode("utf-16-be")
 
     if dafny_input.XksProxyVpcEndpointServiceName.is_Some:
-        output["XksProxyVpcEndpointServiceName"] = (
-            dafny_input.XksProxyVpcEndpointServiceName.value.VerbatimString(False)
-        )
+        output["XksProxyVpcEndpointServiceName"] = b"".join(
+            ord(c).to_bytes(2, "big")
+            for c in dafny_input.XksProxyVpcEndpointServiceName.value
+        ).decode("utf-16-be")
 
     if dafny_input.XksProxyAuthenticationCredential.is_Some:
         output["XksProxyAuthenticationCredential"] = (
@@ -653,9 +766,9 @@ def com_amazonaws_kms_CreateCustomKeyStoreRequest(dafny_input):
 def com_amazonaws_kms_CreateCustomKeyStoreResponse(dafny_input):
     output = {}
     if dafny_input.CustomKeyStoreId.is_Some:
-        output["CustomKeyStoreId"] = dafny_input.CustomKeyStoreId.value.VerbatimString(
-            False
-        )
+        output["CustomKeyStoreId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.CustomKeyStoreId.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -721,13 +834,17 @@ def com_amazonaws_kms_GrantConstraints(dafny_input):
     output = {}
     if dafny_input.EncryptionContextSubset.is_Some:
         output["EncryptionContextSubset"] = {
-            key.VerbatimString(False): value.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in key)
+            .decode("utf-16-be"): b"".join(ord(c).to_bytes(2, "big") for c in value)
+            .decode("utf-16-be")
             for (key, value) in dafny_input.EncryptionContextSubset.value.items
         }
 
     if dafny_input.EncryptionContextEquals.is_Some:
         output["EncryptionContextEquals"] = {
-            key.VerbatimString(False): value.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in key)
+            .decode("utf-16-be"): b"".join(ord(c).to_bytes(2, "big") for c in value)
+            .decode("utf-16-be")
             for (key, value) in dafny_input.EncryptionContextEquals.value.items
         }
 
@@ -736,12 +853,16 @@ def com_amazonaws_kms_GrantConstraints(dafny_input):
 
 def com_amazonaws_kms_CreateGrantRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
-    output["GranteePrincipal"] = dafny_input.GranteePrincipal.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
+    output["GranteePrincipal"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.GranteePrincipal
+    ).decode("utf-16-be")
     if dafny_input.RetiringPrincipal.is_Some:
-        output["RetiringPrincipal"] = (
-            dafny_input.RetiringPrincipal.value.VerbatimString(False)
-        )
+        output["RetiringPrincipal"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.RetiringPrincipal.value
+        ).decode("utf-16-be")
 
     output["Operations"] = [
         aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GrantOperation(
@@ -758,12 +879,16 @@ def com_amazonaws_kms_CreateGrantRequest(dafny_input):
 
     if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
-            list_element.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in list_element).decode(
+                "utf-16-be"
+            )
             for list_element in dafny_input.GrantTokens.value
         ]
 
     if dafny_input.Name.is_Some:
-        output["Name"] = dafny_input.Name.value.VerbatimString(False)
+        output["Name"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.Name.value
+        ).decode("utf-16-be")
 
     if dafny_input.DryRun.is_Some:
         output["DryRun"] = dafny_input.DryRun.value
@@ -774,10 +899,14 @@ def com_amazonaws_kms_CreateGrantRequest(dafny_input):
 def com_amazonaws_kms_CreateGrantResponse(dafny_input):
     output = {}
     if dafny_input.GrantToken.is_Some:
-        output["GrantToken"] = dafny_input.GrantToken.value.VerbatimString(False)
+        output["GrantToken"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.GrantToken.value
+        ).decode("utf-16-be")
 
     if dafny_input.GrantId.is_Some:
-        output["GrantId"] = dafny_input.GrantId.value.VerbatimString(False)
+        output["GrantId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.GrantId.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -910,18 +1039,26 @@ def com_amazonaws_kms_OriginType(dafny_input):
 
 def com_amazonaws_kms_Tag(dafny_input):
     output = {}
-    output["TagKey"] = dafny_input.TagKey.VerbatimString(False)
-    output["TagValue"] = dafny_input.TagValue.VerbatimString(False)
+    output["TagKey"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.TagKey
+    ).decode("utf-16-be")
+    output["TagValue"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.TagValue
+    ).decode("utf-16-be")
     return output
 
 
 def com_amazonaws_kms_CreateKeyRequest(dafny_input):
     output = {}
     if dafny_input.Policy.is_Some:
-        output["Policy"] = dafny_input.Policy.value.VerbatimString(False)
+        output["Policy"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.Policy.value
+        ).decode("utf-16-be")
 
     if dafny_input.Description.is_Some:
-        output["Description"] = dafny_input.Description.value.VerbatimString(False)
+        output["Description"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.Description.value
+        ).decode("utf-16-be")
 
     if dafny_input.KeyUsage.is_Some:
         output["KeyUsage"] = (
@@ -952,9 +1089,9 @@ def com_amazonaws_kms_CreateKeyRequest(dafny_input):
         )
 
     if dafny_input.CustomKeyStoreId.is_Some:
-        output["CustomKeyStoreId"] = dafny_input.CustomKeyStoreId.value.VerbatimString(
-            False
-        )
+        output["CustomKeyStoreId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.CustomKeyStoreId.value
+        ).decode("utf-16-be")
 
     if dafny_input.BypassPolicyLockoutSafetyCheck.is_Some:
         output["BypassPolicyLockoutSafetyCheck"] = (
@@ -973,7 +1110,9 @@ def com_amazonaws_kms_CreateKeyRequest(dafny_input):
         output["MultiRegion"] = dafny_input.MultiRegion.value
 
     if dafny_input.XksKeyId.is_Some:
-        output["XksKeyId"] = dafny_input.XksKeyId.value.VerbatimString(False)
+        output["XksKeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.XksKeyId.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -981,11 +1120,17 @@ def com_amazonaws_kms_CreateKeyRequest(dafny_input):
 def com_amazonaws_kms_KeyMetadata(dafny_input):
     output = {}
     if dafny_input.AWSAccountId.is_Some:
-        output["AWSAccountId"] = dafny_input.AWSAccountId.value.VerbatimString(False)
+        output["AWSAccountId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.AWSAccountId.value
+        ).decode("utf-16-be")
 
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     if dafny_input.Arn.is_Some:
-        output["Arn"] = dafny_input.Arn.value.VerbatimString(False)
+        output["Arn"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.Arn.value
+        ).decode("utf-16-be")
 
     if dafny_input.CreationDate.is_Some:
         output["CreationDate"] = datetime.fromisoformat(
@@ -996,7 +1141,9 @@ def com_amazonaws_kms_KeyMetadata(dafny_input):
         output["Enabled"] = dafny_input.Enabled.value
 
     if dafny_input.Description.is_Some:
-        output["Description"] = dafny_input.Description.value.VerbatimString(False)
+        output["Description"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.Description.value
+        ).decode("utf-16-be")
 
     if dafny_input.KeyUsage.is_Some:
         output["KeyUsage"] = (
@@ -1030,14 +1177,14 @@ def com_amazonaws_kms_KeyMetadata(dafny_input):
         )
 
     if dafny_input.CustomKeyStoreId.is_Some:
-        output["CustomKeyStoreId"] = dafny_input.CustomKeyStoreId.value.VerbatimString(
-            False
-        )
+        output["CustomKeyStoreId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.CustomKeyStoreId.value
+        ).decode("utf-16-be")
 
     if dafny_input.CloudHsmClusterId.is_Some:
-        output["CloudHsmClusterId"] = (
-            dafny_input.CloudHsmClusterId.value.VerbatimString(False)
-        )
+        output["CloudHsmClusterId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.CloudHsmClusterId.value
+        ).decode("utf-16-be")
 
     if dafny_input.ExpirationModel.is_Some:
         output["ExpirationModel"] = (
@@ -1286,7 +1433,9 @@ def com_amazonaws_kms_MacAlgorithmSpec(dafny_input):
 def com_amazonaws_kms_XksKeyConfigurationType(dafny_input):
     output = {}
     if dafny_input.Id.is_Some:
-        output["Id"] = dafny_input.Id.value.VerbatimString(False)
+        output["Id"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.Id.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -1306,10 +1455,14 @@ def com_amazonaws_kms_MultiRegionKeyType(dafny_input):
 def com_amazonaws_kms_MultiRegionKey(dafny_input):
     output = {}
     if dafny_input.Arn.is_Some:
-        output["Arn"] = dafny_input.Arn.value.VerbatimString(False)
+        output["Arn"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.Arn.value
+        ).decode("utf-16-be")
 
     if dafny_input.Region.is_Some:
-        output["Region"] = dafny_input.Region.value.VerbatimString(False)
+        output["Region"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.Region.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -1355,18 +1508,24 @@ def com_amazonaws_kms_DecryptRequest(dafny_input):
     output["CiphertextBlob"] = bytes(dafny_input.CiphertextBlob)
     if dafny_input.EncryptionContext.is_Some:
         output["EncryptionContext"] = {
-            key.VerbatimString(False): value.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in key)
+            .decode("utf-16-be"): b"".join(ord(c).to_bytes(2, "big") for c in value)
+            .decode("utf-16-be")
             for (key, value) in dafny_input.EncryptionContext.value.items
         }
 
     if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
-            list_element.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in list_element).decode(
+                "utf-16-be"
+            )
             for list_element in dafny_input.GrantTokens.value
         ]
 
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     if dafny_input.EncryptionAlgorithm.is_Some:
         output["EncryptionAlgorithm"] = (
@@ -1391,7 +1550,9 @@ def com_amazonaws_kms_DecryptRequest(dafny_input):
 def com_amazonaws_kms_DecryptResponse(dafny_input):
     output = {}
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     if dafny_input.Plaintext.is_Some:
         output["Plaintext"] = bytes(dafny_input.Plaintext.value)
@@ -1413,13 +1574,17 @@ def com_amazonaws_kms_DecryptResponse(dafny_input):
 
 def com_amazonaws_kms_DeleteAliasRequest(dafny_input):
     output = {}
-    output["AliasName"] = dafny_input.AliasName.VerbatimString(False)
+    output["AliasName"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.AliasName
+    ).decode("utf-16-be")
     return output
 
 
 def com_amazonaws_kms_DeleteCustomKeyStoreRequest(dafny_input):
     output = {}
-    output["CustomKeyStoreId"] = dafny_input.CustomKeyStoreId.VerbatimString(False)
+    output["CustomKeyStoreId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.CustomKeyStoreId
+    ).decode("utf-16-be")
     return output
 
 
@@ -1430,13 +1595,17 @@ def com_amazonaws_kms_DeleteCustomKeyStoreResponse(dafny_input):
 
 def com_amazonaws_kms_DeleteImportedKeyMaterialRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     return output
 
 
 def com_amazonaws_kms_DeriveSharedSecretRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     output["KeyAgreementAlgorithm"] = (
         aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_KeyAgreementAlgorithmSpec(
             dafny_input.KeyAgreementAlgorithm
@@ -1445,7 +1614,9 @@ def com_amazonaws_kms_DeriveSharedSecretRequest(dafny_input):
     output["PublicKey"] = bytes(dafny_input.PublicKey)
     if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
-            list_element.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in list_element).decode(
+                "utf-16-be"
+            )
             for list_element in dafny_input.GrantTokens.value
         ]
 
@@ -1465,7 +1636,9 @@ def com_amazonaws_kms_DeriveSharedSecretRequest(dafny_input):
 def com_amazonaws_kms_DeriveSharedSecretResponse(dafny_input):
     output = {}
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     if dafny_input.SharedSecret.is_Some:
         output["SharedSecret"] = bytes(dafny_input.SharedSecret.value)
@@ -1495,20 +1668,22 @@ def com_amazonaws_kms_DeriveSharedSecretResponse(dafny_input):
 def com_amazonaws_kms_DescribeCustomKeyStoresRequest(dafny_input):
     output = {}
     if dafny_input.CustomKeyStoreId.is_Some:
-        output["CustomKeyStoreId"] = dafny_input.CustomKeyStoreId.value.VerbatimString(
-            False
-        )
+        output["CustomKeyStoreId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.CustomKeyStoreId.value
+        ).decode("utf-16-be")
 
     if dafny_input.CustomKeyStoreName.is_Some:
-        output["CustomKeyStoreName"] = (
-            dafny_input.CustomKeyStoreName.value.VerbatimString(False)
-        )
+        output["CustomKeyStoreName"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.CustomKeyStoreName.value
+        ).decode("utf-16-be")
 
     if dafny_input.Limit.is_Some:
         output["Limit"] = dafny_input.Limit.value
 
     if dafny_input.Marker.is_Some:
-        output["Marker"] = dafny_input.Marker.value.VerbatimString(False)
+        output["Marker"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.Marker.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -1516,24 +1691,24 @@ def com_amazonaws_kms_DescribeCustomKeyStoresRequest(dafny_input):
 def com_amazonaws_kms_CustomKeyStoresListEntry(dafny_input):
     output = {}
     if dafny_input.CustomKeyStoreId.is_Some:
-        output["CustomKeyStoreId"] = dafny_input.CustomKeyStoreId.value.VerbatimString(
-            False
-        )
+        output["CustomKeyStoreId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.CustomKeyStoreId.value
+        ).decode("utf-16-be")
 
     if dafny_input.CustomKeyStoreName.is_Some:
-        output["CustomKeyStoreName"] = (
-            dafny_input.CustomKeyStoreName.value.VerbatimString(False)
-        )
+        output["CustomKeyStoreName"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.CustomKeyStoreName.value
+        ).decode("utf-16-be")
 
     if dafny_input.CloudHsmClusterId.is_Some:
-        output["CloudHsmClusterId"] = (
-            dafny_input.CloudHsmClusterId.value.VerbatimString(False)
-        )
+        output["CloudHsmClusterId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.CloudHsmClusterId.value
+        ).decode("utf-16-be")
 
     if dafny_input.TrustAnchorCertificate.is_Some:
-        output["TrustAnchorCertificate"] = (
-            dafny_input.TrustAnchorCertificate.value.VerbatimString(False)
-        )
+        output["TrustAnchorCertificate"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.TrustAnchorCertificate.value
+        ).decode("utf-16-be")
 
     if dafny_input.ConnectionState.is_Some:
         output["ConnectionState"] = (
@@ -1673,18 +1848,24 @@ def com_amazonaws_kms_XksProxyConfigurationType(dafny_input):
         )
 
     if dafny_input.AccessKeyId.is_Some:
-        output["AccessKeyId"] = dafny_input.AccessKeyId.value.VerbatimString(False)
+        output["AccessKeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.AccessKeyId.value
+        ).decode("utf-16-be")
 
     if dafny_input.UriEndpoint.is_Some:
-        output["UriEndpoint"] = dafny_input.UriEndpoint.value.VerbatimString(False)
+        output["UriEndpoint"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.UriEndpoint.value
+        ).decode("utf-16-be")
 
     if dafny_input.UriPath.is_Some:
-        output["UriPath"] = dafny_input.UriPath.value.VerbatimString(False)
+        output["UriPath"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.UriPath.value
+        ).decode("utf-16-be")
 
     if dafny_input.VpcEndpointServiceName.is_Some:
-        output["VpcEndpointServiceName"] = (
-            dafny_input.VpcEndpointServiceName.value.VerbatimString(False)
-        )
+        output["VpcEndpointServiceName"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.VpcEndpointServiceName.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -1700,7 +1881,9 @@ def com_amazonaws_kms_DescribeCustomKeyStoresResponse(dafny_input):
         ]
 
     if dafny_input.NextMarker.is_Some:
-        output["NextMarker"] = dafny_input.NextMarker.value.VerbatimString(False)
+        output["NextMarker"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.NextMarker.value
+        ).decode("utf-16-be")
 
     if dafny_input.Truncated.is_Some:
         output["Truncated"] = dafny_input.Truncated.value
@@ -1710,10 +1893,14 @@ def com_amazonaws_kms_DescribeCustomKeyStoresResponse(dafny_input):
 
 def com_amazonaws_kms_DescribeKeyRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
-            list_element.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in list_element).decode(
+                "utf-16-be"
+            )
             for list_element in dafny_input.GrantTokens.value
         ]
 
@@ -1734,19 +1921,25 @@ def com_amazonaws_kms_DescribeKeyResponse(dafny_input):
 
 def com_amazonaws_kms_DisableKeyRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     return output
 
 
 def com_amazonaws_kms_DisableKeyRotationRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     return output
 
 
 def com_amazonaws_kms_DisconnectCustomKeyStoreRequest(dafny_input):
     output = {}
-    output["CustomKeyStoreId"] = dafny_input.CustomKeyStoreId.VerbatimString(False)
+    output["CustomKeyStoreId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.CustomKeyStoreId
+    ).decode("utf-16-be")
     return output
 
 
@@ -1757,13 +1950,17 @@ def com_amazonaws_kms_DisconnectCustomKeyStoreResponse(dafny_input):
 
 def com_amazonaws_kms_EnableKeyRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     return output
 
 
 def com_amazonaws_kms_EnableKeyRotationRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     if dafny_input.RotationPeriodInDays.is_Some:
         output["RotationPeriodInDays"] = dafny_input.RotationPeriodInDays.value
 
@@ -1772,17 +1969,23 @@ def com_amazonaws_kms_EnableKeyRotationRequest(dafny_input):
 
 def com_amazonaws_kms_EncryptRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     output["Plaintext"] = bytes(dafny_input.Plaintext)
     if dafny_input.EncryptionContext.is_Some:
         output["EncryptionContext"] = {
-            key.VerbatimString(False): value.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in key)
+            .decode("utf-16-be"): b"".join(ord(c).to_bytes(2, "big") for c in value)
+            .decode("utf-16-be")
             for (key, value) in dafny_input.EncryptionContext.value.items
         }
 
     if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
-            list_element.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in list_element).decode(
+                "utf-16-be"
+            )
             for list_element in dafny_input.GrantTokens.value
         ]
 
@@ -1805,7 +2008,9 @@ def com_amazonaws_kms_EncryptResponse(dafny_input):
         output["CiphertextBlob"] = bytes(dafny_input.CiphertextBlob.value)
 
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     if dafny_input.EncryptionAlgorithm.is_Some:
         output["EncryptionAlgorithm"] = (
@@ -1831,10 +2036,14 @@ def com_amazonaws_kms_DataKeySpec(dafny_input):
 
 def com_amazonaws_kms_GenerateDataKeyRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     if dafny_input.EncryptionContext.is_Some:
         output["EncryptionContext"] = {
-            key.VerbatimString(False): value.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in key)
+            .decode("utf-16-be"): b"".join(ord(c).to_bytes(2, "big") for c in value)
+            .decode("utf-16-be")
             for (key, value) in dafny_input.EncryptionContext.value.items
         }
 
@@ -1850,7 +2059,9 @@ def com_amazonaws_kms_GenerateDataKeyRequest(dafny_input):
 
     if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
-            list_element.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in list_element).decode(
+                "utf-16-be"
+            )
             for list_element in dafny_input.GrantTokens.value
         ]
 
@@ -1876,7 +2087,9 @@ def com_amazonaws_kms_GenerateDataKeyResponse(dafny_input):
         output["Plaintext"] = bytes(dafny_input.Plaintext.value)
 
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     if dafny_input.CiphertextForRecipient.is_Some:
         output["CiphertextForRecipient"] = bytes(
@@ -1920,11 +2133,15 @@ def com_amazonaws_kms_GenerateDataKeyPairRequest(dafny_input):
     output = {}
     if dafny_input.EncryptionContext.is_Some:
         output["EncryptionContext"] = {
-            key.VerbatimString(False): value.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in key)
+            .decode("utf-16-be"): b"".join(ord(c).to_bytes(2, "big") for c in value)
+            .decode("utf-16-be")
             for (key, value) in dafny_input.EncryptionContext.value.items
         }
 
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     output["KeyPairSpec"] = (
         aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DataKeyPairSpec(
             dafny_input.KeyPairSpec
@@ -1932,7 +2149,9 @@ def com_amazonaws_kms_GenerateDataKeyPairRequest(dafny_input):
     )
     if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
-            list_element.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in list_element).decode(
+                "utf-16-be"
+            )
             for list_element in dafny_input.GrantTokens.value
         ]
 
@@ -1963,7 +2182,9 @@ def com_amazonaws_kms_GenerateDataKeyPairResponse(dafny_input):
         output["PublicKey"] = bytes(dafny_input.PublicKey.value)
 
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     if dafny_input.KeyPairSpec.is_Some:
         output["KeyPairSpec"] = (
@@ -1984,11 +2205,15 @@ def com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextRequest(dafny_input):
     output = {}
     if dafny_input.EncryptionContext.is_Some:
         output["EncryptionContext"] = {
-            key.VerbatimString(False): value.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in key)
+            .decode("utf-16-be"): b"".join(ord(c).to_bytes(2, "big") for c in value)
+            .decode("utf-16-be")
             for (key, value) in dafny_input.EncryptionContext.value.items
         }
 
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     output["KeyPairSpec"] = (
         aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DataKeyPairSpec(
             dafny_input.KeyPairSpec
@@ -1996,7 +2221,9 @@ def com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextRequest(dafny_input):
     )
     if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
-            list_element.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in list_element).decode(
+                "utf-16-be"
+            )
             for list_element in dafny_input.GrantTokens.value
         ]
 
@@ -2017,7 +2244,9 @@ def com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextResponse(dafny_input):
         output["PublicKey"] = bytes(dafny_input.PublicKey.value)
 
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     if dafny_input.KeyPairSpec.is_Some:
         output["KeyPairSpec"] = (
@@ -2031,10 +2260,14 @@ def com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextResponse(dafny_input):
 
 def com_amazonaws_kms_GenerateDataKeyWithoutPlaintextRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     if dafny_input.EncryptionContext.is_Some:
         output["EncryptionContext"] = {
-            key.VerbatimString(False): value.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in key)
+            .decode("utf-16-be"): b"".join(ord(c).to_bytes(2, "big") for c in value)
+            .decode("utf-16-be")
             for (key, value) in dafny_input.EncryptionContext.value.items
         }
 
@@ -2050,7 +2283,9 @@ def com_amazonaws_kms_GenerateDataKeyWithoutPlaintextRequest(dafny_input):
 
     if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
-            list_element.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in list_element).decode(
+                "utf-16-be"
+            )
             for list_element in dafny_input.GrantTokens.value
         ]
 
@@ -2066,7 +2301,9 @@ def com_amazonaws_kms_GenerateDataKeyWithoutPlaintextResponse(dafny_input):
         output["CiphertextBlob"] = bytes(dafny_input.CiphertextBlob.value)
 
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -2074,7 +2311,9 @@ def com_amazonaws_kms_GenerateDataKeyWithoutPlaintextResponse(dafny_input):
 def com_amazonaws_kms_GenerateMacRequest(dafny_input):
     output = {}
     output["Message"] = bytes(dafny_input.Message)
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     output["MacAlgorithm"] = (
         aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_MacAlgorithmSpec(
             dafny_input.MacAlgorithm
@@ -2082,7 +2321,9 @@ def com_amazonaws_kms_GenerateMacRequest(dafny_input):
     )
     if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
-            list_element.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in list_element).decode(
+                "utf-16-be"
+            )
             for list_element in dafny_input.GrantTokens.value
         ]
 
@@ -2105,7 +2346,9 @@ def com_amazonaws_kms_GenerateMacResponse(dafny_input):
         )
 
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -2116,9 +2359,9 @@ def com_amazonaws_kms_GenerateRandomRequest(dafny_input):
         output["NumberOfBytes"] = dafny_input.NumberOfBytes.value
 
     if dafny_input.CustomKeyStoreId.is_Some:
-        output["CustomKeyStoreId"] = dafny_input.CustomKeyStoreId.value.VerbatimString(
-            False
-        )
+        output["CustomKeyStoreId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.CustomKeyStoreId.value
+        ).decode("utf-16-be")
 
     if dafny_input.Recipient.is_Some:
         output["Recipient"] = (
@@ -2145,9 +2388,13 @@ def com_amazonaws_kms_GenerateRandomResponse(dafny_input):
 
 def com_amazonaws_kms_GetKeyPolicyRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     if dafny_input.PolicyName.is_Some:
-        output["PolicyName"] = dafny_input.PolicyName.value.VerbatimString(False)
+        output["PolicyName"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.PolicyName.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -2155,17 +2402,23 @@ def com_amazonaws_kms_GetKeyPolicyRequest(dafny_input):
 def com_amazonaws_kms_GetKeyPolicyResponse(dafny_input):
     output = {}
     if dafny_input.Policy.is_Some:
-        output["Policy"] = dafny_input.Policy.value.VerbatimString(False)
+        output["Policy"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.Policy.value
+        ).decode("utf-16-be")
 
     if dafny_input.PolicyName.is_Some:
-        output["PolicyName"] = dafny_input.PolicyName.value.VerbatimString(False)
+        output["PolicyName"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.PolicyName.value
+        ).decode("utf-16-be")
 
     return output
 
 
 def com_amazonaws_kms_GetKeyRotationStatusRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     return output
 
 
@@ -2175,7 +2428,9 @@ def com_amazonaws_kms_GetKeyRotationStatusResponse(dafny_input):
         output["KeyRotationEnabled"] = dafny_input.KeyRotationEnabled.value
 
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     if dafny_input.RotationPeriodInDays.is_Some:
         output["RotationPeriodInDays"] = dafny_input.RotationPeriodInDays.value
@@ -2237,7 +2492,9 @@ def com_amazonaws_kms_WrappingKeySpec(dafny_input):
 
 def com_amazonaws_kms_GetParametersForImportRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     output["WrappingAlgorithm"] = (
         aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_AlgorithmSpec(
             dafny_input.WrappingAlgorithm
@@ -2254,7 +2511,9 @@ def com_amazonaws_kms_GetParametersForImportRequest(dafny_input):
 def com_amazonaws_kms_GetParametersForImportResponse(dafny_input):
     output = {}
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     if dafny_input.ImportToken.is_Some:
         output["ImportToken"] = bytes(dafny_input.ImportToken.value)
@@ -2272,10 +2531,14 @@ def com_amazonaws_kms_GetParametersForImportResponse(dafny_input):
 
 def com_amazonaws_kms_GetPublicKeyRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
-            list_element.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in list_element).decode(
+                "utf-16-be"
+            )
             for list_element in dafny_input.GrantTokens.value
         ]
 
@@ -2285,7 +2548,9 @@ def com_amazonaws_kms_GetPublicKeyRequest(dafny_input):
 def com_amazonaws_kms_GetPublicKeyResponse(dafny_input):
     output = {}
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     if dafny_input.PublicKey.is_Some:
         output["PublicKey"] = bytes(dafny_input.PublicKey.value)
@@ -2340,7 +2605,9 @@ def com_amazonaws_kms_GetPublicKeyResponse(dafny_input):
 
 def com_amazonaws_kms_ImportKeyMaterialRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     output["ImportToken"] = bytes(dafny_input.ImportToken)
     output["EncryptedKeyMaterial"] = bytes(dafny_input.EncryptedKeyMaterial)
     if dafny_input.ValidTo.is_Some:
@@ -2366,13 +2633,17 @@ def com_amazonaws_kms_ImportKeyMaterialResponse(dafny_input):
 def com_amazonaws_kms_ListAliasesRequest(dafny_input):
     output = {}
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     if dafny_input.Limit.is_Some:
         output["Limit"] = dafny_input.Limit.value
 
     if dafny_input.Marker.is_Some:
-        output["Marker"] = dafny_input.Marker.value.VerbatimString(False)
+        output["Marker"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.Marker.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -2380,13 +2651,19 @@ def com_amazonaws_kms_ListAliasesRequest(dafny_input):
 def com_amazonaws_kms_AliasListEntry(dafny_input):
     output = {}
     if dafny_input.AliasName.is_Some:
-        output["AliasName"] = dafny_input.AliasName.value.VerbatimString(False)
+        output["AliasName"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.AliasName.value
+        ).decode("utf-16-be")
 
     if dafny_input.AliasArn.is_Some:
-        output["AliasArn"] = dafny_input.AliasArn.value.VerbatimString(False)
+        output["AliasArn"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.AliasArn.value
+        ).decode("utf-16-be")
 
     if dafny_input.TargetKeyId.is_Some:
-        output["TargetKeyId"] = dafny_input.TargetKeyId.value.VerbatimString(False)
+        output["TargetKeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.TargetKeyId.value
+        ).decode("utf-16-be")
 
     if dafny_input.CreationDate.is_Some:
         output["CreationDate"] = datetime.fromisoformat(
@@ -2412,7 +2689,9 @@ def com_amazonaws_kms_ListAliasesResponse(dafny_input):
         ]
 
     if dafny_input.NextMarker.is_Some:
-        output["NextMarker"] = dafny_input.NextMarker.value.VerbatimString(False)
+        output["NextMarker"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.NextMarker.value
+        ).decode("utf-16-be")
 
     if dafny_input.Truncated.is_Some:
         output["Truncated"] = dafny_input.Truncated.value
@@ -2426,16 +2705,22 @@ def com_amazonaws_kms_ListGrantsRequest(dafny_input):
         output["Limit"] = dafny_input.Limit.value
 
     if dafny_input.Marker.is_Some:
-        output["Marker"] = dafny_input.Marker.value.VerbatimString(False)
+        output["Marker"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.Marker.value
+        ).decode("utf-16-be")
 
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     if dafny_input.GrantId.is_Some:
-        output["GrantId"] = dafny_input.GrantId.value.VerbatimString(False)
+        output["GrantId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.GrantId.value
+        ).decode("utf-16-be")
 
     if dafny_input.GranteePrincipal.is_Some:
-        output["GranteePrincipal"] = dafny_input.GranteePrincipal.value.VerbatimString(
-            False
-        )
+        output["GranteePrincipal"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.GranteePrincipal.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -2443,13 +2728,19 @@ def com_amazonaws_kms_ListGrantsRequest(dafny_input):
 def com_amazonaws_kms_GrantListEntry(dafny_input):
     output = {}
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     if dafny_input.GrantId.is_Some:
-        output["GrantId"] = dafny_input.GrantId.value.VerbatimString(False)
+        output["GrantId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.GrantId.value
+        ).decode("utf-16-be")
 
     if dafny_input.Name.is_Some:
-        output["Name"] = dafny_input.Name.value.VerbatimString(False)
+        output["Name"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.Name.value
+        ).decode("utf-16-be")
 
     if dafny_input.CreationDate.is_Some:
         output["CreationDate"] = datetime.fromisoformat(
@@ -2457,19 +2748,19 @@ def com_amazonaws_kms_GrantListEntry(dafny_input):
         )
 
     if dafny_input.GranteePrincipal.is_Some:
-        output["GranteePrincipal"] = dafny_input.GranteePrincipal.value.VerbatimString(
-            False
-        )
+        output["GranteePrincipal"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.GranteePrincipal.value
+        ).decode("utf-16-be")
 
     if dafny_input.RetiringPrincipal.is_Some:
-        output["RetiringPrincipal"] = (
-            dafny_input.RetiringPrincipal.value.VerbatimString(False)
-        )
+        output["RetiringPrincipal"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.RetiringPrincipal.value
+        ).decode("utf-16-be")
 
     if dafny_input.IssuingAccount.is_Some:
-        output["IssuingAccount"] = dafny_input.IssuingAccount.value.VerbatimString(
-            False
-        )
+        output["IssuingAccount"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.IssuingAccount.value
+        ).decode("utf-16-be")
 
     if dafny_input.Operations.is_Some:
         output["Operations"] = [
@@ -2500,7 +2791,9 @@ def com_amazonaws_kms_ListGrantsResponse(dafny_input):
         ]
 
     if dafny_input.NextMarker.is_Some:
-        output["NextMarker"] = dafny_input.NextMarker.value.VerbatimString(False)
+        output["NextMarker"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.NextMarker.value
+        ).decode("utf-16-be")
 
     if dafny_input.Truncated.is_Some:
         output["Truncated"] = dafny_input.Truncated.value
@@ -2510,12 +2803,16 @@ def com_amazonaws_kms_ListGrantsResponse(dafny_input):
 
 def com_amazonaws_kms_ListKeyPoliciesRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     if dafny_input.Limit.is_Some:
         output["Limit"] = dafny_input.Limit.value
 
     if dafny_input.Marker.is_Some:
-        output["Marker"] = dafny_input.Marker.value.VerbatimString(False)
+        output["Marker"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.Marker.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -2524,12 +2821,16 @@ def com_amazonaws_kms_ListKeyPoliciesResponse(dafny_input):
     output = {}
     if dafny_input.PolicyNames.is_Some:
         output["PolicyNames"] = [
-            list_element.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in list_element).decode(
+                "utf-16-be"
+            )
             for list_element in dafny_input.PolicyNames.value
         ]
 
     if dafny_input.NextMarker.is_Some:
-        output["NextMarker"] = dafny_input.NextMarker.value.VerbatimString(False)
+        output["NextMarker"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.NextMarker.value
+        ).decode("utf-16-be")
 
     if dafny_input.Truncated.is_Some:
         output["Truncated"] = dafny_input.Truncated.value
@@ -2539,12 +2840,16 @@ def com_amazonaws_kms_ListKeyPoliciesResponse(dafny_input):
 
 def com_amazonaws_kms_ListKeyRotationsRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     if dafny_input.Limit.is_Some:
         output["Limit"] = dafny_input.Limit.value
 
     if dafny_input.Marker.is_Some:
-        output["Marker"] = dafny_input.Marker.value.VerbatimString(False)
+        output["Marker"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.Marker.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -2552,7 +2857,9 @@ def com_amazonaws_kms_ListKeyRotationsRequest(dafny_input):
 def com_amazonaws_kms_RotationsListEntry(dafny_input):
     output = {}
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     if dafny_input.RotationDate.is_Some:
         output["RotationDate"] = datetime.fromisoformat(
@@ -2592,7 +2899,9 @@ def com_amazonaws_kms_ListKeyRotationsResponse(dafny_input):
         ]
 
     if dafny_input.NextMarker.is_Some:
-        output["NextMarker"] = dafny_input.NextMarker.value.VerbatimString(False)
+        output["NextMarker"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.NextMarker.value
+        ).decode("utf-16-be")
 
     if dafny_input.Truncated.is_Some:
         output["Truncated"] = dafny_input.Truncated.value
@@ -2606,7 +2915,9 @@ def com_amazonaws_kms_ListKeysRequest(dafny_input):
         output["Limit"] = dafny_input.Limit.value
 
     if dafny_input.Marker.is_Some:
-        output["Marker"] = dafny_input.Marker.value.VerbatimString(False)
+        output["Marker"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.Marker.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -2614,10 +2925,14 @@ def com_amazonaws_kms_ListKeysRequest(dafny_input):
 def com_amazonaws_kms_KeyListEntry(dafny_input):
     output = {}
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     if dafny_input.KeyArn.is_Some:
-        output["KeyArn"] = dafny_input.KeyArn.value.VerbatimString(False)
+        output["KeyArn"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyArn.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -2633,7 +2948,9 @@ def com_amazonaws_kms_ListKeysResponse(dafny_input):
         ]
 
     if dafny_input.NextMarker.is_Some:
-        output["NextMarker"] = dafny_input.NextMarker.value.VerbatimString(False)
+        output["NextMarker"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.NextMarker.value
+        ).decode("utf-16-be")
 
     if dafny_input.Truncated.is_Some:
         output["Truncated"] = dafny_input.Truncated.value
@@ -2643,12 +2960,16 @@ def com_amazonaws_kms_ListKeysResponse(dafny_input):
 
 def com_amazonaws_kms_ListResourceTagsRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     if dafny_input.Limit.is_Some:
         output["Limit"] = dafny_input.Limit.value
 
     if dafny_input.Marker.is_Some:
-        output["Marker"] = dafny_input.Marker.value.VerbatimString(False)
+        output["Marker"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.Marker.value
+        ).decode("utf-16-be")
 
     return output
 
@@ -2664,7 +2985,9 @@ def com_amazonaws_kms_ListResourceTagsResponse(dafny_input):
         ]
 
     if dafny_input.NextMarker.is_Some:
-        output["NextMarker"] = dafny_input.NextMarker.value.VerbatimString(False)
+        output["NextMarker"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.NextMarker.value
+        ).decode("utf-16-be")
 
     if dafny_input.Truncated.is_Some:
         output["Truncated"] = dafny_input.Truncated.value
@@ -2674,11 +2997,17 @@ def com_amazonaws_kms_ListResourceTagsResponse(dafny_input):
 
 def com_amazonaws_kms_PutKeyPolicyRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     if dafny_input.PolicyName.is_Some:
-        output["PolicyName"] = dafny_input.PolicyName.value.VerbatimString(False)
+        output["PolicyName"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.PolicyName.value
+        ).decode("utf-16-be")
 
-    output["Policy"] = dafny_input.Policy.VerbatimString(False)
+    output["Policy"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.Policy
+    ).decode("utf-16-be")
     if dafny_input.BypassPolicyLockoutSafetyCheck.is_Some:
         output["BypassPolicyLockoutSafetyCheck"] = (
             dafny_input.BypassPolicyLockoutSafetyCheck.value
@@ -2692,17 +3021,25 @@ def com_amazonaws_kms_ReEncryptRequest(dafny_input):
     output["CiphertextBlob"] = bytes(dafny_input.CiphertextBlob)
     if dafny_input.SourceEncryptionContext.is_Some:
         output["SourceEncryptionContext"] = {
-            key.VerbatimString(False): value.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in key)
+            .decode("utf-16-be"): b"".join(ord(c).to_bytes(2, "big") for c in value)
+            .decode("utf-16-be")
             for (key, value) in dafny_input.SourceEncryptionContext.value.items
         }
 
     if dafny_input.SourceKeyId.is_Some:
-        output["SourceKeyId"] = dafny_input.SourceKeyId.value.VerbatimString(False)
+        output["SourceKeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.SourceKeyId.value
+        ).decode("utf-16-be")
 
-    output["DestinationKeyId"] = dafny_input.DestinationKeyId.VerbatimString(False)
+    output["DestinationKeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.DestinationKeyId
+    ).decode("utf-16-be")
     if dafny_input.DestinationEncryptionContext.is_Some:
         output["DestinationEncryptionContext"] = {
-            key.VerbatimString(False): value.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in key)
+            .decode("utf-16-be"): b"".join(ord(c).to_bytes(2, "big") for c in value)
+            .decode("utf-16-be")
             for (key, value) in dafny_input.DestinationEncryptionContext.value.items
         }
 
@@ -2722,7 +3059,9 @@ def com_amazonaws_kms_ReEncryptRequest(dafny_input):
 
     if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
-            list_element.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in list_element).decode(
+                "utf-16-be"
+            )
             for list_element in dafny_input.GrantTokens.value
         ]
 
@@ -2738,10 +3077,14 @@ def com_amazonaws_kms_ReEncryptResponse(dafny_input):
         output["CiphertextBlob"] = bytes(dafny_input.CiphertextBlob.value)
 
     if dafny_input.SourceKeyId.is_Some:
-        output["SourceKeyId"] = dafny_input.SourceKeyId.value.VerbatimString(False)
+        output["SourceKeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.SourceKeyId.value
+        ).decode("utf-16-be")
 
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     if dafny_input.SourceEncryptionAlgorithm.is_Some:
         output["SourceEncryptionAlgorithm"] = (
@@ -2762,10 +3105,16 @@ def com_amazonaws_kms_ReEncryptResponse(dafny_input):
 
 def com_amazonaws_kms_ReplicateKeyRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
-    output["ReplicaRegion"] = dafny_input.ReplicaRegion.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
+    output["ReplicaRegion"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.ReplicaRegion
+    ).decode("utf-16-be")
     if dafny_input.Policy.is_Some:
-        output["Policy"] = dafny_input.Policy.value.VerbatimString(False)
+        output["Policy"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.Policy.value
+        ).decode("utf-16-be")
 
     if dafny_input.BypassPolicyLockoutSafetyCheck.is_Some:
         output["BypassPolicyLockoutSafetyCheck"] = (
@@ -2773,7 +3122,9 @@ def com_amazonaws_kms_ReplicateKeyRequest(dafny_input):
         )
 
     if dafny_input.Description.is_Some:
-        output["Description"] = dafny_input.Description.value.VerbatimString(False)
+        output["Description"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.Description.value
+        ).decode("utf-16-be")
 
     if dafny_input.Tags.is_Some:
         output["Tags"] = [
@@ -2796,7 +3147,9 @@ def com_amazonaws_kms_ReplicateKeyResponse(dafny_input):
         )
 
     if dafny_input.ReplicaPolicy.is_Some:
-        output["ReplicaPolicy"] = dafny_input.ReplicaPolicy.value.VerbatimString(False)
+        output["ReplicaPolicy"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.ReplicaPolicy.value
+        ).decode("utf-16-be")
 
     if dafny_input.ReplicaTags.is_Some:
         output["ReplicaTags"] = [
@@ -2812,13 +3165,19 @@ def com_amazonaws_kms_ReplicateKeyResponse(dafny_input):
 def com_amazonaws_kms_RetireGrantRequest(dafny_input):
     output = {}
     if dafny_input.GrantToken.is_Some:
-        output["GrantToken"] = dafny_input.GrantToken.value.VerbatimString(False)
+        output["GrantToken"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.GrantToken.value
+        ).decode("utf-16-be")
 
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     if dafny_input.GrantId.is_Some:
-        output["GrantId"] = dafny_input.GrantId.value.VerbatimString(False)
+        output["GrantId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.GrantId.value
+        ).decode("utf-16-be")
 
     if dafny_input.DryRun.is_Some:
         output["DryRun"] = dafny_input.DryRun.value
@@ -2828,8 +3187,12 @@ def com_amazonaws_kms_RetireGrantRequest(dafny_input):
 
 def com_amazonaws_kms_RevokeGrantRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
-    output["GrantId"] = dafny_input.GrantId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
+    output["GrantId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.GrantId
+    ).decode("utf-16-be")
     if dafny_input.DryRun.is_Some:
         output["DryRun"] = dafny_input.DryRun.value
 
@@ -2838,21 +3201,27 @@ def com_amazonaws_kms_RevokeGrantRequest(dafny_input):
 
 def com_amazonaws_kms_RotateKeyOnDemandRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     return output
 
 
 def com_amazonaws_kms_RotateKeyOnDemandResponse(dafny_input):
     output = {}
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     return output
 
 
 def com_amazonaws_kms_ScheduleKeyDeletionRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     if dafny_input.PendingWindowInDays.is_Some:
         output["PendingWindowInDays"] = dafny_input.PendingWindowInDays.value
 
@@ -2862,7 +3231,9 @@ def com_amazonaws_kms_ScheduleKeyDeletionRequest(dafny_input):
 def com_amazonaws_kms_ScheduleKeyDeletionResponse(dafny_input):
     output = {}
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     if dafny_input.DeletionDate.is_Some:
         output["DeletionDate"] = datetime.fromisoformat(
@@ -2896,7 +3267,9 @@ def com_amazonaws_kms_MessageType(dafny_input):
 
 def com_amazonaws_kms_SignRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     output["Message"] = bytes(dafny_input.Message)
     if dafny_input.MessageType.is_Some:
         output["MessageType"] = (
@@ -2907,7 +3280,9 @@ def com_amazonaws_kms_SignRequest(dafny_input):
 
     if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
-            list_element.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in list_element).decode(
+                "utf-16-be"
+            )
             for list_element in dafny_input.GrantTokens.value
         ]
 
@@ -2925,7 +3300,9 @@ def com_amazonaws_kms_SignRequest(dafny_input):
 def com_amazonaws_kms_SignResponse(dafny_input):
     output = {}
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     if dafny_input.Signature.is_Some:
         output["Signature"] = bytes(dafny_input.Signature.value)
@@ -2942,7 +3319,9 @@ def com_amazonaws_kms_SignResponse(dafny_input):
 
 def com_amazonaws_kms_TagResourceRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     output["Tags"] = [
         aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_Tag(
             list_element
@@ -2954,52 +3333,62 @@ def com_amazonaws_kms_TagResourceRequest(dafny_input):
 
 def com_amazonaws_kms_UntagResourceRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     output["TagKeys"] = [
-        list_element.VerbatimString(False) for list_element in dafny_input.TagKeys
+        b"".join(ord(c).to_bytes(2, "big") for c in list_element).decode("utf-16-be")
+        for list_element in dafny_input.TagKeys
     ]
     return output
 
 
 def com_amazonaws_kms_UpdateAliasRequest(dafny_input):
     output = {}
-    output["AliasName"] = dafny_input.AliasName.VerbatimString(False)
-    output["TargetKeyId"] = dafny_input.TargetKeyId.VerbatimString(False)
+    output["AliasName"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.AliasName
+    ).decode("utf-16-be")
+    output["TargetKeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.TargetKeyId
+    ).decode("utf-16-be")
     return output
 
 
 def com_amazonaws_kms_UpdateCustomKeyStoreRequest(dafny_input):
     output = {}
-    output["CustomKeyStoreId"] = dafny_input.CustomKeyStoreId.VerbatimString(False)
+    output["CustomKeyStoreId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.CustomKeyStoreId
+    ).decode("utf-16-be")
     if dafny_input.NewCustomKeyStoreName.is_Some:
-        output["NewCustomKeyStoreName"] = (
-            dafny_input.NewCustomKeyStoreName.value.VerbatimString(False)
-        )
+        output["NewCustomKeyStoreName"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.NewCustomKeyStoreName.value
+        ).decode("utf-16-be")
 
     if dafny_input.KeyStorePassword.is_Some:
-        output["KeyStorePassword"] = dafny_input.KeyStorePassword.value.VerbatimString(
-            False
-        )
+        output["KeyStorePassword"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyStorePassword.value
+        ).decode("utf-16-be")
 
     if dafny_input.CloudHsmClusterId.is_Some:
-        output["CloudHsmClusterId"] = (
-            dafny_input.CloudHsmClusterId.value.VerbatimString(False)
-        )
+        output["CloudHsmClusterId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.CloudHsmClusterId.value
+        ).decode("utf-16-be")
 
     if dafny_input.XksProxyUriEndpoint.is_Some:
-        output["XksProxyUriEndpoint"] = (
-            dafny_input.XksProxyUriEndpoint.value.VerbatimString(False)
-        )
+        output["XksProxyUriEndpoint"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.XksProxyUriEndpoint.value
+        ).decode("utf-16-be")
 
     if dafny_input.XksProxyUriPath.is_Some:
-        output["XksProxyUriPath"] = dafny_input.XksProxyUriPath.value.VerbatimString(
-            False
-        )
+        output["XksProxyUriPath"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.XksProxyUriPath.value
+        ).decode("utf-16-be")
 
     if dafny_input.XksProxyVpcEndpointServiceName.is_Some:
-        output["XksProxyVpcEndpointServiceName"] = (
-            dafny_input.XksProxyVpcEndpointServiceName.value.VerbatimString(False)
-        )
+        output["XksProxyVpcEndpointServiceName"] = b"".join(
+            ord(c).to_bytes(2, "big")
+            for c in dafny_input.XksProxyVpcEndpointServiceName.value
+        ).decode("utf-16-be")
 
     if dafny_input.XksProxyAuthenticationCredential.is_Some:
         output["XksProxyAuthenticationCredential"] = (
@@ -3025,21 +3414,31 @@ def com_amazonaws_kms_UpdateCustomKeyStoreResponse(dafny_input):
 
 def com_amazonaws_kms_UpdateKeyDescriptionRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
-    output["Description"] = dafny_input.Description.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
+    output["Description"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.Description
+    ).decode("utf-16-be")
     return output
 
 
 def com_amazonaws_kms_UpdatePrimaryRegionRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
-    output["PrimaryRegion"] = dafny_input.PrimaryRegion.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
+    output["PrimaryRegion"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.PrimaryRegion
+    ).decode("utf-16-be")
     return output
 
 
 def com_amazonaws_kms_VerifyRequest(dafny_input):
     output = {}
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     output["Message"] = bytes(dafny_input.Message)
     if dafny_input.MessageType.is_Some:
         output["MessageType"] = (
@@ -3056,7 +3455,9 @@ def com_amazonaws_kms_VerifyRequest(dafny_input):
     )
     if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
-            list_element.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in list_element).decode(
+                "utf-16-be"
+            )
             for list_element in dafny_input.GrantTokens.value
         ]
 
@@ -3069,7 +3470,9 @@ def com_amazonaws_kms_VerifyRequest(dafny_input):
 def com_amazonaws_kms_VerifyResponse(dafny_input):
     output = {}
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     if dafny_input.SignatureValid.is_Some:
         output["SignatureValid"] = dafny_input.SignatureValid.value
@@ -3087,7 +3490,9 @@ def com_amazonaws_kms_VerifyResponse(dafny_input):
 def com_amazonaws_kms_VerifyMacRequest(dafny_input):
     output = {}
     output["Message"] = bytes(dafny_input.Message)
-    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyId"] = b"".join(
+        ord(c).to_bytes(2, "big") for c in dafny_input.KeyId
+    ).decode("utf-16-be")
     output["MacAlgorithm"] = (
         aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_MacAlgorithmSpec(
             dafny_input.MacAlgorithm
@@ -3096,7 +3501,9 @@ def com_amazonaws_kms_VerifyMacRequest(dafny_input):
     output["Mac"] = bytes(dafny_input.Mac)
     if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
-            list_element.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in list_element).decode(
+                "utf-16-be"
+            )
             for list_element in dafny_input.GrantTokens.value
         ]
 
@@ -3109,7 +3516,9 @@ def com_amazonaws_kms_VerifyMacRequest(dafny_input):
 def com_amazonaws_kms_VerifyMacResponse(dafny_input):
     output = {}
     if dafny_input.KeyId.is_Some:
-        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+        output["KeyId"] = b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.KeyId.value
+        ).decode("utf-16-be")
 
     if dafny_input.MacValid.is_Some:
         output["MacValid"] = dafny_input.MacValid.value

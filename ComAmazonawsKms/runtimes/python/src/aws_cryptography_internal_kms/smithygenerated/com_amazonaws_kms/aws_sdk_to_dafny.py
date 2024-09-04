@@ -302,277 +302,737 @@ from smithy_dafny_standard_library.internaldafny.generated.Wrappers import (
 
 def com_amazonaws_kms_AlreadyExistsException(native_input):
     return Error_AlreadyExistsException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_CloudHsmClusterInUseException(native_input):
     return Error_CloudHsmClusterInUseException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException(native_input):
     return Error_CloudHsmClusterInvalidConfigurationException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_CloudHsmClusterNotActiveException(native_input):
     return Error_CloudHsmClusterNotActiveException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_CloudHsmClusterNotFoundException(native_input):
     return Error_CloudHsmClusterNotFoundException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_CloudHsmClusterNotRelatedException(native_input):
     return Error_CloudHsmClusterNotRelatedException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_ConflictException(native_input):
     return Error_ConflictException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_CustomKeyStoreHasCMKsException(native_input):
     return Error_CustomKeyStoreHasCMKsException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_CustomKeyStoreInvalidStateException(native_input):
     return Error_CustomKeyStoreInvalidStateException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_CustomKeyStoreNameInUseException(native_input):
     return Error_CustomKeyStoreNameInUseException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_CustomKeyStoreNotFoundException(native_input):
     return Error_CustomKeyStoreNotFoundException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_DependencyTimeoutException(native_input):
     return Error_DependencyTimeoutException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_DisabledException(native_input):
     return Error_DisabledException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_DryRunOperationException(native_input):
     return Error_DryRunOperationException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_ExpiredImportTokenException(native_input):
     return Error_ExpiredImportTokenException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_IncorrectKeyException(native_input):
     return Error_IncorrectKeyException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_IncorrectKeyMaterialException(native_input):
     return Error_IncorrectKeyMaterialException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_IncorrectTrustAnchorException(native_input):
     return Error_IncorrectTrustAnchorException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_InvalidAliasNameException(native_input):
     return Error_InvalidAliasNameException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_InvalidArnException(native_input):
     return Error_InvalidArnException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_InvalidCiphertextException(native_input):
     return Error_InvalidCiphertextException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_InvalidGrantIdException(native_input):
     return Error_InvalidGrantIdException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_InvalidGrantTokenException(native_input):
     return Error_InvalidGrantTokenException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_InvalidImportTokenException(native_input):
     return Error_InvalidImportTokenException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_InvalidKeyUsageException(native_input):
     return Error_InvalidKeyUsageException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_InvalidMarkerException(native_input):
     return Error_InvalidMarkerException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_KeyUnavailableException(native_input):
     return Error_KeyUnavailableException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_KMSInternalException(native_input):
     return Error_KMSInternalException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_KMSInvalidMacException(native_input):
     return Error_KMSInvalidMacException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_KMSInvalidSignatureException(native_input):
     return Error_KMSInvalidSignatureException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_KMSInvalidStateException(native_input):
     return Error_KMSInvalidStateException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_LimitExceededException(native_input):
     return Error_LimitExceededException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_MalformedPolicyDocumentException(native_input):
     return Error_MalformedPolicyDocumentException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_NotFoundException(native_input):
     return Error_NotFoundException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_TagException(native_input):
     return Error_TagException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_UnsupportedOperationException(native_input):
     return Error_UnsupportedOperationException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_XksKeyAlreadyInUseException(native_input):
     return Error_XksKeyAlreadyInUseException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_XksKeyInvalidConfigurationException(native_input):
     return Error_XksKeyInvalidConfigurationException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_XksKeyNotFoundException(native_input):
     return Error_XksKeyNotFoundException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_XksProxyIncorrectAuthenticationCredentialException(native_input):
     return Error_XksProxyIncorrectAuthenticationCredentialException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_XksProxyInvalidConfigurationException(native_input):
     return Error_XksProxyInvalidConfigurationException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_XksProxyInvalidResponseException(native_input):
     return Error_XksProxyInvalidResponseException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_XksProxyUriEndpointInUseException(native_input):
     return Error_XksProxyUriEndpointInUseException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_XksProxyUriInUseException(native_input):
     return Error_XksProxyUriInUseException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_XksProxyUriUnreachableException(native_input):
     return Error_XksProxyUriUnreachableException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_XksProxyVpcEndpointServiceInUseException(native_input):
     return Error_XksProxyVpcEndpointServiceInUseException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
@@ -580,26 +1040,66 @@ def com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException(
     native_input,
 ):
     return Error_XksProxyVpcEndpointServiceInvalidConfigurationException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_XksProxyVpcEndpointServiceNotFoundException(native_input):
     return Error_XksProxyVpcEndpointServiceNotFoundException(
-        message=Seq(native_input["Error"]["Message"]),
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_CancelKeyDeletionRequest(native_input):
     return DafnyCancelKeyDeletionRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_CancelKeyDeletionResponse(native_input):
     return DafnyCancelKeyDeletionResponse(
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),
@@ -608,7 +1108,17 @@ def com_amazonaws_kms_CancelKeyDeletionResponse(native_input):
 
 def com_amazonaws_kms_ConnectCustomKeyStoreRequest(native_input):
     return DafnyConnectCustomKeyStoreRequest(
-        CustomKeyStoreId=Seq(native_input["CustomKeyStoreId"]),
+        CustomKeyStoreId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["CustomKeyStoreId"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
@@ -618,26 +1128,108 @@ def com_amazonaws_kms_ConnectCustomKeyStoreResponse(native_input):
 
 def com_amazonaws_kms_CreateAliasRequest(native_input):
     return DafnyCreateAliasRequest(
-        AliasName=Seq(native_input["AliasName"]),
-        TargetKeyId=Seq(native_input["TargetKeyId"]),
+        AliasName=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["AliasName"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        TargetKeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["TargetKeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_CreateCustomKeyStoreRequest(native_input):
     return DafnyCreateCustomKeyStoreRequest(
-        CustomKeyStoreName=Seq(native_input["CustomKeyStoreName"]),
+        CustomKeyStoreName=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["CustomKeyStoreName"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
         CloudHsmClusterId=(
-            Option_Some(Seq(native_input["CloudHsmClusterId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["CloudHsmClusterId"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "CloudHsmClusterId" in native_input.keys()
             else Option_None()
         ),
         TrustAnchorCertificate=(
-            Option_Some(Seq(native_input["TrustAnchorCertificate"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["TrustAnchorCertificate"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "TrustAnchorCertificate" in native_input.keys()
             else Option_None()
         ),
         KeyStorePassword=(
-            Option_Some(Seq(native_input["KeyStorePassword"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["KeyStorePassword"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyStorePassword" in native_input.keys()
             else Option_None()
         ),
@@ -651,17 +1243,71 @@ def com_amazonaws_kms_CreateCustomKeyStoreRequest(native_input):
             else Option_None()
         ),
         XksProxyUriEndpoint=(
-            Option_Some(Seq(native_input["XksProxyUriEndpoint"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["XksProxyUriEndpoint"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "XksProxyUriEndpoint" in native_input.keys()
             else Option_None()
         ),
         XksProxyUriPath=(
-            Option_Some(Seq(native_input["XksProxyUriPath"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["XksProxyUriPath"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "XksProxyUriPath" in native_input.keys()
             else Option_None()
         ),
         XksProxyVpcEndpointServiceName=(
-            Option_Some(Seq(native_input["XksProxyVpcEndpointServiceName"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input[
+                                            "XksProxyVpcEndpointServiceName"
+                                        ].encode("utf-16-be")
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "XksProxyVpcEndpointServiceName" in native_input.keys()
             else Option_None()
         ),
@@ -698,8 +1344,27 @@ def com_amazonaws_kms_CustomKeyStoreType(native_input):
 
 def com_amazonaws_kms_XksProxyAuthenticationCredentialType(native_input):
     return DafnyXksProxyAuthenticationCredentialType(
-        AccessKeyId=Seq(native_input["AccessKeyId"]),
-        RawSecretAccessKey=Seq(native_input["RawSecretAccessKey"]),
+        AccessKeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["AccessKeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        RawSecretAccessKey=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["RawSecretAccessKey"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
@@ -716,7 +1381,25 @@ def com_amazonaws_kms_XksProxyConnectivityType(native_input):
 def com_amazonaws_kms_CreateCustomKeyStoreResponse(native_input):
     return DafnyCreateCustomKeyStoreResponse(
         CustomKeyStoreId=(
-            Option_Some(Seq(native_input["CustomKeyStoreId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["CustomKeyStoreId"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "CustomKeyStoreId" in native_input.keys()
             else Option_None()
         ),
@@ -725,10 +1408,47 @@ def com_amazonaws_kms_CreateCustomKeyStoreResponse(native_input):
 
 def com_amazonaws_kms_CreateGrantRequest(native_input):
     return DafnyCreateGrantRequest(
-        KeyId=Seq(native_input["KeyId"]),
-        GranteePrincipal=Seq(native_input["GranteePrincipal"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        GranteePrincipal=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["GranteePrincipal"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
         RetiringPrincipal=(
-            Option_Some(Seq(native_input["RetiringPrincipal"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["RetiringPrincipal"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "RetiringPrincipal" in native_input.keys()
             else Option_None()
         ),
@@ -751,13 +1471,38 @@ def com_amazonaws_kms_CreateGrantRequest(native_input):
         ),
         GrantTokens=(
             Option_Some(
-                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+                Seq(
+                    [
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(list_element.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
+                        for list_element in native_input["GrantTokens"]
+                    ]
+                )
             )
             if "GrantTokens" in native_input.keys()
             else Option_None()
         ),
         Name=(
-            Option_Some(Seq(native_input["Name"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["Name"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "Name" in native_input.keys()
             else Option_None()
         ),
@@ -815,7 +1560,25 @@ def com_amazonaws_kms_GrantConstraints(native_input):
             Option_Some(
                 Map(
                     {
-                        Seq(key): Seq(value)
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(key.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        ): Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(value.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
                         for (key, value) in native_input[
                             "EncryptionContextSubset"
                         ].items()
@@ -829,7 +1592,25 @@ def com_amazonaws_kms_GrantConstraints(native_input):
             Option_Some(
                 Map(
                     {
-                        Seq(key): Seq(value)
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(key.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        ): Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(value.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
                         for (key, value) in native_input[
                             "EncryptionContextEquals"
                         ].items()
@@ -845,12 +1626,35 @@ def com_amazonaws_kms_GrantConstraints(native_input):
 def com_amazonaws_kms_CreateGrantResponse(native_input):
     return DafnyCreateGrantResponse(
         GrantToken=(
-            Option_Some(Seq(native_input["GrantToken"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["GrantToken"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "GrantToken" in native_input.keys()
             else Option_None()
         ),
         GrantId=(
-            Option_Some(Seq(native_input["GrantId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["GrantId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "GrantId" in native_input.keys()
             else Option_None()
         ),
@@ -860,12 +1664,35 @@ def com_amazonaws_kms_CreateGrantResponse(native_input):
 def com_amazonaws_kms_CreateKeyRequest(native_input):
     return DafnyCreateKeyRequest(
         Policy=(
-            Option_Some(Seq(native_input["Policy"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["Policy"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "Policy" in native_input.keys()
             else Option_None()
         ),
         Description=(
-            Option_Some(Seq(native_input["Description"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["Description"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "Description" in native_input.keys()
             else Option_None()
         ),
@@ -906,7 +1733,25 @@ def com_amazonaws_kms_CreateKeyRequest(native_input):
             else Option_None()
         ),
         CustomKeyStoreId=(
-            Option_Some(Seq(native_input["CustomKeyStoreId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["CustomKeyStoreId"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "CustomKeyStoreId" in native_input.keys()
             else Option_None()
         ),
@@ -935,7 +1780,19 @@ def com_amazonaws_kms_CreateKeyRequest(native_input):
             else Option_None()
         ),
         XksKeyId=(
-            Option_Some(Seq(native_input["XksKeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["XksKeyId"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "XksKeyId" in native_input.keys()
             else Option_None()
         ),
@@ -1036,8 +1893,26 @@ def com_amazonaws_kms_OriginType(native_input):
 
 def com_amazonaws_kms_Tag(native_input):
     return DafnyTag(
-        TagKey=Seq(native_input["TagKey"]),
-        TagValue=Seq(native_input["TagValue"]),
+        TagKey=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["TagKey"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        TagValue=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["TagValue"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
@@ -1058,13 +1933,49 @@ def com_amazonaws_kms_CreateKeyResponse(native_input):
 def com_amazonaws_kms_KeyMetadata(native_input):
     return DafnyKeyMetadata(
         AWSAccountId=(
-            Option_Some(Seq(native_input["AWSAccountId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["AWSAccountId"].encode("utf-16-be")
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "AWSAccountId" in native_input.keys()
             else Option_None()
         ),
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         Arn=(
-            Option_Some(Seq(native_input["Arn"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["Arn"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "Arn" in native_input.keys()
             else Option_None()
         ),
@@ -1079,7 +1990,19 @@ def com_amazonaws_kms_KeyMetadata(native_input):
             else Option_None()
         ),
         Description=(
-            Option_Some(Seq(native_input["Description"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["Description"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "Description" in native_input.keys()
             else Option_None()
         ),
@@ -1121,12 +2044,48 @@ def com_amazonaws_kms_KeyMetadata(native_input):
             else Option_None()
         ),
         CustomKeyStoreId=(
-            Option_Some(Seq(native_input["CustomKeyStoreId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["CustomKeyStoreId"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "CustomKeyStoreId" in native_input.keys()
             else Option_None()
         ),
         CloudHsmClusterId=(
-            Option_Some(Seq(native_input["CloudHsmClusterId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["CloudHsmClusterId"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "CloudHsmClusterId" in native_input.keys()
             else Option_None()
         ),
@@ -1395,7 +2354,18 @@ def com_amazonaws_kms_MacAlgorithmSpec(native_input):
 def com_amazonaws_kms_XksKeyConfigurationType(native_input):
     return DafnyXksKeyConfigurationType(
         Id=(
-            Option_Some(Seq(native_input["Id"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["Id"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "Id" in native_input.keys()
             else Option_None()
         ),
@@ -1415,12 +2385,34 @@ def com_amazonaws_kms_MultiRegionKeyType(native_input):
 def com_amazonaws_kms_MultiRegionKey(native_input):
     return DafnyMultiRegionKey(
         Arn=(
-            Option_Some(Seq(native_input["Arn"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["Arn"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "Arn" in native_input.keys()
             else Option_None()
         ),
         Region=(
-            Option_Some(Seq(native_input["Region"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["Region"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "Region" in native_input.keys()
             else Option_None()
         ),
@@ -1434,7 +2426,25 @@ def com_amazonaws_kms_DecryptRequest(native_input):
             Option_Some(
                 Map(
                     {
-                        Seq(key): Seq(value)
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(key.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        ): Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(value.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
                         for (key, value) in native_input["EncryptionContext"].items()
                     }
                 )
@@ -1444,13 +2454,38 @@ def com_amazonaws_kms_DecryptRequest(native_input):
         ),
         GrantTokens=(
             Option_Some(
-                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+                Seq(
+                    [
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(list_element.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
+                        for list_element in native_input["GrantTokens"]
+                    ]
+                )
             )
             if "GrantTokens" in native_input.keys()
             else Option_None()
         ),
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),
@@ -1510,7 +2545,18 @@ def com_amazonaws_kms_KeyEncryptionMechanism(native_input):
 def com_amazonaws_kms_DecryptResponse(native_input):
     return DafnyDecryptResponse(
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),
@@ -1538,13 +2584,32 @@ def com_amazonaws_kms_DecryptResponse(native_input):
 
 def com_amazonaws_kms_DeleteAliasRequest(native_input):
     return DafnyDeleteAliasRequest(
-        AliasName=Seq(native_input["AliasName"]),
+        AliasName=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["AliasName"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_DeleteCustomKeyStoreRequest(native_input):
     return DafnyDeleteCustomKeyStoreRequest(
-        CustomKeyStoreId=Seq(native_input["CustomKeyStoreId"]),
+        CustomKeyStoreId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["CustomKeyStoreId"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
@@ -1554,20 +2619,52 @@ def com_amazonaws_kms_DeleteCustomKeyStoreResponse(native_input):
 
 def com_amazonaws_kms_DeleteImportedKeyMaterialRequest(native_input):
     return DafnyDeleteImportedKeyMaterialRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_DeriveSharedSecretRequest(native_input):
     return DafnyDeriveSharedSecretRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         KeyAgreementAlgorithm=aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyAgreementAlgorithmSpec(
             native_input["KeyAgreementAlgorithm"]
         ),
         PublicKey=Seq(native_input["PublicKey"]),
         GrantTokens=(
             Option_Some(
-                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+                Seq(
+                    [
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(list_element.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
+                        for list_element in native_input["GrantTokens"]
+                    ]
+                )
             )
             if "GrantTokens" in native_input.keys()
             else Option_None()
@@ -1592,7 +2689,18 @@ def com_amazonaws_kms_DeriveSharedSecretRequest(native_input):
 def com_amazonaws_kms_DeriveSharedSecretResponse(native_input):
     return DafnyDeriveSharedSecretResponse(
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),
@@ -1630,12 +2738,48 @@ def com_amazonaws_kms_DeriveSharedSecretResponse(native_input):
 def com_amazonaws_kms_DescribeCustomKeyStoresRequest(native_input):
     return DafnyDescribeCustomKeyStoresRequest(
         CustomKeyStoreId=(
-            Option_Some(Seq(native_input["CustomKeyStoreId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["CustomKeyStoreId"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "CustomKeyStoreId" in native_input.keys()
             else Option_None()
         ),
         CustomKeyStoreName=(
-            Option_Some(Seq(native_input["CustomKeyStoreName"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["CustomKeyStoreName"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "CustomKeyStoreName" in native_input.keys()
             else Option_None()
         ),
@@ -1645,7 +2789,18 @@ def com_amazonaws_kms_DescribeCustomKeyStoresRequest(native_input):
             else Option_None()
         ),
         Marker=(
-            Option_Some(Seq(native_input["Marker"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["Marker"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "Marker" in native_input.keys()
             else Option_None()
         ),
@@ -1669,7 +2824,19 @@ def com_amazonaws_kms_DescribeCustomKeyStoresResponse(native_input):
             else Option_None()
         ),
         NextMarker=(
-            Option_Some(Seq(native_input["NextMarker"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["NextMarker"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "NextMarker" in native_input.keys()
             else Option_None()
         ),
@@ -1684,22 +2851,94 @@ def com_amazonaws_kms_DescribeCustomKeyStoresResponse(native_input):
 def com_amazonaws_kms_CustomKeyStoresListEntry(native_input):
     return DafnyCustomKeyStoresListEntry(
         CustomKeyStoreId=(
-            Option_Some(Seq(native_input["CustomKeyStoreId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["CustomKeyStoreId"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "CustomKeyStoreId" in native_input.keys()
             else Option_None()
         ),
         CustomKeyStoreName=(
-            Option_Some(Seq(native_input["CustomKeyStoreName"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["CustomKeyStoreName"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "CustomKeyStoreName" in native_input.keys()
             else Option_None()
         ),
         CloudHsmClusterId=(
-            Option_Some(Seq(native_input["CloudHsmClusterId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["CloudHsmClusterId"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "CloudHsmClusterId" in native_input.keys()
             else Option_None()
         ),
         TrustAnchorCertificate=(
-            Option_Some(Seq(native_input["TrustAnchorCertificate"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["TrustAnchorCertificate"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "TrustAnchorCertificate" in native_input.keys()
             else Option_None()
         ),
@@ -1819,22 +3058,75 @@ def com_amazonaws_kms_XksProxyConfigurationType(native_input):
             else Option_None()
         ),
         AccessKeyId=(
-            Option_Some(Seq(native_input["AccessKeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["AccessKeyId"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "AccessKeyId" in native_input.keys()
             else Option_None()
         ),
         UriEndpoint=(
-            Option_Some(Seq(native_input["UriEndpoint"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["UriEndpoint"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "UriEndpoint" in native_input.keys()
             else Option_None()
         ),
         UriPath=(
-            Option_Some(Seq(native_input["UriPath"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["UriPath"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "UriPath" in native_input.keys()
             else Option_None()
         ),
         VpcEndpointServiceName=(
-            Option_Some(Seq(native_input["VpcEndpointServiceName"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["VpcEndpointServiceName"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "VpcEndpointServiceName" in native_input.keys()
             else Option_None()
         ),
@@ -1843,10 +3135,33 @@ def com_amazonaws_kms_XksProxyConfigurationType(native_input):
 
 def com_amazonaws_kms_DescribeKeyRequest(native_input):
     return DafnyDescribeKeyRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         GrantTokens=(
             Option_Some(
-                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+                Seq(
+                    [
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(list_element.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
+                        for list_element in native_input["GrantTokens"]
+                    ]
+                )
             )
             if "GrantTokens" in native_input.keys()
             else Option_None()
@@ -1870,19 +3185,47 @@ def com_amazonaws_kms_DescribeKeyResponse(native_input):
 
 def com_amazonaws_kms_DisableKeyRequest(native_input):
     return DafnyDisableKeyRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_DisableKeyRotationRequest(native_input):
     return DafnyDisableKeyRotationRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_DisconnectCustomKeyStoreRequest(native_input):
     return DafnyDisconnectCustomKeyStoreRequest(
-        CustomKeyStoreId=Seq(native_input["CustomKeyStoreId"]),
+        CustomKeyStoreId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["CustomKeyStoreId"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
@@ -1892,13 +3235,31 @@ def com_amazonaws_kms_DisconnectCustomKeyStoreResponse(native_input):
 
 def com_amazonaws_kms_EnableKeyRequest(native_input):
     return DafnyEnableKeyRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_EnableKeyRotationRequest(native_input):
     return DafnyEnableKeyRotationRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         RotationPeriodInDays=(
             Option_Some(native_input["RotationPeriodInDays"])
             if "RotationPeriodInDays" in native_input.keys()
@@ -1909,13 +3270,40 @@ def com_amazonaws_kms_EnableKeyRotationRequest(native_input):
 
 def com_amazonaws_kms_EncryptRequest(native_input):
     return DafnyEncryptRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         Plaintext=Seq(native_input["Plaintext"]),
         EncryptionContext=(
             Option_Some(
                 Map(
                     {
-                        Seq(key): Seq(value)
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(key.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        ): Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(value.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
                         for (key, value) in native_input["EncryptionContext"].items()
                     }
                 )
@@ -1925,7 +3313,21 @@ def com_amazonaws_kms_EncryptRequest(native_input):
         ),
         GrantTokens=(
             Option_Some(
-                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+                Seq(
+                    [
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(list_element.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
+                        for list_element in native_input["GrantTokens"]
+                    ]
+                )
             )
             if "GrantTokens" in native_input.keys()
             else Option_None()
@@ -1955,7 +3357,18 @@ def com_amazonaws_kms_EncryptResponse(native_input):
             else Option_None()
         ),
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),
@@ -1973,12 +3386,39 @@ def com_amazonaws_kms_EncryptResponse(native_input):
 
 def com_amazonaws_kms_GenerateDataKeyRequest(native_input):
     return DafnyGenerateDataKeyRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         EncryptionContext=(
             Option_Some(
                 Map(
                     {
-                        Seq(key): Seq(value)
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(key.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        ): Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(value.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
                         for (key, value) in native_input["EncryptionContext"].items()
                     }
                 )
@@ -2002,7 +3442,21 @@ def com_amazonaws_kms_GenerateDataKeyRequest(native_input):
         ),
         GrantTokens=(
             Option_Some(
-                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+                Seq(
+                    [
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(list_element.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
+                        for list_element in native_input["GrantTokens"]
+                    ]
+                )
             )
             if "GrantTokens" in native_input.keys()
             else Option_None()
@@ -2047,7 +3501,18 @@ def com_amazonaws_kms_GenerateDataKeyResponse(native_input):
             else Option_None()
         ),
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),
@@ -2065,7 +3530,25 @@ def com_amazonaws_kms_GenerateDataKeyPairRequest(native_input):
             Option_Some(
                 Map(
                     {
-                        Seq(key): Seq(value)
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(key.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        ): Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(value.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
                         for (key, value) in native_input["EncryptionContext"].items()
                     }
                 )
@@ -2073,13 +3556,36 @@ def com_amazonaws_kms_GenerateDataKeyPairRequest(native_input):
             if "EncryptionContext" in native_input.keys()
             else Option_None()
         ),
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         KeyPairSpec=aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeyPairSpec(
             native_input["KeyPairSpec"]
         ),
         GrantTokens=(
             Option_Some(
-                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+                Seq(
+                    [
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(list_element.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
+                        for list_element in native_input["GrantTokens"]
+                    ]
+                )
             )
             if "GrantTokens" in native_input.keys()
             else Option_None()
@@ -2141,7 +3647,18 @@ def com_amazonaws_kms_GenerateDataKeyPairResponse(native_input):
             else Option_None()
         ),
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),
@@ -2168,7 +3685,25 @@ def com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextRequest(native_input):
             Option_Some(
                 Map(
                     {
-                        Seq(key): Seq(value)
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(key.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        ): Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(value.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
                         for (key, value) in native_input["EncryptionContext"].items()
                     }
                 )
@@ -2176,13 +3711,36 @@ def com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextRequest(native_input):
             if "EncryptionContext" in native_input.keys()
             else Option_None()
         ),
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         KeyPairSpec=aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeyPairSpec(
             native_input["KeyPairSpec"]
         ),
         GrantTokens=(
             Option_Some(
-                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+                Seq(
+                    [
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(list_element.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
+                        for list_element in native_input["GrantTokens"]
+                    ]
+                )
             )
             if "GrantTokens" in native_input.keys()
             else Option_None()
@@ -2208,7 +3766,18 @@ def com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextResponse(native_input):
             else Option_None()
         ),
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),
@@ -2226,12 +3795,39 @@ def com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextResponse(native_input):
 
 def com_amazonaws_kms_GenerateDataKeyWithoutPlaintextRequest(native_input):
     return DafnyGenerateDataKeyWithoutPlaintextRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         EncryptionContext=(
             Option_Some(
                 Map(
                     {
-                        Seq(key): Seq(value)
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(key.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        ): Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(value.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
                         for (key, value) in native_input["EncryptionContext"].items()
                     }
                 )
@@ -2255,7 +3851,21 @@ def com_amazonaws_kms_GenerateDataKeyWithoutPlaintextRequest(native_input):
         ),
         GrantTokens=(
             Option_Some(
-                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+                Seq(
+                    [
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(list_element.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
+                        for list_element in native_input["GrantTokens"]
+                    ]
+                )
             )
             if "GrantTokens" in native_input.keys()
             else Option_None()
@@ -2276,7 +3886,18 @@ def com_amazonaws_kms_GenerateDataKeyWithoutPlaintextResponse(native_input):
             else Option_None()
         ),
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),
@@ -2286,13 +3907,36 @@ def com_amazonaws_kms_GenerateDataKeyWithoutPlaintextResponse(native_input):
 def com_amazonaws_kms_GenerateMacRequest(native_input):
     return DafnyGenerateMacRequest(
         Message=Seq(native_input["Message"]),
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         MacAlgorithm=aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MacAlgorithmSpec(
             native_input["MacAlgorithm"]
         ),
         GrantTokens=(
             Option_Some(
-                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+                Seq(
+                    [
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(list_element.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
+                        for list_element in native_input["GrantTokens"]
+                    ]
+                )
             )
             if "GrantTokens" in native_input.keys()
             else Option_None()
@@ -2322,7 +3966,18 @@ def com_amazonaws_kms_GenerateMacResponse(native_input):
             else Option_None()
         ),
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),
@@ -2337,7 +3992,25 @@ def com_amazonaws_kms_GenerateRandomRequest(native_input):
             else Option_None()
         ),
         CustomKeyStoreId=(
-            Option_Some(Seq(native_input["CustomKeyStoreId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["CustomKeyStoreId"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "CustomKeyStoreId" in native_input.keys()
             else Option_None()
         ),
@@ -2370,9 +4043,30 @@ def com_amazonaws_kms_GenerateRandomResponse(native_input):
 
 def com_amazonaws_kms_GetKeyPolicyRequest(native_input):
     return DafnyGetKeyPolicyRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         PolicyName=(
-            Option_Some(Seq(native_input["PolicyName"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["PolicyName"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "PolicyName" in native_input.keys()
             else Option_None()
         ),
@@ -2382,12 +4076,35 @@ def com_amazonaws_kms_GetKeyPolicyRequest(native_input):
 def com_amazonaws_kms_GetKeyPolicyResponse(native_input):
     return DafnyGetKeyPolicyResponse(
         Policy=(
-            Option_Some(Seq(native_input["Policy"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["Policy"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "Policy" in native_input.keys()
             else Option_None()
         ),
         PolicyName=(
-            Option_Some(Seq(native_input["PolicyName"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["PolicyName"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "PolicyName" in native_input.keys()
             else Option_None()
         ),
@@ -2396,7 +4113,16 @@ def com_amazonaws_kms_GetKeyPolicyResponse(native_input):
 
 def com_amazonaws_kms_GetKeyRotationStatusRequest(native_input):
     return DafnyGetKeyRotationStatusRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
@@ -2408,7 +4134,18 @@ def com_amazonaws_kms_GetKeyRotationStatusResponse(native_input):
             else Option_None()
         ),
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),
@@ -2434,7 +4171,16 @@ def com_amazonaws_kms_GetKeyRotationStatusResponse(native_input):
 
 def com_amazonaws_kms_GetParametersForImportRequest(native_input):
     return DafnyGetParametersForImportRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         WrappingAlgorithm=aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_AlgorithmSpec(
             native_input["WrappingAlgorithm"]
         ),
@@ -2479,7 +4225,18 @@ def com_amazonaws_kms_WrappingKeySpec(native_input):
 def com_amazonaws_kms_GetParametersForImportResponse(native_input):
     return DafnyGetParametersForImportResponse(
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),
@@ -2503,10 +4260,33 @@ def com_amazonaws_kms_GetParametersForImportResponse(native_input):
 
 def com_amazonaws_kms_GetPublicKeyRequest(native_input):
     return DafnyGetPublicKeyRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         GrantTokens=(
             Option_Some(
-                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+                Seq(
+                    [
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(list_element.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
+                        for list_element in native_input["GrantTokens"]
+                    ]
+                )
             )
             if "GrantTokens" in native_input.keys()
             else Option_None()
@@ -2517,7 +4297,18 @@ def com_amazonaws_kms_GetPublicKeyRequest(native_input):
 def com_amazonaws_kms_GetPublicKeyResponse(native_input):
     return DafnyGetPublicKeyResponse(
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),
@@ -2600,7 +4391,16 @@ def com_amazonaws_kms_GetPublicKeyResponse(native_input):
 
 def com_amazonaws_kms_ImportKeyMaterialRequest(native_input):
     return DafnyImportKeyMaterialRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         ImportToken=Seq(native_input["ImportToken"]),
         EncryptedKeyMaterial=Seq(native_input["EncryptedKeyMaterial"]),
         ValidTo=(
@@ -2627,7 +4427,18 @@ def com_amazonaws_kms_ImportKeyMaterialResponse(native_input):
 def com_amazonaws_kms_ListAliasesRequest(native_input):
     return DafnyListAliasesRequest(
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),
@@ -2637,7 +4448,18 @@ def com_amazonaws_kms_ListAliasesRequest(native_input):
             else Option_None()
         ),
         Marker=(
-            Option_Some(Seq(native_input["Marker"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["Marker"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "Marker" in native_input.keys()
             else Option_None()
         ),
@@ -2661,7 +4483,19 @@ def com_amazonaws_kms_ListAliasesResponse(native_input):
             else Option_None()
         ),
         NextMarker=(
-            Option_Some(Seq(native_input["NextMarker"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["NextMarker"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "NextMarker" in native_input.keys()
             else Option_None()
         ),
@@ -2676,17 +4510,53 @@ def com_amazonaws_kms_ListAliasesResponse(native_input):
 def com_amazonaws_kms_AliasListEntry(native_input):
     return DafnyAliasListEntry(
         AliasName=(
-            Option_Some(Seq(native_input["AliasName"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["AliasName"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "AliasName" in native_input.keys()
             else Option_None()
         ),
         AliasArn=(
-            Option_Some(Seq(native_input["AliasArn"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["AliasArn"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "AliasArn" in native_input.keys()
             else Option_None()
         ),
         TargetKeyId=(
-            Option_Some(Seq(native_input["TargetKeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["TargetKeyId"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "TargetKeyId" in native_input.keys()
             else Option_None()
         ),
@@ -2711,18 +4581,67 @@ def com_amazonaws_kms_ListGrantsRequest(native_input):
             else Option_None()
         ),
         Marker=(
-            Option_Some(Seq(native_input["Marker"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["Marker"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "Marker" in native_input.keys()
             else Option_None()
         ),
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         GrantId=(
-            Option_Some(Seq(native_input["GrantId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["GrantId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "GrantId" in native_input.keys()
             else Option_None()
         ),
         GranteePrincipal=(
-            Option_Some(Seq(native_input["GranteePrincipal"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["GranteePrincipal"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "GranteePrincipal" in native_input.keys()
             else Option_None()
         ),
@@ -2746,7 +4665,19 @@ def com_amazonaws_kms_ListGrantsResponse(native_input):
             else Option_None()
         ),
         NextMarker=(
-            Option_Some(Seq(native_input["NextMarker"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["NextMarker"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "NextMarker" in native_input.keys()
             else Option_None()
         ),
@@ -2761,17 +4692,50 @@ def com_amazonaws_kms_ListGrantsResponse(native_input):
 def com_amazonaws_kms_GrantListEntry(native_input):
     return DafnyGrantListEntry(
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),
         GrantId=(
-            Option_Some(Seq(native_input["GrantId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["GrantId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "GrantId" in native_input.keys()
             else Option_None()
         ),
         Name=(
-            Option_Some(Seq(native_input["Name"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["Name"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "Name" in native_input.keys()
             else Option_None()
         ),
@@ -2781,17 +4745,71 @@ def com_amazonaws_kms_GrantListEntry(native_input):
             else Option_None()
         ),
         GranteePrincipal=(
-            Option_Some(Seq(native_input["GranteePrincipal"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["GranteePrincipal"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "GranteePrincipal" in native_input.keys()
             else Option_None()
         ),
         RetiringPrincipal=(
-            Option_Some(Seq(native_input["RetiringPrincipal"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["RetiringPrincipal"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "RetiringPrincipal" in native_input.keys()
             else Option_None()
         ),
         IssuingAccount=(
-            Option_Some(Seq(native_input["IssuingAccount"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["IssuingAccount"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "IssuingAccount" in native_input.keys()
             else Option_None()
         ),
@@ -2823,14 +4841,34 @@ def com_amazonaws_kms_GrantListEntry(native_input):
 
 def com_amazonaws_kms_ListKeyPoliciesRequest(native_input):
     return DafnyListKeyPoliciesRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         Limit=(
             Option_Some(native_input["Limit"])
             if "Limit" in native_input.keys()
             else Option_None()
         ),
         Marker=(
-            Option_Some(Seq(native_input["Marker"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["Marker"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "Marker" in native_input.keys()
             else Option_None()
         ),
@@ -2841,13 +4879,39 @@ def com_amazonaws_kms_ListKeyPoliciesResponse(native_input):
     return DafnyListKeyPoliciesResponse(
         PolicyNames=(
             Option_Some(
-                Seq([Seq(list_element) for list_element in native_input["PolicyNames"]])
+                Seq(
+                    [
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(list_element.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
+                        for list_element in native_input["PolicyNames"]
+                    ]
+                )
             )
             if "PolicyNames" in native_input.keys()
             else Option_None()
         ),
         NextMarker=(
-            Option_Some(Seq(native_input["NextMarker"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["NextMarker"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "NextMarker" in native_input.keys()
             else Option_None()
         ),
@@ -2861,14 +4925,34 @@ def com_amazonaws_kms_ListKeyPoliciesResponse(native_input):
 
 def com_amazonaws_kms_ListKeyRotationsRequest(native_input):
     return DafnyListKeyRotationsRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         Limit=(
             Option_Some(native_input["Limit"])
             if "Limit" in native_input.keys()
             else Option_None()
         ),
         Marker=(
-            Option_Some(Seq(native_input["Marker"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["Marker"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "Marker" in native_input.keys()
             else Option_None()
         ),
@@ -2892,7 +4976,19 @@ def com_amazonaws_kms_ListKeyRotationsResponse(native_input):
             else Option_None()
         ),
         NextMarker=(
-            Option_Some(Seq(native_input["NextMarker"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["NextMarker"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "NextMarker" in native_input.keys()
             else Option_None()
         ),
@@ -2907,7 +5003,18 @@ def com_amazonaws_kms_ListKeyRotationsResponse(native_input):
 def com_amazonaws_kms_RotationsListEntry(native_input):
     return DafnyRotationsListEntry(
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),
@@ -2946,7 +5053,18 @@ def com_amazonaws_kms_ListKeysRequest(native_input):
             else Option_None()
         ),
         Marker=(
-            Option_Some(Seq(native_input["Marker"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["Marker"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "Marker" in native_input.keys()
             else Option_None()
         ),
@@ -2970,7 +5088,19 @@ def com_amazonaws_kms_ListKeysResponse(native_input):
             else Option_None()
         ),
         NextMarker=(
-            Option_Some(Seq(native_input["NextMarker"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["NextMarker"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "NextMarker" in native_input.keys()
             else Option_None()
         ),
@@ -2985,12 +5115,34 @@ def com_amazonaws_kms_ListKeysResponse(native_input):
 def com_amazonaws_kms_KeyListEntry(native_input):
     return DafnyKeyListEntry(
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),
         KeyArn=(
-            Option_Some(Seq(native_input["KeyArn"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyArn"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyArn" in native_input.keys()
             else Option_None()
         ),
@@ -2999,14 +5151,34 @@ def com_amazonaws_kms_KeyListEntry(native_input):
 
 def com_amazonaws_kms_ListResourceTagsRequest(native_input):
     return DafnyListResourceTagsRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         Limit=(
             Option_Some(native_input["Limit"])
             if "Limit" in native_input.keys()
             else Option_None()
         ),
         Marker=(
-            Option_Some(Seq(native_input["Marker"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["Marker"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "Marker" in native_input.keys()
             else Option_None()
         ),
@@ -3030,7 +5202,19 @@ def com_amazonaws_kms_ListResourceTagsResponse(native_input):
             else Option_None()
         ),
         NextMarker=(
-            Option_Some(Seq(native_input["NextMarker"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["NextMarker"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "NextMarker" in native_input.keys()
             else Option_None()
         ),
@@ -3044,13 +5228,43 @@ def com_amazonaws_kms_ListResourceTagsResponse(native_input):
 
 def com_amazonaws_kms_PutKeyPolicyRequest(native_input):
     return DafnyPutKeyPolicyRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         PolicyName=(
-            Option_Some(Seq(native_input["PolicyName"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["PolicyName"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "PolicyName" in native_input.keys()
             else Option_None()
         ),
-        Policy=Seq(native_input["Policy"]),
+        Policy=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Policy"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         BypassPolicyLockoutSafetyCheck=(
             Option_Some(native_input["BypassPolicyLockoutSafetyCheck"])
             if "BypassPolicyLockoutSafetyCheck" in native_input.keys()
@@ -3066,7 +5280,25 @@ def com_amazonaws_kms_ReEncryptRequest(native_input):
             Option_Some(
                 Map(
                     {
-                        Seq(key): Seq(value)
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(key.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        ): Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(value.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
                         for (key, value) in native_input[
                             "SourceEncryptionContext"
                         ].items()
@@ -3077,16 +5309,56 @@ def com_amazonaws_kms_ReEncryptRequest(native_input):
             else Option_None()
         ),
         SourceKeyId=(
-            Option_Some(Seq(native_input["SourceKeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["SourceKeyId"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "SourceKeyId" in native_input.keys()
             else Option_None()
         ),
-        DestinationKeyId=Seq(native_input["DestinationKeyId"]),
+        DestinationKeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["DestinationKeyId"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
         DestinationEncryptionContext=(
             Option_Some(
                 Map(
                     {
-                        Seq(key): Seq(value)
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(key.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        ): Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(value.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
                         for (key, value) in native_input[
                             "DestinationEncryptionContext"
                         ].items()
@@ -3116,7 +5388,21 @@ def com_amazonaws_kms_ReEncryptRequest(native_input):
         ),
         GrantTokens=(
             Option_Some(
-                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+                Seq(
+                    [
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(list_element.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
+                        for list_element in native_input["GrantTokens"]
+                    ]
+                )
             )
             if "GrantTokens" in native_input.keys()
             else Option_None()
@@ -3137,12 +5423,35 @@ def com_amazonaws_kms_ReEncryptResponse(native_input):
             else Option_None()
         ),
         SourceKeyId=(
-            Option_Some(Seq(native_input["SourceKeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["SourceKeyId"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "SourceKeyId" in native_input.keys()
             else Option_None()
         ),
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),
@@ -3169,10 +5478,39 @@ def com_amazonaws_kms_ReEncryptResponse(native_input):
 
 def com_amazonaws_kms_ReplicateKeyRequest(native_input):
     return DafnyReplicateKeyRequest(
-        KeyId=Seq(native_input["KeyId"]),
-        ReplicaRegion=Seq(native_input["ReplicaRegion"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        ReplicaRegion=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["ReplicaRegion"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         Policy=(
-            Option_Some(Seq(native_input["Policy"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["Policy"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "Policy" in native_input.keys()
             else Option_None()
         ),
@@ -3182,7 +5520,19 @@ def com_amazonaws_kms_ReplicateKeyRequest(native_input):
             else Option_None()
         ),
         Description=(
-            Option_Some(Seq(native_input["Description"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["Description"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "Description" in native_input.keys()
             else Option_None()
         ),
@@ -3215,7 +5565,25 @@ def com_amazonaws_kms_ReplicateKeyResponse(native_input):
             else Option_None()
         ),
         ReplicaPolicy=(
-            Option_Some(Seq(native_input["ReplicaPolicy"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["ReplicaPolicy"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "ReplicaPolicy" in native_input.keys()
             else Option_None()
         ),
@@ -3239,17 +5607,51 @@ def com_amazonaws_kms_ReplicateKeyResponse(native_input):
 def com_amazonaws_kms_RetireGrantRequest(native_input):
     return DafnyRetireGrantRequest(
         GrantToken=(
-            Option_Some(Seq(native_input["GrantToken"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["GrantToken"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "GrantToken" in native_input.keys()
             else Option_None()
         ),
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),
         GrantId=(
-            Option_Some(Seq(native_input["GrantId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["GrantId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "GrantId" in native_input.keys()
             else Option_None()
         ),
@@ -3263,8 +5665,26 @@ def com_amazonaws_kms_RetireGrantRequest(native_input):
 
 def com_amazonaws_kms_RevokeGrantRequest(native_input):
     return DafnyRevokeGrantRequest(
-        KeyId=Seq(native_input["KeyId"]),
-        GrantId=Seq(native_input["GrantId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        GrantId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["GrantId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         DryRun=(
             Option_Some(native_input["DryRun"])
             if "DryRun" in native_input.keys()
@@ -3275,14 +5695,34 @@ def com_amazonaws_kms_RevokeGrantRequest(native_input):
 
 def com_amazonaws_kms_RotateKeyOnDemandRequest(native_input):
     return DafnyRotateKeyOnDemandRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_RotateKeyOnDemandResponse(native_input):
     return DafnyRotateKeyOnDemandResponse(
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),
@@ -3291,7 +5731,16 @@ def com_amazonaws_kms_RotateKeyOnDemandResponse(native_input):
 
 def com_amazonaws_kms_ScheduleKeyDeletionRequest(native_input):
     return DafnyScheduleKeyDeletionRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         PendingWindowInDays=(
             Option_Some(native_input["PendingWindowInDays"])
             if "PendingWindowInDays" in native_input.keys()
@@ -3303,7 +5752,18 @@ def com_amazonaws_kms_ScheduleKeyDeletionRequest(native_input):
 def com_amazonaws_kms_ScheduleKeyDeletionResponse(native_input):
     return DafnyScheduleKeyDeletionResponse(
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),
@@ -3331,7 +5791,16 @@ def com_amazonaws_kms_ScheduleKeyDeletionResponse(native_input):
 
 def com_amazonaws_kms_SignRequest(native_input):
     return DafnySignRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         Message=Seq(native_input["Message"]),
         MessageType=(
             Option_Some(
@@ -3344,7 +5813,21 @@ def com_amazonaws_kms_SignRequest(native_input):
         ),
         GrantTokens=(
             Option_Some(
-                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+                Seq(
+                    [
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(list_element.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
+                        for list_element in native_input["GrantTokens"]
+                    ]
+                )
             )
             if "GrantTokens" in native_input.keys()
             else Option_None()
@@ -3373,7 +5856,18 @@ def com_amazonaws_kms_MessageType(native_input):
 def com_amazonaws_kms_SignResponse(native_input):
     return DafnySignResponse(
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),
@@ -3396,7 +5890,16 @@ def com_amazonaws_kms_SignResponse(native_input):
 
 def com_amazonaws_kms_TagResourceRequest(native_input):
     return DafnyTagResourceRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         Tags=Seq(
             [
                 aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_Tag(
@@ -3410,48 +5913,207 @@ def com_amazonaws_kms_TagResourceRequest(native_input):
 
 def com_amazonaws_kms_UntagResourceRequest(native_input):
     return DafnyUntagResourceRequest(
-        KeyId=Seq(native_input["KeyId"]),
-        TagKeys=Seq([Seq(list_element) for list_element in native_input["TagKeys"]]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        TagKeys=Seq(
+            [
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(list_element.encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+                for list_element in native_input["TagKeys"]
+            ]
+        ),
     )
 
 
 def com_amazonaws_kms_UpdateAliasRequest(native_input):
     return DafnyUpdateAliasRequest(
-        AliasName=Seq(native_input["AliasName"]),
-        TargetKeyId=Seq(native_input["TargetKeyId"]),
+        AliasName=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["AliasName"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        TargetKeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["TargetKeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_UpdateCustomKeyStoreRequest(native_input):
     return DafnyUpdateCustomKeyStoreRequest(
-        CustomKeyStoreId=Seq(native_input["CustomKeyStoreId"]),
+        CustomKeyStoreId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["CustomKeyStoreId"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
         NewCustomKeyStoreName=(
-            Option_Some(Seq(native_input["NewCustomKeyStoreName"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["NewCustomKeyStoreName"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "NewCustomKeyStoreName" in native_input.keys()
             else Option_None()
         ),
         KeyStorePassword=(
-            Option_Some(Seq(native_input["KeyStorePassword"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["KeyStorePassword"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyStorePassword" in native_input.keys()
             else Option_None()
         ),
         CloudHsmClusterId=(
-            Option_Some(Seq(native_input["CloudHsmClusterId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["CloudHsmClusterId"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "CloudHsmClusterId" in native_input.keys()
             else Option_None()
         ),
         XksProxyUriEndpoint=(
-            Option_Some(Seq(native_input["XksProxyUriEndpoint"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["XksProxyUriEndpoint"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "XksProxyUriEndpoint" in native_input.keys()
             else Option_None()
         ),
         XksProxyUriPath=(
-            Option_Some(Seq(native_input["XksProxyUriPath"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["XksProxyUriPath"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "XksProxyUriPath" in native_input.keys()
             else Option_None()
         ),
         XksProxyVpcEndpointServiceName=(
-            Option_Some(Seq(native_input["XksProxyVpcEndpointServiceName"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input[
+                                            "XksProxyVpcEndpointServiceName"
+                                        ].encode("utf-16-be")
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "XksProxyVpcEndpointServiceName" in native_input.keys()
             else Option_None()
         ),
@@ -3482,21 +6144,66 @@ def com_amazonaws_kms_UpdateCustomKeyStoreResponse(native_input):
 
 def com_amazonaws_kms_UpdateKeyDescriptionRequest(native_input):
     return DafnyUpdateKeyDescriptionRequest(
-        KeyId=Seq(native_input["KeyId"]),
-        Description=Seq(native_input["Description"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        Description=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Description"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_UpdatePrimaryRegionRequest(native_input):
     return DafnyUpdatePrimaryRegionRequest(
-        KeyId=Seq(native_input["KeyId"]),
-        PrimaryRegion=Seq(native_input["PrimaryRegion"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        PrimaryRegion=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["PrimaryRegion"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def com_amazonaws_kms_VerifyRequest(native_input):
     return DafnyVerifyRequest(
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         Message=Seq(native_input["Message"]),
         MessageType=(
             Option_Some(
@@ -3513,7 +6220,21 @@ def com_amazonaws_kms_VerifyRequest(native_input):
         ),
         GrantTokens=(
             Option_Some(
-                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+                Seq(
+                    [
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(list_element.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
+                        for list_element in native_input["GrantTokens"]
+                    ]
+                )
             )
             if "GrantTokens" in native_input.keys()
             else Option_None()
@@ -3529,7 +6250,18 @@ def com_amazonaws_kms_VerifyRequest(native_input):
 def com_amazonaws_kms_VerifyResponse(native_input):
     return DafnyVerifyResponse(
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),
@@ -3553,14 +6285,37 @@ def com_amazonaws_kms_VerifyResponse(native_input):
 def com_amazonaws_kms_VerifyMacRequest(native_input):
     return DafnyVerifyMacRequest(
         Message=Seq(native_input["Message"]),
-        KeyId=Seq(native_input["KeyId"]),
+        KeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         MacAlgorithm=aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MacAlgorithmSpec(
             native_input["MacAlgorithm"]
         ),
         Mac=Seq(native_input["Mac"]),
         GrantTokens=(
             Option_Some(
-                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+                Seq(
+                    [
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(list_element.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        )
+                        for list_element in native_input["GrantTokens"]
+                    ]
+                )
             )
             if "GrantTokens" in native_input.keys()
             else Option_None()
@@ -3576,7 +6331,18 @@ def com_amazonaws_kms_VerifyMacRequest(native_input):
 def com_amazonaws_kms_VerifyMacResponse(native_input):
     return DafnyVerifyMacResponse(
         KeyId=(
-            Option_Some(Seq(native_input["KeyId"]))
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["KeyId"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
             if "KeyId" in native_input.keys()
             else Option_None()
         ),

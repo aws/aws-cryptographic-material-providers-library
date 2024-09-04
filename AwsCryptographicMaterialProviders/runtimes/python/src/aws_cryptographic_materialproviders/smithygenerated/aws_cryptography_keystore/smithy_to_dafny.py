@@ -182,7 +182,16 @@ def aws_cryptography_keystore_GetKeyStoreInfoOutput(native_input):
                 ]
             )
         ),
-        keyStoreName=Seq(native_input.key_store_name),
+        keyStoreName=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.key_store_name.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         logicalKeyStoreName=Seq(
             "".join(
                 [
@@ -221,14 +230,32 @@ def aws_cryptography_keystore_KMSConfiguration(native_input):
         aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationKmsKeyArn,
     ):
         KMSConfiguration_union_value = KMSConfiguration_kmsKeyArn(
-            Seq(native_input.value)
+            Seq(
+                "".join(
+                    [
+                        chr(int.from_bytes(pair, "big"))
+                        for pair in zip(
+                            *[iter(native_input.value.encode("utf-16-be"))] * 2
+                        )
+                    ]
+                )
+            )
         )
     elif isinstance(
         native_input,
         aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationKmsMRKeyArn,
     ):
         KMSConfiguration_union_value = KMSConfiguration_kmsMRKeyArn(
-            Seq(native_input.value)
+            Seq(
+                "".join(
+                    [
+                        chr(int.from_bytes(pair, "big"))
+                        for pair in zip(
+                            *[iter(native_input.value.encode("utf-16-be"))] * 2
+                        )
+                    ]
+                )
+            )
         )
     elif isinstance(
         native_input,
@@ -262,13 +289,31 @@ def aws_cryptography_keystore_Discovery(native_input):
 
 def aws_cryptography_keystore_MRDiscovery(native_input):
     return DafnyMRDiscovery(
-        region=Seq(native_input.region),
+        region=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.region.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def aws_cryptography_keystore_CreateKeyStoreOutput(native_input):
     return DafnyCreateKeyStoreOutput(
-        tableArn=Seq(native_input.table_arn),
+        tableArn=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.table_arn.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
@@ -392,7 +437,16 @@ def aws_cryptography_keystore_BeaconKeyMaterials(native_input):
 
 def aws_cryptography_keystore_KeyStoreConfig(native_input):
     return DafnyKeyStoreConfig(
-        ddbTableName=Seq(native_input.ddb_table_name),
+        ddbTableName=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.ddb_table_name.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         kmsConfiguration=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_KMSConfiguration(
             native_input.kms_configuration
         ),

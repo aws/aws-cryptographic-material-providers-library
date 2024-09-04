@@ -90,11 +90,15 @@ def aws_cryptography_keystore_KMSConfiguration(dafny_input):
     # Convert KMSConfiguration
     if isinstance(dafny_input, KMSConfiguration_kmsKeyArn):
         KMSConfiguration_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationKmsKeyArn(
-            dafny_input.kmsKeyArn.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in dafny_input.kmsKeyArn).decode(
+                "utf-16-be"
+            )
         )
     elif isinstance(dafny_input, KMSConfiguration_kmsMRKeyArn):
         KMSConfiguration_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationKmsMRKeyArn(
-            dafny_input.kmsMRKeyArn.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in dafny_input.kmsMRKeyArn).decode(
+                "utf-16-be"
+            )
         )
     elif isinstance(dafny_input, KMSConfiguration_discovery):
         KMSConfiguration_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationDiscovery(
@@ -122,7 +126,9 @@ def aws_cryptography_keystore_Discovery(dafny_input):
 
 def aws_cryptography_keystore_MRDiscovery(dafny_input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.MRDiscovery(
-        region=dafny_input.region.VerbatimString(False),
+        region=b"".join(ord(c).to_bytes(2, "big") for c in dafny_input.region).decode(
+            "utf-16-be"
+        ),
     )
 
 
@@ -131,7 +137,9 @@ def aws_cryptography_keystore_GetKeyStoreInfoOutput(dafny_input):
         key_store_id=b"".join(
             ord(c).to_bytes(2, "big") for c in dafny_input.keyStoreId
         ).decode("utf-16-be"),
-        key_store_name=dafny_input.keyStoreName.VerbatimString(False),
+        key_store_name=b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.keyStoreName
+        ).decode("utf-16-be"),
         logical_key_store_name=b"".join(
             ord(c).to_bytes(2, "big") for c in dafny_input.logicalKeyStoreName
         ).decode("utf-16-be"),
@@ -149,7 +157,9 @@ def aws_cryptography_keystore_GetKeyStoreInfoOutput(dafny_input):
 
 def aws_cryptography_keystore_CreateKeyStoreOutput(dafny_input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.CreateKeyStoreOutput(
-        table_arn=dafny_input.tableArn.VerbatimString(False),
+        table_arn=b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.tableArn
+        ).decode("utf-16-be"),
     )
 
 
@@ -247,7 +257,9 @@ def aws_cryptography_keystore_KeyStoreConfig(dafny_input):
     import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.config
 
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.config.KeyStoreConfig(
-        ddb_table_name=dafny_input.ddbTableName.VerbatimString(False),
+        ddb_table_name=b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.ddbTableName
+        ).decode("utf-16-be"),
         kms_configuration=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_KMSConfiguration(
             dafny_input.kmsConfiguration
         ),
