@@ -10,7 +10,6 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
 )
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models
-from smithy_dafny_standard_library.internaldafny.generated import UTF8
 
 
 def smithy_api_Unit():
@@ -28,16 +27,21 @@ def aws_cryptography_keystore_CreateKeyStoreInput(dafny_input):
 def aws_cryptography_keystore_CreateKeyInput(dafny_input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.CreateKeyInput(
         branch_key_identifier=(
-            (dafny_input.branchKeyIdentifier.value.VerbatimString(False))
+            (
+                b"".join(
+                    ord(c).to_bytes(2, "big")
+                    for c in dafny_input.branchKeyIdentifier.value
+                ).decode("utf-16-be")
+            )
             if (dafny_input.branchKeyIdentifier.is_Some)
             else None
         ),
         encryption_context=(
             (
                 {
-                    "".join(UTF8.default__.Decode(key).value.Elements): "".join(
-                        UTF8.default__.Decode(value).value.Elements
-                    )
+                    bytes(key.Elements)
+                    .decode("utf-8"): bytes(value.Elements)
+                    .decode("utf-8")
                     for (key, value) in dafny_input.encryptionContext.value.items
                 }
             )
@@ -49,26 +53,36 @@ def aws_cryptography_keystore_CreateKeyInput(dafny_input):
 
 def aws_cryptography_keystore_VersionKeyInput(dafny_input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.VersionKeyInput(
-        branch_key_identifier=dafny_input.branchKeyIdentifier.VerbatimString(False),
+        branch_key_identifier=b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.branchKeyIdentifier
+        ).decode("utf-16-be"),
     )
 
 
 def aws_cryptography_keystore_GetActiveBranchKeyInput(dafny_input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetActiveBranchKeyInput(
-        branch_key_identifier=dafny_input.branchKeyIdentifier.VerbatimString(False),
+        branch_key_identifier=b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.branchKeyIdentifier
+        ).decode("utf-16-be"),
     )
 
 
 def aws_cryptography_keystore_GetBranchKeyVersionInput(dafny_input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetBranchKeyVersionInput(
-        branch_key_identifier=dafny_input.branchKeyIdentifier.VerbatimString(False),
-        branch_key_version=dafny_input.branchKeyVersion.VerbatimString(False),
+        branch_key_identifier=b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.branchKeyIdentifier
+        ).decode("utf-16-be"),
+        branch_key_version=b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.branchKeyVersion
+        ).decode("utf-16-be"),
     )
 
 
 def aws_cryptography_keystore_GetBeaconKeyInput(dafny_input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetBeaconKeyInput(
-        branch_key_identifier=dafny_input.branchKeyIdentifier.VerbatimString(False),
+        branch_key_identifier=b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.branchKeyIdentifier
+        ).decode("utf-16-be"),
     )
 
 
@@ -114,11 +128,17 @@ def aws_cryptography_keystore_MRDiscovery(dafny_input):
 
 def aws_cryptography_keystore_GetKeyStoreInfoOutput(dafny_input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetKeyStoreInfoOutput(
-        key_store_id=dafny_input.keyStoreId.VerbatimString(False),
+        key_store_id=b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.keyStoreId
+        ).decode("utf-16-be"),
         key_store_name=dafny_input.keyStoreName.VerbatimString(False),
-        logical_key_store_name=dafny_input.logicalKeyStoreName.VerbatimString(False),
+        logical_key_store_name=b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.logicalKeyStoreName
+        ).decode("utf-16-be"),
         grant_tokens=[
-            list_element.VerbatimString(False)
+            b"".join(ord(c).to_bytes(2, "big") for c in list_element).decode(
+                "utf-16-be"
+            )
             for list_element in dafny_input.grantTokens
         ],
         kms_configuration=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_KMSConfiguration(
@@ -135,7 +155,9 @@ def aws_cryptography_keystore_CreateKeyStoreOutput(dafny_input):
 
 def aws_cryptography_keystore_CreateKeyOutput(dafny_input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.CreateKeyOutput(
-        branch_key_identifier=dafny_input.branchKeyIdentifier.VerbatimString(False),
+        branch_key_identifier=b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.branchKeyIdentifier
+        ).decode("utf-16-be"),
     )
 
 
@@ -147,14 +169,12 @@ def aws_cryptography_keystore_VersionKeyOutput(dafny_input):
 
 def aws_cryptography_keystore_BranchKeyMaterials(dafny_input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.BranchKeyMaterials(
-        branch_key_identifier=dafny_input.branchKeyIdentifier.VerbatimString(False),
-        branch_key_version="".join(
-            UTF8.default__.Decode(dafny_input.branchKeyVersion).value.Elements
-        ),
+        branch_key_identifier=b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.branchKeyIdentifier
+        ).decode("utf-16-be"),
+        branch_key_version=bytes(dafny_input.branchKeyVersion.Elements).decode("utf-8"),
         encryption_context={
-            "".join(UTF8.default__.Decode(key).value.Elements): "".join(
-                UTF8.default__.Decode(value).value.Elements
-            )
+            bytes(key.Elements).decode("utf-8"): bytes(value.Elements).decode("utf-8")
             for (key, value) in dafny_input.encryptionContext.items
         },
         branch_key=bytes(dafny_input.branchKey),
@@ -179,11 +199,11 @@ def aws_cryptography_keystore_GetBranchKeyVersionOutput(dafny_input):
 
 def aws_cryptography_keystore_BeaconKeyMaterials(dafny_input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.BeaconKeyMaterials(
-        beacon_key_identifier=dafny_input.beaconKeyIdentifier.VerbatimString(False),
+        beacon_key_identifier=b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.beaconKeyIdentifier
+        ).decode("utf-16-be"),
         encryption_context={
-            "".join(UTF8.default__.Decode(key).value.Elements): "".join(
-                UTF8.default__.Decode(value).value.Elements
-            )
+            bytes(key.Elements).decode("utf-8"): bytes(value.Elements).decode("utf-8")
             for (key, value) in dafny_input.encryptionContext.items
         },
         beacon_key=(
@@ -194,7 +214,9 @@ def aws_cryptography_keystore_BeaconKeyMaterials(dafny_input):
         hmac_keys=(
             (
                 {
-                    key.VerbatimString(False): bytes(value)
+                    b"".join(ord(c).to_bytes(2, "big") for c in key).decode(
+                        "utf-16-be"
+                    ): bytes(value)
                     for (key, value) in dafny_input.hmacKeys.value.items
                 }
             )
@@ -229,16 +251,24 @@ def aws_cryptography_keystore_KeyStoreConfig(dafny_input):
         kms_configuration=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_KMSConfiguration(
             dafny_input.kmsConfiguration
         ),
-        logical_key_store_name=dafny_input.logicalKeyStoreName.VerbatimString(False),
+        logical_key_store_name=b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.logicalKeyStoreName
+        ).decode("utf-16-be"),
         id=(
-            (dafny_input.id.value.VerbatimString(False))
+            (
+                b"".join(
+                    ord(c).to_bytes(2, "big") for c in dafny_input.id.value
+                ).decode("utf-16-be")
+            )
             if (dafny_input.id.is_Some)
             else None
         ),
         grant_tokens=(
             (
                 [
-                    list_element.VerbatimString(False)
+                    b"".join(ord(c).to_bytes(2, "big") for c in list_element).decode(
+                        "utf-16-be"
+                    )
                     for list_element in dafny_input.grantTokens.value
                 ]
             )

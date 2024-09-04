@@ -131,20 +131,17 @@ from aws_cryptography_internal_kms.internaldafny.generated.ComAmazonawsKmsTypes 
 import aws_cryptography_internal_kms.internaldafny.generated.module_
 import aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny
 import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny
-from smithy_dafny_smithy_dafny_standard_library.internaldafny.generated.Wrappers import (
+from smithy_dafny_standard_library.internaldafny.generated.Wrappers import (
     Option_None,
     Option_Some,
 )
-from smithy_dafny_standard_library.internaldafny.generated import UTF8
 
 
 def aws_cryptography_materialproviders_GetBranchKeyIdInput(native_input):
     return DafnyGetBranchKeyIdInput(
         encryptionContext=Map(
             {
-                UTF8.default__.Encode(Seq(key))
-                .value: UTF8.default__.Encode(Seq(value))
-                .value
+                Seq(key.encode("utf-8")): Seq(value.encode("utf-8"))
                 for (key, value) in native_input.encryption_context.items()
             }
         ),
@@ -153,13 +150,31 @@ def aws_cryptography_materialproviders_GetBranchKeyIdInput(native_input):
 
 def aws_cryptography_materialproviders_GetBranchKeyIdOutput(native_input):
     return DafnyGetBranchKeyIdOutput(
-        branchKeyId=Seq(native_input.branch_key_id),
+        branchKeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.branch_key_id.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def aws_cryptography_materialproviders_GetClientInput(native_input):
     return DafnyGetClientInput(
-        region=Seq(native_input.region),
+        region=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.region.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
@@ -252,9 +267,7 @@ def aws_cryptography_materialproviders_EncryptionMaterials(native_input):
         ),
         encryptionContext=Map(
             {
-                UTF8.default__.Encode(Seq(key))
-                .value: UTF8.default__.Encode(Seq(value))
-                .value
+                Seq(key.encode("utf-8")): Seq(value.encode("utf-8"))
                 for (key, value) in native_input.encryption_context.items()
             }
         ),
@@ -268,7 +281,7 @@ def aws_cryptography_materialproviders_EncryptionMaterials(native_input):
         ),
         requiredEncryptionContextKeys=Seq(
             [
-                UTF8.default__.Encode(Seq(list_element)).value
+                Seq(list_element.encode("utf-8"))
                 for list_element in native_input.required_encryption_context_keys
             ]
         ),
@@ -306,15 +319,13 @@ def aws_cryptography_materialproviders_DecryptionMaterials(native_input):
         ),
         encryptionContext=Map(
             {
-                UTF8.default__.Encode(Seq(key))
-                .value: UTF8.default__.Encode(Seq(value))
-                .value
+                Seq(key.encode("utf-8")): Seq(value.encode("utf-8"))
                 for (key, value) in native_input.encryption_context.items()
             }
         ),
         requiredEncryptionContextKeys=Seq(
             [
-                UTF8.default__.Encode(Seq(list_element)).value
+                Seq(list_element.encode("utf-8"))
                 for list_element in native_input.required_encryption_context_keys
             ]
         ),
@@ -366,7 +377,7 @@ def aws_cryptography_materialproviders_AlgorithmSuiteInfo(native_input):
 
 def aws_cryptography_materialproviders_EncryptedDataKey(native_input):
     return DafnyEncryptedDataKey(
-        keyProviderId=UTF8.default__.Encode(Seq(native_input.key_provider_id)).value,
+        keyProviderId=Seq(native_input.key_provider_id.encode("utf-8")),
         keyProviderInfo=Seq(native_input.key_provider_info),
         ciphertext=Seq(native_input.ciphertext),
     )
@@ -684,9 +695,7 @@ def aws_cryptography_materialproviders_GetEncryptionMaterialsInput(native_input)
     return DafnyGetEncryptionMaterialsInput(
         encryptionContext=Map(
             {
-                UTF8.default__.Encode(Seq(key))
-                .value: UTF8.default__.Encode(Seq(value))
-                .value
+                Seq(key.encode("utf-8")): Seq(value.encode("utf-8"))
                 for (key, value) in native_input.encryption_context.items()
             }
         ),
@@ -714,7 +723,7 @@ def aws_cryptography_materialproviders_GetEncryptionMaterialsInput(native_input)
                 Option_Some(
                     Seq(
                         [
-                            UTF8.default__.Encode(Seq(list_element)).value
+                            Seq(list_element.encode("utf-8"))
                             for list_element in native_input.required_encryption_context_keys
                         ]
                     )
@@ -801,9 +810,7 @@ def aws_cryptography_materialproviders_DecryptMaterialsInput(native_input):
         ),
         encryptionContext=Map(
             {
-                UTF8.default__.Encode(Seq(key))
-                .value: UTF8.default__.Encode(Seq(value))
-                .value
+                Seq(key.encode("utf-8")): Seq(value.encode("utf-8"))
                 for (key, value) in native_input.encryption_context.items()
             }
         ),
@@ -812,9 +819,7 @@ def aws_cryptography_materialproviders_DecryptMaterialsInput(native_input):
                 Option_Some(
                     Map(
                         {
-                            UTF8.default__.Encode(Seq(key))
-                            .value: UTF8.default__.Encode(Seq(value))
-                            .value
+                            Seq(key.encode("utf-8")): Seq(value.encode("utf-8"))
                             for (
                                 key,
                                 value,
@@ -879,7 +884,16 @@ def aws_cryptography_materialproviders_OnDecryptOutput(native_input):
 
 def aws_cryptography_materialproviders_CreateAwsKmsKeyringInput(native_input):
     return DafnyCreateAwsKmsKeyringInput(
-        kmsKeyId=Seq(native_input.kms_key_id),
+        kmsKeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.kms_key_id.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         kmsClient=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_KmsClientReference(
             native_input.kms_client
         ),
@@ -888,7 +902,17 @@ def aws_cryptography_materialproviders_CreateAwsKmsKeyringInput(native_input):
                 Option_Some(
                     Seq(
                         [
-                            Seq(list_element)
+                            Seq(
+                                "".join(
+                                    [
+                                        chr(int.from_bytes(pair, "big"))
+                                        for pair in zip(
+                                            *[iter(list_element.encode("utf-16-be"))]
+                                            * 2
+                                        )
+                                    ]
+                                )
+                            )
                             for list_element in native_input.grant_tokens
                         ]
                     )
@@ -921,7 +945,17 @@ def aws_cryptography_materialproviders_CreateAwsKmsDiscoveryKeyringInput(native_
                 Option_Some(
                     Seq(
                         [
-                            Seq(list_element)
+                            Seq(
+                                "".join(
+                                    [
+                                        chr(int.from_bytes(pair, "big"))
+                                        for pair in zip(
+                                            *[iter(list_element.encode("utf-16-be"))]
+                                            * 2
+                                        )
+                                    ]
+                                )
+                            )
                             for list_element in native_input.grant_tokens
                         ]
                     )
@@ -936,16 +970,51 @@ def aws_cryptography_materialproviders_CreateAwsKmsDiscoveryKeyringInput(native_
 def aws_cryptography_materialproviders_DiscoveryFilter(native_input):
     return DafnyDiscoveryFilter(
         accountIds=Seq(
-            [Seq(list_element) for list_element in native_input.account_ids]
+            [
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(list_element.encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+                for list_element in native_input.account_ids
+            ]
         ),
-        partition=Seq(native_input.partition),
+        partition=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.partition.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
 def aws_cryptography_materialproviders_CreateAwsKmsMultiKeyringInput(native_input):
     return DafnyCreateAwsKmsMultiKeyringInput(
         generator=(
-            (Option_Some(Seq(native_input.generator)))
+            (
+                Option_Some(
+                    Seq(
+                        "".join(
+                            [
+                                chr(int.from_bytes(pair, "big"))
+                                for pair in zip(
+                                    *[iter(native_input.generator.encode("utf-16-be"))]
+                                    * 2
+                                )
+                            ]
+                        )
+                    )
+                )
+            )
             if (native_input.generator is not None)
             else (Option_None())
         ),
@@ -953,7 +1022,20 @@ def aws_cryptography_materialproviders_CreateAwsKmsMultiKeyringInput(native_inpu
             (
                 Option_Some(
                     Seq(
-                        [Seq(list_element) for list_element in native_input.kms_key_ids]
+                        [
+                            Seq(
+                                "".join(
+                                    [
+                                        chr(int.from_bytes(pair, "big"))
+                                        for pair in zip(
+                                            *[iter(list_element.encode("utf-16-be"))]
+                                            * 2
+                                        )
+                                    ]
+                                )
+                            )
+                            for list_element in native_input.kms_key_ids
+                        ]
                     )
                 )
             )
@@ -984,7 +1066,17 @@ def aws_cryptography_materialproviders_CreateAwsKmsMultiKeyringInput(native_inpu
                 Option_Some(
                     Seq(
                         [
-                            Seq(list_element)
+                            Seq(
+                                "".join(
+                                    [
+                                        chr(int.from_bytes(pair, "big"))
+                                        for pair in zip(
+                                            *[iter(list_element.encode("utf-16-be"))]
+                                            * 2
+                                        )
+                                    ]
+                                )
+                            )
                             for list_element in native_input.grant_tokens
                         ]
                     )
@@ -1008,7 +1100,21 @@ def aws_cryptography_materialproviders_CreateAwsKmsDiscoveryMultiKeyringInput(
     native_input,
 ):
     return DafnyCreateAwsKmsDiscoveryMultiKeyringInput(
-        regions=Seq([Seq(list_element) for list_element in native_input.regions]),
+        regions=Seq(
+            [
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(list_element.encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+                for list_element in native_input.regions
+            ]
+        ),
         discoveryFilter=(
             (
                 Option_Some(
@@ -1044,7 +1150,17 @@ def aws_cryptography_materialproviders_CreateAwsKmsDiscoveryMultiKeyringInput(
                 Option_Some(
                     Seq(
                         [
-                            Seq(list_element)
+                            Seq(
+                                "".join(
+                                    [
+                                        chr(int.from_bytes(pair, "big"))
+                                        for pair in zip(
+                                            *[iter(list_element.encode("utf-16-be"))]
+                                            * 2
+                                        )
+                                    ]
+                                )
+                            )
                             for list_element in native_input.grant_tokens
                         ]
                     )
@@ -1058,7 +1174,16 @@ def aws_cryptography_materialproviders_CreateAwsKmsDiscoveryMultiKeyringInput(
 
 def aws_cryptography_materialproviders_CreateAwsKmsMrkKeyringInput(native_input):
     return DafnyCreateAwsKmsMrkKeyringInput(
-        kmsKeyId=Seq(native_input.kms_key_id),
+        kmsKeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.kms_key_id.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         kmsClient=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_KmsClientReference(
             native_input.kms_client
         ),
@@ -1067,7 +1192,17 @@ def aws_cryptography_materialproviders_CreateAwsKmsMrkKeyringInput(native_input)
                 Option_Some(
                     Seq(
                         [
-                            Seq(list_element)
+                            Seq(
+                                "".join(
+                                    [
+                                        chr(int.from_bytes(pair, "big"))
+                                        for pair in zip(
+                                            *[iter(list_element.encode("utf-16-be"))]
+                                            * 2
+                                        )
+                                    ]
+                                )
+                            )
                             for list_element in native_input.grant_tokens
                         ]
                     )
@@ -1082,7 +1217,21 @@ def aws_cryptography_materialproviders_CreateAwsKmsMrkKeyringInput(native_input)
 def aws_cryptography_materialproviders_CreateAwsKmsMrkMultiKeyringInput(native_input):
     return DafnyCreateAwsKmsMrkMultiKeyringInput(
         generator=(
-            (Option_Some(Seq(native_input.generator)))
+            (
+                Option_Some(
+                    Seq(
+                        "".join(
+                            [
+                                chr(int.from_bytes(pair, "big"))
+                                for pair in zip(
+                                    *[iter(native_input.generator.encode("utf-16-be"))]
+                                    * 2
+                                )
+                            ]
+                        )
+                    )
+                )
+            )
             if (native_input.generator is not None)
             else (Option_None())
         ),
@@ -1090,7 +1239,20 @@ def aws_cryptography_materialproviders_CreateAwsKmsMrkMultiKeyringInput(native_i
             (
                 Option_Some(
                     Seq(
-                        [Seq(list_element) for list_element in native_input.kms_key_ids]
+                        [
+                            Seq(
+                                "".join(
+                                    [
+                                        chr(int.from_bytes(pair, "big"))
+                                        for pair in zip(
+                                            *[iter(list_element.encode("utf-16-be"))]
+                                            * 2
+                                        )
+                                    ]
+                                )
+                            )
+                            for list_element in native_input.kms_key_ids
+                        ]
                     )
                 )
             )
@@ -1121,7 +1283,17 @@ def aws_cryptography_materialproviders_CreateAwsKmsMrkMultiKeyringInput(native_i
                 Option_Some(
                     Seq(
                         [
-                            Seq(list_element)
+                            Seq(
+                                "".join(
+                                    [
+                                        chr(int.from_bytes(pair, "big"))
+                                        for pair in zip(
+                                            *[iter(list_element.encode("utf-16-be"))]
+                                            * 2
+                                        )
+                                    ]
+                                )
+                            )
                             for list_element in native_input.grant_tokens
                         ]
                     )
@@ -1156,7 +1328,17 @@ def aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryKeyringInput(
                 Option_Some(
                     Seq(
                         [
-                            Seq(list_element)
+                            Seq(
+                                "".join(
+                                    [
+                                        chr(int.from_bytes(pair, "big"))
+                                        for pair in zip(
+                                            *[iter(list_element.encode("utf-16-be"))]
+                                            * 2
+                                        )
+                                    ]
+                                )
+                            )
                             for list_element in native_input.grant_tokens
                         ]
                     )
@@ -1165,7 +1347,16 @@ def aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryKeyringInput(
             if (native_input.grant_tokens is not None)
             else (Option_None())
         ),
-        region=Seq(native_input.region),
+        region=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.region.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
@@ -1173,7 +1364,21 @@ def aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput
     native_input,
 ):
     return DafnyCreateAwsKmsMrkDiscoveryMultiKeyringInput(
-        regions=Seq([Seq(list_element) for list_element in native_input.regions]),
+        regions=Seq(
+            [
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(list_element.encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+                for list_element in native_input.regions
+            ]
+        ),
         discoveryFilter=(
             (
                 Option_Some(
@@ -1209,7 +1414,17 @@ def aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput
                 Option_Some(
                     Seq(
                         [
-                            Seq(list_element)
+                            Seq(
+                                "".join(
+                                    [
+                                        chr(int.from_bytes(pair, "big"))
+                                        for pair in zip(
+                                            *[iter(list_element.encode("utf-16-be"))]
+                                            * 2
+                                        )
+                                    ]
+                                )
+                            )
                             for list_element in native_input.grant_tokens
                         ]
                     )
@@ -1226,7 +1441,27 @@ def aws_cryptography_materialproviders_CreateAwsKmsHierarchicalKeyringInput(
 ):
     return DafnyCreateAwsKmsHierarchicalKeyringInput(
         branchKeyId=(
-            (Option_Some(Seq(native_input.branch_key_id)))
+            (
+                Option_Some(
+                    Seq(
+                        "".join(
+                            [
+                                chr(int.from_bytes(pair, "big"))
+                                for pair in zip(
+                                    *[
+                                        iter(
+                                            native_input.branch_key_id.encode(
+                                                "utf-16-be"
+                                            )
+                                        )
+                                    ]
+                                    * 2
+                                )
+                            ]
+                        )
+                    )
+                )
+            )
             if (native_input.branch_key_id is not None)
             else (Option_None())
         ),
@@ -1388,7 +1623,16 @@ def aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(native_input)
             if (native_input.public_key is not None)
             else (Option_None())
         ),
-        kmsKeyId=Seq(native_input.kms_key_id),
+        kmsKeyId=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.kms_key_id.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         encryptionAlgorithm=aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
             native_input.encryption_algorithm
         ),
@@ -1416,7 +1660,17 @@ def aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(native_input)
                 Option_Some(
                     Seq(
                         [
-                            Seq(list_element)
+                            Seq(
+                                "".join(
+                                    [
+                                        chr(int.from_bytes(pair, "big"))
+                                        for pair in zip(
+                                            *[iter(list_element.encode("utf-16-be"))]
+                                            * 2
+                                        )
+                                    ]
+                                )
+                            )
                             for list_element in native_input.grant_tokens
                         ]
                     )
@@ -1444,7 +1698,17 @@ def aws_cryptography_materialproviders_CreateAwsKmsEcdhKeyringInput(native_input
                 Option_Some(
                     Seq(
                         [
-                            Seq(list_element)
+                            Seq(
+                                "".join(
+                                    [
+                                        chr(int.from_bytes(pair, "big"))
+                                        for pair in zip(
+                                            *[iter(list_element.encode("utf-16-be"))]
+                                            * 2
+                                        )
+                                    ]
+                                )
+                            )
                             for list_element in native_input.grant_tokens
                         ]
                     )
@@ -1485,7 +1749,23 @@ def aws_cryptography_materialproviders_KmsEcdhStaticConfigurations(native_input)
 
 def aws_cryptography_materialproviders_KmsPublicKeyDiscoveryInput(native_input):
     return DafnyKmsPublicKeyDiscoveryInput(
-        recipientKmsIdentifier=Seq(native_input.recipient_kms_identifier),
+        recipientKmsIdentifier=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[
+                            iter(
+                                native_input.recipient_kms_identifier.encode(
+                                    "utf-16-be"
+                                )
+                            )
+                        ]
+                        * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
@@ -1493,7 +1773,17 @@ def aws_cryptography_materialproviders_KmsPrivateKeyToStaticPublicKeyInput(
     native_input,
 ):
     return DafnyKmsPrivateKeyToStaticPublicKeyInput(
-        senderKmsIdentifier=Seq(native_input.sender_kms_identifier),
+        senderKmsIdentifier=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.sender_kms_identifier.encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
         senderPublicKey=(
             (Option_Some(Seq(native_input.sender_public_key)))
             if (native_input.sender_public_key is not None)
@@ -1545,8 +1835,26 @@ def aws_cryptography_materialproviders_KeyringReference(native_input):
 
 def aws_cryptography_materialproviders_CreateRawAesKeyringInput(native_input):
     return DafnyCreateRawAesKeyringInput(
-        keyNamespace=Seq(native_input.key_namespace),
-        keyName=Seq(native_input.key_name),
+        keyNamespace=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.key_namespace.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        keyName=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.key_name.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         wrappingKey=Seq(native_input.wrapping_key),
         wrappingAlg=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_AesWrappingAlg(
             native_input.wrapping_alg
@@ -1570,8 +1878,26 @@ def aws_cryptography_materialproviders_AesWrappingAlg(native_input):
 
 def aws_cryptography_materialproviders_CreateRawRsaKeyringInput(native_input):
     return DafnyCreateRawRsaKeyringInput(
-        keyNamespace=Seq(native_input.key_namespace),
-        keyName=Seq(native_input.key_name),
+        keyNamespace=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.key_namespace.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        keyName=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.key_name.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         paddingScheme=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_PaddingScheme(
             native_input.padding_scheme
         ),
@@ -1732,7 +2058,7 @@ def aws_cryptography_materialproviders_CreateRequiredEncryptionContextCMMInput(
         ),
         requiredEncryptionContextKeys=Seq(
             [
-                UTF8.default__.Encode(Seq(list_element)).value
+                Seq(list_element.encode("utf-8"))
                 for list_element in native_input.required_encryption_context_keys
             ]
         ),
@@ -1770,15 +2096,13 @@ def aws_cryptography_materialproviders_InitializeEncryptionMaterialsInput(native
         ),
         encryptionContext=Map(
             {
-                UTF8.default__.Encode(Seq(key))
-                .value: UTF8.default__.Encode(Seq(value))
-                .value
+                Seq(key.encode("utf-8")): Seq(value.encode("utf-8"))
                 for (key, value) in native_input.encryption_context.items()
             }
         ),
         requiredEncryptionContextKeys=Seq(
             [
-                UTF8.default__.Encode(Seq(list_element)).value
+                Seq(list_element.encode("utf-8"))
                 for list_element in native_input.required_encryption_context_keys
             ]
         ),
@@ -1802,15 +2126,13 @@ def aws_cryptography_materialproviders_InitializeDecryptionMaterialsInput(native
         ),
         encryptionContext=Map(
             {
-                UTF8.default__.Encode(Seq(key))
-                .value: UTF8.default__.Encode(Seq(value))
-                .value
+                Seq(key.encode("utf-8")): Seq(value.encode("utf-8"))
                 for (key, value) in native_input.encryption_context.items()
             }
         ),
         requiredEncryptionContextKeys=Seq(
             [
-                UTF8.default__.Encode(Seq(list_element)).value
+                Seq(list_element.encode("utf-8"))
                 for list_element in native_input.required_encryption_context_keys
             ]
         ),

@@ -62,7 +62,7 @@ from aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitiv
 )
 import aws_cryptography_primitives.internaldafny.generated.module_
 import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny
-from smithy_dafny_smithy_dafny_standard_library.internaldafny.generated.Wrappers import (
+from smithy_dafny_standard_library.internaldafny.generated.Wrappers import (
     Option_None,
     Option_Some,
 )
