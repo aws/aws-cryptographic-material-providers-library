@@ -430,10 +430,10 @@ module AwsKmsHierarchicalKeyring {
       // Scope ID: Encryption [0x01]
       var scopeId : seq<uint8> := SCOPE_ID_ENCRYPT;
 
-      // Create the suffix
+      // Create the Suffix
       var suffix : seq<uint8> := branchKeyIdUtf8 + NULL_BYTE + logicalKeyStoreNameBytes;
 
-      // Append Resource Id, Scope Id, Partition ID, and suffix to create the cache identifier
+      // Append Resource Id, Scope Id, Partition Id, and Suffix to create the cache identifier
       var identifier := resourceId + NULL_BYTE + scopeId + NULL_BYTE + partitionIdBytes + NULL_BYTE + suffix;
 
       var maybeCacheIdDigest := cryptoPrimitives
@@ -791,7 +791,7 @@ module AwsKmsHierarchicalKeyring {
       // Create the suffix
       var suffix : seq<uint8> := branchKeyIdUtf8 + NULL_BYTE + logicalKeyStoreNameBytes + NULL_BYTE + versionBytes;
 
-      // Append Resource Id, Scope Id, Partition ID, and suffix to create the cache identifier
+      // Append Resource Id, Scope Id, Partition Id, and Suffix to create the cache identifier
       var identifier := resourceId + NULL_BYTE + scopeId + NULL_BYTE + partitionIdBytes + NULL_BYTE + suffix;
 
       var identifierDigestInput := Crypto.DigestInput(
