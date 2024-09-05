@@ -5,9 +5,9 @@ include "../src/Index.dfy"
 include "../src/ECDH.dfy"
 
 module TestECDH {
-  import AtomicPrimitives
+  import Aws.Cryptography.Primitives
   import opened StandardLibrary.UInt
-  import Types = AwsCryptographyPrimitivesTypes
+  import Types = Aws.Cryptography.Primitives.Types
   import UTF8
   import HexStrings
   import Base64
@@ -128,12 +128,10 @@ module TestECDH {
   const INFINITY_POINT_ERR_MSG_JAVA := "encoded key spec not recognized: Point at infinity"
   const INFINITY_POINT_ERR_MSG_NET6 := "Point at infinity (Parameter 'q')"
   const INFINITY_POINT_ERR_MSG_NET48 := "Point at infinity\r\nParameter name: q"
-  const INFINITY_POINT_ERR_MSG_PYTHON := "Unable to load EC key"
 
   const OUT_OF_BOUNDS_ERR_MSG_JAVA := "encoded key spec not recognized: x value invalid for"
   const OUT_OF_BOUNDS_ERR_MSG_NET6 := "value invalid for Fp field element (Parameter 'x')"
   const OUT_OF_BOUNDS_ERR_MSG_NE48 := "value invalid for Fp field element\r\nParameter name: x"
-  const OUT_OF_BOUNDS_ERR_MSG_PYTHON := "Could not deserialize key data. The data may be in an incorrect format"
 
   // Rust does not provide a separate error message for infinity or out of bounds
   const BAD_X509_KEY_ERR_MSG_RUST := "Invalid X509 Public Key."
@@ -302,8 +300,7 @@ module TestECDH {
           errMsg == BAD_X509_KEY_ERR_MSG_RUST ||
           errMsg == INFINITY_POINT_ERR_MSG_JAVA ||
           errMsg == INFINITY_POINT_ERR_MSG_NET6 ||
-          errMsg == INFINITY_POINT_ERR_MSG_NET48 ||
-          seq_contains(errMsg, INFINITY_POINT_ERR_MSG_PYTHON)
+          errMsg == INFINITY_POINT_ERR_MSG_NET48
         );
     }
   }
@@ -352,8 +349,7 @@ module TestECDH {
           seq_contains(errMsg, OUT_OF_BOUNDS_ERR_MSG_JAVA) ||
           errMsg == BAD_X509_KEY_ERR_MSG_RUST ||
           errMsg == OUT_OF_BOUNDS_ERR_MSG_NET6 ||
-          errMsg == OUT_OF_BOUNDS_ERR_MSG_NE48 ||
-          seq_contains(errMsg, OUT_OF_BOUNDS_ERR_MSG_PYTHON)
+          errMsg == OUT_OF_BOUNDS_ERR_MSG_NE48
         );
     }
   }
@@ -521,8 +517,7 @@ module TestECDH {
           errMsg == INFINITY_POINT_ERR_MSG_JAVA ||
           errMsg == BAD_X509_KEY_ERR_MSG_RUST ||
           errMsg == INFINITY_POINT_ERR_MSG_NET6 ||
-          errMsg == INFINITY_POINT_ERR_MSG_NET48 ||
-          seq_contains(errMsg, INFINITY_POINT_ERR_MSG_PYTHON)
+          errMsg == INFINITY_POINT_ERR_MSG_NET48
         );
     }
   }
@@ -549,8 +544,7 @@ module TestECDH {
           seq_contains(errMsg, OUT_OF_BOUNDS_ERR_MSG_JAVA) ||
           errMsg == BAD_X509_KEY_ERR_MSG_RUST ||
           errMsg == OUT_OF_BOUNDS_ERR_MSG_NET6 ||
-          errMsg == OUT_OF_BOUNDS_ERR_MSG_NE48 ||
-          seq_contains(errMsg, OUT_OF_BOUNDS_ERR_MSG_PYTHON)
+          errMsg == OUT_OF_BOUNDS_ERR_MSG_NE48
         );
     }
 
