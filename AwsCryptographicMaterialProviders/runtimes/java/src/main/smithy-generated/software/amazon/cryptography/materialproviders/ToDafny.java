@@ -1888,9 +1888,9 @@ public class ToDafny {
         ToDafny.StormTrackingCache(nativeValue.StormTracking())
       );
     }
-    if (Objects.nonNull(nativeValue.Initialized())) {
-      return CacheType.create_Initialized(
-        ToDafny.CryptographicMaterialsCache(nativeValue.Initialized())
+    if (Objects.nonNull(nativeValue.Shared())) {
+      return CacheType.create_Shared(
+        ToDafny.CryptographicMaterialsCache(nativeValue.Shared())
       );
     }
     throw new IllegalArgumentException(

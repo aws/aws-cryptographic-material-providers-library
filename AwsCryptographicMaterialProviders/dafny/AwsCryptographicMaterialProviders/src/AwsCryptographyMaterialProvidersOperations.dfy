@@ -271,7 +271,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
 
     if input.cache.Some? {
       match input.cache.value {
-        case Initialized(c) =>
+        case Shared(c) =>
           cmc := c;
         case _ =>
           cmc :- CreateCryptographicMaterialsCache(config, CreateCryptographicMaterialsCacheInput(cache := input.cache.value));
@@ -774,9 +774,9 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
         );
         var synCmc := new StormTrackingCMC.StormTrackingCMC(cmc);
         return Success(synCmc);
-      case Initialized(c) =>
+      case Shared(c) =>
         var exception := Types.AwsCryptographicMaterialProvidersException(
-          message := "CreateCryptographicMaterialsCache should never be called with Initialized CacheType.");
+          message := "CreateCryptographicMaterialsCache should never be called with Shared CacheType.");
         return Failure(exception);
     }
   }

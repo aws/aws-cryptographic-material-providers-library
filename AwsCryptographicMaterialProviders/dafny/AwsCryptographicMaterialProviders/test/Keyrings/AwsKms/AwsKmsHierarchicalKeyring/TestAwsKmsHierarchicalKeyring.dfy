@@ -320,7 +320,7 @@ module TestAwsKmsHierarchicalKeyring {
         == decryptionMaterialsOut.materials.plaintextDataKey;
   }
 
-  method {:test} TestSharedCacheWithSamePartitionId()
+  method {:test} TestSharedCacheWithSamePartitionIdAndSameLogicalKeyStoreName()
   {
     var branchKeyIdWest := BRANCH_KEY_ID;
     var ttl : Types.PositiveLong := (1 * 60000) * 10;
@@ -363,8 +363,8 @@ module TestAwsKmsHierarchicalKeyring {
 
     var keyStoreClientRegionEast :- expect KeyStore.KeyStore(keyStoreConfigClientRegionEast);
 
-    // Initialize the Cryptographic Materials Cache
-    var initializedCacheInput :- expect mpl.CreateCryptographicMaterialsCache(
+    // Initialize the shared Cryptographic Materials Cache
+    var sharedCacheInput :- expect mpl.CreateCryptographicMaterialsCache(
       Types.CreateCryptographicMaterialsCacheInput(
         cache := Types.CacheType.Default(
           Types.DefaultCache(
@@ -374,33 +374,33 @@ module TestAwsKmsHierarchicalKeyring {
       )
     );
 
-    // Wrap the initialized Cryptographic Materials Cache as an `Initialized` CacheType object
-    var initializedCache := Types.CacheType.Initialized(
-      initializedCacheInput
+    // Wrap the initialized shared Cryptographic Materials Cache as a `Shared` CacheType object
+    var sharedCache := Types.CacheType.Shared(
+      sharedCacheInput
     );
 
     // Create a Hierarchy Keyring HK1 with branchKeyIdWest,
-    // keyStoreClientRegionWest and the initialized cache initializedCache
+    // keyStoreClientRegionWest and the shared cache `sharedCache`
     var hierarchyKeyring1 :- expect mpl.CreateAwsKmsHierarchicalKeyring(
       Types.CreateAwsKmsHierarchicalKeyringInput(
         branchKeyId := Some(branchKeyIdWest),
         branchKeyIdSupplier := None,
         keyStore := keyStoreClientRegionWest,
         ttlSeconds := ttl,
-        cache := Some(initializedCache),
+        cache := Some(sharedCache),
         partitionId := Some("partitionId")
       )
     );
 
     // Create a Hierarchy Keyring HK2 with branchKeyIdWest,
-    // keyStoreClientRegionEast and the initialized cache initializedCache
+    // keyStoreClientRegionEast and the shared cache `sharedCache`
     var hierarchyKeyring2 :- expect mpl.CreateAwsKmsHierarchicalKeyring(
       Types.CreateAwsKmsHierarchicalKeyringInput(
         branchKeyId := Some(branchKeyIdWest),
         branchKeyIdSupplier := None,
         keyStore := keyStoreClientRegionEast,
         ttlSeconds := ttl,
-        cache := Some(initializedCache),
+        cache := Some(sharedCache),
         partitionId := Some("partitionId")
       )
     );
@@ -427,7 +427,7 @@ module TestAwsKmsHierarchicalKeyring {
     TestRoundtrip(hierarchyKeyring2, materials, TEST_ESDK_ALG_SUITE_ID, branchKeyIdWest);
   }
 
-  method {:test} TestSharedCacheWithDifferentUnspecifiedPartitionId()
+  method {:test} TestSharedCacheWithDifferentUnspecifiedPartitionIdAndSameLogicalKeyStoreName()
   {
     var branchKeyIdWest := BRANCH_KEY_ID;
     var ttl : Types.PositiveLong := (1 * 60000) * 10;
@@ -469,8 +469,8 @@ module TestAwsKmsHierarchicalKeyring {
 
     var keyStoreClientRegionEast :- expect KeyStore.KeyStore(keyStoreConfigClientRegionEast);
 
-    // Initialize the Cryptographic Materials Cache
-    var initializedCacheInput :- expect mpl.CreateCryptographicMaterialsCache(
+    // Initialize the shared Cryptographic Materials Cache
+    var sharedCacheInput :- expect mpl.CreateCryptographicMaterialsCache(
       Types.CreateCryptographicMaterialsCacheInput(
         cache := Types.CacheType.Default(
           Types.DefaultCache(
@@ -480,32 +480,32 @@ module TestAwsKmsHierarchicalKeyring {
       )
     );
 
-    // Wrap the initialized Cryptographic Materials Cache as an `Initialized` CacheType object
-    var initializedCache := Types.CacheType.Initialized(
-      initializedCacheInput
+    // Wrap the initialized shared Cryptographic Materials Cache as a `Shared` CacheType object
+    var sharedCache := Types.CacheType.Shared(
+      sharedCacheInput
     );
 
     // Create a Hierarchy Keyring HK1 with branchKeyIdWest,
-    // keyStoreClientRegionWest and the initialized cache initializedCache
+    // keyStoreClientRegionWest and the shared cache `sharedCache`
     var hierarchyKeyring1 :- expect mpl.CreateAwsKmsHierarchicalKeyring(
       Types.CreateAwsKmsHierarchicalKeyringInput(
         branchKeyId := Some(branchKeyIdWest),
         branchKeyIdSupplier := None,
         keyStore := keyStoreClientRegionWest,
         ttlSeconds := ttl,
-        cache := Some(initializedCache)
+        cache := Some(sharedCache)
       )
     );
 
     // Create a Hierarchy Keyring HK2 with branchKeyIdWest,
-    // keyStoreClientRegionEast and the initialized cache initializedCache
+    // keyStoreClientRegionEast and the shared cache `sharedCache`
     var hierarchyKeyring2 :- expect mpl.CreateAwsKmsHierarchicalKeyring(
       Types.CreateAwsKmsHierarchicalKeyringInput(
         branchKeyId := Some(branchKeyIdWest),
         branchKeyIdSupplier := None,
         keyStore := keyStoreClientRegionEast,
         ttlSeconds := ttl,
-        cache := Some(initializedCache)
+        cache := Some(sharedCache)
       )
     );
 
@@ -538,7 +538,7 @@ module TestAwsKmsHierarchicalKeyring {
     expect encryptionMaterialsOutMismatchedRegionFromCache.IsFailure();
   }
 
-  method {:test} TestSharedCacheWithDifferentSpecifiedPartitionId()
+  method {:test} TestSharedCacheWithDifferentSpecifiedPartitionIdAndSameLogicalKeyStoreName()
   {
     var branchKeyIdWest := BRANCH_KEY_ID;
     var ttl : Types.PositiveLong := (1 * 60000) * 10;
@@ -580,8 +580,8 @@ module TestAwsKmsHierarchicalKeyring {
 
     var keyStoreClientRegionEast :- expect KeyStore.KeyStore(keyStoreConfigClientRegionEast);
 
-    // Initialize the Cryptographic Materials Cache
-    var initializedCacheInput :- expect mpl.CreateCryptographicMaterialsCache(
+    // Initialize the shared Cryptographic Materials Cache
+    var sharedCacheInput :- expect mpl.CreateCryptographicMaterialsCache(
       Types.CreateCryptographicMaterialsCacheInput(
         cache := Types.CacheType.Default(
           Types.DefaultCache(
@@ -591,33 +591,33 @@ module TestAwsKmsHierarchicalKeyring {
       )
     );
 
-    // Wrap the initialized Cryptographic Materials Cache as an `Initialized` CacheType object
-    var initializedCache := Types.CacheType.Initialized(
-      initializedCacheInput
+    // Wrap the shared Cryptographic Materials Cache as an `Shared` CacheType object
+    var sharedCache := Types.CacheType.Shared(
+      sharedCacheInput
     );
 
     // Create a Hierarchy Keyring HK1 with branchKeyIdWest,
-    // keyStoreClientRegionWest and the initialized cache initializedCache
+    // keyStoreClientRegionWest and the shared cache `sharedCache`
     var hierarchyKeyring1 :- expect mpl.CreateAwsKmsHierarchicalKeyring(
       Types.CreateAwsKmsHierarchicalKeyringInput(
         branchKeyId := Some(branchKeyIdWest),
         branchKeyIdSupplier := None,
         keyStore := keyStoreClientRegionWest,
         ttlSeconds := ttl,
-        cache := Some(initializedCache),
+        cache := Some(sharedCache),
         partitionId := Some("partitionIdHK1")
       )
     );
 
     // Create a Hierarchy Keyring HK2 with branchKeyIdWest,
-    // keyStoreClientRegionEast and the initialized cache initializedCache
+    // keyStoreClientRegionEast and the shared cache `sharedCache`
     var hierarchyKeyring2 :- expect mpl.CreateAwsKmsHierarchicalKeyring(
       Types.CreateAwsKmsHierarchicalKeyringInput(
         branchKeyId := Some(branchKeyIdWest),
         branchKeyIdSupplier := None,
         keyStore := keyStoreClientRegionEast,
         ttlSeconds := ttl,
-        cache := Some(initializedCache),
+        cache := Some(sharedCache),
         partitionId := Some("partitionIdHK2")
       )
     );
