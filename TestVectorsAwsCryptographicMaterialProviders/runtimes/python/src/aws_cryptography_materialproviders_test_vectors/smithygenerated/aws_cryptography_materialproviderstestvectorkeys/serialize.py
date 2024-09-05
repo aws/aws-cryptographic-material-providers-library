@@ -9,7 +9,7 @@ from .dafny_protocol import DafnyRequest
 from .config import Config
 
 
-async def _serialize_create_test_vector_keyring(input, config: Config) -> DafnyRequest:
+def _serialize_create_test_vector_keyring(input, config: Config) -> DafnyRequest:
     return DafnyRequest(
         operation_name="CreateTestVectorKeyring",
         dafny_operation_input=aws_cryptography_materialproviders_test_vectors.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_TestVectorKeyringInput(
@@ -18,7 +18,7 @@ async def _serialize_create_test_vector_keyring(input, config: Config) -> DafnyR
     )
 
 
-async def _serialize_create_wrapped_test_vector_keyring(
+def _serialize_create_wrapped_test_vector_keyring(
     input, config: Config
 ) -> DafnyRequest:
     return DafnyRequest(
@@ -29,9 +29,7 @@ async def _serialize_create_wrapped_test_vector_keyring(
     )
 
 
-async def _serialize_create_wrapped_test_vector_cmm(
-    input, config: Config
-) -> DafnyRequest:
+def _serialize_create_wrapped_test_vector_cmm(input, config: Config) -> DafnyRequest:
     return DafnyRequest(
         operation_name="CreateWrappedTestVectorCmm",
         dafny_operation_input=aws_cryptography_materialproviders_test_vectors.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_TestVectorCmmInput(
@@ -40,7 +38,7 @@ async def _serialize_create_wrapped_test_vector_cmm(
     )
 
 
-async def _serialize_get_key_description(input, config: Config) -> DafnyRequest:
+def _serialize_get_key_description(input, config: Config) -> DafnyRequest:
     return DafnyRequest(
         operation_name="GetKeyDescription",
         dafny_operation_input=aws_cryptography_materialproviders_test_vectors.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_GetKeyDescriptionInput(
@@ -49,7 +47,7 @@ async def _serialize_get_key_description(input, config: Config) -> DafnyRequest:
     )
 
 
-async def _serialize_serialize_key_description(input, config: Config) -> DafnyRequest:
+def _serialize_serialize_key_description(input, config: Config) -> DafnyRequest:
     return DafnyRequest(
         operation_name="SerializeKeyDescription",
         dafny_operation_input=aws_cryptography_materialproviders_test_vectors.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_SerializeKeyDescriptionInput(

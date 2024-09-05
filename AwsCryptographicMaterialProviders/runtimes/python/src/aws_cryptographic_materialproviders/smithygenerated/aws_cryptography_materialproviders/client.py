@@ -2,13 +2,11 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-import asyncio
-from asyncio import sleep
 from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes import (
     IAwsCryptographicMaterialProvidersClient,
 )
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references
-from typing import Awaitable, Callable, TypeVar, cast
+from typing import Callable, TypeVar, cast
 
 from .config import Config, MaterialProvidersConfig
 from .dafny_protocol import DafnyRequest, DafnyResponse
@@ -151,15 +149,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: Inputs for for creating a AWS KMS Keyring.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_aws_kms_keyring,
-                deserialize=_deserialize_create_aws_kms_keyring,
-                config=self._config,
-                operation_name="CreateAwsKmsKeyring",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_aws_kms_keyring,
+            deserialize=_deserialize_create_aws_kms_keyring,
+            config=self._config,
+            operation_name="CreateAwsKmsKeyring",
         )
 
     def create_aws_kms_discovery_keyring(
@@ -169,15 +165,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: Inputs for for creating a AWS KMS Discovery Keyring.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_aws_kms_discovery_keyring,
-                deserialize=_deserialize_create_aws_kms_discovery_keyring,
-                config=self._config,
-                operation_name="CreateAwsKmsDiscoveryKeyring",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_aws_kms_discovery_keyring,
+            deserialize=_deserialize_create_aws_kms_discovery_keyring,
+            config=self._config,
+            operation_name="CreateAwsKmsDiscoveryKeyring",
         )
 
     def create_aws_kms_multi_keyring(
@@ -187,15 +181,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: Inputs for for creating a AWS KMS Multi-Keyring.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_aws_kms_multi_keyring,
-                deserialize=_deserialize_create_aws_kms_multi_keyring,
-                config=self._config,
-                operation_name="CreateAwsKmsMultiKeyring",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_aws_kms_multi_keyring,
+            deserialize=_deserialize_create_aws_kms_multi_keyring,
+            config=self._config,
+            operation_name="CreateAwsKmsMultiKeyring",
         )
 
     def create_aws_kms_discovery_multi_keyring(
@@ -205,15 +197,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: Inputs for for creating an AWS KMS Discovery Multi-Keyring.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_aws_kms_discovery_multi_keyring,
-                deserialize=_deserialize_create_aws_kms_discovery_multi_keyring,
-                config=self._config,
-                operation_name="CreateAwsKmsDiscoveryMultiKeyring",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_aws_kms_discovery_multi_keyring,
+            deserialize=_deserialize_create_aws_kms_discovery_multi_keyring,
+            config=self._config,
+            operation_name="CreateAwsKmsDiscoveryMultiKeyring",
         )
 
     def create_aws_kms_mrk_keyring(
@@ -223,15 +213,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: Inputs for for creating an AWS KMS MRK Keyring.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_aws_kms_mrk_keyring,
-                deserialize=_deserialize_create_aws_kms_mrk_keyring,
-                config=self._config,
-                operation_name="CreateAwsKmsMrkKeyring",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_aws_kms_mrk_keyring,
+            deserialize=_deserialize_create_aws_kms_mrk_keyring,
+            config=self._config,
+            operation_name="CreateAwsKmsMrkKeyring",
         )
 
     def create_aws_kms_mrk_multi_keyring(
@@ -241,15 +229,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: Inputs for for creating a AWS KMS MRK Multi-Keyring.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_aws_kms_mrk_multi_keyring,
-                deserialize=_deserialize_create_aws_kms_mrk_multi_keyring,
-                config=self._config,
-                operation_name="CreateAwsKmsMrkMultiKeyring",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_aws_kms_mrk_multi_keyring,
+            deserialize=_deserialize_create_aws_kms_mrk_multi_keyring,
+            config=self._config,
+            operation_name="CreateAwsKmsMrkMultiKeyring",
         )
 
     def create_aws_kms_mrk_discovery_keyring(
@@ -259,15 +245,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: Inputs for for creating a AWS KMS MRK Discovery Keyring.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_aws_kms_mrk_discovery_keyring,
-                deserialize=_deserialize_create_aws_kms_mrk_discovery_keyring,
-                config=self._config,
-                operation_name="CreateAwsKmsMrkDiscoveryKeyring",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_aws_kms_mrk_discovery_keyring,
+            deserialize=_deserialize_create_aws_kms_mrk_discovery_keyring,
+            config=self._config,
+            operation_name="CreateAwsKmsMrkDiscoveryKeyring",
         )
 
     def create_aws_kms_mrk_discovery_multi_keyring(
@@ -277,15 +261,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: Inputs for for creating a AWS KMS MRK Discovery Multi-Keyring.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_aws_kms_mrk_discovery_multi_keyring,
-                deserialize=_deserialize_create_aws_kms_mrk_discovery_multi_keyring,
-                config=self._config,
-                operation_name="CreateAwsKmsMrkDiscoveryMultiKeyring",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_aws_kms_mrk_discovery_multi_keyring,
+            deserialize=_deserialize_create_aws_kms_mrk_discovery_multi_keyring,
+            config=self._config,
+            operation_name="CreateAwsKmsMrkDiscoveryMultiKeyring",
         )
 
     def create_aws_kms_hierarchical_keyring(
@@ -295,15 +277,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: Inputs for creating a Hierarchical Keyring.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_aws_kms_hierarchical_keyring,
-                deserialize=_deserialize_create_aws_kms_hierarchical_keyring,
-                config=self._config,
-                operation_name="CreateAwsKmsHierarchicalKeyring",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_aws_kms_hierarchical_keyring,
+            deserialize=_deserialize_create_aws_kms_hierarchical_keyring,
+            config=self._config,
+            operation_name="CreateAwsKmsHierarchicalKeyring",
         )
 
     def create_aws_kms_rsa_keyring(
@@ -313,15 +293,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: Inputs for creating a AWS KMS RSA Keyring.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_aws_kms_rsa_keyring,
-                deserialize=_deserialize_create_aws_kms_rsa_keyring,
-                config=self._config,
-                operation_name="CreateAwsKmsRsaKeyring",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_aws_kms_rsa_keyring,
+            deserialize=_deserialize_create_aws_kms_rsa_keyring,
+            config=self._config,
+            operation_name="CreateAwsKmsRsaKeyring",
         )
 
     def create_aws_kms_ecdh_keyring(
@@ -331,15 +309,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: Inputs for creating an AWS KMS ECDH Keyring.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_aws_kms_ecdh_keyring,
-                deserialize=_deserialize_create_aws_kms_ecdh_keyring,
-                config=self._config,
-                operation_name="CreateAwsKmsEcdhKeyring",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_aws_kms_ecdh_keyring,
+            deserialize=_deserialize_create_aws_kms_ecdh_keyring,
+            config=self._config,
+            operation_name="CreateAwsKmsEcdhKeyring",
         )
 
     def create_multi_keyring(
@@ -349,15 +325,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: Inputs for creating a Multi-Keyring.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_multi_keyring,
-                deserialize=_deserialize_create_multi_keyring,
-                config=self._config,
-                operation_name="CreateMultiKeyring",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_multi_keyring,
+            deserialize=_deserialize_create_multi_keyring,
+            config=self._config,
+            operation_name="CreateMultiKeyring",
         )
 
     def create_raw_aes_keyring(
@@ -367,15 +341,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: Inputs for creating a Raw AES Keyring.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_raw_aes_keyring,
-                deserialize=_deserialize_create_raw_aes_keyring,
-                config=self._config,
-                operation_name="CreateRawAesKeyring",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_raw_aes_keyring,
+            deserialize=_deserialize_create_raw_aes_keyring,
+            config=self._config,
+            operation_name="CreateRawAesKeyring",
         )
 
     def create_raw_rsa_keyring(
@@ -385,15 +357,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: Inputs for creating a Raw RAW Keyring.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_raw_rsa_keyring,
-                deserialize=_deserialize_create_raw_rsa_keyring,
-                config=self._config,
-                operation_name="CreateRawRsaKeyring",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_raw_rsa_keyring,
+            deserialize=_deserialize_create_raw_rsa_keyring,
+            config=self._config,
+            operation_name="CreateRawRsaKeyring",
         )
 
     def create_raw_ecdh_keyring(
@@ -403,15 +373,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: Inputs for creating a raw ECDH Keyring.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_raw_ecdh_keyring,
-                deserialize=_deserialize_create_raw_ecdh_keyring,
-                config=self._config,
-                operation_name="CreateRawEcdhKeyring",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_raw_ecdh_keyring,
+            deserialize=_deserialize_create_raw_ecdh_keyring,
+            config=self._config,
+            operation_name="CreateRawEcdhKeyring",
         )
 
     def create_default_cryptographic_materials_manager(
@@ -421,15 +389,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: Inputs for creating a Default Cryptographic Materials Manager.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_default_cryptographic_materials_manager,
-                deserialize=_deserialize_create_default_cryptographic_materials_manager,
-                config=self._config,
-                operation_name="CreateDefaultCryptographicMaterialsManager",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_default_cryptographic_materials_manager,
+            deserialize=_deserialize_create_default_cryptographic_materials_manager,
+            config=self._config,
+            operation_name="CreateDefaultCryptographicMaterialsManager",
         )
 
     def create_required_encryption_context_cmm(
@@ -439,15 +405,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: Inputs for creating an Required Encryption Context Cryptographic Materials Manager.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_required_encryption_context_cmm,
-                deserialize=_deserialize_create_required_encryption_context_cmm,
-                config=self._config,
-                operation_name="CreateRequiredEncryptionContextCMM",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_required_encryption_context_cmm,
+            deserialize=_deserialize_create_required_encryption_context_cmm,
+            config=self._config,
+            operation_name="CreateRequiredEncryptionContextCMM",
         )
 
     def create_cryptographic_materials_cache(
@@ -457,15 +421,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_cryptographic_materials_cache,
-                deserialize=_deserialize_create_cryptographic_materials_cache,
-                config=self._config,
-                operation_name="CreateCryptographicMaterialsCache",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_cryptographic_materials_cache,
+            deserialize=_deserialize_create_cryptographic_materials_cache,
+            config=self._config,
+            operation_name="CreateCryptographicMaterialsCache",
         )
 
     def create_default_client_supplier(
@@ -475,15 +437,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_default_client_supplier,
-                deserialize=_deserialize_create_default_client_supplier,
-                config=self._config,
-                operation_name="CreateDefaultClientSupplier",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_default_client_supplier,
+            deserialize=_deserialize_create_default_client_supplier,
+            config=self._config,
+            operation_name="CreateDefaultClientSupplier",
         )
 
     def initialize_encryption_materials(
@@ -493,15 +453,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_initialize_encryption_materials,
-                deserialize=_deserialize_initialize_encryption_materials,
-                config=self._config,
-                operation_name="InitializeEncryptionMaterials",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_initialize_encryption_materials,
+            deserialize=_deserialize_initialize_encryption_materials,
+            config=self._config,
+            operation_name="InitializeEncryptionMaterials",
         )
 
     def initialize_decryption_materials(
@@ -511,15 +469,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_initialize_decryption_materials,
-                deserialize=_deserialize_initialize_decryption_materials,
-                config=self._config,
-                operation_name="InitializeDecryptionMaterials",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_initialize_decryption_materials,
+            deserialize=_deserialize_initialize_decryption_materials,
+            config=self._config,
+            operation_name="InitializeDecryptionMaterials",
         )
 
     def valid_encryption_materials_transition(
@@ -529,15 +485,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_valid_encryption_materials_transition,
-                deserialize=_deserialize_valid_encryption_materials_transition,
-                config=self._config,
-                operation_name="ValidEncryptionMaterialsTransition",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_valid_encryption_materials_transition,
+            deserialize=_deserialize_valid_encryption_materials_transition,
+            config=self._config,
+            operation_name="ValidEncryptionMaterialsTransition",
         )
 
     def valid_decryption_materials_transition(
@@ -547,15 +501,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_valid_decryption_materials_transition,
-                deserialize=_deserialize_valid_decryption_materials_transition,
-                config=self._config,
-                operation_name="ValidDecryptionMaterialsTransition",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_valid_decryption_materials_transition,
+            deserialize=_deserialize_valid_decryption_materials_transition,
+            config=self._config,
+            operation_name="ValidDecryptionMaterialsTransition",
         )
 
     def encryption_materials_has_plaintext_data_key(
@@ -565,15 +517,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_encryption_materials_has_plaintext_data_key,
-                deserialize=_deserialize_encryption_materials_has_plaintext_data_key,
-                config=self._config,
-                operation_name="EncryptionMaterialsHasPlaintextDataKey",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_encryption_materials_has_plaintext_data_key,
+            deserialize=_deserialize_encryption_materials_has_plaintext_data_key,
+            config=self._config,
+            operation_name="EncryptionMaterialsHasPlaintextDataKey",
         )
 
     def decryption_materials_with_plaintext_data_key(
@@ -583,15 +533,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_decryption_materials_with_plaintext_data_key,
-                deserialize=_deserialize_decryption_materials_with_plaintext_data_key,
-                config=self._config,
-                operation_name="DecryptionMaterialsWithPlaintextDataKey",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_decryption_materials_with_plaintext_data_key,
+            deserialize=_deserialize_decryption_materials_with_plaintext_data_key,
+            config=self._config,
+            operation_name="DecryptionMaterialsWithPlaintextDataKey",
         )
 
     def get_algorithm_suite_info(self, input: bytes | bytearray) -> AlgorithmSuiteInfo:
@@ -599,15 +547,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_get_algorithm_suite_info,
-                deserialize=_deserialize_get_algorithm_suite_info,
-                config=self._config,
-                operation_name="GetAlgorithmSuiteInfo",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_get_algorithm_suite_info,
+            deserialize=_deserialize_get_algorithm_suite_info,
+            config=self._config,
+            operation_name="GetAlgorithmSuiteInfo",
         )
 
     def valid_algorithm_suite_info(self, input: AlgorithmSuiteInfo) -> Unit:
@@ -615,15 +561,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_valid_algorithm_suite_info,
-                deserialize=_deserialize_valid_algorithm_suite_info,
-                config=self._config,
-                operation_name="ValidAlgorithmSuiteInfo",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_valid_algorithm_suite_info,
+            deserialize=_deserialize_valid_algorithm_suite_info,
+            config=self._config,
+            operation_name="ValidAlgorithmSuiteInfo",
         )
 
     def validate_commitment_policy_on_encrypt(
@@ -633,15 +577,13 @@ class AwsCryptographicMaterialProviders:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_validate_commitment_policy_on_encrypt,
-                deserialize=_deserialize_validate_commitment_policy_on_encrypt,
-                config=self._config,
-                operation_name="ValidateCommitmentPolicyOnEncrypt",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_validate_commitment_policy_on_encrypt,
+            deserialize=_deserialize_validate_commitment_policy_on_encrypt,
+            config=self._config,
+            operation_name="ValidateCommitmentPolicyOnEncrypt",
         )
 
     def validate_commitment_policy_on_decrypt(
@@ -651,28 +593,26 @@ class AwsCryptographicMaterialProviders:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_validate_commitment_policy_on_decrypt,
-                deserialize=_deserialize_validate_commitment_policy_on_decrypt,
-                config=self._config,
-                operation_name="ValidateCommitmentPolicyOnDecrypt",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_validate_commitment_policy_on_decrypt,
+            deserialize=_deserialize_validate_commitment_policy_on_decrypt,
+            config=self._config,
+            operation_name="ValidateCommitmentPolicyOnDecrypt",
         )
 
-    async def _execute_operation(
+    def _execute_operation(
         self,
         input: Input,
         plugins: list[Plugin],
-        serialize: Callable[[Input, Config], Awaitable[DafnyRequest]],
-        deserialize: Callable[[DafnyResponse, Config], Awaitable[Output]],
+        serialize: Callable[[Input, Config], DafnyRequest],
+        deserialize: Callable[[DafnyResponse, Config], Output],
         config: Config,
         operation_name: str,
     ) -> Output:
         try:
-            return await self._handle_execution(
+            return self._handle_execution(
                 input, plugins, serialize, deserialize, config, operation_name
             )
         except Exception as e:
@@ -682,12 +622,12 @@ class AwsCryptographicMaterialProviders:
                 raise ServiceError(e) from e
             raise e
 
-    async def _handle_execution(
+    def _handle_execution(
         self,
         input: Input,
         plugins: list[Plugin],
-        serialize: Callable[[Input, Config], Awaitable[DafnyRequest]],
-        deserialize: Callable[[DafnyResponse, Config], Awaitable[Output]],
+        serialize: Callable[[Input, Config], DafnyRequest],
+        deserialize: Callable[[DafnyResponse, Config], Output],
         config: Config,
         operation_name: str,
     ) -> Output:
@@ -737,7 +677,7 @@ class AwsCryptographicMaterialProviders:
             context_with_transport_request = cast(
                 InterceptorContext[Input, None, DafnyRequest, None], context
             )
-            context_with_transport_request._transport_request = await serialize(
+            context_with_transport_request._transport_request = serialize(
                 context_with_transport_request.request, config
             )
 
@@ -758,7 +698,7 @@ class AwsCryptographicMaterialProviders:
             while True:
                 # Make an attempt, creating a copy of the context so we don't pass
                 # around old data.
-                context_with_response = await self._handle_attempt(
+                context_with_response = self._handle_attempt(
                     deserialize,
                     interceptors,
                     context_with_transport_request.copy(),
@@ -787,7 +727,6 @@ class AwsCryptographicMaterialProviders:
                         )
                     except SmithyRetryException:
                         raise context_with_response.response
-                    await sleep(retry_token.retry_delay)
                 else:
                     # Step 8: Invoke record_success
                     retry_strategy.record_success(token=retry_token)
@@ -804,11 +743,11 @@ class AwsCryptographicMaterialProviders:
             ],
             context,
         )
-        return await self._finalize_execution(interceptors, execution_context)
+        return self._finalize_execution(interceptors, execution_context)
 
-    async def _handle_attempt(
+    def _handle_attempt(
         self,
-        deserialize: Callable[[DafnyResponse, Config], Awaitable[Output]],
+        deserialize: Callable[[DafnyResponse, Config], Output],
         interceptors: list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
         context: InterceptorContext[Input, None, DafnyRequest, None],
         config: Config,
@@ -852,7 +791,7 @@ class AwsCryptographicMaterialProviders:
                 InterceptorContext[Input, Output, DafnyRequest, DafnyResponse],
                 context_with_response,
             )
-            context_with_output._response = await deserialize(
+            context_with_output._response = deserialize(
                 context_with_output._transport_response, config
             )
 
@@ -870,9 +809,9 @@ class AwsCryptographicMaterialProviders:
             InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None],
             context,
         )
-        return await self._finalize_attempt(interceptors, attempt_context)
+        return self._finalize_attempt(interceptors, attempt_context)
 
-    async def _finalize_attempt(
+    def _finalize_attempt(
         self,
         interceptors: list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
         context: InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None],
@@ -895,7 +834,7 @@ class AwsCryptographicMaterialProviders:
 
         return context
 
-    async def _finalize_execution(
+    def _finalize_execution(
         self,
         interceptors: list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
         context: InterceptorContext[
