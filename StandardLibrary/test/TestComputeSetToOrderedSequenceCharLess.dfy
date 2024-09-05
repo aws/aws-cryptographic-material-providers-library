@@ -94,6 +94,7 @@ module TestComputeSetToOrderedSequenceCharLess {
     // as the Dafny-Python compiler does not correctly convert these characters
     // into UTF-16 when translating the Dafny source code to Python.
     // var a := {"𐐷", "&", "Љ", "ᝀ", "🂡", "｡", "𐀂"};
+    // TODO: After #5737 is fixed, use the commented-out expression.
     var a := {"\ud801\udc37", "&", "Љ", "ᝀ", "\ud83c\udca1", "｡", "\ud800\udc02"};
     var output := ComputeSetToOrderedSequence(a, CharLess);
     var output2 := ComputeSetToOrderedSequence2(a, CharLess);
