@@ -9,7 +9,7 @@ import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrapper
 import aws_cryptography_primitives.internaldafny.generated.AESEncryption
 from aws_cryptography_primitives.internaldafny.generated.AESEncryption import *
 from aws_cryptography_primitives.internaldafny.generated.HMAC import *
-from aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes import Error_AwsCryptographicPrimitivesError
+from aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes import Error_Opaque
 
 
 # Get generated methods
@@ -36,7 +36,7 @@ class AESEncryption:
             try:
                 ct = aesgcm.encrypt(iv_bytes, plaintext_bytes, aad_bytes)
             except OverflowError:
-                return Wrappers.Result_Failure(Error_AwsCryptographicPrimitivesError(
+                return Wrappers.Result_Failure(Error_Opaque(
                     message="AES-GCM cannot encrypt plaintext data larger than 2^31-1 bytes"
                 ))
 
@@ -64,7 +64,7 @@ class AESEncryption:
             try:
                 plaintext = aesgcm.decrypt(iv_bytes, ct_and_tag, aad_bytes)
             except InvalidTag:
-                return Wrappers.Result_Failure(Error_AwsCryptographicPrimitivesError(
+                return Wrappers.Result_Failure(Error_Opaque(
                     message="AES-GCM decrypt failed to validate authentication tag for ciphertext"
                 ))
 

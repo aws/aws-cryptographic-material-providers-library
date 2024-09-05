@@ -8,7 +8,7 @@ import _dafny
 
 import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
 import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr
-from aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes import Error_AwsCryptographicPrimitivesError
+from aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes import Error_Opaque
 
 
 # Extend generated class
@@ -24,11 +24,11 @@ class default__(aws_cryptography_primitives.internaldafny.generated.AesKdfCtr.de
     try:
       ciphertext = encryptor.update(plaintext) + encryptor.finalize()
     except ValueError:
-      return Wrappers.Result_Failure(Error_AwsCryptographicPrimitivesError(
+      return Wrappers.Result_Failure(Error_Opaque(
         message="Cannot finalize an encryptor when the plaintext data is not a multiple of the algorithm block size"
       ))
     except AlreadyFinalized:
-      return Wrappers.Result_Failure(Error_AwsCryptographicPrimitivesError(
+      return Wrappers.Result_Failure(Error_Opaque(
         message="Cannot update or finalize an encryptor which was already finalized"
       ))
     return Wrappers.Result_Success(_dafny.Seq(ciphertext))

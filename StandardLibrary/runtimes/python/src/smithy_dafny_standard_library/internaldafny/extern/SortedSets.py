@@ -30,22 +30,6 @@ class Comparer:
     x_list = list(x.Elements)
     y_list = list(y.Elements)
     
-    for i in range(len(x_list)):
-      x_element = x_list[i]
-      try:
-        x_element_encoded = x_element.encode("utf-16-be")
-        x_list[i] = x_element_encoded
-      except AttributeError:
-        pass # non-chars don't have an encode attribute
-
-    for i in range(len(y_list)):
-      y_element = y_list[i]
-      try:
-        y_element_encoded = y_element.encode("utf-16-be")
-        y_list[i] = y_element_encoded
-      except AttributeError:
-        pass # non-chars don't have an encode attribute
-
     for i in range(0, min(len(x_list), len(y_list))):
       if (self.is_less_than(x_list[i], y_list[i])):
         return -1

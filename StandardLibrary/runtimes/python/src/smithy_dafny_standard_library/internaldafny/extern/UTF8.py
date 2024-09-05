@@ -2,13 +2,13 @@
 Extern UTF8 encode and decode methods.
 
 Note:
-Python's `.encode()`/`.decode()` handle surrogates with 'surrogatepass'.
-However, the results of 'surrogatepass' does not comply with Dafny's expectations.
 Dafny expects a strict interpretation of Python's Unicode handling.
 Python represents Unicode characters based on their presence in the Basic Multilingual Plane (BMP).
-The BMP includes characters from U+0000 to U+FFFF (or, 0 <= ord(chr) < 65535).
+The BMP includes characters from U+0000 to U+FFFF (or, 0 <= ord(chr) < 65535; or, 0x0 <= hex(chr) < 0xFFFF).
+Note that this is the range of characters that can fit into a single UTF-16 code unit (2 bytes).
 
-If a character is inside the BMP, Python internally represents it as a single UTF-16-encoded code unit.
+If a Unicode-escaped character is inside the BMP, Python internally represents it
+as a single UTF-16-encoded code unit.
 ex.
 "\u2386" == '⎆' --> ord('⎆') == 9094 --> 9094 < 65535 --> in BMP
 Since "\u2386" is in the BMP, Python internally represents it as '⎆':
@@ -19,8 +19,8 @@ Since "\u2386" is in the BMP, Python internally represents it as '⎆':
 '⎆'
 ```
 
-In contrast, if a character is outside the BMP, Python internally represents it
-as a unicode-escaped string using surrogate pairs.
+However, if a Unicode-escaped character is outside the BMP, Python internally represents it
+as a Unicode-escaped character using surrogate pairs.
 ex.
 "\uD808\uDC00" == '𒀀' --> ord('𒀀') == 73728 --> 73728 > 65535 --> outside BMP
 Since "\uD808\uDC00" is outside the BMP, Python internally represents it as "\uD808\uDC00":
@@ -31,8 +31,11 @@ Since "\uD808\uDC00" is outside the BMP, Python internally represents it as "\uD
 '\ud808\udc00'
 ```
 
+Dafny expects its strings to be UTF-16 code units.
 However, the `.decode()` method with 'surrogatepass' leaves '\ud808\udc00' as '𒀀',
-which does not match Dafny's expectation of the literal interpretation of this field.
+which, if passed directly to Dafny, will be interpreted as a single UTF-32 code unit,
+instead of the desired two UTF-16 code units.
+
 To correct this, the Decode extern implementation
 re-encodes any characters outside the BMP,
 then decodes them under the expected decoding.
