@@ -407,7 +407,7 @@ module TestAwsKmsHierarchicalKeyring {
 
     // Get test materials
     var materials := GetTestMaterials(TEST_ESDK_ALG_SUITE_ID);
-    
+
     // Try encrypting the test materials with HK2, which has branchKeyIdWest
     // but its keystore is keyStoreClientRegionEast
     var encryptionMaterialsOutMismatchedRegion := hierarchyKeyring2.OnEncrypt(
@@ -511,7 +511,7 @@ module TestAwsKmsHierarchicalKeyring {
 
     // Get test materials
     var materials := GetTestMaterials(TEST_ESDK_ALG_SUITE_ID);
-    
+
     // Try encrypting the test materials with HK2, which has branchKeyIdWest
     // but its keystore is keyStoreClientRegionEast
     var encryptionMaterialsOutMismatchedRegion := hierarchyKeyring2.OnEncrypt(
@@ -624,7 +624,7 @@ module TestAwsKmsHierarchicalKeyring {
 
     // Get test materials
     var materials := GetTestMaterials(TEST_ESDK_ALG_SUITE_ID);
-    
+
     // Try encrypting the test materials with HK2, which has branchKeyIdWest
     // but its keystore is keyStoreClientRegionEast
     var encryptionMaterialsOutMismatchedRegion := hierarchyKeyring2.OnEncrypt(

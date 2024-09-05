@@ -307,7 +307,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
 
     // Convert logical key store name into UTF8 bytes
     var logicalKeyStoreNameBytes : seq<uint8> :- UTF8.Encode(logicalKeyStoreName)
-      .MapFailure(e => Types.AwsCryptographicMaterialProvidersException(message := e));
+    .MapFailure(e => Types.AwsCryptographicMaterialProvidersException(message := e));
 
     :- Need(input.branchKeyId.None? || input.branchKeyIdSupplier.None?,
             Types.AwsCryptographicMaterialProvidersException(

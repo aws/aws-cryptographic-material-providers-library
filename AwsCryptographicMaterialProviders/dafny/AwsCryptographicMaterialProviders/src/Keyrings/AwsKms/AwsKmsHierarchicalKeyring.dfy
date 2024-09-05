@@ -781,7 +781,7 @@ module AwsKmsHierarchicalKeyring {
       // Scope ID: Decryption [0x02]
       var scopeId : seq<uint8> := SCOPE_ID_DECRYPT;
 
-      // Convert branch key version into UTF8 bytes
+        // Convert branch key version into UTF8 bytes
       :- Need(
         UTF8.IsASCIIString(branchKeyVersion),
         E("Unable to represent as an ASCII string.")
