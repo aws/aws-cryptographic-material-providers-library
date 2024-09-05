@@ -19,4 +19,4 @@ transpile_dependencies: STD_LIBRARY=
 
 # Python
 
-PYTHON_MODULE_NAME=standard_library
+PYTHON_MODULE_NAME=smithy_dafny_standard_library

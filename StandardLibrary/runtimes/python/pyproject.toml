@@ -1,16 +1,25 @@
 [tool.poetry]
-name = "standard-library"
+name = "aws-cryptography-internal-standard-library"
 version = "0.1.0"
 description = ""
 authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
 packages = [
-    { include = "standard_library", from = "src" },
+    { include = "smithy_dafny_standard_library", from = "src" },
+]
+# Include generated internaldafny files in package distributions,
+# even though they are not included in version control
+# TODO: Depend on PyPi once Smithy-Python publishes their Python package there
+include = [
+    "**/internaldafny/generated/*.py",
+    "libs/aws-cryptography-internal-smithy-python"
 ]
 
 [tool.poetry.dependencies]
 python = "^3.11.0"
 pytz = "^2023.3.post1"
-DafnyRuntimePython = "^4.7.0"
+DafnyRuntimePython = "~4.7.0"
+# TODO: Depend on PyPi once Smithy-Python publishes their Python package there
+smithy_python = { path = "libs/aws-cryptography-internal-smithy-python", develop = false}
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.0"
