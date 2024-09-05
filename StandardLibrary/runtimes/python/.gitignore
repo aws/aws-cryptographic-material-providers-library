@@ -2,11 +2,14 @@
 __pycache__
 **/__pycache__
 *.pyc
-src/**.egg-info/
+**.egg-info/
 build
 poetry.lock
 **/poetry.lock
 dist
+
+# Dafny-generated Python
+**/internaldafny/generated
 
 # Python test artifacts
 .tox
