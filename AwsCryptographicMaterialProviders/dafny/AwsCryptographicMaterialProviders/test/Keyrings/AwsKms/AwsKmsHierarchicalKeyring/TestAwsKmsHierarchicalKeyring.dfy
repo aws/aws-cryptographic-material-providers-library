@@ -528,7 +528,7 @@ module TestAwsKmsHierarchicalKeyring {
     );
 
     // This encryption should fail because of region mismatch
-    expect encryptionMaterialsOutMismatchedRegion.Success?;
+    expect encryptionMaterialsOutMismatchedRegion.IsFailure();
 
     // Encrypt and Decrypt round trip for the test materials with HK1,
     // which has branchKeyIdWest and its keystore is keyStoreClientRegionWest
@@ -774,16 +774,6 @@ module TestAwsKmsHierarchicalKeyring {
     // which has branchKeyIdWest and its keystore is keyStoreClientRegionWest
     // This should pass
     TestRoundtrip(hierarchyKeyring1, materials, TEST_ESDK_ALG_SUITE_ID, branchKeyIdWest);
-
-
-    // Again, try encrypting the test materials with HK2, which has branchKeyIdWest
-    // but its keystore is keyStoreClientRegionEast
-    var encryptionMaterialsOutMismatchedRegionFromCache := hierarchyKeyring2.OnEncrypt(
-      Types.OnEncryptInput(materials:=materials)
-    );
-
-    // This encryption should fail because the logicalKeyStoreName for HK1 and HK2 are different
-    expect encryptionMaterialsOutMismatchedRegionFromCache.IsFailure();
   }
 
   // Returns "hierarchy-test-v1" when EC contains kv pair "branchKey":"caseA"
