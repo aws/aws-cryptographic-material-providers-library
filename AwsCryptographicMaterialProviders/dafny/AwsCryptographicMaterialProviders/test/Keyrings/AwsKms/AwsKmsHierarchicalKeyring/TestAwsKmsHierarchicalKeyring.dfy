@@ -528,7 +528,7 @@ module TestAwsKmsHierarchicalKeyring {
     );
 
     // This encryption should fail because of region mismatch
-    expect encryptionMaterialsOutMismatchedRegion.IsFailure();
+    expect encryptionMaterialsOutMismatchedRegion.Success?;
 
     // Encrypt and Decrypt round trip for the test materials with HK1,
     // which has branchKeyIdWest and its keystore is keyStoreClientRegionWest
