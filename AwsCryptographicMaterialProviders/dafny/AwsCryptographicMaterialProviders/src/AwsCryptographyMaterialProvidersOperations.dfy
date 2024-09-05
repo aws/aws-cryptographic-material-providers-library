@@ -281,6 +281,9 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       cmc :- CreateCryptographicMaterialsCache(config, CreateCryptographicMaterialsCacheInput(cache := Types.Default(Types.DefaultCache(entryCapacity := 1000))));
     }
 
+    // Set the correct partitionId
+    // If the partitionID is provided, convert it into UTF8 bytes
+    // If partitionID is not provided, generate a random UUID
     var partitionIdBytes : seq<uint8>;
 
     if input.partitionId.Some? {
@@ -295,6 +298,16 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       partitionIdBytes :- UUID.ToByteArray(uuid)
       .MapFailure(e => Types.AwsCryptographicMaterialProvidersException(message := e));
     }
+
+    // Get the logical key store name
+    var maybeGetKeyStoreInfoOutput := input.keyStore.GetKeyStoreInfo();
+    var getKeyStoreInfoOutput :- maybeGetKeyStoreInfoOutput
+    .MapFailure(e => Types.AwsCryptographyKeyStore(AwsCryptographyKeyStore := e));
+    var logicalKeyStoreName := getKeyStoreInfoOutput.logicalKeyStoreName;
+
+    // Convert logical key store name into UTF8 bytes
+    var logicalKeyStoreNameBytes : seq<uint8> :- UTF8.Encode(logicalKeyStoreName)
+      .MapFailure(e => Types.AwsCryptographicMaterialProvidersException(message := e));
 
     :- Need(input.branchKeyId.None? || input.branchKeyIdSupplier.None?,
             Types.AwsCryptographicMaterialProvidersException(
@@ -312,6 +325,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       // maxCacheSize := maxCacheSize,
       cmc := cmc,
       partitionIdBytes := partitionIdBytes,
+      logicalKeyStoreNameBytes := logicalKeyStoreNameBytes,
       cryptoPrimitives := config.crypto
     );
     return Success(keyring);

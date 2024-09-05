@@ -143,6 +143,7 @@ module AwsKmsHierarchicalKeyring {
     const cryptoPrimitives: Primitives.AtomicPrimitivesClient
     const cache: Types.ICryptographicMaterialsCache
     const partitionIdBytes: seq<uint8>
+    const logicalKeyStoreNameBytes: seq<uint8>
 
     predicate ValidState()
       ensures ValidState() ==> History in Modifies
@@ -178,6 +179,7 @@ module AwsKmsHierarchicalKeyring {
 
       cmc: Types.ICryptographicMaterialsCache,
       partitionIdBytes: seq<uint8>,
+      logicalKeyStoreNameBytes: seq<uint8>,
       cryptoPrimitives : Primitives.AtomicPrimitivesClient
     )
       requires ttlSeconds >= 0
@@ -190,6 +192,7 @@ module AwsKmsHierarchicalKeyring {
         && this.branchKeyIdSupplier  == branchKeyIdSupplier
         && this.ttlSeconds   == ttlSeconds
         && this.partitionIdBytes   == partitionIdBytes
+        && this.logicalKeyStoreNameBytes == logicalKeyStoreNameBytes
       ensures
         && ValidState()
         && fresh(this)
@@ -197,13 +200,14 @@ module AwsKmsHierarchicalKeyring {
         && var maybeSupplierModifies := if branchKeyIdSupplier.Some? then branchKeyIdSupplier.value.Modifies else {};
         && fresh(Modifies - keyStore.Modifies - cryptoPrimitives.Modifies - maybeSupplierModifies)
     {
-      this.keyStore            := keyStore;
-      this.branchKeyId         := branchKeyId;
-      this.branchKeyIdSupplier := branchKeyIdSupplier;
-      this.ttlSeconds          := ttlSeconds;
-      this.cryptoPrimitives    := cryptoPrimitives;
-      this.cache               := cmc;
-      this.partitionIdBytes    := partitionIdBytes;
+      this.keyStore                 := keyStore;
+      this.branchKeyId              := branchKeyId;
+      this.branchKeyIdSupplier      := branchKeyIdSupplier;
+      this.ttlSeconds               := ttlSeconds;
+      this.cryptoPrimitives         := cryptoPrimitives;
+      this.cache                    := cmc;
+      this.partitionIdBytes         := partitionIdBytes;
+      this.logicalKeyStoreNameBytes := logicalKeyStoreNameBytes;
 
       History := new Types.IKeyringCallHistory();
       var maybeSupplierModifies := if branchKeyIdSupplier.Some? then branchKeyIdSupplier.value.Modifies else {};
@@ -368,13 +372,14 @@ module AwsKmsHierarchicalKeyring {
       }
 
       var decryptClosure := new DecryptSingleEncryptedDataKey(
-        materials,
-        keyStore,
-        cryptoPrimitives,
-        branchKeyIdForDecrypt,
-        ttlSeconds,
-        cache,
-        partitionIdBytes
+        materials := materials,
+        keyStore := keyStore,
+        cryptoPrimitives := cryptoPrimitives,
+        branchKeyId := branchKeyIdForDecrypt,
+        ttlSeconds := ttlSeconds,
+        cache := cache,
+        partitionIdBytes := partitionIdBytes,
+        logicalKeyStoreNameBytes := logicalKeyStoreNameBytes
       );
 
       var outcome, attempts := ReduceToSuccess(
@@ -419,13 +424,17 @@ module AwsKmsHierarchicalKeyring {
       );
       var hashAlgorithm := Crypto.DigestAlgorithm.SHA_384;
 
-      // Resource: Hierarchical Keyring [0x02]
+      // Resource ID: Hierarchical Keyring [0x02]
       var resourceId : seq<uint8> := RESOURCE_ID_HIERARCHICAL_KEYRING;
 
-      // Scope: Encryption [0x01]
+      // Scope ID: Encryption [0x01]
       var scopeId : seq<uint8> := SCOPE_ID_ENCRYPT;
 
-      var identifier := resourceId + [0x00] + scopeId + [0x00] + partitionIdBytes + [0x00] + branchKeyIdUtf8;
+      // Create the suffix
+      var suffix : seq<uint8> := branchKeyIdUtf8 + NULL_BYTE + logicalKeyStoreNameBytes;
+
+      // Append Resource Id, Scope Id, Partition ID, and suffix to create the cache identifier
+      var identifier := resourceId + NULL_BYTE + scopeId + NULL_BYTE + partitionIdBytes + NULL_BYTE + suffix;
 
       var maybeCacheIdDigest := cryptoPrimitives
       .Digest(Crypto.DigestInput(digestAlgorithm := hashAlgorithm, message := identifier));
@@ -630,6 +639,7 @@ module AwsKmsHierarchicalKeyring {
     const ttlSeconds: Types.PositiveLong
     const cache: Types.ICryptographicMaterialsCache
     const partitionIdBytes: seq<uint8>
+    const logicalKeyStoreNameBytes: seq<uint8>
 
     constructor(
       materials: Materials.DecryptionMaterialsPendingPlaintextDataKey,
@@ -638,7 +648,8 @@ module AwsKmsHierarchicalKeyring {
       branchKeyId: string,
       ttlSeconds: Types.PositiveLong,
       cache: Types.ICryptographicMaterialsCache,
-      partitionIdBytes: seq<uint8>
+      partitionIdBytes: seq<uint8>,
+      logicalKeyStoreNameBytes: seq<uint8>
     )
       requires keyStore.ValidState() && cryptoPrimitives.ValidState()
       ensures
@@ -649,6 +660,7 @@ module AwsKmsHierarchicalKeyring {
         && this.ttlSeconds == ttlSeconds
         && this.cache == cache
         && this.partitionIdBytes == partitionIdBytes
+        && this.logicalKeyStoreNameBytes == logicalKeyStoreNameBytes
       ensures Invariant()
     {
       this.materials := materials;
@@ -658,6 +670,7 @@ module AwsKmsHierarchicalKeyring {
       this.ttlSeconds := ttlSeconds;
       this.cache := cache;
       this.partitionIdBytes := partitionIdBytes;
+      this.logicalKeyStoreNameBytes := logicalKeyStoreNameBytes;
       Modifies := keyStore.Modifies + cryptoPrimitives.Modifies;
     }
 
@@ -762,19 +775,24 @@ module AwsKmsHierarchicalKeyring {
       );
       var hashAlgorithm := Crypto.DigestAlgorithm.SHA_384;
 
-      // Resource: Hierarchical Keyring [0x02]
+      // Resource ID: Hierarchical Keyring [0x02]
       var resourceId : seq<uint8> := RESOURCE_ID_HIERARCHICAL_KEYRING;
 
-      // Scope: Decryption [0x02]
+      // Scope ID: Decryption [0x02]
       var scopeId : seq<uint8> := SCOPE_ID_DECRYPT;
 
+      // Convert branch key version into UTF8 bytes
       :- Need(
         UTF8.IsASCIIString(branchKeyVersion),
         E("Unable to represent as an ASCII string.")
       );
       var versionBytes := UTF8.EncodeAscii(branchKeyVersion);
 
-      var identifier := resourceId + [0x00] + scopeId + [0x00] + partitionIdBytes + [0x00] + branchKeyIdUtf8 + [0x00] + versionBytes;
+      // Create the suffix
+      var suffix : seq<uint8> := branchKeyIdUtf8 + NULL_BYTE + logicalKeyStoreNameBytes + NULL_BYTE + versionBytes;
+
+      // Append Resource Id, Scope Id, Partition ID, and suffix to create the cache identifier
+      var identifier := resourceId + NULL_BYTE + scopeId + NULL_BYTE + partitionIdBytes + NULL_BYTE + suffix;
 
       var identifierDigestInput := Crypto.DigestInput(
         digestAlgorithm := hashAlgorithm, message := identifier
