@@ -5,9 +5,9 @@ include "../src/Index.dfy"
 include "../src/ECDH.dfy"
 
 module TestECDH {
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import opened StandardLibrary.UInt
-  import Types = Aws.Cryptography.Primitives.Types
+  import Types = AwsCryptographyPrimitivesTypes
   import UTF8
   import HexStrings
   import Base64
@@ -466,7 +466,7 @@ module TestECDH {
     for i := 0 to |curves|
     {
       var curve := curves[i];
-      var originalPublicKey := expectLooseHexString(derX509PublicKeys[i]);
+      var originalPublicKey := derX509PublicKeys[i];
       var publicKeyBytes := HexStrings.FromHexString(originalPublicKey);
       var compressedKey := expectLooseHexString(compressedKeys[i]);
       var compressedKeyBytes := HexStrings.FromHexString(compressedKey);
