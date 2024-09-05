@@ -523,12 +523,12 @@ module TestAwsKmsHierarchicalKeyring {
 
     // Try encrypting the test materials with HK2, which has branchKeyIdWest
     // but its keystore is keyStoreClientRegionEast
-    var encryptionMaterialsOutMismatchedRegion :- expect hierarchyKeyring2.OnEncrypt(
+    var encryptionMaterialsOutMismatchedRegion := hierarchyKeyring2.OnEncrypt(
       Types.OnEncryptInput(materials:=materials)
     );
 
     // This encryption should fail because of region mismatch
-    // expect encryptionMaterialsOutMismatchedRegion.IsFailure();
+    expect encryptionMaterialsOutMismatchedRegion.IsFailure();
 
     // Encrypt and Decrypt round trip for the test materials with HK1,
     // which has branchKeyIdWest and its keystore is keyStoreClientRegionWest
@@ -679,16 +679,16 @@ module TestAwsKmsHierarchicalKeyring {
     var kmsConfig := KeyStoreTypes.KMSConfiguration.kmsKeyArn(keyArn);
 
     // Different logical key store names for both Key Stores
-    var logicalKeyStoreNameWest : DDBTypes.TableName := logicalKeyStoreName + "West";
-    var logicalKeyStoreNameEast : DDBTypes.TableName := logicalKeyStoreName + "East";
+    var logicalKeyStoreName : DDBTypes.TableName := logicalKeyStoreName;
+    var logicalKeyStoreNameNew : DDBTypes.TableName := logicalKeyStoreName + "New";
 
     // Create a Key Store with the a KMS configuration and
     // KMS client for a particular region (us-west-2 in this case)
-    // with a logicalKeyStoreNameWest
+    // with a logicalKeyStoreName
     var keyStoreConfigClientRegionWest := KeyStoreTypes.KeyStoreConfig(
       id := None,
       kmsConfiguration := kmsConfig,
-      logicalKeyStoreName := logicalKeyStoreNameWest,
+      logicalKeyStoreName := logicalKeyStoreName,
       grantTokens := None,
       ddbTableName := branchKeyStoreName,
       ddbClient := Some(ddbClient),
@@ -701,11 +701,11 @@ module TestAwsKmsHierarchicalKeyring {
     // KMS key configuration but with different client region
     // (us-east-2 in this case)
     // with a different logicalKeyStoreName as compared to keyStoreConfigClientRegionWest
-    // which is logicalKeyStoreNameEast in this case
+    // which is logicalKeyStoreNameNew in this case
     var keyStoreConfigClientRegionEast := KeyStoreTypes.KeyStoreConfig(
       id := None,
       kmsConfiguration := kmsConfig,
-      logicalKeyStoreName := logicalKeyStoreNameEast,
+      logicalKeyStoreName := logicalKeyStoreNameNew,
       grantTokens := None,
       ddbTableName := branchKeyStoreName,
       ddbClient := Some(ddbClient),
@@ -769,10 +769,6 @@ module TestAwsKmsHierarchicalKeyring {
 
     // This encryption should fail because of region mismatch
     expect encryptionMaterialsOutMismatchedRegion.IsFailure();
-
-    var encryptionMaterialsOutSameRegion :- expect hierarchyKeyring1.OnEncrypt(
-      Types.OnEncryptInput(materials:=materials)
-    );
 
     // Encrypt and Decrypt round trip for the test materials with HK1,
     // which has branchKeyIdWest and its keystore is keyStoreClientRegionWest
