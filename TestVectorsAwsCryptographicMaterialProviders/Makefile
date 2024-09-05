@@ -83,8 +83,8 @@ WRAPPED_INDEX_FILE_WITHOUT_EXTERN_STRING="module WrappedMaterialProviders refine
 # 2) this is a test package
 PYTHON_DEPENDENCY_MODULE_NAMES := \
 	--dependency-library-name=aws.cryptography.primitives=aws_cryptography_primitives \
-	--dependency-library-name=com.amazonaws.kms=com_amazonaws_kms \
-	--dependency-library-name=com.amazonaws.dynamodb=com_amazonaws_dynamodb \
+	--dependency-library-name=com.amazonaws.kms=aws_cryptography_internal_kms \
+	--dependency-library-name=com.amazonaws.dynamodb=aws_cryptography_internal_dynamodb \
 	--dependency-library-name=aws.cryptography.materialProviders=aws_cryptographic_materialproviders \
 	--dependency-library-name=aws.cryptography.keyStore=aws_cryptographic_materialproviders \
 	--dependency-library-name=smithy.api=aws_cryptographic_materialproviders
