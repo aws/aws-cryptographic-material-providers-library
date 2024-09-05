@@ -37,7 +37,7 @@ class AESEncryption:
                 ct = aesgcm.encrypt(iv_bytes, plaintext_bytes, aad_bytes)
             except OverflowError:
                 return Wrappers.Result_Failure(Error_Opaque(
-                    message="AES-GCM cannot encrypt plaintext data larger than 2^31-1 bytes"
+                    "AES-GCM cannot encrypt plaintext data larger than 2^31-1 bytes"
                 ))
 
             return Wrappers.Result_Success(
@@ -65,7 +65,7 @@ class AESEncryption:
                 plaintext = aesgcm.decrypt(iv_bytes, ct_and_tag, aad_bytes)
             except InvalidTag:
                 return Wrappers.Result_Failure(Error_Opaque(
-                    message="AES-GCM decrypt failed to validate authentication tag for ciphertext"
+                    "AES-GCM decrypt failed to validate authentication tag for ciphertext"
                 ))
 
             return Wrappers.Result_Success(_dafny.Seq(plaintext))
