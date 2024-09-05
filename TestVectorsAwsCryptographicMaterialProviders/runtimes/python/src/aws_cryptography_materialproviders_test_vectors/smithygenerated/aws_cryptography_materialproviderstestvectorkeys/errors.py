@@ -3,15 +3,9 @@
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
 import _dafny
-import aws_cryptographic_materialproviders.internaldafny.generated
-import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes
-import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors
-from aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.shim import (
-    _sdk_error_to_dafny_error as com_amazonaws_dynamodb_sdk_error_to_dafny_error,
-)
-from aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.shim import (
-    _sdk_error_to_dafny_error as com_amazonaws_kms_sdk_error_to_dafny_error,
-)
+import aws_cryptography_materialproviders_test_vectors.internaldafny.generated
+import aws_cryptography_materialproviders_test_vectors.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes
+import aws_cryptography_materialproviders_test_vectors.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.errors
 from typing import Any, Dict, Generic, List, Literal, TypeVar
 
 
@@ -40,69 +34,9 @@ class UnknownApiError(ApiError[Literal["Unknown"]]):
     code: Literal["Unknown"] = "Unknown"
 
 
-class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
-    code: Literal["KeyStoreException"] = "KeyStoreException"
+class KeyVectorException(ApiError[Literal["KeyVectorException"]]):
+    code: Literal["KeyVectorException"] = "KeyVectorException"
     message: str
-
-    def __init__(
-        self,
-        *,
-        message: str,
-    ):
-        super().__init__(message)
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the KeyStoreException to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        return {
-            "message": self.message,
-            "code": self.code,
-        }
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "KeyStoreException":
-        """Creates a KeyStoreException from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        kwargs: Dict[str, Any] = {
-            "message": d["message"],
-        }
-
-        return KeyStoreException(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "KeyStoreException("
-        if self.message is not None:
-            result += f"message={repr(self.message)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, KeyStoreException):
-            return False
-        attributes: list[str] = [
-            "message",
-            "message",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
-
-class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
-    code: Literal["KeyStoreException"] = "KeyStoreException"
-    message: str
-
-
-class ComAmazonawsDynamodb(ApiError[Literal["ComAmazonawsDynamodb"]]):
-    ComAmazonawsDynamodb: Any
-
-
-class ComAmazonawsKms(ApiError[Literal["ComAmazonawsKms"]]):
-    ComAmazonawsKms: Any
 
 
 class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
@@ -211,24 +145,14 @@ def _smithy_error_to_dafny_error(e: ServiceError):
     """
     if isinstance(
         e,
-        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors.KeyStoreException,
+        aws_cryptography_materialproviders_test_vectors.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.errors.KeyVectorException,
     ):
-        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_KeyStoreException(
+        return aws_cryptography_materialproviders_test_vectors.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_KeyVectorException(
             message=_dafny.Seq(e.message)
         )
 
-    if isinstance(e, ComAmazonawsDynamodb):
-        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_ComAmazonawsDynamodb(
-            com_amazonaws_dynamodb_sdk_error_to_dafny_error(e.message)
-        )
-
-    if isinstance(e, ComAmazonawsKms):
-        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_ComAmazonawsKms(
-            com_amazonaws_kms_sdk_error_to_dafny_error(e.message)
-        )
-
     if isinstance(e, CollectionOfErrors):
-        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_CollectionOfErrors(
+        return aws_cryptography_materialproviders_test_vectors.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_CollectionOfErrors(
             message=_dafny.Seq(e.message),
             list=_dafny.Seq(
                 _smithy_error_to_dafny_error(native_err) for native_err in e.list
@@ -236,11 +160,11 @@ def _smithy_error_to_dafny_error(e: ServiceError):
         )
 
     if isinstance(e, OpaqueError):
-        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_Opaque(
+        return aws_cryptography_materialproviders_test_vectors.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_Opaque(
             obj=e.obj
         )
 
     else:
-        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_Opaque(
+        return aws_cryptography_materialproviders_test_vectors.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_Opaque(
             obj=e
         )
