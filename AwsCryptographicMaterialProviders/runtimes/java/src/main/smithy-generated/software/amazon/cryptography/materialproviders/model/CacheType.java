@@ -35,6 +35,9 @@ public class CacheType {
    */
   private final StormTrackingCache StormTracking;
 
+  /**
+   * Shared cache across multiple Hierarchical Keyrings. For this cache type, the user should provide an already constructed CryptographicMaterialsCache to the Hierarchical Keyring at initialization.
+   */
   private final ICryptographicMaterialsCache Shared;
 
   protected CacheType(BuilderImpl builder) {
@@ -82,6 +85,9 @@ public class CacheType {
     return this.StormTracking;
   }
 
+  /**
+   * @return Shared cache across multiple Hierarchical Keyrings. For this cache type, the user should provide an already constructed CryptographicMaterialsCache to the Hierarchical Keyring at initialization.
+   */
   public ICryptographicMaterialsCache Shared() {
     return this.Shared;
   }
@@ -147,8 +153,14 @@ public class CacheType {
      */
     StormTrackingCache StormTracking();
 
+    /**
+     * @param Shared Shared cache across multiple Hierarchical Keyrings. For this cache type, the user should provide an already constructed CryptographicMaterialsCache to the Hierarchical Keyring at initialization.
+     */
     Builder Shared(ICryptographicMaterialsCache Shared);
 
+    /**
+     * @return Shared cache across multiple Hierarchical Keyrings. For this cache type, the user should provide an already constructed CryptographicMaterialsCache to the Hierarchical Keyring at initialization.
+     */
     ICryptographicMaterialsCache Shared();
 
     CacheType build();

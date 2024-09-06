@@ -72,6 +72,7 @@ module TestAwsKmsHierarchicalKeyring {
   method {:test} TestHierarchyClientESDKSuite()
   {
     var branchKeyId := BRANCH_KEY_ID;
+    // TTL = 166.67 hours
     var ttl : Types.PositiveLong := (1 * 60000) * 10;
     var mpl :- expect MaterialProviders.MaterialProviders();
 
@@ -113,6 +114,7 @@ module TestAwsKmsHierarchicalKeyring {
 
   method {:test} TestHierarchyClientDBESuite() {
     var branchKeyId := BRANCH_KEY_ID;
+    // TTL = 166.67 hours
     var ttl : Types.PositiveLong := (1 * 60000) * 10;
     var mpl :- expect MaterialProviders.MaterialProviders();
 
@@ -155,6 +157,7 @@ module TestAwsKmsHierarchicalKeyring {
   method {:test} TestBranchKeyIdSupplier()
   {
     var branchKeyIdSupplier: Types.IBranchKeyIdSupplier := new DummyBranchKeyIdSupplier();
+    // TTL = 166.67 hours
     var ttl : int64 := (1 * 60000) * 10;
     var mpl :- expect MaterialProviders.MaterialProviders();
 
@@ -199,6 +202,7 @@ module TestAwsKmsHierarchicalKeyring {
   method {:test} TestInvalidDataKeyError()
   {
     var branchKeyIdSupplier: Types.IBranchKeyIdSupplier := new DummyBranchKeyIdSupplier();
+    // TTL = 166.67 hours
     var ttl : int64 := (1 * 60000) * 10;
     var mpl :- expect MaterialProviders.MaterialProviders();
     var kmsClient :- expect KMS.KMSClient();
@@ -323,6 +327,7 @@ module TestAwsKmsHierarchicalKeyring {
   method {:test} TestSharedCacheWithSamePartitionIdAndSameLogicalKeyStoreName()
   {
     var branchKeyIdWest := BRANCH_KEY_ID;
+    // TTL = 166.67 hours
     var ttl : Types.PositiveLong := (1 * 60000) * 10;
     var mpl :- expect MaterialProviders.MaterialProviders();
 
@@ -427,13 +432,15 @@ module TestAwsKmsHierarchicalKeyring {
     TestRoundtrip(hierarchyKeyring1, materials, TEST_ESDK_ALG_SUITE_ID, branchKeyIdWest);
 
 
-    // This should now pass because the material exists inside the cache
+    // This should now pass because the material exists inside the cache.
+    // This proves the cache entry from HK1 was hit by HK2.
     TestRoundtrip(hierarchyKeyring2, materials, TEST_ESDK_ALG_SUITE_ID, branchKeyIdWest);
   }
 
   method {:test} TestSharedCacheWithDifferentUnspecifiedPartitionIdAndSameLogicalKeyStoreName()
   {
     var branchKeyIdWest := BRANCH_KEY_ID;
+    // TTL = 166.67 hours
     var ttl : Types.PositiveLong := (1 * 60000) * 10;
     var mpl :- expect MaterialProviders.MaterialProviders();
 
@@ -543,13 +550,15 @@ module TestAwsKmsHierarchicalKeyring {
 
     // This encryption should fail because the partition IDs for HK1 and HK2 are different
     // even though the partition IDs are unspecified. In such a case, partition IDs are
-    // initialized as UUIDs which have negligible probability of collision
+    // initialized as UUIDs which have negligible probability of collision.
+    // This proves the cache was missed.
     expect encryptionMaterialsOutMismatchedRegionFromCache.IsFailure();
   }
 
   method {:test} TestSharedCacheWithDifferentSpecifiedPartitionIdAndSameLogicalKeyStoreName()
   {
     var branchKeyIdWest := BRANCH_KEY_ID;
+    // TTL = 166.67 hours
     var ttl : Types.PositiveLong := (1 * 60000) * 10;
     var mpl :- expect MaterialProviders.MaterialProviders();
 
@@ -667,6 +676,7 @@ module TestAwsKmsHierarchicalKeyring {
   method {:test} TestSharedCacheWithSamePartitionIdAndDifferentLogicalKeyStoreName()
   {
     var branchKeyIdWest := BRANCH_KEY_ID;
+    // TTL = 166.67 hours
     var ttl : Types.PositiveLong := (1 * 60000) * 10;
     var mpl :- expect MaterialProviders.MaterialProviders();
 

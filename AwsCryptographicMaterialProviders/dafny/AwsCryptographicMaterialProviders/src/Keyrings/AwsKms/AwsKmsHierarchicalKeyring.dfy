@@ -120,7 +120,8 @@ module AwsKmsHierarchicalKeyring {
   }
 
   // Checks if (time_now - cache creation time of the extracted cache entry) is less than the allowed
-  // TTL of the current Hierarchical Keyring calling the getEntry method from the cache
+  // TTL of the current Hierarchical Keyring calling the getEntry method from the cache.
+  // Mitigates risk if another Material Provider wrote the entry with a longer TTL.
   predicate method cacheEntryWithinLimits(
     creationTime: Types.PositiveLong,
     now: Types.PositiveLong,
@@ -431,7 +432,7 @@ module AwsKmsHierarchicalKeyring {
       var scopeId : seq<uint8> := SCOPE_ID_ENCRYPT;
 
       // Create the Suffix
-      var suffix : seq<uint8> := branchKeyIdUtf8 + NULL_BYTE + logicalKeyStoreNameBytes;
+      var suffix : seq<uint8> := logicalKeyStoreNameBytes + NULL_BYTE + branchKeyIdUtf8;
 
       // Append Resource Id, Scope Id, Partition Id, and Suffix to create the cache identifier
       var identifier := resourceId + NULL_BYTE + scopeId + NULL_BYTE + partitionIdBytes + NULL_BYTE + suffix;
@@ -789,7 +790,7 @@ module AwsKmsHierarchicalKeyring {
       var versionBytes := UTF8.EncodeAscii(branchKeyVersion);
 
       // Create the suffix
-      var suffix : seq<uint8> := branchKeyIdUtf8 + NULL_BYTE + logicalKeyStoreNameBytes + NULL_BYTE + versionBytes;
+      var suffix : seq<uint8> := logicalKeyStoreNameBytes + NULL_BYTE + branchKeyIdUtf8 + NULL_BYTE + versionBytes;
 
       // Append Resource Id, Scope Id, Partition Id, and Suffix to create the cache identifier
       var identifier := resourceId + NULL_BYTE + scopeId + NULL_BYTE + partitionIdBytes + NULL_BYTE + suffix;

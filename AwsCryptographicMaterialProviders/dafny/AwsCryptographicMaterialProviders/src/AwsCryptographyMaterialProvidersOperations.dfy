@@ -274,11 +274,21 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
         case Shared(c) =>
           cmc := c;
         case _ =>
-          cmc :- CreateCryptographicMaterialsCache(config, CreateCryptographicMaterialsCacheInput(cache := input.cache.value));
+          cmc :- CreateCryptographicMaterialsCache(
+            config,
+            CreateCryptographicMaterialsCacheInput(cache := input.cache.value)
+          );
       }
     }
     else {
-      cmc :- CreateCryptographicMaterialsCache(config, CreateCryptographicMaterialsCacheInput(cache := Types.Default(Types.DefaultCache(entryCapacity := 1000))));
+      cmc :- CreateCryptographicMaterialsCache(
+        config,
+        CreateCryptographicMaterialsCacheInput(
+          cache := Types.Default(
+            Types.DefaultCache(entryCapacity := 1000)
+          )
+        )
+      );
     }
 
     // Set the correct partitionId
@@ -288,7 +298,11 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
 
     if input.partitionId.Some? {
       partitionIdBytes :- UTF8.Encode(input.partitionId.value)
-      .MapFailure(e => Types.AwsCryptographicMaterialProvidersException(message := e));
+      .MapFailure(
+        e => Types.AwsCryptographicMaterialProvidersException(
+            message := "Could not UTF-8 Encode Partition ID: " + e
+          )
+      );
     } else {
       var maybeUuid := UUID.GenerateUUID();
 
@@ -307,7 +321,11 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
 
     // Convert logical key store name into UTF8 bytes
     var logicalKeyStoreNameBytes : seq<uint8> :- UTF8.Encode(logicalKeyStoreName)
-    .MapFailure(e => Types.AwsCryptographicMaterialProvidersException(message := e));
+    .MapFailure(
+      e => Types.AwsCryptographicMaterialProvidersException(
+          message := "Could not UTF-8 Encode Logical Key Store Name: " + e
+        )
+    );
 
     :- Need(input.branchKeyId.None? || input.branchKeyIdSupplier.None?,
             Types.AwsCryptographicMaterialProvidersException(

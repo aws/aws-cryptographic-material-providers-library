@@ -216,6 +216,7 @@ union CacheType {
   SingleThreaded: SingleThreadedCache,
   MultiThreaded: MultiThreadedCache,
   StormTracking: StormTrackingCache,
+  @documentation("Shared cache across multiple Hierarchical Keyrings. For this cache type, the user should provide an already constructed CryptographicMaterialsCache to the Hierarchical Keyring at initialization.")
   Shared: CryptographicMaterialsCacheReference
 }
 
