@@ -251,12 +251,3 @@ index e8eddd3c..59df5196 100644
    public static KmsClient TrentService(IKMSClient dafnyValue) {
      return ((Shim) dafnyValue).impl();
    }
-@@ -4557,6 +4747,8 @@ public class ToNative {
-     } else if (dafnyValue.dtor_obj() instanceof Exception) {
-       return (RuntimeException) dafnyValue.dtor_obj();
-     }
-+    // BEGIN MANUAL EDIT
-+    // END MANUAL EDIT
-     return new IllegalStateException(
-       String.format(
-         "Unknown error thrown while calling AWS Key Management Service. %s",

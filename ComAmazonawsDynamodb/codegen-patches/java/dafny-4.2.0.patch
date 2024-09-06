@@ -129,12 +129,3 @@ index c30e7cdf..3964b7cb 100644
    public static DynamoDbClient DynamoDB_20120810(IDynamoDBClient dafnyValue) {
      return ((Shim) dafnyValue).impl();
    }
-@@ -8055,6 +8175,8 @@ public class ToNative {
-     } else if (dafnyValue.dtor_obj() instanceof Exception) {
-       return (RuntimeException) dafnyValue.dtor_obj();
-     }
-+    // BEGIN MANUAL EDIT
-+    // END MANUAL EDIT
-     return new IllegalStateException(
-       String.format(
-         "Unknown error thrown while calling Amazon DynamoDB. %s",
