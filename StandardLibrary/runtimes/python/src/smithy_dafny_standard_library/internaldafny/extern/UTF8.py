@@ -2,8 +2,7 @@
 Extern UTF8 encode and decode methods.
 
 Note:
-Dafny expects a strict interpretation of Python's Unicode handling.
-Python represents Unicode characters based on their presence in the Basic Multilingual Plane (BMP).
+Python represents Unicode-escaped characters based on their presence in the Basic Multilingual Plane (BMP).
 The BMP includes characters from U+0000 to U+FFFF (or, 0 <= ord(chr) < 65535; or, 0x0 <= hex(chr) < 0xFFFF).
 Note that this is the range of characters that can fit into a single UTF-16 code unit (2 bytes).
 
@@ -36,9 +35,9 @@ However, the `.decode()` method with 'surrogatepass' leaves '\ud808\udc00' as 'ð
 which, if passed directly to Dafny, will be interpreted as a single UTF-32 code unit,
 instead of the desired two UTF-16 code units.
 
-To correct this, the Decode extern implementation
-re-encodes any characters outside the BMP,
-then decodes them under the expected decoding.
+To correct this, the extern implementations
+convert between Dafny Seqs of UTF-16 code units (handling multi-byte surrogate pairs)
+and Dafny Seqs of UTF-8 bytes.
 """
 import _dafny
 import struct
@@ -66,7 +65,7 @@ class default__(smithy_dafny_standard_library.internaldafny.generated.UTF8.defau
   @staticmethod
   def _strict_tostring(dafny_ascii_string):
     """
-    Converts a Dafny Seq of unicode-escaped ASCII characters
+    Converts a Dafny Seq of UTF-16 code units
     into a string that can be encoded with Python's built-in `.encode('utf-8')`.
 
     This encoding-decoding allows subsequent UTF8 encodings
@@ -83,7 +82,7 @@ class default__(smithy_dafny_standard_library.internaldafny.generated.UTF8.defau
     while `replace` will fail silently.
 
     2)
-    big endian
+    Using big-endian internally instead of little-endian.
     :param s:
     :return:
     """
