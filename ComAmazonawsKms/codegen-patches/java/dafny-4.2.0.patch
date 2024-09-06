@@ -271,3 +271,4 @@ index 56979da2..59df5196 100644
      return new IllegalStateException(
        String.format(
          "Unknown error thrown while calling AWS Key Management Service. %s",
+
