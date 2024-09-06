@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 from enum import Enum
 
-import standard_library.internaldafny.generated.Wrappers as Wrappers
+import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
 from aws_cryptography_primitives.internaldafny.generated.ECDH import default__
 from aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.errors import (
     AwsCryptographicPrimitivesError,
