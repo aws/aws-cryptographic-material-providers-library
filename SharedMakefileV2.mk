@@ -11,9 +11,9 @@ GRADLEW := ./runtimes/java/gradlew
 
 include $(SMITHY_DAFNY_ROOT)/SmithyDafnyMakefile.mk
 
-transpile_implementation_net: DAFNY_OPTIONS=-legacyModuleNames:1
-transpile_test_net: DAFNY_OPTIONS=-legacyModuleNames:1
+transpile_implementation_net: DAFNY_OPTIONS=--allow-warnings --include-test-runner --compile-suffix --legacy-module-names
+transpile_test_net: DAFNY_OPTIONS=--allow-warnings --include-test-runner --compile-suffix --legacy-module-names
 
-transpile_implementation_java: DAFNY_OPTIONS=-legacyDataConstructors:1 \ -legacyModuleNames:1
-transpile_test_java: DAFNY_OPTIONS=-legacyDataConstructors:1 \ -legacyModuleNames:1
+transpile_implementation_java: DAFNY_OPTIONS=--allow-warnings --include-test-runner --compile-suffix --legacy-data-constructors --legacy-module-names
+transpile_test_java: DAFNY_OPTIONS=--allow-warnings --include-test-runner --compile-suffix --legacy-data-constructors --legacy-module-names
 
