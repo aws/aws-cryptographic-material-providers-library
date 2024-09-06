@@ -1,6 +1,11 @@
 version: 0.2
 
-# Validate that the released MPL artifact is usable
+# Validate that the released artifact is usable
+# by installing it from PyPI
+# then running tests from source against the published artifact.
+
+# For the MPL package, which has the ESDK as a downstream dependency,
+# also validate that the released artifact is usable by the ESDK
 # by downloading the ESDK from source
 # and running tests with the newly published MPL artifact.
 
@@ -12,26 +17,28 @@ phases:
       python: latest
   pre_build:
     commands:
+      # Install test dependencies
+      - pyenv install --skip-existing 3.11
+      - pyenv local 3.11
+      - pip install "tox < 4.0"
+      - pip install pytest
+      # Install the published artifact from PyPI.
+      # The tests will use the installed package, not the local code.
+      # The actual test code must be from local, since we don't publish tests.
+      - pip install aws-cryptographic-material-providers==$VERSION
       # Install ESDK-Python, override its requirements to force use of the just-published MPL version
       - git clone https://github.com/aws/aws-encryption-sdk-python.git
       - cd aws-encryption-sdk-python
       - sed -i "s/aws-cryptographic-materialproviders/aws-cryptographic-materialproviders==$VERSION/" requirements_mpl.txt
       - cd ..
-      # Install test dependencies. Don't follow a tox recipe, since this is "a user's environment"
-      - pyenv install --skip-existing 3.11
-      - pyenv local 3.11
-      - pip install "tox < 4.0"
-      - pip install pytest
   build:
     commands:
       - NUM_RETRIES=3
-      # First install the MPL from PyPI and run tests against the published artifact
-      # The tests will use the published MPL source code when calling the MPL,
-      # but the actual test code is local-only, since we don't publish tests.
-      - pip install aws-cryptographic-material-providers==$VERSION
+      # First, run tests with the published package
       - cd AwsCryptographicMaterialProviders/runtimes/python
       - python -m pytest test/ -s -v
       # Then, run ESDK local tests with the new MPL artifact installed
+      - cd ../../../aws-encryption-sdk-python
       - |
         while [ $NUM_RETRIES -gt 0 ]
         do
