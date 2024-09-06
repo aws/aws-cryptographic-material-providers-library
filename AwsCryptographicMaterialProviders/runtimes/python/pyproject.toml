@@ -12,9 +12,6 @@ include = ["**/internaldafny/generated/*.py"]
 
 [tool.poetry.dependencies]
 python = "^3.11.0"
-# TODO: Bump this to 4.8.0
-# TODO: Longer-term, write something to pull this in from the project's project.properties file
-DafnyRuntimePython = "~4.7.0"
 aws-cryptography-internal-standard-library = { path = "../../../StandardLibrary/runtimes/python", develop = false}
 aws-cryptography-internal-kms = {path = "../../../ComAmazonawsKms/runtimes/python", develop = false}
 aws-cryptography-internal-dynamodb = {path = "../../../ComAmazonawsDynamodb/runtimes/python", develop = false}
@@ -40,5 +37,5 @@ twine = "4.0.1"
 wheel = "0.38.4"
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools", "poetry-core"]
+build-backend = "setuptools.build_meta"
