@@ -20,8 +20,24 @@ aws-cryptography-internal-kms = {path = "../../../ComAmazonawsKms/runtimes/pytho
 aws-cryptography-internal-dynamodb = {path = "../../../ComAmazonawsDynamodb/runtimes/python", develop = false}
 aws-cryptography-internal-primitives = {path = "../../../AwsCryptographyPrimitives/runtimes/python", develop = false}
 
+# Package testing
+
+[tool.poetry.group.test]
+optional = true
+
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.0"
+
+# Package release
+
+[tool.poetry.group.release]
+optional = true
+
+[tool.poetry.group.release.dependencies]
+poetry = "1.8.3"
+setuptools = "66.1.1"
+twine = "4.0.1"
+wheel = "0.38.4"
 
 [build-system]
 requires = ["poetry-core"]

@@ -1,5 +1,9 @@
 version: 0.2
 
+# Validate that the released MPL artifact is usable
+# by downloading the ESDK from source
+# and running tests with the newly published MPL artifact.
+
 phases:
   install:
     commands:
@@ -8,20 +12,46 @@ phases:
       python: latest
   pre_build:
     commands:
-      - git clone https://github.com/aws-samples/busy-engineers-document-bucket.git
-      - cd busy-engineers-document-bucket/exercises/python/encryption-context-complete
-      # TODO (Ritvik) -- what to do here?
-      # - sed -i "s/aws_encryption_sdk/aws_encryption_sdk==$VERSION/" requirements-dev.txt
+      # Install ESDK-Python, override its requirements to force use of the just-published MPL version
+      - git clone https://github.com/aws/aws-encryption-sdk-python.git
+      - cd aws-encryption-sdk-python
+      - sed -i "s/aws-cryptographic-materialproviders/aws-cryptographic-materialproviders==$VERSION/" requirements_mpl.txt
+      - cd ..
+      # Install test dependencies. Don't follow a tox recipe, since this is "a user's environment"
       - pyenv install --skip-existing 3.11
       - pyenv local 3.11
       - pip install "tox < 4.0"
+      - pip install pytest
   build:
     commands:
       - NUM_RETRIES=3
+      # First install the MPL from PyPI and run tests against the published artifact
+      # The tests will use the published MPL source code when calling the MPL,
+      # but the actual test code is local-only, since we don't publish tests.
+      - pip install aws-cryptographic-material-providers==$VERSION
+      - cd AwsCryptographicMaterialProviders/runtimes/python
+      - python -m pytest test/ -s -v
+      # Then, run ESDK local tests with the new MPL artifact installed
       - |
         while [ $NUM_RETRIES -gt 0 ]
         do
-          tox -re test
+          tox -e py311-local-mpl
+          if [ $? -eq 0 ]; then
+            break
+          fi
+          NUM_RETRIES=$((NUM_RETRIES-1))
+          if [ $NUM_RETRIES -eq 0 ]; then
+            echo "All validation attempts failed, stopping"
+            exit 1;
+          else
+            echo "Validation failed, retrying in 60 seconds; will retry $NUM_RETRIES more times" && sleep 60
+          fi
+        done
+      # Then, MPL-only local tests with the MPL installed
+      - |
+        while [ $NUM_RETRIES -gt 0 ]
+        do
+          tox -e py311-mpllocal-mpl
           if [ $? -eq 0 ]; then
             break
           fi

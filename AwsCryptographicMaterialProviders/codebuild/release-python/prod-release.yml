@@ -17,17 +17,15 @@ phases:
   pre_build:
     commands:
       - git checkout $COMMIT_ID
-      # TODO (Ritvik) -- update version for mpl
-      # - FOUND_VERSION=$(sed -n 's/__version__ = "\(.*\)"/\1/p' src/aws_encryption_sdk/identifiers.py)
-      # - |
-      #   if expr ${FOUND_VERSION} != ${VERSION}; then
-      #     echo "identifiers.py version (${FOUND_VERSION}) does not match expected version (${VERSION}), stopping"
-      #     exit 1;
-      #   fi
+      - FOUND_VERSION=$(sed -n 's/version = "\(.*\)"/\1/p' AwsCryptographicMaterialProviders/runtimes/python/pyproject.toml)
+      - |
+        if expr ${FOUND_VERSION} != ${VERSION}; then
+          echo "pyproject.toml version (${FOUND_VERSION}) does not match expected version (${VERSION}), stopping"
+          exit 1;
+        fi
   build:
     commands:
-      - tox -e park
-      - tox -e release
+      - echo "Skipping prod release until we are ready to release the MPL"
 
 batch:
   fast-fail: true
