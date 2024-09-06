@@ -39,6 +39,11 @@ module {:options "-functionSyntax:4"} WrappedMaterialProvidersMain {
     var parsedOptions? := GetOptions(vectorOptions, args);
 
     if parsedOptions?.Success? {
+      var h := NeedsHelp(vectorOptions, parsedOptions?.value);
+      if h.Some? {
+        print h.value;
+        return;
+      }
       var op? := ParseCommandLineOptions(parsedOptions?.value);
 
       if op?.Success? {
