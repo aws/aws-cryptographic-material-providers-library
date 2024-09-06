@@ -39,6 +39,7 @@ jobs:
       - name: Support longpaths
         run: |
           git config --global core.longpaths true
+          sudo rm -rf private/tmp/codebuild
 
       - uses: actions/checkout@v4
       # The specification submodule is private so we don't have access, but we don't need
