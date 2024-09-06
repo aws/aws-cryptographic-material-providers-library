@@ -37,5 +37,5 @@ twine = "4.0.1"
 wheel = "0.38.4"
 
 [build-system]
-requires = ["setuptools", "poetry-core"]
-build-backend = "setuptools.build_meta"
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
