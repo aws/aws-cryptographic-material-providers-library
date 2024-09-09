@@ -35,6 +35,17 @@ poetry = "1.8.3"
 twine = "4.0.1"
 wheel = "0.38.4"
 
+# Package documentation
+
+[tool.poetry.group.docs]
+optional = true
+
+[tool.poetry.group.docs.dependencies]
+toml = "^0.10.2"
+myst-parser = "^4"
+sphinx = "^7"
+sphinx_rtd_theme = "^2"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
