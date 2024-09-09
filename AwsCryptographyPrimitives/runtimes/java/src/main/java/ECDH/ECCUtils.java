@@ -446,10 +446,6 @@ public class ECCUtils extends _ExternBase___default {
       final ASN1Sequence seq = new DERSequence(
         new ASN1Encodable[] { seqWithAlgInfo.getObjectAt(0), point }
       );
-      System.out.println(seqWithAlgInfo);
-      System.out.println(seqWithAlgInfo.getObjectAt(0));
-      System.out.println(seq);
-      System.out.println(seq.getEncoded("DER"));
       return CreateGetInfinityPublicKeySuccess(
         DafnySequence.fromBytes(seq.getEncoded("DER"))
       );

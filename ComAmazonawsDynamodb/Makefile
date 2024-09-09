@@ -3,6 +3,8 @@
 
 CORES=2
 
+ENABLE_EXTERN_PROCESSING=1
+
 include ../SharedMakefileV2.mk
 
 PROJECT_SERVICES := \
@@ -26,7 +28,7 @@ INDEX_FILE_WITHOUT_EXTERN_STRING="module Com.Amazonaws.Dynamodb refines Abstract
 
 # Python
 
-PYTHON_MODULE_NAME=com_amazonaws_dynamodb
+PYTHON_MODULE_NAME=aws_cryptography_internal_dynamodb
 
 TRANSLATION_RECORD_PYTHON := \
-    --translation-record ../StandardLibrary/runtimes/python/src/standard_library/internaldafny/generated/dafny_src-py.dtr
+    --translation-record ../StandardLibrary/runtimes/python/src/smithy_dafny_standard_library/internaldafny/generated/dafny_src-py.dtr

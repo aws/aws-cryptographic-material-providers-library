@@ -2,12 +2,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-import asyncio
-from asyncio import sleep
 from aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes import (
     IAwsCryptographicPrimitivesClient,
 )
-from typing import Awaitable, Callable, TypeVar, cast
+from typing import Callable, TypeVar, cast
 
 from .config import Config, CryptoConfig
 from .dafny_protocol import DafnyRequest, DafnyResponse
@@ -146,15 +144,13 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_generate_random_bytes,
-                deserialize=_deserialize_generate_random_bytes,
-                config=self._config,
-                operation_name="GenerateRandomBytes",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_generate_random_bytes,
+            deserialize=_deserialize_generate_random_bytes,
+            config=self._config,
+            operation_name="GenerateRandomBytes",
         )
 
     def digest(self, input: DigestInput) -> bytes | bytearray:
@@ -162,15 +158,13 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_digest,
-                deserialize=_deserialize_digest,
-                config=self._config,
-                operation_name="Digest",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_digest,
+            deserialize=_deserialize_digest,
+            config=self._config,
+            operation_name="Digest",
         )
 
     def h_mac(self, input: HMacInput) -> bytes | bytearray:
@@ -178,15 +172,13 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_h_mac,
-                deserialize=_deserialize_h_mac,
-                config=self._config,
-                operation_name="HMac",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_h_mac,
+            deserialize=_deserialize_h_mac,
+            config=self._config,
+            operation_name="HMac",
         )
 
     def hkdf_extract(self, input: HkdfExtractInput) -> bytes | bytearray:
@@ -194,15 +186,13 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_hkdf_extract,
-                deserialize=_deserialize_hkdf_extract,
-                config=self._config,
-                operation_name="HkdfExtract",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_hkdf_extract,
+            deserialize=_deserialize_hkdf_extract,
+            config=self._config,
+            operation_name="HkdfExtract",
         )
 
     def hkdf_expand(self, input: HkdfExpandInput) -> bytes | bytearray:
@@ -210,15 +200,13 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_hkdf_expand,
-                deserialize=_deserialize_hkdf_expand,
-                config=self._config,
-                operation_name="HkdfExpand",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_hkdf_expand,
+            deserialize=_deserialize_hkdf_expand,
+            config=self._config,
+            operation_name="HkdfExpand",
         )
 
     def hkdf(self, input: HkdfInput) -> bytes | bytearray:
@@ -226,15 +214,13 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_hkdf,
-                deserialize=_deserialize_hkdf,
-                config=self._config,
-                operation_name="Hkdf",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_hkdf,
+            deserialize=_deserialize_hkdf,
+            config=self._config,
+            operation_name="Hkdf",
         )
 
     def kdf_counter_mode(self, input: KdfCtrInput) -> bytes | bytearray:
@@ -242,15 +228,13 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_kdf_counter_mode,
-                deserialize=_deserialize_kdf_counter_mode,
-                config=self._config,
-                operation_name="KdfCounterMode",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_kdf_counter_mode,
+            deserialize=_deserialize_kdf_counter_mode,
+            config=self._config,
+            operation_name="KdfCounterMode",
         )
 
     def aes_kdf_counter_mode(self, input: AesKdfCtrInput) -> bytes | bytearray:
@@ -258,15 +242,13 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_aes_kdf_counter_mode,
-                deserialize=_deserialize_aes_kdf_counter_mode,
-                config=self._config,
-                operation_name="AesKdfCounterMode",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_aes_kdf_counter_mode,
+            deserialize=_deserialize_aes_kdf_counter_mode,
+            config=self._config,
+            operation_name="AesKdfCounterMode",
         )
 
     def aes_encrypt(self, input: AESEncryptInput) -> AESEncryptOutput:
@@ -274,15 +256,13 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_aes_encrypt,
-                deserialize=_deserialize_aes_encrypt,
-                config=self._config,
-                operation_name="AESEncrypt",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_aes_encrypt,
+            deserialize=_deserialize_aes_encrypt,
+            config=self._config,
+            operation_name="AESEncrypt",
         )
 
     def aes_decrypt(self, input: AESDecryptInput) -> bytes | bytearray:
@@ -290,15 +270,13 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_aes_decrypt,
-                deserialize=_deserialize_aes_decrypt,
-                config=self._config,
-                operation_name="AESDecrypt",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_aes_decrypt,
+            deserialize=_deserialize_aes_decrypt,
+            config=self._config,
+            operation_name="AESDecrypt",
         )
 
     def generate_rsa_key_pair(
@@ -308,15 +286,13 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_generate_rsa_key_pair,
-                deserialize=_deserialize_generate_rsa_key_pair,
-                config=self._config,
-                operation_name="GenerateRSAKeyPair",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_generate_rsa_key_pair,
+            deserialize=_deserialize_generate_rsa_key_pair,
+            config=self._config,
+            operation_name="GenerateRSAKeyPair",
         )
 
     def get_rsa_key_modulus_length(
@@ -326,15 +302,13 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_get_rsa_key_modulus_length,
-                deserialize=_deserialize_get_rsa_key_modulus_length,
-                config=self._config,
-                operation_name="GetRSAKeyModulusLength",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_get_rsa_key_modulus_length,
+            deserialize=_deserialize_get_rsa_key_modulus_length,
+            config=self._config,
+            operation_name="GetRSAKeyModulusLength",
         )
 
     def rsa_decrypt(self, input: RSADecryptInput) -> bytes | bytearray:
@@ -342,15 +316,13 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_rsa_decrypt,
-                deserialize=_deserialize_rsa_decrypt,
-                config=self._config,
-                operation_name="RSADecrypt",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_rsa_decrypt,
+            deserialize=_deserialize_rsa_decrypt,
+            config=self._config,
+            operation_name="RSADecrypt",
         )
 
     def rsa_encrypt(self, input: RSAEncryptInput) -> bytes | bytearray:
@@ -358,15 +330,13 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_rsa_encrypt,
-                deserialize=_deserialize_rsa_encrypt,
-                config=self._config,
-                operation_name="RSAEncrypt",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_rsa_encrypt,
+            deserialize=_deserialize_rsa_encrypt,
+            config=self._config,
+            operation_name="RSAEncrypt",
         )
 
     def generate_ecdsa_signature_key(
@@ -376,15 +346,13 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_generate_ecdsa_signature_key,
-                deserialize=_deserialize_generate_ecdsa_signature_key,
-                config=self._config,
-                operation_name="GenerateECDSASignatureKey",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_generate_ecdsa_signature_key,
+            deserialize=_deserialize_generate_ecdsa_signature_key,
+            config=self._config,
+            operation_name="GenerateECDSASignatureKey",
         )
 
     def ecdsa_sign(self, input: ECDSASignInput) -> bytes | bytearray:
@@ -392,15 +360,13 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_ecdsa_sign,
-                deserialize=_deserialize_ecdsa_sign,
-                config=self._config,
-                operation_name="ECDSASign",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_ecdsa_sign,
+            deserialize=_deserialize_ecdsa_sign,
+            config=self._config,
+            operation_name="ECDSASign",
         )
 
     def ecdsa_verify(self, input: ECDSAVerifyInput) -> bool:
@@ -408,15 +374,13 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_ecdsa_verify,
-                deserialize=_deserialize_ecdsa_verify,
-                config=self._config,
-                operation_name="ECDSAVerify",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_ecdsa_verify,
+            deserialize=_deserialize_ecdsa_verify,
+            config=self._config,
+            operation_name="ECDSAVerify",
         )
 
     def generate_ecc_key_pair(
@@ -426,15 +390,13 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_generate_ecc_key_pair,
-                deserialize=_deserialize_generate_ecc_key_pair,
-                config=self._config,
-                operation_name="GenerateECCKeyPair",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_generate_ecc_key_pair,
+            deserialize=_deserialize_generate_ecc_key_pair,
+            config=self._config,
+            operation_name="GenerateECCKeyPair",
         )
 
     def get_public_key_from_private_key(
@@ -444,15 +406,13 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_get_public_key_from_private_key,
-                deserialize=_deserialize_get_public_key_from_private_key,
-                config=self._config,
-                operation_name="GetPublicKeyFromPrivateKey",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_get_public_key_from_private_key,
+            deserialize=_deserialize_get_public_key_from_private_key,
+            config=self._config,
+            operation_name="GetPublicKeyFromPrivateKey",
         )
 
     def validate_public_key(
@@ -462,15 +422,13 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_validate_public_key,
-                deserialize=_deserialize_validate_public_key,
-                config=self._config,
-                operation_name="ValidatePublicKey",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_validate_public_key,
+            deserialize=_deserialize_validate_public_key,
+            config=self._config,
+            operation_name="ValidatePublicKey",
         )
 
     def derive_shared_secret(
@@ -480,15 +438,13 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_derive_shared_secret,
-                deserialize=_deserialize_derive_shared_secret,
-                config=self._config,
-                operation_name="DeriveSharedSecret",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_derive_shared_secret,
+            deserialize=_deserialize_derive_shared_secret,
+            config=self._config,
+            operation_name="DeriveSharedSecret",
         )
 
     def compress_public_key(
@@ -498,15 +454,13 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_compress_public_key,
-                deserialize=_deserialize_compress_public_key,
-                config=self._config,
-                operation_name="CompressPublicKey",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_compress_public_key,
+            deserialize=_deserialize_compress_public_key,
+            config=self._config,
+            operation_name="CompressPublicKey",
         )
 
     def decompress_public_key(
@@ -516,15 +470,13 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_decompress_public_key,
-                deserialize=_deserialize_decompress_public_key,
-                config=self._config,
-                operation_name="DecompressPublicKey",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_decompress_public_key,
+            deserialize=_deserialize_decompress_public_key,
+            config=self._config,
+            operation_name="DecompressPublicKey",
         )
 
     def parse_public_key(self, input: ParsePublicKeyInput) -> ParsePublicKeyOutput:
@@ -532,28 +484,26 @@ class AwsCryptographicPrimitives:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_parse_public_key,
-                deserialize=_deserialize_parse_public_key,
-                config=self._config,
-                operation_name="ParsePublicKey",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_parse_public_key,
+            deserialize=_deserialize_parse_public_key,
+            config=self._config,
+            operation_name="ParsePublicKey",
         )
 
-    async def _execute_operation(
+    def _execute_operation(
         self,
         input: Input,
         plugins: list[Plugin],
-        serialize: Callable[[Input, Config], Awaitable[DafnyRequest]],
-        deserialize: Callable[[DafnyResponse, Config], Awaitable[Output]],
+        serialize: Callable[[Input, Config], DafnyRequest],
+        deserialize: Callable[[DafnyResponse, Config], Output],
         config: Config,
         operation_name: str,
     ) -> Output:
         try:
-            return await self._handle_execution(
+            return self._handle_execution(
                 input, plugins, serialize, deserialize, config, operation_name
             )
         except Exception as e:
@@ -563,12 +513,12 @@ class AwsCryptographicPrimitives:
                 raise ServiceError(e) from e
             raise e
 
-    async def _handle_execution(
+    def _handle_execution(
         self,
         input: Input,
         plugins: list[Plugin],
-        serialize: Callable[[Input, Config], Awaitable[DafnyRequest]],
-        deserialize: Callable[[DafnyResponse, Config], Awaitable[Output]],
+        serialize: Callable[[Input, Config], DafnyRequest],
+        deserialize: Callable[[DafnyResponse, Config], Output],
         config: Config,
         operation_name: str,
     ) -> Output:
@@ -618,7 +568,7 @@ class AwsCryptographicPrimitives:
             context_with_transport_request = cast(
                 InterceptorContext[Input, None, DafnyRequest, None], context
             )
-            context_with_transport_request._transport_request = await serialize(
+            context_with_transport_request._transport_request = serialize(
                 context_with_transport_request.request, config
             )
 
@@ -639,7 +589,7 @@ class AwsCryptographicPrimitives:
             while True:
                 # Make an attempt, creating a copy of the context so we don't pass
                 # around old data.
-                context_with_response = await self._handle_attempt(
+                context_with_response = self._handle_attempt(
                     deserialize,
                     interceptors,
                     context_with_transport_request.copy(),
@@ -668,7 +618,6 @@ class AwsCryptographicPrimitives:
                         )
                     except SmithyRetryException:
                         raise context_with_response.response
-                    await sleep(retry_token.retry_delay)
                 else:
                     # Step 8: Invoke record_success
                     retry_strategy.record_success(token=retry_token)
@@ -685,11 +634,11 @@ class AwsCryptographicPrimitives:
             ],
             context,
         )
-        return await self._finalize_execution(interceptors, execution_context)
+        return self._finalize_execution(interceptors, execution_context)
 
-    async def _handle_attempt(
+    def _handle_attempt(
         self,
-        deserialize: Callable[[DafnyResponse, Config], Awaitable[Output]],
+        deserialize: Callable[[DafnyResponse, Config], Output],
         interceptors: list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
         context: InterceptorContext[Input, None, DafnyRequest, None],
         config: Config,
@@ -733,7 +682,7 @@ class AwsCryptographicPrimitives:
                 InterceptorContext[Input, Output, DafnyRequest, DafnyResponse],
                 context_with_response,
             )
-            context_with_output._response = await deserialize(
+            context_with_output._response = deserialize(
                 context_with_output._transport_response, config
             )
 
@@ -751,9 +700,9 @@ class AwsCryptographicPrimitives:
             InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None],
             context,
         )
-        return await self._finalize_attempt(interceptors, attempt_context)
+        return self._finalize_attempt(interceptors, attempt_context)
 
-    async def _finalize_attempt(
+    def _finalize_attempt(
         self,
         interceptors: list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
         context: InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None],
@@ -776,7 +725,7 @@ class AwsCryptographicPrimitives:
 
         return context
 
-    async def _finalize_execution(
+    def _finalize_execution(
         self,
         interceptors: list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
         context: InterceptorContext[

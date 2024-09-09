@@ -3,6 +3,8 @@
 
 CORES=2
 
+ENABLE_EXTERN_PROCESSING=1
+
 include ../SharedMakefileV2.mk
 
 PROJECT_SERVICES := \
@@ -22,8 +24,6 @@ TYPES_FILE_WITHOUT_EXTERN_STRING="module AwsCryptographyPrimitivesTypes"
 
 INDEX_FILE_PATH=src/Index.dfy
 INDEX_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.primitives.internaldafny\" } AtomicPrimitives refines AbstractAwsCryptographyPrimitivesService {"
-# Note: This module name SHOULD be `AtomicPrimitives`
-# to align with this project's Smithy-Model localService's `sdkId` trait.
 INDEX_FILE_WITHOUT_EXTERN_STRING="module AtomicPrimitives refines AbstractAwsCryptographyPrimitivesService {"
 
 # Python
@@ -31,4 +31,4 @@ INDEX_FILE_WITHOUT_EXTERN_STRING="module AtomicPrimitives refines AbstractAwsCry
 PYTHON_MODULE_NAME=aws_cryptography_primitives
 
 TRANSLATION_RECORD_PYTHON := \
-    --translation-record ../StandardLibrary/runtimes/python/src/standard_library/internaldafny/generated/dafny_src-py.dtr
+    --translation-record ../StandardLibrary/runtimes/python/src/smithy_dafny_standard_library/internaldafny/generated/dafny_src-py.dtr

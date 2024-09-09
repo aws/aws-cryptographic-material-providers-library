@@ -4,7 +4,7 @@ env:
   variables:
     BRANCH: "main"
   secrets-manager:
-    TWINE_USERNAME: TestPyPiAPIToken:username 
+    TWINE_USERNAME: TestPyPiAPIToken:username
     TWINE_PASSWORD: TestPyPiAPIToken:password
 
 phases:
@@ -29,7 +29,6 @@ phases:
       - cd AwsCryptographicMaterialProviders/runtimes/python/
       - tox -e park
       - tox -e test-release
-
 
 batch:
   fast-fail: true

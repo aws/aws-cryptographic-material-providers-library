@@ -81,6 +81,12 @@ runs:
       shell: bash
       run: |
         make polymorph_dotnet
+    
+    - name: Regenerate Python code using smithy-dafny
+      working-directory: ./${{ inputs.library }}
+      shell: bash
+      run: |
+        make polymorph_python
 
     - name: Check regenerated code against commited code
       # Composite action inputs seem to not actually support booleans properly for some reason

@@ -7,6 +7,7 @@ The AWS Cryptographic Internal ComAmazonAwsKms is a modeled library used in the 
 [Security issue notifications](./CONTRIBUTING.md#security-issue-notifications)
 
 ## Security
+
 If you discover a potential security issue in this project
 we ask that you notify AWS/Amazon Security via our
 [vulnerability reporting page](http://aws.amazon.com/security/vulnerability-reporting/).

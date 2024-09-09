@@ -39,24 +39,29 @@ module {:options "-functionSyntax:4"} WrappedMaterialProvidersMain {
     var parsedOptions? := GetOptions(vectorOptions, args);
 
     if parsedOptions?.Success? {
+      var h := NeedsHelp(vectorOptions, parsedOptions?.value);
+      if h.Some? {
+        print h.value;
+        return;
+      }
       var op? := ParseCommandLineOptions(parsedOptions?.value);
 
       if op?.Success? {
         var op := op?.value;
-        if
-        case op.Decrypt? =>
+        match op
+        case Decrypt(_, _) =>
           var result := TestManifests.StartDecrypt(op);
           if result.Failure? {
             print result.error;
           }
           expect result.Success?;
-        case op.Encrypt? =>
+        case Encrypt(_, _, _) =>
           var result := TestManifests.StartEncrypt(op);
           if result.Failure? {
             print result.error;
           }
           expect result.Success?;
-        case op.EncryptManifest? =>
+        case EncryptManifest(_) =>
           var result := CompleteVectors.WriteStuff(op);
           if result.Failure? {
             print result.error;

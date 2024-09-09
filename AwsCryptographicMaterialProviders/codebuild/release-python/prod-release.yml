@@ -4,7 +4,7 @@ env:
   variables:
     BRANCH: "main"
   secrets-manager:
-    TWINE_USERNAME: PyPiAPIToken:username 
+    TWINE_USERNAME: PyPiAPIToken:username
     TWINE_PASSWORD: PyPiAPIToken:password
 
 phases:
@@ -30,7 +30,7 @@ phases:
       - tox -e release
 
 batch:
-  fast-fail: true 
+  fast-fail: true
   build-graph:
     - identifier: release_to_prod
     - identifier: validate_prod_release

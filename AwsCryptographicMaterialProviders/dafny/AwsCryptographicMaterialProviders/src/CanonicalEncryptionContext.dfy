@@ -9,6 +9,7 @@ module CanonicalEncryptionContext {
   import Types = AwsCryptographyMaterialProvidersTypes
   import opened Wrappers
   import Seq
+  import SortedSets
 
   //= aws-encryption-sdk-specification/framework/raw-aes-keyring.md#onencrypt
   //# The keyring MUST attempt to serialize the [encryption materials']
@@ -25,7 +26,7 @@ module CanonicalEncryptionContext {
   {
     :- Need(|encryptionContext| < UINT16_LIMIT,
             Types.AwsCryptographicMaterialProvidersException( message := "Encryption Context is too large" ));
-    var keys := SetToOrderedSequence(encryptionContext.Keys, UInt.UInt8Less);
+    var keys := SortedSets.ComputeSetToOrderedSequence2(encryptionContext.Keys, UInt.UInt8Less);
 
     if |keys| == 0 then
       Success([])

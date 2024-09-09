@@ -566,19 +566,21 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
 
       var sharedSecretPublicKey: seq<uint8>;
       var sharedSecretKmsKeyId;
-      if {
-        case this.keyAgreementScheme.KmsPublicKeyDiscovery? =>
-          var _ :- ValidateKmsKeyId(this.keyAgreementScheme.KmsPublicKeyDiscovery.recipientKmsIdentifier);
+      match this.keyAgreementScheme {
+        case KmsPublicKeyDiscovery(kmsPublicKeyDiscovery) => {
+          var _ :- ValidateKmsKeyId(kmsPublicKeyDiscovery.recipientKmsIdentifier);
           sharedSecretPublicKey := senderPublicKey;
-          sharedSecretKmsKeyId := this.keyAgreementScheme.KmsPublicKeyDiscovery.recipientKmsIdentifier;
-        case this.keyAgreementScheme.KmsPrivateKeyToStaticPublicKey? =>
-          var _ :- ValidateKmsKeyId(this.keyAgreementScheme.KmsPrivateKeyToStaticPublicKey.senderKmsIdentifier);
-          sharedSecretKmsKeyId := this.keyAgreementScheme.KmsPrivateKeyToStaticPublicKey.senderKmsIdentifier;
-          if this.keyAgreementScheme.KmsPrivateKeyToStaticPublicKey.recipientPublicKey == recipientPublicKey {
+          sharedSecretKmsKeyId := kmsPublicKeyDiscovery.recipientKmsIdentifier;
+        }
+        case KmsPrivateKeyToStaticPublicKey(kmsPrivateKeyToStaticPublicKey) => {
+          var _ :- ValidateKmsKeyId(kmsPrivateKeyToStaticPublicKey.senderKmsIdentifier);
+          sharedSecretKmsKeyId := kmsPrivateKeyToStaticPublicKey.senderKmsIdentifier;
+          if kmsPrivateKeyToStaticPublicKey.recipientPublicKey == recipientPublicKey {
             sharedSecretPublicKey := recipientPublicKey;
           } else {
             sharedSecretPublicKey := senderPublicKey;
           }
+        }
       }
 
       :- Need(

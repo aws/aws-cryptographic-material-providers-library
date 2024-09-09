@@ -30,7 +30,7 @@ from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materi
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny
 import botocore.client
-from standard_library.internaldafny.generated import Wrappers
+from smithy_dafny_standard_library.internaldafny.generated import Wrappers
 from typing import Any, Dict
 
 

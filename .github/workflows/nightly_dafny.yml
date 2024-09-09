@@ -37,6 +37,12 @@ jobs:
     with:
       dafny: "nightly-latest"
       regenerate-code: true
+  dafny-nightly-python:
+    needs: getVersion
+    uses: ./.github/workflows/library_python_tests.yml
+    with:
+      # TODO: Once minimum Dafny version is 4.7.0, point this at `getVersion` output
+      dafny: 4.7.0
 
   cut-issue-on-failure:
     runs-on: ubuntu-latest

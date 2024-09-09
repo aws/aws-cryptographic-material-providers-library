@@ -6,10 +6,10 @@ import _dafny
 import aws_cryptographic_materialproviders.internaldafny.generated
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors
-from com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.shim import (
+from aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.shim import (
     _sdk_error_to_dafny_error as com_amazonaws_dynamodb_sdk_error_to_dafny_error,
 )
-from com_amazonaws_kms.smithygenerated.com_amazonaws_kms.shim import (
+from aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.shim import (
     _sdk_error_to_dafny_error as com_amazonaws_kms_sdk_error_to_dafny_error,
 )
 from typing import Any, Dict, Generic, List, Literal, TypeVar
