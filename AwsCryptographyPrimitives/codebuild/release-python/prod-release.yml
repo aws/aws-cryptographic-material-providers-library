@@ -17,7 +17,7 @@ phases:
   pre_build:
     commands:
       - git checkout $COMMIT_ID
-      - FOUND_VERSION=$(sed -n 's/version = "\(.*\)"/\1/p' AwsCryptographicMaterialProviders/runtimes/python/pyproject.toml)
+      - FOUND_VERSION=$(sed -n 's/version = "\(.*\)"/\1/p' AwsCryptographyPrimitives/runtimes/python/pyproject.toml)
       - |
         if expr ${FOUND_VERSION} != ${VERSION}; then
           echo "pyproject.toml version (${FOUND_VERSION}) does not match expected version (${VERSION}), stopping"

@@ -4,8 +4,8 @@ env:
   variables:
     BRANCH: "main"
   secrets-manager:
-    TWINE_USERNAME: PyPiAPIToken:username
-    TWINE_PASSWORD: PyPiAPIToken:password
+    TWINE_USERNAME: TestPyPiAPIToken:username
+    TWINE_PASSWORD: TestPyPiAPIToken:password
 
 phases:
   install:
@@ -17,7 +17,7 @@ phases:
   pre_build:
     commands:
       - git checkout $COMMIT_ID
-      - FOUND_VERSION=$(sed -n 's/version = "\(.*\)"/\1/p' AwsCryptographicMaterialProviders/runtimes/python/pyproject.toml)
+      - FOUND_VERSION=$(sed -n 's/version = "\(.*\)"/\1/p' AwsCryptographyPrimitives/runtimes/python/pyproject.toml)
       - |
         if expr ${FOUND_VERSION} != ${VERSION}; then
           echo "pyproject.toml version (${FOUND_VERSION}) does not match expected version (${VERSION}), stopping"
@@ -25,16 +25,18 @@ phases:
         fi
   build:
     commands:
-      - echo "Skipping prod release until we are ready to release the MPL"
+      - cd AwsCryptographyPrimitives/runtimes/python/
+      - tox -e test-release
 
 batch:
   fast-fail: true
   build-graph:
-    - identifier: release_to_prod
-    - identifier: validate_prod_release
+    - identifier: release_to_staging
+    - identifier: validate_staging_release
       depend-on:
-        - release_to_prod
+        - release_to_staging
       buildspec: codebuild/release-python/validate.yml
       env:
         variables:
-          PIP_INDEX_URL: https://pypi.python.org/simple/
+          PIP_INDEX_URL: https://test.pypi.org/simple/
+          PIP_EXTRA_INDEX_URL: https://pypi.python.org/simple/
