@@ -20,7 +20,7 @@ from .errors import CollectionOfErrors, KeyVectorException, OpaqueError, Service
 from .config import Config
 
 
-async def _deserialize_create_test_vector_keyring(input: DafnyResponse, config: Config):
+def _deserialize_create_test_vector_keyring(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -29,7 +29,7 @@ async def _deserialize_create_test_vector_keyring(input: DafnyResponse, config: 
     )
 
 
-async def _deserialize_create_wrapped_test_vector_keyring(
+def _deserialize_create_wrapped_test_vector_keyring(
     input: DafnyResponse, config: Config
 ):
 
@@ -40,9 +40,7 @@ async def _deserialize_create_wrapped_test_vector_keyring(
     )
 
 
-async def _deserialize_create_wrapped_test_vector_cmm(
-    input: DafnyResponse, config: Config
-):
+def _deserialize_create_wrapped_test_vector_cmm(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -51,7 +49,7 @@ async def _deserialize_create_wrapped_test_vector_cmm(
     )
 
 
-async def _deserialize_get_key_description(input: DafnyResponse, config: Config):
+def _deserialize_get_key_description(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -60,7 +58,7 @@ async def _deserialize_get_key_description(input: DafnyResponse, config: Config)
     )
 
 
-async def _deserialize_serialize_key_description(input: DafnyResponse, config: Config):
+def _deserialize_serialize_key_description(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
