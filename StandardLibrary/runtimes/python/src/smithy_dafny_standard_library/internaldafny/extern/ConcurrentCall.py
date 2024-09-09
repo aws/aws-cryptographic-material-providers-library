@@ -1,4 +1,4 @@
-import standard_library.internaldafny.generated.ConcurrentCall
+import smithy_dafny_standard_library.internaldafny.generated.ConcurrentCall
 
 from threading import Thread
 
@@ -22,4 +22,4 @@ class default__:
         for j in range(0, serial_iters):
             callee.call(j, local_num)
 
-standard_library.internaldafny.generated.ConcurrentCall.default__ = default__
+smithy_dafny_standard_library.internaldafny.generated.ConcurrentCall.default__ = default__

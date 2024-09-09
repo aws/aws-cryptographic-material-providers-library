@@ -1,6 +1,6 @@
 import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC
 import aws_cryptographic_materialproviders.internaldafny.generated.SynchronizedLocalCMC
-import standard_library.internaldafny.generated.Wrappers as Wrappers
+import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes
 from . import Lock
 

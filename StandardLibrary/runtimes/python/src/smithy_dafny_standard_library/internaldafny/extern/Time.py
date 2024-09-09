@@ -2,8 +2,8 @@ import datetime
 import pytz
 import _dafny
 
-import standard_library.internaldafny.generated.Time
-import standard_library.internaldafny.generated.Wrappers as Wrappers
+import smithy_dafny_standard_library.internaldafny.generated.Time
+import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
 
 class default__:
     def CurrentRelativeTime():
@@ -11,11 +11,11 @@ class default__:
 
     def GetCurrentTimeStamp():
         try:
-            d = datetime.datetime.now(tz = pytz.UTC).strftime("%Y-%m-%dT%H:%M:%S:%fZ")
+            d = datetime.datetime.now(tz = pytz.UTC).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
             return Wrappers.Result_Success(_dafny.Seq(_dafny.string_of(d)))
         except Exception as e:
             return Wrappers.Result_Failure(_dafny.string_of("Could not generate a timestamp in ISO8601: " + e))
         
 
 # Export externs
-standard_library.internaldafny.generated.Time.default__ = default__
+smithy_dafny_standard_library.internaldafny.generated.Time.default__ = default__
