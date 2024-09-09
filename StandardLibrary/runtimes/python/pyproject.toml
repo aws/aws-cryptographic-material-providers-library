@@ -17,14 +17,28 @@ include = [
 [tool.poetry.dependencies]
 python = "^3.11.0"
 pytz = "^2023.3.post1"
-# TODO: Bump this to 4.8.0
 # TODO: Longer-term, write something to pull this in from the project's project.properties file
-DafnyRuntimePython = "~4.7.0"
+DafnyRuntimePython = "~4.8.0"
 # TODO: Depend on PyPi once Smithy-Python publishes their Python package there
 smithy_python = { path = "libs/aws-cryptography-internal-smithy-python", develop = false}
 
+# Package testing
+
+[tool.poetry.group.test]
+optional = true
+
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.0"
+
+# Package release
+
+[tool.poetry.group.release]
+optional = true
+
+[tool.poetry.group.release.dependencies]
+poetry = "1.8.3"
+twine = "4.0.1"
+wheel = "0.38.4"
 
 [build-system]
 requires = ["poetry-core"]
