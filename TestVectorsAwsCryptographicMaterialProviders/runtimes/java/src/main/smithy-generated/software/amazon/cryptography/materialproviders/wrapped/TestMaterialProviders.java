@@ -6,6 +6,7 @@ package software.amazon.cryptography.materialproviders.wrapped;
 import Wrappers_Compile.Result;
 import dafny.DafnySequence;
 import dafny.Tuple0;
+import dafny.TypeDescriptor;
 import java.lang.Byte;
 import java.lang.IllegalArgumentException;
 import java.lang.RuntimeException;
@@ -71,9 +72,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.IKeyring nativeOutput =
         this._impl.CreateAwsKmsDiscoveryKeyring(nativeInput);
       IKeyring dafnyOutput = ToDafny.Keyring(nativeOutput);
-      return Result.create_Success(dafnyOutput);
+      return Result.create_Success(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        dafnyOutput
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -86,9 +95,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.IKeyring nativeOutput =
         this._impl.CreateAwsKmsDiscoveryMultiKeyring(nativeInput);
       IKeyring dafnyOutput = ToDafny.Keyring(nativeOutput);
-      return Result.create_Success(dafnyOutput);
+      return Result.create_Success(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        dafnyOutput
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -101,9 +118,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.IKeyring nativeOutput =
         this._impl.CreateAwsKmsEcdhKeyring(nativeInput);
       IKeyring dafnyOutput = ToDafny.Keyring(nativeOutput);
-      return Result.create_Success(dafnyOutput);
+      return Result.create_Success(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        dafnyOutput
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -116,9 +141,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.IKeyring nativeOutput =
         this._impl.CreateAwsKmsHierarchicalKeyring(nativeInput);
       IKeyring dafnyOutput = ToDafny.Keyring(nativeOutput);
-      return Result.create_Success(dafnyOutput);
+      return Result.create_Success(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        dafnyOutput
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -131,9 +164,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.IKeyring nativeOutput =
         this._impl.CreateAwsKmsKeyring(nativeInput);
       IKeyring dafnyOutput = ToDafny.Keyring(nativeOutput);
-      return Result.create_Success(dafnyOutput);
+      return Result.create_Success(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        dafnyOutput
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -146,9 +187,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.IKeyring nativeOutput =
         this._impl.CreateAwsKmsMrkDiscoveryKeyring(nativeInput);
       IKeyring dafnyOutput = ToDafny.Keyring(nativeOutput);
-      return Result.create_Success(dafnyOutput);
+      return Result.create_Success(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        dafnyOutput
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -161,9 +210,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.IKeyring nativeOutput =
         this._impl.CreateAwsKmsMrkDiscoveryMultiKeyring(nativeInput);
       IKeyring dafnyOutput = ToDafny.Keyring(nativeOutput);
-      return Result.create_Success(dafnyOutput);
+      return Result.create_Success(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        dafnyOutput
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -176,9 +233,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.IKeyring nativeOutput =
         this._impl.CreateAwsKmsMrkKeyring(nativeInput);
       IKeyring dafnyOutput = ToDafny.Keyring(nativeOutput);
-      return Result.create_Success(dafnyOutput);
+      return Result.create_Success(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        dafnyOutput
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -191,9 +256,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.IKeyring nativeOutput =
         this._impl.CreateAwsKmsMrkMultiKeyring(nativeInput);
       IKeyring dafnyOutput = ToDafny.Keyring(nativeOutput);
-      return Result.create_Success(dafnyOutput);
+      return Result.create_Success(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        dafnyOutput
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -206,9 +279,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.IKeyring nativeOutput =
         this._impl.CreateAwsKmsMultiKeyring(nativeInput);
       IKeyring dafnyOutput = ToDafny.Keyring(nativeOutput);
-      return Result.create_Success(dafnyOutput);
+      return Result.create_Success(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        dafnyOutput
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -221,9 +302,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.IKeyring nativeOutput =
         this._impl.CreateAwsKmsRsaKeyring(nativeInput);
       IKeyring dafnyOutput = ToDafny.Keyring(nativeOutput);
-      return Result.create_Success(dafnyOutput);
+      return Result.create_Success(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        dafnyOutput
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -240,9 +329,17 @@ public class TestMaterialProviders
         this._impl.CreateCryptographicMaterialsCache(nativeInput);
       ICryptographicMaterialsCache dafnyOutput =
         ToDafny.CryptographicMaterialsCache(nativeOutput);
-      return Result.create_Success(dafnyOutput);
+      return Result.create_Success(
+        TypeDescriptor.reference(ICryptographicMaterialsCache.class),
+        Error._typeDescriptor(),
+        dafnyOutput
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TypeDescriptor.reference(ICryptographicMaterialsCache.class),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -255,9 +352,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.IClientSupplier nativeOutput =
         this._impl.CreateDefaultClientSupplier(nativeInput);
       IClientSupplier dafnyOutput = ToDafny.ClientSupplier(nativeOutput);
-      return Result.create_Success(dafnyOutput);
+      return Result.create_Success(
+        TypeDescriptor.reference(IClientSupplier.class),
+        Error._typeDescriptor(),
+        dafnyOutput
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TypeDescriptor.reference(IClientSupplier.class),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -274,9 +379,17 @@ public class TestMaterialProviders
         this._impl.CreateDefaultCryptographicMaterialsManager(nativeInput);
       ICryptographicMaterialsManager dafnyOutput =
         ToDafny.CryptographicMaterialsManager(nativeOutput);
-      return Result.create_Success(dafnyOutput);
+      return Result.create_Success(
+        TypeDescriptor.reference(ICryptographicMaterialsManager.class),
+        Error._typeDescriptor(),
+        dafnyOutput
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TypeDescriptor.reference(ICryptographicMaterialsManager.class),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -289,9 +402,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.IKeyring nativeOutput =
         this._impl.CreateMultiKeyring(nativeInput);
       IKeyring dafnyOutput = ToDafny.Keyring(nativeOutput);
-      return Result.create_Success(dafnyOutput);
+      return Result.create_Success(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        dafnyOutput
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -304,9 +425,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.IKeyring nativeOutput =
         this._impl.CreateRawAesKeyring(nativeInput);
       IKeyring dafnyOutput = ToDafny.Keyring(nativeOutput);
-      return Result.create_Success(dafnyOutput);
+      return Result.create_Success(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        dafnyOutput
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -319,9 +448,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.IKeyring nativeOutput =
         this._impl.CreateRawEcdhKeyring(nativeInput);
       IKeyring dafnyOutput = ToDafny.Keyring(nativeOutput);
-      return Result.create_Success(dafnyOutput);
+      return Result.create_Success(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        dafnyOutput
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -334,9 +471,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.IKeyring nativeOutput =
         this._impl.CreateRawRsaKeyring(nativeInput);
       IKeyring dafnyOutput = ToDafny.Keyring(nativeOutput);
-      return Result.create_Success(dafnyOutput);
+      return Result.create_Success(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        dafnyOutput
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TypeDescriptor.reference(IKeyring.class),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -353,9 +498,17 @@ public class TestMaterialProviders
         this._impl.CreateRequiredEncryptionContextCMM(nativeInput);
       ICryptographicMaterialsManager dafnyOutput =
         ToDafny.CryptographicMaterialsManager(nativeOutput);
-      return Result.create_Success(dafnyOutput);
+      return Result.create_Success(
+        TypeDescriptor.reference(ICryptographicMaterialsManager.class),
+        Error._typeDescriptor(),
+        dafnyOutput
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TypeDescriptor.reference(ICryptographicMaterialsManager.class),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -366,9 +519,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.model.DecryptionMaterials nativeInput =
         ToNative.DecryptionMaterials(dafnyInput);
       this._impl.DecryptionMaterialsWithPlaintextDataKey(nativeInput);
-      return Result.create_Success(Tuple0.create());
+      return Result.create_Success(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        Tuple0.create()
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -379,9 +540,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.model.EncryptionMaterials nativeInput =
         ToNative.EncryptionMaterials(dafnyInput);
       this._impl.EncryptionMaterialsHasPlaintextDataKey(nativeInput);
-      return Result.create_Success(Tuple0.create());
+      return Result.create_Success(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        Tuple0.create()
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -396,9 +565,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.model.AlgorithmSuiteInfo nativeOutput =
         this._impl.GetAlgorithmSuiteInfo(nativeInput);
       AlgorithmSuiteInfo dafnyOutput = ToDafny.AlgorithmSuiteInfo(nativeOutput);
-      return Result.create_Success(dafnyOutput);
+      return Result.create_Success(
+        AlgorithmSuiteInfo._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyOutput
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        AlgorithmSuiteInfo._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -413,9 +590,17 @@ public class TestMaterialProviders
       DecryptionMaterials dafnyOutput = ToDafny.DecryptionMaterials(
         nativeOutput
       );
-      return Result.create_Success(dafnyOutput);
+      return Result.create_Success(
+        DecryptionMaterials._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyOutput
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DecryptionMaterials._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -430,9 +615,17 @@ public class TestMaterialProviders
       EncryptionMaterials dafnyOutput = ToDafny.EncryptionMaterials(
         nativeOutput
       );
-      return Result.create_Success(dafnyOutput);
+      return Result.create_Success(
+        EncryptionMaterials._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyOutput
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        EncryptionMaterials._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -443,9 +636,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.model.AlgorithmSuiteInfo nativeInput =
         ToNative.AlgorithmSuiteInfo(dafnyInput);
       this._impl.ValidAlgorithmSuiteInfo(nativeInput);
-      return Result.create_Success(Tuple0.create());
+      return Result.create_Success(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        Tuple0.create()
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -456,9 +657,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.model.ValidateCommitmentPolicyOnDecryptInput nativeInput =
         ToNative.ValidateCommitmentPolicyOnDecryptInput(dafnyInput);
       this._impl.ValidateCommitmentPolicyOnDecrypt(nativeInput);
-      return Result.create_Success(Tuple0.create());
+      return Result.create_Success(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        Tuple0.create()
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -469,9 +678,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.model.ValidateCommitmentPolicyOnEncryptInput nativeInput =
         ToNative.ValidateCommitmentPolicyOnEncryptInput(dafnyInput);
       this._impl.ValidateCommitmentPolicyOnEncrypt(nativeInput);
-      return Result.create_Success(Tuple0.create());
+      return Result.create_Success(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        Tuple0.create()
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -482,9 +699,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.model.ValidDecryptionMaterialsTransitionInput nativeInput =
         ToNative.ValidDecryptionMaterialsTransitionInput(dafnyInput);
       this._impl.ValidDecryptionMaterialsTransition(nativeInput);
-      return Result.create_Success(Tuple0.create());
+      return Result.create_Success(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        Tuple0.create()
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 
@@ -495,9 +720,17 @@ public class TestMaterialProviders
       software.amazon.cryptography.materialproviders.model.ValidEncryptionMaterialsTransitionInput nativeInput =
         ToNative.ValidEncryptionMaterialsTransitionInput(dafnyInput);
       this._impl.ValidEncryptionMaterialsTransition(nativeInput);
-      return Result.create_Success(Tuple0.create());
+      return Result.create_Success(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        Tuple0.create()
+      );
     } catch (RuntimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     }
   }
 

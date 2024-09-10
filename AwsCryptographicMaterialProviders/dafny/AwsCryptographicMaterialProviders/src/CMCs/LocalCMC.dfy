@@ -494,7 +494,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
           assert old@CAN_ADD(cache.Select(k)) != old@CAN_ADD(cache.Select(k'));
         }
       }
-
+      assert  (forall c <- queue.Items :: c.identifier in cache.Keys() && cache.Select(c.identifier) == c);
       assert Invariant();
     }
 
