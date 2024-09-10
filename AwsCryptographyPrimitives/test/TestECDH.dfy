@@ -465,7 +465,7 @@ module TestECDH {
     for i := 0 to |curves|
     {
       var curve := curves[i];
-      var originalPublicKey := derX509PublicKeys[i];
+      var originalPublicKey := expectLooseHexString(derX509PublicKeys[i]);
       var publicKeyBytes := HexStrings.FromHexString(originalPublicKey);
       var compressedKey := expectLooseHexString(compressedKeys[i]);
       var compressedKeyBytes := HexStrings.FromHexString(compressedKey);
