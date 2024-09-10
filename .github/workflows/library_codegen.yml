@@ -72,7 +72,7 @@ jobs:
 
       - name: Install black formatter for Python codegen
         run: |
-          python${{ matrix.python-version }} -m pip install --upgrade black
+          python${{ matrix.pythongiut-version }} -m pip install --upgrade black
 
       - uses: ./.github/actions/polymorph_codegen
         with:
