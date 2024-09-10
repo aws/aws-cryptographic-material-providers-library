@@ -1,7 +1,7 @@
-diff --git a/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java b/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java
+diff --git b/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java a/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java
 index c30e7cdf..3964b7cb 100644
---- a/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java
-+++ b/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java
+--- b/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java
++++ a/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java
 @@ -8040,6 +8040,126 @@ public class ToNative {
      return builder.build();
    }
@@ -129,12 +129,3 @@ index c30e7cdf..3964b7cb 100644
    public static DynamoDbClient DynamoDB_20120810(IDynamoDBClient dafnyValue) {
      return ((Shim) dafnyValue).impl();
    }
-@@ -8055,6 +8175,8 @@ public class ToNative {
-     } else if (dafnyValue.dtor_obj() instanceof Exception) {
-       return (RuntimeException) dafnyValue.dtor_obj();
-     }
-+    // BEGIN MANUAL EDIT
-+    // END MANUAL EDIT
-     return new IllegalStateException(
-       String.format(
-         "Unknown error thrown while calling Amazon DynamoDB. %s",
