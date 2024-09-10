@@ -25,6 +25,10 @@ jobs:
         # Note dotnet is only used for formatting generated code
         # in this workflow
         dotnet-version: ["6.0.x"]
+        # Note dotnet is only used for formatting generated code
+        # in this workflow.
+        # The workflow installs black formatter and runs it on generated code.
+        python-version: 3.11
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     defaults:
@@ -65,6 +69,10 @@ jobs:
 
       - name: Install Smithy-Dafny codegen dependencies
         uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
+
+      - name: Install black formatter for Python codegen
+        run: |
+          python${{ matrix.python-version }} -m pip install --upgrade black
 
       - uses: ./.github/actions/polymorph_codegen
         with:
