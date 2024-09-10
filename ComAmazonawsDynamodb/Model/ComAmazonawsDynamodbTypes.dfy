@@ -237,7 +237,7 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
   )
   type CancellationReasonList = x: seq<CancellationReason> | IsValid_CancellationReasonList(x) witness *
   predicate method IsValid_CancellationReasonList(x: seq<CancellationReason>) {
-    ( 1 <= |x| <= 25 )
+    ( 1 <= |x| <= 100 )
   }
   datatype Capacity = | Capacity (
     nameonly ReadCapacityUnits: Option<ConsumedCapacityUnits> := Option.None ,
@@ -1781,7 +1781,7 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
   )
   type ItemResponseList = x: seq<ItemResponse> | IsValid_ItemResponseList(x) witness *
   predicate method IsValid_ItemResponseList(x: seq<ItemResponse>) {
-    ( 1 <= |x| <= 25 )
+    ( 1 <= |x| <= 100 )
   }
   type Key = map<AttributeName, AttributeValue>
   type KeyConditions = map<AttributeName, Condition>
@@ -1955,7 +1955,7 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
   )
   type ParameterizedStatements = x: seq<ParameterizedStatement> | IsValid_ParameterizedStatements(x) witness *
   predicate method IsValid_ParameterizedStatements(x: seq<ParameterizedStatement>) {
-    ( 1 <= |x| <= 25 )
+    ( 1 <= |x| <= 100 )
   }
   type PartiQLBatchRequest = x: seq<BatchStatementRequest> | IsValid_PartiQLBatchRequest(x) witness *
   predicate method IsValid_PartiQLBatchRequest(x: seq<BatchStatementRequest>) {
@@ -2474,7 +2474,7 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
   )
   type TransactGetItemList = x: seq<TransactGetItem> | IsValid_TransactGetItemList(x) witness *
   predicate method IsValid_TransactGetItemList(x: seq<TransactGetItem>) {
-    ( 1 <= |x| <= 25 )
+    ( 1 <= |x| <= 100 )
   }
   datatype TransactGetItemsInput = | TransactGetItemsInput (
     nameonly TransactItems: TransactGetItemList ,
@@ -2492,7 +2492,7 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
   )
   type TransactWriteItemList = x: seq<TransactWriteItem> | IsValid_TransactWriteItemList(x) witness *
   predicate method IsValid_TransactWriteItemList(x: seq<TransactWriteItem>) {
-    ( 1 <= |x| <= 25 )
+    ( 1 <= |x| <= 100 )
   }
   datatype TransactWriteItemsInput = | TransactWriteItemsInput (
     nameonly TransactItems: TransactWriteItemList ,
