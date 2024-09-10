@@ -4,7 +4,7 @@ from cryptography.hazmat.primitives import hashes
 
 import _dafny
 
-import standard_library.internaldafny.generated.Wrappers as Wrappers
+import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes
 import aws_cryptography_primitives.internaldafny.generated.Digest
 import aws_cryptography_primitives.internaldafny.generated.ExternDigest

@@ -3,6 +3,8 @@
 
 CORES=2
 
+ENABLE_EXTERN_PROCESSING=1
+
 include ../SharedMakefileV2.mk
 
 PROJECT_SERVICES := \
@@ -56,6 +58,20 @@ SERVICE_DEPS_KeyVectors := \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStore \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographicMaterialProviders \
 
+# Constants for languages that drop extern names (Python, Go)
+
+TYPES_FILE_PATH=dafny/KeyVectors/Model/AwsCryptographyMaterialProvidersTestVectorKeysTypes.dfy
+TYPES_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types\" } AwsCryptographyMaterialProvidersTestVectorKeysTypes"
+TYPES_FILE_WITHOUT_EXTERN_STRING="module AwsCryptographyMaterialProvidersTestVectorKeysTypes"
+
+INDEX_FILE_PATH=dafny/KeyVectors/src/Index.dfy
+INDEX_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny\"} KeyVectors refines AbstractAwsCryptographyMaterialProvidersTestVectorKeysService {"
+INDEX_FILE_WITHOUT_EXTERN_STRING="module KeyVectors refines AbstractAwsCryptographyMaterialProvidersTestVectorKeysService {"
+
+WRAPPED_INDEX_FILE_PATH=dafny/TestVectorsAwsCryptographicMaterialProviders/src/LibraryIndex.dfy
+WRAPPED_INDEX_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.materialproviders.internaldafny.wrapped\" } WrappedMaterialProviders refines WrappedAbstractAwsCryptographyMaterialProvidersService"
+WRAPPED_INDEX_FILE_WITHOUT_EXTERN_STRING="module WrappedMaterialProviders refines WrappedAbstractAwsCryptographyMaterialProvidersService"
+
 # Python
 
 # smithy.api namespace is a workaround for having a wrapped localService shim in a different Python package,
@@ -67,18 +83,18 @@ SERVICE_DEPS_KeyVectors := \
 # 2) this is a test package
 PYTHON_DEPENDENCY_MODULE_NAMES := \
 	--dependency-library-name=aws.cryptography.primitives=aws_cryptography_primitives \
-	--dependency-library-name=com.amazonaws.kms=com_amazonaws_kms \
-	--dependency-library-name=com.amazonaws.dynamodb=com_amazonaws_dynamodb \
+	--dependency-library-name=com.amazonaws.kms=aws_cryptography_internal_kms \
+	--dependency-library-name=com.amazonaws.dynamodb=aws_cryptography_internal_dynamodb \
 	--dependency-library-name=aws.cryptography.materialProviders=aws_cryptographic_materialproviders \
 	--dependency-library-name=aws.cryptography.keyStore=aws_cryptographic_materialproviders \
 	--dependency-library-name=smithy.api=aws_cryptographic_materialproviders
 
-PYTHON_MODULE_NAME=aws_cryptography_materialproviderstestvectorkeys
+PYTHON_MODULE_NAME=aws_cryptography_materialproviders_test_vectors
 
 TRANSLATION_RECORD_PYTHON := \
-    --translation-record ../StandardLibrary/runtimes/python/src/standard_library/internaldafny/generated/dafny_src-py.dtr \
-    --translation-record ../ComAmazonawsKms/runtimes/python/src/com_amazonaws_kms/internaldafny/generated/dafny_src-py.dtr \
-    --translation-record ../ComAmazonawsDynamodb/runtimes/python/src/com_amazonaws_dynamodb/internaldafny/generated/dafny_src-py.dtr \
+    --translation-record ../StandardLibrary/runtimes/python/src/smithy_dafny_standard_library/internaldafny/generated/dafny_src-py.dtr \
+    --translation-record ../ComAmazonawsKms/runtimes/python/src/aws_cryptography_internal_kms/internaldafny/generated/dafny_src-py.dtr \
+    --translation-record ../ComAmazonawsDynamodb/runtimes/python/src/aws_cryptography_internal_dynamodb/internaldafny/generated/dafny_src-py.dtr \
     --translation-record ../AwsCryptographyPrimitives/runtimes/python/src/aws_cryptography_primitives/internaldafny/generated/dafny_src-py.dtr \
 	--translation-record ../AwsCryptographicMaterialProviders/runtimes/python/src/aws_cryptographic_materialproviders/internaldafny/generated/dafny_src-py.dtr
 

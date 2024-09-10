@@ -8,6 +8,9 @@ poetry.lock
 **/poetry.lock
 dist
 
+# Dafny-generated Python
+**/internaldafny/generated
+
 # Python test artifacts
 .tox
 .pytest_cache

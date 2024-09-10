@@ -88,10 +88,18 @@ module TestComputeSetToOrderedSequenceCharLess {
   }
 
   method {:test} TestSetToOrderedComplexUnicode() {
-    var a := {"𐐷", "&", "Љ", "ᝀ", "🂡", "｡", "𐀂"};
+    // Due to https://github.com/dafny-lang/dafny/issues/5737,
+    // Unicode characters whose UTF-16 encodings lie outside the BMP
+    // should not be used in Dafny source code,
+    // as the Dafny-Python compiler does not correctly convert these characters
+    // into UTF-16 when translating the Dafny source code to Python.
+    // var a := {"𐐷", "&", "Љ", "ᝀ", "🂡", "｡", "𐀂"};
+    // TODO: After #5737 is fixed, use the commented-out expression.
+    var a := {"\ud801\udc37", "&", "Љ", "ᝀ", "\ud83c\udca1", "｡", "\ud800\udc02"};
     var output := ComputeSetToOrderedSequence(a, CharLess);
     var output2 := ComputeSetToOrderedSequence2(a, CharLess);
-    var expected := ["&", "Љ", "ᝀ", "𐀂", "𐐷", "🂡", "｡"];
+    // var expected := ["&", "Љ", "ᝀ", "𐀂", "𐐷", "🂡", "｡"];
+    var expected := ["&", "Љ", "ᝀ", "\ud800\udc02", "\ud801\udc37", "\ud83c\udca1", "｡"];
     // This is the pure logographic order,
     // however this function is used in the DB-ESDK
     // to canonicalize sets, and needs to remain the same.
