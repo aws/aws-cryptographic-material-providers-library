@@ -1,0 +1,28 @@
+version: 0.2
+
+# Validate that the released artifact is usable
+# by installing it from PyPI
+# then running tests from source against the published artifact.
+
+phases:
+  install:
+    commands:
+      - pip install "tox < 4.0"
+    runtime-versions:
+      python: latest
+  pre_build:
+    commands:
+      # Install test dependencies
+      - pyenv install --skip-existing 3.11
+      - pyenv local 3.11
+      - pip install "tox < 4.0"
+      - pip install pytest
+      # Install the published artifact from PyPI.
+      # The tests will use the installed package, not the local code.
+      # The actual test code must be from local, since we don't publish tests.
+      - pip install aws-cryptography-internal-dynamodb==$VERSION
+  build:
+    commands:
+      - NUM_RETRIES=3
+      - cd ComAmazonawsDynamodb/runtimes/python
+      - python -m pytest test/ -s -v
