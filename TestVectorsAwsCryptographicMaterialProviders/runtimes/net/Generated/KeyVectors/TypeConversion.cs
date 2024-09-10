@@ -7,6 +7,10 @@ namespace AWS.Cryptography.MaterialProvidersTestVectorKeys
 {
   public static class TypeConversion
   {
+    private const string ISO8601DateFormat = "yyyy-MM-dd\\THH:mm:ss.fff\\Z";
+
+    private const string ISO8601DateFormatNoMS = "yyyy-MM-dd\\THH:mm:ss\\Z";
+
     public static AWS.Cryptography.MaterialProviders.IKeyring FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_CreateKeyringOutput(software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring value)
     {
       return FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_CreateKeyringOutput__M7_keyring(value);

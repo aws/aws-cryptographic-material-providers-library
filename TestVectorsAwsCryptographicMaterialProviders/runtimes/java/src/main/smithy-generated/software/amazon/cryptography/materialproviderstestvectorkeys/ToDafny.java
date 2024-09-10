@@ -198,11 +198,12 @@ public class ToDafny {
     awsKmsDiscoveryFilter =
       Objects.nonNull(nativeValue.awsKmsDiscoveryFilter())
         ? Option.create_Some(
+          DiscoveryFilter._typeDescriptor(),
           software.amazon.cryptography.materialproviders.ToDafny.DiscoveryFilter(
             nativeValue.awsKmsDiscoveryFilter()
           )
         )
-        : Option.create_None();
+        : Option.create_None(DiscoveryFilter._typeDescriptor());
     return new KmsMrkAwareDiscovery(
       keyId,
       defaultMrkRegion,
@@ -232,8 +233,11 @@ public class ToDafny {
     Option<KeyDescription> generator;
     generator =
       Objects.nonNull(nativeValue.generator())
-        ? Option.create_Some(ToDafny.KeyDescription(nativeValue.generator()))
-        : Option.create_None();
+        ? Option.create_Some(
+          KeyDescription._typeDescriptor(),
+          ToDafny.KeyDescription(nativeValue.generator())
+        )
+        : Option.create_None(KeyDescription._typeDescriptor());
     DafnySequence<? extends KeyDescription> childKeyrings;
     childKeyrings = ToDafny.KeyDescriptionList(nativeValue.childKeyrings());
     return new MultiKeyring(generator, childKeyrings);
