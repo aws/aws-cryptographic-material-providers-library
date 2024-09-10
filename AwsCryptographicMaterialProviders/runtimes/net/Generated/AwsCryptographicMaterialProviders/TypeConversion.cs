@@ -7,6 +7,10 @@ namespace AWS.Cryptography.MaterialProviders
 {
   public static class TypeConversion
   {
+    private const string ISO8601DateFormat = "yyyy-MM-dd\\THH:mm:ss.fff\\Z";
+
+    private const string ISO8601DateFormatNoMS = "yyyy-MM-dd\\THH:mm:ss\\Z";
+
     public static AWS.Cryptography.MaterialProviders.AesWrappingAlg FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S14_AesWrappingAlg(software.amazon.cryptography.materialproviders.internaldafny.types._IAesWrappingAlg value)
     {
       if (value.is_ALG__AES128__GCM__IV12__TAG16) return AWS.Cryptography.MaterialProviders.AesWrappingAlg.ALG_AES128_GCM_IV12_TAG16;

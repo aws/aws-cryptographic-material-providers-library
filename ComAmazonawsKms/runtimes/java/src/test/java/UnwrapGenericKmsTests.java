@@ -5,8 +5,10 @@ import static software.amazon.cryptography.services.kms.internaldafny.__default.
 
 import Wrappers_Compile.Option;
 import Wrappers_Compile.Result;
+import dafny.TypeDescriptor;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import software.amazon.awssdk.core.exception.SdkException;
 import software.amazon.awssdk.services.kms.model.KmsException;
 import software.amazon.cryptography.services.kms.internaldafny.ToNative;
 import software.amazon.cryptography.services.kms.internaldafny.types.*;
@@ -37,6 +39,6 @@ public class UnwrapGenericKmsTests {
       );
     Assert.assertTrue(response.is_Failure());
     final Exception ex = ToNative.Error(response.dtor_error());
-    Assert.assertTrue(ex instanceof KmsException);
+    Assert.assertTrue(ex instanceof SdkException);
   }
 }

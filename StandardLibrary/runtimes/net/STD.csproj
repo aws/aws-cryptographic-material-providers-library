@@ -56,7 +56,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DafnyRuntime" Version="$(DafnyVersion)" />
+    <PackageReference Include="DafnyRuntime" Version="[4.2.0,$(DafnyVersion)]" />
     <!--
       System.Collections.Immutable can be removed once dafny.msbuild is updated with
       https://github.com/dafny-lang/dafny.msbuild/pull/10 and versioned
@@ -71,6 +71,7 @@
     <Compile Include="Extern/**/*.cs" />
     <Compile Include="Generated/**/*.cs" />
     <Compile Include="ImplementationFromDafny.cs" />
+    <Compile Include="Dafny47-Patch.cs" />
   </ItemGroup>
 
   <ItemGroup>
