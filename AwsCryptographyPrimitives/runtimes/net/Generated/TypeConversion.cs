@@ -7,6 +7,10 @@ namespace AWS.Cryptography.Primitives
 {
     public static class TypeConversion
     {
+        private const string ISO8601DateFormat = "yyyy-MM-dd\\THH:mm:ss.fff\\Z";
+
+        private const string ISO8601DateFormatNoMS = "yyyy-MM-dd\\THH:mm:ss\\Z";
+
         public static AWS.Cryptography.Primitives.AESDecryptInput FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_AESDecryptInput(software.amazon.cryptography.primitives.internaldafny.types._IAESDecryptInput value)
         {
             software.amazon.cryptography.primitives.internaldafny.types.AESDecryptInput concrete = (software.amazon.cryptography.primitives.internaldafny.types.AESDecryptInput)value; AWS.Cryptography.Primitives.AESDecryptInput converted = new AWS.Cryptography.Primitives.AESDecryptInput(); converted.EncAlg = (AWS.Cryptography.Primitives.AES_GCM)FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_AESDecryptInput__M6_encAlg(concrete._encAlg);
