@@ -432,7 +432,7 @@ module AwsKmsHierarchicalKeyring {
       var scopeId : seq<uint8> := SCOPE_ID_ENCRYPT;
 
       // Create the Suffix
-      var suffix : seq<uint8> := logicalKeyStoreNameBytes + NULL_BYTE + branchKeyIdUtf8;
+      var suffix : seq<uint8> := logicalKeyStoreNameBytes + branchKeyIdUtf8;
 
       // Append Resource Id, Scope Id, Partition Id, and Suffix to create the cache identifier
       var identifier := resourceId + NULL_BYTE + scopeId + NULL_BYTE + partitionIdBytes + NULL_BYTE + suffix;
@@ -790,7 +790,7 @@ module AwsKmsHierarchicalKeyring {
       var versionBytes := UTF8.EncodeAscii(branchKeyVersion);
 
       // Create the suffix
-      var suffix : seq<uint8> := logicalKeyStoreNameBytes + NULL_BYTE + branchKeyIdUtf8 + NULL_BYTE + versionBytes;
+      var suffix : seq<uint8> := logicalKeyStoreNameBytes + branchKeyIdUtf8 + versionBytes;
 
       // Append Resource Id, Scope Id, Partition Id, and Suffix to create the cache identifier
       var identifier := resourceId + NULL_BYTE + scopeId + NULL_BYTE + partitionIdBytes + NULL_BYTE + suffix;
