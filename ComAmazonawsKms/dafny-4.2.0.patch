@@ -184,18 +184,6 @@ index e8eddd3c..59df5196 100644
 +    if (dafnyValue.is_UnsupportedOperationException()) {
 +      return ToNative.Error((Error_UnsupportedOperationException) dafnyValue);
 +    }
-+    if (dafnyValue.is_Opaque()) {
-+      return ToNative.Error((Error_Opaque) dafnyValue);
-+    }
-+    // TODO This should indicate a codegen bug
-+    return new IllegalStateException("Unknown error recieved from KMS.");
-+  }
-+
-+  // END MANUAL EDIT
-+
-   public static KmsClient TrentService(IKMSClient dafnyValue) {
-     return ((Shim) dafnyValue).impl();
-   }
 +    if (dafnyValue.is_XksKeyAlreadyInUseException()) {
 +      return ToNative.Error((Error_XksKeyAlreadyInUseException) dafnyValue);
 +    }
