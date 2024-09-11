@@ -1,6 +1,5 @@
 # Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0AWSTemplateFormatVersion: "2010-09-09"
-Description: "Template to build a CodeBuild Project, assumes that GitHub credentials are already set up."
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
   Template to build a CodeBuild Project, assumes that GitHub credentials are
@@ -145,7 +144,7 @@ Resources:
         - !Ref CodeBuildCISTSAllow
         # - "arn:aws:iam::aws:policy/AWSCodeArtifactReadOnlyAccess"
         # - "arn:aws:iam::aws:policy/AWSCodeArtifactAdminAccess"
-  
+
   # CodeBuildProdReleaseServiceRole:
   #   Type: "AWS::IAM::Role"
   #   Properties:
