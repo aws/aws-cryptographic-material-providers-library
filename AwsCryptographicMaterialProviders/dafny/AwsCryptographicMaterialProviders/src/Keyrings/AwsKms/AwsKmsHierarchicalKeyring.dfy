@@ -260,7 +260,7 @@ module AwsKmsHierarchicalKeyring {
         // this is the string representation of the UUIDs 16 bytes.
         |branchKeyVersionAsString| == 36,
         Types.AwsCryptographicMaterialProvidersException(
-          message := "Branch key version string is not a UUID:" + branchKeyVersionAsString
+          message := "Branch key version string is not a UUID: " + branchKeyVersionAsString
         )
       );
       var branchKeyVersionAsBytes :- UUID.ToByteArray(branchKeyVersionAsString).MapFailure(WrapStringToError);
