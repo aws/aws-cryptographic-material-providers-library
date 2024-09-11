@@ -158,8 +158,8 @@ module {:options "-functionSyntax:4"} CreateStaticKeyStores {
           logicalKeyStoreName := "logical-key-store-name",
           grantTokens := [],
           kmsConfiguration := KMSConfiguration.kmsKeyArn("arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab")
-      )
-    );
+        )
+      );
       History.GetKeyStoreInfo := History.GetKeyStoreInfo + [DafnyCallEvent((), output)];
     }
 
