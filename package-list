@@ -46,8 +46,6 @@ StormTracker_Compile
 StrictMultiKeyring_Compile
 Structure_Compile
 Utils_Compile
-_System
-dafny
 software.amazon.cryptography.internaldafny.StormTrackingCMC
 software.amazon.cryptography.internaldafny.SynchronizedLocalCMC
 software.amazon.cryptography.keystore
