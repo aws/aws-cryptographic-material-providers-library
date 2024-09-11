@@ -1,0 +1,4 @@
+import aws_cryptography_materialproviders_test_vectors.internaldafny.generated.module_ as module_
+import aws_cryptography_materialproviders_test_vectors.internaldafny.generated.WrappedMaterialProvidersMain as WrappedMaterialProvidersMain
+
+module_.default__.Test____Main____ = WrappedMaterialProvidersMain.default__.default_Main_
