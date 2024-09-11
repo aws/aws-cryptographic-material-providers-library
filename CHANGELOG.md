@@ -1,5 +1,22 @@
 # Changelog
 
+# [1.6.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.5.1...v1.6.0) (2024-09-10)
+
+### Bug Fixes
+
+- add ECDH error message for Rust ([#574](https://github.com/aws/aws-cryptographic-material-providers-library/issues/574)) ([473a34a](https://github.com/aws/aws-cryptographic-material-providers-library/commit/473a34abe688629e1a5b8abe8bc859e1128ea40b))
+- **DDB-Model:** DDB Supports 100 actions per Transaction ([#692](https://github.com/aws/aws-cryptographic-material-providers-library/issues/692)) ([8a67843](https://github.com/aws/aws-cryptographic-material-providers-library/commit/8a6784372ff635828aa15b9edd7a1c7a37a95286))
+- GetCurrentTimeStamp returns ISO8601 format ([#575](https://github.com/aws/aws-cryptographic-material-providers-library/issues/575)) ([c07a51f](https://github.com/aws/aws-cryptographic-material-providers-library/commit/c07a51fc29ff70411f7573bca96d2a091db8c1ed))
+- maintain order in test vectors for languages with parallel tests ([#641](https://github.com/aws/aws-cryptographic-material-providers-library/issues/641)) ([8c8a38f](https://github.com/aws/aws-cryptographic-material-providers-library/commit/8c8a38ff3534b8e4f0dca020e65effc454ef330a))
+- Remove 4.4 DDB and KMS patches, abstract test to work on later Dafny versions ([#611](https://github.com/aws/aws-cryptographic-material-providers-library/issues/611)) ([d51d648](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d51d6482e3d8ca668111a4695d1adc0c67c3f0a3))
+- Remove uses of `:|` ([#618](https://github.com/aws/aws-cryptographic-material-providers-library/issues/618)) ([f12fe5b](https://github.com/aws/aws-cryptographic-material-providers-library/commit/f12fe5b4a96a9873eb1b73cee8ae74737f3d2375))
+- test vector help text ([#657](https://github.com/aws/aws-cryptographic-material-providers-library/issues/657)) ([0fedaf1](https://github.com/aws/aws-cryptographic-material-providers-library/commit/0fedaf1466d1e0915faa6b6a533b88a40fb0ee91))
+- **post-release:** Change back to 1.5.1-SNAPSHOT ([09cd9a4](https://github.com/aws/aws-cryptographic-material-providers-library/commit/09cd9a432aeeb7e88da5932f335cd82f95d264b3))
+
+### Features
+
+- bump dafny verification and code gen to dafny 4.8.0 ([#520](https://github.com/aws/aws-cryptographic-material-providers-library/issues/520)) ([e16539e](https://github.com/aws/aws-cryptographic-material-providers-library/commit/e16539e98d4b0f60098693fdbaec12dc49c34c9b))
+
 ## [1.5.1](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.5.0...v1.5.1) (2024-07-08)
 
 ### Fixes
