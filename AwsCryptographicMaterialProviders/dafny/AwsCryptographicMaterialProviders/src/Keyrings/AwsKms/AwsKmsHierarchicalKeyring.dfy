@@ -253,6 +253,16 @@ module AwsKmsHierarchicalKeyring {
       var branchKey := hierarchicalMaterials.branchKey;
       var branchKeyVersion := hierarchicalMaterials.branchKeyVersion;
       var branchKeyVersionAsString :- UTF8.Decode(branchKeyVersion).MapFailure(WrapStringToError);
+      //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#ciphertext
+      //#concatenated with the byte representation of the UUID branch key version from the [branch key materials](../structures.md#branch-key-materials)
+      :- Need(
+        // A UUID string is 36 characters long,
+        // this is the string representation of the UUIDs 16 bytes.
+        |branchKeyVersionAsString| == 36,
+        Types.AwsCryptographicMaterialProvidersException(
+          message := "Branch key version string is not a UUID:" + branchKeyVersionAsString
+        )
+      );
       var branchKeyVersionAsBytes :- UUID.ToByteArray(branchKeyVersionAsString).MapFailure(WrapStringToError);
 
       var kmsHierarchyGenerateAndWrap := new KmsHierarchyGenerateAndWrapKeyMaterial(
