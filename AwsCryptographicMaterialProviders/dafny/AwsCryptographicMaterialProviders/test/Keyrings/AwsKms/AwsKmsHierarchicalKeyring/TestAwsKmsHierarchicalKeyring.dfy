@@ -417,6 +417,12 @@ module TestAwsKmsHierarchicalKeyring {
     // Get test materials
     var materials := GetTestMaterials(TEST_ESDK_ALG_SUITE_ID);
 
+    // Commenting these tests out because these are ghost fields and cannot be added for now
+    // Ensure that there are 0 KMS Decrypt and 0 DynamoDB GetItem calls until now
+    // expect |kmsClientEast.History.Decrypt| == 0;
+    // expect |kmsClientWest.History.Decrypt| == 0;
+    // expect |ddbClient.History.GetItem| == 0;
+
     // Try encrypting the test materials with HK2, which has branchKeyIdWest
     // but its keystore is keyStoreClientRegionEast
     var encryptionMaterialsOutMismatchedRegion := hierarchyKeyring2.OnEncrypt(
@@ -426,15 +432,36 @@ module TestAwsKmsHierarchicalKeyring {
     // This encryption should fail because of region mismatch
     expect encryptionMaterialsOutMismatchedRegion.IsFailure();
 
+    // Commenting these tests out because these are ghost fields and cannot be added for now
+    // Ensure that there are 1 KMS Decrypt calls for kmsClientEast, 0 for KMSClientWest and
+    // 1 DynamoDB GetItem calls until now
+    // expect |kmsClientEast.History.Decrypt| == 1;
+    // expect |kmsClientWest.History.Decrypt| == 0;
+    // expect |ddbClient.History.GetItem| == 1;
+
     // Encrypt and Decrypt round trip for the test materials with HK1,
     // which has branchKeyIdWest and its keystore is keyStoreClientRegionWest
     // This should pass
     TestRoundtrip(hierarchyKeyring1, materials, TEST_ESDK_ALG_SUITE_ID, branchKeyIdWest);
 
+    // Commenting these tests out because these are ghost fields and cannot be added for now
+    // Ensure that there are 1 KMS Decrypt calls for kmsClientEast, 2 for KMSClientWest and
+    // 3 DynamoDB GetItem calls until now
+    // expect |kmsClientEast.History.Decrypt| == 1;
+    // expect |kmsClientWest.History.Decrypt| == 2;
+    // expect |ddbClient.History.GetItem| == 3;
 
     // This should now pass because the material exists inside the cache.
     // This proves the cache entry from HK1 was hit by HK2.
     TestRoundtrip(hierarchyKeyring2, materials, TEST_ESDK_ALG_SUITE_ID, branchKeyIdWest);
+
+    // Commenting these tests out because these are ghost fields and cannot be added for now
+    // Ensure that the count doesn't change after the last round trip because the cached
+    // entries are being used. That is, there are 1 KMS Decrypt calls for kmsClientEast,
+    // 2 for KMSClientWest and 3 DynamoDB GetItem calls until now
+    // expect |kmsClientEast.History.Decrypt| == 1;
+    // expect |kmsClientWest.History.Decrypt| == 2;
+    // expect |ddbClient.History.GetItem| == 3;
   }
 
   method {:test} TestSharedCacheWithDifferentUnspecifiedPartitionIdAndSameLogicalKeyStoreName()

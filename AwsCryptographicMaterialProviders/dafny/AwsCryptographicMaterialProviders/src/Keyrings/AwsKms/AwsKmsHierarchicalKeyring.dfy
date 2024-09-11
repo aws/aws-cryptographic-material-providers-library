@@ -14,7 +14,7 @@ include "../../CMCs/StormTracker.dfy"
 include "../../CMCs/StormTrackingCMC.dfy"
 include "../../CMCs/LocalCMC.dfy"
 include "../../CMCs/SynchronizedLocalCMC.dfy"
-include "../../CMCs/CacheIdentifiers.dfy"
+include "../../CMCs/CacheConstants.dfy"
 include "../../../Model/AwsCryptographyMaterialProvidersTypes.dfy"
 include "../../ErrorMessages.dfy"
 
@@ -32,7 +32,7 @@ module AwsKmsHierarchicalKeyring {
   import SynchronizedLocalCMC
   import StormTracker
   import StormTrackingCMC
-  import opened CacheIdentifiers
+  import opened CacheConstants
   import opened AlgorithmSuites
   import EdkWrapping
   import MaterialWrapping

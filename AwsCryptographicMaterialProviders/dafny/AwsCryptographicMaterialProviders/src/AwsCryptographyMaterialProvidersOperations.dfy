@@ -304,9 +304,9 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
           )
       );
     } else {
-      var maybeUuid := UUID.GenerateUUID();
+      var uuid? := UUID.GenerateUUID();
 
-      var uuid :- maybeUuid
+      var uuid :- uuid?
       .MapFailure(e => Types.AwsCryptographicMaterialProvidersException(message := e));
 
       partitionIdBytes :- UUID.ToByteArray(uuid)
@@ -314,8 +314,8 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     }
 
     // Get the logical key store name
-    var maybeGetKeyStoreInfoOutput := input.keyStore.GetKeyStoreInfo();
-    var getKeyStoreInfoOutput :- maybeGetKeyStoreInfoOutput
+    var getKeyStoreInfoOutput? := input.keyStore.GetKeyStoreInfo();
+    var getKeyStoreInfoOutput :- getKeyStoreInfoOutput?
     .MapFailure(e => Types.AwsCryptographyKeyStore(AwsCryptographyKeyStore := e));
     var logicalKeyStoreName := getKeyStoreInfoOutput.logicalKeyStoreName;
 

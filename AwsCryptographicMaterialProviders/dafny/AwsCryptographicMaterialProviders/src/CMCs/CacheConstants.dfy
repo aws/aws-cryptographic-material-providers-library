@@ -3,7 +3,7 @@
 
 include "../../Model/AwsCryptographyMaterialProvidersTypes.dfy"
 
-module CacheIdentifiers {
+module CacheConstants {
   import opened StandardLibrary.UInt
   import Seq
 
