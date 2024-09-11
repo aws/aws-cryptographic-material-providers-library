@@ -146,22 +146,22 @@ Resources:
         # - "arn:aws:iam::aws:policy/AWSCodeArtifactReadOnlyAccess"
         # - "arn:aws:iam::aws:policy/AWSCodeArtifactAdminAccess"
   
-    CodeBuildProdReleaseServiceRole:
-    Type: "AWS::IAM::Role"
-    Properties:
-      Path: /service-role/
-      RoleName: !Sub "codebuild-${ProjectName}-prod-service-role"
-      AssumeRolePolicyDocument: >-
-        {"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"codebuild.amazonaws.com"},"Action":"sts:AssumeRole"}]}
-      MaxSessionDuration: 3600
-      ManagedPolicyArns:
-        - !Ref CryptoToolsKMS
-        - !Ref CodeBuildProdReleaseBatchPolicy
-        - !Ref CodeBuildProdReleaseBasePolicy
-        - !Ref SecretsManagerProdReleasePolicy
-        - !Ref CodeBuildCISTSAllow
-        # - "arn:aws:iam::aws:policy/AWSCodeArtifactReadOnlyAccess"
-        # - "arn:aws:iam::aws:policy/AWSCodeArtifactAdminAccess"
+  # CodeBuildProdReleaseServiceRole:
+  #   Type: "AWS::IAM::Role"
+  #   Properties:
+  #     Path: /service-role/
+  #     RoleName: !Sub "codebuild-${ProjectName}-prod-service-role"
+  #     AssumeRolePolicyDocument: >-
+  #       {"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"codebuild.amazonaws.com"},"Action":"sts:AssumeRole"}]}
+  #     MaxSessionDuration: 3600
+  #     ManagedPolicyArns:
+  #       - !Ref CryptoToolsKMS
+  #       - !Ref CodeBuildProdReleaseBatchPolicy
+  #       - !Ref CodeBuildProdReleaseBasePolicy
+  #       - !Ref SecretsManagerProdReleasePolicy
+  #       - !Ref CodeBuildCISTSAllow
+  #       # - "arn:aws:iam::aws:policy/AWSCodeArtifactReadOnlyAccess"
+  #       # - "arn:aws:iam::aws:policy/AWSCodeArtifactAdminAccess"
 
   CodeBuildTestReleaseBatchPolicy:
     Type: "AWS::IAM::ManagedPolicy"
