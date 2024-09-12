@@ -30,8 +30,8 @@ phases:
           echo "pyproject.toml version (${FOUND_VERSION}) does not match expected version (${VERSION}), stopping"
           exit 1;
         fi
-      # Build source
       - cd AwsCryptographyPrimitives
+      # Build Dafny source
       - make transpile_python
   build:
     commands:
