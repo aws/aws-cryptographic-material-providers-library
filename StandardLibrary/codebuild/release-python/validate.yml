@@ -24,5 +24,8 @@ phases:
   build:
     commands:
       - NUM_RETRIES=3
-      - cd StandardLibrary/runtimes/python
+      - cd StandardLibrary
+      # Transpile code (for tests)
+      - make transpile_python
+      - cd /runtimes/python
       - python -m pytest test/ -s -v

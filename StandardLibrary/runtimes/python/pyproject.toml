@@ -5,11 +5,11 @@ description = ""
 authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
 packages = [
     { include = "smithy_dafny_standard_library", from = "src" },
+    # TODO: Depend on PyPi once Smithy-Python publishes their Python package there
     { include = "smithy_python", from = "libs/aws-cryptography-internal-smithy-python" },
 ]
 # Include generated internaldafny files in package distributions,
 # even though they are not included in version control
-# TODO: Depend on PyPi once Smithy-Python publishes their Python package there
 include = [
     "**/internaldafny/generated/*.py",
 ]
