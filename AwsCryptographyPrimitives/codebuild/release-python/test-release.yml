@@ -23,9 +23,12 @@ phases:
           echo "pyproject.toml version (${FOUND_VERSION}) does not match expected version (${VERSION}), stopping"
           exit 1;
         fi
+      # Build source
+      - cd AwsCryptographyPrimitives
+      - make transpile_python
   build:
     commands:
-      - cd AwsCryptographyPrimitives/runtimes/python/
+      - cd runtimes/python/
       - tox -e test-release
 
 batch:
