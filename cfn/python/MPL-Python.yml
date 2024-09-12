@@ -142,8 +142,6 @@ Resources:
         - !Ref CodeBuildTestReleaseBasePolicy
         - !Ref SecretsManagerTestReleasePolicy
         - !Ref CodeBuildCISTSAllow
-        # - "arn:aws:iam::aws:policy/AWSCodeArtifactReadOnlyAccess"
-        # - "arn:aws:iam::aws:policy/AWSCodeArtifactAdminAccess"
 
   # CodeBuildProdReleaseServiceRole:
   #   Type: "AWS::IAM::Role"
@@ -330,7 +328,8 @@ Resources:
             {
               "Effect": "Allow",
               "Resource": [
-                "arn:aws:secretsmanager:us-west-2:587316601012:secret:TestPyPiCryptoTools-SxeLBh"
+                "arn:aws:secretsmanager:us-west-2:587316601012:secret:TestPyPiCryptoTools-SxeLBh",
+                "arn:aws:secretsmanager:us-west-2:587316601012:secret:TestPyPiAPIToken-uERFjs"
               ],
               "Action": "secretsmanager:GetSecretValue"
             }
