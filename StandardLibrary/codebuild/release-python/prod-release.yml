@@ -23,6 +23,9 @@ phases:
           echo "pyproject.toml version (${FOUND_VERSION}) does not match expected version (${VERSION}), stopping"
           exit 1;
         fi
+      - cd StandardLibrary
+      # Build Dafny source
+      - make transpile_python
   build:
     commands:
       - echo "Skipping prod release until we are ready to release the MPL"
