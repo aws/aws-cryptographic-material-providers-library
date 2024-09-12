@@ -46,7 +46,7 @@ batch:
     - identifier: validate_staging_release
       depend-on:
         - release_to_staging
-      buildspec: codebuild/release-python/validate.yml
+      buildspec: AwsCryptographyPrimitives/codebuild/release-python/validate.yml
       env:
         variables:
           PIP_INDEX_URL: https://test.pypi.org/simple/
