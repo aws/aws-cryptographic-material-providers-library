@@ -12,6 +12,14 @@ phases:
       python: latest
   pre_build:
     commands:
+      # Get Dafny
+      # TODO: 4.8.0/dafnyVersion
+      - cd ..
+      - curl https://github.com/dafny-lang/dafny/releases/download/v4.8.0/dafny-4.8.0-x64-ubuntu-20.04.zip  -L -o dafny.zip
+      - unzip -qq dafny.zip && rm dafny.zip
+      - export PATH="$PWD/dafny:$PATH"
+      # Switch back to the main directory
+      - cd aws-cryptographic-material-providers-library
       # Install test dependencies
       - pyenv install --skip-existing 3.11
       - pyenv local 3.11
@@ -27,5 +35,5 @@ phases:
       - cd StandardLibrary
       # Transpile code (for tests)
       - make transpile_python
-      - cd /runtimes/python
+      - cd runtimes/python
       - python -m pytest test/ -s -v
