@@ -42,6 +42,7 @@ phases:
       # https://python-poetry.org/docs/#installing-manually
       - pip install poetry
       - poetry install --with release
+      - poetry shell
       # Build whl/sdist, upload to test PyPI
       - tox -e test-release
 
