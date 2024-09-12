@@ -81,52 +81,52 @@ Resources:
           Status: DISABLED
           EncryptionDisabled: false
 
-  CodeBuildProjectProdRelease:
-    Type: "AWS::CodeBuild::Project"
-    Properties:
-      Name: !Sub "${ProjectName}-prod-release"
-      Description: !Sub "CodeBuild project for ${ProjectName} to release to prod PyPi."
-      Source:
-        Location: !Ref SourceLocation
-        BuildSpec: codebuild/release-python/prod-release.yml
-        ## https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-source.html#cfn-codebuild-project-source-gitclonedepth
-        ## If this value is 0, greater than 25, or not provided then the full history is downloaded with each build project.
-        GitCloneDepth: 0
-        GitSubmodulesConfig:
-          FetchSubmodules: true
-        InsecureSsl: false
-        ReportBuildStatus: false
-        Type: GITHUB
-      Artifacts:
-        Type: NO_ARTIFACTS
-      Cache:
-        Type: NO_CACHE
-      Environment:
-        ComputeType: BUILD_GENERAL1_LARGE
-        Image: "aws/codebuild/standard:5.0"
-        ImagePullCredentialsType: CODEBUILD
-        PrivilegedMode: false
-        Type: LINUX_CONTAINER
-      ServiceRole: !GetAtt CodeBuildProdReleaseServiceRole.Arn
-      TimeoutInMinutes: 60
-      QueuedTimeoutInMinutes: 480
-      EncryptionKey: !Sub "arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3"
-      BadgeEnabled: false
-      BuildBatchConfig:
-        ServiceRole: !GetAtt CodeBuildProdReleaseServiceRole.Arn
-        Restrictions:
-          MaximumBuildsAllowed: !Ref NumberOfBuildsInBatch
-          ComputeTypesAllowed:
-            - BUILD_GENERAL1_SMALL
-            - BUILD_GENERAL1_MEDIUM
-            - BUILD_GENERAL1_LARGE
-        TimeoutInMins: 480
-      LogsConfig:
-        CloudWatchLogs:
-          Status: ENABLED
-        S3Logs:
-          Status: DISABLED
-          EncryptionDisabled: false
+  # CodeBuildProjectProdRelease:
+  #   Type: "AWS::CodeBuild::Project"
+  #   Properties:
+  #     Name: !Sub "${ProjectName}-prod-release"
+  #     Description: !Sub "CodeBuild project for ${ProjectName} to release to prod PyPi."
+  #     Source:
+  #       Location: !Ref SourceLocation
+  #       BuildSpec: codebuild/release-python/prod-release.yml
+  #       ## https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-source.html#cfn-codebuild-project-source-gitclonedepth
+  #       ## If this value is 0, greater than 25, or not provided then the full history is downloaded with each build project.
+  #       GitCloneDepth: 0
+  #       GitSubmodulesConfig:
+  #         FetchSubmodules: true
+  #       InsecureSsl: false
+  #       ReportBuildStatus: false
+  #       Type: GITHUB
+  #     Artifacts:
+  #       Type: NO_ARTIFACTS
+  #     Cache:
+  #       Type: NO_CACHE
+  #     Environment:
+  #       ComputeType: BUILD_GENERAL1_LARGE
+  #       Image: "aws/codebuild/standard:5.0"
+  #       ImagePullCredentialsType: CODEBUILD
+  #       PrivilegedMode: false
+  #       Type: LINUX_CONTAINER
+  #     ServiceRole: !GetAtt CodeBuildProdReleaseServiceRole.Arn
+  #     TimeoutInMinutes: 60
+  #     QueuedTimeoutInMinutes: 480
+  #     EncryptionKey: !Sub "arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3"
+  #     BadgeEnabled: false
+  #     BuildBatchConfig:
+  #       ServiceRole: !GetAtt CodeBuildProdReleaseServiceRole.Arn
+  #       Restrictions:
+  #         MaximumBuildsAllowed: !Ref NumberOfBuildsInBatch
+  #         ComputeTypesAllowed:
+  #           - BUILD_GENERAL1_SMALL
+  #           - BUILD_GENERAL1_MEDIUM
+  #           - BUILD_GENERAL1_LARGE
+  #       TimeoutInMins: 480
+  #     LogsConfig:
+  #       CloudWatchLogs:
+  #         Status: ENABLED
+  #       S3Logs:
+  #         Status: DISABLED
+  #         EncryptionDisabled: false
 
   CodeBuildTestReleaseServiceRole:
     Type: "AWS::IAM::Role"
