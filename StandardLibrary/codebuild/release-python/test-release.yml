@@ -38,6 +38,7 @@ phases:
   build:
     commands:
       - cd runtimes/python/
+      - pip install . --with release
       # Build dist/ with .whl and source code
       - poetry build
       # Upload to test PyPI
