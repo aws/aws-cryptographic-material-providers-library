@@ -21,6 +21,7 @@ phases:
       # Switch back to the main directory
       - cd aws-cryptographic-material-providers-library
       # Install test dependencies
+      - pip install poetry
       - pyenv install --skip-existing 3.11
       - pyenv local 3.11
       - pip install "tox < 4.0"
@@ -28,12 +29,14 @@ phases:
       # Install the published artifact from PyPI.
       # The tests will use the installed package, not the local code.
       # The actual test code must be from local, since we don't publish tests.
-      - pip install aws-cryptography-internal-dynamodb==$VERSION
+      - pip install aws-cryptography-internal-primitives==$VERSION
   build:
     commands:
       - NUM_RETRIES=3
-      - cd ComAmazonawsDynamodb
+      - cd AwsCryptographyPrimitives
       # Transpile code (for tests)
       - make transpile_python
       - cd runtimes/python
+      # Install ONLY the test dependencies for the package's tests
+      - poetry install --only test
       - python -m pytest test/ -s -v

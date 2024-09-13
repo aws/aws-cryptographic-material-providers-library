@@ -21,11 +21,10 @@ phases:
       # Switch back to the main directory
       - cd aws-cryptographic-material-providers-library
       # Install test dependencies
-      - pip install poetry
       - pyenv install --skip-existing 3.11
       - pyenv local 3.11
+      - pip install poetry
       - pip install "tox < 4.0"
-      - pip install pytest
       # Install the published artifact from PyPI.
       # The tests will use the installed package, not the local code.
       # The actual test code must be from local, since we don't publish tests.
