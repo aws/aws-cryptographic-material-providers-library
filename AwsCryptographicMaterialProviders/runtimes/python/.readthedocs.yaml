@@ -24,7 +24,7 @@ build:
 
 # Build documentation in the doc/ directory with Sphinx
 sphinx:
-   configuration: AwsCryptographicMaterialProviders/runtimes/python/doc/conf.py
+  configuration: AwsCryptographicMaterialProviders/runtimes/python/doc/conf.py
 
 submodules:
   include: all
