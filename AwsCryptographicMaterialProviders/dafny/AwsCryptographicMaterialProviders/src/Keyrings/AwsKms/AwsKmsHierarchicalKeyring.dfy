@@ -427,14 +427,14 @@ module AwsKmsHierarchicalKeyring {
       //# When the hierarchical keyring receives an OnEncrypt request,
       //# the cache entry identifier MUST be calculated as the
       //# SHA-384 hash of the following byte strings, in the order listed:
-
+      // (blank line for duvet)
       //# - MUST be the Resource ID for the Hierarchical Keyring (0x02)
       //# - MUST be the Scope ID for Encrypt (0x01)
       //# - MUST be the Partition ID for the Hierarchical Keyring
       //# - Resource Suffix
       //#   - MUST be the UTF8 encoded Logical Key Store Name of the keystore for the Hierarchical Keyring
       //#   - MUST be the UTF8 encoded branch-key-id
-
+      // (blank line for duvet)
       //# All the above fields must be separated by a single NULL_BYTE `0x00`.
 
       var hashAlgorithm := Crypto.DigestAlgorithm.SHA_384;
@@ -800,7 +800,7 @@ module AwsKmsHierarchicalKeyring {
       //# When the hierarchical keyring receives an OnDecrypt request,
       //# it MUST calculate the cache entry identifier as the
       //# SHA-384 hash of the following byte strings, in the order listed:
-
+      // (blank line for duvet)
       //# - MUST be the Resource ID for the Hierarchical Keyring (0x02)
       //# - MUST be the Scope ID for Decrypt (0x02)
       //# - MUST be the Partition ID for the Hierarchical Keyring
@@ -808,7 +808,7 @@ module AwsKmsHierarchicalKeyring {
       //#   - MUST be the UTF8 encoded Logical Key Store Name of the keystore for the Hierarchical Keyring
       //#   - MUST be the UTF8 encoded branch-key-id
       //#   - MUST be the UTF8 encoded branch-key-version
-
+      // (blank line for duvet)
       //# All the above fields must be separated by a single NULL_BYTE `0x00`.
 
       var hashAlgorithm := Crypto.DigestAlgorithm.SHA_384;
