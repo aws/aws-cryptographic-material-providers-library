@@ -423,6 +423,20 @@ module AwsKmsHierarchicalKeyring {
         && 0 <= |branchKeyId| < UINT32_LIMIT,
         E("Invalid Branch Key ID Length")
       );
+      //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#encryption-materials
+      //# When the hierarchical keyring receives an OnEncrypt request,
+      //# the cache entry identifier MUST be calculated as the
+      //# SHA-384 hash of the following byte strings, in the order listed:
+
+      //# - MUST be the Resource ID for the Hierarchical Keyring (0x02)
+      //# - MUST be the Scope ID for Encrypt (0x01)
+      //# - MUST be the Partition ID for the Hierarchical Keyring
+      //# - Resource Suffix
+      //#   - MUST be the UTF8 encoded Logical Key Store Name of the keystore for the Hierarchical Keyring
+      //#   - MUST be the UTF8 encoded branch-key-id
+
+      //# All the above fields must be separated by a single NULL_BYTE `0x00`.
+
       var hashAlgorithm := Crypto.DigestAlgorithm.SHA_384;
 
       // Resource ID: Hierarchical Keyring [0x02]
@@ -470,6 +484,14 @@ module AwsKmsHierarchicalKeyring {
 
       var now := Time.GetCurrent();
 
+      //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#onencrypt
+      //# If using a `Shared` cache across multiple Hierarchical Keyrings,
+      //# different keyrings having the same `branchKey` can have different TTLs.
+      //# In such a case, the expiry time in the cache is set according to the Keyring that populated the cache.
+      //# There MUST be a check (cacheEntryWithinLimits) to make sure that for the cache entry found, who's TTL has NOT expired,
+      //# `time.now() - cacheEntryCreationTime <= ttlSeconds` is true and
+      //# valid for TTL of the Hierarchical Keyring getting the cache entry.
+      //# If this is NOT true, then we MUST treat the cache entry as expired.
       if getCacheOutput.Failure? || !cacheEntryWithinLimits(
            creationTime := getCacheOutput.value.creationTime,
            now := now,
@@ -774,6 +796,21 @@ module AwsKmsHierarchicalKeyring {
         && 0 <= |branchKeyId| < UINT32_LIMIT,
         E("Invalid Branch Key ID Length")
       );
+      //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#decryption-materials
+      //# When the hierarchical keyring receives an OnDecrypt request,
+      //# it MUST calculate the cache entry identifier as the
+      //# SHA-384 hash of the following byte strings, in the order listed:
+
+      //# - MUST be the Resource ID for the Hierarchical Keyring (0x02)
+      //# - MUST be the Scope ID for Decrypt (0x02)
+      //# - MUST be the Partition ID for the Hierarchical Keyring
+      //# - Resource Suffix
+      //#   - MUST be the UTF8 encoded Logical Key Store Name of the keystore for the Hierarchical Keyring
+      //#   - MUST be the UTF8 encoded branch-key-id
+      //#   - MUST be the UTF8 encoded branch-key-version
+
+      //# All the above fields must be separated by a single NULL_BYTE `0x00`.
+
       var hashAlgorithm := Crypto.DigestAlgorithm.SHA_384;
 
       // Resource ID: Hierarchical Keyring [0x02]
@@ -829,6 +866,14 @@ module AwsKmsHierarchicalKeyring {
 
       var now := Time.GetCurrent();
 
+      //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#ondecrypt
+      //# If using a `Shared` cache across multiple Hierarchical Keyrings,
+      //# different keyrings having the same `branchKey` can have different TTLs.
+      //# In such a case, the expiry time in the cache is set according to the Keyring that populated the cache.
+      //# There MUST be a check (cacheEntryWithinLimits) to make sure that for the cache entry found, who's TTL has NOT expired,
+      //# `time.now() - cacheEntryCreationTime <= ttlSeconds` is true and
+      //# valid for TTL of the Hierarchical Keyring getting the cache entry.
+      //# If this is NOT true, then we MUST treat the cache entry as expired.
       if getCacheOutput.Failure? || !cacheEntryWithinLimits(
            creationTime := getCacheOutput.value.creationTime,
            now := now,

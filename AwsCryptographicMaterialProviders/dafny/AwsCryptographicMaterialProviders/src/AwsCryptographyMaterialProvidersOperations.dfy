@@ -261,12 +261,12 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   method CreateAwsKmsHierarchicalKeyring (config: InternalConfig, input: CreateAwsKmsHierarchicalKeyringInput)
     returns (output: Result<IKeyring, Error>)
   {
-    var maxCacheSize : int32;
-
-    //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#initialization
+    //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#cache-type
     //= type=implication
-    //# If no max cache size is provided, the crypotgraphic materials cache MUST be configured to a
-    //# max cache size of 1000.
+    //# If the Hierarchical Keyring does NOT get a `Shared` cache on initialization,
+    //# it MUST initialize a [cryptographic-materials-cache](../local-cryptographic-materials-cache.md)
+    //# with the user provided cache limit TTL and the entry capacity.
+    //# If no `cache` is provided, a `DefaultCache` MUST be configured with entry capacity of 1000.
     var cmc;
 
     if input.cache.Some? {
@@ -291,9 +291,11 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       );
     }
 
-    // Set the correct partitionId
-    // If the partitionID is provided, convert it into UTF8 bytes
-    // If partitionID is not provided, generate a random UUID
+    //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#partition-id
+    //= type=implication
+    //# PartitionId can either be a String provided by the user, and in this case it MUST be interpreted as the bytes of
+    //# UTF-8 Encoding of the String.
+    //# If the PartitionId is NOT provided by the user, it MUST be set to the 16 byte representation of a v4 UUID.
     var partitionIdBytes : seq<uint8>;
 
     if input.partitionId.Some? {
@@ -313,13 +315,16 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       .MapFailure(e => Types.AwsCryptographicMaterialProvidersException(message := e));
     }
 
-    // Get the logical key store name
+    //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#logical-key-store-name
+    //# Logical Key Store Name is set by the user when configuring the Key Store for
+    //# the Hierarchical Keyring. This is a logical name for the branch key store.
+    //# Logical Key Store Name MUST be converted to UTF8 Bytes to be used in
+    //# the cache identifiers.
     var getKeyStoreInfoOutput? := input.keyStore.GetKeyStoreInfo();
     var getKeyStoreInfoOutput :- getKeyStoreInfoOutput?
     .MapFailure(e => Types.AwsCryptographyKeyStore(AwsCryptographyKeyStore := e));
     var logicalKeyStoreName := getKeyStoreInfoOutput.logicalKeyStoreName;
 
-    // Convert logical key store name into UTF8 bytes
     var logicalKeyStoreNameBytes : seq<uint8> :- UTF8.Encode(logicalKeyStoreName)
     .MapFailure(
       e => Types.AwsCryptographicMaterialProvidersException(
@@ -340,7 +345,6 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       branchKeyId := input.branchKeyId,
       branchKeyIdSupplier := input.branchKeyIdSupplier,
       ttlSeconds := input.ttlSeconds,
-      // maxCacheSize := maxCacheSize,
       cmc := cmc,
       partitionIdBytes := partitionIdBytes,
       logicalKeyStoreNameBytes := logicalKeyStoreNameBytes,
