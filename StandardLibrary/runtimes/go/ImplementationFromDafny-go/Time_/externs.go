@@ -1,9 +1,10 @@
 package _Time
 
 import (
+	"time"
+
 	"github.com/dafny-lang/DafnyRuntimeGo/dafny"
 	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
-	"time"
 )
 
 func (static *CompanionStruct_Default___) CurrentRelativeTime() int64 {

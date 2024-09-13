@@ -2,6 +2,7 @@ package UUID
 
 import (
 	"fmt"
+
 	"github.com/dafny-lang/DafnyRuntimeGo/dafny"
 	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
 	"github.com/google/uuid"
