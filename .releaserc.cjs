@@ -54,7 +54,7 @@ const Runtimes = {
       assemblyInfo: "StandardLibrary/runtimes/net/AssemblyInfo.cs",
     },
   },
-  java: {
+  python: {
     "AwsCryptographicMaterialProviders/runtimes/python/pyproject.toml": {
       dependencies: [],
     },
@@ -77,7 +77,7 @@ const Runtimes = {
  * @type {import('semantic-release').GlobalConfig}
  */
 module.exports = {
-  branches: ["main"],
+  branches: ["main", "lucmcdon/python-mpl-v2"],
   repositoryUrl:
     "git@github.com:aws/aws-cryptographic-material-providers-library.git",
   plugins: [
@@ -157,11 +157,12 @@ module.exports = {
             results: Object.keys(Runtimes.python).map(CheckResults),
             countMatches: true,
           },
-          // Now update the Gradle Java  dependencies
+          // Now update the local filesystem dependencies to PyPI dependencies
+          // pinned to the minor MPL version
           ...Object.entries(Runtimes.python).flatMap(([file, { dependencies }]) =>
             dependencies.map((dependency) => ({
               files: [file],
-              from: '{\s*path\s*=(?!\s*\"libs).*',
+              from: '{\s*path\s*=.*',
               to: '~${nextRelease.version}',
               results: [CheckResults(file)],
               countMatches: true,
