@@ -54,13 +54,30 @@ const Runtimes = {
       assemblyInfo: "StandardLibrary/runtimes/net/AssemblyInfo.cs",
     },
   },
+  python: {
+    "AwsCryptographicMaterialProviders/runtimes/python/pyproject.toml": {
+      dependencies: [],
+    },
+    "AwsCryptographyPrimitives/runtimes/python/pyproject.toml": {
+      dependencies: [],
+    },
+    "ComAmazonawsKms/runtimes/python/pyproject.toml": {
+      dependencies: [],
+    },
+    "ComAmazonawsDynamodb/runtimes/python/pyproject.toml": {
+      dependencies: [],
+    },
+    "StandardLibrary/runtimes/python/pyproject.toml": {
+      dependencies: [],
+    },
+  },
 };
 
 /**
  * @type {import('semantic-release').GlobalConfig}
  */
 module.exports = {
-  branches: ["main"],
+  branches: ["main", "lucmcdon/python-mpl-v2"],
   repositoryUrl:
     "git@github.com:aws/aws-cryptographic-material-providers-library.git",
   plugins: [
@@ -129,6 +146,27 @@ module.exports = {
               results: [CheckResults(assemblyInfo)],
               countMatches: true,
             }),
+          ),
+
+          // Update the version in pyproject.toml for all Python projects
+          // Does not update the dependencies
+          {
+            files: Object.keys(Runtimes.python),
+            from: 'version = ".*"',
+            to: 'version = "${nextRelease.version}"',
+            results: Object.keys(Runtimes.python).map(CheckResults),
+            countMatches: true,
+          },
+          // Now update the local filesystem dependencies to PyPI dependencies
+          // pinned to the minor MPL version
+          ...Object.entries(Runtimes.python).flatMap(([file, { dependencies }]) =>
+            dependencies.map((dependency) => ({
+              files: [file],
+              from: '{\s*path\s*=.*',
+              to: '~${nextRelease.version}',
+              results: [CheckResults(file)],
+              countMatches: true,
+            })),
           ),
         ],
       },
