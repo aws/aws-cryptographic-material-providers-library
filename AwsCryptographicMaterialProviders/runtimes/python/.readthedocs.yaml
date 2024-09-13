@@ -7,6 +7,8 @@ version: 2
 
 # Set the OS, Python version and other tools you might need
 build:
+  commands:
+    - poetry run python -m sphinx -T -b html -d _build/doctrees -D language=en . $READTHEDOCS_OUTPUT/html
   os: ubuntu-22.04
   tools:
     python: "3.11"
@@ -20,7 +22,7 @@ build:
       # https://python-poetry.org/docs/managing-dependencies/#dependency-groups
       # VIRTUAL_ENV needs to be set manually for now.
       # See https://github.com/readthedocs/readthedocs.org/pull/11152/
-      - VIRTUAL_ENV=$READTHEDOCS_VIRTUALENV_PATH poetry install --directory AwsCryptographicMaterialProviders/runtimes/python --with docs
+      - poetry install --directory AwsCryptographicMaterialProviders/runtimes/python --with docs
 
 # Build documentation in the doc/ directory with Sphinx
 sphinx:
