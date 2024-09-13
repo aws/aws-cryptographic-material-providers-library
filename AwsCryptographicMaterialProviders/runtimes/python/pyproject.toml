@@ -12,10 +12,10 @@ include = ["**/internaldafny/generated/*.py"]
 
 [tool.poetry.dependencies]
 python = "^3.11.0"
-aws-cryptography-internal-standard-library = { path = "../../../StandardLibrary/runtimes/python", develop = false}
-aws-cryptography-internal-kms = {path = "../../../ComAmazonawsKms/runtimes/python", develop = false}
-aws-cryptography-internal-dynamodb = {path = "../../../ComAmazonawsDynamodb/runtimes/python", develop = false}
-aws-cryptography-internal-primitives = {path = "../../../AwsCryptographyPrimitives/runtimes/python", develop = false}
+aws-cryptography-internal-standard-library = "~0.1.0"
+aws-cryptography-internal-kms = "~0.1.0"
+aws-cryptography-internal-dynamodb = "~0.1.0"
+aws-cryptography-internal-primitives = "~0.1.0"
 
 # Package testing
 
