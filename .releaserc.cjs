@@ -54,6 +54,23 @@ const Runtimes = {
       assemblyInfo: "StandardLibrary/runtimes/net/AssemblyInfo.cs",
     },
   },
+  java: {
+    "AwsCryptographicMaterialProviders/runtimes/python/pyproject.toml": {
+      dependencies: [],
+    },
+    "AwsCryptographyPrimitives/runtimes/python/pyproject.toml": {
+      dependencies: [],
+    },
+    "ComAmazonawsKms/runtimes/python/pyproject.toml": {
+      dependencies: [],
+    },
+    "ComAmazonawsDynamodb/runtimes/python/pyproject.toml": {
+      dependencies: [],
+    },
+    "StandardLibrary/runtimes/python/pyproject.toml": {
+      dependencies: [],
+    },
+  },
 };
 
 /**
@@ -129,6 +146,26 @@ module.exports = {
               results: [CheckResults(assemblyInfo)],
               countMatches: true,
             }),
+          ),
+
+          // Update the version in pyproject.toml for all Python projects
+          // Does not update the dependencies
+          {
+            files: Object.keys(Runtimes.python),
+            from: 'version = ".*"',
+            to: 'version = "${nextRelease.version}"',
+            results: Object.keys(Runtimes.python).map(CheckResults),
+            countMatches: true,
+          },
+          // Now update the Gradle Java  dependencies
+          ...Object.entries(Runtimes.python).flatMap(([file, { dependencies }]) =>
+            dependencies.map((dependency) => ({
+              files: [file],
+              from: '{\s*path\s*=(?!\s*\"libs).*',
+              to: '~${nextRelease.version}',
+              results: [CheckResults(file)],
+              countMatches: true,
+            })),
           ),
         ],
       },
