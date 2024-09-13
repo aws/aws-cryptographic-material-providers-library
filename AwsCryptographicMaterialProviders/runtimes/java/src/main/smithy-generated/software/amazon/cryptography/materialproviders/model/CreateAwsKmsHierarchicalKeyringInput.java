@@ -34,7 +34,7 @@ public class CreateAwsKmsHierarchicalKeyringInput {
   private final long ttlSeconds;
 
   /**
-   * Sets the type of cache for this Hierarchical Keyring. By providing an already initialized 'Shared' cache, users can determine the scope of the cache. That is, if the cache is shared across other Cryptographic Material Providers, for instance other Hierarchical Keyrings or Caching Cryptographic Materials Managers (Caching CMMs). If any other type of cache in the CacheType union is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If not set, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
+   * Sets the cache bound OR the type of cache scoped (created & bound) to the Hierarchical Keyring. By providing an already initialized 'Shared' cache, users can determine the scope of the cache. i.e: When it is garbage collected or if the cache is bound to other Cryptographic Material Providers. If any other type in CacheType is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If not set, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
    */
   private final CacheType cache;
 
@@ -81,7 +81,7 @@ public class CreateAwsKmsHierarchicalKeyringInput {
   }
 
   /**
-   * @return Sets the type of cache for this Hierarchical Keyring. By providing an already initialized 'Shared' cache, users can determine the scope of the cache. That is, if the cache is shared across other Cryptographic Material Providers, for instance other Hierarchical Keyrings or Caching Cryptographic Materials Managers (Caching CMMs). If any other type of cache in the CacheType union is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If not set, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
+   * @return Sets the cache bound OR the type of cache scoped (created & bound) to the Hierarchical Keyring. By providing an already initialized 'Shared' cache, users can determine the scope of the cache. i.e: When it is garbage collected or if the cache is bound to other Cryptographic Material Providers. If any other type in CacheType is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If not set, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
    */
   public CacheType cache() {
     return this.cache;
@@ -144,12 +144,12 @@ public class CreateAwsKmsHierarchicalKeyringInput {
     long ttlSeconds();
 
     /**
-     * @param cache Sets the type of cache for this Hierarchical Keyring. By providing an already initialized 'Shared' cache, users can determine the scope of the cache. That is, if the cache is shared across other Cryptographic Material Providers, for instance other Hierarchical Keyrings or Caching Cryptographic Materials Managers (Caching CMMs). If any other type of cache in the CacheType union is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If not set, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
+     * @param cache Sets the cache bound OR the type of cache scoped (created & bound) to the Hierarchical Keyring. By providing an already initialized 'Shared' cache, users can determine the scope of the cache. i.e: When it is garbage collected or if the cache is bound to other Cryptographic Material Providers. If any other type in CacheType is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If not set, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
      */
     Builder cache(CacheType cache);
 
     /**
-     * @return Sets the type of cache for this Hierarchical Keyring. By providing an already initialized 'Shared' cache, users can determine the scope of the cache. That is, if the cache is shared across other Cryptographic Material Providers, for instance other Hierarchical Keyrings or Caching Cryptographic Materials Managers (Caching CMMs). If any other type of cache in the CacheType union is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If not set, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
+     * @return Sets the cache bound OR the type of cache scoped (created & bound) to the Hierarchical Keyring. By providing an already initialized 'Shared' cache, users can determine the scope of the cache. i.e: When it is garbage collected or if the cache is bound to other Cryptographic Material Providers. If any other type in CacheType is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If not set, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
      */
     CacheType cache();
 
