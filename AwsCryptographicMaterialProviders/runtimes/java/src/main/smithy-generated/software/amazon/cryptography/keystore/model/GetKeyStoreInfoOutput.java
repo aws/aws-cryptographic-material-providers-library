@@ -219,21 +219,6 @@ public class GetKeyStoreInfoOutput {
           "Missing value for required field `keyStoreName`"
         );
       }
-      if (
-        Objects.nonNull(this.keyStoreName()) && this.keyStoreName().length() < 3
-      ) {
-        throw new IllegalArgumentException(
-          "The size of `keyStoreName` must be greater than or equal to 3"
-        );
-      }
-      if (
-        Objects.nonNull(this.keyStoreName()) &&
-        this.keyStoreName().length() > 255
-      ) {
-        throw new IllegalArgumentException(
-          "The size of `keyStoreName` must be less than or equal to 255"
-        );
-      }
       if (Objects.isNull(this.logicalKeyStoreName())) {
         throw new IllegalArgumentException(
           "Missing value for required field `logicalKeyStoreName`"

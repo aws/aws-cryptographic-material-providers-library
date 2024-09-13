@@ -3,7 +3,7 @@
 
 module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
   const KMS_CONFIG_KMS_ARN_INVALID :=
-    "KMSConfiguration's KMS Key ARN is invalid."
+    "Key Store's KMS Key ARN is invalid."
 
   const CUSTOM_BRANCH_KEY_ID_NEED_EC :=
     "Custom branch key identifier requires custom encryption context."
@@ -36,4 +36,21 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
   // If the Item/Record contains an invalid KMS ARN
   const RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN :=
     "The `kms-arn` field for the requested branch key identifier is corrupted."
+
+  const INVALID_ACTIVE_BRANCH_KEY_FROM_STORAGE :=
+    "Invalid active encrypted branch key from storage."
+
+  const INVALID_BRANCH_KEY_VERSION_FROM_STORAGE :=
+    "Invalid encrypted branch key version from storage."
+
+  const INVALID_BEACON_KEY_FROM_STORAGE :=
+    "Invalid encrypted beacon key from storage."
+
+  const ENCRYPTION_CONTEXT_EXCEEDS_DDB_LIMIT :=
+    "Encryption context attribute name exceeds DDB limit."
+
+  const CREATE_KEY_STORE_DEPRECATED :=
+    "Create key store is only supported with legacy configurations. \n" +
+    "For details on how to create a DDB table manually see:\n" +
+    "https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/use-hierarchical-keyring.html#hierarchical-keyring-prereqs"
 }

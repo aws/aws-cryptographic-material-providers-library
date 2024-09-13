@@ -6,6 +6,9 @@ include "../src/Index.dfy"
 module Fixtures {
   import opened StandardLibrary.UInt
   import Types = AwsCryptographyKeyStoreTypes
+  import DDB = Types.ComAmazonawsDynamodbTypes
+  import DDBOperations = Com.Amazonaws.Dynamodb
+  import DefaultEncryptedKeyStore
   import UTF8
   import opened Wrappers
 
@@ -100,4 +103,70 @@ module Fixtures {
   // `git rev-parse --show-toplevel`/cfn/lyingBranchKeyCreation.md
   const lyingBranchKeyId := "kms-arn-attribute-is-lying"
   const lyingBranchKeyDecryptOnlyVersion := "129c5c87-308a-41c9-8b9d-a27f66e915f4"
+
+  // The Key Store will consider this mutation lock invalid
+  // The Storage layer will not.
+  // const mutationLockBranchKeyId := "test-get-items-for-initialize-mutation"
+
+  method {:opaque} defaultStorage(
+    nameonly tableName: string := branchKeyStoreName,
+    nameonly logicalName: string := logicalKeyStoreName,
+    nameonly ddbClient?: Option<DDB.IDynamoDBClient> := None
+  )
+    returns (output: Result<Types.IEncryptedKeyStore, DDB.Error>)
+    requires DDB.IsValid_TableName(tableName)
+    ensures output.Success?
+            ==> output.value.ValidState() && output.value.Modifies == {}
+  {
+    var ddbClient: DDB.IDynamoDBClient;  //:- DDBOperations.DynamoDBClient();
+    if (ddbClient?.None?) {
+      ddbClient :- DDBOperations.DynamoDBClient();
+    } else {
+      ddbClient := ddbClient?.value;
+    }
+    assume {:axiom} ddbClient.Modifies == {} && ddbClient.ValidState();
+    var underTest := new DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore(
+      ddbTableName := tableName,
+      ddbClient := ddbClient,
+      logicalKeyStoreName := logicalName);
+    // We may not need this, but **Oh My God** does it make verification go faster
+    assume {:axiom} underTest.Modifies == {} && ddbClient.Modifies == {} && ddbClient.ValidState() && underTest.ValidState();
+    output := Success(underTest);
+  }
+
+  datatype allThree = | allThree (
+    active: Types.EncryptedHierarchicalKey,
+    beacon: Types.EncryptedHierarchicalKey,
+    decrypt: Types.EncryptedHierarchicalKey)
+
+  method getItems(
+    nameonly id: string,
+    nameonly version: string,
+    nameonly underTest: Types.IEncryptedKeyStore
+  )
+    returns (output: Result<allThree, Types.Error>)
+    requires underTest.ValidState()
+    ensures underTest.ValidState()
+    modifies underTest.Modifies
+  {
+    var activeInput := Types.GetActiveInput(
+      Identifier := id
+    );
+    var active? :- expect underTest.GetActive(activeInput);
+    var active := active?.Item;
+
+    var beaconInput := Types.GetBeaconInput(
+      Identifier := id
+    );
+    var beacon? :- expect underTest.GetBeacon(beaconInput);
+    var beacon := beacon?.Item;
+
+    var decryptInput := Types.GetVersionInput(
+      Identifier := id,
+      Version := version
+    );
+    var decrypt? :- expect underTest.GetVersion(decryptInput);
+    var decrypt := decrypt?.Item;
+    output := Success(allThree(active, beacon, decrypt));
+  }
 }
