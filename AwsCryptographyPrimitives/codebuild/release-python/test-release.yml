@@ -41,6 +41,8 @@ phases:
       # Install poetry
       # https://python-poetry.org/docs/#installing-manually
       - pip install poetry
+      # Add test PyPI as a supplemental repo for installing previously published test packages
+      - poetry source add --priority=supplemental test https://test.pypi.org/simple/
       # Install project dependencies with release dependencies
       - poetry install --with release
       # Build whl/sdist, upload to test PyPI
@@ -51,9 +53,6 @@ batch:
   build-graph:
     - identifier: release_to_staging
       env:
-        variables:
-          PIP_INDEX_URL: https://test.pypi.org/simple/
-          PIP_EXTRA_INDEX_URL: https://pypi.python.org/simple/
         image: aws/codebuild/standard:7.0
     - identifier: validate_staging_release
       depend-on:
