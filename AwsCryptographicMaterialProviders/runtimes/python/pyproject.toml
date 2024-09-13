@@ -9,15 +9,14 @@ packages = [
 # Include generated internaldafny files in package distributions,
 # even though they are not included in version control
 include = ["**/internaldafny/generated/*.py"]
-# Append overall package README to Python-specific README
 readme = "README.rst"
 
 [tool.poetry.dependencies]
 python = "^3.11.0"
-aws-cryptography-internal-standard-library = "~0.1.0"
-aws-cryptography-internal-kms = "~0.1.0"
-aws-cryptography-internal-dynamodb = "~0.1.0"
-aws-cryptography-internal-primitives = "~0.1.0"
+aws-cryptography-internal-standard-library = {path = "../../../StandardLibrary/runtimes/python"}
+aws-cryptography-internal-kms = {path = "../../../ComAmazonawsKms/runtimes/python"}
+aws-cryptography-internal-dynamodb = {path = "../../../ComAmazonawsDynamodb/runtimes/python"}
+aws-cryptography-internal-primitives = {path = "../../../AwsCryptographyPrimitives/runtimes/python"}
 
 # Package testing
 
