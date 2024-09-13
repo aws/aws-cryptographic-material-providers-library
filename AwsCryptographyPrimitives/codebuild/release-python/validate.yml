@@ -23,8 +23,8 @@ phases:
       # Install test dependencies
       - pyenv install --skip-existing 3.11
       - pyenv local 3.11
-      - pip install poetry
       - pip install "tox < 4.0"
+      - pip install pyasn1
       # Install the published artifact from PyPI.
       # The tests will use the installed package, not the local code.
       # The actual test code must be from local, since we don't publish tests.
@@ -36,6 +36,4 @@ phases:
       # Transpile code (for tests)
       - make transpile_python
       - cd runtimes/python
-      # Install ONLY the test dependencies for the package's tests
-      - poetry install --only test
-      - poetry run python -m pytest test/ -s -v
+      - python -m pytest test/ -s -v
