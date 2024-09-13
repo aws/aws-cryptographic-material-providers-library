@@ -15,14 +15,11 @@ build:
       # Install poetry
       # https://python-poetry.org/docs/#installing-manually
       - pip install poetry
+      - pip install toml
     post_install:
       # Install project with 'docs' dependency group
       # https://python-poetry.org/docs/managing-dependencies/#dependency-groups
       - poetry install --directory AwsCryptographicMaterialProviders/runtimes/python --with docs
-    pre_build:
-      - alias python="poetry run python"
-    post_build:
-      - unalias python
 
 # Build documentation in the doc/ directory with Sphinx
 sphinx:
