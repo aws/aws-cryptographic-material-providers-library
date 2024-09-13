@@ -316,6 +316,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     }
 
     //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#logical-key-store-name
+    //= type=implication
     //# Logical Key Store Name is set by the user when configuring the Key Store for
     //# the Hierarchical Keyring. This is a logical name for the branch key store.
     //# Logical Key Store Name MUST be converted to UTF8 Bytes to be used in
