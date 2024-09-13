@@ -10,7 +10,7 @@ packages = [
 # even though they are not included in version control
 include = ["**/internaldafny/generated/*.py"]
 # Append overall package README to Python-specific README
-readme = ["README.rst", "../../../README.md"]
+readme = "README.rst"
 
 [tool.poetry.dependencies]
 python = "^3.11.0"
