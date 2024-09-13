@@ -19,7 +19,7 @@ build:
       # Install project with 'docs' dependency group
       # https://python-poetry.org/docs/managing-dependencies/#dependency-groups
       - poetry install --directory AwsCryptographicMaterialProviders/runtimes/python --with docs
-      - poetry shell
+      - poetry shell --directory AwsCryptographicMaterialProviders/runtimes/python
 
 # Build documentation in the doc/ directory with Sphinx
 sphinx:
