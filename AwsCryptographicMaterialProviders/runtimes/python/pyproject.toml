@@ -32,7 +32,7 @@ optional = true
 
 [tool.poetry.group.release.dependencies]
 poetry = "1.8.3"
-twine = "4.0.1"
+twine = "5.1.1"
 wheel = "0.38.4"
 
 # Package documentation
