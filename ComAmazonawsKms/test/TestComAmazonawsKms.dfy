@@ -296,7 +296,6 @@ module TestComAmazonawsKms {
         GrantTokens := input.GrantTokens
       )
     );
-    print(ret.error);
     expect(ret.Success?);
 
     var GetPublicKeyResponse(_,PublicKey,_,_,_,_,_,_) := ret.value;
