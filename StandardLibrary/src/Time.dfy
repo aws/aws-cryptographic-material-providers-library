@@ -4,7 +4,8 @@
 include "./StandardLibrary.dfy"
 include "./UInt.dfy"
 
-module {:extern "Time"} Time {
+//TODO: Dropping extern to make it work with GO. Find a better solution.
+module Time {
   import opened StandardLibrary
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
