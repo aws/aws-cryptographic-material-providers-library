@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "aws-cryptographic-materialproviders"
 version = "0.1.0"
-description = ""
+description = "AWS Cryptographic Material Providers Library for Python"
 authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
 packages = [
     { include = "aws_cryptographic_materialproviders", from = "src" },
@@ -9,6 +9,8 @@ packages = [
 # Include generated internaldafny files in package distributions,
 # even though they are not included in version control
 include = ["**/internaldafny/generated/*.py"]
+# Append overall package README to Python-specific README
+readme = ["README.rst", "../../../README.md"]
 
 [tool.poetry.dependencies]
 python = "^3.11.0"
