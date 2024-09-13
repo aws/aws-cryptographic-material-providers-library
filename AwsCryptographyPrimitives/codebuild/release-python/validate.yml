@@ -24,7 +24,7 @@ phases:
       - pyenv install --skip-existing 3.11
       - pyenv local 3.11
       - pip install "tox < 4.0"
-      - pip install pyasn1
+      - pip install pytest pyasn1
       # Install the published artifact from PyPI.
       # The tests will use the installed package, not the local code.
       # The actual test code must be from local, since we don't publish tests.
