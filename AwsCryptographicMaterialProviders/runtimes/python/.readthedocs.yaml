@@ -15,7 +15,6 @@ build:
       # Install poetry
       # https://python-poetry.org/docs/#installing-manually
       - pip install poetry
-      - pip install toml
     post_install:
       # Install project with 'docs' dependency group
       # https://python-poetry.org/docs/managing-dependencies/#dependency-groups
