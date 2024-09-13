@@ -98,7 +98,8 @@ module TestAwsKmsHierarchicalKeyring {
         branchKeyIdSupplier := None,
         keyStore := keyStore,
         ttlSeconds := ttl,
-        cache := None
+        cache := None,
+        partitionId := None
       )
     );
 
@@ -140,7 +141,8 @@ module TestAwsKmsHierarchicalKeyring {
         branchKeyIdSupplier := None,
         keyStore := keyStore,
         ttlSeconds := ttl,
-        cache := None
+        cache := None,
+        partitionId := None
       )
     );
 
@@ -183,7 +185,8 @@ module TestAwsKmsHierarchicalKeyring {
         branchKeyIdSupplier := Some(branchKeyIdSupplier),
         keyStore := keyStore,
         ttlSeconds := ttl,
-        cache := None
+        cache := None,
+        partitionId := None
       )
     );
 
@@ -224,7 +227,8 @@ module TestAwsKmsHierarchicalKeyring {
         branchKeyIdSupplier := Some(branchKeyIdSupplier),
         keyStore := keyStore,
         ttlSeconds := ttl,
-        cache := None
+        cache := None,
+        partitionId := None
       )
     );
     var materials := GetTestMaterials(TEST_DBE_ALG_SUITE_ID);
@@ -535,7 +539,8 @@ module TestAwsKmsHierarchicalKeyring {
         branchKeyIdSupplier := None,
         keyStore := keyStoreClientRegionWest,
         ttlSeconds := ttl,
-        cache := Some(sharedCache)
+        cache := Some(sharedCache),
+        partitionId := None
       )
     );
 
@@ -548,7 +553,8 @@ module TestAwsKmsHierarchicalKeyring {
         branchKeyIdSupplier := None,
         keyStore := keyStoreClientRegionEast,
         ttlSeconds := ttl,
-        cache := Some(sharedCache)
+        cache := Some(sharedCache),
+        partitionId := None
       )
     );
 
