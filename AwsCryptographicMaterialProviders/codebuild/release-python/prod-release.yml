@@ -16,6 +16,15 @@ phases:
       python: latest
   pre_build:
     commands:
+      # Get Dafny
+      - export dafnyVersion=$(grep '^dafnyVersion=' project.properties | cut -d '=' -f 2)
+      - cd ..
+      - curl https://github.com/dafny-lang/dafny/releases/download/v$dafnyVersion/dafny-$dafnyVersion-x64-ubuntu-20.04.zip  -L -o dafny.zip
+      - unzip -qq dafny.zip && rm dafny.zip
+      - export PATH="$PWD/dafny:$PATH"
+      # Switch back to the main directory
+      - cd aws-cryptographic-material-providers-library
+      # Assert that project version is the expected released version
       - git checkout $COMMIT_ID
       - FOUND_VERSION=$(sed -n 's/version = "\(.*\)"/\1/p' AwsCryptographicMaterialProviders/runtimes/python/pyproject.toml)
       - |
@@ -23,18 +32,32 @@ phases:
           echo "pyproject.toml version (${FOUND_VERSION}) does not match expected version (${VERSION}), stopping"
           exit 1;
         fi
+      - cd AwsCryptographicMaterialProviders
+      # Build Dafny source
+      - make transpile_python
   build:
     commands:
-      - echo "Skipping prod release until we are ready to release the MPL"
+      - cd runtimes/python/
+      # Install poetry
+      # https://python-poetry.org/docs/#installing-manually
+      - pip install poetry
+      # Install project dependencies with release dependencies
+      - poetry install --with release
+      # Build whl/sdist, upload to PyPI
+      # TODO: When ready to prod release, uncomment this line
+      # tox -e release
 
 batch:
   fast-fail: true
   build-graph:
     - identifier: release_to_prod
+      env:
+        image: aws/codebuild/standard:7.0
     - identifier: validate_prod_release
       depend-on:
         - release_to_prod
-      buildspec: codebuild/release-python/validate.yml
+      buildspec: AwsCryptographicMaterialProviders/codebuild/release-python/validate.yml
       env:
         variables:
           PIP_INDEX_URL: https://pypi.python.org/simple/
+        image: aws/codebuild/standard:7.0
