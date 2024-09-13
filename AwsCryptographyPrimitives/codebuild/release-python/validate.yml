@@ -21,6 +21,7 @@ phases:
       # Switch back to the main directory
       - cd aws-cryptographic-material-providers-library
       # Install test dependencies
+      - pip install poetry
       - pyenv install --skip-existing 3.11
       - pyenv local 3.11
       - pip install "tox < 4.0"
@@ -36,4 +37,6 @@ phases:
       # Transpile code (for tests)
       - make transpile_python
       - cd runtimes/python
+      # Install test dependencies for package
+      - poetry install --only test
       - python -m pytest test/ -s -v

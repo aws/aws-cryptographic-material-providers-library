@@ -34,6 +34,12 @@ poetry = "1.8.3"
 twine = "5.1.1"
 wheel = "0.38.4"
 
+
+[[tool.poetry.source]]
+name = "test"
+url = "https://test.pypi.org/simple/"
+priority = "supplemental"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
