@@ -38,4 +38,4 @@ phases:
       - cd runtimes/python
       # Install ONLY the test dependencies for the package's tests
       - poetry install --only test
-      - python -m pytest test/ -s -v
+      - poetry run python -m pytest test/ -s -v
