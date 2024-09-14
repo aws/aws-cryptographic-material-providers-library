@@ -293,8 +293,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
 
     //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#partition-id
     //= type=implication
-    //# PartitionId can be a String provided by the user, and in this case it MUST be interpreted as the bytes of
-    //# UTF-8 Encoding of the String.
+    //# PartitionId can be a string provided by the user. If provided, it MUST be interpreted as UTF8 bytes.
     //# If the PartitionId is NOT provided by the user, it MUST be set to the 16 byte representation of a v4 UUID.
     var partitionIdBytes : seq<uint8>;
 
@@ -318,7 +317,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#logical-key-store-name
     //= type=implication
     //# Logical Key Store Name is set by the user when configuring the Key Store for
-    //# the Hierarchical Keyring. This is a logical name for the branch key store.
+    //# the Hierarchical Keyring. This is a logical name for the key store.
     //# Logical Key Store Name MUST be converted to UTF8 Bytes to be used in
     //# the cache identifiers.
     var getKeyStoreInfoOutput? := input.keyStore.GetKeyStoreInfo();
