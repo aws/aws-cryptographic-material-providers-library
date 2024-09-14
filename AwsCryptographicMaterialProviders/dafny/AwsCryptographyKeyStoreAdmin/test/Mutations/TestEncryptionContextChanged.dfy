@@ -1,0 +1,192 @@
+// Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
+include "../../src/Index.dfy"
+include "../../../AwsCryptographyKeyStore/test/CleanupItems.dfy"
+include "../../../AwsCryptographyKeyStore/test/Fixtures.dfy"
+include "../../../AwsCryptographyKeyStore/Model/AwsCryptographyKeyStoreTypes.dfy"
+include "../AdminFixtures.dfy"
+
+// Tests that an Encryption Context only change:
+// - Completes if there is no paging
+// - Changes the Custom Encryption Context for all items
+// - All items can be decrypted by KMS
+
+module {:options "/functionSyntax:4" } TestEncryptionContextChanged {
+  import Types = AwsCryptographyKeyStoreAdminTypes
+  import KeyStoreAdmin
+  import KeyStore
+  import KeyStoreTypes = AwsCryptographyKeyStoreTypes
+  import opened Wrappers
+  import Fixtures
+  import AdminFixtures
+  import UUID
+  import CleanupItems
+  import KMS = Com.Amazonaws.Kms
+  import DDB = Com.Amazonaws.Dynamodb
+  import DefaultEncryptedKeyStore
+  import Time
+  import Structure
+  import String = StandardLibrary.String
+
+  const happyCaseId := "test-mutate-encryption-context-only"
+  const customEC := "aws-crypto-ec:Robbie"
+  const kmsId: string := Fixtures.keyArn
+  const physicalName: string := Fixtures.branchKeyStoreName
+  const logicalName: string := Fixtures.logicalKeyStoreName
+  const testLogPrefix := "\nTestEncryptionContextChanged :: TestHappyCase :: "
+
+  method {:test} {:vcs_split_on_every_assert} TestHappyCase()
+  {
+    print " running";
+
+    // expect false; // disable test till other investigation is done
+    var ddbClient :- expect DDB.DynamoDBClient();
+    var kmsClient :- expect KMS.KMSClient();
+
+    // var storage :- expect AdminFixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
+    // assert storage.ValidState();
+    var storage := new DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore(
+      ddbTableName := physicalName,
+      ddbClient := ddbClient,
+      logicalKeyStoreName := logicalName);
+
+    // var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
+    // assert underTest.ValidState();
+    var underTestConfig := Types.KeyStoreAdminConfig(
+      logicalKeyStoreName := logicalName,
+      storage := KeyStoreTypes.Storage.custom(storage));
+    var underTest :- expect KeyStoreAdmin.KeyStoreAdmin(underTestConfig);
+
+    var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+
+    // var keyStore :- expect AdminFixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+    var kmsConfig := KeyStoreTypes.KMSConfiguration.kmsKeyArn(kmsId);
+    var keyStoreConfig := KeyStoreTypes.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalName,
+      storage := Some(
+        KeyStoreTypes.ddb(
+          KeyStoreTypes.DynamoDBTable(
+            ddbTableName := physicalName,
+            ddbClient := Some(ddbClient)
+          ))),
+      keyManagement := Some(
+        KeyStoreTypes.kms(
+          KeyStoreTypes.AwsKms(
+            kmsClient := Some(kmsClient)
+          )))
+    );
+    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+    assert keyStore.ValidState();
+
+    var uuid :- expect UUID.GenerateUUID();
+    var testId := happyCaseId + "-" + uuid;
+
+    AdminFixtures.CreateHappyCaseId(id:=testId, versionCount:=1);
+
+    print testLogPrefix + " Created the test items with 2 versions! testId: " + testId + "\n";
+
+    var activeOneInput := KeyStoreTypes.GetActiveInput(Identifier:=testId);
+    var activeOne? :- expect storage.GetActive(activeOneInput);
+    expect customEC in activeOne?.Item.EncryptionContext;
+    expect activeOne?.Item.Type.ActiveHierarchicalSymmetricVersion?;
+    var activeOne := activeOne?.Item.Type.ActiveHierarchicalSymmetricVersion;
+    var robbieOne := activeOne?.Item.EncryptionContext[customEC];
+
+    print testLogPrefix + " Established ActiveOne: " + activeOne + "\n";
+
+    var timestamp :- expect Time.GetCurrentTimeStamp();
+    var newCustomEC: KeyStoreTypes.EncryptionContextString := map["Robbie" := timestamp];
+    var mutationsRequest := Types.Mutations(finalEncryptionContext := Some(newCustomEC));
+    var initInput := Types.InitializeMutationInput(
+      branchKeyIdentifier := testId,
+      mutations := mutationsRequest,
+      strategy := Some(strategy));
+    var initializeOutput :- expect underTest.InitializeMutation(initInput);
+    var initializeToken := initializeOutput.mutationToken;
+
+    expect initializeToken.UUID.Some?, "Mutation Token from InitializeMutation does not have a UUID!";
+
+    print testLogPrefix + " Initialized Mutation. M-Lock UUID " + initializeToken.UUID.value + "\n";
+
+    var testInput := Types.ApplyMutationInput(
+      mutationToken := initializeToken,
+      pageSize := Some(24),
+      strategy := Some(strategy));
+    var applyOutput :- expect underTest.ApplyMutation(testInput);
+
+    print testLogPrefix + " Applied Mutation w/ pageSize 1. testId: " + testId + "\n";
+
+    expect applyOutput.result.completeMutation?, "Apply Mutation output should not continue!";
+
+    var versionQuery := KeyStoreTypes.QueryForVersionsInput(
+      Identifier := testId,
+      pageSize := 24
+    );
+    var queryOut :- expect storage.QueryForVersions(versionQuery);
+    var items := queryOut.items;
+    expect
+      |items| == 3,
+      "Test expects there to be 3 Decrypt Only items! Found: " + String.Base10Int2String(|items|);
+    print testLogPrefix + " Read the 3 Decrypt Only items! testId: " + testId + "\n";
+
+    var itemIndex := 0;
+    var inputV: KeyStoreTypes.GetBranchKeyVersionInput;
+    while itemIndex < |items|
+    {
+      var item := items[itemIndex];
+      expect
+        customEC in item.EncryptionContext,
+                    "Robbie should be a Key in the Custom Encryption Context of all items for this test.";
+      expect
+        item.EncryptionContext[customEC] == timestamp,
+        "Robbie's value should be the test timestamp for all decrypt items for this test.";
+      expect "type" in item.EncryptionContext, "Decrypt Only item is missing 'type' from EC!!";
+      expect
+        item.Type.HierarchicalSymmetricVersion?,
+        "Query for Decrypt Only returned a non-Decrypt Only!";
+      var versionUUID := item.Type.HierarchicalSymmetricVersion;
+      inputV := KeyStoreTypes.GetBranchKeyVersionInput(
+        branchKeyIdentifier := testId,
+        branchKeyVersion := versionUUID
+      );
+      var _ :- expect keyStore.GetBranchKeyVersion(inputV);
+
+      // This is a best effort
+      var _ := CleanupItems.DeleteTypeWithFailure(testId, item.EncryptionContext["type"], ddbClient);
+      print testLogPrefix + " Validated Decrypt Only and tried to clean it up: " + item.EncryptionContext["type"] + "\n";
+      itemIndex := 1 + itemIndex;
+    }
+
+    var lastActiveInput := KeyStoreTypes.GetActiveInput(Identifier:=testId);
+    var lastActive? :- expect storage.GetActive(lastActiveInput);
+    expect lastActive?.Item.Type.ActiveHierarchicalSymmetricVersion?;
+    var lastActive := lastActive?.Item.Type.ActiveHierarchicalSymmetricVersion;
+    expect
+      customEC in lastActive?.Item.EncryptionContext,
+                  "Robbie should be a Key in the Custom Encryption Context for the ACTIVE.";
+    expect
+      lastActive?.Item.EncryptionContext[customEC] == timestamp,
+      "Robbie's value should be the test timestamp for the ACTIVE.";
+    var _ :- expect keyStore.GetActiveBranchKey(KeyStoreTypes.GetActiveBranchKeyInput(branchKeyIdentifier := testId));
+    print testLogPrefix + " Active Validated with KMS/KeyStore: " + testId + "\n";
+    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_ACTIVE_TYPE, ddbClient);
+
+    var beaconInput := KeyStoreTypes.GetBeaconInput(Identifier:=testId);
+    var beacon? :- expect storage.GetBeacon(beaconInput);
+    expect beacon?.Item.Type.ActiveHierarchicalSymmetricBeacon?;
+    expect
+      customEC in beacon?.Item.EncryptionContext,
+                  "Robbie should be a Key in the Custom Encryption Context for the Beacon.";
+    expect
+      beacon?.Item.EncryptionContext[customEC] == timestamp,
+      "Robbie's value should be the test timestamp for the Beacon.";
+    var _ :- expect keyStore.GetBeaconKey(KeyStoreTypes.GetBeaconKeyInput(branchKeyIdentifier := testId));
+    print testLogPrefix + " Beacon Validated with KMS/KeyStore: " + testId + "\n";
+    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BEACON_KEY_TYPE_VALUE, ddbClient);
+
+    print "TestEncryptionContextChanged.TestHappyCase: ";
+  }
+}
