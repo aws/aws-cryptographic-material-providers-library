@@ -59,7 +59,9 @@ pygments_style = "sphinx"
 autoclass_content = "both"
 autodoc_default_options = {"show-inheritance": True, "members": True}
 autodoc_member_order = "bysource"
-autodoc_mock_imports = ["aws_cryptographic_materialproviders.internaldafny"]
+# Generated Dafny code is not present, so it should be mocked.
+# Generated Dafny code will not be documented.
+autodoc_mock_imports = ["aws_cryptographic_materialproviders.internaldafny.generated"]
 
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
