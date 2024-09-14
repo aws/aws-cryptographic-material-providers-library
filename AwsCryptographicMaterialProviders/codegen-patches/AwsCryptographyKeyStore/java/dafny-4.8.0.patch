@@ -1,0 +1,13 @@
+diff --git b/AwsCryptographicMaterialProviders/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/keystore/model/WriteMutatedVersionsInput.java a/AwsCryptographicMaterialProviders/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/keystore/model/WriteMutatedVersionsInput.java
+index 16acf434..d72c36c3 100644
+--- b/AwsCryptographicMaterialProviders/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/keystore/model/WriteMutatedVersionsInput.java
++++ a/AwsCryptographicMaterialProviders/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/keystore/model/WriteMutatedVersionsInput.java
+@@ -149,7 +149,7 @@ public class WriteMutatedVersionsInput {
+ 
+     protected ByteBuffer Terminal;
+ 
+-    protected Boolean CompleteMutation;
++    protected Boolean CompleteMutation = false; // Manual Edit to default to false
+ 
+     protected BuilderImpl() {}
+ 

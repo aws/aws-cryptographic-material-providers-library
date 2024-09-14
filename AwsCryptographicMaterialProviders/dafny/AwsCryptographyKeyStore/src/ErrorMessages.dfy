@@ -3,7 +3,7 @@
 
 module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
   const KMS_CONFIG_KMS_ARN_INVALID :=
-    "KMSConfiguration's KMS Key ARN is invalid."
+    "Key Store's KMS Key ARN is invalid."
 
   const CUSTOM_BRANCH_KEY_ID_NEED_EC :=
     "Custom branch key identifier requires custom encryption context."
@@ -38,7 +38,7 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
     "The `kms-arn` field for the requested branch key identifier is corrupted."
 
   const INVALID_ACTIVE_BRANCH_KEY_FROM_STORAGE :=
-    "Invalid encrypted active branch key from storage."
+    "Invalid active encrypted branch key from storage."
 
   const INVALID_BRANCH_KEY_VERSION_FROM_STORAGE :=
     "Invalid encrypted branch key version from storage."

@@ -57,7 +57,7 @@ module TestGetKeys {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
-
+    assume {:axiom} ddbClient.Modifies == {}; // Turns off verification
     var keyStoreConfig := Types.KeyStoreConfig(
       id := None,
       kmsConfiguration := kmsConfig,
@@ -90,7 +90,7 @@ module TestGetKeys {
   method {:test} TestGetActiveMrkKey()
   {
     var ddbClient :- expect DDB.DynamoDBClient();
-
+    assume {:axiom} ddbClient.Modifies == {}; // Turns off verification, but allows calling underTest
     var eastKeyStoreConfig := Types.KeyStoreConfig(
       id := None,
       kmsConfiguration := KmsConfigEast,

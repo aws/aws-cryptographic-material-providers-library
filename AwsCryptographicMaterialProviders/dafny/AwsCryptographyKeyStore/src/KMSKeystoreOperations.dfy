@@ -4,7 +4,7 @@ include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "Structure.dfy"
 include "../../AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
 include "../../AwsCryptographicMaterialProviders/src/Keyrings/AwsKms/AwsKmsMrkMatchForDecrypt.dfy"
-include "../../../dafny/AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
+include "../../AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
 include "KmsArn.dfy"
 
 module {:options "/functionSyntax:4" } KMSKeystoreOperations {
@@ -157,6 +157,43 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     return Success(generateResponse);
   }
 
+
+  ghost predicate AttemptReEncrypt?(
+    sourceEncryptionContext: Structure.BranchKeyContext,
+    destinationEncryptionContext: Structure.BranchKeyContext
+  )
+    requires
+      && Structure.BranchKeyContext?(sourceEncryptionContext)
+      && Structure.BranchKeyContext?(destinationEncryptionContext)
+  {
+    // This is to validate the encryption context
+    // Therefore no change is an OK transition
+    || (destinationEncryptionContext == sourceEncryptionContext)
+
+    // Creating an Active record from a Version is OK
+    || (
+         // This is the defining characteristic of a Version record.
+         && Structure.BRANCH_KEY_TYPE_PREFIX < sourceEncryptionContext[Structure.TYPE_FIELD]
+         && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in sourceEncryptionContext
+         && destinationEncryptionContext == Structure.ActiveBranchKeyEncryptionContext(sourceEncryptionContext)
+       )
+
+    // KMS_FIELD can change and any custom encryption context
+    || (
+         && sourceEncryptionContext[Structure.BRANCH_KEY_IDENTIFIER_FIELD] == destinationEncryptionContext[Structure.BRANCH_KEY_IDENTIFIER_FIELD]
+         && sourceEncryptionContext[Structure.TYPE_FIELD] == destinationEncryptionContext[Structure.TYPE_FIELD]
+         && sourceEncryptionContext[Structure.KEY_CREATE_TIME] == destinationEncryptionContext[Structure.KEY_CREATE_TIME]
+         && sourceEncryptionContext[Structure.HIERARCHY_VERSION] == destinationEncryptionContext[Structure.HIERARCHY_VERSION]
+         && sourceEncryptionContext[Structure.TABLE_FIELD] == destinationEncryptionContext[Structure.TABLE_FIELD]
+         && (Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD in sourceEncryptionContext
+             <==>
+             && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD in destinationEncryptionContext
+             && sourceEncryptionContext[Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD] == destinationEncryptionContext[Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD]
+            )
+       )
+  }
+
+
   method ReEncryptKey(
     ciphertext: seq<uint8>,
     sourceEncryptionContext: Structure.BranchKeyContext,
@@ -167,13 +204,9 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   )
     returns (res: Result<KMS.ReEncryptResponse, Types.Error>)
     requires
-      // This is to validate the encryption context
-      || (destinationEncryptionContext == sourceEncryptionContext)
-      || (
-           && Structure.BRANCH_KEY_TYPE_PREFIX < sourceEncryptionContext[Structure.TYPE_FIELD]
-           && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in sourceEncryptionContext
-           && destinationEncryptionContext == Structure.ActiveBranchKeyEncryptionContext(sourceEncryptionContext)
-         )
+      && Structure.BranchKeyContext?(sourceEncryptionContext)
+      && Structure.BranchKeyContext?(destinationEncryptionContext)
+    requires AttemptReEncrypt?(sourceEncryptionContext, destinationEncryptionContext)
     requires AttemptKmsOperation?(kmsConfiguration, destinationEncryptionContext)
     requires HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(GetKeyId(kmsConfiguration))
     requires kmsClient.ValidState()
@@ -403,5 +436,4 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     && decryptHistory.output.Success?
     && decryptHistory.output.value.Plaintext.Some?
   }
-
 }

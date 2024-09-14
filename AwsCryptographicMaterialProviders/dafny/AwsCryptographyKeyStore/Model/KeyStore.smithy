@@ -59,7 +59,10 @@ service KeyStore {
     GetBranchKeyVersion,
     GetBeaconKey
   ],
-  errors: [KeyStoreException]
+  errors: [
+    KeyStoreException
+    VersionRaceException
+  ]
 }
 
 structure KeyStoreConfig {
@@ -203,7 +206,7 @@ structure GetKeyStoreInfoOutput {
   grantTokens: GrantTokenList,
   @required
   @javadoc("Configures Key Store's KMS Key ARN restrictions.")
-  kmsConfiguration: KMSConfiguration,
+  kmsConfiguration: KMSConfiguration
 }
 
 @javadoc("Create the DynamoDB table that backs this Key Store based on the Key Store configuration. If a table already exists, validate it is configured as expected.")
@@ -423,6 +426,15 @@ map EncryptionContext {
 
 @error("client")
 structure KeyStoreException {
+  @required
+  message: String,
+}
+
+// Can be thrown by InitializeMutation & VersionKey
+@error("client")
+@retryable
+@documentation("Operation was rejected due to a race with VersionKey. No items were changed. Retry operation when no other agent is Versioning this Branch Key ID.")
+structure VersionRaceException {
   @required
   message: String,
 }

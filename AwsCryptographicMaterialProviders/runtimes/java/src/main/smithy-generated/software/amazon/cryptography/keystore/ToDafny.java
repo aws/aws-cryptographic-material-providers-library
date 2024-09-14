@@ -7,9 +7,11 @@ import Wrappers_Compile.Option;
 import dafny.DafnyMap;
 import dafny.DafnySequence;
 import dafny.TypeDescriptor;
+import java.lang.Boolean;
 import java.lang.Byte;
 import java.lang.Character;
 import java.lang.IllegalArgumentException;
+import java.lang.Integer;
 import java.lang.RuntimeException;
 import java.lang.String;
 import java.nio.ByteBuffer;
@@ -29,7 +31,9 @@ import software.amazon.cryptography.keystore.internaldafny.types.Discovery;
 import software.amazon.cryptography.keystore.internaldafny.types.DynamoDBTable;
 import software.amazon.cryptography.keystore.internaldafny.types.EncryptedHierarchicalKey;
 import software.amazon.cryptography.keystore.internaldafny.types.Error;
+import software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStorageException;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStoreException;
+import software.amazon.cryptography.keystore.internaldafny.types.Error_VersionRaceException;
 import software.amazon.cryptography.keystore.internaldafny.types.GetActiveBranchKeyInput;
 import software.amazon.cryptography.keystore.internaldafny.types.GetActiveBranchKeyOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.GetBeaconKeyInput;
@@ -42,6 +46,8 @@ import software.amazon.cryptography.keystore.internaldafny.types.GetEncryptedBea
 import software.amazon.cryptography.keystore.internaldafny.types.GetEncryptedBeaconKeyOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.GetEncryptedBranchKeyVersionInput;
 import software.amazon.cryptography.keystore.internaldafny.types.GetEncryptedBranchKeyVersionOutput;
+import software.amazon.cryptography.keystore.internaldafny.types.GetItemsForInitializeMutationInput;
+import software.amazon.cryptography.keystore.internaldafny.types.GetItemsForInitializeMutationOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.GetKeyStorageInfoInput;
 import software.amazon.cryptography.keystore.internaldafny.types.GetKeyStorageInfoOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.GetKeyStoreInfoOutput;
@@ -52,24 +58,39 @@ import software.amazon.cryptography.keystore.internaldafny.types.KMSConfiguratio
 import software.amazon.cryptography.keystore.internaldafny.types.KeyManagement;
 import software.amazon.cryptography.keystore.internaldafny.types.KeyStoreConfig;
 import software.amazon.cryptography.keystore.internaldafny.types.MRDiscovery;
+import software.amazon.cryptography.keystore.internaldafny.types.MutationLock;
+import software.amazon.cryptography.keystore.internaldafny.types.QueryForVersionsInput;
+import software.amazon.cryptography.keystore.internaldafny.types.QueryForVersionsOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.Storage;
 import software.amazon.cryptography.keystore.internaldafny.types.VersionKeyInput;
 import software.amazon.cryptography.keystore.internaldafny.types.VersionKeyOutput;
+import software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationInput;
+import software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationOutput;
+import software.amazon.cryptography.keystore.internaldafny.types.WriteMutatedVersionsInput;
+import software.amazon.cryptography.keystore.internaldafny.types.WriteMutatedVersionsOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteNewEncryptedBranchKeyInput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteNewEncryptedBranchKeyOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteNewEncryptedBranchKeyVersionInput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteNewEncryptedBranchKeyVersionOutput;
 import software.amazon.cryptography.keystore.model.CollectionOfErrors;
+import software.amazon.cryptography.keystore.model.KeyStorageException;
 import software.amazon.cryptography.keystore.model.KeyStoreException;
 import software.amazon.cryptography.keystore.model.OpaqueError;
+import software.amazon.cryptography.keystore.model.VersionRaceException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.IDynamoDBClient;
 import software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient;
 
 public class ToDafny {
 
   public static Error Error(RuntimeException nativeValue) {
+    if (nativeValue instanceof KeyStorageException) {
+      return ToDafny.Error((KeyStorageException) nativeValue);
+    }
     if (nativeValue instanceof KeyStoreException) {
       return ToDafny.Error((KeyStoreException) nativeValue);
+    }
+    if (nativeValue instanceof VersionRaceException) {
+      return ToDafny.Error((VersionRaceException) nativeValue);
     }
     if (nativeValue instanceof OpaqueError) {
       return ToDafny.Error((OpaqueError) nativeValue);
@@ -499,6 +520,39 @@ public class ToDafny {
     return new GetEncryptedBranchKeyVersionOutput(item);
   }
 
+  public static GetItemsForInitializeMutationInput GetItemsForInitializeMutationInput(
+    software.amazon.cryptography.keystore.model.GetItemsForInitializeMutationInput nativeValue
+  ) {
+    DafnySequence<? extends Character> identifier;
+    identifier =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.Identifier()
+      );
+    return new GetItemsForInitializeMutationInput(identifier);
+  }
+
+  public static GetItemsForInitializeMutationOutput GetItemsForInitializeMutationOutput(
+    software.amazon.cryptography.keystore.model.GetItemsForInitializeMutationOutput nativeValue
+  ) {
+    EncryptedHierarchicalKey activeItem;
+    activeItem = ToDafny.EncryptedHierarchicalKey(nativeValue.activeItem());
+    EncryptedHierarchicalKey beaconItem;
+    beaconItem = ToDafny.EncryptedHierarchicalKey(nativeValue.beaconItem());
+    Option<MutationLock> mutationLock;
+    mutationLock =
+      Objects.nonNull(nativeValue.mutationLock())
+        ? Option.create_Some(
+          MutationLock._typeDescriptor(),
+          ToDafny.MutationLock(nativeValue.mutationLock())
+        )
+        : Option.create_None(MutationLock._typeDescriptor());
+    return new GetItemsForInitializeMutationOutput(
+      activeItem,
+      beaconItem,
+      mutationLock
+    );
+  }
+
   public static GetKeyStorageInfoInput GetKeyStorageInfoInput(
     software.amazon.cryptography.keystore.model.GetKeyStorageInfoInput nativeValue
   ) {
@@ -674,6 +728,75 @@ public class ToDafny {
     return new MRDiscovery(region);
   }
 
+  public static MutationLock MutationLock(
+    software.amazon.cryptography.keystore.model.MutationLock nativeValue
+  ) {
+    DafnySequence<? extends Character> identifier;
+    identifier =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.Identifier()
+      );
+    DafnySequence<? extends Character> createTime;
+    createTime =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.CreateTime()
+      );
+    DafnySequence<? extends Character> uUID;
+    uUID =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.UUID()
+      );
+    DafnySequence<? extends Byte> original;
+    original =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.Original()
+      );
+    DafnySequence<? extends Byte> terminal;
+    terminal =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.Terminal()
+      );
+    return new MutationLock(identifier, createTime, uUID, original, terminal);
+  }
+
+  public static QueryForVersionsInput QueryForVersionsInput(
+    software.amazon.cryptography.keystore.model.QueryForVersionsInput nativeValue
+  ) {
+    Option<DafnySequence<? extends Byte>> exclusiveStartKey;
+    exclusiveStartKey =
+      Objects.nonNull(nativeValue.exclusiveStartKey())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+            nativeValue.exclusiveStartKey()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
+        );
+    DafnySequence<? extends Character> identifier;
+    identifier =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.Identifier()
+      );
+    Integer pageSize;
+    pageSize = (nativeValue.pageSize());
+    return new QueryForVersionsInput(exclusiveStartKey, identifier, pageSize);
+  }
+
+  public static QueryForVersionsOutput QueryForVersionsOutput(
+    software.amazon.cryptography.keystore.model.QueryForVersionsOutput nativeValue
+  ) {
+    DafnySequence<? extends Byte> exclusiveStartKey;
+    exclusiveStartKey =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.exclusiveStartKey()
+      );
+    DafnySequence<? extends EncryptedHierarchicalKey> items;
+    items = ToDafny.EncryptedHierarchicalKeys(nativeValue.items());
+    return new QueryForVersionsOutput(exclusiveStartKey, items);
+  }
+
   public static VersionKeyInput VersionKeyInput(
     software.amazon.cryptography.keystore.model.VersionKeyInput nativeValue
   ) {
@@ -689,6 +812,71 @@ public class ToDafny {
     software.amazon.cryptography.keystore.model.VersionKeyOutput nativeValue
   ) {
     return new VersionKeyOutput();
+  }
+
+  public static WriteInitializeMutationInput WriteInitializeMutationInput(
+    software.amazon.cryptography.keystore.model.WriteInitializeMutationInput nativeValue
+  ) {
+    EncryptedHierarchicalKey active;
+    active = ToDafny.EncryptedHierarchicalKey(nativeValue.active());
+    EncryptedHierarchicalKey oldActive;
+    oldActive = ToDafny.EncryptedHierarchicalKey(nativeValue.oldActive());
+    EncryptedHierarchicalKey version;
+    version = ToDafny.EncryptedHierarchicalKey(nativeValue.version());
+    EncryptedHierarchicalKey beacon;
+    beacon = ToDafny.EncryptedHierarchicalKey(nativeValue.beacon());
+    MutationLock mutationLock;
+    mutationLock = ToDafny.MutationLock(nativeValue.mutationLock());
+    return new WriteInitializeMutationInput(
+      active,
+      oldActive,
+      version,
+      beacon,
+      mutationLock
+    );
+  }
+
+  public static WriteInitializeMutationOutput WriteInitializeMutationOutput(
+    software.amazon.cryptography.keystore.model.WriteInitializeMutationOutput nativeValue
+  ) {
+    return new WriteInitializeMutationOutput();
+  }
+
+  public static WriteMutatedVersionsInput WriteMutatedVersionsInput(
+    software.amazon.cryptography.keystore.model.WriteMutatedVersionsInput nativeValue
+  ) {
+    DafnySequence<? extends EncryptedHierarchicalKey> items;
+    items = ToDafny.EncryptedHierarchicalKeys(nativeValue.items());
+    DafnySequence<? extends Character> identifier;
+    identifier =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.Identifier()
+      );
+    DafnySequence<? extends Byte> original;
+    original =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.Original()
+      );
+    DafnySequence<? extends Byte> terminal;
+    terminal =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.Terminal()
+      );
+    Boolean completeMutation;
+    completeMutation = (nativeValue.CompleteMutation());
+    return new WriteMutatedVersionsInput(
+      items,
+      identifier,
+      original,
+      terminal,
+      completeMutation
+    );
+  }
+
+  public static WriteMutatedVersionsOutput WriteMutatedVersionsOutput(
+    software.amazon.cryptography.keystore.model.WriteMutatedVersionsOutput nativeValue
+  ) {
+    return new WriteMutatedVersionsOutput();
   }
 
   public static WriteNewEncryptedBranchKeyInput WriteNewEncryptedBranchKeyInput(
@@ -731,6 +919,15 @@ public class ToDafny {
     return new WriteNewEncryptedBranchKeyVersionOutput();
   }
 
+  public static Error Error(KeyStorageException nativeValue) {
+    DafnySequence<? extends Character> message;
+    message =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.message()
+      );
+    return new Error_KeyStorageException(message);
+  }
+
   public static Error Error(KeyStoreException nativeValue) {
     DafnySequence<? extends Character> message;
     message =
@@ -738,6 +935,15 @@ public class ToDafny {
         nativeValue.message()
       );
     return new Error_KeyStoreException(message);
+  }
+
+  public static Error Error(VersionRaceException nativeValue) {
+    DafnySequence<? extends Character> message;
+    message =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.message()
+      );
+    return new Error_VersionRaceException(message);
   }
 
   public static HierarchicalKeyType HierarchicalKeyType(
@@ -833,6 +1039,20 @@ public class ToDafny {
       "Cannot convert " +
       nativeValue +
       " to software.amazon.cryptography.keystore.internaldafny.types.Storage."
+    );
+  }
+
+  public static DafnySequence<
+    ? extends EncryptedHierarchicalKey
+  > EncryptedHierarchicalKeys(
+    List<
+      software.amazon.cryptography.keystore.model.EncryptedHierarchicalKey
+    > nativeValue
+  ) {
+    return software.amazon.smithy.dafny.conversion.ToDafny.Aggregate.GenericToSequence(
+      nativeValue,
+      software.amazon.cryptography.keystore.ToDafny::EncryptedHierarchicalKey,
+      EncryptedHierarchicalKey._typeDescriptor()
     );
   }
 

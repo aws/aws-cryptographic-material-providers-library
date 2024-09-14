@@ -82,6 +82,33 @@ structure EncryptedHierarchicalKey {
   CiphertextBlob: Blob,
 }
 
+@documentation(
+"Information an in-flight Mutation of a Branch Key.
+This ensures:
+- only one Mutation affects a Branch Key at a time  
+- all items of a Branch Key are mutated consistently")
+structure MutationLock {
+  @required
+  @documentation("The Branch Key under Mutation.")
+  Identifier: String
+
+  @required
+  @documentation("The create time as an ISO 8061 UTC string.")
+  CreateTime: String
+
+  @required
+  @documentation("A unique identifier for the Mutation.")
+  UUID: String
+
+  @required
+  @documentation("A commitment of the Original Mutable Properities of the Branch Key.")
+  Original: Blob
+
+  @required
+  @documentation("A commitment of the Terminal Mutable Properities of the Branch Key.")
+  Terminal: Blob
+}
+
 map EncryptionContextString {
   key: String,
   value: String,
@@ -106,7 +133,11 @@ resource KeyStorageInterface {
     GetEncryptedActiveBranchKey,
     GetEncryptedBranchKeyVersion,
     GetEncryptedBeaconKey,
-    GetKeyStorageInfo,
+    GetKeyStorageInfo,    
+    GetItemsForInitializeMutation,
+    WriteInitializeMutation,
+    QueryForVersions,
+    WriteMutatedVersions
   ]
 }
 
@@ -142,6 +173,53 @@ operation GetEncryptedBeaconKey {
 operation GetKeyStorageInfo {
   input: GetKeyStorageInfoInput,
   output: GetKeyStorageInfoOutput,
+}
+
+@documentation(
+"Gets the ACTIVE branch key and the beacon key,
+and looks for a Mutation Lock,
+returning it if found.")
+operation GetItemsForInitializeMutation {
+  input: GetItemsForInitializeMutationInput
+  output: GetItemsForInitializeMutationOutput
+  errors: [KeyStorageException]
+}
+
+@documentation(
+"Atomically writes,
+in the terminal state of a Mutation:  
+- new ACTIVE item  
+- version (decrypt only) for new ACTIVE  
+- beacon key  
+Also writes the Mutation Lock.")
+operation WriteInitializeMutation {
+  input: WriteInitializeMutationInput
+  output: WriteInitializeMutationOutput
+  errors: [KeyStorageException]
+}
+
+@documentation(
+"Query Storage for a page of version (decrypt only) items
+of a Branch Key.")
+operation QueryForVersions {
+  input: QueryForVersionsInput
+  output: QueryForVersionsOutput
+  errors: [KeyStorageException]
+}
+
+@documentation(
+"Atomically writes,
+in the terminal state of a Mutation,
+a page of version (decrypt only) items,
+conditioned on:
+- every version already exsisting
+- the original of a Mutation Lock commits to the original provided  
+- the terminal of a Mutation Lock commits to the terminal provided  
+")
+operation WriteMutatedVersions {
+  input: WriteMutatedVersionsInput
+  output: WriteMutatedVersionsOutput
+  errors: [KeyStorageException]
 }
 
 //= aws-encryption-sdk-specification/framework/key-store/key-storage.md#writenewencryptedbranchkey
@@ -293,4 +371,115 @@ structure GetKeyStorageInfoOutput {
   @required
   @documentation("The Logical Key Store Name associated with this Storage.")
   LogicalName: Utf8Bytes,
+}
+
+structure GetItemsForInitializeMutationInput {
+  @documentation("The Branch Key to Mutate.")
+  @required
+  Identifier: String
+}
+structure GetItemsForInitializeMutationOutput {
+  @required
+  @documentation("The materials for the Branch Key.")
+  activeItem: EncryptedHierarchicalKey
+  @documentation("The materials for the Beacon Key.")
+  @required
+  beaconItem: EncryptedHierarchicalKey
+  @documentation("The Mutation Lock, if it exists.")
+  mutationLock: MutationLock
+}
+
+structure WriteInitializeMutationInput {
+  @required
+  @documentation("
+  The active representation of this branch key,
+  generated with the Mutation's terminal properities.  
+  The plain-text cryptographic material of the Active must be the same as the Version.")
+  active: EncryptedHierarchicalKey,
+  @required
+  @documentation("
+  The previous active version.
+  This key should be used as an optimistic lock on the new version.
+  This means that when updating the current active record
+  the existing active record should be equal to this value.")
+  oldActive: EncryptedHierarchicalKey,
+  @required
+  @documentation("
+  The decrypt representation of this branch key version,
+  generated with the Mutation's terminal properities.  
+  The plain-text cryptographic material of the `Version` must be the same as the `Active`.")
+  version: EncryptedHierarchicalKey,
+  @required
+  @documentation("
+  The mutated HMAC key used to support searchable encryption.
+  The cryptographic material is identical to the existing beacon,
+  but is now authorized with the Mutation's terminal properities.")
+  beacon: EncryptedHierarchicalKey,
+  @required // Smithy will copy documentation traits from existing shapes
+  mutationLock: MutationLock
+}
+structure WriteInitializeMutationOutput {}
+
+list EncryptedHierarchicalKeys {
+  member: EncryptedHierarchicalKey
+}
+
+structure QueryForVersionsInput {
+  @documentation(
+  "Optional.
+  If set, Query will start at this index and read forward.  
+  Otherwise, Query will start at the indexes begining.
+  The Default Storage is DDB;
+  see Amazon DynamoDB's defination of exclusiveStartKey for details.
+  Note: While the Default Storage is DDB,
+  the Key Store transforms the exclusiveStartKey into an opaque representation.")
+  exclusiveStartKey: Blob
+  @required
+  @documentation("The Identifier of the Branch Key.")
+  Identifier: String
+  @required // @range(min: 1) Smithy-Dafny may not respect range
+  @documentation("The maximum read items.")
+  pageSize: Integer
+}
+
+structure QueryForVersionsOutput {
+  @documentation(
+  "If none-empty, Query did not finish searching storage.  
+  Next Query should resume from here.
+  The Default Storage is DDB;
+  see Amazon DynamoDB's defination of exclusiveStartKey for details.
+  Note: While the Default Storage is DDB,
+  the Key Store transforms the exclusiveStartKey into an opaque representation.")
+  @required
+  exclusiveStartKey: Blob
+  @documentation("Up to pageSize list of version (decrypt only) items of a Branch Key.")
+  @required
+  items: EncryptedHierarchicalKeys
+}
+
+structure WriteMutatedVersionsInput {
+  @documentation("List of version (decrypt only) items of a Branch Key to overwrite conditionally.")
+  @required
+  items: EncryptedHierarchicalKeys
+  @documentation("The Identifier of the Branch Key.")  
+  @required
+  Identifier: String
+  @documentation("A commitment of the Original Mutable Properities of the Branch Key.")
+  @required
+  Original: Blob
+  @required
+  @documentation("A commitment of the Terminal Mutable Properities of the Branch Key.")  
+  Terminal: Blob
+  @documentation("If set to True, the Mutation Lock will be deleted. Effectively defaults to false")
+  @required // @default(false) // Smithy-Dafny may not respect defaults.
+  CompleteMutation: Boolean
+}
+
+
+structure WriteMutatedVersionsOutput {}
+
+@error("client")
+structure KeyStorageException {
+  @required
+  message: String,
 }
