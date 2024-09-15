@@ -1,18 +1,11 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
-  // include "../Model/AwsCryptographyKeyStoreTypes.dfy"
-  // include "ErrorMessages.dfy"
-  // include "KmsArn.dfy"
-  // include "Structure.dfy"
 include "../../../../libraries/src/Collections/Sets/Sets.dfy"
 include "../../../../libraries/src/Collections/Maps/Maps.dfy"
-
 include "../../../../libraries/src/JSON/API.dfy"
 include "../../../../libraries/src/JSON/Errors.dfy"
 include "../../../../libraries/src/JSON/Values.dfy"
-
-
 include "../../AwsCryptographicMaterialProviders/src/CanonicalEncryptionContext.dfy"
 
 /** Mutation State Structures describe the Mutable Branch Key Properties that can be changed by Mutaiton. **/
@@ -61,18 +54,6 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     && !(input.terminalKmsArn.None? && input.terminalEncryptionContext.None?)
   }
 
-  /** An ordered collection of key, value that is the custom encryption context.*/
-  /** The keys are defixed; "aws-crypto-ec:" has been removed, if it was added by the library.*/
-  type SortedCustomEncryptionContext = seq<(KeyStoreTypes.Utf8Bytes, KeyStoreTypes.Utf8Bytes)>
-  // TODO: witness forall key, value in seq<key, value> <- key[index - 1] < key[index]
-  // TODO: witness this has been defixed, i.e: no "aws-crypt-ec"
-
-  // Other documents called this state; I will refactor those
-  datatype MutableBranchKeyProperties = | MutableBranchKeyProperties (
-    nameonly kmsArn: string,
-    nameonly customEncryptionContext: SortedCustomEncryptionContext
-  )
-
   datatype MutableProperties = | MutableProperties (
     nameonly kmsArn: KeyStoreTypes.KMSConfiguration,
     nameonly customEncryptionContext: KeyStoreTypes.EncryptionContextString
@@ -96,180 +77,6 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     && (Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! MutationToApply.Original.customEncryptionContext.Keys)
     && (Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! MutationToApply.Terminal.customEncryptionContext.Keys)
   }
-
-  // method MutationsToMutableBranchKeyProperties(
-  //   input: Types.Mutations,
-  //   originalKmsArn: string,
-  //   originalEncryptionContext: SortedCustomEncryptionContext
-  // )
-  //   returns (output: Result<MutableBranchKeyProperties, string>)
-  //   requires ValidMutations?(input)
-  // {
-  //   var kmsArn: string := input.terminalKmsArn.UnwrapOr(originalKmsArn);
-  //   var customEncryptionContext: SortedCustomEncryptionContext := originalEncryptionContext;
-  //   if (input.terminalEncryptionContext.Some?) {
-  //     customEncryptionContext :- CustomEncryptionContextToSortedCustomEncryptionContext(input.terminalEncryptionContext.value);
-  //   }
-  //   return Success(MutableBranchKeyProperties(
-  //                    kmsArn := kmsArn,
-  //                    customEncryptionContext := customEncryptionContext));
-  // }
-
-  // method ItemProperitiesToMutableBranchKeyProperties(
-  //   activeFoo: KeyStoreTypes.EncryptionContextString,
-  //   activeKmsArn: string
-  // )
-  //   returns (inferredOriginal: Result<MutableBranchKeyProperties, string>)
-  // {
-  //   var sortedEC :- EncrytionContextStringToSortedCustomEncryptionContext(activeFoo);
-  //   inferredOriginal := Success(MutableBranchKeyProperties(
-  //                                 kmsArn := activeKmsArn,
-  //                                 customEncryptionContext := sortedEC));
-  //   return inferredOriginal;
-  // }
-
-  predicate isCustomECKey?(input: string): (output: bool)
-    ensures && output == true ==> |input| > 14
-  {
-    |input| > 14 && input[0..14] == "aws-crypto-ec:"
-  }
-
-  const ENCRYPTION_CONTEXT_PREFIX_UTF8_BYTES: seq<uint8> := [97,119,115,45,99,114,121,112,116,111,45,101,99,58]
-  // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=YXdzLWNyeXB0by1lYzo&oenc=65001&oeol=CR
-
-  predicate isEncodedCustomECKey?(input: KeyStoreTypes.Utf8Bytes): (output: bool)
-    ensures && output == true ==> |input| > |ENCRYPTION_CONTEXT_PREFIX_UTF8_BYTES|
-  {
-    |input| > |ENCRYPTION_CONTEXT_PREFIX_UTF8_BYTES| && input[0..|ENCRYPTION_CONTEXT_PREFIX_UTF8_BYTES|] == ENCRYPTION_CONTEXT_PREFIX_UTF8_BYTES
-  }
-
-  // TODO: if we made this a unique extern, we could do it in one pass instead of 2
-  method CustomEncryptionContextToSortedCustomEncryptionContext(
-    input: KeyStoreTypes.EncryptionContext
-  )
-    returns (output: Result<SortedCustomEncryptionContext, string>)
-  {
-    var keys: seq<KeyStoreTypes.Utf8Bytes> := SetToOrderedSequence(input.Keys, UInt.UInt8Less);
-    var keyIndex: int := 0;
-    var sortedEC: seq<(KeyStoreTypes.Utf8Bytes, KeyStoreTypes.Utf8Bytes)> := [];
-    var encodedValue: KeyStoreTypes.Utf8Bytes := [];
-    var encodedKey: KeyStoreTypes.Utf8Bytes := [];
-    while keyIndex < |keys|
-    {
-      encodedKey := keys[keyIndex];
-      encodedValue := input[encodedKey];
-      :- Need(!isEncodedCustomECKey?(encodedKey), "Input MUST NOT have keys that begin with \"aws-crypto-ec:\".");
-      sortedEC := sortedEC + [(encodedKey, encodedValue)];
-      keyIndex := keyIndex + 1;
-    }
-    return Success(sortedEC);
-  }
-
-  // TODO: Refactor into one For loop, instead of 4
-  /** From the EC sent to KMS, extract only the custom EC, defix the keys,
-     and return a seq<(key, value)> that has been
-     binary sorted under UTF-8 encoding of the Keys. */
-  // method EncrytionContextStringToSortedCustomEncryptionContext(
-  //   input: KeyStoreTypes.EncryptionContextString
-  // )
-  //   returns (output: Result<SortedCustomEncryptionContext, string>)
-  // {
-  //   return Failure("Implement me!"); 
-  //   // var filteredKeys := Sets.Filter(input.Keys, isCustomECKey?);
-  //   // var encodedDefixKeyToStringKeyMap: map<KeyStoreTypes.Utf8Bytes, string> := map[];
-  //   // while filteredKeys != {}
-  //   //   decreases |filteredKeys|
-  //   // {
-  //   //   var k: string :| k in filteredKeys;
-  //   //   filteredKeys := filteredKeys - {k};
-  //   //   assume {:axiom} |k| > 14; //Dafny needs help realizing Prefixed content can be defixed
-  //   //   assert |k| > 14;
-  //   //   var defixed := k[14..];
-  //   //   var encoded :- UTF8.Encode(defixed);
-  //   //   encodedDefixKeyToStringKeyMap := encodedDefixKeyToStringKeyMap[encoded := k];
-  //   // }
-  //   // var keys: seq<KeyStoreTypes.Utf8Bytes> := SetToOrderedSequence(encodedDefixKeyToStringKeyMap.Keys, UInt.UInt8Less);
-  //   // var keyIndex: int := 0;
-  //   // var sortedEC: seq<(KeyStoreTypes.Utf8Bytes, KeyStoreTypes.Utf8Bytes)> := [];
-  //   // var encodedValue: KeyStoreTypes.Utf8Bytes := [];
-  //   // var encodedKey: KeyStoreTypes.Utf8Bytes := [];
-  //   // var k: string := "";
-  //   // var v: string := "";
-  //   // while keyIndex < |keys|
-  //   // {
-  //   //   encodedKey := keys[keyIndex];
-  //   //   k := encodedDefixKeyToStringKeyMap[encodedKey];
-  //   //   v := Maps.Get(input, k).UnwrapOr("");
-  //   //   //TODO: prove k is in input
-  //   //   encodedValue :- UTF8.Encode(v);
-  //   //   sortedEC := sortedEC + [(keys[keyIndex], encodedValue)];
-  //   //   keyIndex := keyIndex + 1;
-  //   // }
-  //   // return Success(sortedEC);
-  // }
-
-  method SortedCustomEncryptionContextToFoo(
-    sortedEC: SortedCustomEncryptionContext
-  )
-    returns (output: Result<KeyStoreTypes.EncryptionContextString, string>)
-    ensures output.Success? ==>
-              && forall k <- output.value.Keys :: 0 <= |Structure.ENCRYPTION_CONTEXT_PREFIX + k| <= 65535
-    // ensures output.Success? ==>
-    //   && forall pair <- sortedEC :: UTF8.Decode(pair.0).Success? && UTF8.Decode(pair.1).Success?
-  {
-    var foo: KeyStoreTypes.EncryptionContextString := map[];
-    if (|sortedEC| == 0) {
-      return Success(foo);
-    }
-    var index: int := 0;
-    while index < |sortedEC|
-      invariant forall k <- foo.Keys :: 0 <= |Structure.ENCRYPTION_CONTEXT_PREFIX + k| <= 65535
-      invariant |sortedEC| > index > 0 ==>
-                  forall pair <- sortedEC[..index] ::
-                    && (UTF8.Decode(pair.0).Success? && UTF8.Decode(pair.1).Success?)
-                    && 0 <= |UTF8.Decode(pair.0).value| <= 65521
-                    && UTF8.Decode(pair.0).value in foo.Keys
-      //&& UTF8.Decode(pair.1).value in foo.Values
-
-      //invariant forall k <- foo.Keys ::
-      //  && (UTF8.Encode(k).Success? && UTF8.Encode(foo[k]).Success?)
-      //  && ((UTF8.Encode(k).value, UTF8.Encode(foo[k]).value) in sortedEC)
-    {
-      var k :- UTF8.Decode(sortedEC[index].0)
-      .MapFailure(eString => "Could not UTF8 Decode Encryption Context Key. " + eString);
-      var v :- UTF8.Decode(sortedEC[index].1)
-      .MapFailure(eString => "Could not UTF8 Decode Encryption Context Value. " + eString);
-      :- Need(
-        0 <= |Structure.ENCRYPTION_CONTEXT_PREFIX + k| <= 65535,
-        "Encryption Context Keys MUST be less than 65521. Got key with length " + String.Base10Int2String(|k|) + ". Key: " + k
-      );
-      foo := foo[k := v];
-      index := index + 1;
-    }
-    return Success(foo);
-  }
-
-  function SortedCustomEncryptionContextToJSON(
-    sortedEC: SortedCustomEncryptionContext
-  ): (output: Result<JSONValues.JSON, Types.Error>)
-    // requires |sortedEC| > 0
-  {
-    var decodedSortedEC
-      :- Seq.MapWithResult(
-           (ec: (KeyStoreTypes.Utf8Bytes, KeyStoreTypes.Utf8Bytes))
-           =>
-             var decodedKey
-               :- UTF8.Decode(ec.0).MapFailure(
-                    e => Types.KeyStoreAdminException(message:="Error during UTF8 decoding of Sorted Custom Encryption Context: " + e));
-             var decodedValue
-               :- UTF8.Decode(ec.1).MapFailure(
-                    e => Types.KeyStoreAdminException(message:="Error during UTF8 decoding of Sorted Custom Encryption Context: " + e));
-             Success((decodedKey, JSONValues.JSON.String(decodedValue))),
-           sortedEC);
-
-    Success(JSONValues.Object(decodedSortedEC))
-  }
-
 
   function EncryptionContextStringToJSON(
     encryptionContext: KeyStoreTypes.EncryptionContextString
@@ -334,32 +141,6 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     // Note: no Extract method
   }
 
-
-  // function utf8EncodePair(key: string, value: string):
-  //   (res: Result<(UTF8.ValidUTF8Bytes, UTF8.ValidUTF8Bytes), Types.Error>)
-  // {
-  //   var utf8Key :- UTF8.Encode(key)
-  //                  .MapFailure(e => Types.KeyStoreAdminException( message := e));
-  //   var utf8Value :- UTF8.Encode(value)
-  //                    .MapFailure(e => Types.KeyStoreAdminException( message := e));
-
-  //   Success((utf8Key, utf8Value))
-  // }
-
-  // // TODO: These EncryptionContext methods can be removed once we move to UTF8 strings
-  // function utf8EncodeMap(mapStringString: map<string, string>):
-  //   (res: Result<KeyStoreTypes.EncryptionContext, Types.Error>)
-  // {
-  //   if |mapStringString| == 0 then
-  //     Success(map[])
-  //   else
-
-  //     var encodedResults := map key <- mapStringString :: key := utf8EncodePair(key, mapStringString[key]);
-  //     :- Need(forall r <- encodedResults.Values :: r.Success?,
-  //             Types.KeyStoreAdminException( message := "String can not be UTF8 Encoded?"));
-
-  //     Success(map r <- encodedResults.Values :: r.value.0 := r.value.1)
-  // }
 
   function SerializeMutableBranchKeyProperties(
     MutationToApply: MutationToApply
@@ -488,29 +269,6 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
        );
 
     Outcome.Pass
-  }
-
-  function SortedCustomEncryptionContextFromJsonObj(
-    decodedSortedEC: seq<(string, JSONValues.JSON)>
-  ): (output: Result<SortedCustomEncryptionContext, Types.Error>)
-  {
-    var sortedEC: SortedCustomEncryptionContext
-      :- Seq
-         .MapWithResult(
-           (ec: (string, JSONValues.JSON))
-           =>
-             var encodedKey: KeyStoreTypes.Utf8Bytes
-               :- UTF8.Encode(ec.0)
-                  .MapFailure(
-                    e => Types.KeyStoreAdminException(message := "UTF8 Encoding Error while deserializing Mutation Token: " + e));
-             :- Need(ec.1.String?,
-                     Types.KeyStoreAdminException(message:="Custom Encryption Context should be a JSON String, but is not!"));
-             var encodedValue: KeyStoreTypes.Utf8Bytes
-               :- UTF8.Encode(ec.1.str).MapFailure(
-                    e => Types.KeyStoreAdminException(message := "UTF8 Encoding Error while deserializing Mutation Token: " + e));
-             Success((encodedKey, encodedValue)),
-           decodedSortedEC);
-    Success(sortedEC)
   }
 
   // Quality of life proof that a correctly constructed JSON object,
