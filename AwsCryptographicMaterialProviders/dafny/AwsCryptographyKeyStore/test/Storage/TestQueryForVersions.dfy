@@ -25,7 +25,7 @@ module {:options "/functionSyntax:4"} TestQueryForVersions {
   {
     print " running";
     var ddbClient :- expect DDB.DynamoDBClient();
-    var underTest :- expect Fixtures.defaultStorage(ddbClient?:=Some(ddbClient));
+    var underTest :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
     var inputQuery: Types.QueryForVersionsInput;
     var items: Types.EncryptedHierarchicalKeys;
     var startKey: seq<UInt.uint8>;

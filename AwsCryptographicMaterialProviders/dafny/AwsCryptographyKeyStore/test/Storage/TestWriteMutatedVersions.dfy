@@ -30,7 +30,7 @@ module {:options "/functionSyntax:4"} TestWriteMutatedVersions {
   {
     print " running";
     var ddbClient :- expect DDB.DynamoDBClient();
-    var underTest :- expect Fixtures.defaultStorage(ddbClient?:=Some(ddbClient));
+    var underTest :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
     var uuid :- expect UUID.GenerateUUID();
     var testId := happyCaseId + "-" + uuid;
     CreateHappyCaseId(testId);

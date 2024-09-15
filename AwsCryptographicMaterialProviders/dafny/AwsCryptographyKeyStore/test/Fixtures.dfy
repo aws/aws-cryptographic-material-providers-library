@@ -106,39 +106,37 @@ module Fixtures {
   const lyingBranchKeyId := "kms-arn-attribute-is-lying"
   const lyingBranchKeyDecryptOnlyVersion := "129c5c87-308a-41c9-8b9d-a27f66e915f4"
 
-
-  method {:opaque} defaultStorage(
+  method DefaultStorage(
     nameonly physicalName: string := branchKeyStoreName,
     nameonly logicalName: string := logicalKeyStoreName,
     nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None
   )
-    returns (output: Result<Types.IKeyStorageInterface, DDB.Types.Error>)
+    returns (output: Result<Types.IKeyStorageInterface, Types.Error>)
     requires DDB.Types.IsValid_TableName(physicalName)
     requires UTF8.IsASCIIString(physicalName) && UTF8.IsASCIIString(logicalName)
+    requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
     ensures output.Success? ==> output.value.ValidState()
+    modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
   {
-    var ddbClient: DDB.Types.IDynamoDBClient;  //:- DDBOperations.DynamoDBClient();
+    var ddbClient: DDB.Types.IDynamoDBClient;
     if (ddbClient?.None?) {
-      ddbClient :- DDB.DynamoDBClient();
+      ddbClient :- expect DDB.DynamoDBClient();
     } else {
       ddbClient := ddbClient?.value;
     }
-    // The next two assumes are tragic
-    assume {:axiom} UTF8.Encode(physicalName).Success? && UTF8.EncodeAscii(physicalName) == UTF8.Encode(physicalName).value;
-    assume {:axiom} UTF8.Encode(logicalName).Success? && UTF8.EncodeAscii(logicalName) == UTF8.Encode(logicalName).value;
-    assume {:axiom} ddbClient.ValidState(); // ddbClient.Modifies == {} &&
+    var physicalNameUtf8 :- expect UTF8.Encode(physicalName);
+    var logicalNameUtf8 :- expect UTF8.Encode(logicalName);
     var underTest := new DefaultKeyStorageInterface.DynamoDBKeyStorageInterface(
       ddbTableName := physicalName,
       ddbClient := ddbClient,
       logicalKeyStoreName := logicalName,
-      ddbTableNameUtf8 := UTF8.EncodeAscii(physicalName),
-      logicalKeyStoreNameUtf8 := UTF8.EncodeAscii(logicalName)
-    );
+      ddbTableNameUtf8 := physicalNameUtf8,
+      logicalKeyStoreNameUtf8 := logicalNameUtf8);
     // We may not need this, but **Oh My God** does it make verification go faster
     // assume {:axiom} underTest.Modifies == {} && ddbClient.Modifies == {} && ddbClient.ValidState() && underTest.ValidState();
     output := Success(underTest);
   }
-
+    
   datatype allThree = | allThree (
     active: Types.EncryptedHierarchicalKey,
     beacon: Types.EncryptedHierarchicalKey,

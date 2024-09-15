@@ -41,7 +41,7 @@ module {:options "/functionSyntax:4"} TestWriteAndDeleteMutationLock {
     Fixtures.CreateHappyCaseId(id:=testId, versionCount:=0);
     print "\nTestWriteAndDeleteMutationLock :: TestHappyCase :: created Test Items: " + testId + "\n";
     var ddbClient :- expect DDB.DynamoDBClient();
-    var underTest :- expect Fixtures.defaultStorage();
+    var underTest :- expect Fixtures.DefaultStorage();
     assume {:axiom} underTest.Modifies == {}; // Turns off verification
 
     var allThree? := Fixtures.getItems(id:=testId, underTest:=underTest);

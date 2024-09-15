@@ -23,7 +23,7 @@ module {:options "/functionSyntax:4"} TestGetItemsForInitializeMutation {
 
   method {:test} TestHappyCase()
   {
-    // var underTest :- expect Fixtures.defaultStorage();
+    // var underTest :- expect Fixtures.DefaultStorage();
     var ddbClient :- expect DDB.DynamoDBClient();
     // The next two assumes are tragic
     assume {:axiom} UTF8.Encode(physicalName).Success? && UTF8.EncodeAscii(physicalName) == UTF8.Encode(physicalName).value;
@@ -52,7 +52,7 @@ module {:options "/functionSyntax:4"} TestGetItemsForInitializeMutation {
 
   method {:test} TestHappyCaseMLocked()
   {
-    // var underTest :- expect Fixtures.defaultStorage();
+    // var underTest :- expect Fixtures.DefaultStorage();
     // The next two assumes are tragic
     assume {:axiom} UTF8.Encode(physicalName).Success? && UTF8.EncodeAscii(physicalName) == UTF8.Encode(physicalName).value;
     assume {:axiom} UTF8.Encode(logicalName).Success? && UTF8.EncodeAscii(logicalName) == UTF8.Encode(logicalName).value;
