@@ -223,11 +223,6 @@ module {:options "/functionSyntax:4" } Mutations {
           "Beacon Item is not in the Original State!"
           + " For Initialize Mutation to succeed, the ACTIVE & Beacon Key MUST be in the original state."
       ));
-    // -= Validate Beacon Key
-    :- VerifyEncryptedHierarchicalKey(
-      item := readItems.beaconItem,
-      keyManagerStrategy := keyManagerStrategy
-    );
 
     // --= Generate New Decrypt Only Branch Key with terminal properties
     var maybeNewVersion := UUID.GenerateUUID();
@@ -406,10 +401,6 @@ module {:options "/functionSyntax:4" } Mutations {
         message := "WIP:")
     );
 
-    // TODO: Consider adding a short circuit if there are no Items.
-    // The while loop will safely skip,
-    // but there are few extra deserialization that are not needed.
-
     var MutationToApply :- StateStrucs.DeserializeMutationToken(input.mutationToken);
 
     var queryOutItems := Seq.Map(
@@ -505,21 +496,6 @@ module {:options "/functionSyntax:4" } Mutations {
       ));
   }
 
-  predicate itemMatchesMutableProperities?(
-    item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
-    KmsArn: string,
-    CustomEC: Types.AwsCryptographyKeyStoreTypes.EncryptionContextString,
-    ECKeysPrefixedToDefixed: set<(string, string)>
-  ): (output: bool)
-  {
-    // Does the Custom Encryption Context match?
-    && forall ecKeys :: ecKeys in ECKeysPrefixedToDefixed ==>
-                          && (ecKeys.0 in item.EncryptionContext)
-                          && (ecKeys.1 in CustomEC)
-                          && (item.EncryptionContext[ecKeys.0] == CustomEC[ecKeys.1])
-                             // Does the KMS ARN Match?
-                          && item.KmsArn == KmsArn
-  }
 
   function MatchItemToState(
     item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
@@ -549,20 +525,6 @@ module {:options "/functionSyntax:4" } Mutations {
       itemNeither(item)
   }
 
-  function matchItemToState(
-    item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
-    originalKmsArn: string,
-    originalCustomEC: Types.AwsCryptographyKeyStoreTypes.EncryptionContextString,
-    originalECKeysPrefixedToDefixed: set<(string, string)>,
-    terminalKmsArn: string,
-    terminalCustomEC: Types.AwsCryptographyKeyStoreTypes.EncryptionContextString,
-    terminalECKeysPrefixedToDefixed: set<(string, string)>
-  ): (output: CheckedItem)
-  {
-    if itemMatchesMutableProperities?(item, originalKmsArn, originalCustomEC, originalECKeysPrefixedToDefixed) then itemOriginal(item)
-    else if itemMatchesMutableProperities?(item, terminalKmsArn, terminalCustomEC, terminalECKeysPrefixedToDefixed) then itemTerminal(item)
-    else itemNeither(item)
-  }
 
   method VerifyEncryptedHierarchicalKey(
     nameonly item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
@@ -632,24 +594,6 @@ module {:options "/functionSyntax:4" } Mutations {
                       ));
   }
 
-  // Note: This Method MUST NOT be public, it is internal only
-  method CompleteMutation(
-    input: Types.ApplyMutationInput,
-    logicalKeyStoreName: string,
-    storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
-  )
-    returns (output: Result<Types.ApplyMutationOutput, Types.Error>)
-    requires storage.ValidState()
-    modifies storage.Modifies
-    ensures storage.ValidState()
-    // requires Query for items returned none
-  {
-    // Create Write request to delete Mutation Lock
-    // Add contional check on Mutation Lock & Mutation Token aggreement to Write Request
-    // -= write to storage
-    // return MutationComplete
-    return Failure(Types.KeyStoreAdminException(message := "Implement me"));
-  }
 
 
   lemma FilterIsEmpty?<T>(f: (T ~> bool), xs: seq<T>)

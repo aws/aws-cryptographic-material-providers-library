@@ -26,8 +26,6 @@ module {:options "/functionSyntax:4"} TestWriteMutatedVersions {
   const original := UTF8.EncodeAscii("storage-does-not-validate-original-only-that-is-binary")
   const terminal := UTF8.EncodeAscii("storage-does-not-validate-terminal-only-that-is-binary")
 
-  // TODO :: Add Happy Test for Deleting M-Lock
-
   method {:test} TestHappyCase()
   {
     print " running";

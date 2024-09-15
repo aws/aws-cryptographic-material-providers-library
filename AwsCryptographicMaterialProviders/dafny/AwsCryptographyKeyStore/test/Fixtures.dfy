@@ -106,9 +106,6 @@ module Fixtures {
   const lyingBranchKeyId := "kms-arn-attribute-is-lying"
   const lyingBranchKeyDecryptOnlyVersion := "129c5c87-308a-41c9-8b9d-a27f66e915f4"
 
-  // The Key Store will consider this mutation lock invalid
-  // The Storage layer will not.
-  // const mutationLockBranchKeyId := "test-get-items-for-initialize-mutation"
 
   method {:opaque} defaultStorage(
     nameonly physicalName: string := branchKeyStoreName,
@@ -149,7 +146,6 @@ module Fixtures {
 
   method getItems(
     nameonly id: string,
-    // nameonly version: string,
     nameonly underTest: Types.IKeyStorageInterface
   )
     returns (output: Result<allThree, Types.Error>)
