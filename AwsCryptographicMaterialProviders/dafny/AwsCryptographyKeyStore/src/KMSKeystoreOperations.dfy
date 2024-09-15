@@ -436,4 +436,5 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     && decryptHistory.output.Success?
     && decryptHistory.output.value.Plaintext.Some?
   }
+
 }

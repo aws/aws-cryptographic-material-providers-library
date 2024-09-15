@@ -206,7 +206,7 @@ structure GetKeyStoreInfoOutput {
   grantTokens: GrantTokenList,
   @required
   @javadoc("Configures Key Store's KMS Key ARN restrictions.")
-  kmsConfiguration: KMSConfiguration
+  kmsConfiguration: KMSConfiguration,
 }
 
 @javadoc("Create the DynamoDB table that backs this Key Store based on the Key Store configuration. If a table already exists, validate it is configured as expected.")

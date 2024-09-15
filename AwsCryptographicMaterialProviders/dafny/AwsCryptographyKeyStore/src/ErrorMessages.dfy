@@ -38,7 +38,7 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
     "The `kms-arn` field for the requested branch key identifier is corrupted."
 
   const INVALID_ACTIVE_BRANCH_KEY_FROM_STORAGE :=
-    "Invalid active encrypted branch key from storage."
+    "Invalid encrypted active branch key from storage."
 
   const INVALID_BRANCH_KEY_VERSION_FROM_STORAGE :=
     "Invalid encrypted branch key version from storage."
