@@ -9,8 +9,19 @@ import java.util.Objects;
 
 public class QueryForVersionsOutput {
 
+  /**
+   * If none-empty, Query did not finish searching storage.
+   *   Next Query should resume from here.
+   *   The Default Storage is DDB;
+   *   see Amazon DynamoDB's defination of exclusiveStartKey for details.
+   *   Note: While the Default Storage is DDB,
+   *   the Key Store transforms the exclusiveStartKey into an opaque representation.
+   */
   private final ByteBuffer exclusiveStartKey;
 
+  /**
+   * Up to pageSize list of version (decrypt only) items of a Branch Key.
+   */
   private final List<EncryptedHierarchicalKey> items;
 
   protected QueryForVersionsOutput(BuilderImpl builder) {
@@ -18,10 +29,21 @@ public class QueryForVersionsOutput {
     this.items = builder.items();
   }
 
+  /**
+   * @return If none-empty, Query did not finish searching storage.
+   *   Next Query should resume from here.
+   *   The Default Storage is DDB;
+   *   see Amazon DynamoDB's defination of exclusiveStartKey for details.
+   *   Note: While the Default Storage is DDB,
+   *   the Key Store transforms the exclusiveStartKey into an opaque representation.
+   */
   public ByteBuffer exclusiveStartKey() {
     return this.exclusiveStartKey;
   }
 
+  /**
+   * @return Up to pageSize list of version (decrypt only) items of a Branch Key.
+   */
   public List<EncryptedHierarchicalKey> items() {
     return this.items;
   }
@@ -35,12 +57,34 @@ public class QueryForVersionsOutput {
   }
 
   public interface Builder {
+    /**
+     * @param exclusiveStartKey If none-empty, Query did not finish searching storage.
+     *   Next Query should resume from here.
+     *   The Default Storage is DDB;
+     *   see Amazon DynamoDB's defination of exclusiveStartKey for details.
+     *   Note: While the Default Storage is DDB,
+     *   the Key Store transforms the exclusiveStartKey into an opaque representation.
+     */
     Builder exclusiveStartKey(ByteBuffer exclusiveStartKey);
 
+    /**
+     * @return If none-empty, Query did not finish searching storage.
+     *   Next Query should resume from here.
+     *   The Default Storage is DDB;
+     *   see Amazon DynamoDB's defination of exclusiveStartKey for details.
+     *   Note: While the Default Storage is DDB,
+     *   the Key Store transforms the exclusiveStartKey into an opaque representation.
+     */
     ByteBuffer exclusiveStartKey();
 
+    /**
+     * @param items Up to pageSize list of version (decrypt only) items of a Branch Key.
+     */
     Builder items(List<EncryptedHierarchicalKey> items);
 
+    /**
+     * @return Up to pageSize list of version (decrypt only) items of a Branch Key.
+     */
     List<EncryptedHierarchicalKey> items();
 
     QueryForVersionsOutput build();

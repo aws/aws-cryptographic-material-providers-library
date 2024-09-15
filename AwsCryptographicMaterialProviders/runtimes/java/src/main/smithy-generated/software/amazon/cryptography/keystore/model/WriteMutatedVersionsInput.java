@@ -9,12 +9,24 @@ import java.util.Objects;
 
 public class WriteMutatedVersionsInput {
 
+  /**
+   * List of version (decrypt only) items of a Branch Key to overwrite conditionally.
+   */
   private final List<EncryptedHierarchicalKey> items;
 
+  /**
+   * The Identifier of the Branch Key.
+   */
   private final String Identifier;
 
+  /**
+   * A commitment of the Original Mutable Properities of the Branch Key.
+   */
   private final ByteBuffer Original;
 
+  /**
+   * A commitment of the Terminal Mutable Properities of the Branch Key.
+   */
   private final ByteBuffer Terminal;
 
   /**
@@ -30,18 +42,30 @@ public class WriteMutatedVersionsInput {
     this.CompleteMutation = builder.CompleteMutation();
   }
 
+  /**
+   * @return List of version (decrypt only) items of a Branch Key to overwrite conditionally.
+   */
   public List<EncryptedHierarchicalKey> items() {
     return this.items;
   }
 
+  /**
+   * @return The Identifier of the Branch Key.
+   */
   public String Identifier() {
     return this.Identifier;
   }
 
+  /**
+   * @return A commitment of the Original Mutable Properities of the Branch Key.
+   */
   public ByteBuffer Original() {
     return this.Original;
   }
 
+  /**
+   * @return A commitment of the Terminal Mutable Properities of the Branch Key.
+   */
   public ByteBuffer Terminal() {
     return this.Terminal;
   }
@@ -62,20 +86,44 @@ public class WriteMutatedVersionsInput {
   }
 
   public interface Builder {
+    /**
+     * @param items List of version (decrypt only) items of a Branch Key to overwrite conditionally.
+     */
     Builder items(List<EncryptedHierarchicalKey> items);
 
+    /**
+     * @return List of version (decrypt only) items of a Branch Key to overwrite conditionally.
+     */
     List<EncryptedHierarchicalKey> items();
 
+    /**
+     * @param Identifier The Identifier of the Branch Key.
+     */
     Builder Identifier(String Identifier);
 
+    /**
+     * @return The Identifier of the Branch Key.
+     */
     String Identifier();
 
+    /**
+     * @param Original A commitment of the Original Mutable Properities of the Branch Key.
+     */
     Builder Original(ByteBuffer Original);
 
+    /**
+     * @return A commitment of the Original Mutable Properities of the Branch Key.
+     */
     ByteBuffer Original();
 
+    /**
+     * @param Terminal A commitment of the Terminal Mutable Properities of the Branch Key.
+     */
     Builder Terminal(ByteBuffer Terminal);
 
+    /**
+     * @return A commitment of the Terminal Mutable Properities of the Branch Key.
+     */
     ByteBuffer Terminal();
 
     /**
@@ -177,6 +225,11 @@ public class WriteMutatedVersionsInput {
       if (Objects.isNull(this.Terminal())) {
         throw new IllegalArgumentException(
           "Missing value for required field `Terminal`"
+        );
+      }
+      if (Objects.isNull(this.CompleteMutation())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `CompleteMutation`"
         );
       }
       return new WriteMutatedVersionsInput(this);

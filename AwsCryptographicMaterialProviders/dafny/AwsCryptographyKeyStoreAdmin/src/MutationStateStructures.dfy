@@ -52,13 +52,13 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     input: Types.Mutations
   )
   {
-    && (input.finalKmsArn.Some? ==> KmsArn.ValidKmsArn?(input.finalKmsArn.value))
-    && (input.finalEncryptionContext.Some? ==>
-          && |input.finalEncryptionContext.value| > 0
-          &&  forall k <- input.finalEncryptionContext.value :: |k| > 0 && |input.finalEncryptionContext.value[k]| > 0
-                                                                && |Structure.SelectCustomEncryptionContextAsString(input.finalEncryptionContext.value)| == 0
-                                                                && input.finalEncryptionContext.value.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
-    && !(input.finalKmsArn.None? && input.finalEncryptionContext.None?)
+    && (input.terminalKmsArn.Some? ==> KmsArn.ValidKmsArn?(input.terminalKmsArn.value))
+    && (input.terminalEncryptionContext.Some? ==>
+          && |input.terminalEncryptionContext.value| > 0
+          &&  forall k <- input.terminalEncryptionContext.value :: |k| > 0 && |input.terminalEncryptionContext.value[k]| > 0
+                                                                && |Structure.SelectCustomEncryptionContextAsString(input.terminalEncryptionContext.value)| == 0
+                                                                && input.terminalEncryptionContext.value.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
+    && !(input.terminalKmsArn.None? && input.terminalEncryptionContext.None?)
   }
 
   /** An ordered collection of key, value that is the custom encryption context.*/
@@ -105,28 +105,28 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   //   returns (output: Result<MutableBranchKeyProperties, string>)
   //   requires ValidMutations?(input)
   // {
-  //   var kmsArn: string := input.finalKmsArn.UnwrapOr(originalKmsArn);
+  //   var kmsArn: string := input.terminalKmsArn.UnwrapOr(originalKmsArn);
   //   var customEncryptionContext: SortedCustomEncryptionContext := originalEncryptionContext;
-  //   if (input.finalEncryptionContext.Some?) {
-  //     customEncryptionContext :- CustomEncryptionContextToSortedCustomEncryptionContext(input.finalEncryptionContext.value);
+  //   if (input.terminalEncryptionContext.Some?) {
+  //     customEncryptionContext :- CustomEncryptionContextToSortedCustomEncryptionContext(input.terminalEncryptionContext.value);
   //   }
   //   return Success(MutableBranchKeyProperties(
   //                    kmsArn := kmsArn,
   //                    customEncryptionContext := customEncryptionContext));
   // }
 
-  method ItemProperitiesToMutableBranchKeyProperties(
-    activeFoo: KeyStoreTypes.EncryptionContextString,
-    activeKmsArn: string
-  )
-    returns (inferredOriginal: Result<MutableBranchKeyProperties, string>)
-  {
-    var sortedEC :- EncrytionContextStringToSortedCustomEncryptionContext(activeFoo);
-    inferredOriginal := Success(MutableBranchKeyProperties(
-                                  kmsArn := activeKmsArn,
-                                  customEncryptionContext := sortedEC));
-    return inferredOriginal;
-  }
+  // method ItemProperitiesToMutableBranchKeyProperties(
+  //   activeFoo: KeyStoreTypes.EncryptionContextString,
+  //   activeKmsArn: string
+  // )
+  //   returns (inferredOriginal: Result<MutableBranchKeyProperties, string>)
+  // {
+  //   var sortedEC :- EncrytionContextStringToSortedCustomEncryptionContext(activeFoo);
+  //   inferredOriginal := Success(MutableBranchKeyProperties(
+  //                                 kmsArn := activeKmsArn,
+  //                                 customEncryptionContext := sortedEC));
+  //   return inferredOriginal;
+  // }
 
   predicate isCustomECKey?(input: string): (output: bool)
     ensures && output == true ==> |input| > 14
@@ -169,43 +169,44 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   /** From the EC sent to KMS, extract only the custom EC, defix the keys,
      and return a seq<(key, value)> that has been
      binary sorted under UTF-8 encoding of the Keys. */
-  method EncrytionContextStringToSortedCustomEncryptionContext(
-    input: KeyStoreTypes.EncryptionContextString
-  )
-    returns (output: Result<SortedCustomEncryptionContext, string>)
-  {
-    var filteredKeys := Sets.Filter(input.Keys, isCustomECKey?);
-    var encodedDefixKeyToStringKeyMap: map<KeyStoreTypes.Utf8Bytes, string> := map[];
-    while filteredKeys != {}
-      decreases |filteredKeys|
-    {
-      var k: string :| k in filteredKeys;
-      filteredKeys := filteredKeys - {k};
-      assume {:axiom} |k| > 14; //Dafny needs help realizing Prefixed content can be defixed
-      assert |k| > 14;
-      var defixed := k[14..];
-      var encoded :- UTF8.Encode(defixed);
-      encodedDefixKeyToStringKeyMap := encodedDefixKeyToStringKeyMap[encoded := k];
-    }
-    var keys: seq<KeyStoreTypes.Utf8Bytes> := SetToOrderedSequence(encodedDefixKeyToStringKeyMap.Keys, UInt.UInt8Less);
-    var keyIndex: int := 0;
-    var sortedEC: seq<(KeyStoreTypes.Utf8Bytes, KeyStoreTypes.Utf8Bytes)> := [];
-    var encodedValue: KeyStoreTypes.Utf8Bytes := [];
-    var encodedKey: KeyStoreTypes.Utf8Bytes := [];
-    var k: string := "";
-    var v: string := "";
-    while keyIndex < |keys|
-    {
-      encodedKey := keys[keyIndex];
-      k := encodedDefixKeyToStringKeyMap[encodedKey];
-      v := Maps.Get(input, k).UnwrapOr("");
-      //TODO: prove k is in input
-      encodedValue :- UTF8.Encode(v);
-      sortedEC := sortedEC + [(keys[keyIndex], encodedValue)];
-      keyIndex := keyIndex + 1;
-    }
-    return Success(sortedEC);
-  }
+  // method EncrytionContextStringToSortedCustomEncryptionContext(
+  //   input: KeyStoreTypes.EncryptionContextString
+  // )
+  //   returns (output: Result<SortedCustomEncryptionContext, string>)
+  // {
+  //   return Failure("Implement me!"); 
+  //   // var filteredKeys := Sets.Filter(input.Keys, isCustomECKey?);
+  //   // var encodedDefixKeyToStringKeyMap: map<KeyStoreTypes.Utf8Bytes, string> := map[];
+  //   // while filteredKeys != {}
+  //   //   decreases |filteredKeys|
+  //   // {
+  //   //   var k: string :| k in filteredKeys;
+  //   //   filteredKeys := filteredKeys - {k};
+  //   //   assume {:axiom} |k| > 14; //Dafny needs help realizing Prefixed content can be defixed
+  //   //   assert |k| > 14;
+  //   //   var defixed := k[14..];
+  //   //   var encoded :- UTF8.Encode(defixed);
+  //   //   encodedDefixKeyToStringKeyMap := encodedDefixKeyToStringKeyMap[encoded := k];
+  //   // }
+  //   // var keys: seq<KeyStoreTypes.Utf8Bytes> := SetToOrderedSequence(encodedDefixKeyToStringKeyMap.Keys, UInt.UInt8Less);
+  //   // var keyIndex: int := 0;
+  //   // var sortedEC: seq<(KeyStoreTypes.Utf8Bytes, KeyStoreTypes.Utf8Bytes)> := [];
+  //   // var encodedValue: KeyStoreTypes.Utf8Bytes := [];
+  //   // var encodedKey: KeyStoreTypes.Utf8Bytes := [];
+  //   // var k: string := "";
+  //   // var v: string := "";
+  //   // while keyIndex < |keys|
+  //   // {
+  //   //   encodedKey := keys[keyIndex];
+  //   //   k := encodedDefixKeyToStringKeyMap[encodedKey];
+  //   //   v := Maps.Get(input, k).UnwrapOr("");
+  //   //   //TODO: prove k is in input
+  //   //   encodedValue :- UTF8.Encode(v);
+  //   //   sortedEC := sortedEC + [(keys[keyIndex], encodedValue)];
+  //   //   keyIndex := keyIndex + 1;
+  //   // }
+  //   // return Success(sortedEC);
+  // }
 
   method SortedCustomEncryptionContextToFoo(
     sortedEC: SortedCustomEncryptionContext

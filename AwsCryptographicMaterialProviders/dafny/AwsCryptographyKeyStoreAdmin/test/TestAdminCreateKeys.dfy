@@ -15,7 +15,7 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
   import ComAmazonawsKmsTypes
   import KMS = Com.Amazonaws.Kms
   import DDB = Com.Amazonaws.Dynamodb
-  import DefaultEncryptedKeyStore
+  import DefaultKeyStorageInterface
   import opened Wrappers
   import opened Fixtures
   import UUID
@@ -26,7 +26,7 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
   {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
-    // var storage := new DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore(
+    // var storage := new DefaultKeyStorageInterface.DynamoDBKeyStorageInterface(
     //   ddbTableName := branchKeyStoreName,
     //   ddbClient := ddbClient,
     //   logicalKeyStoreName := logicalKeyStoreName
@@ -88,20 +88,20 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
     //   ));
 
     // var encryptedActive :- expect keyStore.config.storage.GetActive(
-    //   KeyStoreTypes.GetActiveInput(
+    //   KeyStoreTypes.GetEncryptedActiveBranchKeyInput(
     //     Identifier := branchKeyId.branchKeyIdentifier
     //   )
     // );
 
     // var encryptedVersion :- expect keyStore.config.storage.GetVersion(
-    //   KeyStoreTypes.GetVersionInput(
+    //   KeyStoreTypes.GetEncryptedBranchKeyVersionInput(
     //     Identifier := branchKeyId.branchKeyIdentifier,
     //     Version := encryptedActive.Item.Type.ActiveHierarchicalSymmetricVersion
     //   )
     // );
 
     // var encryptedBeacon :- expect keyStore.config.storage.GetBeacon(
-    //   KeyStoreTypes.GetBeaconInput(
+    //   KeyStoreTypes.GetEncryptedBeaconKeyInput(
     //     Identifier := branchKeyId.branchKeyIdentifier
     //   )
     // );

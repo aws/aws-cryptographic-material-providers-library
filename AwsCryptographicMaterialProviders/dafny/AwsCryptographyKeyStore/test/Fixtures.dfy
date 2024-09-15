@@ -6,11 +6,13 @@ include "../src/Index.dfy"
 module Fixtures {
   import opened StandardLibrary.UInt
   import Types = AwsCryptographyKeyStoreTypes
-  import DDB = Types.ComAmazonawsDynamodbTypes
-  import DDBOperations = Com.Amazonaws.Dynamodb
-  import DefaultEncryptedKeyStore
+  import DDB = Com.Amazonaws.Dynamodb
+  import KMS = Com.Amazonaws.Kms
+  import DefaultKeyStorageInterface
   import UTF8
   import opened Wrappers
+  import KeyStore
+  import Structure
 
   method EncodeEncryptionContext(
     input: map<string,string>
@@ -109,28 +111,34 @@ module Fixtures {
   // const mutationLockBranchKeyId := "test-get-items-for-initialize-mutation"
 
   method {:opaque} defaultStorage(
-    nameonly tableName: string := branchKeyStoreName,
+    nameonly physicalName: string := branchKeyStoreName,
     nameonly logicalName: string := logicalKeyStoreName,
-    nameonly ddbClient?: Option<DDB.IDynamoDBClient> := None
+    nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None
   )
-    returns (output: Result<Types.IEncryptedKeyStore, DDB.Error>)
-    requires DDB.IsValid_TableName(tableName)
-    ensures output.Success?
-            ==> output.value.ValidState() && output.value.Modifies == {}
+    returns (output: Result<Types.IKeyStorageInterface, DDB.Types.Error>)
+    requires DDB.Types.IsValid_TableName(physicalName)
+    requires UTF8.IsASCIIString(physicalName) && UTF8.IsASCIIString(logicalName)
+    ensures output.Success? ==> output.value.ValidState()
   {
-    var ddbClient: DDB.IDynamoDBClient;  //:- DDBOperations.DynamoDBClient();
+    var ddbClient: DDB.Types.IDynamoDBClient;  //:- DDBOperations.DynamoDBClient();
     if (ddbClient?.None?) {
-      ddbClient :- DDBOperations.DynamoDBClient();
+      ddbClient :- DDB.DynamoDBClient();
     } else {
       ddbClient := ddbClient?.value;
     }
-    assume {:axiom} ddbClient.Modifies == {} && ddbClient.ValidState();
-    var underTest := new DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore(
-      ddbTableName := tableName,
+    // The next two assumes are tragic
+    assume {:axiom} UTF8.Encode(physicalName).Success? && UTF8.EncodeAscii(physicalName) == UTF8.Encode(physicalName).value;
+    assume {:axiom} UTF8.Encode(logicalName).Success? && UTF8.EncodeAscii(logicalName) == UTF8.Encode(logicalName).value;
+    assume {:axiom} ddbClient.ValidState(); // ddbClient.Modifies == {} &&
+    var underTest := new DefaultKeyStorageInterface.DynamoDBKeyStorageInterface(
+      ddbTableName := physicalName,
       ddbClient := ddbClient,
-      logicalKeyStoreName := logicalName);
+      logicalKeyStoreName := logicalName,
+      ddbTableNameUtf8 := UTF8.EncodeAscii(physicalName),
+      logicalKeyStoreNameUtf8 := UTF8.EncodeAscii(logicalName)
+    );
     // We may not need this, but **Oh My God** does it make verification go faster
-    assume {:axiom} underTest.Modifies == {} && ddbClient.Modifies == {} && ddbClient.ValidState() && underTest.ValidState();
+    // assume {:axiom} underTest.Modifies == {} && ddbClient.Modifies == {} && ddbClient.ValidState() && underTest.ValidState();
     output := Success(underTest);
   }
 
@@ -141,32 +149,118 @@ module Fixtures {
 
   method getItems(
     nameonly id: string,
-    nameonly version: string,
-    nameonly underTest: Types.IEncryptedKeyStore
+    // nameonly version: string,
+    nameonly underTest: Types.IKeyStorageInterface
   )
     returns (output: Result<allThree, Types.Error>)
     requires underTest.ValidState()
     ensures underTest.ValidState()
     modifies underTest.Modifies
   {
-    var activeInput := Types.GetActiveInput(
+    var activeInput := Types.GetEncryptedActiveBranchKeyInput(
       Identifier := id
     );
-    var active? :- expect underTest.GetActive(activeInput);
+    var active? :- underTest.GetEncryptedActiveBranchKey(activeInput);
     var active := active?.Item;
 
-    var beaconInput := Types.GetBeaconInput(
+    var beaconInput := Types.GetEncryptedBeaconKeyInput(
       Identifier := id
     );
-    var beacon? :- expect underTest.GetBeacon(beaconInput);
+    var beacon? :- underTest.GetEncryptedBeaconKey(beaconInput);
     var beacon := beacon?.Item;
 
-    var decryptInput := Types.GetVersionInput(
+    expect active.Type.ActiveHierarchicalSymmetricVersion?;
+    var decryptInput := Types.GetEncryptedBranchKeyVersionInput(
       Identifier := id,
-      Version := version
+      Version := active.Type.ActiveHierarchicalSymmetricVersion.Version
     );
-    var decrypt? :- expect underTest.GetVersion(decryptInput);
+    var decrypt? :- underTest.GetEncryptedBranchKeyVersion(decryptInput);
     var decrypt := decrypt?.Item;
     output := Success(allThree(active, beacon, decrypt));
+  }
+
+  method {:opaque} CreateHappyCaseId(
+    nameonly id: string,
+    nameonly kmsId: string := keyArn,
+    nameonly physicalName: string := branchKeyStoreName,
+    nameonly logicalName: string := logicalKeyStoreName,
+    nameonly versionCount: nat := 3
+  )
+    requires DDB.Types.IsValid_TableName(physicalName)
+    requires KMS.Types.IsValid_KeyIdType(kmsId)
+    requires 0 <= versionCount <= 5
+  {
+    var keyStore: Types.IKeyStoreClient;
+    var ddbClient: DDB.Types.IDynamoDBClient;
+    ddbClient :- expect DDB.DynamoDBClient();
+    var kmsClient: KMS.Types.IKMSClient;
+    kmsClient :- expect KMS.KMSClient();
+
+    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(kmsId);
+    var keyStoreConfig := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalName,
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := physicalName,
+            ddbClient := Some(ddbClient)
+          ))),
+      keyManagement := Some(
+        Types.kms(
+          Types.AwsKms(
+            kmsClient := Some(kmsClient)
+          )))
+    );
+    // We may not need this, but **Oh My God** does it make verification go faster
+    // assume {:axiom} kmsClient.Modifies == {} && ddbClient.Modifies == {} && ddbClient.ValidState() && kmsClient.ValidState();
+    keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+    var input := Types.CreateKeyInput(
+      branchKeyIdentifier := Some(id),
+      encryptionContext := Some(map[UTF8.EncodeAscii("Robbie") := UTF8.EncodeAscii("Is a dog.")])
+    );
+    var branchKeyId :- expect keyStore.CreateKey(input);
+
+    // If you need a new version
+    var inputV := Types.VersionKeyInput(
+      branchKeyIdentifier := id
+    );
+    var versionIndex := 0;
+    while versionIndex < versionCount {
+      var _ :- expect keyStore.VersionKey(inputV);
+      versionIndex := versionIndex + 1;
+    }
+  }
+
+  method GetItemFromDDB(
+    nameonly id: string,
+    nameonly typeStr: string,
+    nameonly physicalName: string := branchKeyStoreName,
+    nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None
+  )
+    returns (output: Result<DDB.Types.AttributeMap, string>)
+    requires DDB.Types.IsValid_TableName(physicalName)
+    requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
+    modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
+  {
+    var ddbClient: DDB.Types.IDynamoDBClient;
+    if (ddbClient?.None?) {
+      ddbClient :- expect DDB.DynamoDBClient();
+    } else {
+      ddbClient := ddbClient?.value;
+    }
+    var input := DDB.Types.GetItemInput(
+      TableName := physicalName,
+      Key := map[
+        Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.Types.AttributeValue.S(id),
+        Structure.TYPE_FIELD := DDB.Types.AttributeValue.S(typeStr)
+      ],
+      ConsistentRead := Some(true));
+    var result? := ddbClient.GetItem(input);
+    if (result?.Success? && result?.value.Item.Some?) {
+      return Success(result?.value.Item.value);
+    }
+    return Failure("Failed to GetItem. ID: " + id + " type: " + typeStr + " .");
   }
 }

@@ -5,60 +5,72 @@ include "../Fixtures.dfy"
 include "../CleanupItems.dfy"
 include "TestGetItemsForInitializeMutation.dfy"
 
-/** Tests WriteItemsForInitializeMutation and WriteCompleteMutation */
+/** Tests WriteInitializeMutation and WriteCompleteMutation */
 module {:options "/functionSyntax:4"} TestWriteAndDeleteMutationLock {
   import UInt = Fixtures.UInt
   import Types = Fixtures.Types
   import UTF8 = Fixtures.UTF8
   import opened Wrappers
-  import DefaultEncryptedKeyStore
-  import DDB = Types.ComAmazonawsDynamodbTypes
+  import DefaultKeyStorageInterface
   import Fixtures
   import Structure
-  import DDBOperations = Com.Amazonaws.Dynamodb
-  import KMSOperations = Com.Amazonaws.Kms
+  import DDB = Com.Amazonaws.Dynamodb
+  import KMS = Com.Amazonaws.Kms
   import KeyStore
   import TestGetItemsForInitializeMutation
   import Time
   import CleanupItems
+  import UUID
 
-  const ddbTableName: DDB.TableName := Fixtures.branchKeyStoreName
+  const ddbTableName: DDB.Types.TableName := Fixtures.branchKeyStoreName
   const logicalKeyStoreName := Fixtures.logicalKeyStoreName
-  // The Key Store will consider this mutation lock invalid
-  // The Storage layer will not.
-  const alreadyLocked := TestGetItemsForInitializeMutation.mLockedId //"test-get-items-for-initialize-mutation"
   const happyCaseId := "test-write-and-delete-m-lock"
-  const happyCaseVersion := "ced9948e-fd0c-46e9-98a0-e774649e3844"
-  // const happyCaseVersion := "b5cb82e2-87cc-4fdf-9b21-99da3511f20f"
+  const original := UTF8.EncodeAscii("storage-does-not-validate-original-only-that-is-binary")
+  const terminal := UTF8.EncodeAscii("storage-does-not-validate-terminal-only-that-is-binary")
+  const lock_uuid := "not-a-real-uuid-but-storage-does-not-care"
 
   /** Happy Case :: No Lock exists. Decryt Only, Active, Beacon, & lock are "storage-valid".*/
   /** Lock is successfully written and then removed */
   method {:test} TestHappyCase()
   {
     print " running";
-    var ddbClient :- expect DDBOperations.DynamoDBClient();
-    var underTest :- expect Fixtures.defaultStorage(ddbClient?:=Some(ddbClient));
-    var allThree :- expect Fixtures.getItems(id:=happyCaseId, version:=happyCaseVersion, underTest:=underTest);
+
+    var uuid :- expect UUID.GenerateUUID();
+    var testId := happyCaseId + "-" + uuid;
+    print "\nTestWriteAndDeleteMutationLock :: TestHappyCase :: testId: " + testId + "\n";
+    Fixtures.CreateHappyCaseId(id:=testId, versionCount:=0);
+    print "\nTestWriteAndDeleteMutationLock :: TestHappyCase :: created Test Items: " + testId + "\n";
+    var ddbClient :- expect DDB.DynamoDBClient();
+    var underTest :- expect Fixtures.defaultStorage();
+    assume {:axiom} underTest.Modifies == {}; // Turns off verification
+
+    var allThree? := Fixtures.getItems(id:=testId, underTest:=underTest);
+    var allThree: Fixtures.allThree;
+    if (allThree?.Success?) {
+      allThree := allThree?.value;
+    } else {
+      expect false, "Could not retrieve testId";
+    }
+    print "\nTestWriteAndDeleteMutationLock :: TestHappyCase :: retrieved Test Items: " + testId + "\n";
 
     // Because the new Version is written with "BRANCH_KEY_NOT_EXIST // The new Decryt Only MUST not exist"
     // We need to create a new Version
     // Or... we can delete the current one we just read... and trust that we will recreate it!
+    var decryptItem := allThree.decrypt;
+    expect Structure.TYPE_FIELD in decryptItem.EncryptionContext;
     var cleanedVersion? :- expect CleanupItems.DeleteTypeWithFailure(
-      happyCaseId, Structure.BRANCH_KEY_TYPE_PREFIX + happyCaseVersion, ddbClient);
-
-    // If you ever need to remove the lock manually
-    // var cleanedVersion? :- expect CleanupItems.DeleteTypeWithFailure(happyCaseId, "MUTATION_LOCK", ddbClient);
+      testId, decryptItem.EncryptionContext[Structure.TYPE_FIELD], ddbClient);
 
     var timestamp :- expect Time.GetCurrentTimeStamp();
     var mLock := Types.MutationLock(
-      Identifier := happyCaseId,
+      Identifier := testId,
       CreateTime := timestamp,
-      UUID := "not-a-real-uuid-but-storage-does-not-care",
-      Original := UTF8.EncodeAscii("storage-does-not-validate-original-only-that-is-binary"),
-      Terminal := UTF8.EncodeAscii("storage-does-not-validate-terminal-only-that-is-binary")
+      UUID := lock_uuid,
+      Original := original,
+      Terminal := terminal
     );
 
-    var inputInit := Types.WriteItemsForInitializeMutationInput(
+    var inputInit := Types.WriteInitializeMutationInput(
       active := allThree.active,
       oldActive := allThree.active,
       version := allThree.decrypt,
@@ -66,19 +78,41 @@ module {:options "/functionSyntax:4"} TestWriteAndDeleteMutationLock {
       mutationLock := mLock
     );
 
-    var writeInit :- expect underTest.WriteItemsForInitializeMutation(inputInit);
+    var writeInit :- expect underTest.WriteInitializeMutation(inputInit);
+
+    var actualLock :- expect Fixtures.GetItemFromDDB(id:=testId, typeStr:=Structure.MUTATION_LOCK_TYPE, ddbClient?:=Some(ddbClient));
+    expect Structure.M_LOCK_ORIGINAL in actualLock;
+    expect actualLock[Structure.M_LOCK_ORIGINAL] == DDB.Types.AttributeValue.B(original);
+    expect Structure.M_LOCK_TERMINAL in actualLock;
+    expect actualLock[Structure.M_LOCK_TERMINAL] == DDB.Types.AttributeValue.B(terminal);
+    expect Structure.M_LOCK_UUID in actualLock;
+    expect actualLock[Structure.M_LOCK_UUID] == DDB.Types.AttributeValue.S(lock_uuid);
+    expect Structure.KEY_CREATE_TIME in actualLock;
+    expect actualLock[Structure.KEY_CREATE_TIME] == DDB.Types.AttributeValue.S(timestamp);
+    // Type and Identifier of M_LOCK are asserted by GetItemFromDDB
 
     print "\nTestWriteAndDeleteMutationLock :: TestHappyCase :: WriteInit PASS\n";
 
-    var inputComplete := Types.WriteCompleteMutationInput(
-      Identifier := happyCaseId,
-      Original := mLock.Original,
-      Terminal := mLock.Terminal
+    var writeCompl := Types.WriteMutatedVersionsInput(
+      items := [],
+      Identifier := testId,
+      Original := original,
+      Terminal := terminal,
+      CompleteMutation := true
     );
 
-    var writeCompl :- expect underTest.WriteCompleteMutation(inputComplete);
+    var output :- expect underTest.WriteMutatedVersions(writeCompl);
 
-    print "\nTestWriteAndDeleteMutationLock :: TestHappyCase :: WriteComplete PASS\n";
+    var noLock? := Fixtures.GetItemFromDDB(id:=testId, typeStr:=Structure.MUTATION_LOCK_TYPE, ddbClient?:=Some(ddbClient));
+    expect noLock?.Failure?, "Mutation Lock was not deleted!!";
+
+    print "\nTestWriteAndDeleteMutationLock :: TestHappyCase :: WriteCompl PASS\n";
+    // Clean up.
+    var _ := CleanupItems.DeleteTypeWithFailure(testId, decryptItem.EncryptionContext[Structure.TYPE_FIELD], ddbClient);
+    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_ACTIVE_TYPE, ddbClient);
+    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BEACON_KEY_TYPE_VALUE, ddbClient);
+    // var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.MUTATION_LOCK_TYPE, ddbClient);
+
     // This last print makes the Dafny Test runner look normal for this module
     print "TestWriteAndDeleteMutationLock.TestHappyCase: ";
   }

@@ -16,7 +16,7 @@ module {:options "/functionSyntax:4" } TestCreateKeys {
   import UTF8
   import CleanupItems
   import Structure
-  import DefaultEncryptedKeyStore
+  import DefaultKeyStorageInterface
   import KmsArn
   import UUID
   import AwsArnParsing
@@ -110,21 +110,21 @@ module {:options "/functionSyntax:4" } TestCreateKeys {
         branchKeyVersion := branchKeyVersion
       ));
 
-    var encryptedActive :- expect keyStore.config.storage.GetActive(
-      Types.GetActiveInput(
+    var encryptedActive :- expect keyStore.config.storage.GetEncryptedActiveBranchKey(
+      Types.GetEncryptedActiveBranchKeyInput(
         Identifier := branchKeyId.branchKeyIdentifier
       )
     );
 
-    var encryptedVersion :- expect keyStore.config.storage.GetVersion(
-      Types.GetVersionInput(
+    var encryptedVersion :- expect keyStore.config.storage.GetEncryptedBranchKeyVersion(
+      Types.GetEncryptedBranchKeyVersionInput(
         Identifier := branchKeyId.branchKeyIdentifier,
-        Version := encryptedActive.Item.Type.ActiveHierarchicalSymmetricVersion
+        Version := encryptedActive.Item.Type.ActiveHierarchicalSymmetricVersion.Version
       )
     );
 
-    var encryptedBeacon :- expect keyStore.config.storage.GetBeacon(
-      Types.GetBeaconInput(
+    var encryptedBeacon :- expect keyStore.config.storage.GetEncryptedBeaconKey(
+      Types.GetEncryptedBeaconKeyInput(
         Identifier := branchKeyId.branchKeyIdentifier
       )
     );
@@ -319,15 +319,19 @@ module {:options "/functionSyntax:4" } TestCreateKeys {
       keyArn,
       customEC
     );
+    var ddbTableNameUtf8 :- expect UTF8.Encode(branchKeyStoreName);
+    var logicalKeyStoreNameUtf8 :- expect UTF8.Encode("");
 
-    var storage := new DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore(
+    var storage := new DefaultKeyStorageInterface.DynamoDBKeyStorageInterface(
       ddbTableName := branchKeyStoreName,
       ddbClient := ddbClient,
-      logicalKeyStoreName := ""
+      logicalKeyStoreName := "",
+      ddbTableNameUtf8 := ddbTableNameUtf8,
+      logicalKeyStoreNameUtf8 := logicalKeyStoreNameUtf8
     );
 
-    var output := storage.WriteNewKey(
-      Types.WriteNewKeyInput(
+    var output := storage.WriteNewEncryptedBranchKey(
+      Types.WriteNewEncryptedBranchKeyInput(
         Version := Structure.ConstructEncryptedHierarchicalKey(encryptionContext, [1]),
         Active := Structure.ConstructEncryptedHierarchicalKey(Structure.ActiveBranchKeyEncryptionContext(encryptionContext), [2]),
         Beacon := Structure.ConstructEncryptedHierarchicalKey(Structure.BeaconKeyEncryptionContext(encryptionContext), [2])
@@ -349,7 +353,6 @@ module {:options "/functionSyntax:4" } TestCreateKeys {
     expect AwsArnParsing.ParseAwsKmsArn(keyArn).Success?;
     expect KmsArn.ValidKmsArn?(keyArn);
 
-
     var encryptionContext := Structure.DecryptOnlyBranchKeyEncryptionContext(
       branchKeyId,
       "!= branchKeyIdActiveVersion",
@@ -358,15 +361,19 @@ module {:options "/functionSyntax:4" } TestCreateKeys {
       keyArn,
       customEC
     );
+    var ddbTableNameUtf8 :- expect UTF8.Encode(branchKeyStoreName);
+    var logicalKeyStoreNameUtf8 :- expect UTF8.Encode("");
 
-    var storage := new DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore(
+    var storage := new DefaultKeyStorageInterface.DynamoDBKeyStorageInterface(
       ddbTableName := branchKeyStoreName,
       ddbClient := ddbClient,
-      logicalKeyStoreName := ""
+      logicalKeyStoreName := "",
+      ddbTableNameUtf8 := ddbTableNameUtf8,
+      logicalKeyStoreNameUtf8 := logicalKeyStoreNameUtf8
     );
 
-    var output := storage.WriteNewKey(
-      Types.WriteNewKeyInput(
+    var output := storage.WriteNewEncryptedBranchKey(
+      Types.WriteNewEncryptedBranchKeyInput(
         Version := Structure.ConstructEncryptedHierarchicalKey(encryptionContext, [1]),
         Active := Structure.ConstructEncryptedHierarchicalKey(Structure.ActiveBranchKeyEncryptionContext(encryptionContext), [2]),
         Beacon := Structure.ConstructEncryptedHierarchicalKey(Structure.BeaconKeyEncryptionContext(encryptionContext), [2])

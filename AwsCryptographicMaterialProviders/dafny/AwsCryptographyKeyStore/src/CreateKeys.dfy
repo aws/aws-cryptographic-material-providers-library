@@ -3,7 +3,7 @@
 
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "Structure.dfy"
-include "DefaultEncryptedKeyStore.dfy"
+include "DefaultKeyStorageInterface.dfy"
 include "KMSKeystoreOperations.dfy"
 include "ErrorMessages.dfy"
 include "../../AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
@@ -13,7 +13,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
   import opened StandardLibrary
   import opened Wrappers
   import Structure
-  import DefaultEncryptedKeyStore
+  import DefaultKeyStorageInterface
   import KMSKeystoreOperations
   import ErrorMessages = KeyStoreErrorMessages
 
@@ -40,7 +40,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient,
-    storage: Types.IEncryptedKeyStore
+    storage: Types.IKeyStorageInterface
   )
     returns (output: Result<Types.CreateKeyOutput, Types.Error>)
     requires 0 < |branchKeyIdentifier|
@@ -86,17 +86,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
               //= type=implication
               //# Any additionally attributes in the EncryptionContext
-              //# of the [encrypted hierarchical key](./key-store/encrypted-key-store.md#encryptedhierarchicalkey)
-              //# MUST be added to the encryption context.
-              && (forall k <- customEncryptionContext
-                    ::
-                      && Structure.ENCRYPTION_CONTEXT_PREFIX + k in decryptOnlyEncryptionContext
-                      && decryptOnlyEncryptionContext[Structure.ENCRYPTION_CONTEXT_PREFIX + k] == customEncryptionContext[k])
-
-              //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
-              //= type=implication
-              //# Any additionally attributes in the EncryptionContext
-              //# of the [encrypted hierarchical key](./key-store/encrypted-key-store.md#encryptedhierarchicalkey)
+              //# of the [encrypted hierarchical key](./key-store/key-storage.md#encryptedhierarchicalkey)
               //# MUST be added to the encryption context.
               && (forall k <- customEncryptionContext
                     ::
@@ -149,9 +139,9 @@ module {:options "/functionSyntax:4" } CreateKeys {
               && beaconKmsRequest.output.Success?
               && beaconKmsRequest.output.value.CiphertextBlob.Some?
 
-              && |storage.History.WriteNewKey| == |old(storage.History.WriteNewKey)| + 1
+              && |storage.History.WriteNewEncryptedBranchKey| == |old(storage.History.WriteNewEncryptedBranchKey)| + 1
 
-              && Seq.Last(storage.History.WriteNewKey).input.Active
+              && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Active
                  == Structure.ConstructEncryptedHierarchicalKey(
                       Seq.Last(kmsClient.History.ReEncrypt).input.DestinationEncryptionContext.value,
                       //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation
@@ -162,7 +152,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
                       Seq.Last(kmsClient.History.ReEncrypt).output.value.CiphertextBlob.value
                     )
 
-              && Seq.Last(storage.History.WriteNewKey).input.Version
+              && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Version
                  == Structure.ConstructEncryptedHierarchicalKey(
                       Seq.Last(Seq.DropLast(kmsClient.History.GenerateDataKeyWithoutPlaintext)).input.EncryptionContext.value,
                       //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation
@@ -173,7 +163,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
                       Seq.Last(Seq.DropLast(kmsClient.History.GenerateDataKeyWithoutPlaintext)).output.value.CiphertextBlob.value
                     )
 
-              && Seq.Last(storage.History.WriteNewKey).input.Beacon
+              && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Beacon
                  == Structure.ConstructEncryptedHierarchicalKey(
                       Seq.Last(kmsClient.History.GenerateDataKeyWithoutPlaintext).input.EncryptionContext.value,
                       //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
@@ -183,13 +173,13 @@ module {:options "/functionSyntax:4" } CreateKeys {
                       Seq.Last(kmsClient.History.GenerateDataKeyWithoutPlaintext).output.value.CiphertextBlob.value
                     )
 
-              && Seq.Last(storage.History.WriteNewKey).output.Success?
+              && Seq.Last(storage.History.WriteNewEncryptedBranchKey).output.Success?
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
     //= type=implication
     //# If creation of the keys are successful,
-    //# then the key store MUST call the configured [EncryptedKeyStore interface's](./key-store/encrypted-key-store.md#interface)
-    //# [WriteNewKey](./key-store/encrypted-key-store.md#writenewkeytostore) with these 3 [EncryptedHierarchicalKeys](./key-store/encrypted-key-store.md#encryptedhierarchicalkey).
+    //# then the key store MUST call the configured [KeyStorage interface's](./key-store/key-storage.md#interface)
+    //# [WriteNewEncryptedBranchKey](./key-store/key-storage.md#writenewencryptedbranchkey) with these 3 [EncryptedHierarchicalKeys](./key-store/key-storage.md#encryptedhierarchicalkey).
     ensures
       && output.Success?
       && |kmsClient.History.GenerateDataKeyWithoutPlaintext| == |old(kmsClient.History.GenerateDataKeyWithoutPlaintext)| + 2
@@ -198,7 +188,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
       && Seq.Last(kmsClient.History.GenerateDataKeyWithoutPlaintext).output.Success?
       && Seq.Last(kmsClient.History.ReEncrypt).output.Success?
       ==>
-        && |storage.History.WriteNewKey| == |old(storage.History.WriteNewKey)| + 1
+        && |storage.History.WriteNewEncryptedBranchKey| == |old(storage.History.WriteNewEncryptedBranchKey)| + 1
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
     //= type=implication
@@ -206,8 +196,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
     //# the operation MUST return the branch-key-id that maps to both
     //# the branch key and the beacon key.
     ensures
-      && |storage.History.WriteNewKey| == |old(storage.History.WriteNewKey)| + 1
-      && Seq.Last(storage.History.WriteNewKey).output.Success?
+      && |storage.History.WriteNewEncryptedBranchKey| == |old(storage.History.WriteNewEncryptedBranchKey)| + 1
+      && Seq.Last(storage.History.WriteNewEncryptedBranchKey).output.Success?
       ==>
         && output.Success?
         && output.value.branchKeyIdentifier == branchKeyIdentifier
@@ -230,8 +220,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
           && Seq.Last(kmsClient.History.GenerateDataKeyWithoutPlaintext).output.Failure?
           ==> output.Failure?)
 
-      || (&& |storage.History.WriteNewKey| == |old(storage.History.WriteNewKey)| + 1
-          && Seq.Last(storage.History.WriteNewKey).output.Failure?
+      || (&& |storage.History.WriteNewEncryptedBranchKey| == |old(storage.History.WriteNewEncryptedBranchKey)| + 1
+          && Seq.Last(storage.History.WriteNewEncryptedBranchKey).output.Failure?
           ==> output.Failure?)
 
   {
@@ -271,8 +261,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
       kmsClient
     );
 
-    var _ :- storage.WriteNewKey(
-      Types.WriteNewKeyInput(
+    var _ :- storage.WriteNewEncryptedBranchKey(
+      Types.WriteNewEncryptedBranchKeyInput(
         Active := Structure.ConstructEncryptedHierarchicalKey(
           activeEncryptionContext,
           wrappedActiveBranchKey.CiphertextBlob.value
@@ -302,15 +292,15 @@ module {:options "/functionSyntax:4" } CreateKeys {
     kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient,
-    storage: Types.IEncryptedKeyStore
+    storage: Types.IKeyStorageInterface
   )
     returns (output: Result<Types.VersionKeyOutput, Types.Error>)
     requires 0 < |input.branchKeyIdentifier| && 0 < |branchKeyVersion|
     requires storage.Modifies !! kmsClient.Modifies
     requires KMSKeystoreOperations.HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
-    requires storage is DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore
+    requires storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
              ==>
-               logicalKeyStoreName == (storage as DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore).logicalKeyStoreName
+               logicalKeyStoreName == (storage as DefaultKeyStorageInterface.DynamoDBKeyStorageInterface).logicalKeyStoreName
 
     requires kmsClient.ValidState() && storage.ValidState()
     modifies storage.Modifies, kmsClient.Modifies
@@ -319,17 +309,17 @@ module {:options "/functionSyntax:4" } CreateKeys {
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
     //= type=implication
     //# VersionKey MUST first get the active version for the branch key from the keystore
-    //# by calling the configured [EncryptedKeyStore interface's](./key-store/encrypted-key-store.md#interface)
-    //# [GetActive](./key-store/encrypted-key-store.md##getencryptedactivebranchkey)
+    //# by calling the configured [KeyStorage interface's](./key-store/key-storage.md#interface)
+    //# [GetEncryptedActiveBranchKey](./key-store/key-storage.md#getencryptedactivebranchkey)
     //# using the `branch-key-id`.
     ensures
-      && |storage.History.GetActive| == |old(storage.History.GetActive)| + 1
-      && Seq.Last(storage.History.GetActive).input.Identifier == input.branchKeyIdentifier
+      && |storage.History.GetEncryptedActiveBranchKey| == |old(storage.History.GetEncryptedActiveBranchKey)| + 1
+      && Seq.Last(storage.History.GetEncryptedActiveBranchKey).input.Identifier == input.branchKeyIdentifier
 
     ensures output.Success?
             ==>
-              && Seq.Last(storage.History.GetActive).output.Success?
-              && var oldActiveItem := Seq.Last(storage.History.GetActive).output.value.Item;
+              && Seq.Last(storage.History.GetEncryptedActiveBranchKey).output.Success?
+              && var oldActiveItem := Seq.Last(storage.History.GetEncryptedActiveBranchKey).output.value.Item;
 
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
@@ -349,7 +339,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
               //= type=implication
-              //# The `KmsArn` of the [EncryptedHierarchicalKey](./key-store/encrypted-key-store.md##encryptedhierarchicalkey)
+              //# The `KmsArn` of the [EncryptedHierarchicalKey](./key-store/key-storage.md#encryptedhierarchicalkey)
               //# MUST be [compatible with](#aws-key-arn-compatibility)
               //# the configured `KMS ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
               && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, oldActiveItem.EncryptionContext)
@@ -357,7 +347,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
               //= type=implication
-              //# The [EncryptedHierarchicalKey](./key-store/encrypted-key-store.md##encryptedhierarchicalkey)
+              //# The [EncryptedHierarchicalKey](./key-store/key-storage.md#encryptedhierarchicalkey)
               //# MUST be authenticated according to [authenticating a keystore item](#authenticating-an-encryptedhierarchicalkey).
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-an-encryptedhierarchicalkey
@@ -423,21 +413,21 @@ module {:options "/functionSyntax:4" } CreateKeys {
                    decryptOnlyEncryptionContext
                  )
 
-              && |storage.History.WriteNewVersion| == |old(storage.History.WriteNewVersion)| + 1
+              && |storage.History.WriteNewEncryptedBranchKeyVersion| == |old(storage.History.WriteNewEncryptedBranchKeyVersion)| + 1
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
               //= type=implication
               //# If creation of the keys are successful,
-              //# then the key store MUST call the configured [EncryptedKeyStore interface's](./key-store/encrypted-key-store.md#interface)
-              //# [WriteNewVersion](./key-store/encrypted-key-store.md##writenewbranchkeyversiontokeystore)
-              //# with these 2 [EncryptedHierarchicalKeys](./key-store/encrypted-key-store.md##encryptedhierarchicalkey).
-              && Seq.Last(storage.History.WriteNewVersion).input.Active
+              //# then the key store MUST call the configured [KeyStorage interface's](./key-store/key-storage.md#interface)
+              //# [WriteNewEncryptedBranchKeyVersion](./key-store/key-storage.md##writenewencryptedbranchkeyversion)
+              //# with these 2 [EncryptedHierarchicalKeys](./key-store/key-storage.md##encryptedhierarchicalkey).
+              && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).input.Active
                  == Structure.ConstructEncryptedHierarchicalKey(
                       Seq.Last(kmsClient.History.ReEncrypt).input.DestinationEncryptionContext.value,
                       Seq.Last(kmsClient.History.ReEncrypt).output.value.CiphertextBlob.value
                     )
 
-              && Seq.Last(storage.History.WriteNewVersion).input.Version
+              && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).input.Version
                  == Structure.ConstructEncryptedHierarchicalKey(
                       Seq.Last(kmsClient.History.GenerateDataKeyWithoutPlaintext).input.EncryptionContext.value,
                       Seq.Last(kmsClient.History.GenerateDataKeyWithoutPlaintext).output.value.CiphertextBlob.value
@@ -447,15 +437,15 @@ module {:options "/functionSyntax:4" } CreateKeys {
               //= type=implication
               //# The `kms-arn` stored in the table MUST NOT change as a result of this operation,
               //# even if the KeyStore is configured with a `KMS MRKey ARN` that does not exactly match the stored ARN.
-              && Seq.Last(storage.History.WriteNewVersion).input.Active.KmsArn == oldActiveItem.KmsArn
-              && Seq.Last(storage.History.WriteNewVersion).input.Version.KmsArn == oldActiveItem.KmsArn
+              && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).input.Active.KmsArn == oldActiveItem.KmsArn
+              && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).input.Version.KmsArn == oldActiveItem.KmsArn
 
-              && Seq.Last(storage.History.WriteNewVersion).output.Success?
+              && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).output.Success?
 
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
               //= type=implication
-              //# If the [WriteNewVersion](./key-store/encrypted-key-store.md##writenewbranchkeyversiontokeystore) is successful,
+              //# If the [WriteNewEncryptedBranchKeyVersion](./key-store/key-storage.md#writenewencryptedbranchkeyversion) is successful,
               //# this operation MUST return a successful response containing no additional data.
               && output == Success(Types.VersionKeyOutput)
 
@@ -478,25 +468,25 @@ module {:options "/functionSyntax:4" } CreateKeys {
           && Seq.Last(kmsClient.History.ReEncrypt).output.Failure?
           ==> output.Failure?)
 
-      || (&& |storage.History.GetActive| == |old(storage.History.GetActive)| + 1
-          && Seq.Last(storage.History.WriteNewVersion).output.Failure?
+      || (&& |storage.History.GetEncryptedActiveBranchKey| == |old(storage.History.GetEncryptedActiveBranchKey)| + 1
+          && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).output.Failure?
           ==> output.Failure?)
 
-      || (&& |storage.History.WriteNewVersion| == |old(storage.History.WriteNewVersion)| + 1
-          && Seq.Last(storage.History.WriteNewVersion).output.Failure?
+      || (&& |storage.History.WriteNewEncryptedBranchKeyVersion| == |old(storage.History.WriteNewEncryptedBranchKeyVersion)| + 1
+          && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).output.Failure?
           ==> output.Failure?)
 
   {
 
-    var GetActiveOutput :- storage.GetActive(
-      Types.GetActiveInput(
+    var GetEncryptedActiveBranchKeyOutput :- storage.GetEncryptedActiveBranchKey(
+      Types.GetEncryptedActiveBranchKeyInput(
         Identifier := input.branchKeyIdentifier
       )
     );
-    var oldActiveItem := GetActiveOutput.Item;
+    var oldActiveItem := GetEncryptedActiveBranchKeyOutput.Item;
 
     :- Need(
-      || storage is DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore
+      || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
            && oldActiveItem.Identifier == input.branchKeyIdentifier
            && Structure.ActiveHierarchicalSymmetricKey?(oldActiveItem)
@@ -546,8 +536,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
       kmsClient
     );
 
-    var _ :- storage.WriteNewVersion(
-      Types.WriteNewVersionInput(
+    var _ :- storage.WriteNewEncryptedBranchKeyVersion(
+      Types.WriteNewEncryptedBranchKeyVersionInput(
         Active :=  Structure.ConstructEncryptedHierarchicalKey(
           activeEncryptionContext,
           wrappedActiveBranchKey.CiphertextBlob.value
@@ -562,6 +552,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
     output := Success(Types.VersionKeyOutput());
   }
+
 
   twostate predicate WrappedBranchKeyCreation?(
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation

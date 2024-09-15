@@ -18,7 +18,7 @@ module TestVersionKey {
   import opened Fixtures
   import CleanupItems
   import Structure
-  import DefaultEncryptedKeyStore
+  import DefaultKeyStorageInterface
   import KmsArn
 
   import ComAmazonawsDynamodbTypes
@@ -343,16 +343,20 @@ module TestVersionKey {
     var Version := Structure.ConstructEncryptedHierarchicalKey(encryptionContext, [1]);
     var Active := Structure.ConstructEncryptedHierarchicalKey(Structure.ActiveBranchKeyEncryptionContext(encryptionContext), [2]);
     expect Active.Identifier == Version.Identifier;
-    expect Active.Type.ActiveHierarchicalSymmetricVersion == Version.Type.HierarchicalSymmetricVersion;
+    expect Active.Type.ActiveHierarchicalSymmetricVersion.Version == Version.Type.HierarchicalSymmetricVersion.Version;
+    var ddbTableNameUtf8 :- expect UTF8.Encode(branchKeyStoreName);
+    var logicalKeyStoreNameUtf8 :- expect UTF8.Encode("");
 
-    var storage := new DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore(
+    var storage := new DefaultKeyStorageInterface.DynamoDBKeyStorageInterface(
       ddbTableName := branchKeyStoreName,
       ddbClient := ddbClient,
-      logicalKeyStoreName := ""
+      logicalKeyStoreName := "",
+      ddbTableNameUtf8 := ddbTableNameUtf8,
+      logicalKeyStoreNameUtf8 := logicalKeyStoreNameUtf8
     );
 
-    var output := storage.WriteNewVersion(
-      Types.WriteNewVersionInput(
+    var output := storage.WriteNewEncryptedBranchKeyVersion(
+      Types.WriteNewEncryptedBranchKeyVersionInput(
         Version := Version,
         Active := Active,
         oldActive := Active
@@ -384,16 +388,20 @@ module TestVersionKey {
     var Version := Structure.ConstructEncryptedHierarchicalKey(encryptionContext, [1]);
     var Active := Structure.ConstructEncryptedHierarchicalKey(Structure.ActiveBranchKeyEncryptionContext(encryptionContext), [2]);
     expect Active.Identifier == Version.Identifier;
-    expect Active.Type.ActiveHierarchicalSymmetricVersion == Version.Type.HierarchicalSymmetricVersion;
+    expect Active.Type.ActiveHierarchicalSymmetricVersion.Version == Version.Type.HierarchicalSymmetricVersion.Version;
+    var ddbTableNameUtf8 :- expect UTF8.Encode(branchKeyStoreName);
+    var logicalKeyStoreNameUtf8 :- expect UTF8.Encode("");
 
-    var storage := new DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore(
+    var storage := new DefaultKeyStorageInterface.DynamoDBKeyStorageInterface(
       ddbTableName := branchKeyStoreName,
       ddbClient := ddbClient,
-      logicalKeyStoreName := ""
+      logicalKeyStoreName := "",
+      ddbTableNameUtf8 := ddbTableNameUtf8,
+      logicalKeyStoreNameUtf8 := logicalKeyStoreNameUtf8
     );
 
-    var output := storage.WriteNewVersion(
-      Types.WriteNewVersionInput(
+    var output := storage.WriteNewEncryptedBranchKeyVersion(
+      Types.WriteNewEncryptedBranchKeyVersionInput(
         Version := Version,
         Active := Active,
         oldActive := Active

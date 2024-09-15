@@ -8,10 +8,25 @@ import java.util.Objects;
 
 public class QueryForVersionsInput {
 
+  /**
+   * Optional.
+   *   If set, Query will start at this index and read forward.
+   *   Otherwise, Query will start at the indexes begining.
+   *   The Default Storage is DDB;
+   *   see Amazon DynamoDB's defination of exclusiveStartKey for details.
+   *   Note: While the Default Storage is DDB,
+   *   the Key Store transforms the exclusiveStartKey into an opaque representation.
+   */
   private final ByteBuffer exclusiveStartKey;
 
+  /**
+   * The Identifier of the Branch Key.
+   */
   private final String Identifier;
 
+  /**
+   * The maximum read items.
+   */
   private final Integer pageSize;
 
   protected QueryForVersionsInput(BuilderImpl builder) {
@@ -20,14 +35,29 @@ public class QueryForVersionsInput {
     this.pageSize = builder.pageSize();
   }
 
+  /**
+   * @return Optional.
+   *   If set, Query will start at this index and read forward.
+   *   Otherwise, Query will start at the indexes begining.
+   *   The Default Storage is DDB;
+   *   see Amazon DynamoDB's defination of exclusiveStartKey for details.
+   *   Note: While the Default Storage is DDB,
+   *   the Key Store transforms the exclusiveStartKey into an opaque representation.
+   */
   public ByteBuffer exclusiveStartKey() {
     return this.exclusiveStartKey;
   }
 
+  /**
+   * @return The Identifier of the Branch Key.
+   */
   public String Identifier() {
     return this.Identifier;
   }
 
+  /**
+   * @return The maximum read items.
+   */
   public Integer pageSize() {
     return this.pageSize;
   }
@@ -41,16 +71,46 @@ public class QueryForVersionsInput {
   }
 
   public interface Builder {
+    /**
+     * @param exclusiveStartKey Optional.
+     *   If set, Query will start at this index and read forward.
+     *   Otherwise, Query will start at the indexes begining.
+     *   The Default Storage is DDB;
+     *   see Amazon DynamoDB's defination of exclusiveStartKey for details.
+     *   Note: While the Default Storage is DDB,
+     *   the Key Store transforms the exclusiveStartKey into an opaque representation.
+     */
     Builder exclusiveStartKey(ByteBuffer exclusiveStartKey);
 
+    /**
+     * @return Optional.
+     *   If set, Query will start at this index and read forward.
+     *   Otherwise, Query will start at the indexes begining.
+     *   The Default Storage is DDB;
+     *   see Amazon DynamoDB's defination of exclusiveStartKey for details.
+     *   Note: While the Default Storage is DDB,
+     *   the Key Store transforms the exclusiveStartKey into an opaque representation.
+     */
     ByteBuffer exclusiveStartKey();
 
+    /**
+     * @param Identifier The Identifier of the Branch Key.
+     */
     Builder Identifier(String Identifier);
 
+    /**
+     * @return The Identifier of the Branch Key.
+     */
     String Identifier();
 
+    /**
+     * @param pageSize The maximum read items.
+     */
     Builder pageSize(Integer pageSize);
 
+    /**
+     * @return The maximum read items.
+     */
     Integer pageSize();
 
     QueryForVersionsInput build();
@@ -108,11 +168,6 @@ public class QueryForVersionsInput {
       if (Objects.isNull(this.pageSize())) {
         throw new IllegalArgumentException(
           "Missing value for required field `pageSize`"
-        );
-      }
-      if (Objects.nonNull(this.pageSize()) && this.pageSize() < 1) {
-        throw new IllegalArgumentException(
-          "`pageSize` must be greater than or equal to 1"
         );
       }
       return new QueryForVersionsInput(this);

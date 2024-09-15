@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "AwsCryptographyKeyStoreOperations.dfy"
-include "DefaultEncryptedKeyStore.dfy"
+include "DefaultKeyStorageInterface.dfy"
 
 include "ErrorMessages.dfy"
 include "KmsArn.dfy"
@@ -20,7 +20,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
   import ErrorMessages = KeyStoreErrorMessages
   import KmsArn
   import KMSKeystoreOperations
-  import DefaultEncryptedKeyStore
+  import DefaultKeyStorageInterface
 
   // At this time the user agent is not configurable in Dafny.
   // It is neither configurable on creation nor on request.
@@ -73,8 +73,8 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#initialization
     //= type=implication
-    //# If [Storage](#storage) is configured with an [EncryptedKeyStore](#encryptedkeystore)
-    //# then this MUST be the configured [EncryptedKeyStore interface](./key-store/encrypted-key-store.md#interface).
+    //# If [Storage](#storage) is configured with [KeyStorage](#keystorage)
+    //# then this MUST be the configured [KeyStorage interface](./key-store/key-storage.md#interface).
     ensures
       && res.Success?
       && config.storage.Some?
@@ -86,21 +86,21 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
       && !(config.storage.Some? && config.storage.value.custom?) ==>
         //= aws-encryption-sdk-specification/framework/branch-key-store.md#initialization
         //= type=implication
-        //# If [Storage](#storage) is not configured with an [EncryptedKeyStore](#encryptedkeystore)
-        //# a [default encrypted key store](./key-store/default-encrypted-key-store.md#initialization) MUST be created.
+        //# If [Storage](#storage) is not configured with [KeyStorage](#keystorage)
+        //# a [default key storage](./key-store/default-key-storage.md#initialization) MUST be created.
         && fresh(res.value.config.storage)
-        && res.value.config.storage is DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore
-        && var storage: DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore := res.value.config.storage;
+        && res.value.config.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+        && var storage: DefaultKeyStorageInterface.DynamoDBKeyStorageInterface := res.value.config.storage;
 
         //= aws-encryption-sdk-specification/framework/branch-key-store.md#initialization
         //= type=implication
-        //# This constructed [default encrypted key store](./key-store/default-encrypted-key-store.md#overview)
+        //# This constructed [default key storage](./key-store/default-key-storage.md#overview)
         //# MUST be configured with the provided [logical keystore name](#logical-keystore-name).
         && storage.logicalKeyStoreName == config.logicalKeyStoreName
 
         //= aws-encryption-sdk-specification/framework/branch-key-store.md#initialization
         //= type=implication
-        //# This constructed [default encrypted key store](./key-store/default-encrypted-key-store.md#initialization)
+        //# This constructed [default key storage](./key-store/default-key-storage.md#initialization)
         //# MUST be configured with either the [Table Name](#table-name) or the [DynamoDBTable](#dynamodbtable) table name
         //# depending on which one is configured.
         && (config.ddbTableName.Some? ==> storage.ddbTableName == config.ddbTableName.value)
@@ -108,7 +108,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
 
         //= aws-encryption-sdk-specification/framework/branch-key-store.md#initialization
         //= type=implication
-        //# This constructed [default encrypted key store](./key-store/default-encrypted-key-store.md#initialization)
+        //# This constructed [default key storage](./key-store/default-key-storage.md#initialization)
         //# MUST be configured with either the [DynamoDb Client](#dynamodb-client), the DDB client in the [DynamoDBTable](#dynamodbtable)
         //# or a constructed DDB client depending on what is configured.
         && ((config.ddbTableName.Some? && config.ddbClient.Some?) ==> storage.ddbClient == config.ddbClient.value)
@@ -351,7 +351,10 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
     // Any assignment after this a mistake
     assert allocated(kmsClient);
 
-    var storage: Types.IEncryptedKeyStore;
+    var logicalKeyStoreNameUtf8 :- UTF8.Encode(config.logicalKeyStoreName)
+    .MapFailure(e => Types.KeyStoreException(message := "logicalKeyStoreName can not be encoded to UTF8" + e));
+
+    var storage: Types.IKeyStorageInterface;
     if
       && config.storage.Some?
       && config.storage.value.custom?
@@ -360,26 +363,36 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
       ddbConstructedRegion := None;
     } else if
       && config.storage.Some?
-         // && config.storage.value.ddb?
       && config.storage.value.ddb.ddbClient.Some?
     {
       assert config.storage.value.ddb?;
-      storage := new DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore(
+
+      var ddbTableNameUtf8 :- UTF8.Encode(config.storage.value.ddb.ddbTableName)
+      .MapFailure(e => Types.KeyStoreException(message := "ddbTableName can not be encoded to UTF8" + e));
+
+      storage := new DefaultKeyStorageInterface.DynamoDBKeyStorageInterface(
         ddbTableName := config.storage.value.ddb.ddbTableName,
         ddbClient := config.storage.value.ddb.ddbClient.value,
-        logicalKeyStoreName := config.logicalKeyStoreName
+        logicalKeyStoreName := config.logicalKeyStoreName,
+        ddbTableNameUtf8 := ddbTableNameUtf8,
+        logicalKeyStoreNameUtf8 := logicalKeyStoreNameUtf8
       );
       ddbConstructedRegion := None;
     } else if
-      // && config.storage.None?
       && config.ddbTableName.Some?
       && config.ddbClient.Some?
     {
       assert config.storage.None?;
-      storage := new DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore(
+
+      var ddbTableNameUtf8 :- UTF8.Encode(config.ddbTableName.value)
+      .MapFailure(e => Types.KeyStoreException(message := "ddbTableName can not be encoded to UTF8" + e));
+
+      storage := new DefaultKeyStorageInterface.DynamoDBKeyStorageInterface(
         ddbTableName := config.ddbTableName.value,
         ddbClient := config.ddbClient.value,
-        logicalKeyStoreName := config.logicalKeyStoreName
+        logicalKeyStoreName := config.logicalKeyStoreName,
+        ddbTableNameUtf8 := ddbTableNameUtf8,
+        logicalKeyStoreNameUtf8 := logicalKeyStoreNameUtf8
       );
       ddbConstructedRegion := None;
     } else {
@@ -388,6 +401,10 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
         config.storage.value.ddb.ddbTableName
       else
         config.ddbTableName.value;
+
+      var ddbTableNameUtf8 :- UTF8.Encode(ddbTableName)
+      .MapFailure(e => Types.KeyStoreException(message := "ddbTableName can not be encoded to UTF8" + e));
+
       var ddbClient;
 
       if inferredRegion.Some? {
@@ -403,10 +420,12 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
         ddbConstructedRegion := None;
 
       }
-      storage := new DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore(
+      storage := new DefaultKeyStorageInterface.DynamoDBKeyStorageInterface(
         ddbTableName := ddbTableName,
         ddbClient := ddbClient,
-        logicalKeyStoreName := config.logicalKeyStoreName
+        logicalKeyStoreName := config.logicalKeyStoreName,
+        ddbTableNameUtf8 := ddbTableNameUtf8,
+        logicalKeyStoreNameUtf8 := logicalKeyStoreNameUtf8
       );
     }
     // This just asserts that storage is assigned
@@ -422,7 +441,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
       kmsClient := kmsClient,
       ddbClient := if config.ddbTableName.Some?
       then
-        Some((storage as DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore).ddbClient)
+        Some((storage as DefaultKeyStorageInterface.DynamoDBKeyStorageInterface).ddbClient)
       else None,
       storage := storage,
       kmsConstructedRegion := kmsConstructedRegion,
@@ -437,11 +456,11 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
       // Right now, this would require getting a storage instance from one key store
       // and using that to construct a new key store.
     :- Need(
-      (internalConfig.storage is DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore
+      (internalConfig.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
        ==>
-         internalConfig.logicalKeyStoreName == (internalConfig.storage as DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore).logicalKeyStoreName)
+         internalConfig.logicalKeyStoreName == (internalConfig.storage as DefaultKeyStorageInterface.DynamoDBKeyStorageInterface).logicalKeyStoreName)
     , Types.KeyStoreException(
-        message := "Storage DynamoDBEncryptedKeyStore logical key store name does not key store's configured logical key store name")
+        message := "Storage DynamoDBKeyStorageInterface logical key store name does not key store's configured logical key store name")
     );
 
     assert Operations.ValidInternalConfig?(internalConfig);

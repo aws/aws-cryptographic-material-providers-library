@@ -13,7 +13,7 @@ module GetKeys {
   import opened Seq
 
   import Structure
-  import DefaultEncryptedKeyStore
+  import DefaultKeyStorageInterface
   import KMSKeystoreOperations
   import ErrorMessages = KeyStoreErrorMessages
 
@@ -29,14 +29,14 @@ module GetKeys {
     kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient,
-    storage: Types.IEncryptedKeyStore
+    storage: Types.IKeyStorageInterface
   )
     returns (output: Result<Types.GetActiveBranchKeyOutput, Types.Error>)
     requires storage.Modifies !! kmsClient.Modifies
 
-    requires storage is DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore
+    requires storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
              ==>
-               logicalKeyStoreName == (storage as DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore).logicalKeyStoreName
+               logicalKeyStoreName == (storage as DefaultKeyStorageInterface.DynamoDBKeyStorageInterface).logicalKeyStoreName
 
     requires kmsClient.ValidState() && storage.ValidState()
     modifies storage.Modifies, kmsClient.Modifies
@@ -45,17 +45,17 @@ module GetKeys {
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#getactivebranchkey
     //= type=implication
     //# GetActiveBranchKey MUST get the active version for the branch key id from the keystore
-    //# by calling the configured [EncryptedKeyStore interface's](./key-store/encrypted-key-store.md#interface)
-    //# [GetActive](./key-store/encrypted-key-store.md#getencryptedactivebranchkey)
+    //# by calling the configured [KeyStorage interface's](./key-store/key-storage.md#interface)
+    //# [GetEncryptedActiveBranchKey](./key-store/key-storage.md#getencryptedactivebranchkey)
     //# using the supplied `branch-key-id`.
     ensures
-      && |storage.History.GetActive| == |old(storage.History.GetActive)| + 1
-      && Seq.Last(storage.History.GetActive).input.Identifier == input.branchKeyIdentifier
+      && |storage.History.GetEncryptedActiveBranchKey| == |old(storage.History.GetEncryptedActiveBranchKey)| + 1
+      && Seq.Last(storage.History.GetEncryptedActiveBranchKey).input.Identifier == input.branchKeyIdentifier
 
     ensures output.Success?
             ==>
-              && Seq.Last(storage.History.GetActive).output.Success?
-              && var activeItem := Seq.Last(storage.History.GetActive).output.value.Item;
+              && Seq.Last(storage.History.GetEncryptedActiveBranchKey).output.Success?
+              && var activeItem := Seq.Last(storage.History.GetEncryptedActiveBranchKey).output.value.Item;
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getactivebranchkey
               //= type=implication
@@ -123,13 +123,13 @@ module GetKeys {
               && output.value.branchKeyMaterials.branchKeyIdentifier == input.branchKeyIdentifier
 
     ensures
-      || (&& |storage.History.GetActive| == |old(storage.History.GetActive)| + 1
-          && Seq.Last(storage.History.GetActive).output.Failure?
+      || (&& |storage.History.GetEncryptedActiveBranchKey| == |old(storage.History.GetEncryptedActiveBranchKey)| + 1
+          && Seq.Last(storage.History.GetEncryptedActiveBranchKey).output.Failure?
           ==> output.Failure?)
 
-      || (&& |storage.History.GetActive| == |old(storage.History.GetActive)| + 1
-          && Seq.Last(storage.History.GetActive).output.Success?
-          && !Structure.ActiveHierarchicalSymmetricKey?(Seq.Last(storage.History.GetActive).output.value.Item)
+      || (&& |storage.History.GetEncryptedActiveBranchKey| == |old(storage.History.GetEncryptedActiveBranchKey)| + 1
+          && Seq.Last(storage.History.GetEncryptedActiveBranchKey).output.Success?
+          && !Structure.ActiveHierarchicalSymmetricKey?(Seq.Last(storage.History.GetEncryptedActiveBranchKey).output.value.Item)
           ==> output.Failure?)
 
       //= aws-encryption-sdk-specification/framework/branch-key-store.md#getactivebranchkey
@@ -140,8 +140,8 @@ module GetKeys {
           ==> output.Failure?)
   {
 
-    var ActiveOutput :- storage.GetActive(
-      Types.GetActiveInput(
+    var ActiveOutput :- storage.GetEncryptedActiveBranchKey(
+      Types.GetEncryptedActiveBranchKeyInput(
         Identifier := input.branchKeyIdentifier
       )
     );
@@ -149,7 +149,7 @@ module GetKeys {
     var branchKeyItem := ActiveOutput.Item;
 
     :- Need(
-      || storage is DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore
+      || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
            && Structure.ActiveHierarchicalSymmetricKey?(branchKeyItem)
            && branchKeyItem.Identifier == input.branchKeyIdentifier
@@ -184,7 +184,7 @@ module GetKeys {
     kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient,
-    storage: Types.IEncryptedKeyStore
+    storage: Types.IKeyStorageInterface
   )
     returns (output: Result<Types.GetBranchKeyVersionOutput, Types.Error>)
     requires storage.Modifies !! kmsClient.Modifies
@@ -193,28 +193,28 @@ module GetKeys {
     modifies storage.Modifies, kmsClient.Modifies
     ensures storage.ValidState() && kmsClient.ValidState()
 
-    requires storage is DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore
+    requires storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
              ==>
-               logicalKeyStoreName == (storage as DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore).logicalKeyStoreName
+               logicalKeyStoreName == (storage as DefaultKeyStorageInterface.DynamoDBKeyStorageInterface).logicalKeyStoreName
 
     ensures
       //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
       //= type=implication
       //# GetBranchKeyVersion MUST get the requested version for the branch key id from the keystore
-      //# by calling the configured [EncryptedKeyStore interface's](./key-store/encrypted-key-store.md#interface)
-      //# [GetActive](./key-store/encrypted-key-store.md#getencryptedbranchkeyversion)
+      //# by calling the configured [KeyStorage interface's](./key-store/key-storage.md#interface)
+      //# [GetEncryptedActiveBranchKey](./key-store/key-storage.md#getencryptedbranchkeyversion)
       //# using the supplied `branch-key-id`.
-      && |storage.History.GetVersion| == |old(storage.History.GetVersion)| + 1
-      && Seq.Last(storage.History.GetVersion).input
-         == Types.GetVersionInput(
+      && |storage.History.GetEncryptedBranchKeyVersion| == |old(storage.History.GetEncryptedBranchKeyVersion)| + 1
+      && Seq.Last(storage.History.GetEncryptedBranchKeyVersion).input
+         == Types.GetEncryptedBranchKeyVersionInput(
               Identifier := input.branchKeyIdentifier,
               Version := input.branchKeyVersion
             )
 
     ensures output.Success?
             ==>
-              && Seq.Last(storage.History.GetVersion).output.Success?
-              && var versionItem := Seq.Last(storage.History.GetVersion).output.value.Item;
+              && Seq.Last(storage.History.GetEncryptedBranchKeyVersion).output.Success?
+              && var versionItem := Seq.Last(storage.History.GetEncryptedBranchKeyVersion).output.value.Item;
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
               //= type=implication
@@ -229,7 +229,10 @@ module GetKeys {
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
               //= type=implication
               //# GetBranchKeyVersion MUST verify that the returned EncryptedHierarchicalKey MUST have the requested `branchKeyVersion`.
-              && versionItem.Type == Types.BranchKeyType.HierarchicalSymmetricVersion(input.branchKeyVersion)
+              && versionItem.Type == Types.HierarchicalSymmetricVersion(
+                                       Types.HierarchicalSymmetric(
+                                         Version := input.branchKeyVersion
+                                       ))
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
               //= type=implication
@@ -292,13 +295,13 @@ module GetKeys {
               && output.value.branchKeyMaterials.branchKeyVersion == UTF8.Encode(input.branchKeyVersion).value
 
     ensures
-      || (&& |storage.History.GetVersion| == |old(storage.History.GetVersion)| + 1
-          && Seq.Last(storage.History.GetVersion).output.Failure?
+      || (&& |storage.History.GetEncryptedBranchKeyVersion| == |old(storage.History.GetEncryptedBranchKeyVersion)| + 1
+          && Seq.Last(storage.History.GetEncryptedBranchKeyVersion).output.Failure?
           ==> output.Failure?)
 
-      || (&& |storage.History.GetVersion| == |old(storage.History.GetVersion)| + 1
-          && Seq.Last(storage.History.GetVersion).output.Success?
-          && !Structure.ActiveHierarchicalSymmetricKey?(Seq.Last(storage.History.GetVersion).output.value.Item)
+      || (&& |storage.History.GetEncryptedBranchKeyVersion| == |old(storage.History.GetEncryptedBranchKeyVersion)| + 1
+          && Seq.Last(storage.History.GetEncryptedBranchKeyVersion).output.Success?
+          && !Structure.ActiveHierarchicalSymmetricKey?(Seq.Last(storage.History.GetEncryptedBranchKeyVersion).output.value.Item)
           ==> output.Failure?)
 
       //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
@@ -308,8 +311,8 @@ module GetKeys {
           && Seq.Last(kmsClient.History.Decrypt).output.Failure?
           ==> output.Failure?)
   {
-    var VersionItem :- storage.GetVersion(
-      Types.GetVersionInput(
+    var VersionItem :- storage.GetEncryptedBranchKeyVersion(
+      Types.GetEncryptedBranchKeyVersionInput(
         Identifier := input.branchKeyIdentifier,
         Version := input.branchKeyVersion
       )
@@ -318,11 +321,14 @@ module GetKeys {
     var branchKeyItem := VersionItem.Item;
 
     :- Need(
-      || storage is DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore
+      || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
            && Structure.DecryptOnlyHierarchicalSymmetricKey?(branchKeyItem)
            && branchKeyItem.Identifier == input.branchKeyIdentifier
-           && branchKeyItem.Type == Types.HierarchicalSymmetricVersion(input.branchKeyVersion)
+           && branchKeyItem.Type == Types.HierarchicalSymmetricVersion(
+                                      Types.HierarchicalSymmetric(
+                                        Version := input.branchKeyVersion
+                                      ))
            && branchKeyItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
          ),
       Types.KeyStoreException(
@@ -353,13 +359,13 @@ module GetKeys {
     kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient,
-    storage: Types.IEncryptedKeyStore
+    storage: Types.IKeyStorageInterface
   )
     returns (output: Result<Types.GetBeaconKeyOutput, Types.Error>)
     requires storage.Modifies !! kmsClient.Modifies
-    requires storage is DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore
+    requires storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
              ==>
-               logicalKeyStoreName == (storage as DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore).logicalKeyStoreName
+               logicalKeyStoreName == (storage as DefaultKeyStorageInterface.DynamoDBKeyStorageInterface).logicalKeyStoreName
 
     requires kmsClient.ValidState() && storage.ValidState()
     modifies storage.Modifies, kmsClient.Modifies
@@ -369,15 +375,15 @@ module GetKeys {
       //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbeaconkey
       //= type=implication
       //# GetBeaconKey MUST get the requested beacon key from the keystore
-      //# by calling the configured [EncryptedKeyStore interface's](./key-store/encrypted-key-store.md#interface)
-      //# [GetBeacon](./key-store/encrypted-key-store.md#getencryptedbeaconkey)
+      //# by calling the configured [KeyStorage interface's](./key-store/key-storage.md#interface)
+      //# [GetEncryptedBeaconKey](./key-store/key-storage.md#getencryptedbeaconkey)
       //# using the supplied `branch-key-id`.
-      && |storage.History.GetBeacon| == |old(storage.History.GetBeacon)| + 1
-      && Seq.Last(storage.History.GetBeacon).input.Identifier == input.branchKeyIdentifier
+      && |storage.History.GetEncryptedBeaconKey| == |old(storage.History.GetEncryptedBeaconKey)| + 1
+      && Seq.Last(storage.History.GetEncryptedBeaconKey).input.Identifier == input.branchKeyIdentifier
 
     ensures output.Success? ==>
-              && Seq.Last(storage.History.GetBeacon).output.Success?
-              && var beaconItem := Seq.Last(storage.History.GetBeacon).output.value.Item;
+              && Seq.Last(storage.History.GetEncryptedBeaconKey).output.Success?
+              && var beaconItem := Seq.Last(storage.History.GetEncryptedBeaconKey).output.value.Item;
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbeaconkey
               //= type=implication
@@ -445,13 +451,13 @@ module GetKeys {
               && output.value.beaconKeyMaterials.beaconKeyIdentifier == input.branchKeyIdentifier
 
     ensures
-      || (&& |storage.History.GetBeacon| == |old(storage.History.GetBeacon)| + 1
-          && Seq.Last(storage.History.GetBeacon).output.Failure?
+      || (&& |storage.History.GetEncryptedBeaconKey| == |old(storage.History.GetEncryptedBeaconKey)| + 1
+          && Seq.Last(storage.History.GetEncryptedBeaconKey).output.Failure?
           ==> output.Failure?)
 
-      || (&& |storage.History.GetBeacon| == |old(storage.History.GetBeacon)| + 1
-          && Seq.Last(storage.History.GetBeacon).output.Success?
-          && !Structure.ActiveHierarchicalSymmetricKey?(Seq.Last(storage.History.GetBeacon).output.value.Item)
+      || (&& |storage.History.GetEncryptedBeaconKey| == |old(storage.History.GetEncryptedBeaconKey)| + 1
+          && Seq.Last(storage.History.GetEncryptedBeaconKey).output.Success?
+          && !Structure.ActiveHierarchicalSymmetricKey?(Seq.Last(storage.History.GetEncryptedBeaconKey).output.value.Item)
           ==> output.Failure?)
 
       //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbeaconkey
@@ -462,8 +468,8 @@ module GetKeys {
           ==> output.Failure?)
   {
 
-    var BeaconOutput :- storage.GetBeacon(
-      Types.GetBeaconInput(
+    var BeaconOutput :- storage.GetEncryptedBeaconKey(
+      Types.GetEncryptedBeaconKeyInput(
         Identifier := input.branchKeyIdentifier
       )
     );
@@ -471,7 +477,7 @@ module GetKeys {
     var branchKeyItem := BeaconOutput.Item;
 
     :- Need(
-      || storage is DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore
+      || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
            && branchKeyItem.Identifier == input.branchKeyIdentifier
            && Structure.ActiveHierarchicalSymmetricBeaconKey?(branchKeyItem)

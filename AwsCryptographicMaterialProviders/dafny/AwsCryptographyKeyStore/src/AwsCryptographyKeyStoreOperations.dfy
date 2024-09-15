@@ -9,7 +9,7 @@ include "CreateKeys.dfy"
 include "Structure.dfy"
 include "ErrorMessages.dfy"
 include "KmsArn.dfy"
-include "DefaultEncryptedKeyStore.dfy"
+include "DefaultKeyStorageInterface.dfy"
 
 module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStoreOperations {
   import opened AwsKmsUtils
@@ -25,7 +25,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
   import Structure
   import ErrorMessages = KeyStoreErrorMessages
   import KmsArn
-  import DefaultEncryptedKeyStore
+  import DefaultKeyStorageInterface
 
   datatype Config = Config(
     nameonly id: string,
@@ -35,7 +35,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
     nameonly grantTokens: KMS.GrantTokenList,
     nameonly kmsClient: ComAmazonawsKmsTypes.IKMSClient,
     nameonly ddbClient: Option<ComAmazonawsDynamodbTypes.IDynamoDBClient>,
-    nameonly storage: Types.IEncryptedKeyStore,
+    nameonly storage: Types.IKeyStorageInterface,
     nameonly ghost kmsConstructedRegion: Option<string>,
     nameonly ghost ddbConstructedRegion: Option<string>
   )
@@ -54,12 +54,12 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
           && config.ddbClient.Some?
           && config.ddbClient.value.ValidState()
           && config.ddbClient.value.Modifies !! config.kmsClient.Modifies
-          && config.storage is DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore
-          && (config.storage as DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore).ddbClient == config.ddbClient.value
+          && config.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+          && (config.storage as DefaultKeyStorageInterface.DynamoDBKeyStorageInterface).ddbClient == config.ddbClient.value
        )
-    && (config.storage is DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore
+    && (config.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
         ==>
-          config.logicalKeyStoreName == (config.storage as DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore).logicalKeyStoreName)
+          config.logicalKeyStoreName == (config.storage as DefaultKeyStorageInterface.DynamoDBKeyStorageInterface).logicalKeyStoreName)
   }
 
   function ModifiesInternalConfig(config: InternalConfig) : set<object>
@@ -90,20 +90,20 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
               && output.value.grantTokens == config.grantTokens
               && output.value.kmsConfiguration == config.kmsConfiguration
     // See the following below:
-    // && output.value.keyStoreName == UTF8.Decode(Seq.Last(config.storage.History.DescribeEncryptedKeyStore).output.value.Name).value
+    // && output.value.keyStoreName == UTF8.Decode(Seq.Last(config.storage.History.GetKeyStorageInfo).output.value.Name).value
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#getkeystoreinfo
     //= type=implication
     //# The [keystore name](#table-name) MUST be obtained
-    //# from the configured [EncryptedKeyStore interface](./key-store/encrypted-key-store.md#interface)
-    //# by calling [DescribeEncryptedKeyStore](./key-store/encrypted-key-store.md#gettablename).
+    //# from the configured [KeyStorage](./key-store/key-storage.md#interface)
+    //# by calling [GetKeyStorageInfo](./key-store/key-storage.md#getkeystorageinfo).
     ensures output.Success? ==>
-              && |config.storage.History.DescribeEncryptedKeyStore| == |old(config.storage.History.DescribeEncryptedKeyStore)| + 1
-              && Seq.Last(config.storage.History.DescribeEncryptedKeyStore).output.Success?
-              && UTF8.Decode(Seq.Last(config.storage.History.DescribeEncryptedKeyStore).output.value.Name).Success?
-              && output.value.keyStoreName == UTF8.Decode(Seq.Last(config.storage.History.DescribeEncryptedKeyStore).output.value.Name).value
+              && |config.storage.History.GetKeyStorageInfo| == |old(config.storage.History.GetKeyStorageInfo)| + 1
+              && Seq.Last(config.storage.History.GetKeyStorageInfo).output.Success?
+              && UTF8.Decode(Seq.Last(config.storage.History.GetKeyStorageInfo).output.value.Name).Success?
+              && output.value.keyStoreName == UTF8.Decode(Seq.Last(config.storage.History.GetKeyStorageInfo).output.value.Name).value
   {
-    var nameOutput :- config.storage.DescribeEncryptedKeyStore(Types.DescribeEncryptedKeyStoreInput);
+    var nameOutput :- config.storage.GetKeyStorageInfo(Types.GetKeyStorageInfoInput);
     var keyStoreName :- UTF8.Decode(nameOutput.Name)
     .MapFailure(e => Types.KeyStoreException(message := e));
     output := Success(

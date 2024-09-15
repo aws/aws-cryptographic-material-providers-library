@@ -40,7 +40,7 @@ module {:options "/functionSyntax:4" } TestThreat27 {
   import CleanupItems
   import KMS = Com.Amazonaws.Kms
   import DDB = Com.Amazonaws.Dynamodb
-  import DefaultEncryptedKeyStore
+  import DefaultKeyStorageInterface
   import Time
   import Structure
 
@@ -91,19 +91,19 @@ module {:options "/functionSyntax:4" } TestThreat27 {
     print "\nTestThreat27 :: TestHappyCase :: Created the test items! testId: "
           + testId  +  "\n";
     var storage :- expect Fixtures.defaultStorage(ddbClient?:=Some(ddbClient));
-    var activeOneInput := KeyStoreTypes.GetActiveInput(Identifier:=testId);
-    var activeOne? :- expect storage.GetActive(activeOneInput);
+    var activeOneInput := KeyStoreTypes.GetEncryptedActiveBranchKeyInput(Identifier:=testId);
+    var activeOne? :- expect storage.GetEncryptedActiveBranchKey(activeOneInput);
     expect "version" in activeOne?.Item.EncryptionContext;
     expect customEC in activeOne?.Item.EncryptionContext;
     // var activeOne := activeOne?.Item.EncryptionContext["version"];
     expect activeOne?.Item.Type.ActiveHierarchicalSymmetricVersion?;
-    var activeOne := activeOne?.Item.Type.ActiveHierarchicalSymmetricVersion;
+    var activeOne := activeOne?.Item.Type.ActiveHierarchicalSymmetricVersion.Version;
     var robbieOne := activeOne?.Item.EncryptionContext["aws-crypto-ec:Robbie"];
     print "\nTestThreat27 :: TestHappyCase :: Established ActiveOne: " + activeOne + "\n";
 
     var timestamp :- expect Time.GetCurrentTimeStamp();
     var newCustomEC: KeyStoreTypes.EncryptionContextString := map["Robbie" := timestamp];
-    var mutationsRequest := Types.Mutations(finalEncryptionContext := Some(newCustomEC));
+    var mutationsRequest := Types.Mutations(terminalEncryptionContext := Some(newCustomEC));
     var testInput := Types.InitializeMutationInput(
       branchKeyIdentifier := testId,
       mutations := mutationsRequest,
@@ -112,13 +112,13 @@ module {:options "/functionSyntax:4" } TestThreat27 {
 
     print "\nTestThreat27 :: TestHappyCase :: Initialized Mutation: " + activeOne + "\n";
 
-    var activeTwoInput := KeyStoreTypes.GetActiveInput(Identifier:=testId);
-    var activeTwo? :- expect storage.GetActive(activeTwoInput);
+    var activeTwoInput := KeyStoreTypes.GetEncryptedActiveBranchKeyInput(Identifier:=testId);
+    var activeTwo? :- expect storage.GetEncryptedActiveBranchKey(activeTwoInput);
     expect "version" in activeTwo?.Item.EncryptionContext;
     expect "aws-crypto-ec:Robbie" in activeTwo?.Item.EncryptionContext, "Custom EC is missing from Mutated Item";
     // var activeTwo := activeTwo?.Item.EncryptionContext["version"];
     expect activeTwo?.Item.Type.ActiveHierarchicalSymmetricVersion?;
-    var activeTwo := activeTwo?.Item.Type.ActiveHierarchicalSymmetricVersion;
+    var activeTwo := activeTwo?.Item.Type.ActiveHierarchicalSymmetricVersion.Version;
     var robbieTwo := activeTwo?.Item.EncryptionContext["aws-crypto-ec:Robbie"];
 
     expect activeOne != activeTwo, "Initialize Mutation FAILED to Write New Active Branch Key";
@@ -126,8 +126,8 @@ module {:options "/functionSyntax:4" } TestThreat27 {
 
     print "\nTestThreat27 :: TestHappyCase :: Verified activeTwo was created in Terminal: " + activeTwo + "\n";
 
-    var versionTwoInput := KeyStoreTypes.GetVersionInput(Identifier:=testId, Version:=activeTwo);
-    var versionTwo? :- expect storage.GetVersion(versionTwoInput);
+    var versionTwoInput := KeyStoreTypes.GetEncryptedBranchKeyVersionInput(Identifier:=testId, Version:=activeTwo);
+    var versionTwo? :- expect storage.GetEncryptedBranchKeyVersion(versionTwoInput);
     expect Structure.TYPE_FIELD in versionTwo?.Item.EncryptionContext;
     var versionTwo := versionTwo?.Item.EncryptionContext[Structure.TYPE_FIELD];
     expect customEC in versionTwo?.Item.EncryptionContext;
@@ -135,8 +135,8 @@ module {:options "/functionSyntax:4" } TestThreat27 {
     print "\nTestThreat27 :: TestHappyCase :: Verified versionTwo was created in Terminal: " + versionTwo + "\n";
 
     // Validate Beacon Key
-    var beaconPostMutInput := KeyStoreTypes.GetBeaconInput(Identifier:=testId);
-    var beaconPostMut? :-expect storage.GetBeacon(beaconPostMutInput);
+    var beaconPostMutInput := KeyStoreTypes.GetEncryptedBeaconKeyInput(Identifier:=testId);
+    var beaconPostMut? :-expect storage.GetEncryptedBeaconKey(beaconPostMutInput);
     expect Structure.TYPE_FIELD in beaconPostMut?.Item.EncryptionContext;
     var beaconPostMut := beaconPostMut?.Item.EncryptionContext[Structure.TYPE_FIELD];
     expect customEC in beaconPostMut?.Item.EncryptionContext;
@@ -150,19 +150,19 @@ module {:options "/functionSyntax:4" } TestThreat27 {
 
     print "\nTestThreat27 :: TestHappyCase :: Versioned ActiveTwo. testId: " + testId + "\n";
 
-    var activeThreeInput := KeyStoreTypes.GetActiveInput(Identifier:=testId);
-    var activeThree? :- expect storage.GetActive(activeThreeInput);
+    var activeThreeInput := KeyStoreTypes.GetEncryptedActiveBranchKeyInput(Identifier:=testId);
+    var activeThree? :- expect storage.GetEncryptedActiveBranchKey(activeThreeInput);
     expect "version" in activeThree?.Item.EncryptionContext;
     expect "aws-crypto-ec:Robbie" in activeThree?.Item.EncryptionContext;
     // var activeThree := activeThree?.Item.EncryptionContext["version"];
     expect activeThree?.Item.Type.ActiveHierarchicalSymmetricVersion?;
-    var activeThree := activeThree?.Item.Type.ActiveHierarchicalSymmetricVersion;
+    var activeThree := activeThree?.Item.Type.ActiveHierarchicalSymmetricVersion.Version;
     var robbieThree := activeThree?.Item.EncryptionContext["aws-crypto-ec:Robbie"];
 
     expect robbieThree == timestamp, "Version made ACTIVE in wrong state!";
 
-    var versionThreeInput := KeyStoreTypes.GetVersionInput(Identifier:=testId, Version:=activeThree);
-    var versionThree? :- expect storage.GetVersion(versionThreeInput);
+    var versionThreeInput := KeyStoreTypes.GetEncryptedBranchKeyVersionInput(Identifier:=testId, Version:=activeThree);
+    var versionThree? :- expect storage.GetEncryptedBranchKeyVersion(versionThreeInput);
     expect customEC in versionThree?.Item.EncryptionContext;
     expect timestamp == versionThree?.Item.EncryptionContext[customEC], "Version made DECRYPT_ONLY in wrong state!";
 

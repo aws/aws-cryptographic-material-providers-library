@@ -63,6 +63,7 @@ namespace AWS.Cryptography.KeyStore
       if (!IsSetIdentifier()) throw new System.ArgumentException("Missing value for required property 'Identifier'");
       if (!IsSetOriginal()) throw new System.ArgumentException("Missing value for required property 'Original'");
       if (!IsSetTerminal()) throw new System.ArgumentException("Missing value for required property 'Terminal'");
+      if (!IsSetCompleteMutation()) throw new System.ArgumentException("Missing value for required property 'CompleteMutation'");
 
     }
   }

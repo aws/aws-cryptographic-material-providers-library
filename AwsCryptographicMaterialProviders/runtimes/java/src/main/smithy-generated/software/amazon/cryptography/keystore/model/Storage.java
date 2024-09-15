@@ -4,20 +4,20 @@
 package software.amazon.cryptography.keystore.model;
 
 import java.util.Objects;
-import software.amazon.cryptography.keystore.EncryptedKeyStore;
-import software.amazon.cryptography.keystore.IEncryptedKeyStore;
+import software.amazon.cryptography.keystore.IKeyStorageInterface;
+import software.amazon.cryptography.keystore.KeyStorageInterface;
 
 public class Storage {
 
   /**
-   * The DynamoDB configuration backs this Key Store.
+   * The DynamoDB configuration that backs this Key Store.
    */
   private final DynamoDBTable ddb;
 
   /**
-   * The custom storage configuration backs this Key Store.
+   * The custom storage configuration that backs this Key Store.
    */
-  private final IEncryptedKeyStore custom;
+  private final IKeyStorageInterface custom;
 
   protected Storage(BuilderImpl builder) {
     this.ddb = builder.ddb();
@@ -25,16 +25,16 @@ public class Storage {
   }
 
   /**
-   * @return The DynamoDB configuration backs this Key Store.
+   * @return The DynamoDB configuration that backs this Key Store.
    */
   public DynamoDBTable ddb() {
     return this.ddb;
   }
 
   /**
-   * @return The custom storage configuration backs this Key Store.
+   * @return The custom storage configuration that backs this Key Store.
    */
-  public IEncryptedKeyStore custom() {
+  public IKeyStorageInterface custom() {
     return this.custom;
   }
 
@@ -48,24 +48,24 @@ public class Storage {
 
   public interface Builder {
     /**
-     * @param ddb The DynamoDB configuration backs this Key Store.
+     * @param ddb The DynamoDB configuration that backs this Key Store.
      */
     Builder ddb(DynamoDBTable ddb);
 
     /**
-     * @return The DynamoDB configuration backs this Key Store.
+     * @return The DynamoDB configuration that backs this Key Store.
      */
     DynamoDBTable ddb();
 
     /**
-     * @param custom The custom storage configuration backs this Key Store.
+     * @param custom The custom storage configuration that backs this Key Store.
      */
-    Builder custom(IEncryptedKeyStore custom);
+    Builder custom(IKeyStorageInterface custom);
 
     /**
-     * @return The custom storage configuration backs this Key Store.
+     * @return The custom storage configuration that backs this Key Store.
      */
-    IEncryptedKeyStore custom();
+    IKeyStorageInterface custom();
 
     Storage build();
   }
@@ -74,7 +74,7 @@ public class Storage {
 
     protected DynamoDBTable ddb;
 
-    protected IEncryptedKeyStore custom;
+    protected IKeyStorageInterface custom;
 
     protected BuilderImpl() {}
 
@@ -92,12 +92,12 @@ public class Storage {
       return this.ddb;
     }
 
-    public Builder custom(IEncryptedKeyStore custom) {
-      this.custom = EncryptedKeyStore.wrap(custom);
+    public Builder custom(IKeyStorageInterface custom) {
+      this.custom = KeyStorageInterface.wrap(custom);
       return this;
     }
 
-    public IEncryptedKeyStore custom() {
+    public IKeyStorageInterface custom() {
       return this.custom;
     }
 

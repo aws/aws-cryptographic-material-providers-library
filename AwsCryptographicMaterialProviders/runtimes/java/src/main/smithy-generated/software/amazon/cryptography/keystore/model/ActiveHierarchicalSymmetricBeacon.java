@@ -3,6 +3,9 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.keystore.model;
 
+/**
+ * Information for a symmetric beacon key. At this time there is no additional information.
+ */
 public class ActiveHierarchicalSymmetricBeacon {
 
   protected ActiveHierarchicalSymmetricBeacon(BuilderImpl builder) {}

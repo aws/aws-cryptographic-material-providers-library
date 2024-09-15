@@ -7,10 +7,19 @@ import java.util.Objects;
 
 public class GetItemsForInitializeMutationOutput {
 
+  /**
+   * The materials for the Branch Key.
+   */
   private final EncryptedHierarchicalKey activeItem;
 
+  /**
+   * The materials for the Beacon Key.
+   */
   private final EncryptedHierarchicalKey beaconItem;
 
+  /**
+   * The Mutation Lock, if it exists.
+   */
   private final MutationLock mutationLock;
 
   protected GetItemsForInitializeMutationOutput(BuilderImpl builder) {
@@ -19,14 +28,23 @@ public class GetItemsForInitializeMutationOutput {
     this.mutationLock = builder.mutationLock();
   }
 
+  /**
+   * @return The materials for the Branch Key.
+   */
   public EncryptedHierarchicalKey activeItem() {
     return this.activeItem;
   }
 
+  /**
+   * @return The materials for the Beacon Key.
+   */
   public EncryptedHierarchicalKey beaconItem() {
     return this.beaconItem;
   }
 
+  /**
+   * @return The Mutation Lock, if it exists.
+   */
   public MutationLock mutationLock() {
     return this.mutationLock;
   }
@@ -40,16 +58,34 @@ public class GetItemsForInitializeMutationOutput {
   }
 
   public interface Builder {
+    /**
+     * @param activeItem The materials for the Branch Key.
+     */
     Builder activeItem(EncryptedHierarchicalKey activeItem);
 
+    /**
+     * @return The materials for the Branch Key.
+     */
     EncryptedHierarchicalKey activeItem();
 
+    /**
+     * @param beaconItem The materials for the Beacon Key.
+     */
     Builder beaconItem(EncryptedHierarchicalKey beaconItem);
 
+    /**
+     * @return The materials for the Beacon Key.
+     */
     EncryptedHierarchicalKey beaconItem();
 
+    /**
+     * @param mutationLock The Mutation Lock, if it exists.
+     */
     Builder mutationLock(MutationLock mutationLock);
 
+    /**
+     * @return The Mutation Lock, if it exists.
+     */
     MutationLock mutationLock();
 
     GetItemsForInitializeMutationOutput build();

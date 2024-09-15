@@ -7,18 +7,39 @@ import java.nio.ByteBuffer;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Information about an encrypted hierarchical key. This abstracts the structure of this information from the underlying storage.
+ */
 public class EncryptedHierarchicalKey {
 
+  /**
+   * The identifier for this encrypted key.
+   */
   private final String Identifier;
 
-  private final BranchKeyType Type;
+  /**
+   * The type of encrypted key.
+   */
+  private final HierarchicalKeyType Type;
 
+  /**
+   * The create time as an ISO 8061 UTC string.
+   */
   private final String CreateTime;
 
+  /**
+   * The KMS ARN which protects this encrypted key.
+   */
   private final String KmsArn;
 
+  /**
+   * The encryption context needed to decrypt this encrypted key. This includes the user the provided custom encryption context, as well as the other Branch Key attributes.
+   */
   private final Map<String, String> EncryptionContext;
 
+  /**
+   * The ciphertext for this encrypted key.
+   */
   private final ByteBuffer CiphertextBlob;
 
   protected EncryptedHierarchicalKey(BuilderImpl builder) {
@@ -30,26 +51,44 @@ public class EncryptedHierarchicalKey {
     this.CiphertextBlob = builder.CiphertextBlob();
   }
 
+  /**
+   * @return The identifier for this encrypted key.
+   */
   public String Identifier() {
     return this.Identifier;
   }
 
-  public BranchKeyType Type() {
+  /**
+   * @return The type of encrypted key.
+   */
+  public HierarchicalKeyType Type() {
     return this.Type;
   }
 
+  /**
+   * @return The create time as an ISO 8061 UTC string.
+   */
   public String CreateTime() {
     return this.CreateTime;
   }
 
+  /**
+   * @return The KMS ARN which protects this encrypted key.
+   */
   public String KmsArn() {
     return this.KmsArn;
   }
 
+  /**
+   * @return The encryption context needed to decrypt this encrypted key. This includes the user the provided custom encryption context, as well as the other Branch Key attributes.
+   */
   public Map<String, String> EncryptionContext() {
     return this.EncryptionContext;
   }
 
+  /**
+   * @return The ciphertext for this encrypted key.
+   */
   public ByteBuffer CiphertextBlob() {
     return this.CiphertextBlob;
   }
@@ -63,28 +102,64 @@ public class EncryptedHierarchicalKey {
   }
 
   public interface Builder {
+    /**
+     * @param Identifier The identifier for this encrypted key.
+     */
     Builder Identifier(String Identifier);
 
+    /**
+     * @return The identifier for this encrypted key.
+     */
     String Identifier();
 
-    Builder Type(BranchKeyType Type);
+    /**
+     * @param Type The type of encrypted key.
+     */
+    Builder Type(HierarchicalKeyType Type);
 
-    BranchKeyType Type();
+    /**
+     * @return The type of encrypted key.
+     */
+    HierarchicalKeyType Type();
 
+    /**
+     * @param CreateTime The create time as an ISO 8061 UTC string.
+     */
     Builder CreateTime(String CreateTime);
 
+    /**
+     * @return The create time as an ISO 8061 UTC string.
+     */
     String CreateTime();
 
+    /**
+     * @param KmsArn The KMS ARN which protects this encrypted key.
+     */
     Builder KmsArn(String KmsArn);
 
+    /**
+     * @return The KMS ARN which protects this encrypted key.
+     */
     String KmsArn();
 
+    /**
+     * @param EncryptionContext The encryption context needed to decrypt this encrypted key. This includes the user the provided custom encryption context, as well as the other Branch Key attributes.
+     */
     Builder EncryptionContext(Map<String, String> EncryptionContext);
 
+    /**
+     * @return The encryption context needed to decrypt this encrypted key. This includes the user the provided custom encryption context, as well as the other Branch Key attributes.
+     */
     Map<String, String> EncryptionContext();
 
+    /**
+     * @param CiphertextBlob The ciphertext for this encrypted key.
+     */
     Builder CiphertextBlob(ByteBuffer CiphertextBlob);
 
+    /**
+     * @return The ciphertext for this encrypted key.
+     */
     ByteBuffer CiphertextBlob();
 
     EncryptedHierarchicalKey build();
@@ -94,7 +169,7 @@ public class EncryptedHierarchicalKey {
 
     protected String Identifier;
 
-    protected BranchKeyType Type;
+    protected HierarchicalKeyType Type;
 
     protected String CreateTime;
 
@@ -124,12 +199,12 @@ public class EncryptedHierarchicalKey {
       return this.Identifier;
     }
 
-    public Builder Type(BranchKeyType Type) {
+    public Builder Type(HierarchicalKeyType Type) {
       this.Type = Type;
       return this;
     }
 
-    public BranchKeyType Type() {
+    public HierarchicalKeyType Type() {
       return this.Type;
     }
 

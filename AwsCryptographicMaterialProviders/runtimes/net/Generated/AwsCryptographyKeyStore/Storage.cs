@@ -8,7 +8,7 @@ namespace AWS.Cryptography.KeyStore
   public class Storage
   {
     private AWS.Cryptography.KeyStore.DynamoDBTable _ddb;
-    private AWS.Cryptography.KeyStore.IEncryptedKeyStore _custom;
+    private AWS.Cryptography.KeyStore.IKeyStorageInterface _custom;
     public AWS.Cryptography.KeyStore.DynamoDBTable Ddb
     {
       get { return this._ddb; }
@@ -18,7 +18,7 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._ddb != null;
     }
-    public AWS.Cryptography.KeyStore.IEncryptedKeyStore Custom
+    public AWS.Cryptography.KeyStore.IKeyStorageInterface Custom
     {
       get { return this._custom; }
       set { this._custom = value; }

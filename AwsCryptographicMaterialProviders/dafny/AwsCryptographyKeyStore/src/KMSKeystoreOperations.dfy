@@ -436,29 +436,4 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     && decryptHistory.output.Success?
     && decryptHistory.output.value.Plaintext.Some?
   }
-
-
-  // Probably going to do this instead of DefaultKeyManagement
-  // But going to stick with DefaultKeyManagement till Monday
-  // so I can focus on the Mutation Logic OUTSIDE of KMS
-  // datatype AuthAdminConfig = ReEncrypt(
-  //   grantTokens : KMS.GrantTokenList,
-  //   kmsClient : KMS.IKMSClient
-  // )
-
-  // method ValidateBranchKey(
-  //   encryptedHierarchicalKey: Types.EncryptedHierarchicalKey,
-  //   authAdminConfig: AuthAdminConfig
-  // )
-  //   returns (output: Result<Types.ValidateBranchKeyOutput, Types.Error>)
-
-  //   requires && authAdminConfig.kmsClient.ValidState()
-  //   modifies authAdminConfig.kmsClient.Modifies
-  //   ensures && authAdminConfig.kmsClient.ValidState()
-
-  // {
-  //   return Failure(Types.KeyStoreException(message := "Ryan or Tony Implement me!"));
-  // }
-
-
 }

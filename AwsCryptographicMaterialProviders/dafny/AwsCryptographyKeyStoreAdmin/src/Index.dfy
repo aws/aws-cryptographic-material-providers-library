@@ -9,7 +9,7 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny"}
 {
   import opened AwsKmsUtils
   import DDB = ComAmazonawsDynamodbTypes
-  import DefaultEncryptedKeyStore
+  import DefaultKeyStorageInterface
   import Operations = AwsCryptographyKeyStoreAdminOperations
   import KeyStoreTypes = AwsCryptographyKeyStoreTypes
 
@@ -47,19 +47,29 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny"}
     }
     assert config.storage.ddb? ==> config.storage.ddb.ddbClient.Some?;
 
-    var storage: KeyStoreTypes.IEncryptedKeyStore;
+    var storage: KeyStoreTypes.IKeyStorageInterface;
     if config.storage.custom? {
       storage := config.storage.custom;
       :- Need(
-        && storage is DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore
-        && config.logicalKeyStoreName == (storage as DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore).logicalKeyStoreName,
+        && storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+        && config.logicalKeyStoreName == (storage as DefaultKeyStorageInterface.DynamoDBKeyStorageInterface).logicalKeyStoreName,
         KeyStoreAdminException(message := "Storage's Logical Key Store Name does not match passed Logical Key Store Name")
       );
     } else {
-      storage := new DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore(
+      var physicalNameUTF8? := UTF8.Encode(config.storage.ddb.ddbTableName);
+      if (physicalNameUTF8?.Failure?) {
+        return Failure(KeyStoreAdminException(message := "Could not UTF8 Encode DDB Table Name: " + physicalNameUTF8?.error));
+      }
+      var logicalNameUTF8? := UTF8.Encode(config.logicalKeyStoreName);
+      if (logicalNameUTF8?.Failure?) {
+        return Failure(KeyStoreAdminException(message := "Could not UTF8 Encode Logical Name: " + logicalNameUTF8?.error));
+      }
+      storage := new DefaultKeyStorageInterface.DynamoDBKeyStorageInterface(
         ddbTableName := config.storage.ddb.ddbTableName,
         ddbClient := config.storage.ddb.ddbClient.value,
-        logicalKeyStoreName := config.logicalKeyStoreName
+        logicalKeyStoreName := config.logicalKeyStoreName,
+        ddbTableNameUtf8 := physicalNameUTF8?.value,
+        logicalKeyStoreNameUtf8 := logicalNameUTF8?.value
       );
     }
     var internalConfig := Operations.Config(

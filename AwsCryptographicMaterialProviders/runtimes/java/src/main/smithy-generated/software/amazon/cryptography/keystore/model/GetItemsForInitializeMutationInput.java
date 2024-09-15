@@ -7,12 +7,18 @@ import java.util.Objects;
 
 public class GetItemsForInitializeMutationInput {
 
+  /**
+   * The Branch Key to Mutate.
+   */
   private final String Identifier;
 
   protected GetItemsForInitializeMutationInput(BuilderImpl builder) {
     this.Identifier = builder.Identifier();
   }
 
+  /**
+   * @return The Branch Key to Mutate.
+   */
   public String Identifier() {
     return this.Identifier;
   }
@@ -26,8 +32,14 @@ public class GetItemsForInitializeMutationInput {
   }
 
   public interface Builder {
+    /**
+     * @param Identifier The Branch Key to Mutate.
+     */
     Builder Identifier(String Identifier);
 
+    /**
+     * @return The Branch Key to Mutate.
+     */
     String Identifier();
 
     GetItemsForInitializeMutationInput build();

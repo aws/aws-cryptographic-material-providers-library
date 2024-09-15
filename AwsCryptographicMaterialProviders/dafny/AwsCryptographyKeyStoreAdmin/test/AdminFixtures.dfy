@@ -14,7 +14,7 @@ module {:options "/functionSyntax:4" } AdminFixtures {
   import opened Wrappers
   import Fixtures
   import UTF8 = Fixtures.UTF8
-  import DefaultEncryptedKeyStore
+  import DefaultKeyStorageInterface
 
   method {:opaque} DefaultAdmin(
     nameonly physicalName: string := Fixtures.branchKeyStoreName,
@@ -26,6 +26,7 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     ensures output.Success? ==> output.value.ValidState()
     requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
     modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
+    requires UTF8.IsASCIIString(physicalName) && UTF8.IsASCIIString(logicalName)
   {
     var ddbClient: DDB.Types.IDynamoDBClient;
     if (ddbClient?.None?) {
@@ -33,15 +34,14 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     } else {
       ddbClient := ddbClient?.value;
     }
-    // var storage :- expect DefaultStorage(
-    //   physicalName := physicalName,
-    //   logicalName := logicalName,
-    //   ddbClient?:=Some(ddbClient)
-    // );
-    var storage := new DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore(
+    var physicalNameUtf8 :- expect UTF8.Encode(physicalName); 
+    var logicalNameUtf8 :- expect UTF8.Encode(logicalName);
+    var storage := new DefaultKeyStorageInterface.DynamoDBKeyStorageInterface(
       ddbTableName := physicalName,
       ddbClient := ddbClient,
-      logicalKeyStoreName := logicalName);
+      logicalKeyStoreName := logicalName,
+      ddbTableNameUtf8 := physicalNameUtf8,
+      logicalKeyStoreNameUtf8 := logicalNameUtf8);
 
     var underTestConfig := Types.KeyStoreAdminConfig(
       logicalKeyStoreName := logicalName,
@@ -219,8 +219,9 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     nameonly logicalName: string := Fixtures.logicalKeyStoreName,
     nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None
   )
-    returns (output: Result<KeyStoreTypes.IEncryptedKeyStore, KeyStoreTypes.Error>)
+    returns (output: Result<KeyStoreTypes.IKeyStorageInterface, KeyStoreTypes.Error>)
     requires DDB.Types.IsValid_TableName(physicalName)
+    requires UTF8.IsASCIIString(physicalName) && UTF8.IsASCIIString(logicalName)    
     // requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
     ensures output.Success? ==> output.value.ValidState()
     // modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
@@ -232,10 +233,14 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     //   ddbClient := ddbClient?.value;
     // }
     // assume {:axiom} ddbClient.Modifies == {} && ddbClient.ValidState();
-    var underTest := new DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore(
+    var physicalNameUtf8 :- expect UTF8.Encode(physicalName); 
+    var logicalNameUtf8 :- expect UTF8.Encode(logicalName);
+    var underTest := new DefaultKeyStorageInterface.DynamoDBKeyStorageInterface(
       ddbTableName := physicalName,
       ddbClient := ddbClient,
-      logicalKeyStoreName := logicalName);
+      logicalKeyStoreName := logicalName,
+      ddbTableNameUtf8 := physicalNameUtf8,
+      logicalKeyStoreNameUtf8 := logicalNameUtf8);
     // We may not need this, but **Oh My God** does it make verification go faster
     // assume {:axiom} underTest.Modifies == {} && ddbClient.Modifies == {} && ddbClient.ValidState() && underTest.ValidState();
     output := Success(underTest);

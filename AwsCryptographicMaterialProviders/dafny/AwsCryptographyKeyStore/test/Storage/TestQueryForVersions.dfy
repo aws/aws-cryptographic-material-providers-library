@@ -15,6 +15,7 @@ module {:options "/functionSyntax:4"} TestQueryForVersions {
   import CleanupItems
   import opened Wrappers
   import String = StandardLibrary.String
+  import Structure
 
   const ddbTableName: DDB.Types.TableName := Fixtures.branchKeyStoreName
   const logicalKeyStoreName := Fixtures.logicalKeyStoreName
@@ -47,6 +48,7 @@ module {:options "/functionSyntax:4"} TestQueryForVersions {
             " :: Input Start Key is None? :: " +
             (if inputQuery.exclusiveStartKey.None? then "True" else "False")
             + "\n";
+      assume {:axiom} underTest.Modifies == {}; // Turns off verification
       queryOut :- expect underTest.QueryForVersions(inputQuery);
       queryCount := queryCount + 1;
       items := queryOut.items;
@@ -57,7 +59,7 @@ module {:options "/functionSyntax:4"} TestQueryForVersions {
         expect
           |items| == 2,
           "Query returned items but not 2 of them? Size of items: " + String.Base10Int2String(|items|);
-        var strItems: seq<string> := seq(|items|, (i: int) => items[i].EncryptionContext["type"]);
+        var strItems: seq<string> := seq(|items|, (i: nat) requires i < |items| => items[i].EncryptionContext[Structure.TYPE_FIELD]);
         print "\nTestQueryForVersions :: TestHappyCase :: Query "
               + String.Base10Int2String(queryCount)  +  " :: Items :: "
               + strItems[0] + " , " + strItems[1] + "\n";

@@ -126,13 +126,13 @@ module {:options "/functionSyntax:4" } Structure {
     && key.KmsArn == key.EncryptionContext[KMS_FIELD]
 
     && (match key.Type
-        case ActiveHierarchicalSymmetricVersion(version) =>
+        case ActiveHierarchicalSymmetricVersion(active) =>
           && BRANCH_KEY_ACTIVE_VERSION_FIELD in key.EncryptionContext
           && key.EncryptionContext[TYPE_FIELD] == BRANCH_KEY_ACTIVE_TYPE
-          && key.EncryptionContext[BRANCH_KEY_ACTIVE_VERSION_FIELD] == BRANCH_KEY_TYPE_PREFIX + version
-        case HierarchicalSymmetricVersion(version) =>
+          && key.EncryptionContext[BRANCH_KEY_ACTIVE_VERSION_FIELD] == BRANCH_KEY_TYPE_PREFIX + active.Version
+        case HierarchicalSymmetricVersion(decryptOnly) =>
           && BRANCH_KEY_ACTIVE_VERSION_FIELD !in key.EncryptionContext
-          && key.EncryptionContext[TYPE_FIELD] == BRANCH_KEY_TYPE_PREFIX + version
+          && key.EncryptionContext[TYPE_FIELD] == BRANCH_KEY_TYPE_PREFIX + decryptOnly.Version
         case ActiveHierarchicalSymmetricBeacon(_) =>
           && BRANCH_KEY_ACTIVE_VERSION_FIELD !in key.EncryptionContext
           && key.EncryptionContext[TYPE_FIELD] == BEACON_KEY_TYPE_VALUE
@@ -179,12 +179,19 @@ module {:options "/functionSyntax:4" } Structure {
     requires BranchKeyContext?(EncryptionContext)
     ensures EncryptedHierarchicalKey?(output)
   {
-    var Type := if EncryptionContext[TYPE_FIELD] == BRANCH_KEY_ACTIVE_TYPE then
-                  Types.ActiveHierarchicalSymmetricVersion(EncryptionContext[BRANCH_KEY_ACTIVE_VERSION_FIELD][|BRANCH_KEY_TYPE_PREFIX|..])
-                else if EncryptionContext[TYPE_FIELD] == BEACON_KEY_TYPE_VALUE then
-                  Types.BranchKeyType.ActiveHierarchicalSymmetricBeacon(Types.ActiveHierarchicalSymmetricBeacon.ActiveHierarchicalSymmetricBeacon)
-                else
-                  Types.HierarchicalSymmetricVersion(EncryptionContext[TYPE_FIELD][|BRANCH_KEY_TYPE_PREFIX|..]);
+    var Type
+      := if EncryptionContext[TYPE_FIELD] == BRANCH_KEY_ACTIVE_TYPE then
+           Types.ActiveHierarchicalSymmetricVersion(
+             Types.ActiveHierarchicalSymmetric(
+               Version := EncryptionContext[BRANCH_KEY_ACTIVE_VERSION_FIELD][|BRANCH_KEY_TYPE_PREFIX|..]
+             ))
+         else if EncryptionContext[TYPE_FIELD] == BEACON_KEY_TYPE_VALUE then
+           Types.HierarchicalKeyType.ActiveHierarchicalSymmetricBeacon(Types.ActiveHierarchicalSymmetricBeacon.ActiveHierarchicalSymmetricBeacon)
+         else
+           Types.HierarchicalSymmetricVersion(
+             Types.HierarchicalSymmetric(
+               Version := EncryptionContext[TYPE_FIELD][|BRANCH_KEY_TYPE_PREFIX|..]
+             ));
 
     Types.EncryptedHierarchicalKey(
       Identifier := EncryptionContext[BRANCH_KEY_IDENTIFIER_FIELD],
@@ -242,8 +249,8 @@ module {:options "/functionSyntax:4" } Structure {
               && output.value.branchKeyVersion == UTF8.Encode(versionInformation[|BRANCH_KEY_TYPE_PREFIX|..]).value
               && output.value.branchKeyVersion == UTF8.Encode(
                                                     match key.Type
-                                                    case ActiveHierarchicalSymmetricVersion(version) => version
-                                                    case HierarchicalSymmetricVersion(version) => version
+                                                    case ActiveHierarchicalSymmetricVersion(active) => active.Version
+                                                    case HierarchicalSymmetricVersion(decrypt) => decrypt.Version
                                                   ).value
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-materials-from-authenticated-encryption-context
@@ -269,11 +276,11 @@ module {:options "/functionSyntax:4" } Structure {
       || BRANCH_KEY_TYPE_PREFIX < key.EncryptionContext[TYPE_FIELD];
 
     var branchKeyVersion := match key.Type
-      case ActiveHierarchicalSymmetricVersion(version) => version
-      case HierarchicalSymmetricVersion(version) => version;
+      case ActiveHierarchicalSymmetricVersion(active) => active.Version
+      case HierarchicalSymmetricVersion(decrypt) => decrypt.Version;
 
     var branchKeyVersionUtf8 :- UTF8.Encode(branchKeyVersion)
-                                .MapFailure(e => Types.Error.KeyStoreException( message := e ));
+                                .MapFailure(e => Types.KeyStoreException( message := e ));
 
     var customEncryptionContext :- ExtractCustomEncryptionContext(key.EncryptionContext);
 
@@ -542,11 +549,11 @@ module {:options "/functionSyntax:4" } Structure {
     - {BRANCH_KEY_ACTIVE_VERSION_FIELD}
   }
 
-  //= aws-encryption-sdk-specification/framework/key-store/dynamodb-encrypted-key-store.md#record-format
+  //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#record-format
   //= type=implication
   //# A branch key record MAY include [custom encryption context](../branch-key-store.md#custom-encryption-context) key-value pairs.
 
-  //= aws-encryption-sdk-specification/framework/key-store/dynamodb-encrypted-key-store.md#record-format
+  //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#record-format
   //= type=implication
   //# A branch key record MUST include the following key-value pairs:
   predicate BranchKeyItem?(m: DDB.AttributeMap) {

@@ -43,12 +43,6 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   datatype CreateKeyOutput = | CreateKeyOutput (
     nameonly branchKeyIdentifier: string
   )
-  datatype DescribeMutationInput = | DescribeMutationInput (
-    nameonly branchKeyIdentifier: string
-  )
-  datatype DescribeMutationOutput = | DescribeMutationOutput (
-    nameonly mutationToken: Option<MutationToken> := Option.None
-  )
   datatype InitializeMutationInput = | InitializeMutationInput (
     nameonly branchKeyIdentifier: string ,
     nameonly mutations: Mutations ,
@@ -67,13 +61,13 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
       VersionKey := [];
       InitializeMutation := [];
       ApplyMutation := [];
-      DescribeMutation := [];
+      ResumeMutation := [];
     }
     ghost var CreateKey: seq<DafnyCallEvent<CreateKeyInput, Result<CreateKeyOutput, Error>>>
     ghost var VersionKey: seq<DafnyCallEvent<VersionKeyInput, Result<VersionKeyOutput, Error>>>
     ghost var InitializeMutation: seq<DafnyCallEvent<InitializeMutationInput, Result<InitializeMutationOutput, Error>>>
     ghost var ApplyMutation: seq<DafnyCallEvent<ApplyMutationInput, Result<ApplyMutationOutput, Error>>>
-    ghost var DescribeMutation: seq<DafnyCallEvent<DescribeMutationInput, Result<DescribeMutationOutput, Error>>>
+    ghost var ResumeMutation: seq<DafnyCallEvent<ResumeMutationInput, Result<ResumeMutationOutput, Error>>>
   }
   trait {:termination false} IKeyStoreAdminClient
   {
@@ -162,20 +156,20 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
       ensures ApplyMutationEnsuresPublicly(input, output)
       ensures History.ApplyMutation == old(History.ApplyMutation) + [DafnyCallEvent(input, output)]
 
-    predicate DescribeMutationEnsuresPublicly(input: DescribeMutationInput , output: Result<DescribeMutationOutput, Error>)
+    predicate ResumeMutationEnsuresPublicly(input: ResumeMutationInput , output: Result<ResumeMutationOutput, Error>)
     // The public method to be called by library consumers
-    method DescribeMutation ( input: DescribeMutationInput )
-      returns (output: Result<DescribeMutationOutput, Error>)
+    method ResumeMutation ( input: ResumeMutationInput )
+      returns (output: Result<ResumeMutationOutput, Error>)
       requires
         && ValidState()
       modifies Modifies - {History} ,
-               History`DescribeMutation
+               History`ResumeMutation
       // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History}
       ensures
         && ValidState()
-      ensures DescribeMutationEnsuresPublicly(input, output)
-      ensures History.DescribeMutation == old(History.DescribeMutation) + [DafnyCallEvent(input, output)]
+      ensures ResumeMutationEnsuresPublicly(input, output)
+      ensures History.ResumeMutation == old(History.ResumeMutation) + [DafnyCallEvent(input, output)]
 
   }
   datatype KeyStoreAdminConfig = | KeyStoreAdminConfig (
@@ -185,6 +179,10 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   datatype KMSIdentifier =
     | kmsKeyArn(kmsKeyArn: string)
     | kmsMRKeyArn(kmsMRKeyArn: string)
+  datatype MutableBranchKeyProperities = | MutableBranchKeyProperities (
+    nameonly kmsArn: string ,
+    nameonly customEncryptionContext: AwsCryptographyKeyStoreTypes.EncryptionContextString
+  )
   datatype MutatedBranchKeyItem = | MutatedBranchKeyItem (
     nameonly itemType: string ,
     nameonly description: string
@@ -194,8 +192,8 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
 
                               )
   datatype Mutations = | Mutations (
-    nameonly finalKmsArn: Option<string> := Option.None ,
-    nameonly finalEncryptionContext: Option<AwsCryptographyKeyStoreTypes.EncryptionContextString> := Option.None
+    nameonly terminalKmsArn: Option<string> := Option.None ,
+    nameonly terminalEncryptionContext: Option<AwsCryptographyKeyStoreTypes.EncryptionContextString> := Option.None
   )
   datatype MutationToken = | MutationToken (
     nameonly Identifier: string ,
@@ -204,6 +202,15 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     nameonly ExclusiveStartKey: Option<seq<uint8>> := Option.None ,
     nameonly UUID: Option<string> := Option.None ,
     nameonly CreateTime: string
+  )
+  datatype ResumeMutationInput = | ResumeMutationInput (
+    nameonly branchKeyIdentifier: string ,
+    nameonly original: MutableBranchKeyProperities ,
+    nameonly terminal: MutableBranchKeyProperities ,
+    nameonly strategy: Option<KeyManagementStrategy> := Option.None
+  )
+  datatype ResumeMutationOutput = | ResumeMutationOutput (
+    nameonly mutationToken: Option<MutationToken> := Option.None
   )
   datatype VersionKeyInput = | VersionKeyInput (
     nameonly branchKeyIdentifier: string ,
@@ -222,6 +229,9 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
         nameonly message: string
       )
     | MutationInvalidException (
+        nameonly message: string
+      )
+    | MutationLockDisagreesException (
         nameonly message: string
       )
     | MutationLockInvalidException (
@@ -406,24 +416,24 @@ abstract module AbstractAwsCryptographyKeyStoreAdminService
       History.ApplyMutation := History.ApplyMutation + [DafnyCallEvent(input, output)];
     }
 
-    predicate DescribeMutationEnsuresPublicly(input: DescribeMutationInput , output: Result<DescribeMutationOutput, Error>)
-    {Operations.DescribeMutationEnsuresPublicly(input, output)}
+    predicate ResumeMutationEnsuresPublicly(input: ResumeMutationInput , output: Result<ResumeMutationOutput, Error>)
+    {Operations.ResumeMutationEnsuresPublicly(input, output)}
     // The public method to be called by library consumers
-    method DescribeMutation ( input: DescribeMutationInput )
-      returns (output: Result<DescribeMutationOutput, Error>)
+    method ResumeMutation ( input: ResumeMutationInput )
+      returns (output: Result<ResumeMutationOutput, Error>)
       requires
         && ValidState()
       modifies Modifies - {History} ,
-               History`DescribeMutation
+               History`ResumeMutation
       // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History}
       ensures
         && ValidState()
-      ensures DescribeMutationEnsuresPublicly(input, output)
-      ensures History.DescribeMutation == old(History.DescribeMutation) + [DafnyCallEvent(input, output)]
+      ensures ResumeMutationEnsuresPublicly(input, output)
+      ensures History.ResumeMutation == old(History.ResumeMutation) + [DafnyCallEvent(input, output)]
     {
-      output := Operations.DescribeMutation(config, input);
-      History.DescribeMutation := History.DescribeMutation + [DafnyCallEvent(input, output)];
+      output := Operations.ResumeMutation(config, input);
+      History.ResumeMutation := History.ResumeMutation + [DafnyCallEvent(input, output)];
     }
 
   }
@@ -500,12 +510,12 @@ abstract module AbstractAwsCryptographyKeyStoreAdminOperations {
     ensures ApplyMutationEnsuresPublicly(input, output)
 
 
-  predicate DescribeMutationEnsuresPublicly(input: DescribeMutationInput , output: Result<DescribeMutationOutput, Error>)
+  predicate ResumeMutationEnsuresPublicly(input: ResumeMutationInput , output: Result<ResumeMutationOutput, Error>)
   // The private method to be refined by the library developer
 
 
-  method DescribeMutation ( config: InternalConfig , input: DescribeMutationInput )
-    returns (output: Result<DescribeMutationOutput, Error>)
+  method ResumeMutation ( config: InternalConfig , input: ResumeMutationInput )
+    returns (output: Result<ResumeMutationOutput, Error>)
     requires
       && ValidInternalConfig?(config)
     modifies ModifiesInternalConfig(config)
@@ -513,5 +523,5 @@ abstract module AbstractAwsCryptographyKeyStoreAdminOperations {
     decreases ModifiesInternalConfig(config)
     ensures
       && ValidInternalConfig?(config)
-    ensures DescribeMutationEnsuresPublicly(input, output)
+    ensures ResumeMutationEnsuresPublicly(input, output)
 }

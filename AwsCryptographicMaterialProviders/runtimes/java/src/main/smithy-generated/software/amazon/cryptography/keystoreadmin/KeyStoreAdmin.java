@@ -14,11 +14,11 @@ import software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.CreateKeyInput;
 import software.amazon.cryptography.keystoreadmin.model.CreateKeyOutput;
-import software.amazon.cryptography.keystoreadmin.model.DescribeMutationInput;
-import software.amazon.cryptography.keystoreadmin.model.DescribeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.KeyStoreAdminConfig;
+import software.amazon.cryptography.keystoreadmin.model.ResumeMutationInput;
+import software.amazon.cryptography.keystoreadmin.model.ResumeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.VersionKeyInput;
 import software.amazon.cryptography.keystoreadmin.model.VersionKeyOutput;
 
@@ -83,25 +83,6 @@ public class KeyStoreAdmin {
   }
 
   /**
-   * Check for Mutation Lock on a Branch Key ID.
-   *   If one exists, returns a Mutation Token.
-   *   Otherwise, returns nothing.
-   *
-   */
-  public DescribeMutationOutput DescribeMutation(DescribeMutationInput input) {
-    software.amazon.cryptography.keystoreadmin.internaldafny.types.DescribeMutationInput dafnyValue =
-      ToDafny.DescribeMutationInput(input);
-    Result<
-      software.amazon.cryptography.keystoreadmin.internaldafny.types.DescribeMutationOutput,
-      Error
-    > result = this._impl.DescribeMutation(dafnyValue);
-    if (result.is_Failure()) {
-      throw ToNative.Error(result.dtor_error());
-    }
-    return ToNative.DescribeMutationOutput(result.dtor_value());
-  }
-
-  /**
    *
    * Starts a Mutation to all Items of a Branch Key ID.
    * Versions the Branch Key ID, such that the new version only has existed in the final state.
@@ -125,6 +106,27 @@ public class KeyStoreAdmin {
       throw ToNative.Error(result.dtor_error());
     }
     return ToNative.InitializeMutationOutput(result.dtor_value());
+  }
+
+  /**
+   * If the inputs align with a Mutation that is marked as already in-flight,
+   *   this operation returns a Mutation Token that can be used to continue the in-flight
+   *   Mutation.
+   *   If no in-flight Mutation is detected, nothing is returned.
+   *   If the inputs do not align, a MutationConflictException is thrown.
+   *
+   */
+  public ResumeMutationOutput ResumeMutation(ResumeMutationInput input) {
+    software.amazon.cryptography.keystoreadmin.internaldafny.types.ResumeMutationInput dafnyValue =
+      ToDafny.ResumeMutationInput(input);
+    Result<
+      software.amazon.cryptography.keystoreadmin.internaldafny.types.ResumeMutationOutput,
+      Error
+    > result = this._impl.ResumeMutation(dafnyValue);
+    if (result.is_Failure()) {
+      throw ToNative.Error(result.dtor_error());
+    }
+    return ToNative.ResumeMutationOutput(result.dtor_value());
   }
 
   /**

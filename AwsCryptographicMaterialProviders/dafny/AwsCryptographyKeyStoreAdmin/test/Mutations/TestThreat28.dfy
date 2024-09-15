@@ -36,10 +36,11 @@ module {:options "/functionSyntax:4" } TestThreat28 {
   import CleanupItems
   import KMS = Com.Amazonaws.Kms
   import DDB = Com.Amazonaws.Dynamodb
-  import DefaultEncryptedKeyStore
+  import DefaultKeyStorageInterface
   import Time
   import Structure
   import String = StandardLibrary.String
+  import UTF8
 
   const happyCaseId := "test-apply-mutates-everything-before-completing"
   const customEC := "aws-crypto-ec:Robbie"
@@ -55,13 +56,16 @@ module {:options "/functionSyntax:4" } TestThreat28 {
     // expect false, "Test Disabled until Apply Mutation Page Handling resolved.";
     var ddbClient :- expect DDB.DynamoDBClient();
     var kmsClient :- expect KMS.KMSClient();
-
+    var physicalNameUtf8 :- expect UTF8.Encode(physicalName); 
+    var logicalNameUtf8 :- expect UTF8.Encode(logicalName);
     // var storage :- expect AdminFixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
     // assert storage.ValidState();
-    var storage := new DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore(
+    var storage := new DefaultKeyStorageInterface.DynamoDBKeyStorageInterface(
       ddbTableName := physicalName,
       ddbClient := ddbClient,
-      logicalKeyStoreName := logicalName);
+      logicalKeyStoreName := logicalName,
+      ddbTableNameUtf8 := physicalNameUtf8,
+      logicalKeyStoreNameUtf8 := logicalNameUtf8);
 
     // var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
     // assert underTest.ValidState();
@@ -100,18 +104,18 @@ module {:options "/functionSyntax:4" } TestThreat28 {
 
     print testLogPrefix + " Created the test items with 2 versions! testId: " + testId + "\n";
 
-    var activeOneInput := KeyStoreTypes.GetActiveInput(Identifier:=testId);
-    var activeOne? :- expect storage.GetActive(activeOneInput);
+    var activeOneInput := KeyStoreTypes.GetEncryptedActiveBranchKeyInput(Identifier:=testId);
+    var activeOne? :- expect storage.GetEncryptedActiveBranchKey(activeOneInput);
     expect customEC in activeOne?.Item.EncryptionContext;
     expect activeOne?.Item.Type.ActiveHierarchicalSymmetricVersion?;
-    var activeOne := activeOne?.Item.Type.ActiveHierarchicalSymmetricVersion;
+    var activeOne := activeOne?.Item.Type.ActiveHierarchicalSymmetricVersion.Version;
     var robbieOne := activeOne?.Item.EncryptionContext[customEC];
 
     print testLogPrefix + " Established ActiveOne: " + activeOne + "\n";
 
     var timestamp :- expect Time.GetCurrentTimeStamp();
     var newCustomEC: KeyStoreTypes.EncryptionContextString := map["Robbie" := timestamp];
-    var mutationsRequest := Types.Mutations(finalEncryptionContext := Some(newCustomEC));
+    var mutationsRequest := Types.Mutations(terminalEncryptionContext := Some(newCustomEC));
     var initInput := Types.InitializeMutationInput(
       branchKeyIdentifier := testId,
       mutations := mutationsRequest,
@@ -200,7 +204,7 @@ module {:options "/functionSyntax:4" } TestThreat28 {
       expect
         item.Type.HierarchicalSymmetricVersion?,
         "Query for Decrypt Only returned a non-Decrypt Only!";
-      var versionUUID := item.Type.HierarchicalSymmetricVersion;
+      var versionUUID := item.Type.HierarchicalSymmetricVersion.Version;
       inputV := KeyStoreTypes.GetBranchKeyVersionInput(
         branchKeyIdentifier := testId,
         branchKeyVersion := versionUUID
@@ -219,10 +223,10 @@ module {:options "/functionSyntax:4" } TestThreat28 {
     expect initializeResult.Success?, "Apply 3 did not erase the Mutation Lock or Initialize Mutation is broken!";
     print testLogPrefix + " Apply 3 output met expectations. testId: " + testId + "\n";
 
-    var lastActiveInput := KeyStoreTypes.GetActiveInput(Identifier:=testId);
-    var lastActive? :- expect storage.GetActive(lastActiveInput);
+    var lastActiveInput := KeyStoreTypes.GetEncryptedActiveBranchKeyInput(Identifier:=testId);
+    var lastActive? :- expect storage.GetEncryptedActiveBranchKey(lastActiveInput);
     expect lastActive?.Item.Type.ActiveHierarchicalSymmetricVersion?;
-    var lastActive := lastActive?.Item.Type.ActiveHierarchicalSymmetricVersion;
+    var lastActive := lastActive?.Item.Type.ActiveHierarchicalSymmetricVersion.Version;
 
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_ACTIVE_TYPE, ddbClient);
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BEACON_KEY_TYPE_VALUE, ddbClient);

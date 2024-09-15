@@ -8,7 +8,7 @@ namespace AWS.Cryptography.KeyStore
   public class EncryptedHierarchicalKey
   {
     private string _identifier;
-    private AWS.Cryptography.KeyStore.BranchKeyType _type;
+    private AWS.Cryptography.KeyStore.HierarchicalKeyType _type;
     private string _createTime;
     private string _kmsArn;
     private System.Collections.Generic.Dictionary<string, string> _encryptionContext;
@@ -22,7 +22,7 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._identifier != null;
     }
-    public AWS.Cryptography.KeyStore.BranchKeyType Type
+    public AWS.Cryptography.KeyStore.HierarchicalKeyType Type
     {
       get { return this._type; }
       set { this._type = value; }

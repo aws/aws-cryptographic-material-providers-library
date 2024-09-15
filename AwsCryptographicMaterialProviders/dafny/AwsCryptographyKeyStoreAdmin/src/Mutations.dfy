@@ -9,7 +9,7 @@ module {:options "/functionSyntax:4" } Mutations {
   import opened Seq
 
   import Structure
-  import DefaultEncryptedKeyStore
+  import DefaultKeyStorageInterface
   import ErrorMessages = KeyStoreErrorMessages
 
   import Types = AwsCryptographyKeyStoreAdminTypes
@@ -61,9 +61,9 @@ module {:options "/functionSyntax:4" } Mutations {
     logicalKeyStoreName: string
   ): (output: Result<Types.InitializeMutationInput, Types.Error>)
     ensures output.Success? ==> StateStrucs.ValidMutations?(input.mutations)
-    ensures output.Success? && input.mutations.finalEncryptionContext.Some?
+    ensures output.Success? && input.mutations.terminalEncryptionContext.Some?
             ==>
-              && |Structure.SelectCustomEncryptionContextAsString(input.mutations.finalEncryptionContext.value)| == 0
+              && |Structure.SelectCustomEncryptionContextAsString(input.mutations.terminalEncryptionContext.value)| == 0
   {
     :- Need(|input.branchKeyIdentifier| > 0,
             Types.KeyStoreAdminException(message := "Branch Key Identifier cannot be empty!"));
@@ -71,9 +71,9 @@ module {:options "/functionSyntax:4" } Mutations {
             Types.KeyStoreAdminException(
               message := "Mutations parameter is invalid; If Encryption Context is given, it cannot be empty or have empty values."));
     :- Need(
-         input.mutations.finalEncryptionContext.Some?
+         input.mutations.terminalEncryptionContext.Some?
          ==>
-           input.mutations.finalEncryptionContext.value.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES,
+           input.mutations.terminalEncryptionContext.value.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES,
          Types.KeyStoreAdminException(message := "WIP"));
 
     // var inputIndex := 0;
@@ -89,7 +89,7 @@ module {:options "/functionSyntax:4" } Mutations {
     input: Types.InitializeMutationInput,
     logicalKeyStoreName: string,
     keyManagerStrategy: keyManagerStrat,
-    storage: Types.AwsCryptographyKeyStoreTypes.IEncryptedKeyStore
+    storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
   )
     returns (output: Result<Types.InitializeMutationOutput, Types.Error>)
     requires ValidateInitializeMutationInput(input, logicalKeyStoreName).Success?
@@ -144,7 +144,7 @@ module {:options "/functionSyntax:4" } Mutations {
     var activeItem := readItems.activeItem;
 
     :- Need(
-      || storage is DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore
+      || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
            && activeItem.Identifier == input.branchKeyIdentifier
            && Structure.ActiveHierarchicalSymmetricKey?(activeItem)
@@ -159,7 +159,7 @@ module {:options "/functionSyntax:4" } Mutations {
 
     :- Need(
       && KmsArn.ValidKmsArn?(activeItem.KmsArn)
-      && (input.mutations.finalKmsArn.Some? ==> KmsArn.ValidKmsArn?(input.mutations.finalKmsArn.value))
+      && (input.mutations.terminalKmsArn.Some? ==> KmsArn.ValidKmsArn?(input.mutations.terminalKmsArn.value))
     , Types.KeyStoreAdminException(message := "WIP: ")
     );
 
@@ -180,11 +180,11 @@ module {:options "/functionSyntax:4" } Mutations {
 
     var prefixedTerminalCustomEC?: Option<KeyStoreTypes.EncryptionContextString> := None;
     var defixedTerminalCustomEC?: Option<KeyStoreTypes.EncryptionContextString> := None;
-    if (input.mutations.finalEncryptionContext.Some?) {
-      var prefixedTerminalCustomEC := map k <- input.mutations.finalEncryptionContext.value
-        :: Structure.ENCRYPTION_CONTEXT_PREFIX + k := input.mutations.finalEncryptionContext.value[k];
+    if (input.mutations.terminalEncryptionContext.Some?) {
+      var prefixedTerminalCustomEC := map k <- input.mutations.terminalEncryptionContext.value
+        :: Structure.ENCRYPTION_CONTEXT_PREFIX + k := input.mutations.terminalEncryptionContext.value[k];
       prefixedTerminalCustomEC? := Some(prefixedTerminalCustomEC);
-      defixedTerminalCustomEC? := Some(input.mutations.finalEncryptionContext.value);
+      defixedTerminalCustomEC? := Some(input.mutations.terminalEncryptionContext.value);
     }
 
     var MutationToApply := StateStrucs.MutationToApply(
@@ -194,9 +194,9 @@ module {:options "/functionSyntax:4" } Mutations {
         customEncryptionContext := customEncryptionContext
       ),
       Terminal := StateStrucs.MutableProperties(
-        kmsArn := KeyStoreTypes.kmsKeyArn(input.mutations.finalKmsArn.UnwrapOr(activeItem.KmsArn)),
+        kmsArn := KeyStoreTypes.kmsKeyArn(input.mutations.terminalKmsArn.UnwrapOr(activeItem.KmsArn)),
         customEncryptionContext := prefixedTerminalCustomEC?.UnwrapOr(customEncryptionContext)
-        // customEncryptionContext := input.mutations.finalEncryptionContext.UnwrapOr(customEncryptionContext)
+        // customEncryptionContext := input.mutations.terminalEncryptionContext.UnwrapOr(customEncryptionContext)
       ),
       ExclusiveStartKey := None,
       UUID := Some(mutationLockUUID),
@@ -283,8 +283,8 @@ module {:options "/functionSyntax:4" } Mutations {
     var MutationToken :- StateStrucs.SerializeMutableBranchKeyProperties(MutationToApply);
 
     // -= Write Mutation Lock, new branch key version, mutated beacon key
-    var throwAway2? := storage.WriteItemsForInitializeMutation(
-      Types.AwsCryptographyKeyStoreTypes.WriteItemsForInitializeMutationInput(
+    var throwAway2? := storage.WriteInitializeMutation(
+      Types.AwsCryptographyKeyStoreTypes.WriteInitializeMutationInput(
         active := newActive,
         oldActive := activeItem,
         version := newDecryptOnly,
@@ -352,7 +352,7 @@ module {:options "/functionSyntax:4" } Mutations {
     input: Types.ApplyMutationInput,
     logicalKeyStoreName: string,
     keyManagerStrategy: keyManagerStrat,
-    storage: Types.AwsCryptographyKeyStoreTypes.IEncryptedKeyStore
+    storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
   )
     returns (output: Result<Types.ApplyMutationOutput, Types.Error>)
     requires ValidateApplyMutationInput(input, logicalKeyStoreName).Success?
@@ -388,7 +388,7 @@ module {:options "/functionSyntax:4" } Mutations {
     .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
 
     :- Need(
-      || storage is DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore
+      || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
            forall item <- queryOut.items ::
              && item.Identifier == input.mutationToken.Identifier
@@ -475,7 +475,7 @@ module {:options "/functionSyntax:4" } Mutations {
       Identifier := input.mutationToken.Identifier,
       Original := input.mutationToken.Original,
       Terminal := input.mutationToken.Terminal,
-      CompleteMutation := if (|queryOut.exclusiveStartKey| == 0) then Some(true) else None
+      CompleteMutation := if (|queryOut.exclusiveStartKey| == 0) then true else false
     );
 
     // print "\nApply Mutations for ID: " + input.mutationToken.Identifier;
@@ -636,7 +636,7 @@ module {:options "/functionSyntax:4" } Mutations {
   method CompleteMutation(
     input: Types.ApplyMutationInput,
     logicalKeyStoreName: string,
-    storage: Types.AwsCryptographyKeyStoreTypes.IEncryptedKeyStore
+    storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
   )
     returns (output: Result<Types.ApplyMutationOutput, Types.Error>)
     requires storage.ValidState()

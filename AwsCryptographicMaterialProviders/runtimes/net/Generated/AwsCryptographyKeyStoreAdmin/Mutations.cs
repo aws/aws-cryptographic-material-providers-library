@@ -7,25 +7,25 @@ namespace AWS.Cryptography.KeyStoreAdmin
 {
   public class Mutations
   {
-    private string _finalKmsArn;
-    private System.Collections.Generic.Dictionary<string, string> _finalEncryptionContext;
-    public string FinalKmsArn
+    private string _terminalKmsArn;
+    private System.Collections.Generic.Dictionary<string, string> _terminalEncryptionContext;
+    public string TerminalKmsArn
     {
-      get { return this._finalKmsArn; }
-      set { this._finalKmsArn = value; }
+      get { return this._terminalKmsArn; }
+      set { this._terminalKmsArn = value; }
     }
-    public bool IsSetFinalKmsArn()
+    public bool IsSetTerminalKmsArn()
     {
-      return this._finalKmsArn != null;
+      return this._terminalKmsArn != null;
     }
-    public System.Collections.Generic.Dictionary<string, string> FinalEncryptionContext
+    public System.Collections.Generic.Dictionary<string, string> TerminalEncryptionContext
     {
-      get { return this._finalEncryptionContext; }
-      set { this._finalEncryptionContext = value; }
+      get { return this._terminalEncryptionContext; }
+      set { this._terminalEncryptionContext = value; }
     }
-    public bool IsSetFinalEncryptionContext()
+    public bool IsSetTerminalEncryptionContext()
     {
-      return this._finalEncryptionContext != null;
+      return this._terminalEncryptionContext != null;
     }
     public void Validate()
     {

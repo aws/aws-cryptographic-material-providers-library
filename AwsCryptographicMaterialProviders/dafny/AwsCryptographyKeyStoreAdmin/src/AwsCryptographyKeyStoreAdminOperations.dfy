@@ -6,7 +6,7 @@ include "Mutations.dfy"
 module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKeyStoreAdminOperations {
   import opened AwsKmsUtils
   import KmsArn
-  import DefaultEncryptedKeyStore
+  import DefaultKeyStorageInterface
   import KeyStoreOperations = AwsCryptographyKeyStoreOperations
   import KeyStoreTypes = KeyStoreOperations.Types
   import KMS = Com.Amazonaws.Kms
@@ -15,7 +15,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
 
   datatype Config = Config(
     nameonly logicalKeyStoreName: string,
-    nameonly storage: KeyStoreTypes.IEncryptedKeyStore
+    nameonly storage: KeyStoreTypes.IKeyStorageInterface
   )
 
   type InternalConfig = Config
@@ -23,9 +23,9 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   predicate ValidInternalConfig?(config: InternalConfig)
   {
     && config.storage.ValidState()
-    && (config.storage is DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore
+    && (config.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
         ==>
-          config.logicalKeyStoreName == (config.storage as DefaultEncryptedKeyStore.DynamoDBEncryptedKeyStore).logicalKeyStoreName)
+          config.logicalKeyStoreName == (config.storage as DefaultKeyStorageInterface.DynamoDBKeyStorageInterface).logicalKeyStoreName)
   }
 
   // This function is the lie we will tell ourselves
@@ -271,11 +271,11 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     return output;
   }
 
-  predicate DescribeMutationEnsuresPublicly(input: DescribeMutationInput , output: Result<DescribeMutationOutput, Error>)
+  predicate ResumeMutationEnsuresPublicly(input: ResumeMutationInput , output: Result<ResumeMutationOutput, Error>)
   {true}
 
-  method DescribeMutation ( config: InternalConfig , input: DescribeMutationInput )
-    returns (output: Result<DescribeMutationOutput, Error>)
+  method ResumeMutation ( config: InternalConfig , input: ResumeMutationInput )
+    returns (output: Result<ResumeMutationOutput, Error>)
   {
     return Failure(Types.KeyStoreAdminException(message := "Implement me"));
   }

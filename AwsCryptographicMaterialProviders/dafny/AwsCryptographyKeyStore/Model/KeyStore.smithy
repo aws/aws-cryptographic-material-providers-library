@@ -111,10 +111,10 @@ structure KeyStoreConfig {
 }
 
 union Storage {
-  @javadoc("The DynamoDB configuration backs this Key Store.")
+  @javadoc("The DynamoDB configuration that backs this Key Store.")
   ddb: DynamoDBTable
-  @javadoc("The custom storage configuration backs this Key Store.")
-  custom: EncryptedKeyStoreReference
+  @javadoc("The custom storage configuration that backs this Key Store.")
+  custom: KeyStorageInterfaceReference
 }
 
 structure DynamoDBTable {
@@ -196,7 +196,7 @@ structure GetKeyStoreInfoOutput {
   @javadoc("An identifier for this Key Store.")
   keyStoreId: String,
   @required
-  @javadoc("The DynamoDB table name that backs this Key Store.")
+  @javadoc("The physical name of the backing storage for this Key Store instance.")
   keyStoreName: String,
   @required
   @javadoc("The logical name for this Key Store, which is cryptographically bound to the keys it holds.")

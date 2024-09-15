@@ -43,6 +43,7 @@ module {:options "/functionSyntax:4"} TestWriteMutatedVersions {
       Identifier := testId,
       pageSize := 24
     );
+    assume {:axiom} underTest.Modifies == {}; // Turns off verification, but allows calling underTest
     var queryOut :- expect underTest.QueryForVersions(inputQuery);
     var items := queryOut.items;
     expect
@@ -61,6 +62,7 @@ module {:options "/functionSyntax:4"} TestWriteMutatedVersions {
         "aws-crypto-ec:Robbie" in item.EncryptionContext,
                                   "Robbie should be a Key in the Custom Encryption Context of all items for this test.";
       var temp := item.EncryptionContext["aws-crypto-ec:Robbie" := timestamp];
+      expect Structure.BranchKeyContext?(temp);
       var newItem := Structure.ConstructEncryptedHierarchicalKey(temp, item.CiphertextBlob);
       mutatedItems := mutatedItems + [newItem];
       itemIndex := 1 + itemIndex;
@@ -70,8 +72,10 @@ module {:options "/functionSyntax:4"} TestWriteMutatedVersions {
       items := mutatedItems,
       Identifier := testId,
       Original := original,
-      Terminal := terminal
+      Terminal := terminal,
+      CompleteMutation := false
     );
+
     var output :- expect underTest.WriteMutatedVersions(input);
     print "\nTestWriteMutatedVersions :: TestHappyCase :: Wrote the \"mutated\" test items! testId: "
           + testId  +  "\n";
@@ -91,7 +95,8 @@ module {:options "/functionSyntax:4"} TestWriteMutatedVersions {
         item.EncryptionContext["aws-crypto-ec:Robbie"] == timestamp,
         "Robbie should be a Key in the Custom Encryption Context of all items for this test.";
       // This is a best effort
-      var _ := CleanupItems.DeleteTypeWithFailure(testId, item.EncryptionContext["type"], ddbClient);
+      expect Structure.TYPE_FIELD in item.EncryptionContext;
+      var _ := CleanupItems.DeleteTypeWithFailure(testId, item.EncryptionContext[Structure.TYPE_FIELD], ddbClient);
       itemIndex := 1 + itemIndex;
     }
     expect

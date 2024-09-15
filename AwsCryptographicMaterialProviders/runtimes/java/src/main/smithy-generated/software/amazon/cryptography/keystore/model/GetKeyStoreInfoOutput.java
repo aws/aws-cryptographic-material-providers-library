@@ -17,7 +17,7 @@ public class GetKeyStoreInfoOutput {
   private final String keyStoreId;
 
   /**
-   * The DynamoDB table name that backs this Key Store.
+   * The physical name of the backing storage for this Key Store instance.
    */
   private final String keyStoreName;
 
@@ -52,7 +52,7 @@ public class GetKeyStoreInfoOutput {
   }
 
   /**
-   * @return The DynamoDB table name that backs this Key Store.
+   * @return The physical name of the backing storage for this Key Store instance.
    */
   public String keyStoreName() {
     return this.keyStoreName;
@@ -99,12 +99,12 @@ public class GetKeyStoreInfoOutput {
     String keyStoreId();
 
     /**
-     * @param keyStoreName The DynamoDB table name that backs this Key Store.
+     * @param keyStoreName The physical name of the backing storage for this Key Store instance.
      */
     Builder keyStoreName(String keyStoreName);
 
     /**
-     * @return The DynamoDB table name that backs this Key Store.
+     * @return The physical name of the backing storage for this Key Store instance.
      */
     String keyStoreName();
 
