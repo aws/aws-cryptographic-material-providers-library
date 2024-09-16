@@ -7,6 +7,13 @@
 Modules
 *******
 
+.. module:: aws_cryptographic_materialproviders.mpl.config
+
+.. automodule:: aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.config
+   :members:
+   :undoc-members:
+   :inherited-members:
+
 .. autosummary::
     :toctree: generated
 
