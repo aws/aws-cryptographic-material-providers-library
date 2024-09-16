@@ -165,7 +165,7 @@ module.exports = {
                 files: [file],
                 from: "{path =.*",
                 to: "\"~${nextRelease.version}\"",
-                results: [CheckDependencyReplacementResults(file)],
+                results: [CheckResults(file)],
                 countMatches: true,
               })),
           ),
@@ -200,7 +200,7 @@ function CheckResults(file) {
 
 function CheckDependencyReplacementResults(file) {
   console.log(file);
-  console.log(file.includes("AwsCryptographicMaterialProviders"));
+  console.log(file.includes("AwsCryptographicMaterialProviders");
   if (file.includes("AwsCryptographicMaterialProviders")) {
     return {
       file,
