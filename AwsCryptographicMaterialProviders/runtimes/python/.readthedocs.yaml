@@ -15,9 +15,10 @@ build:
       # Install poetry
       # https://python-poetry.org/docs/#installing-manually
       - pip install poetry
-      # Get Dafny
-      - export dafnyVersion=$(grep '^dafnyVersion=' project.properties | cut -d '=' -f 2)
-      - curl https://github.com/dafny-lang/dafny/releases/download/v4.8.0/dafny-4.8.0-x64-ubuntu-20.04.zip  -L -o dafny.zip
+      # Get Dafny.
+      # readthedocs executes each command in a new shell process, so exported variables aren't persisted between commands.
+      # Any command that relies on exported variables needs to be executed in one command.
+      - export dafnyVersion=$(grep '^dafnyVersion=' project.properties | cut -d '=' -f 2) && curl https://github.com/dafny-lang/dafny/releases/download/v$dafnyVersion/dafny-$dafnyVersion-x64-ubuntu-20.04.zip  -L -o dafny.zip
       - unzip -qq dafny.zip && rm dafny.zip
       - export PATH="$PWD/dafny:$PATH" && make transpile_python -C AwsCryptographicMaterialProviders
     post_install:
