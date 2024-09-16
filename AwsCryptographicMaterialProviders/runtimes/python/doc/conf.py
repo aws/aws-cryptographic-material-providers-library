@@ -25,6 +25,22 @@ def get_version():
         return ".".join(split_version[:2])
     return release
 
+MPL_SMITHYGENERATED_PATH = "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders"
+MPL_ALIAS_PATH = "aws_cryptographic_materialproviders.mpl"
+KEYSTORE_SMITHYGENERATED_PATH = "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore"
+KEYSTORE_ALIAS_PATH = "aws_cryptographic_materialproviders.keystore"
+
+def alias_class_names(app, what, name, obj, skip, options):
+    # Create an alias for long class names
+    if name.startswith(MPL_SMITHYGENERATED_PATH):
+        name.replace(MPL_SMITHYGENERATED_PATH, MPL_ALIAS_PATH)
+    if name.startswith(KEYSTORE_SMITHYGENERATED_PATH):
+        name.replace(KEYSTORE_SMITHYGENERATED_PATH, KEYSTORE_ALIAS_PATH)
+    return skip
+
+def setup(app):
+    app.connect('autodoc-skip-member', alias_class_names)
+
 project = u"aws-cryptographic-material-providers"
 version = get_version()
 release = get_release()
