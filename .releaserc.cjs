@@ -73,6 +73,8 @@ const Runtimes = {
   },
 };
 
+const regex = new RegExp("{\\s*path\\s*=.*");
+
 /**
  * @type {import('semantic-release').GlobalConfig}
  */
@@ -157,11 +159,12 @@ module.exports = {
             results: Object.keys(Runtimes.python).map(CheckResults),
             countMatches: true,
           },
+          
           // Now update the local filesystem dependencies to PyPI dependencies
           // pinned to the minor MPL version
           {
             files: Object.keys(Runtimes.python),
-            from: "{\s*path\s*=.*",
+            from: regex,
             to: "\"~${nextRelease.version}\"",
             results: Object.keys(Runtimes.python).map(CheckDependencyReplacementResults),
             countMatches: true,
