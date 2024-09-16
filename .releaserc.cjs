@@ -165,7 +165,7 @@ module.exports = {
                 files: [file],
                 from: "{path =.*",
                 to: "~${nextRelease.version}",
-                results: [CheckResults(file)],
+                results: [CheckDependencyReplacementResults(file)],
                 countMatches: true,
               })),
           ),
@@ -195,4 +195,26 @@ function CheckResults(file) {
     numMatches: 1,
     numReplacements: 1,
   };
+}
+
+
+function CheckDependencyReplacementResults(file) {
+  if (file.includes("AwsCryptographicMaterialProviders")) {
+    return {
+      file,
+      hasChanged: true,
+      numMatches: 4,
+      numReplacements: 4,
+    };
+  } else if (file.includes("StandardLibrary")) {
+    return {
+      file,
+      hasChanged: true,
+      numMatches: 0,
+      numReplacements: 0,
+    };
+  }
+  else {
+    return CheckResults(file);
+  }
 }
