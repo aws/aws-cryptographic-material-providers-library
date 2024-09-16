@@ -165,7 +165,7 @@ module.exports = {
                 files: [file],
                 from: "{path =.*",
                 to: "\"~${nextRelease.version}\"",
-                results: Object.keys(Runtimes.python).map(CheckDependencyReplacementResults),
+                results: [CheckDependencyReplacementResults(file)],
                 countMatches: true,
               })),
           ),
