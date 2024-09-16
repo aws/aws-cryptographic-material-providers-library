@@ -164,7 +164,7 @@ module.exports = {
               dependencies.map((dependency) => ({
                 files: [file],
                 from: "{path =.*",
-                to: "~${nextRelease.version}",
+                to: "\"~${nextRelease.version}\"",
                 results: [CheckDependencyReplacementResults(file)],
                 countMatches: true,
               })),
