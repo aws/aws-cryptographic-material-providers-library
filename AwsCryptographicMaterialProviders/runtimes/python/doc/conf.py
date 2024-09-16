@@ -57,7 +57,12 @@ exclude_trees = ["_build"]
 pygments_style = "sphinx"
 
 autoclass_content = "both"
-autodoc_default_options = {"show-inheritance": True, "members": True}
+autodoc_default_options = {
+    "show-inheritance": True,
+    "undoc-members": True,
+    'special-members': '__init__',
+    "members": True
+}
 autodoc_member_order = "bysource"
 
 html_theme = "sphinx_rtd_theme"

@@ -15,12 +15,17 @@ build:
       # Install poetry
       # https://python-poetry.org/docs/#installing-manually
       - pip install poetry
+      # Get Dafny
+      - export dafnyVersion=$(grep '^dafnyVersion=' project.properties | cut -d '=' -f 2)
+      - curl https://github.com/dafny-lang/dafny/releases/download/v4.8.0/dafny-4.8.0-x64-ubuntu-20.04.zip  -L -o dafny.zip
+      - unzip -qq dafny.zip && rm dafny.zip
+      - export PATH="$PWD/dafny:$PATH" && make transpile_python -C AwsCryptographicMaterialProviders
     post_install:
-      # Install dependencies with 'docs' dependency group
+      # Install project with 'docs' dependency group
       # https://python-poetry.org/docs/managing-dependencies/#dependency-groups
       # VIRTUAL_ENV needs to be set manually for now.
       # See https://github.com/readthedocs/readthedocs.org/pull/11152/
-      - VIRTUAL_ENV=$READTHEDOCS_VIRTUALENV_PATH poetry install --directory AwsCryptographicMaterialProviders/runtimes/python --with docs
+      - VIRTUAL_ENV=$READTHEDOCS_VIRTUALENV_PATH poetry install --directory AwsCryptographicMaterialProviders/runtimes/python --with docs,test
 
 # Build documentation in the doc/ directory with Sphinx
 sphinx:
