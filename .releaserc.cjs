@@ -219,7 +219,7 @@ function CheckDependencyReplacementResults(file) {
   } else if (file.includes("StandardLibrary")) {
     return {
       file,
-      hasChanged: true,
+      hasChanged: false,
       numMatches: 0,
       numReplacements: 0,
     };
@@ -227,7 +227,7 @@ function CheckDependencyReplacementResults(file) {
   else {
     return {
       file,
-      hasChanged: true,
+      hasChanged: false,
       numMatches: 0,
       numReplacements: 0,
     };
