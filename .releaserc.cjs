@@ -165,7 +165,7 @@ module.exports = {
                 files: [file],
                 from: "{path =.*",
                 to: "\"~${nextRelease.version}\"",
-                results: [CheckResults(file)],
+                results: [CheckResults(dependency)],
                 countMatches: true,
               })),
           ),
