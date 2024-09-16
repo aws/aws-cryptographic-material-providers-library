@@ -22,12 +22,13 @@ build:
       - echo $PATH
       - export PATH="$PWD/dafny:$PATH"
       - echo $PATH
-      - ln -s "$PWD/dafny/Scripts/dafny" AwsCryptographicMaterialProviders/dafny
-      - ln -s "$PWD/dafny/Scripts/dafny" AwsCryptographyPrimitives/dafny
-      - ln -s "$PWD/dafny/Scripts/dafny" ComAmazonawsKms/dafny
-      - ln -s "$PWD/dafny/Scripts/dafny" ComAmazonawsDynamodb/dafny
-      - ln -s "$PWD/dafny/Scripts/dafny" StandardLibrary/dafny
+      # - ln -s "$PWD/dafny/Scripts/dafny" AwsCryptographicMaterialProviders/dafny
+      # - ln -s "$PWD/dafny/Scripts/dafny" AwsCryptographyPrimitives/dafny
+      # - ln -s "$PWD/dafny/Scripts/dafny" ComAmazonawsKms/dafny
+      # - ln -s "$PWD/dafny/Scripts/dafny" ComAmazonawsDynamodb/dafny
+      # - ln -s "$PWD/dafny/Scripts/dafny" StandardLibrary/dafny
       # - mv dafny /usr/local/bin
+      - alias dafny="$PWD/dafny/Scripts/dafny"
       # Generate Dafny code
       - make transpile_python -C AwsCryptographicMaterialProviders
     post_install:
