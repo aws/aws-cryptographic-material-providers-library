@@ -19,18 +19,6 @@ build:
       - export dafnyVersion=$(grep '^dafnyVersion=' project.properties | cut -d '=' -f 2)
       - curl https://github.com/dafny-lang/dafny/releases/download/v4.8.0/dafny-4.8.0-x64-ubuntu-20.04.zip  -L -o dafny.zip
       - unzip -qq dafny.zip && rm dafny.zip
-      - echo $PATH
-      - export PATH="$PWD/dafny:$PATH"
-      - export PATH="$PWD/dafny:$PATH" && echo $PATH
-      # - ln -s "$PWD/dafny/Scripts/dafny" AwsCryptographicMaterialProviders/dafny
-      # - ln -s "$PWD/dafny/Scripts/dafny" AwsCryptographyPrimitives/dafny
-      # - ln -s "$PWD/dafny/Scripts/dafny" ComAmazonawsKms/dafny
-      # - ln -s "$PWD/dafny/Scripts/dafny" ComAmazonawsDynamodb/dafny
-      # - ln -s "$PWD/dafny/Scripts/dafny" StandardLibrary/dafny
-      # - mv dafny /usr/local/bin
-      - alias dafny="$PWD/dafny/dafny"
-      # - alias dafny="$PWD/dafny/dafny" && dafny --version
-      # Generate Dafny code
       - export PATH="$PWD/dafny:$PATH" && make transpile_python -C AwsCryptographicMaterialProviders
     post_install:
       # Install project with 'docs' dependency group
