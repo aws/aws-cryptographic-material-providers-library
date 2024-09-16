@@ -164,7 +164,7 @@ module.exports = {
           // pinned to the minor MPL version
           {
             files: Object.keys(Runtimes.python),
-            from: regex,
+            from: "{path =.*",
             to: "\"~${nextRelease.version}\"",
             results: Object.keys(Runtimes.python).map(CheckDependencyReplacementResults),
             countMatches: true,
@@ -209,9 +209,6 @@ function CheckResults(file) {
 
 
 function CheckDependencyReplacementResults(file) {
-  console.log("HAHAHA");
-  console.log(file);
-  console.log(file.includes("AwsCryptographicMaterialProviders"));
   if (file.includes("AwsCryptographicMaterialProviders")) {
     return {
       file,
