@@ -159,14 +159,15 @@ module.exports = {
           },
           // Now update the local filesystem dependencies to PyPI dependencies
           // pinned to the minor MPL version
-          ...Object.entries(Runtimes.python).flatMap(([file, { dependencies }]) =>
-            dependencies.map((dependency) => ({
-              files: [file],
-              from: '{\s*path\s*=.*',
-              to: '~${nextRelease.version}',
-              results: [CheckResults(file)],
-              countMatches: true,
-            })),
+          ...Object.entries(Runtimes.python).flatMap(
+            ([file, { dependencies }]) =>
+              dependencies.map((dependency) => ({
+                files: [file],
+                from: "{s*paths*=.*",
+                to: "~${nextRelease.version}",
+                results: [CheckResults(file)],
+                countMatches: true,
+              })),
           ),
         ],
       },
