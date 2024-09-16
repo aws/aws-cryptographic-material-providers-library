@@ -21,7 +21,7 @@ build:
       - unzip -qq dafny.zip && rm dafny.zip
       - echo $PATH
       - export PATH="$PWD/dafny:$PATH"
-      - echo $PATH
+      - export PATH="$PWD/dafny:$PATH" && echo $PATH
       # - ln -s "$PWD/dafny/Scripts/dafny" AwsCryptographicMaterialProviders/dafny
       # - ln -s "$PWD/dafny/Scripts/dafny" AwsCryptographyPrimitives/dafny
       # - ln -s "$PWD/dafny/Scripts/dafny" ComAmazonawsKms/dafny
