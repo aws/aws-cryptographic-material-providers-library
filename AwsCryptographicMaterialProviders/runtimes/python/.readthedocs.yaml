@@ -22,7 +22,8 @@ build:
       - echo $PATH
       - export PATH="$PWD/dafny:$PATH"
       - echo $PATH
-      - mv dafny /usr/local/bin
+      - ln -s "$PWD/dafny/Scripts/dafny" dafny
+      # - mv dafny /usr/local/bin
       # Generate Dafny code
       - make transpile_python -C AwsCryptographicMaterialProviders
     post_install:
