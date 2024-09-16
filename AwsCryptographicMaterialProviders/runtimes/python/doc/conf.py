@@ -62,13 +62,13 @@ autodoc_member_order = "bysource"
 # Generated Dafny code is not present, so it should be mocked.
 # All packages need to be mocked, as the imports go to all packages.
 # Generated Dafny code will not be documented.
-autodoc_mock_imports = [
-    "aws_cryptographic_materialproviders.internaldafny",
-    "aws_cryptography_primitives.internaldafny",
-    "aws_cryptography_internal_dynamodb.internaldafny",
-    "aws_cryptography_internal_kms.internaldafny",
-    "smithy_dafny_standard_library.internaldafny",
-]
+# autodoc_mock_imports = [
+#     "aws_cryptographic_materialproviders.internaldafny",
+#     "aws_cryptography_primitives.internaldafny",
+#     "aws_cryptography_internal_dynamodb.internaldafny",
+#     "aws_cryptography_internal_kms.internaldafny",
+#     "smithy_dafny_standard_library.internaldafny",
+# ]
 
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
