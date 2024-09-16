@@ -19,41 +19,41 @@
 // each one has files that need to be updated.
 // We model all the files and the runtimes here in this structure
 const Runtimes = {
-  // java: {
-  //   "project.properties": {
-  //     dependencies: [],
-  //   },
-  //   "AwsCryptographicMaterialProviders/runtimes/java/build.gradle.kts": {
-  //     dependencies: [],
-  //   },
-  //   "TestVectorsAwsCryptographicMaterialProviders/runtimes/java/build.gradle.kts":
-  //     {
-  //       dependencies: [],
-  //     },
-  // },
-  // net: {
-  //   "AwsCryptographicMaterialProviders/runtimes/net/MPL.csproj": {
-  //     dependencies: [],
-  //     assemblyInfo:
-  //       "AwsCryptographicMaterialProviders/runtimes/net/AssemblyInfo.cs",
-  //   },
-  //   "ComAmazonawsKms/runtimes/net/AWS-KMS.csproj": {
-  //     dependencies: [],
-  //     assemblyInfo: "ComAmazonawsKms/runtimes/net/AssemblyInfo.cs",
-  //   },
-  //   "ComAmazonawsDynamodb/runtimes/net/ComAmazonawsDynamodb.csproj": {
-  //     dependencies: [],
-  //     assemblyInfo: "ComAmazonawsDynamodb/runtimes/net/AssemblyInfo.cs",
-  //   },
-  //   "AwsCryptographyPrimitives/runtimes/net/Crypto.csproj": {
-  //     dependencies: [],
-  //     assemblyInfo: "AwsCryptographyPrimitives/runtimes/net/AssemblyInfo.cs",
-  //   },
-  //   "StandardLibrary/runtimes/net/STD.csproj": {
-  //     dependencies: [],
-  //     assemblyInfo: "StandardLibrary/runtimes/net/AssemblyInfo.cs",
-  //   },
-  // },
+  java: {
+    "project.properties": {
+      dependencies: [],
+    },
+    "AwsCryptographicMaterialProviders/runtimes/java/build.gradle.kts": {
+      dependencies: [],
+    },
+    "TestVectorsAwsCryptographicMaterialProviders/runtimes/java/build.gradle.kts":
+      {
+        dependencies: [],
+      },
+  },
+  net: {
+    "AwsCryptographicMaterialProviders/runtimes/net/MPL.csproj": {
+      dependencies: [],
+      assemblyInfo:
+        "AwsCryptographicMaterialProviders/runtimes/net/AssemblyInfo.cs",
+    },
+    "ComAmazonawsKms/runtimes/net/AWS-KMS.csproj": {
+      dependencies: [],
+      assemblyInfo: "ComAmazonawsKms/runtimes/net/AssemblyInfo.cs",
+    },
+    "ComAmazonawsDynamodb/runtimes/net/ComAmazonawsDynamodb.csproj": {
+      dependencies: [],
+      assemblyInfo: "ComAmazonawsDynamodb/runtimes/net/AssemblyInfo.cs",
+    },
+    "AwsCryptographyPrimitives/runtimes/net/Crypto.csproj": {
+      dependencies: [],
+      assemblyInfo: "AwsCryptographyPrimitives/runtimes/net/AssemblyInfo.cs",
+    },
+    "StandardLibrary/runtimes/net/STD.csproj": {
+      dependencies: [],
+      assemblyInfo: "StandardLibrary/runtimes/net/AssemblyInfo.cs",
+    },
+  },
   python: {
     "AwsCryptographicMaterialProviders/runtimes/python/pyproject.toml": {
       dependencies: ["AwsCryptographyPrimitives", "ComAmazonawsKms", "ComAmazonawsDynamodb", "StandardLibrary"],
@@ -103,52 +103,52 @@ module.exports = {
         replacements: [
           // Update the version for all Gradle Java projects
           // Does not update the dependencies
-          // {
-          //   files: Object.keys(Runtimes.java),
-          //   from: 'mplVersion=".*"',
-          //   to: 'mplVersion="${nextRelease.version}"',
-          //   results: Object.keys(Runtimes.java).map(CheckResults),
-          //   countMatches: true,
-          // },
-          // {
-          //   files: Object.keys(Runtimes.java),
-          //   from: 'version = ".*"',
-          //   to: 'version = "${nextRelease.version}"',
-          //   results: Object.keys(Runtimes.java).map(CheckResults),
-          //   countMatches: true,
-          // },
-          // // Now update the Gradle Java  dependencies
-          // ...Object.entries(Runtimes.java).flatMap(([file, { dependencies }]) =>
-          //   dependencies.map((dependency) => ({
-          //     files: [file],
-          //     from: `implementation("${dependency}:.*")`,
-          //     to:
-          //       `implementation("${dependency}:` + '${nextRelease.version}" />',
-          //     results: [CheckResults(file)],
-          //     countMatches: true,
-          //   })),
-          // ),
+          {
+            files: Object.keys(Runtimes.java),
+            from: 'mplVersion=".*"',
+            to: 'mplVersion="${nextRelease.version}"',
+            results: Object.keys(Runtimes.java).map(CheckResults),
+            countMatches: true,
+          },
+          {
+            files: Object.keys(Runtimes.java),
+            from: 'version = ".*"',
+            to: 'version = "${nextRelease.version}"',
+            results: Object.keys(Runtimes.java).map(CheckResults),
+            countMatches: true,
+          },
+          // Now update the Gradle Java  dependencies
+          ...Object.entries(Runtimes.java).flatMap(([file, { dependencies }]) =>
+            dependencies.map((dependency) => ({
+              files: [file],
+              from: `implementation("${dependency}:.*")`,
+              to:
+                `implementation("${dependency}:` + '${nextRelease.version}" />',
+              results: [CheckResults(file)],
+              countMatches: true,
+            })),
+          ),
 
-          // // Update the version for all DotNet projects
-          // // Does not update the dependencies
-          // {
-          //   files: Object.keys(Runtimes.net),
-          //   from: "<Version>.*</Version>",
-          //   to: "<Version>${nextRelease.version}</Version>",
-          //   results: Object.keys(Runtimes.net).map(CheckResults),
-          //   countMatches: true,
-          // },
+          // Update the version for all DotNet projects
+          // Does not update the dependencies
+          {
+            files: Object.keys(Runtimes.net),
+            from: "<Version>.*</Version>",
+            to: "<Version>${nextRelease.version}</Version>",
+            results: Object.keys(Runtimes.net).map(CheckResults),
+            countMatches: true,
+          },
 
-          // // Update the AssmeblyInfo.cs file of the DotNet projects
-          // ...Object.entries(Runtimes.net).flatMap(
-          //   ([file, { assemblyInfo }]) => ({
-          //     files: assemblyInfo,
-          //     from: "assembly: AssemblyVersion(.*)",
-          //     to: 'assembly: AssemblyVersion("${nextRelease.version}")]',
-          //     results: [CheckResults(assemblyInfo)],
-          //     countMatches: true,
-          //   }),
-          // ),
+          // Update the AssmeblyInfo.cs file of the DotNet projects
+          ...Object.entries(Runtimes.net).flatMap(
+            ([file, { assemblyInfo }]) => ({
+              files: assemblyInfo,
+              from: "assembly: AssemblyVersion(.*)",
+              to: 'assembly: AssemblyVersion("${nextRelease.version}")]',
+              results: [CheckResults(assemblyInfo)],
+              countMatches: true,
+            }),
+          ),
 
           // Update the version in pyproject.toml for all Python projects
           // Does not update the dependencies
@@ -158,8 +158,8 @@ module.exports = {
             to: 'version = "${nextRelease.version}"',
             results: Object.keys(Runtimes.python).map(CheckResults),
             countMatches: true,
-          },
-          
+          },    
+
           // Now update the local filesystem dependencies to PyPI dependencies
           // pinned to the minor MPL version
           {
@@ -169,16 +169,6 @@ module.exports = {
             results: Object.keys(Runtimes.python).map(CheckDependencyReplacementResults),
             countMatches: true,
           },
-          // ...Object.entries(Runtimes.python).flatMap(
-          //   ([file, { dependencies }]) =>
-          //     dependencies.map((dependency) => ({
-          //       files: [file],
-          //       from: "{path =.*",
-          //       to: "\"~${nextRelease.version}\"",
-          //       results: [CheckDependencyReplacementResults(file)],
-          //       countMatches: true,
-          //     })),
-          // ),
         ],
       },
     ],
