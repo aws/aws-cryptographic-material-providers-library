@@ -56,16 +56,16 @@ const Runtimes = {
   // },
   python: {
     "AwsCryptographicMaterialProviders/runtimes/python/pyproject.toml": {
-      dependencies: [],
+      dependencies: ["AwsCryptographyPrimitives", "ComAmazonawsKms", "ComAmazonawsDynamodb", "StandardLibrary"],
     },
     "AwsCryptographyPrimitives/runtimes/python/pyproject.toml": {
-      dependencies: [],
+      dependencies: ["StandardLibrary"],
     },
     "ComAmazonawsKms/runtimes/python/pyproject.toml": {
-      dependencies: [],
+      dependencies: ["StandardLibrary"],
     },
     "ComAmazonawsDynamodb/runtimes/python/pyproject.toml": {
-      dependencies: [],
+      dependencies: ["StandardLibrary"],
     },
     "StandardLibrary/runtimes/python/pyproject.toml": {
       dependencies: [],
@@ -159,13 +159,16 @@ module.exports = {
           },
           // Now update the local filesystem dependencies to PyPI dependencies
           // pinned to the minor MPL version
-          {
-            files: Object.keys(Runtimes.python),
-            from: "{\s*path\s*=.*",
-            to: "~${nextRelease.version}",
-            results: Object.keys(Runtimes.python).map(CheckResults),
-            countMatches: false,
-          },
+          ...Object.entries(Runtimes.python).flatMap(
+            ([file, { dependencies }]) =>
+              dependencies.map((dependency) => ({
+                files: [file],
+                from: "{\s*path\s*=.*",
+                to: "~${nextRelease.version}",
+                results: [CheckResults(file)],
+                countMatches: true,
+              })),
+          ),
         ],
       },
     ],
