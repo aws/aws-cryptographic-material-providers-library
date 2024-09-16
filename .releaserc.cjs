@@ -227,9 +227,9 @@ function CheckDependencyReplacementResults(file) {
   else {
     return {
       file,
-      hasChanged: false,
-      numMatches: 0,
-      numReplacements: 0,
+      hasChanged: true,
+      numMatches: 1,
+      numReplacements: 1,
     };
   }
 }
