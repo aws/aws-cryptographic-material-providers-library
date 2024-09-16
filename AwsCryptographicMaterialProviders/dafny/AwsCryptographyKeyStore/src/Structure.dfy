@@ -356,7 +356,7 @@ module {:options "/functionSyntax:4" } Structure {
     Success(map i <- encodedEncryptionContext :: i.0.value := i.1.value)
   }
 
-
+  /** Selects the key-value pairs prefixed with ENCRYPTION_CONTEXT_PREFIX **/
   function SelectCustomEncryptionContextAsString(
     encryptionContext: Types.EncryptionContextString
   ): (output: Types.EncryptionContextString)
@@ -366,36 +366,29 @@ module {:options "/functionSyntax:4" } Structure {
                 && k[ .. |ENCRYPTION_CONTEXT_PREFIX|] == ENCRYPTION_CONTEXT_PREFIX
                 && (k in encryptionContext)
                 && encryptionContext[k] == output[k]
-    ensures HIERARCHY_VERSION !in output
+    ensures BRANCH_KEY_RESTRICTED_FIELD_NAMES !! output.Keys
   {
     var customKeys
       :=
       set k <- encryptionContext
-          |
-          (|k| > |ENCRYPTION_CONTEXT_PREFIX|)
-          && k[ .. |ENCRYPTION_CONTEXT_PREFIX|] == ENCRYPTION_CONTEXT_PREFIX
+          | ENCRYPTION_CONTEXT_PREFIX < k && (|k| > |ENCRYPTION_CONTEXT_PREFIX|)
+            && k[0] == ENCRYPTION_CONTEXT_PREFIX[0]
+            // //It really helps Dafny to have a specific check
         ::
-          assert |k| >= |ENCRYPTION_CONTEXT_PREFIX|;
-          assert k[ .. |ENCRYPTION_CONTEXT_PREFIX| ] == ENCRYPTION_CONTEXT_PREFIX;
-          assert HIERARCHY_VERSION[ .. |ENCRYPTION_CONTEXT_PREFIX| ] != ENCRYPTION_CONTEXT_PREFIX by
-          {assert HIERARCHY_VERSION[ .. |ENCRYPTION_CONTEXT_PREFIX| ] == "hierarchy-vers"; }
-          assert HIERARCHY_VERSION != k;
+          // assert HIERARCHY_VERSION != k by {assert k[0] != HIERARCHY_VERSION[0];}
           k;
-    assume {:axiom} HIERARCHY_VERSION !in customKeys;
     map i <- customKeys :: i := encryptionContext[i]
   }
 
   function ExtractCustomEncryptionContextAs(
     encryptionContext: BranchKeyContext
   ): (output: Types.EncryptionContextString)
-
     ensures
       forall k <- output
         ::
           && (ENCRYPTION_CONTEXT_PREFIX + k in encryptionContext)
           && encryptionContext[ENCRYPTION_CONTEXT_PREFIX + k] == output[k]
   {
-
     // Dafny needs some help.
     // Adding a fixed string
     // will not make any of the keys collide.

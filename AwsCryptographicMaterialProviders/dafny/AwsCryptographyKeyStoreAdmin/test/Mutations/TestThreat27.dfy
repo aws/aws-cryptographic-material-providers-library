@@ -90,7 +90,7 @@ module {:options "/functionSyntax:4" } TestThreat27 {
     AdminFixtures.CreateHappyCaseId(id:=testId, versionCount:=0);
     print "\nTestThreat27 :: TestHappyCase :: Created the test items! testId: "
           + testId  +  "\n";
-    var storage :- expect Fixtures.defaultStorage(ddbClient?:=Some(ddbClient));
+    var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
     var activeOneInput := KeyStoreTypes.GetEncryptedActiveBranchKeyInput(Identifier:=testId);
     var activeOne? :- expect storage.GetEncryptedActiveBranchKey(activeOneInput);
     expect "version" in activeOne?.Item.EncryptionContext;
