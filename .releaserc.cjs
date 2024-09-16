@@ -161,7 +161,7 @@ module.exports = {
           // pinned to the minor MPL version
           {
             files: Object.keys(Runtimes.python),
-            from: "{path =.*",
+            from: "{\s*path\s*=.*",
             to: "\"~${nextRelease.version}\"",
             results: Object.keys(Runtimes.python).map(CheckDependencyReplacementResults),
             countMatches: true,
