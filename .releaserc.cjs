@@ -199,6 +199,7 @@ function CheckResults(file) {
 
 
 function CheckDependencyReplacementResults(file) {
+  console.log("HAHAHA");
   console.log(file);
   console.log(file.includes("AwsCryptographicMaterialProviders"));
   if (file.includes("AwsCryptographicMaterialProviders")) {
@@ -217,6 +218,11 @@ function CheckDependencyReplacementResults(file) {
     };
   }
   else {
-    return CheckResults(file);
+    return {
+      file,
+      hasChanged: true,
+      numMatches: 0,
+      numReplacements: 0,
+    };
   }
 }
