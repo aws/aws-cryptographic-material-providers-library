@@ -28,7 +28,7 @@ build:
       # - ln -s "$PWD/dafny/Scripts/dafny" ComAmazonawsDynamodb/dafny
       # - ln -s "$PWD/dafny/Scripts/dafny" StandardLibrary/dafny
       # - mv dafny /usr/local/bin
-      - alias dafny="$PWD/dafny/Scripts/dafny"
+      - alias dafny="$PWD/dafny/dafny"
       - dafny --version
       # Generate Dafny code
       - make transpile_python -C AwsCryptographicMaterialProviders
