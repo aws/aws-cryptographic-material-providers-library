@@ -31,7 +31,7 @@ build:
       - alias dafny="$PWD/dafny/dafny"
       # - alias dafny="$PWD/dafny/dafny" && dafny --version
       # Generate Dafny code
-      - export PATH="$PWD/dafny:$PATH"" && make transpile_python -C AwsCryptographicMaterialProviders
+      - export PATH="$PWD/dafny:$PATH" && make transpile_python -C AwsCryptographicMaterialProviders
     post_install:
       # Install project with 'docs' dependency group
       # https://python-poetry.org/docs/managing-dependencies/#dependency-groups
