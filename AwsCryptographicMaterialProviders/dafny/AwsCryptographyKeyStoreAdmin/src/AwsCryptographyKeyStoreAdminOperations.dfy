@@ -266,7 +266,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     );
     assume {:axiom} keyManagerStrat.reEncrypt.kmsClient.Modifies < MutationLie();
 
-    var _ :- Mutations.ValidateApplyMutationInput(input, config.logicalKeyStoreName);
+    var _ :- Mutations.ValidateApplyMutationInput(input, config.logicalKeyStoreName, config.storage);
     output := Mutations.ApplyMutation(input, config.logicalKeyStoreName, keyManagerStrat, config.storage);
     return output;
   }

@@ -25,6 +25,8 @@ module {:options "/functionSyntax:4" } Mutations {
   import Time
   import UUID
 
+  const DEFAULT_APPLY_PAGE_SIZE := 3 as StandardLibrary.UInt.int32
+
   datatype KMSTuple = | KMSTuple(
     kmsClient: KMS.IKMSClient,
     grantTokens: KMS.GrantTokenList)
@@ -311,13 +313,22 @@ module {:options "/functionSyntax:4" } Mutations {
   // logicalKeyStoreName is valid
   function ValidateApplyMutationInput(
     input: Types.ApplyMutationInput,
-    logicalKeyStoreName: string
+    logicalKeyStoreName: string,
+    storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
   ): (output: Result<Types.ApplyMutationInput, Types.Error>)
     ensures output.Success? ==> |logicalKeyStoreName| > 0 && ValidateMutationToken(input.mutationToken).Success?
   {
     var _ :- ValidateMutationToken(input.mutationToken);
     :- Need(|logicalKeyStoreName| > 0,
             Types.KeyStoreAdminException(message := "LogicalKeyStoreName cannot be empty!"));
+    :- Need(
+         && storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+         && input.pageSize.Some? && input.pageSize.value <= 99,
+         Types.KeyStoreAdminException(message := "The DynamoDB Key Storage supports a max page size of 99"));
+    :- Need(
+         && storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+         && input.pageSize.Some? && 0 < input.pageSize.value,
+         Types.KeyStoreAdminException(message := "The DynamoDB Key Storage supports a minimum page size of 1"));
     Success(input)
   }
 
@@ -350,7 +361,7 @@ module {:options "/functionSyntax:4" } Mutations {
     storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
   )
     returns (output: Result<Types.ApplyMutationOutput, Types.Error>)
-    requires ValidateApplyMutationInput(input, logicalKeyStoreName).Success?
+    requires ValidateApplyMutationInput(input, logicalKeyStoreName, storage).Success?
     requires
       && storage.ValidState()
       && keyManagerStrategy.ValidState()
@@ -373,11 +384,7 @@ module {:options "/functionSyntax:4" } Mutations {
       Types.AwsCryptographyKeyStoreTypes.QueryForVersionsInput(
         exclusiveStartKey := input.mutationToken.ExclusiveStartKey,
         Identifier := input.mutationToken.Identifier,
-        // DDB TransactWrite takes a max of 25
-        // with the mutation lock, 24 items is the maximum we could write
-        // TODO this size should be optional
-        // DDB is best when you write slow and steady, not as fast as possible :)
-        pageSize := input.pageSize.UnwrapOr(24)));
+        pageSize := input.pageSize.UnwrapOr(DEFAULT_APPLY_PAGE_SIZE)));
 
     var queryOut :- queryOut?
     .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
@@ -391,10 +398,12 @@ module {:options "/functionSyntax:4" } Mutations {
              && item.Type.HierarchicalSymmetricVersion?
              && item.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
          ),
+      // TODO-Mutations-GA: Replace this Need with something that can return an ID
       Types.KeyStoreAdminException(
-        message := "WIP:")
+        message := "Unexpected Item read from Storage.")
     );
 
+      // TODO-Mutations-GA: Replace this Need with something that can return an ID
     :- Need(
       forall item <- queryOut.items :: KmsArn.ValidKmsArn?(item.KmsArn),
       Types.KeyStoreAdminException(
@@ -417,9 +426,9 @@ module {:options "/functionSyntax:4" } Mutations {
 
     :- Need(
       |neitherState?| == 0
-    , Types.KeyStoreAdminException(
+    , Types.UnexpectedStateException(
         message := if 0 < |neitherState?| then
-          "WIP:"
+          "Item(s) found in an unexpected state: "
           + Join(Seq.Map((i:CheckedItem) => i.item.Identifier, neitherState?), ",")
         else
           "Can't happen"
@@ -500,9 +509,6 @@ module {:options "/functionSyntax:4" } Mutations {
   function MatchItemToState(
     item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
     MutationToApply: StateStrucs.MutationToApply
-    // KmsArn: string,
-    // OriginalEncryptionContext: Types.AwsCryptographyKeyStoreTypes.EncryptionContextString,
-    // TerminalEncryptionContext: Types.AwsCryptographyKeyStoreTypes.EncryptionContextString
   ): (output: CheckedItem)
     requires Structure.EncryptedHierarchicalKey?(item)
     requires StateStrucs.MutationToApply?(MutationToApply)
@@ -593,8 +599,6 @@ module {:options "/functionSyntax:4" } Mutations {
                         wrappedKey.CiphertextBlob.value
                       ));
   }
-
-
 
   lemma FilterIsEmpty?<T>(f: (T ~> bool), xs: seq<T>)
     requires forall i :: 0 <= i < |xs| ==> f.requires(xs[i])

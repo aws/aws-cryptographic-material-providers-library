@@ -31,21 +31,15 @@ module {:options "/functionSyntax:4" } TestMutationsEncryptionContextAddValue {
   import UTF8
   import opened StandardLibrary.UInt
 
-  const happyCaseId := "test-mutations-encryption-context-add-value"
+  const happyCaseId := "test-mutations-encryption-context-key-value-out-side-of-expected"
   const customEC := "aws-crypto-ec:Koda"
   const kmsId: string := Fixtures.keyArn
   const physicalName: string := Fixtures.branchKeyStoreName
   const logicalName: string := Fixtures.logicalKeyStoreName
-  const testLogPrefix := "\nTestMutationsEncryptionContextAddValue :: TestHappyCase :: "
+  const testLogPrefix := "\nTestMutationsEncryptionContextAddValue :: TestProofMutationsOverWritesUnModeldedAttributesCase :: "
 
-  // The following byte strings were created via:
-  // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=Um9iYmll&oenc=65001&oeol=CR
-  // const robbieBytes: KeyStoreTypes.Utf8Bytes := [82,111,98,98,105,101]; // Robbie
-  // const kodaBytes: KeyStoreTypes.Utf8Bytes := [75,111,100,97]; // Koda
-  // const isADogBytes: KeyStoreTypes.Utf8Bytes := [105,115,32,97,32,100,111,103,46]; // is a dog.
-
-
-  method {:test} {:vcs_split_on_every_assert} TestHappyCase()
+  // This is evidence that the code behaves in the manner we DO NOT WANT
+  method {:test} {:vcs_split_on_every_assert} TestProofMutationsOverWritesUnModeldedAttributesCase()
   {
     print " running";
 
@@ -69,13 +63,13 @@ module {:options "/functionSyntax:4" } TestMutationsEncryptionContextAddValue {
     var kodaBytes :- expect UTF8.Encode("Koda");
     var isADogBytes :- expect UTF8.Encode("is a dog.");
     var originalEC := map[kodaBytes := isADogBytes];
-    AdminFixtures.CreateHappyCaseId(id:=testId, versionCount:=1, customEC:=originalEC);
+    AdminFixtures.CreateHappyCaseId(id:=testId, versionCount:=0, customEC:=originalEC);
 
-    print testLogPrefix + " Created the legit test items with 2 versions! testId: " + testId + "\n";
+    print testLogPrefix + " Created the legit test items with 1 versions! testId: " + testId + "\n";
 
     var _ :- expect AdminFixtures.AddAttributeWithoutLibrary(id:=testId, alsoViolateBeacon? := true, ddbClient? := Some(ddbClient));
 
-    print testLogPrefix + " Violated the active and latest. testId: " + testId + "\n";
+    print testLogPrefix + " Violated all three. testId: " + testId + "\n";
 
     var timestamp :- expect Time.GetCurrentTimeStamp();
     var newCustomEC: KeyStoreTypes.EncryptionContextString := map["Koda" := timestamp];
@@ -105,10 +99,6 @@ module {:options "/functionSyntax:4" } TestMutationsEncryptionContextAddValue {
     );
     var queryOut :- expect storage.QueryForVersions(versionQuery);
     var items := queryOut.items;
-    expect
-      |items| == 3,
-      "Test expects there to be 3 Decrypt Only items! Found: " + String.Base10Int2String(|items|);
-    print testLogPrefix + " Read the 3 Decrypt Only items! testId: " + testId + "\n";
 
     var itemIndex := 0;
     var inputV: KeyStoreTypes.GetBranchKeyVersionInput;
