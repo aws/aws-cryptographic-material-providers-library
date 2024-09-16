@@ -152,23 +152,30 @@ module.exports = {
           // Does not update the dependencies
           {
             files: Object.keys(Runtimes.python),
+            from: "{path =.*",
+            to: "\"~${nextRelease.version}\"",
+            results: [CheckDependencyReplacementResults(file)],
+            countMatches: true,
+          },
+          // Now update the local filesystem dependencies to PyPI dependencies
+          // pinned to the minor MPL version
+          {
+            files: Object.keys(Runtimes.python),
             from: 'version = ".*"',
             to: 'version = "${nextRelease.version}"',
             results: Object.keys(Runtimes.python).map(CheckResults),
             countMatches: true,
           },
-          // Now update the local filesystem dependencies to PyPI dependencies
-          // pinned to the minor MPL version
-          ...Object.entries(Runtimes.python).flatMap(
-            ([file, { dependencies }]) =>
-              dependencies.map((dependency) => ({
-                files: [file],
-                from: "{path =.*",
-                to: "\"~${nextRelease.version}\"",
-                results: [CheckDependencyReplacementResults(file)],
-                countMatches: true,
-              })),
-          ),
+          // ...Object.entries(Runtimes.python).flatMap(
+          //   ([file, { dependencies }]) =>
+          //     dependencies.map((dependency) => ({
+          //       files: [file],
+          //       from: "{path =.*",
+          //       to: "\"~${nextRelease.version}\"",
+          //       results: [CheckDependencyReplacementResults(file)],
+          //       countMatches: true,
+          //     })),
+          // ),
         ],
       },
     ],
