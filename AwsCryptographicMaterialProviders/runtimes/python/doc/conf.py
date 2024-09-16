@@ -34,7 +34,7 @@ def alias_class_names(app, what, name, obj, skip, options):
     # Create an alias for long class names
     if name.startswith(MPL_SMITHYGENERATED_PATH):
         obj.__name__ = name.replace(MPL_SMITHYGENERATED_PATH, MPL_ALIAS_PATH)
-    if name.startswith(KEYSTORE_SMITHYGENERATED_PATH):
+    elif name.startswith(KEYSTORE_SMITHYGENERATED_PATH):
         obj.__name__ = name.replace(KEYSTORE_SMITHYGENERATED_PATH, KEYSTORE_ALIAS_PATH)
     return skip
 
