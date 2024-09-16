@@ -29,9 +29,9 @@ build:
       # - ln -s "$PWD/dafny/Scripts/dafny" StandardLibrary/dafny
       # - mv dafny /usr/local/bin
       - alias dafny="$PWD/dafny/dafny"
-      - alias dafny="$PWD/dafny/dafny" && dafny --version
+      # - alias dafny="$PWD/dafny/dafny" && dafny --version
       # Generate Dafny code
-      - alias dafny="$PWD/dafny/dafny" && make transpile_python -C AwsCryptographicMaterialProviders
+      - export PATH="$PWD/dafny:$PATH"" && make transpile_python -C AwsCryptographicMaterialProviders
     post_install:
       # Install project with 'docs' dependency group
       # https://python-poetry.org/docs/managing-dependencies/#dependency-groups
