@@ -20,7 +20,7 @@ build:
       - curl https://github.com/dafny-lang/dafny/releases/download/v4.8.0/dafny-4.8.0-x64-ubuntu-20.04.zip  -L -o dafny.zip
       - unzip -qq dafny.zip && rm dafny.zip
       - echo $PATH
-      - mv dafny ./envs/latest/bin
+      - mv dafny /usr/local/bin
       # - export PATH="$PWD/dafny:$PATH"
       # Generate Dafny code
       - make transpile_python -C AwsCryptographicMaterialProviders
