@@ -73,8 +73,6 @@ const Runtimes = {
   },
 };
 
-const regex = new RegExp("{\\s*path\\s*=.*$", "m");
-
 /**
  * @type {import('semantic-release').GlobalConfig}
  */
