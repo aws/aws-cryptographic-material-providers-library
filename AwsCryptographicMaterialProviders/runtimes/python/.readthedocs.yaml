@@ -21,7 +21,8 @@ build:
       - unzip -qq dafny.zip && rm dafny.zip
       - export PATH="$PWD/dafny:$PATH"
       # Generate Dafny code
-      - make transpile_python -C AwsCryptographicMaterialProviders
+      - cd AwsCryptographicMaterialProviders
+      - make transpile_python
     post_install:
       # Install project with 'docs' dependency group
       # https://python-poetry.org/docs/managing-dependencies/#dependency-groups
