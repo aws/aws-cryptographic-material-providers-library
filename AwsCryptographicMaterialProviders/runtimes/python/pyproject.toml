@@ -44,7 +44,7 @@ optional = true
 [tool.poetry.group.docs.dependencies]
 toml = "^0.10.2"
 myst-parser = "^4"
-sphinx = "^7"
+sphinx = "^8"
 sphinx_rtd_theme = "^2"
 
 [build-system]
