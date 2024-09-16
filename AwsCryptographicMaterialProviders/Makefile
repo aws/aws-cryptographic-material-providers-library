@@ -9,6 +9,8 @@ PROJECT_SERVICES := \
 	AwsCryptographicMaterialProviders \
 	AwsCryptographyKeyStore \
 
+MAIN_SERVICE_FOR_RUST := AwsCryptographicMaterialProviders
+
 SERVICE_NAMESPACE_AwsCryptographicMaterialProviders=aws.cryptography.materialProviders
 SERVICE_NAMESPACE_AwsCryptographyKeyStore=aws.cryptography.keyStore
 
