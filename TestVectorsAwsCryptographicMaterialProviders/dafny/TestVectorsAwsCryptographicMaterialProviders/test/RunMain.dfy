@@ -7,7 +7,7 @@
 // it is easy to kick off a test run.
 include "../src/Index.dfy"
 
-module {:extern} TestWrappedMaterialProvidersMain {
+module TestWrappedMaterialProvidersMain {
   import WrappedMaterialProvidersMain
   import TestManifests
   import CompleteVectors
@@ -15,7 +15,10 @@ module {:extern} TestWrappedMaterialProvidersMain {
 
   // Test execution directory is different for different runtimes.
   // Runtime should define an extern to return the expected test execution directory.
-  method {:extern} GetTestVectorExecutionDirectory() returns (res: string)
+  method  GetTestVectorExecutionDirectory() returns (res: string) 
+  {
+    return "";
+  }
 
   // This is done to maintain order in systems that run tests in parallel
   // such as Rust.

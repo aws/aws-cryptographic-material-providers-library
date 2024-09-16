@@ -1,0 +1,21 @@
+[package]
+name = "mpl_primitives"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+aws-lc-rs = "1.8.1"
+aws-lc-sys = "0.20.1"
+aws-smithy-runtime = {version = "1.6.0", features = ["client"] }
+aws-smithy-runtime-api = {version = "1.7.0", features = ["client"] }
+aws-smithy-types = "1.2.0"
+aws-types = "1.3.3"
+dafny_runtime = { path = "../../../StandardLibrary/runtimes/rust/dafny_runtime_rust"}
+mpl_standard_library = { path = "../../../StandardLibrary/runtimes/rust/"}
+pem = "3.0.4"
+tokio = { version = "1.26.0", features = ["full"] }
+
+[lib]
+path = "src/implementation_from_dafny.rs"
