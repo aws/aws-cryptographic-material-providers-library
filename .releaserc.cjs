@@ -77,9 +77,9 @@ const Runtimes = {
  * @type {import('semantic-release').GlobalConfig}
  */
 module.exports = {
-  branches: ["python-releaserc"],
+  branches: ["main"],
   repositoryUrl:
-    "git@github.com:lucasmcdonald3/aws-cryptographic-material-providers-library.git",
+    "git@github.com:aws/aws-cryptographic-material-providers-library.git",
   plugins: [
     // Check the commits since the last release
     "@semantic-release/commit-analyzer",
@@ -177,7 +177,7 @@ module.exports = {
         assets: [
           "CHANGELOG.md",
           ...Object.values(Runtimes).flatMap((r) => Object.keys(r)),
-          // ...Object.values(Runtimes.net).flatMap((r) => r.assemblyInfo),
+          ...Object.values(Runtimes.net).flatMap((r) => r.assemblyInfo),
         ],
         message:
           "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
@@ -195,7 +195,9 @@ function CheckResults(file) {
   };
 }
 
-
+// For dependency replacement.
+// If the runtime defines dependencies,
+// assert the expected number of dependencies were replaced.
 function CheckDependencyReplacementResults(file) {
   if (file.includes("AwsCryptographicMaterialProviders")) {
     return {
