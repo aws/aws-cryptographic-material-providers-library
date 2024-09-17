@@ -218,23 +218,23 @@ function CheckDependencyReplacementResults(file) {
   } else if (file.includes("AwsCryptographyPrimitives")) {
     return {
       file,
-      hasChanged: false,
-      numMatches: 0,
-      numReplacements: 0,
+      hasChanged: true,
+      numMatches: 1,
+      numReplacements: 1,
     };
   } else if (file.includes("ComAmazonawsKms")) {
     return {
       file,
-      hasChanged: false,
-      numMatches: 0,
-      numReplacements: 0,
+      hasChanged: true,
+      numMatches: 1,
+      numReplacements: 1,
     };
   } else if (file.includes("ComAmazonawsDynamodb")) {
     return {
       file,
-      hasChanged: false,
-      numMatches: 0,
-      numReplacements: 0,
+      hasChanged: true,
+      numMatches: 1,
+      numReplacements: 1,
     };
   } else {
     throw new Error(`No known dependency replacement result specification for file ${file}`)
