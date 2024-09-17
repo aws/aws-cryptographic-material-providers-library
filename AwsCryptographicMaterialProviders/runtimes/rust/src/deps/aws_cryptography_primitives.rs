@@ -9,5 +9,3 @@ pub mod error;
 pub mod operation;
 pub mod conversions;
 pub mod deps;
-#[cfg(feature = "wrapped-client")]
-pub mod wrapped;

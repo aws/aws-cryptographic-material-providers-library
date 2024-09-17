@@ -3,172 +3,60 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 #[derive(::std::clone::Clone, ::std::fmt::Debug, ::std::cmp::PartialEq)]
 pub enum Error {
-    DependencyTimeoutException {
-    error: aws_sdk_kms::types::error::DependencyTimeoutException,
-},
-
-DisabledException {
-    error: aws_sdk_kms::types::error::DisabledException,
-},
-
-DryRunOperationException {
-    error: aws_sdk_kms::types::error::DryRunOperationException,
-},
-
-InvalidGrantTokenException {
-    error: aws_sdk_kms::types::error::InvalidGrantTokenException,
+    NotFoundException {
+    error: aws_sdk_kms::types::error::NotFoundException,
 },
 
 InvalidKeyUsageException {
     error: aws_sdk_kms::types::error::InvalidKeyUsageException,
 },
 
-KeyUnavailableException {
-    error: aws_sdk_kms::types::error::KeyUnavailableException,
-},
-
-KmsInternalException {
-    error: aws_sdk_kms::types::error::KmsInternalException,
-},
-
-KmsInvalidStateException {
-    error: aws_sdk_kms::types::error::KmsInvalidStateException,
-},
-
-NotFoundException {
-    error: aws_sdk_kms::types::error::NotFoundException,
-},
-
-ConflictException {
-    error: aws_sdk_kms::types::error::ConflictException,
-},
-
-InvalidArnException {
-    error: aws_sdk_kms::types::error::InvalidArnException,
-},
-
-LimitExceededException {
-    error: aws_sdk_kms::types::error::LimitExceededException,
-},
-
 UnsupportedOperationException {
     error: aws_sdk_kms::types::error::UnsupportedOperationException,
-},
-
-MalformedPolicyDocumentException {
-    error: aws_sdk_kms::types::error::MalformedPolicyDocumentException,
-},
-
-CloudHsmClusterInvalidConfigurationException {
-    error: aws_sdk_kms::types::error::CloudHsmClusterInvalidConfigurationException,
-},
-
-CustomKeyStoreInvalidStateException {
-    error: aws_sdk_kms::types::error::CustomKeyStoreInvalidStateException,
-},
-
-CustomKeyStoreNotFoundException {
-    error: aws_sdk_kms::types::error::CustomKeyStoreNotFoundException,
-},
-
-TagException {
-    error: aws_sdk_kms::types::error::TagException,
-},
-
-XksKeyAlreadyInUseException {
-    error: aws_sdk_kms::types::error::XksKeyAlreadyInUseException,
-},
-
-XksKeyInvalidConfigurationException {
-    error: aws_sdk_kms::types::error::XksKeyInvalidConfigurationException,
-},
-
-XksKeyNotFoundException {
-    error: aws_sdk_kms::types::error::XksKeyNotFoundException,
-},
-
-InvalidMarkerException {
-    error: aws_sdk_kms::types::error::InvalidMarkerException,
-},
-
-InvalidGrantIdException {
-    error: aws_sdk_kms::types::error::InvalidGrantIdException,
-},
-
-ExpiredImportTokenException {
-    error: aws_sdk_kms::types::error::ExpiredImportTokenException,
-},
-
-IncorrectKeyMaterialException {
-    error: aws_sdk_kms::types::error::IncorrectKeyMaterialException,
-},
-
-InvalidCiphertextException {
-    error: aws_sdk_kms::types::error::InvalidCiphertextException,
-},
-
-InvalidImportTokenException {
-    error: aws_sdk_kms::types::error::InvalidImportTokenException,
-},
-
-KmsInvalidSignatureException {
-    error: aws_sdk_kms::types::error::KmsInvalidSignatureException,
-},
-
-IncorrectKeyException {
-    error: aws_sdk_kms::types::error::IncorrectKeyException,
-},
-
-CloudHsmClusterInUseException {
-    error: aws_sdk_kms::types::error::CloudHsmClusterInUseException,
-},
-
-CloudHsmClusterNotActiveException {
-    error: aws_sdk_kms::types::error::CloudHsmClusterNotActiveException,
-},
-
-CloudHsmClusterNotFoundException {
-    error: aws_sdk_kms::types::error::CloudHsmClusterNotFoundException,
-},
-
-CustomKeyStoreNameInUseException {
-    error: aws_sdk_kms::types::error::CustomKeyStoreNameInUseException,
-},
-
-IncorrectTrustAnchorException {
-    error: aws_sdk_kms::types::error::IncorrectTrustAnchorException,
-},
-
-XksProxyIncorrectAuthenticationCredentialException {
-    error: aws_sdk_kms::types::error::XksProxyIncorrectAuthenticationCredentialException,
-},
-
-XksProxyInvalidConfigurationException {
-    error: aws_sdk_kms::types::error::XksProxyInvalidConfigurationException,
-},
-
-XksProxyInvalidResponseException {
-    error: aws_sdk_kms::types::error::XksProxyInvalidResponseException,
-},
-
-XksProxyUriEndpointInUseException {
-    error: aws_sdk_kms::types::error::XksProxyUriEndpointInUseException,
 },
 
 XksProxyUriInUseException {
     error: aws_sdk_kms::types::error::XksProxyUriInUseException,
 },
 
-XksProxyUriUnreachableException {
-    error: aws_sdk_kms::types::error::XksProxyUriUnreachableException,
-},
-
 XksProxyVpcEndpointServiceInUseException {
     error: aws_sdk_kms::types::error::XksProxyVpcEndpointServiceInUseException,
 },
 
+KmsInvalidStateException {
+    error: aws_sdk_kms::types::error::KmsInvalidStateException,
+},
+
+CloudHsmClusterNotActiveException {
+    error: aws_sdk_kms::types::error::CloudHsmClusterNotActiveException,
+},
+
+MalformedPolicyDocumentException {
+    error: aws_sdk_kms::types::error::MalformedPolicyDocumentException,
+},
+
+ExpiredImportTokenException {
+    error: aws_sdk_kms::types::error::ExpiredImportTokenException,
+},
+
+XksKeyInvalidConfigurationException {
+    error: aws_sdk_kms::types::error::XksKeyInvalidConfigurationException,
+},
+
 XksProxyVpcEndpointServiceInvalidConfigurationException {
     error: aws_sdk_kms::types::error::XksProxyVpcEndpointServiceInvalidConfigurationException,
+},
+
+XksKeyAlreadyInUseException {
+    error: aws_sdk_kms::types::error::XksKeyAlreadyInUseException,
+},
+
+IncorrectKeyException {
+    error: aws_sdk_kms::types::error::IncorrectKeyException,
+},
+
+TagException {
+    error: aws_sdk_kms::types::error::TagException,
 },
 
 XksProxyVpcEndpointServiceNotFoundException {
@@ -179,20 +67,132 @@ CloudHsmClusterNotRelatedException {
     error: aws_sdk_kms::types::error::CloudHsmClusterNotRelatedException,
 },
 
+InvalidImportTokenException {
+    error: aws_sdk_kms::types::error::InvalidImportTokenException,
+},
+
+DisabledException {
+    error: aws_sdk_kms::types::error::DisabledException,
+},
+
+XksProxyInvalidResponseException {
+    error: aws_sdk_kms::types::error::XksProxyInvalidResponseException,
+},
+
 CustomKeyStoreHasCmKsException {
     error: aws_sdk_kms::types::error::CustomKeyStoreHasCmKsException,
 },
 
-AlreadyExistsException {
-    error: aws_sdk_kms::types::error::AlreadyExistsException,
+CustomKeyStoreNameInUseException {
+    error: aws_sdk_kms::types::error::CustomKeyStoreNameInUseException,
+},
+
+CloudHsmClusterInUseException {
+    error: aws_sdk_kms::types::error::CloudHsmClusterInUseException,
+},
+
+XksProxyUriUnreachableException {
+    error: aws_sdk_kms::types::error::XksProxyUriUnreachableException,
+},
+
+KmsInvalidSignatureException {
+    error: aws_sdk_kms::types::error::KmsInvalidSignatureException,
+},
+
+LimitExceededException {
+    error: aws_sdk_kms::types::error::LimitExceededException,
+},
+
+XksProxyInvalidConfigurationException {
+    error: aws_sdk_kms::types::error::XksProxyInvalidConfigurationException,
 },
 
 InvalidAliasNameException {
     error: aws_sdk_kms::types::error::InvalidAliasNameException,
 },
 
+CustomKeyStoreInvalidStateException {
+    error: aws_sdk_kms::types::error::CustomKeyStoreInvalidStateException,
+},
+
+InvalidCiphertextException {
+    error: aws_sdk_kms::types::error::InvalidCiphertextException,
+},
+
+XksProxyUriEndpointInUseException {
+    error: aws_sdk_kms::types::error::XksProxyUriEndpointInUseException,
+},
+
+XksProxyIncorrectAuthenticationCredentialException {
+    error: aws_sdk_kms::types::error::XksProxyIncorrectAuthenticationCredentialException,
+},
+
+CloudHsmClusterInvalidConfigurationException {
+    error: aws_sdk_kms::types::error::CloudHsmClusterInvalidConfigurationException,
+},
+
+CustomKeyStoreNotFoundException {
+    error: aws_sdk_kms::types::error::CustomKeyStoreNotFoundException,
+},
+
+IncorrectKeyMaterialException {
+    error: aws_sdk_kms::types::error::IncorrectKeyMaterialException,
+},
+
+KeyUnavailableException {
+    error: aws_sdk_kms::types::error::KeyUnavailableException,
+},
+
+CloudHsmClusterNotFoundException {
+    error: aws_sdk_kms::types::error::CloudHsmClusterNotFoundException,
+},
+
 KmsInvalidMacException {
     error: aws_sdk_kms::types::error::KmsInvalidMacException,
+},
+
+DependencyTimeoutException {
+    error: aws_sdk_kms::types::error::DependencyTimeoutException,
+},
+
+IncorrectTrustAnchorException {
+    error: aws_sdk_kms::types::error::IncorrectTrustAnchorException,
+},
+
+ConflictException {
+    error: aws_sdk_kms::types::error::ConflictException,
+},
+
+InvalidGrantTokenException {
+    error: aws_sdk_kms::types::error::InvalidGrantTokenException,
+},
+
+XksKeyNotFoundException {
+    error: aws_sdk_kms::types::error::XksKeyNotFoundException,
+},
+
+AlreadyExistsException {
+    error: aws_sdk_kms::types::error::AlreadyExistsException,
+},
+
+DryRunOperationException {
+    error: aws_sdk_kms::types::error::DryRunOperationException,
+},
+
+KmsInternalException {
+    error: aws_sdk_kms::types::error::KmsInternalException,
+},
+
+InvalidArnException {
+    error: aws_sdk_kms::types::error::InvalidArnException,
+},
+
+InvalidMarkerException {
+    error: aws_sdk_kms::types::error::InvalidMarkerException,
+},
+
+InvalidGrantIdException {
+    error: aws_sdk_kms::types::error::InvalidGrantIdException,
 },
     Opaque {
         obj: ::dafny_runtime::Object<dyn ::std::any::Any>,

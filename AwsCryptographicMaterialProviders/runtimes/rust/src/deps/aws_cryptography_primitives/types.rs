@@ -95,10 +95,10 @@ pub mod error;
 
 mod _ecdsa_signature_algorithm;
 pub use crate::deps::aws_cryptography_primitives::types::_ecdsa_signature_algorithm::EcdsaSignatureAlgorithm;
+mod _digest_algorithm;
+pub use crate::deps::aws_cryptography_primitives::types::_digest_algorithm::DigestAlgorithm;
 mod _ecdh_curve_spec;
 pub use crate::deps::aws_cryptography_primitives::types::_ecdh_curve_spec::EcdhCurveSpec;
 mod _rsa_padding_mode;
 pub use crate::deps::aws_cryptography_primitives::types::_rsa_padding_mode::RsaPaddingMode;
-mod _digest_algorithm;
-pub use crate::deps::aws_cryptography_primitives::types::_digest_algorithm::DigestAlgorithm;
 

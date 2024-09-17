@@ -491,8 +491,8 @@ pub mod ECDH {
     #[cfg(test)]
     mod tests {
         use super::*;
+        use crate::_Wrappers_Compile as Wrappers;
         use crate::software::amazon::cryptography::primitives::internaldafny::types::ECDHCurveSpec;
-        use mpl_standard_library::_Wrappers_Compile as Wrappers;
         use std::rc::Rc;
 
         #[test]

@@ -3,19 +3,7 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 #[derive(::std::clone::Clone, ::std::fmt::Debug, ::std::cmp::PartialEq)]
 pub enum Error {
-    AwsCryptographicMaterialProvidersException {
-    message: ::std::string::String,
-},
-
-InvalidEncryptionMaterialsTransition {
-    message: ::std::string::String,
-},
-
-InvalidAlgorithmSuiteInfoOnEncrypt {
-    message: ::std::string::String,
-},
-
-InvalidAlgorithmSuiteInfo {
+    InvalidEncryptionMaterialsTransition {
     message: ::std::string::String,
 },
 
@@ -27,11 +15,31 @@ InvalidEncryptionMaterials {
     message: ::std::string::String,
 },
 
-InvalidDecryptionMaterials {
+EntryAlreadyExists {
+    message: ::std::string::String,
+},
+
+InvalidAlgorithmSuiteInfo {
     message: ::std::string::String,
 },
 
 InvalidDecryptionMaterialsTransition {
+    message: ::std::string::String,
+},
+
+InvalidAlgorithmSuiteInfoOnEncrypt {
+    message: ::std::string::String,
+},
+
+EntryDoesNotExist {
+    message: ::std::string::String,
+},
+
+InvalidDecryptionMaterials {
+    message: ::std::string::String,
+},
+
+AwsCryptographicMaterialProvidersException {
     message: ::std::string::String,
 },
 
