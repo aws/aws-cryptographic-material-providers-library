@@ -46,7 +46,7 @@ import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_mate
 from typing import Any
 
 
-import standard_library.internaldafny.generated.Wrappers as Wrappers
+import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.client as client_impl
 

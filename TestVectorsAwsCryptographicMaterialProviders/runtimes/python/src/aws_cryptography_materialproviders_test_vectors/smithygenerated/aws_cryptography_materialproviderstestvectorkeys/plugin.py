@@ -15,7 +15,7 @@ def set_config_impl(config: Config):
     """
     config.dafnyImplInterface = DafnyImplInterface()
     if isinstance(config, KeyVectorsConfig):
-        from aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.KeyVectors import (
+        from aws_cryptography_materialproviders_test_vectors.internaldafny.generated.KeyVectors import (
             default__,
         )
 

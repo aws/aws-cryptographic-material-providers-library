@@ -3,9 +3,9 @@
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
 import _dafny
-import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated
-import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes
-import aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.errors
+import aws_cryptography_materialproviders_test_vectors.internaldafny.generated
+import aws_cryptography_materialproviders_test_vectors.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes
+import aws_cryptography_materialproviders_test_vectors.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.errors
 from typing import Any, Dict, Generic, List, Literal, TypeVar
 
 
@@ -145,14 +145,14 @@ def _smithy_error_to_dafny_error(e: ServiceError):
     """
     if isinstance(
         e,
-        aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.errors.KeyVectorException,
+        aws_cryptography_materialproviders_test_vectors.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.errors.KeyVectorException,
     ):
-        return aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_KeyVectorException(
+        return aws_cryptography_materialproviders_test_vectors.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_KeyVectorException(
             message=_dafny.Seq(e.message)
         )
 
     if isinstance(e, CollectionOfErrors):
-        return aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_CollectionOfErrors(
+        return aws_cryptography_materialproviders_test_vectors.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_CollectionOfErrors(
             message=_dafny.Seq(e.message),
             list=_dafny.Seq(
                 _smithy_error_to_dafny_error(native_err) for native_err in e.list
@@ -160,11 +160,11 @@ def _smithy_error_to_dafny_error(e: ServiceError):
         )
 
     if isinstance(e, OpaqueError):
-        return aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_Opaque(
+        return aws_cryptography_materialproviders_test_vectors.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_Opaque(
             obj=e.obj
         )
 
     else:
-        return aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_Opaque(
+        return aws_cryptography_materialproviders_test_vectors.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_Opaque(
             obj=e
         )

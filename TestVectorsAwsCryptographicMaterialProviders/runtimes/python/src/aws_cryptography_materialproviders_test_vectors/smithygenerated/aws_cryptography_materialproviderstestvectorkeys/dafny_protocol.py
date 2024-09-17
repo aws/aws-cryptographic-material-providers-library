@@ -2,16 +2,16 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-from aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes import (
+from aws_cryptography_materialproviders_test_vectors.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes import (
     GetKeyDescriptionInput_GetKeyDescriptionInput as DafnyGetKeyDescriptionInput,
     SerializeKeyDescriptionInput_SerializeKeyDescriptionInput as DafnySerializeKeyDescriptionInput,
     TestVectorCmmInput_TestVectorCmmInput as DafnyTestVectorCmmInput,
     TestVectorKeyringInput_TestVectorKeyringInput as DafnyTestVectorKeyringInput,
 )
-import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.module_
+import aws_cryptography_materialproviders_test_vectors.internaldafny.generated.module_
 
 
-import standard_library.internaldafny.generated.Wrappers as Wrappers
+import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
 from typing import Union
 
 

@@ -4,14 +4,14 @@
 
 import _dafny
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy
-from aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes import (
+from aws_cryptography_materialproviders_test_vectors.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes import (
     Error,
     Error_KeyVectorException,
     GetKeyDescriptionOutput_GetKeyDescriptionOutput as DafnyGetKeyDescriptionOutput,
     SerializeKeyDescriptionOutput_SerializeKeyDescriptionOutput as DafnySerializeKeyDescriptionOutput,
 )
-import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.module_
-import aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.dafny_to_smithy
+import aws_cryptography_materialproviders_test_vectors.internaldafny.generated.module_
+import aws_cryptography_materialproviders_test_vectors.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.dafny_to_smithy
 from typing import Any
 
 from .dafny_protocol import DafnyResponse
@@ -20,7 +20,7 @@ from .errors import CollectionOfErrors, KeyVectorException, OpaqueError, Service
 from .config import Config
 
 
-async def _deserialize_create_test_vector_keyring(input: DafnyResponse, config: Config):
+def _deserialize_create_test_vector_keyring(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -29,7 +29,7 @@ async def _deserialize_create_test_vector_keyring(input: DafnyResponse, config: 
     )
 
 
-async def _deserialize_create_wrapped_test_vector_keyring(
+def _deserialize_create_wrapped_test_vector_keyring(
     input: DafnyResponse, config: Config
 ):
 
@@ -40,31 +40,29 @@ async def _deserialize_create_wrapped_test_vector_keyring(
     )
 
 
-async def _deserialize_create_wrapped_test_vector_cmm(
-    input: DafnyResponse, config: Config
-):
+def _deserialize_create_wrapped_test_vector_cmm(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.dafny_to_smithy.aws_cryptography_materialproviderstestvectorkeys_CreateWrappedTestVectorCmmOutput(
+    return aws_cryptography_materialproviders_test_vectors.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.dafny_to_smithy.aws_cryptography_materialproviderstestvectorkeys_CreateWrappedTestVectorCmmOutput(
         input.value
     )
 
 
-async def _deserialize_get_key_description(input: DafnyResponse, config: Config):
+def _deserialize_get_key_description(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.dafny_to_smithy.aws_cryptography_materialproviderstestvectorkeys_GetKeyDescriptionOutput(
+    return aws_cryptography_materialproviders_test_vectors.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.dafny_to_smithy.aws_cryptography_materialproviderstestvectorkeys_GetKeyDescriptionOutput(
         input.value
     )
 
 
-async def _deserialize_serialize_key_description(input: DafnyResponse, config: Config):
+def _deserialize_serialize_key_description(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.dafny_to_smithy.aws_cryptography_materialproviderstestvectorkeys_SerializeKeyDescriptionOutput(
+    return aws_cryptography_materialproviders_test_vectors.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.dafny_to_smithy.aws_cryptography_materialproviderstestvectorkeys_SerializeKeyDescriptionOutput(
         input.value
     )
 

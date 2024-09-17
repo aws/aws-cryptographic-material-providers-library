@@ -48,13 +48,13 @@ class AES_GCM:
         d: Dict[str, Any] = {}
 
         if self.key_length is not None:
-            d["keyLength"] = self.key_length
+            d["key_length"] = self.key_length
 
         if self.tag_length is not None:
-            d["tagLength"] = self.tag_length
+            d["tag_length"] = self.tag_length
 
         if self.iv_length is not None:
-            d["ivLength"] = self.iv_length
+            d["iv_length"] = self.iv_length
 
         return d
 
@@ -67,14 +67,14 @@ class AES_GCM:
         """
         kwargs: Dict[str, Any] = {}
 
-        if "keyLength" in d:
-            kwargs["key_length"] = d["keyLength"]
+        if "key_length" in d:
+            kwargs["key_length"] = d["key_length"]
 
-        if "tagLength" in d:
-            kwargs["tag_length"] = d["tagLength"]
+        if "tag_length" in d:
+            kwargs["tag_length"] = d["tag_length"]
 
-        if "ivLength" in d:
-            kwargs["iv_length"] = d["ivLength"]
+        if "iv_length" in d:
+            kwargs["iv_length"] = d["iv_length"]
 
         return AES_GCM(**kwargs)
 
@@ -134,10 +134,10 @@ class AESDecryptInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "encAlg": self.enc_alg.as_dict(),
+            "enc_alg": self.enc_alg.as_dict(),
             "key": self.key,
-            "cipherTxt": self.cipher_txt,
-            "authTag": self.auth_tag,
+            "cipher_txt": self.cipher_txt,
+            "auth_tag": self.auth_tag,
             "iv": self.iv,
             "aad": self.aad,
         }
@@ -150,10 +150,10 @@ class AESDecryptInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "enc_alg": AES_GCM.from_dict(d["encAlg"]),
+            "enc_alg": AES_GCM.from_dict(d["enc_alg"]),
             "key": d["key"],
-            "cipher_txt": d["cipherTxt"],
-            "auth_tag": d["authTag"],
+            "cipher_txt": d["cipher_txt"],
+            "auth_tag": d["auth_tag"],
             "iv": d["iv"],
             "aad": d["aad"],
         }
@@ -225,7 +225,7 @@ class AESEncryptInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "encAlg": self.enc_alg.as_dict(),
+            "enc_alg": self.enc_alg.as_dict(),
             "iv": self.iv,
             "key": self.key,
             "msg": self.msg,
@@ -240,7 +240,7 @@ class AESEncryptInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "enc_alg": AES_GCM.from_dict(d["encAlg"]),
+            "enc_alg": AES_GCM.from_dict(d["enc_alg"]),
             "iv": d["iv"],
             "key": d["key"],
             "msg": d["msg"],
@@ -301,8 +301,8 @@ class AESEncryptOutput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "cipherText": self.cipher_text,
-            "authTag": self.auth_tag,
+            "cipher_text": self.cipher_text,
+            "auth_tag": self.auth_tag,
         }
 
     @staticmethod
@@ -313,8 +313,8 @@ class AESEncryptOutput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "cipher_text": d["cipherText"],
-            "auth_tag": d["authTag"],
+            "cipher_text": d["cipher_text"],
+            "auth_tag": d["auth_tag"],
         }
 
         return AESEncryptOutput(**kwargs)
@@ -369,7 +369,7 @@ class AesKdfCtrInput:
         }
 
         if self.expected_length is not None:
-            d["expectedLength"] = self.expected_length
+            d["expected_length"] = self.expected_length
 
         if self.nonce is not None:
             d["nonce"] = self.nonce
@@ -387,8 +387,8 @@ class AesKdfCtrInput:
             "ikm": d["ikm"],
         }
 
-        if "expectedLength" in d:
-            kwargs["expected_length"] = d["expectedLength"]
+        if "expected_length" in d:
+            kwargs["expected_length"] = d["expected_length"]
 
         if "nonce" in d:
             kwargs["nonce"] = d["nonce"]
@@ -502,8 +502,8 @@ class CompressPublicKeyInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "publicKey": self.public_key.as_dict(),
-            "eccCurve": self.ecc_curve,
+            "public_key": self.public_key.as_dict(),
+            "ecc_curve": self.ecc_curve,
         }
 
     @staticmethod
@@ -514,8 +514,8 @@ class CompressPublicKeyInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "public_key": ECCPublicKey.from_dict(d["publicKey"]),
-            "ecc_curve": d["eccCurve"],
+            "public_key": ECCPublicKey.from_dict(d["public_key"]),
+            "ecc_curve": d["ecc_curve"],
         }
 
         return CompressPublicKeyInput(**kwargs)
@@ -557,7 +557,7 @@ class CompressPublicKeyOutput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "compressedPublicKey": self.compressed_public_key,
+            "compressed_public_key": self.compressed_public_key,
         }
 
     @staticmethod
@@ -568,7 +568,7 @@ class CompressPublicKeyOutput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "compressed_public_key": d["compressedPublicKey"],
+            "compressed_public_key": d["compressed_public_key"],
         }
 
         return CompressPublicKeyOutput(**kwargs)
@@ -609,8 +609,8 @@ class DecompressPublicKeyInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "compressedPublicKey": self.compressed_public_key,
-            "eccCurve": self.ecc_curve,
+            "compressed_public_key": self.compressed_public_key,
+            "ecc_curve": self.ecc_curve,
         }
 
     @staticmethod
@@ -621,8 +621,8 @@ class DecompressPublicKeyInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "compressed_public_key": d["compressedPublicKey"],
-            "ecc_curve": d["eccCurve"],
+            "compressed_public_key": d["compressed_public_key"],
+            "ecc_curve": d["ecc_curve"],
         }
 
         return DecompressPublicKeyInput(**kwargs)
@@ -664,7 +664,7 @@ class DecompressPublicKeyOutput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "publicKey": self.public_key.as_dict(),
+            "public_key": self.public_key.as_dict(),
         }
 
     @staticmethod
@@ -675,7 +675,7 @@ class DecompressPublicKeyOutput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "public_key": ECCPublicKey.from_dict(d["publicKey"]),
+            "public_key": ECCPublicKey.from_dict(d["public_key"]),
         }
 
         return DecompressPublicKeyOutput(**kwargs)
@@ -768,9 +768,9 @@ class DeriveSharedSecretInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "eccCurve": self.ecc_curve,
-            "privateKey": self.private_key.as_dict(),
-            "publicKey": self.public_key.as_dict(),
+            "ecc_curve": self.ecc_curve,
+            "private_key": self.private_key.as_dict(),
+            "public_key": self.public_key.as_dict(),
         }
 
     @staticmethod
@@ -781,9 +781,9 @@ class DeriveSharedSecretInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "ecc_curve": d["eccCurve"],
-            "private_key": ECCPrivateKey.from_dict(d["privateKey"]),
-            "public_key": ECCPublicKey.from_dict(d["publicKey"]),
+            "ecc_curve": d["ecc_curve"],
+            "private_key": ECCPrivateKey.from_dict(d["private_key"]),
+            "public_key": ECCPublicKey.from_dict(d["public_key"]),
         }
 
         return DeriveSharedSecretInput(**kwargs)
@@ -829,7 +829,7 @@ class DeriveSharedSecretOutput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "sharedSecret": self.shared_secret,
+            "shared_secret": self.shared_secret,
         }
 
     @staticmethod
@@ -840,7 +840,7 @@ class DeriveSharedSecretOutput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "shared_secret": d["sharedSecret"],
+            "shared_secret": d["shared_secret"],
         }
 
         return DeriveSharedSecretOutput(**kwargs)
@@ -893,7 +893,7 @@ class DigestInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "digestAlgorithm": self.digest_algorithm,
+            "digest_algorithm": self.digest_algorithm,
             "message": self.message,
         }
 
@@ -905,7 +905,7 @@ class DigestInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "digest_algorithm": d["digestAlgorithm"],
+            "digest_algorithm": d["digest_algorithm"],
             "message": d["message"],
         }
 
@@ -964,8 +964,8 @@ class ECDSASignInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "signatureAlgorithm": self.signature_algorithm,
-            "signingKey": self.signing_key,
+            "signature_algorithm": self.signature_algorithm,
+            "signing_key": self.signing_key,
             "message": self.message,
         }
 
@@ -977,8 +977,8 @@ class ECDSASignInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "signature_algorithm": d["signatureAlgorithm"],
-            "signing_key": d["signingKey"],
+            "signature_algorithm": d["signature_algorithm"],
+            "signing_key": d["signing_key"],
             "message": d["message"],
         }
 
@@ -1034,8 +1034,8 @@ class ECDSAVerifyInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "signatureAlgorithm": self.signature_algorithm,
-            "verificationKey": self.verification_key,
+            "signature_algorithm": self.signature_algorithm,
+            "verification_key": self.verification_key,
             "message": self.message,
             "signature": self.signature,
         }
@@ -1048,8 +1048,8 @@ class ECDSAVerifyInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "signature_algorithm": d["signatureAlgorithm"],
-            "verification_key": d["verificationKey"],
+            "signature_algorithm": d["signature_algorithm"],
+            "verification_key": d["verification_key"],
             "message": d["message"],
             "signature": d["signature"],
         }
@@ -1101,7 +1101,7 @@ class GenerateECCKeyPairInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "eccCurve": self.ecc_curve,
+            "ecc_curve": self.ecc_curve,
         }
 
     @staticmethod
@@ -1112,7 +1112,7 @@ class GenerateECCKeyPairInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "ecc_curve": d["eccCurve"],
+            "ecc_curve": d["ecc_curve"],
         }
 
         return GenerateECCKeyPairInput(**kwargs)
@@ -1156,9 +1156,9 @@ class GenerateECCKeyPairOutput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "eccCurve": self.ecc_curve,
-            "privateKey": self.private_key.as_dict(),
-            "publicKey": self.public_key.as_dict(),
+            "ecc_curve": self.ecc_curve,
+            "private_key": self.private_key.as_dict(),
+            "public_key": self.public_key.as_dict(),
         }
 
     @staticmethod
@@ -1169,9 +1169,9 @@ class GenerateECCKeyPairOutput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "ecc_curve": d["eccCurve"],
-            "private_key": ECCPrivateKey.from_dict(d["privateKey"]),
-            "public_key": ECCPublicKey.from_dict(d["publicKey"]),
+            "ecc_curve": d["ecc_curve"],
+            "private_key": ECCPrivateKey.from_dict(d["private_key"]),
+            "public_key": ECCPublicKey.from_dict(d["public_key"]),
         }
 
         return GenerateECCKeyPairOutput(**kwargs)
@@ -1217,7 +1217,7 @@ class GenerateECDSASignatureKeyInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "signatureAlgorithm": self.signature_algorithm,
+            "signature_algorithm": self.signature_algorithm,
         }
 
     @staticmethod
@@ -1228,7 +1228,7 @@ class GenerateECDSASignatureKeyInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "signature_algorithm": d["signatureAlgorithm"],
+            "signature_algorithm": d["signature_algorithm"],
         }
 
         return GenerateECDSASignatureKeyInput(**kwargs)
@@ -1272,9 +1272,9 @@ class GenerateECDSASignatureKeyOutput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "signatureAlgorithm": self.signature_algorithm,
-            "verificationKey": self.verification_key,
-            "signingKey": self.signing_key,
+            "signature_algorithm": self.signature_algorithm,
+            "verification_key": self.verification_key,
+            "signing_key": self.signing_key,
         }
 
     @staticmethod
@@ -1285,9 +1285,9 @@ class GenerateECDSASignatureKeyOutput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "signature_algorithm": d["signatureAlgorithm"],
-            "verification_key": d["verificationKey"],
-            "signing_key": d["signingKey"],
+            "signature_algorithm": d["signature_algorithm"],
+            "verification_key": d["verification_key"],
+            "signing_key": d["signing_key"],
         }
 
         return GenerateECDSASignatureKeyOutput(**kwargs)
@@ -1397,7 +1397,7 @@ class GenerateRSAKeyPairInput:
         d: Dict[str, Any] = {}
 
         if self.length_bits is not None:
-            d["lengthBits"] = self.length_bits
+            d["length_bits"] = self.length_bits
 
         return d
 
@@ -1410,8 +1410,8 @@ class GenerateRSAKeyPairInput:
         """
         kwargs: Dict[str, Any] = {}
 
-        if "lengthBits" in d:
-            kwargs["length_bits"] = d["lengthBits"]
+        if "length_bits" in d:
+            kwargs["length_bits"] = d["length_bits"]
 
         return GenerateRSAKeyPairInput(**kwargs)
 
@@ -1458,7 +1458,7 @@ class RSAPrivateKey:
         }
 
         if self.length_bits is not None:
-            d["lengthBits"] = self.length_bits
+            d["length_bits"] = self.length_bits
 
         return d
 
@@ -1473,8 +1473,8 @@ class RSAPrivateKey:
             "pem": d["pem"],
         }
 
-        if "lengthBits" in d:
-            kwargs["length_bits"] = d["lengthBits"]
+        if "length_bits" in d:
+            kwargs["length_bits"] = d["length_bits"]
 
         return RSAPrivateKey(**kwargs)
 
@@ -1525,7 +1525,7 @@ class RSAPublicKey:
         }
 
         if self.length_bits is not None:
-            d["lengthBits"] = self.length_bits
+            d["length_bits"] = self.length_bits
 
         return d
 
@@ -1540,8 +1540,8 @@ class RSAPublicKey:
             "pem": d["pem"],
         }
 
-        if "lengthBits" in d:
-            kwargs["length_bits"] = d["lengthBits"]
+        if "length_bits" in d:
+            kwargs["length_bits"] = d["length_bits"]
 
         return RSAPublicKey(**kwargs)
 
@@ -1585,8 +1585,8 @@ class GenerateRSAKeyPairOutput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "publicKey": self.public_key.as_dict(),
-            "privateKey": self.private_key.as_dict(),
+            "public_key": self.public_key.as_dict(),
+            "private_key": self.private_key.as_dict(),
         }
 
     @staticmethod
@@ -1597,8 +1597,8 @@ class GenerateRSAKeyPairOutput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "public_key": RSAPublicKey.from_dict(d["publicKey"]),
-            "private_key": RSAPrivateKey.from_dict(d["privateKey"]),
+            "public_key": RSAPublicKey.from_dict(d["public_key"]),
+            "private_key": RSAPrivateKey.from_dict(d["private_key"]),
         }
 
         return GenerateRSAKeyPairOutput(**kwargs)
@@ -1643,8 +1643,8 @@ class GetPublicKeyFromPrivateKeyInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "eccCurve": self.ecc_curve,
-            "privateKey": self.private_key.as_dict(),
+            "ecc_curve": self.ecc_curve,
+            "private_key": self.private_key.as_dict(),
         }
 
     @staticmethod
@@ -1655,8 +1655,8 @@ class GetPublicKeyFromPrivateKeyInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "ecc_curve": d["eccCurve"],
-            "private_key": ECCPrivateKey.from_dict(d["privateKey"]),
+            "ecc_curve": d["ecc_curve"],
+            "private_key": ECCPrivateKey.from_dict(d["private_key"]),
         }
 
         return GetPublicKeyFromPrivateKeyInput(**kwargs)
@@ -1704,9 +1704,9 @@ class GetPublicKeyFromPrivateKeyOutput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "eccCurve": self.ecc_curve,
-            "privateKey": self.private_key.as_dict(),
-            "publicKey": self.public_key,
+            "ecc_curve": self.ecc_curve,
+            "private_key": self.private_key.as_dict(),
+            "public_key": self.public_key,
         }
 
     @staticmethod
@@ -1717,9 +1717,9 @@ class GetPublicKeyFromPrivateKeyOutput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "ecc_curve": d["eccCurve"],
-            "private_key": ECCPrivateKey.from_dict(d["privateKey"]),
-            "public_key": d["publicKey"],
+            "ecc_curve": d["ecc_curve"],
+            "private_key": ECCPrivateKey.from_dict(d["private_key"]),
+            "public_key": d["public_key"],
         }
 
         return GetPublicKeyFromPrivateKeyOutput(**kwargs)
@@ -1765,7 +1765,7 @@ class GetRSAKeyModulusLengthInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "publicKey": self.public_key,
+            "public_key": self.public_key,
         }
 
     @staticmethod
@@ -1776,7 +1776,7 @@ class GetRSAKeyModulusLengthInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "public_key": d["publicKey"],
+            "public_key": d["public_key"],
         }
 
         return GetRSAKeyModulusLengthInput(**kwargs)
@@ -1885,7 +1885,7 @@ class HkdfInput:
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            "digestAlgorithm": self.digest_algorithm,
+            "digest_algorithm": self.digest_algorithm,
             "ikm": self.ikm,
             "info": self.info,
         }
@@ -1894,7 +1894,7 @@ class HkdfInput:
             d["salt"] = self.salt
 
         if self.expected_length is not None:
-            d["expectedLength"] = self.expected_length
+            d["expected_length"] = self.expected_length
 
         return d
 
@@ -1906,7 +1906,7 @@ class HkdfInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "digest_algorithm": d["digestAlgorithm"],
+            "digest_algorithm": d["digest_algorithm"],
             "ikm": d["ikm"],
             "info": d["info"],
         }
@@ -1914,8 +1914,8 @@ class HkdfInput:
         if "salt" in d:
             kwargs["salt"] = d["salt"]
 
-        if "expectedLength" in d:
-            kwargs["expected_length"] = d["expectedLength"]
+        if "expected_length" in d:
+            kwargs["expected_length"] = d["expected_length"]
 
         return HkdfInput(**kwargs)
 
@@ -1980,13 +1980,13 @@ class HkdfExpandInput:
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            "digestAlgorithm": self.digest_algorithm,
+            "digest_algorithm": self.digest_algorithm,
             "prk": self.prk,
             "info": self.info,
         }
 
         if self.expected_length is not None:
-            d["expectedLength"] = self.expected_length
+            d["expected_length"] = self.expected_length
 
         return d
 
@@ -1998,13 +1998,13 @@ class HkdfExpandInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "digest_algorithm": d["digestAlgorithm"],
+            "digest_algorithm": d["digest_algorithm"],
             "prk": d["prk"],
             "info": d["info"],
         }
 
-        if "expectedLength" in d:
-            kwargs["expected_length"] = d["expectedLength"]
+        if "expected_length" in d:
+            kwargs["expected_length"] = d["expected_length"]
 
         return HkdfExpandInput(**kwargs)
 
@@ -2059,7 +2059,7 @@ class HkdfExtractInput:
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            "digestAlgorithm": self.digest_algorithm,
+            "digest_algorithm": self.digest_algorithm,
             "ikm": self.ikm,
         }
 
@@ -2076,7 +2076,7 @@ class HkdfExtractInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "digest_algorithm": d["digestAlgorithm"],
+            "digest_algorithm": d["digest_algorithm"],
             "ikm": d["ikm"],
         }
 
@@ -2132,7 +2132,7 @@ class HMacInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "digestAlgorithm": self.digest_algorithm,
+            "digest_algorithm": self.digest_algorithm,
             "key": self.key,
             "message": self.message,
         }
@@ -2145,7 +2145,7 @@ class HMacInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "digest_algorithm": d["digestAlgorithm"],
+            "digest_algorithm": d["digest_algorithm"],
             "key": d["key"],
             "message": d["message"],
         }
@@ -2208,12 +2208,12 @@ class KdfCtrInput:
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            "digestAlgorithm": self.digest_algorithm,
+            "digest_algorithm": self.digest_algorithm,
             "ikm": self.ikm,
         }
 
         if self.expected_length is not None:
-            d["expectedLength"] = self.expected_length
+            d["expected_length"] = self.expected_length
 
         if self.purpose is not None:
             d["purpose"] = self.purpose
@@ -2231,12 +2231,12 @@ class KdfCtrInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "digest_algorithm": d["digestAlgorithm"],
+            "digest_algorithm": d["digest_algorithm"],
             "ikm": d["ikm"],
         }
 
-        if "expectedLength" in d:
-            kwargs["expected_length"] = d["expectedLength"]
+        if "expected_length" in d:
+            kwargs["expected_length"] = d["expected_length"]
 
         if "purpose" in d:
             kwargs["purpose"] = d["purpose"]
@@ -2295,7 +2295,7 @@ class ParsePublicKeyInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "publicKey": self.public_key,
+            "public_key": self.public_key,
         }
 
     @staticmethod
@@ -2306,7 +2306,7 @@ class ParsePublicKeyInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "public_key": d["publicKey"],
+            "public_key": d["public_key"],
         }
 
         return ParsePublicKeyInput(**kwargs)
@@ -2344,7 +2344,7 @@ class ParsePublicKeyOutput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "publicKey": self.public_key.as_dict(),
+            "public_key": self.public_key.as_dict(),
         }
 
     @staticmethod
@@ -2355,7 +2355,7 @@ class ParsePublicKeyOutput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "public_key": ECCPublicKey.from_dict(d["publicKey"]),
+            "public_key": ECCPublicKey.from_dict(d["public_key"]),
         }
 
         return ParsePublicKeyOutput(**kwargs)
@@ -2418,8 +2418,8 @@ class RSADecryptInput:
         """
         return {
             "padding": self.padding,
-            "privateKey": self.private_key,
-            "cipherText": self.cipher_text,
+            "private_key": self.private_key,
+            "cipher_text": self.cipher_text,
         }
 
     @staticmethod
@@ -2431,8 +2431,8 @@ class RSADecryptInput:
         """
         kwargs: Dict[str, Any] = {
             "padding": d["padding"],
-            "private_key": d["privateKey"],
-            "cipher_text": d["cipherText"],
+            "private_key": d["private_key"],
+            "cipher_text": d["cipher_text"],
         }
 
         return RSADecryptInput(**kwargs)
@@ -2485,7 +2485,7 @@ class RSAEncryptInput:
         """
         return {
             "padding": self.padding,
-            "publicKey": self.public_key,
+            "public_key": self.public_key,
             "plaintext": self.plaintext,
         }
 
@@ -2498,7 +2498,7 @@ class RSAEncryptInput:
         """
         kwargs: Dict[str, Any] = {
             "padding": d["padding"],
-            "public_key": d["publicKey"],
+            "public_key": d["public_key"],
             "plaintext": d["plaintext"],
         }
 
@@ -2548,8 +2548,8 @@ class ValidatePublicKeyInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "eccCurve": self.ecc_curve,
-            "publicKey": self.public_key,
+            "ecc_curve": self.ecc_curve,
+            "public_key": self.public_key,
         }
 
     @staticmethod
@@ -2560,8 +2560,8 @@ class ValidatePublicKeyInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "ecc_curve": d["eccCurve"],
-            "public_key": d["publicKey"],
+            "ecc_curve": d["ecc_curve"],
+            "public_key": d["public_key"],
         }
 
         return ValidatePublicKeyInput(**kwargs)

@@ -33,7 +33,7 @@ from .errors import (
 from .config import Config
 
 
-async def _deserialize_generate_random_bytes(input: DafnyResponse, config: Config):
+def _deserialize_generate_random_bytes(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -42,7 +42,7 @@ async def _deserialize_generate_random_bytes(input: DafnyResponse, config: Confi
     )
 
 
-async def _deserialize_digest(input: DafnyResponse, config: Config):
+def _deserialize_digest(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -51,7 +51,7 @@ async def _deserialize_digest(input: DafnyResponse, config: Config):
     )
 
 
-async def _deserialize_h_mac(input: DafnyResponse, config: Config):
+def _deserialize_h_mac(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -60,7 +60,7 @@ async def _deserialize_h_mac(input: DafnyResponse, config: Config):
     )
 
 
-async def _deserialize_hkdf_extract(input: DafnyResponse, config: Config):
+def _deserialize_hkdf_extract(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -69,7 +69,7 @@ async def _deserialize_hkdf_extract(input: DafnyResponse, config: Config):
     )
 
 
-async def _deserialize_hkdf_expand(input: DafnyResponse, config: Config):
+def _deserialize_hkdf_expand(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -78,7 +78,7 @@ async def _deserialize_hkdf_expand(input: DafnyResponse, config: Config):
     )
 
 
-async def _deserialize_hkdf(input: DafnyResponse, config: Config):
+def _deserialize_hkdf(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -87,7 +87,7 @@ async def _deserialize_hkdf(input: DafnyResponse, config: Config):
     )
 
 
-async def _deserialize_kdf_counter_mode(input: DafnyResponse, config: Config):
+def _deserialize_kdf_counter_mode(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -96,7 +96,7 @@ async def _deserialize_kdf_counter_mode(input: DafnyResponse, config: Config):
     )
 
 
-async def _deserialize_aes_kdf_counter_mode(input: DafnyResponse, config: Config):
+def _deserialize_aes_kdf_counter_mode(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -105,7 +105,7 @@ async def _deserialize_aes_kdf_counter_mode(input: DafnyResponse, config: Config
     )
 
 
-async def _deserialize_aes_encrypt(input: DafnyResponse, config: Config):
+def _deserialize_aes_encrypt(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -114,7 +114,7 @@ async def _deserialize_aes_encrypt(input: DafnyResponse, config: Config):
     )
 
 
-async def _deserialize_aes_decrypt(input: DafnyResponse, config: Config):
+def _deserialize_aes_decrypt(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -123,7 +123,7 @@ async def _deserialize_aes_decrypt(input: DafnyResponse, config: Config):
     )
 
 
-async def _deserialize_generate_rsa_key_pair(input: DafnyResponse, config: Config):
+def _deserialize_generate_rsa_key_pair(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -132,7 +132,7 @@ async def _deserialize_generate_rsa_key_pair(input: DafnyResponse, config: Confi
     )
 
 
-async def _deserialize_get_rsa_key_modulus_length(input: DafnyResponse, config: Config):
+def _deserialize_get_rsa_key_modulus_length(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -141,7 +141,7 @@ async def _deserialize_get_rsa_key_modulus_length(input: DafnyResponse, config: 
     )
 
 
-async def _deserialize_rsa_decrypt(input: DafnyResponse, config: Config):
+def _deserialize_rsa_decrypt(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -150,7 +150,7 @@ async def _deserialize_rsa_decrypt(input: DafnyResponse, config: Config):
     )
 
 
-async def _deserialize_rsa_encrypt(input: DafnyResponse, config: Config):
+def _deserialize_rsa_encrypt(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -159,9 +159,7 @@ async def _deserialize_rsa_encrypt(input: DafnyResponse, config: Config):
     )
 
 
-async def _deserialize_generate_ecdsa_signature_key(
-    input: DafnyResponse, config: Config
-):
+def _deserialize_generate_ecdsa_signature_key(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -170,7 +168,7 @@ async def _deserialize_generate_ecdsa_signature_key(
     )
 
 
-async def _deserialize_ecdsa_sign(input: DafnyResponse, config: Config):
+def _deserialize_ecdsa_sign(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -179,7 +177,7 @@ async def _deserialize_ecdsa_sign(input: DafnyResponse, config: Config):
     )
 
 
-async def _deserialize_ecdsa_verify(input: DafnyResponse, config: Config):
+def _deserialize_ecdsa_verify(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -188,7 +186,7 @@ async def _deserialize_ecdsa_verify(input: DafnyResponse, config: Config):
     )
 
 
-async def _deserialize_generate_ecc_key_pair(input: DafnyResponse, config: Config):
+def _deserialize_generate_ecc_key_pair(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -197,9 +195,7 @@ async def _deserialize_generate_ecc_key_pair(input: DafnyResponse, config: Confi
     )
 
 
-async def _deserialize_get_public_key_from_private_key(
-    input: DafnyResponse, config: Config
-):
+def _deserialize_get_public_key_from_private_key(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -208,7 +204,7 @@ async def _deserialize_get_public_key_from_private_key(
     )
 
 
-async def _deserialize_validate_public_key(input: DafnyResponse, config: Config):
+def _deserialize_validate_public_key(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -217,7 +213,7 @@ async def _deserialize_validate_public_key(input: DafnyResponse, config: Config)
     )
 
 
-async def _deserialize_derive_shared_secret(input: DafnyResponse, config: Config):
+def _deserialize_derive_shared_secret(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -226,7 +222,7 @@ async def _deserialize_derive_shared_secret(input: DafnyResponse, config: Config
     )
 
 
-async def _deserialize_compress_public_key(input: DafnyResponse, config: Config):
+def _deserialize_compress_public_key(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -235,7 +231,7 @@ async def _deserialize_compress_public_key(input: DafnyResponse, config: Config)
     )
 
 
-async def _deserialize_decompress_public_key(input: DafnyResponse, config: Config):
+def _deserialize_decompress_public_key(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -244,7 +240,7 @@ async def _deserialize_decompress_public_key(input: DafnyResponse, config: Confi
     )
 
 
-async def _deserialize_parse_public_key(input: DafnyResponse, config: Config):
+def _deserialize_parse_public_key(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)

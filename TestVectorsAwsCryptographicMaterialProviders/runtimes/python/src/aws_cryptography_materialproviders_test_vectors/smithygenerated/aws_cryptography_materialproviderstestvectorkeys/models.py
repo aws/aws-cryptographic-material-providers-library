@@ -39,8 +39,8 @@ class RawAES:
         keys to be mostly compatible with boto3.
         """
         return {
-            "keyId": self.key_id,
-            "providerId": self.provider_id,
+            "key_id": self.key_id,
+            "provider_id": self.provider_id,
         }
 
     @staticmethod
@@ -51,8 +51,8 @@ class RawAES:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "key_id": d["keyId"],
-            "provider_id": d["providerId"],
+            "key_id": d["key_id"],
+            "provider_id": d["provider_id"],
         }
 
         return RawAES(**kwargs)
@@ -112,13 +112,13 @@ class RawEcdh:
         keys to be mostly compatible with boto3.
         """
         return {
-            "senderKeyId": self.sender_key_id,
-            "recipientKeyId": self.recipient_key_id,
-            "senderPublicKey": self.sender_public_key,
-            "recipientPublicKey": self.recipient_public_key,
-            "providerId": self.provider_id,
-            "curveSpec": self.curve_spec,
-            "keyAgreementScheme": self.key_agreement_scheme,
+            "sender_key_id": self.sender_key_id,
+            "recipient_key_id": self.recipient_key_id,
+            "sender_public_key": self.sender_public_key,
+            "recipient_public_key": self.recipient_public_key,
+            "provider_id": self.provider_id,
+            "curve_spec": self.curve_spec,
+            "key_agreement_scheme": self.key_agreement_scheme,
         }
 
     @staticmethod
@@ -129,13 +129,13 @@ class RawEcdh:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "sender_key_id": d["senderKeyId"],
-            "recipient_key_id": d["recipientKeyId"],
-            "sender_public_key": d["senderPublicKey"],
-            "recipient_public_key": d["recipientPublicKey"],
-            "provider_id": d["providerId"],
-            "curve_spec": d["curveSpec"],
-            "key_agreement_scheme": d["keyAgreementScheme"],
+            "sender_key_id": d["sender_key_id"],
+            "recipient_key_id": d["recipient_key_id"],
+            "sender_public_key": d["sender_public_key"],
+            "recipient_public_key": d["recipient_public_key"],
+            "provider_id": d["provider_id"],
+            "curve_spec": d["curve_spec"],
+            "key_agreement_scheme": d["key_agreement_scheme"],
         }
 
         return RawEcdh(**kwargs)
@@ -197,7 +197,7 @@ class HierarchyKeyring:
         keys to be mostly compatible with boto3.
         """
         return {
-            "keyId": self.key_id,
+            "key_id": self.key_id,
         }
 
     @staticmethod
@@ -208,7 +208,7 @@ class HierarchyKeyring:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "key_id": d["keyId"],
+            "key_id": d["key_id"],
         }
 
         return HierarchyKeyring(**kwargs)
@@ -246,7 +246,7 @@ class KMSInfo:
         keys to be mostly compatible with boto3.
         """
         return {
-            "keyId": self.key_id,
+            "key_id": self.key_id,
         }
 
     @staticmethod
@@ -257,7 +257,7 @@ class KMSInfo:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "key_id": d["keyId"],
+            "key_id": d["key_id"],
         }
 
         return KMSInfo(**kwargs)
@@ -310,12 +310,12 @@ class KmsEcdhKeyring:
         keys to be mostly compatible with boto3.
         """
         return {
-            "senderKeyId": self.sender_key_id,
-            "recipientKeyId": self.recipient_key_id,
-            "senderPublicKey": self.sender_public_key,
-            "recipientPublicKey": self.recipient_public_key,
-            "curveSpec": self.curve_spec,
-            "keyAgreementScheme": self.key_agreement_scheme,
+            "sender_key_id": self.sender_key_id,
+            "recipient_key_id": self.recipient_key_id,
+            "sender_public_key": self.sender_public_key,
+            "recipient_public_key": self.recipient_public_key,
+            "curve_spec": self.curve_spec,
+            "key_agreement_scheme": self.key_agreement_scheme,
         }
 
     @staticmethod
@@ -326,12 +326,12 @@ class KmsEcdhKeyring:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "sender_key_id": d["senderKeyId"],
-            "recipient_key_id": d["recipientKeyId"],
-            "sender_public_key": d["senderPublicKey"],
-            "recipient_public_key": d["recipientPublicKey"],
-            "curve_spec": d["curveSpec"],
-            "key_agreement_scheme": d["keyAgreementScheme"],
+            "sender_key_id": d["sender_key_id"],
+            "recipient_key_id": d["recipient_key_id"],
+            "sender_public_key": d["sender_public_key"],
+            "recipient_public_key": d["recipient_public_key"],
+            "curve_spec": d["curve_spec"],
+            "key_agreement_scheme": d["key_agreement_scheme"],
         }
 
         return KmsEcdhKeyring(**kwargs)
@@ -389,7 +389,7 @@ class KmsMrkAware:
         keys to be mostly compatible with boto3.
         """
         return {
-            "keyId": self.key_id,
+            "key_id": self.key_id,
         }
 
     @staticmethod
@@ -400,7 +400,7 @@ class KmsMrkAware:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "key_id": d["keyId"],
+            "key_id": d["key_id"],
         }
 
         return KmsMrkAware(**kwargs)
@@ -449,12 +449,12 @@ class KmsMrkAwareDiscovery:
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            "keyId": self.key_id,
-            "defaultMrkRegion": self.default_mrk_region,
+            "key_id": self.key_id,
+            "default_mrk_region": self.default_mrk_region,
         }
 
         if self.aws_kms_discovery_filter is not None:
-            d["awsKmsDiscoveryFilter"] = self.aws_kms_discovery_filter.as_dict()
+            d["aws_kms_discovery_filter"] = self.aws_kms_discovery_filter.as_dict()
 
         return d
 
@@ -466,13 +466,13 @@ class KmsMrkAwareDiscovery:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "key_id": d["keyId"],
-            "default_mrk_region": d["defaultMrkRegion"],
+            "key_id": d["key_id"],
+            "default_mrk_region": d["default_mrk_region"],
         }
 
-        if "awsKmsDiscoveryFilter" in d:
+        if "aws_kms_discovery_filter" in d:
             kwargs["aws_kms_discovery_filter"] = DiscoveryFilter.from_dict(
-                d["awsKmsDiscoveryFilter"]
+                d["aws_kms_discovery_filter"]
             )
 
         return KmsMrkAwareDiscovery(**kwargs)
@@ -521,8 +521,8 @@ class KmsRsaKeyring:
         keys to be mostly compatible with boto3.
         """
         return {
-            "keyId": self.key_id,
-            "encryptionAlgorithm": self.encryption_algorithm,
+            "key_id": self.key_id,
+            "encryption_algorithm": self.encryption_algorithm,
         }
 
     @staticmethod
@@ -533,8 +533,8 @@ class KmsRsaKeyring:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "key_id": d["keyId"],
-            "encryption_algorithm": d["encryptionAlgorithm"],
+            "key_id": d["key_id"],
+            "encryption_algorithm": d["encryption_algorithm"],
         }
 
         return KmsRsaKeyring(**kwargs)
@@ -582,8 +582,8 @@ class RawRSA:
         keys to be mostly compatible with boto3.
         """
         return {
-            "keyId": self.key_id,
-            "providerId": self.provider_id,
+            "key_id": self.key_id,
+            "provider_id": self.provider_id,
             "padding": self.padding,
         }
 
@@ -595,8 +595,8 @@ class RawRSA:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "key_id": d["keyId"],
-            "provider_id": d["providerId"],
+            "key_id": d["key_id"],
+            "provider_id": d["provider_id"],
             "padding": d["padding"],
         }
 
@@ -643,7 +643,7 @@ class StaticKeyring:
         keys to be mostly compatible with boto3.
         """
         return {
-            "keyId": self.key_id,
+            "key_id": self.key_id,
         }
 
     @staticmethod
@@ -654,7 +654,7 @@ class StaticKeyring:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "key_id": d["keyId"],
+            "key_id": d["key_id"],
         }
 
         return StaticKeyring(**kwargs)
@@ -1053,7 +1053,7 @@ class KeyDescriptionRequiredEncryptionContext:
         return self.value == other.value
 
 
-class KeyDescription:
+class KeyDescriptionUnknown:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -1069,13 +1069,13 @@ class KeyDescription:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "KeyDescription":
+    def from_dict(d: Dict[str, Any]) -> "KeyDescriptionUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return KeyDescription(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return KeyDescriptionUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"KeyDescription(tag={self.tag})"
+        return f"KeyDescriptionUnknown(tag={self.tag})"
 
 
 KeyDescription = Union[
@@ -1091,7 +1091,7 @@ KeyDescription = Union[
     KeyDescriptionHierarchy,
     KeyDescriptionMulti,
     KeyDescriptionRequiredEncryptionContext,
-    KeyDescription,
+    KeyDescriptionUnknown,
 ]
 
 
@@ -1156,7 +1156,7 @@ class RequiredEncryptionContextCMM:
         """
         return {
             "underlying": self.underlying.as_dict(),
-            "requiredEncryptionContextKeys": self.required_encryption_context_keys,
+            "required_encryption_context_keys": self.required_encryption_context_keys,
         }
 
     @staticmethod
@@ -1168,7 +1168,7 @@ class RequiredEncryptionContextCMM:
         """
         kwargs: Dict[str, Any] = {
             "underlying": _key_description_from_dict(d["underlying"]),
-            "required_encryption_context_keys": d["requiredEncryptionContextKeys"],
+            "required_encryption_context_keys": d["required_encryption_context_keys"],
         }
 
         return RequiredEncryptionContextCMM(**kwargs)
@@ -1210,7 +1210,7 @@ class GetKeyDescriptionOutput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "keyDescription": self.key_description.as_dict(),
+            "key_description": self.key_description.as_dict(),
         }
 
     @staticmethod
@@ -1221,7 +1221,7 @@ class GetKeyDescriptionOutput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "key_description": _key_description_from_dict(d["keyDescription"]),
+            "key_description": _key_description_from_dict(d["key_description"]),
         }
 
         return GetKeyDescriptionOutput(**kwargs)
@@ -1259,7 +1259,7 @@ class SerializeKeyDescriptionInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "keyDescription": self.key_description.as_dict(),
+            "key_description": self.key_description.as_dict(),
         }
 
     @staticmethod
@@ -1270,7 +1270,7 @@ class SerializeKeyDescriptionInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "key_description": _key_description_from_dict(d["keyDescription"]),
+            "key_description": _key_description_from_dict(d["key_description"]),
         }
 
         return SerializeKeyDescriptionInput(**kwargs)
@@ -1311,8 +1311,8 @@ class TestVectorCmmInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "keyDescription": self.key_description.as_dict(),
-            "forOperation": self.for_operation,
+            "key_description": self.key_description.as_dict(),
+            "for_operation": self.for_operation,
         }
 
     @staticmethod
@@ -1323,8 +1323,8 @@ class TestVectorCmmInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "key_description": _key_description_from_dict(d["keyDescription"]),
-            "for_operation": d["forOperation"],
+            "key_description": _key_description_from_dict(d["key_description"]),
+            "for_operation": d["for_operation"],
         }
 
         return TestVectorCmmInput(**kwargs)
@@ -1366,7 +1366,7 @@ class TestVectorKeyringInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "keyDescription": self.key_description.as_dict(),
+            "key_description": self.key_description.as_dict(),
         }
 
     @staticmethod
@@ -1377,7 +1377,7 @@ class TestVectorKeyringInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "key_description": _key_description_from_dict(d["keyDescription"]),
+            "key_description": _key_description_from_dict(d["key_description"]),
         }
 
         return TestVectorKeyringInput(**kwargs)
@@ -1418,7 +1418,7 @@ class MultiKeyring:
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            "childKeyrings": _key_description_list_as_dict(self.child_keyrings),
+            "child_keyrings": _key_description_list_as_dict(self.child_keyrings),
         }
 
         if self.generator is not None:
@@ -1434,7 +1434,7 @@ class MultiKeyring:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "child_keyrings": _key_description_list_from_dict(d["childKeyrings"]),
+            "child_keyrings": _key_description_list_from_dict(d["child_keyrings"]),
         }
 
         if "generator" in d:

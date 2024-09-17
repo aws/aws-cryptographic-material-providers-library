@@ -2,13 +2,11 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-import asyncio
-from asyncio import sleep
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references
-from aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes import (
+from aws_cryptography_materialproviders_test_vectors.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes import (
     IKeyVectorsClient,
 )
-from typing import Awaitable, Callable, TypeVar, cast
+from typing import Callable, TypeVar, cast
 
 from .config import Config, KeyVectorsConfig
 from .dafny_protocol import DafnyRequest, DafnyResponse
@@ -80,15 +78,13 @@ class KeyVectors:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_test_vector_keyring,
-                deserialize=_deserialize_create_test_vector_keyring,
-                config=self._config,
-                operation_name="CreateTestVectorKeyring",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_test_vector_keyring,
+            deserialize=_deserialize_create_test_vector_keyring,
+            config=self._config,
+            operation_name="CreateTestVectorKeyring",
         )
 
     def create_wrapped_test_vector_keyring(
@@ -98,15 +94,13 @@ class KeyVectors:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_wrapped_test_vector_keyring,
-                deserialize=_deserialize_create_wrapped_test_vector_keyring,
-                config=self._config,
-                operation_name="CreateWrappedTestVectorKeyring",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_wrapped_test_vector_keyring,
+            deserialize=_deserialize_create_wrapped_test_vector_keyring,
+            config=self._config,
+            operation_name="CreateWrappedTestVectorKeyring",
         )
 
     def create_wrapped_test_vector_cmm(
@@ -116,15 +110,13 @@ class KeyVectors:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_wrapped_test_vector_cmm,
-                deserialize=_deserialize_create_wrapped_test_vector_cmm,
-                config=self._config,
-                operation_name="CreateWrappedTestVectorCmm",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_wrapped_test_vector_cmm,
+            deserialize=_deserialize_create_wrapped_test_vector_cmm,
+            config=self._config,
+            operation_name="CreateWrappedTestVectorCmm",
         )
 
     def get_key_description(
@@ -134,15 +126,13 @@ class KeyVectors:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_get_key_description,
-                deserialize=_deserialize_get_key_description,
-                config=self._config,
-                operation_name="GetKeyDescription",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_get_key_description,
+            deserialize=_deserialize_get_key_description,
+            config=self._config,
+            operation_name="GetKeyDescription",
         )
 
     def serialize_key_description(
@@ -152,28 +142,26 @@ class KeyVectors:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_serialize_key_description,
-                deserialize=_deserialize_serialize_key_description,
-                config=self._config,
-                operation_name="SerializeKeyDescription",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_serialize_key_description,
+            deserialize=_deserialize_serialize_key_description,
+            config=self._config,
+            operation_name="SerializeKeyDescription",
         )
 
-    async def _execute_operation(
+    def _execute_operation(
         self,
         input: Input,
         plugins: list[Plugin],
-        serialize: Callable[[Input, Config], Awaitable[DafnyRequest]],
-        deserialize: Callable[[DafnyResponse, Config], Awaitable[Output]],
+        serialize: Callable[[Input, Config], DafnyRequest],
+        deserialize: Callable[[DafnyResponse, Config], Output],
         config: Config,
         operation_name: str,
     ) -> Output:
         try:
-            return await self._handle_execution(
+            return self._handle_execution(
                 input, plugins, serialize, deserialize, config, operation_name
             )
         except Exception as e:
@@ -183,12 +171,12 @@ class KeyVectors:
                 raise ServiceError(e) from e
             raise e
 
-    async def _handle_execution(
+    def _handle_execution(
         self,
         input: Input,
         plugins: list[Plugin],
-        serialize: Callable[[Input, Config], Awaitable[DafnyRequest]],
-        deserialize: Callable[[DafnyResponse, Config], Awaitable[Output]],
+        serialize: Callable[[Input, Config], DafnyRequest],
+        deserialize: Callable[[DafnyResponse, Config], Output],
         config: Config,
         operation_name: str,
     ) -> Output:
@@ -238,7 +226,7 @@ class KeyVectors:
             context_with_transport_request = cast(
                 InterceptorContext[Input, None, DafnyRequest, None], context
             )
-            context_with_transport_request._transport_request = await serialize(
+            context_with_transport_request._transport_request = serialize(
                 context_with_transport_request.request, config
             )
 
@@ -259,7 +247,7 @@ class KeyVectors:
             while True:
                 # Make an attempt, creating a copy of the context so we don't pass
                 # around old data.
-                context_with_response = await self._handle_attempt(
+                context_with_response = self._handle_attempt(
                     deserialize,
                     interceptors,
                     context_with_transport_request.copy(),
@@ -288,7 +276,6 @@ class KeyVectors:
                         )
                     except SmithyRetryException:
                         raise context_with_response.response
-                    await sleep(retry_token.retry_delay)
                 else:
                     # Step 8: Invoke record_success
                     retry_strategy.record_success(token=retry_token)
@@ -305,11 +292,11 @@ class KeyVectors:
             ],
             context,
         )
-        return await self._finalize_execution(interceptors, execution_context)
+        return self._finalize_execution(interceptors, execution_context)
 
-    async def _handle_attempt(
+    def _handle_attempt(
         self,
-        deserialize: Callable[[DafnyResponse, Config], Awaitable[Output]],
+        deserialize: Callable[[DafnyResponse, Config], Output],
         interceptors: list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
         context: InterceptorContext[Input, None, DafnyRequest, None],
         config: Config,
@@ -353,7 +340,7 @@ class KeyVectors:
                 InterceptorContext[Input, Output, DafnyRequest, DafnyResponse],
                 context_with_response,
             )
-            context_with_output._response = await deserialize(
+            context_with_output._response = deserialize(
                 context_with_output._transport_response, config
             )
 
@@ -371,9 +358,9 @@ class KeyVectors:
             InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None],
             context,
         )
-        return await self._finalize_attempt(interceptors, attempt_context)
+        return self._finalize_attempt(interceptors, attempt_context)
 
-    async def _finalize_attempt(
+    def _finalize_attempt(
         self,
         interceptors: list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
         context: InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None],
@@ -396,7 +383,7 @@ class KeyVectors:
 
         return context
 
-    async def _finalize_execution(
+    def _finalize_execution(
         self,
         interceptors: list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
         context: InterceptorContext[

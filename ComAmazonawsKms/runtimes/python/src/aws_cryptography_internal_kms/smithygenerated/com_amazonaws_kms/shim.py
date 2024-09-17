@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
+from aws_cryptography_internal_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     CancelKeyDeletionRequest_CancelKeyDeletionRequest as DafnyCancelKeyDeletionRequest,
     CancelKeyDeletionResponse_CancelKeyDeletionResponse as DafnyCancelKeyDeletionResponse,
     ConnectCustomKeyStoreRequest_ConnectCustomKeyStoreRequest as DafnyConnectCustomKeyStoreRequest,
@@ -93,16 +93,16 @@ from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     VerifyRequest_VerifyRequest as DafnyVerifyRequest,
     VerifyResponse_VerifyResponse as DafnyVerifyResponse,
 )
-import com_amazonaws_kms.internaldafny.generated.module_
-import com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny
-import com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk
+import aws_cryptography_internal_kms.internaldafny.generated.module_
+import aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny
+import aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk
 
 from . import dafny_to_aws_sdk
 
 
-import standard_library.internaldafny.generated.Wrappers as Wrappers
+import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
 from botocore.exceptions import ClientError
-import com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes
+import aws_cryptography_internal_kms.internaldafny.generated.ComAmazonawsKmsTypes
 
 
 def _sdk_error_to_dafny_error(e: ClientError):
@@ -111,197 +111,197 @@ def _sdk_error_to_dafny_error(e: ClientError):
     into the corresponding Dafny error.
     """
     if e.response["Error"]["Code"] == "AlreadyExistsException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_AlreadyExistsException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_AlreadyExistsException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "CloudHsmClusterInUseException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CloudHsmClusterInUseException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CloudHsmClusterInUseException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "CloudHsmClusterInvalidConfigurationException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "CloudHsmClusterNotActiveException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CloudHsmClusterNotActiveException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CloudHsmClusterNotActiveException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "CloudHsmClusterNotFoundException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CloudHsmClusterNotFoundException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CloudHsmClusterNotFoundException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "CloudHsmClusterNotRelatedException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CloudHsmClusterNotRelatedException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CloudHsmClusterNotRelatedException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "ConflictException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ConflictException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ConflictException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "CustomKeyStoreHasCMKsException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomKeyStoreHasCMKsException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomKeyStoreHasCMKsException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "CustomKeyStoreInvalidStateException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomKeyStoreInvalidStateException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomKeyStoreInvalidStateException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "CustomKeyStoreNameInUseException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomKeyStoreNameInUseException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomKeyStoreNameInUseException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "CustomKeyStoreNotFoundException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomKeyStoreNotFoundException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomKeyStoreNotFoundException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "DependencyTimeoutException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DependencyTimeoutException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DependencyTimeoutException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "DisabledException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DisabledException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DisabledException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "DryRunOperationException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DryRunOperationException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DryRunOperationException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "ExpiredImportTokenException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ExpiredImportTokenException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ExpiredImportTokenException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "IncorrectKeyException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_IncorrectKeyException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_IncorrectKeyException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "IncorrectKeyMaterialException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_IncorrectKeyMaterialException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_IncorrectKeyMaterialException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "IncorrectTrustAnchorException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_IncorrectTrustAnchorException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_IncorrectTrustAnchorException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "InvalidAliasNameException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_InvalidAliasNameException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_InvalidAliasNameException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "InvalidArnException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_InvalidArnException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_InvalidArnException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "InvalidCiphertextException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_InvalidCiphertextException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_InvalidCiphertextException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "InvalidGrantIdException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_InvalidGrantIdException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_InvalidGrantIdException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "InvalidGrantTokenException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_InvalidGrantTokenException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_InvalidGrantTokenException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "InvalidImportTokenException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_InvalidImportTokenException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_InvalidImportTokenException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "InvalidKeyUsageException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_InvalidKeyUsageException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_InvalidKeyUsageException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "InvalidMarkerException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_InvalidMarkerException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_InvalidMarkerException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "KeyUnavailableException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyUnavailableException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyUnavailableException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "KMSInternalException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KMSInternalException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KMSInternalException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "KMSInvalidMacException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KMSInvalidMacException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KMSInvalidMacException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "KMSInvalidSignatureException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KMSInvalidSignatureException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KMSInvalidSignatureException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "KMSInvalidStateException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KMSInvalidStateException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KMSInvalidStateException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "LimitExceededException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_LimitExceededException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_LimitExceededException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "MalformedPolicyDocumentException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MalformedPolicyDocumentException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MalformedPolicyDocumentException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "NotFoundException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_NotFoundException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_NotFoundException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "TagException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_TagException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_TagException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "UnsupportedOperationException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_UnsupportedOperationException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_UnsupportedOperationException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "XksKeyAlreadyInUseException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksKeyAlreadyInUseException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksKeyAlreadyInUseException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "XksKeyInvalidConfigurationException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksKeyInvalidConfigurationException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksKeyInvalidConfigurationException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "XksKeyNotFoundException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksKeyNotFoundException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksKeyNotFoundException(
             e.response
         )
 
@@ -309,37 +309,37 @@ def _sdk_error_to_dafny_error(e: ClientError):
         e.response["Error"]["Code"]
         == "XksProxyIncorrectAuthenticationCredentialException"
     ):
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyIncorrectAuthenticationCredentialException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyIncorrectAuthenticationCredentialException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "XksProxyInvalidConfigurationException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyInvalidConfigurationException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyInvalidConfigurationException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "XksProxyInvalidResponseException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyInvalidResponseException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyInvalidResponseException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "XksProxyUriEndpointInUseException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyUriEndpointInUseException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyUriEndpointInUseException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "XksProxyUriInUseException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyUriInUseException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyUriInUseException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "XksProxyUriUnreachableException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyUriUnreachableException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyUriUnreachableException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "XksProxyVpcEndpointServiceInUseException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyVpcEndpointServiceInUseException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyVpcEndpointServiceInUseException(
             e.response
         )
 
@@ -347,16 +347,16 @@ def _sdk_error_to_dafny_error(e: ClientError):
         e.response["Error"]["Code"]
         == "XksProxyVpcEndpointServiceInvalidConfigurationException"
     ):
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException(
             e.response
         )
 
     elif e.response["Error"]["Code"] == "XksProxyVpcEndpointServiceNotFoundException":
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyVpcEndpointServiceNotFoundException(
+        return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyVpcEndpointServiceNotFoundException(
             e.response
         )
 
-    return com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes.Error_Opaque(
+    return aws_cryptography_internal_kms.internaldafny.generated.ComAmazonawsKmsTypes.Error_Opaque(
         obj=e
     )
 
@@ -369,7 +369,7 @@ class KMSClientShim:
     def CancelKeyDeletion(
         self, input: DafnyCancelKeyDeletionRequest
     ) -> DafnyCancelKeyDeletionResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_CancelKeyDeletionRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_CancelKeyDeletionRequest(
             input
         )
         try:
@@ -378,7 +378,7 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CancelKeyDeletionResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CancelKeyDeletionResponse(
                 boto_response_dict
             )
         )
@@ -386,7 +386,7 @@ class KMSClientShim:
     def ConnectCustomKeyStore(
         self, input: DafnyConnectCustomKeyStoreRequest
     ) -> DafnyConnectCustomKeyStoreResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ConnectCustomKeyStoreRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ConnectCustomKeyStoreRequest(
             input
         )
         try:
@@ -397,13 +397,13 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ConnectCustomKeyStoreResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ConnectCustomKeyStoreResponse(
                 boto_response_dict
             )
         )
 
     def CreateAlias(self, input: DafnyCreateAliasRequest) -> None:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_CreateAliasRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_CreateAliasRequest(
             input
         )
         try:
@@ -416,7 +416,7 @@ class KMSClientShim:
     def CreateCustomKeyStore(
         self, input: DafnyCreateCustomKeyStoreRequest
     ) -> DafnyCreateCustomKeyStoreResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_CreateCustomKeyStoreRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_CreateCustomKeyStoreRequest(
             input
         )
         try:
@@ -425,13 +425,13 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CreateCustomKeyStoreResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CreateCustomKeyStoreResponse(
                 boto_response_dict
             )
         )
 
     def CreateGrant(self, input: DafnyCreateGrantRequest) -> DafnyCreateGrantResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_CreateGrantRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_CreateGrantRequest(
             input
         )
         try:
@@ -440,13 +440,13 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CreateGrantResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CreateGrantResponse(
                 boto_response_dict
             )
         )
 
     def CreateKey(self, input: DafnyCreateKeyRequest) -> DafnyCreateKeyResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_CreateKeyRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_CreateKeyRequest(
             input
         )
         try:
@@ -455,13 +455,13 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CreateKeyResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CreateKeyResponse(
                 boto_response_dict
             )
         )
 
     def Decrypt(self, input: DafnyDecryptRequest) -> DafnyDecryptResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DecryptRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DecryptRequest(
             input
         )
         try:
@@ -470,13 +470,13 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DecryptResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DecryptResponse(
                 boto_response_dict
             )
         )
 
     def DeleteAlias(self, input: DafnyDeleteAliasRequest) -> None:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DeleteAliasRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DeleteAliasRequest(
             input
         )
         try:
@@ -489,7 +489,7 @@ class KMSClientShim:
     def DeleteCustomKeyStore(
         self, input: DafnyDeleteCustomKeyStoreRequest
     ) -> DafnyDeleteCustomKeyStoreResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DeleteCustomKeyStoreRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DeleteCustomKeyStoreRequest(
             input
         )
         try:
@@ -498,7 +498,7 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DeleteCustomKeyStoreResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DeleteCustomKeyStoreResponse(
                 boto_response_dict
             )
         )
@@ -506,7 +506,7 @@ class KMSClientShim:
     def DeleteImportedKeyMaterial(
         self, input: DafnyDeleteImportedKeyMaterialRequest
     ) -> None:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DeleteImportedKeyMaterialRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DeleteImportedKeyMaterialRequest(
             input
         )
         try:
@@ -521,7 +521,7 @@ class KMSClientShim:
     def DeriveSharedSecret(
         self, input: DafnyDeriveSharedSecretRequest
     ) -> DafnyDeriveSharedSecretResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DeriveSharedSecretRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DeriveSharedSecretRequest(
             input
         )
         try:
@@ -530,7 +530,7 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DeriveSharedSecretResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DeriveSharedSecretResponse(
                 boto_response_dict
             )
         )
@@ -538,7 +538,7 @@ class KMSClientShim:
     def DescribeCustomKeyStores(
         self, input: DafnyDescribeCustomKeyStoresRequest
     ) -> DafnyDescribeCustomKeyStoresResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DescribeCustomKeyStoresRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DescribeCustomKeyStoresRequest(
             input
         )
         try:
@@ -549,13 +549,13 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DescribeCustomKeyStoresResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DescribeCustomKeyStoresResponse(
                 boto_response_dict
             )
         )
 
     def DescribeKey(self, input: DafnyDescribeKeyRequest) -> DafnyDescribeKeyResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DescribeKeyRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DescribeKeyRequest(
             input
         )
         try:
@@ -564,13 +564,13 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DescribeKeyResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DescribeKeyResponse(
                 boto_response_dict
             )
         )
 
     def DisableKey(self, input: DafnyDisableKeyRequest) -> None:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DisableKeyRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DisableKeyRequest(
             input
         )
         try:
@@ -581,7 +581,7 @@ class KMSClientShim:
         return Wrappers.Result_Success(None)
 
     def DisableKeyRotation(self, input: DafnyDisableKeyRotationRequest) -> None:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DisableKeyRotationRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DisableKeyRotationRequest(
             input
         )
         try:
@@ -594,7 +594,7 @@ class KMSClientShim:
     def DisconnectCustomKeyStore(
         self, input: DafnyDisconnectCustomKeyStoreRequest
     ) -> DafnyDisconnectCustomKeyStoreResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DisconnectCustomKeyStoreRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DisconnectCustomKeyStoreRequest(
             input
         )
         try:
@@ -605,13 +605,13 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DisconnectCustomKeyStoreResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DisconnectCustomKeyStoreResponse(
                 boto_response_dict
             )
         )
 
     def EnableKey(self, input: DafnyEnableKeyRequest) -> None:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_EnableKeyRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_EnableKeyRequest(
             input
         )
         try:
@@ -622,7 +622,7 @@ class KMSClientShim:
         return Wrappers.Result_Success(None)
 
     def EnableKeyRotation(self, input: DafnyEnableKeyRotationRequest) -> None:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_EnableKeyRotationRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_EnableKeyRotationRequest(
             input
         )
         try:
@@ -633,7 +633,7 @@ class KMSClientShim:
         return Wrappers.Result_Success(None)
 
     def Encrypt(self, input: DafnyEncryptRequest) -> DafnyEncryptResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_EncryptRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_EncryptRequest(
             input
         )
         try:
@@ -642,7 +642,7 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptResponse(
                 boto_response_dict
             )
         )
@@ -650,7 +650,7 @@ class KMSClientShim:
     def GenerateDataKey(
         self, input: DafnyGenerateDataKeyRequest
     ) -> DafnyGenerateDataKeyResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GenerateDataKeyRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GenerateDataKeyRequest(
             input
         )
         try:
@@ -659,7 +659,7 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GenerateDataKeyResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GenerateDataKeyResponse(
                 boto_response_dict
             )
         )
@@ -667,7 +667,7 @@ class KMSClientShim:
     def GenerateDataKeyPair(
         self, input: DafnyGenerateDataKeyPairRequest
     ) -> DafnyGenerateDataKeyPairResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GenerateDataKeyPairRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GenerateDataKeyPairRequest(
             input
         )
         try:
@@ -676,7 +676,7 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GenerateDataKeyPairResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GenerateDataKeyPairResponse(
                 boto_response_dict
             )
         )
@@ -684,7 +684,7 @@ class KMSClientShim:
     def GenerateDataKeyPairWithoutPlaintext(
         self, input: DafnyGenerateDataKeyPairWithoutPlaintextRequest
     ) -> DafnyGenerateDataKeyPairWithoutPlaintextResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextRequest(
             input
         )
         try:
@@ -695,7 +695,7 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextResponse(
                 boto_response_dict
             )
         )
@@ -703,7 +703,7 @@ class KMSClientShim:
     def GenerateDataKeyWithoutPlaintext(
         self, input: DafnyGenerateDataKeyWithoutPlaintextRequest
     ) -> DafnyGenerateDataKeyWithoutPlaintextResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GenerateDataKeyWithoutPlaintextRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GenerateDataKeyWithoutPlaintextRequest(
             input
         )
         try:
@@ -714,13 +714,13 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GenerateDataKeyWithoutPlaintextResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GenerateDataKeyWithoutPlaintextResponse(
                 boto_response_dict
             )
         )
 
     def GenerateMac(self, input: DafnyGenerateMacRequest) -> DafnyGenerateMacResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GenerateMacRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GenerateMacRequest(
             input
         )
         try:
@@ -729,7 +729,7 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GenerateMacResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GenerateMacResponse(
                 boto_response_dict
             )
         )
@@ -737,7 +737,7 @@ class KMSClientShim:
     def GenerateRandom(
         self, input: DafnyGenerateRandomRequest
     ) -> DafnyGenerateRandomResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GenerateRandomRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GenerateRandomRequest(
             input
         )
         try:
@@ -746,7 +746,7 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GenerateRandomResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GenerateRandomResponse(
                 boto_response_dict
             )
         )
@@ -754,7 +754,7 @@ class KMSClientShim:
     def GetKeyPolicy(
         self, input: DafnyGetKeyPolicyRequest
     ) -> DafnyGetKeyPolicyResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GetKeyPolicyRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GetKeyPolicyRequest(
             input
         )
         try:
@@ -763,7 +763,7 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GetKeyPolicyResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GetKeyPolicyResponse(
                 boto_response_dict
             )
         )
@@ -771,7 +771,7 @@ class KMSClientShim:
     def GetKeyRotationStatus(
         self, input: DafnyGetKeyRotationStatusRequest
     ) -> DafnyGetKeyRotationStatusResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GetKeyRotationStatusRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GetKeyRotationStatusRequest(
             input
         )
         try:
@@ -780,7 +780,7 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GetKeyRotationStatusResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GetKeyRotationStatusResponse(
                 boto_response_dict
             )
         )
@@ -788,7 +788,7 @@ class KMSClientShim:
     def GetParametersForImport(
         self, input: DafnyGetParametersForImportRequest
     ) -> DafnyGetParametersForImportResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GetParametersForImportRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GetParametersForImportRequest(
             input
         )
         try:
@@ -799,7 +799,7 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GetParametersForImportResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GetParametersForImportResponse(
                 boto_response_dict
             )
         )
@@ -807,7 +807,7 @@ class KMSClientShim:
     def GetPublicKey(
         self, input: DafnyGetPublicKeyRequest
     ) -> DafnyGetPublicKeyResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GetPublicKeyRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GetPublicKeyRequest(
             input
         )
         try:
@@ -816,7 +816,7 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GetPublicKeyResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GetPublicKeyResponse(
                 boto_response_dict
             )
         )
@@ -824,7 +824,7 @@ class KMSClientShim:
     def ImportKeyMaterial(
         self, input: DafnyImportKeyMaterialRequest
     ) -> DafnyImportKeyMaterialResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ImportKeyMaterialRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ImportKeyMaterialRequest(
             input
         )
         try:
@@ -833,13 +833,13 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ImportKeyMaterialResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ImportKeyMaterialResponse(
                 boto_response_dict
             )
         )
 
     def ListAliases(self, input: DafnyListAliasesRequest) -> DafnyListAliasesResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ListAliasesRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ListAliasesRequest(
             input
         )
         try:
@@ -848,13 +848,13 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ListAliasesResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ListAliasesResponse(
                 boto_response_dict
             )
         )
 
     def ListGrants(self, input: DafnyListGrantsRequest) -> DafnyListGrantsResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ListGrantsRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ListGrantsRequest(
             input
         )
         try:
@@ -863,7 +863,7 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ListGrantsResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ListGrantsResponse(
                 boto_response_dict
             )
         )
@@ -871,7 +871,7 @@ class KMSClientShim:
     def ListKeyPolicies(
         self, input: DafnyListKeyPoliciesRequest
     ) -> DafnyListKeyPoliciesResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ListKeyPoliciesRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ListKeyPoliciesRequest(
             input
         )
         try:
@@ -880,7 +880,7 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ListKeyPoliciesResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ListKeyPoliciesResponse(
                 boto_response_dict
             )
         )
@@ -888,7 +888,7 @@ class KMSClientShim:
     def ListKeyRotations(
         self, input: DafnyListKeyRotationsRequest
     ) -> DafnyListKeyRotationsResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ListKeyRotationsRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ListKeyRotationsRequest(
             input
         )
         try:
@@ -897,13 +897,13 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ListKeyRotationsResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ListKeyRotationsResponse(
                 boto_response_dict
             )
         )
 
     def ListKeys(self, input: DafnyListKeysRequest) -> DafnyListKeysResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ListKeysRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ListKeysRequest(
             input
         )
         try:
@@ -912,7 +912,7 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ListKeysResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ListKeysResponse(
                 boto_response_dict
             )
         )
@@ -920,7 +920,7 @@ class KMSClientShim:
     def ListResourceTags(
         self, input: DafnyListResourceTagsRequest
     ) -> DafnyListResourceTagsResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ListResourceTagsRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ListResourceTagsRequest(
             input
         )
         try:
@@ -929,13 +929,13 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ListResourceTagsResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ListResourceTagsResponse(
                 boto_response_dict
             )
         )
 
     def PutKeyPolicy(self, input: DafnyPutKeyPolicyRequest) -> None:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_PutKeyPolicyRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_PutKeyPolicyRequest(
             input
         )
         try:
@@ -946,7 +946,7 @@ class KMSClientShim:
         return Wrappers.Result_Success(None)
 
     def ReEncrypt(self, input: DafnyReEncryptRequest) -> DafnyReEncryptResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ReEncryptRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ReEncryptRequest(
             input
         )
         try:
@@ -955,7 +955,7 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ReEncryptResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ReEncryptResponse(
                 boto_response_dict
             )
         )
@@ -963,7 +963,7 @@ class KMSClientShim:
     def ReplicateKey(
         self, input: DafnyReplicateKeyRequest
     ) -> DafnyReplicateKeyResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ReplicateKeyRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ReplicateKeyRequest(
             input
         )
         try:
@@ -972,13 +972,13 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ReplicateKeyResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ReplicateKeyResponse(
                 boto_response_dict
             )
         )
 
     def RetireGrant(self, input: DafnyRetireGrantRequest) -> None:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_RetireGrantRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_RetireGrantRequest(
             input
         )
         try:
@@ -989,7 +989,7 @@ class KMSClientShim:
         return Wrappers.Result_Success(None)
 
     def RevokeGrant(self, input: DafnyRevokeGrantRequest) -> None:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_RevokeGrantRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_RevokeGrantRequest(
             input
         )
         try:
@@ -1002,7 +1002,7 @@ class KMSClientShim:
     def RotateKeyOnDemand(
         self, input: DafnyRotateKeyOnDemandRequest
     ) -> DafnyRotateKeyOnDemandResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_RotateKeyOnDemandRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_RotateKeyOnDemandRequest(
             input
         )
         try:
@@ -1011,7 +1011,7 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RotateKeyOnDemandResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RotateKeyOnDemandResponse(
                 boto_response_dict
             )
         )
@@ -1019,7 +1019,7 @@ class KMSClientShim:
     def ScheduleKeyDeletion(
         self, input: DafnyScheduleKeyDeletionRequest
     ) -> DafnyScheduleKeyDeletionResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ScheduleKeyDeletionRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ScheduleKeyDeletionRequest(
             input
         )
         try:
@@ -1028,13 +1028,13 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ScheduleKeyDeletionResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ScheduleKeyDeletionResponse(
                 boto_response_dict
             )
         )
 
     def Sign(self, input: DafnySignRequest) -> DafnySignResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_SignRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_SignRequest(
             input
         )
         try:
@@ -1043,13 +1043,13 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SignResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SignResponse(
                 boto_response_dict
             )
         )
 
     def TagResource(self, input: DafnyTagResourceRequest) -> None:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_TagResourceRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_TagResourceRequest(
             input
         )
         try:
@@ -1060,7 +1060,7 @@ class KMSClientShim:
         return Wrappers.Result_Success(None)
 
     def UntagResource(self, input: DafnyUntagResourceRequest) -> None:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_UntagResourceRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_UntagResourceRequest(
             input
         )
         try:
@@ -1071,7 +1071,7 @@ class KMSClientShim:
         return Wrappers.Result_Success(None)
 
     def UpdateAlias(self, input: DafnyUpdateAliasRequest) -> None:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_UpdateAliasRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_UpdateAliasRequest(
             input
         )
         try:
@@ -1084,7 +1084,7 @@ class KMSClientShim:
     def UpdateCustomKeyStore(
         self, input: DafnyUpdateCustomKeyStoreRequest
     ) -> DafnyUpdateCustomKeyStoreResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_UpdateCustomKeyStoreRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_UpdateCustomKeyStoreRequest(
             input
         )
         try:
@@ -1093,13 +1093,13 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_UpdateCustomKeyStoreResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_UpdateCustomKeyStoreResponse(
                 boto_response_dict
             )
         )
 
     def UpdateKeyDescription(self, input: DafnyUpdateKeyDescriptionRequest) -> None:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_UpdateKeyDescriptionRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_UpdateKeyDescriptionRequest(
             input
         )
         try:
@@ -1110,7 +1110,7 @@ class KMSClientShim:
         return Wrappers.Result_Success(None)
 
     def UpdatePrimaryRegion(self, input: DafnyUpdatePrimaryRegionRequest) -> None:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_UpdatePrimaryRegionRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_UpdatePrimaryRegionRequest(
             input
         )
         try:
@@ -1121,7 +1121,7 @@ class KMSClientShim:
         return Wrappers.Result_Success(None)
 
     def Verify(self, input: DafnyVerifyRequest) -> DafnyVerifyResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_VerifyRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_VerifyRequest(
             input
         )
         try:
@@ -1130,13 +1130,13 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_VerifyResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_VerifyResponse(
                 boto_response_dict
             )
         )
 
     def VerifyMac(self, input: DafnyVerifyMacRequest) -> DafnyVerifyMacResponse:
-        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_VerifyMacRequest(
+        boto_request_dict = aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_VerifyMacRequest(
             input
         )
         try:
@@ -1145,7 +1145,7 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(
-            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_VerifyMacResponse(
+            aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_VerifyMacResponse(
                 boto_response_dict
             )
         )

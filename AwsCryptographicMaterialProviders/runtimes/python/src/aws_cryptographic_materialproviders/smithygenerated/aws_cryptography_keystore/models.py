@@ -31,15 +31,15 @@ class BeaconKeyMaterials:
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            "beaconKeyIdentifier": self.beacon_key_identifier,
-            "encryptionContext": self.encryption_context,
+            "beacon_key_identifier": self.beacon_key_identifier,
+            "encryption_context": self.encryption_context,
         }
 
         if self.beacon_key is not None:
-            d["beaconKey"] = self.beacon_key
+            d["beacon_key"] = self.beacon_key
 
         if self.hmac_keys is not None:
-            d["hmacKeys"] = self.hmac_keys
+            d["hmac_keys"] = self.hmac_keys
 
         return d
 
@@ -51,15 +51,15 @@ class BeaconKeyMaterials:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "beacon_key_identifier": d["beaconKeyIdentifier"],
-            "encryption_context": d["encryptionContext"],
+            "beacon_key_identifier": d["beacon_key_identifier"],
+            "encryption_context": d["encryption_context"],
         }
 
-        if "beaconKey" in d:
-            kwargs["beacon_key"] = d["beaconKey"]
+        if "beacon_key" in d:
+            kwargs["beacon_key"] = d["beacon_key"]
 
-        if "hmacKeys" in d:
-            kwargs["hmac_keys"] = d["hmacKeys"]
+        if "hmac_keys" in d:
+            kwargs["hmac_keys"] = d["hmac_keys"]
 
         return BeaconKeyMaterials(**kwargs)
 
@@ -117,10 +117,10 @@ class BranchKeyMaterials:
         keys to be mostly compatible with boto3.
         """
         return {
-            "branchKeyIdentifier": self.branch_key_identifier,
-            "branchKeyVersion": self.branch_key_version,
-            "encryptionContext": self.encryption_context,
-            "branchKey": self.branch_key,
+            "branch_key_identifier": self.branch_key_identifier,
+            "branch_key_version": self.branch_key_version,
+            "encryption_context": self.encryption_context,
+            "branch_key": self.branch_key,
         }
 
     @staticmethod
@@ -131,10 +131,10 @@ class BranchKeyMaterials:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "branch_key_identifier": d["branchKeyIdentifier"],
-            "branch_key_version": d["branchKeyVersion"],
-            "encryption_context": d["encryptionContext"],
-            "branch_key": d["branchKey"],
+            "branch_key_identifier": d["branch_key_identifier"],
+            "branch_key_version": d["branch_key_version"],
+            "encryption_context": d["encryption_context"],
+            "branch_key": d["branch_key"],
         }
 
         return BranchKeyMaterials(**kwargs)
@@ -194,10 +194,10 @@ class CreateKeyInput:
         d: Dict[str, Any] = {}
 
         if self.branch_key_identifier is not None:
-            d["branchKeyIdentifier"] = self.branch_key_identifier
+            d["branch_key_identifier"] = self.branch_key_identifier
 
         if self.encryption_context is not None:
-            d["encryptionContext"] = self.encryption_context
+            d["encryption_context"] = self.encryption_context
 
         return d
 
@@ -210,11 +210,11 @@ class CreateKeyInput:
         """
         kwargs: Dict[str, Any] = {}
 
-        if "branchKeyIdentifier" in d:
-            kwargs["branch_key_identifier"] = d["branchKeyIdentifier"]
+        if "branch_key_identifier" in d:
+            kwargs["branch_key_identifier"] = d["branch_key_identifier"]
 
-        if "encryptionContext" in d:
-            kwargs["encryption_context"] = d["encryptionContext"]
+        if "encryption_context" in d:
+            kwargs["encryption_context"] = d["encryption_context"]
 
         return CreateKeyInput(**kwargs)
 
@@ -259,7 +259,7 @@ class CreateKeyOutput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "branchKeyIdentifier": self.branch_key_identifier,
+            "branch_key_identifier": self.branch_key_identifier,
         }
 
     @staticmethod
@@ -270,7 +270,7 @@ class CreateKeyOutput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "branch_key_identifier": d["branchKeyIdentifier"],
+            "branch_key_identifier": d["branch_key_identifier"],
         }
 
         return CreateKeyOutput(**kwargs)
@@ -339,7 +339,7 @@ class CreateKeyStoreOutput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "tableArn": self.table_arn,
+            "table_arn": self.table_arn,
         }
 
     @staticmethod
@@ -350,7 +350,7 @@ class CreateKeyStoreOutput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "table_arn": d["tableArn"],
+            "table_arn": d["table_arn"],
         }
 
         return CreateKeyStoreOutput(**kwargs)
@@ -420,7 +420,7 @@ class GetActiveBranchKeyInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "branchKeyIdentifier": self.branch_key_identifier,
+            "branch_key_identifier": self.branch_key_identifier,
         }
 
     @staticmethod
@@ -431,7 +431,7 @@ class GetActiveBranchKeyInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "branch_key_identifier": d["branchKeyIdentifier"],
+            "branch_key_identifier": d["branch_key_identifier"],
         }
 
         return GetActiveBranchKeyInput(**kwargs)
@@ -473,7 +473,7 @@ class GetActiveBranchKeyOutput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "branchKeyMaterials": self.branch_key_materials.as_dict(),
+            "branch_key_materials": self.branch_key_materials.as_dict(),
         }
 
     @staticmethod
@@ -485,7 +485,7 @@ class GetActiveBranchKeyOutput:
         """
         kwargs: Dict[str, Any] = {
             "branch_key_materials": BranchKeyMaterials.from_dict(
-                d["branchKeyMaterials"]
+                d["branch_key_materials"]
             ),
         }
 
@@ -529,7 +529,7 @@ class GetBeaconKeyInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "branchKeyIdentifier": self.branch_key_identifier,
+            "branch_key_identifier": self.branch_key_identifier,
         }
 
     @staticmethod
@@ -540,7 +540,7 @@ class GetBeaconKeyInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "branch_key_identifier": d["branchKeyIdentifier"],
+            "branch_key_identifier": d["branch_key_identifier"],
         }
 
         return GetBeaconKeyInput(**kwargs)
@@ -582,7 +582,7 @@ class GetBeaconKeyOutput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "beaconKeyMaterials": self.beacon_key_materials.as_dict(),
+            "beacon_key_materials": self.beacon_key_materials.as_dict(),
         }
 
     @staticmethod
@@ -594,7 +594,7 @@ class GetBeaconKeyOutput:
         """
         kwargs: Dict[str, Any] = {
             "beacon_key_materials": BeaconKeyMaterials.from_dict(
-                d["beaconKeyMaterials"]
+                d["beacon_key_materials"]
             ),
         }
 
@@ -642,8 +642,8 @@ class GetBranchKeyVersionInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "branchKeyIdentifier": self.branch_key_identifier,
-            "branchKeyVersion": self.branch_key_version,
+            "branch_key_identifier": self.branch_key_identifier,
+            "branch_key_version": self.branch_key_version,
         }
 
     @staticmethod
@@ -654,8 +654,8 @@ class GetBranchKeyVersionInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "branch_key_identifier": d["branchKeyIdentifier"],
-            "branch_key_version": d["branchKeyVersion"],
+            "branch_key_identifier": d["branch_key_identifier"],
+            "branch_key_version": d["branch_key_version"],
         }
 
         return GetBranchKeyVersionInput(**kwargs)
@@ -701,7 +701,7 @@ class GetBranchKeyVersionOutput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "branchKeyMaterials": self.branch_key_materials.as_dict(),
+            "branch_key_materials": self.branch_key_materials.as_dict(),
         }
 
     @staticmethod
@@ -713,7 +713,7 @@ class GetBranchKeyVersionOutput:
         """
         kwargs: Dict[str, Any] = {
             "branch_key_materials": BranchKeyMaterials.from_dict(
-                d["branchKeyMaterials"]
+                d["branch_key_materials"]
             ),
         }
 
@@ -922,7 +922,7 @@ class KMSConfigurationMrDiscovery:
         return self.value == other.value
 
 
-class KMSConfiguration:
+class KMSConfigurationUnknown:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -938,13 +938,13 @@ class KMSConfiguration:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "KMSConfiguration":
+    def from_dict(d: Dict[str, Any]) -> "KMSConfigurationUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return KMSConfiguration(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return KMSConfigurationUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"KMSConfiguration(tag={self.tag})"
+        return f"KMSConfigurationUnknown(tag={self.tag})"
 
 
 # Configures Key Store's KMS Key ARN restrictions.
@@ -953,7 +953,7 @@ KMSConfiguration = Union[
     KMSConfigurationKmsMRKeyArn,
     KMSConfigurationDiscovery,
     KMSConfigurationMrDiscovery,
-    KMSConfiguration,
+    KMSConfigurationUnknown,
 ]
 
 
@@ -1022,11 +1022,11 @@ class GetKeyStoreInfoOutput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "keyStoreId": self.key_store_id,
-            "keyStoreName": self.key_store_name,
-            "logicalKeyStoreName": self.logical_key_store_name,
-            "grantTokens": self.grant_tokens,
-            "kmsConfiguration": self.kms_configuration.as_dict(),
+            "key_store_id": self.key_store_id,
+            "key_store_name": self.key_store_name,
+            "logical_key_store_name": self.logical_key_store_name,
+            "grant_tokens": self.grant_tokens,
+            "kms_configuration": self.kms_configuration.as_dict(),
         }
 
     @staticmethod
@@ -1037,11 +1037,11 @@ class GetKeyStoreInfoOutput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "key_store_id": d["keyStoreId"],
-            "key_store_name": d["keyStoreName"],
-            "logical_key_store_name": d["logicalKeyStoreName"],
-            "grant_tokens": d["grantTokens"],
-            "kms_configuration": _kms_configuration_from_dict(d["kmsConfiguration"]),
+            "key_store_id": d["key_store_id"],
+            "key_store_name": d["key_store_name"],
+            "logical_key_store_name": d["logical_key_store_name"],
+            "grant_tokens": d["grant_tokens"],
+            "kms_configuration": _kms_configuration_from_dict(d["kms_configuration"]),
         }
 
         return GetKeyStoreInfoOutput(**kwargs)
@@ -1099,7 +1099,7 @@ class VersionKeyInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "branchKeyIdentifier": self.branch_key_identifier,
+            "branch_key_identifier": self.branch_key_identifier,
         }
 
     @staticmethod
@@ -1110,7 +1110,7 @@ class VersionKeyInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "branch_key_identifier": d["branchKeyIdentifier"],
+            "branch_key_identifier": d["branch_key_identifier"],
         }
 
         return VersionKeyInput(**kwargs)
