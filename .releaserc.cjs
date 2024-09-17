@@ -54,6 +54,8 @@ const Runtimes = {
       assemblyInfo: "StandardLibrary/runtimes/net/AssemblyInfo.cs",
     },
   },
+  // Any change to the size of the `dependencies` list
+  // must be accounted for in `CheckDependencyReplacementResults`.
   python: {
     "AwsCryptographicMaterialProviders/runtimes/python/pyproject.toml": {
       dependencies: ["AwsCryptographyPrimitives", "ComAmazonawsKms", "ComAmazonawsDynamodb", "StandardLibrary"],
@@ -213,13 +215,28 @@ function CheckDependencyReplacementResults(file) {
       numMatches: 0,
       numReplacements: 0,
     };
-  }
-  else {
+  } else if (file.includes("AwsCryptographyPrimitives")) {
     return {
       file,
-      hasChanged: true,
-      numMatches: 1,
-      numReplacements: 1,
+      hasChanged: false,
+      numMatches: 0,
+      numReplacements: 0,
     };
+  } else if (file.includes("ComAmazonawsKms")) {
+    return {
+      file,
+      hasChanged: false,
+      numMatches: 0,
+      numReplacements: 0,
+    };
+  } else if (file.includes("ComAmazonawsDynamodb")) {
+    return {
+      file,
+      hasChanged: false,
+      numMatches: 0,
+      numReplacements: 0,
+    };
+  } else {
+    throw new Error(`No known dependency replacement result specification for file ${file}`)
   }
 }

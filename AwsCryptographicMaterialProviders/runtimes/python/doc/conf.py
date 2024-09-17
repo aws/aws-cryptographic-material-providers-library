@@ -7,15 +7,10 @@ import toml
 VERSION_RE = re.compile(r"""__version__ = ['"]([0-9.]+)['"]""")
 HERE = os.path.abspath(os.path.dirname(__file__))
 
-
 def get_release():
-    try:
-        with open('../pyproject.toml', 'r') as toml_file:
-            data = toml.load(toml_file)
-            return data['tool']['poetry']['version']
-    except FileNotFoundError:
-        return None
-
+    with open('../pyproject.toml', 'r') as toml_file:
+        data = toml.load(toml_file)
+        return data['tool']['poetry']['version']
 
 def get_version():
     """Reads the version (MAJOR.MINOR) from this module."""
