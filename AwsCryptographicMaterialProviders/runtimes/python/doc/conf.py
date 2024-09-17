@@ -20,7 +20,7 @@ def get_version():
         return ".".join(split_version[:2])
     return release
 
-project = u"aws-cryptographic-material-providers"
+project = u"aws-cryptographic-materialproviders"
 version = get_version()
 release = get_release()
 
