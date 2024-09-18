@@ -42,6 +42,7 @@ structure GetEncryptionMaterialsInput {
 
   @required
   encryptionContext: EncryptionContext,
+  
 
   @required
   commitmentPolicy: CommitmentPolicy,
