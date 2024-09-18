@@ -29,7 +29,7 @@ module {:options "/functionSyntax:4" } TestKmsArnChanged {
   import Structure
   import String = StandardLibrary.String
   import UTF8
-  
+
   const happyCaseId := "test-mutate-kms-arn-only"
   const customEC := "aws-crypto-ec:Robbie"
   const kmsId: string := Fixtures.keyArn
@@ -45,23 +45,16 @@ module {:options "/functionSyntax:4" } TestKmsArnChanged {
     var ddbClient :- expect DDB.DynamoDBClient();
     var kmsClient :- expect KMS.KMSClient();
 
-    var storage :- expect AdminFixtures.DefaultStorage();
+    var storage :- expect Fixtures.DefaultStorage();
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
     var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
-    var keyStoreOriginal :- expect AdminFixtures.DefaultKeyStore();
-    var keyStoreTerminal :- expect AdminFixtures.DefaultKeyStore(kmsId:=Fixtures.postalHornKeyArn);
-    // Recommend commenting the assume out while developing this method,
-    // and just ignore the modifies exeptions,
-    // and then re-enabling it once everything is safe
-    assume {:axiom} && storage.Modifies == {}
-      && underTest.Modifies == {}
-      && keyStoreOriginal.Modifies == {}
-      && keyStoreTerminal.Modifies == {};
+    var keyStoreOriginal :- expect Fixtures.DefaultKeyStore();
+    var keyStoreTerminal :- expect Fixtures.DefaultKeyStore(kmsId:=Fixtures.postalHornKeyArn);
 
     var uuid :- expect UUID.GenerateUUID();
     var testId := happyCaseId + "-" + uuid;
 
-    AdminFixtures.CreateHappyCaseId(id:=testId, versionCount:=1);
+    Fixtures.CreateHappyCaseId(id:=testId, versionCount:=1);
 
     print testLogPrefix + " Created the test items with 2 versions! testId: " + testId + "\n";
 

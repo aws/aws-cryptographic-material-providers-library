@@ -35,24 +35,15 @@ module {:options "/functionSyntax:4" } TestInitMutActiveAndBeaconAreInSameState 
   const logicalName: string := Fixtures.logicalKeyStoreName
   const testLogPrefix := "\nTestMutationsActiveAndBeaconAreInSameState :: TestSadCase :: "
 
-  function {:opaque} TestLie(): set<object>
-  {{}}
-
-  method {:test} {:vcs_split_on_every_assert} TestSadCase()
+  method {:test} TestSadCase()
   {
     print " running";
 
-    // expect false; // disable test till other investigation is done
-    var ddbClient :- expect DDB.DynamoDBClient();
-    var kmsClient :- expect KMS.KMSClient();
-    var storage :- expect AdminFixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
+    var ddbClient :- expect Fixtures.ProvideDDBClient(None);
+    var kmsClient :- expect Fixtures.ProvideKMSClient(None);
+    var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
     var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
-    // Recommend commenting this out while developing this method,
-    // and just ignore the modifies exeptions,
-    // and then re-enabling it once everything is safe
-    assume {:axiom} underTest.Modifies == {} && storage.Modifies == {};
-    assume {:axiom} underTest.Modifies < TestLie(); // This does not work... but I have it here
 
     var uuid :- expect UUID.GenerateUUID();
     var testId := sadCaseId + "-" + uuid;
@@ -60,7 +51,7 @@ module {:options "/functionSyntax:4" } TestInitMutActiveAndBeaconAreInSameState 
     var kodaBytes :- expect UTF8.Encode("Koda");
     var isADogBytes :- expect UTF8.Encode("is a dog.");
     var originalEC := map[kodaBytes := isADogBytes];
-    AdminFixtures.CreateHappyCaseId(id:=testId, versionCount:=1, customEC:=originalEC);
+    Fixtures.CreateHappyCaseId(id:=testId, versionCount:=1, customEC:=originalEC);
 
     print testLogPrefix + " Created the legit test items with 2 versions! testId: " + testId + "\n";
 

@@ -55,42 +55,19 @@ module {:options "/functionSyntax:4" } TestThreat27 {
     print " running";
 
     // expect false;
-
-    var ddbClient :- expect DDB.DynamoDBClient();
-    var kmsClient :- expect KMS.KMSClient();
-
-    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
-
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
+    var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
     var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
-
-    // var keyStore :- expect AdminFixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
-    var kmsConfig := KeyStoreTypes.KMSConfiguration.kmsKeyArn(kmsId);
-    var keyStoreConfig := KeyStoreTypes.KeyStoreConfig(
-      id := None,
-      kmsConfiguration := kmsConfig,
-      logicalKeyStoreName := logicalName,
-      storage := Some(
-        KeyStoreTypes.ddb(
-          KeyStoreTypes.DynamoDBTable(
-            ddbTableName := physicalName,
-            ddbClient := Some(ddbClient)
-          ))),
-      keyManagement := Some(
-        KeyStoreTypes.kms(
-          KeyStoreTypes.AwsKms(
-            kmsClient := Some(kmsClient)
-          )))
-    );
-    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
 
     var uuid :- expect UUID.GenerateUUID();
     var testId := happyCaseId + "-" + uuid;
 
-    // AdminFixtures.CreateHappyCaseId(id:=testId, ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
-    AdminFixtures.CreateHappyCaseId(id:=testId, versionCount:=0);
+    Fixtures.CreateHappyCaseId(id:=testId, versionCount:=0);
     print "\nTestThreat27 :: TestHappyCase :: Created the test items! testId: "
           + testId  +  "\n";
-    var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
     var activeOneInput := KeyStoreTypes.GetEncryptedActiveBranchKeyInput(Identifier:=testId);
     var activeOne? :- expect storage.GetEncryptedActiveBranchKey(activeOneInput);
     expect "version" in activeOne?.Item.EncryptionContext;

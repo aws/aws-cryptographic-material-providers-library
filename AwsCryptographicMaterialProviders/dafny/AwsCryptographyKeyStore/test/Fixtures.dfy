@@ -106,6 +106,58 @@ module Fixtures {
   const lyingBranchKeyId := "kms-arn-attribute-is-lying"
   const lyingBranchKeyDecryptOnlyVersion := "129c5c87-308a-41c9-8b9d-a27f66e915f4"
 
+  // This function is the lie we will tell ourselves
+  // about what the mutation scope is.
+  // You MUST NOT reveal this value.
+  function {:opaque} FixturesLie(): set<object>
+  {{}}
+
+  method ProvideDDBClient(
+    ddbClient?: Option<DDB.Types.IDynamoDBClient> := None
+  )
+    returns (output: Result<DDB.Types.IDynamoDBClient, DDB.Types.Error>)
+    requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
+    modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
+    ensures output.Success?
+            ==>
+              && output.value.ValidState()
+              && fresh(output.value)
+              && fresh(output.value.Modifies)
+  {
+    var ddbClient: DDB.Types.IDynamoDBClient;
+    if (ddbClient?.None?) {
+      ddbClient :- DDB.DynamoDBClient();
+    } else {
+      ddbClient := ddbClient?.value;
+    }
+    assume {:axiom} ddbClient.Modifies < FixturesLie();
+    assume {:axiom} fresh(ddbClient) && fresh(ddbClient.Modifies);
+    return Success(ddbClient);
+  }
+
+  method ProvideKMSClient(
+    kmsClient?: Option<KMS.Types.IKMSClient> := None
+  )
+    returns (output: Result<KMS.Types.IKMSClient, KMS.Types.Error>)
+    requires kmsClient?.Some? ==> kmsClient?.value.ValidState()
+    modifies (if kmsClient?.Some? then kmsClient?.value.Modifies else {})
+    ensures output.Success?
+            ==>
+              && output.value.ValidState()
+              && fresh(output.value)
+              && fresh(output.value.Modifies)
+  {
+    var kmsClient: KMS.Types.IKMSClient;
+    if (kmsClient?.None?) {
+      kmsClient :- KMS.KMSClient();
+    } else {
+      kmsClient := kmsClient?.value;
+    }
+    assume {:axiom} kmsClient.Modifies < FixturesLie();
+    assume {:axiom} fresh(kmsClient) && fresh(kmsClient.Modifies);
+    return Success(kmsClient);
+  }
+
   method DefaultStorage(
     nameonly physicalName: string := branchKeyStoreName,
     nameonly logicalName: string := logicalKeyStoreName,
@@ -116,14 +168,16 @@ module Fixtures {
     requires UTF8.IsASCIIString(physicalName) && UTF8.IsASCIIString(logicalName)
     requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
     ensures output.Success? ==> output.value.ValidState()
+    ensures output.Success? ==> fresh(output.value) && fresh(output.value.Modifies)
     modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
+    ensures output.Success?
+            ==>
+              && output.value.ValidState()
+              && fresh(output.value)
+              && fresh(output.value.Modifies)
   {
-    var ddbClient: DDB.Types.IDynamoDBClient;
-    if (ddbClient?.None?) {
-      ddbClient :- expect DDB.DynamoDBClient();
-    } else {
-      ddbClient := ddbClient?.value;
-    }
+    var ddbClient :- expect ProvideDDBClient(ddbClient?);
+    assume {:axiom} fresh(ddbClient) && fresh(ddbClient.Modifies);
     var physicalNameUtf8 :- expect UTF8.Encode(physicalName);
     var logicalNameUtf8 :- expect UTF8.Encode(logicalName);
     var underTest := new DefaultKeyStorageInterface.DynamoDBKeyStorageInterface(
@@ -132,11 +186,55 @@ module Fixtures {
       logicalKeyStoreName := logicalName,
       ddbTableNameUtf8 := physicalNameUtf8,
       logicalKeyStoreNameUtf8 := logicalNameUtf8);
-    // We may not need this, but **Oh My God** does it make verification go faster
-    // assume {:axiom} underTest.Modifies == {} && ddbClient.Modifies == {} && ddbClient.ValidState() && underTest.ValidState();
     output := Success(underTest);
   }
-    
+
+  method DefaultKeyStore(
+    nameonly kmsId: string := keyArn,
+    nameonly physicalName: string := branchKeyStoreName,
+    nameonly logicalName: string := logicalKeyStoreName,
+    nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None,
+    nameonly kmsClient?: Option<KMS.Types.IKMSClient> := None
+  )
+    returns (output: Result<Types.IKeyStoreClient, Types.Error>)
+    requires DDB.Types.IsValid_TableName(physicalName)
+    requires KMS.Types.IsValid_KeyIdType(kmsId)
+    requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
+    requires kmsClient?.Some? ==> kmsClient?.value.ValidState()
+    ensures output.Success? ==> output.value.ValidState()
+    modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
+             + (if kmsClient?.Some? then kmsClient?.value.Modifies else {})
+    ensures output.Success?
+            ==>
+              && output.value.ValidState()
+              && fresh(output.value)
+              && fresh(output.value.Modifies)
+  {
+    var ddbClient :- expect ProvideDDBClient(ddbClient?);
+    assume {:axiom} fresh(ddbClient) && fresh(ddbClient.Modifies);
+    var kmsClient :- expect ProvideKMSClient(kmsClient?);
+    assume {:axiom} fresh(kmsClient) && fresh(kmsClient.Modifies);
+    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(kmsId);
+    var keyStoreConfig := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalName,
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := physicalName,
+            ddbClient := Some(ddbClient)
+          ))),
+      keyManagement := Some(
+        Types.kms(
+          Types.AwsKms(
+            kmsClient := Some(kmsClient)
+          )))
+    );
+    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+    return Success(keyStore);
+  }
+
   datatype allThree = | allThree (
     active: Types.EncryptedHierarchicalKey,
     beacon: Types.EncryptedHierarchicalKey,
@@ -173,46 +271,24 @@ module Fixtures {
     output := Success(allThree(active, beacon, decrypt));
   }
 
-  method {:opaque} CreateHappyCaseId(
+  method CreateHappyCaseId(
     nameonly id: string,
     nameonly kmsId: string := keyArn,
     nameonly physicalName: string := branchKeyStoreName,
     nameonly logicalName: string := logicalKeyStoreName,
-    nameonly versionCount: nat := 3
+    nameonly versionCount: nat := 3,
+    nameonly customEC: Types.EncryptionContext := map[UTF8.EncodeAscii("Robbie") := UTF8.EncodeAscii("Is a dog.")]
   )
     requires DDB.Types.IsValid_TableName(physicalName)
     requires KMS.Types.IsValid_KeyIdType(kmsId)
     requires 0 <= versionCount <= 5
+    requires 0 < |customEC| // requires some EC
   {
-    var keyStore: Types.IKeyStoreClient;
-    var ddbClient: DDB.Types.IDynamoDBClient;
-    ddbClient :- expect DDB.DynamoDBClient();
-    var kmsClient: KMS.Types.IKMSClient;
-    kmsClient :- expect KMS.KMSClient();
-
-    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(kmsId);
-    var keyStoreConfig := Types.KeyStoreConfig(
-      id := None,
-      kmsConfiguration := kmsConfig,
-      logicalKeyStoreName := logicalName,
-      storage := Some(
-        Types.ddb(
-          Types.DynamoDBTable(
-            ddbTableName := physicalName,
-            ddbClient := Some(ddbClient)
-          ))),
-      keyManagement := Some(
-        Types.kms(
-          Types.AwsKms(
-            kmsClient := Some(kmsClient)
-          )))
-    );
-    // We may not need this, but **Oh My God** does it make verification go faster
-    // assume {:axiom} kmsClient.Modifies == {} && ddbClient.Modifies == {} && ddbClient.ValidState() && kmsClient.ValidState();
-    keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+    var keyStore :- expect DefaultKeyStore(kmsId:=kmsId, physicalName:=physicalName, logicalName:=logicalName);
+    assume {:axiom} fresh(keyStore) && fresh(keyStore.Modifies);
     var input := Types.CreateKeyInput(
       branchKeyIdentifier := Some(id),
-      encryptionContext := Some(map[UTF8.EncodeAscii("Robbie") := UTF8.EncodeAscii("Is a dog.")])
+      encryptionContext := Some(customEC)
     );
     var branchKeyId :- expect keyStore.CreateKey(input);
 

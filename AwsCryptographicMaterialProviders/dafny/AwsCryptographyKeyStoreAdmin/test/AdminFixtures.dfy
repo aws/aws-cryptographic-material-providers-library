@@ -28,13 +28,14 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
     modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
     requires UTF8.IsASCIIString(physicalName) && UTF8.IsASCIIString(logicalName)
+    ensures output.Success?
+            ==>
+              && output.value.ValidState()
+              && fresh(output.value)
+              && fresh(output.value.Modifies)
   {
-    var ddbClient: DDB.Types.IDynamoDBClient;
-    if (ddbClient?.None?) {
-      ddbClient :- expect DDB.DynamoDBClient();
-    } else {
-      ddbClient := ddbClient?.value;
-    }
+    var ddbClient :- expect Fixtures.ProvideDDBClient(ddbClient?);
+    assume {:axiom} fresh(ddbClient) && fresh(ddbClient.Modifies);
     var physicalNameUtf8 :- expect UTF8.Encode(physicalName);
     var logicalNameUtf8 :- expect UTF8.Encode(logicalName);
     var storage := new DefaultKeyStorageInterface.DynamoDBKeyStorageInterface(
@@ -48,8 +49,6 @@ module {:options "/functionSyntax:4" } AdminFixtures {
       logicalKeyStoreName := logicalName,
       storage := KeyStoreTypes.Storage.custom(storage));
     var underTest :- expect KeyStoreAdmin.KeyStoreAdmin(underTestConfig);
-    // We may not need this, but **Oh My God** does it make verification go faster
-    // assume {:axiom} underTest.Modifies == {} && ddbClient.Modifies == {} && ddbClient.ValidState() && underTest.ValidState();
     return Success(underTest);
   }
 
@@ -62,99 +61,16 @@ module {:options "/functionSyntax:4" } AdminFixtures {
               && output.value.AwsKmsReEncrypt?
               && output.value.AwsKmsReEncrypt.kmsClient.Some?
               && output.value.AwsKmsReEncrypt.kmsClient.value.ValidState()
+    modifies (if kmsClient?.Some? then kmsClient?.value.Modifies else {})
   {
-    var kmsClient: KMS.Types.IKMSClient;
-    if (kmsClient?.None?) {
-      kmsClient :- expect KMS.KMSClient();
-    } else {
-      kmsClient := kmsClient?.value;
-    }
+    var kmsClient :- expect Fixtures.ProvideKMSClient(kmsClient?);
+    assume {:axiom} fresh(kmsClient) && fresh(kmsClient.Modifies);
     var strategy := Types.KeyManagementStrategy.AwsKmsReEncrypt(
       KeyStoreTypes.AwsKms(
         grantTokens := None,
         kmsClient := Some(kmsClient)
       ));
     return Success(strategy);
-  }
-
-  method DefaultKeyStore(
-    nameonly kmsId: string := Fixtures.keyArn,
-    nameonly physicalName: string := Fixtures.branchKeyStoreName,
-    nameonly logicalName: string := Fixtures.logicalKeyStoreName
-  )
-    returns (output: Result<KeyStoreTypes.IKeyStoreClient, Types.Error>)
-    requires DDB.Types.IsValid_TableName(physicalName)
-    requires KMS.Types.IsValid_KeyIdType(kmsId)
-    ensures output.Success? ==> output.value.ValidState()
-  {
-    var ddbClient :- expect DDB.DynamoDBClient();
-    var kmsClient :- expect KMS.KMSClient();
-    var kmsConfig := KeyStoreTypes.KMSConfiguration.kmsKeyArn(kmsId);
-    var keyStoreConfig := KeyStoreTypes.KeyStoreConfig(
-      id := None,
-      kmsConfiguration := kmsConfig,
-      logicalKeyStoreName := logicalName,
-      storage := Some(
-        KeyStoreTypes.ddb(
-          KeyStoreTypes.DynamoDBTable(
-            ddbTableName := physicalName,
-            ddbClient := Some(ddbClient)
-          ))),
-      keyManagement := Some(
-        KeyStoreTypes.kms(
-          KeyStoreTypes.AwsKms(
-            kmsClient := Some(kmsClient)
-          )))
-    );
-    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
-    return Success(keyStore);
-  }
-
-  method CreateHappyCaseId(
-    nameonly id: string,
-    nameonly kmsId: string := Fixtures.keyArn,
-    nameonly physicalName: string := Fixtures.branchKeyStoreName,
-    nameonly logicalName: string := Fixtures.logicalKeyStoreName,
-    nameonly versionCount: nat := 3,
-    nameonly customEC: KeyStoreTypes.EncryptionContext := map[UTF8.EncodeAscii("Robbie") := UTF8.EncodeAscii("Is a dog.")]
-  )
-    requires DDB.Types.IsValid_TableName(physicalName)
-    requires KMS.Types.IsValid_KeyIdType(kmsId)
-    requires 0 <= versionCount <= 5
-    requires 0 < |customEC| // requires some EC
-  {
-    var keyStore :- expect DefaultKeyStore(kmsId:=kmsId, physicalName:=physicalName, logicalName:=logicalName);
-    assume {:axiom} keyStore.Modifies == {}; // Turns off Verification, but lets us use DefaultKeyStore
-    var input := KeyStoreTypes.CreateKeyInput(
-      branchKeyIdentifier := Some(id),
-      encryptionContext := Some(customEC)
-    );
-    var branchKeyId :- expect keyStore.CreateKey(input);
-
-    // If you need a new version
-    var inputV := KeyStoreTypes.VersionKeyInput(
-      branchKeyIdentifier := id
-    );
-    var versionIndex := 0;
-    while versionIndex < versionCount {
-      var _ :- expect keyStore.VersionKey(inputV);
-      versionIndex := versionIndex + 1;
-    }
-  }
-
-  method DefaultStorage(
-    nameonly physicalName: string := Fixtures.branchKeyStoreName,
-    nameonly logicalName: string := Fixtures.logicalKeyStoreName,
-    nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None
-  )
-    returns (output: Result<KeyStoreTypes.IKeyStorageInterface, KeyStoreTypes.Error>)
-    requires DDB.Types.IsValid_TableName(physicalName)
-    requires UTF8.IsASCIIString(physicalName) && UTF8.IsASCIIString(logicalName)
-    requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
-    ensures output.Success? ==> output.value.ValidState()
-    modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
-  {
-    output := Fixtures.DefaultStorage(physicalName := physicalName, logicalName := logicalName, ddbClient? := ddbClient?);
   }
 
   datatype KmsDdbError =
@@ -171,7 +87,8 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     nameonly logicalName: string := Fixtures.logicalKeyStoreName,
     nameonly keyValue: KeyValue := KeyValue(key:="Robbie", value:="Is a dog."),
     nameonly alsoViolateBeacon?: bool := false,
-    nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None
+    nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None,
+    nameonly kmsClient?: Option<KMS.Types.IKMSClient> := None
   )
     returns (output: Result<bool, KmsDdbError>)
     requires DDB.Types.IsValid_TableName(physicalName)
@@ -180,22 +97,16 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     requires DDB.Types.IsValid_AttributeName(keyValue.key)
     requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
     modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
+             + (if kmsClient?.Some? then kmsClient?.value.Modifies else {})
   {
-    var ddbClient: DDB.Types.IDynamoDBClient;
-    if (ddbClient?.None?) {
-      ddbClient :- expect DDB.DynamoDBClient();
-    } else {
-      ddbClient := ddbClient?.value;
-    }
-    var kmsClient :- expect KMS.KMSClient();
+    var ddbClient :- expect Fixtures.ProvideDDBClient(ddbClient?);
+    assume {:axiom} fresh(ddbClient) && fresh(ddbClient.Modifies);
+    var kmsClient :- expect Fixtures.ProvideKMSClient(None);
+    assume {:axiom} fresh(kmsClient) && fresh(kmsClient.Modifies);
+
     var storage :- expect Fixtures.DefaultStorage(
       physicalName := physicalName, logicalName := logicalName, ddbClient? := Some(ddbClient));
-
-    // Recommend commenting this out while developing this method,
-    // and just ignore the modifies exeptions,
-    // and then re-enabling it once everything is safe
-    assume {:axiom} storage.Modifies == {};
-
+    assume {:axiom} fresh(storage) && fresh(storage.Modifies);
     var allThree :- expect Fixtures.getItems(id:=id, underTest:=storage);
     var activeDDB :- expect ViolateItem(
       item := allThree.active, keyValue:=keyValue, kmsClient:=kmsClient, physicalName:=physicalName);

@@ -49,58 +49,21 @@ module {:options "/functionSyntax:4" } TestThreat28 {
   const logicalName: string := Fixtures.logicalKeyStoreName
   const testLogPrefix := "\nTestThreat28 :: TestHappyCase :: "
 
-  method {:test} {:vcs_split_on_every_assert} TestHappyCase()
+  method {:test} TestHappyCase()
   {
     print " running";
 
-    // expect false, "Test Disabled until Apply Mutation Page Handling resolved.";
-    var ddbClient :- expect DDB.DynamoDBClient();
-    var kmsClient :- expect KMS.KMSClient();
-    var physicalNameUtf8 :- expect UTF8.Encode(physicalName); 
-    var logicalNameUtf8 :- expect UTF8.Encode(logicalName);
-    // var storage :- expect AdminFixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
-    // assert storage.ValidState();
-    var storage := new DefaultKeyStorageInterface.DynamoDBKeyStorageInterface(
-      ddbTableName := physicalName,
-      ddbClient := ddbClient,
-      logicalKeyStoreName := logicalName,
-      ddbTableNameUtf8 := physicalNameUtf8,
-      logicalKeyStoreNameUtf8 := logicalNameUtf8);
-
-    // var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
-    // assert underTest.ValidState();
-    var underTestConfig := Types.KeyStoreAdminConfig(
-      logicalKeyStoreName := logicalName,
-      storage := KeyStoreTypes.Storage.custom(storage));
-    var underTest :- expect KeyStoreAdmin.KeyStoreAdmin(underTestConfig);
-
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
+    var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
     var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
-
-    // var keyStore :- expect AdminFixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
-    var kmsConfig := KeyStoreTypes.KMSConfiguration.kmsKeyArn(kmsId);
-    var keyStoreConfig := KeyStoreTypes.KeyStoreConfig(
-      id := None,
-      kmsConfiguration := kmsConfig,
-      logicalKeyStoreName := logicalName,
-      storage := Some(
-        KeyStoreTypes.ddb(
-          KeyStoreTypes.DynamoDBTable(
-            ddbTableName := physicalName,
-            ddbClient := Some(ddbClient)
-          ))),
-      keyManagement := Some(
-        KeyStoreTypes.kms(
-          KeyStoreTypes.AwsKms(
-            kmsClient := Some(kmsClient)
-          )))
-    );
-    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
-    assert keyStore.ValidState();
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
 
     var uuid :- expect UUID.GenerateUUID();
     var testId := happyCaseId + "-" + uuid;
 
-    AdminFixtures.CreateHappyCaseId(id:=testId, versionCount:=1);
+    Fixtures.CreateHappyCaseId(id:=testId, versionCount:=1);
 
     print testLogPrefix + " Created the test items with 2 versions! testId: " + testId + "\n";
 

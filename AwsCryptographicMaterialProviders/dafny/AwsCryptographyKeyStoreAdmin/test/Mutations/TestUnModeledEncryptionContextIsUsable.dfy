@@ -39,21 +39,15 @@ module {:options "/functionSyntax:4" } TestUnModeledEncryptionContextIsUsable {
   const logicalName: string := Fixtures.logicalKeyStoreName
   const testLogPrefix := "\nTestUnModeledEncryptionContextIsUsable :: TestHappyCase? :: "
 
-  method {:test} {:vcs_split_on_every_assert} TestHappyCase()
+  method {:test} TestHappyCase()
   {
     print " running";
 
-    // expect false; // disable test till other investigation is done
-    var ddbClient :- expect DDB.DynamoDBClient();
-    var kmsClient :- expect KMS.KMSClient();
-
-    var storage :- expect AdminFixtures.DefaultStorage();
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
+    var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
     var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
-    var keyStore :- expect AdminFixtures.DefaultKeyStore();
-    // Recommend commenting the assume out while developing this method,
-    // and just ignore the modifies exeptions,
-    // and then re-enabling it once everything is safe
-    assume {:axiom} storage.Modifies == {} && keyStore.Modifies == {};
 
     var uuid :- expect UUID.GenerateUUID();
     var testId := happyCaseId + "-" + uuid;
@@ -61,7 +55,7 @@ module {:options "/functionSyntax:4" } TestUnModeledEncryptionContextIsUsable {
     var kodaBytes :- expect UTF8.Encode("Koda");
     var isADogBytes :- expect UTF8.Encode("is a dog.");
     var originalEC := map[kodaBytes := isADogBytes];
-    AdminFixtures.CreateHappyCaseId(id:=testId, versionCount:=0, customEC:=originalEC);
+    Fixtures.CreateHappyCaseId(id:=testId, versionCount:=0, customEC:=originalEC);
 
     print testLogPrefix + " Created the legit test items with 1 versions! testId: " + testId + "\n";
 
