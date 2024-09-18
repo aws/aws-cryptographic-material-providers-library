@@ -17,7 +17,6 @@ module TestCreateKeysWithSpecialECKeys {
   import Structure
   import UTF8
   import CleanupItems
-  import DDBKeystoreOperations
   import UUID
 
   // Helper method for round-trip happy cases.
@@ -38,7 +37,7 @@ module TestCreateKeysWithSpecialECKeys {
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
       grantTokens := None,
-      ddbTableName := branchKeyStoreName,
+      ddbTableName := Some(branchKeyStoreName),
       ddbClient := Some(ddbClient),
       kmsClient := Some(kmsClient)
     );

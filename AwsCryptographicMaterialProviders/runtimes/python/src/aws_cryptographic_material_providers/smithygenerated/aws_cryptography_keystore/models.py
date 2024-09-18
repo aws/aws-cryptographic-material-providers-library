@@ -4,6 +4,77 @@
 
 from typing import Any, Dict, Optional, Union
 
+from botocore.client import BaseClient
+
+
+class ActiveHierarchicalSymmetric:
+    version: str
+
+    def __init__(
+        self,
+        *,
+        version: str,
+    ):
+        """Information for the active symmetric branch key.
+
+        :param version: The version of this active key.
+        """
+        self.version = version
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the ActiveHierarchicalSymmetric to a dictionary."""
+        return {
+            "version": self.version,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "ActiveHierarchicalSymmetric":
+        """Creates a ActiveHierarchicalSymmetric from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "version": d["version"],
+        }
+
+        return ActiveHierarchicalSymmetric(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "ActiveHierarchicalSymmetric("
+        if self.version is not None:
+            result += f"version={repr(self.version)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, ActiveHierarchicalSymmetric):
+            return False
+        attributes: list[str] = [
+            "version",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class ActiveHierarchicalSymmetricBeacon:
+    """Information for a symmetric beacon key.
+
+    At this time there is no additional information.
+    """
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the ActiveHierarchicalSymmetricBeacon to a dictionary."""
+        return {}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "ActiveHierarchicalSymmetricBeacon":
+        """Creates a ActiveHierarchicalSymmetricBeacon from a dictionary."""
+        return ActiveHierarchicalSymmetricBeacon()
+
+    def __repr__(self) -> str:
+        result = "ActiveHierarchicalSymmetricBeacon("
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        return isinstance(other, ActiveHierarchicalSymmetricBeacon)
+
 
 class BeaconKeyMaterials:
     beacon_key_identifier: str
@@ -350,6 +421,297 @@ class Discovery:
         return isinstance(other, Discovery)
 
 
+class HierarchicalSymmetric:
+    version: str
+
+    def __init__(
+        self,
+        *,
+        version: str,
+    ):
+        """Information for a specific decrypt only branch key version.
+
+        :param version: The version of this key.
+        """
+        self.version = version
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the HierarchicalSymmetric to a dictionary."""
+        return {
+            "version": self.version,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "HierarchicalSymmetric":
+        """Creates a HierarchicalSymmetric from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "version": d["version"],
+        }
+
+        return HierarchicalSymmetric(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "HierarchicalSymmetric("
+        if self.version is not None:
+            result += f"version={repr(self.version)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, HierarchicalSymmetric):
+            return False
+        attributes: list[str] = [
+            "version",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class HierarchicalKeyTypeActiveHierarchicalSymmetricVersion:
+    """The version the active branch key.
+
+    This version is used to encrypt messages.
+    """
+
+    def __init__(self, value: ActiveHierarchicalSymmetric):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"ActiveHierarchicalSymmetricVersion": self.value.as_dict()}
+
+    @staticmethod
+    def from_dict(
+        d: Dict[str, Any],
+    ) -> "HierarchicalKeyTypeActiveHierarchicalSymmetricVersion":
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return HierarchicalKeyTypeActiveHierarchicalSymmetricVersion(
+            ActiveHierarchicalSymmetric.from_dict(
+                d["ActiveHierarchicalSymmetricVersion"]
+            )
+        )
+
+    def __repr__(self) -> str:
+        return f"HierarchicalKeyTypeActiveHierarchicalSymmetricVersion(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, HierarchicalKeyTypeActiveHierarchicalSymmetricVersion):
+            return False
+        return self.value == other.value
+
+
+class HierarchicalKeyTypeHierarchicalSymmetricVersion:
+    """The version for a decrypt only branch key type.
+
+    These are used to decrypt messages. For every ACTIVE that has ever
+    been, there exists a Version.
+    """
+
+    def __init__(self, value: HierarchicalSymmetric):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"HierarchicalSymmetricVersion": self.value.as_dict()}
+
+    @staticmethod
+    def from_dict(
+        d: Dict[str, Any],
+    ) -> "HierarchicalKeyTypeHierarchicalSymmetricVersion":
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return HierarchicalKeyTypeHierarchicalSymmetricVersion(
+            HierarchicalSymmetric.from_dict(d["HierarchicalSymmetricVersion"])
+        )
+
+    def __repr__(self) -> str:
+        return (
+            f"HierarchicalKeyTypeHierarchicalSymmetricVersion(value=repr(self.value))"
+        )
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, HierarchicalKeyTypeHierarchicalSymmetricVersion):
+            return False
+        return self.value == other.value
+
+
+class HierarchicalKeyTypeActiveHierarchicalSymmetricBeacon:
+    """The information regarding a symmetric beacon key."""
+
+    def __init__(self, value: ActiveHierarchicalSymmetricBeacon):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"ActiveHierarchicalSymmetricBeacon": self.value.as_dict()}
+
+    @staticmethod
+    def from_dict(
+        d: Dict[str, Any],
+    ) -> "HierarchicalKeyTypeActiveHierarchicalSymmetricBeacon":
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return HierarchicalKeyTypeActiveHierarchicalSymmetricBeacon(
+            ActiveHierarchicalSymmetricBeacon.from_dict(
+                d["ActiveHierarchicalSymmetricBeacon"]
+            )
+        )
+
+    def __repr__(self) -> str:
+        return f"HierarchicalKeyTypeActiveHierarchicalSymmetricBeacon(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, HierarchicalKeyTypeActiveHierarchicalSymmetricBeacon):
+            return False
+        return self.value == other.value
+
+
+class HierarchicalKeyTypeUnknown:
+    """Represents an unknown variant.
+
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
+
+    This value may not be deliberately sent.
+    """
+
+    def __init__(self, tag: str):
+        self.tag = tag
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "HierarchicalKeyTypeUnknown":
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+        return HierarchicalKeyTypeUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
+
+    def __repr__(self) -> str:
+        return f"HierarchicalKeyTypeUnknown(tag={self.tag})"
+
+
+# Describes the key that an encrypted blob represents.
+HierarchicalKeyType = Union[
+    HierarchicalKeyTypeActiveHierarchicalSymmetricVersion,
+    HierarchicalKeyTypeHierarchicalSymmetricVersion,
+    HierarchicalKeyTypeActiveHierarchicalSymmetricBeacon,
+    HierarchicalKeyTypeUnknown,
+]
+
+
+def _hierarchical_key_type_from_dict(d: Dict[str, Any]) -> HierarchicalKeyType:
+    if "ActiveHierarchicalSymmetricVersion" in d:
+        return HierarchicalKeyTypeActiveHierarchicalSymmetricVersion.from_dict(d)
+
+    if "HierarchicalSymmetricVersion" in d:
+        return HierarchicalKeyTypeHierarchicalSymmetricVersion.from_dict(d)
+
+    if "ActiveHierarchicalSymmetricBeacon" in d:
+        return HierarchicalKeyTypeActiveHierarchicalSymmetricBeacon.from_dict(d)
+
+    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+
+class EncryptedHierarchicalKey:
+    identifier: str
+    type: HierarchicalKeyType
+    create_time: str
+    kms_arn: str
+    encryption_context: dict[str, str]
+    ciphertext_blob: bytes | bytearray
+
+    def __init__(
+        self,
+        *,
+        identifier: str,
+        type: HierarchicalKeyType,
+        create_time: str,
+        kms_arn: str,
+        encryption_context: dict[str, str],
+        ciphertext_blob: bytes | bytearray,
+    ):
+        """Information about an encrypted hierarchical key. This abstracts the
+        structure of this information from the underlying storage.
+
+        :param identifier: The identifier for this encrypted key.
+        :param type: The type of encrypted key.
+        :param create_time: The create time as an ISO 8061 UTC string.
+        :param kms_arn: The KMS ARN which protects this encrypted key.
+        :param encryption_context: The encryption context needed to
+            decrypt this encrypted key. This includes the user the
+            provided custom encryption context, as well as the other
+            Branch Key attributes.
+        :param ciphertext_blob: The ciphertext for this encrypted key.
+        """
+        self.identifier = identifier
+        self.type = type
+        self.create_time = create_time
+        self.kms_arn = kms_arn
+        self.encryption_context = encryption_context
+        self.ciphertext_blob = ciphertext_blob
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the EncryptedHierarchicalKey to a dictionary."""
+        return {
+            "identifier": self.identifier,
+            "type": self.type.as_dict(),
+            "create_time": self.create_time,
+            "kms_arn": self.kms_arn,
+            "encryption_context": self.encryption_context,
+            "ciphertext_blob": self.ciphertext_blob,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "EncryptedHierarchicalKey":
+        """Creates a EncryptedHierarchicalKey from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "identifier": d["identifier"],
+            "type": _hierarchical_key_type_from_dict(d["type"]),
+            "create_time": d["create_time"],
+            "kms_arn": d["kms_arn"],
+            "encryption_context": d["encryption_context"],
+            "ciphertext_blob": d["ciphertext_blob"],
+        }
+
+        return EncryptedHierarchicalKey(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "EncryptedHierarchicalKey("
+        if self.identifier is not None:
+            result += f"identifier={repr(self.identifier)}, "
+
+        if self.type is not None:
+            result += f"type={repr(self.type)}, "
+
+        if self.create_time is not None:
+            result += f"create_time={repr(self.create_time)}, "
+
+        if self.kms_arn is not None:
+            result += f"kms_arn={repr(self.kms_arn)}, "
+
+        if self.encryption_context is not None:
+            result += f"encryption_context={repr(self.encryption_context)}, "
+
+        if self.ciphertext_blob is not None:
+            result += f"ciphertext_blob={repr(self.ciphertext_blob)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, EncryptedHierarchicalKey):
+            return False
+        attributes: list[str] = [
+            "identifier",
+            "type",
+            "create_time",
+            "kms_arn",
+            "encryption_context",
+            "ciphertext_blob",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
 class GetActiveBranchKeyInput:
     branch_key_identifier: str
 
@@ -639,6 +1001,366 @@ class GetBranchKeyVersionOutput:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
+class GetEncryptedActiveBranchKeyInput:
+    identifier: str
+
+    def __init__(
+        self,
+        *,
+        identifier: str,
+    ):
+        """Get the ACTIVE version for a particular Branch Key.
+
+        :param identifier: The identifier for the Branch Key to get the
+            ACTIVE version for.
+        """
+        self.identifier = identifier
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the GetEncryptedActiveBranchKeyInput to a dictionary."""
+        return {
+            "identifier": self.identifier,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "GetEncryptedActiveBranchKeyInput":
+        """Creates a GetEncryptedActiveBranchKeyInput from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "identifier": d["identifier"],
+        }
+
+        return GetEncryptedActiveBranchKeyInput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "GetEncryptedActiveBranchKeyInput("
+        if self.identifier is not None:
+            result += f"identifier={repr(self.identifier)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, GetEncryptedActiveBranchKeyInput):
+            return False
+        attributes: list[str] = [
+            "identifier",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class GetEncryptedActiveBranchKeyOutput:
+    item: EncryptedHierarchicalKey
+
+    def __init__(
+        self,
+        *,
+        item: EncryptedHierarchicalKey,
+    ):
+        """Outputs for getting a Branch Key's ACTIVE version.
+
+        :param item: The encrypted materials for the ACTIVE Branch Key.
+        """
+        self.item = item
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the GetEncryptedActiveBranchKeyOutput to a dictionary."""
+        return {
+            "item": self.item.as_dict(),
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "GetEncryptedActiveBranchKeyOutput":
+        """Creates a GetEncryptedActiveBranchKeyOutput from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "item": EncryptedHierarchicalKey.from_dict(d["item"]),
+        }
+
+        return GetEncryptedActiveBranchKeyOutput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "GetEncryptedActiveBranchKeyOutput("
+        if self.item is not None:
+            result += f"item={repr(self.item)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, GetEncryptedActiveBranchKeyOutput):
+            return False
+        attributes: list[str] = [
+            "item",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class GetEncryptedBeaconKeyInput:
+    identifier: str
+
+    def __init__(
+        self,
+        *,
+        identifier: str,
+    ):
+        """Inputs for getting a Beacon Key.
+
+        :param identifier: The identifier of the Branch Key the Beacon
+            Key is associated with.
+        """
+        self.identifier = identifier
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the GetEncryptedBeaconKeyInput to a dictionary."""
+        return {
+            "identifier": self.identifier,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "GetEncryptedBeaconKeyInput":
+        """Creates a GetEncryptedBeaconKeyInput from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "identifier": d["identifier"],
+        }
+
+        return GetEncryptedBeaconKeyInput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "GetEncryptedBeaconKeyInput("
+        if self.identifier is not None:
+            result += f"identifier={repr(self.identifier)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, GetEncryptedBeaconKeyInput):
+            return False
+        attributes: list[str] = [
+            "identifier",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class GetEncryptedBeaconKeyOutput:
+    item: EncryptedHierarchicalKey
+
+    def __init__(
+        self,
+        *,
+        item: EncryptedHierarchicalKey,
+    ):
+        """Outputs for getting a Beacon Key.
+
+        :param item: The materials for the Beacon Key.
+        """
+        self.item = item
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the GetEncryptedBeaconKeyOutput to a dictionary."""
+        return {
+            "item": self.item.as_dict(),
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "GetEncryptedBeaconKeyOutput":
+        """Creates a GetEncryptedBeaconKeyOutput from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "item": EncryptedHierarchicalKey.from_dict(d["item"]),
+        }
+
+        return GetEncryptedBeaconKeyOutput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "GetEncryptedBeaconKeyOutput("
+        if self.item is not None:
+            result += f"item={repr(self.item)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, GetEncryptedBeaconKeyOutput):
+            return False
+        attributes: list[str] = [
+            "item",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class GetEncryptedBranchKeyVersionInput:
+    identifier: str
+    version: str
+
+    def __init__(
+        self,
+        *,
+        identifier: str,
+        version: str,
+    ):
+        """Inputs for getting a version of a Branch Key.
+
+        :param identifier: The identifier for the Branch Key to get a
+            particular version for.
+        :param version: The version to get.
+        """
+        self.identifier = identifier
+        self.version = version
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the GetEncryptedBranchKeyVersionInput to a dictionary."""
+        return {
+            "identifier": self.identifier,
+            "version": self.version,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "GetEncryptedBranchKeyVersionInput":
+        """Creates a GetEncryptedBranchKeyVersionInput from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "identifier": d["identifier"],
+            "version": d["version"],
+        }
+
+        return GetEncryptedBranchKeyVersionInput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "GetEncryptedBranchKeyVersionInput("
+        if self.identifier is not None:
+            result += f"identifier={repr(self.identifier)}, "
+
+        if self.version is not None:
+            result += f"version={repr(self.version)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, GetEncryptedBranchKeyVersionInput):
+            return False
+        attributes: list[str] = [
+            "identifier",
+            "version",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class GetEncryptedBranchKeyVersionOutput:
+    item: EncryptedHierarchicalKey
+
+    def __init__(
+        self,
+        *,
+        item: EncryptedHierarchicalKey,
+    ):
+        """Outputs for getting a version of a Branch Key.
+
+        :param item: The materials for the Branch Key.
+        """
+        self.item = item
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the GetEncryptedBranchKeyVersionOutput to a dictionary."""
+        return {
+            "item": self.item.as_dict(),
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "GetEncryptedBranchKeyVersionOutput":
+        """Creates a GetEncryptedBranchKeyVersionOutput from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "item": EncryptedHierarchicalKey.from_dict(d["item"]),
+        }
+
+        return GetEncryptedBranchKeyVersionOutput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "GetEncryptedBranchKeyVersionOutput("
+        if self.item is not None:
+            result += f"item={repr(self.item)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, GetEncryptedBranchKeyVersionOutput):
+            return False
+        attributes: list[str] = [
+            "item",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class GetKeyStorageInfoInput:
+    """Input for getting information about the underlying storage."""
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the GetKeyStorageInfoInput to a dictionary."""
+        return {}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "GetKeyStorageInfoInput":
+        """Creates a GetKeyStorageInfoInput from a dictionary."""
+        return GetKeyStorageInfoInput()
+
+    def __repr__(self) -> str:
+        result = "GetKeyStorageInfoInput("
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        return isinstance(other, GetKeyStorageInfoInput)
+
+
+class GetKeyStorageInfoOutput:
+    name: str
+    logical_name: str
+
+    def __init__(
+        self,
+        *,
+        name: str,
+        logical_name: str,
+    ):
+        """Output containing information about the underlying storage.
+
+        :param name: The name of the physical resource used for storage.
+        :param logical_name: The Logical Key Store Name associated with
+            this Storage.
+        """
+        self.name = name
+        self.logical_name = logical_name
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the GetKeyStorageInfoOutput to a dictionary."""
+        return {
+            "name": self.name,
+            "logical_name": self.logical_name,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "GetKeyStorageInfoOutput":
+        """Creates a GetKeyStorageInfoOutput from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "name": d["name"],
+            "logical_name": d["logical_name"],
+        }
+
+        return GetKeyStorageInfoOutput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "GetKeyStorageInfoOutput("
+        if self.name is not None:
+            result += f"name={repr(self.name)}, "
+
+        if self.logical_name is not None:
+            result += f"logical_name={repr(self.logical_name)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, GetKeyStorageInfoOutput):
+            return False
+        attributes: list[str] = [
+            "name",
+            "logical_name",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
 class MRDiscovery:
     region: str
 
@@ -898,8 +1620,8 @@ class GetKeyStoreInfoOutput:
         """The configuration information for a Key Store.
 
         :param key_store_id: An identifier for this Key Store.
-        :param key_store_name: The DynamoDB table name that backs this
-            Key Store.
+        :param key_store_name: The physical name of the backing storage
+            for this Key Store instance.
         :param logical_key_store_name: The logical name for this Key
             Store, which is cryptographically bound to the keys it
             holds.
@@ -909,16 +1631,6 @@ class GetKeyStoreInfoOutput:
             restrictions.
         """
         self.key_store_id = key_store_id
-        if (key_store_name is not None) and (len(key_store_name) < 3):
-            raise ValueError(
-                "The size of key_store_name must be greater than or equal to 3"
-            )
-
-        if (key_store_name is not None) and (len(key_store_name) > 255):
-            raise ValueError(
-                "The size of key_store_name must be less than or equal to 255"
-            )
-
         self.key_store_name = key_store_name
         self.logical_key_store_name = logical_key_store_name
         self.grant_tokens = grant_tokens
@@ -977,6 +1689,215 @@ class GetKeyStoreInfoOutput:
             "kms_configuration",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class WriteNewEncryptedBranchKeyInput:
+    active: EncryptedHierarchicalKey
+    version: EncryptedHierarchicalKey
+    beacon: EncryptedHierarchicalKey
+
+    def __init__(
+        self,
+        *,
+        active: EncryptedHierarchicalKey,
+        version: EncryptedHierarchicalKey,
+        beacon: EncryptedHierarchicalKey,
+    ):
+        """The information required to atomically write an a new branch key
+        into a key store. The identifiers for all keys passed should be the
+        same.
+
+        :param active: The active representation of this branch key. The
+            plain-text cryptographic material of the Active must be the
+            same as the Version.
+        :param version: The decrypt representation of this branch key.
+            The plain-text cryptographic material of the Version must be
+            the same as the Active.
+        :param beacon: An HMAC key used to support searchable
+            encryption. This should be a different cryptographic
+            material from the other two.
+        """
+        self.active = active
+        self.version = version
+        self.beacon = beacon
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the WriteNewEncryptedBranchKeyInput to a dictionary."""
+        return {
+            "active": self.active.as_dict(),
+            "version": self.version.as_dict(),
+            "beacon": self.beacon.as_dict(),
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "WriteNewEncryptedBranchKeyInput":
+        """Creates a WriteNewEncryptedBranchKeyInput from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "active": EncryptedHierarchicalKey.from_dict(d["active"]),
+            "version": EncryptedHierarchicalKey.from_dict(d["version"]),
+            "beacon": EncryptedHierarchicalKey.from_dict(d["beacon"]),
+        }
+
+        return WriteNewEncryptedBranchKeyInput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "WriteNewEncryptedBranchKeyInput("
+        if self.active is not None:
+            result += f"active={repr(self.active)}, "
+
+        if self.version is not None:
+            result += f"version={repr(self.version)}, "
+
+        if self.beacon is not None:
+            result += f"beacon={repr(self.beacon)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, WriteNewEncryptedBranchKeyInput):
+            return False
+        attributes: list[str] = [
+            "active",
+            "version",
+            "beacon",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class WriteNewEncryptedBranchKeyOutput:
+    """The output of writing a new branch key.
+
+    There is currently no additional information returned.
+    """
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the WriteNewEncryptedBranchKeyOutput to a dictionary."""
+        return {}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "WriteNewEncryptedBranchKeyOutput":
+        """Creates a WriteNewEncryptedBranchKeyOutput from a dictionary."""
+        return WriteNewEncryptedBranchKeyOutput()
+
+    def __repr__(self) -> str:
+        result = "WriteNewEncryptedBranchKeyOutput("
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        return isinstance(other, WriteNewEncryptedBranchKeyOutput)
+
+
+class WriteNewEncryptedBranchKeyVersionInput:
+    active: EncryptedHierarchicalKey
+    version: EncryptedHierarchicalKey
+    old_active: EncryptedHierarchicalKey
+
+    def __init__(
+        self,
+        *,
+        active: EncryptedHierarchicalKey,
+        version: EncryptedHierarchicalKey,
+        old_active: EncryptedHierarchicalKey,
+    ):
+        """The information required to atomically write a new version for an
+        existing branch key into a key store. The identifiers for all keys
+        passed should be the same.
+
+        :param active:
+          The new active version to be written to the key store.
+          The
+        plain-text cryptographic material of the Active must be the same as the
+        Version.
+
+        :param version:
+          The decrypt representation of this branch key version.
+          The
+        plain-text cryptographic material of the `Version` must be the same as the
+        `Active`.
+
+        :param old_active:
+          The previous active version.
+          This key should be used as
+        an optimistic lock on the new version.
+          This means that when updating the
+        current active record
+          the existing active record should be equal to this
+        value.
+        """
+        self.active = active
+        self.version = version
+        self.old_active = old_active
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the WriteNewEncryptedBranchKeyVersionInput to a
+        dictionary."""
+        return {
+            "active": self.active.as_dict(),
+            "version": self.version.as_dict(),
+            "old_active": self.old_active.as_dict(),
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "WriteNewEncryptedBranchKeyVersionInput":
+        """Creates a WriteNewEncryptedBranchKeyVersionInput from a
+        dictionary."""
+        kwargs: Dict[str, Any] = {
+            "active": EncryptedHierarchicalKey.from_dict(d["active"]),
+            "version": EncryptedHierarchicalKey.from_dict(d["version"]),
+            "old_active": EncryptedHierarchicalKey.from_dict(d["old_active"]),
+        }
+
+        return WriteNewEncryptedBranchKeyVersionInput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "WriteNewEncryptedBranchKeyVersionInput("
+        if self.active is not None:
+            result += f"active={repr(self.active)}, "
+
+        if self.version is not None:
+            result += f"version={repr(self.version)}, "
+
+        if self.old_active is not None:
+            result += f"old_active={repr(self.old_active)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, WriteNewEncryptedBranchKeyVersionInput):
+            return False
+        attributes: list[str] = [
+            "active",
+            "version",
+            "old_active",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class WriteNewEncryptedBranchKeyVersionOutput:
+    """The output of writing a new version for an existing branch key.
+
+    There is currently no additional information returned.
+    """
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the WriteNewEncryptedBranchKeyVersionOutput to a
+        dictionary."""
+        return {}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "WriteNewEncryptedBranchKeyVersionOutput":
+        """Creates a WriteNewEncryptedBranchKeyVersionOutput from a
+        dictionary."""
+        return WriteNewEncryptedBranchKeyVersionOutput()
+
+    def __repr__(self) -> str:
+        result = "WriteNewEncryptedBranchKeyVersionOutput("
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        return isinstance(other, WriteNewEncryptedBranchKeyVersionOutput)
 
 
 class VersionKeyInput:
@@ -1044,6 +1965,299 @@ class VersionKeyOutput:
 
     def __eq__(self, other: Any) -> bool:
         return isinstance(other, VersionKeyOutput)
+
+
+class AwsKms:
+    grant_tokens: Optional[list[str]]
+    kms_client: Optional[BaseClient]
+
+    def __init__(
+        self,
+        *,
+        grant_tokens: Optional[list[str]] = None,
+        kms_client: Optional[BaseClient] = None,
+    ):
+        """
+        :param grant_tokens: The AWS KMS grant tokens that are used when this Key Store
+        calls to AWS KMS.
+        :param kms_client: The KMS client this Key Store uses to call AWS KMS.  If None
+        is provided and the KMS ARN is, the KMS ARN is used to determine the Region of
+        the default client.
+        """
+        self.grant_tokens = grant_tokens
+        self.kms_client = kms_client
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the AwsKms to a dictionary."""
+        d: Dict[str, Any] = {}
+
+        if self.grant_tokens is not None:
+            d["grant_tokens"] = self.grant_tokens
+
+        if self.kms_client is not None:
+            d["kms_client"] = self.kms_client
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "AwsKms":
+        """Creates a AwsKms from a dictionary."""
+        kwargs: Dict[str, Any] = {}
+
+        if "grant_tokens" in d:
+            kwargs["grant_tokens"] = d["grant_tokens"]
+
+        if "kms_client" in d:
+            kwargs["kms_client"] = d["kms_client"]
+
+        return AwsKms(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "AwsKms("
+        if self.grant_tokens is not None:
+            result += f"grant_tokens={repr(self.grant_tokens)}, "
+
+        if self.kms_client is not None:
+            result += f"kms_client={repr(self.kms_client)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, AwsKms):
+            return False
+        attributes: list[str] = [
+            "grant_tokens",
+            "kms_client",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class DynamoDBTable:
+    ddb_table_name: str
+    ddb_client: Optional[BaseClient]
+
+    def __init__(
+        self,
+        *,
+        ddb_table_name: str,
+        ddb_client: Optional[BaseClient] = None,
+    ):
+        """
+        :param ddb_table_name: The DynamoDB table name that backs this Key Store.
+        :param ddb_client: The DynamoDB client this Key Store uses to call Amazon
+        DynamoDB. If None is provided and the KMS ARN is, the KMS ARN is used to
+        determine the Region of the default client.
+        """
+        if (ddb_table_name is not None) and (len(ddb_table_name) < 3):
+            raise ValueError(
+                "The size of ddb_table_name must be greater than or equal to 3"
+            )
+
+        if (ddb_table_name is not None) and (len(ddb_table_name) > 255):
+            raise ValueError(
+                "The size of ddb_table_name must be less than or equal to 255"
+            )
+
+        self.ddb_table_name = ddb_table_name
+        self.ddb_client = ddb_client
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the DynamoDBTable to a dictionary."""
+        d: Dict[str, Any] = {
+            "ddb_table_name": self.ddb_table_name,
+        }
+
+        if self.ddb_client is not None:
+            d["ddb_client"] = self.ddb_client
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "DynamoDBTable":
+        """Creates a DynamoDBTable from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "ddb_table_name": d["ddb_table_name"],
+        }
+
+        if "ddb_client" in d:
+            kwargs["ddb_client"] = d["ddb_client"]
+
+        return DynamoDBTable(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "DynamoDBTable("
+        if self.ddb_table_name is not None:
+            result += f"ddb_table_name={repr(self.ddb_table_name)}, "
+
+        if self.ddb_client is not None:
+            result += f"ddb_client={repr(self.ddb_client)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, DynamoDBTable):
+            return False
+        attributes: list[str] = [
+            "ddb_table_name",
+            "ddb_client",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class KeyManagementKms:
+    """The AWS KMS configuration this Key Store with use to authenticate branch
+    keys."""
+
+    def __init__(self, value: AwsKms):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"kms": self.value.as_dict()}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KeyManagementKms":
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return KeyManagementKms(AwsKms.from_dict(d["kms"]))
+
+    def __repr__(self) -> str:
+        return f"KeyManagementKms(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, KeyManagementKms):
+            return False
+        return self.value == other.value
+
+
+class KeyManagementUnknown:
+    """Represents an unknown variant.
+
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
+
+    This value may not be deliberately sent.
+    """
+
+    def __init__(self, tag: str):
+        self.tag = tag
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KeyManagementUnknown":
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+        return KeyManagementUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
+
+    def __repr__(self) -> str:
+        return f"KeyManagementUnknown(tag={self.tag})"
+
+
+KeyManagement = Union[KeyManagementKms, KeyManagementUnknown]
+
+
+def _key_management_from_dict(d: Dict[str, Any]) -> KeyManagement:
+    if "kms" in d:
+        return KeyManagementKms.from_dict(d)
+
+    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+
+class StorageDdb:
+    """The DynamoDB configuration that backs this Key Store."""
+
+    def __init__(self, value: DynamoDBTable):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"ddb": self.value.as_dict()}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "StorageDdb":
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return StorageDdb(DynamoDBTable.from_dict(d["ddb"]))
+
+    def __repr__(self) -> str:
+        return f"StorageDdb(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, StorageDdb):
+            return False
+        return self.value == other.value
+
+
+class StorageCustom:
+    """The custom storage configuration that backs this Key Store."""
+
+    def __init__(
+        self,
+        value: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.references.KeyStorageInterface",
+    ):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"custom": self.value.as_dict()}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "StorageCustom":
+        from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.references import (
+            KeyStorageInterface,
+        )
+
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return StorageCustom(KeyStorageInterface.from_dict(d["custom"]))
+
+    def __repr__(self) -> str:
+        return f"StorageCustom(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, StorageCustom):
+            return False
+        return self.value == other.value
+
+
+class StorageUnknown:
+    """Represents an unknown variant.
+
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
+
+    This value may not be deliberately sent.
+    """
+
+    def __init__(self, tag: str):
+        self.tag = tag
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "StorageUnknown":
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+        return StorageUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
+
+    def __repr__(self) -> str:
+        return f"StorageUnknown(tag={self.tag})"
+
+
+Storage = Union[StorageDdb, StorageCustom, StorageUnknown]
+
+
+def _storage_from_dict(d: Dict[str, Any]) -> Storage:
+    if "ddb" in d:
+        return StorageDdb.from_dict(d)
+
+    if "custom" in d:
+        return StorageCustom.from_dict(d)
+
+    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
 
 class Unit:
