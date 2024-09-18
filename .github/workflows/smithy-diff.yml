@@ -26,7 +26,6 @@ jobs:
 
       - name: Check if FILES is not empty
         id: comment
-        shell: bash
         env:
           PR_NUMBER: ${{ github.event.number }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -36,7 +35,7 @@ jobs:
         if: ${{env.FILES != ''}}
         run: |
           # Fetch comments and find the one made by the bot
-          bot_comment=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \ https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUMBER}/comments)
+          bot_comment=$(curl -L "Authorization: Bearer $GITHUB_TOKEN" \ https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUMBER}/comments)
           #  \ | jq -r '.[] | select(.user.login == "$BOT_USERNAME") | .body')
           echo $bot_comment
 
