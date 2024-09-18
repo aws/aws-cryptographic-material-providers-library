@@ -273,7 +273,6 @@ module {:options "/functionSyntax:4" } Mutations {
       grantTokens := keyManager.grantTokens,
       kmsClient := keyManager.kmsClient
     );
-    print "\nInitializeMutation for ID " + input.branchKeyIdentifier + "\n calling KMS for new Decrypt\n";
     var wrappedDecryptOnlyBranchKey :- wrappedDecryptOnlyBranchKey?
     .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
     var newDecryptOnly := Structure.ConstructEncryptedHierarchicalKey(
@@ -290,7 +289,6 @@ module {:options "/functionSyntax:4" } Mutations {
       keyManagerStrategy := keyManagerStrategy
     );
 
-    print "\nInitializeMutation for ID " + input.branchKeyIdentifier + "\n calling KMS for new Active\n";
     // -= Mutate Beacon Key
     var BeaconEncryptionContext := Structure.ReplaceMutableContext(
       readItems.beaconItem.EncryptionContext,
@@ -298,7 +296,6 @@ module {:options "/functionSyntax:4" } Mutations {
       MutationToApply.Terminal.customEncryptionContext
     );
 
-    print "\nInitializeMutation for ID " + input.branchKeyIdentifier + "\n calling KMS for Mutating Beacon\n";
     assert readItems.beaconItem.KmsArn == MutationToApply.Original.kmsArn;
     var newBeaconKey :- ReEncryptHierarchicalKey(
       item := readItems.beaconItem,
