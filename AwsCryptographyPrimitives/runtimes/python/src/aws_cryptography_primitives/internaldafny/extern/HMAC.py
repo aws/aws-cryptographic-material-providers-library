@@ -62,14 +62,12 @@ class HMac(aws_cryptography_primitives.internaldafny.generated.HMAC.HMac):
       self.hmac.update(input_bytes)
 
     def GetResult(self):
-      """
-      Finishes the MAC operation.
-      A call to this method resets this
-      Mac object to the state it was in when
-      previously initialized via a call to Init(Key).
-      That is, the object is reset and available to
-      generate another MAC from the same key, if desired,
-      via new calls to update and doFinal. 
+      """Finishes the MAC operation.
+
+      A call to this method resets this Mac object to the state it was
+      in when previously initialized via a call to Init(Key). That is,
+      the object is reset and available to generate another MAC from the
+      same key, if desired, via new calls to update and doFinal.
       """
       digest = _dafny.Seq(self.hmac.finalize())
       self.hmac = HMAC(self.initial_key_bytes, self.algorithm)

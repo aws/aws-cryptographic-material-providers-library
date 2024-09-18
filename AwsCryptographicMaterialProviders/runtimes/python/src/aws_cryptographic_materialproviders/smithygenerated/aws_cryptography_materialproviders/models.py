@@ -133,8 +133,8 @@ class AlgorithmSuiteIdDBE:
 class AlgorithmSuiteIdUnknown:
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
 
     This value may not be deliberately sent.
     """
@@ -377,8 +377,8 @@ class DerivationAlgorithmNone:
 class DerivationAlgorithmUnknown:
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
 
     This value may not be deliberately sent.
     """
@@ -465,8 +465,8 @@ class EncryptAES_GCM:
 class EncryptUnknown:
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
 
     This value may not be deliberately sent.
     """
@@ -611,8 +611,8 @@ class EdkWrappingAlgorithmIntermediateKeyWrapping:
 class EdkWrappingAlgorithmUnknown:
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
 
     This value may not be deliberately sent.
     """
@@ -740,8 +740,8 @@ class SignatureAlgorithmNone:
 class SignatureAlgorithmUnknown:
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
 
     This value may not be deliberately sent.
     """
@@ -826,8 +826,8 @@ class SymmetricSignatureAlgorithmNone:
 class SymmetricSignatureAlgorithmUnknown:
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
 
     This value may not be deliberately sent.
     """
@@ -990,11 +990,11 @@ class GetBranchKeyIdInput:
         *,
         encryption_context: dict[str, str],
     ):
-        """Inputs for determining the Branch Key which should be used to wrap or unwrap the
-        data key for this encryption or decryption
+        """Inputs for determining the Branch Key which should be used to wrap
+        or unwrap the data key for this encryption or decryption.
 
-        :param encryption_context: The Encryption Context used with this encryption or
-        decryption.
+        :param encryption_context: The Encryption Context used with this
+            encryption or decryption.
         """
         self.encryption_context = encryption_context
 
@@ -1037,12 +1037,12 @@ class GetBranchKeyIdOutput:
         *,
         branch_key_id: str,
     ):
-        """Outputs for the Branch Key responsible for wrapping or unwrapping the data key
-        in this encryption or decryption.
+        """Outputs for the Branch Key responsible for wrapping or unwrapping
+        the data key in this encryption or decryption.
 
-        :param branch_key_id: The identifier of the Branch Key that should be
-        responsible for wrapping or unwrapping the data key in this encryption or
-        decryption.
+        :param branch_key_id: The identifier of the Branch Key that
+            should be responsible for wrapping or unwrapping the data
+            key in this encryption or decryption.
         """
         self.branch_key_id = branch_key_id
 
@@ -1132,8 +1132,8 @@ class DiscoveryFilter:
         account_ids: list[str],
         partition: str,
     ):
-        """A filter which defines what AWS partition and AWS accounts a KMS Key may be in
-        for a Keyring to be allowed to attempt to decrypt it.
+        """A filter which defines what AWS partition and AWS accounts a KMS Key
+        may be in for a Keyring to be allowed to attempt to decrypt it.
 
         :param account_ids: A list of allowed AWS account IDs.
         :param partition: The AWS partition which is allowed.
@@ -1192,10 +1192,13 @@ class CreateAwsKmsDiscoveryKeyringInput:
     ):
         """Inputs for for creating a AWS KMS Discovery Keyring.
 
-        :param kms_client: The KMS Client this Keyring will use to call KMS.
-        :param discovery_filter: A filter which restricts which KMS Keys this Keyring
-        may attempt to decrypt with by AWS partition and account.
-        :param grant_tokens: A list of grant tokens to be used when calling KMS.
+        :param kms_client: The KMS Client this Keyring will use to call
+            KMS.
+        :param discovery_filter: A filter which restricts which KMS Keys
+            this Keyring may attempt to decrypt with by AWS partition
+            and account.
+        :param grant_tokens: A list of grant tokens to be used when
+            calling KMS.
         """
         self.kms_client = kms_client
         self.discovery_filter = discovery_filter
@@ -1278,14 +1281,18 @@ class CreateAwsKmsDiscoveryMultiKeyringInput:
     ):
         """Inputs for for creating an AWS KMS Discovery Multi-Keyring.
 
-        :param regions: The list of regions this Keyring will creates KMS clients for.
-        :param discovery_filter: A filter which restricts which KMS Keys this Keyring
-        may attempt to decrypt with by AWS partition and account.
-        :param client_supplier: The Client Supplier which will be used to get KMS
-        Clients for use with this Keyring. If not specified on input, a Default Client
-        Supplier is created which creates a KMS Client for each region in the 'regions'
-        input.
-        :param grant_tokens: A list of grant tokens to be used when calling KMS.
+        :param regions: The list of regions this Keyring will creates
+            KMS clients for.
+        :param discovery_filter: A filter which restricts which KMS Keys
+            this Keyring may attempt to decrypt with by AWS partition
+            and account.
+        :param client_supplier: The Client Supplier which will be used
+            to get KMS Clients for use with this Keyring. If not
+            specified on input, a Default Client Supplier is created
+            which creates a KMS Client for each region in the 'regions'
+            input.
+        :param grant_tokens: A list of grant tokens to be used when
+            calling KMS.
         """
         self.regions = regions
         self.discovery_filter = discovery_filter
@@ -1293,7 +1300,8 @@ class CreateAwsKmsDiscoveryMultiKeyringInput:
         self.grant_tokens = grant_tokens
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateAwsKmsDiscoveryMultiKeyringInput to a dictionary."""
+        """Converts the CreateAwsKmsDiscoveryMultiKeyringInput to a
+        dictionary."""
         d: Dict[str, Any] = {
             "regions": self.regions,
         }
@@ -1311,7 +1319,8 @@ class CreateAwsKmsDiscoveryMultiKeyringInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsDiscoveryMultiKeyringInput":
-        """Creates a CreateAwsKmsDiscoveryMultiKeyringInput from a dictionary."""
+        """Creates a CreateAwsKmsDiscoveryMultiKeyringInput from a
+        dictionary."""
         from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             ClientSupplier,
         )
@@ -1375,11 +1384,13 @@ class KmsPrivateKeyToStaticPublicKeyInput:
     ):
         """Inputs for creating a KmsPrivateKeyToStaticPublicKey Configuration.
 
-        :param sender_kms_identifier: AWS KMS Key Identifier belonging to the sender.
-        :param recipient_public_key: Recipient Public Key. This MUST be a raw public ECC
-        key in DER format.
-        :param sender_public_key: Sender Public Key. This is the raw public ECC key in
-        DER format that belongs to the senderKmsIdentifier.
+        :param sender_kms_identifier: AWS KMS Key Identifier belonging
+            to the sender.
+        :param recipient_public_key: Recipient Public Key. This MUST be
+            a raw public ECC key in DER format.
+        :param sender_public_key: Sender Public Key. This is the raw
+            public ECC key in DER format that belongs to the
+            senderKmsIdentifier.
         """
         self.sender_kms_identifier = sender_kms_identifier
         self.recipient_public_key = recipient_public_key
@@ -1442,11 +1453,11 @@ class KmsPublicKeyDiscoveryInput:
         *,
         recipient_kms_identifier: str,
     ):
-        """Inputs for creating a KmsPublicKeyDiscovery Configuration. This is a DECRYPT
-        ONLY configuration.
+        """Inputs for creating a KmsPublicKeyDiscovery Configuration. This is a
+        DECRYPT ONLY configuration.
 
-        :param recipient_kms_identifier: AWS KMS key identifier belonging to the
-        recipient.
+        :param recipient_kms_identifier: AWS KMS key identifier
+            belonging to the recipient.
         """
         self.recipient_kms_identifier = recipient_kms_identifier
 
@@ -1482,8 +1493,9 @@ class KmsPublicKeyDiscoveryInput:
 
 
 class KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery:
-    """Inputs for creating a KmsPublicKeyDiscovery Configuration. This is a DECRYPT
-    ONLY configuration.
+    """Inputs for creating a KmsPublicKeyDiscovery Configuration.
+
+    This is a DECRYPT ONLY configuration.
     """
 
     def __init__(self, value: KmsPublicKeyDiscoveryInput):
@@ -1550,8 +1562,8 @@ class KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey:
 class KmsEcdhStaticConfigurationsUnknown:
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
 
     This value may not be deliberately sent.
     """
@@ -1608,12 +1620,16 @@ class CreateAwsKmsEcdhKeyringInput:
     ):
         """Inputs for creating an AWS KMS ECDH Keyring.
 
-        :param key_agreement_scheme: The Key Agreement Scheme configuration that is
-        responsible for how the shared secret is calculated.
-        :param curve_spec: The named curve that corresponds to the curve on which the
-        sender's private and recipient's public key lie.
-        :param kms_client: The KMS Client this Keyring will use to call KMS.
-        :param grant_tokens: A list of grant tokens to be used when calling KMS.
+        :param key_agreement_scheme: The Key Agreement Scheme
+            configuration that is responsible for how the shared secret
+            is calculated.
+        :param curve_spec: The named curve that corresponds to the curve
+            on which the sender's private and recipient's public key
+            lie.
+        :param kms_client: The KMS Client this Keyring will use to call
+            KMS.
+        :param grant_tokens: A list of grant tokens to be used when
+            calling KMS.
         """
         self.key_agreement_scheme = key_agreement_scheme
         self.curve_spec = curve_spec
@@ -1741,11 +1757,12 @@ class MultiThreadedCache:
         entry_capacity: int = 0,
         entry_pruning_tail_size: int = 0,
     ):
-        """A cache that is safe for use in a multi threaded environment, but no extra
-        functionality.
+        """A cache that is safe for use in a multi threaded environment, but no
+        extra functionality.
 
         :param entry_capacity: Maximum number of entries cached.
-        :param entry_pruning_tail_size: Number of entries to prune at a time.
+        :param entry_pruning_tail_size: Number of entries to prune at a
+            time.
         """
         if (entry_capacity is not None) and (entry_capacity < 1):
             raise ValueError("entry_capacity must be greater than or equal to 1")
@@ -1837,7 +1854,8 @@ class SingleThreadedCache:
         """A cache that is NOT safe for use in a multi threaded environment.
 
         :param entry_capacity: Maximum number of entries cached.
-        :param entry_pruning_tail_size: Number of entries to prune at a time.
+        :param entry_pruning_tail_size: Number of entries to prune at a
+            time.
         """
         if (entry_capacity is not None) and (entry_capacity < 1):
             raise ValueError("entry_capacity must be greater than or equal to 1")
@@ -1915,23 +1933,23 @@ class StormTrackingCache:
         in_flight_ttl: int = 0,
         sleep_milli: int = 0,
     ):
-        """A cache that is safe for use in a multi threaded environment,
-        and tries to
-        prevent redundant or overly parallel backend calls.
+        """A cache that is safe for use in a multi threaded environment, and
+        tries to prevent redundant or overly parallel backend calls.
 
         :param entry_capacity: Maximum number of entries cached.
-        :param entry_pruning_tail_size: Number of entries to prune at a time.
-        :param grace_period: How many seconds before expiration should an attempt be
-        made to refresh the materials.
-          If zero, use a simple cache with no storm
-        tracking.
-        :param grace_interval: How many seconds between attempts to refresh the
-        materials.
-        :param fan_out: How many simultaneous attempts to refresh the materials.
-        :param in_flight_ttl: How many seconds until an attempt to refresh the materials
-        should be forgotten.
-        :param sleep_milli: How many milliseconds should a thread sleep if fanOut is
-        exceeded.
+        :param entry_pruning_tail_size: Number of entries to prune at a
+            time.
+        :param grace_period: How many seconds before expiration should
+            an attempt be made to refresh the materials. If zero, use a
+            simple cache with no storm tracking.
+        :param grace_interval: How many seconds between attempts to
+            refresh the materials.
+        :param fan_out: How many simultaneous attempts to refresh the
+            materials.
+        :param in_flight_ttl: How many seconds until an attempt to
+            refresh the materials should be forgotten.
+        :param sleep_milli: How many milliseconds should a thread sleep
+            if fanOut is exceeded.
         """
         if (entry_capacity is not None) and (entry_capacity < 1):
             raise ValueError("entry_capacity must be greater than or equal to 1")
@@ -2060,7 +2078,10 @@ class StormTrackingCache:
 
 
 class CacheTypeDefault:
-    """The best choice for most situations. Probably a StormTrackingCache."""
+    """The best choice for most situations.
+
+    Probably a StormTrackingCache.
+    """
 
     def __init__(self, value: DefaultCache):
         self.value = value
@@ -2137,9 +2158,8 @@ class CacheTypeSingleThreaded:
 
 
 class CacheTypeMultiThreaded:
-    """A cache that is safe for use in a multi threaded environment, but no extra
-    functionality.
-    """
+    """A cache that is safe for use in a multi threaded environment, but no
+    extra functionality."""
 
     def __init__(self, value: MultiThreadedCache):
         self.value = value
@@ -2164,10 +2184,8 @@ class CacheTypeMultiThreaded:
 
 
 class CacheTypeStormTracking:
-    """A cache that is safe for use in a multi threaded environment,
-    and tries to
-    prevent redundant or overly parallel backend calls.
-    """
+    """A cache that is safe for use in a multi threaded environment, and tries
+    to prevent redundant or overly parallel backend calls."""
 
     def __init__(self, value: StormTrackingCache):
         self.value = value
@@ -2194,8 +2212,8 @@ class CacheTypeStormTracking:
 class CacheTypeUnknown:
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
 
     This value may not be deliberately sent.
     """
@@ -2267,17 +2285,19 @@ class CreateAwsKmsHierarchicalKeyringInput:
     ):
         """Inputs for creating a Hierarchical Keyring.
 
-        :param key_store: The Key Store which contains the Branch Key(s) responsible for
-        wrapping and unwrapping data keys.
-        :param branch_key_id: The identifier for the single Branch Key responsible for
-        wrapping and unwrapping the data key. Either a Branch Key ID or Branch Key
-        Supplier must be specified.
-        :param branch_key_id_supplier: A Branch Key Supplier which determines what
-        Branch Key to use to wrap and unwrap the data key. Either a Branch Key ID or
-        Branch Key Supplier must be specified.
-        :param ttl_seconds: How many seconds the Branch Key material is allowed to be
-        reused within the local cache before it is re-retrieved from Amazon DynamoDB and
-        re-authenticated with AWS KMS.
+        :param key_store: The Key Store which contains the Branch Key(s)
+            responsible for wrapping and unwrapping data keys.
+        :param branch_key_id: The identifier for the single Branch Key
+            responsible for wrapping and unwrapping the data key. Either
+            a Branch Key ID or Branch Key Supplier must be specified.
+        :param branch_key_id_supplier: A Branch Key Supplier which
+            determines what Branch Key to use to wrap and unwrap the
+            data key. Either a Branch Key ID or Branch Key Supplier must
+            be specified.
+        :param ttl_seconds: How many seconds the Branch Key material is
+            allowed to be reused within the local cache before it is re-
+            retrieved from Amazon DynamoDB and re-authenticated with AWS
+            KMS.
         :param cache: Which type of local cache to use.
         """
         self.key_store = key_store
@@ -2290,7 +2310,8 @@ class CreateAwsKmsHierarchicalKeyringInput:
         self.cache = cache
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateAwsKmsHierarchicalKeyringInput to a dictionary."""
+        """Converts the CreateAwsKmsHierarchicalKeyringInput to a
+        dictionary."""
         d: Dict[str, Any] = {
             "key_store": self.key_store.as_dict(),
         }
@@ -2385,11 +2406,13 @@ class CreateAwsKmsKeyringInput:
     ):
         """Inputs for for creating a AWS KMS Keyring.
 
-        :param kms_key_id: The identifier for the symmetric AWS KMS Key responsible for
-        wrapping and unwrapping data keys. This should not be a AWS KMS Multi-Region
-        Key.
-        :param kms_client: The KMS Client this Keyring will use to call KMS.
-        :param grant_tokens: A list of grant tokens to be used when calling KMS.
+        :param kms_key_id: The identifier for the symmetric AWS KMS Key
+            responsible for wrapping and unwrapping data keys. This
+            should not be a AWS KMS Multi-Region Key.
+        :param kms_client: The KMS Client this Keyring will use to call
+            KMS.
+        :param grant_tokens: A list of grant tokens to be used when
+            calling KMS.
         """
         self.kms_key_id = kms_key_id
         self.kms_client = kms_client
@@ -2462,11 +2485,14 @@ class CreateAwsKmsMrkDiscoveryKeyringInput:
     ):
         """Inputs for for creating a AWS KMS MRK Discovery Keyring.
 
-        :param kms_client: The KMS Client this Keyring will use to call KMS.
+        :param kms_client: The KMS Client this Keyring will use to call
+            KMS.
         :param region: The region the input 'kmsClient' is in.
-        :param discovery_filter: A filter which restricts which KMS Keys this Keyring
-        may attempt to decrypt with by AWS partition and account.
-        :param grant_tokens: A list of grant tokens to be used when calling KMS.
+        :param discovery_filter: A filter which restricts which KMS Keys
+            this Keyring may attempt to decrypt with by AWS partition
+            and account.
+        :param grant_tokens: A list of grant tokens to be used when
+            calling KMS.
         """
         self.kms_client = kms_client
         self.region = region
@@ -2474,7 +2500,8 @@ class CreateAwsKmsMrkDiscoveryKeyringInput:
         self.grant_tokens = grant_tokens
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateAwsKmsMrkDiscoveryKeyringInput to a dictionary."""
+        """Converts the CreateAwsKmsMrkDiscoveryKeyringInput to a
+        dictionary."""
         d: Dict[str, Any] = {
             "kms_client": self.kms_client,
             "region": self.region,
@@ -2556,14 +2583,18 @@ class CreateAwsKmsMrkDiscoveryMultiKeyringInput:
     ):
         """Inputs for for creating a AWS KMS MRK Discovery Multi-Keyring.
 
-        :param regions: The list of regions this Keyring will creates KMS clients for.
-        :param discovery_filter: A filter which restricts which KMS Keys this Keyring
-        may attempt to decrypt with by AWS partition and account.
-        :param client_supplier: The Client Supplier which will be used to get KMS
-        Clients for use with this Keyring. If not specified on input, a Default Client
-        Supplier is created which creates a KMS Client for each region in the 'regions'
-        input.
-        :param grant_tokens: A list of grant tokens to be used when calling KMS.
+        :param regions: The list of regions this Keyring will creates
+            KMS clients for.
+        :param discovery_filter: A filter which restricts which KMS Keys
+            this Keyring may attempt to decrypt with by AWS partition
+            and account.
+        :param client_supplier: The Client Supplier which will be used
+            to get KMS Clients for use with this Keyring. If not
+            specified on input, a Default Client Supplier is created
+            which creates a KMS Client for each region in the 'regions'
+            input.
+        :param grant_tokens: A list of grant tokens to be used when
+            calling KMS.
         """
         self.regions = regions
         self.discovery_filter = discovery_filter
@@ -2571,7 +2602,8 @@ class CreateAwsKmsMrkDiscoveryMultiKeyringInput:
         self.grant_tokens = grant_tokens
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateAwsKmsMrkDiscoveryMultiKeyringInput to a dictionary."""
+        """Converts the CreateAwsKmsMrkDiscoveryMultiKeyringInput to a
+        dictionary."""
         d: Dict[str, Any] = {
             "regions": self.regions,
         }
@@ -2589,7 +2621,8 @@ class CreateAwsKmsMrkDiscoveryMultiKeyringInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsMrkDiscoveryMultiKeyringInput":
-        """Creates a CreateAwsKmsMrkDiscoveryMultiKeyringInput from a dictionary."""
+        """Creates a CreateAwsKmsMrkDiscoveryMultiKeyringInput from a
+        dictionary."""
         from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             ClientSupplier,
         )
@@ -2653,10 +2686,13 @@ class CreateAwsKmsMrkKeyringInput:
     ):
         """Inputs for for creating an AWS KMS MRK Keyring.
 
-        :param kms_key_id: The identifier for the symmetric AWS KMS Key or AWS KMS
-        Multi-Region Key responsible for wrapping and unwrapping data keys.
-        :param kms_client: The KMS Client this Keyring will use to call KMS.
-        :param grant_tokens: A list of grant tokens to be used when calling KMS.
+        :param kms_key_id: The identifier for the symmetric AWS KMS Key
+            or AWS KMS Multi-Region Key responsible for wrapping and
+            unwrapping data keys.
+        :param kms_client: The KMS Client this Keyring will use to call
+            KMS.
+        :param grant_tokens: A list of grant tokens to be used when
+            calling KMS.
         """
         self.kms_key_id = kms_key_id
         self.kms_client = kms_client
@@ -2733,18 +2769,21 @@ class CreateAwsKmsMrkMultiKeyringInput:
     ):
         """Inputs for for creating a AWS KMS MRK Multi-Keyring.
 
-        :param generator: A symmetric AWS KMS Key or AWS KMS Multi-Region Key
-        responsible for wrapping and unwrapping data keys. KMS.GenerateDataKey may be
-        called with this key if the data key has not already been generated by another
-        Keyring.
-        :param kms_key_ids: A list of identifiers for the symmetric AWS KMS Keys and/or
-        AWS KMS Multi-Region Keys (other than the generator) responsible for wrapping
-        and unwrapping data keys.
-        :param client_supplier: The Client Supplier which will be used to get KMS
-        Clients for use with this Keyring. The Client Supplier will create a client for
-        each region specified in the generator and kmsKeyIds ARNs. If not specified on
-        input, the Default Client Supplier is used.
-        :param grant_tokens: A list of grant tokens to be used when calling KMS.
+        :param generator: A symmetric AWS KMS Key or AWS KMS Multi-
+            Region Key responsible for wrapping and unwrapping data
+            keys. KMS.GenerateDataKey may be called with this key if the
+            data key has not already been generated by another Keyring.
+        :param kms_key_ids: A list of identifiers for the symmetric AWS
+            KMS Keys and/or AWS KMS Multi-Region Keys (other than the
+            generator) responsible for wrapping and unwrapping data
+            keys.
+        :param client_supplier: The Client Supplier which will be used
+            to get KMS Clients for use with this Keyring. The Client
+            Supplier will create a client for each region specified in
+            the generator and kmsKeyIds ARNs. If not specified on input,
+            the Default Client Supplier is used.
+        :param grant_tokens: A list of grant tokens to be used when
+            calling KMS.
         """
         self.generator = generator
         self.kms_key_ids = kms_key_ids
@@ -2840,18 +2879,22 @@ class CreateAwsKmsMultiKeyringInput:
     ):
         """Inputs for for creating a AWS KMS Multi-Keyring.
 
-        :param generator: A identifier for a symmetric AWS KMS Key responsible for
-        wrapping and unwrapping data keys. KMS.GenerateDataKey may be called with this
-        key if the data key has not already been generated by another Keyring. This
-        should not be a AWS KMS Multi-Region Key.
-        :param kms_key_ids: A list of identifiers for the symmetric AWS KMS Keys (other
-        than the generator) responsible for wrapping and unwrapping data keys. This list
-        should not contain AWS KMS Multi-Region Keys.
-        :param client_supplier: The Client Supplier which will be used to get KMS
-        Clients for use with this Keyring. The Client Supplier will create a client for
-        each region specified in the generator and kmsKeyIds ARNs. If not specified on
-        input, the Default Client Supplier is used.
-        :param grant_tokens: A list of grant tokens to be used when calling KMS.
+        :param generator: A identifier for a symmetric AWS KMS Key
+            responsible for wrapping and unwrapping data keys.
+            KMS.GenerateDataKey may be called with this key if the data
+            key has not already been generated by another Keyring. This
+            should not be a AWS KMS Multi-Region Key.
+        :param kms_key_ids: A list of identifiers for the symmetric AWS
+            KMS Keys (other than the generator) responsible for wrapping
+            and unwrapping data keys. This list should not contain AWS
+            KMS Multi-Region Keys.
+        :param client_supplier: The Client Supplier which will be used
+            to get KMS Clients for use with this Keyring. The Client
+            Supplier will create a client for each region specified in
+            the generator and kmsKeyIds ARNs. If not specified on input,
+            the Default Client Supplier is used.
+        :param grant_tokens: A list of grant tokens to be used when
+            calling KMS.
         """
         self.generator = generator
         self.kms_key_ids = kms_key_ids
@@ -2945,16 +2988,19 @@ class CreateAwsKmsRsaKeyringInput:
     ):
         """Inputs for creating a AWS KMS RSA Keyring.
 
-        :param kms_key_id: The ARN for the asymmetric AWS KMS Key for RSA responsible
-        for wrapping and unwrapping data keys.
-        :param encryption_algorithm: The RSA algorithm used to wrap and unwrap data
-        keys.
-        :param public_key: The public RSA Key responsible for wrapping data keys, as a
-        UTF8 encoded, PEM encoded X.509 SubjectPublicKeyInfo structure. This should be
-        the public key as exported from KMS. If not specified, this Keyring cannot be
-        used on encrypt.
-        :param kms_client: The KMS Client this Keyring will use to call KMS.
-        :param grant_tokens: A list of grant tokens to be used when calling KMS.
+        :param kms_key_id: The ARN for the asymmetric AWS KMS Key for
+            RSA responsible for wrapping and unwrapping data keys.
+        :param encryption_algorithm: The RSA algorithm used to wrap and
+            unwrap data keys.
+        :param public_key: The public RSA Key responsible for wrapping
+            data keys, as a UTF8 encoded, PEM encoded X.509
+            SubjectPublicKeyInfo structure. This should be the public
+            key as exported from KMS. If not specified, this Keyring
+            cannot be used on encrypt.
+        :param kms_client: The KMS Client this Keyring will use to call
+            KMS.
+        :param grant_tokens: A list of grant tokens to be used when
+            calling KMS.
         """
         self.kms_key_id = kms_key_id
         self.encryption_algorithm = encryption_algorithm
@@ -3047,14 +3093,16 @@ class CreateCryptographicMaterialsCacheInput:
         self.cache = cache
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateCryptographicMaterialsCacheInput to a dictionary."""
+        """Converts the CreateCryptographicMaterialsCacheInput to a
+        dictionary."""
         return {
             "cache": self.cache.as_dict(),
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateCryptographicMaterialsCacheInput":
-        """Creates a CreateCryptographicMaterialsCacheInput from a dictionary."""
+        """Creates a CreateCryptographicMaterialsCacheInput from a
+        dictionary."""
         kwargs: Dict[str, Any] = {
             "cache": _cache_type_from_dict(d["cache"]),
         }
@@ -3106,13 +3154,14 @@ class CreateDefaultCryptographicMaterialsManagerInput:
     ):
         """Inputs for creating a Default Cryptographic Materials Manager.
 
-        :param keyring: The Keyring that the created Default Cryprographic Materials
-        Manager will use to wrap data keys.
+        :param keyring: The Keyring that the created Default
+            Cryprographic Materials Manager will use to wrap data keys.
         """
         self.keyring = keyring
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateDefaultCryptographicMaterialsManagerInput to a dictionary."""
+        """Converts the CreateDefaultCryptographicMaterialsManagerInput to a
+        dictionary."""
         return {
             "keyring": self.keyring.as_dict(),
         }
@@ -3121,7 +3170,8 @@ class CreateDefaultCryptographicMaterialsManagerInput:
     def from_dict(
         d: Dict[str, Any]
     ) -> "CreateDefaultCryptographicMaterialsManagerInput":
-        """Creates a CreateDefaultCryptographicMaterialsManagerInput from a dictionary."""
+        """Creates a CreateDefaultCryptographicMaterialsManagerInput from a
+        dictionary."""
         from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             Keyring,
         )
@@ -3168,11 +3218,13 @@ class CreateMultiKeyringInput:
     ):
         """Inputs for creating a Multi-Keyring.
 
-        :param child_keyrings: A list of keyrings (other than the generator) responsible
-        for wrapping and unwrapping the data key.
-        :param generator: A keyring responsible for wrapping and unwrapping the data
-        key. This is the first keyring that will be used to wrap the data key, and may
-        be responsible for additionally generating the data key.
+        :param child_keyrings: A list of keyrings (other than the
+            generator) responsible for wrapping and unwrapping the data
+            key.
+        :param generator: A keyring responsible for wrapping and
+            unwrapping the data key. This is the first keyring that will
+            be used to wrap the data key, and may be responsible for
+            additionally generating the data key.
         """
         self.child_keyrings = child_keyrings
         self.generator = generator
@@ -3240,11 +3292,13 @@ class CreateRawAesKeyringInput:
     ):
         """Inputs for creating a Raw AES Keyring.
 
-        :param key_namespace: A namespace associated with this wrapping key.
+        :param key_namespace: A namespace associated with this wrapping
+            key.
         :param key_name: A name associated with this wrapping key.
-        :param wrapping_key: The AES key used with AES_GCM encryption and decryption.
-        :param wrapping_alg: The AES_GCM algorithm this Keyring uses to wrap and unwrap
-        data keys.
+        :param wrapping_key: The AES key used with AES_GCM encryption
+            and decryption.
+        :param wrapping_alg: The AES_GCM algorithm this Keyring uses to
+            wrap and unwrap data keys.
         """
         self.key_namespace = key_namespace
         self.key_name = key_name
@@ -3308,21 +3362,25 @@ class EphemeralPrivateKeyToStaticPublicKeyInput:
         *,
         recipient_public_key: bytes | bytearray,
     ):
-        """Inputs for creating a EphemeralPrivateKeyToStaticPublicKey Configuration.
+        """Inputs for creating a EphemeralPrivateKeyToStaticPublicKey
+        Configuration.
 
-        :param recipient_public_key: The recipient's public key. MUST be DER encoded.
+        :param recipient_public_key: The recipient's public key. MUST be
+            DER encoded.
         """
         self.recipient_public_key = recipient_public_key
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the EphemeralPrivateKeyToStaticPublicKeyInput to a dictionary."""
+        """Converts the EphemeralPrivateKeyToStaticPublicKeyInput to a
+        dictionary."""
         return {
             "recipient_public_key": self.recipient_public_key,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "EphemeralPrivateKeyToStaticPublicKeyInput":
-        """Creates a EphemeralPrivateKeyToStaticPublicKeyInput from a dictionary."""
+        """Creates a EphemeralPrivateKeyToStaticPublicKeyInput from a
+        dictionary."""
         kwargs: Dict[str, Any] = {
             "recipient_public_key": d["recipient_public_key"],
         }
@@ -3355,8 +3413,8 @@ class PublicKeyDiscoveryInput:
     ):
         """Inputs for creating a PublicKeyDiscovery Configuration.
 
-        :param recipient_static_private_key: The sender's private key. MUST be PEM
-        encoded.
+        :param recipient_static_private_key: The sender's private key.
+            MUST be PEM encoded.
         """
         self.recipient_static_private_key = recipient_static_private_key
 
@@ -3403,8 +3461,10 @@ class RawPrivateKeyToStaticPublicKeyInput:
     ):
         """Inputs for creating a RawPrivateKeyToStaticPublicKey Configuration.
 
-        :param sender_static_private_key: The sender's private key. MUST be PEM encoded.
-        :param recipient_public_key: The recipient's public key. MUST be DER encoded.
+        :param sender_static_private_key: The sender's private key. MUST
+            be PEM encoded.
+        :param recipient_public_key: The recipient's public key. MUST be
+            DER encoded.
         """
         self.sender_static_private_key = sender_static_private_key
         self.recipient_public_key = recipient_public_key
@@ -3509,7 +3569,8 @@ class RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey:
 
 
 class RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey:
-    """Inputs for creating a EphemeralPrivateKeyToStaticPublicKey Configuration."""
+    """Inputs for creating a EphemeralPrivateKeyToStaticPublicKey
+    Configuration."""
 
     def __init__(self, value: EphemeralPrivateKeyToStaticPublicKeyInput):
         self.value = value
@@ -3544,8 +3605,8 @@ class RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey:
 class RawEcdhStaticConfigurationsUnknown:
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
 
     This value may not be deliberately sent.
     """
@@ -3604,10 +3665,11 @@ class CreateRawEcdhKeyringInput:
     ):
         """Inputs for creating a raw ECDH Keyring.
 
-        :param key_agreement_scheme: The Key Agreement Scheme configuration that is
-        responsible for how the shared secret is calculated.
-        :param curve_spec: The the curve on which the points for the sender's private
-        and recipient's public key lie.
+        :param key_agreement_scheme: The Key Agreement Scheme
+            configuration that is responsible for how the shared secret
+            is calculated.
+        :param curve_spec: The the curve on which the points for the
+            sender's private and recipient's public key lie.
         """
         self.key_agreement_scheme = key_agreement_scheme
         self.curve_spec = curve_spec
@@ -3693,17 +3755,21 @@ class CreateRawRsaKeyringInput:
     ):
         """Inputs for creating a Raw RAW Keyring.
 
-        :param key_namespace: A namespace associated with this wrapping key.
+        :param key_namespace: A namespace associated with this wrapping
+            key.
         :param key_name: A name associated with this wrapping key.
-        :param padding_scheme: The RSA padding scheme to use with this keyring.
-        :param public_key: The public RSA Key responsible for wrapping data keys, as a
-        UTF8 encoded, PEM encoded X.509 SubjectPublicKeyInfo structure. If not
-        specified, this Keyring cannot be used on encrypt. A public key and/or a private
-        key must be specified.
-        :param private_key: The private RSA Key responsible for wrapping data keys, as a
-        UTF8 encoded, PEM encoded PKCS #8 PrivateKeyInfo structure. If not specified,
-        this Keyring cannot be used on decrypt. A public key and/or a private key must
-        be specified.
+        :param padding_scheme: The RSA padding scheme to use with this
+            keyring.
+        :param public_key: The public RSA Key responsible for wrapping
+            data keys, as a UTF8 encoded, PEM encoded X.509
+            SubjectPublicKeyInfo structure. If not specified, this
+            Keyring cannot be used on encrypt. A public key and/or a
+            private key must be specified.
+        :param private_key: The private RSA Key responsible for wrapping
+            data keys, as a UTF8 encoded, PEM encoded PKCS #8
+            PrivateKeyInfo structure. If not specified, this Keyring
+            cannot be used on decrypt. A public key and/or a private key
+            must be specified.
         """
         self.key_namespace = key_namespace
         self.key_name = key_name
@@ -3796,29 +3862,33 @@ class CreateRequiredEncryptionContextCMMInput:
             "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring"
         ] = None,
     ):
-        """Inputs for creating an Required Encryption Context Cryptographic Materials
-        Manager.
+        """Inputs for creating an Required Encryption Context Cryptographic
+        Materials Manager.
 
-        :param required_encryption_context_keys: A list of Encryption Context keys which
-        are required to be supplied during encryption and decryption, and correspond to
-        Encryption Context key-value pairs which are not stored on the resulting
-        message.
-        :param underlying_cmm: The Cryprographic Materials Manager that the created
-        Required Encryption Context Cryptographic Materials Manager will delegate to.
-        Either a Keyring or underlying Cryprographic Materials Manager must be
-        specified.
-        :param keyring: The Keyring that the created Cryprographic Materials Manager
-        will use to wrap data keys. The created Required Encryption Context CMM will
-        delegate to a Default Cryptographic Materials Manager created with this Keyring.
-        Either a Keyring or an underlying Cryprographic Materials Manager must be
-        specified as input.
+        :param required_encryption_context_keys: A list of Encryption
+            Context keys which are required to be supplied during
+            encryption and decryption, and correspond to Encryption
+            Context key-value pairs which are not stored on the
+            resulting message.
+        :param underlying_cmm: The Cryprographic Materials Manager that
+            the created Required Encryption Context Cryptographic
+            Materials Manager will delegate to. Either a Keyring or
+            underlying Cryprographic Materials Manager must be
+            specified.
+        :param keyring: The Keyring that the created Cryprographic
+            Materials Manager will use to wrap data keys. The created
+            Required Encryption Context CMM will delegate to a Default
+            Cryptographic Materials Manager created with this Keyring.
+            Either a Keyring or an underlying Cryprographic Materials
+            Manager must be specified as input.
         """
         self.required_encryption_context_keys = required_encryption_context_keys
         self.underlying_cmm = underlying_cmm
         self.keyring = keyring
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateRequiredEncryptionContextCMMInput to a dictionary."""
+        """Converts the CreateRequiredEncryptionContextCMMInput to a
+        dictionary."""
         d: Dict[str, Any] = {
             "required_encryption_context_keys": self.required_encryption_context_keys,
         }
@@ -3833,7 +3903,8 @@ class CreateRequiredEncryptionContextCMMInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateRequiredEncryptionContextCMMInput":
-        """Creates a CreateRequiredEncryptionContextCMMInput from a dictionary."""
+        """Creates a CreateRequiredEncryptionContextCMMInput from a
+        dictionary."""
         from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             CryptographicMaterialsManager,
         )
@@ -4343,8 +4414,8 @@ class MaterialsBeaconKey:
 class MaterialsUnknown:
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
 
     This value may not be deliberately sent.
     """
@@ -4747,8 +4818,8 @@ class CommitmentPolicyDBE:
 class CommitmentPolicyUnknown:
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
 
     This value may not be deliberately sent.
     """
@@ -5397,7 +5468,8 @@ class ValidateCommitmentPolicyOnDecryptInput:
         self.commitment_policy = commitment_policy
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the ValidateCommitmentPolicyOnDecryptInput to a dictionary."""
+        """Converts the ValidateCommitmentPolicyOnDecryptInput to a
+        dictionary."""
         return {
             "algorithm": self.algorithm.as_dict(),
             "commitment_policy": self.commitment_policy.as_dict(),
@@ -5405,7 +5477,8 @@ class ValidateCommitmentPolicyOnDecryptInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "ValidateCommitmentPolicyOnDecryptInput":
-        """Creates a ValidateCommitmentPolicyOnDecryptInput from a dictionary."""
+        """Creates a ValidateCommitmentPolicyOnDecryptInput from a
+        dictionary."""
         kwargs: Dict[str, Any] = {
             "algorithm": _algorithm_suite_id_from_dict(d["algorithm"]),
             "commitment_policy": _commitment_policy_from_dict(d["commitment_policy"]),
@@ -5447,7 +5520,8 @@ class ValidateCommitmentPolicyOnEncryptInput:
         self.commitment_policy = commitment_policy
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the ValidateCommitmentPolicyOnEncryptInput to a dictionary."""
+        """Converts the ValidateCommitmentPolicyOnEncryptInput to a
+        dictionary."""
         return {
             "algorithm": self.algorithm.as_dict(),
             "commitment_policy": self.commitment_policy.as_dict(),
@@ -5455,7 +5529,8 @@ class ValidateCommitmentPolicyOnEncryptInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "ValidateCommitmentPolicyOnEncryptInput":
-        """Creates a ValidateCommitmentPolicyOnEncryptInput from a dictionary."""
+        """Creates a ValidateCommitmentPolicyOnEncryptInput from a
+        dictionary."""
         kwargs: Dict[str, Any] = {
             "algorithm": _algorithm_suite_id_from_dict(d["algorithm"]),
             "commitment_policy": _commitment_policy_from_dict(d["commitment_policy"]),
@@ -5497,7 +5572,8 @@ class ValidDecryptionMaterialsTransitionInput:
         self.stop = stop
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the ValidDecryptionMaterialsTransitionInput to a dictionary."""
+        """Converts the ValidDecryptionMaterialsTransitionInput to a
+        dictionary."""
         return {
             "start": self.start.as_dict(),
             "stop": self.stop.as_dict(),
@@ -5505,7 +5581,8 @@ class ValidDecryptionMaterialsTransitionInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "ValidDecryptionMaterialsTransitionInput":
-        """Creates a ValidDecryptionMaterialsTransitionInput from a dictionary."""
+        """Creates a ValidDecryptionMaterialsTransitionInput from a
+        dictionary."""
         kwargs: Dict[str, Any] = {
             "start": DecryptionMaterials.from_dict(d["start"]),
             "stop": DecryptionMaterials.from_dict(d["stop"]),
@@ -5547,7 +5624,8 @@ class ValidEncryptionMaterialsTransitionInput:
         self.stop = stop
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the ValidEncryptionMaterialsTransitionInput to a dictionary."""
+        """Converts the ValidEncryptionMaterialsTransitionInput to a
+        dictionary."""
         return {
             "start": self.start.as_dict(),
             "stop": self.stop.as_dict(),
@@ -5555,7 +5633,8 @@ class ValidEncryptionMaterialsTransitionInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "ValidEncryptionMaterialsTransitionInput":
-        """Creates a ValidEncryptionMaterialsTransitionInput from a dictionary."""
+        """Creates a ValidEncryptionMaterialsTransitionInput from a
+        dictionary."""
         kwargs: Dict[str, Any] = {
             "start": EncryptionMaterials.from_dict(d["start"]),
             "stop": EncryptionMaterials.from_dict(d["stop"]),

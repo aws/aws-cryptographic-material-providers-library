@@ -39,8 +39,8 @@ curve_mapping = {
 }
 
 def _validate_point(curve, x, y):
-    """
-    Validate that the coordinates x, y:
+    """Validate that the coordinates x, y:
+
     - lie within the elliptic curve field
     - satisfy the elliptic curve equation
     """

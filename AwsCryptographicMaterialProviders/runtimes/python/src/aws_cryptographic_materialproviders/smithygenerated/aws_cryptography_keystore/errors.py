@@ -35,7 +35,7 @@ class ApiError(ServiceError, Generic[T]):
 
 
 class UnknownApiError(ApiError[Literal["Unknown"]]):
-    """Error representing any unknown api errors"""
+    """Error representing any unknown api errors."""
 
     code: Literal["Unknown"] = "Unknown"
 
@@ -109,8 +109,8 @@ class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
     def as_dict(self) -> Dict[str, Any]:
         """Converts the CollectionOfErrors to a dictionary.
 
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
+        The dictionary uses the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
         """
         return {
             "message": self.message,
@@ -122,8 +122,9 @@ class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
     def from_dict(d: Dict[str, Any]) -> "CollectionOfErrors":
         """Creates a CollectionOfErrors from a dictionary.
 
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
+        The dictionary is expected to use the modeled shape names rather
+        than the parameter names as keys to be mostly compatible with
+        boto3.
         """
         kwargs: Dict[str, Any] = {"message": d["message"], "list": d["list"]}
 
@@ -158,8 +159,8 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
     def as_dict(self) -> Dict[str, Any]:
         """Converts the OpaqueError to a dictionary.
 
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
+        The dictionary uses the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
         """
         return {
             "message": self.message,
@@ -171,8 +172,9 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
     def from_dict(d: Dict[str, Any]) -> "OpaqueError":
         """Creates a OpaqueError from a dictionary.
 
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
+        The dictionary is expected to use the modeled shape names rather
+        than the parameter names as keys to be mostly compatible with
+        boto3.
         """
         kwargs: Dict[str, Any] = {"message": d["message"], "obj": d["obj"]}
 
@@ -197,10 +199,8 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
 
 
 def _smithy_error_to_dafny_error(e: ServiceError):
-    """
-    Converts the provided native Smithy-modeled error
-    into the corresponding Dafny error.
-    """
+    """Converts the provided native Smithy-modeled error into the corresponding
+    Dafny error."""
     if isinstance(
         e,
         aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors.KeyStoreException,

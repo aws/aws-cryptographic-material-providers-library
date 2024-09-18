@@ -112,7 +112,7 @@ Output = TypeVar("Output")
 
 
 class AwsCryptographicPrimitives:
-    """Client for AwsCryptographicPrimitives
+    """Client for AwsCryptographicPrimitives.
 
     :param config: Configuration for the client.
     """
