@@ -4,7 +4,7 @@ include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "Structure.dfy"
 include "../../AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
 include "../../AwsCryptographicMaterialProviders/src/Keyrings/AwsKms/AwsKmsMrkMatchForDecrypt.dfy"
-include "../../../dafny/AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
+include "../../AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
 include "KmsArn.dfy"
 
 module {:options "/functionSyntax:4" } KMSKeystoreOperations {
@@ -21,6 +21,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   import AwsKmsMrkMatchForDecrypt
   import KmsArn
   import ErrorMessages = KeyStoreErrorMessages
+
+  type KmsError = e: Types.Error | (e.ComAmazonawsKms? || e.KeyManagementException?) witness *
 
   function replaceRegion(arn : KMS.KeyIdType, region : KMS.RegionType) : KMS.KeyIdType
   {
@@ -158,6 +160,45 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     return Success(generateResponse);
   }
 
+
+  ghost predicate AttemptReEncrypt?(
+    sourceEncryptionContext: Structure.BranchKeyContext,
+    destinationEncryptionContext: Structure.BranchKeyContext
+  )
+    requires
+      && Structure.BranchKeyContext?(sourceEncryptionContext)
+      && Structure.BranchKeyContext?(destinationEncryptionContext)
+  {
+    // This is to validate the encryption context
+    // Therefore no change is an OK transition
+    || (destinationEncryptionContext == sourceEncryptionContext)
+
+    // Creating an Active record from a Version is OK
+    || (
+         // This is the defining characteristic of a Version record.
+         && Structure.BRANCH_KEY_TYPE_PREFIX < sourceEncryptionContext[Structure.TYPE_FIELD]
+         && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in sourceEncryptionContext
+         && destinationEncryptionContext == Structure.ActiveBranchKeyEncryptionContext(sourceEncryptionContext)
+       )
+
+    // KMS_FIELD can change and any non-reserved encryption context
+    || (
+         && sourceEncryptionContext[Structure.BRANCH_KEY_IDENTIFIER_FIELD] == destinationEncryptionContext[Structure.BRANCH_KEY_IDENTIFIER_FIELD]
+         && sourceEncryptionContext[Structure.TYPE_FIELD] == destinationEncryptionContext[Structure.TYPE_FIELD]
+         && sourceEncryptionContext[Structure.KEY_CREATE_TIME] == destinationEncryptionContext[Structure.KEY_CREATE_TIME]
+         && sourceEncryptionContext[Structure.HIERARCHY_VERSION] == destinationEncryptionContext[Structure.HIERARCHY_VERSION]
+         && sourceEncryptionContext[Structure.TABLE_FIELD] == destinationEncryptionContext[Structure.TABLE_FIELD]
+            // @seebees for AttemptReEncrypt?, I do not think we need the following IFF:
+            // It would only apply to ACTIVE Items, which we never ReEncrypt.
+            // No other Items have `version` as a member of their EC
+         && (Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD in sourceEncryptionContext
+             <==>
+             && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD in destinationEncryptionContext
+             && sourceEncryptionContext[Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD] == destinationEncryptionContext[Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD]
+            )
+       )
+  }
+
   method ReEncryptKey(
     ciphertext: seq<uint8>,
     sourceEncryptionContext: Structure.BranchKeyContext,
@@ -166,15 +207,11 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
   )
-    returns (res: Result<KMS.ReEncryptResponse, Types.Error>)
+    returns (res: Result<KMS.ReEncryptResponse, KmsError>)
     requires
-      // This is to validate the encryption context
-      || (destinationEncryptionContext == sourceEncryptionContext)
-      || (
-           && Structure.BRANCH_KEY_TYPE_PREFIX < sourceEncryptionContext[Structure.TYPE_FIELD]
-           && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in sourceEncryptionContext
-           && destinationEncryptionContext == Structure.ActiveBranchKeyEncryptionContext(sourceEncryptionContext)
-         )
+      && Structure.BranchKeyContext?(sourceEncryptionContext)
+      && Structure.BranchKeyContext?(destinationEncryptionContext)
+    requires AttemptReEncrypt?(sourceEncryptionContext, destinationEncryptionContext)
     requires AttemptKmsOperation?(kmsConfiguration, destinationEncryptionContext)
     requires HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(GetKeyId(kmsConfiguration))
     requires kmsClient.ValidState()
@@ -216,7 +253,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   {
     :- Need(
       KMS.IsValid_CiphertextType(ciphertext),
-      Types.KeyStoreException(
+      Types.KeyManagementException(
         message := "Invalid KMS ciphertext.")
     );
 
@@ -241,8 +278,109 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && reEncryptResponse.KeyId.Some?
       && reEncryptResponse.SourceKeyId.value == kmsKeyArn
       && reEncryptResponse.KeyId.value == kmsKeyArn,
+      Types.KeyManagementException(
+        message := "Invalid response from AWS KMS ReEncrypt:: Invalid KMS Key Id")
+    );
+
+    :- Need(
+      && reEncryptResponse.CiphertextBlob.Some?
+      && KMS.IsValid_CiphertextType(reEncryptResponse.CiphertextBlob.value),
+      Types.KeyManagementException(
+        message := "Invalid response from AWS KMS ReEncrypt: Invalid ciphertext.")
+    );
+
+    return Success(reEncryptResponse);
+  }
+
+  method MutateViaReEncrypt(
+    ciphertext: seq<uint8>,
+    sourceEncryptionContext: Structure.BranchKeyContext,
+    destinationEncryptionContext: Structure.BranchKeyContext,
+    sourceKmsArn: string,
+    destinationKmsArn: string,
+    grantTokens: KMS.GrantTokenList,
+    kmsClient: KMS.IKMSClient
+  )
+    returns (res: Result<KMS.ReEncryptResponse, Types.Error>)
+    requires
+      && Structure.BranchKeyContext?(sourceEncryptionContext)
+      && Structure.BranchKeyContext?(destinationEncryptionContext)
+    requires AttemptReEncrypt?(sourceEncryptionContext, destinationEncryptionContext)
+    requires KmsArn.ValidKmsArn?(sourceKmsArn) && KmsArn.ValidKmsArn?(destinationKmsArn)
+    // requires AttemptKmsOperation?(kmsConfiguration, destinationEncryptionContext)
+    // requires HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(GetKeyId(kmsConfiguration))
+    requires kmsClient.ValidState()
+    modifies kmsClient.Modifies
+    ensures kmsClient.ValidState()
+
+    ensures
+      res.Success?
+      ==>
+        && KMS.IsValid_CiphertextType(ciphertext)
+        && |kmsClient.History.ReEncrypt| == |old(kmsClient.History.ReEncrypt)| + 1
+           // && var kmsKeyArn := GetKeyId(kmsConfiguration);
+        && KMS.ReEncryptRequest(
+             CiphertextBlob := ciphertext,
+             SourceEncryptionContext := Some(sourceEncryptionContext),
+             // SourceKeyId := Some(kmsKeyArn),
+             SourceKeyId := Some(sourceKmsArn),
+             DestinationKeyId := destinationKmsArn,
+             DestinationEncryptionContext := Some(destinationEncryptionContext),
+             SourceEncryptionAlgorithm := None,
+             DestinationEncryptionAlgorithm := None,
+             GrantTokens := Some(grantTokens)
+           )
+           == Seq.Last(kmsClient.History.ReEncrypt).input
+        && old(kmsClient.History.ReEncrypt) < kmsClient.History.ReEncrypt
+    // Apply Mutation cannot have a history with GenerateDataKeyWithoutPlaintext in it
+    // && old(kmsClient.History.GenerateDataKeyWithoutPlaintext) == kmsClient.History.GenerateDataKeyWithoutPlaintext
+
+    ensures
+      res.Success? ==>
+        // && var kmsKeyArn := GetKeyId(kmsConfiguration);
+        && res.value.CiphertextBlob.Some?
+        && res.value.SourceKeyId.Some?
+        && res.value.KeyId.Some?
+        && res.value.SourceKeyId.value == sourceKmsArn //kmsKeyArn
+        && res.value.KeyId.value ==  destinationKmsArn // kmsKeyArn
+        && KMS.IsValid_CiphertextType(res.value.CiphertextBlob.value)
+        && var kmsOperationOutput := Seq.Last(kmsClient.History.ReEncrypt).output;
+        && kmsOperationOutput.Success?
+        && kmsOperationOutput.value == res.value
+  {
+    :- Need(
+      KMS.IsValid_CiphertextType(ciphertext),
       Types.KeyStoreException(
-        message := "Invalid response from KMS ReEncrypt:: Invalid Key Id")
+        message := "Invalid KMS ciphertext.")
+    );
+
+    // var kmsKeyArn := GetKeyId(kmsConfiguration);
+    var reEncryptRequest := KMS.ReEncryptRequest(
+      CiphertextBlob := ciphertext,
+      SourceEncryptionContext := Some(sourceEncryptionContext),
+      SourceKeyId := Some(sourceKmsArn), //Some(kmsKeyArn),
+      DestinationKeyId := destinationKmsArn,
+      DestinationEncryptionContext := Some(destinationEncryptionContext),
+      SourceEncryptionAlgorithm := None,
+      DestinationEncryptionAlgorithm := None,
+      GrantTokens := Some(grantTokens)
+    );
+
+    var reEncryptResponse? := kmsClient.ReEncrypt(reEncryptRequest);
+    var reEncryptResponse :- reEncryptResponse?
+    .MapFailure(e => Types.ComAmazonawsKms(ComAmazonawsKms := e));
+
+    :- Need(
+      && reEncryptResponse.SourceKeyId.Some?
+      && reEncryptResponse.SourceKeyId.value == sourceKmsArn,  //kmsKeyArn
+      Types.KeyStoreException(
+        message := "Invalid response from KMS ReEncrypt:: Invalid Source Key Id")
+    );
+    :- Need(
+      && reEncryptResponse.KeyId.Some?
+      && reEncryptResponse.KeyId.value == destinationKmsArn, // kmsKeyArn,
+      Types.KeyStoreException(
+        message := "Invalid response from KMS ReEncrypt:: Invalid Destination Key Id")
     );
 
     :- Need(
