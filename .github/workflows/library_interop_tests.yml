@@ -25,10 +25,7 @@ jobs:
             ubuntu-latest,
             macos-12,
           ]
-        # language: [java, net]
-        # Cutting .NET tests for rc-1.7.0
-        # We MUST restore these before going GA
-        language: [java]
+        language: [java, net]
         # https://taskei.amazon.dev/tasks/CrypTool-5284
         dotnet-version: ["6.0.x"]
     runs-on: ${{ matrix.os }}
@@ -131,12 +128,8 @@ jobs:
             ubuntu-latest,
             macos-12,
           ]
-        # Cutting .NET tests for rc-1.7.0
-        # We MUST restore these before going GA
-        # encrypting_language: [java, net]
-        # decrypting_language: [java, net]
-        encrypting_language: [java]
-        decrypting_language: [java]
+        encrypting_language: [java, net]
+        decrypting_language: [java, net]
         dotnet-version: ["6.0.x"]
     runs-on: ${{ matrix.os }}
     permissions:
