@@ -59,7 +59,10 @@ service KeyStore {
     GetBranchKeyVersion,
     GetBeaconKey
   ],
-  errors: [KeyStoreException]
+  errors: [
+    KeyStoreException
+    VersionRaceException
+  ]
 }
 
 structure KeyStoreConfig {
@@ -424,4 +427,30 @@ map EncryptionContext {
 structure KeyStoreException {
   @required
   message: String,
+}
+
+// Can be thrown by InitializeMutation & VersionKey
+@error("client")
+@documentation(
+"Operation was rejected due to a race with VersionKey.
+No items were changed.
+Retry operation when no other agent is Versioning this Branch Key ID.")
+structure VersionRaceException {
+  @required
+  message: String,
+}
+
+// This should be used very carefully.
+// It is often better to simply return the KMS Exception,
+// rather than obscuring it with this.
+// However, in cases where the KMS response
+// is invalid due to Client Side Validation,
+// this MAY be a better error to throw than
+// the generic local service exception.
+// See https://github.com/smithy-lang/smithy-dafny/issues/614
+@error("client")
+@documentation("AWS KMS request was unsuccesful or response was invalid.")
+structure KeyManagementException {
+  @required
+  message: String
 }
