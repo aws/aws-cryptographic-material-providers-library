@@ -18,7 +18,7 @@ public class WriteNewEncryptedBranchKeyVersionInput {
    *   The plain-text cryptographic material of the Active must be the same as the Version.
    *
    */
-  private final EncryptedHierarchicalKey Active;
+  private final OverWriteEncryptedHierarchicalKey Active;
 
   /**
    *
@@ -28,20 +28,9 @@ public class WriteNewEncryptedBranchKeyVersionInput {
    */
   private final EncryptedHierarchicalKey Version;
 
-  /**
-   *
-   *   The previous active version.
-   *   This key should be used as an optimistic lock on the new version.
-   *   This means that when updating the current active record
-   *   the existing active record should be equal to this value.
-   *
-   */
-  private final EncryptedHierarchicalKey oldActive;
-
   protected WriteNewEncryptedBranchKeyVersionInput(BuilderImpl builder) {
     this.Active = builder.Active();
     this.Version = builder.Version();
-    this.oldActive = builder.oldActive();
   }
 
   /**
@@ -50,7 +39,7 @@ public class WriteNewEncryptedBranchKeyVersionInput {
    *   The plain-text cryptographic material of the Active must be the same as the Version.
    *
    */
-  public EncryptedHierarchicalKey Active() {
+  public OverWriteEncryptedHierarchicalKey Active() {
     return this.Active;
   }
 
@@ -62,18 +51,6 @@ public class WriteNewEncryptedBranchKeyVersionInput {
    */
   public EncryptedHierarchicalKey Version() {
     return this.Version;
-  }
-
-  /**
-   * @return
-   *   The previous active version.
-   *   This key should be used as an optimistic lock on the new version.
-   *   This means that when updating the current active record
-   *   the existing active record should be equal to this value.
-   *
-   */
-  public EncryptedHierarchicalKey oldActive() {
-    return this.oldActive;
   }
 
   public Builder toBuilder() {
@@ -91,7 +68,7 @@ public class WriteNewEncryptedBranchKeyVersionInput {
      *   The plain-text cryptographic material of the Active must be the same as the Version.
      *
      */
-    Builder Active(EncryptedHierarchicalKey Active);
+    Builder Active(OverWriteEncryptedHierarchicalKey Active);
 
     /**
      * @return
@@ -99,7 +76,7 @@ public class WriteNewEncryptedBranchKeyVersionInput {
      *   The plain-text cryptographic material of the Active must be the same as the Version.
      *
      */
-    EncryptedHierarchicalKey Active();
+    OverWriteEncryptedHierarchicalKey Active();
 
     /**
      * @param Version
@@ -117,51 +94,28 @@ public class WriteNewEncryptedBranchKeyVersionInput {
      */
     EncryptedHierarchicalKey Version();
 
-    /**
-     * @param oldActive
-     *   The previous active version.
-     *   This key should be used as an optimistic lock on the new version.
-     *   This means that when updating the current active record
-     *   the existing active record should be equal to this value.
-     *
-     */
-    Builder oldActive(EncryptedHierarchicalKey oldActive);
-
-    /**
-     * @return
-     *   The previous active version.
-     *   This key should be used as an optimistic lock on the new version.
-     *   This means that when updating the current active record
-     *   the existing active record should be equal to this value.
-     *
-     */
-    EncryptedHierarchicalKey oldActive();
-
     WriteNewEncryptedBranchKeyVersionInput build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected EncryptedHierarchicalKey Active;
+    protected OverWriteEncryptedHierarchicalKey Active;
 
     protected EncryptedHierarchicalKey Version;
-
-    protected EncryptedHierarchicalKey oldActive;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(WriteNewEncryptedBranchKeyVersionInput model) {
       this.Active = model.Active();
       this.Version = model.Version();
-      this.oldActive = model.oldActive();
     }
 
-    public Builder Active(EncryptedHierarchicalKey Active) {
+    public Builder Active(OverWriteEncryptedHierarchicalKey Active) {
       this.Active = Active;
       return this;
     }
 
-    public EncryptedHierarchicalKey Active() {
+    public OverWriteEncryptedHierarchicalKey Active() {
       return this.Active;
     }
 
@@ -174,15 +128,6 @@ public class WriteNewEncryptedBranchKeyVersionInput {
       return this.Version;
     }
 
-    public Builder oldActive(EncryptedHierarchicalKey oldActive) {
-      this.oldActive = oldActive;
-      return this;
-    }
-
-    public EncryptedHierarchicalKey oldActive() {
-      return this.oldActive;
-    }
-
     public WriteNewEncryptedBranchKeyVersionInput build() {
       if (Objects.isNull(this.Active())) {
         throw new IllegalArgumentException(
@@ -192,11 +137,6 @@ public class WriteNewEncryptedBranchKeyVersionInput {
       if (Objects.isNull(this.Version())) {
         throw new IllegalArgumentException(
           "Missing value for required field `Version`"
-        );
-      }
-      if (Objects.isNull(this.oldActive())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `oldActive`"
         );
       }
       return new WriteNewEncryptedBranchKeyVersionInput(this);

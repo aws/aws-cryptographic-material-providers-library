@@ -421,7 +421,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
               //# then the key store MUST call the configured [KeyStorage interface's](./key-store/key-storage.md#interface)
               //# [WriteNewEncryptedBranchKeyVersion](./key-store/key-storage.md##writenewencryptedbranchkeyversion)
               //# with these 2 [EncryptedHierarchicalKeys](./key-store/key-storage.md##encryptedhierarchicalkey).
-              && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).input.Active
+              && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).input.Active.Item
                  == Structure.ConstructEncryptedHierarchicalKey(
                       Seq.Last(kmsClient.History.ReEncrypt).input.DestinationEncryptionContext.value,
                       Seq.Last(kmsClient.History.ReEncrypt).output.value.CiphertextBlob.value
@@ -437,7 +437,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
               //= type=implication
               //# The `kms-arn` stored in the table MUST NOT change as a result of this operation,
               //# even if the KeyStore is configured with a `KMS MRKey ARN` that does not exactly match the stored ARN.
-              && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).input.Active.KmsArn == oldActiveItem.KmsArn
+              && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).input.Active.Item.KmsArn == oldActiveItem.KmsArn
               && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).input.Version.KmsArn == oldActiveItem.KmsArn
 
               && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).output.Success?
@@ -536,17 +536,22 @@ module {:options "/functionSyntax:4" } CreateKeys {
       kmsClient
     );
 
+    var active := Structure.ConstructEncryptedHierarchicalKey(
+      activeEncryptionContext,
+      wrappedActiveBranchKey.CiphertextBlob.value
+    );
+    var overWrite := Types.OverWriteEncryptedHierarchicalKey(
+      Item := active,
+      Old := oldActiveItem
+    );
+
     var _ :- storage.WriteNewEncryptedBranchKeyVersion(
       Types.WriteNewEncryptedBranchKeyVersionInput(
-        Active :=  Structure.ConstructEncryptedHierarchicalKey(
-          activeEncryptionContext,
-          wrappedActiveBranchKey.CiphertextBlob.value
-        ),
+        Active := overWrite,
         Version :=  Structure.ConstructEncryptedHierarchicalKey(
           decryptOnlyEncryptionContext,
           wrappedDecryptOnlyBranchKey.CiphertextBlob.value
-        ),
-        oldActive := oldActiveItem
+        )
       )
     );
 
