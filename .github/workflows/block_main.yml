@@ -11,7 +11,4 @@ jobs:
     steps:
       - name: fail
         run: exit 1
-# When we revert this, we MUST revert/restore:
-# .github/workflows/library_net_tests.yml#L27-L30
-# .github/workflows/library_interop_tests.yml#L28-31
-# .github/workflows/library_interop_tests.yml#L134-139
+

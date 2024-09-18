@@ -24,10 +24,8 @@ jobs:
             AwsCryptographyPrimitives,
             ComAmazonawsKms,
             ComAmazonawsDynamodb,
-            # Cutting .NET tests for rc-1.7.0
-            # We MUST restore these before going GA
-            # AwsCryptographicMaterialProviders,
-            # TestVectorsAwsCryptographicMaterialProviders,
+            AwsCryptographicMaterialProviders,
+            TestVectorsAwsCryptographicMaterialProviders
           ]
         dotnet-version: ["6.0.x"]
         os: [windows-latest, ubuntu-latest, macos-12]
