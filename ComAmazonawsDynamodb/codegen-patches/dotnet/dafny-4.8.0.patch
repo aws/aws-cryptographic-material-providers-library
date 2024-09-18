@@ -1,7 +1,7 @@
-diff --git a/ComAmazonawsDynamodb/runtimes/net/Generated/TypeConversion.cs b/ComAmazonawsDynamodb/runtimes/net/Generated/TypeConversion.cs
+diff --git b/ComAmazonawsDynamodb/runtimes/net/Generated/TypeConversion.cs a/ComAmazonawsDynamodb/runtimes/net/Generated/TypeConversion.cs
 index e35ad3d2..9f375b21 100644
---- a/ComAmazonawsDynamodb/runtimes/net/Generated/TypeConversion.cs
-+++ b/ComAmazonawsDynamodb/runtimes/net/Generated/TypeConversion.cs
+--- b/ComAmazonawsDynamodb/runtimes/net/Generated/TypeConversion.cs
++++ a/ComAmazonawsDynamodb/runtimes/net/Generated/TypeConversion.cs
 @@ -5848,7 +5848,7 @@ namespace Com.Amazonaws.Dynamodb
          public static System.DateTime FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S18_LastUpdateDateTime(Dafny.ISequence<char> value)
          {
