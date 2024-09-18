@@ -57,7 +57,7 @@ Output = TypeVar("Output")
 
 
 class KeyStore:
-    """Client for KeyStore.
+    """Client for KeyStore
 
     :param config: Configuration for the client.
     """
@@ -97,9 +97,7 @@ class KeyStore:
         )
 
     def create_key_store(self, input: CreateKeyStoreInput) -> CreateKeyStoreOutput:
-        """Create the DynamoDB table that backs this Key Store based on the Key
-        Store configuration. If a table already exists, validate it is
-        configured as expected.
+        """Create the DynamoDB table that backs this Key Store based on the Key Store configuration. If a table already exists, validate it is configured as expected.
 
         :param input: The operation's input.
         """
@@ -113,8 +111,7 @@ class KeyStore:
         )
 
     def create_key(self, input: CreateKeyInput) -> CreateKeyOutput:
-        """Create a new Branch Key in the Key Store. Additionally create a
-        Beacon Key that is tied to this Branch Key.
+        """Create a new Branch Key in the Key Store. Additionally create a Beacon Key that is tied to this Branch Key.
 
         :param input: The operation's input.
         """
@@ -128,8 +125,7 @@ class KeyStore:
         )
 
     def version_key(self, input: VersionKeyInput) -> VersionKeyOutput:
-        """Create a new ACTIVE version of an existing Branch Key in the Key
-        Store, and set the previously ACTIVE version to DECRYPT_ONLY.
+        """Create a new ACTIVE version of an existing Branch Key in the Key Store, and set the previously ACTIVE version to DECRYPT_ONLY.
 
         :param input: Inputs for versioning a Branch Key.
         """
@@ -145,8 +141,7 @@ class KeyStore:
     def get_active_branch_key(
         self, input: GetActiveBranchKeyInput
     ) -> GetActiveBranchKeyOutput:
-        """Get the ACTIVE version for a particular Branch Key from the Key
-        Store.
+        """Get the ACTIVE version for a particular Branch Key from the Key Store.
 
         :param input: Inputs for getting a Branch Key's ACTIVE version.
         """

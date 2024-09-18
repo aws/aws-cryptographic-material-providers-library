@@ -48,11 +48,7 @@ class AwsCryptographicPrimitivesError(
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the AwsCryptographicPrimitivesError to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the AwsCryptographicPrimitivesError to a dictionary."""
         return {
             "message": self.message,
             "code": self.code,
@@ -60,11 +56,7 @@ class AwsCryptographicPrimitivesError(
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "AwsCryptographicPrimitivesError":
-        """Creates a AwsCryptographicPrimitivesError from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a AwsCryptographicPrimitivesError from a dictionary."""
         kwargs: Dict[str, Any] = {
             "message": d["message"],
         }
