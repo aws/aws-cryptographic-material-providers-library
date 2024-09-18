@@ -413,12 +413,25 @@ public class ToDafny {
           ToDafny.CacheType(nativeValue.cache())
         )
         : Option.create_None(CacheType._typeDescriptor());
+    Option<DafnySequence<? extends Character>> partitionId;
+    partitionId =
+      Objects.nonNull(nativeValue.partitionId())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.partitionId()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
     return new CreateAwsKmsHierarchicalKeyringInput(
       branchKeyId,
       branchKeyIdSupplier,
       keyStore,
       ttlSeconds,
-      cache
+      cache,
+      partitionId
     );
   }
 
@@ -2130,6 +2143,11 @@ public class ToDafny {
     if (Objects.nonNull(nativeValue.StormTracking())) {
       return CacheType.create_StormTracking(
         ToDafny.StormTrackingCache(nativeValue.StormTracking())
+      );
+    }
+    if (Objects.nonNull(nativeValue.Shared())) {
+      return CacheType.create_Shared(
+        ToDafny.CryptographicMaterialsCache(nativeValue.Shared())
       );
     }
     throw new IllegalArgumentException(

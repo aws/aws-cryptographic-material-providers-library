@@ -52,7 +52,7 @@ module TestGetKeys {
     expect |beaconKeyResult.beaconKeyMaterials.beaconKey.value| == 32;
   }
 
-  method {:test} TestGetActiveKey()
+  method {:test} {:isolate_assertions} TestGetActiveKey()
   {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
@@ -87,7 +87,7 @@ module TestGetKeys {
     expect |activeResult.branchKeyMaterials.branchKey| == 32;
   }
 
-  method {:test} TestGetActiveMrkKey()
+  method {:test} {:isolate_assertions} TestGetActiveMrkKey()
   {
     var ddbClient :- expect DDB.DynamoDBClient();
     assume {:axiom} ddbClient.Modifies == {}; // Turns off verification, but allows calling underTest

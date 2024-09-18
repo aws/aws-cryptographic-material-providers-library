@@ -149,13 +149,19 @@ module {:options "/functionSyntax:4" } Structure {
               && BranchKeyItem?(output)
               && ToEncryptedHierarchicalKey(output, key.EncryptionContext[TABLE_FIELD]) == key
   {
-    var output := map k <- key.EncryptionContext.Keys + {BRANCH_KEY_FIELD} - {TABLE_FIELD}
-                    ::  k := match k
-                    case HIERARCHY_VERSION => DDB.AttributeValue.N(key.EncryptionContext[HIERARCHY_VERSION])
-                    case BRANCH_KEY_FIELD => DDB.AttributeValue.B(key.CiphertextBlob)
-                    case _ => DDB.AttributeValue.S(key.EncryptionContext[k]);
-
-    output
+    map k <- key.EncryptionContext.Keys + {BRANCH_KEY_FIELD} - {TABLE_FIELD}
+             // Working around https://github.com/dafny-lang/dafny/issues/5776
+             //  that will make the following fail to compile
+             // ::  k := match k
+             // case HIERARCHY_VERSION => DDB.AttributeValue.N(key.EncryptionContext[HIERARCHY_VERSION])
+             // case BRANCH_KEY_FIELD => DDB.AttributeValue.B(key.CiphertextBlob)
+             // case _ => DDB.AttributeValue.S(key.EncryptionContext[k]);
+      :: k := if k == HIERARCHY_VERSION then
+        DDB.AttributeValue.N(key.EncryptionContext[HIERARCHY_VERSION])
+      else if k == BRANCH_KEY_FIELD then
+        DDB.AttributeValue.B(key.CiphertextBlob)
+      else
+        DDB.AttributeValue.S(key.EncryptionContext[k])
   }
 
   function ToEncryptedHierarchicalKey(
@@ -166,10 +172,18 @@ module {:options "/functionSyntax:4" } Structure {
     ensures EncryptedHierarchicalKey?(output)
   {
     var EncryptionContext := map k <- item.Keys - {BRANCH_KEY_FIELD} + {TABLE_FIELD}
-                               :: match k
-                                  case HIERARCHY_VERSION => item[k].N
-                                  case TABLE_FIELD => logicalKeyStoreName
-                                  case _ => item[k].S;
+                                      // Working around https://github.com/dafny-lang/dafny/issues/5776
+                                      //  that will make the following fail to compile
+                                      // match k
+                                      // case HIERARCHY_VERSION => item[k].N
+                                      // case TABLE_FIELD => logicalKeyStoreName
+                                      // case _ => item[k].S
+                               :: k := if k == HIERARCHY_VERSION then
+                                 item[k].N
+                               else if k == TABLE_FIELD then
+                                 logicalKeyStoreName
+                               else
+                                 item[k].S;
 
     ConstructEncryptedHierarchicalKey(EncryptionContext, item[BRANCH_KEY_FIELD].B)
   }
