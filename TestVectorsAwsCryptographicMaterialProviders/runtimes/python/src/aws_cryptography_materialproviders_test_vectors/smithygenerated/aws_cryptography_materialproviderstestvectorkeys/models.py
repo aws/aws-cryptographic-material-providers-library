@@ -960,8 +960,8 @@ class KeyDescriptionRequiredEncryptionContext:
 class KeyDescriptionUnknown:
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
 
     This value may not be deliberately sent.
     """

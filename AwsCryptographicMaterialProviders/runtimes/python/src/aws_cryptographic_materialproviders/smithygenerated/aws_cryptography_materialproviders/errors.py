@@ -41,7 +41,7 @@ class ApiError(ServiceError, Generic[T]):
 
 
 class UnknownApiError(ApiError[Literal["Unknown"]]):
-    """Error representing any unknown api errors"""
+    """Error representing any unknown api errors."""
 
     code: Literal["Unknown"] = "Unknown"
 
@@ -62,7 +62,8 @@ class AwsCryptographicMaterialProvidersException(
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the AwsCryptographicMaterialProvidersException to a dictionary."""
+        """Converts the AwsCryptographicMaterialProvidersException to a
+        dictionary."""
         return {
             "message": self.message,
             "code": self.code,
@@ -70,7 +71,8 @@ class AwsCryptographicMaterialProvidersException(
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "AwsCryptographicMaterialProvidersException":
-        """Creates a AwsCryptographicMaterialProvidersException from a dictionary."""
+        """Creates a AwsCryptographicMaterialProvidersException from a
+        dictionary."""
         kwargs: Dict[str, Any] = {
             "message": d["message"],
         }
@@ -338,7 +340,8 @@ class InvalidDecryptionMaterialsTransition(
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the InvalidDecryptionMaterialsTransition to a dictionary."""
+        """Converts the InvalidDecryptionMaterialsTransition to a
+        dictionary."""
         return {
             "message": self.message,
             "code": self.code,
@@ -386,7 +389,8 @@ class InvalidEncryptionMaterialsTransition(
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the InvalidEncryptionMaterialsTransition to a dictionary."""
+        """Converts the InvalidEncryptionMaterialsTransition to a
+        dictionary."""
         return {
             "message": self.message,
             "code": self.code,
@@ -516,8 +520,8 @@ class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
     def as_dict(self) -> Dict[str, Any]:
         """Converts the CollectionOfErrors to a dictionary.
 
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
+        The dictionary uses the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
         """
         return {
             "message": self.message,
@@ -529,8 +533,9 @@ class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
     def from_dict(d: Dict[str, Any]) -> "CollectionOfErrors":
         """Creates a CollectionOfErrors from a dictionary.
 
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
+        The dictionary is expected to use the modeled shape names rather
+        than the parameter names as keys to be mostly compatible with
+        boto3.
         """
         kwargs: Dict[str, Any] = {"message": d["message"], "list": d["list"]}
 
@@ -565,8 +570,8 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
     def as_dict(self) -> Dict[str, Any]:
         """Converts the OpaqueError to a dictionary.
 
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
+        The dictionary uses the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
         """
         return {
             "message": self.message,
@@ -578,8 +583,9 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
     def from_dict(d: Dict[str, Any]) -> "OpaqueError":
         """Creates a OpaqueError from a dictionary.
 
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
+        The dictionary is expected to use the modeled shape names rather
+        than the parameter names as keys to be mostly compatible with
+        boto3.
         """
         kwargs: Dict[str, Any] = {"message": d["message"], "obj": d["obj"]}
 
@@ -604,10 +610,8 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
 
 
 def _smithy_error_to_dafny_error(e: ServiceError):
-    """
-    Converts the provided native Smithy-modeled error
-    into the corresponding Dafny error.
-    """
+    """Converts the provided native Smithy-modeled error into the corresponding
+    Dafny error."""
     if isinstance(
         e,
         aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.errors.AwsCryptographicMaterialProvidersException,
