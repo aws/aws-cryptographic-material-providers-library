@@ -79,9 +79,9 @@ const Runtimes = {
  * @type {import('semantic-release').GlobalConfig}
  */
 module.exports = {
-  branches: ["main"],
+  branches: ["lucmcdon/python-mpl-v2"],
   repositoryUrl:
-    "git@github.com:aws/aws-cryptographic-material-providers-library.git",
+    "git@github.com:lucasmcdonald3/aws-cryptographic-material-providers-library.git",
   plugins: [
     // Check the commits since the last release
     "@semantic-release/commit-analyzer",
@@ -172,6 +172,13 @@ module.exports = {
         ],
       },
     ],
+    [
+      // Re-polymorph Python code to update .dtr files as part of the release commit
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "make -C TestVectorsAwsCryptographicMaterialProviders transpile_python"
+      },
+    ],
     // Commit and push changes the changelog and versions bumps
     [
       "@semantic-release/git",
@@ -180,6 +187,7 @@ module.exports = {
           "CHANGELOG.md",
           ...Object.values(Runtimes).flatMap((r) => Object.keys(r)),
           ...Object.values(Runtimes.net).flatMap((r) => r.assemblyInfo),
+          "**/runtimes/python/**/*.dtr",
         ],
         message:
           "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
