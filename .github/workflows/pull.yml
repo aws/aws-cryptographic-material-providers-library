@@ -29,6 +29,11 @@ jobs:
     uses: ./.github/workflows/library_java_tests.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
+  pr-ci-examples:
+    needs: getVersion
+    uses: ./.github/workflows/library_examples.yml
+    with:
+      dafny: ${{needs.getVersion.outputs.version}}
   pr-ci-net:
     needs: getVersion
     uses: ./.github/workflows/library_net_tests.yml
@@ -65,6 +70,7 @@ jobs:
       - pr-ci-java
       - pr-ci-net
       - pr-interop-test
+      - pr-ci-examples
     runs-on: ubuntu-latest
     steps:
       - name: Verify all required jobs passed
