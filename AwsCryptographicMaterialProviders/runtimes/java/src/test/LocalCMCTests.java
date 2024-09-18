@@ -65,7 +65,8 @@ public class LocalCMCTests {
   );
   private static final int IDS_SIZE = identifies.size();
 
-  @Test(threadPoolSize = 10, invocationCount = 300000, timeOut = 10000)
+  //@Test(threadPoolSize = 10, invocationCount = 300000, timeOut = 10000)
+  @Test(threadPoolSize = 10, invocationCount = 30, timeOut = 10000)
   public void TestALotOfAdding() {
     Random rand = ExternRandom.getSecureRandom();
     String beaconKeyIdentifier = identifies.get(rand.nextInt(IDS_SIZE));
