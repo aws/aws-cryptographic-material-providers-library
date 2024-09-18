@@ -1,3 +1,6 @@
+[//]: # "Copyright Amazon.com Inc. or its affiliates. All Rights Reserved."
+[//]: # "SPDX-License-Identifier: CC-BY-SA-4.0"
+
 # AWS Cryptographic Material Providers Library
 
 The AWS Cryptographic Material Providers Library abstracts lower level cryptographic materials management of encryption and decryption materials.

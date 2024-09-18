@@ -7,7 +7,14 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     CreateKeyOutput_CreateKeyOutput as DafnyCreateKeyOutput,
     CreateKeyStoreOutput_CreateKeyStoreOutput as DafnyCreateKeyStoreOutput,
     Error,
+    Error_AlreadyExistsConditionFailed,
+    Error_KeyManagementException,
+    Error_KeyStorageException,
     Error_KeyStoreException,
+    Error_MutationCommitmentConditionFailed,
+    Error_NoLongerExistsConditionFailed,
+    Error_OldEncConditionFailed,
+    Error_VersionRaceException,
     GetActiveBranchKeyOutput_GetActiveBranchKeyOutput as DafnyGetActiveBranchKeyOutput,
     GetBeaconKeyOutput_GetBeaconKeyOutput as DafnyGetBeaconKeyOutput,
     GetBranchKeyVersionOutput_GetBranchKeyVersionOutput as DafnyGetBranchKeyVersionOutput,
@@ -20,12 +27,19 @@ from typing import Any
 
 from .dafny_protocol import DafnyResponse
 from .errors import (
+    AlreadyExistsConditionFailed,
     CollectionOfErrors,
     ComAmazonawsDynamodb,
     ComAmazonawsKms,
+    KeyManagementException,
+    KeyStorageException,
     KeyStoreException,
+    MutationCommitmentConditionFailed,
+    NoLongerExistsConditionFailed,
+    OldEncConditionFailed,
     OpaqueError,
     ServiceError,
+    VersionRaceException,
 )
 from aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.shim import (
     _sdk_error_to_dafny_error as com_amazonaws_dynamodb_sdk_error_to_dafny_error,
@@ -110,8 +124,24 @@ def _deserialize_error(error: Error) -> ServiceError:
             message=_dafny.string_of(error.message),
             list=[_deserialize_error(dafny_e) for dafny_e in error.list],
         )
+    elif error.is_AlreadyExistsConditionFailed:
+        return AlreadyExistsConditionFailed(message=_dafny.string_of(error.message))
+    elif error.is_KeyManagementException:
+        return KeyManagementException(message=_dafny.string_of(error.message))
+    elif error.is_KeyStorageException:
+        return KeyStorageException(message=_dafny.string_of(error.message))
     elif error.is_KeyStoreException:
         return KeyStoreException(message=_dafny.string_of(error.message))
+    elif error.is_MutationCommitmentConditionFailed:
+        return MutationCommitmentConditionFailed(
+            message=_dafny.string_of(error.message)
+        )
+    elif error.is_NoLongerExistsConditionFailed:
+        return NoLongerExistsConditionFailed(message=_dafny.string_of(error.message))
+    elif error.is_OldEncConditionFailed:
+        return OldEncConditionFailed(message=_dafny.string_of(error.message))
+    elif error.is_VersionRaceException:
+        return VersionRaceException(message=_dafny.string_of(error.message))
     elif error.is_ComAmazonawsKms:
         return ComAmazonawsKms(message=_dafny.string_of(error.ComAmazonawsKms.message))
     elif error.is_ComAmazonawsDynamodb:

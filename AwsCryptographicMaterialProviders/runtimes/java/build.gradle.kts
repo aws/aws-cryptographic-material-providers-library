@@ -21,6 +21,29 @@ group = "software.amazon.cryptography"
 version = props.getProperty("mplVersion")
 description = "AWS Cryptographic Material Providers Library"
 
+sourceSets {
+    create("examples") {
+        compileClasspath += sourceSets.main.get().output
+        runtimeClasspath += sourceSets.main.get().output
+    }
+    create("testExamples") {
+        compileClasspath += sourceSets.test.get().output + sourceSets["examples"].output + sourceSets.main.get().output
+        runtimeClasspath += sourceSets.test.get().output + sourceSets["examples"].output + sourceSets.main.get().output
+    }
+}
+val examplesImplementation: Configuration by configurations.getting{
+    extendsFrom(configurations.testImplementation.get())
+}
+configurations.add(examplesImplementation)
+val examplesAnnotationProcessor: Configuration by configurations.getting{
+    extendsFrom(configurations.testAnnotationProcessor.get())
+}
+configurations.add(examplesAnnotationProcessor)
+val testExamplesImplementation: Configuration by configurations.getting{
+    extendsFrom(configurations["examplesImplementation"])
+}
+configurations.add(testExamplesImplementation)
+
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(8))
     sourceSets["main"].java {
@@ -28,6 +51,12 @@ java {
     }
     sourceSets["test"].java {
         srcDir("src/test")
+    }
+    sourceSets["examples"].java {
+        srcDir("src/examples")
+    }
+    sourceSets["testExamples"].java {
+        srcDir("src/testExamples")
     }
     withJavadocJar()
     withSourcesJar()
@@ -83,6 +112,16 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.testng/testng
     testImplementation("org.testng:testng:7.5")
+
+    // Example Dependencies
+    examplesImplementation("software.amazon.awssdk:arns")
+    examplesImplementation("software.amazon.awssdk:auth")
+    examplesImplementation("software.amazon.awssdk:sts")
+    examplesImplementation("software.amazon.awssdk:utils")
+    examplesImplementation("software.amazon.awssdk:apache-client:2.19.0")
+    examplesAnnotationProcessor("org.projectlombok:lombok:1.18.30")
+    examplesImplementation("com.google.code.findbugs:jsr305:3.0.2")
+
 }
 
 publishing {
@@ -254,6 +293,22 @@ tasks.test {
             }
         }
     })
+}
+
+val testExamples = task<Test>("testExamples") {
+    description = "Runs examples tests."
+    group = "verification"
+
+    testClassesDirs = sourceSets["testExamples"].output.classesDirs
+    classpath = sourceSets["testExamples"].runtimeClasspath + sourceSets["examples"].output + sourceSets.main.get().output
+    shouldRunAfter("compileJava", "compileExamplesJava", "test")
+    // This will show System.out.println statements
+    testLogging.showStandardStreams = true
+    useTestNG()
+
+    testLogging {
+        events("passed")
+    }
 }
 
 fun buildPom(mavenPublication: MavenPublication) {

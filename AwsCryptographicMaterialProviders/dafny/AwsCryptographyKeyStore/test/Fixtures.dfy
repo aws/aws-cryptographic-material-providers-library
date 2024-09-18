@@ -6,8 +6,13 @@ include "../src/Index.dfy"
 module Fixtures {
   import opened StandardLibrary.UInt
   import Types = AwsCryptographyKeyStoreTypes
+  import DDB = Com.Amazonaws.Dynamodb
+  import KMS = Com.Amazonaws.Kms
+  import DefaultKeyStorageInterface
   import UTF8
   import opened Wrappers
+  import KeyStore
+  import Structure
 
   method EncodeEncryptionContext(
     input: map<string,string>
@@ -100,4 +105,232 @@ module Fixtures {
   // `git rev-parse --show-toplevel`/cfn/lyingBranchKeyCreation.md
   const lyingBranchKeyId := "kms-arn-attribute-is-lying"
   const lyingBranchKeyDecryptOnlyVersion := "129c5c87-308a-41c9-8b9d-a27f66e915f4"
+
+  // This function is the lie we will tell ourselves
+  // about what the mutation scope is.
+  // You MUST NOT reveal this value.
+  function {:opaque} FixturesLie(): set<object>
+  {{}}
+
+  method ProvideDDBClient(
+    ddbClient?: Option<DDB.Types.IDynamoDBClient> := None
+  )
+    returns (output: Result<DDB.Types.IDynamoDBClient, DDB.Types.Error>)
+    requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
+    modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
+    ensures output.Success?
+            ==>
+              && output.value.ValidState()
+              && fresh(output.value)
+              && fresh(output.value.Modifies)
+  {
+    var ddbClient: DDB.Types.IDynamoDBClient;
+    if (ddbClient?.None?) {
+      ddbClient :- DDB.DynamoDBClient();
+    } else {
+      ddbClient := ddbClient?.value;
+    }
+    assume {:axiom} ddbClient.Modifies < FixturesLie();
+    assume {:axiom} fresh(ddbClient) && fresh(ddbClient.Modifies);
+    return Success(ddbClient);
+  }
+
+  method ProvideKMSClient(
+    kmsClient?: Option<KMS.Types.IKMSClient> := None
+  )
+    returns (output: Result<KMS.Types.IKMSClient, KMS.Types.Error>)
+    requires kmsClient?.Some? ==> kmsClient?.value.ValidState()
+    modifies (if kmsClient?.Some? then kmsClient?.value.Modifies else {})
+    ensures output.Success?
+            ==>
+              && output.value.ValidState()
+              && fresh(output.value)
+              && fresh(output.value.Modifies)
+  {
+    var kmsClient: KMS.Types.IKMSClient;
+    if (kmsClient?.None?) {
+      kmsClient :- KMS.KMSClient();
+    } else {
+      kmsClient := kmsClient?.value;
+    }
+    assume {:axiom} kmsClient.Modifies < FixturesLie();
+    assume {:axiom} fresh(kmsClient) && fresh(kmsClient.Modifies);
+    return Success(kmsClient);
+  }
+
+  method DefaultStorage(
+    nameonly physicalName: string := branchKeyStoreName,
+    nameonly logicalName: string := logicalKeyStoreName,
+    nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None
+  )
+    returns (output: Result<Types.IKeyStorageInterface, Types.Error>)
+    requires DDB.Types.IsValid_TableName(physicalName)
+    requires UTF8.IsASCIIString(physicalName) && UTF8.IsASCIIString(logicalName)
+    requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
+    ensures output.Success? ==> output.value.ValidState()
+    ensures output.Success? ==> fresh(output.value) && fresh(output.value.Modifies)
+    modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
+    ensures output.Success?
+            ==>
+              && output.value.ValidState()
+              && fresh(output.value)
+              && fresh(output.value.Modifies)
+  {
+    var ddbClient :- expect ProvideDDBClient(ddbClient?);
+    assume {:axiom} fresh(ddbClient) && fresh(ddbClient.Modifies);
+    var physicalNameUtf8 :- expect UTF8.Encode(physicalName);
+    var logicalNameUtf8 :- expect UTF8.Encode(logicalName);
+    var underTest := new DefaultKeyStorageInterface.DynamoDBKeyStorageInterface(
+      ddbTableName := physicalName,
+      ddbClient := ddbClient,
+      logicalKeyStoreName := logicalName,
+      ddbTableNameUtf8 := physicalNameUtf8,
+      logicalKeyStoreNameUtf8 := logicalNameUtf8);
+    output := Success(underTest);
+  }
+
+  method DefaultKeyStore(
+    nameonly kmsId: string := keyArn,
+    nameonly physicalName: string := branchKeyStoreName,
+    nameonly logicalName: string := logicalKeyStoreName,
+    nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None,
+    nameonly kmsClient?: Option<KMS.Types.IKMSClient> := None
+  )
+    returns (output: Result<Types.IKeyStoreClient, Types.Error>)
+    requires DDB.Types.IsValid_TableName(physicalName)
+    requires KMS.Types.IsValid_KeyIdType(kmsId)
+    requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
+    requires kmsClient?.Some? ==> kmsClient?.value.ValidState()
+    ensures output.Success? ==> output.value.ValidState()
+    modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
+             + (if kmsClient?.Some? then kmsClient?.value.Modifies else {})
+    ensures output.Success?
+            ==>
+              && output.value.ValidState()
+              && fresh(output.value)
+              && fresh(output.value.Modifies)
+  {
+    var ddbClient :- expect ProvideDDBClient(ddbClient?);
+    assume {:axiom} fresh(ddbClient) && fresh(ddbClient.Modifies);
+    var kmsClient :- expect ProvideKMSClient(kmsClient?);
+    assume {:axiom} fresh(kmsClient) && fresh(kmsClient.Modifies);
+    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(kmsId);
+    var keyStoreConfig := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalName,
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := physicalName,
+            ddbClient := Some(ddbClient)
+          ))),
+      keyManagement := Some(
+        Types.kms(
+          Types.AwsKms(
+            kmsClient := Some(kmsClient)
+          )))
+    );
+    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+    return Success(keyStore);
+  }
+
+  datatype allThree = | allThree (
+    active: Types.EncryptedHierarchicalKey,
+    beacon: Types.EncryptedHierarchicalKey,
+    decrypt: Types.EncryptedHierarchicalKey)
+
+  method getItems(
+    nameonly id: string,
+    nameonly underTest: Types.IKeyStorageInterface
+  )
+    returns (output: Result<allThree, Types.Error>)
+    requires underTest.ValidState()
+    ensures underTest.ValidState()
+    modifies underTest.Modifies
+  {
+    var activeInput := Types.GetEncryptedActiveBranchKeyInput(
+      Identifier := id
+    );
+    var active? :- underTest.GetEncryptedActiveBranchKey(activeInput);
+    var active := active?.Item;
+
+    var beaconInput := Types.GetEncryptedBeaconKeyInput(
+      Identifier := id
+    );
+    var beacon? :- underTest.GetEncryptedBeaconKey(beaconInput);
+    var beacon := beacon?.Item;
+
+    expect active.Type.ActiveHierarchicalSymmetricVersion?;
+    var decryptInput := Types.GetEncryptedBranchKeyVersionInput(
+      Identifier := id,
+      Version := active.Type.ActiveHierarchicalSymmetricVersion.Version
+    );
+    var decrypt? :- underTest.GetEncryptedBranchKeyVersion(decryptInput);
+    var decrypt := decrypt?.Item;
+    output := Success(allThree(active, beacon, decrypt));
+  }
+
+  method CreateHappyCaseId(
+    nameonly id: string,
+    nameonly kmsId: string := keyArn,
+    nameonly physicalName: string := branchKeyStoreName,
+    nameonly logicalName: string := logicalKeyStoreName,
+    nameonly versionCount: nat := 3,
+    nameonly customEC: Types.EncryptionContext := map[UTF8.EncodeAscii("Robbie") := UTF8.EncodeAscii("Is a dog.")]
+  )
+    requires DDB.Types.IsValid_TableName(physicalName)
+    requires KMS.Types.IsValid_KeyIdType(kmsId)
+    requires 0 <= versionCount <= 5
+    requires 0 < |customEC| // requires some EC
+  {
+    var keyStore :- expect DefaultKeyStore(kmsId:=kmsId, physicalName:=physicalName, logicalName:=logicalName);
+    assume {:axiom} fresh(keyStore) && fresh(keyStore.Modifies);
+    var input := Types.CreateKeyInput(
+      branchKeyIdentifier := Some(id),
+      encryptionContext := Some(customEC)
+    );
+    var branchKeyId :- expect keyStore.CreateKey(input);
+
+    // If you need a new version
+    var inputV := Types.VersionKeyInput(
+      branchKeyIdentifier := id
+    );
+    var versionIndex := 0;
+    while versionIndex < versionCount {
+      var _ :- expect keyStore.VersionKey(inputV);
+      versionIndex := versionIndex + 1;
+    }
+  }
+
+  method GetItemFromDDB(
+    nameonly id: string,
+    nameonly typeStr: string,
+    nameonly physicalName: string := branchKeyStoreName,
+    nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None
+  )
+    returns (output: Result<DDB.Types.AttributeMap, string>)
+    requires DDB.Types.IsValid_TableName(physicalName)
+    requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
+    modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
+  {
+    var ddbClient: DDB.Types.IDynamoDBClient;
+    if (ddbClient?.None?) {
+      ddbClient :- expect DDB.DynamoDBClient();
+    } else {
+      ddbClient := ddbClient?.value;
+    }
+    var input := DDB.Types.GetItemInput(
+      TableName := physicalName,
+      Key := map[
+        Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.Types.AttributeValue.S(id),
+        Structure.TYPE_FIELD := DDB.Types.AttributeValue.S(typeStr)
+      ],
+      ConsistentRead := Some(true));
+    var result? := ddbClient.GetItem(input);
+    if (result?.Success? && result?.value.Item.Some? && 0 < |result?.value.Item.value| ) {
+      return Success(result?.value.Item.value);
+    }
+    return Failure("Failed to GetItem. ID: " + id + " type: " + typeStr + " .");
+  }
 }

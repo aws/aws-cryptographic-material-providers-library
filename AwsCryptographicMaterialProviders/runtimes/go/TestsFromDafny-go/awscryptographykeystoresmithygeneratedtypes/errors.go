@@ -15,3 +15,73 @@ type KeyStoreException struct {
 func (e KeyStoreException) Error() string {
 	return fmt.Sprintf("%s: %s", e.ErrorCodeOverride, e.Message)
 }
+
+type VersionRaceException struct {
+	KeyStoreBaseException
+	Message           string
+	ErrorCodeOverride *string
+}
+
+func (e VersionRaceException) Error() string {
+	return fmt.Sprintf("%s: %s", e.ErrorCodeOverride, e.Message)
+}
+
+type AlreadyExistsConditionFailed struct {
+	KeyStoreBaseException
+	Message           string
+	ErrorCodeOverride *string
+}
+
+func (e AlreadyExistsConditionFailed) Error() string {
+	return fmt.Sprintf("%s: %s", e.ErrorCodeOverride, e.Message)
+}
+
+type KeyStorageException struct {
+	KeyStoreBaseException
+	Message           string
+	ErrorCodeOverride *string
+}
+
+func (e KeyStorageException) Error() string {
+	return fmt.Sprintf("%s: %s", e.ErrorCodeOverride, e.Message)
+}
+
+type MutationCommitmentConditionFailed struct {
+	KeyStoreBaseException
+	Message           string
+	ErrorCodeOverride *string
+}
+
+func (e MutationCommitmentConditionFailed) Error() string {
+	return fmt.Sprintf("%s: %s", e.ErrorCodeOverride, e.Message)
+}
+
+type KeyManagementException struct {
+	KeyStoreBaseException
+	Message           string
+	ErrorCodeOverride *string
+}
+
+func (e KeyManagementException) Error() string {
+	return fmt.Sprintf("%s: %s", e.ErrorCodeOverride, e.Message)
+}
+
+type OldEncConditionFailed struct {
+	KeyStoreBaseException
+	Message           string
+	ErrorCodeOverride *string
+}
+
+func (e OldEncConditionFailed) Error() string {
+	return fmt.Sprintf("%s: %s", e.ErrorCodeOverride, e.Message)
+}
+
+type NoLongerExistsConditionFailed struct {
+	KeyStoreBaseException
+	Message           string
+	ErrorCodeOverride *string
+}
+
+func (e NoLongerExistsConditionFailed) Error() string {
+	return fmt.Sprintf("%s: %s", e.ErrorCodeOverride, e.Message)
+}

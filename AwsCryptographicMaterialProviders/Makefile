@@ -8,10 +8,12 @@ include ../SharedMakefileV2.mk
 
 PROJECT_SERVICES := \
 	AwsCryptographyKeyStore \
-	AwsCryptographicMaterialProviders \
+	AwsCryptographyKeyStoreAdmin \
+	AwsCryptographicMaterialProviders
 
 SERVICE_NAMESPACE_AwsCryptographicMaterialProviders=aws.cryptography.materialProviders
 SERVICE_NAMESPACE_AwsCryptographyKeyStore=aws.cryptography.keyStore
+SERVICE_NAMESPACE_AwsCryptographyKeyStoreAdmin=aws.cryptography.keyStoreAdmin
 
 MAIN_SERVICE_FOR_RUST := AwsCryptographicMaterialProviders
 
@@ -84,7 +86,14 @@ TRANSLATION_RECORD_GO := \
     ComAmazonawsDynamodb/runtimes/go/ImplementationFromDafny-go/ImplementationFromDafny-go.dtr \
     AwsCryptographyPrimitives/runtimes/go/ImplementationFromDafny-go/ImplementationFromDafny-go.dtr
 
+SERVICE_DEPS_AwsCryptographyKeyStoreAdmin := \
+	AwsCryptographyPrimitives \
+	ComAmazonawsKms \
+	ComAmazonawsDynamodb \
+	AwsCryptographicMaterialProviders/dafny/AwsCryptographicMaterialProviders \
+	AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStore \
 # Constants for languages that drop extern names (Python, Go)
+
 
 MPL_CORE_TYPES_FILE_PATH=dafny/AwsCryptographicMaterialProviders/Model/AwsCryptographyMaterialProvidersTypes.dfy
 MPL_CORE_TYPES_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.materialproviders.internaldafny.types\" } AwsCryptographyMaterialProvidersTypes"
@@ -102,6 +111,14 @@ KEYSTORE_INDEX_FILE_PATH=dafny/AwsCryptographyKeyStore/src/Index.dfy
 KEYSTORE_INDEX_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.keystore.internaldafny\"} KeyStore refines AbstractAwsCryptographyKeyStoreService"
 KEYSTORE_INDEX_FILE_WITHOUT_EXTERN_STRING="module KeyStore refines AbstractAwsCryptographyKeyStoreService"
 
+KEYSTORE_ADMIN_TYPES_FILE_PATH=dafny/AwsCryptographyKeyStoreAdmin/Model/AwsCryptographyKeyStoreAdminTypes.dfy
+KEYSTORE_ADMIN_TYPES_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.keystoreadmin.internaldafny.types\" } AwsCryptographyKeyStoreAdminTypes"
+KEYSTORE_ADMIN_TYPES_FILE_WITHOUT_EXTERN_STRING="module AwsCryptographyKeyStoreAdminTypes"
+
+KEYSTORE_ADMIN_INDEX_FILE_PATH=dafny/AwsCryptographyKeyStoreAdmin/src/Index.dfy
+KEYSTORE_ADMIN_INDEX_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.keystoreadmin.internaldafny\"} KeyStoreAdmin refines AbstractAwsCryptographyKeyStoreAdminService"
+KEYSTORE_ADMIN_INDEX_FILE_WITHOUT_EXTERN_STRING="module KeyStoreAdmin refines AbstractAwsCryptographyKeyStoreAdminService"
+
 SYNCHRONIZED_LOCAL_CMC_FILE_PATH=dafny/AwsCryptographicMaterialProviders/src/CMCs/SynchronizedLocalCMC.dfy
 SYNCHRONIZED_LOCAL_CMC_WITH_EXTERN_STRING="module {:options \"\/functionSyntax:4\" } {:extern \"software.amazon.cryptography.internaldafny.SynchronizedLocalCMC\" } SynchronizedLocalCMC {"
 SYNCHRONIZED_LOCAL_CMC_WITHOUT_EXTERN_STRING="module {:options \"\/functionSyntax:4\" } SynchronizedLocalCMC {"
@@ -113,20 +130,24 @@ STORM_TRACKING_CMC_WITHOUT_EXTERN_STRING="module {:options \"\/functionSyntax:4\
 _sed_types_file_remove_extern:
 	$(MAKE) _sed_file SED_FILE_PATH=$(MPL_CORE_TYPES_FILE_PATH) SED_BEFORE_STRING=$(MPL_CORE_TYPES_FILE_WITH_EXTERN_STRING) SED_AFTER_STRING=$(MPL_CORE_TYPES_FILE_WITHOUT_EXTERN_STRING)
 	$(MAKE) _sed_file SED_FILE_PATH=$(KEYSTORE_TYPES_FILE_PATH) SED_BEFORE_STRING=$(KEYSTORE_TYPES_FILE_WITH_EXTERN_STRING) SED_AFTER_STRING=$(KEYSTORE_TYPES_FILE_WITHOUT_EXTERN_STRING)
+	$(MAKE) _sed_file SED_FILE_PATH=$(KEYSTORE_ADMIN_TYPES_FILE_PATH) SED_BEFORE_STRING=$(KEYSTORE_ADMIN_TYPES_FILE_WITH_EXTERN_STRING) SED_AFTER_STRING=$(KEYSTORE_ADMIN_TYPES_FILE_WITHOUT_EXTERN_STRING)
 
 _sed_index_file_remove_extern:
 	$(MAKE) _sed_file SED_FILE_PATH=$(MPL_CORE_INDEX_FILE_PATH) SED_BEFORE_STRING=$(MPL_CORE_INDEX_FILE_WITH_EXTERN_STRING) SED_AFTER_STRING=$(MPL_CORE_INDEX_FILE_WITHOUT_EXTERN_STRING)
 	$(MAKE) _sed_file SED_FILE_PATH=$(KEYSTORE_INDEX_FILE_PATH) SED_BEFORE_STRING=$(KEYSTORE_INDEX_FILE_WITH_EXTERN_STRING) SED_AFTER_STRING=$(KEYSTORE_INDEX_FILE_WITHOUT_EXTERN_STRING)
+	$(MAKE) _sed_file SED_FILE_PATH=$(KEYSTORE_ADMIN_INDEX_FILE_PATH) SED_BEFORE_STRING=$(KEYSTORE_ADMIN_INDEX_FILE_WITH_EXTERN_STRING) SED_AFTER_STRING=$(KEYSTORE_ADMIN_INDEX_FILE_WITHOUT_EXTERN_STRING)
 	$(MAKE) _sed_file SED_FILE_PATH=$(SYNCHRONIZED_LOCAL_CMC_FILE_PATH) SED_BEFORE_STRING=$(SYNCHRONIZED_LOCAL_CMC_WITH_EXTERN_STRING) SED_AFTER_STRING=$(SYNCHRONIZED_LOCAL_CMC_WITHOUT_EXTERN_STRING)
 	$(MAKE) _sed_file SED_FILE_PATH=$(STORM_TRACKING_CMC_FILE_PATH) SED_BEFORE_STRING=$(STORM_TRACKING_CMC_WITH_EXTERN_STRING) SED_AFTER_STRING=$(STORM_TRACKING_CMC_WITHOUT_EXTERN_STRING)
 
 _sed_types_file_add_extern:
 	$(MAKE) _sed_file SED_FILE_PATH=$(MPL_CORE_TYPES_FILE_PATH) SED_BEFORE_STRING=$(MPL_CORE_TYPES_FILE_WITHOUT_EXTERN_STRING) SED_AFTER_STRING=$(MPL_CORE_TYPES_FILE_WITH_EXTERN_STRING)
 	$(MAKE) _sed_file SED_FILE_PATH=$(KEYSTORE_TYPES_FILE_PATH) SED_BEFORE_STRING=$(KEYSTORE_TYPES_FILE_WITHOUT_EXTERN_STRING) SED_AFTER_STRING=$(KEYSTORE_TYPES_FILE_WITH_EXTERN_STRING)
+	$(MAKE) _sed_file SED_FILE_PATH=$(KEYSTORE_ADMIN_TYPES_FILE_PATH) SED_BEFORE_STRING=$(KEYSTORE_ADMIN_TYPES_FILE_WITHOUT_EXTERN_STRING) SED_AFTER_STRING=$(KEYSTORE_ADMIN_TYPES_FILE_WITH_EXTERN_STRING)
 
 _sed_index_file_add_extern:
 	$(MAKE) _sed_file SED_FILE_PATH=$(MPL_CORE_INDEX_FILE_PATH) SED_BEFORE_STRING=$(MPL_CORE_INDEX_FILE_WITHOUT_EXTERN_STRING) SED_AFTER_STRING=$(MPL_CORE_INDEX_FILE_WITH_EXTERN_STRING)
 	$(MAKE) _sed_file SED_FILE_PATH=$(KEYSTORE_INDEX_FILE_PATH) SED_BEFORE_STRING=$(KEYSTORE_INDEX_FILE_WITHOUT_EXTERN_STRING) SED_AFTER_STRING=$(KEYSTORE_INDEX_FILE_WITH_EXTERN_STRING)
+	$(MAKE) _sed_file SED_FILE_PATH=$(KEYSTORE_ADMIN_INDEX_FILE_PATH) SED_BEFORE_STRING=$(KEYSTORE_ADMIN_INDEX_FILE_WITHOUT_EXTERN_STRING) SED_AFTER_STRING=$(KEYSTORE_ADMIN_INDEX_FILE_WITH_EXTERN_STRING)
 	$(MAKE) _sed_file SED_FILE_PATH=$(SYNCHRONIZED_LOCAL_CMC_FILE_PATH) SED_BEFORE_STRING=$(SYNCHRONIZED_LOCAL_CMC_WITHOUT_EXTERN_STRING) SED_AFTER_STRING=$(SYNCHRONIZED_LOCAL_CMC_WITH_EXTERN_STRING)
 	$(MAKE) _sed_file SED_FILE_PATH=$(STORM_TRACKING_CMC_FILE_PATH) SED_BEFORE_STRING=$(STORM_TRACKING_CMC_WITHOUT_EXTERN_STRING) SED_AFTER_STRING=$(STORM_TRACKING_CMC_WITH_EXTERN_STRING)
 
@@ -146,3 +167,7 @@ PYTHON_DEPENDENCY_MODULE_NAMES := \
 	--dependency-library-name=com.amazonaws.dynamodb=aws_cryptography_internal_dynamodb \
 	--dependency-library-name=aws.cryptography.materialProviders=aws_cryptographic_material_providers \
 	--dependency-library-name=aws.cryptography.keyStore=aws_cryptographic_material_providers \
+	--dependency-library-name=aws.cryptography.keyStoreAdmin=aws_cryptographic_material_providers \
+
+test_example_java:
+	$(GRADLEW) -p runtimes/java testExamples
