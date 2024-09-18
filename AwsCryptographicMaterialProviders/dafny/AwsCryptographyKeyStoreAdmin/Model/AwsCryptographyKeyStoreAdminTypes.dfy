@@ -1,10 +1,10 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
-include "../../../../../../../../Volumes/workplace/aws-cryptographic-material-providers-library/StandardLibrary/src/Index.dfy"
-include "../../../../../../../../Volumes/workplace/aws-cryptographic-material-providers-library/AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStore/src/Index.dfy"
-include "../../../../../../../../Volumes/workplace/aws-cryptographic-material-providers-library/ComAmazonawsDynamodb/src/Index.dfy"
-include "../../../../../../../../Volumes/workplace/aws-cryptographic-material-providers-library/ComAmazonawsKms/src/Index.dfy"
+include "../../../../StandardLibrary/src/Index.dfy"
+include "../../../../AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStore/src/Index.dfy"
+include "../../../../ComAmazonawsDynamodb/src/Index.dfy"
+include "../../../../ComAmazonawsKms/src/Index.dfy"
 module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types" } AwsCryptographyKeyStoreAdminTypes
 {
   import opened Wrappers
