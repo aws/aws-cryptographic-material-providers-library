@@ -231,8 +231,7 @@ _ECC_CURVE_PARAMETERS = {
 }
 
 def _ecc_static_length_signature(key, algorithm, digest):
-  """Calculates an elliptic curve signature with a static length using pre-
-  calculated hash.
+  """Calculates an elliptic curve signature with a static length using pre-calculated hash.
 
   :param key: Elliptic curve private key
   :type key: cryptography.hazmat.primitives.asymmetric.ec.EllipticCurvePrivateKey
