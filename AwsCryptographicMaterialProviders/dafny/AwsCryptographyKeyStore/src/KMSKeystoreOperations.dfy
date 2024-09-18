@@ -185,9 +185,9 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
          && sourceEncryptionContext[Structure.KEY_CREATE_TIME] == destinationEncryptionContext[Structure.KEY_CREATE_TIME]
          && sourceEncryptionContext[Structure.HIERARCHY_VERSION] == destinationEncryptionContext[Structure.HIERARCHY_VERSION]
          && sourceEncryptionContext[Structure.TABLE_FIELD] == destinationEncryptionContext[Structure.TABLE_FIELD]
-         // @seebees for AttemptReEncrypt?, I do not think we need the following IFF:
-         // It would only apply to ACTIVE Items, which we never ReEncrypt.
-         // No other Items have `version` as a member of their EC
+            // @seebees for AttemptReEncrypt?, I do not think we need the following IFF:
+            // It would only apply to ACTIVE Items, which we never ReEncrypt.
+            // No other Items have `version` as a member of their EC
          && (Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD in sourceEncryptionContext
              <==>
              && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD in destinationEncryptionContext
@@ -315,7 +315,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       ==>
         && KMS.IsValid_CiphertextType(ciphertext)
         && |kmsClient.History.ReEncrypt| == |old(kmsClient.History.ReEncrypt)| + 1
-        // && var kmsKeyArn := GetKeyId(kmsConfiguration);
+           // && var kmsKeyArn := GetKeyId(kmsConfiguration);
         && KMS.ReEncryptRequest(
              CiphertextBlob := ciphertext,
              SourceEncryptionContext := Some(sourceEncryptionContext),
@@ -329,8 +329,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
            )
            == Seq.Last(kmsClient.History.ReEncrypt).input
         && old(kmsClient.History.ReEncrypt) < kmsClient.History.ReEncrypt
-        // Apply Mutation cannot have a history with GenerateDataKeyWithoutPlaintext in it
-        // && old(kmsClient.History.GenerateDataKeyWithoutPlaintext) == kmsClient.History.GenerateDataKeyWithoutPlaintext
+    // Apply Mutation cannot have a history with GenerateDataKeyWithoutPlaintext in it
+    // && old(kmsClient.History.GenerateDataKeyWithoutPlaintext) == kmsClient.History.GenerateDataKeyWithoutPlaintext
 
     ensures
       res.Success? ==>
@@ -372,8 +372,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && reEncryptResponse.SourceKeyId.value == sourceKmsArn,  //kmsKeyArn
       Types.KeyStoreException(
         message := "Invalid response from KMS ReEncrypt:: Invalid Source Key Id")
-     );
-     :- Need(   
+    );
+    :- Need(
       && reEncryptResponse.KeyId.Some?
       && reEncryptResponse.KeyId.value == destinationKmsArn, // kmsKeyArn,
       Types.KeyStoreException(
@@ -389,7 +389,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
 
     return Success(reEncryptResponse);
   }
-  
+
   method DecryptKey(
     encryptedKey: Types.EncryptedHierarchicalKey,
     kmsConfiguration: Types.KMSConfiguration,

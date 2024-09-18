@@ -29,7 +29,7 @@ module {:options "/functionSyntax:4" } Mutations {
 
   import PrefixUtils
   import MutationValidation
-  
+
   const DEFAULT_APPLY_PAGE_SIZE := 3 as StandardLibrary.UInt.int32
 
   datatype KMSTuple = | KMSTuple(
@@ -159,8 +159,8 @@ module {:options "/functionSyntax:4" } Mutations {
          ),
       Types.KeyStoreAdminException(
         message := "Active Branch Key Item read from storage is malformed!")
-      );
-        
+    );
+
     :- Need(
       || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
@@ -192,17 +192,17 @@ module {:options "/functionSyntax:4" } Mutations {
                   // This pull everything that is not in our restricted list.
              | k !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
       :: k := activeItem.EncryptionContext[k];
-      
+
     var prefixedTerminalCustomEC?: Option<KeyStoreTypes.EncryptionContextString> := None;
     if (input.mutations.terminalEncryptionContext.Some?) {
-        
+
       var prefixedTerminalCustomEC := PrefixUtils.AddingPrefixToKeysOfMapDoesNotCreateCollisions(
         prefix := Structure.ENCRYPTION_CONTEXT_PREFIX,
         aMap := input.mutations.terminalEncryptionContext.value
       );
       :- Need(
-          prefixedTerminalCustomEC.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES,
-          Types.KeyStoreAdminException(message:="Terminal Encryption Context contains a reserved word!")
+        prefixedTerminalCustomEC.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES,
+        Types.KeyStoreAdminException(message:="Terminal Encryption Context contains a reserved word!")
       );
       prefixedTerminalCustomEC? := Some(prefixedTerminalCustomEC);
       assert prefixedTerminalCustomEC.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
@@ -232,14 +232,14 @@ module {:options "/functionSyntax:4" } Mutations {
       keyManagerStrategy := keyManagerStrategy
     );
 
-    // -= Assert Beacon Key is in Original
+      // -= Assert Beacon Key is in Original
     :- Need(
       readItems.beaconItem.KmsArn == MutationToApply.Original.kmsArn,
       Types.UnexpectedStateException(
         message :=
           "Beacon Item is not encrypted with the same KMS Key as ACTIVE!"
           + " For Initialize Mutation to succeed, the ACTIVE & Beacon Key MUST be in the same, original state."
-    ));
+      ));
     :- Need(
       readItems.beaconItem.EncryptionContext
       ==
@@ -266,7 +266,7 @@ module {:options "/functionSyntax:4" } Mutations {
       MutationToApply.Terminal.kmsArn,
       MutationToApply.Terminal.customEncryptionContext
     );
-    
+
     var wrappedDecryptOnlyBranchKey? := KMSKeystoreOperations.GenerateKey(
       encryptionContext := decryptOnlyEncryptionContext,
       kmsConfiguration := KeyStoreTypes.kmsKeyArn(MutationToApply.Terminal.kmsArn),
@@ -626,7 +626,7 @@ module {:options "/functionSyntax:4" } Mutations {
       grantTokens := keyManagerStrategy.reEncrypt.grantTokens,
       kmsClient := keyManagerStrategy.reEncrypt.kmsClient
     );
-    
+
     var wrappedKey :- wrappedKey?
     .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
 

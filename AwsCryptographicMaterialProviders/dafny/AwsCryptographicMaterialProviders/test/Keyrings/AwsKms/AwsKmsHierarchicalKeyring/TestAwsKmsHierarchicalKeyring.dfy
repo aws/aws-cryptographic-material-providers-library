@@ -373,8 +373,8 @@ module TestAwsKmsHierarchicalKeyring {
     // and just ignore the modifies exeptions,
     // and then re-enabling it once everything is safe
     assume {:axiom} && kmsClientWest.Modifies == {}
-      && kmsClientEast.Modifies == {}
-      && ddbClient.Modifies == {};
+                    && kmsClientEast.Modifies == {}
+                    && ddbClient.Modifies == {};
 
     var kmsConfig := KeyStoreTypes.KMSConfiguration.kmsKeyArn(keyArn);
 
@@ -520,8 +520,8 @@ module TestAwsKmsHierarchicalKeyring {
     // and just ignore the modifies exeptions,
     // and then re-enabling it once everything is safe
     assume {:axiom} && kmsClientWest.Modifies == {}
-      && kmsClientEast.Modifies == {}
-      && ddbClient.Modifies == {};
+                    && kmsClientEast.Modifies == {}
+                    && ddbClient.Modifies == {};
 
     var kmsConfig := KeyStoreTypes.KMSConfiguration.kmsKeyArn(keyArn);
 
@@ -647,8 +647,8 @@ module TestAwsKmsHierarchicalKeyring {
     // and just ignore the modifies exeptions,
     // and then re-enabling it once everything is safe
     assume {:axiom} && kmsClientWest.Modifies == {}
-      && kmsClientEast.Modifies == {}
-      && ddbClient.Modifies == {};
+                    && kmsClientEast.Modifies == {}
+                    && ddbClient.Modifies == {};
 
     var kmsConfig := KeyStoreTypes.KMSConfiguration.kmsKeyArn(keyArn);
 
@@ -773,8 +773,8 @@ module TestAwsKmsHierarchicalKeyring {
     // and just ignore the modifies exeptions,
     // and then re-enabling it once everything is safe
     assume {:axiom} && kmsClientWest.Modifies == {}
-      && kmsClientEast.Modifies == {}
-      && ddbClient.Modifies == {};
+                    && kmsClientEast.Modifies == {}
+                    && ddbClient.Modifies == {};
     var kmsConfig := KeyStoreTypes.KMSConfiguration.kmsKeyArn(keyArn);
 
     // Different logical key store names for both Key Stores

@@ -149,7 +149,7 @@ public class WriteMutatedVersionsInput {
 
     protected ByteBuffer Terminal;
 
-    protected Boolean CompleteMutation;
+    protected Boolean CompleteMutation = false; // Manual Edit to default to false
 
     protected BuilderImpl() {}
 

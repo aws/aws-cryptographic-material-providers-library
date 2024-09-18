@@ -24,9 +24,9 @@ module {:options "/functionSyntax:4" } MutationValidation {
     ensures output[KMS_FIELD] == kmsKeyArn
     ensures output[TABLE_FIELD] == logicalKeyStoreName
     ensures forall k <- prefixedCustomEncryptionContext
-      ::
-      && k in output
-      && output[k] == prefixedCustomEncryptionContext[k]
+              ::
+                && k in output
+                && output[k] == prefixedCustomEncryptionContext[k]
   {
     map[
       BRANCH_KEY_IDENTIFIER_FIELD := branchKeyId,

@@ -11,7 +11,7 @@ namespace AWS.Cryptography.KeyStore
     private string _identifier;
     private System.IO.MemoryStream _original;
     private System.IO.MemoryStream _terminal;
-    private bool? _completeMutation;
+    private bool? _completeMutation = false; // Manual edit to default false
     public System.Collections.Generic.List<AWS.Cryptography.KeyStore.EncryptedHierarchicalKey> Items
     {
       get { return this._items; }

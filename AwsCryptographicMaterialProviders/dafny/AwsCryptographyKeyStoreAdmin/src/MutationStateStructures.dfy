@@ -50,7 +50,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
           && |input.terminalEncryptionContext.value| > 0
           &&  forall k <- input.terminalEncryptionContext.value ::
                && |k| > 0 && |input.terminalEncryptionContext.value[k]| > 0
-               // && |Structure.SelectCustomEncryptionContextAsString(input.terminalEncryptionContext.value)| == 0
+                  // && |Structure.SelectCustomEncryptionContextAsString(input.terminalEncryptionContext.value)| == 0
                && input.terminalEncryptionContext.value.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
     && !(input.terminalKmsArn.None? && input.terminalEncryptionContext.None?)
   }
@@ -317,5 +317,5 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
           == JSONObjectKeysToSet(JSONValues.Object(DropLast(Object.obj))) + {Last(Object.obj).0};
       LemmaCardinalityOfSet(JSONValues.Object(DropLast(Object.obj)));
     }
-  } 
+  }
 }

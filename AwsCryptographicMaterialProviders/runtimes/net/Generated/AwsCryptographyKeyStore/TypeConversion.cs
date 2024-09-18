@@ -1727,7 +1727,7 @@ namespace AWS.Cryptography.KeyStore
             dafnyVal._ComAmazonawsDynamodb
           );
         case software.amazon.cryptography.keystore.internaldafny.types.Error_ComAmazonawsKms dafnyVal:
-          return Com.Amazonaws.KMS.TypeConversion.FromDafny_CommonError(
+          return Com.Amazonaws.Kms.TypeConversion.FromDafny_CommonError( // Manual edit KMS. -> Kms.
             dafnyVal._ComAmazonawsKms
           );
         case software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStorageException dafnyVal:
@@ -1754,7 +1754,7 @@ namespace AWS.Cryptography.KeyStore
       {
         case "Com.Amazonaws.KMS":
           return software.amazon.cryptography.keystore.internaldafny.types.Error.create_ComAmazonawsKms(
-            Com.Amazonaws.KMS.TypeConversion.ToDafny_CommonError(value)
+            Com.Amazonaws.Kms.TypeConversion.ToDafny_CommonError(value) // Manual edit KMS. -> Kms.
           );
         case "Com.Amazonaws.Dynamodb":
           return software.amazon.cryptography.keystore.internaldafny.types.Error.create_ComAmazonawsDynamodb(
