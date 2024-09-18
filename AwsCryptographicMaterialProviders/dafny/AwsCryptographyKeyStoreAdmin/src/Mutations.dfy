@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "MutationStateStructures.dfy"
+include "PrefixUtils.dfy"
+include "MutationValidation.dfy"
 
 module {:options "/functionSyntax:4" } Mutations {
   import opened StandardLibrary
@@ -25,6 +27,9 @@ module {:options "/functionSyntax:4" } Mutations {
   import Time
   import UUID
 
+  import PrefixUtils
+  import MutationValidation
+  
   const DEFAULT_APPLY_PAGE_SIZE := 3 as StandardLibrary.UInt.int32
 
   datatype KMSTuple = | KMSTuple(
@@ -58,14 +63,14 @@ module {:options "/functionSyntax:4" } Mutations {
   // Branch Key ID is set
   // Mutations List is valid
   // logicalKeyStoreName is valid
-  function ValidateInitializeMutationInput(
+  function {:vcs_split_on_every_assert} ValidateInitializeMutationInput(
     input: Types.InitializeMutationInput,
     logicalKeyStoreName: string
   ): (output: Result<Types.InitializeMutationInput, Types.Error>)
     ensures output.Success? ==> StateStrucs.ValidMutations?(input.mutations)
-    ensures output.Success? && input.mutations.terminalEncryptionContext.Some?
-            ==>
-              && |Structure.SelectCustomEncryptionContextAsString(input.mutations.terminalEncryptionContext.value)| == 0
+    // ensures output.Success? && input.mutations.terminalEncryptionContext.Some?
+    //         ==>
+    //           && |Structure.SelectCustomEncryptionContextAsString(input.mutations.terminalEncryptionContext.value)| == 0
   {
     :- Need(|input.branchKeyIdentifier| > 0,
             Types.KeyStoreAdminException(message := "Branch Key Identifier cannot be empty!"));
@@ -148,15 +153,23 @@ module {:options "/functionSyntax:4" } Mutations {
     :- Need(
       || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
-           && activeItem.Identifier == input.branchKeyIdentifier
-           && Structure.ActiveHierarchicalSymmetricKey?(activeItem)
-           && activeItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+           && readItems.activeItem.Identifier == input.branchKeyIdentifier
+           && Structure.ActiveHierarchicalSymmetricKey?(readItems.activeItem)
+           && readItems.activeItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+         ),
+      Types.KeyStoreAdminException(
+        message := "Active Branch Key Item read from storage is malformed!")
+      );
+        
+    :- Need(
+      || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+      || (
            && readItems.beaconItem.Identifier == input.branchKeyIdentifier
            && Structure.ActiveHierarchicalSymmetricBeaconKey?(readItems.beaconItem)
            && readItems.beaconItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
          ),
       Types.KeyStoreAdminException(
-        message := "Active Branch Key Item read from storage is malformed!")
+        message := "Beacon Branch Key Item read from storage is malformed!")
     );
 
     :- Need(
@@ -179,40 +192,54 @@ module {:options "/functionSyntax:4" } Mutations {
                   // This pull everything that is not in our restricted list.
              | k !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
       :: k := activeItem.EncryptionContext[k];
-
+      
     var prefixedTerminalCustomEC?: Option<KeyStoreTypes.EncryptionContextString> := None;
-    var defixedTerminalCustomEC?: Option<KeyStoreTypes.EncryptionContextString> := None;
     if (input.mutations.terminalEncryptionContext.Some?) {
-      var prefixedTerminalCustomEC := map k <- input.mutations.terminalEncryptionContext.value
-        :: Structure.ENCRYPTION_CONTEXT_PREFIX + k := input.mutations.terminalEncryptionContext.value[k];
+        
+      var prefixedTerminalCustomEC := PrefixUtils.AddingPrefixToKeysOfMapDoesNotCreateCollisions(
+        prefix := Structure.ENCRYPTION_CONTEXT_PREFIX,
+        aMap := input.mutations.terminalEncryptionContext.value
+      );
+      :- Need(
+          prefixedTerminalCustomEC.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES,
+          Types.KeyStoreAdminException(message:="Terminal Encryption Context contains a reserved word!")
+      );
       prefixedTerminalCustomEC? := Some(prefixedTerminalCustomEC);
-      defixedTerminalCustomEC? := Some(input.mutations.terminalEncryptionContext.value);
+      assert prefixedTerminalCustomEC.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
     }
 
     var MutationToApply := StateStrucs.MutationToApply(
       Identifier := input.branchKeyIdentifier,
       Original := StateStrucs.MutableProperties(
-        kmsArn := KeyStoreTypes.kmsKeyArn(activeItem.KmsArn),
+        kmsArn := activeItem.KmsArn,
         customEncryptionContext := customEncryptionContext
       ),
       Terminal := StateStrucs.MutableProperties(
-        kmsArn := KeyStoreTypes.kmsKeyArn(input.mutations.terminalKmsArn.UnwrapOr(activeItem.KmsArn)),
+        kmsArn := input.mutations.terminalKmsArn.UnwrapOr(activeItem.KmsArn),
         customEncryptionContext := prefixedTerminalCustomEC?.UnwrapOr(customEncryptionContext)
-        // customEncryptionContext := input.mutations.terminalEncryptionContext.UnwrapOr(customEncryptionContext)
       ),
       ExclusiveStartKey := None,
       UUID := Some(mutationLockUUID),
       CreateTime := timestamp
     );
 
-      // -= BEGIN Version Active Branch Key
-      // --= Validate Active Branch Key
+    assert MutationToApply.Original.customEncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
+    assert MutationToApply.Terminal.customEncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
+    // -= BEGIN Version Active Branch Key
+    // --= Validate Active Branch Key
     :- VerifyEncryptedHierarchicalKey(
       item := activeItem,
       keyManagerStrategy := keyManagerStrategy
     );
 
-      // -= Assert Beacon Key is in Original
+    // -= Assert Beacon Key is in Original
+    :- Need(
+      readItems.beaconItem.KmsArn == MutationToApply.Original.kmsArn,
+      Types.UnexpectedStateException(
+        message :=
+          "Beacon Item is not encrypted with the same KMS Key as ACTIVE!"
+          + " For Initialize Mutation to succeed, the ACTIVE & Beacon Key MUST be in the same, original state."
+    ));
     :- Need(
       readItems.beaconItem.EncryptionContext
       ==
@@ -231,22 +258,22 @@ module {:options "/functionSyntax:4" } Mutations {
     var newVersion :- maybeNewVersion
     .MapFailure(e => Types.KeyStoreAdminException(message := e));
 
-    var decryptOnlyEncryptionContext := Structure.DecryptOnlyBranchKeyEncryptionContext(
+    var decryptOnlyEncryptionContext := MutationValidation.DecryptOnlyBranchKeyEncryptionContextForMutation(
       input.branchKeyIdentifier,
       newVersion,
       timestamp,
       logicalKeyStoreName,
-      MutationToApply.Terminal.kmsArn.kmsKeyArn,
-      // MutationToApply.Terminal.customEncryptionContext
-      defixedTerminalCustomEC?.UnwrapOr(customEncryptionContext)
+      MutationToApply.Terminal.kmsArn,
+      MutationToApply.Terminal.customEncryptionContext
     );
-
+    
     var wrappedDecryptOnlyBranchKey? := KMSKeystoreOperations.GenerateKey(
       encryptionContext := decryptOnlyEncryptionContext,
-      kmsConfiguration := MutationToApply.Terminal.kmsArn,
+      kmsConfiguration := KeyStoreTypes.kmsKeyArn(MutationToApply.Terminal.kmsArn),
       grantTokens := keyManager.grantTokens,
       kmsClient := keyManager.kmsClient
     );
+    print "\nInitializeMutation for ID " + input.branchKeyIdentifier + "\n calling KMS for new Decrypt\n";
     var wrappedDecryptOnlyBranchKey :- wrappedDecryptOnlyBranchKey?
     .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
     var newDecryptOnly := Structure.ConstructEncryptedHierarchicalKey(
@@ -257,21 +284,26 @@ module {:options "/functionSyntax:4" } Mutations {
     var ActiveEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(newDecryptOnly.EncryptionContext);
     var newActive :- ReEncryptHierarchicalKey(
       item := newDecryptOnly,
-      terminalKmsArn := MutationToApply.Terminal.kmsArn.kmsKeyArn,
+      originalKmsArn := MutationToApply.Terminal.kmsArn,
+      terminalKmsArn := MutationToApply.Terminal.kmsArn,
       terminalEncryptionContext := ActiveEncryptionContext,
       keyManagerStrategy := keyManagerStrategy
     );
 
+    print "\nInitializeMutation for ID " + input.branchKeyIdentifier + "\n calling KMS for new Active\n";
     // -= Mutate Beacon Key
     var BeaconEncryptionContext := Structure.ReplaceMutableContext(
       readItems.beaconItem.EncryptionContext,
-      MutationToApply.Terminal.kmsArn.kmsKeyArn,
+      MutationToApply.Terminal.kmsArn,
       MutationToApply.Terminal.customEncryptionContext
     );
 
+    print "\nInitializeMutation for ID " + input.branchKeyIdentifier + "\n calling KMS for Mutating Beacon\n";
+    assert readItems.beaconItem.KmsArn == MutationToApply.Original.kmsArn;
     var newBeaconKey :- ReEncryptHierarchicalKey(
       item := readItems.beaconItem,
-      terminalKmsArn := MutationToApply.Terminal.kmsArn.kmsKeyArn,
+      originalKmsArn := MutationToApply.Original.kmsArn,
+      terminalKmsArn := MutationToApply.Terminal.kmsArn,
       terminalEncryptionContext := BeaconEncryptionContext,
       keyManagerStrategy := keyManagerStrategy
     );
@@ -455,13 +487,14 @@ module {:options "/functionSyntax:4" } Mutations {
 
           var terminalEncryptionContext := Structure.ReplaceMutableContext(
             item.EncryptionContext,
-            MutationToApply.Terminal.kmsArn.kmsKeyArn,
+            MutationToApply.Terminal.kmsArn,
             MutationToApply.Terminal.customEncryptionContext
           );
 
           var mutatedItem :- ReEncryptHierarchicalKey(
             item := item,
-            terminalKmsArn := MutationToApply.Terminal.kmsArn.kmsKeyArn,
+            originalKmsArn := MutationToApply.Original.kmsArn,
+            terminalKmsArn := MutationToApply.Terminal.kmsArn,
             terminalEncryptionContext := terminalEncryptionContext,
             keyManagerStrategy := keyManagerStrategy
           );
@@ -516,14 +549,14 @@ module {:options "/functionSyntax:4" } Mutations {
     if item.EncryptionContext
        == Structure.ReplaceMutableContext(
             item.EncryptionContext,
-            item.KmsArn,
+            MutationToApply.Original.kmsArn,
             MutationToApply.Original.customEncryptionContext
           ) then
       itemOriginal(item)
     else if item.EncryptionContext
             == Structure.ReplaceMutableContext(
                  item.EncryptionContext,
-                 MutationToApply.Terminal.kmsArn.kmsKeyArn,
+                 MutationToApply.Terminal.kmsArn,
                  MutationToApply.Terminal.customEncryptionContext
                ) then
       itemTerminal(item)
@@ -563,19 +596,20 @@ module {:options "/functionSyntax:4" } Mutations {
       Fail(Types.Error.AwsCryptographyKeyStore(throwAway?.error));
   }
 
-  method ReEncryptHierarchicalKey(
+  method {:isolate_assertions} ReEncryptHierarchicalKey(
     nameonly item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
+    nameonly originalKmsArn: string,
     nameonly terminalKmsArn: string,
     nameonly terminalEncryptionContext: Structure.BranchKeyContext,
     nameonly keyManagerStrategy: keyManagerStrat
   )
     returns (output: Result<Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
     requires keyManagerStrategy.reEncrypt?
-
     requires Structure.EncryptedHierarchicalKey?(item)
     requires KMS.IsValid_KeyIdType(terminalKmsArn)
     requires KMSKeystoreOperations.AttemptReEncrypt?(item.EncryptionContext, terminalEncryptionContext)
-    requires KMSKeystoreOperations.AttemptKmsOperation?(KeyStoreTypes.kmsKeyArn(terminalKmsArn), terminalEncryptionContext)
+    requires KmsArn.ValidKmsArn?(originalKmsArn) && KmsArn.ValidKmsArn?(terminalKmsArn)
+    requires item.KmsArn == originalKmsArn
     requires keyManagerStrategy.ValidState()
     modifies
       match keyManagerStrategy
@@ -583,14 +617,16 @@ module {:options "/functionSyntax:4" } Mutations {
       case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
     ensures keyManagerStrategy.ValidState()
   {
-    var wrappedKey? := KMSKeystoreOperations.ReEncryptKey(
+    var wrappedKey? := KMSKeystoreOperations.MutateViaReEncrypt(
       ciphertext := item.CiphertextBlob,
       sourceEncryptionContext := item.EncryptionContext,
       destinationEncryptionContext := terminalEncryptionContext,
-      kmsConfiguration := KeyStoreTypes.kmsKeyArn(terminalKmsArn),
+      sourceKmsArn := originalKmsArn,
+      destinationKmsArn := terminalKmsArn,
       grantTokens := keyManagerStrategy.reEncrypt.grantTokens,
       kmsClient := keyManagerStrategy.reEncrypt.kmsClient
     );
+    
     var wrappedKey :- wrappedKey?
     .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
 

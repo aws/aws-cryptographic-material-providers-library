@@ -50,15 +50,18 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
           && |input.terminalEncryptionContext.value| > 0
           &&  forall k <- input.terminalEncryptionContext.value ::
                && |k| > 0 && |input.terminalEncryptionContext.value[k]| > 0
-               && |Structure.SelectCustomEncryptionContextAsString(input.terminalEncryptionContext.value)| == 0
+               // && |Structure.SelectCustomEncryptionContextAsString(input.terminalEncryptionContext.value)| == 0
                && input.terminalEncryptionContext.value.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
     && !(input.terminalKmsArn.None? && input.terminalEncryptionContext.None?)
   }
 
   datatype MutableProperties = | MutableProperties (
-    nameonly kmsArn: KeyStoreTypes.KMSConfiguration,
+    // nameonly kmsArn: KeyStoreTypes.KMSConfiguration,
+    nameonly kmsArn: validKmsArn,
     nameonly customEncryptionContext: KeyStoreTypes.EncryptionContextString
   )
+
+  type validKmsArn = s:string | KmsArn.ValidKmsArn?(s) witness *
 
   datatype MutationToApply = | MutationToApply(
     Identifier: string,
@@ -71,10 +74,8 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
 
   predicate MutationToApply?(MutationToApply: MutationToApply)
   {
-    && MutationToApply.Original.kmsArn.kmsKeyArn?
-    && KmsArn.ValidKmsArn?(MutationToApply.Original.kmsArn.kmsKeyArn)
-    && MutationToApply.Terminal.kmsArn.kmsKeyArn?
-    && KmsArn.ValidKmsArn?(MutationToApply.Terminal.kmsArn.kmsKeyArn)
+    && KmsArn.ValidKmsArn?(MutationToApply.Original.kmsArn)
+    && KmsArn.ValidKmsArn?(MutationToApply.Terminal.kmsArn)
     && (Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! MutationToApply.Original.customEncryptionContext.Keys)
     && (Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! MutationToApply.Terminal.customEncryptionContext.Keys)
   }
@@ -151,12 +152,12 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     var OriginalJson
       := JSONValues.Object([
                              ("aws-crypto-ec", EncryptionContextStringToJSON(MutationToApply.Original.customEncryptionContext)),
-                             ("kms-arn", JSONValues.JSON.String(MutationToApply.Original.kmsArn.kmsKeyArn))
+                             ("kms-arn", JSONValues.JSON.String(MutationToApply.Original.kmsArn))
                            ]);
     var TerminalJson
       := JSONValues.Object([
                              ("aws-crypto-ec", EncryptionContextStringToJSON(MutationToApply.Terminal.customEncryptionContext)),
-                             ("kms-arn", JSONValues.JSON.String(MutationToApply.Terminal.kmsArn.kmsKeyArn))
+                             ("kms-arn", JSONValues.JSON.String(MutationToApply.Terminal.kmsArn))
                            ]);
 
     var originalBytes :- JSON.Serialize(OriginalJson).MapFailure(
@@ -203,11 +204,11 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
       MutationToApply(
         Identifier := Token.Identifier,
         Original := MutableProperties(
-          kmsArn := KeyStoreTypes.kmsKeyArn(OriginalJson.obj[1].1.str),
+          kmsArn := OriginalJson.obj[1].1.str,
           customEncryptionContext := JSONToEncryptionContextString(OriginalJson.obj[0].1)
         ),
         Terminal := MutableProperties(
-          kmsArn := KeyStoreTypes.kmsKeyArn(TerminalJson.obj[1].1.str),
+          kmsArn := TerminalJson.obj[1].1.str,
           customEncryptionContext := JSONToEncryptionContextString(TerminalJson.obj[0].1)
         ),
         ExclusiveStartKey := Token.ExclusiveStartKey,
@@ -240,11 +241,6 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
          MutableProperties.obj[1].1.String?,
          () => Types.KeyStoreAdminException( message := "WIP")
        );
-    :- NeedOutcome(
-         KmsArn.ValidKmsArn?(MutableProperties.obj[1].1.str),
-         () => Types.KeyStoreAdminException( message := "WIP")
-       );
-
     :- NeedOutcome(
          KmsArn.ValidKmsArn?(MutableProperties.obj[1].1.str),
          () => Types.KeyStoreAdminException( message := "WIP")
@@ -321,6 +317,5 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
           == JSONObjectKeysToSet(JSONValues.Object(DropLast(Object.obj))) + {Last(Object.obj).0};
       LemmaCardinalityOfSet(JSONValues.Object(DropLast(Object.obj)));
     }
-  }
-
+  } 
 }

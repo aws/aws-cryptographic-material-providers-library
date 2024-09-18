@@ -10,15 +10,20 @@ module {:options "/functionSyntax:4" } Structure {
   import DDB = ComAmazonawsDynamodbTypes
   import UTF8
 
+  //Attribute Names
   const BRANCH_KEY_IDENTIFIER_FIELD := "branch-key-id"
   const TYPE_FIELD := "type"
   const KEY_CREATE_TIME := "create-time"
   const HIERARCHY_VERSION := "hierarchy-version"
   const TABLE_FIELD := "tablename"
   const KMS_FIELD := "kms-arn"
-
   const BRANCH_KEY_FIELD := "enc"
   const BRANCH_KEY_ACTIVE_VERSION_FIELD := "version"
+  const M_LOCK_ORIGINAL := "original" // The DDB Attribute name for the original state, which is AttributeValue.B
+  const M_LOCK_TERMINAL := "terminal" // The DDB Attribute name for the terminal state, which is AttributeValue.B
+  const M_LOCK_UUID := "uuid" // The DDB Attribute name for the uuid, which is AttributeValue.S
+
+  const ENCRYPTION_CONTEXT_PREFIX := "aws-crypto-ec:"
 
   const BRANCH_KEY_RESTRICTED_FIELD_NAMES := {
     BRANCH_KEY_IDENTIFIER_FIELD,
@@ -31,16 +36,13 @@ module {:options "/functionSyntax:4" } Structure {
     BRANCH_KEY_ACTIVE_VERSION_FIELD
   }
 
+  //Attribute Values
+  const HIERARCHY_VERSION_VALUE := "1"
+  const HIERARCHY_VERSION_ATTRIBUTE_VALUE := DDB.AttributeValue.N(HIERARCHY_VERSION_VALUE)
   const BRANCH_KEY_TYPE_PREFIX := "branch:version:"
   const BRANCH_KEY_ACTIVE_TYPE := "branch:ACTIVE"
   const BEACON_KEY_TYPE_VALUE := "beacon:ACTIVE"
-
-  const ENCRYPTION_CONTEXT_PREFIX := "aws-crypto-ec:"
-
   const MUTATION_LOCK_TYPE := "MUTATION_LOCK"
-  const M_LOCK_ORIGINAL := "original" // The DDB Attribute name for the original state, which is AttributeValue.B
-  const M_LOCK_TERMINAL := "terminal" // The DDB Attribute name for the terminal state, which is AttributeValue.B
-  const M_LOCK_UUID := "uuid" // The DDB Attribute name for the uuid, which is AttributeValue.S
   //= aws-encryption-sdk-specification/framework/branch-key-store.md#custom-encryption-context
   //= type=exception
   //# Across all versions of a Branch Key, the custom encryption context MUST be equal.
@@ -478,46 +480,46 @@ module {:options "/functionSyntax:4" } Structure {
   }
 
   function ReplaceMutableContext(
-    input: map<string, string>,
-    kmsArn: string,
-    customEncryptionContext: map<string, string>
+    item: map<string, string>,
+    terminalKmsArn: string,
+    terminalCustomEncryptionContext: map<string, string>
   ) : (output: map<string, string>)
 
-    requires BranchKeyContext?(input)
-    requires BRANCH_KEY_RESTRICTED_FIELD_NAMES !! customEncryptionContext.Keys
+    requires BranchKeyContext?(item)
+    requires BRANCH_KEY_RESTRICTED_FIELD_NAMES !! terminalCustomEncryptionContext.Keys
 
     ensures BranchKeyContext?(output)
-    ensures output[KMS_FIELD] == kmsArn
+    ensures output[KMS_FIELD] == terminalKmsArn
     ensures
-      && input[BRANCH_KEY_IDENTIFIER_FIELD] == output[BRANCH_KEY_IDENTIFIER_FIELD]
-      && input[TYPE_FIELD] == output[TYPE_FIELD]
-      && input[KEY_CREATE_TIME] == output[KEY_CREATE_TIME]
-      && input[HIERARCHY_VERSION] == output[HIERARCHY_VERSION]
-      && input[TABLE_FIELD] == output[TABLE_FIELD]
-      && (BRANCH_KEY_ACTIVE_VERSION_FIELD in input
+      && item[BRANCH_KEY_IDENTIFIER_FIELD] == output[BRANCH_KEY_IDENTIFIER_FIELD]
+      && item[TYPE_FIELD] == output[TYPE_FIELD]
+      && item[KEY_CREATE_TIME] == output[KEY_CREATE_TIME]
+      && item[HIERARCHY_VERSION] == output[HIERARCHY_VERSION]
+      && item[TABLE_FIELD] == output[TABLE_FIELD]
+      && (BRANCH_KEY_ACTIVE_VERSION_FIELD in item
           <==>
           && BRANCH_KEY_ACTIVE_VERSION_FIELD in output
-          && input[BRANCH_KEY_ACTIVE_VERSION_FIELD] == output[BRANCH_KEY_ACTIVE_VERSION_FIELD])
+          && item[BRANCH_KEY_ACTIVE_VERSION_FIELD] == output[BRANCH_KEY_ACTIVE_VERSION_FIELD])
   {
-    customEncryptionContext
-    + if BRANCH_KEY_ACTIVE_VERSION_FIELD in input then
+    terminalCustomEncryptionContext
+    + if BRANCH_KEY_ACTIVE_VERSION_FIELD in item then
       map[
-        BRANCH_KEY_IDENTIFIER_FIELD := input[BRANCH_KEY_IDENTIFIER_FIELD],
-        TYPE_FIELD := input[TYPE_FIELD],
-        KEY_CREATE_TIME := input[KEY_CREATE_TIME],
-        HIERARCHY_VERSION := input[HIERARCHY_VERSION],
-        TABLE_FIELD := input[TABLE_FIELD],
-        KMS_FIELD := kmsArn,
-        BRANCH_KEY_ACTIVE_VERSION_FIELD := input[BRANCH_KEY_ACTIVE_VERSION_FIELD]
+        BRANCH_KEY_IDENTIFIER_FIELD := item[BRANCH_KEY_IDENTIFIER_FIELD],
+        TYPE_FIELD := item[TYPE_FIELD],
+        KEY_CREATE_TIME := item[KEY_CREATE_TIME],
+        HIERARCHY_VERSION := item[HIERARCHY_VERSION],
+        TABLE_FIELD := item[TABLE_FIELD],
+        KMS_FIELD := terminalKmsArn,
+        BRANCH_KEY_ACTIVE_VERSION_FIELD := item[BRANCH_KEY_ACTIVE_VERSION_FIELD]
       ]
     else
       map[
-        BRANCH_KEY_IDENTIFIER_FIELD := input[BRANCH_KEY_IDENTIFIER_FIELD],
-        TYPE_FIELD := input[TYPE_FIELD],
-        KEY_CREATE_TIME := input[KEY_CREATE_TIME],
-        HIERARCHY_VERSION := input[HIERARCHY_VERSION],
-        TABLE_FIELD := input[TABLE_FIELD],
-        KMS_FIELD := kmsArn
+        BRANCH_KEY_IDENTIFIER_FIELD := item[BRANCH_KEY_IDENTIFIER_FIELD],
+        TYPE_FIELD := item[TYPE_FIELD],
+        KEY_CREATE_TIME := item[KEY_CREATE_TIME],
+        HIERARCHY_VERSION := item[HIERARCHY_VERSION],
+        TABLE_FIELD := item[TABLE_FIELD],
+        KMS_FIELD := terminalKmsArn
       ]
   }
 
@@ -754,8 +756,6 @@ module {:options "/functionSyntax:4" } Structure {
       Terminal := item[M_LOCK_TERMINAL].B
     )
   }
-
-  const HIERARCHY_VERSION_ATTRIBUTE_VALUE := DDB.AttributeValue.N("1")
 
   function MutationLockToAttributeMap(
     lock: Types.MutationLock
