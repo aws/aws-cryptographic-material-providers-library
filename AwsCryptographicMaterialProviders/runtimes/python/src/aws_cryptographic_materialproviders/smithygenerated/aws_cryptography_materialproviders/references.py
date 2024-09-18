@@ -45,22 +45,25 @@ class IBranchKeyIdSupplier(metaclass=abc.ABCMeta):
         self,
         param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetBranchKeyIdInput",
     ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetBranchKeyIdOutput":
-        """Given the Encryption Context associated with this encryption or decryption,
-        returns the branch key that should be responsible for unwrapping or wrapping the
-        data key.
-        :param param: Inputs for determining the Branch Key which should be used to wrap
-        or unwrap the data key for this encryption or decryption
-        :returns: Outputs for the Branch Key responsible for wrapping or unwrapping the
-        data key in this encryption or decryption.
+        """Given the Encryption Context associated with this encryption or
+        decryption, returns the branch key that should be responsible for
+        unwrapping or wrapping the data key.
+
+        :param param: Inputs for determining the Branch Key which should
+            be used to wrap or unwrap the data key for this encryption
+            or decryption
+        :returns: Outputs for the Branch Key responsible for wrapping or
+            unwrapping the data key in this encryption or decryption.
         """
         raise NotImplementedError
 
     def GetBranchKeyId(
         self, dafny_input: "DafnyGetBranchKeyIdInput"
     ) -> "DafnyGetBranchKeyIdOutput":
-        """
-        Do not use.
-        This method allows custom implementations of this interface to interact with generated code.
+        """Do not use.
+
+        This method allows custom implementations of this interface to
+        interact with generated code.
         """
         native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_GetBranchKeyIdInput(
             dafny_input
@@ -92,13 +95,15 @@ class BranchKeyIdSupplier(IBranchKeyIdSupplier):
         self,
         param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetBranchKeyIdInput",
     ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetBranchKeyIdOutput":
-        """Given the Encryption Context associated with this encryption or decryption,
-        returns the branch key that should be responsible for unwrapping or wrapping the
-        data key.
-        :param param: Inputs for determining the Branch Key which should be used to wrap
-        or unwrap the data key for this encryption or decryption
-        :returns: Outputs for the Branch Key responsible for wrapping or unwrapping the
-        data key in this encryption or decryption.
+        """Given the Encryption Context associated with this encryption or
+        decryption, returns the branch key that should be responsible for
+        unwrapping or wrapping the data key.
+
+        :param param: Inputs for determining the Branch Key which should
+            be used to wrap or unwrap the data key for this encryption
+            or decryption
+        :returns: Outputs for the Branch Key responsible for wrapping or
+            unwrapping the data key in this encryption or decryption.
         """
         dafny_output = self._impl.GetBranchKeyId(
             aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_GetBranchKeyIdInput(
@@ -139,14 +144,16 @@ class IClientSupplier(metaclass=abc.ABCMeta):
         param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetClientInput",
     ) -> "botocore.client.BaseClient":
         """Returns an AWS KMS Client.
+
         :param param: Inputs for getting a AWS KMS Client.
         """
         raise NotImplementedError
 
     def GetClient(self, dafny_input: "DafnyGetClientInput") -> "DafnyGetClientOutput":
-        """
-        Do not use.
-        This method allows custom implementations of this interface to interact with generated code.
+        """Do not use.
+
+        This method allows custom implementations of this interface to
+        interact with generated code.
         """
         native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_GetClientInput(
             dafny_input
@@ -179,6 +186,7 @@ class ClientSupplier(IClientSupplier):
         param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetClientInput",
     ) -> "botocore.client.BaseClient":
         """Returns an AWS KMS Client.
+
         :param param: Inputs for getting a AWS KMS Client.
         """
         dafny_output = self._impl.GetClient(
@@ -252,9 +260,10 @@ class ICryptographicMaterialsCache(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     def PutCacheEntry(self, dafny_input: "DafnyPutCacheEntryInput") -> "None":
-        """
-        Do not use.
-        This method allows custom implementations of this interface to interact with generated code.
+        """Do not use.
+
+        This method allows custom implementations of this interface to
+        interact with generated code.
         """
         native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_PutCacheEntryInput(
             dafny_input
@@ -272,9 +281,10 @@ class ICryptographicMaterialsCache(metaclass=abc.ABCMeta):
     def GetCacheEntry(
         self, dafny_input: "DafnyGetCacheEntryInput"
     ) -> "DafnyGetCacheEntryOutput":
-        """
-        Do not use.
-        This method allows custom implementations of this interface to interact with generated code.
+        """Do not use.
+
+        This method allows custom implementations of this interface to
+        interact with generated code.
         """
         native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_GetCacheEntryInput(
             dafny_input
@@ -292,9 +302,10 @@ class ICryptographicMaterialsCache(metaclass=abc.ABCMeta):
     def UpdateUsageMetadata(
         self, dafny_input: "DafnyUpdateUsageMetadataInput"
     ) -> "None":
-        """
-        Do not use.
-        This method allows custom implementations of this interface to interact with generated code.
+        """Do not use.
+
+        This method allows custom implementations of this interface to
+        interact with generated code.
         """
         native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_UpdateUsageMetadataInput(
             dafny_input
@@ -310,9 +321,10 @@ class ICryptographicMaterialsCache(metaclass=abc.ABCMeta):
             return Wrappers.Result_Failure(error)
 
     def DeleteCacheEntry(self, dafny_input: "DafnyDeleteCacheEntryInput") -> "None":
-        """
-        Do not use.
-        This method allows custom implementations of this interface to interact with generated code.
+        """Do not use.
+
+        This method allows custom implementations of this interface to
+        interact with generated code.
         """
         native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DeleteCacheEntryInput(
             dafny_input
@@ -462,9 +474,10 @@ class ICryptographicMaterialsManager(metaclass=abc.ABCMeta):
     def GetEncryptionMaterials(
         self, dafny_input: "DafnyGetEncryptionMaterialsInput"
     ) -> "DafnyGetEncryptionMaterialsOutput":
-        """
-        Do not use.
-        This method allows custom implementations of this interface to interact with generated code.
+        """Do not use.
+
+        This method allows custom implementations of this interface to
+        interact with generated code.
         """
         native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_GetEncryptionMaterialsInput(
             dafny_input
@@ -482,9 +495,10 @@ class ICryptographicMaterialsManager(metaclass=abc.ABCMeta):
     def DecryptMaterials(
         self, dafny_input: "DafnyDecryptMaterialsInput"
     ) -> "DafnyDecryptMaterialsOutput":
-        """
-        Do not use.
-        This method allows custom implementations of this interface to interact with generated code.
+        """Do not use.
+
+        This method allows custom implementations of this interface to
+        interact with generated code.
         """
         native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DecryptMaterialsInput(
             dafny_input
@@ -592,9 +606,10 @@ class IKeyring(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     def OnEncrypt(self, dafny_input: "DafnyOnEncryptInput") -> "DafnyOnEncryptOutput":
-        """
-        Do not use.
-        This method allows custom implementations of this interface to interact with generated code.
+        """Do not use.
+
+        This method allows custom implementations of this interface to
+        interact with generated code.
         """
         native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_OnEncryptInput(
             dafny_input
@@ -610,9 +625,10 @@ class IKeyring(metaclass=abc.ABCMeta):
             return Wrappers.Result_Failure(error)
 
     def OnDecrypt(self, dafny_input: "DafnyOnDecryptInput") -> "DafnyOnDecryptOutput":
-        """
-        Do not use.
-        This method allows custom implementations of this interface to interact with generated code.
+        """Do not use.
+
+        This method allows custom implementations of this interface to
+        interact with generated code.
         """
         native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_OnDecryptInput(
             dafny_input

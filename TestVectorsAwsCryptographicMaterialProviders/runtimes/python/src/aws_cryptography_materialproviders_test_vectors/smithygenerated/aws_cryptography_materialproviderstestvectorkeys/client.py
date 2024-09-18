@@ -46,7 +46,7 @@ Output = TypeVar("Output")
 
 
 class KeyVectors:
-    """Client for KeyVectors
+    """Client for KeyVectors.
 
     :param config: Configuration for the client.
     """
