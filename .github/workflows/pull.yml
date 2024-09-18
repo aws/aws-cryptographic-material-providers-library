@@ -29,6 +29,11 @@ jobs:
     uses: ./.github/workflows/library_java_tests.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
+  pr-ci-examples:
+    needs: getVersion
+    uses: ./.github/workflows/library_examples.yml
+    with:
+      dafny: ${{needs.getVersion.outputs.version}}
   pr-ci-net:
     needs: getVersion
     uses: ./.github/workflows/library_net_tests.yml
@@ -68,7 +73,8 @@ jobs:
       - pr-ci-go
       - pr-ci-rust
       - pr-interop-test
-    runs-on: ubuntu-22.04
+      - pr-ci-examples
+    runs-on: ubuntu--22.04
     steps:
       - name: Verify all required jobs passed
         uses: re-actors/alls-green@release/v1
