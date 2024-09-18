@@ -103,20 +103,20 @@ module.exports = {
         replacements: [
           // Update the version for all Gradle Java projects
           // Does not update the dependencies
-          {
-            files: Object.keys(Runtimes.java),
-            from: 'mplVersion=".*"',
-            to: 'mplVersion="${nextRelease.version}"',
-            results: Object.keys(Runtimes.java).map(CheckResults),
-            countMatches: true,
-          },
-          {
-            files: Object.keys(Runtimes.java),
-            from: 'version = ".*"',
-            to: 'version = "${nextRelease.version}"',
-            results: Object.keys(Runtimes.java).map(CheckResults),
-            countMatches: true,
-          },
+          // {
+          //   files: Object.keys(Runtimes.java),
+          //   from: 'mplVersion=".*"',
+          //   to: 'mplVersion="${nextRelease.version}"',
+          //   results: Object.keys(Runtimes.java).map(CheckResults),
+          //   countMatches: true,
+          // },
+          // {
+          //   files: Object.keys(Runtimes.java),
+          //   from: 'version = ".*"',
+          //   to: 'version = "${nextRelease.version}"',
+          //   results: Object.keys(Runtimes.java).map(CheckResults),
+          //   countMatches: true,
+          // },
           // Now update the Gradle Java  dependencies
           ...Object.entries(Runtimes.java).flatMap(([file, { dependencies }]) =>
             dependencies.map((dependency) => ({
@@ -176,7 +176,7 @@ module.exports = {
       // Update dtr files
       "@semantic-release/exec",
       {
-        "prepareCmd": "cd TestVectorsAwsCryptographicMaterialProviders && make transpile_python"
+        "prepareCmd": "make -C TestVectorsAwsCryptographicMaterialProviders transpile_python"
       },
     ],
     // Commit and push changes the changelog and versions bumps
@@ -187,6 +187,7 @@ module.exports = {
           "CHANGELOG.md",
           ...Object.values(Runtimes).flatMap((r) => Object.keys(r)),
           ...Object.values(Runtimes.net).flatMap((r) => r.assemblyInfo),
+          "**/runtimes/python/**/*.dtr",
         ],
         message:
           "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
