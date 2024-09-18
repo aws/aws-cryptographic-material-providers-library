@@ -59,7 +59,10 @@ service KeyStore {
     GetBranchKeyVersion,
     GetBeaconKey
   ],
-  errors: [KeyStoreException]
+  errors: [
+    KeyStoreException
+    VersionRaceException
+  ]
 }
 
 structure KeyStoreConfig {
@@ -423,6 +426,15 @@ map EncryptionContext {
 
 @error("client")
 structure KeyStoreException {
+  @required
+  message: String,
+}
+
+// Can be thrown by InitializeMutation & VersionKey
+@error("client")
+@retryable
+@documentation("Operation was rejected due to a race with VersionKey. No items were changed. Retry operation when no other agent is Versioning this Branch Key ID.")
+structure VersionRaceException {
   @required
   message: String,
 }

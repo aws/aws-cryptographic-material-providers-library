@@ -66,6 +66,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     nameonly EncryptionContext: EncryptionContextString ,
     nameonly CiphertextBlob: seq<uint8>
   )
+  type EncryptedHierarchicalKeys = seq<EncryptedHierarchicalKey>
   type EncryptionContext = map<Utf8Bytes, Utf8Bytes>
   type EncryptionContextString = map<string, string>
   datatype GetActiveBranchKeyInput = | GetActiveBranchKeyInput (
@@ -106,6 +107,14 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   datatype GetEncryptedBranchKeyVersionOutput = | GetEncryptedBranchKeyVersionOutput (
     nameonly Item: EncryptedHierarchicalKey
   )
+  datatype GetItemsForInitializeMutationInput = | GetItemsForInitializeMutationInput (
+    nameonly Identifier: string
+  )
+  datatype GetItemsForInitializeMutationOutput = | GetItemsForInitializeMutationOutput (
+    nameonly activeItem: EncryptedHierarchicalKey ,
+    nameonly beaconItem: EncryptedHierarchicalKey ,
+    nameonly mutationLock: Option<MutationLock> := Option.None
+  )
   datatype GetKeyStorageInfoInput = | GetKeyStorageInfoInput (
 
                                     )
@@ -134,15 +143,23 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   class IKeyStorageInterfaceCallHistory {
     ghost constructor() {
       GetEncryptedActiveBranchKey := [];
+      WriteMutatedVersions := [];
       WriteNewEncryptedBranchKey := [];
+      WriteInitializeMutation := [];
+      GetItemsForInitializeMutation := [];
       WriteNewEncryptedBranchKeyVersion := [];
+      QueryForVersions := [];
       GetKeyStorageInfo := [];
       GetEncryptedBranchKeyVersion := [];
       GetEncryptedBeaconKey := [];
     }
     ghost var GetEncryptedActiveBranchKey: seq<DafnyCallEvent<GetEncryptedActiveBranchKeyInput, Result<GetEncryptedActiveBranchKeyOutput, Error>>>
+    ghost var WriteMutatedVersions: seq<DafnyCallEvent<WriteMutatedVersionsInput, Result<WriteMutatedVersionsOutput, Error>>>
     ghost var WriteNewEncryptedBranchKey: seq<DafnyCallEvent<WriteNewEncryptedBranchKeyInput, Result<WriteNewEncryptedBranchKeyOutput, Error>>>
+    ghost var WriteInitializeMutation: seq<DafnyCallEvent<WriteInitializeMutationInput, Result<WriteInitializeMutationOutput, Error>>>
+    ghost var GetItemsForInitializeMutation: seq<DafnyCallEvent<GetItemsForInitializeMutationInput, Result<GetItemsForInitializeMutationOutput, Error>>>
     ghost var WriteNewEncryptedBranchKeyVersion: seq<DafnyCallEvent<WriteNewEncryptedBranchKeyVersionInput, Result<WriteNewEncryptedBranchKeyVersionOutput, Error>>>
+    ghost var QueryForVersions: seq<DafnyCallEvent<QueryForVersionsInput, Result<QueryForVersionsOutput, Error>>>
     ghost var GetKeyStorageInfo: seq<DafnyCallEvent<GetKeyStorageInfoInput, Result<GetKeyStorageInfoOutput, Error>>>
     ghost var GetEncryptedBranchKeyVersion: seq<DafnyCallEvent<GetEncryptedBranchKeyVersionInput, Result<GetEncryptedBranchKeyVersionOutput, Error>>>
     ghost var GetEncryptedBeaconKey: seq<DafnyCallEvent<GetEncryptedBeaconKeyInput, Result<GetEncryptedBeaconKeyOutput, Error>>>
@@ -205,6 +222,37 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
       ensures GetEncryptedActiveBranchKeyEnsuresPublicly(input, output)
       ensures unchanged(History)
 
+    predicate WriteMutatedVersionsEnsuresPublicly(input: WriteMutatedVersionsInput , output: Result<WriteMutatedVersionsOutput, Error>)
+    // The public method to be called by library consumers
+    method WriteMutatedVersions ( input: WriteMutatedVersionsInput )
+      returns (output: Result<WriteMutatedVersionsOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`WriteMutatedVersions
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures WriteMutatedVersionsEnsuresPublicly(input, output)
+      ensures History.WriteMutatedVersions == old(History.WriteMutatedVersions) + [DafnyCallEvent(input, output)]
+    {
+      output := WriteMutatedVersions' (input);
+      History.WriteMutatedVersions := History.WriteMutatedVersions + [DafnyCallEvent(input, output)];
+    }
+    // The method to implement in the concrete class.
+    method WriteMutatedVersions' ( input: WriteMutatedVersionsInput )
+      returns (output: Result<WriteMutatedVersionsOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History}
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures WriteMutatedVersionsEnsuresPublicly(input, output)
+      ensures unchanged(History)
+
     predicate WriteNewEncryptedBranchKeyEnsuresPublicly(input: WriteNewEncryptedBranchKeyInput , output: Result<WriteNewEncryptedBranchKeyOutput, Error>)
     // The public method to be called by library consumers
     method WriteNewEncryptedBranchKey ( input: WriteNewEncryptedBranchKeyInput )
@@ -236,6 +284,68 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
       ensures WriteNewEncryptedBranchKeyEnsuresPublicly(input, output)
       ensures unchanged(History)
 
+    predicate WriteInitializeMutationEnsuresPublicly(input: WriteInitializeMutationInput , output: Result<WriteInitializeMutationOutput, Error>)
+    // The public method to be called by library consumers
+    method WriteInitializeMutation ( input: WriteInitializeMutationInput )
+      returns (output: Result<WriteInitializeMutationOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`WriteInitializeMutation
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures WriteInitializeMutationEnsuresPublicly(input, output)
+      ensures History.WriteInitializeMutation == old(History.WriteInitializeMutation) + [DafnyCallEvent(input, output)]
+    {
+      output := WriteInitializeMutation' (input);
+      History.WriteInitializeMutation := History.WriteInitializeMutation + [DafnyCallEvent(input, output)];
+    }
+    // The method to implement in the concrete class.
+    method WriteInitializeMutation' ( input: WriteInitializeMutationInput )
+      returns (output: Result<WriteInitializeMutationOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History}
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures WriteInitializeMutationEnsuresPublicly(input, output)
+      ensures unchanged(History)
+
+    predicate GetItemsForInitializeMutationEnsuresPublicly(input: GetItemsForInitializeMutationInput , output: Result<GetItemsForInitializeMutationOutput, Error>)
+    // The public method to be called by library consumers
+    method GetItemsForInitializeMutation ( input: GetItemsForInitializeMutationInput )
+      returns (output: Result<GetItemsForInitializeMutationOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`GetItemsForInitializeMutation
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures GetItemsForInitializeMutationEnsuresPublicly(input, output)
+      ensures History.GetItemsForInitializeMutation == old(History.GetItemsForInitializeMutation) + [DafnyCallEvent(input, output)]
+    {
+      output := GetItemsForInitializeMutation' (input);
+      History.GetItemsForInitializeMutation := History.GetItemsForInitializeMutation + [DafnyCallEvent(input, output)];
+    }
+    // The method to implement in the concrete class.
+    method GetItemsForInitializeMutation' ( input: GetItemsForInitializeMutationInput )
+      returns (output: Result<GetItemsForInitializeMutationOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History}
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures GetItemsForInitializeMutationEnsuresPublicly(input, output)
+      ensures unchanged(History)
+
     predicate WriteNewEncryptedBranchKeyVersionEnsuresPublicly(input: WriteNewEncryptedBranchKeyVersionInput , output: Result<WriteNewEncryptedBranchKeyVersionOutput, Error>)
     // The public method to be called by library consumers
     method WriteNewEncryptedBranchKeyVersion ( input: WriteNewEncryptedBranchKeyVersionInput )
@@ -265,6 +375,37 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
       ensures
         && ValidState()
       ensures WriteNewEncryptedBranchKeyVersionEnsuresPublicly(input, output)
+      ensures unchanged(History)
+
+    predicate QueryForVersionsEnsuresPublicly(input: QueryForVersionsInput , output: Result<QueryForVersionsOutput, Error>)
+    // The public method to be called by library consumers
+    method QueryForVersions ( input: QueryForVersionsInput )
+      returns (output: Result<QueryForVersionsOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`QueryForVersions
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures QueryForVersionsEnsuresPublicly(input, output)
+      ensures History.QueryForVersions == old(History.QueryForVersions) + [DafnyCallEvent(input, output)]
+    {
+      output := QueryForVersions' (input);
+      History.QueryForVersions := History.QueryForVersions + [DafnyCallEvent(input, output)];
+    }
+    // The method to implement in the concrete class.
+    method QueryForVersions' ( input: QueryForVersionsInput )
+      returns (output: Result<QueryForVersionsOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History}
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures QueryForVersionsEnsuresPublicly(input, output)
       ensures unchanged(History)
 
     predicate GetKeyStorageInfoEnsuresPublicly(input: GetKeyStorageInfoInput , output: Result<GetKeyStorageInfoOutput, Error>)
@@ -531,6 +672,22 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   datatype MRDiscovery = | MRDiscovery (
     nameonly region: ComAmazonawsKmsTypes.RegionType
   )
+  datatype MutationLock = | MutationLock (
+    nameonly Identifier: string ,
+    nameonly CreateTime: string ,
+    nameonly UUID: string ,
+    nameonly Original: seq<uint8> ,
+    nameonly Terminal: seq<uint8>
+  )
+  datatype QueryForVersionsInput = | QueryForVersionsInput (
+    nameonly exclusiveStartKey: Option<seq<uint8>> := Option.None ,
+    nameonly Identifier: string ,
+    nameonly pageSize: int32
+  )
+  datatype QueryForVersionsOutput = | QueryForVersionsOutput (
+    nameonly exclusiveStartKey: seq<uint8> ,
+    nameonly items: EncryptedHierarchicalKeys
+  )
   type Secret = seq<uint8>
   datatype Storage =
     | ddb(ddb: DynamoDBTable)
@@ -542,6 +699,26 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   datatype VersionKeyOutput = | VersionKeyOutput (
 
                               )
+  datatype WriteInitializeMutationInput = | WriteInitializeMutationInput (
+    nameonly active: EncryptedHierarchicalKey ,
+    nameonly oldActive: EncryptedHierarchicalKey ,
+    nameonly version: EncryptedHierarchicalKey ,
+    nameonly beacon: EncryptedHierarchicalKey ,
+    nameonly mutationLock: MutationLock
+  )
+  datatype WriteInitializeMutationOutput = | WriteInitializeMutationOutput (
+
+                                           )
+  datatype WriteMutatedVersionsInput = | WriteMutatedVersionsInput (
+    nameonly items: EncryptedHierarchicalKeys ,
+    nameonly Identifier: string ,
+    nameonly Original: seq<uint8> ,
+    nameonly Terminal: seq<uint8> ,
+    nameonly CompleteMutation: bool
+  )
+  datatype WriteMutatedVersionsOutput = | WriteMutatedVersionsOutput (
+
+                                        )
   datatype WriteNewEncryptedBranchKeyInput = | WriteNewEncryptedBranchKeyInput (
     nameonly Active: EncryptedHierarchicalKey ,
     nameonly Version: EncryptedHierarchicalKey ,
@@ -560,7 +737,13 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
                                                      )
   datatype Error =
       // Local Error structures are listed here
+    | KeyStorageException (
+        nameonly message: string
+      )
     | KeyStoreException (
+        nameonly message: string
+      )
+    | VersionRaceException (
         nameonly message: string
       )
       // Any dependent models are listed here
@@ -602,7 +785,7 @@ abstract module AbstractAwsCryptographyKeyStoreService
   import opened Types = AwsCryptographyKeyStoreTypes
   import Operations : AbstractAwsCryptographyKeyStoreOperations
   function method DefaultKeyStoreConfig(): KeyStoreConfig
-  method KeyStore(config: KeyStoreConfig := DefaultKeyStoreConfig())
+  method {:vcs_split_on_every_assert} {:rlimit 90500000} KeyStore(config: KeyStoreConfig := DefaultKeyStoreConfig())
     returns (res: Result<KeyStoreClient, Error>)
     requires config.ddbClient.Some? ==>
                config.ddbClient.value.ValidState()

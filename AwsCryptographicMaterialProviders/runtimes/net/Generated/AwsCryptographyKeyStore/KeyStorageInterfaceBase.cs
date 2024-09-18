@@ -37,5 +37,25 @@ namespace AWS.Cryptography.KeyStore
       input.Validate(); return _GetKeyStorageInfo(input);
     }
     protected abstract AWS.Cryptography.KeyStore.GetKeyStorageInfoOutput _GetKeyStorageInfo(AWS.Cryptography.KeyStore.GetKeyStorageInfoInput input);
+    public AWS.Cryptography.KeyStore.GetItemsForInitializeMutationOutput GetItemsForInitializeMutation(AWS.Cryptography.KeyStore.GetItemsForInitializeMutationInput input)
+    {
+      input.Validate(); return _GetItemsForInitializeMutation(input);
+    }
+    protected abstract AWS.Cryptography.KeyStore.GetItemsForInitializeMutationOutput _GetItemsForInitializeMutation(AWS.Cryptography.KeyStore.GetItemsForInitializeMutationInput input);
+    public AWS.Cryptography.KeyStore.WriteInitializeMutationOutput WriteInitializeMutation(AWS.Cryptography.KeyStore.WriteInitializeMutationInput input)
+    {
+      input.Validate(); return _WriteInitializeMutation(input);
+    }
+    protected abstract AWS.Cryptography.KeyStore.WriteInitializeMutationOutput _WriteInitializeMutation(AWS.Cryptography.KeyStore.WriteInitializeMutationInput input);
+    public AWS.Cryptography.KeyStore.QueryForVersionsOutput QueryForVersions(AWS.Cryptography.KeyStore.QueryForVersionsInput input)
+    {
+      input.Validate(); return _QueryForVersions(input);
+    }
+    protected abstract AWS.Cryptography.KeyStore.QueryForVersionsOutput _QueryForVersions(AWS.Cryptography.KeyStore.QueryForVersionsInput input);
+    public AWS.Cryptography.KeyStore.WriteMutatedVersionsOutput WriteMutatedVersions(AWS.Cryptography.KeyStore.WriteMutatedVersionsInput input)
+    {
+      input.Validate(); return _WriteMutatedVersions(input);
+    }
+    protected abstract AWS.Cryptography.KeyStore.WriteMutatedVersionsOutput _WriteMutatedVersions(AWS.Cryptography.KeyStore.WriteMutatedVersionsInput input);
   }
 }

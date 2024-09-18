@@ -10,21 +10,39 @@ module {:options "/functionSyntax:4" } Structure {
   import DDB = ComAmazonawsDynamodbTypes
   import UTF8
 
+  //Attribute Names
   const BRANCH_KEY_IDENTIFIER_FIELD := "branch-key-id"
   const TYPE_FIELD := "type"
   const KEY_CREATE_TIME := "create-time"
   const HIERARCHY_VERSION := "hierarchy-version"
   const TABLE_FIELD := "tablename"
   const KMS_FIELD := "kms-arn"
-
   const BRANCH_KEY_FIELD := "enc"
   const BRANCH_KEY_ACTIVE_VERSION_FIELD := "version"
+  const M_LOCK_ORIGINAL := "original" // The DDB Attribute name for the original state, which is AttributeValue.B
+  const M_LOCK_TERMINAL := "terminal" // The DDB Attribute name for the terminal state, which is AttributeValue.B
+  const M_LOCK_UUID := "uuid" // The DDB Attribute name for the uuid, which is AttributeValue.S
 
+  const ENCRYPTION_CONTEXT_PREFIX := "aws-crypto-ec:"
+
+  const BRANCH_KEY_RESTRICTED_FIELD_NAMES := {
+    BRANCH_KEY_IDENTIFIER_FIELD,
+    TYPE_FIELD,
+    KEY_CREATE_TIME,
+    HIERARCHY_VERSION,
+    TABLE_FIELD,
+    KMS_FIELD,
+    BRANCH_KEY_FIELD,
+    BRANCH_KEY_ACTIVE_VERSION_FIELD
+  }
+
+  //Attribute Values
+  const HIERARCHY_VERSION_VALUE := "1"
+  const HIERARCHY_VERSION_ATTRIBUTE_VALUE := DDB.AttributeValue.N(HIERARCHY_VERSION_VALUE)
   const BRANCH_KEY_TYPE_PREFIX := "branch:version:"
   const BRANCH_KEY_ACTIVE_TYPE := "branch:ACTIVE"
   const BEACON_KEY_TYPE_VALUE := "beacon:ACTIVE"
-  const ENCRYPTION_CONTEXT_PREFIX := "aws-crypto-ec:"
-
+  const MUTATION_LOCK_TYPE := "MUTATION_LOCK"
   //= aws-encryption-sdk-specification/framework/branch-key-store.md#custom-encryption-context
   //= type=exception
   //# Across all versions of a Branch Key, the custom encryption context MUST be equal.
@@ -354,6 +372,56 @@ module {:options "/functionSyntax:4" } Structure {
     Success(map i <- encodedEncryptionContext :: i.0.value := i.1.value)
   }
 
+  /** Selects the key-value pairs prefixed with ENCRYPTION_CONTEXT_PREFIX **/
+  function SelectCustomEncryptionContextAsString(
+    encryptionContext: Types.EncryptionContextString
+  ): (output: Types.EncryptionContextString)
+    ensures forall k <- output
+              ::
+                (|k| > |ENCRYPTION_CONTEXT_PREFIX|)
+                && k[ .. |ENCRYPTION_CONTEXT_PREFIX|] == ENCRYPTION_CONTEXT_PREFIX
+                && (k in encryptionContext)
+                && encryptionContext[k] == output[k]
+    ensures BRANCH_KEY_RESTRICTED_FIELD_NAMES !! output.Keys
+  {
+    var customKeys
+      :=
+      set k <- encryptionContext
+          | ENCRYPTION_CONTEXT_PREFIX < k && (|k| > |ENCRYPTION_CONTEXT_PREFIX|)
+            && k[0] == ENCRYPTION_CONTEXT_PREFIX[0]
+            // //It really helps Dafny to have a specific check
+        ::
+          // assert HIERARCHY_VERSION != k by {assert k[0] != HIERARCHY_VERSION[0];}
+          k;
+    map i <- customKeys :: i := encryptionContext[i]
+  }
+
+  function ExtractCustomEncryptionContextAs(
+    encryptionContext: BranchKeyContext
+  ): (output: Types.EncryptionContextString)
+    ensures
+      forall k <- output
+        ::
+          && (ENCRYPTION_CONTEXT_PREFIX + k in encryptionContext)
+          && encryptionContext[ENCRYPTION_CONTEXT_PREFIX + k] == output[k]
+  {
+    // Dafny needs some help.
+    // Adding a fixed string
+    // will not make any of the keys collide.
+    assert forall k <- encryptionContext.Keys | ENCRYPTION_CONTEXT_PREFIX < k
+        ::
+          k == ENCRYPTION_CONTEXT_PREFIX + k[|ENCRYPTION_CONTEXT_PREFIX|..];
+
+    var defixedCustomEncryptionContext
+      := set k <- encryptionContext
+             | ENCRYPTION_CONTEXT_PREFIX < k
+           ::
+             (k[|ENCRYPTION_CONTEXT_PREFIX|..], encryptionContext[k]);
+
+    map i <- defixedCustomEncryptionContext :: i.0 := i.1
+  }
+
+
   opaque function DecryptOnlyBranchKeyEncryptionContext(
     branchKeyId: string,
     branchKeyVersion: string,
@@ -423,6 +491,50 @@ module {:options "/functionSyntax:4" } Structure {
     decryptOnlyEncryptionContext + map[
       TYPE_FIELD := BEACON_KEY_TYPE_VALUE
     ]
+  }
+
+  function ReplaceMutableContext(
+    item: map<string, string>,
+    terminalKmsArn: string,
+    terminalCustomEncryptionContext: map<string, string>
+  ) : (output: map<string, string>)
+
+    requires BranchKeyContext?(item)
+    requires BRANCH_KEY_RESTRICTED_FIELD_NAMES !! terminalCustomEncryptionContext.Keys
+
+    ensures BranchKeyContext?(output)
+    ensures output[KMS_FIELD] == terminalKmsArn
+    ensures
+      && item[BRANCH_KEY_IDENTIFIER_FIELD] == output[BRANCH_KEY_IDENTIFIER_FIELD]
+      && item[TYPE_FIELD] == output[TYPE_FIELD]
+      && item[KEY_CREATE_TIME] == output[KEY_CREATE_TIME]
+      && item[HIERARCHY_VERSION] == output[HIERARCHY_VERSION]
+      && item[TABLE_FIELD] == output[TABLE_FIELD]
+      && (BRANCH_KEY_ACTIVE_VERSION_FIELD in item
+          <==>
+          && BRANCH_KEY_ACTIVE_VERSION_FIELD in output
+          && item[BRANCH_KEY_ACTIVE_VERSION_FIELD] == output[BRANCH_KEY_ACTIVE_VERSION_FIELD])
+  {
+    terminalCustomEncryptionContext
+    + if BRANCH_KEY_ACTIVE_VERSION_FIELD in item then
+      map[
+        BRANCH_KEY_IDENTIFIER_FIELD := item[BRANCH_KEY_IDENTIFIER_FIELD],
+        TYPE_FIELD := item[TYPE_FIELD],
+        KEY_CREATE_TIME := item[KEY_CREATE_TIME],
+        HIERARCHY_VERSION := item[HIERARCHY_VERSION],
+        TABLE_FIELD := item[TABLE_FIELD],
+        KMS_FIELD := terminalKmsArn,
+        BRANCH_KEY_ACTIVE_VERSION_FIELD := item[BRANCH_KEY_ACTIVE_VERSION_FIELD]
+      ]
+    else
+      map[
+        BRANCH_KEY_IDENTIFIER_FIELD := item[BRANCH_KEY_IDENTIFIER_FIELD],
+        TYPE_FIELD := item[TYPE_FIELD],
+        KEY_CREATE_TIME := item[KEY_CREATE_TIME],
+        HIERARCHY_VERSION := item[HIERARCHY_VERSION],
+        TABLE_FIELD := item[TABLE_FIELD],
+        KMS_FIELD := terminalKmsArn
+      ]
   }
 
   function NewVersionFromActiveBranchKeyEncryptionContext(
@@ -607,4 +719,82 @@ module {:options "/functionSyntax:4" } Structure {
          ToEncryptedHierarchicalKey(item, key.EncryptionContext[TABLE_FIELD]) == key
   {}
 
+  predicate MutationLockAttribute?(m: DDB.AttributeMap) {
+    && BRANCH_KEY_IDENTIFIER_FIELD in m && m[BRANCH_KEY_IDENTIFIER_FIELD].S?
+    && KEY_CREATE_TIME in m && m[KEY_CREATE_TIME].S?
+    && TYPE_FIELD in m && m[TYPE_FIELD].S?
+    && M_LOCK_UUID in m && m[M_LOCK_UUID].S?
+    && HIERARCHY_VERSION in m && m[HIERARCHY_VERSION].N? && m[HIERARCHY_VERSION].N == "1"
+
+    && 0 < |m[BRANCH_KEY_IDENTIFIER_FIELD].S|
+    && 0 < |m[TYPE_FIELD].S|
+    && 0 < |m[M_LOCK_UUID].S|
+
+    && (forall k <- m.Keys - {M_LOCK_ORIGINAL, M_LOCK_TERMINAL, HIERARCHY_VERSION} :: m[k].S?)
+
+    && m[TYPE_FIELD].S == MUTATION_LOCK_TYPE
+
+    && M_LOCK_ORIGINAL in m && m[M_LOCK_ORIGINAL].B? && 0 < |m[M_LOCK_ORIGINAL].B|
+    && M_LOCK_TERMINAL in m && m[M_LOCK_TERMINAL].B? && 0 < |m[M_LOCK_TERMINAL].B|
+
+    && m.Keys == {
+                   TYPE_FIELD,
+                   HIERARCHY_VERSION,
+                   BRANCH_KEY_IDENTIFIER_FIELD,
+                   KEY_CREATE_TIME,
+                   M_LOCK_UUID,
+                   M_LOCK_ORIGINAL,
+                   M_LOCK_TERMINAL
+                 }
+  }
+
+  predicate MutationLock?(m: Types.MutationLock)
+  {
+    && 0 < |m.Identifier|
+    && 0 < |m.UUID|
+    && 0 < |m.Original|
+    && 0 < |m.Terminal|
+  }
+
+  function ToMutationLock(
+    item: DDB.AttributeMap
+  ): (output: Types.MutationLock)
+    requires MutationLockAttribute?(item)
+    ensures MutationLock?(output)
+  {
+    Types.MutationLock(
+      Identifier := item[BRANCH_KEY_IDENTIFIER_FIELD].S,
+      CreateTime := item[KEY_CREATE_TIME].S,
+      UUID := item[M_LOCK_UUID].S,
+      Original := item[M_LOCK_ORIGINAL].B,
+      Terminal := item[M_LOCK_TERMINAL].B
+    )
+  }
+
+  function MutationLockToAttributeMap(
+    lock: Types.MutationLock
+  ): (output: DDB.AttributeMap)
+    requires MutationLock?(lock)
+    ensures MutationLockAttribute?(output)
+  {
+    map[
+      TYPE_FIELD := DDB.AttributeValue.S(MUTATION_LOCK_TYPE),
+      HIERARCHY_VERSION := HIERARCHY_VERSION_ATTRIBUTE_VALUE,
+      BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(lock.Identifier),
+      KEY_CREATE_TIME := DDB.AttributeValue.S(lock.CreateTime),
+      M_LOCK_UUID := DDB.AttributeValue.S(lock.UUID),
+      M_LOCK_ORIGINAL := DDB.AttributeValue.B(lock.Original),
+      M_LOCK_TERMINAL := DDB.AttributeValue.B(lock.Terminal)
+    ]
+  }
+
+  lemma MutationLockAndMutationLockToAttributeMapAreInverse(
+    item: DDB.AttributeMap,
+    lock: Types.MutationLock
+  )
+    requires MutationLockAttribute?(item)
+    requires MutationLock?(lock)
+    ensures
+      ToMutationLock(item) == lock <==> MutationLockToAttributeMap(lock) == item
+  {}
 }

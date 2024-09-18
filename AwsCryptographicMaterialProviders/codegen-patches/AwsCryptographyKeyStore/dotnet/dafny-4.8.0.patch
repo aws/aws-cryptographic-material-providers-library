@@ -1,0 +1,35 @@
+diff --git b/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/TypeConversion.cs a/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/TypeConversion.cs
+index cc3dc4cd..63100b40 100644
+--- b/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/TypeConversion.cs
++++ a/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/TypeConversion.cs
+@@ -1727,7 +1727,7 @@ namespace AWS.Cryptography.KeyStore
+             dafnyVal._ComAmazonawsDynamodb
+           );
+         case software.amazon.cryptography.keystore.internaldafny.types.Error_ComAmazonawsKms dafnyVal:
+-          return Com.Amazonaws.KMS.TypeConversion.FromDafny_CommonError(
++          return Com.Amazonaws.Kms.TypeConversion.FromDafny_CommonError( // Manual edit KMS. -> Kms.
+             dafnyVal._ComAmazonawsKms
+           );
+         case software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStorageException dafnyVal:
+@@ -1754,7 +1754,7 @@ namespace AWS.Cryptography.KeyStore
+       {
+         case "Com.Amazonaws.KMS":
+           return software.amazon.cryptography.keystore.internaldafny.types.Error.create_ComAmazonawsKms(
+-            Com.Amazonaws.KMS.TypeConversion.ToDafny_CommonError(value)
++            Com.Amazonaws.Kms.TypeConversion.ToDafny_CommonError(value) // Manual edit KMS. -> Kms.
+           );
+         case "Com.Amazonaws.Dynamodb":
+           return software.amazon.cryptography.keystore.internaldafny.types.Error.create_ComAmazonawsDynamodb(
+diff --git b/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/WriteMutatedVersionsInput.cs a/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/WriteMutatedVersionsInput.cs
+index 16da0962..9607f4a4 100644
+--- b/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/WriteMutatedVersionsInput.cs
++++ a/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/WriteMutatedVersionsInput.cs
+@@ -11,7 +11,7 @@ namespace AWS.Cryptography.KeyStore
+     private string _identifier;
+     private System.IO.MemoryStream _original;
+     private System.IO.MemoryStream _terminal;
+-    private bool? _completeMutation;
++    private bool? _completeMutation = false; // Manual edit to default false
+     public System.Collections.Generic.List<AWS.Cryptography.KeyStore.EncryptedHierarchicalKey> Items
+     {
+       get { return this._items; }

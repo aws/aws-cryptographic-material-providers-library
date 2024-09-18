@@ -8,9 +8,11 @@ include ../SharedMakefileV2.mk
 PROJECT_SERVICES := \
 	AwsCryptographicMaterialProviders \
 	AwsCryptographyKeyStore \
+	AwsCryptographyKeyStoreAdmin \
 
 SERVICE_NAMESPACE_AwsCryptographicMaterialProviders=aws.cryptography.materialProviders
 SERVICE_NAMESPACE_AwsCryptographyKeyStore=aws.cryptography.keyStore
+SERVICE_NAMESPACE_AwsCryptographyKeyStoreAdmin=aws.cryptography.keyStoreAdmin
 
 MAX_RESOURCE_COUNT=90000000
 # Order is important
@@ -44,3 +46,9 @@ SERVICE_DEPS_AwsCryptographyKeyStore := \
 	ComAmazonawsDynamodb \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographicMaterialProviders \
 
+SERVICE_DEPS_AwsCryptographyKeyStoreAdmin := \
+	AwsCryptographyPrimitives \
+	ComAmazonawsKms \
+	ComAmazonawsDynamodb \
+	AwsCryptographicMaterialProviders/dafny/AwsCryptographicMaterialProviders \
+	AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStore \

@@ -9,8 +9,16 @@ import software.amazon.cryptography.keystore.model.GetEncryptedBeaconKeyInput;
 import software.amazon.cryptography.keystore.model.GetEncryptedBeaconKeyOutput;
 import software.amazon.cryptography.keystore.model.GetEncryptedBranchKeyVersionInput;
 import software.amazon.cryptography.keystore.model.GetEncryptedBranchKeyVersionOutput;
+import software.amazon.cryptography.keystore.model.GetItemsForInitializeMutationInput;
+import software.amazon.cryptography.keystore.model.GetItemsForInitializeMutationOutput;
 import software.amazon.cryptography.keystore.model.GetKeyStorageInfoInput;
 import software.amazon.cryptography.keystore.model.GetKeyStorageInfoOutput;
+import software.amazon.cryptography.keystore.model.QueryForVersionsInput;
+import software.amazon.cryptography.keystore.model.QueryForVersionsOutput;
+import software.amazon.cryptography.keystore.model.WriteInitializeMutationInput;
+import software.amazon.cryptography.keystore.model.WriteInitializeMutationOutput;
+import software.amazon.cryptography.keystore.model.WriteMutatedVersionsInput;
+import software.amazon.cryptography.keystore.model.WriteMutatedVersionsOutput;
 import software.amazon.cryptography.keystore.model.WriteNewEncryptedBranchKeyInput;
 import software.amazon.cryptography.keystore.model.WriteNewEncryptedBranchKeyOutput;
 import software.amazon.cryptography.keystore.model.WriteNewEncryptedBranchKeyVersionInput;
@@ -48,12 +56,57 @@ public interface IKeyStorageInterface {
   );
 
   /**
+   * Gets the ACTIVE branch key and the beacon key,
+   * and looks for a Mutation Lock,
+   * returning it if found.
+   *
+   */
+  GetItemsForInitializeMutationOutput GetItemsForInitializeMutation(
+    GetItemsForInitializeMutationInput input
+  );
+
+  /**
    * Gets information about the underlying storage system.
    *
    * @param input Input for getting information about the underlying storage.
    * @return Output containing information about the underlying storage.
    */
   GetKeyStorageInfoOutput GetKeyStorageInfo(GetKeyStorageInfoInput input);
+
+  /**
+   * Query Storage for a page of version (decrypt only) items
+   * of a Branch Key.
+   *
+   */
+  QueryForVersionsOutput QueryForVersions(QueryForVersionsInput input);
+
+  /**
+   * Atomically writes,
+   * in the terminal state of a Mutation:
+   * - new ACTIVE item
+   * - version (decrypt only) for new ACTIVE
+   * - beacon key
+   * Also writes the Mutation Lock.
+   *
+   */
+  WriteInitializeMutationOutput WriteInitializeMutation(
+    WriteInitializeMutationInput input
+  );
+
+  /**
+   * Atomically writes,
+   * in the terminal state of a Mutation,
+   * a page of version (decrypt only) items,
+   * conditioned on:
+   * - every version already exsisting
+   * - the original of a Mutation Lock commits to the original provided
+   * - the terminal of a Mutation Lock commits to the terminal provided
+   *
+   *
+   */
+  WriteMutatedVersionsOutput WriteMutatedVersions(
+    WriteMutatedVersionsInput input
+  );
 
   /**
    * WriteNewEncryptedBranchKey persists the active item, decrypt only (version) item, and Beacon Key Item of a newly created Branch Key.
