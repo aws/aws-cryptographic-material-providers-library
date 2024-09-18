@@ -24,14 +24,14 @@ func (input BeaconKeyMaterials) Validate() error {
 	if input.EncryptionContext == nil {
 		return fmt.Errorf("input.EncryptionContext is required but has a nil value.")
 	}
-	if input.Aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_Validate() != nil {
-		return input.Aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_Validate()
+	if input.aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_Validate() != nil {
+		return input.aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_Validate()
 	}
 
 	return nil
 }
 
-func (input BeaconKeyMaterials) Aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_Validate() error {
+func (input BeaconKeyMaterials) aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
@@ -61,14 +61,14 @@ func (input BranchKeyMaterials) Validate() error {
 	if input.EncryptionContext == nil {
 		return fmt.Errorf("input.EncryptionContext is required but has a nil value.")
 	}
-	if input.Aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_Validate() != nil {
-		return input.Aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_Validate()
+	if input.aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_Validate() != nil {
+		return input.aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_Validate()
 	}
 
 	return nil
 }
 
-func (input BranchKeyMaterials) Aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_Validate() error {
+func (input BranchKeyMaterials) aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
@@ -88,14 +88,14 @@ type CreateKeyInput struct {
 }
 
 func (input CreateKeyInput) Validate() error {
-	if input.Aws_cryptography_keyStore_CreateKeyInput_encryptionContext_Validate() != nil {
-		return input.Aws_cryptography_keyStore_CreateKeyInput_encryptionContext_Validate()
+	if input.aws_cryptography_keyStore_CreateKeyInput_encryptionContext_Validate() != nil {
+		return input.aws_cryptography_keyStore_CreateKeyInput_encryptionContext_Validate()
 	}
 
 	return nil
 }
 
-func (input CreateKeyInput) Aws_cryptography_keyStore_CreateKeyInput_encryptionContext_Validate() error {
+func (input CreateKeyInput) aws_cryptography_keyStore_CreateKeyInput_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
@@ -244,23 +244,17 @@ func (input GetKeyStoreInfoOutput) Validate() error {
 	if input.GrantTokens == nil {
 		return fmt.Errorf("input.GrantTokens is required but has a nil value.")
 	}
-	if len(input.KeyStoreName) < 3 {
-		return fmt.Errorf("TableName has a minimum length of 3 but has the length of %d.", len(input.KeyStoreName))
-	}
-	if len(input.KeyStoreName) > 255 {
-		return fmt.Errorf("TableName has a maximum length of 255 but has the length of %d.", len(input.KeyStoreName))
-	}
 	if input.KmsConfiguration == nil {
 		return fmt.Errorf("input.KmsConfiguration is required but has a nil value.")
 	}
-	if input.Aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_Validate() != nil {
-		return input.Aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_Validate()
+	if input.aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_Validate() != nil {
+		return input.aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_Validate()
 	}
 
 	return nil
 }
 
-func (input GetKeyStoreInfoOutput) Aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_Validate() error {
+func (input GetKeyStoreInfoOutput) aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_Validate() error {
 	if input.KmsConfiguration == nil {
 		return nil
 	}
@@ -312,10 +306,19 @@ func (input VersionKeyOutput) Validate() error {
 	return nil
 }
 
-type DdbClientReference struct {
+type ActiveHierarchicalSymmetric struct {
+	Version string
 }
 
-func (input DdbClientReference) Validate() error {
+func (input ActiveHierarchicalSymmetric) Validate() error {
+
+	return nil
+}
+
+type ActiveHierarchicalSymmetricBeacon struct {
+}
+
+func (input ActiveHierarchicalSymmetricBeacon) Validate() error {
 
 	return nil
 }
@@ -328,40 +331,308 @@ func (input KmsClientReference) Validate() error {
 	return nil
 }
 
-type KeyStoreConfig struct {
-	DdbTableName string
-
-	KmsConfiguration KMSConfiguration
-
-	LogicalKeyStoreName string
-
-	DdbClient *dynamodb.Client
-
+type AwsKms struct {
 	GrantTokens []string
-
-	Id *string
 
 	KmsClient *kms.Client
 }
 
-func (input KeyStoreConfig) Validate() error {
+func (input AwsKms) Validate() error {
+
+	return nil
+}
+
+type DdbClientReference struct {
+}
+
+func (input DdbClientReference) Validate() error {
+
+	return nil
+}
+
+type DynamoDBTable struct {
+	DdbTableName string
+
+	DdbClient *dynamodb.Client
+}
+
+func (input DynamoDBTable) Validate() error {
 	if len(input.DdbTableName) < 3 {
 		return fmt.Errorf("TableName has a minimum length of 3 but has the length of %d.", len(input.DdbTableName))
 	}
 	if len(input.DdbTableName) > 255 {
 		return fmt.Errorf("TableName has a maximum length of 255 but has the length of %d.", len(input.DdbTableName))
 	}
-	if input.KmsConfiguration == nil {
-		return fmt.Errorf("input.KmsConfiguration is required but has a nil value.")
+
+	return nil
+}
+
+type HierarchicalSymmetric struct {
+	Version string
+}
+
+func (input HierarchicalSymmetric) Validate() error {
+
+	return nil
+}
+
+type EncryptedHierarchicalKey struct {
+	CiphertextBlob []byte
+
+	CreateTime string
+
+	EncryptionContext map[string]string
+
+	Identifier string
+
+	KmsArn string
+
+	Type HierarchicalKeyType
+}
+
+func (input EncryptedHierarchicalKey) Validate() error {
+	if input.EncryptionContext == nil {
+		return fmt.Errorf("input.EncryptionContext is required but has a nil value.")
 	}
-	if input.Aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate() != nil {
-		return input.Aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate()
+	if input.Type == nil {
+		return fmt.Errorf("input.Type is required but has a nil value.")
+	}
+	if input.aws_cryptography_keyStore_EncryptedHierarchicalKey_Type_Validate() != nil {
+		return input.aws_cryptography_keyStore_EncryptedHierarchicalKey_Type_Validate()
 	}
 
 	return nil
 }
 
-func (input KeyStoreConfig) Aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate() error {
+func (input EncryptedHierarchicalKey) aws_cryptography_keyStore_EncryptedHierarchicalKey_Type_Validate() error {
+	if input.Type == nil {
+		return nil
+	}
+	switch unionType := input.Type.(type) {
+	case *HierarchicalKeyTypeMemberActiveHierarchicalSymmetricVersion:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	case *HierarchicalKeyTypeMemberHierarchicalSymmetricVersion:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	case *HierarchicalKeyTypeMemberActiveHierarchicalSymmetricBeacon:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+
+type GetEncryptedActiveBranchKeyInput struct {
+	Identifier string
+}
+
+func (input GetEncryptedActiveBranchKeyInput) Validate() error {
+
+	return nil
+}
+
+type GetEncryptedActiveBranchKeyOutput struct {
+	Item EncryptedHierarchicalKey
+}
+
+func (input GetEncryptedActiveBranchKeyOutput) Validate() error {
+	if input.Item.Validate() != nil {
+		return input.Item.Validate()
+	}
+
+	return nil
+}
+
+type GetEncryptedBeaconKeyInput struct {
+	Identifier string
+}
+
+func (input GetEncryptedBeaconKeyInput) Validate() error {
+
+	return nil
+}
+
+type GetEncryptedBeaconKeyOutput struct {
+	Item EncryptedHierarchicalKey
+}
+
+func (input GetEncryptedBeaconKeyOutput) Validate() error {
+	if input.Item.Validate() != nil {
+		return input.Item.Validate()
+	}
+
+	return nil
+}
+
+type GetEncryptedBranchKeyVersionInput struct {
+	Identifier string
+
+	Version string
+}
+
+func (input GetEncryptedBranchKeyVersionInput) Validate() error {
+
+	return nil
+}
+
+type GetEncryptedBranchKeyVersionOutput struct {
+	Item EncryptedHierarchicalKey
+}
+
+func (input GetEncryptedBranchKeyVersionOutput) Validate() error {
+	if input.Item.Validate() != nil {
+		return input.Item.Validate()
+	}
+
+	return nil
+}
+
+type GetKeyStorageInfoInput struct {
+}
+
+func (input GetKeyStorageInfoInput) Validate() error {
+
+	return nil
+}
+
+type GetKeyStorageInfoOutput struct {
+	LogicalName string
+
+	Name string
+}
+
+func (input GetKeyStorageInfoOutput) Validate() error {
+	if !utf8.ValidString(input.LogicalName) {
+		return fmt.Errorf("Invalid UTF bytes %s ", input.LogicalName)
+	}
+	if !utf8.ValidString(input.Name) {
+		return fmt.Errorf("Invalid UTF bytes %s ", input.Name)
+	}
+
+	return nil
+}
+
+type WriteNewEncryptedBranchKeyInput struct {
+	Active EncryptedHierarchicalKey
+
+	Beacon EncryptedHierarchicalKey
+
+	Version EncryptedHierarchicalKey
+}
+
+func (input WriteNewEncryptedBranchKeyInput) Validate() error {
+	if input.Active.Validate() != nil {
+		return input.Active.Validate()
+	}
+	if input.Beacon.Validate() != nil {
+		return input.Beacon.Validate()
+	}
+	if input.Version.Validate() != nil {
+		return input.Version.Validate()
+	}
+
+	return nil
+}
+
+type WriteNewEncryptedBranchKeyOutput struct {
+}
+
+func (input WriteNewEncryptedBranchKeyOutput) Validate() error {
+
+	return nil
+}
+
+type WriteNewEncryptedBranchKeyVersionInput struct {
+	Active EncryptedHierarchicalKey
+
+	OldActive EncryptedHierarchicalKey
+
+	Version EncryptedHierarchicalKey
+}
+
+func (input WriteNewEncryptedBranchKeyVersionInput) Validate() error {
+	if input.Active.Validate() != nil {
+		return input.Active.Validate()
+	}
+	if input.OldActive.Validate() != nil {
+		return input.OldActive.Validate()
+	}
+	if input.Version.Validate() != nil {
+		return input.Version.Validate()
+	}
+
+	return nil
+}
+
+type WriteNewEncryptedBranchKeyVersionOutput struct {
+}
+
+func (input WriteNewEncryptedBranchKeyVersionOutput) Validate() error {
+
+	return nil
+}
+
+type KeyStorageInterfaceReference struct {
+}
+
+func (input KeyStorageInterfaceReference) Validate() error {
+
+	return nil
+}
+
+type KeyStoreConfig struct {
+	KmsConfiguration KMSConfiguration
+
+	LogicalKeyStoreName string
+
+	DdbClient *dynamodb.Client
+
+	DdbTableName *string
+
+	GrantTokens []string
+
+	Id *string
+
+	KeyManagement KeyManagement
+
+	KmsClient *kms.Client
+
+	Storage Storage
+}
+
+func (input KeyStoreConfig) Validate() error {
+	if input.KmsConfiguration == nil {
+		return fmt.Errorf("input.KmsConfiguration is required but has a nil value.")
+	}
+	if input.aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate() != nil {
+		return input.aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate()
+	}
+	if input.DdbTableName != nil {
+		if len(*input.DdbTableName) < 3 {
+			return fmt.Errorf("TableName has a minimum length of 3 but has the length of %d.", len(*input.DdbTableName))
+		}
+		if len(*input.DdbTableName) > 255 {
+			return fmt.Errorf("TableName has a maximum length of 255 but has the length of %d.", len(*input.DdbTableName))
+		}
+	}
+	if input.aws_cryptography_keyStore_KeyStoreConfig_keyManagement_Validate() != nil {
+		return input.aws_cryptography_keyStore_KeyStoreConfig_keyManagement_Validate()
+	}
+	if input.aws_cryptography_keyStore_KeyStoreConfig_storage_Validate() != nil {
+		return input.aws_cryptography_keyStore_KeyStoreConfig_storage_Validate()
+	}
+
+	return nil
+}
+
+func (input KeyStoreConfig) aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate() error {
 	if input.KmsConfiguration == nil {
 		return nil
 	}
@@ -395,6 +666,75 @@ func (input KeyStoreConfig) Aws_cryptography_keyStore_KeyStoreConfig_kmsConfigur
 
 	return nil
 }
+func (input KeyStoreConfig) aws_cryptography_keyStore_KeyStoreConfig_keyManagement_Validate() error {
+	if input.KeyManagement == nil {
+		return nil
+	}
+	switch unionType := input.KeyManagement.(type) {
+	case *KeyManagementMemberkms:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+func (input KeyStoreConfig) aws_cryptography_keyStore_KeyStoreConfig_storage_Validate() error {
+	if input.Storage == nil {
+		return nil
+	}
+	switch unionType := input.Storage.(type) {
+	case *StorageMemberddb:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	case *StorageMembercustom:
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+
+// HierarchicalKeyTypeMemberActiveHierarchicalSymmetricBeacon
+// HierarchicalKeyTypeMemberActiveHierarchicalSymmetricVersion
+// HierarchicalKeyTypeMemberHierarchicalSymmetricVersion
+type HierarchicalKeyType interface {
+	isHierarchicalKeyType()
+}
+
+type HierarchicalKeyTypeMemberActiveHierarchicalSymmetricBeacon struct {
+	Value ActiveHierarchicalSymmetricBeacon
+}
+
+func (*HierarchicalKeyTypeMemberActiveHierarchicalSymmetricBeacon) isHierarchicalKeyType() {}
+
+type HierarchicalKeyTypeMemberActiveHierarchicalSymmetricVersion struct {
+	Value ActiveHierarchicalSymmetric
+}
+
+func (*HierarchicalKeyTypeMemberActiveHierarchicalSymmetricVersion) isHierarchicalKeyType() {}
+
+type HierarchicalKeyTypeMemberHierarchicalSymmetricVersion struct {
+	Value HierarchicalSymmetric
+}
+
+func (*HierarchicalKeyTypeMemberHierarchicalSymmetricVersion) isHierarchicalKeyType() {}
+
+// KeyManagementMemberkms
+type KeyManagement interface {
+	isKeyManagement()
+}
+
+type KeyManagementMemberkms struct {
+	Value AwsKms
+}
+
+func (*KeyManagementMemberkms) isKeyManagement() {}
 
 // KMSConfigurationMemberdiscovery
 // KMSConfigurationMemberkmsKeyArn
@@ -428,9 +768,41 @@ type KMSConfigurationMembermrDiscovery struct {
 
 func (*KMSConfigurationMembermrDiscovery) isKMSConfiguration() {}
 
+// StorageMembercustom
+// StorageMemberddb
+type Storage interface {
+	isStorage()
+}
+
+type StorageMembercustom struct {
+	Value IKeyStorageInterface
+}
+
+func (*StorageMembercustom) isStorage() {}
+
+type StorageMemberddb struct {
+	Value DynamoDBTable
+}
+
+func (*StorageMemberddb) isStorage() {}
+
 type KeyStoreBaseException interface {
 	// This is a dummy method to allow type assertion since Go empty interfaces
 	// aren't useful for type assertion checks. No concrete class is expected to implement
 	// this method. This is also not exported.
 	interfaceBindingMethod()
+}
+
+type IKeyStorageInterface interface {
+	WriteNewEncryptedBranchKey(WriteNewEncryptedBranchKeyInput) (*WriteNewEncryptedBranchKeyOutput, error)
+
+	WriteNewEncryptedBranchKeyVersion(WriteNewEncryptedBranchKeyVersionInput) (*WriteNewEncryptedBranchKeyVersionOutput, error)
+
+	GetEncryptedActiveBranchKey(GetEncryptedActiveBranchKeyInput) (*GetEncryptedActiveBranchKeyOutput, error)
+
+	GetEncryptedBranchKeyVersion(GetEncryptedBranchKeyVersionInput) (*GetEncryptedBranchKeyVersionOutput, error)
+
+	GetEncryptedBeaconKey(GetEncryptedBeaconKeyInput) (*GetEncryptedBeaconKeyOutput, error)
+
+	GetKeyStorageInfo(GetKeyStorageInfoInput) (*GetKeyStorageInfoOutput, error)
 }

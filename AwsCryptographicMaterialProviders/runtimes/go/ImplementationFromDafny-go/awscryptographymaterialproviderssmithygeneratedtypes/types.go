@@ -79,26 +79,26 @@ func (input IntermediateKeyWrapping) Validate() error {
 	if input.KeyEncryptionKeyKdf == nil {
 		return fmt.Errorf("input.KeyEncryptionKeyKdf is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_IntermediateKeyWrapping_keyEncryptionKeyKdf_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_IntermediateKeyWrapping_keyEncryptionKeyKdf_Validate()
+	if input.aws_cryptography_materialProviders_IntermediateKeyWrapping_keyEncryptionKeyKdf_Validate() != nil {
+		return input.aws_cryptography_materialProviders_IntermediateKeyWrapping_keyEncryptionKeyKdf_Validate()
 	}
 	if input.MacKeyKdf == nil {
 		return fmt.Errorf("input.MacKeyKdf is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_IntermediateKeyWrapping_macKeyKdf_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_IntermediateKeyWrapping_macKeyKdf_Validate()
+	if input.aws_cryptography_materialProviders_IntermediateKeyWrapping_macKeyKdf_Validate() != nil {
+		return input.aws_cryptography_materialProviders_IntermediateKeyWrapping_macKeyKdf_Validate()
 	}
 	if input.PdkEncryptAlgorithm == nil {
 		return fmt.Errorf("input.PdkEncryptAlgorithm is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_IntermediateKeyWrapping_pdkEncryptAlgorithm_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_IntermediateKeyWrapping_pdkEncryptAlgorithm_Validate()
+	if input.aws_cryptography_materialProviders_IntermediateKeyWrapping_pdkEncryptAlgorithm_Validate() != nil {
+		return input.aws_cryptography_materialProviders_IntermediateKeyWrapping_pdkEncryptAlgorithm_Validate()
 	}
 
 	return nil
 }
 
-func (input IntermediateKeyWrapping) Aws_cryptography_materialProviders_IntermediateKeyWrapping_keyEncryptionKeyKdf_Validate() error {
+func (input IntermediateKeyWrapping) aws_cryptography_materialProviders_IntermediateKeyWrapping_keyEncryptionKeyKdf_Validate() error {
 	if input.KeyEncryptionKeyKdf == nil {
 		return nil
 	}
@@ -122,7 +122,7 @@ func (input IntermediateKeyWrapping) Aws_cryptography_materialProviders_Intermed
 
 	return nil
 }
-func (input IntermediateKeyWrapping) Aws_cryptography_materialProviders_IntermediateKeyWrapping_macKeyKdf_Validate() error {
+func (input IntermediateKeyWrapping) aws_cryptography_materialProviders_IntermediateKeyWrapping_macKeyKdf_Validate() error {
 	if input.MacKeyKdf == nil {
 		return nil
 	}
@@ -146,7 +146,7 @@ func (input IntermediateKeyWrapping) Aws_cryptography_materialProviders_Intermed
 
 	return nil
 }
-func (input IntermediateKeyWrapping) Aws_cryptography_materialProviders_IntermediateKeyWrapping_pdkEncryptAlgorithm_Validate() error {
+func (input IntermediateKeyWrapping) aws_cryptography_materialProviders_IntermediateKeyWrapping_pdkEncryptAlgorithm_Validate() error {
 	if input.PdkEncryptAlgorithm == nil {
 		return nil
 	}
@@ -196,50 +196,50 @@ func (input AlgorithmSuiteInfo) Validate() error {
 	if input.Commitment == nil {
 		return fmt.Errorf("input.Commitment is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_commitment_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_commitment_Validate()
+	if input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_commitment_Validate() != nil {
+		return input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_commitment_Validate()
 	}
 	if input.EdkWrapping == nil {
 		return fmt.Errorf("input.EdkWrapping is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_edkWrapping_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_edkWrapping_Validate()
+	if input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_edkWrapping_Validate() != nil {
+		return input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_edkWrapping_Validate()
 	}
 	if input.Encrypt == nil {
 		return fmt.Errorf("input.Encrypt is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_Validate()
+	if input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_Validate() != nil {
+		return input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_Validate()
 	}
 	if input.Id == nil {
 		return fmt.Errorf("input.Id is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_Validate()
+	if input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_Validate() != nil {
+		return input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_Validate()
 	}
 	if input.Kdf == nil {
 		return fmt.Errorf("input.Kdf is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_Validate()
+	if input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_Validate() != nil {
+		return input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_Validate()
 	}
 	if input.Signature == nil {
 		return fmt.Errorf("input.Signature is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_Validate()
+	if input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_Validate() != nil {
+		return input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_Validate()
 	}
 	if input.SymmetricSignature == nil {
 		return fmt.Errorf("input.SymmetricSignature is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_Validate()
+	if input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_Validate() != nil {
+		return input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_Validate()
 	}
 
 	return nil
 }
 
-func (input AlgorithmSuiteInfo) Aws_cryptography_materialProviders_AlgorithmSuiteInfo_commitment_Validate() error {
+func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_commitment_Validate() error {
 	if input.Commitment == nil {
 		return nil
 	}
@@ -263,7 +263,7 @@ func (input AlgorithmSuiteInfo) Aws_cryptography_materialProviders_AlgorithmSuit
 
 	return nil
 }
-func (input AlgorithmSuiteInfo) Aws_cryptography_materialProviders_AlgorithmSuiteInfo_edkWrapping_Validate() error {
+func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_edkWrapping_Validate() error {
 	if input.EdkWrapping == nil {
 		return nil
 	}
@@ -283,7 +283,7 @@ func (input AlgorithmSuiteInfo) Aws_cryptography_materialProviders_AlgorithmSuit
 
 	return nil
 }
-func (input AlgorithmSuiteInfo) Aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_Validate() error {
+func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_Validate() error {
 	if input.Encrypt == nil {
 		return nil
 	}
@@ -299,7 +299,7 @@ func (input AlgorithmSuiteInfo) Aws_cryptography_materialProviders_AlgorithmSuit
 
 	return nil
 }
-func (input AlgorithmSuiteInfo) Aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_Validate() error {
+func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_Validate() error {
 	if input.Id == nil {
 		return nil
 	}
@@ -313,7 +313,7 @@ func (input AlgorithmSuiteInfo) Aws_cryptography_materialProviders_AlgorithmSuit
 
 	return nil
 }
-func (input AlgorithmSuiteInfo) Aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_Validate() error {
+func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_Validate() error {
 	if input.Kdf == nil {
 		return nil
 	}
@@ -337,7 +337,7 @@ func (input AlgorithmSuiteInfo) Aws_cryptography_materialProviders_AlgorithmSuit
 
 	return nil
 }
-func (input AlgorithmSuiteInfo) Aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_Validate() error {
+func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_Validate() error {
 	if input.Signature == nil {
 		return nil
 	}
@@ -357,7 +357,7 @@ func (input AlgorithmSuiteInfo) Aws_cryptography_materialProviders_AlgorithmSuit
 
 	return nil
 }
-func (input AlgorithmSuiteInfo) Aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_Validate() error {
+func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_Validate() error {
 	if input.SymmetricSignature == nil {
 		return nil
 	}
@@ -519,14 +519,14 @@ func (input CreateAwsKmsEcdhKeyringInput) Validate() error {
 	if input.KeyAgreementScheme == nil {
 		return fmt.Errorf("input.KeyAgreementScheme is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_KeyAgreementScheme_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_KeyAgreementScheme_Validate()
+	if input.aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_KeyAgreementScheme_Validate() != nil {
+		return input.aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_KeyAgreementScheme_Validate()
 	}
 
 	return nil
 }
 
-func (input CreateAwsKmsEcdhKeyringInput) Aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_KeyAgreementScheme_Validate() error {
+func (input CreateAwsKmsEcdhKeyringInput) aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_KeyAgreementScheme_Validate() error {
 	if input.KeyAgreementScheme == nil {
 		return nil
 	}
@@ -693,14 +693,14 @@ func (input CreateAwsKmsHierarchicalKeyringInput) Validate() error {
 	if input.TtlSeconds < 0 {
 		return fmt.Errorf("PositiveLong has a minimum of 0 but has the value of %d.", input.TtlSeconds)
 	}
-	if input.Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_Validate()
+	if input.aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_Validate() != nil {
+		return input.aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_Validate()
 	}
 
 	return nil
 }
 
-func (input CreateAwsKmsHierarchicalKeyringInput) Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_Validate() error {
+func (input CreateAwsKmsHierarchicalKeyringInput) aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_Validate() error {
 	if input.Cache == nil {
 		return nil
 	}
@@ -860,14 +860,14 @@ func (input CreateCryptographicMaterialsCacheInput) Validate() error {
 	if input.Cache == nil {
 		return fmt.Errorf("input.Cache is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_CreateCryptographicMaterialsCacheInput_cache_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_CreateCryptographicMaterialsCacheInput_cache_Validate()
+	if input.aws_cryptography_materialProviders_CreateCryptographicMaterialsCacheInput_cache_Validate() != nil {
+		return input.aws_cryptography_materialProviders_CreateCryptographicMaterialsCacheInput_cache_Validate()
 	}
 
 	return nil
 }
 
-func (input CreateCryptographicMaterialsCacheInput) Aws_cryptography_materialProviders_CreateCryptographicMaterialsCacheInput_cache_Validate() error {
+func (input CreateCryptographicMaterialsCacheInput) aws_cryptography_materialProviders_CreateCryptographicMaterialsCacheInput_cache_Validate() error {
 	if input.Cache == nil {
 		return nil
 	}
@@ -1021,14 +1021,14 @@ func (input CreateRawEcdhKeyringInput) Validate() error {
 	if input.KeyAgreementScheme == nil {
 		return fmt.Errorf("input.KeyAgreementScheme is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_KeyAgreementScheme_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_KeyAgreementScheme_Validate()
+	if input.aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_KeyAgreementScheme_Validate() != nil {
+		return input.aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_KeyAgreementScheme_Validate()
 	}
 
 	return nil
 }
 
-func (input CreateRawEcdhKeyringInput) Aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_KeyAgreementScheme_Validate() error {
+func (input CreateRawEcdhKeyringInput) aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_KeyAgreementScheme_Validate() error {
 	if input.KeyAgreementScheme == nil {
 		return nil
 	}
@@ -1082,14 +1082,14 @@ func (input CreateRequiredEncryptionContextCMMInput) Validate() error {
 	if input.RequiredEncryptionContextKeys == nil {
 		return fmt.Errorf("input.RequiredEncryptionContextKeys is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_CreateRequiredEncryptionContextCMMInput_requiredEncryptionContextKeys_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_CreateRequiredEncryptionContextCMMInput_requiredEncryptionContextKeys_Validate()
+	if input.aws_cryptography_materialProviders_CreateRequiredEncryptionContextCMMInput_requiredEncryptionContextKeys_Validate() != nil {
+		return input.aws_cryptography_materialProviders_CreateRequiredEncryptionContextCMMInput_requiredEncryptionContextKeys_Validate()
 	}
 
 	return nil
 }
 
-func (input CreateRequiredEncryptionContextCMMInput) Aws_cryptography_materialProviders_CreateRequiredEncryptionContextCMMInput_requiredEncryptionContextKeys_Validate() error {
+func (input CreateRequiredEncryptionContextCMMInput) aws_cryptography_materialProviders_CreateRequiredEncryptionContextCMMInput_requiredEncryptionContextKeys_Validate() error {
 	for _, item := range input.RequiredEncryptionContextKeys {
 		if !utf8.ValidString(item) {
 			return fmt.Errorf("Invalid UTF bytes %s ", item)
@@ -1140,35 +1140,35 @@ func (input DecryptMaterialsInput) Validate() error {
 	if input.AlgorithmSuiteId == nil {
 		return fmt.Errorf("input.AlgorithmSuiteId is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_DecryptMaterialsInput_algorithmSuiteId_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_DecryptMaterialsInput_algorithmSuiteId_Validate()
+	if input.aws_cryptography_materialProviders_DecryptMaterialsInput_algorithmSuiteId_Validate() != nil {
+		return input.aws_cryptography_materialProviders_DecryptMaterialsInput_algorithmSuiteId_Validate()
 	}
 	if input.CommitmentPolicy == nil {
 		return fmt.Errorf("input.CommitmentPolicy is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_DecryptMaterialsInput_commitmentPolicy_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_DecryptMaterialsInput_commitmentPolicy_Validate()
+	if input.aws_cryptography_materialProviders_DecryptMaterialsInput_commitmentPolicy_Validate() != nil {
+		return input.aws_cryptography_materialProviders_DecryptMaterialsInput_commitmentPolicy_Validate()
 	}
 	if input.EncryptedDataKeys == nil {
 		return fmt.Errorf("input.EncryptedDataKeys is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_DecryptMaterialsInput_encryptedDataKeys_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_DecryptMaterialsInput_encryptedDataKeys_Validate()
+	if input.aws_cryptography_materialProviders_DecryptMaterialsInput_encryptedDataKeys_Validate() != nil {
+		return input.aws_cryptography_materialProviders_DecryptMaterialsInput_encryptedDataKeys_Validate()
 	}
 	if input.EncryptionContext == nil {
 		return fmt.Errorf("input.EncryptionContext is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_DecryptMaterialsInput_encryptionContext_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_DecryptMaterialsInput_encryptionContext_Validate()
+	if input.aws_cryptography_materialProviders_DecryptMaterialsInput_encryptionContext_Validate() != nil {
+		return input.aws_cryptography_materialProviders_DecryptMaterialsInput_encryptionContext_Validate()
 	}
-	if input.Aws_cryptography_materialProviders_DecryptMaterialsInput_reproducedEncryptionContext_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_DecryptMaterialsInput_reproducedEncryptionContext_Validate()
+	if input.aws_cryptography_materialProviders_DecryptMaterialsInput_reproducedEncryptionContext_Validate() != nil {
+		return input.aws_cryptography_materialProviders_DecryptMaterialsInput_reproducedEncryptionContext_Validate()
 	}
 
 	return nil
 }
 
-func (input DecryptMaterialsInput) Aws_cryptography_materialProviders_DecryptMaterialsInput_algorithmSuiteId_Validate() error {
+func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMaterialsInput_algorithmSuiteId_Validate() error {
 	if input.AlgorithmSuiteId == nil {
 		return nil
 	}
@@ -1182,7 +1182,7 @@ func (input DecryptMaterialsInput) Aws_cryptography_materialProviders_DecryptMat
 
 	return nil
 }
-func (input DecryptMaterialsInput) Aws_cryptography_materialProviders_DecryptMaterialsInput_commitmentPolicy_Validate() error {
+func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMaterialsInput_commitmentPolicy_Validate() error {
 	if input.CommitmentPolicy == nil {
 		return nil
 	}
@@ -1196,7 +1196,7 @@ func (input DecryptMaterialsInput) Aws_cryptography_materialProviders_DecryptMat
 
 	return nil
 }
-func (input DecryptMaterialsInput) Aws_cryptography_materialProviders_DecryptMaterialsInput_encryptedDataKeys_Validate() error {
+func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMaterialsInput_encryptedDataKeys_Validate() error {
 	for _, item := range input.EncryptedDataKeys {
 		if item.Validate() != nil {
 			return item.Validate()
@@ -1205,7 +1205,7 @@ func (input DecryptMaterialsInput) Aws_cryptography_materialProviders_DecryptMat
 
 	return nil
 }
-func (input DecryptMaterialsInput) Aws_cryptography_materialProviders_DecryptMaterialsInput_encryptionContext_Validate() error {
+func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMaterialsInput_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
@@ -1217,7 +1217,7 @@ func (input DecryptMaterialsInput) Aws_cryptography_materialProviders_DecryptMat
 
 	return nil
 }
-func (input DecryptMaterialsInput) Aws_cryptography_materialProviders_DecryptMaterialsInput_reproducedEncryptionContext_Validate() error {
+func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMaterialsInput_reproducedEncryptionContext_Validate() error {
 	for key, value := range input.ReproducedEncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
@@ -1251,20 +1251,20 @@ func (input DecryptionMaterials) Validate() error {
 	if input.EncryptionContext == nil {
 		return fmt.Errorf("input.EncryptionContext is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_Validate()
+	if input.aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_Validate() != nil {
+		return input.aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_Validate()
 	}
 	if input.RequiredEncryptionContextKeys == nil {
 		return fmt.Errorf("input.RequiredEncryptionContextKeys is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_Validate()
+	if input.aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_Validate() != nil {
+		return input.aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_Validate()
 	}
 
 	return nil
 }
 
-func (input DecryptionMaterials) Aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_Validate() error {
+func (input DecryptionMaterials) aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
@@ -1276,7 +1276,7 @@ func (input DecryptionMaterials) Aws_cryptography_materialProviders_DecryptionMa
 
 	return nil
 }
-func (input DecryptionMaterials) Aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_Validate() error {
+func (input DecryptionMaterials) aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_Validate() error {
 	for _, item := range input.RequiredEncryptionContextKeys {
 		if !utf8.ValidString(item) {
 			return fmt.Errorf("Invalid UTF bytes %s ", item)
@@ -1314,26 +1314,26 @@ func (input GetEncryptionMaterialsInput) Validate() error {
 	if input.CommitmentPolicy == nil {
 		return fmt.Errorf("input.CommitmentPolicy is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_commitmentPolicy_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_commitmentPolicy_Validate()
+	if input.aws_cryptography_materialProviders_GetEncryptionMaterialsInput_commitmentPolicy_Validate() != nil {
+		return input.aws_cryptography_materialProviders_GetEncryptionMaterialsInput_commitmentPolicy_Validate()
 	}
 	if input.EncryptionContext == nil {
 		return fmt.Errorf("input.EncryptionContext is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_encryptionContext_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_encryptionContext_Validate()
+	if input.aws_cryptography_materialProviders_GetEncryptionMaterialsInput_encryptionContext_Validate() != nil {
+		return input.aws_cryptography_materialProviders_GetEncryptionMaterialsInput_encryptionContext_Validate()
 	}
-	if input.Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_algorithmSuiteId_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_algorithmSuiteId_Validate()
+	if input.aws_cryptography_materialProviders_GetEncryptionMaterialsInput_algorithmSuiteId_Validate() != nil {
+		return input.aws_cryptography_materialProviders_GetEncryptionMaterialsInput_algorithmSuiteId_Validate()
 	}
-	if input.Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate()
+	if input.aws_cryptography_materialProviders_GetEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate() != nil {
+		return input.aws_cryptography_materialProviders_GetEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate()
 	}
 
 	return nil
 }
 
-func (input GetEncryptionMaterialsInput) Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_commitmentPolicy_Validate() error {
+func (input GetEncryptionMaterialsInput) aws_cryptography_materialProviders_GetEncryptionMaterialsInput_commitmentPolicy_Validate() error {
 	if input.CommitmentPolicy == nil {
 		return nil
 	}
@@ -1347,7 +1347,7 @@ func (input GetEncryptionMaterialsInput) Aws_cryptography_materialProviders_GetE
 
 	return nil
 }
-func (input GetEncryptionMaterialsInput) Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_encryptionContext_Validate() error {
+func (input GetEncryptionMaterialsInput) aws_cryptography_materialProviders_GetEncryptionMaterialsInput_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
@@ -1359,7 +1359,7 @@ func (input GetEncryptionMaterialsInput) Aws_cryptography_materialProviders_GetE
 
 	return nil
 }
-func (input GetEncryptionMaterialsInput) Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_algorithmSuiteId_Validate() error {
+func (input GetEncryptionMaterialsInput) aws_cryptography_materialProviders_GetEncryptionMaterialsInput_algorithmSuiteId_Validate() error {
 	if input.AlgorithmSuiteId == nil {
 		return nil
 	}
@@ -1373,7 +1373,7 @@ func (input GetEncryptionMaterialsInput) Aws_cryptography_materialProviders_GetE
 
 	return nil
 }
-func (input GetEncryptionMaterialsInput) Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate() error {
+func (input GetEncryptionMaterialsInput) aws_cryptography_materialProviders_GetEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate() error {
 	for _, item := range input.RequiredEncryptionContextKeys {
 		if !utf8.ValidString(item) {
 			return fmt.Errorf("Invalid UTF bytes %s ", item)
@@ -1406,26 +1406,26 @@ func (input EncryptionMaterials) Validate() error {
 	if input.EncryptedDataKeys == nil {
 		return fmt.Errorf("input.EncryptedDataKeys is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_Validate()
+	if input.aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_Validate() != nil {
+		return input.aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_Validate()
 	}
 	if input.EncryptionContext == nil {
 		return fmt.Errorf("input.EncryptionContext is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_Validate()
+	if input.aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_Validate() != nil {
+		return input.aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_Validate()
 	}
 	if input.RequiredEncryptionContextKeys == nil {
 		return fmt.Errorf("input.RequiredEncryptionContextKeys is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_Validate()
+	if input.aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_Validate() != nil {
+		return input.aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_Validate()
 	}
 
 	return nil
 }
 
-func (input EncryptionMaterials) Aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_Validate() error {
+func (input EncryptionMaterials) aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_Validate() error {
 	for _, item := range input.EncryptedDataKeys {
 		if item.Validate() != nil {
 			return item.Validate()
@@ -1434,7 +1434,7 @@ func (input EncryptionMaterials) Aws_cryptography_materialProviders_EncryptionMa
 
 	return nil
 }
-func (input EncryptionMaterials) Aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_Validate() error {
+func (input EncryptionMaterials) aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
@@ -1446,7 +1446,7 @@ func (input EncryptionMaterials) Aws_cryptography_materialProviders_EncryptionMa
 
 	return nil
 }
-func (input EncryptionMaterials) Aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_Validate() error {
+func (input EncryptionMaterials) aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_Validate() error {
 	for _, item := range input.RequiredEncryptionContextKeys {
 		if !utf8.ValidString(item) {
 			return fmt.Errorf("Invalid UTF bytes %s ", item)
@@ -1489,26 +1489,26 @@ func (input InitializeDecryptionMaterialsInput) Validate() error {
 	if input.AlgorithmSuiteId == nil {
 		return fmt.Errorf("input.AlgorithmSuiteId is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_algorithmSuiteId_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_algorithmSuiteId_Validate()
+	if input.aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_algorithmSuiteId_Validate() != nil {
+		return input.aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_algorithmSuiteId_Validate()
 	}
 	if input.EncryptionContext == nil {
 		return fmt.Errorf("input.EncryptionContext is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_encryptionContext_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_encryptionContext_Validate()
+	if input.aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_encryptionContext_Validate() != nil {
+		return input.aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_encryptionContext_Validate()
 	}
 	if input.RequiredEncryptionContextKeys == nil {
 		return fmt.Errorf("input.RequiredEncryptionContextKeys is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_requiredEncryptionContextKeys_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_requiredEncryptionContextKeys_Validate()
+	if input.aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_requiredEncryptionContextKeys_Validate() != nil {
+		return input.aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_requiredEncryptionContextKeys_Validate()
 	}
 
 	return nil
 }
 
-func (input InitializeDecryptionMaterialsInput) Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_algorithmSuiteId_Validate() error {
+func (input InitializeDecryptionMaterialsInput) aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_algorithmSuiteId_Validate() error {
 	if input.AlgorithmSuiteId == nil {
 		return nil
 	}
@@ -1522,7 +1522,7 @@ func (input InitializeDecryptionMaterialsInput) Aws_cryptography_materialProvide
 
 	return nil
 }
-func (input InitializeDecryptionMaterialsInput) Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_encryptionContext_Validate() error {
+func (input InitializeDecryptionMaterialsInput) aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
@@ -1534,7 +1534,7 @@ func (input InitializeDecryptionMaterialsInput) Aws_cryptography_materialProvide
 
 	return nil
 }
-func (input InitializeDecryptionMaterialsInput) Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_requiredEncryptionContextKeys_Validate() error {
+func (input InitializeDecryptionMaterialsInput) aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_requiredEncryptionContextKeys_Validate() error {
 	for _, item := range input.RequiredEncryptionContextKeys {
 		if !utf8.ValidString(item) {
 			return fmt.Errorf("Invalid UTF bytes %s ", item)
@@ -1560,26 +1560,26 @@ func (input InitializeEncryptionMaterialsInput) Validate() error {
 	if input.AlgorithmSuiteId == nil {
 		return fmt.Errorf("input.AlgorithmSuiteId is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_algorithmSuiteId_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_algorithmSuiteId_Validate()
+	if input.aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_algorithmSuiteId_Validate() != nil {
+		return input.aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_algorithmSuiteId_Validate()
 	}
 	if input.EncryptionContext == nil {
 		return fmt.Errorf("input.EncryptionContext is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_encryptionContext_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_encryptionContext_Validate()
+	if input.aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_encryptionContext_Validate() != nil {
+		return input.aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_encryptionContext_Validate()
 	}
 	if input.RequiredEncryptionContextKeys == nil {
 		return fmt.Errorf("input.RequiredEncryptionContextKeys is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate()
+	if input.aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate() != nil {
+		return input.aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate()
 	}
 
 	return nil
 }
 
-func (input InitializeEncryptionMaterialsInput) Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_algorithmSuiteId_Validate() error {
+func (input InitializeEncryptionMaterialsInput) aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_algorithmSuiteId_Validate() error {
 	if input.AlgorithmSuiteId == nil {
 		return nil
 	}
@@ -1593,7 +1593,7 @@ func (input InitializeEncryptionMaterialsInput) Aws_cryptography_materialProvide
 
 	return nil
 }
-func (input InitializeEncryptionMaterialsInput) Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_encryptionContext_Validate() error {
+func (input InitializeEncryptionMaterialsInput) aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
@@ -1605,7 +1605,7 @@ func (input InitializeEncryptionMaterialsInput) Aws_cryptography_materialProvide
 
 	return nil
 }
-func (input InitializeEncryptionMaterialsInput) Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate() error {
+func (input InitializeEncryptionMaterialsInput) aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate() error {
 	for _, item := range input.RequiredEncryptionContextKeys {
 		if !utf8.ValidString(item) {
 			return fmt.Errorf("Invalid UTF bytes %s ", item)
@@ -1625,8 +1625,8 @@ func (input OnDecryptInput) Validate() error {
 	if input.EncryptedDataKeys == nil {
 		return fmt.Errorf("input.EncryptedDataKeys is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_OnDecryptInput_encryptedDataKeys_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_OnDecryptInput_encryptedDataKeys_Validate()
+	if input.aws_cryptography_materialProviders_OnDecryptInput_encryptedDataKeys_Validate() != nil {
+		return input.aws_cryptography_materialProviders_OnDecryptInput_encryptedDataKeys_Validate()
 	}
 	if input.Materials.Validate() != nil {
 		return input.Materials.Validate()
@@ -1635,7 +1635,7 @@ func (input OnDecryptInput) Validate() error {
 	return nil
 }
 
-func (input OnDecryptInput) Aws_cryptography_materialProviders_OnDecryptInput_encryptedDataKeys_Validate() error {
+func (input OnDecryptInput) aws_cryptography_materialProviders_OnDecryptInput_encryptedDataKeys_Validate() error {
 	for _, item := range input.EncryptedDataKeys {
 		if item.Validate() != nil {
 			return item.Validate()
@@ -1691,20 +1691,20 @@ func (input ValidateCommitmentPolicyOnDecryptInput) Validate() error {
 	if input.Algorithm == nil {
 		return fmt.Errorf("input.Algorithm is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_algorithm_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_algorithm_Validate()
+	if input.aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_algorithm_Validate() != nil {
+		return input.aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_algorithm_Validate()
 	}
 	if input.CommitmentPolicy == nil {
 		return fmt.Errorf("input.CommitmentPolicy is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_commitmentPolicy_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_commitmentPolicy_Validate()
+	if input.aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_commitmentPolicy_Validate() != nil {
+		return input.aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_commitmentPolicy_Validate()
 	}
 
 	return nil
 }
 
-func (input ValidateCommitmentPolicyOnDecryptInput) Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_algorithm_Validate() error {
+func (input ValidateCommitmentPolicyOnDecryptInput) aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_algorithm_Validate() error {
 	if input.Algorithm == nil {
 		return nil
 	}
@@ -1718,7 +1718,7 @@ func (input ValidateCommitmentPolicyOnDecryptInput) Aws_cryptography_materialPro
 
 	return nil
 }
-func (input ValidateCommitmentPolicyOnDecryptInput) Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_commitmentPolicy_Validate() error {
+func (input ValidateCommitmentPolicyOnDecryptInput) aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_commitmentPolicy_Validate() error {
 	if input.CommitmentPolicy == nil {
 		return nil
 	}
@@ -1743,20 +1743,20 @@ func (input ValidateCommitmentPolicyOnEncryptInput) Validate() error {
 	if input.Algorithm == nil {
 		return fmt.Errorf("input.Algorithm is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_algorithm_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_algorithm_Validate()
+	if input.aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_algorithm_Validate() != nil {
+		return input.aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_algorithm_Validate()
 	}
 	if input.CommitmentPolicy == nil {
 		return fmt.Errorf("input.CommitmentPolicy is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_commitmentPolicy_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_commitmentPolicy_Validate()
+	if input.aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_commitmentPolicy_Validate() != nil {
+		return input.aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_commitmentPolicy_Validate()
 	}
 
 	return nil
 }
 
-func (input ValidateCommitmentPolicyOnEncryptInput) Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_algorithm_Validate() error {
+func (input ValidateCommitmentPolicyOnEncryptInput) aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_algorithm_Validate() error {
 	if input.Algorithm == nil {
 		return nil
 	}
@@ -1770,7 +1770,7 @@ func (input ValidateCommitmentPolicyOnEncryptInput) Aws_cryptography_materialPro
 
 	return nil
 }
-func (input ValidateCommitmentPolicyOnEncryptInput) Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_commitmentPolicy_Validate() error {
+func (input ValidateCommitmentPolicyOnEncryptInput) aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_commitmentPolicy_Validate() error {
 	if input.CommitmentPolicy == nil {
 		return nil
 	}
@@ -1827,14 +1827,14 @@ func (input GetBranchKeyIdInput) Validate() error {
 	if input.EncryptionContext == nil {
 		return fmt.Errorf("input.EncryptionContext is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_Validate()
+	if input.aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_Validate() != nil {
+		return input.aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_Validate()
 	}
 
 	return nil
 }
 
-func (input GetBranchKeyIdInput) Aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_Validate() error {
+func (input GetBranchKeyIdInput) aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
@@ -1901,8 +1901,8 @@ func (input GetCacheEntryOutput) Validate() error {
 	if input.Materials == nil {
 		return fmt.Errorf("input.Materials is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_GetCacheEntryOutput_materials_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_GetCacheEntryOutput_materials_Validate()
+	if input.aws_cryptography_materialProviders_GetCacheEntryOutput_materials_Validate() != nil {
+		return input.aws_cryptography_materialProviders_GetCacheEntryOutput_materials_Validate()
 	}
 	if input.MessagesUsed < 0 {
 		return fmt.Errorf("PositiveInteger has a minimum of 0 but has the value of %d.", input.MessagesUsed)
@@ -1911,7 +1911,7 @@ func (input GetCacheEntryOutput) Validate() error {
 	return nil
 }
 
-func (input GetCacheEntryOutput) Aws_cryptography_materialProviders_GetCacheEntryOutput_materials_Validate() error {
+func (input GetCacheEntryOutput) aws_cryptography_materialProviders_GetCacheEntryOutput_materials_Validate() error {
 	if input.Materials == nil {
 		return nil
 	}
@@ -1964,8 +1964,8 @@ func (input PutCacheEntryInput) Validate() error {
 	if input.Materials == nil {
 		return fmt.Errorf("input.Materials is required but has a nil value.")
 	}
-	if input.Aws_cryptography_materialProviders_PutCacheEntryInput_materials_Validate() != nil {
-		return input.Aws_cryptography_materialProviders_PutCacheEntryInput_materials_Validate()
+	if input.aws_cryptography_materialProviders_PutCacheEntryInput_materials_Validate() != nil {
+		return input.aws_cryptography_materialProviders_PutCacheEntryInput_materials_Validate()
 	}
 	if input.BytesUsed != nil {
 		if *input.BytesUsed < 0 {
@@ -1981,7 +1981,7 @@ func (input PutCacheEntryInput) Validate() error {
 	return nil
 }
 
-func (input PutCacheEntryInput) Aws_cryptography_materialProviders_PutCacheEntryInput_materials_Validate() error {
+func (input PutCacheEntryInput) aws_cryptography_materialProviders_PutCacheEntryInput_materials_Validate() error {
 	if input.Materials == nil {
 		return nil
 	}
