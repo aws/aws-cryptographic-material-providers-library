@@ -354,12 +354,13 @@ module TestVersionKey {
       ddbTableNameUtf8 := ddbTableNameUtf8,
       logicalKeyStoreNameUtf8 := logicalKeyStoreNameUtf8
     );
-
+    var overWrite := Types.OverWriteEncryptedHierarchicalKey(
+      Item := Active,
+      Old := Active);
     var output := storage.WriteNewEncryptedBranchKeyVersion(
       Types.WriteNewEncryptedBranchKeyVersionInput(
         Version := Version,
-        Active := Active,
-        oldActive := Active
+        Active := overWrite
       )
     );
 
@@ -400,11 +401,14 @@ module TestVersionKey {
       logicalKeyStoreNameUtf8 := logicalKeyStoreNameUtf8
     );
 
+    var overWrite := Types.OverWriteEncryptedHierarchicalKey(
+      Item := Active,
+      Old := Active);
+
     var output := storage.WriteNewEncryptedBranchKeyVersion(
       Types.WriteNewEncryptedBranchKeyVersionInput(
         Version := Version,
-        Active := Active,
-        oldActive := Active
+        Active := overWrite
       )
     );
 

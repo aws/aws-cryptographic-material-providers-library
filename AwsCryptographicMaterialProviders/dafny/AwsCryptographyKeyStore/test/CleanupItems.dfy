@@ -155,4 +155,26 @@ module CleanupItems {
     var _ :- ddbClient.TransactWriteItems(deleteReq);
     return Success(if 100 < |queryRes.Items.value| then false else true);
   }
+
+  method DeleteTypeWithFailure(
+    branchKeyIdentifier: string,
+    typeStr: string,
+    ddbClient: DDB.Types.IDynamoDBClient
+  )
+    returns (output: Result<bool, DDB.Types.Error>)
+    requires ddbClient.ValidState()
+    modifies ddbClient.Modifies
+    ensures ddbClient.ValidState()
+  {
+    var _ :- ddbClient.DeleteItem(
+      DDB.Types.DeleteItemInput(
+        TableName := branchKeyStoreName,
+        Key := map[
+          Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.Types.AttributeValue.S(branchKeyIdentifier),
+          Structure.TYPE_FIELD := DDB.Types.AttributeValue.S(typeStr)
+        ]
+      )
+    );
+    return Success(true);
+  }
 }
