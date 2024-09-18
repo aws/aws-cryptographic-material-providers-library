@@ -328,7 +328,7 @@ module Fixtures {
       ],
       ConsistentRead := Some(true));
     var result? := ddbClient.GetItem(input);
-    if (result?.Success? && result?.value.Item.Some?) {
+    if (result?.Success? && result?.value.Item.Some? && 0 < |result?.value.Item.value| ) {
       return Success(result?.value.Item.value);
     }
     return Failure("Failed to GetItem. ID: " + id + " type: " + typeStr + " .");
