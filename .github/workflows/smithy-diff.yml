@@ -36,6 +36,7 @@ jobs:
         run: |
           # Fetch comments and find the one made by the bot
           bot_comment=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \ https://api.github.com/repos/${{ github.repository }}/issues/${PR_NUMBER}/comments \ | jq -r '.[] | select(.user.login == "$BOT_USERNAME") | .body')
+          echo $bot_comment
 
           # Check if the author has reacted to the bot's comment
           reactions=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \ https://api.github.com/repos/${{ github.repository }}/issues/comments/$bot_comment/reactions \ | jq -r '.[] | select(.user.login == "$AUTHOR") | .content')
