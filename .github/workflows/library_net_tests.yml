@@ -19,13 +19,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        library: [
+        library:
+          [
             StandardLibrary,
             AwsCryptographyPrimitives,
             ComAmazonawsKms,
             ComAmazonawsDynamodb,
             AwsCryptographicMaterialProviders,
-            TestVectorsAwsCryptographicMaterialProviders
+            TestVectorsAwsCryptographicMaterialProviders,
           ]
         dotnet-version: ["6.0.x"]
         os: [windows-latest, ubuntu-latest, macos-12]
