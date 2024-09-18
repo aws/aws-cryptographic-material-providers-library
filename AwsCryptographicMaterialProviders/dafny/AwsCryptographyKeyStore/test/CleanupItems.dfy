@@ -3,7 +3,6 @@
 
 include "../src/Index.dfy"
 include "Fixtures.dfy"
-include "../src/Structure.dfy"
 
 module CleanupItems {
   import opened Wrappers
