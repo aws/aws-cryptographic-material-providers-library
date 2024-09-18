@@ -369,6 +369,13 @@ module TestAwsKmsHierarchicalKeyring {
     var kmsClientWest :- expect KMS.KMSClientForRegion(regionWest);
     var kmsClientEast :- expect KMS.KMSClientForRegion(regionEast);
     var ddbClient :- expect DDB.DynamoDBClient();
+    // Recommend commenting the assume out while developing this method,
+    // and just ignore the modifies exeptions,
+    // and then re-enabling it once everything is safe
+    assume {:axiom} && kmsClientWest.Modifies == {}
+                    && kmsClientEast.Modifies == {}
+                    && ddbClient.Modifies == {};
+
     var kmsConfig := KeyStoreTypes.KMSConfiguration.kmsKeyArn(keyArn);
 
     // Create a Key Store with the a KMS configuration and
@@ -379,7 +386,7 @@ module TestAwsKmsHierarchicalKeyring {
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
       grantTokens := None,
-      ddbTableName := branchKeyStoreName,
+      ddbTableName := Some(branchKeyStoreName),
       ddbClient := Some(ddbClient),
       kmsClient := Some(kmsClientWest)
     );
@@ -395,7 +402,7 @@ module TestAwsKmsHierarchicalKeyring {
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
       grantTokens := None,
-      ddbTableName := branchKeyStoreName,
+      ddbTableName := Some(branchKeyStoreName),
       ddbClient := Some(ddbClient),
       kmsClient := Some(kmsClientEast)
     );
@@ -509,6 +516,13 @@ module TestAwsKmsHierarchicalKeyring {
     var kmsClientWest :- expect KMS.KMSClientForRegion(regionWest);
     var kmsClientEast :- expect KMS.KMSClientForRegion(regionEast);
     var ddbClient :- expect DDB.DynamoDBClient();
+    // Recommend commenting the assume out while developing this method,
+    // and just ignore the modifies exeptions,
+    // and then re-enabling it once everything is safe
+    assume {:axiom} && kmsClientWest.Modifies == {}
+                    && kmsClientEast.Modifies == {}
+                    && ddbClient.Modifies == {};
+
     var kmsConfig := KeyStoreTypes.KMSConfiguration.kmsKeyArn(keyArn);
 
     // Create a Key Store with the a KMS configuration and
@@ -519,7 +533,7 @@ module TestAwsKmsHierarchicalKeyring {
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
       grantTokens := None,
-      ddbTableName := branchKeyStoreName,
+      ddbTableName := Some(branchKeyStoreName),
       ddbClient := Some(ddbClient),
       kmsClient := Some(kmsClientWest)
     );
@@ -535,7 +549,7 @@ module TestAwsKmsHierarchicalKeyring {
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
       grantTokens := None,
-      ddbTableName := branchKeyStoreName,
+      ddbTableName := Some(branchKeyStoreName),
       ddbClient := Some(ddbClient),
       kmsClient := Some(kmsClientEast)
     );
@@ -629,6 +643,13 @@ module TestAwsKmsHierarchicalKeyring {
     var kmsClientWest :- expect KMS.KMSClientForRegion(regionWest);
     var kmsClientEast :- expect KMS.KMSClientForRegion(regionEast);
     var ddbClient :- expect DDB.DynamoDBClient();
+    // Recommend commenting the assume out while developing this method,
+    // and just ignore the modifies exeptions,
+    // and then re-enabling it once everything is safe
+    assume {:axiom} && kmsClientWest.Modifies == {}
+                    && kmsClientEast.Modifies == {}
+                    && ddbClient.Modifies == {};
+
     var kmsConfig := KeyStoreTypes.KMSConfiguration.kmsKeyArn(keyArn);
 
     // Create a Key Store with the a KMS configuration and
@@ -639,7 +660,7 @@ module TestAwsKmsHierarchicalKeyring {
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
       grantTokens := None,
-      ddbTableName := branchKeyStoreName,
+      ddbTableName := Some(branchKeyStoreName),
       ddbClient := Some(ddbClient),
       kmsClient := Some(kmsClientWest)
     );
@@ -655,7 +676,7 @@ module TestAwsKmsHierarchicalKeyring {
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
       grantTokens := None,
-      ddbTableName := branchKeyStoreName,
+      ddbTableName := Some(branchKeyStoreName),
       ddbClient := Some(ddbClient),
       kmsClient := Some(kmsClientEast)
     );
@@ -747,6 +768,13 @@ module TestAwsKmsHierarchicalKeyring {
     var kmsClientWest :- expect KMS.KMSClientForRegion(regionWest);
     var kmsClientEast :- expect KMS.KMSClientForRegion(regionEast);
     var ddbClient :- expect DDB.DynamoDBClient();
+
+    // Recommend commenting the assume out while developing this method,
+    // and just ignore the modifies exeptions,
+    // and then re-enabling it once everything is safe
+    assume {:axiom} && kmsClientWest.Modifies == {}
+                    && kmsClientEast.Modifies == {}
+                    && ddbClient.Modifies == {};
     var kmsConfig := KeyStoreTypes.KMSConfiguration.kmsKeyArn(keyArn);
 
     // Different logical key store names for both Key Stores
@@ -761,7 +789,7 @@ module TestAwsKmsHierarchicalKeyring {
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
       grantTokens := None,
-      ddbTableName := branchKeyStoreName,
+      ddbTableName := Some(branchKeyStoreName),
       ddbClient := Some(ddbClient),
       kmsClient := Some(kmsClientWest)
     );
@@ -778,7 +806,7 @@ module TestAwsKmsHierarchicalKeyring {
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreNameNew,
       grantTokens := None,
-      ddbTableName := branchKeyStoreName,
+      ddbTableName := Some(branchKeyStoreName),
       ddbClient := Some(ddbClient),
       kmsClient := Some(kmsClientEast)
     );
