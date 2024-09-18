@@ -40,6 +40,249 @@ class UnknownApiError(ApiError[Literal["Unknown"]]):
     code: Literal["Unknown"] = "Unknown"
 
 
+class AlreadyExistsConditionFailed(ApiError[Literal["AlreadyExistsConditionFailed"]]):
+    code: Literal["AlreadyExistsConditionFailed"] = "AlreadyExistsConditionFailed"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        """Write to Storage failed.
+
+        An item already exists for this Branch Key ID & Type.
+        :param message: A message associated with the specific error.
+        """
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the AlreadyExistsConditionFailed to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "AlreadyExistsConditionFailed":
+        """Creates a AlreadyExistsConditionFailed from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return AlreadyExistsConditionFailed(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "AlreadyExistsConditionFailed("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, AlreadyExistsConditionFailed):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class KeyStorageException(ApiError[Literal["KeyStorageException"]]):
+    code: Literal["KeyStorageException"] = "KeyStorageException"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the KeyStorageException to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KeyStorageException":
+        """Creates a KeyStorageException from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return KeyStorageException(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "KeyStorageException("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, KeyStorageException):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class MutationCommitmentConditionFailed(
+    ApiError[Literal["MutationCommitmentConditionFailed"]]
+):
+    code: Literal["MutationCommitmentConditionFailed"] = (
+        "MutationCommitmentConditionFailed"
+    )
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        """Write to Storage failed due to Mutation Lock condition failure.
+
+        :param message: A message associated with the specific error.
+        """
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the MutationCommitmentConditionFailed to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "MutationCommitmentConditionFailed":
+        """Creates a MutationCommitmentConditionFailed from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return MutationCommitmentConditionFailed(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "MutationCommitmentConditionFailed("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, MutationCommitmentConditionFailed):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class OldEncConditionFailed(ApiError[Literal["OldEncConditionFailed"]]):
+    code: Literal["OldEncConditionFailed"] = "OldEncConditionFailed"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        """Write to Storage failed; cipher-text attribute of an item was
+        updated since it was read.
+
+        :param message: A message associated with the specific error.
+        """
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the OldEncConditionFailed to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "OldEncConditionFailed":
+        """Creates a OldEncConditionFailed from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return OldEncConditionFailed(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "OldEncConditionFailed("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, OldEncConditionFailed):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class NoLongerExistsConditionFailed(ApiError[Literal["NoLongerExistsConditionFailed"]]):
+    code: Literal["NoLongerExistsConditionFailed"] = "NoLongerExistsConditionFailed"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        """Write to Storage failed.
+
+        Item was deleted since it was read.
+        :param message: A message associated with the specific error.
+        """
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the NoLongerExistsConditionFailed to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "NoLongerExistsConditionFailed":
+        """Creates a NoLongerExistsConditionFailed from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return NoLongerExistsConditionFailed(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "NoLongerExistsConditionFailed("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, NoLongerExistsConditionFailed):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
 class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
     code: Literal["KeyStoreException"] = "KeyStoreException"
     message: str
@@ -84,8 +327,145 @@ class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
+class VersionRaceException(ApiError[Literal["VersionRaceException"]]):
+    code: Literal["VersionRaceException"] = "VersionRaceException"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        """Operation was rejected due to a race with VersionKey.
+
+        No items were changed. Retry operation when no other agent is
+        Versioning this Branch Key ID.
+        :param message: A message associated with the specific error.
+        """
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the VersionRaceException to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "VersionRaceException":
+        """Creates a VersionRaceException from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return VersionRaceException(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "VersionRaceException("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, VersionRaceException):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class KeyManagementException(ApiError[Literal["KeyManagementException"]]):
+    code: Literal["KeyManagementException"] = "KeyManagementException"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        """AWS KMS request was unsuccesful or response was invalid.
+
+        :param message: A message associated with the specific error.
+        """
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the KeyManagementException to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KeyManagementException":
+        """Creates a KeyManagementException from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return KeyManagementException(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "KeyManagementException("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, KeyManagementException):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class AlreadyExistsConditionFailed(ApiError[Literal["AlreadyExistsConditionFailed"]]):
+    code: Literal["AlreadyExistsConditionFailed"] = "AlreadyExistsConditionFailed"
+    message: str
+
+
+class KeyManagementException(ApiError[Literal["KeyManagementException"]]):
+    code: Literal["KeyManagementException"] = "KeyManagementException"
+    message: str
+
+
+class KeyStorageException(ApiError[Literal["KeyStorageException"]]):
+    code: Literal["KeyStorageException"] = "KeyStorageException"
+    message: str
+
+
 class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
     code: Literal["KeyStoreException"] = "KeyStoreException"
+    message: str
+
+
+class MutationCommitmentConditionFailed(
+    ApiError[Literal["MutationCommitmentConditionFailed"]]
+):
+    code: Literal["MutationCommitmentConditionFailed"] = (
+        "MutationCommitmentConditionFailed"
+    )
+    message: str
+
+
+class NoLongerExistsConditionFailed(ApiError[Literal["NoLongerExistsConditionFailed"]]):
+    code: Literal["NoLongerExistsConditionFailed"] = "NoLongerExistsConditionFailed"
+    message: str
+
+
+class OldEncConditionFailed(ApiError[Literal["OldEncConditionFailed"]]):
+    code: Literal["OldEncConditionFailed"] = "OldEncConditionFailed"
+    message: str
+
+
+class VersionRaceException(ApiError[Literal["VersionRaceException"]]):
+    code: Literal["VersionRaceException"] = "VersionRaceException"
     message: str
 
 
@@ -261,9 +641,65 @@ def _smithy_error_to_dafny_error(e: ServiceError):
     Dafny error."""
     if isinstance(
         e,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.AlreadyExistsConditionFailed,
+    ):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_AlreadyExistsConditionFailed(
+            message=_dafny.Seq(e.message)
+        )
+
+    if isinstance(
+        e,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.KeyManagementException,
+    ):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_KeyManagementException(
+            message=_dafny.Seq(e.message)
+        )
+
+    if isinstance(
+        e,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.KeyStorageException,
+    ):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_KeyStorageException(
+            message=_dafny.Seq(e.message)
+        )
+
+    if isinstance(
+        e,
         aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.KeyStoreException,
     ):
         return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_KeyStoreException(
+            message=_dafny.Seq(e.message)
+        )
+
+    if isinstance(
+        e,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.MutationCommitmentConditionFailed,
+    ):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_MutationCommitmentConditionFailed(
+            message=_dafny.Seq(e.message)
+        )
+
+    if isinstance(
+        e,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.NoLongerExistsConditionFailed,
+    ):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_NoLongerExistsConditionFailed(
+            message=_dafny.Seq(e.message)
+        )
+
+    if isinstance(
+        e,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.OldEncConditionFailed,
+    ):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_OldEncConditionFailed(
+            message=_dafny.Seq(e.message)
+        )
+
+    if isinstance(
+        e,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.VersionRaceException,
+    ):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_VersionRaceException(
             message=_dafny.Seq(e.message)
         )
 
