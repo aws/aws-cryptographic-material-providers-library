@@ -24,127 +24,99 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
 
   method {:test} TestCreateBranchAndBeaconKeys()
   {
-    var kmsClient :- expect KMS.KMSClient();
-    var ddbClient :- expect DDB.DynamoDBClient();
-    // var storage := new DefaultKeyStorageInterface.DynamoDBKeyStorageInterface(
-    //   ddbTableName := branchKeyStoreName,
-    //   ddbClient := ddbClient,
-    //   logicalKeyStoreName := logicalKeyStoreName
-    // );
-    // var keyStoreAdminConfig := Types.KeyStoreAdminConfig(
-    //   logicalKeyStoreName := logicalKeyStoreName,
-    //   storage := KeyStoreTypes.Storage.custom(storage)
-    // );
-    // var kmsStrat := Types.KeyManagementStrategy.reEncrypt(
-    //   KeyStoreTypes.AwsKms(
-    //     grantTokens := None,
-    //     kmsClient := Some(kmsClient)));
-    // var underTest :- expect KeyStoreAdmin.KeyStoreAdmin(keyStoreAdminConfig);
-    var underTest :- expect AdminFixtures.DefaultAdmin();
-    var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy();
-    // var branchKeyId
-    //   :- expect underTest.CreateKey(
-    //   Types.CreateKeyInput(
-    //     branchKeyIdentifier := None,
-    //     encryptionContext := None,
-    //     strategy := strategy
-    //   ));
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
+    var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+    var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
 
-    // var keyStoreConfig := KeyStoreTypes.KeyStoreConfig(
-    //   id := None,
-    //   kmsConfiguration := KeyStoreTypes.KMSConfiguration.kmsKeyArn(keyArn),
-    //   logicalKeyStoreName := logicalKeyStoreName,
-    //   storage := Some(
-    //     KeyStoreTypes.ddb(
-    //       KeyStoreTypes.DynamoDBTable(
-    //         ddbTableName := branchKeyStoreName,
-    //         ddbClient := Some(ddbClient)
-    //       ))),
-    //   keyManagement := Some(
-    //     KeyStoreTypes.kms(
-    //       KeyStoreTypes.AwsKms(
-    //         kmsClient := Some(kmsClient)
-    //       )))
-    // );
+    var input := Types.CreateKeyInput(
+      branchKeyIdentifier := None,
+      encryptionContext := None,
+      kmsArn := Types.KMSIdentifier.kmsKeyArn(keyArn),
+      strategy := Some(strategy)
+    );
+    var branchKeyId :- expect underTest.CreateKey(input);
 
-    // var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
-    // // TODO: The rest of this is a copy/paste from KeyStore/test/TestCreateKeys.dfy
-    // // We should abstract and consolidate
-    // var beaconKeyResult :- expect keyStore.GetBeaconKey(
-    //   KeyStoreTypes.GetBeaconKeyInput(
-    //     branchKeyIdentifier := branchKeyId.branchKeyIdentifier
-    //   ));
+    // TODO: The rest of this is a copy/paste from KeyStore/test/TestCreateKeys.dfy
+    // We should abstract and consolidate
+    var beaconKeyResult :- expect keyStore.GetBeaconKey(
+      KeyStoreTypes.GetBeaconKeyInput(
+        branchKeyIdentifier := branchKeyId.branchKeyIdentifier
+      ));
 
-    // var activeResult :- expect keyStore.GetActiveBranchKey(
-    //   KeyStoreTypes.GetActiveBranchKeyInput(
-    //     branchKeyIdentifier := branchKeyId.branchKeyIdentifier
-    //   ));
+    var activeResult :- expect keyStore.GetActiveBranchKey(
+      KeyStoreTypes.GetActiveBranchKeyInput(
+        branchKeyIdentifier := branchKeyId.branchKeyIdentifier
+      ));
 
-    // var branchKeyVersion :- expect UTF8.Decode(activeResult.branchKeyMaterials.branchKeyVersion);
-    // var versionResult :- expect keyStore.GetBranchKeyVersion(
-    //   KeyStoreTypes.GetBranchKeyVersionInput(
-    //     branchKeyIdentifier := branchKeyId.branchKeyIdentifier,
-    //     branchKeyVersion := branchKeyVersion
-    //   ));
+    var branchKeyVersion :- expect UTF8.Decode(activeResult.branchKeyMaterials.branchKeyVersion);
+    var versionResult :- expect keyStore.GetBranchKeyVersion(
+      KeyStoreTypes.GetBranchKeyVersionInput(
+        branchKeyIdentifier := branchKeyId.branchKeyIdentifier,
+        branchKeyVersion := branchKeyVersion
+      ));
 
-    // var encryptedActive :- expect keyStore.config.storage.GetActive(
-    //   KeyStoreTypes.GetEncryptedActiveBranchKeyInput(
-    //     Identifier := branchKeyId.branchKeyIdentifier
-    //   )
-    // );
+    var encryptedActive :- expect storage.GetEncryptedActiveBranchKey(
+      KeyStoreTypes.GetEncryptedActiveBranchKeyInput(
+        Identifier := branchKeyId.branchKeyIdentifier
+      )
+    );
 
-    // var encryptedVersion :- expect keyStore.config.storage.GetVersion(
-    //   KeyStoreTypes.GetEncryptedBranchKeyVersionInput(
-    //     Identifier := branchKeyId.branchKeyIdentifier,
-    //     Version := encryptedActive.Item.Type.ActiveHierarchicalSymmetricVersion
-    //   )
-    // );
+    expect encryptedActive.Item.Type.ActiveHierarchicalSymmetricVersion?;
+    var encryptedVersion :- expect storage.GetEncryptedBranchKeyVersion(
+      KeyStoreTypes.GetEncryptedBranchKeyVersionInput(
+        Identifier := branchKeyId.branchKeyIdentifier,
+        Version := encryptedActive.Item.Type.ActiveHierarchicalSymmetricVersion.Version
+      )
+    );
 
-    // var encryptedBeacon :- expect keyStore.config.storage.GetBeacon(
-    //   KeyStoreTypes.GetEncryptedBeaconKeyInput(
-    //     Identifier := branchKeyId.branchKeyIdentifier
-    //   )
-    // );
+    var encryptedBeacon :- expect storage.GetEncryptedBeaconKey(
+      KeyStoreTypes.GetEncryptedBeaconKeyInput(
+        Identifier := branchKeyId.branchKeyIdentifier
+      )
+    );
 
-    // //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
-    // //= type=test
-    // //# This timestamp MUST be in ISO 8601 format in UTC, to microsecond precision (e.g. “YYYY-MM-DDTHH:mm:ss.ssssssZ“)
-    // expect ISO8601?(encryptedActive.Item.CreateTime);
-    // expect ISO8601?(encryptedVersion.Item.CreateTime);
-    // expect ISO8601?(encryptedBeacon.Item.CreateTime);
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
+    //= type=test
+    //# This timestamp MUST be in ISO 8601 format in UTC, to microsecond precision (e.g. “YYYY-MM-DDTHH:mm:ss.ssssssZ“)
+    expect ISO8601?(encryptedActive.Item.CreateTime);
+    expect ISO8601?(encryptedVersion.Item.CreateTime);
+    expect ISO8601?(encryptedBeacon.Item.CreateTime);
 
-    // // Since this process uses a read DDB table,
-    // // the number of records will forever increase.
-    // // To avoid this, remove the items.
-    // CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, branchKeyVersion, ddbClient);
-    // CleanupItems.DeleteActive(branchKeyId.branchKeyIdentifier, ddbClient);
+    // Since this process uses a read DDB table,
+    // the number of records will forever increase.
+    // To avoid this, remove the items.
+    CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, branchKeyVersion, ddbClient);
+    CleanupItems.DeleteActive(branchKeyId.branchKeyIdentifier, ddbClient);
 
-    // expect beaconKeyResult.beaconKeyMaterials.beaconKey.Some?;
-    // expect |beaconKeyResult.beaconKeyMaterials.beaconKey.value| == 32;
-    // expect |activeResult.branchKeyMaterials.branchKey| == 32;
-    // expect versionResult.branchKeyMaterials.branchKey == activeResult.branchKeyMaterials.branchKey;
-    // expect versionResult.branchKeyMaterials.branchKeyIdentifier
-    //     == activeResult.branchKeyMaterials.branchKeyIdentifier
-    //     == beaconKeyResult.beaconKeyMaterials.beaconKeyIdentifier;
-    // expect versionResult.branchKeyMaterials.branchKeyVersion == activeResult.branchKeyMaterials.branchKeyVersion;
+    expect beaconKeyResult.beaconKeyMaterials.beaconKey.Some?;
+    expect |beaconKeyResult.beaconKeyMaterials.beaconKey.value| == 32;
+    expect |activeResult.branchKeyMaterials.branchKey| == 32;
+    expect versionResult.branchKeyMaterials.branchKey == activeResult.branchKeyMaterials.branchKey;
+    expect versionResult.branchKeyMaterials.branchKeyIdentifier
+        == activeResult.branchKeyMaterials.branchKeyIdentifier
+        == beaconKeyResult.beaconKeyMaterials.beaconKeyIdentifier;
+    expect versionResult.branchKeyMaterials.branchKeyVersion == activeResult.branchKeyMaterials.branchKeyVersion;
 
-    // //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
-    // //= type=test
-    // //# If no branch key id is provided,
-    // //# then this operation MUST create a [version 4 UUID](https://www.ietf.org/rfc/rfc4122.txt)
-    // //# to be used as the branch key id.
-    // var idByteUUID :- expect UUID.ToByteArray(activeResult.branchKeyMaterials.branchKeyIdentifier);
-    // var idRoundTrip :- expect UUID.FromByteArray(idByteUUID);
-    // expect idRoundTrip == activeResult.branchKeyMaterials.branchKeyIdentifier;
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
+    //= type=test
+    //# If no branch key id is provided,
+    //# then this operation MUST create a [version 4 UUID](https://www.ietf.org/rfc/rfc4122.txt)
+    //# to be used as the branch key id.
+    var idByteUUID :- expect UUID.ToByteArray(activeResult.branchKeyMaterials.branchKeyIdentifier);
+    var idRoundTrip :- expect UUID.FromByteArray(idByteUUID);
+    expect idRoundTrip == activeResult.branchKeyMaterials.branchKeyIdentifier;
 
 
-    // //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
-    // //= type=test
-    // //# This guid MUST be [version 4 UUID](https://www.ietf.org/rfc/rfc4122.txt)
-    // var versionString :- expect UTF8.Decode(activeResult.branchKeyMaterials.branchKeyVersion);
-    // var versionByteUUID :- expect UUID.ToByteArray(versionString);
-    // var versionRoundTrip :- expect UUID.FromByteArray(versionByteUUID);
-    // expect versionRoundTrip == versionString;
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
+    //= type=test
+    //# This guid MUST be [version 4 UUID](https://www.ietf.org/rfc/rfc4122.txt)
+    var versionString :- expect UTF8.Decode(activeResult.branchKeyMaterials.branchKeyVersion);
+    var versionByteUUID :- expect UUID.ToByteArray(versionString);
+    var versionRoundTrip :- expect UUID.FromByteArray(versionByteUUID);
+    expect versionRoundTrip == versionString;
   }
 
   predicate ISO8601?(
