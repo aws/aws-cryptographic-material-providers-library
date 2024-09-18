@@ -4,6 +4,9 @@
 
 from _dafny import Map, Seq
 from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes import (
+    ActiveHierarchicalSymmetricBeacon_ActiveHierarchicalSymmetricBeacon as DafnyActiveHierarchicalSymmetricBeacon,
+    ActiveHierarchicalSymmetric_ActiveHierarchicalSymmetric as DafnyActiveHierarchicalSymmetric,
+    AwsKms_AwsKms as DafnyAwsKms,
     BeaconKeyMaterials_BeaconKeyMaterials as DafnyBeaconKeyMaterials,
     BranchKeyMaterials_BranchKeyMaterials as DafnyBranchKeyMaterials,
     CreateKeyInput_CreateKeyInput as DafnyCreateKeyInput,
@@ -11,21 +14,42 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     CreateKeyStoreInput_CreateKeyStoreInput as DafnyCreateKeyStoreInput,
     CreateKeyStoreOutput_CreateKeyStoreOutput as DafnyCreateKeyStoreOutput,
     Discovery_Discovery as DafnyDiscovery,
+    DynamoDBTable_DynamoDBTable as DafnyDynamoDBTable,
+    EncryptedHierarchicalKey_EncryptedHierarchicalKey as DafnyEncryptedHierarchicalKey,
     GetActiveBranchKeyInput_GetActiveBranchKeyInput as DafnyGetActiveBranchKeyInput,
     GetActiveBranchKeyOutput_GetActiveBranchKeyOutput as DafnyGetActiveBranchKeyOutput,
     GetBeaconKeyInput_GetBeaconKeyInput as DafnyGetBeaconKeyInput,
     GetBeaconKeyOutput_GetBeaconKeyOutput as DafnyGetBeaconKeyOutput,
     GetBranchKeyVersionInput_GetBranchKeyVersionInput as DafnyGetBranchKeyVersionInput,
     GetBranchKeyVersionOutput_GetBranchKeyVersionOutput as DafnyGetBranchKeyVersionOutput,
+    GetEncryptedActiveBranchKeyInput_GetEncryptedActiveBranchKeyInput as DafnyGetEncryptedActiveBranchKeyInput,
+    GetEncryptedActiveBranchKeyOutput_GetEncryptedActiveBranchKeyOutput as DafnyGetEncryptedActiveBranchKeyOutput,
+    GetEncryptedBeaconKeyInput_GetEncryptedBeaconKeyInput as DafnyGetEncryptedBeaconKeyInput,
+    GetEncryptedBeaconKeyOutput_GetEncryptedBeaconKeyOutput as DafnyGetEncryptedBeaconKeyOutput,
+    GetEncryptedBranchKeyVersionInput_GetEncryptedBranchKeyVersionInput as DafnyGetEncryptedBranchKeyVersionInput,
+    GetEncryptedBranchKeyVersionOutput_GetEncryptedBranchKeyVersionOutput as DafnyGetEncryptedBranchKeyVersionOutput,
+    GetKeyStorageInfoInput_GetKeyStorageInfoInput as DafnyGetKeyStorageInfoInput,
+    GetKeyStorageInfoOutput_GetKeyStorageInfoOutput as DafnyGetKeyStorageInfoOutput,
     GetKeyStoreInfoOutput_GetKeyStoreInfoOutput as DafnyGetKeyStoreInfoOutput,
+    HierarchicalKeyType_ActiveHierarchicalSymmetricBeacon,
+    HierarchicalKeyType_ActiveHierarchicalSymmetricVersion,
+    HierarchicalKeyType_HierarchicalSymmetricVersion,
+    HierarchicalSymmetric_HierarchicalSymmetric as DafnyHierarchicalSymmetric,
     KMSConfiguration_discovery,
     KMSConfiguration_kmsKeyArn,
     KMSConfiguration_kmsMRKeyArn,
     KMSConfiguration_mrDiscovery,
+    KeyManagement_kms,
     KeyStoreConfig_KeyStoreConfig as DafnyKeyStoreConfig,
     MRDiscovery_MRDiscovery as DafnyMRDiscovery,
+    Storage_custom,
+    Storage_ddb,
     VersionKeyInput_VersionKeyInput as DafnyVersionKeyInput,
     VersionKeyOutput_VersionKeyOutput as DafnyVersionKeyOutput,
+    WriteNewEncryptedBranchKeyInput_WriteNewEncryptedBranchKeyInput as DafnyWriteNewEncryptedBranchKeyInput,
+    WriteNewEncryptedBranchKeyOutput_WriteNewEncryptedBranchKeyOutput as DafnyWriteNewEncryptedBranchKeyOutput,
+    WriteNewEncryptedBranchKeyVersionInput_WriteNewEncryptedBranchKeyVersionInput as DafnyWriteNewEncryptedBranchKeyVersionInput,
+    WriteNewEncryptedBranchKeyVersionOutput_WriteNewEncryptedBranchKeyVersionOutput as DafnyWriteNewEncryptedBranchKeyVersionOutput,
 )
 import aws_cryptographic_material_providers.internaldafny.generated.module_
 import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models
@@ -42,6 +66,261 @@ from smithy_dafny_standard_library.internaldafny.generated.Wrappers import (
     Option_None,
     Option_Some,
 )
+
+
+def aws_cryptography_keystore_WriteNewEncryptedBranchKeyInput(native_input):
+    return DafnyWriteNewEncryptedBranchKeyInput(
+        Active=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_EncryptedHierarchicalKey(
+            native_input.active
+        ),
+        Version=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_EncryptedHierarchicalKey(
+            native_input.version
+        ),
+        Beacon=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_EncryptedHierarchicalKey(
+            native_input.beacon
+        ),
+    )
+
+
+def aws_cryptography_keystore_EncryptedHierarchicalKey(native_input):
+    return DafnyEncryptedHierarchicalKey(
+        Identifier=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.identifier.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        Type=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_HierarchicalKeyType(
+            native_input.type
+        ),
+        CreateTime=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.create_time.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        KmsArn=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.kms_arn.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        EncryptionContext=Map(
+            {
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(*[iter(key.encode("utf-16-be"))] * 2)
+                        ]
+                    )
+                ): Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(*[iter(value.encode("utf-16-be"))] * 2)
+                        ]
+                    )
+                )
+                for (key, value) in native_input.encryption_context.items()
+            }
+        ),
+        CiphertextBlob=Seq(native_input.ciphertext_blob),
+    )
+
+
+def aws_cryptography_keystore_HierarchicalKeyType(native_input):
+    if isinstance(
+        native_input,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.HierarchicalKeyTypeActiveHierarchicalSymmetricVersion,
+    ):
+        HierarchicalKeyType_union_value = HierarchicalKeyType_ActiveHierarchicalSymmetricVersion(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_ActiveHierarchicalSymmetric(
+                native_input.value
+            )
+        )
+    elif isinstance(
+        native_input,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.HierarchicalKeyTypeHierarchicalSymmetricVersion,
+    ):
+        HierarchicalKeyType_union_value = HierarchicalKeyType_HierarchicalSymmetricVersion(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_HierarchicalSymmetric(
+                native_input.value
+            )
+        )
+    elif isinstance(
+        native_input,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.HierarchicalKeyTypeActiveHierarchicalSymmetricBeacon,
+    ):
+        HierarchicalKeyType_union_value = HierarchicalKeyType_ActiveHierarchicalSymmetricBeacon(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_ActiveHierarchicalSymmetricBeacon(
+                native_input.value
+            )
+        )
+    else:
+        raise ValueError(
+            "No recognized union value in union type: " + str(native_input)
+        )
+
+    return HierarchicalKeyType_union_value
+
+
+def aws_cryptography_keystore_ActiveHierarchicalSymmetric(native_input):
+    return DafnyActiveHierarchicalSymmetric(
+        Version=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.version.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+    )
+
+
+def aws_cryptography_keystore_HierarchicalSymmetric(native_input):
+    return DafnyHierarchicalSymmetric(
+        Version=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.version.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+    )
+
+
+def aws_cryptography_keystore_ActiveHierarchicalSymmetricBeacon(native_input):
+    return DafnyActiveHierarchicalSymmetricBeacon()
+
+
+def aws_cryptography_keystore_WriteNewEncryptedBranchKeyOutput(native_input):
+    return DafnyWriteNewEncryptedBranchKeyOutput()
+
+
+def aws_cryptography_keystore_WriteNewEncryptedBranchKeyVersionInput(native_input):
+    return DafnyWriteNewEncryptedBranchKeyVersionInput(
+        Active=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_EncryptedHierarchicalKey(
+            native_input.active
+        ),
+        Version=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_EncryptedHierarchicalKey(
+            native_input.version
+        ),
+        oldActive=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_EncryptedHierarchicalKey(
+            native_input.old_active
+        ),
+    )
+
+
+def aws_cryptography_keystore_WriteNewEncryptedBranchKeyVersionOutput(native_input):
+    return DafnyWriteNewEncryptedBranchKeyVersionOutput()
+
+
+def aws_cryptography_keystore_GetEncryptedActiveBranchKeyInput(native_input):
+    return DafnyGetEncryptedActiveBranchKeyInput(
+        Identifier=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.identifier.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+    )
+
+
+def aws_cryptography_keystore_GetEncryptedActiveBranchKeyOutput(native_input):
+    return DafnyGetEncryptedActiveBranchKeyOutput(
+        Item=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_EncryptedHierarchicalKey(
+            native_input.item
+        ),
+    )
+
+
+def aws_cryptography_keystore_GetEncryptedBranchKeyVersionInput(native_input):
+    return DafnyGetEncryptedBranchKeyVersionInput(
+        Identifier=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.identifier.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        Version=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.version.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+    )
+
+
+def aws_cryptography_keystore_GetEncryptedBranchKeyVersionOutput(native_input):
+    return DafnyGetEncryptedBranchKeyVersionOutput(
+        Item=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_EncryptedHierarchicalKey(
+            native_input.item
+        ),
+    )
+
+
+def aws_cryptography_keystore_GetEncryptedBeaconKeyInput(native_input):
+    return DafnyGetEncryptedBeaconKeyInput(
+        Identifier=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.identifier.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+    )
+
+
+def aws_cryptography_keystore_GetEncryptedBeaconKeyOutput(native_input):
+    return DafnyGetEncryptedBeaconKeyOutput(
+        Item=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_EncryptedHierarchicalKey(
+            native_input.item
+        ),
+    )
+
+
+def aws_cryptography_keystore_GetKeyStorageInfoInput(native_input):
+    return DafnyGetKeyStorageInfoInput()
+
+
+def aws_cryptography_keystore_GetKeyStorageInfoOutput(native_input):
+    return DafnyGetKeyStorageInfoOutput(
+        Name=Seq(native_input.name.encode("utf-8")),
+        LogicalName=Seq(native_input.logical_name.encode("utf-8")),
+    )
 
 
 def smithy_api_Unit(native_input):
@@ -437,16 +716,6 @@ def aws_cryptography_keystore_BeaconKeyMaterials(native_input):
 
 def aws_cryptography_keystore_KeyStoreConfig(native_input):
     return DafnyKeyStoreConfig(
-        ddbTableName=Seq(
-            "".join(
-                [
-                    chr(int.from_bytes(pair, "big"))
-                    for pair in zip(
-                        *[iter(native_input.ddb_table_name.encode("utf-16-be"))] * 2
-                    )
-                ]
-            )
-        ),
         kmsConfiguration=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_KMSConfiguration(
             native_input.kms_configuration
         ),
@@ -460,6 +729,42 @@ def aws_cryptography_keystore_KeyStoreConfig(native_input):
                     )
                 ]
             )
+        ),
+        keyManagement=(
+            (
+                Option_Some(
+                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_KeyManagement(
+                        native_input.key_management
+                    )
+                )
+            )
+            if (native_input.key_management is not None)
+            else (Option_None())
+        ),
+        ddbTableName=(
+            (
+                Option_Some(
+                    Seq(
+                        "".join(
+                            [
+                                chr(int.from_bytes(pair, "big"))
+                                for pair in zip(
+                                    *[
+                                        iter(
+                                            native_input.ddb_table_name.encode(
+                                                "utf-16-be"
+                                            )
+                                        )
+                                    ]
+                                    * 2
+                                )
+                            ]
+                        )
+                    )
+                )
+            )
+            if (native_input.ddb_table_name is not None)
+            else (Option_None())
         ),
         id=(
             (
@@ -503,6 +808,17 @@ def aws_cryptography_keystore_KeyStoreConfig(native_input):
             if (native_input.grant_tokens is not None)
             else (Option_None())
         ),
+        storage=(
+            (
+                Option_Some(
+                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_Storage(
+                        native_input.storage
+                    )
+                )
+            )
+            if (native_input.storage is not None)
+            else (Option_None())
+        ),
         ddbClient=(
             (
                 Option_Some(
@@ -544,20 +860,155 @@ def aws_cryptography_keystore_KeyStoreConfig(native_input):
     )
 
 
-def aws_cryptography_keystore_DdbClientReference(native_input):
-    import aws_cryptography_internal_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb
+def aws_cryptography_keystore_KeyManagement(native_input):
+    if isinstance(
+        native_input,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.KeyManagementKms,
+    ):
+        KeyManagement_union_value = KeyManagement_kms(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_AwsKms(
+                native_input.value
+            )
+        )
+    else:
+        raise ValueError(
+            "No recognized union value in union type: " + str(native_input)
+        )
 
-    client = aws_cryptography_internal_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb.default__.DynamoDBClient(
-        boto_client=native_input
+    return KeyManagement_union_value
+
+
+def aws_cryptography_keystore_AwsKms(native_input):
+    return DafnyAwsKms(
+        grantTokens=(
+            (
+                Option_Some(
+                    Seq(
+                        [
+                            Seq(
+                                "".join(
+                                    [
+                                        chr(int.from_bytes(pair, "big"))
+                                        for pair in zip(
+                                            *[iter(list_element.encode("utf-16-be"))]
+                                            * 2
+                                        )
+                                    ]
+                                )
+                            )
+                            for list_element in native_input.grant_tokens
+                        ]
+                    )
+                )
+            )
+            if (native_input.grant_tokens is not None)
+            else (Option_None())
+        ),
+        kmsClient=(
+            (
+                Option_Some(
+                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_KmsClientReference(
+                        native_input.kms_client
+                    )
+                )
+            )
+            if (
+                (native_input.kms_client is not None)
+                and (
+                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_KmsClientReference(
+                        native_input.kms_client
+                    )
+                    is not None
+                )
+            )
+            else (Option_None())
+        ),
     )
-    client.value.impl = native_input
-    return client.value
 
 
 def aws_cryptography_keystore_KmsClientReference(native_input):
     import aws_cryptography_internal_kms.internaldafny.generated.Com_Amazonaws_Kms
 
     client = aws_cryptography_internal_kms.internaldafny.generated.Com_Amazonaws_Kms.default__.KMSClient(
+        boto_client=native_input
+    )
+    client.value.impl = native_input
+    return client.value
+
+
+def aws_cryptography_keystore_Storage(native_input):
+    if isinstance(
+        native_input,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.StorageDdb,
+    ):
+        Storage_union_value = Storage_ddb(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_DynamoDBTable(
+                native_input.value
+            )
+        )
+    elif isinstance(
+        native_input,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.StorageCustom,
+    ):
+        Storage_union_value = Storage_custom(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_KeyStorageInterfaceReference(
+                native_input.value
+            )
+        )
+    else:
+        raise ValueError(
+            "No recognized union value in union type: " + str(native_input)
+        )
+
+    return Storage_union_value
+
+
+def aws_cryptography_keystore_DynamoDBTable(native_input):
+    return DafnyDynamoDBTable(
+        ddbTableName=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.ddb_table_name.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        ddbClient=(
+            (
+                Option_Some(
+                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_DdbClientReference(
+                        native_input.ddb_client
+                    )
+                )
+            )
+            if (
+                (native_input.ddb_client is not None)
+                and (
+                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_DdbClientReference(
+                        native_input.ddb_client
+                    )
+                    is not None
+                )
+            )
+            else (Option_None())
+        ),
+    )
+
+
+def aws_cryptography_keystore_KeyStorageInterfaceReference(native_input):
+    if hasattr(native_input, "_impl"):
+        return native_input._impl
+
+    else:
+        return native_input
+
+
+def aws_cryptography_keystore_DdbClientReference(native_input):
+    import aws_cryptography_internal_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb
+
+    client = aws_cryptography_internal_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb.default__.DynamoDBClient(
         boto_client=native_input
     )
     client.value.impl = native_input
