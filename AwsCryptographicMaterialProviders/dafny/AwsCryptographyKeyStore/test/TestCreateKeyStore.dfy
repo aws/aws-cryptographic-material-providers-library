@@ -25,7 +25,7 @@ module TestCreateKeyStore {
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
       grantTokens := None,
-      ddbTableName := branchKeyStoreName,
+      ddbTableName := Some(branchKeyStoreName),
       ddbClient := Some(ddbClient),
       kmsClient := Some(kmsClient)
     );
@@ -37,5 +37,36 @@ module TestCreateKeyStore {
 
     expect AwsArnParsing.ParseAmazonDynamodbTableName(keyStoreArn.tableArn).Success?;
     expect AwsArnParsing.ParseAmazonDynamodbTableName(keyStoreArn.tableArn).value == branchKeyStoreName;
+  }
+
+  method {:test} TestCreateKeyStoreFail()
+  {
+    var kmsClient :- expect KMS.KMSClient();
+    var ddbClient :- expect DDB.DynamoDBClient();
+    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
+
+    var keyStoreConfig := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalKeyStoreName,
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := branchKeyStoreName,
+            ddbClient := Some(ddbClient)
+          ))),
+      keyManagement := Some(
+        Types.kms(
+          Types.AwsKms(
+            kmsClient := Some(kmsClient)
+          )))
+    );
+
+    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+    // Because we are using the new interface this will fail.
+    var keyStoreArn := keyStore.CreateKeyStore(Types.CreateKeyStoreInput());
+
+    expect keyStoreArn.Failure?;
+
   }
 }
