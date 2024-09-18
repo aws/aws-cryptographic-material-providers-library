@@ -25,11 +25,7 @@ class BeaconKeyMaterials:
         self.hmac_keys = hmac_keys
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the BeaconKeyMaterials to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the BeaconKeyMaterials to a dictionary."""
         d: Dict[str, Any] = {
             "beacon_key_identifier": self.beacon_key_identifier,
             "encryption_context": self.encryption_context,
@@ -45,11 +41,7 @@ class BeaconKeyMaterials:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "BeaconKeyMaterials":
-        """Creates a BeaconKeyMaterials from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a BeaconKeyMaterials from a dictionary."""
         kwargs: Dict[str, Any] = {
             "beacon_key_identifier": d["beacon_key_identifier"],
             "encryption_context": d["encryption_context"],
@@ -111,11 +103,7 @@ class BranchKeyMaterials:
         self.branch_key = branch_key
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the BranchKeyMaterials to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the BranchKeyMaterials to a dictionary."""
         return {
             "branch_key_identifier": self.branch_key_identifier,
             "branch_key_version": self.branch_key_version,
@@ -125,11 +113,7 @@ class BranchKeyMaterials:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "BranchKeyMaterials":
-        """Creates a BranchKeyMaterials from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a BranchKeyMaterials from a dictionary."""
         kwargs: Dict[str, Any] = {
             "branch_key_identifier": d["branch_key_identifier"],
             "branch_key_version": d["branch_key_version"],
@@ -186,11 +170,7 @@ class CreateKeyInput:
         self.encryption_context = encryption_context
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateKeyInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the CreateKeyInput to a dictionary."""
         d: Dict[str, Any] = {}
 
         if self.branch_key_identifier is not None:
@@ -203,11 +183,7 @@ class CreateKeyInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateKeyInput":
-        """Creates a CreateKeyInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a CreateKeyInput from a dictionary."""
         kwargs: Dict[str, Any] = {}
 
         if "branch_key_identifier" in d:
@@ -253,22 +229,14 @@ class CreateKeyOutput:
         self.branch_key_identifier = branch_key_identifier
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateKeyOutput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the CreateKeyOutput to a dictionary."""
         return {
             "branch_key_identifier": self.branch_key_identifier,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateKeyOutput":
-        """Creates a CreateKeyOutput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a CreateKeyOutput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "branch_key_identifier": d["branch_key_identifier"],
         }
@@ -293,20 +261,12 @@ class CreateKeyOutput:
 
 class CreateKeyStoreInput:
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateKeyStoreInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the CreateKeyStoreInput to a dictionary."""
         return {}
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateKeyStoreInput":
-        """Creates a CreateKeyStoreInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a CreateKeyStoreInput from a dictionary."""
         return CreateKeyStoreInput()
 
     def __repr__(self) -> str:
@@ -333,22 +293,14 @@ class CreateKeyStoreOutput:
         self.table_arn = table_arn
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateKeyStoreOutput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the CreateKeyStoreOutput to a dictionary."""
         return {
             "table_arn": self.table_arn,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateKeyStoreOutput":
-        """Creates a CreateKeyStoreOutput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a CreateKeyStoreOutput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "table_arn": d["table_arn"],
         }
@@ -373,20 +325,12 @@ class CreateKeyStoreOutput:
 
 class Discovery:
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the Discovery to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the Discovery to a dictionary."""
         return {}
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "Discovery":
-        """Creates a Discovery from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a Discovery from a dictionary."""
         return Discovery()
 
     def __repr__(self) -> str:
@@ -414,22 +358,14 @@ class GetActiveBranchKeyInput:
         self.branch_key_identifier = branch_key_identifier
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GetActiveBranchKeyInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the GetActiveBranchKeyInput to a dictionary."""
         return {
             "branch_key_identifier": self.branch_key_identifier,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GetActiveBranchKeyInput":
-        """Creates a GetActiveBranchKeyInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a GetActiveBranchKeyInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "branch_key_identifier": d["branch_key_identifier"],
         }
@@ -467,22 +403,14 @@ class GetActiveBranchKeyOutput:
         self.branch_key_materials = branch_key_materials
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GetActiveBranchKeyOutput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the GetActiveBranchKeyOutput to a dictionary."""
         return {
             "branch_key_materials": self.branch_key_materials.as_dict(),
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GetActiveBranchKeyOutput":
-        """Creates a GetActiveBranchKeyOutput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a GetActiveBranchKeyOutput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "branch_key_materials": BranchKeyMaterials.from_dict(
                 d["branch_key_materials"]
@@ -523,22 +451,14 @@ class GetBeaconKeyInput:
         self.branch_key_identifier = branch_key_identifier
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GetBeaconKeyInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the GetBeaconKeyInput to a dictionary."""
         return {
             "branch_key_identifier": self.branch_key_identifier,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GetBeaconKeyInput":
-        """Creates a GetBeaconKeyInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a GetBeaconKeyInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "branch_key_identifier": d["branch_key_identifier"],
         }
@@ -576,22 +496,14 @@ class GetBeaconKeyOutput:
         self.beacon_key_materials = beacon_key_materials
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GetBeaconKeyOutput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the GetBeaconKeyOutput to a dictionary."""
         return {
             "beacon_key_materials": self.beacon_key_materials.as_dict(),
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GetBeaconKeyOutput":
-        """Creates a GetBeaconKeyOutput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a GetBeaconKeyOutput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "beacon_key_materials": BeaconKeyMaterials.from_dict(
                 d["beacon_key_materials"]
@@ -636,11 +548,7 @@ class GetBranchKeyVersionInput:
         self.branch_key_version = branch_key_version
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GetBranchKeyVersionInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the GetBranchKeyVersionInput to a dictionary."""
         return {
             "branch_key_identifier": self.branch_key_identifier,
             "branch_key_version": self.branch_key_version,
@@ -648,11 +556,7 @@ class GetBranchKeyVersionInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GetBranchKeyVersionInput":
-        """Creates a GetBranchKeyVersionInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a GetBranchKeyVersionInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "branch_key_identifier": d["branch_key_identifier"],
             "branch_key_version": d["branch_key_version"],
@@ -695,22 +599,14 @@ class GetBranchKeyVersionOutput:
         self.branch_key_materials = branch_key_materials
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GetBranchKeyVersionOutput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the GetBranchKeyVersionOutput to a dictionary."""
         return {
             "branch_key_materials": self.branch_key_materials.as_dict(),
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GetBranchKeyVersionOutput":
-        """Creates a GetBranchKeyVersionOutput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a GetBranchKeyVersionOutput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "branch_key_materials": BranchKeyMaterials.from_dict(
                 d["branch_key_materials"]
@@ -755,22 +651,14 @@ class MRDiscovery:
         self.region = region
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the MRDiscovery to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the MRDiscovery to a dictionary."""
         return {
             "region": self.region,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "MRDiscovery":
-        """Creates a MRDiscovery from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a MRDiscovery from a dictionary."""
         kwargs: Dict[str, Any] = {
             "region": d["region"],
         }
@@ -1016,11 +904,7 @@ class GetKeyStoreInfoOutput:
         self.kms_configuration = kms_configuration
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GetKeyStoreInfoOutput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the GetKeyStoreInfoOutput to a dictionary."""
         return {
             "key_store_id": self.key_store_id,
             "key_store_name": self.key_store_name,
@@ -1031,11 +915,7 @@ class GetKeyStoreInfoOutput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GetKeyStoreInfoOutput":
-        """Creates a GetKeyStoreInfoOutput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a GetKeyStoreInfoOutput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "key_store_id": d["key_store_id"],
             "key_store_name": d["key_store_name"],
@@ -1093,22 +973,14 @@ class VersionKeyInput:
         self.branch_key_identifier = branch_key_identifier
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the VersionKeyInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the VersionKeyInput to a dictionary."""
         return {
             "branch_key_identifier": self.branch_key_identifier,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "VersionKeyInput":
-        """Creates a VersionKeyInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a VersionKeyInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "branch_key_identifier": d["branch_key_identifier"],
         }
@@ -1135,20 +1007,12 @@ class VersionKeyOutput:
     """Outputs for versioning a Branch Key."""
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the VersionKeyOutput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the VersionKeyOutput to a dictionary."""
         return {}
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "VersionKeyOutput":
-        """Creates a VersionKeyOutput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a VersionKeyOutput from a dictionary."""
         return VersionKeyOutput()
 
     def __repr__(self) -> str:

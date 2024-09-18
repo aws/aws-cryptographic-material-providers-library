@@ -62,11 +62,7 @@ class AwsCryptographicMaterialProvidersException(
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the AwsCryptographicMaterialProvidersException to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the AwsCryptographicMaterialProvidersException to a dictionary."""
         return {
             "message": self.message,
             "code": self.code,
@@ -74,11 +70,7 @@ class AwsCryptographicMaterialProvidersException(
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "AwsCryptographicMaterialProvidersException":
-        """Creates a AwsCryptographicMaterialProvidersException from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a AwsCryptographicMaterialProvidersException from a dictionary."""
         kwargs: Dict[str, Any] = {
             "message": d["message"],
         }
@@ -114,11 +106,7 @@ class InvalidDecryptionMaterials(ApiError[Literal["InvalidDecryptionMaterials"]]
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the InvalidDecryptionMaterials to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the InvalidDecryptionMaterials to a dictionary."""
         return {
             "message": self.message,
             "code": self.code,
@@ -126,11 +114,7 @@ class InvalidDecryptionMaterials(ApiError[Literal["InvalidDecryptionMaterials"]]
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "InvalidDecryptionMaterials":
-        """Creates a InvalidDecryptionMaterials from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a InvalidDecryptionMaterials from a dictionary."""
         kwargs: Dict[str, Any] = {
             "message": d["message"],
         }
@@ -166,11 +150,7 @@ class InvalidEncryptionMaterials(ApiError[Literal["InvalidEncryptionMaterials"]]
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the InvalidEncryptionMaterials to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the InvalidEncryptionMaterials to a dictionary."""
         return {
             "message": self.message,
             "code": self.code,
@@ -178,11 +158,7 @@ class InvalidEncryptionMaterials(ApiError[Literal["InvalidEncryptionMaterials"]]
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "InvalidEncryptionMaterials":
-        """Creates a InvalidEncryptionMaterials from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a InvalidEncryptionMaterials from a dictionary."""
         kwargs: Dict[str, Any] = {
             "message": d["message"],
         }
@@ -218,11 +194,7 @@ class InvalidAlgorithmSuiteInfo(ApiError[Literal["InvalidAlgorithmSuiteInfo"]]):
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the InvalidAlgorithmSuiteInfo to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the InvalidAlgorithmSuiteInfo to a dictionary."""
         return {
             "message": self.message,
             "code": self.code,
@@ -230,11 +202,7 @@ class InvalidAlgorithmSuiteInfo(ApiError[Literal["InvalidAlgorithmSuiteInfo"]]):
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "InvalidAlgorithmSuiteInfo":
-        """Creates a InvalidAlgorithmSuiteInfo from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a InvalidAlgorithmSuiteInfo from a dictionary."""
         kwargs: Dict[str, Any] = {
             "message": d["message"],
         }
@@ -274,11 +242,7 @@ class InvalidAlgorithmSuiteInfoOnDecrypt(
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the InvalidAlgorithmSuiteInfoOnDecrypt to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the InvalidAlgorithmSuiteInfoOnDecrypt to a dictionary."""
         return {
             "message": self.message,
             "code": self.code,
@@ -286,11 +250,7 @@ class InvalidAlgorithmSuiteInfoOnDecrypt(
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "InvalidAlgorithmSuiteInfoOnDecrypt":
-        """Creates a InvalidAlgorithmSuiteInfoOnDecrypt from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a InvalidAlgorithmSuiteInfoOnDecrypt from a dictionary."""
         kwargs: Dict[str, Any] = {
             "message": d["message"],
         }
@@ -330,11 +290,7 @@ class InvalidAlgorithmSuiteInfoOnEncrypt(
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the InvalidAlgorithmSuiteInfoOnEncrypt to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the InvalidAlgorithmSuiteInfoOnEncrypt to a dictionary."""
         return {
             "message": self.message,
             "code": self.code,
@@ -342,11 +298,7 @@ class InvalidAlgorithmSuiteInfoOnEncrypt(
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "InvalidAlgorithmSuiteInfoOnEncrypt":
-        """Creates a InvalidAlgorithmSuiteInfoOnEncrypt from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a InvalidAlgorithmSuiteInfoOnEncrypt from a dictionary."""
         kwargs: Dict[str, Any] = {
             "message": d["message"],
         }
@@ -386,11 +338,7 @@ class InvalidDecryptionMaterialsTransition(
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the InvalidDecryptionMaterialsTransition to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the InvalidDecryptionMaterialsTransition to a dictionary."""
         return {
             "message": self.message,
             "code": self.code,
@@ -398,11 +346,7 @@ class InvalidDecryptionMaterialsTransition(
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "InvalidDecryptionMaterialsTransition":
-        """Creates a InvalidDecryptionMaterialsTransition from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a InvalidDecryptionMaterialsTransition from a dictionary."""
         kwargs: Dict[str, Any] = {
             "message": d["message"],
         }
@@ -442,11 +386,7 @@ class InvalidEncryptionMaterialsTransition(
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the InvalidEncryptionMaterialsTransition to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the InvalidEncryptionMaterialsTransition to a dictionary."""
         return {
             "message": self.message,
             "code": self.code,
@@ -454,11 +394,7 @@ class InvalidEncryptionMaterialsTransition(
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "InvalidEncryptionMaterialsTransition":
-        """Creates a InvalidEncryptionMaterialsTransition from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a InvalidEncryptionMaterialsTransition from a dictionary."""
         kwargs: Dict[str, Any] = {
             "message": d["message"],
         }

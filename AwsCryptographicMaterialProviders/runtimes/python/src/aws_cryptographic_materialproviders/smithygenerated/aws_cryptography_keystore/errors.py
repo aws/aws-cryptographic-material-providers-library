@@ -52,11 +52,7 @@ class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the KeyStoreException to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the KeyStoreException to a dictionary."""
         return {
             "message": self.message,
             "code": self.code,
@@ -64,11 +60,7 @@ class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "KeyStoreException":
-        """Creates a KeyStoreException from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a KeyStoreException from a dictionary."""
         kwargs: Dict[str, Any] = {
             "message": d["message"],
         }
