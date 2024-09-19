@@ -26,13 +26,13 @@ phases:
       - cd aws-cryptographic-material-providers-library
       # Assert that project version is the expected released version
       - git checkout $COMMIT_ID
-      - FOUND_VERSION=$(sed -n 's/version = "\(.*\)"/\1/p' AwsCryptographicMaterialProviders/runtimes/python/pyproject.toml)
+      - FOUND_VERSION=$(sed -n 's/version = "\(.*\)"/\1/p' ComAmazonawsKms/runtimes/python/pyproject.toml)
       - |
         if expr ${FOUND_VERSION} != ${VERSION}; then
           echo "pyproject.toml version (${FOUND_VERSION}) does not match expected version (${VERSION}), stopping"
           exit 1;
         fi
-      - cd AwsCryptographicMaterialProviders
+      - cd ComAmazonawsKms
       # Build Dafny test source code
       - make transpile_only_test_python
   build:
@@ -57,7 +57,7 @@ batch:
     - identifier: validate_staging_release
       depend-on:
         - release_to_staging
-      buildspec: AwsCryptographicMaterialProviders/codebuild/release-python/validate.yml
+      buildspec: ComAmazonawsKms/codebuild/release-python/validate.yml
       env:
         variables:
           PIP_INDEX_URL: https://test.pypi.org/simple/

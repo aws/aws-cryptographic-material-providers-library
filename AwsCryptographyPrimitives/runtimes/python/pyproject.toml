@@ -12,15 +12,27 @@ include = ["**/internaldafny/generated/*.py"]
 
 [tool.poetry.dependencies]
 python = "^3.11.0"
-# TODO: Bump this to 4.8.0
-# TODO: Longer-term, write something to pull this in from the project's project.properties file
-DafnyRuntimePython = "~4.7.0"
-aws-cryptography-internal-standard-library = {path = "../../../StandardLibrary/runtimes/python", develop = false}
+aws-cryptography-internal-standard-library = {path = "../../../StandardLibrary/runtimes/python"}
 cryptography = "^41.0.3"
+
+# Package testing
+
+[tool.poetry.group.test]
+optional = true
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.0"
 pyasn1 = "^0.6.0"
+
+# Package release
+
+[tool.poetry.group.release]
+optional = true
+
+[tool.poetry.group.release.dependencies]
+poetry = "1.8.3"
+twine = "5.1.1"
+wheel = "0.38.4"
 
 [build-system]
 requires = ["poetry-core"]
