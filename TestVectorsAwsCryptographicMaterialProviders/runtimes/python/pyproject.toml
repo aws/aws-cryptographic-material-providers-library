@@ -14,9 +14,6 @@ include = ["**/internaldafny/generated/*.py"]
 python = "^3.11.0"
 boto3 = "^1.28.38"
 aws-cryptographic-materialproviders = { path = "../../../AwsCryptographicMaterialProviders/runtimes/python", develop = false}
-# TODO: Depend on PyPi once Smithy-Python publishes their Python package there
-smithy-python = { path = "../../../StandardLibrary/runtimes/python/libs/aws-cryptography-internal-smithy-python", develop = false}
-aws-cryptography-internal-standard-library = { path = "../../../StandardLibrary/runtimes/python", develop = false}
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.0"
