@@ -173,7 +173,7 @@ module.exports = {
       },
     ],
     [
-      // Re-polymorph Python code to update .dtr files as part of the release commit
+      // Re-transpile Python code to update .dtr files as part of the release commit
       "@semantic-release/exec",
       {
         "prepareCmd": "make -C TestVectorsAwsCryptographicMaterialProviders transpile_python"
