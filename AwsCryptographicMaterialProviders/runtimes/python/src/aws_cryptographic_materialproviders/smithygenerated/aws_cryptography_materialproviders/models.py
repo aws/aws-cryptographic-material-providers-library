@@ -130,11 +130,11 @@ class AlgorithmSuiteIdDBE:
         return self.value == other.value
 
 
-class AlgorithmSuiteId:
+class AlgorithmSuiteIdUnknown:
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
 
     This value may not be deliberately sent.
     """
@@ -146,16 +146,18 @@ class AlgorithmSuiteId:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "AlgorithmSuiteId":
+    def from_dict(d: Dict[str, Any]) -> "AlgorithmSuiteIdUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return AlgorithmSuiteId(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return AlgorithmSuiteIdUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"AlgorithmSuiteId(tag={self.tag})"
+        return f"AlgorithmSuiteIdUnknown(tag={self.tag})"
 
 
-AlgorithmSuiteId = Union[AlgorithmSuiteIdESDK, AlgorithmSuiteIdDBE, AlgorithmSuiteId]
+AlgorithmSuiteId = Union[
+    AlgorithmSuiteIdESDK, AlgorithmSuiteIdDBE, AlgorithmSuiteIdUnknown
+]
 
 
 def _algorithm_suite_id_from_dict(d: Dict[str, Any]) -> AlgorithmSuiteId:
@@ -203,45 +205,37 @@ class HKDF:
         self.output_key_length = output_key_length
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the HKDF to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the HKDF to a dictionary."""
         d: Dict[str, Any] = {
             "hmac": self.hmac,
         }
 
         if self.salt_length is not None:
-            d["saltLength"] = self.salt_length
+            d["salt_length"] = self.salt_length
 
         if self.input_key_length is not None:
-            d["inputKeyLength"] = self.input_key_length
+            d["input_key_length"] = self.input_key_length
 
         if self.output_key_length is not None:
-            d["outputKeyLength"] = self.output_key_length
+            d["output_key_length"] = self.output_key_length
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "HKDF":
-        """Creates a HKDF from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a HKDF from a dictionary."""
         kwargs: Dict[str, Any] = {
             "hmac": d["hmac"],
         }
 
-        if "saltLength" in d:
-            kwargs["salt_length"] = d["saltLength"]
+        if "salt_length" in d:
+            kwargs["salt_length"] = d["salt_length"]
 
-        if "inputKeyLength" in d:
-            kwargs["input_key_length"] = d["inputKeyLength"]
+        if "input_key_length" in d:
+            kwargs["input_key_length"] = d["input_key_length"]
 
-        if "outputKeyLength" in d:
-            kwargs["output_key_length"] = d["outputKeyLength"]
+        if "output_key_length" in d:
+            kwargs["output_key_length"] = d["output_key_length"]
 
         return HKDF(**kwargs)
 
@@ -275,20 +269,12 @@ class HKDF:
 
 class IDENTITY:
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the IDENTITY to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the IDENTITY to a dictionary."""
         return {}
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "IDENTITY":
-        """Creates a IDENTITY from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a IDENTITY from a dictionary."""
         return IDENTITY()
 
     def __repr__(self) -> str:
@@ -302,20 +288,12 @@ class IDENTITY:
 
 class None_:
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the None_ to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the None_ to a dictionary."""
         return {}
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "None_":
-        """Creates a None_ from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a None_ from a dictionary."""
         return None_()
 
     def __repr__(self) -> str:
@@ -396,11 +374,11 @@ class DerivationAlgorithmNone:
         return self.value == other.value
 
 
-class DerivationAlgorithm:
+class DerivationAlgorithmUnknown:
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
 
     This value may not be deliberately sent.
     """
@@ -412,20 +390,20 @@ class DerivationAlgorithm:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DerivationAlgorithm":
+    def from_dict(d: Dict[str, Any]) -> "DerivationAlgorithmUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return DerivationAlgorithm(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return DerivationAlgorithmUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"DerivationAlgorithm(tag={self.tag})"
+        return f"DerivationAlgorithmUnknown(tag={self.tag})"
 
 
 DerivationAlgorithm = Union[
     DerivationAlgorithmHKDF,
     DerivationAlgorithmIDENTITY,
     DerivationAlgorithmNone,
-    DerivationAlgorithm,
+    DerivationAlgorithmUnknown,
 ]
 
 
@@ -444,20 +422,12 @@ def _derivation_algorithm_from_dict(d: Dict[str, Any]) -> DerivationAlgorithm:
 
 class DIRECT_KEY_WRAPPING:
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the DIRECT_KEY_WRAPPING to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the DIRECT_KEY_WRAPPING to a dictionary."""
         return {}
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "DIRECT_KEY_WRAPPING":
-        """Creates a DIRECT_KEY_WRAPPING from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a DIRECT_KEY_WRAPPING from a dictionary."""
         return DIRECT_KEY_WRAPPING()
 
     def __repr__(self) -> str:
@@ -492,11 +462,11 @@ class EncryptAES_GCM:
         return self.value == other.value
 
 
-class Encrypt:
+class EncryptUnknown:
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
 
     This value may not be deliberately sent.
     """
@@ -508,16 +478,16 @@ class Encrypt:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "Encrypt":
+    def from_dict(d: Dict[str, Any]) -> "EncryptUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return Encrypt(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return EncryptUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"Encrypt(tag={self.tag})"
+        return f"EncryptUnknown(tag={self.tag})"
 
 
-Encrypt = Union[EncryptAES_GCM, Encrypt]
+Encrypt = Union[EncryptAES_GCM, EncryptUnknown]
 
 
 def _encrypt_from_dict(d: Dict[str, Any]) -> Encrypt:
@@ -544,30 +514,22 @@ class IntermediateKeyWrapping:
         self.pdk_encrypt_algorithm = pdk_encrypt_algorithm
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the IntermediateKeyWrapping to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the IntermediateKeyWrapping to a dictionary."""
         return {
-            "keyEncryptionKeyKdf": self.key_encryption_key_kdf.as_dict(),
-            "macKeyKdf": self.mac_key_kdf.as_dict(),
-            "pdkEncryptAlgorithm": self.pdk_encrypt_algorithm.as_dict(),
+            "key_encryption_key_kdf": self.key_encryption_key_kdf.as_dict(),
+            "mac_key_kdf": self.mac_key_kdf.as_dict(),
+            "pdk_encrypt_algorithm": self.pdk_encrypt_algorithm.as_dict(),
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "IntermediateKeyWrapping":
-        """Creates a IntermediateKeyWrapping from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a IntermediateKeyWrapping from a dictionary."""
         kwargs: Dict[str, Any] = {
             "key_encryption_key_kdf": _derivation_algorithm_from_dict(
-                d["keyEncryptionKeyKdf"]
+                d["key_encryption_key_kdf"]
             ),
-            "mac_key_kdf": _derivation_algorithm_from_dict(d["macKeyKdf"]),
-            "pdk_encrypt_algorithm": _encrypt_from_dict(d["pdkEncryptAlgorithm"]),
+            "mac_key_kdf": _derivation_algorithm_from_dict(d["mac_key_kdf"]),
+            "pdk_encrypt_algorithm": _encrypt_from_dict(d["pdk_encrypt_algorithm"]),
         }
 
         return IntermediateKeyWrapping(**kwargs)
@@ -646,11 +608,11 @@ class EdkWrappingAlgorithmIntermediateKeyWrapping:
         return self.value == other.value
 
 
-class EdkWrappingAlgorithm:
+class EdkWrappingAlgorithmUnknown:
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
 
     This value may not be deliberately sent.
     """
@@ -662,19 +624,19 @@ class EdkWrappingAlgorithm:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "EdkWrappingAlgorithm":
+    def from_dict(d: Dict[str, Any]) -> "EdkWrappingAlgorithmUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return EdkWrappingAlgorithm(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return EdkWrappingAlgorithmUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"EdkWrappingAlgorithm(tag={self.tag})"
+        return f"EdkWrappingAlgorithmUnknown(tag={self.tag})"
 
 
 EdkWrappingAlgorithm = Union[
     EdkWrappingAlgorithmDIRECT_KEY_WRAPPING,
     EdkWrappingAlgorithmIntermediateKeyWrapping,
-    EdkWrappingAlgorithm,
+    EdkWrappingAlgorithmUnknown,
 ]
 
 
@@ -699,22 +661,14 @@ class ECDSA:
         self.curve = curve
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the ECDSA to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the ECDSA to a dictionary."""
         return {
             "curve": self.curve,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "ECDSA":
-        """Creates a ECDSA from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a ECDSA from a dictionary."""
         kwargs: Dict[str, Any] = {
             "curve": d["curve"],
         }
@@ -783,11 +737,11 @@ class SignatureAlgorithmNone:
         return self.value == other.value
 
 
-class SignatureAlgorithm:
+class SignatureAlgorithmUnknown:
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
 
     This value may not be deliberately sent.
     """
@@ -799,17 +753,17 @@ class SignatureAlgorithm:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "SignatureAlgorithm":
+    def from_dict(d: Dict[str, Any]) -> "SignatureAlgorithmUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return SignatureAlgorithm(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return SignatureAlgorithmUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"SignatureAlgorithm(tag={self.tag})"
+        return f"SignatureAlgorithmUnknown(tag={self.tag})"
 
 
 SignatureAlgorithm = Union[
-    SignatureAlgorithmECDSA, SignatureAlgorithmNone, SignatureAlgorithm
+    SignatureAlgorithmECDSA, SignatureAlgorithmNone, SignatureAlgorithmUnknown
 ]
 
 
@@ -869,11 +823,11 @@ class SymmetricSignatureAlgorithmNone:
         return self.value == other.value
 
 
-class SymmetricSignatureAlgorithm:
+class SymmetricSignatureAlgorithmUnknown:
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
 
     This value may not be deliberately sent.
     """
@@ -885,19 +839,19 @@ class SymmetricSignatureAlgorithm:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "SymmetricSignatureAlgorithm":
+    def from_dict(d: Dict[str, Any]) -> "SymmetricSignatureAlgorithmUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return SymmetricSignatureAlgorithm(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return SymmetricSignatureAlgorithmUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"SymmetricSignatureAlgorithm(tag={self.tag})"
+        return f"SymmetricSignatureAlgorithmUnknown(tag={self.tag})"
 
 
 SymmetricSignatureAlgorithm = Union[
     SymmetricSignatureAlgorithmHMAC,
     SymmetricSignatureAlgorithmNone,
-    SymmetricSignatureAlgorithm,
+    SymmetricSignatureAlgorithmUnknown,
 ]
 
 
@@ -948,42 +902,34 @@ class AlgorithmSuiteInfo:
         self.edk_wrapping = edk_wrapping
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the AlgorithmSuiteInfo to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the AlgorithmSuiteInfo to a dictionary."""
         return {
             "id": self.id.as_dict(),
-            "binaryId": self.binary_id,
-            "messageVersion": self.message_version,
+            "binary_id": self.binary_id,
+            "message_version": self.message_version,
             "encrypt": self.encrypt.as_dict(),
             "kdf": self.kdf.as_dict(),
             "commitment": self.commitment.as_dict(),
             "signature": self.signature.as_dict(),
-            "symmetricSignature": self.symmetric_signature.as_dict(),
-            "edkWrapping": self.edk_wrapping.as_dict(),
+            "symmetric_signature": self.symmetric_signature.as_dict(),
+            "edk_wrapping": self.edk_wrapping.as_dict(),
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "AlgorithmSuiteInfo":
-        """Creates a AlgorithmSuiteInfo from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a AlgorithmSuiteInfo from a dictionary."""
         kwargs: Dict[str, Any] = {
             "id": _algorithm_suite_id_from_dict(d["id"]),
-            "binary_id": d["binaryId"],
-            "message_version": d["messageVersion"],
+            "binary_id": d["binary_id"],
+            "message_version": d["message_version"],
             "encrypt": _encrypt_from_dict(d["encrypt"]),
             "kdf": _derivation_algorithm_from_dict(d["kdf"]),
             "commitment": _derivation_algorithm_from_dict(d["commitment"]),
             "signature": _signature_algorithm_from_dict(d["signature"]),
             "symmetric_signature": _symmetric_signature_algorithm_from_dict(
-                d["symmetricSignature"]
+                d["symmetric_signature"]
             ),
-            "edk_wrapping": _edk_wrapping_algorithm_from_dict(d["edkWrapping"]),
+            "edk_wrapping": _edk_wrapping_algorithm_from_dict(d["edk_wrapping"]),
         }
 
         return AlgorithmSuiteInfo(**kwargs)
@@ -1044,33 +990,25 @@ class GetBranchKeyIdInput:
         *,
         encryption_context: dict[str, str],
     ):
-        """Inputs for determining the Branch Key which should be used to wrap or unwrap the
-        data key for this encryption or decryption
+        """Inputs for determining the Branch Key which should be used to wrap
+        or unwrap the data key for this encryption or decryption.
 
-        :param encryption_context: The Encryption Context used with this encryption or
-        decryption.
+        :param encryption_context: The Encryption Context used with this
+            encryption or decryption.
         """
         self.encryption_context = encryption_context
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GetBranchKeyIdInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the GetBranchKeyIdInput to a dictionary."""
         return {
-            "encryptionContext": self.encryption_context,
+            "encryption_context": self.encryption_context,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GetBranchKeyIdInput":
-        """Creates a GetBranchKeyIdInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a GetBranchKeyIdInput from a dictionary."""
         kwargs: Dict[str, Any] = {
-            "encryption_context": d["encryptionContext"],
+            "encryption_context": d["encryption_context"],
         }
 
         return GetBranchKeyIdInput(**kwargs)
@@ -1099,34 +1037,26 @@ class GetBranchKeyIdOutput:
         *,
         branch_key_id: str,
     ):
-        """Outputs for the Branch Key responsible for wrapping or unwrapping the data key
-        in this encryption or decryption.
+        """Outputs for the Branch Key responsible for wrapping or unwrapping
+        the data key in this encryption or decryption.
 
-        :param branch_key_id: The identifier of the Branch Key that should be
-        responsible for wrapping or unwrapping the data key in this encryption or
-        decryption.
+        :param branch_key_id: The identifier of the Branch Key that
+            should be responsible for wrapping or unwrapping the data
+            key in this encryption or decryption.
         """
         self.branch_key_id = branch_key_id
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GetBranchKeyIdOutput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the GetBranchKeyIdOutput to a dictionary."""
         return {
-            "branchKeyId": self.branch_key_id,
+            "branch_key_id": self.branch_key_id,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GetBranchKeyIdOutput":
-        """Creates a GetBranchKeyIdOutput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a GetBranchKeyIdOutput from a dictionary."""
         kwargs: Dict[str, Any] = {
-            "branch_key_id": d["branchKeyId"],
+            "branch_key_id": d["branch_key_id"],
         }
 
         return GetBranchKeyIdOutput(**kwargs)
@@ -1162,22 +1092,14 @@ class GetClientInput:
         self.region = region
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GetClientInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the GetClientInput to a dictionary."""
         return {
             "region": self.region,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GetClientInput":
-        """Creates a GetClientInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a GetClientInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "region": d["region"],
         }
@@ -1210,8 +1132,8 @@ class DiscoveryFilter:
         account_ids: list[str],
         partition: str,
     ):
-        """A filter which defines what AWS partition and AWS accounts a KMS Key may be in
-        for a Keyring to be allowed to attempt to decrypt it.
+        """A filter which defines what AWS partition and AWS accounts a KMS Key
+        may be in for a Keyring to be allowed to attempt to decrypt it.
 
         :param account_ids: A list of allowed AWS account IDs.
         :param partition: The AWS partition which is allowed.
@@ -1220,25 +1142,17 @@ class DiscoveryFilter:
         self.partition = partition
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the DiscoveryFilter to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the DiscoveryFilter to a dictionary."""
         return {
-            "accountIds": self.account_ids,
+            "account_ids": self.account_ids,
             "partition": self.partition,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "DiscoveryFilter":
-        """Creates a DiscoveryFilter from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a DiscoveryFilter from a dictionary."""
         kwargs: Dict[str, Any] = {
-            "account_ids": d["accountIds"],
+            "account_ids": d["account_ids"],
             "partition": d["partition"],
         }
 
@@ -1278,51 +1192,48 @@ class CreateAwsKmsDiscoveryKeyringInput:
     ):
         """Inputs for for creating a AWS KMS Discovery Keyring.
 
-        :param kms_client: The KMS Client this Keyring will use to call KMS.
-        :param discovery_filter: A filter which restricts which KMS Keys this Keyring
-        may attempt to decrypt with by AWS partition and account.
-        :param grant_tokens: A list of grant tokens to be used when calling KMS.
+        :param kms_client: The KMS Client this Keyring will use to call
+            KMS.
+        :param discovery_filter: A filter which restricts which KMS Keys
+            this Keyring may attempt to decrypt with by AWS partition
+            and account.
+        :param grant_tokens: A list of grant tokens to be used when
+            calling KMS.
         """
         self.kms_client = kms_client
         self.discovery_filter = discovery_filter
         self.grant_tokens = grant_tokens
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateAwsKmsDiscoveryKeyringInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the CreateAwsKmsDiscoveryKeyringInput to a dictionary."""
         d: Dict[str, Any] = {
-            "kmsClient": self.kms_client.as_dict(),
+            "kms_client": self.kms_client,
         }
 
         if self.discovery_filter is not None:
-            d["discoveryFilter"] = self.discovery_filter.as_dict()
+            d["discovery_filter"] = self.discovery_filter.as_dict()
 
         if self.grant_tokens is not None:
-            d["grantTokens"] = self.grant_tokens
+            d["grant_tokens"] = self.grant_tokens
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsDiscoveryKeyringInput":
-        """Creates a CreateAwsKmsDiscoveryKeyringInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a CreateAwsKmsDiscoveryKeyringInput from a dictionary."""
         from botocore.client import BaseClient
 
         kwargs: Dict[str, Any] = {
-            "kms_client": BaseClient.from_dict(d["kmsClient"]),
+            "kms_client": d["kms_client"],
         }
 
-        if "discoveryFilter" in d:
-            kwargs["discovery_filter"] = DiscoveryFilter.from_dict(d["discoveryFilter"])
+        if "discovery_filter" in d:
+            kwargs["discovery_filter"] = DiscoveryFilter.from_dict(
+                d["discovery_filter"]
+            )
 
-        if "grantTokens" in d:
-            kwargs["grant_tokens"] = d["grantTokens"]
+        if "grant_tokens" in d:
+            kwargs["grant_tokens"] = d["grant_tokens"]
 
         return CreateAwsKmsDiscoveryKeyringInput(**kwargs)
 
@@ -1370,14 +1281,18 @@ class CreateAwsKmsDiscoveryMultiKeyringInput:
     ):
         """Inputs for for creating an AWS KMS Discovery Multi-Keyring.
 
-        :param regions: The list of regions this Keyring will creates KMS clients for.
-        :param discovery_filter: A filter which restricts which KMS Keys this Keyring
-        may attempt to decrypt with by AWS partition and account.
-        :param client_supplier: The Client Supplier which will be used to get KMS
-        Clients for use with this Keyring. If not specified on input, a Default Client
-        Supplier is created which creates a KMS Client for each region in the 'regions'
-        input.
-        :param grant_tokens: A list of grant tokens to be used when calling KMS.
+        :param regions: The list of regions this Keyring will creates
+            KMS clients for.
+        :param discovery_filter: A filter which restricts which KMS Keys
+            this Keyring may attempt to decrypt with by AWS partition
+            and account.
+        :param client_supplier: The Client Supplier which will be used
+            to get KMS Clients for use with this Keyring. If not
+            specified on input, a Default Client Supplier is created
+            which creates a KMS Client for each region in the 'regions'
+            input.
+        :param grant_tokens: A list of grant tokens to be used when
+            calling KMS.
         """
         self.regions = regions
         self.discovery_filter = discovery_filter
@@ -1385,33 +1300,27 @@ class CreateAwsKmsDiscoveryMultiKeyringInput:
         self.grant_tokens = grant_tokens
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateAwsKmsDiscoveryMultiKeyringInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the CreateAwsKmsDiscoveryMultiKeyringInput to a
+        dictionary."""
         d: Dict[str, Any] = {
             "regions": self.regions,
         }
 
         if self.discovery_filter is not None:
-            d["discoveryFilter"] = self.discovery_filter.as_dict()
+            d["discovery_filter"] = self.discovery_filter.as_dict()
 
         if self.client_supplier is not None:
-            d["clientSupplier"] = self.client_supplier.as_dict()
+            d["client_supplier"] = self.client_supplier.as_dict()
 
         if self.grant_tokens is not None:
-            d["grantTokens"] = self.grant_tokens
+            d["grant_tokens"] = self.grant_tokens
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsDiscoveryMultiKeyringInput":
-        """Creates a CreateAwsKmsDiscoveryMultiKeyringInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a CreateAwsKmsDiscoveryMultiKeyringInput from a
+        dictionary."""
         from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             ClientSupplier,
         )
@@ -1420,14 +1329,16 @@ class CreateAwsKmsDiscoveryMultiKeyringInput:
             "regions": d["regions"],
         }
 
-        if "discoveryFilter" in d:
-            kwargs["discovery_filter"] = DiscoveryFilter.from_dict(d["discoveryFilter"])
+        if "discovery_filter" in d:
+            kwargs["discovery_filter"] = DiscoveryFilter.from_dict(
+                d["discovery_filter"]
+            )
 
-        if "clientSupplier" in d:
-            kwargs["client_supplier"] = ClientSupplier.from_dict(d["clientSupplier"])
+        if "client_supplier" in d:
+            kwargs["client_supplier"] = ClientSupplier.from_dict(d["client_supplier"])
 
-        if "grantTokens" in d:
-            kwargs["grant_tokens"] = d["grantTokens"]
+        if "grant_tokens" in d:
+            kwargs["grant_tokens"] = d["grant_tokens"]
 
         return CreateAwsKmsDiscoveryMultiKeyringInput(**kwargs)
 
@@ -1473,46 +1384,40 @@ class KmsPrivateKeyToStaticPublicKeyInput:
     ):
         """Inputs for creating a KmsPrivateKeyToStaticPublicKey Configuration.
 
-        :param sender_kms_identifier: AWS KMS Key Identifier belonging to the sender.
-        :param recipient_public_key: Recipient Public Key. This MUST be a raw public ECC
-        key in DER format.
-        :param sender_public_key: Sender Public Key. This is the raw public ECC key in
-        DER format that belongs to the senderKmsIdentifier.
+        :param sender_kms_identifier: AWS KMS Key Identifier belonging
+            to the sender.
+        :param recipient_public_key: Recipient Public Key. This MUST be
+            a raw public ECC key in DER format.
+        :param sender_public_key: Sender Public Key. This is the raw
+            public ECC key in DER format that belongs to the
+            senderKmsIdentifier.
         """
         self.sender_kms_identifier = sender_kms_identifier
         self.recipient_public_key = recipient_public_key
         self.sender_public_key = sender_public_key
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the KmsPrivateKeyToStaticPublicKeyInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the KmsPrivateKeyToStaticPublicKeyInput to a dictionary."""
         d: Dict[str, Any] = {
-            "senderKmsIdentifier": self.sender_kms_identifier,
-            "recipientPublicKey": self.recipient_public_key,
+            "sender_kms_identifier": self.sender_kms_identifier,
+            "recipient_public_key": self.recipient_public_key,
         }
 
         if self.sender_public_key is not None:
-            d["senderPublicKey"] = self.sender_public_key
+            d["sender_public_key"] = self.sender_public_key
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "KmsPrivateKeyToStaticPublicKeyInput":
-        """Creates a KmsPrivateKeyToStaticPublicKeyInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a KmsPrivateKeyToStaticPublicKeyInput from a dictionary."""
         kwargs: Dict[str, Any] = {
-            "sender_kms_identifier": d["senderKmsIdentifier"],
-            "recipient_public_key": d["recipientPublicKey"],
+            "sender_kms_identifier": d["sender_kms_identifier"],
+            "recipient_public_key": d["recipient_public_key"],
         }
 
-        if "senderPublicKey" in d:
-            kwargs["sender_public_key"] = d["senderPublicKey"]
+        if "sender_public_key" in d:
+            kwargs["sender_public_key"] = d["sender_public_key"]
 
         return KmsPrivateKeyToStaticPublicKeyInput(**kwargs)
 
@@ -1548,33 +1453,25 @@ class KmsPublicKeyDiscoveryInput:
         *,
         recipient_kms_identifier: str,
     ):
-        """Inputs for creating a KmsPublicKeyDiscovery Configuration. This is a DECRYPT
-        ONLY configuration.
+        """Inputs for creating a KmsPublicKeyDiscovery Configuration. This is a
+        DECRYPT ONLY configuration.
 
-        :param recipient_kms_identifier: AWS KMS key identifier belonging to the
-        recipient.
+        :param recipient_kms_identifier: AWS KMS key identifier
+            belonging to the recipient.
         """
         self.recipient_kms_identifier = recipient_kms_identifier
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the KmsPublicKeyDiscoveryInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the KmsPublicKeyDiscoveryInput to a dictionary."""
         return {
-            "recipientKmsIdentifier": self.recipient_kms_identifier,
+            "recipient_kms_identifier": self.recipient_kms_identifier,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "KmsPublicKeyDiscoveryInput":
-        """Creates a KmsPublicKeyDiscoveryInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a KmsPublicKeyDiscoveryInput from a dictionary."""
         kwargs: Dict[str, Any] = {
-            "recipient_kms_identifier": d["recipientKmsIdentifier"],
+            "recipient_kms_identifier": d["recipient_kms_identifier"],
         }
 
         return KmsPublicKeyDiscoveryInput(**kwargs)
@@ -1596,8 +1493,9 @@ class KmsPublicKeyDiscoveryInput:
 
 
 class KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery:
-    """Inputs for creating a KmsPublicKeyDiscovery Configuration. This is a DECRYPT
-    ONLY configuration.
+    """Inputs for creating a KmsPublicKeyDiscovery Configuration.
+
+    This is a DECRYPT ONLY configuration.
     """
 
     def __init__(self, value: KmsPublicKeyDiscoveryInput):
@@ -1661,11 +1559,11 @@ class KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey:
         return self.value == other.value
 
 
-class KmsEcdhStaticConfigurations:
+class KmsEcdhStaticConfigurationsUnknown:
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
 
     This value may not be deliberately sent.
     """
@@ -1677,20 +1575,20 @@ class KmsEcdhStaticConfigurations:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "KmsEcdhStaticConfigurations":
+    def from_dict(d: Dict[str, Any]) -> "KmsEcdhStaticConfigurationsUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return KmsEcdhStaticConfigurations(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return KmsEcdhStaticConfigurationsUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"KmsEcdhStaticConfigurations(tag={self.tag})"
+        return f"KmsEcdhStaticConfigurationsUnknown(tag={self.tag})"
 
 
 # Allowed configurations when using KmsEcdhStaticConfigurations.
 KmsEcdhStaticConfigurations = Union[
     KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery,
     KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey,
-    KmsEcdhStaticConfigurations,
+    KmsEcdhStaticConfigurationsUnknown,
 ]
 
 
@@ -1722,12 +1620,16 @@ class CreateAwsKmsEcdhKeyringInput:
     ):
         """Inputs for creating an AWS KMS ECDH Keyring.
 
-        :param key_agreement_scheme: The Key Agreement Scheme configuration that is
-        responsible for how the shared secret is calculated.
-        :param curve_spec: The named curve that corresponds to the curve on which the
-        sender's private and recipient's public key lie.
-        :param kms_client: The KMS Client this Keyring will use to call KMS.
-        :param grant_tokens: A list of grant tokens to be used when calling KMS.
+        :param key_agreement_scheme: The Key Agreement Scheme
+            configuration that is responsible for how the shared secret
+            is calculated.
+        :param curve_spec: The named curve that corresponds to the curve
+            on which the sender's private and recipient's public key
+            lie.
+        :param kms_client: The KMS Client this Keyring will use to call
+            KMS.
+        :param grant_tokens: A list of grant tokens to be used when
+            calling KMS.
         """
         self.key_agreement_scheme = key_agreement_scheme
         self.curve_spec = curve_spec
@@ -1735,41 +1637,33 @@ class CreateAwsKmsEcdhKeyringInput:
         self.grant_tokens = grant_tokens
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateAwsKmsEcdhKeyringInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the CreateAwsKmsEcdhKeyringInput to a dictionary."""
         d: Dict[str, Any] = {
-            "KeyAgreementScheme": self.key_agreement_scheme.as_dict(),
-            "curveSpec": self.curve_spec,
-            "kmsClient": self.kms_client.as_dict(),
+            "key_agreement_scheme": self.key_agreement_scheme.as_dict(),
+            "curve_spec": self.curve_spec,
+            "kms_client": self.kms_client,
         }
 
         if self.grant_tokens is not None:
-            d["grantTokens"] = self.grant_tokens
+            d["grant_tokens"] = self.grant_tokens
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsEcdhKeyringInput":
-        """Creates a CreateAwsKmsEcdhKeyringInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a CreateAwsKmsEcdhKeyringInput from a dictionary."""
         from botocore.client import BaseClient
 
         kwargs: Dict[str, Any] = {
             "key_agreement_scheme": _kms_ecdh_static_configurations_from_dict(
-                d["KeyAgreementScheme"]
+                d["key_agreement_scheme"]
             ),
-            "curve_spec": d["curveSpec"],
-            "kms_client": BaseClient.from_dict(d["kmsClient"]),
+            "curve_spec": d["curve_spec"],
+            "kms_client": d["kms_client"],
         }
 
-        if "grantTokens" in d:
-            kwargs["grant_tokens"] = d["grantTokens"]
+        if "grant_tokens" in d:
+            kwargs["grant_tokens"] = d["grant_tokens"]
 
         return CreateAwsKmsEcdhKeyringInput(**kwargs)
 
@@ -1819,29 +1713,21 @@ class DefaultCache:
         self.entry_capacity = entry_capacity
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the DefaultCache to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the DefaultCache to a dictionary."""
         d: Dict[str, Any] = {}
 
         if self.entry_capacity is not None:
-            d["entryCapacity"] = self.entry_capacity
+            d["entry_capacity"] = self.entry_capacity
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "DefaultCache":
-        """Creates a DefaultCache from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a DefaultCache from a dictionary."""
         kwargs: Dict[str, Any] = {}
 
-        if "entryCapacity" in d:
-            kwargs["entry_capacity"] = d["entryCapacity"]
+        if "entry_capacity" in d:
+            kwargs["entry_capacity"] = d["entry_capacity"]
 
         return DefaultCache(**kwargs)
 
@@ -1871,11 +1757,12 @@ class MultiThreadedCache:
         entry_capacity: int = 0,
         entry_pruning_tail_size: int = 0,
     ):
-        """A cache that is safe for use in a multi threaded environment, but no extra
-        functionality.
+        """A cache that is safe for use in a multi threaded environment, but no
+        extra functionality.
 
         :param entry_capacity: Maximum number of entries cached.
-        :param entry_pruning_tail_size: Number of entries to prune at a time.
+        :param entry_pruning_tail_size: Number of entries to prune at a
+            time.
         """
         if (entry_capacity is not None) and (entry_capacity < 1):
             raise ValueError("entry_capacity must be greater than or equal to 1")
@@ -1889,35 +1776,27 @@ class MultiThreadedCache:
         self.entry_pruning_tail_size = entry_pruning_tail_size
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the MultiThreadedCache to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the MultiThreadedCache to a dictionary."""
         d: Dict[str, Any] = {}
 
         if self.entry_capacity is not None:
-            d["entryCapacity"] = self.entry_capacity
+            d["entry_capacity"] = self.entry_capacity
 
         if self.entry_pruning_tail_size is not None:
-            d["entryPruningTailSize"] = self.entry_pruning_tail_size
+            d["entry_pruning_tail_size"] = self.entry_pruning_tail_size
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "MultiThreadedCache":
-        """Creates a MultiThreadedCache from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a MultiThreadedCache from a dictionary."""
         kwargs: Dict[str, Any] = {}
 
-        if "entryCapacity" in d:
-            kwargs["entry_capacity"] = d["entryCapacity"]
+        if "entry_capacity" in d:
+            kwargs["entry_capacity"] = d["entry_capacity"]
 
-        if "entryPruningTailSize" in d:
-            kwargs["entry_pruning_tail_size"] = d["entryPruningTailSize"]
+        if "entry_pruning_tail_size" in d:
+            kwargs["entry_pruning_tail_size"] = d["entry_pruning_tail_size"]
 
         return MultiThreadedCache(**kwargs)
 
@@ -1945,20 +1824,12 @@ class NoCache:
     """Nothing should ever be cached."""
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the NoCache to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the NoCache to a dictionary."""
         return {}
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "NoCache":
-        """Creates a NoCache from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a NoCache from a dictionary."""
         return NoCache()
 
     def __repr__(self) -> str:
@@ -1983,7 +1854,8 @@ class SingleThreadedCache:
         """A cache that is NOT safe for use in a multi threaded environment.
 
         :param entry_capacity: Maximum number of entries cached.
-        :param entry_pruning_tail_size: Number of entries to prune at a time.
+        :param entry_pruning_tail_size: Number of entries to prune at a
+            time.
         """
         if (entry_capacity is not None) and (entry_capacity < 1):
             raise ValueError("entry_capacity must be greater than or equal to 1")
@@ -1997,35 +1869,27 @@ class SingleThreadedCache:
         self.entry_pruning_tail_size = entry_pruning_tail_size
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the SingleThreadedCache to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the SingleThreadedCache to a dictionary."""
         d: Dict[str, Any] = {}
 
         if self.entry_capacity is not None:
-            d["entryCapacity"] = self.entry_capacity
+            d["entry_capacity"] = self.entry_capacity
 
         if self.entry_pruning_tail_size is not None:
-            d["entryPruningTailSize"] = self.entry_pruning_tail_size
+            d["entry_pruning_tail_size"] = self.entry_pruning_tail_size
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "SingleThreadedCache":
-        """Creates a SingleThreadedCache from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a SingleThreadedCache from a dictionary."""
         kwargs: Dict[str, Any] = {}
 
-        if "entryCapacity" in d:
-            kwargs["entry_capacity"] = d["entryCapacity"]
+        if "entry_capacity" in d:
+            kwargs["entry_capacity"] = d["entry_capacity"]
 
-        if "entryPruningTailSize" in d:
-            kwargs["entry_pruning_tail_size"] = d["entryPruningTailSize"]
+        if "entry_pruning_tail_size" in d:
+            kwargs["entry_pruning_tail_size"] = d["entry_pruning_tail_size"]
 
         return SingleThreadedCache(**kwargs)
 
@@ -2069,23 +1933,23 @@ class StormTrackingCache:
         in_flight_ttl: int = 0,
         sleep_milli: int = 0,
     ):
-        """A cache that is safe for use in a multi threaded environment,
-        and tries to
-        prevent redundant or overly parallel backend calls.
+        """A cache that is safe for use in a multi threaded environment, and
+        tries to prevent redundant or overly parallel backend calls.
 
         :param entry_capacity: Maximum number of entries cached.
-        :param entry_pruning_tail_size: Number of entries to prune at a time.
-        :param grace_period: How many seconds before expiration should an attempt be
-        made to refresh the materials.
-          If zero, use a simple cache with no storm
-        tracking.
-        :param grace_interval: How many seconds between attempts to refresh the
-        materials.
-        :param fan_out: How many simultaneous attempts to refresh the materials.
-        :param in_flight_ttl: How many seconds until an attempt to refresh the materials
-        should be forgotten.
-        :param sleep_milli: How many milliseconds should a thread sleep if fanOut is
-        exceeded.
+        :param entry_pruning_tail_size: Number of entries to prune at a
+            time.
+        :param grace_period: How many seconds before expiration should
+            an attempt be made to refresh the materials. If zero, use a
+            simple cache with no storm tracking.
+        :param grace_interval: How many seconds between attempts to
+            refresh the materials.
+        :param fan_out: How many simultaneous attempts to refresh the
+            materials.
+        :param in_flight_ttl: How many seconds until an attempt to
+            refresh the materials should be forgotten.
+        :param sleep_milli: How many milliseconds should a thread sleep
+            if fanOut is exceeded.
         """
         if (entry_capacity is not None) and (entry_capacity < 1):
             raise ValueError("entry_capacity must be greater than or equal to 1")
@@ -2119,65 +1983,57 @@ class StormTrackingCache:
         self.sleep_milli = sleep_milli
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the StormTrackingCache to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the StormTrackingCache to a dictionary."""
         d: Dict[str, Any] = {}
 
         if self.entry_capacity is not None:
-            d["entryCapacity"] = self.entry_capacity
+            d["entry_capacity"] = self.entry_capacity
 
         if self.entry_pruning_tail_size is not None:
-            d["entryPruningTailSize"] = self.entry_pruning_tail_size
+            d["entry_pruning_tail_size"] = self.entry_pruning_tail_size
 
         if self.grace_period is not None:
-            d["gracePeriod"] = self.grace_period
+            d["grace_period"] = self.grace_period
 
         if self.grace_interval is not None:
-            d["graceInterval"] = self.grace_interval
+            d["grace_interval"] = self.grace_interval
 
         if self.fan_out is not None:
-            d["fanOut"] = self.fan_out
+            d["fan_out"] = self.fan_out
 
         if self.in_flight_ttl is not None:
-            d["inFlightTTL"] = self.in_flight_ttl
+            d["in_flight_ttl"] = self.in_flight_ttl
 
         if self.sleep_milli is not None:
-            d["sleepMilli"] = self.sleep_milli
+            d["sleep_milli"] = self.sleep_milli
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "StormTrackingCache":
-        """Creates a StormTrackingCache from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a StormTrackingCache from a dictionary."""
         kwargs: Dict[str, Any] = {}
 
-        if "entryCapacity" in d:
-            kwargs["entry_capacity"] = d["entryCapacity"]
+        if "entry_capacity" in d:
+            kwargs["entry_capacity"] = d["entry_capacity"]
 
-        if "entryPruningTailSize" in d:
-            kwargs["entry_pruning_tail_size"] = d["entryPruningTailSize"]
+        if "entry_pruning_tail_size" in d:
+            kwargs["entry_pruning_tail_size"] = d["entry_pruning_tail_size"]
 
-        if "gracePeriod" in d:
-            kwargs["grace_period"] = d["gracePeriod"]
+        if "grace_period" in d:
+            kwargs["grace_period"] = d["grace_period"]
 
-        if "graceInterval" in d:
-            kwargs["grace_interval"] = d["graceInterval"]
+        if "grace_interval" in d:
+            kwargs["grace_interval"] = d["grace_interval"]
 
-        if "fanOut" in d:
-            kwargs["fan_out"] = d["fanOut"]
+        if "fan_out" in d:
+            kwargs["fan_out"] = d["fan_out"]
 
-        if "inFlightTTL" in d:
-            kwargs["in_flight_ttl"] = d["inFlightTTL"]
+        if "in_flight_ttl" in d:
+            kwargs["in_flight_ttl"] = d["in_flight_ttl"]
 
-        if "sleepMilli" in d:
-            kwargs["sleep_milli"] = d["sleepMilli"]
+        if "sleep_milli" in d:
+            kwargs["sleep_milli"] = d["sleep_milli"]
 
         return StormTrackingCache(**kwargs)
 
@@ -2222,7 +2078,10 @@ class StormTrackingCache:
 
 
 class CacheTypeDefault:
-    """The best choice for most situations. Probably a StormTrackingCache."""
+    """The best choice for most situations.
+
+    Probably a StormTrackingCache.
+    """
 
     def __init__(self, value: DefaultCache):
         self.value = value
@@ -2299,9 +2158,8 @@ class CacheTypeSingleThreaded:
 
 
 class CacheTypeMultiThreaded:
-    """A cache that is safe for use in a multi threaded environment, but no extra
-    functionality.
-    """
+    """A cache that is safe for use in a multi threaded environment, but no
+    extra functionality."""
 
     def __init__(self, value: MultiThreadedCache):
         self.value = value
@@ -2326,10 +2184,8 @@ class CacheTypeMultiThreaded:
 
 
 class CacheTypeStormTracking:
-    """A cache that is safe for use in a multi threaded environment,
-    and tries to
-    prevent redundant or overly parallel backend calls.
-    """
+    """A cache that is safe for use in a multi threaded environment, and tries
+    to prevent redundant or overly parallel backend calls."""
 
     def __init__(self, value: StormTrackingCache):
         self.value = value
@@ -2353,11 +2209,11 @@ class CacheTypeStormTracking:
         return self.value == other.value
 
 
-class CacheType:
+class CacheTypeUnknown:
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
 
     This value may not be deliberately sent.
     """
@@ -2369,13 +2225,13 @@ class CacheType:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CacheType":
+    def from_dict(d: Dict[str, Any]) -> "CacheTypeUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return CacheType(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return CacheTypeUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"CacheType(tag={self.tag})"
+        return f"CacheTypeUnknown(tag={self.tag})"
 
 
 CacheType = Union[
@@ -2384,7 +2240,7 @@ CacheType = Union[
     CacheTypeSingleThreaded,
     CacheTypeMultiThreaded,
     CacheTypeStormTracking,
-    CacheType,
+    CacheTypeUnknown,
 ]
 
 
@@ -2429,17 +2285,19 @@ class CreateAwsKmsHierarchicalKeyringInput:
     ):
         """Inputs for creating a Hierarchical Keyring.
 
-        :param key_store: The Key Store which contains the Branch Key(s) responsible for
-        wrapping and unwrapping data keys.
-        :param branch_key_id: The identifier for the single Branch Key responsible for
-        wrapping and unwrapping the data key. Either a Branch Key ID or Branch Key
-        Supplier must be specified.
-        :param branch_key_id_supplier: A Branch Key Supplier which determines what
-        Branch Key to use to wrap and unwrap the data key. Either a Branch Key ID or
-        Branch Key Supplier must be specified.
-        :param ttl_seconds: How many seconds the Branch Key material is allowed to be
-        reused within the local cache before it is re-retrieved from Amazon DynamoDB and
-        re-authenticated with AWS KMS.
+        :param key_store: The Key Store which contains the Branch Key(s)
+            responsible for wrapping and unwrapping data keys.
+        :param branch_key_id: The identifier for the single Branch Key
+            responsible for wrapping and unwrapping the data key. Either
+            a Branch Key ID or Branch Key Supplier must be specified.
+        :param branch_key_id_supplier: A Branch Key Supplier which
+            determines what Branch Key to use to wrap and unwrap the
+            data key. Either a Branch Key ID or Branch Key Supplier must
+            be specified.
+        :param ttl_seconds: How many seconds the Branch Key material is
+            allowed to be reused within the local cache before it is re-
+            retrieved from Amazon DynamoDB and re-authenticated with AWS
+            KMS.
         :param cache: Which type of local cache to use.
         """
         self.key_store = key_store
@@ -2452,23 +2310,20 @@ class CreateAwsKmsHierarchicalKeyringInput:
         self.cache = cache
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateAwsKmsHierarchicalKeyringInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the CreateAwsKmsHierarchicalKeyringInput to a
+        dictionary."""
         d: Dict[str, Any] = {
-            "keyStore": self.key_store.as_dict(),
+            "key_store": self.key_store.as_dict(),
         }
 
         if self.branch_key_id is not None:
-            d["branchKeyId"] = self.branch_key_id
+            d["branch_key_id"] = self.branch_key_id
 
         if self.branch_key_id_supplier is not None:
-            d["branchKeyIdSupplier"] = self.branch_key_id_supplier.as_dict()
+            d["branch_key_id_supplier"] = self.branch_key_id_supplier.as_dict()
 
         if self.ttl_seconds is not None:
-            d["ttlSeconds"] = self.ttl_seconds
+            d["ttl_seconds"] = self.ttl_seconds
 
         if self.cache is not None:
             d["cache"] = self.cache.as_dict()
@@ -2477,11 +2332,7 @@ class CreateAwsKmsHierarchicalKeyringInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsHierarchicalKeyringInput":
-        """Creates a CreateAwsKmsHierarchicalKeyringInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a CreateAwsKmsHierarchicalKeyringInput from a dictionary."""
         from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             BranchKeyIdSupplier,
         )
@@ -2490,19 +2341,19 @@ class CreateAwsKmsHierarchicalKeyringInput:
         )
 
         kwargs: Dict[str, Any] = {
-            "key_store": KeyStore.from_dict(d["keyStore"]),
+            "key_store": KeyStore.from_dict(d["key_store"]),
         }
 
-        if "branchKeyId" in d:
-            kwargs["branch_key_id"] = d["branchKeyId"]
+        if "branch_key_id" in d:
+            kwargs["branch_key_id"] = d["branch_key_id"]
 
-        if "branchKeyIdSupplier" in d:
+        if "branch_key_id_supplier" in d:
             kwargs["branch_key_id_supplier"] = BranchKeyIdSupplier.from_dict(
-                d["branchKeyIdSupplier"]
+                d["branch_key_id_supplier"]
             )
 
-        if "ttlSeconds" in d:
-            kwargs["ttl_seconds"] = d["ttlSeconds"]
+        if "ttl_seconds" in d:
+            kwargs["ttl_seconds"] = d["ttl_seconds"]
 
         if "cache" in d:
             kwargs["cache"] = (_cache_type_from_dict(d["cache"]),)
@@ -2555,48 +2406,42 @@ class CreateAwsKmsKeyringInput:
     ):
         """Inputs for for creating a AWS KMS Keyring.
 
-        :param kms_key_id: The identifier for the symmetric AWS KMS Key responsible for
-        wrapping and unwrapping data keys. This should not be a AWS KMS Multi-Region
-        Key.
-        :param kms_client: The KMS Client this Keyring will use to call KMS.
-        :param grant_tokens: A list of grant tokens to be used when calling KMS.
+        :param kms_key_id: The identifier for the symmetric AWS KMS Key
+            responsible for wrapping and unwrapping data keys. This
+            should not be a AWS KMS Multi-Region Key.
+        :param kms_client: The KMS Client this Keyring will use to call
+            KMS.
+        :param grant_tokens: A list of grant tokens to be used when
+            calling KMS.
         """
         self.kms_key_id = kms_key_id
         self.kms_client = kms_client
         self.grant_tokens = grant_tokens
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateAwsKmsKeyringInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the CreateAwsKmsKeyringInput to a dictionary."""
         d: Dict[str, Any] = {
-            "kmsKeyId": self.kms_key_id,
-            "kmsClient": self.kms_client.as_dict(),
+            "kms_key_id": self.kms_key_id,
+            "kms_client": self.kms_client,
         }
 
         if self.grant_tokens is not None:
-            d["grantTokens"] = self.grant_tokens
+            d["grant_tokens"] = self.grant_tokens
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsKeyringInput":
-        """Creates a CreateAwsKmsKeyringInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a CreateAwsKmsKeyringInput from a dictionary."""
         from botocore.client import BaseClient
 
         kwargs: Dict[str, Any] = {
-            "kms_key_id": d["kmsKeyId"],
-            "kms_client": BaseClient.from_dict(d["kmsClient"]),
+            "kms_key_id": d["kms_key_id"],
+            "kms_client": d["kms_client"],
         }
 
-        if "grantTokens" in d:
-            kwargs["grant_tokens"] = d["grantTokens"]
+        if "grant_tokens" in d:
+            kwargs["grant_tokens"] = d["grant_tokens"]
 
         return CreateAwsKmsKeyringInput(**kwargs)
 
@@ -2640,11 +2485,14 @@ class CreateAwsKmsMrkDiscoveryKeyringInput:
     ):
         """Inputs for for creating a AWS KMS MRK Discovery Keyring.
 
-        :param kms_client: The KMS Client this Keyring will use to call KMS.
+        :param kms_client: The KMS Client this Keyring will use to call
+            KMS.
         :param region: The region the input 'kmsClient' is in.
-        :param discovery_filter: A filter which restricts which KMS Keys this Keyring
-        may attempt to decrypt with by AWS partition and account.
-        :param grant_tokens: A list of grant tokens to be used when calling KMS.
+        :param discovery_filter: A filter which restricts which KMS Keys
+            this Keyring may attempt to decrypt with by AWS partition
+            and account.
+        :param grant_tokens: A list of grant tokens to be used when
+            calling KMS.
         """
         self.kms_client = kms_client
         self.region = region
@@ -2652,43 +2500,38 @@ class CreateAwsKmsMrkDiscoveryKeyringInput:
         self.grant_tokens = grant_tokens
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateAwsKmsMrkDiscoveryKeyringInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the CreateAwsKmsMrkDiscoveryKeyringInput to a
+        dictionary."""
         d: Dict[str, Any] = {
-            "kmsClient": self.kms_client.as_dict(),
+            "kms_client": self.kms_client,
             "region": self.region,
         }
 
         if self.discovery_filter is not None:
-            d["discoveryFilter"] = self.discovery_filter.as_dict()
+            d["discovery_filter"] = self.discovery_filter.as_dict()
 
         if self.grant_tokens is not None:
-            d["grantTokens"] = self.grant_tokens
+            d["grant_tokens"] = self.grant_tokens
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsMrkDiscoveryKeyringInput":
-        """Creates a CreateAwsKmsMrkDiscoveryKeyringInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a CreateAwsKmsMrkDiscoveryKeyringInput from a dictionary."""
         from botocore.client import BaseClient
 
         kwargs: Dict[str, Any] = {
-            "kms_client": BaseClient.from_dict(d["kmsClient"]),
+            "kms_client": d["kms_client"],
             "region": d["region"],
         }
 
-        if "discoveryFilter" in d:
-            kwargs["discovery_filter"] = DiscoveryFilter.from_dict(d["discoveryFilter"])
+        if "discovery_filter" in d:
+            kwargs["discovery_filter"] = DiscoveryFilter.from_dict(
+                d["discovery_filter"]
+            )
 
-        if "grantTokens" in d:
-            kwargs["grant_tokens"] = d["grantTokens"]
+        if "grant_tokens" in d:
+            kwargs["grant_tokens"] = d["grant_tokens"]
 
         return CreateAwsKmsMrkDiscoveryKeyringInput(**kwargs)
 
@@ -2740,14 +2583,18 @@ class CreateAwsKmsMrkDiscoveryMultiKeyringInput:
     ):
         """Inputs for for creating a AWS KMS MRK Discovery Multi-Keyring.
 
-        :param regions: The list of regions this Keyring will creates KMS clients for.
-        :param discovery_filter: A filter which restricts which KMS Keys this Keyring
-        may attempt to decrypt with by AWS partition and account.
-        :param client_supplier: The Client Supplier which will be used to get KMS
-        Clients for use with this Keyring. If not specified on input, a Default Client
-        Supplier is created which creates a KMS Client for each region in the 'regions'
-        input.
-        :param grant_tokens: A list of grant tokens to be used when calling KMS.
+        :param regions: The list of regions this Keyring will creates
+            KMS clients for.
+        :param discovery_filter: A filter which restricts which KMS Keys
+            this Keyring may attempt to decrypt with by AWS partition
+            and account.
+        :param client_supplier: The Client Supplier which will be used
+            to get KMS Clients for use with this Keyring. If not
+            specified on input, a Default Client Supplier is created
+            which creates a KMS Client for each region in the 'regions'
+            input.
+        :param grant_tokens: A list of grant tokens to be used when
+            calling KMS.
         """
         self.regions = regions
         self.discovery_filter = discovery_filter
@@ -2755,33 +2602,27 @@ class CreateAwsKmsMrkDiscoveryMultiKeyringInput:
         self.grant_tokens = grant_tokens
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateAwsKmsMrkDiscoveryMultiKeyringInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the CreateAwsKmsMrkDiscoveryMultiKeyringInput to a
+        dictionary."""
         d: Dict[str, Any] = {
             "regions": self.regions,
         }
 
         if self.discovery_filter is not None:
-            d["discoveryFilter"] = self.discovery_filter.as_dict()
+            d["discovery_filter"] = self.discovery_filter.as_dict()
 
         if self.client_supplier is not None:
-            d["clientSupplier"] = self.client_supplier.as_dict()
+            d["client_supplier"] = self.client_supplier.as_dict()
 
         if self.grant_tokens is not None:
-            d["grantTokens"] = self.grant_tokens
+            d["grant_tokens"] = self.grant_tokens
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsMrkDiscoveryMultiKeyringInput":
-        """Creates a CreateAwsKmsMrkDiscoveryMultiKeyringInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a CreateAwsKmsMrkDiscoveryMultiKeyringInput from a
+        dictionary."""
         from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             ClientSupplier,
         )
@@ -2790,14 +2631,16 @@ class CreateAwsKmsMrkDiscoveryMultiKeyringInput:
             "regions": d["regions"],
         }
 
-        if "discoveryFilter" in d:
-            kwargs["discovery_filter"] = DiscoveryFilter.from_dict(d["discoveryFilter"])
+        if "discovery_filter" in d:
+            kwargs["discovery_filter"] = DiscoveryFilter.from_dict(
+                d["discovery_filter"]
+            )
 
-        if "clientSupplier" in d:
-            kwargs["client_supplier"] = ClientSupplier.from_dict(d["clientSupplier"])
+        if "client_supplier" in d:
+            kwargs["client_supplier"] = ClientSupplier.from_dict(d["client_supplier"])
 
-        if "grantTokens" in d:
-            kwargs["grant_tokens"] = d["grantTokens"]
+        if "grant_tokens" in d:
+            kwargs["grant_tokens"] = d["grant_tokens"]
 
         return CreateAwsKmsMrkDiscoveryMultiKeyringInput(**kwargs)
 
@@ -2843,47 +2686,42 @@ class CreateAwsKmsMrkKeyringInput:
     ):
         """Inputs for for creating an AWS KMS MRK Keyring.
 
-        :param kms_key_id: The identifier for the symmetric AWS KMS Key or AWS KMS
-        Multi-Region Key responsible for wrapping and unwrapping data keys.
-        :param kms_client: The KMS Client this Keyring will use to call KMS.
-        :param grant_tokens: A list of grant tokens to be used when calling KMS.
+        :param kms_key_id: The identifier for the symmetric AWS KMS Key
+            or AWS KMS Multi-Region Key responsible for wrapping and
+            unwrapping data keys.
+        :param kms_client: The KMS Client this Keyring will use to call
+            KMS.
+        :param grant_tokens: A list of grant tokens to be used when
+            calling KMS.
         """
         self.kms_key_id = kms_key_id
         self.kms_client = kms_client
         self.grant_tokens = grant_tokens
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateAwsKmsMrkKeyringInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the CreateAwsKmsMrkKeyringInput to a dictionary."""
         d: Dict[str, Any] = {
-            "kmsKeyId": self.kms_key_id,
-            "kmsClient": self.kms_client.as_dict(),
+            "kms_key_id": self.kms_key_id,
+            "kms_client": self.kms_client,
         }
 
         if self.grant_tokens is not None:
-            d["grantTokens"] = self.grant_tokens
+            d["grant_tokens"] = self.grant_tokens
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsMrkKeyringInput":
-        """Creates a CreateAwsKmsMrkKeyringInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a CreateAwsKmsMrkKeyringInput from a dictionary."""
         from botocore.client import BaseClient
 
         kwargs: Dict[str, Any] = {
-            "kms_key_id": d["kmsKeyId"],
-            "kms_client": BaseClient.from_dict(d["kmsClient"]),
+            "kms_key_id": d["kms_key_id"],
+            "kms_client": d["kms_client"],
         }
 
-        if "grantTokens" in d:
-            kwargs["grant_tokens"] = d["grantTokens"]
+        if "grant_tokens" in d:
+            kwargs["grant_tokens"] = d["grant_tokens"]
 
         return CreateAwsKmsMrkKeyringInput(**kwargs)
 
@@ -2931,18 +2769,21 @@ class CreateAwsKmsMrkMultiKeyringInput:
     ):
         """Inputs for for creating a AWS KMS MRK Multi-Keyring.
 
-        :param generator: A symmetric AWS KMS Key or AWS KMS Multi-Region Key
-        responsible for wrapping and unwrapping data keys. KMS.GenerateDataKey may be
-        called with this key if the data key has not already been generated by another
-        Keyring.
-        :param kms_key_ids: A list of identifiers for the symmetric AWS KMS Keys and/or
-        AWS KMS Multi-Region Keys (other than the generator) responsible for wrapping
-        and unwrapping data keys.
-        :param client_supplier: The Client Supplier which will be used to get KMS
-        Clients for use with this Keyring. The Client Supplier will create a client for
-        each region specified in the generator and kmsKeyIds ARNs. If not specified on
-        input, the Default Client Supplier is used.
-        :param grant_tokens: A list of grant tokens to be used when calling KMS.
+        :param generator: A symmetric AWS KMS Key or AWS KMS Multi-
+            Region Key responsible for wrapping and unwrapping data
+            keys. KMS.GenerateDataKey may be called with this key if the
+            data key has not already been generated by another Keyring.
+        :param kms_key_ids: A list of identifiers for the symmetric AWS
+            KMS Keys and/or AWS KMS Multi-Region Keys (other than the
+            generator) responsible for wrapping and unwrapping data
+            keys.
+        :param client_supplier: The Client Supplier which will be used
+            to get KMS Clients for use with this Keyring. The Client
+            Supplier will create a client for each region specified in
+            the generator and kmsKeyIds ARNs. If not specified on input,
+            the Default Client Supplier is used.
+        :param grant_tokens: A list of grant tokens to be used when
+            calling KMS.
         """
         self.generator = generator
         self.kms_key_ids = kms_key_ids
@@ -2950,34 +2791,26 @@ class CreateAwsKmsMrkMultiKeyringInput:
         self.grant_tokens = grant_tokens
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateAwsKmsMrkMultiKeyringInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the CreateAwsKmsMrkMultiKeyringInput to a dictionary."""
         d: Dict[str, Any] = {}
 
         if self.generator is not None:
             d["generator"] = self.generator
 
         if self.kms_key_ids is not None:
-            d["kmsKeyIds"] = self.kms_key_ids
+            d["kms_key_ids"] = self.kms_key_ids
 
         if self.client_supplier is not None:
-            d["clientSupplier"] = self.client_supplier.as_dict()
+            d["client_supplier"] = self.client_supplier.as_dict()
 
         if self.grant_tokens is not None:
-            d["grantTokens"] = self.grant_tokens
+            d["grant_tokens"] = self.grant_tokens
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsMrkMultiKeyringInput":
-        """Creates a CreateAwsKmsMrkMultiKeyringInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a CreateAwsKmsMrkMultiKeyringInput from a dictionary."""
         from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             ClientSupplier,
         )
@@ -2987,14 +2820,14 @@ class CreateAwsKmsMrkMultiKeyringInput:
         if "generator" in d:
             kwargs["generator"] = d["generator"]
 
-        if "kmsKeyIds" in d:
-            kwargs["kms_key_ids"] = d["kmsKeyIds"]
+        if "kms_key_ids" in d:
+            kwargs["kms_key_ids"] = d["kms_key_ids"]
 
-        if "clientSupplier" in d:
-            kwargs["client_supplier"] = ClientSupplier.from_dict(d["clientSupplier"])
+        if "client_supplier" in d:
+            kwargs["client_supplier"] = ClientSupplier.from_dict(d["client_supplier"])
 
-        if "grantTokens" in d:
-            kwargs["grant_tokens"] = d["grantTokens"]
+        if "grant_tokens" in d:
+            kwargs["grant_tokens"] = d["grant_tokens"]
 
         return CreateAwsKmsMrkMultiKeyringInput(**kwargs)
 
@@ -3046,18 +2879,22 @@ class CreateAwsKmsMultiKeyringInput:
     ):
         """Inputs for for creating a AWS KMS Multi-Keyring.
 
-        :param generator: A identifier for a symmetric AWS KMS Key responsible for
-        wrapping and unwrapping data keys. KMS.GenerateDataKey may be called with this
-        key if the data key has not already been generated by another Keyring. This
-        should not be a AWS KMS Multi-Region Key.
-        :param kms_key_ids: A list of identifiers for the symmetric AWS KMS Keys (other
-        than the generator) responsible for wrapping and unwrapping data keys. This list
-        should not contain AWS KMS Multi-Region Keys.
-        :param client_supplier: The Client Supplier which will be used to get KMS
-        Clients for use with this Keyring. The Client Supplier will create a client for
-        each region specified in the generator and kmsKeyIds ARNs. If not specified on
-        input, the Default Client Supplier is used.
-        :param grant_tokens: A list of grant tokens to be used when calling KMS.
+        :param generator: A identifier for a symmetric AWS KMS Key
+            responsible for wrapping and unwrapping data keys.
+            KMS.GenerateDataKey may be called with this key if the data
+            key has not already been generated by another Keyring. This
+            should not be a AWS KMS Multi-Region Key.
+        :param kms_key_ids: A list of identifiers for the symmetric AWS
+            KMS Keys (other than the generator) responsible for wrapping
+            and unwrapping data keys. This list should not contain AWS
+            KMS Multi-Region Keys.
+        :param client_supplier: The Client Supplier which will be used
+            to get KMS Clients for use with this Keyring. The Client
+            Supplier will create a client for each region specified in
+            the generator and kmsKeyIds ARNs. If not specified on input,
+            the Default Client Supplier is used.
+        :param grant_tokens: A list of grant tokens to be used when
+            calling KMS.
         """
         self.generator = generator
         self.kms_key_ids = kms_key_ids
@@ -3065,34 +2902,26 @@ class CreateAwsKmsMultiKeyringInput:
         self.grant_tokens = grant_tokens
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateAwsKmsMultiKeyringInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the CreateAwsKmsMultiKeyringInput to a dictionary."""
         d: Dict[str, Any] = {}
 
         if self.generator is not None:
             d["generator"] = self.generator
 
         if self.kms_key_ids is not None:
-            d["kmsKeyIds"] = self.kms_key_ids
+            d["kms_key_ids"] = self.kms_key_ids
 
         if self.client_supplier is not None:
-            d["clientSupplier"] = self.client_supplier.as_dict()
+            d["client_supplier"] = self.client_supplier.as_dict()
 
         if self.grant_tokens is not None:
-            d["grantTokens"] = self.grant_tokens
+            d["grant_tokens"] = self.grant_tokens
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsMultiKeyringInput":
-        """Creates a CreateAwsKmsMultiKeyringInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a CreateAwsKmsMultiKeyringInput from a dictionary."""
         from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             ClientSupplier,
         )
@@ -3102,14 +2931,14 @@ class CreateAwsKmsMultiKeyringInput:
         if "generator" in d:
             kwargs["generator"] = d["generator"]
 
-        if "kmsKeyIds" in d:
-            kwargs["kms_key_ids"] = d["kmsKeyIds"]
+        if "kms_key_ids" in d:
+            kwargs["kms_key_ids"] = d["kms_key_ids"]
 
-        if "clientSupplier" in d:
-            kwargs["client_supplier"] = ClientSupplier.from_dict(d["clientSupplier"])
+        if "client_supplier" in d:
+            kwargs["client_supplier"] = ClientSupplier.from_dict(d["client_supplier"])
 
-        if "grantTokens" in d:
-            kwargs["grant_tokens"] = d["grantTokens"]
+        if "grant_tokens" in d:
+            kwargs["grant_tokens"] = d["grant_tokens"]
 
         return CreateAwsKmsMultiKeyringInput(**kwargs)
 
@@ -3159,16 +2988,19 @@ class CreateAwsKmsRsaKeyringInput:
     ):
         """Inputs for creating a AWS KMS RSA Keyring.
 
-        :param kms_key_id: The ARN for the asymmetric AWS KMS Key for RSA responsible
-        for wrapping and unwrapping data keys.
-        :param encryption_algorithm: The RSA algorithm used to wrap and unwrap data
-        keys.
-        :param public_key: The public RSA Key responsible for wrapping data keys, as a
-        UTF8 encoded, PEM encoded X.509 SubjectPublicKeyInfo structure. This should be
-        the public key as exported from KMS. If not specified, this Keyring cannot be
-        used on encrypt.
-        :param kms_client: The KMS Client this Keyring will use to call KMS.
-        :param grant_tokens: A list of grant tokens to be used when calling KMS.
+        :param kms_key_id: The ARN for the asymmetric AWS KMS Key for
+            RSA responsible for wrapping and unwrapping data keys.
+        :param encryption_algorithm: The RSA algorithm used to wrap and
+            unwrap data keys.
+        :param public_key: The public RSA Key responsible for wrapping
+            data keys, as a UTF8 encoded, PEM encoded X.509
+            SubjectPublicKeyInfo structure. This should be the public
+            key as exported from KMS. If not specified, this Keyring
+            cannot be used on encrypt.
+        :param kms_client: The KMS Client this Keyring will use to call
+            KMS.
+        :param grant_tokens: A list of grant tokens to be used when
+            calling KMS.
         """
         self.kms_key_id = kms_key_id
         self.encryption_algorithm = encryption_algorithm
@@ -3177,49 +3009,41 @@ class CreateAwsKmsRsaKeyringInput:
         self.grant_tokens = grant_tokens
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateAwsKmsRsaKeyringInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the CreateAwsKmsRsaKeyringInput to a dictionary."""
         d: Dict[str, Any] = {
-            "kmsKeyId": self.kms_key_id,
-            "encryptionAlgorithm": self.encryption_algorithm,
+            "kms_key_id": self.kms_key_id,
+            "encryption_algorithm": self.encryption_algorithm,
         }
 
         if self.public_key is not None:
-            d["publicKey"] = self.public_key
+            d["public_key"] = self.public_key
 
         if self.kms_client is not None:
-            d["kmsClient"] = self.kms_client.as_dict()
+            d["kms_client"] = self.kms_client
 
         if self.grant_tokens is not None:
-            d["grantTokens"] = self.grant_tokens
+            d["grant_tokens"] = self.grant_tokens
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsRsaKeyringInput":
-        """Creates a CreateAwsKmsRsaKeyringInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a CreateAwsKmsRsaKeyringInput from a dictionary."""
         from botocore.client import BaseClient
 
         kwargs: Dict[str, Any] = {
-            "kms_key_id": d["kmsKeyId"],
-            "encryption_algorithm": d["encryptionAlgorithm"],
+            "kms_key_id": d["kms_key_id"],
+            "encryption_algorithm": d["encryption_algorithm"],
         }
 
-        if "publicKey" in d:
-            kwargs["public_key"] = d["publicKey"]
+        if "public_key" in d:
+            kwargs["public_key"] = d["public_key"]
 
-        if "kmsClient" in d:
-            kwargs["kms_client"] = BaseClient.from_dict(d["kmsClient"])
+        if "kms_client" in d:
+            kwargs["kms_client"] = d["kms_client"]
 
-        if "grantTokens" in d:
-            kwargs["grant_tokens"] = d["grantTokens"]
+        if "grant_tokens" in d:
+            kwargs["grant_tokens"] = d["grant_tokens"]
 
         return CreateAwsKmsRsaKeyringInput(**kwargs)
 
@@ -3269,22 +3093,16 @@ class CreateCryptographicMaterialsCacheInput:
         self.cache = cache
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateCryptographicMaterialsCacheInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the CreateCryptographicMaterialsCacheInput to a
+        dictionary."""
         return {
             "cache": self.cache.as_dict(),
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateCryptographicMaterialsCacheInput":
-        """Creates a CreateCryptographicMaterialsCacheInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a CreateCryptographicMaterialsCacheInput from a
+        dictionary."""
         kwargs: Dict[str, Any] = {
             "cache": _cache_type_from_dict(d["cache"]),
         }
@@ -3309,20 +3127,12 @@ class CreateCryptographicMaterialsCacheInput:
 
 class CreateDefaultClientSupplierInput:
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateDefaultClientSupplierInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the CreateDefaultClientSupplierInput to a dictionary."""
         return {}
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateDefaultClientSupplierInput":
-        """Creates a CreateDefaultClientSupplierInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a CreateDefaultClientSupplierInput from a dictionary."""
         return CreateDefaultClientSupplierInput()
 
     def __repr__(self) -> str:
@@ -3344,17 +3154,14 @@ class CreateDefaultCryptographicMaterialsManagerInput:
     ):
         """Inputs for creating a Default Cryptographic Materials Manager.
 
-        :param keyring: The Keyring that the created Default Cryprographic Materials
-        Manager will use to wrap data keys.
+        :param keyring: The Keyring that the created Default
+            Cryprographic Materials Manager will use to wrap data keys.
         """
         self.keyring = keyring
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateDefaultCryptographicMaterialsManagerInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the CreateDefaultCryptographicMaterialsManagerInput to a
+        dictionary."""
         return {
             "keyring": self.keyring.as_dict(),
         }
@@ -3363,11 +3170,8 @@ class CreateDefaultCryptographicMaterialsManagerInput:
     def from_dict(
         d: Dict[str, Any]
     ) -> "CreateDefaultCryptographicMaterialsManagerInput":
-        """Creates a CreateDefaultCryptographicMaterialsManagerInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a CreateDefaultCryptographicMaterialsManagerInput from a
+        dictionary."""
         from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             Keyring,
         )
@@ -3414,23 +3218,21 @@ class CreateMultiKeyringInput:
     ):
         """Inputs for creating a Multi-Keyring.
 
-        :param child_keyrings: A list of keyrings (other than the generator) responsible
-        for wrapping and unwrapping the data key.
-        :param generator: A keyring responsible for wrapping and unwrapping the data
-        key. This is the first keyring that will be used to wrap the data key, and may
-        be responsible for additionally generating the data key.
+        :param child_keyrings: A list of keyrings (other than the
+            generator) responsible for wrapping and unwrapping the data
+            key.
+        :param generator: A keyring responsible for wrapping and
+            unwrapping the data key. This is the first keyring that will
+            be used to wrap the data key, and may be responsible for
+            additionally generating the data key.
         """
         self.child_keyrings = child_keyrings
         self.generator = generator
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateMultiKeyringInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the CreateMultiKeyringInput to a dictionary."""
         d: Dict[str, Any] = {
-            "childKeyrings": self.child_keyrings,
+            "child_keyrings": self.child_keyrings,
         }
 
         if self.generator is not None:
@@ -3440,17 +3242,13 @@ class CreateMultiKeyringInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateMultiKeyringInput":
-        """Creates a CreateMultiKeyringInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a CreateMultiKeyringInput from a dictionary."""
         from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             Keyring,
         )
 
         kwargs: Dict[str, Any] = {
-            "child_keyrings": d["childKeyrings"],
+            "child_keyrings": d["child_keyrings"],
         }
 
         if "generator" in d:
@@ -3494,11 +3292,13 @@ class CreateRawAesKeyringInput:
     ):
         """Inputs for creating a Raw AES Keyring.
 
-        :param key_namespace: A namespace associated with this wrapping key.
+        :param key_namespace: A namespace associated with this wrapping
+            key.
         :param key_name: A name associated with this wrapping key.
-        :param wrapping_key: The AES key used with AES_GCM encryption and decryption.
-        :param wrapping_alg: The AES_GCM algorithm this Keyring uses to wrap and unwrap
-        data keys.
+        :param wrapping_key: The AES key used with AES_GCM encryption
+            and decryption.
+        :param wrapping_alg: The AES_GCM algorithm this Keyring uses to
+            wrap and unwrap data keys.
         """
         self.key_namespace = key_namespace
         self.key_name = key_name
@@ -3506,30 +3306,22 @@ class CreateRawAesKeyringInput:
         self.wrapping_alg = wrapping_alg
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateRawAesKeyringInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the CreateRawAesKeyringInput to a dictionary."""
         return {
-            "keyNamespace": self.key_namespace,
-            "keyName": self.key_name,
-            "wrappingKey": self.wrapping_key,
-            "wrappingAlg": self.wrapping_alg,
+            "key_namespace": self.key_namespace,
+            "key_name": self.key_name,
+            "wrapping_key": self.wrapping_key,
+            "wrapping_alg": self.wrapping_alg,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateRawAesKeyringInput":
-        """Creates a CreateRawAesKeyringInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a CreateRawAesKeyringInput from a dictionary."""
         kwargs: Dict[str, Any] = {
-            "key_namespace": d["keyNamespace"],
-            "key_name": d["keyName"],
-            "wrapping_key": d["wrappingKey"],
-            "wrapping_alg": d["wrappingAlg"],
+            "key_namespace": d["key_namespace"],
+            "key_name": d["key_name"],
+            "wrapping_key": d["wrapping_key"],
+            "wrapping_alg": d["wrapping_alg"],
         }
 
         return CreateRawAesKeyringInput(**kwargs)
@@ -3570,31 +3362,27 @@ class EphemeralPrivateKeyToStaticPublicKeyInput:
         *,
         recipient_public_key: bytes | bytearray,
     ):
-        """Inputs for creating a EphemeralPrivateKeyToStaticPublicKey Configuration.
+        """Inputs for creating a EphemeralPrivateKeyToStaticPublicKey
+        Configuration.
 
-        :param recipient_public_key: The recipient's public key. MUST be DER encoded.
+        :param recipient_public_key: The recipient's public key. MUST be
+            DER encoded.
         """
         self.recipient_public_key = recipient_public_key
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the EphemeralPrivateKeyToStaticPublicKeyInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the EphemeralPrivateKeyToStaticPublicKeyInput to a
+        dictionary."""
         return {
-            "recipientPublicKey": self.recipient_public_key,
+            "recipient_public_key": self.recipient_public_key,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "EphemeralPrivateKeyToStaticPublicKeyInput":
-        """Creates a EphemeralPrivateKeyToStaticPublicKeyInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a EphemeralPrivateKeyToStaticPublicKeyInput from a
+        dictionary."""
         kwargs: Dict[str, Any] = {
-            "recipient_public_key": d["recipientPublicKey"],
+            "recipient_public_key": d["recipient_public_key"],
         }
 
         return EphemeralPrivateKeyToStaticPublicKeyInput(**kwargs)
@@ -3625,30 +3413,22 @@ class PublicKeyDiscoveryInput:
     ):
         """Inputs for creating a PublicKeyDiscovery Configuration.
 
-        :param recipient_static_private_key: The sender's private key. MUST be PEM
-        encoded.
+        :param recipient_static_private_key: The sender's private key.
+            MUST be PEM encoded.
         """
         self.recipient_static_private_key = recipient_static_private_key
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the PublicKeyDiscoveryInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the PublicKeyDiscoveryInput to a dictionary."""
         return {
-            "recipientStaticPrivateKey": self.recipient_static_private_key,
+            "recipient_static_private_key": self.recipient_static_private_key,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "PublicKeyDiscoveryInput":
-        """Creates a PublicKeyDiscoveryInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a PublicKeyDiscoveryInput from a dictionary."""
         kwargs: Dict[str, Any] = {
-            "recipient_static_private_key": d["recipientStaticPrivateKey"],
+            "recipient_static_private_key": d["recipient_static_private_key"],
         }
 
         return PublicKeyDiscoveryInput(**kwargs)
@@ -3681,33 +3461,27 @@ class RawPrivateKeyToStaticPublicKeyInput:
     ):
         """Inputs for creating a RawPrivateKeyToStaticPublicKey Configuration.
 
-        :param sender_static_private_key: The sender's private key. MUST be PEM encoded.
-        :param recipient_public_key: The recipient's public key. MUST be DER encoded.
+        :param sender_static_private_key: The sender's private key. MUST
+            be PEM encoded.
+        :param recipient_public_key: The recipient's public key. MUST be
+            DER encoded.
         """
         self.sender_static_private_key = sender_static_private_key
         self.recipient_public_key = recipient_public_key
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the RawPrivateKeyToStaticPublicKeyInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the RawPrivateKeyToStaticPublicKeyInput to a dictionary."""
         return {
-            "senderStaticPrivateKey": self.sender_static_private_key,
-            "recipientPublicKey": self.recipient_public_key,
+            "sender_static_private_key": self.sender_static_private_key,
+            "recipient_public_key": self.recipient_public_key,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "RawPrivateKeyToStaticPublicKeyInput":
-        """Creates a RawPrivateKeyToStaticPublicKeyInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a RawPrivateKeyToStaticPublicKeyInput from a dictionary."""
         kwargs: Dict[str, Any] = {
-            "sender_static_private_key": d["senderStaticPrivateKey"],
-            "recipient_public_key": d["recipientPublicKey"],
+            "sender_static_private_key": d["sender_static_private_key"],
+            "recipient_public_key": d["recipient_public_key"],
         }
 
         return RawPrivateKeyToStaticPublicKeyInput(**kwargs)
@@ -3795,7 +3569,8 @@ class RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey:
 
 
 class RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey:
-    """Inputs for creating a EphemeralPrivateKeyToStaticPublicKey Configuration."""
+    """Inputs for creating a EphemeralPrivateKeyToStaticPublicKey
+    Configuration."""
 
     def __init__(self, value: EphemeralPrivateKeyToStaticPublicKeyInput):
         self.value = value
@@ -3827,11 +3602,11 @@ class RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey:
         return self.value == other.value
 
 
-class RawEcdhStaticConfigurations:
+class RawEcdhStaticConfigurationsUnknown:
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
 
     This value may not be deliberately sent.
     """
@@ -3843,13 +3618,13 @@ class RawEcdhStaticConfigurations:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "RawEcdhStaticConfigurations":
+    def from_dict(d: Dict[str, Any]) -> "RawEcdhStaticConfigurationsUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return RawEcdhStaticConfigurations(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return RawEcdhStaticConfigurationsUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"RawEcdhStaticConfigurations(tag={self.tag})"
+        return f"RawEcdhStaticConfigurationsUnknown(tag={self.tag})"
 
 
 # List of configurations when using RawEcdhStaticConfigurations.
@@ -3857,7 +3632,7 @@ RawEcdhStaticConfigurations = Union[
     RawEcdhStaticConfigurationsPublicKeyDiscovery,
     RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey,
     RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey,
-    RawEcdhStaticConfigurations,
+    RawEcdhStaticConfigurationsUnknown,
 ]
 
 
@@ -3890,37 +3665,30 @@ class CreateRawEcdhKeyringInput:
     ):
         """Inputs for creating a raw ECDH Keyring.
 
-        :param key_agreement_scheme: The Key Agreement Scheme configuration that is
-        responsible for how the shared secret is calculated.
-        :param curve_spec: The the curve on which the points for the sender's private
-        and recipient's public key lie.
+        :param key_agreement_scheme: The Key Agreement Scheme
+            configuration that is responsible for how the shared secret
+            is calculated.
+        :param curve_spec: The the curve on which the points for the
+            sender's private and recipient's public key lie.
         """
         self.key_agreement_scheme = key_agreement_scheme
         self.curve_spec = curve_spec
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateRawEcdhKeyringInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the CreateRawEcdhKeyringInput to a dictionary."""
         return {
-            "KeyAgreementScheme": self.key_agreement_scheme.as_dict(),
-            "curveSpec": self.curve_spec,
+            "key_agreement_scheme": self.key_agreement_scheme.as_dict(),
+            "curve_spec": self.curve_spec,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateRawEcdhKeyringInput":
-        """Creates a CreateRawEcdhKeyringInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a CreateRawEcdhKeyringInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "key_agreement_scheme": _raw_ecdh_static_configurations_from_dict(
-                d["KeyAgreementScheme"]
+                d["key_agreement_scheme"]
             ),
-            "curve_spec": d["curveSpec"],
+            "curve_spec": d["curve_spec"],
         }
 
         return CreateRawEcdhKeyringInput(**kwargs)
@@ -3987,17 +3755,21 @@ class CreateRawRsaKeyringInput:
     ):
         """Inputs for creating a Raw RAW Keyring.
 
-        :param key_namespace: A namespace associated with this wrapping key.
+        :param key_namespace: A namespace associated with this wrapping
+            key.
         :param key_name: A name associated with this wrapping key.
-        :param padding_scheme: The RSA padding scheme to use with this keyring.
-        :param public_key: The public RSA Key responsible for wrapping data keys, as a
-        UTF8 encoded, PEM encoded X.509 SubjectPublicKeyInfo structure. If not
-        specified, this Keyring cannot be used on encrypt. A public key and/or a private
-        key must be specified.
-        :param private_key: The private RSA Key responsible for wrapping data keys, as a
-        UTF8 encoded, PEM encoded PKCS #8 PrivateKeyInfo structure. If not specified,
-        this Keyring cannot be used on decrypt. A public key and/or a private key must
-        be specified.
+        :param padding_scheme: The RSA padding scheme to use with this
+            keyring.
+        :param public_key: The public RSA Key responsible for wrapping
+            data keys, as a UTF8 encoded, PEM encoded X.509
+            SubjectPublicKeyInfo structure. If not specified, this
+            Keyring cannot be used on encrypt. A public key and/or a
+            private key must be specified.
+        :param private_key: The private RSA Key responsible for wrapping
+            data keys, as a UTF8 encoded, PEM encoded PKCS #8
+            PrivateKeyInfo structure. If not specified, this Keyring
+            cannot be used on decrypt. A public key and/or a private key
+            must be specified.
         """
         self.key_namespace = key_namespace
         self.key_name = key_name
@@ -4006,43 +3778,35 @@ class CreateRawRsaKeyringInput:
         self.private_key = private_key
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateRawRsaKeyringInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the CreateRawRsaKeyringInput to a dictionary."""
         d: Dict[str, Any] = {
-            "keyNamespace": self.key_namespace,
-            "keyName": self.key_name,
-            "paddingScheme": self.padding_scheme,
+            "key_namespace": self.key_namespace,
+            "key_name": self.key_name,
+            "padding_scheme": self.padding_scheme,
         }
 
         if self.public_key is not None:
-            d["publicKey"] = self.public_key
+            d["public_key"] = self.public_key
 
         if self.private_key is not None:
-            d["privateKey"] = self.private_key
+            d["private_key"] = self.private_key
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateRawRsaKeyringInput":
-        """Creates a CreateRawRsaKeyringInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a CreateRawRsaKeyringInput from a dictionary."""
         kwargs: Dict[str, Any] = {
-            "key_namespace": d["keyNamespace"],
-            "key_name": d["keyName"],
-            "padding_scheme": d["paddingScheme"],
+            "key_namespace": d["key_namespace"],
+            "key_name": d["key_name"],
+            "padding_scheme": d["padding_scheme"],
         }
 
-        if "publicKey" in d:
-            kwargs["public_key"] = d["publicKey"]
+        if "public_key" in d:
+            kwargs["public_key"] = d["public_key"]
 
-        if "privateKey" in d:
-            kwargs["private_key"] = d["privateKey"]
+        if "private_key" in d:
+            kwargs["private_key"] = d["private_key"]
 
         return CreateRawRsaKeyringInput(**kwargs)
 
@@ -4098,39 +3862,39 @@ class CreateRequiredEncryptionContextCMMInput:
             "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring"
         ] = None,
     ):
-        """Inputs for creating an Required Encryption Context Cryptographic Materials
-        Manager.
+        """Inputs for creating an Required Encryption Context Cryptographic
+        Materials Manager.
 
-        :param required_encryption_context_keys: A list of Encryption Context keys which
-        are required to be supplied during encryption and decryption, and correspond to
-        Encryption Context key-value pairs which are not stored on the resulting
-        message.
-        :param underlying_cmm: The Cryprographic Materials Manager that the created
-        Required Encryption Context Cryptographic Materials Manager will delegate to.
-        Either a Keyring or underlying Cryprographic Materials Manager must be
-        specified.
-        :param keyring: The Keyring that the created Cryprographic Materials Manager
-        will use to wrap data keys. The created Required Encryption Context CMM will
-        delegate to a Default Cryptographic Materials Manager created with this Keyring.
-        Either a Keyring or an underlying Cryprographic Materials Manager must be
-        specified as input.
+        :param required_encryption_context_keys: A list of Encryption
+            Context keys which are required to be supplied during
+            encryption and decryption, and correspond to Encryption
+            Context key-value pairs which are not stored on the
+            resulting message.
+        :param underlying_cmm: The Cryprographic Materials Manager that
+            the created Required Encryption Context Cryptographic
+            Materials Manager will delegate to. Either a Keyring or
+            underlying Cryprographic Materials Manager must be
+            specified.
+        :param keyring: The Keyring that the created Cryprographic
+            Materials Manager will use to wrap data keys. The created
+            Required Encryption Context CMM will delegate to a Default
+            Cryptographic Materials Manager created with this Keyring.
+            Either a Keyring or an underlying Cryprographic Materials
+            Manager must be specified as input.
         """
         self.required_encryption_context_keys = required_encryption_context_keys
         self.underlying_cmm = underlying_cmm
         self.keyring = keyring
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateRequiredEncryptionContextCMMInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the CreateRequiredEncryptionContextCMMInput to a
+        dictionary."""
         d: Dict[str, Any] = {
-            "requiredEncryptionContextKeys": self.required_encryption_context_keys,
+            "required_encryption_context_keys": self.required_encryption_context_keys,
         }
 
         if self.underlying_cmm is not None:
-            d["underlyingCMM"] = self.underlying_cmm.as_dict()
+            d["underlying_cmm"] = self.underlying_cmm.as_dict()
 
         if self.keyring is not None:
             d["keyring"] = self.keyring.as_dict()
@@ -4139,11 +3903,8 @@ class CreateRequiredEncryptionContextCMMInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateRequiredEncryptionContextCMMInput":
-        """Creates a CreateRequiredEncryptionContextCMMInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a CreateRequiredEncryptionContextCMMInput from a
+        dictionary."""
         from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             CryptographicMaterialsManager,
         )
@@ -4152,12 +3913,12 @@ class CreateRequiredEncryptionContextCMMInput:
         )
 
         kwargs: Dict[str, Any] = {
-            "required_encryption_context_keys": d["requiredEncryptionContextKeys"],
+            "required_encryption_context_keys": d["required_encryption_context_keys"],
         }
 
-        if "underlyingCMM" in d:
+        if "underlying_cmm" in d:
             kwargs["underlying_cmm"] = CryptographicMaterialsManager.from_dict(
-                d["underlyingCMM"]
+                d["underlying_cmm"]
             )
 
         if "keyring" in d:
@@ -4200,22 +3961,14 @@ class DeleteCacheEntryInput:
         self.identifier = identifier
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the DeleteCacheEntryInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the DeleteCacheEntryInput to a dictionary."""
         return {
             "identifier": self.identifier,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "DeleteCacheEntryInput":
-        """Creates a DeleteCacheEntryInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a DeleteCacheEntryInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "identifier": d["identifier"],
         }
@@ -4252,33 +4005,25 @@ class GetCacheEntryInput:
         self.bytes_used = bytes_used
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GetCacheEntryInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the GetCacheEntryInput to a dictionary."""
         d: Dict[str, Any] = {
             "identifier": self.identifier,
         }
 
         if self.bytes_used is not None:
-            d["bytesUsed"] = self.bytes_used
+            d["bytes_used"] = self.bytes_used
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GetCacheEntryInput":
-        """Creates a GetCacheEntryInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a GetCacheEntryInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "identifier": d["identifier"],
         }
 
-        if "bytesUsed" in d:
-            kwargs["bytes_used"] = d["bytesUsed"]
+        if "bytes_used" in d:
+            kwargs["bytes_used"] = d["bytes_used"]
 
         return GetCacheEntryInput(**kwargs)
 
@@ -4328,49 +4073,41 @@ class DecryptionMaterials:
         self.symmetric_signing_key = symmetric_signing_key
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the DecryptionMaterials to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the DecryptionMaterials to a dictionary."""
         d: Dict[str, Any] = {
-            "algorithmSuite": self.algorithm_suite.as_dict(),
-            "encryptionContext": self.encryption_context,
-            "requiredEncryptionContextKeys": self.required_encryption_context_keys,
+            "algorithm_suite": self.algorithm_suite.as_dict(),
+            "encryption_context": self.encryption_context,
+            "required_encryption_context_keys": self.required_encryption_context_keys,
         }
 
         if self.plaintext_data_key is not None:
-            d["plaintextDataKey"] = self.plaintext_data_key
+            d["plaintext_data_key"] = self.plaintext_data_key
 
         if self.verification_key is not None:
-            d["verificationKey"] = self.verification_key
+            d["verification_key"] = self.verification_key
 
         if self.symmetric_signing_key is not None:
-            d["symmetricSigningKey"] = self.symmetric_signing_key
+            d["symmetric_signing_key"] = self.symmetric_signing_key
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "DecryptionMaterials":
-        """Creates a DecryptionMaterials from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a DecryptionMaterials from a dictionary."""
         kwargs: Dict[str, Any] = {
-            "algorithm_suite": AlgorithmSuiteInfo.from_dict(d["algorithmSuite"]),
-            "encryption_context": d["encryptionContext"],
-            "required_encryption_context_keys": d["requiredEncryptionContextKeys"],
+            "algorithm_suite": AlgorithmSuiteInfo.from_dict(d["algorithm_suite"]),
+            "encryption_context": d["encryption_context"],
+            "required_encryption_context_keys": d["required_encryption_context_keys"],
         }
 
-        if "plaintextDataKey" in d:
-            kwargs["plaintext_data_key"] = d["plaintextDataKey"]
+        if "plaintext_data_key" in d:
+            kwargs["plaintext_data_key"] = d["plaintext_data_key"]
 
-        if "verificationKey" in d:
-            kwargs["verification_key"] = d["verificationKey"]
+        if "verification_key" in d:
+            kwargs["verification_key"] = d["verification_key"]
 
-        if "symmetricSigningKey" in d:
-            kwargs["symmetric_signing_key"] = d["symmetricSigningKey"]
+        if "symmetric_signing_key" in d:
+            kwargs["symmetric_signing_key"] = d["symmetric_signing_key"]
 
         return DecryptionMaterials(**kwargs)
 
@@ -4427,27 +4164,19 @@ class EncryptedDataKey:
         self.ciphertext = ciphertext
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the EncryptedDataKey to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the EncryptedDataKey to a dictionary."""
         return {
-            "keyProviderId": self.key_provider_id,
-            "keyProviderInfo": self.key_provider_info,
+            "key_provider_id": self.key_provider_id,
+            "key_provider_info": self.key_provider_info,
             "ciphertext": self.ciphertext,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "EncryptedDataKey":
-        """Creates a EncryptedDataKey from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a EncryptedDataKey from a dictionary."""
         kwargs: Dict[str, Any] = {
-            "key_provider_id": d["keyProviderId"],
-            "key_provider_info": d["keyProviderInfo"],
+            "key_provider_id": d["key_provider_id"],
+            "key_provider_info": d["key_provider_info"],
             "ciphertext": d["ciphertext"],
         }
 
@@ -4506,55 +4235,47 @@ class EncryptionMaterials:
         self.symmetric_signing_keys = symmetric_signing_keys
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the EncryptionMaterials to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the EncryptionMaterials to a dictionary."""
         d: Dict[str, Any] = {
-            "algorithmSuite": self.algorithm_suite.as_dict(),
-            "encryptionContext": self.encryption_context,
-            "encryptedDataKeys": _encrypted_data_key_list_as_dict(
+            "algorithm_suite": self.algorithm_suite.as_dict(),
+            "encryption_context": self.encryption_context,
+            "encrypted_data_keys": _encrypted_data_key_list_as_dict(
                 self.encrypted_data_keys
             ),
-            "requiredEncryptionContextKeys": self.required_encryption_context_keys,
+            "required_encryption_context_keys": self.required_encryption_context_keys,
         }
 
         if self.plaintext_data_key is not None:
-            d["plaintextDataKey"] = self.plaintext_data_key
+            d["plaintext_data_key"] = self.plaintext_data_key
 
         if self.signing_key is not None:
-            d["signingKey"] = self.signing_key
+            d["signing_key"] = self.signing_key
 
         if self.symmetric_signing_keys is not None:
-            d["symmetricSigningKeys"] = self.symmetric_signing_keys
+            d["symmetric_signing_keys"] = self.symmetric_signing_keys
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "EncryptionMaterials":
-        """Creates a EncryptionMaterials from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a EncryptionMaterials from a dictionary."""
         kwargs: Dict[str, Any] = {
-            "algorithm_suite": AlgorithmSuiteInfo.from_dict(d["algorithmSuite"]),
-            "encryption_context": d["encryptionContext"],
+            "algorithm_suite": AlgorithmSuiteInfo.from_dict(d["algorithm_suite"]),
+            "encryption_context": d["encryption_context"],
             "encrypted_data_keys": _encrypted_data_key_list_from_dict(
-                d["encryptedDataKeys"]
+                d["encrypted_data_keys"]
             ),
-            "required_encryption_context_keys": d["requiredEncryptionContextKeys"],
+            "required_encryption_context_keys": d["required_encryption_context_keys"],
         }
 
-        if "plaintextDataKey" in d:
-            kwargs["plaintext_data_key"] = d["plaintextDataKey"]
+        if "plaintext_data_key" in d:
+            kwargs["plaintext_data_key"] = d["plaintext_data_key"]
 
-        if "signingKey" in d:
-            kwargs["signing_key"] = d["signingKey"]
+        if "signing_key" in d:
+            kwargs["signing_key"] = d["signing_key"]
 
-        if "symmetricSigningKeys" in d:
-            kwargs["symmetric_signing_keys"] = d["symmetricSigningKeys"]
+        if "symmetric_signing_keys" in d:
+            kwargs["symmetric_signing_keys"] = d["symmetric_signing_keys"]
 
         return EncryptionMaterials(**kwargs)
 
@@ -4690,11 +4411,11 @@ class MaterialsBeaconKey:
         return self.value == other.value
 
 
-class Materials:
+class MaterialsUnknown:
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
 
     This value may not be deliberately sent.
     """
@@ -4706,13 +4427,13 @@ class Materials:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "Materials":
+    def from_dict(d: Dict[str, Any]) -> "MaterialsUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return Materials(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return MaterialsUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"Materials(tag={self.tag})"
+        return f"MaterialsUnknown(tag={self.tag})"
 
 
 Materials = Union[
@@ -4720,7 +4441,7 @@ Materials = Union[
     MaterialsDecryption,
     MaterialsBranchKey,
     MaterialsBeaconKey,
-    Materials,
+    MaterialsUnknown,
 ]
 
 
@@ -4775,51 +4496,43 @@ class GetCacheEntryOutput:
         self.bytes_used = bytes_used
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GetCacheEntryOutput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the GetCacheEntryOutput to a dictionary."""
         d: Dict[str, Any] = {
             "materials": self.materials.as_dict(),
         }
 
         if self.creation_time is not None:
-            d["creationTime"] = self.creation_time
+            d["creation_time"] = self.creation_time
 
         if self.expiry_time is not None:
-            d["expiryTime"] = self.expiry_time
+            d["expiry_time"] = self.expiry_time
 
         if self.messages_used is not None:
-            d["messagesUsed"] = self.messages_used
+            d["messages_used"] = self.messages_used
 
         if self.bytes_used is not None:
-            d["bytesUsed"] = self.bytes_used
+            d["bytes_used"] = self.bytes_used
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GetCacheEntryOutput":
-        """Creates a GetCacheEntryOutput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a GetCacheEntryOutput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "materials": _materials_from_dict(d["materials"]),
         }
 
-        if "creationTime" in d:
-            kwargs["creation_time"] = d["creationTime"]
+        if "creation_time" in d:
+            kwargs["creation_time"] = d["creation_time"]
 
-        if "expiryTime" in d:
-            kwargs["expiry_time"] = d["expiryTime"]
+        if "expiry_time" in d:
+            kwargs["expiry_time"] = d["expiry_time"]
 
-        if "messagesUsed" in d:
-            kwargs["messages_used"] = d["messagesUsed"]
+        if "messages_used" in d:
+            kwargs["messages_used"] = d["messages_used"]
 
-        if "bytesUsed" in d:
-            kwargs["bytes_used"] = d["bytesUsed"]
+        if "bytes_used" in d:
+            kwargs["bytes_used"] = d["bytes_used"]
 
         return GetCacheEntryOutput(**kwargs)
 
@@ -4893,53 +4606,45 @@ class PutCacheEntryInput:
         self.bytes_used = bytes_used
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the PutCacheEntryInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the PutCacheEntryInput to a dictionary."""
         d: Dict[str, Any] = {
             "identifier": self.identifier,
             "materials": self.materials.as_dict(),
         }
 
         if self.creation_time is not None:
-            d["creationTime"] = self.creation_time
+            d["creation_time"] = self.creation_time
 
         if self.expiry_time is not None:
-            d["expiryTime"] = self.expiry_time
+            d["expiry_time"] = self.expiry_time
 
         if self.messages_used is not None:
-            d["messagesUsed"] = self.messages_used
+            d["messages_used"] = self.messages_used
 
         if self.bytes_used is not None:
-            d["bytesUsed"] = self.bytes_used
+            d["bytes_used"] = self.bytes_used
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "PutCacheEntryInput":
-        """Creates a PutCacheEntryInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a PutCacheEntryInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "identifier": d["identifier"],
             "materials": _materials_from_dict(d["materials"]),
         }
 
-        if "creationTime" in d:
-            kwargs["creation_time"] = d["creationTime"]
+        if "creation_time" in d:
+            kwargs["creation_time"] = d["creation_time"]
 
-        if "expiryTime" in d:
-            kwargs["expiry_time"] = d["expiryTime"]
+        if "expiry_time" in d:
+            kwargs["expiry_time"] = d["expiry_time"]
 
-        if "messagesUsed" in d:
-            kwargs["messages_used"] = d["messagesUsed"]
+        if "messages_used" in d:
+            kwargs["messages_used"] = d["messages_used"]
 
-        if "bytesUsed" in d:
-            kwargs["bytes_used"] = d["bytesUsed"]
+        if "bytes_used" in d:
+            kwargs["bytes_used"] = d["bytes_used"]
 
         return PutCacheEntryInput(**kwargs)
 
@@ -4996,33 +4701,25 @@ class UpdateUsageMetadataInput:
         self.bytes_used = bytes_used
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the UpdateUsageMetadataInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the UpdateUsageMetadataInput to a dictionary."""
         d: Dict[str, Any] = {
             "identifier": self.identifier,
         }
 
         if self.bytes_used is not None:
-            d["bytesUsed"] = self.bytes_used
+            d["bytes_used"] = self.bytes_used
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "UpdateUsageMetadataInput":
-        """Creates a UpdateUsageMetadataInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a UpdateUsageMetadataInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "identifier": d["identifier"],
         }
 
-        if "bytesUsed" in d:
-            kwargs["bytes_used"] = d["bytesUsed"]
+        if "bytes_used" in d:
+            kwargs["bytes_used"] = d["bytes_used"]
 
         return UpdateUsageMetadataInput(**kwargs)
 
@@ -5118,11 +4815,11 @@ class CommitmentPolicyDBE:
         return self.value == other.value
 
 
-class CommitmentPolicy:
+class CommitmentPolicyUnknown:
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
 
     This value may not be deliberately sent.
     """
@@ -5134,16 +4831,18 @@ class CommitmentPolicy:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CommitmentPolicy":
+    def from_dict(d: Dict[str, Any]) -> "CommitmentPolicyUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return CommitmentPolicy(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return CommitmentPolicyUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"CommitmentPolicy(tag={self.tag})"
+        return f"CommitmentPolicyUnknown(tag={self.tag})"
 
 
-CommitmentPolicy = Union[CommitmentPolicyESDK, CommitmentPolicyDBE, CommitmentPolicy]
+CommitmentPolicy = Union[
+    CommitmentPolicyESDK, CommitmentPolicyDBE, CommitmentPolicyUnknown
+]
 
 
 def _commitment_policy_from_dict(d: Dict[str, Any]) -> CommitmentPolicy:
@@ -5179,43 +4878,37 @@ class DecryptMaterialsInput:
         self.reproduced_encryption_context = reproduced_encryption_context
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the DecryptMaterialsInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the DecryptMaterialsInput to a dictionary."""
         d: Dict[str, Any] = {
-            "algorithmSuiteId": self.algorithm_suite_id.as_dict(),
-            "commitmentPolicy": self.commitment_policy.as_dict(),
-            "encryptedDataKeys": _encrypted_data_key_list_as_dict(
+            "algorithm_suite_id": self.algorithm_suite_id.as_dict(),
+            "commitment_policy": self.commitment_policy.as_dict(),
+            "encrypted_data_keys": _encrypted_data_key_list_as_dict(
                 self.encrypted_data_keys
             ),
-            "encryptionContext": self.encryption_context,
+            "encryption_context": self.encryption_context,
         }
 
         if self.reproduced_encryption_context is not None:
-            d["reproducedEncryptionContext"] = self.reproduced_encryption_context
+            d["reproduced_encryption_context"] = self.reproduced_encryption_context
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "DecryptMaterialsInput":
-        """Creates a DecryptMaterialsInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a DecryptMaterialsInput from a dictionary."""
         kwargs: Dict[str, Any] = {
-            "algorithm_suite_id": _algorithm_suite_id_from_dict(d["algorithmSuiteId"]),
-            "commitment_policy": _commitment_policy_from_dict(d["commitmentPolicy"]),
-            "encrypted_data_keys": _encrypted_data_key_list_from_dict(
-                d["encryptedDataKeys"]
+            "algorithm_suite_id": _algorithm_suite_id_from_dict(
+                d["algorithm_suite_id"]
             ),
-            "encryption_context": d["encryptionContext"],
+            "commitment_policy": _commitment_policy_from_dict(d["commitment_policy"]),
+            "encrypted_data_keys": _encrypted_data_key_list_from_dict(
+                d["encrypted_data_keys"]
+            ),
+            "encryption_context": d["encryption_context"],
         }
 
-        if "reproducedEncryptionContext" in d:
-            kwargs["reproduced_encryption_context"] = d["reproducedEncryptionContext"]
+        if "reproduced_encryption_context" in d:
+            kwargs["reproduced_encryption_context"] = d["reproduced_encryption_context"]
 
         return DecryptMaterialsInput(**kwargs)
 
@@ -5262,25 +4955,17 @@ class DecryptMaterialsOutput:
         self.decryption_materials = decryption_materials
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the DecryptMaterialsOutput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the DecryptMaterialsOutput to a dictionary."""
         return {
-            "decryptionMaterials": self.decryption_materials.as_dict(),
+            "decryption_materials": self.decryption_materials.as_dict(),
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "DecryptMaterialsOutput":
-        """Creates a DecryptMaterialsOutput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a DecryptMaterialsOutput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "decryption_materials": DecryptionMaterials.from_dict(
-                d["decryptionMaterials"]
+                d["decryption_materials"]
             ),
         }
 
@@ -5325,50 +5010,44 @@ class GetEncryptionMaterialsInput:
         self.required_encryption_context_keys = required_encryption_context_keys
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GetEncryptionMaterialsInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the GetEncryptionMaterialsInput to a dictionary."""
         d: Dict[str, Any] = {
-            "encryptionContext": self.encryption_context,
-            "commitmentPolicy": self.commitment_policy.as_dict(),
+            "encryption_context": self.encryption_context,
+            "commitment_policy": self.commitment_policy.as_dict(),
         }
 
         if self.algorithm_suite_id is not None:
-            d["algorithmSuiteId"] = self.algorithm_suite_id.as_dict()
+            d["algorithm_suite_id"] = self.algorithm_suite_id.as_dict()
 
         if self.max_plaintext_length is not None:
-            d["maxPlaintextLength"] = self.max_plaintext_length
+            d["max_plaintext_length"] = self.max_plaintext_length
 
         if self.required_encryption_context_keys is not None:
-            d["requiredEncryptionContextKeys"] = self.required_encryption_context_keys
+            d["required_encryption_context_keys"] = (
+                self.required_encryption_context_keys
+            )
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GetEncryptionMaterialsInput":
-        """Creates a GetEncryptionMaterialsInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a GetEncryptionMaterialsInput from a dictionary."""
         kwargs: Dict[str, Any] = {
-            "encryption_context": d["encryptionContext"],
-            "commitment_policy": _commitment_policy_from_dict(d["commitmentPolicy"]),
+            "encryption_context": d["encryption_context"],
+            "commitment_policy": _commitment_policy_from_dict(d["commitment_policy"]),
         }
 
-        if "algorithmSuiteId" in d:
+        if "algorithm_suite_id" in d:
             kwargs["algorithm_suite_id"] = (
-                _algorithm_suite_id_from_dict(d["algorithmSuiteId"]),
+                _algorithm_suite_id_from_dict(d["algorithm_suite_id"]),
             )
 
-        if "maxPlaintextLength" in d:
-            kwargs["max_plaintext_length"] = d["maxPlaintextLength"]
+        if "max_plaintext_length" in d:
+            kwargs["max_plaintext_length"] = d["max_plaintext_length"]
 
-        if "requiredEncryptionContextKeys" in d:
+        if "required_encryption_context_keys" in d:
             kwargs["required_encryption_context_keys"] = d[
-                "requiredEncryptionContextKeys"
+                "required_encryption_context_keys"
             ]
 
         return GetEncryptionMaterialsInput(**kwargs)
@@ -5416,25 +5095,17 @@ class GetEncryptionMaterialsOutput:
         self.encryption_materials = encryption_materials
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GetEncryptionMaterialsOutput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the GetEncryptionMaterialsOutput to a dictionary."""
         return {
-            "encryptionMaterials": self.encryption_materials.as_dict(),
+            "encryption_materials": self.encryption_materials.as_dict(),
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GetEncryptionMaterialsOutput":
-        """Creates a GetEncryptionMaterialsOutput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a GetEncryptionMaterialsOutput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "encryption_materials": EncryptionMaterials.from_dict(
-                d["encryptionMaterials"]
+                d["encryption_materials"]
             ),
         }
 
@@ -5473,28 +5144,22 @@ class InitializeDecryptionMaterialsInput:
         self.required_encryption_context_keys = required_encryption_context_keys
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the InitializeDecryptionMaterialsInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the InitializeDecryptionMaterialsInput to a dictionary."""
         return {
-            "algorithmSuiteId": self.algorithm_suite_id.as_dict(),
-            "encryptionContext": self.encryption_context,
-            "requiredEncryptionContextKeys": self.required_encryption_context_keys,
+            "algorithm_suite_id": self.algorithm_suite_id.as_dict(),
+            "encryption_context": self.encryption_context,
+            "required_encryption_context_keys": self.required_encryption_context_keys,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "InitializeDecryptionMaterialsInput":
-        """Creates a InitializeDecryptionMaterialsInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a InitializeDecryptionMaterialsInput from a dictionary."""
         kwargs: Dict[str, Any] = {
-            "algorithm_suite_id": _algorithm_suite_id_from_dict(d["algorithmSuiteId"]),
-            "encryption_context": d["encryptionContext"],
-            "required_encryption_context_keys": d["requiredEncryptionContextKeys"],
+            "algorithm_suite_id": _algorithm_suite_id_from_dict(
+                d["algorithm_suite_id"]
+            ),
+            "encryption_context": d["encryption_context"],
+            "required_encryption_context_keys": d["required_encryption_context_keys"],
         }
 
         return InitializeDecryptionMaterialsInput(**kwargs)
@@ -5546,43 +5211,37 @@ class InitializeEncryptionMaterialsInput:
         self.verification_key = verification_key
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the InitializeEncryptionMaterialsInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the InitializeEncryptionMaterialsInput to a dictionary."""
         d: Dict[str, Any] = {
-            "algorithmSuiteId": self.algorithm_suite_id.as_dict(),
-            "encryptionContext": self.encryption_context,
-            "requiredEncryptionContextKeys": self.required_encryption_context_keys,
+            "algorithm_suite_id": self.algorithm_suite_id.as_dict(),
+            "encryption_context": self.encryption_context,
+            "required_encryption_context_keys": self.required_encryption_context_keys,
         }
 
         if self.signing_key is not None:
-            d["signingKey"] = self.signing_key
+            d["signing_key"] = self.signing_key
 
         if self.verification_key is not None:
-            d["verificationKey"] = self.verification_key
+            d["verification_key"] = self.verification_key
 
         return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "InitializeEncryptionMaterialsInput":
-        """Creates a InitializeEncryptionMaterialsInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a InitializeEncryptionMaterialsInput from a dictionary."""
         kwargs: Dict[str, Any] = {
-            "algorithm_suite_id": _algorithm_suite_id_from_dict(d["algorithmSuiteId"]),
-            "encryption_context": d["encryptionContext"],
-            "required_encryption_context_keys": d["requiredEncryptionContextKeys"],
+            "algorithm_suite_id": _algorithm_suite_id_from_dict(
+                d["algorithm_suite_id"]
+            ),
+            "encryption_context": d["encryption_context"],
+            "required_encryption_context_keys": d["required_encryption_context_keys"],
         }
 
-        if "signingKey" in d:
-            kwargs["signing_key"] = d["signingKey"]
+        if "signing_key" in d:
+            kwargs["signing_key"] = d["signing_key"]
 
-        if "verificationKey" in d:
-            kwargs["verification_key"] = d["verificationKey"]
+        if "verification_key" in d:
+            kwargs["verification_key"] = d["verification_key"]
 
         return InitializeEncryptionMaterialsInput(**kwargs)
 
@@ -5632,29 +5291,21 @@ class OnDecryptInput:
         self.encrypted_data_keys = encrypted_data_keys
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the OnDecryptInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the OnDecryptInput to a dictionary."""
         return {
             "materials": self.materials.as_dict(),
-            "encryptedDataKeys": _encrypted_data_key_list_as_dict(
+            "encrypted_data_keys": _encrypted_data_key_list_as_dict(
                 self.encrypted_data_keys
             ),
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "OnDecryptInput":
-        """Creates a OnDecryptInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a OnDecryptInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "materials": DecryptionMaterials.from_dict(d["materials"]),
             "encrypted_data_keys": _encrypted_data_key_list_from_dict(
-                d["encryptedDataKeys"]
+                d["encrypted_data_keys"]
             ),
         }
 
@@ -5691,22 +5342,14 @@ class OnDecryptOutput:
         self.materials = materials
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the OnDecryptOutput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the OnDecryptOutput to a dictionary."""
         return {
             "materials": self.materials.as_dict(),
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "OnDecryptOutput":
-        """Creates a OnDecryptOutput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a OnDecryptOutput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "materials": DecryptionMaterials.from_dict(d["materials"]),
         }
@@ -5740,22 +5383,14 @@ class OnEncryptInput:
         self.materials = materials
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the OnEncryptInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the OnEncryptInput to a dictionary."""
         return {
             "materials": self.materials.as_dict(),
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "OnEncryptInput":
-        """Creates a OnEncryptInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a OnEncryptInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "materials": EncryptionMaterials.from_dict(d["materials"]),
         }
@@ -5789,22 +5424,14 @@ class OnEncryptOutput:
         self.materials = materials
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the OnEncryptOutput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the OnEncryptOutput to a dictionary."""
         return {
             "materials": self.materials.as_dict(),
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "OnEncryptOutput":
-        """Creates a OnEncryptOutput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a OnEncryptOutput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "materials": EncryptionMaterials.from_dict(d["materials"]),
         }
@@ -5841,26 +5468,20 @@ class ValidateCommitmentPolicyOnDecryptInput:
         self.commitment_policy = commitment_policy
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the ValidateCommitmentPolicyOnDecryptInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the ValidateCommitmentPolicyOnDecryptInput to a
+        dictionary."""
         return {
             "algorithm": self.algorithm.as_dict(),
-            "commitmentPolicy": self.commitment_policy.as_dict(),
+            "commitment_policy": self.commitment_policy.as_dict(),
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "ValidateCommitmentPolicyOnDecryptInput":
-        """Creates a ValidateCommitmentPolicyOnDecryptInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a ValidateCommitmentPolicyOnDecryptInput from a
+        dictionary."""
         kwargs: Dict[str, Any] = {
             "algorithm": _algorithm_suite_id_from_dict(d["algorithm"]),
-            "commitment_policy": _commitment_policy_from_dict(d["commitmentPolicy"]),
+            "commitment_policy": _commitment_policy_from_dict(d["commitment_policy"]),
         }
 
         return ValidateCommitmentPolicyOnDecryptInput(**kwargs)
@@ -5899,26 +5520,20 @@ class ValidateCommitmentPolicyOnEncryptInput:
         self.commitment_policy = commitment_policy
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the ValidateCommitmentPolicyOnEncryptInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the ValidateCommitmentPolicyOnEncryptInput to a
+        dictionary."""
         return {
             "algorithm": self.algorithm.as_dict(),
-            "commitmentPolicy": self.commitment_policy.as_dict(),
+            "commitment_policy": self.commitment_policy.as_dict(),
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "ValidateCommitmentPolicyOnEncryptInput":
-        """Creates a ValidateCommitmentPolicyOnEncryptInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a ValidateCommitmentPolicyOnEncryptInput from a
+        dictionary."""
         kwargs: Dict[str, Any] = {
             "algorithm": _algorithm_suite_id_from_dict(d["algorithm"]),
-            "commitment_policy": _commitment_policy_from_dict(d["commitmentPolicy"]),
+            "commitment_policy": _commitment_policy_from_dict(d["commitment_policy"]),
         }
 
         return ValidateCommitmentPolicyOnEncryptInput(**kwargs)
@@ -5957,11 +5572,8 @@ class ValidDecryptionMaterialsTransitionInput:
         self.stop = stop
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the ValidDecryptionMaterialsTransitionInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the ValidDecryptionMaterialsTransitionInput to a
+        dictionary."""
         return {
             "start": self.start.as_dict(),
             "stop": self.stop.as_dict(),
@@ -5969,11 +5581,8 @@ class ValidDecryptionMaterialsTransitionInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "ValidDecryptionMaterialsTransitionInput":
-        """Creates a ValidDecryptionMaterialsTransitionInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a ValidDecryptionMaterialsTransitionInput from a
+        dictionary."""
         kwargs: Dict[str, Any] = {
             "start": DecryptionMaterials.from_dict(d["start"]),
             "stop": DecryptionMaterials.from_dict(d["stop"]),
@@ -6015,11 +5624,8 @@ class ValidEncryptionMaterialsTransitionInput:
         self.stop = stop
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the ValidEncryptionMaterialsTransitionInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the ValidEncryptionMaterialsTransitionInput to a
+        dictionary."""
         return {
             "start": self.start.as_dict(),
             "stop": self.stop.as_dict(),
@@ -6027,11 +5633,8 @@ class ValidEncryptionMaterialsTransitionInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "ValidEncryptionMaterialsTransitionInput":
-        """Creates a ValidEncryptionMaterialsTransitionInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a ValidEncryptionMaterialsTransitionInput from a
+        dictionary."""
         kwargs: Dict[str, Any] = {
             "start": EncryptionMaterials.from_dict(d["start"]),
             "stop": EncryptionMaterials.from_dict(d["stop"]),

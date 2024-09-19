@@ -27,17 +27,17 @@ from .errors import (
     OpaqueError,
     ServiceError,
 )
-from com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.shim import (
+from aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.shim import (
     _sdk_error_to_dafny_error as com_amazonaws_dynamodb_sdk_error_to_dafny_error,
 )
-from com_amazonaws_kms.smithygenerated.com_amazonaws_kms.shim import (
+from aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.shim import (
     _sdk_error_to_dafny_error as com_amazonaws_kms_sdk_error_to_dafny_error,
 )
 
 from .config import Config
 
 
-async def _deserialize_get_key_store_info(input: DafnyResponse, config: Config):
+def _deserialize_get_key_store_info(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -46,7 +46,7 @@ async def _deserialize_get_key_store_info(input: DafnyResponse, config: Config):
     )
 
 
-async def _deserialize_create_key_store(input: DafnyResponse, config: Config):
+def _deserialize_create_key_store(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -55,7 +55,7 @@ async def _deserialize_create_key_store(input: DafnyResponse, config: Config):
     )
 
 
-async def _deserialize_create_key(input: DafnyResponse, config: Config):
+def _deserialize_create_key(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -64,7 +64,7 @@ async def _deserialize_create_key(input: DafnyResponse, config: Config):
     )
 
 
-async def _deserialize_version_key(input: DafnyResponse, config: Config):
+def _deserialize_version_key(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -73,7 +73,7 @@ async def _deserialize_version_key(input: DafnyResponse, config: Config):
     )
 
 
-async def _deserialize_get_active_branch_key(input: DafnyResponse, config: Config):
+def _deserialize_get_active_branch_key(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -82,7 +82,7 @@ async def _deserialize_get_active_branch_key(input: DafnyResponse, config: Confi
     )
 
 
-async def _deserialize_get_branch_key_version(input: DafnyResponse, config: Config):
+def _deserialize_get_branch_key_version(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
@@ -91,7 +91,7 @@ async def _deserialize_get_branch_key_version(input: DafnyResponse, config: Conf
     )
 
 
-async def _deserialize_get_beacon_key(input: DafnyResponse, config: Config):
+def _deserialize_get_beacon_key(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)

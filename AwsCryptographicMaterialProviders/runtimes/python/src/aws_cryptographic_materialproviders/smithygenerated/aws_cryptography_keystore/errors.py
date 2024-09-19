@@ -6,10 +6,10 @@ import _dafny
 import aws_cryptographic_materialproviders.internaldafny.generated
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors
-from com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.shim import (
+from aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.shim import (
     _sdk_error_to_dafny_error as com_amazonaws_dynamodb_sdk_error_to_dafny_error,
 )
-from com_amazonaws_kms.smithygenerated.com_amazonaws_kms.shim import (
+from aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.shim import (
     _sdk_error_to_dafny_error as com_amazonaws_kms_sdk_error_to_dafny_error,
 )
 from typing import Any, Dict, Generic, List, Literal, TypeVar
@@ -35,7 +35,7 @@ class ApiError(ServiceError, Generic[T]):
 
 
 class UnknownApiError(ApiError[Literal["Unknown"]]):
-    """Error representing any unknown api errors"""
+    """Error representing any unknown api errors."""
 
     code: Literal["Unknown"] = "Unknown"
 
@@ -52,11 +52,7 @@ class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the KeyStoreException to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
+        """Converts the KeyStoreException to a dictionary."""
         return {
             "message": self.message,
             "code": self.code,
@@ -64,11 +60,7 @@ class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "KeyStoreException":
-        """Creates a KeyStoreException from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
+        """Creates a KeyStoreException from a dictionary."""
         kwargs: Dict[str, Any] = {
             "message": d["message"],
         }
@@ -117,8 +109,8 @@ class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
     def as_dict(self) -> Dict[str, Any]:
         """Converts the CollectionOfErrors to a dictionary.
 
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
+        The dictionary uses the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
         """
         return {
             "message": self.message,
@@ -130,8 +122,9 @@ class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
     def from_dict(d: Dict[str, Any]) -> "CollectionOfErrors":
         """Creates a CollectionOfErrors from a dictionary.
 
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
+        The dictionary is expected to use the modeled shape names rather
+        than the parameter names as keys to be mostly compatible with
+        boto3.
         """
         kwargs: Dict[str, Any] = {"message": d["message"], "list": d["list"]}
 
@@ -166,8 +159,8 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
     def as_dict(self) -> Dict[str, Any]:
         """Converts the OpaqueError to a dictionary.
 
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
+        The dictionary uses the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
         """
         return {
             "message": self.message,
@@ -179,8 +172,9 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
     def from_dict(d: Dict[str, Any]) -> "OpaqueError":
         """Creates a OpaqueError from a dictionary.
 
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
+        The dictionary is expected to use the modeled shape names rather
+        than the parameter names as keys to be mostly compatible with
+        boto3.
         """
         kwargs: Dict[str, Any] = {"message": d["message"], "obj": d["obj"]}
 
@@ -205,10 +199,8 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
 
 
 def _smithy_error_to_dafny_error(e: ServiceError):
-    """
-    Converts the provided native Smithy-modeled error
-    into the corresponding Dafny error.
-    """
+    """Converts the provided native Smithy-modeled error into the corresponding
+    Dafny error."""
     if isinstance(
         e,
         aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors.KeyStoreException,

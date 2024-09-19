@@ -9,10 +9,8 @@ from .dafnyImplInterface import DafnyImplInterface
 
 
 def set_config_impl(config: Config):
-    """
-    Set the Dafny-compiled implementation in the Smithy-Python client Config
-    and load our custom NoRetriesStrategy.
-    """
+    """Set the Dafny-compiled implementation in the Smithy-Python client Config
+    and load our custom NoRetriesStrategy."""
     config.dafnyImplInterface = DafnyImplInterface()
     if isinstance(config, KeyStoreConfig):
         from aws_cryptographic_materialproviders.internaldafny.generated.KeyStore import (
@@ -26,8 +24,8 @@ def set_config_impl(config: Config):
 
 
 class ZeroRetryDelayToken:
-    """
-    Placeholder class required by Smithy-Python client implementation.
+    """Placeholder class required by Smithy-Python client implementation.
+
     Do not wait to retry.
     """
 
@@ -35,8 +33,8 @@ class ZeroRetryDelayToken:
 
 
 class NoRetriesStrategy(RetryStrategy):
-    """
-    Placeholder class required by Smithy-Python client implementation.
+    """Placeholder class required by Smithy-Python client implementation.
+
     Do not retry calling Dafny code.
     """
 

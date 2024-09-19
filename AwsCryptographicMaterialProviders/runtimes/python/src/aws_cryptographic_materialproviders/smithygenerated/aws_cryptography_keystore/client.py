@@ -2,12 +2,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-import asyncio
-from asyncio import sleep
 from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes import (
     IKeyStoreClient,
 )
-from typing import Awaitable, Callable, TypeVar, cast
+from typing import Callable, TypeVar, cast
 
 from .config import Config, KeyStoreConfig
 from .dafny_protocol import DafnyRequest, DafnyResponse
@@ -59,7 +57,7 @@ Output = TypeVar("Output")
 
 
 class KeyStore:
-    """Client for KeyStore
+    """Client for KeyStore.
 
     :param config: Configuration for the client.
     """
@@ -89,81 +87,76 @@ class KeyStore:
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_get_key_store_info,
-                deserialize=_deserialize_get_key_store_info,
-                config=self._config,
-                operation_name="GetKeyStoreInfo",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_get_key_store_info,
+            deserialize=_deserialize_get_key_store_info,
+            config=self._config,
+            operation_name="GetKeyStoreInfo",
         )
 
     def create_key_store(self, input: CreateKeyStoreInput) -> CreateKeyStoreOutput:
-        """Create the DynamoDB table that backs this Key Store based on the Key Store configuration. If a table already exists, validate it is configured as expected.
+        """Create the DynamoDB table that backs this Key Store based on the Key
+        Store configuration. If a table already exists, validate it is
+        configured as expected.
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_key_store,
-                deserialize=_deserialize_create_key_store,
-                config=self._config,
-                operation_name="CreateKeyStore",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_key_store,
+            deserialize=_deserialize_create_key_store,
+            config=self._config,
+            operation_name="CreateKeyStore",
         )
 
     def create_key(self, input: CreateKeyInput) -> CreateKeyOutput:
-        """Create a new Branch Key in the Key Store. Additionally create a Beacon Key that is tied to this Branch Key.
+        """Create a new Branch Key in the Key Store. Additionally create a
+        Beacon Key that is tied to this Branch Key.
 
         :param input: The operation's input.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_create_key,
-                deserialize=_deserialize_create_key,
-                config=self._config,
-                operation_name="CreateKey",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_key,
+            deserialize=_deserialize_create_key,
+            config=self._config,
+            operation_name="CreateKey",
         )
 
     def version_key(self, input: VersionKeyInput) -> VersionKeyOutput:
-        """Create a new ACTIVE version of an existing Branch Key in the Key Store, and set the previously ACTIVE version to DECRYPT_ONLY.
+        """Create a new ACTIVE version of an existing Branch Key in the Key
+        Store, and set the previously ACTIVE version to DECRYPT_ONLY.
 
         :param input: Inputs for versioning a Branch Key.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_version_key,
-                deserialize=_deserialize_version_key,
-                config=self._config,
-                operation_name="VersionKey",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_version_key,
+            deserialize=_deserialize_version_key,
+            config=self._config,
+            operation_name="VersionKey",
         )
 
     def get_active_branch_key(
         self, input: GetActiveBranchKeyInput
     ) -> GetActiveBranchKeyOutput:
-        """Get the ACTIVE version for a particular Branch Key from the Key Store.
+        """Get the ACTIVE version for a particular Branch Key from the Key
+        Store.
 
         :param input: Inputs for getting a Branch Key's ACTIVE version.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_get_active_branch_key,
-                deserialize=_deserialize_get_active_branch_key,
-                config=self._config,
-                operation_name="GetActiveBranchKey",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_get_active_branch_key,
+            deserialize=_deserialize_get_active_branch_key,
+            config=self._config,
+            operation_name="GetActiveBranchKey",
         )
 
     def get_branch_key_version(
@@ -173,15 +166,13 @@ class KeyStore:
 
         :param input: Inputs for getting a version of a Branch Key.
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_get_branch_key_version,
-                deserialize=_deserialize_get_branch_key_version,
-                config=self._config,
-                operation_name="GetBranchKeyVersion",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_get_branch_key_version,
+            deserialize=_deserialize_get_branch_key_version,
+            config=self._config,
+            operation_name="GetBranchKeyVersion",
         )
 
     def get_beacon_key(self, input: GetBeaconKeyInput) -> GetBeaconKeyOutput:
@@ -189,28 +180,26 @@ class KeyStore:
 
         :param input: Inputs for getting a Beacon Key
         """
-        return asyncio.run(
-            self._execute_operation(
-                input=input,
-                plugins=[],
-                serialize=_serialize_get_beacon_key,
-                deserialize=_deserialize_get_beacon_key,
-                config=self._config,
-                operation_name="GetBeaconKey",
-            )
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_get_beacon_key,
+            deserialize=_deserialize_get_beacon_key,
+            config=self._config,
+            operation_name="GetBeaconKey",
         )
 
-    async def _execute_operation(
+    def _execute_operation(
         self,
         input: Input,
         plugins: list[Plugin],
-        serialize: Callable[[Input, Config], Awaitable[DafnyRequest]],
-        deserialize: Callable[[DafnyResponse, Config], Awaitable[Output]],
+        serialize: Callable[[Input, Config], DafnyRequest],
+        deserialize: Callable[[DafnyResponse, Config], Output],
         config: Config,
         operation_name: str,
     ) -> Output:
         try:
-            return await self._handle_execution(
+            return self._handle_execution(
                 input, plugins, serialize, deserialize, config, operation_name
             )
         except Exception as e:
@@ -220,12 +209,12 @@ class KeyStore:
                 raise ServiceError(e) from e
             raise e
 
-    async def _handle_execution(
+    def _handle_execution(
         self,
         input: Input,
         plugins: list[Plugin],
-        serialize: Callable[[Input, Config], Awaitable[DafnyRequest]],
-        deserialize: Callable[[DafnyResponse, Config], Awaitable[Output]],
+        serialize: Callable[[Input, Config], DafnyRequest],
+        deserialize: Callable[[DafnyResponse, Config], Output],
         config: Config,
         operation_name: str,
     ) -> Output:
@@ -275,7 +264,7 @@ class KeyStore:
             context_with_transport_request = cast(
                 InterceptorContext[Input, None, DafnyRequest, None], context
             )
-            context_with_transport_request._transport_request = await serialize(
+            context_with_transport_request._transport_request = serialize(
                 context_with_transport_request.request, config
             )
 
@@ -296,7 +285,7 @@ class KeyStore:
             while True:
                 # Make an attempt, creating a copy of the context so we don't pass
                 # around old data.
-                context_with_response = await self._handle_attempt(
+                context_with_response = self._handle_attempt(
                     deserialize,
                     interceptors,
                     context_with_transport_request.copy(),
@@ -325,7 +314,6 @@ class KeyStore:
                         )
                     except SmithyRetryException:
                         raise context_with_response.response
-                    await sleep(retry_token.retry_delay)
                 else:
                     # Step 8: Invoke record_success
                     retry_strategy.record_success(token=retry_token)
@@ -342,11 +330,11 @@ class KeyStore:
             ],
             context,
         )
-        return await self._finalize_execution(interceptors, execution_context)
+        return self._finalize_execution(interceptors, execution_context)
 
-    async def _handle_attempt(
+    def _handle_attempt(
         self,
-        deserialize: Callable[[DafnyResponse, Config], Awaitable[Output]],
+        deserialize: Callable[[DafnyResponse, Config], Output],
         interceptors: list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
         context: InterceptorContext[Input, None, DafnyRequest, None],
         config: Config,
@@ -390,7 +378,7 @@ class KeyStore:
                 InterceptorContext[Input, Output, DafnyRequest, DafnyResponse],
                 context_with_response,
             )
-            context_with_output._response = await deserialize(
+            context_with_output._response = deserialize(
                 context_with_output._transport_response, config
             )
 
@@ -408,9 +396,9 @@ class KeyStore:
             InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None],
             context,
         )
-        return await self._finalize_attempt(interceptors, attempt_context)
+        return self._finalize_attempt(interceptors, attempt_context)
 
-    async def _finalize_attempt(
+    def _finalize_attempt(
         self,
         interceptors: list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
         context: InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None],
@@ -433,7 +421,7 @@ class KeyStore:
 
         return context
 
-    async def _finalize_execution(
+    def _finalize_execution(
         self,
         interceptors: list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
         context: InterceptorContext[

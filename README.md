@@ -35,7 +35,7 @@ This repository is a top level repository which houses all source code in order 
 different runtimes.
 
 This library is written in Dafny, a formally verifiable programming language that can be compiled into
-different runtimes. This library is currently **ONLY** supported in Java and .NET
+different runtimes. This library is currently **ONLY** supported in Java, .NET, and Python.
 
 ### Optional Prerequisites
 
@@ -45,6 +45,7 @@ You don't need an Amazon Web Services (AWS) account to use the AWS Cryptographic
 but some APIs require an AWS account, an AWS KMS key, or an Amazon DynamoDB Table.
 If you are using the AWS Cryptographic Material Providers Library for Java you will need the AWS SDK for Java V2.
 If you are using the AWS Cryptographic Material Providers Library for .NET you will need the AWS SDK for .NET V3.
+If you are using the AWS Cryptographic Material Providers Library for Python you will need boto3.
 
 **NOTE**: The `KmsAsyncClient` and `DynamoDBAsyncClient` are not supported, only the synchronous clients.
 
@@ -59,6 +60,7 @@ If you are using the AWS Cryptographic Material Providers Library for .NET you w
 
 - Java
 - .NET
+- Python
 - Dafny
 
 ## FAQ
