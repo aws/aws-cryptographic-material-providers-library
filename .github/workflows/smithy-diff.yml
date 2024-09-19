@@ -28,7 +28,7 @@ jobs:
       - name: Check if FILES is not empty
         id: comment
         env:
-          PR_NUMBER: ${{ github.event.number }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FILES: ${{ steps.file-changes.outputs.FILES }}
         if: ${{env.FILES != ''}}
