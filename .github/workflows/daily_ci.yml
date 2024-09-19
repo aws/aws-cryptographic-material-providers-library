@@ -48,8 +48,7 @@ jobs:
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
     uses: ./.github/workflows/library_python_tests.yml
     with:
-      # TODO: Once minimum Dafny version is 4.7.0, point this at `getVersion` output
-      dafny: 4.7.0
+      dafny: ${{needs.getVersion.outputs.version}}
   daily-interop-test:
     needs: getVersion
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'

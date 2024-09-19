@@ -25,7 +25,7 @@ jobs:
         # Note dotnet is only used for formatting generated code
         # in this workflow
         dotnet-version: ["6.0.x"]
-        # Note dotnet is only used for formatting generated code
+        # Note python is only used for formatting generated code
         # in this workflow.
         # The workflow installs black formatter and runs it on generated code.
         python-version: [3.11]

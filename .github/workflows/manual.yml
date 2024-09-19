@@ -40,8 +40,7 @@ jobs:
   manual-ci-python:
     uses: ./.github/workflows/library_python_tests.yml
     with:
-      # TODO: Once minimum Dafny version is 4.7.0, point this at `getVersion` output
-      dafny: 4.7.0
+      dafny: ${{needs.getVersion.outputs.version}}
       regenerate-code: ${{ inputs.regenerate-code }}
   manual-interop-test:
     uses: ./.github/workflows/library_interop_tests.yml
