@@ -3,7 +3,8 @@
 name: Check Smithy Files
 
 on:
-  pull_request:
+  pull_request_review_comment:
+    types: [created]
 
 jobs:
   require-approvals:
@@ -30,24 +31,9 @@ jobs:
           PR_NUMBER: ${{ github.event.number }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FILES: ${{ steps.file-changes.outputs.FILES }}
-          AUTHOR: ${{ github.actor }}
-          BOT_USERNAME: "Github Actions"
         if: ${{env.FILES != ''}}
         run: |
-          # Fetch comments and find the one made by the bot
-          bot_comment=$(curl -s -H "Authorization: Bearer ${GITHUB_TOKEN}" https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUMBER}/comments)
-          #  \ | jq -r '.[] | select(.user.login == "$BOT_USERNAME") | .body')
-          echo $bot_comment
-
-          # # Check if the author has reacted to the bot's comment
-          # reactions=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/repos/${{ github.repository }}/pulls/comments/$bot_comment/reactions \ | jq -r '.[] | select(.user.login == "$AUTHOR") | .content')
-          # echo $(reactions)
-          
-          # if [ -z "$reactions" ]; then
-          #   # Author has not reacted, post a comment
-
-          #   # TODO: If https://github.com/smithy-lang/smithy-dafny/issues/491 is resolved, remove comment about this issue.
-          #   COMMENT="@${{github.actor}}, I noticed you are updating the smithy model files.\nDoes this update need new or updated javadoc trait documentation?\n Are you adding constraints inside list, map or union? Do you know about this issue: https://github.com/smithy-lang/smithy-dafny/issues/491?"
-          #   COMMENT_URL="https://api.github.com/repos/${{ github.repository }}/issues/${PR_NUMBER}/comments"
-          #   curl -s -H "Authorization: token ${GITHUB_TOKEN}" -X POST $COMMENT_URL -d "{\"body\":\"$COMMENT\"}"
-          # fi
+          # TODO: If https://github.com/smithy-lang/smithy-dafny/issues/491 is resolved, remove comment about this issue.
+          COMMENT="@${{github.actor}} and @${{ github.event.comment.user.login}}, I noticed you are updating the smithy model files.\nDoes this update need new or updated javadoc trait documentation?\n Are you adding constraints inside list, map or union? Do you know about this issue: https://github.com/smithy-lang/smithy-dafny/issues/491?"
+          COMMENT_URL="https://api.github.com/repos/${{ github.repository }}/issues/${PR_NUMBER}/comments"
+          curl -s -H "Authorization: token ${GITHUB_TOKEN}" -X POST $COMMENT_URL -d "{\"body\":\"$COMMENT\"}"
