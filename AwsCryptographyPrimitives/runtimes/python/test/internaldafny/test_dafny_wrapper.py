@@ -17,6 +17,5 @@ sys.path.append(internaldafny_dir + "/generated")
 
 from . import extern
 
-
 def test_dafny():
   from .generated import __main__
