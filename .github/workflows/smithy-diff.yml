@@ -21,7 +21,7 @@ jobs:
         id: file-changes
         shell: bash
         env:
-          GITHUB_HEAD: ${{github.event.pull_request.base.sha}}
+          GITHUB_HEAD: ${{github.event.pull_request.head.ref}}
         run:
           # Checks to see if any of the smithy Models are being updated.
           # Doing this check allows us to catch things like, missing @javadoc trait documentation or bug in smithy dafny that has not be resolved.
