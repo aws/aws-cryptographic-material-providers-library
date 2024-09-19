@@ -20,10 +20,12 @@ jobs:
       - name: Get Files changed
         id: file-changes
         shell: bash
+        env:
+          GITHUB_HEAD: ${{github.event.pull_request.base.sha}}
         run:
           # Checks to see if any of the smithy Models are being updated.
           # Doing this check allows us to catch things like, missing @javadoc trait documentation or bug in smithy dafny that has not be resolved.
-          echo "FILES=$(git diff --name-only origin/main origin/${GITHUB_HEAD_REF} | grep '\.smithy$' | tr '\n' ' ')" >> "$GITHUB_OUTPUT"
+          echo "FILES=$(git diff --name-only origin/main origin/${GITHUB_HEAD} | grep '\.smithy$' | tr '\n' ' ')" >> "$GITHUB_OUTPUT"
 
       - name: Check if FILES is not empty
         id: comment
