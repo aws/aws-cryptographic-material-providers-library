@@ -29,8 +29,8 @@ phases:
       # The tests will use the installed package, not the local code.
       # The actual test code must be from local, since we don't publish tests.
       - pip install aws-cryptography-internal-dynamodb==$VERSION
-      # Get CI Creds to be able to call KMS
-      - TMP_ROLE=$(aws sts assume-role --role-arn "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2" --role-session-name "MPL-Python-Test-Release")
+      # Get CI Creds to be able to call DDB
+      - TMP_ROLE=$(aws sts assume-role --role-arn "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2" --role-session-name "MPL-Python-Release")
       - export TMP_ROLE
       - export AWS_ACCESS_KEY_ID=$(echo "${TMP_ROLE}" | jq -r '.Credentials.AccessKeyId')
       - export AWS_SECRET_ACCESS_KEY=$(echo "${TMP_ROLE}" | jq -r '.Credentials.SecretAccessKey')
