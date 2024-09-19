@@ -2,7 +2,7 @@
 .vscode/*
 *.sln?*
 **/.DS_Store
-build
+build/*
 test/**/Output/*
 /package-lock.json
 /node_modules
