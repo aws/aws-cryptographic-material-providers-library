@@ -27,8 +27,8 @@ sourceSets {
         runtimeClasspath += sourceSets.main.get().output
     }
     create("testExamples") {
-        compileClasspath += sourceSets.test.get().output + sourceSets["examples"].output
-        runtimeClasspath += sourceSets.test.get().output + sourceSets["examples"].output
+        compileClasspath += sourceSets.test.get().output + sourceSets["examples"].output + sourceSets.main.get().output
+        runtimeClasspath += sourceSets.test.get().output + sourceSets["examples"].output + sourceSets.main.get().output
     }
 }
 val examplesImplementation by configurations.getting{

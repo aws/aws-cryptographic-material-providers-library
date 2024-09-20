@@ -3,9 +3,7 @@
 package software.amazon.cryptography.example.hierarchy;
 
 import java.util.HashMap;
-
 import javax.annotation.Nullable;
-
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
@@ -20,7 +18,7 @@ import software.amazon.cryptography.keystoreadmin.model.Mutations;
 
 public class MutationExample {
 
-  public static void End2End(
+  public static String End2End(
     String keyStoreTableName,
     String logicalKeyStoreName,
     String kmsKeyArnOriginal,
@@ -46,42 +44,58 @@ public class MutationExample {
     System.out.println("BranchKey ID to mutate: " + branchKeyId);
     HashMap<String, String> terminalEC = new HashMap<>();
     terminalEC.put("Robbie", "is a dog.");
-    Mutations mutations = Mutations.builder()
+    Mutations mutations = Mutations
+      .builder()
       .terminalEncryptionContext(terminalEC)
       .terminalKmsArn(kmsKeyArnTerminal)
       .build();
 
-    InitializeMutationInput initInput = InitializeMutationInput.builder()
+    InitializeMutationInput initInput = InitializeMutationInput
+      .builder()
       .mutations(mutations)
       .branchKeyIdentifier(branchKeyId)
-      .strategy(strategy).build();
+      .strategy(strategy)
+      .build();
 
     InitializeMutationOutput initOutput = admin.InitializeMutation(initInput);
 
     MutationToken token = initOutput.mutationToken();
-    System.out.println("InitLogs: " + initOutput.mutatedBranchKeyItems());
+    System.out.println(
+      "InitLogs: " +
+      branchKeyId +
+      " items: \n" +
+      AdminProvider.mutatedItemsToString(initOutput.mutatedBranchKeyItems())
+    );
     boolean done = false;
     int limitLoop = 10;
 
     while (!done) {
-      ApplyMutationInput applyInput = ApplyMutationInput.builder()
-        .mutationToken(token).pageSize(98).strategy(strategy).build();
+      ApplyMutationInput applyInput = ApplyMutationInput
+        .builder()
+        .mutationToken(token)
+        .pageSize(98)
+        .strategy(strategy)
+        .build();
       ApplyMutationOutput applyOutput = admin.ApplyMutation(applyInput);
       ApplyMutationResult result = applyOutput.result();
 
-      System.out.println("ApplyLogs: " + applyOutput.mutatedBranchKeyItems());
+      System.out.println(
+        "ApplyLogs: " +
+        branchKeyId +
+        " items: \n" +
+        AdminProvider.mutatedItemsToString(applyOutput.mutatedBranchKeyItems())
+      );
 
-      if (result.continueMutation() != null)
-        token = result.continueMutation();
-      if (result.completeMutation() != null)
-        done = true;
-      if (limitLoop == 0)
-        done = true;
+      if (result.continueMutation() != null) token = result.continueMutation();
+      if (result.completeMutation() != null) done = true;
+      if (limitLoop == 0) done = true;
 
       limitLoop--;
     }
 
     System.out.println("Done with Mutation: " + branchKeyId);
+
+    return branchKeyId;
   }
 
   public static void main(final String[] args) {
@@ -94,6 +108,13 @@ public class MutationExample {
     final String logicalKeyStoreName = args[1];
     final String kmsKeyArnOriginal = args[2];
     final String kmsKeyArnTerminal = args[3];
-    End2End(keyStoreTableName, logicalKeyStoreName, kmsKeyArnOriginal, kmsKeyArnTerminal, null, null);
+    End2End(
+      keyStoreTableName,
+      logicalKeyStoreName,
+      kmsKeyArnOriginal,
+      kmsKeyArnTerminal,
+      null,
+      null
+    );
   }
 }
