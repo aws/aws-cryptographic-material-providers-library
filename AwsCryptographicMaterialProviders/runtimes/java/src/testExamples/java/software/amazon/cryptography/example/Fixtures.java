@@ -16,7 +16,7 @@ import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
 import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 
-public class TestUtils {
+public class Fixtures {
 
   public static final String TEST_KEYSTORE_NAME = "KeyStoreDdbTable";
   public static final String TEST_LOGICAL_KEYSTORE_NAME = "KeyStoreDdbTable";

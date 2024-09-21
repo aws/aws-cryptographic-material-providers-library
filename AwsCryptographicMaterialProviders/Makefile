@@ -52,3 +52,6 @@ SERVICE_DEPS_AwsCryptographyKeyStoreAdmin := \
 	ComAmazonawsDynamodb \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographicMaterialProviders \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStore \
+
+test_example_java:
+	$(GRADLEW) -p runtimes/java testExamples

@@ -21,26 +21,19 @@ public class MutationExample {
   public static String End2End(
     String keyStoreTableName,
     String logicalKeyStoreName,
-    String kmsKeyArnOriginal,
     String kmsKeyArnTerminal,
+    String branchKeyId,
     @Nullable DynamoDbClient dynamoDbClient,
     @Nullable KmsClient kmsClient
   ) {
     kmsClient = AdminProvider.kms(kmsClient);
+    KeyManagementStrategy strategy = AdminProvider.strategy(kmsClient);
     KeyStoreAdmin admin = AdminProvider.admin(
       keyStoreTableName,
       logicalKeyStoreName,
       dynamoDbClient
     );
-    KeyManagementStrategy strategy = AdminProvider.strategy(kmsClient);
 
-    String branchKeyId = CreateKeyExample.CreateKey(
-      keyStoreTableName,
-      logicalKeyStoreName,
-      kmsKeyArnOriginal,
-      dynamoDbClient,
-      kmsClient
-    );
     System.out.println("BranchKey ID to mutate: " + branchKeyId);
     HashMap<String, String> terminalEC = new HashMap<>();
     terminalEC.put("Robbie", "is a dog.");
@@ -101,18 +94,18 @@ public class MutationExample {
   public static void main(final String[] args) {
     if (args.length <= 1) {
       throw new IllegalArgumentException(
-        "To run this example, include the keyStoreTableName, logicalKeyStoreName, kmsKeyOriginal, and kmsKeyTerminal in args"
+        "To run this example, include the keyStoreTableName, logicalKeyStoreName, and kmsKeyTerminal in args"
       );
     }
     final String keyStoreTableName = args[0];
     final String logicalKeyStoreName = args[1];
-    final String kmsKeyArnOriginal = args[2];
-    final String kmsKeyArnTerminal = args[3];
+    final String kmsKeyArnTerminal = args[2];
+    final String branchKeyId = args[3];
     End2End(
       keyStoreTableName,
       logicalKeyStoreName,
-      kmsKeyArnOriginal,
       kmsKeyArnTerminal,
+      branchKeyId,
       null,
       null
     );
