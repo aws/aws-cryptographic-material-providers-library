@@ -20,22 +20,8 @@ public class KeyManagementStrategy {
    */
   private final AwsKms AwsKmsReEncrypt;
 
-  /**
-   * Key Store Items are authenicated and re-wrapped via a Decrypt and then Encrypt request.
-   *      This is two separate requests to Key Management, as compared to one.
-   *      But the Decrypt requests will use the Decrypt KMS Client (and Grant Tokens),
-   *      while the Encrypt requests will use the Encrypt KMS Client (and Grant Tokens).
-   *      This option affords for different credentials to be utilized,
-   *      based on the operation.
-   *      When Generating new material,
-   *      KMS GenerateDataKeyWithoutPlaintext will be executed against
-   *      the Encrypt option.
-   */
-  private final AwsKmsDecryptEncrypt AwsKmsDecryptEncrypt;
-
   protected KeyManagementStrategy(BuilderImpl builder) {
     this.AwsKmsReEncrypt = builder.AwsKmsReEncrypt();
-    this.AwsKmsDecryptEncrypt = builder.AwsKmsDecryptEncrypt();
   }
 
   /**
@@ -46,21 +32,6 @@ public class KeyManagementStrategy {
    */
   public AwsKms AwsKmsReEncrypt() {
     return this.AwsKmsReEncrypt;
-  }
-
-  /**
-   * @return Key Store Items are authenicated and re-wrapped via a Decrypt and then Encrypt request.
-   *      This is two separate requests to Key Management, as compared to one.
-   *      But the Decrypt requests will use the Decrypt KMS Client (and Grant Tokens),
-   *      while the Encrypt requests will use the Encrypt KMS Client (and Grant Tokens).
-   *      This option affords for different credentials to be utilized,
-   *      based on the operation.
-   *      When Generating new material,
-   *      KMS GenerateDataKeyWithoutPlaintext will be executed against
-   *      the Encrypt option.
-   */
-  public AwsKmsDecryptEncrypt AwsKmsDecryptEncrypt() {
-    return this.AwsKmsDecryptEncrypt;
   }
 
   public Builder toBuilder() {
@@ -88,32 +59,6 @@ public class KeyManagementStrategy {
      */
     AwsKms AwsKmsReEncrypt();
 
-    /**
-     * @param AwsKmsDecryptEncrypt Key Store Items are authenicated and re-wrapped via a Decrypt and then Encrypt request.
-     *      This is two separate requests to Key Management, as compared to one.
-     *      But the Decrypt requests will use the Decrypt KMS Client (and Grant Tokens),
-     *      while the Encrypt requests will use the Encrypt KMS Client (and Grant Tokens).
-     *      This option affords for different credentials to be utilized,
-     *      based on the operation.
-     *      When Generating new material,
-     *      KMS GenerateDataKeyWithoutPlaintext will be executed against
-     *      the Encrypt option.
-     */
-    Builder AwsKmsDecryptEncrypt(AwsKmsDecryptEncrypt AwsKmsDecryptEncrypt);
-
-    /**
-     * @return Key Store Items are authenicated and re-wrapped via a Decrypt and then Encrypt request.
-     *      This is two separate requests to Key Management, as compared to one.
-     *      But the Decrypt requests will use the Decrypt KMS Client (and Grant Tokens),
-     *      while the Encrypt requests will use the Encrypt KMS Client (and Grant Tokens).
-     *      This option affords for different credentials to be utilized,
-     *      based on the operation.
-     *      When Generating new material,
-     *      KMS GenerateDataKeyWithoutPlaintext will be executed against
-     *      the Encrypt option.
-     */
-    AwsKmsDecryptEncrypt AwsKmsDecryptEncrypt();
-
     KeyManagementStrategy build();
   }
 
@@ -121,13 +66,10 @@ public class KeyManagementStrategy {
 
     protected AwsKms AwsKmsReEncrypt;
 
-    protected AwsKmsDecryptEncrypt AwsKmsDecryptEncrypt;
-
     protected BuilderImpl() {}
 
     protected BuilderImpl(KeyManagementStrategy model) {
       this.AwsKmsReEncrypt = model.AwsKmsReEncrypt();
-      this.AwsKmsDecryptEncrypt = model.AwsKmsDecryptEncrypt();
     }
 
     public Builder AwsKmsReEncrypt(AwsKms AwsKmsReEncrypt) {
@@ -137,17 +79,6 @@ public class KeyManagementStrategy {
 
     public AwsKms AwsKmsReEncrypt() {
       return this.AwsKmsReEncrypt;
-    }
-
-    public Builder AwsKmsDecryptEncrypt(
-      AwsKmsDecryptEncrypt AwsKmsDecryptEncrypt
-    ) {
-      this.AwsKmsDecryptEncrypt = AwsKmsDecryptEncrypt;
-      return this;
-    }
-
-    public AwsKmsDecryptEncrypt AwsKmsDecryptEncrypt() {
-      return this.AwsKmsDecryptEncrypt;
     }
 
     public KeyManagementStrategy build() {
@@ -160,7 +91,7 @@ public class KeyManagementStrategy {
     }
 
     private boolean onlyOneNonNull() {
-      Object[] allValues = { this.AwsKmsReEncrypt, this.AwsKmsDecryptEncrypt };
+      Object[] allValues = { this.AwsKmsReEncrypt };
       boolean haveOneNonNull = false;
       for (Object o : allValues) {
         if (Objects.nonNull(o)) {

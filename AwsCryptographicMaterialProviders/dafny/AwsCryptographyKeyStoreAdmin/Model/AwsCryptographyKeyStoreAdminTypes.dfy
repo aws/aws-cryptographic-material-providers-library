@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 include "../../../../StandardLibrary/src/Index.dfy"
-include "../../../../AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStore/src/Index.dfy"
+include "../../AwsCryptographyKeyStore/src/Index.dfy"
 include "../../../../ComAmazonawsDynamodb/src/Index.dfy"
 include "../../../../ComAmazonawsKms/src/Index.dfy"
 module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types" } AwsCryptographyKeyStoreAdminTypes
@@ -30,10 +30,6 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   datatype ApplyMutationResult =
     | continueMutation(continueMutation: MutationToken)
     | completeMutation(completeMutation: MutationComplete)
-  datatype AwsKmsDecryptEncrypt = | AwsKmsDecryptEncrypt (
-    nameonly decrypt: Option<AwsCryptographyKeyStoreTypes.AwsKms> := Option.None ,
-    nameonly encrypt: Option<AwsCryptographyKeyStoreTypes.AwsKms> := Option.None
-  )
   datatype CreateKeyInput = | CreateKeyInput (
     nameonly branchKeyIdentifier: Option<string> := Option.None ,
     nameonly encryptionContext: Option<AwsCryptographyKeyStoreTypes.EncryptionContext> := Option.None ,
@@ -54,20 +50,17 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   )
   datatype KeyManagementStrategy =
     | AwsKmsReEncrypt(AwsKmsReEncrypt: AwsCryptographyKeyStoreTypes.AwsKms)
-    | AwsKmsDecryptEncrypt(AwsKmsDecryptEncrypt: AwsKmsDecryptEncrypt)
   class IKeyStoreAdminClientCallHistory {
     ghost constructor() {
       CreateKey := [];
       VersionKey := [];
       InitializeMutation := [];
       ApplyMutation := [];
-      ResumeMutation := [];
     }
     ghost var CreateKey: seq<DafnyCallEvent<CreateKeyInput, Result<CreateKeyOutput, Error>>>
     ghost var VersionKey: seq<DafnyCallEvent<VersionKeyInput, Result<VersionKeyOutput, Error>>>
     ghost var InitializeMutation: seq<DafnyCallEvent<InitializeMutationInput, Result<InitializeMutationOutput, Error>>>
     ghost var ApplyMutation: seq<DafnyCallEvent<ApplyMutationInput, Result<ApplyMutationOutput, Error>>>
-    ghost var ResumeMutation: seq<DafnyCallEvent<ResumeMutationInput, Result<ResumeMutationOutput, Error>>>
   }
   trait {:termination false} IKeyStoreAdminClient
   {
@@ -156,21 +149,6 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
       ensures ApplyMutationEnsuresPublicly(input, output)
       ensures History.ApplyMutation == old(History.ApplyMutation) + [DafnyCallEvent(input, output)]
 
-    predicate ResumeMutationEnsuresPublicly(input: ResumeMutationInput , output: Result<ResumeMutationOutput, Error>)
-    // The public method to be called by library consumers
-    method ResumeMutation ( input: ResumeMutationInput )
-      returns (output: Result<ResumeMutationOutput, Error>)
-      requires
-        && ValidState()
-      modifies Modifies - {History} ,
-               History`ResumeMutation
-      // Dafny will skip type parameters when generating a default decreases clause.
-      decreases Modifies - {History}
-      ensures
-        && ValidState()
-      ensures ResumeMutationEnsuresPublicly(input, output)
-      ensures History.ResumeMutation == old(History.ResumeMutation) + [DafnyCallEvent(input, output)]
-
   }
   datatype KeyStoreAdminConfig = | KeyStoreAdminConfig (
     nameonly logicalKeyStoreName: string ,
@@ -179,10 +157,6 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   datatype KMSIdentifier =
     | kmsKeyArn(kmsKeyArn: string)
     | kmsMRKeyArn(kmsMRKeyArn: string)
-  datatype MutableBranchKeyProperities = | MutableBranchKeyProperities (
-    nameonly kmsArn: string ,
-    nameonly customEncryptionContext: AwsCryptographyKeyStoreTypes.EncryptionContextString
-  )
   datatype MutatedBranchKeyItem = | MutatedBranchKeyItem (
     nameonly itemType: string ,
     nameonly description: string
@@ -203,15 +177,6 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     nameonly UUID: Option<string> := Option.None ,
     nameonly CreateTime: string
   )
-  datatype ResumeMutationInput = | ResumeMutationInput (
-    nameonly branchKeyIdentifier: string ,
-    nameonly original: MutableBranchKeyProperities ,
-    nameonly terminal: MutableBranchKeyProperities ,
-    nameonly strategy: Option<KeyManagementStrategy> := Option.None
-  )
-  datatype ResumeMutationOutput = | ResumeMutationOutput (
-    nameonly mutationToken: Option<MutationToken> := Option.None
-  )
   datatype VersionKeyInput = | VersionKeyInput (
     nameonly branchKeyIdentifier: string ,
     nameonly kmsArn: KMSIdentifier ,
@@ -229,9 +194,6 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
         nameonly message: string
       )
     | MutationInvalidException (
-        nameonly message: string
-      )
-    | MutationLockDisagreesException (
         nameonly message: string
       )
     | MutationLockInvalidException (
@@ -416,26 +378,6 @@ abstract module AbstractAwsCryptographyKeyStoreAdminService
       History.ApplyMutation := History.ApplyMutation + [DafnyCallEvent(input, output)];
     }
 
-    predicate ResumeMutationEnsuresPublicly(input: ResumeMutationInput , output: Result<ResumeMutationOutput, Error>)
-    {Operations.ResumeMutationEnsuresPublicly(input, output)}
-    // The public method to be called by library consumers
-    method ResumeMutation ( input: ResumeMutationInput )
-      returns (output: Result<ResumeMutationOutput, Error>)
-      requires
-        && ValidState()
-      modifies Modifies - {History} ,
-               History`ResumeMutation
-      // Dafny will skip type parameters when generating a default decreases clause.
-      decreases Modifies - {History}
-      ensures
-        && ValidState()
-      ensures ResumeMutationEnsuresPublicly(input, output)
-      ensures History.ResumeMutation == old(History.ResumeMutation) + [DafnyCallEvent(input, output)]
-    {
-      output := Operations.ResumeMutation(config, input);
-      History.ResumeMutation := History.ResumeMutation + [DafnyCallEvent(input, output)];
-    }
-
   }
 }
 abstract module AbstractAwsCryptographyKeyStoreAdminOperations {
@@ -508,20 +450,4 @@ abstract module AbstractAwsCryptographyKeyStoreAdminOperations {
     ensures
       && ValidInternalConfig?(config)
     ensures ApplyMutationEnsuresPublicly(input, output)
-
-
-  predicate ResumeMutationEnsuresPublicly(input: ResumeMutationInput , output: Result<ResumeMutationOutput, Error>)
-  // The private method to be refined by the library developer
-
-
-  method ResumeMutation ( config: InternalConfig , input: ResumeMutationInput )
-    returns (output: Result<ResumeMutationOutput, Error>)
-    requires
-      && ValidInternalConfig?(config)
-    modifies ModifiesInternalConfig(config)
-    // Dafny will skip type parameters when generating a default decreases clause.
-    decreases ModifiesInternalConfig(config)
-    ensures
-      && ValidInternalConfig?(config)
-    ensures ResumeMutationEnsuresPublicly(input, output)
 }
