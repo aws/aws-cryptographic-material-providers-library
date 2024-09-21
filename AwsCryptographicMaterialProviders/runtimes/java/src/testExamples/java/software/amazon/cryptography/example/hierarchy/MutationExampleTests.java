@@ -3,7 +3,7 @@
 package software.amazon.cryptography.example.hierarchy;
 
 import org.testng.annotations.Test;
-import software.amazon.cryptography.example.TestUtils;
+import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.keystore.KeyStorageInterface;
 import software.amazon.cryptography.keystore.model.QueryForVersionsInput;
 import software.amazon.cryptography.keystore.model.QueryForVersionsOutput;
@@ -13,17 +13,17 @@ public class MutationExampleTests {
   @Test
   public void testMutationExample() {
     String branchKeyId = MutationExample.End2End(
-      TestUtils.TEST_KEYSTORE_NAME,
-      TestUtils.TEST_LOGICAL_KEYSTORE_NAME,
-      TestUtils.KEYSTORE_KMS_ARN,
-      TestUtils.POSTAL_HORN_KEY_ARN,
-      TestUtils.dynamoDbClient,
-      TestUtils.kmsClient
+      Fixtures.TEST_KEYSTORE_NAME,
+      Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
+      Fixtures.KEYSTORE_KMS_ARN,
+      Fixtures.POSTAL_HORN_KEY_ARN,
+      Fixtures.dynamoDbClient,
+      Fixtures.kmsClient
     );
     KeyStorageInterface storage = StorageCheater.create(
-      TestUtils.dynamoDbClient,
-      TestUtils.TEST_KEYSTORE_NAME,
-      TestUtils.TEST_LOGICAL_KEYSTORE_NAME
+      Fixtures.dynamoDbClient,
+      Fixtures.TEST_KEYSTORE_NAME,
+      Fixtures.TEST_LOGICAL_KEYSTORE_NAME
     );
     QueryForVersionsOutput versions = storage.QueryForVersions(
       QueryForVersionsInput
@@ -35,25 +35,26 @@ public class MutationExampleTests {
     versions
       .items()
       .forEach(item ->
-        TestUtils.deleteKeyStoreDdbItem(
+        Fixtures.deleteKeyStoreDdbItem(
           item.Identifier(),
           item.Type().HierarchicalSymmetricVersion().Version(),
-          TestUtils.TEST_KEYSTORE_NAME,
-          TestUtils.dynamoDbClient
+          Fixtures.TEST_KEYSTORE_NAME,
+          Fixtures.dynamoDbClient
         )
       );
+    throw new RuntimeException("Fail this test");
 
-    TestUtils.deleteKeyStoreDdbItem(
+    Fixtures.deleteKeyStoreDdbItem(
       branchKeyId,
       "branch:ACTIVE",
-      TestUtils.TEST_KEYSTORE_NAME,
-      TestUtils.dynamoDbClient
+      Fixtures.TEST_KEYSTORE_NAME,
+      Fixtures.dynamoDbClient
     );
-    TestUtils.deleteKeyStoreDdbItem(
+    Fixtures.deleteKeyStoreDdbItem(
       branchKeyId,
       "beacon:ACTIVE",
-      TestUtils.TEST_KEYSTORE_NAME,
-      TestUtils.dynamoDbClient
+      Fixtures.TEST_KEYSTORE_NAME,
+      Fixtures.dynamoDbClient
     );
   }
 }
