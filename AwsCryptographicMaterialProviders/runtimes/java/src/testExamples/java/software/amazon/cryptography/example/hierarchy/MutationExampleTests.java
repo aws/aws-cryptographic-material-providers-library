@@ -42,7 +42,6 @@ public class MutationExampleTests {
           Fixtures.dynamoDbClient
         )
       );
-    throw new RuntimeException("Fail this test");
 
     Fixtures.deleteKeyStoreDdbItem(
       branchKeyId,
