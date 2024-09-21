@@ -11,7 +11,6 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   import KeyStoreTypes = KeyStoreOperations.Types
   import KMS = Com.Amazonaws.Kms
   import Mutations
-    // import KMS = KeyStoreTypes.ComAmazonawsKmsTypes
 
   datatype Config = Config(
     nameonly logicalKeyStoreName: string,
@@ -39,11 +38,51 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     config.storage.Modifies + MutationLie()
   }
 
-  method resolveKmsStratgety(
+  method ProvideKMSClient(
+    kmsClient?: Option<KMS.Types.IKMSClient> := None
+  )
+    returns (output: Result<KMS.Types.IKMSClient, KMS.Types.Error>)
+    // Because Dafny is not able to parse
+    // the code that Smithy-Dafny produces for reference types inside a union,
+    // the requires kms.ValidState() and modifies kmsClient are commented out.
+    // requires kms.kmsClient.Some? ==> kms.kmsClient.value.ValidState()
+    // modifies (if kms.kmsClient.Some? then kms.kmsClient.value.Modifies else {})
+    ensures output.Success?
+            ==>
+              && output.value.ValidState()
+              && fresh(output.value)
+              && fresh(output.value.Modifies)
+  {
+    var kmsClient: KMS.Types.IKMSClient;
+    if (kmsClient?.None?) {
+      kmsClient :- KMS.KMSClient();
+    } else {
+      kmsClient := kmsClient?.value;
+    }
+    assume {:axiom} kmsClient.Modifies < MutationLie();
+    // If the customer gave us the KMS Client, it is fresh
+    // If we create the KMS Client, it is fresh
+    assume {:axiom} fresh(kmsClient) && fresh(kmsClient.Modifies);
+    return Success(kmsClient);
+  }
+
+  method ResolveStrategy(
     kmsStratgey?: Option<KeyManagementStrategy>,
     config: InternalConfig
   )
     returns (output: Result<Mutations.keyManagerStrat, Error>)
+    // Because Dafny is not able to parse
+    // the code that Smithy-Dafny produces for reference types inside a union,
+    // the requires kms.ValidState() and modifies kmsClient are commented out.
+    // requires
+    //   kmsStratgey?.Some? ==> match kmsStratgey?.value {
+    //       case AwsKmsReEncrypt(kms) => kms.kmsClient.Some? ==> kms.kmsClient.value.ValidState()
+    //   }
+    // modifies (if
+    //   && kmsStratgey?.Some?
+    //   && kmsStratgey?.value.AwsKmsReEncrypt?
+    //   && kmsStratgey?.value.AwsKmsReEncrypt.kmsClient.Some?
+    //   then kmsStratgey?.value.AwsKmsReEncrypt.kmsClient.value.Modifies else {})
     requires ValidInternalConfig?(config)
     ensures output.Success?
             ==>
@@ -65,75 +104,68 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   {
     var input: KeyManagementStrategy;
     if (kmsStratgey?.None?) {
-      var kmsClient? := KMS.KMSClient();
-      var kmsClient :- kmsClient?
-      .MapFailure(e => Types.Error.ComAmazonawsKms(e));
-      var kms := KeyStoreTypes.AwsKms(
-        grantTokens := None(),
-        kmsClient := Some(kmsClient)
-      );
+      var kms := KeyStoreTypes.AwsKms();
       input := KeyManagementStrategy.AwsKmsReEncrypt(kms);
     } else {
       input := kmsStratgey?.value;
     }
     match input {
       case AwsKmsReEncrypt(kms) =>
-        var tuple :- kmsInputLies(kms, config);
+        var tuple :- ResolveKmsInput(kms, config);
         return Success(Mutations.keyManagerStrat.reEncrypt(tuple));
-      case AwsKmsDecryptEncrypt(kmsDecryptEncrypt) =>
-        // var decrypt :- kmsInputLies(kmsDecryptEncrypt.decrypt, config);
-        // var encrypt :- kmsInputLies(kmsDecryptEncrypt.encrypt, config);
-        // return Success(Mutations.keyManagerStrat.decryptEncrypt(decrypt, encrypt));
-        return Failure(Types.KeyStoreAdminException(message :="BETA :: Only Re Encrypt is supported!!"));
+        // case AwsKmsDecryptEncrypt(kmsDecryptEncrypt) =>
+        //   // var decrypt :- ResolveKmsInput(kmsDecryptEncrypt.decrypt, config);
+        //   // var encrypt :- ResolveKmsInput(kmsDecryptEncrypt.encrypt, config);
+        //   // return Success(Mutations.keyManagerStrat.decryptEncrypt(decrypt, encrypt));
+        //   return Failure(Types.KeyStoreAdminException(message :="BETA :: Only Re Encrypt is supported!!"));
     }
   }
 
-  function method {:opaque} kmsInputLies(
+  method ResolveKmsInput(
     kms: KeyStoreTypes.AwsKms,
     config: InternalConfig
-  ): (output: Result<Mutations.KMSTuple, Error>)
+  )
+    returns (output: Result<Mutations.KMSTuple, Error>)
+    // Because Dafny is not able to parse
+    // the code that Smithy-Dafny produces for reference types inside a union,
+    // the requires kms.ValidState() and modifies kmsClient are commented out.
+    // requires kms.kmsClient.Some? ==> kms.kmsClient.value.ValidState()
+    // modifies (if kms.kmsClient.Some? then kms.kmsClient.value.Modifies else {})
     requires ValidInternalConfig?(config)
-    // TODO: Support No KMS Client
     ensures output.Success?
             ==>
-              && kms.kmsClient.Some?
               && (config.storage.Modifies !! output.value.kmsClient.Modifies)
               && output.value.kmsClient.ValidState()
               && GetValidGrantTokens(Some(output.value.grantTokens)).Success?
   {
-    :- Need(
-         kms.kmsClient.Some?,
-         Types.KeyStoreAdminException(
-           message := "KMS Client MUST be set!"
-         )
-       );
+    var kmsClient? := ProvideKMSClient(kms.kmsClient);
+    var kmsClient :- kmsClient?
+    .MapFailure(e => Types.ComAmazonawsKms(ComAmazonawsKms := e));
     var grantTokens := GetValidGrantTokens(kms.grantTokens);
     :- Need(
-         && grantTokens.Success?,
-         Types.KeyStoreAdminException(
-           message := "Grant Tokens passed to Key Store Admin are invalid.")
-       );
-    assume {:axiom} config.storage.Modifies !! kms.kmsClient.value.Modifies;
-    assume {:axiom} kms.kmsClient.value.ValidState();
-    Success(Mutations.KMSTuple(kms.kmsClient.value, grantTokens.value))
+      && grantTokens.Success?,
+      Types.KeyStoreAdminException(
+        message := "Grant Tokens passed to Key Store Admin are invalid.")
+    );
+    assume {:axiom} config.storage.Modifies !! kmsClient.Modifies;
+    // assume {:axiom} kms.kmsClient.value.ValidState();
+    output := Success(Mutations.KMSTuple(kmsClient, grantTokens.value));
   }
 
-  function method kmsInputsToLegacyConfig(
+  function method LegacyConfig(
     keyManagerStrat: Mutations.keyManagerStrat,
     kmsArn: Types.KMSIdentifier,
     config: InternalConfig
   ): (output: Result<KeyStoreOperations.Config, Error>)
+    // returns (output: Result<KeyStoreOperations.Config, Error>)
     requires ValidInternalConfig?(config)
-    // TODO :: Support Decrypt/Encrypt
     requires
       && keyManagerStrat.reEncrypt?
-         // && keyManagerStrat.reEncrypt.kmsClient.ValidState()
+      && keyManagerStrat.reEncrypt.kmsClient.ValidState()
       && GetValidGrantTokens(Some(keyManagerStrat.reEncrypt.grantTokens)).Success?
-    // && (config.storage.Modifies !! keyManagerStrat.reEncrypt.kmsClient.Modifies)
-    // ensures output.Success?
-    //         ==>
-    //           && keyManagerStrat.reEncrypt.kmsClient.ValidState()
-    // && (config.storage.Modifies !! keyManagerStrat.reEncrypt.kmsClient.Modifies)
+    ensures output.Success?
+            ==>
+              && keyManagerStrat.reEncrypt.kmsClient.ValidState()
     ensures output.Success? ==> KeyStoreOperations.ValidInternalConfig?(output.value)
   {
     var _ :- KmsArn.IsValidKeyArn(match kmsArn
@@ -162,6 +194,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     // This is for the legacy client. Again, this should follow from the code that smithy-dafny produces.
     assume {:axiom} legacyConfig.storage.Modifies !! legacyConfig.kmsClient.Modifies;
 
+    // output := Success(legacyConfig)
     Success(legacyConfig)
   }
 
@@ -171,15 +204,13 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   method CreateKey ( config: InternalConfig , input: CreateKeyInput )
     returns (output: Result<CreateKeyOutput, Error>)
   {
-    // return Failure(Types.KeyStoreAdminException(message := "Implement me"));
-    var keyManagerStrat :- resolveKmsStratgety(input.strategy, config);
+    var keyManagerStrat :- ResolveStrategy(input.strategy, config);
     :- Need(
-      // Remove before Prod
       keyManagerStrat.reEncrypt?,
-      Types.KeyStoreAdminException(message :="BETA :: Only Re Encrypt is supported!!")
+      Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time.")
     );
 
-    var legacyConfig :- kmsInputsToLegacyConfig(keyManagerStrat, input.kmsArn, config);
+    var legacyConfig :- LegacyConfig(keyManagerStrat, input.kmsArn, config);
 
     assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
 
@@ -206,19 +237,13 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     returns (output: Result<VersionKeyOutput, Error>)
   {
 
-    var keyManagerStrat :- resolveKmsStratgety(input.strategy, config);
+    var keyManagerStrat :- ResolveStrategy(input.strategy, config);
     :- Need(
-      // Remove before Prod
       keyManagerStrat.reEncrypt?,
-      Types.KeyStoreAdminException(message :="BETA :: Only Re Encrypt is supported!!")
+      Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time.")
     );
-    assert
-      && keyManagerStrat.reEncrypt?
-      && keyManagerStrat.reEncrypt.kmsClient.ValidState()
-      && GetValidGrantTokens(Some(keyManagerStrat.reEncrypt.grantTokens)).Success?
-      && (config.storage.Modifies !! keyManagerStrat.reEncrypt.kmsClient.Modifies);
 
-    var legacyConfig :- kmsInputsToLegacyConfig(keyManagerStrat, input.kmsArn, config);
+    var legacyConfig :- LegacyConfig(keyManagerStrat, input.kmsArn, config);
 
     assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
 
@@ -239,11 +264,10 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   method InitializeMutation(config: InternalConfig, input: InitializeMutationInput )
     returns (output: Result<InitializeMutationOutput, Error>)
   {
-    var keyManagerStrat :- resolveKmsStratgety(input.strategy, config);
+    var keyManagerStrat :- ResolveStrategy(input.strategy, config);
     :- Need(
-      // Remove before Prod
       keyManagerStrat.reEncrypt?,
-      Types.KeyStoreAdminException(message :="BETA :: Only Re Encrypt is supported!!")
+      Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time.")
     );
     assume {:axiom} keyManagerStrat.reEncrypt.kmsClient.Modifies < MutationLie();
 
@@ -258,11 +282,10 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   method ApplyMutation(config: InternalConfig, input: ApplyMutationInput)
     returns (output: Result<ApplyMutationOutput, Error>)
   {
-    var keyManagerStrat :- resolveKmsStratgety(input.strategy, config);
+    var keyManagerStrat :- ResolveStrategy(input.strategy, config);
     :- Need(
-      // Remove before Prod
       keyManagerStrat.reEncrypt?,
-      Types.KeyStoreAdminException(message :="BETA :: Only Re Encrypt is supported!!")
+      Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time.")
     );
     assume {:axiom} keyManagerStrat.reEncrypt.kmsClient.Modifies < MutationLie();
 
@@ -271,12 +294,12 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     return output;
   }
 
-  predicate ResumeMutationEnsuresPublicly(input: ResumeMutationInput , output: Result<ResumeMutationOutput, Error>)
-  {true}
+  // predicate ResumeMutationEnsuresPublicly(input: ResumeMutationInput , output: Result<ResumeMutationOutput, Error>)
+  // {true}
 
-  method ResumeMutation ( config: InternalConfig , input: ResumeMutationInput )
-    returns (output: Result<ResumeMutationOutput, Error>)
-  {
-    return Failure(Types.KeyStoreAdminException(message := "Implement me"));
-  }
+  // method ResumeMutation ( config: InternalConfig , input: ResumeMutationInput )
+  //   returns (output: Result<ResumeMutationOutput, Error>)
+  // {
+  //   return Failure(Types.KeyStoreAdminException(message := "Implement me"));
+  // }
 }

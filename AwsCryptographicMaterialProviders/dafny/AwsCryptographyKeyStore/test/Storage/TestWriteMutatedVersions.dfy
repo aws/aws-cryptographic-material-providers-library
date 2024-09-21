@@ -41,7 +41,7 @@ module {:options "/functionSyntax:4"} TestWriteMutatedVersions {
       Identifier := testId,
       pageSize := 24
     );
-    assume {:axiom} underTest.Modifies == {}; // Turns off verification, but allows calling underTest
+
     var queryOut :- expect underTest.QueryForVersions(inputQuery);
     var items := queryOut.items;
     expect
@@ -111,56 +111,16 @@ module {:options "/functionSyntax:4"} TestWriteMutatedVersions {
     print "TestWriteMutatedVersions.TestHappyCase: ";
   }
 
-  method {:opaque} CreateHappyCaseId(
+  method CreateHappyCaseId(
     id: string,
     ddbClient?: Option<DDB.Types.IDynamoDBClient> := None
   )
+    requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
+    modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
+    ensures ddbClient?.Some? ==> ddbClient?.value.ValidState()
   {
-    var ddbClient: DDB.Types.IDynamoDBClient;  //:- DDBOperations.DynamoDBClient();
-    if (ddbClient?.None?) {
-      ddbClient :- expect DDB.DynamoDBClient();
-    } else {
-      ddbClient := ddbClient?.value;
-    }
-    assume {:axiom} ddbClient.Modifies == {} && ddbClient.ValidState();
-    var kmsClient :- expect KMS.KMSClient();
-    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(Fixtures.keyArn);
-    var keyStoreConfig := Types.KeyStoreConfig(
-      id := None,
-      kmsConfiguration := kmsConfig,
-      logicalKeyStoreName := logicalKeyStoreName,
-      storage := Some(
-        Types.ddb(
-          Types.DynamoDBTable(
-            ddbTableName := ddbTableName,
-            ddbClient := Some(ddbClient)
-          ))),
-      keyManagement := Some(
-        Types.kms(
-          Types.AwsKms(
-            kmsClient := Some(kmsClient)
-          )))
-    );
-    // We may not need this, but **Oh My God** does it make verification go faster
-    assume {:axiom} kmsClient.Modifies == {} && ddbClient.Modifies == {} && ddbClient.ValidState() && kmsClient.ValidState();
-    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
-    assume {:axiom} keyStore.Modifies == {} == kmsClient.Modifies == ddbClient.Modifies && keyStore.ValidState();
-
-    var input := Types.CreateKeyInput(
-      branchKeyIdentifier := Some(id),
-      encryptionContext := Some(map[UTF8.EncodeAscii("Robbie") := UTF8.EncodeAscii("Is a dog.")])
-    );
-    var branchKeyId :- expect keyStore.CreateKey(input);
-
-    // If you need a new version
-
-    var inputV := Types.VersionKeyInput(
-      branchKeyIdentifier := id
-    );
-    var _ :- expect keyStore.VersionKey(inputV);
-    var _ :- expect keyStore.VersionKey(inputV);
-    var _ :- expect keyStore.VersionKey(inputV);
-
+    var ddbClient :- expect Fixtures.ProvideDDBClient(ddbClient?);
+    Fixtures.CreateHappyCaseId(id:=id, versionCount:=3);
     var item: DDB.Types.PutItemInputAttributeMap :=
       map[
         "type":=DDB.Types.AttributeValue.S(Structure.MUTATION_LOCK_TYPE),
@@ -172,7 +132,6 @@ module {:options "/functionSyntax:4"} TestWriteMutatedVersions {
         Structure.M_LOCK_TERMINAL := DDB.Types.AttributeValue.B(UTF8.EncodeAscii("storage-does-not-validate-terminal-only-that-is-binary"))
       ];
     var inputPut := DDB.Types.PutItemInput(TableName := ddbTableName, Item := item);
-    assume {:axiom} ddbClient.Modifies == {} && ddbClient.ValidState();
     var _ :- expect ddbClient.PutItem(inputPut);
   }
 
