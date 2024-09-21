@@ -34,7 +34,6 @@ public class MutationExample {
       dynamoDbClient
     );
 
-
     System.out.println("BranchKey ID to mutate: " + branchKeyId);
     HashMap<String, String> terminalEC = new HashMap<>();
     terminalEC.put("Robbie", "is a dog.");

@@ -4,7 +4,6 @@ package software.amazon.cryptography.example.hierarchy;
 
 import java.util.Collections;
 import java.util.Map;
-
 import javax.annotation.Nullable;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
@@ -31,7 +30,6 @@ public class CreateKeyExample {
     String kmsKeyArn,
     @Nullable DynamoDbClient dynamoDbClient
   ) {
-
     // 1. Configure your Key Store Admin resource.
     KeyStoreAdmin admin = AdminProvider.admin(
       keyStoreTableName,
@@ -39,13 +37,13 @@ public class CreateKeyExample {
       dynamoDbClient
     );
 
-
     // 2. If you need to specify the Identifier for a Branch Key, you may.
     // This is an optional argument.
     // If an Identifier is not provided, a v4 UUID will be generated and used.
     // This example provides a combination of a fixed string and a v4 UUID;
     // this makes it easy for Crypto Tools to clean up these Example Branch Keys.
-    final String branchKeyId = "mpl-java-example-" + java.util.UUID.randomUUID().toString();
+    final String branchKeyId =
+      "mpl-java-example-" + java.util.UUID.randomUUID().toString();
 
     // 3. Create a custom encryption context for the Branch Key.
     // Most encrypted data should have an associated encryption context
@@ -54,8 +52,10 @@ public class CreateKeyExample {
     // prefixed by the library with `aws-crypto-ec:`.
     // For more information see:
     // blogs.aws.amazon.com/security/post/Tx2LZ6WBJJANTNW/How-to-Protect-the-Integrity-of-Your-Encrypted-Data-by-Using-AWS-Key-Management
-    final Map<String, String> encryptionContext =
-      Collections.singletonMap("ExampleContextKey", "ExampleContextValue");
+    final Map<String, String> encryptionContext = Collections.singletonMap(
+      "ExampleContextKey",
+      "ExampleContextValue"
+    );
 
     // 2. Create a new branch key and beacon key in our KeyStore.
     //    Both the branch key and the beacon key will share an Id.

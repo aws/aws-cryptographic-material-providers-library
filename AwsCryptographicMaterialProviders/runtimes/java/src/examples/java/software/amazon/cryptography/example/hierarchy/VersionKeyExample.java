@@ -42,47 +42,52 @@ import software.amazon.cryptography.keystoreadmin.model.VersionKeyInput;
  */
 public class VersionKeyExample {
 
-    public static String VersionKey(
-      String keyStoreTableName,
-      String logicalKeyStoreName,
-      String kmsKeyArn,
-      String branchKeyId,
-      @Nullable DynamoDbClient dynamoDbClient
-    ) {
-      // 1. Configure your Key Store Admin resource.
-      KeyStoreAdmin admin = AdminProvider.admin(
-        keyStoreTableName,
-        logicalKeyStoreName,
-        dynamoDbClient
-      );
+  public static String VersionKey(
+    String keyStoreTableName,
+    String logicalKeyStoreName,
+    String kmsKeyArn,
+    String branchKeyId,
+    @Nullable DynamoDbClient dynamoDbClient
+  ) {
+    // 1. Configure your Key Store Admin resource.
+    KeyStoreAdmin admin = AdminProvider.admin(
+      keyStoreTableName,
+      logicalKeyStoreName,
+      dynamoDbClient
+    );
 
-      // 2. Version the Branch Key
-      admin
-        .VersionKey(
-          VersionKeyInput
-            .builder()
-            // This is the KMS ARN that will be used to protect the Branch Key.
-            // It is a required argument.
-            // This ARN MUST match the ARN that protects the Branch Key.
-            .kmsArn(KMSIdentifier.builder().kmsKeyArn(kmsKeyArn).build())
-            // This the Identifier for the Branch Key that is being rotated/versioned.
-            .branchKeyIdentifier(branchKeyId)
-            .build()
-        );
+    // 2. Version the Branch Key
+    admin.VersionKey(
+      VersionKeyInput
+        .builder()
+        // This is the KMS ARN that will be used to protect the Branch Key.
+        // It is a required argument.
+        // This ARN MUST match the ARN that protects the Branch Key.
+        .kmsArn(KMSIdentifier.builder().kmsKeyArn(kmsKeyArn).build())
+        // This the Identifier for the Branch Key that is being rotated/versioned.
+        .branchKeyIdentifier(branchKeyId)
+        .build()
+    );
 
-      return branchKeyId;
-    }
+    return branchKeyId;
+  }
 
   public static void main(final String[] args) {
-      if (args.length <= 1) {
-          throw new IllegalArgumentException(
-              "To run this example, include the keyStoreTableName, logicalKeyStoreName, and kmsKeyArn in args"
-            );
-        }
-      final String keyStoreTableName = args[0];
-      final String logicalKeyStoreName = args[1];
-      final String kmsKeyArn = args[2];
-      final String branchKeyId = args[3];
-      VersionKey(keyStoreTableName, logicalKeyStoreName, kmsKeyArn, branchKeyId, null);
+    if (args.length <= 1) {
+      throw new IllegalArgumentException(
+        "To run this example, include the keyStoreTableName, logicalKeyStoreName, and kmsKeyArn in args"
+      );
     }
+    final String keyStoreTableName = args[0];
+    final String logicalKeyStoreName = args[1];
+    final String kmsKeyArn = args[2];
+    final String branchKeyId = args[3];
+    VersionKey(
+      keyStoreTableName,
+      logicalKeyStoreName,
+      kmsKeyArn,
+      branchKeyId,
+      null
+    );
+  }
 }

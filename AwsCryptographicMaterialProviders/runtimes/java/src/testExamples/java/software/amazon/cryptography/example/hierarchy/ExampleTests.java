@@ -18,21 +18,23 @@ public class ExampleTests {
       Fixtures.KEYSTORE_KMS_ARN,
       Fixtures.dynamoDbClient
     );
-    branchKeyId = MutationExample.End2End(
-      Fixtures.TEST_KEYSTORE_NAME,
-      Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
-      Fixtures.POSTAL_HORN_KEY_ARN,
-      branchKeyId,
-      Fixtures.dynamoDbClient,
-      Fixtures.kmsClient
-    );
-    branchKeyId = VersionKeyExample.VersionKey(
-      Fixtures.TEST_KEYSTORE_NAME,
-      Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
-      Fixtures.POSTAL_HORN_KEY_ARN,
-      branchKeyId,
-      Fixtures.dynamoDbClient
-    );
+    branchKeyId =
+      MutationExample.End2End(
+        Fixtures.TEST_KEYSTORE_NAME,
+        Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
+        Fixtures.POSTAL_HORN_KEY_ARN,
+        branchKeyId,
+        Fixtures.dynamoDbClient,
+        Fixtures.kmsClient
+      );
+    branchKeyId =
+      VersionKeyExample.VersionKey(
+        Fixtures.TEST_KEYSTORE_NAME,
+        Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
+        Fixtures.POSTAL_HORN_KEY_ARN,
+        branchKeyId,
+        Fixtures.dynamoDbClient
+      );
     KeyStorageInterface storage = StorageCheater.create(
       Fixtures.dynamoDbClient,
       Fixtures.TEST_KEYSTORE_NAME,
