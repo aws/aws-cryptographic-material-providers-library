@@ -8,17 +8,30 @@ import software.amazon.cryptography.keystore.KeyStorageInterface;
 import software.amazon.cryptography.keystore.model.QueryForVersionsInput;
 import software.amazon.cryptography.keystore.model.QueryForVersionsOutput;
 
-public class MutationExampleTests {
+public class ExampleTests {
 
   @Test
-  public void testMutationExample() {
-    String branchKeyId = MutationExample.End2End(
+  public void End2EndTests() {
+    String branchKeyId = CreateKeyExample.CreateKey(
       Fixtures.TEST_KEYSTORE_NAME,
       Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
       Fixtures.KEYSTORE_KMS_ARN,
+      Fixtures.dynamoDbClient
+    );
+    branchKeyId = MutationExample.End2End(
+      Fixtures.TEST_KEYSTORE_NAME,
+      Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
       Fixtures.POSTAL_HORN_KEY_ARN,
+      branchKeyId,
       Fixtures.dynamoDbClient,
       Fixtures.kmsClient
+    );
+    branchKeyId = VersionKeyExample.VersionKey(
+      Fixtures.TEST_KEYSTORE_NAME,
+      Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
+      Fixtures.POSTAL_HORN_KEY_ARN,
+      branchKeyId,
+      Fixtures.dynamoDbClient
     );
     KeyStorageInterface storage = StorageCheater.create(
       Fixtures.dynamoDbClient,
