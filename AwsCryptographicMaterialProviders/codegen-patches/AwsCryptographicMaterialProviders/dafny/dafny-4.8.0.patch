@@ -12,7 +12,7 @@ index ba2a2324..39a4a4e7 100644
 -include "../../../../../../../../Volumes/workplace/aws-cryptographic-material-providers-library/ComAmazonawsDynamodb/src/Index.dfy"
 -include "../../../../../../../../Volumes/workplace/aws-cryptographic-material-providers-library/ComAmazonawsKms/src/Index.dfy"
 +include "../../../../StandardLibrary/src/Index.dfy"
-+include "../../../../AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStore/src/Index.dfy"
++include "../../AwsCryptographyKeyStore/src/Index.dfy"
 +include "../../../../AwsCryptographyPrimitives/src/Index.dfy"
 +include "../../../../ComAmazonawsDynamodb/src/Index.dfy"
 +include "../../../../ComAmazonawsKms/src/Index.dfy"
