@@ -126,8 +126,6 @@ module {:options "/functionSyntax:4" } Mutations {
     );
     var keyManager := keyManagerStrategy.reEncrypt;
     assert keyManager.kmsClient.ValidState();
-    // TODO : REMOVE THIS AXIOM, or at least encapsulate it in opaque
-    // assume {:axiom} storage.Modifies !! keyManager.kmsClient.Modifies;
 
     // Fetch Active Branch Key & Beacon Key & Mutation Lock
     var readItems? := storage.GetItemsForInitializeMutation(
@@ -187,36 +185,47 @@ module {:options "/functionSyntax:4" } Mutations {
     var mutationLockUUID :- mutationLockUUID?
     .MapFailure(e => Types.KeyStoreAdminException(message := "Could not generate UUID for Mutation Lock. " + e));
 
-    var customEncryptionContext
+    var inferredOriginalEC
       := map k <- activeItem.EncryptionContext
                   // This pull everything that is not in our restricted list.
              | k !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
       :: k := activeItem.EncryptionContext[k];
 
-    var prefixedTerminalCustomEC?: Option<KeyStoreTypes.EncryptionContextString> := None;
+    // IA-BLOCKER :: To Preserve Unexpected/un-modeled Attributes.
+    // We need to copy them from inferredOriginalEC to terminalEC.
+    // Which means we need to select those members without a prefix,
+    // and copy them over to terminal.
+    var unexpectedEC := PrefixUtils.FilterMapForKeysThatDoNotBeginWithPrefix(
+      prefix := Structure.ENCRYPTION_CONTEXT_PREFIX,
+      aMap := inferredOriginalEC
+    );
+    assert unexpectedEC.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
+
+    var terminalEC?: Option<KeyStoreTypes.EncryptionContextString> := None;
     if (input.mutations.terminalEncryptionContext.Some?) {
 
-      var prefixedTerminalCustomEC := PrefixUtils.AddingPrefixToKeysOfMapDoesNotCreateCollisions(
+      var terminalEC := PrefixUtils.AddingPrefixToKeysOfMapDoesNotCreateCollisions(
         prefix := Structure.ENCRYPTION_CONTEXT_PREFIX,
         aMap := input.mutations.terminalEncryptionContext.value
-      );
+      ) + unexpectedEC;
       :- Need(
-        prefixedTerminalCustomEC.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES,
+        terminalEC.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES,
         Types.KeyStoreAdminException(message:="Terminal Encryption Context contains a reserved word!")
       );
-      prefixedTerminalCustomEC? := Some(prefixedTerminalCustomEC);
-      assert prefixedTerminalCustomEC.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
+      terminalEC? := Some(terminalEC);
+      assert terminalEC.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
     }
+
 
     var MutationToApply := StateStrucs.MutationToApply(
       Identifier := input.branchKeyIdentifier,
       Original := StateStrucs.MutableProperties(
         kmsArn := activeItem.KmsArn,
-        customEncryptionContext := customEncryptionContext
+        customEncryptionContext := inferredOriginalEC
       ),
       Terminal := StateStrucs.MutableProperties(
         kmsArn := input.mutations.terminalKmsArn.UnwrapOr(activeItem.KmsArn),
-        customEncryptionContext := prefixedTerminalCustomEC?.UnwrapOr(customEncryptionContext)
+        customEncryptionContext := terminalEC?.UnwrapOr(inferredOriginalEC)
       ),
       ExclusiveStartKey := None,
       UUID := Some(mutationLockUUID),

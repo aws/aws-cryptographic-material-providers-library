@@ -103,11 +103,6 @@ public class ApplyMutationOutput {
           "Missing value for required field `mutatedBranchKeyItems`"
         );
       }
-      // if (Objects.nonNull(this.mutatedBranchKeyItems())) {
-      //   throw new IllegalArgumentException(
-      //     "The size of `mutatedBranchKeyItems` must be greater than or equal to 1"
-      //   );
-      // }
       return new ApplyMutationOutput(this);
     }
   }

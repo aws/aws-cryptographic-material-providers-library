@@ -14,19 +14,16 @@ import java.lang.Integer;
 import java.lang.RuntimeException;
 import java.util.List;
 import java.util.Objects;
-import software.amazon.cryptography.keystore.internaldafny.types.AwsKms;
 import software.amazon.cryptography.keystore.internaldafny.types.Storage;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationInput;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationOutput;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationResult;
-import software.amazon.cryptography.keystoreadmin.internaldafny.types.AwsKmsDecryptEncrypt;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.CreateKeyInput;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.CreateKeyOutput;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_KeyStoreAdminException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationConflictException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationInvalidException;
-import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationLockDisagreesException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationLockInvalidException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_UnexpectedStateException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.IKeyStoreAdminClient;
@@ -35,20 +32,16 @@ import software.amazon.cryptography.keystoreadmin.internaldafny.types.Initialize
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.KMSIdentifier;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.KeyManagementStrategy;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.KeyStoreAdminConfig;
-import software.amazon.cryptography.keystoreadmin.internaldafny.types.MutableBranchKeyProperities;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.MutatedBranchKeyItem;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.MutationComplete;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.MutationToken;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Mutations;
-import software.amazon.cryptography.keystoreadmin.internaldafny.types.ResumeMutationInput;
-import software.amazon.cryptography.keystoreadmin.internaldafny.types.ResumeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.VersionKeyInput;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.VersionKeyOutput;
 import software.amazon.cryptography.keystoreadmin.model.CollectionOfErrors;
 import software.amazon.cryptography.keystoreadmin.model.KeyStoreAdminException;
 import software.amazon.cryptography.keystoreadmin.model.MutationConflictException;
 import software.amazon.cryptography.keystoreadmin.model.MutationInvalidException;
-import software.amazon.cryptography.keystoreadmin.model.MutationLockDisagreesException;
 import software.amazon.cryptography.keystoreadmin.model.MutationLockInvalidException;
 import software.amazon.cryptography.keystoreadmin.model.OpaqueError;
 import software.amazon.cryptography.keystoreadmin.model.UnexpectedStateException;
@@ -64,9 +57,6 @@ public class ToDafny {
     }
     if (nativeValue instanceof MutationInvalidException) {
       return ToDafny.Error((MutationInvalidException) nativeValue);
-    }
-    if (nativeValue instanceof MutationLockDisagreesException) {
-      return ToDafny.Error((MutationLockDisagreesException) nativeValue);
     }
     if (nativeValue instanceof MutationLockInvalidException) {
       return ToDafny.Error((MutationLockInvalidException) nativeValue);
@@ -131,32 +121,6 @@ public class ToDafny {
     mutatedBranchKeyItems =
       ToDafny.MutatedBranchKeyItems(nativeValue.mutatedBranchKeyItems());
     return new ApplyMutationOutput(result, mutatedBranchKeyItems);
-  }
-
-  public static AwsKmsDecryptEncrypt AwsKmsDecryptEncrypt(
-    software.amazon.cryptography.keystoreadmin.model.AwsKmsDecryptEncrypt nativeValue
-  ) {
-    Option<AwsKms> decrypt;
-    decrypt =
-      Objects.nonNull(nativeValue.decrypt())
-        ? Option.create_Some(
-          AwsKms._typeDescriptor(),
-          software.amazon.cryptography.keystore.ToDafny.AwsKms(
-            nativeValue.decrypt()
-          )
-        )
-        : Option.create_None(AwsKms._typeDescriptor());
-    Option<AwsKms> encrypt;
-    encrypt =
-      Objects.nonNull(nativeValue.encrypt())
-        ? Option.create_Some(
-          AwsKms._typeDescriptor(),
-          software.amazon.cryptography.keystore.ToDafny.AwsKms(
-            nativeValue.encrypt()
-          )
-        )
-        : Option.create_None(AwsKms._typeDescriptor());
-    return new AwsKmsDecryptEncrypt(decrypt, encrypt);
   }
 
   public static CreateKeyInput CreateKeyInput(
@@ -277,25 +241,6 @@ public class ToDafny {
         nativeValue.storage()
       );
     return new KeyStoreAdminConfig(logicalKeyStoreName, storage);
-  }
-
-  public static MutableBranchKeyProperities MutableBranchKeyProperities(
-    software.amazon.cryptography.keystoreadmin.model.MutableBranchKeyProperities nativeValue
-  ) {
-    DafnySequence<? extends Character> kmsArn;
-    kmsArn =
-      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-        nativeValue.kmsArn()
-      );
-    DafnyMap<
-      ? extends DafnySequence<? extends Character>,
-      ? extends DafnySequence<? extends Character>
-    > customEncryptionContext;
-    customEncryptionContext =
-      software.amazon.cryptography.keystore.ToDafny.EncryptionContextString(
-        nativeValue.customEncryptionContext()
-      );
-    return new MutableBranchKeyProperities(kmsArn, customEncryptionContext);
   }
 
   public static MutatedBranchKeyItem MutatedBranchKeyItem(
@@ -419,48 +364,6 @@ public class ToDafny {
     );
   }
 
-  public static ResumeMutationInput ResumeMutationInput(
-    software.amazon.cryptography.keystoreadmin.model.ResumeMutationInput nativeValue
-  ) {
-    DafnySequence<? extends Character> branchKeyIdentifier;
-    branchKeyIdentifier =
-      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-        nativeValue.branchKeyIdentifier()
-      );
-    MutableBranchKeyProperities original;
-    original = ToDafny.MutableBranchKeyProperities(nativeValue.original());
-    MutableBranchKeyProperities terminal;
-    terminal = ToDafny.MutableBranchKeyProperities(nativeValue.terminal());
-    Option<KeyManagementStrategy> strategy;
-    strategy =
-      Objects.nonNull(nativeValue.strategy())
-        ? Option.create_Some(
-          KeyManagementStrategy._typeDescriptor(),
-          ToDafny.KeyManagementStrategy(nativeValue.strategy())
-        )
-        : Option.create_None(KeyManagementStrategy._typeDescriptor());
-    return new ResumeMutationInput(
-      branchKeyIdentifier,
-      original,
-      terminal,
-      strategy
-    );
-  }
-
-  public static ResumeMutationOutput ResumeMutationOutput(
-    software.amazon.cryptography.keystoreadmin.model.ResumeMutationOutput nativeValue
-  ) {
-    Option<MutationToken> mutationToken;
-    mutationToken =
-      Objects.nonNull(nativeValue.mutationToken())
-        ? Option.create_Some(
-          MutationToken._typeDescriptor(),
-          ToDafny.MutationToken(nativeValue.mutationToken())
-        )
-        : Option.create_None(MutationToken._typeDescriptor());
-    return new ResumeMutationOutput(mutationToken);
-  }
-
   public static VersionKeyInput VersionKeyInput(
     software.amazon.cryptography.keystoreadmin.model.VersionKeyInput nativeValue
   ) {
@@ -515,15 +418,6 @@ public class ToDafny {
     return new Error_MutationInvalidException(message);
   }
 
-  public static Error Error(MutationLockDisagreesException nativeValue) {
-    DafnySequence<? extends Character> message;
-    message =
-      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-        nativeValue.message()
-      );
-    return new Error_MutationLockDisagreesException(message);
-  }
-
   public static Error Error(MutationLockInvalidException nativeValue) {
     DafnySequence<? extends Character> message;
     message =
@@ -566,15 +460,10 @@ public class ToDafny {
     software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy nativeValue
   ) {
     if (Objects.nonNull(nativeValue.AwsKmsReEncrypt())) {
-      return KeyManagementStrategy.create_AwsKmsReEncrypt(
+      return KeyManagementStrategy.create(
         software.amazon.cryptography.keystore.ToDafny.AwsKms(
           nativeValue.AwsKmsReEncrypt()
         )
-      );
-    }
-    if (Objects.nonNull(nativeValue.AwsKmsDecryptEncrypt())) {
-      return KeyManagementStrategy.create_AwsKmsDecryptEncrypt(
-        ToDafny.AwsKmsDecryptEncrypt(nativeValue.AwsKmsDecryptEncrypt())
       );
     }
     throw new IllegalArgumentException(

@@ -42,8 +42,9 @@ service KeyStoreAdmin {
     CreateKey,
     VersionKey,
     InitializeMutation,
-    ApplyMutation,
-    ResumeMutation
+    ApplyMutation
+    // ResumeMutation,
+    // DescribeMutation
   ],
   errors: [
     KeyStoreAdminException,
@@ -51,7 +52,6 @@ service KeyStoreAdmin {
     MutationInvalidException,
     aws.cryptography.keyStore#VersionRaceException,
     MutationLockInvalidException,
-    // VerifyDecryptException,
     UnexpectedStateException
   ]
 }
@@ -102,15 +102,15 @@ union KMSIdentifier {
   kmsMRKeyArn: String,
 }
 
-
-structure AwsKmsDecryptEncrypt {
-  @documentation("The KMS Client (and Grant Tokens) used to Decrypt Branch Key Store Items.")
-  decrypt: aws.cryptography.keyStore#AwsKms
-  @documentation(
-    "The KMS Client (and Grant Tokens) used to Encrypt Branch Key Store Items
-     and to Generate new Cryptographic Material.")
-  encrypt: aws.cryptography.keyStore#AwsKms
-}
+// For GA of Mutations, only ReEncrypt is allowd
+// structure AwsKmsDecryptEncrypt {
+//   @documentation("The KMS Client (and Grant Tokens) used to Decrypt Branch Key Store Items.")
+//   decrypt: aws.cryptography.keyStore#AwsKms
+//   @documentation(
+//     "The KMS Client (and Grant Tokens) used to Encrypt Branch Key Store Items
+//      and to Generate new Cryptographic Material.")
+//   encrypt: aws.cryptography.keyStore#AwsKms
+// }
 
 @documentation(
   "This configures which Key Management Operations will be used
@@ -122,17 +122,18 @@ union KeyManagementStrategy {
   This is one request to Key Management, as compared to two.
   But only one set of credentials can be used.")
   AwsKmsReEncrypt: aws.cryptography.keyStore#AwsKms
-  @documentation(
-    "Key Store Items are authenicated and re-wrapped via a Decrypt and then Encrypt request.
-     This is two separate requests to Key Management, as compared to one. 
-     But the Decrypt requests will use the Decrypt KMS Client (and Grant Tokens),
-     while the Encrypt requests will use the Encrypt KMS Client (and Grant Tokens).
-     This option affords for different credentials to be utilized,
-     based on the operation.
-     When Generating new material,
-     KMS GenerateDataKeyWithoutPlaintext will be executed against
-     the Encrypt option.")
-  AwsKmsDecryptEncrypt: AwsKmsDecryptEncrypt
+  // For GA of Mutations, only ReEncrypt is allowd
+  // @documentation(
+  //   "Key Store Items are authenicated and re-wrapped via a Decrypt and then Encrypt request.
+  //    This is two separate requests to Key Management, as compared to one. 
+  //    But the Decrypt requests will use the Decrypt KMS Client (and Grant Tokens),
+  //    while the Encrypt requests will use the Encrypt KMS Client (and Grant Tokens).
+  //    This option affords for different credentials to be utilized,
+  //    based on the operation.
+  //    When Generating new material,
+  //    KMS GenerateDataKeyWithoutPlaintext will be executed against
+  //    the Encrypt option.")
+  // AwsKmsDecryptEncrypt: AwsKmsDecryptEncrypt
 }
 
 @documentation(
@@ -276,12 +277,12 @@ structure InitializeMutationOutput {
   mutatedBranchKeyItems: MutatedBranchKeyItems
 }
 
-// TODO: assert release is v1.7.0
+// TODO: assert release is v1.8.0
 @documentation("
 Define the Mutation in terms of the terminal, or end state,
 value for a particular Branch Key property.
 The original value will be REPLACED with this value.
-As of v1.7.0, a Mutation can either:
+As of v1.8.0, a Mutation can either:
 - replace the KmsArn protecting the Branch Key
 - replace the custom encryption context
 - replace both the KmsArn and the custom encryption context")
@@ -317,9 +318,13 @@ structure ApplyMutationInput {
   @required
   mutationToken: MutationToken
 
-  @documentation("For Storage:DynamoDBTable, the maximum page size is 24. At most, Apply Mutation will mutate pageSize Items. Note that, at least for Storage:DynamoDBTable, an additional \"item\" is consumed by the Mutation Lock verification. Thus, if the pageSize is 24, 25 requests will be sent in the Transact Write Request.")
+  @documentation(
+  "For Default DynamoDB Table Storage, the maximum page size is 99.
+  At most, Apply Mutation will mutate pageSize Items.
+  Note that, at least for Storage:DynamoDBTable,
+  an additional \"item\" is consumed by the Mutation Lock verification.
+  Thus, if the pageSize is 24, 25 requests will be sent in the Transact Write Request.")
   //@default(24) // DDB allows for 25 writes, but we need to consume one for the lock // Smithy-Dafny may not respect @default
-  @range(min:1)
   pageSize: Integer
 
   @documentation("Optional. Defaults to reEncrypt with a default KMS Client.")
@@ -339,74 +344,98 @@ structure ApplyMutationOutput {
   @required
   result: ApplyMutationResult
   @required
-  @length(min:1)
   mutatedBranchKeyItems: MutatedBranchKeyItems
 }
 
-@documentation(
-  "If the inputs align with a Mutation that is marked as already in-flight,
-  this operation returns a Mutation Token that can be used to continue the in-flight
-  Mutation.
-  If no in-flight Mutation is detected, nothing is returned.
-  If the inputs do not align, a MutationConflictException is thrown.")
-operation ResumeMutation {
-  input:  ResumeMutationInput
-  output: ResumeMutationOutput
-  errors: [MutationLockDisagreesException, KeyStoreAdminException]
-}
+// @documentation(
+//   "If the inputs align with a Mutation that is marked as already in-flight,
+//   this operation returns a Mutation Token that can be used to continue the in-flight
+//   Mutation.
+//   If no in-flight Mutation is detected, nothing is returned.
+//   If the inputs do not align, a MutationConflictException is thrown.")
+// operation ResumeMutation {
+//   input:  ResumeMutationInput
+//   output: ResumeMutationOutput
+//   errors: [MutationLockDisagreesException, KeyStoreAdminException]
+// }
 
-@error("client")
-@documentation("Mutation Lock does not agree with the provided Branch Key Properities.")
-structure MutationLockDisagreesException {
-  @required
-  message: String,
-}
-// TODO: verify version before release
-@documentation("
-Define the Mutatable Properities of a Branch Key.
-As of v1.7.0, the Mutable Properities are:
-- The KmsArn protecting the Branch Key
-- The custom encryption context of a Branch Key")
-structure MutableBranchKeyProperities {
-  @required
-  @documentation("The KmsArn protecting the Branch Key.")
-  kmsArn: String // KMS Arn validation MUST occur in Dafny
-  @required  
-  @documentation("The custom Encryption Context authenicated with this Branch Key.")
-  customEncryptionContext: aws.cryptography.keyStore#EncryptionContextString // EC non Empty MUST be validated in Dafny
-}
+// @error("client")
+// @documentation("Mutation Lock does not agree with the provided Branch Key Properities.")
+// structure MutationLockDisagreesException {
+//   @required
+//   message: String,
+// }
+// // TODO: verify version before release
+// @documentation("
+// Define the Mutatable Properities of a Branch Key.
+// As of v1.8.0, the Mutable Properities are:
+// - The KmsArn protecting the Branch Key
+// - The custom encryption context of a Branch Key")
+// structure MutableBranchKeyProperities {
+//   @required
+//   @documentation("The KmsArn protecting the Branch Key.")
+//   kmsArn: String // KMS Arn validation MUST occur in Dafny
+//   @required  
+//   @documentation("The custom Encryption Context authenicated with this Branch Key.")
+//   customEncryptionContext: aws.cryptography.keyStore#EncryptionContextString // EC non Empty MUST be validated in Dafny
+// }
 
-structure ResumeMutationInput {
-  @documentation("The identifier for the Branch Key.")
-  @required
-  branchKeyIdentifier: String
 
-  @documentation(
-  "Describes the original mutable branch key properities.
-  All members of the input MUST be supplied,
-  or the operation will return an exception.")
-  @required
-  original: MutableBranchKeyProperities
+// structure ResumeMutationInput {
+//   @documentation("The identifier for the Branch Key.")
+//   @required
+//   branchKeyIdentifier: String
 
-  @documentation(
-  "Describes the terminal mutable branch key properities.
-  All members of the input MUST be supplied,
-  or the operation will return an exception.")
-  @required
-  terminal: MutableBranchKeyProperities
+//   @documentation(
+//   "Describes the original mutable branch key properities.
+//   All members of the input MUST be supplied,
+//   or the operation will return an exception.")
+//   @required
+//   original: MutableBranchKeyProperities
 
-  @documentation("Optional. Defaults to reEncrypt with a default KMS Client.")
-  strategy: KeyManagementStrategy
-}
+//   @documentation(
+//   "Describes the terminal mutable branch key properities.
+//   All members of the input MUST be supplied,
+//   or the operation will return an exception.")
+//   @required
+//   terminal: MutableBranchKeyProperities
 
-structure ResumeMutationOutput {
-  @documentation("
-  If present,
-  pass the Mutation Token to the Apply Mutation
-  operation to continue the Mutation.
-  Otherwise, there is no indication of an in-flight Mutation.")
-  mutationToken: MutationToken
-}
+//   @documentation("Optional. Defaults to reEncrypt with a default KMS Client.")
+//   strategy: KeyManagementStrategy
+// }
+
+// structure ResumeMutationOutput {
+//   @documentation("
+//   If present,
+//   pass the Mutation Token to the Apply Mutation
+//   operation to continue the Mutation.
+//   Otherwise, there is no indication of an in-flight Mutation.")
+//   mutationToken: MutationToken
+// }
+// @documentation(
+//   "Check for Mutation Lock on a Branch Key ID.
+//   If one exists, returns a Mutation Token.
+//   Otherwise, returns nothing.")
+// operation DescribeMutation {
+//   input:  DescribeMutationInput
+//   output: DescribeMutationOutput
+// }
+
+// structure DescribeMutationInput {
+//   @documentation("The identifier for the Branch Key.")
+//   @required
+//   branchKeyIdentifier: String
+// }
+
+// structure DescribeMutationOutput {
+//   @documentation("
+//   If present,
+//   pass the Mutation Token to the Apply Mutation
+//   operation to continue the Mutation.
+//   Otherwise, there is no Mutation Lock.")
+//   mutationToken: MutationToken
+// }
+
 // Errors
 
 @error("client")

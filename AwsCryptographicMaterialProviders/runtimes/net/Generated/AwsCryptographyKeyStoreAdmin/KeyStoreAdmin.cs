@@ -54,12 +54,5 @@ namespace AWS.Cryptography.KeyStoreAdmin
       if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
       return TypeConversion.FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_ApplyMutationOutput(result.dtor_value);
     }
-    public AWS.Cryptography.KeyStoreAdmin.ResumeMutationOutput ResumeMutation(AWS.Cryptography.KeyStoreAdmin.ResumeMutationInput input)
-    {
-      software.amazon.cryptography.keystoreadmin.internaldafny.types._IResumeMutationInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_ResumeMutationInput(input);
-      Wrappers_Compile._IResult<software.amazon.cryptography.keystoreadmin.internaldafny.types._IResumeMutationOutput, software.amazon.cryptography.keystoreadmin.internaldafny.types._IError> result = _impl.ResumeMutation(internalInput);
-      if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
-      return TypeConversion.FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S20_ResumeMutationOutput(result.dtor_value);
-    }
   }
 }

@@ -10,7 +10,11 @@ public class ApplyMutationInput {
   private final MutationToken mutationToken;
 
   /**
-   * For Storage:DynamoDBTable, the maximum page size is 24. At most, Apply Mutation will mutate pageSize Items. Note that, at least for Storage:DynamoDBTable, an additional "item" is consumed by the Mutation Lock verification. Thus, if the pageSize is 24, 25 requests will be sent in the Transact Write Request.
+   * For Default DynamoDB Table Storage, the maximum page size is 99.
+   *   At most, Apply Mutation will mutate pageSize Items.
+   *   Note that, at least for Storage:DynamoDBTable,
+   *   an additional "item" is consumed by the Mutation Lock verification.
+   *   Thus, if the pageSize is 24, 25 requests will be sent in the Transact Write Request.
    */
   private final Integer pageSize;
 
@@ -30,7 +34,11 @@ public class ApplyMutationInput {
   }
 
   /**
-   * @return For Storage:DynamoDBTable, the maximum page size is 24. At most, Apply Mutation will mutate pageSize Items. Note that, at least for Storage:DynamoDBTable, an additional "item" is consumed by the Mutation Lock verification. Thus, if the pageSize is 24, 25 requests will be sent in the Transact Write Request.
+   * @return For Default DynamoDB Table Storage, the maximum page size is 99.
+   *   At most, Apply Mutation will mutate pageSize Items.
+   *   Note that, at least for Storage:DynamoDBTable,
+   *   an additional "item" is consumed by the Mutation Lock verification.
+   *   Thus, if the pageSize is 24, 25 requests will be sent in the Transact Write Request.
    */
   public Integer pageSize() {
     return this.pageSize;
@@ -57,12 +65,20 @@ public class ApplyMutationInput {
     MutationToken mutationToken();
 
     /**
-     * @param pageSize For Storage:DynamoDBTable, the maximum page size is 24. At most, Apply Mutation will mutate pageSize Items. Note that, at least for Storage:DynamoDBTable, an additional "item" is consumed by the Mutation Lock verification. Thus, if the pageSize is 24, 25 requests will be sent in the Transact Write Request.
+     * @param pageSize For Default DynamoDB Table Storage, the maximum page size is 99.
+     *   At most, Apply Mutation will mutate pageSize Items.
+     *   Note that, at least for Storage:DynamoDBTable,
+     *   an additional "item" is consumed by the Mutation Lock verification.
+     *   Thus, if the pageSize is 24, 25 requests will be sent in the Transact Write Request.
      */
     Builder pageSize(Integer pageSize);
 
     /**
-     * @return For Storage:DynamoDBTable, the maximum page size is 24. At most, Apply Mutation will mutate pageSize Items. Note that, at least for Storage:DynamoDBTable, an additional "item" is consumed by the Mutation Lock verification. Thus, if the pageSize is 24, 25 requests will be sent in the Transact Write Request.
+     * @return For Default DynamoDB Table Storage, the maximum page size is 99.
+     *   At most, Apply Mutation will mutate pageSize Items.
+     *   Note that, at least for Storage:DynamoDBTable,
+     *   an additional "item" is consumed by the Mutation Lock verification.
+     *   Thus, if the pageSize is 24, 25 requests will be sent in the Transact Write Request.
      */
     Integer pageSize();
 
@@ -126,11 +142,6 @@ public class ApplyMutationInput {
       if (Objects.isNull(this.mutationToken())) {
         throw new IllegalArgumentException(
           "Missing value for required field `mutationToken`"
-        );
-      }
-      if (Objects.nonNull(this.pageSize()) && this.pageSize() < 1) {
-        throw new IllegalArgumentException(
-          "`pageSize` must be greater than or equal to 1"
         );
       }
       return new ApplyMutationInput(this);
