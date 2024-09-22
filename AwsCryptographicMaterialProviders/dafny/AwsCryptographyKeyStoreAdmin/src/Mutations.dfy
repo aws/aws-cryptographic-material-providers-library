@@ -53,6 +53,8 @@ module {:options "/functionSyntax:4" } Mutations {
   datatype CheckedItem =
     | itemOriginal(item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey)
     | itemTerminal(item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey)
+      // Never describe itemNeither to customers as such.
+      // Always use the `UnExecptedStateException`.
     | itemNeither(item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey)
 
   type OriginalOrTerminal = s:seq<CheckedItem>
@@ -67,28 +69,47 @@ module {:options "/functionSyntax:4" } Mutations {
     input: Types.InitializeMutationInput,
     logicalKeyStoreName: string
   ): (output: Result<Types.InitializeMutationInput, Types.Error>)
-    ensures output.Success? ==> StateStrucs.ValidMutations?(input.mutations)
-    // ensures output.Success? && input.mutations.terminalEncryptionContext.Some?
-    //         ==>
-    //           && |Structure.SelectCustomEncryptionContextAsString(input.mutations.terminalEncryptionContext.value)| == 0
+    ensures
+      output.Success?
+      ==>
+        && StateStrucs.ValidMutations?(input.mutations)
+        && input.mutations.terminalKmsArn.Some? ==> KmsArn.ValidKmsArn?(input.mutations.terminalKmsArn.value)
+
   {
     :- Need(|input.branchKeyIdentifier| > 0,
             Types.KeyStoreAdminException(message := "Branch Key Identifier cannot be empty!"));
+    var terminalEC := input.mutations.terminalEncryptionContext.UnwrapOr(map[]);
+    :- Need(
+         terminalEC.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES,
+         Types.KeyStoreAdminException(
+           message := "The terminal encryption context provided includes a key that is reserved for Crypto Tools library."));
+
+    // Dafny struggles with Map operations; but Dafny will filter the keys of a map by a condition.
+    // Thus, to ensure that there are no keys in the input that are already prefixed,
+    // we count the number of keys that are NOT prefixed,
+    // and assert that the number of keys that are NOT prefixed
+    // is equal to the total number of keys.
+    var filterByPrefix := PrefixUtils.FilterMapForKeysThatDoNotBeginWithPrefix(
+                            prefix := Structure.ENCRYPTION_CONTEXT_PREFIX,
+                            aMap := terminalEC);
+    :- Need(
+         |filterByPrefix| == |terminalEC|,
+         Types.KeyStoreAdminException(
+           message :=
+             "The terminal encryption context provided includes one or more keys that start with `"
+             + Structure.ENCRYPTION_CONTEXT_PREFIX + "`."
+             + " The Key Store will always add this prefix to provided encryption context."
+             + " To avoid unintended double prefixing,"
+             + " the Key Store forbids custom Encryption Context keys from starting with this prefix."
+             + " Ensure the encryption context provided does not include these values."));
+
+    :- Need(
+         && (input.mutations.terminalKmsArn.Some? ==> KmsArn.ValidKmsArn?(input.mutations.terminalKmsArn.value)),
+         Types.KeyStoreAdminException(message := "The terminal KMS ARN is invalid. Note that Aliases are not allowed.")
+       );
     :- Need(StateStrucs.ValidMutations?(input.mutations),
             Types.KeyStoreAdminException(
               message := "Mutations parameter is invalid; If Encryption Context is given, it cannot be empty or have empty values."));
-    :- Need(
-         input.mutations.terminalEncryptionContext.Some?
-         ==>
-           input.mutations.terminalEncryptionContext.value.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES,
-         Types.KeyStoreAdminException(message := "WIP"));
-
-    // var inputIndex := 0;
-    // while inputIndex < |inputEC|
-    // {
-    //   k !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
-    //   inputIndex := inputIndex + 1;
-    // }
     Success(input)
   }
 
@@ -100,7 +121,7 @@ module {:options "/functionSyntax:4" } Mutations {
   )
     returns (output: Result<Types.InitializeMutationOutput, Types.Error>)
     requires ValidateInitializeMutationInput(input, logicalKeyStoreName).Success?
-    requires StateStrucs.ValidMutations?(input.mutations) // made not need this
+    requires StateStrucs.ValidMutations?(input.mutations) // may not need this
     requires storage.ValidState() &&
              match keyManagerStrategy
              case reEncrypt(km) => km.kmsClient.ValidState() && AwsKmsUtils.GetValidGrantTokens(Some(km.grantTokens)).Success?
@@ -119,13 +140,7 @@ module {:options "/functionSyntax:4" } Mutations {
             case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
     requires keyManagerStrategy.reEncrypt?
   {
-    :- Need(
-      // Remove before Prod
-      keyManagerStrategy.reEncrypt?,
-      Types.KeyStoreAdminException(message :="BETA :: Only Re Encrypt is supported!!")
-    );
     var keyManager := keyManagerStrategy.reEncrypt;
-    assert keyManager.kmsClient.ValidState();
 
     // Fetch Active Branch Key & Beacon Key & Mutation Lock
     var readItems? := storage.GetItemsForInitializeMutation(
@@ -154,6 +169,7 @@ module {:options "/functionSyntax:4" } Mutations {
            && readItems.activeItem.Identifier == input.branchKeyIdentifier
            && Structure.ActiveHierarchicalSymmetricKey?(readItems.activeItem)
            && readItems.activeItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+           && KmsArn.ValidKmsArn?(activeItem.KmsArn)
          ),
       Types.KeyStoreAdminException(
         message := "Active Branch Key Item read from storage is malformed!")
@@ -165,25 +181,28 @@ module {:options "/functionSyntax:4" } Mutations {
            && readItems.beaconItem.Identifier == input.branchKeyIdentifier
            && Structure.ActiveHierarchicalSymmetricBeaconKey?(readItems.beaconItem)
            && readItems.beaconItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+           && KmsArn.ValidKmsArn?(readItems.beaconItem.KmsArn)
          ),
       Types.KeyStoreAdminException(
         message := "Beacon Branch Key Item read from storage is malformed!")
     );
 
+      // ValidateInitializeMutationInput SHOULD take care of this Need, but Dafny is struggling
     :- Need(
-      && KmsArn.ValidKmsArn?(activeItem.KmsArn)
-      && (input.mutations.terminalKmsArn.Some? ==> KmsArn.ValidKmsArn?(input.mutations.terminalKmsArn.value))
-    , Types.KeyStoreAdminException(message := "WIP: ")
+      && (input.mutations.terminalKmsArn.Some? ==> KmsArn.ValidKmsArn?(input.mutations.terminalKmsArn.value)),
+      Types.KeyStoreAdminException(message := "The terminal KMS ARN is invalid. Note that Aliases are not allowed.")
     );
 
     // timestamp is for the new Active & Decrypt Only AND for the Mutation Lock
     var timestamp? := Time.GetCurrentTimeStamp();
     var timestamp :- timestamp?
-    .MapFailure(e => Types.KeyStoreAdminException(message := e));
+    .MapFailure(e => Types.KeyStoreAdminException(
+                    message := "Could not generate a timestamp: " + e));
 
     var mutationLockUUID? := UUID.GenerateUUID();
     var mutationLockUUID :- mutationLockUUID?
-    .MapFailure(e => Types.KeyStoreAdminException(message := "Could not generate UUID for Mutation Lock. " + e));
+    .MapFailure(e => Types.KeyStoreAdminException(
+                    message := "Could not generate UUID for Mutation Lock. " + e));
 
     var inferredOriginalEC
       := map k <- activeItem.EncryptionContext
@@ -191,7 +210,7 @@ module {:options "/functionSyntax:4" } Mutations {
              | k !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
       :: k := activeItem.EncryptionContext[k];
 
-    // IA-BLOCKER :: To Preserve Unexpected/un-modeled Attributes.
+    // To Preserve Unexpected/un-modeled Attributes.
     // We need to copy them from inferredOriginalEC to terminalEC.
     // Which means we need to select those members without a prefix,
     // and copy them over to terminal.
@@ -208,6 +227,7 @@ module {:options "/functionSyntax:4" } Mutations {
         prefix := Structure.ENCRYPTION_CONTEXT_PREFIX,
         aMap := input.mutations.terminalEncryptionContext.value
       ) + unexpectedEC;
+      // ValidateInitializeMutationInput SHOULD take care of this Need, but Dafny is struggling
       :- Need(
         terminalEC.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES,
         Types.KeyStoreAdminException(message:="Terminal Encryption Context contains a reserved word!")
@@ -216,7 +236,7 @@ module {:options "/functionSyntax:4" } Mutations {
       assert terminalEC.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
     }
 
-
+    assert KmsArn.ValidKmsArn?(activeItem.KmsArn);
     var MutationToApply := StateStrucs.MutationToApply(
       Identifier := input.branchKeyIdentifier,
       Original := StateStrucs.MutableProperties(
@@ -265,7 +285,9 @@ module {:options "/functionSyntax:4" } Mutations {
     // --= Generate New Decrypt Only Branch Key with terminal properties
     var maybeNewVersion := UUID.GenerateUUID();
     var newVersion :- maybeNewVersion
-    .MapFailure(e => Types.KeyStoreAdminException(message := e));
+    .MapFailure(e => Types.KeyStoreAdminException(
+                    message := "Could not generate UUID for new Decrypt Only. " + e));
+
 
     var decryptOnlyEncryptionContext := MutationValidation.DecryptOnlyBranchKeyEncryptionContextForMutation(
       input.branchKeyIdentifier,
@@ -332,6 +354,8 @@ module {:options "/functionSyntax:4" } Mutations {
           Terminal := MutationToken.Terminal
         )
       ));
+    // TODO Mutations FastFollow? :: Ideally, we would diagnosis the Storage Failure.
+    // What Condition Check failed? Was the Key Versioned? Or did another M-Lock get written?
     var _ :- throwAway2?.MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
 
     var mutatedBranchKeyItems := [
@@ -354,19 +378,26 @@ module {:options "/functionSyntax:4" } Mutations {
     logicalKeyStoreName: string,
     storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
   ): (output: Result<Types.ApplyMutationInput, Types.Error>)
-    ensures output.Success? ==> |logicalKeyStoreName| > 0 && ValidateMutationToken(input.mutationToken).Success?
+    ensures output.Success? ==>
+              && |logicalKeyStoreName| > 0
+              && ValidateMutationToken(input.mutationToken).Success?
+              && input.pageSize.Some? ==> 0 < input.pageSize.value
+                                          && (storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface && input.pageSize.Some? ==> input.pageSize.value <= 99)
   {
     var _ :- ValidateMutationToken(input.mutationToken);
     :- Need(|logicalKeyStoreName| > 0,
             Types.KeyStoreAdminException(message := "LogicalKeyStoreName cannot be empty!"));
     :- Need(
-         && storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
-         && input.pageSize.Some? && input.pageSize.value <= 99,
+         // If the Storage is DDB && a page Size was given
+         (storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface && input.pageSize.Some?)
+         ==>
+           // then the pageSize MUST be less than or equal to 99
+           input.pageSize.value <= 99,
          Types.KeyStoreAdminException(message := "The DynamoDB Key Storage supports a max page size of 99"));
     :- Need(
-         && storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
-         && input.pageSize.Some? && 0 < input.pageSize.value,
-         Types.KeyStoreAdminException(message := "The DynamoDB Key Storage supports a minimum page size of 1"));
+         // If page Size was given then the pageSize MUST be greater than 0
+         input.pageSize.Some? ==> 0 < input.pageSize.value,
+         Types.KeyStoreAdminException(message := "The page size MUST be greater than 0."));
     Success(input)
   }
 
@@ -384,11 +415,11 @@ module {:options "/functionSyntax:4" } Mutations {
               && |input.Terminal| > 0
   {
     :- Need(|input.Identifier| > 0,
-            Types.KeyStoreAdminException(message := "Branch Key Identifier cannot be empty!"));
+            Types.KeyStoreAdminException(message := "Mutation Token's Branch Key Identifier cannot be empty!"));
     :- Need(|input.Original| > 0,
-            Types.KeyStoreAdminException(message := "Original cannot be empty!"));
+            Types.KeyStoreAdminException(message := "Mutation Token's Original cannot be empty!"));
     :- Need(|input.Terminal| > 0,
-            Types.KeyStoreAdminException(message := "Terminal cannot be empty!"));
+            Types.KeyStoreAdminException(message := "Mutation Token's Terminal cannot be empty!"));
     Success(input)
   }
 
@@ -413,9 +444,7 @@ module {:options "/functionSyntax:4" } Mutations {
              case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
     requires keyManagerStrategy.reEncrypt?
   {
-
     var keyManager := keyManagerStrategy.reEncrypt;
-    // assume {:axiom} storage.Modifies !! keyManager.kmsClient.Modifies;
 
     // -= Query for page Size Branch Key Items
     var queryOut? := storage.QueryForVersions(
@@ -436,16 +465,16 @@ module {:options "/functionSyntax:4" } Mutations {
              && item.Type.HierarchicalSymmetricVersion?
              && item.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
          ),
-      // TODO-Mutations-GA: Replace this Need with something that can return an ID
+      // TODO-Mutations-FF: Replace this Need with something that can return an ID
       Types.KeyStoreAdminException(
-        message := "Unexpected Item read from Storage.")
+        message := "Malformed Branch Key Item read from Storage.")
     );
 
-      // TODO-Mutations-GA: Replace this Need with something that can return an ID
+      // TODO-Mutations-FF: Replace this Need with something that can return an ID
     :- Need(
       forall item <- queryOut.items :: KmsArn.ValidKmsArn?(item.KmsArn),
       Types.KeyStoreAdminException(
-        message := "WIP:")
+        message := "Malformed Branch Key Item read from Storage.")
     );
 
     var MutationToApply :- StateStrucs.DeserializeMutationToken(input.mutationToken);
@@ -514,7 +543,7 @@ module {:options "/functionSyntax:4" } Mutations {
       Identifier := input.mutationToken.Identifier,
       Original := input.mutationToken.Original,
       Terminal := input.mutationToken.Terminal,
-      CompleteMutation := if (|queryOut.exclusiveStartKey| == 0) then true else false
+      CompleteMutation := (|queryOut.exclusiveStartKey| == 0)
     );
 
     // print "\nApply Mutations for ID: " + input.mutationToken.Identifier;
