@@ -23,18 +23,7 @@ module {:options "/functionSyntax:4"} TestGetItemsForInitializeMutation {
 
   method {:test} TestHappyCase()
   {
-    // var underTest :- expect Fixtures.DefaultStorage();
-    var ddbClient :- expect DDB.DynamoDBClient();
-    // The next two assumes are tragic
-    assume {:axiom} UTF8.Encode(physicalName).Success? && UTF8.EncodeAscii(physicalName) == UTF8.Encode(physicalName).value;
-    assume {:axiom} UTF8.Encode(logicalName).Success? && UTF8.EncodeAscii(logicalName) == UTF8.Encode(logicalName).value;
-    var underTest := new DefaultKeyStorageInterface.DynamoDBKeyStorageInterface(
-      ddbTableName := physicalName,
-      ddbClient := ddbClient,
-      logicalKeyStoreName := logicalName,
-      ddbTableNameUtf8 := UTF8.EncodeAscii(physicalName),
-      logicalKeyStoreNameUtf8 := UTF8.EncodeAscii(logicalName)
-    );
+    var underTest :- expect Fixtures.DefaultStorage();
     var input := Types.GetItemsForInitializeMutationInput(
       Identifier := Fixtures.branchKeyId
     );
@@ -52,18 +41,7 @@ module {:options "/functionSyntax:4"} TestGetItemsForInitializeMutation {
 
   method {:test} TestHappyCaseMLocked()
   {
-    // var underTest :- expect Fixtures.DefaultStorage();
-    // The next two assumes are tragic
-    assume {:axiom} UTF8.Encode(physicalName).Success? && UTF8.EncodeAscii(physicalName) == UTF8.Encode(physicalName).value;
-    assume {:axiom} UTF8.Encode(logicalName).Success? && UTF8.EncodeAscii(logicalName) == UTF8.Encode(logicalName).value;
-    var ddbClient :- expect DDB.DynamoDBClient();
-    var underTest := new DefaultKeyStorageInterface.DynamoDBKeyStorageInterface(
-      ddbTableName := physicalName,
-      ddbClient := ddbClient,
-      logicalKeyStoreName := logicalName,
-      ddbTableNameUtf8 := UTF8.EncodeAscii(physicalName),
-      logicalKeyStoreNameUtf8 := UTF8.EncodeAscii(logicalName)
-    );
+    var underTest :- expect Fixtures.DefaultStorage();
     var input := Types.GetItemsForInitializeMutationInput(
       Identifier := mLockedId
     );
