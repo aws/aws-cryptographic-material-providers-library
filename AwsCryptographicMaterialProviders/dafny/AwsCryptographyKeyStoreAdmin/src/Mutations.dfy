@@ -504,8 +504,7 @@ module {:options "/functionSyntax:4" } Mutations {
     FilterIsEmpty?(ItemNeither?, queryOutItems);
     var itemsToProcess: OriginalOrTerminal := queryOutItems;
 
-    //TODO: In order to get the logging, we will have to refactor itemsEvaluated to have both cases.
-    //For BETA, we will live with out
+    var logStatements: seq<Types.MutatedBranchKeyItem> := [];
     var itemsEvaluated := [];
     for versionIndex := 0 to |itemsToProcess|
       // invariant forall item <- itemsToProcess :: item.itemTerminal? || item.itemOriginal?
@@ -517,6 +516,10 @@ module {:options "/functionSyntax:4" } Mutations {
             item := item,
             keyManagerStrategy:= keyManagerStrategy
           );
+          logStatements := logStatements
+          + [Types.MutatedBranchKeyItem(
+               itemType := "Decrypt Only: " + item.Type.HierarchicalSymmetricVersion.Version,
+               description := " Validated in Terminal")];
         // if item is original, mutate with Failure
         case itemOriginal(item) =>
 
@@ -534,6 +537,10 @@ module {:options "/functionSyntax:4" } Mutations {
             keyManagerStrategy := keyManagerStrategy
           );
           itemsEvaluated := itemsEvaluated + [mutatedItem];
+          logStatements := logStatements
+          + [Types.MutatedBranchKeyItem(
+               itemType := "Decrypt Only: " + item.Type.HierarchicalSymmetricVersion.Version,
+               description := " Mutated to Terminal")];
       }
     }
 
@@ -545,15 +552,6 @@ module {:options "/functionSyntax:4" } Mutations {
       Terminal := input.mutationToken.Terminal,
       CompleteMutation := (|queryOut.exclusiveStartKey| == 0)
     );
-
-    // print "\nApply Mutations for ID: " + input.mutationToken.Identifier;
-    //  if (|queryOut.exclusiveStartKey| == 0) {
-    //    print " Should Delete M-lock ";
-    //  } else {
-    //    print " Should not Delete M-lock ";
-    //  }
-    //  print " with mutated item size of : " + String.Base10Int2String(|itemsEvaluated|);
-    //  print "\n";
 
     // -= write to storage ;; MUST write to storage to ensure Terminal in M-Lock and M-Token agree
     var throwAway2? := storage.WriteMutatedVersions(writeReq);
@@ -569,7 +567,7 @@ module {:options "/functionSyntax:4" } Mutations {
           )
         else
           Types.ApplyMutationResult.completeMutation(Types.MutationComplete()),
-        mutatedBranchKeyItems := []
+        mutatedBranchKeyItems := logStatements
       ));
   }
 
