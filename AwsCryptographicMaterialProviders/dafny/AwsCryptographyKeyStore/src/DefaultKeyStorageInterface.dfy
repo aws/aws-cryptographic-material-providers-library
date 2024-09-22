@@ -171,9 +171,11 @@ module DefaultKeyStorageInterface {
             && output.value.activeItem.Identifier == input.Identifier
             && Structure.ActiveHierarchicalSymmetricKey?(output.value.activeItem)
             && output.value.activeItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+            && KmsArn.ValidKmsArn?(output.value.activeItem.KmsArn)
             && output.value.beaconItem.Identifier == input.Identifier
             && Structure.ActiveHierarchicalSymmetricBeaconKey?(output.value.beaconItem)
             && output.value.beaconItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+            && KmsArn.ValidKmsArn?(output.value.beaconItem.KmsArn)
       )
     }
 
@@ -194,6 +196,7 @@ module DefaultKeyStorageInterface {
               && Structure.DecryptOnlyHierarchicalSymmetricKey?(item)
               && item.Type.HierarchicalSymmetricVersion?
               && item.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+              && KmsArn.ValidKmsArn?(item.KmsArn)
       )
     }
 
@@ -963,6 +966,7 @@ module DefaultKeyStorageInterface {
                 && Structure.EncryptedHierarchicalKey?(output.value)
                 && output.value.Identifier == identifier
                 && output.value.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+                && KmsArn.ValidKmsArn?(output.value.KmsArn)
     {
       :- Need(
            Structure.BranchKeyItem?(item),
@@ -970,17 +974,18 @@ module DefaultKeyStorageInterface {
              message:="Malformed Branch Key Store Item encountered. TableName: "
              + ddbTableName + "\tBranch Key ID: " + identifier)
          );
-      var item := ToEncryptedHierarchicalKey(item, logicalKeyStoreName);
+      var branchKey := ToEncryptedHierarchicalKey(branchKey, logicalKeyStoreName);
 
-      assert item.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName;
+      assert branchKey.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName;
       :- Need(
-           && item.Identifier == identifier
-           && item.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName,
+           && branchKey.Identifier == identifier
+           && branchKey.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+           && KmsArn.ValidKmsArn?(branchKey.KmsArn),
            Types.KeyStorageException(
-             message:="Malformed Branch Key Store Item encountered. TableName: "
+             message:="Malformed Branch Key Store BranchKey encountered. TableName: "
              + ddbTableName + "\tBranch Key ID: " + identifier)
          );
-      Success(item)
+      Success(branchKey)
     }
 
     /** A transaction write for 4 items, conditioned on No Mutation Lock exsisting for Identifier.*/
