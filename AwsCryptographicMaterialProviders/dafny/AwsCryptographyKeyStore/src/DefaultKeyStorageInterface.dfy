@@ -3,6 +3,7 @@
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "Structure.dfy"
 include "ErrorMessages.dfy"
+include "KmsArn.dfy"
 
 module DefaultKeyStorageInterface {
   import opened Wrappers
@@ -13,6 +14,7 @@ module DefaultKeyStorageInterface {
   import UTF8
   import Structure
   import String = StandardLibrary.String
+  import KmsArn
 
   const ToAttributeMap := Structure.ToAttributeMap
   const ToEncryptedHierarchicalKey := Structure.ToEncryptedHierarchicalKey
@@ -33,7 +35,7 @@ module DefaultKeyStorageInterface {
   // To use these values in a match Dafny needs to match these as local variables.
   // This means that Dafny can not use `Structure.MUTATION_LOCK_TYPE`
   // in the case statement to evaluate a literal.
-  const MUTATION_LOCK_TYPE := "MUTATION_LOCK" // Structure.MUTATION_LOCK_TYPE
+  const MUTATION_LOCK_TYPE := "branch:MUTATION_LOCK" // Structure.MUTATION_LOCK_TYPE
   const BRANCH_KEY_ACTIVE_TYPE := "branch:ACTIVE" // Structure.BRANCH_KEY_ACTIVE_TYPE
   const BEACON_KEY_TYPE_VALUE :=  "beacon:ACTIVE" // Structure.BEACON_KEY_TYPE_VALUE
   const VERSION_TYPE_PREFIX := "branch:version:" // Structure.BRANCH_KEY_TYPE_PREFIX
@@ -828,11 +830,10 @@ module DefaultKeyStorageInterface {
         Types.KeyStorageException(
           message:="DDB returned no items from table: " + ddbTableName));
 
-      // SDKs/Smithy-Dafny/Custom Implementations of Storage MAY respond with None or an Empty Map.
-      // .NET returns an empty map, Java returns None.
-      var thereAreNoUnprocessedKeys: bool := ddbResponse.UnprocessedKeys.None? || |ddbResponse.UnprocessedKeys.value| == 0;
+        // SDKs/Smithy-Dafny/Custom Implementations of Storage MAY respond with None or an Empty Map.
+        // .NET returns an empty map, Java returns None.
       :- Need(
-        thereAreNoUnprocessedKeys,
+        ddbResponse.UnprocessedKeys.None? || |ddbResponse.UnprocessedKeys.value| == 0,
         Types.KeyStorageException(
           message:=
             "DDB returned UnprocessedKeys for a BatchGetItem request of 3 items"
@@ -898,7 +899,8 @@ module DefaultKeyStorageInterface {
       :- Need(
         && Structure.ActiveHierarchicalSymmetricKey?(activeItem.value)
         && activeItem.value.Identifier == input.Identifier
-        && activeItem.value.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName,
+        && activeItem.value.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+        && KmsArn.ValidKmsArn?(activeItem.value.KmsArn),
         Types.KeyStorageException(
           message:=
             "Item returned for the ACTIVE is malformed. TableName: " + ddbTableName + "\tBranch Key ID: " + input.Identifier
@@ -912,7 +914,8 @@ module DefaultKeyStorageInterface {
       :- Need(
         && Structure.ActiveHierarchicalSymmetricBeaconKey?(beaconItem.value)
         && beaconItem.value.Identifier == input.Identifier
-        && beaconItem.value.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName,
+        && beaconItem.value.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+        && KmsArn.ValidKmsArn?(beaconItem.value.KmsArn),
         Types.KeyStorageException(
           message:=
             "Item returned for Beacon Key is malformed. TableName: " + ddbTableName + "\tBranch Key ID: " + input.Identifier
@@ -1040,7 +1043,7 @@ module DefaultKeyStorageInterface {
       );
 
       var transactWriteItemsResponse? := ddbClient.TransactWriteItems(transactRequest);
-      // TODO: Post Beta, we need to check the cancellation reason for
+      // TODO-Mutations-FF: we need to check the cancellation reason for
       // ConditionalCheckFailed on the Active item (VersionRaceException)
       // OR the Mutation Lock (MutationLockException)
       // OR something else.
@@ -1051,6 +1054,7 @@ module DefaultKeyStorageInterface {
                       ddbOperation:="TransactWriteItems",
                       identifier:=input.active.Identifier,
                       tableName:=ddbTableName));
+      // This is a Smithy Modeled Operation; the output MUST be a Structure
       output := Success(Types.WriteInitializeMutationOutput());
     }
 
@@ -1122,23 +1126,27 @@ module DefaultKeyStorageInterface {
                        ));
       }
 
-      var items: seq<Types.EncryptedHierarchicalKey> :- Seq.MapWithResult(
+      /* Map DDB items to Branch Keys.*/
+      var branchKeys: seq<Types.EncryptedHierarchicalKey> :- Seq.MapWithResult(
+        // Dafny requires the type of the element being mapped over, or it feaks out.
         (item: DDB.AttributeMap)
         =>
-          var key :- encryptedHierarchicalKeyFromItem(item, logicalKeyStoreName, input.Identifier);
+          /* Convert DDB Item to Branch Key. */
+          var branchKey :- encryptedHierarchicalKeyFromItem(item, logicalKeyStoreName, input.Identifier);
+          /* Validate that Branch Key is a Version, or Decrypt Only, Branch Key Type. */
           :- Need(
-               key.Type.HierarchicalSymmetricVersion?,
+               branchKey.Type.HierarchicalSymmetricVersion?,
                Types.KeyStorageException(
                  message:="Unexpected item returned by DDB. TableName: " + ddbTableName + "\tBranch Key ID: " + input.Identifier
                ));
-          Success(key),
+          Success(branchKey),
         ddbResponse.Items.value
       );
 
       return Success(
           Types.QueryForVersionsOutput(
             exclusiveStartKey := lastKeyBlob,
-            items := items
+            items := branchKeys
           ));
     }
 
@@ -1155,11 +1163,8 @@ module DefaultKeyStorageInterface {
       // From that, we can infer that Partition Key is just going to be the Identifier.
       // Thus, we only need to store the Type value.
       // This will be the full "branch:version:<uuidv4>"
-      var versionStr :- UTF8.Decode(blob)
-                        .MapFailure(
-                          eString
-                          =>
-                            Types.KeyStorageException(
+      var versionStr :- UTF8.Decode(blob).MapFailure(
+                          eString => Types.KeyStorageException(
                               message:="Could not UTF8 Decode Exclusive Start Key. " + eString));
       :- Need(
            // I elected to require len > 15, rather than len == 51, in case we or someone else ever uses not-UUIDv4 for version.
@@ -1230,23 +1235,27 @@ module DefaultKeyStorageInterface {
 
       /** Convert Items to DDB */
       var items?: seq<DDB.TransactWriteItem> :- Seq.MapWithResult(
-        (key: Types.EncryptedHierarchicalKey)
+        (branchKey: Types.EncryptedHierarchicalKey)
         =>
+          /* All Attribute Names MUST comply with DDB's limits.*/
+          /* Attribute Names are the "keys" of the Encryption Context.*/
           :- Need(
-               && (forall k <- key.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k)),
+               && (forall k <- branchKey.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k)),
                Types.KeyStorageException( message := ErrorMessages.ENCRYPTION_CONTEXT_EXCEEDS_DDB_LIMIT)
              );
+          /* Only Version, or Decrypt Only, items are permitted.*/
           :- Need(
-               key.Type.HierarchicalSymmetricVersion?,
+               branchKey.Type.HierarchicalSymmetricVersion?,
                Types.KeyStorageException(
                  message :=
                    "WriteMutatedVersions of DynamoDB Encrypted Key Storage ONLY writes Decrypt Only Items to Storage. "
                    + "Encountered a non-Decrypt Only Item."
                ));
+          /* The branch key is valid for DDB; create a Put request.*/
           var item := CreateTransactWritePutItem(
-                        key,
+                        branchKey,
                         ddbTableName,
-                        BRANCH_KEY_EXISTS);
+                        BRANCH_KEY_EXISTS); // The Branch Key Item already exists in the table.
           Success(item),
         input.items);
 

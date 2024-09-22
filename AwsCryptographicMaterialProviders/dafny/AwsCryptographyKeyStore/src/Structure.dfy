@@ -42,7 +42,7 @@ module {:options "/functionSyntax:4" } Structure {
   const BRANCH_KEY_TYPE_PREFIX := "branch:version:"
   const BRANCH_KEY_ACTIVE_TYPE := "branch:ACTIVE"
   const BEACON_KEY_TYPE_VALUE := "beacon:ACTIVE"
-  const MUTATION_LOCK_TYPE := "MUTATION_LOCK"
+  const MUTATION_LOCK_TYPE := "branch:MUTATION_LOCK"
   //= aws-encryption-sdk-specification/framework/branch-key-store.md#custom-encryption-context
   //= type=exception
   //# Across all versions of a Branch Key, the custom encryption context MUST be equal.
@@ -458,7 +458,7 @@ module {:options "/functionSyntax:4" } Structure {
       KEY_CREATE_TIME := timestamp,
       TABLE_FIELD := logicalKeyStoreName,
       KMS_FIELD := kmsKeyArn,
-      HIERARCHY_VERSION := "1"
+      HIERARCHY_VERSION := HIERARCHY_VERSION_VALUE
     ] + map k <- customEncryptionContext :: ENCRYPTION_CONTEXT_PREFIX + k := customEncryptionContext[k]
   }
 
@@ -494,45 +494,45 @@ module {:options "/functionSyntax:4" } Structure {
   }
 
   function ReplaceMutableContext(
-    item: map<string, string>,
+    branchKeyContext: map<string, string>,
     terminalKmsArn: string,
     terminalCustomEncryptionContext: map<string, string>
   ) : (output: map<string, string>)
 
-    requires BranchKeyContext?(item)
+    requires BranchKeyContext?(branchKeyContext)
     requires BRANCH_KEY_RESTRICTED_FIELD_NAMES !! terminalCustomEncryptionContext.Keys
 
     ensures BranchKeyContext?(output)
     ensures output[KMS_FIELD] == terminalKmsArn
     ensures
-      && item[BRANCH_KEY_IDENTIFIER_FIELD] == output[BRANCH_KEY_IDENTIFIER_FIELD]
-      && item[TYPE_FIELD] == output[TYPE_FIELD]
-      && item[KEY_CREATE_TIME] == output[KEY_CREATE_TIME]
-      && item[HIERARCHY_VERSION] == output[HIERARCHY_VERSION]
-      && item[TABLE_FIELD] == output[TABLE_FIELD]
-      && (BRANCH_KEY_ACTIVE_VERSION_FIELD in item
+      && branchKeyContext[BRANCH_KEY_IDENTIFIER_FIELD] == output[BRANCH_KEY_IDENTIFIER_FIELD]
+      && branchKeyContext[TYPE_FIELD] == output[TYPE_FIELD]
+      && branchKeyContext[KEY_CREATE_TIME] == output[KEY_CREATE_TIME]
+      && branchKeyContext[HIERARCHY_VERSION] == output[HIERARCHY_VERSION]
+      && branchKeyContext[TABLE_FIELD] == output[TABLE_FIELD]
+      && (BRANCH_KEY_ACTIVE_VERSION_FIELD in branchKeyContext
           <==>
           && BRANCH_KEY_ACTIVE_VERSION_FIELD in output
-          && item[BRANCH_KEY_ACTIVE_VERSION_FIELD] == output[BRANCH_KEY_ACTIVE_VERSION_FIELD])
+          && branchKeyContext[BRANCH_KEY_ACTIVE_VERSION_FIELD] == output[BRANCH_KEY_ACTIVE_VERSION_FIELD])
   {
     terminalCustomEncryptionContext
-    + if BRANCH_KEY_ACTIVE_VERSION_FIELD in item then
+    + if BRANCH_KEY_ACTIVE_VERSION_FIELD in branchKeyContext then
       map[
-        BRANCH_KEY_IDENTIFIER_FIELD := item[BRANCH_KEY_IDENTIFIER_FIELD],
-        TYPE_FIELD := item[TYPE_FIELD],
-        KEY_CREATE_TIME := item[KEY_CREATE_TIME],
-        HIERARCHY_VERSION := item[HIERARCHY_VERSION],
-        TABLE_FIELD := item[TABLE_FIELD],
+        BRANCH_KEY_IDENTIFIER_FIELD := branchKeyContext[BRANCH_KEY_IDENTIFIER_FIELD],
+        TYPE_FIELD := branchKeyContext[TYPE_FIELD],
+        KEY_CREATE_TIME := branchKeyContext[KEY_CREATE_TIME],
+        HIERARCHY_VERSION := branchKeyContext[HIERARCHY_VERSION],
+        TABLE_FIELD := branchKeyContext[TABLE_FIELD],
         KMS_FIELD := terminalKmsArn,
-        BRANCH_KEY_ACTIVE_VERSION_FIELD := item[BRANCH_KEY_ACTIVE_VERSION_FIELD]
+        BRANCH_KEY_ACTIVE_VERSION_FIELD := branchKeyContext[BRANCH_KEY_ACTIVE_VERSION_FIELD]
       ]
     else
       map[
-        BRANCH_KEY_IDENTIFIER_FIELD := item[BRANCH_KEY_IDENTIFIER_FIELD],
-        TYPE_FIELD := item[TYPE_FIELD],
-        KEY_CREATE_TIME := item[KEY_CREATE_TIME],
-        HIERARCHY_VERSION := item[HIERARCHY_VERSION],
-        TABLE_FIELD := item[TABLE_FIELD],
+        BRANCH_KEY_IDENTIFIER_FIELD := branchKeyContext[BRANCH_KEY_IDENTIFIER_FIELD],
+        TYPE_FIELD := branchKeyContext[TYPE_FIELD],
+        KEY_CREATE_TIME := branchKeyContext[KEY_CREATE_TIME],
+        HIERARCHY_VERSION := branchKeyContext[HIERARCHY_VERSION],
+        TABLE_FIELD := branchKeyContext[TABLE_FIELD],
         KMS_FIELD := terminalKmsArn
       ]
   }
@@ -724,7 +724,7 @@ module {:options "/functionSyntax:4" } Structure {
     && KEY_CREATE_TIME in m && m[KEY_CREATE_TIME].S?
     && TYPE_FIELD in m && m[TYPE_FIELD].S?
     && M_LOCK_UUID in m && m[M_LOCK_UUID].S?
-    && HIERARCHY_VERSION in m && m[HIERARCHY_VERSION].N? && m[HIERARCHY_VERSION].N == "1"
+    && HIERARCHY_VERSION in m && m[HIERARCHY_VERSION].N? && m[HIERARCHY_VERSION].N == HIERARCHY_VERSION_VALUE
 
     && 0 < |m[BRANCH_KEY_IDENTIFIER_FIELD].S|
     && 0 < |m[TYPE_FIELD].S|
@@ -734,6 +734,9 @@ module {:options "/functionSyntax:4" } Structure {
 
     && m[TYPE_FIELD].S == MUTATION_LOCK_TYPE
 
+    // Structure & DefaultKeyStorage do not care about the Byte structure of the original or terminal.
+    // That is the concern of Mutation State Structures.
+    // Structure & DefaultKeyStorage care that these are non-empty Byte Fields.
     && M_LOCK_ORIGINAL in m && m[M_LOCK_ORIGINAL].B? && 0 < |m[M_LOCK_ORIGINAL].B|
     && M_LOCK_TERMINAL in m && m[M_LOCK_TERMINAL].B? && 0 < |m[M_LOCK_TERMINAL].B|
 

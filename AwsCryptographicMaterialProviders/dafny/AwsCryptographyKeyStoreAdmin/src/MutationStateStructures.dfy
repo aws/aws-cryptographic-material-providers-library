@@ -37,6 +37,11 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
 
   const MUTABLE_PROPERTY_COUNT: int := 2
   const MUTABLE_PROPERTY_COUNT_str := "2"
+  // We use "aws-crypto-ec" instead of "aws-crypto-ec:" out of a paranoia
+  // that the JSON serialization implementation is worng and does not escape
+  // keys correctly.
+  const MUTABLE_PROPERTY_EC_WORD := "aws-crypto-ec"
+  const MUTABLE_PROPERTY_KMS_ARN_WORD := Structure.KMS_FIELD
   // Ensures
   // - if KMS ARN, Valid KMS ARN
   // - if EC, Valid non-empty EC
@@ -50,13 +55,11 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
           && |input.terminalEncryptionContext.value| > 0
           &&  forall k <- input.terminalEncryptionContext.value ::
                && |k| > 0 && |input.terminalEncryptionContext.value[k]| > 0
-                  // && |Structure.SelectCustomEncryptionContextAsString(input.terminalEncryptionContext.value)| == 0
                && input.terminalEncryptionContext.value.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
     && !(input.terminalKmsArn.None? && input.terminalEncryptionContext.None?)
   }
 
   datatype MutableProperties = | MutableProperties (
-    // nameonly kmsArn: KeyStoreTypes.KMSConfiguration,
     nameonly kmsArn: validKmsArn,
     nameonly customEncryptionContext: KeyStoreTypes.EncryptionContextString
   )
@@ -151,23 +154,23 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   {
     var OriginalJson
       := JSONValues.Object([
-                             ("aws-crypto-ec", EncryptionContextStringToJSON(MutationToApply.Original.customEncryptionContext)),
-                             ("kms-arn", JSONValues.JSON.String(MutationToApply.Original.kmsArn))
+                             (MUTABLE_PROPERTY_EC_WORD, EncryptionContextStringToJSON(MutationToApply.Original.customEncryptionContext)),
+                             (MUTABLE_PROPERTY_KMS_ARN_WORD, JSONValues.JSON.String(MutationToApply.Original.kmsArn))
                            ]);
     var TerminalJson
       := JSONValues.Object([
-                             ("aws-crypto-ec", EncryptionContextStringToJSON(MutationToApply.Terminal.customEncryptionContext)),
-                             ("kms-arn", JSONValues.JSON.String(MutationToApply.Terminal.kmsArn))
+                             (MUTABLE_PROPERTY_EC_WORD, EncryptionContextStringToJSON(MutationToApply.Terminal.customEncryptionContext)),
+                             (MUTABLE_PROPERTY_KMS_ARN_WORD, JSONValues.JSON.String(MutationToApply.Terminal.kmsArn))
                            ]);
 
     var originalBytes :- JSON.Serialize(OriginalJson).MapFailure(
                            (e: JSONErrors.SerializationError)
                            => Types.KeyStoreAdminException(
-                               message := "Could JSON Serialize state: original properties. " + e.ToString()));
+                               message := "Could not JSON Serialize state: original properties. " + e.ToString()));
     var terminalBytes :- JSON.Serialize(TerminalJson).MapFailure(
                            (e: JSONErrors.SerializationError)
                            => Types.KeyStoreAdminException(
-                               message := "Could JSON Serialize state: terminal properties. " + e.ToString()));
+                               message := "Could not JSON Serialize state: terminal properties. " + e.ToString()));
     Success(
       Types.MutationToken(
         Identifier := MutationToApply.Identifier,
@@ -178,8 +181,6 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
         CreateTime := MutationToApply.CreateTime
       ))
   }
-
-  const ERROR_PRFX := "Serialized State properties is malformed!"
 
   function DeserializeMutationToken(
     Token: Types.MutationToken
@@ -217,45 +218,50 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
       ))
   }
 
+  const ERROR_PRFX := "Serialized State properties is malformed! "
+
   function MutablePropertiesJson?(
     MutableProperties: JSONValues.JSON
   ): (output: Outcome<Types.Error>)
   {
     :- NeedOutcome(
          MutableProperties.Object? && |MutableProperties.obj| == 2,
-         () => Types.KeyStoreAdminException( message := "WIP")
+         () => Types.KeyStoreAdminException( message := ERROR_PRFX + "There should be two objects.")
        );
     :- NeedOutcome(
-         MutableProperties.obj[0].0 == "aws-crypto-ec",
-         () => Types.KeyStoreAdminException( message := "WIP")
+         MutableProperties.obj[0].0 == MUTABLE_PROPERTY_EC_WORD,
+         () => Types.KeyStoreAdminException( message := ERROR_PRFX + "First Key MUST be Encryption Context.")
        );
     :- NeedOutcome(
-         MutableProperties.obj[1].0 == "kms-arn",
-         () => Types.KeyStoreAdminException( message := "WIP")
+         MutableProperties.obj[1].0 == MUTABLE_PROPERTY_KMS_ARN_WORD,
+         () => Types.KeyStoreAdminException( message := ERROR_PRFX + "Second Key MUST be KMS ARN.")
        );
     :- NeedOutcome(
          MutableProperties.obj[0].1.Object?,
-         () => Types.KeyStoreAdminException( message := "WIP")
+         () => Types.KeyStoreAdminException(
+             message := ERROR_PRFX + "Value for `" + MUTABLE_PROPERTY_EC_WORD + "` MUST be an object.")
        );
     :- NeedOutcome(
          MutableProperties.obj[1].1.String?,
-         () => Types.KeyStoreAdminException( message := "WIP")
+         () => Types.KeyStoreAdminException(
+             message := ERROR_PRFX + "Value for `" + MUTABLE_PROPERTY_KMS_ARN_WORD + "` MUST be a string.")
        );
     :- NeedOutcome(
          KmsArn.ValidKmsArn?(MutableProperties.obj[1].1.str),
-         () => Types.KeyStoreAdminException( message := "WIP")
+         () => Types.KeyStoreAdminException( message := ERROR_PRFX + "KMS ARN that has been deserialized is invalid.")
        );
 
     var EncryptionContext := MutableProperties.obj[0].1;
     :- NeedOutcome(
          forall p <- EncryptionContext.obj :: p.1.String?,
-         () => Types.KeyStoreAdminException( message := "WIP")
+         () => Types.KeyStoreAdminException( message := ERROR_PRFX + "Member of Encryption Context cannot be deserialized.")
        );
 
     var EncryptionContextKeys := set p <- EncryptionContext.obj :: p.0;
     :- NeedOutcome(
          |EncryptionContextKeys| == |EncryptionContext.obj|,
-         () => Types.KeyStoreAdminException( message := "WIP")
+         () => Types.KeyStoreAdminException(
+             message := ERROR_PRFX + "Size of Encryption Context keys is not equal to size of Encryption Context values. ")
        );
 
     :- NeedOutcome(

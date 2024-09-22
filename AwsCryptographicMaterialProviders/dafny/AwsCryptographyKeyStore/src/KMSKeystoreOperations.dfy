@@ -363,8 +363,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       GrantTokens := Some(grantTokens)
     );
 
-    var maybeReEncryptResponse := kmsClient.ReEncrypt(reEncryptRequest);
-    var reEncryptResponse :- maybeReEncryptResponse
+    var reEncryptResponse? := kmsClient.ReEncrypt(reEncryptRequest);
+    var reEncryptResponse :- reEncryptResponse?
     .MapFailure(e => Types.ComAmazonawsKms(ComAmazonawsKms := e));
 
     :- Need(
