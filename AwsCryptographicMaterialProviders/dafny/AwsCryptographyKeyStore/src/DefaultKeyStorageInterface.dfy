@@ -974,7 +974,7 @@ module DefaultKeyStorageInterface {
              message:="Malformed Branch Key Store Item encountered. TableName: "
              + ddbTableName + "\tBranch Key ID: " + identifier)
          );
-      var branchKey := ToEncryptedHierarchicalKey(branchKey, logicalKeyStoreName);
+      var branchKey := ToEncryptedHierarchicalKey(item, logicalKeyStoreName);
 
       assert branchKey.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName;
       :- Need(
