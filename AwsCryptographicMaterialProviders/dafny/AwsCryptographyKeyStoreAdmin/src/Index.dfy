@@ -128,7 +128,6 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny"}
     } else {
       ddbClient := ddbClient?.value;
     }
-    // assume {:axiom} ddbClient.Modifies < FixturesLie(); // Tony thinks we don't need this
     // If the customer gave us the DDB Client, it is fresh
     // If we create the DDB Client, it is fresh
     assume {:axiom} fresh(ddbClient) && fresh(ddbClient.Modifies);
