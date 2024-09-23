@@ -12,6 +12,7 @@ namespace AWS.Cryptography.MaterialProviders
     private AWS.Cryptography.KeyStore.KeyStore _keyStore;
     private long? _ttlSeconds;
     private AWS.Cryptography.MaterialProviders.CacheType _cache;
+    private string _partitionId;
     public string BranchKeyId
     {
       get { return this._branchKeyId; }
@@ -56,6 +57,15 @@ namespace AWS.Cryptography.MaterialProviders
     public bool IsSetCache()
     {
       return this._cache != null;
+    }
+    public string PartitionId
+    {
+      get { return this._partitionId; }
+      set { this._partitionId = value; }
+    }
+    public bool IsSetPartitionId()
+    {
+      return this._partitionId != null;
     }
     public void Validate()
     {
