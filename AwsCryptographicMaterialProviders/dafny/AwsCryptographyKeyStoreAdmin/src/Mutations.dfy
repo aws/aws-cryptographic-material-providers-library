@@ -256,6 +256,9 @@ module {:options "/functionSyntax:4" } Mutations {
     assert MutationToApply.Terminal.customEncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
     // -= BEGIN Version Active Branch Key
     // --= Validate Active Branch Key
+    // TODO-Mutations-GA? :: If the KMS Call fails with access denied,
+    // it indicates that the MPL Consumer does not have access to the
+    // the original key.
     :- VerifyEncryptedHierarchicalKey(
       item := activeItem,
       keyManagerStrategy := keyManagerStrategy
@@ -298,6 +301,9 @@ module {:options "/functionSyntax:4" } Mutations {
       MutationToApply.Terminal.customEncryptionContext
     );
 
+    // TODO-Mutations-GA? :: If the KMS Call fails with access denied,
+    // it indicates that the MPL Consumer does not have access to
+    // GenerateDataKeyWithoutPlaintext on the terminal key.
     var wrappedDecryptOnlyBranchKey? := KMSKeystoreOperations.GenerateKey(
       encryptionContext := decryptOnlyEncryptionContext,
       kmsConfiguration := KeyStoreTypes.kmsKeyArn(MutationToApply.Terminal.kmsArn),
@@ -328,6 +334,10 @@ module {:options "/functionSyntax:4" } Mutations {
     );
 
     assert readItems.beaconItem.KmsArn == MutationToApply.Original.kmsArn;
+    // TODO-Mutations-GA? :: If the KMS Call fails with access denied,
+    // there are several possible causes.
+    // 1. `ReEncryptFrom` :: ReEncrypt access to Original is denied
+    // 2. `ReEncryptTo` :: ReEncrypt access to Terminal is denied
     var newBeaconKey :- ReEncryptHierarchicalKey(
       item := readItems.beaconItem,
       originalKmsArn := MutationToApply.Original.kmsArn,
@@ -381,8 +391,14 @@ module {:options "/functionSyntax:4" } Mutations {
     ensures output.Success? ==>
               && |logicalKeyStoreName| > 0
               && ValidateMutationToken(input.mutationToken).Success?
-              && input.pageSize.Some? ==> 0 < input.pageSize.value
-                                          && (storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface && input.pageSize.Some? ==> input.pageSize.value <= 99)
+              && input.pageSize.Some?
+              ==>
+                0 < input.pageSize.value
+                && (
+                  && (storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+                      && input.pageSize.Some?)
+                  ==>
+                    input.pageSize.value <= 99)
   {
     var _ :- ValidateMutationToken(input.mutationToken);
     :- Need(|logicalKeyStoreName| > 0,
@@ -512,6 +528,8 @@ module {:options "/functionSyntax:4" } Mutations {
       var item := itemsToProcess[versionIndex];
       match item {
         case itemTerminal(item) =>
+          // TODO-Mutations-GA? :: If the KMS Call fails with access denied,
+          // the agent has lost access to the terminal Key.
           :- VerifyEncryptedHierarchicalKey(
             item := item,
             keyManagerStrategy:= keyManagerStrategy
@@ -529,6 +547,10 @@ module {:options "/functionSyntax:4" } Mutations {
             MutationToApply.Terminal.customEncryptionContext
           );
 
+          // TODO-Mutations-GA? :: If the KMS Call fails with access denied,
+          // there are several possible causes.
+          // 1. `ReEncryptFrom` :: ReEncrypt access to Original is denied
+          // 2. `ReEncryptTo` :: ReEncrypt access to Terminal is denied
           var mutatedItem :- ReEncryptHierarchicalKey(
             item := item,
             originalKmsArn := MutationToApply.Original.kmsArn,
