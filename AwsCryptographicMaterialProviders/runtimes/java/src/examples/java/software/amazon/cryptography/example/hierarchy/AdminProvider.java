@@ -71,6 +71,6 @@ public class AdminProvider {
       .stream()
       .map(item -> String.format("%s : %s", item.itemType(), item.description())
       )
-      .collect(Collectors.joining(",\n "));
+      .collect(Collectors.joining(",\n"));
   }
 }

@@ -5,8 +5,6 @@ package software.amazon.cryptography.example.hierarchy;
 import org.testng.annotations.Test;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.keystore.KeyStorageInterface;
-import software.amazon.cryptography.keystore.model.QueryForVersionsInput;
-import software.amazon.cryptography.keystore.model.QueryForVersionsOutput;
 
 public class ExampleTests {
 
@@ -16,7 +14,8 @@ public class ExampleTests {
       Fixtures.TEST_KEYSTORE_NAME,
       Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
       Fixtures.KEYSTORE_KMS_ARN,
-      Fixtures.dynamoDbClient
+      null,
+      Fixtures.ddbClientWest2
     );
     branchKeyId =
       MutationExample.End2End(
@@ -24,8 +23,8 @@ public class ExampleTests {
         Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
         Fixtures.POSTAL_HORN_KEY_ARN,
         branchKeyId,
-        Fixtures.dynamoDbClient,
-        Fixtures.kmsClient
+        Fixtures.ddbClientWest2,
+        Fixtures.kmsClientWest2
       );
     branchKeyId =
       VersionKeyExample.VersionKey(
@@ -33,42 +32,13 @@ public class ExampleTests {
         Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
         Fixtures.POSTAL_HORN_KEY_ARN,
         branchKeyId,
-        Fixtures.dynamoDbClient
+        Fixtures.ddbClientWest2
       );
     KeyStorageInterface storage = StorageCheater.create(
-      Fixtures.dynamoDbClient,
+      Fixtures.ddbClientWest2,
       Fixtures.TEST_KEYSTORE_NAME,
       Fixtures.TEST_LOGICAL_KEYSTORE_NAME
     );
-    QueryForVersionsOutput versions = storage.QueryForVersions(
-      QueryForVersionsInput
-        .builder()
-        .Identifier(branchKeyId)
-        .pageSize(10)
-        .build()
-    );
-    versions
-      .items()
-      .forEach(item ->
-        Fixtures.deleteKeyStoreDdbItem(
-          item.Identifier(),
-          item.Type().HierarchicalSymmetricVersion().Version(),
-          Fixtures.TEST_KEYSTORE_NAME,
-          Fixtures.dynamoDbClient
-        )
-      );
-
-    Fixtures.deleteKeyStoreDdbItem(
-      branchKeyId,
-      "branch:ACTIVE",
-      Fixtures.TEST_KEYSTORE_NAME,
-      Fixtures.dynamoDbClient
-    );
-    Fixtures.deleteKeyStoreDdbItem(
-      branchKeyId,
-      "beacon:ACTIVE",
-      Fixtures.TEST_KEYSTORE_NAME,
-      Fixtures.dynamoDbClient
-    );
+    Fixtures.cleanUpBranchKeyId(storage, branchKeyId);
   }
 }
