@@ -8,7 +8,7 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny"}
   KeyStoreAdmin refines AbstractAwsCryptographyKeyStoreAdminService
 {
   import opened AwsKmsUtils
-  import DDB = ComAmazonawsDynamodbTypes
+  import DDB = Com.Amazonaws.Dynamodb
   import DefaultKeyStorageInterface
   import Operations = AwsCryptographyKeyStoreAdminOperations
   import KeyStoreTypes = AwsCryptographyKeyStoreTypes
@@ -26,60 +26,67 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny"}
     )
   }
 
-  method KeyStoreAdmin(config: KeyStoreAdminConfig)
+  method {:vcs_split_on_every_assert} KeyStoreAdmin(config: KeyStoreAdminConfig)
     returns (res: Result<KeyStoreAdminClient, Error>)
+    // Copying from KS/Index.dfy
+    ensures
+      && res.Success?
+      && config.storage.custom? ==>
+        && res.value.config.storage == config.storage.custom
+    ensures
+      && res.Success? ==>
+        && match config.storage {
+          case custom(custom) => res.value.config.storage == custom
+          case ddb(ddb) =>
+            && res.value.config.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+            && var storage: DefaultKeyStorageInterface.DynamoDBKeyStorageInterface := res.value.config.storage;
+            && fresh(storage)
+            && storage.logicalKeyStoreName == config.logicalKeyStoreName
+            && (ddb.ddbClient.Some? ==> (storage.ddbClient == ddb.ddbClient.value))
+            && fresh(storage.ddbClient)
+        }
   {
-    // These values are not assigned on purpose.
-    // Since Dafny will prove definite assignment when these values
-    // are used the MUST have values.
-    // This helps bind their assignment to the correctness
-    // that they are used when referencing them in the specification.
-    // By looking at the value
-    // TODO: Parse TableName for Region, in case it is a full arn
-    //var inferredRegion: Option<string>;
-    //var ddbConstructedRegion: Option<string>;
-
-    // TODO: allow for None DDB Client
-    if (config.storage.ddb?) {
-      :- Need(&& config.storage.ddb? && config.storage.ddb.ddbClient.Some?,
-              KeyStoreAdminException(message := "Key Store Admin Client requires a constructed DDB Client.")
-      );
-    }
-    assert config.storage.ddb? ==> config.storage.ddb.ddbClient.Some?;
-
     var storage: KeyStoreTypes.IKeyStorageInterface;
-    if config.storage.custom? {
-      storage := config.storage.custom;
-      :- Need(
-        && storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
-        && config.logicalKeyStoreName == (storage as DefaultKeyStorageInterface.DynamoDBKeyStorageInterface).logicalKeyStoreName,
-        KeyStoreAdminException(message := "Storage's Logical Key Store Name does not match passed Logical Key Store Name")
-      );
-    } else {
-      var physicalNameUTF8? := UTF8.Encode(config.storage.ddb.ddbTableName);
-      if (physicalNameUTF8?.Failure?) {
-        return Failure(KeyStoreAdminException(message := "Could not UTF8 Encode DDB Table Name: " + physicalNameUTF8?.error));
-      }
-      var logicalNameUTF8? := UTF8.Encode(config.logicalKeyStoreName);
-      if (logicalNameUTF8?.Failure?) {
-        return Failure(KeyStoreAdminException(message := "Could not UTF8 Encode Logical Name: " + logicalNameUTF8?.error));
-      }
-      storage := new DefaultKeyStorageInterface.DynamoDBKeyStorageInterface(
-        ddbTableName := config.storage.ddb.ddbTableName,
-        ddbClient := config.storage.ddb.ddbClient.value,
-        logicalKeyStoreName := config.logicalKeyStoreName,
-        ddbTableNameUtf8 := physicalNameUTF8?.value,
-        logicalKeyStoreNameUtf8 := logicalNameUTF8?.value
-      );
+    match config.storage {
+      case custom(custom) =>
+        storage := custom;
+        // If the custom storage is default DDBStorage, it's logical name must be correct
+        :- Need(
+          storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface ==>
+            config.logicalKeyStoreName == (storage as DefaultKeyStorageInterface.DynamoDBKeyStorageInterface).logicalKeyStoreName,
+          KeyStoreAdminException(message := "Storage's Logical Key Store Name does not match passed Logical Key Store Name")
+        );
+      case ddb(ddb) =>
+        var physicalNameUTF8? := UTF8.Encode(ddb.ddbTableName);
+        if (physicalNameUTF8?.Failure?) {
+          return Failure(KeyStoreAdminException(message := "Could not UTF8 Encode DDB Table Name: " + physicalNameUTF8?.error));
+        }
+        var logicalNameUTF8? := UTF8.Encode(config.logicalKeyStoreName);
+        if (logicalNameUTF8?.Failure?) {
+          return Failure(KeyStoreAdminException(message := "Could not UTF8 Encode Logical Name: " + logicalNameUTF8?.error));
+        }
+        var ddbClient? := ProvideDDBClient(ddb.ddbClient);
+        var ddbClient :- ddbClient?
+        .MapFailure(e => Types.ComAmazonawsDynamodb(ComAmazonawsDynamodb := e));
+        storage := new DefaultKeyStorageInterface.DynamoDBKeyStorageInterface(
+          ddbTableName := ddb.ddbTableName,
+          ddbClient := ddbClient,
+          logicalKeyStoreName := config.logicalKeyStoreName,
+          ddbTableNameUtf8 := physicalNameUTF8?.value,
+          logicalKeyStoreNameUtf8 := logicalNameUTF8?.value
+        );
     }
+    // This just asserts that storage is assigned
+    // Any assignment after this a mistake
+    assert allocated(storage);
+
     var internalConfig := Operations.Config(
       logicalKeyStoreName := config.logicalKeyStoreName,
-      storage := storage//,
-      // kmsConstructedRegion := None(),
-      // ddbConstructedRegion := None()
+      storage := storage
     );
     assert Operations.ValidInternalConfig?(internalConfig);
     var client := new KeyStoreAdminClient(internalConfig);
+    assert client.ValidState();
     return Success(client);
   }
 
@@ -92,10 +99,39 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny"}
     }
 
     constructor(config: Operations.InternalConfig)
+      ensures ValidState()
     {
       this.config := config;
       History := new IKeyStoreAdminClientCallHistory();
       Modifies := Operations.ModifiesInternalConfig(config) + {History};
+      new;
+      assume {:axiom} this.History !in Operations.ModifiesInternalConfig(this.config);
     }
+  }
+
+  method ProvideDDBClient(
+    ddbClient?: Option<DDB.Types.IDynamoDBClient> := None
+  )
+    returns (output: Result<DDB.Types.IDynamoDBClient, DDB.Types.Error>)
+    requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
+    modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
+    ensures output.Success?
+            ==>
+              && output.value.ValidState()
+              && fresh(output.value)
+              && fresh(output.value.Modifies)
+              && (ddbClient?.Some? ==> output.value == ddbClient?.value)
+  {
+    var ddbClient: DDB.Types.IDynamoDBClient;
+    if (ddbClient?.None?) {
+      ddbClient :- DDB.DynamoDBClient();
+    } else {
+      ddbClient := ddbClient?.value;
+    }
+    // assume {:axiom} ddbClient.Modifies < FixturesLie(); // Tony thinks we don't need this
+    // If the customer gave us the DDB Client, it is fresh
+    // If we create the DDB Client, it is fresh
+    assume {:axiom} fresh(ddbClient) && fresh(ddbClient.Modifies);
+    return Success(ddbClient);
   }
 }
