@@ -183,6 +183,15 @@ module DefaultKeyStorageInterface {
       )
     }
 
+    predicate GetMutationLockEnsuresPublicly(
+      input: Types.GetMutationLockInput,
+      output: Result<Types.GetMutationLockOutput, Types.Error>
+    )
+    {
+      && (output.Success? ==>
+            && (output.value.mutationLock.Some? ==> output.value.mutationLock.value.Identifier == input.Identifier))
+    }
+
     predicate WriteInitializeMutationEnsuresPublicly(
       input: Types.WriteInitializeMutationInput ,
       output: Result<Types.WriteInitializeMutationOutput, Types.Error>
@@ -203,6 +212,12 @@ module DefaultKeyStorageInterface {
               && KmsArn.ValidKmsArn?(item.KmsArn)
       )
     }
+
+    predicate ClobberMutationLockEnsuresPublicly(
+      input: Types.ClobberMutationLockInput,
+      output: Result<Types.ClobberMutationLockOutput, Types.Error>
+    )
+    {true}
 
     predicate WriteMutatedVersionsEnsuresPublicly(
       input: Types.WriteMutatedVersionsInput ,
@@ -247,6 +262,21 @@ module DefaultKeyStorageInterface {
       this.logicalKeyStoreName := logicalKeyStoreName;
       this.ddbTableNameUtf8 := ddbTableNameUtf8;
       this.logicalKeyStoreNameUtf8 := logicalKeyStoreNameUtf8;
+    }
+
+    method GetMutationLock' ( input: Types.GetMutationLockInput )
+      returns (output: Result<Types.GetMutationLockOutput, Types.Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History}
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures GetMutationLockEnsuresPublicly(input, output)
+      ensures unchanged(History)
+    {
+      return Failure(Types.KeyStorageException(message := "GetMutationLock is not yet supported."));
     }
 
     method WriteNewEncryptedBranchKey' ( input: Types.WriteNewEncryptedBranchKeyInput )
@@ -795,7 +825,7 @@ module DefaultKeyStorageInterface {
     }
 
     // This a TransactGetItems for 3 items
-    method GetItemsForInitializeMutation' ( input: Types.GetItemsForInitializeMutationInput )
+    method {:vcs_split_on_every_assert} GetItemsForInitializeMutation' ( input: Types.GetItemsForInitializeMutationInput )
       returns (output: Result<Types.GetItemsForInitializeMutationOutput, Types.Error>)
       requires  ValidState()
       modifies Modifies - {History}
@@ -893,6 +923,8 @@ module DefaultKeyStorageInterface {
       item?: Option<DDB.AttributeMap>,
       identifier: string
     ): (output: Result<Option<Types.MutationLock>, Types.Error>)
+      ensures output.Success? && output.value.Some? ==>
+                (output.value.value.Identifier == identifier)
     {
       if (item?.None? || (|item?.value| == 0))
       then Success(None)
@@ -905,14 +937,26 @@ module DefaultKeyStorageInterface {
       item: DDB.AttributeMap,
       identifier: string
     ): (output: Result<Types.MutationLock, Types.Error>)
+      ensures output.Success? ==>
+                (output.value.Identifier == identifier)
     {
       :- Need(
            Structure.MutationLockAttribute?(item),
            Types.KeyStorageException(
-             message:="Malformed Branch Key Store Item encountered. TableName: "
+             message:="Malformed Mutation Lock encountered. TableName: "
              + ddbTableName + "\tBranch Key ID: " + identifier)
          );
-      Success(Structure.ToMutationLock(item))
+      var mLock := Structure.ToMutationLock(item);
+      :- Need(
+           mLock.Identifier == identifier,
+           Types.KeyStorageException(
+             message:=
+               "Mutation Lock returned by DDB is for wrong Branch Key ID. "
+               + "TableName: " + ddbTableName
+               + "\tRequested Branch Key ID: " + identifier
+               + "\tReturned Branch Key ID: " + mLock.Identifier)
+         );
+      Success(mLock)
     }
 
     function method EncryptedHierarchicalKeyFromItem(
@@ -1168,7 +1212,7 @@ module DefaultKeyStorageInterface {
       Success(blob)
     }
 
-    /** Transaction OverWrite up to 24 Decryt Only Items, with a Global Condition on the M-Lock.*/
+    /** Transaction OverWrite up to 99 Decryt Only Items, with a Global Condition on the M-Lock.*/
     method WriteMutatedVersions' ( input: Types.WriteMutatedVersionsInput )
       returns (output: Result<Types.WriteMutatedVersionsOutput, Types.Error>)
       requires
@@ -1260,7 +1304,26 @@ module DefaultKeyStorageInterface {
 
       return Success(Types.WriteMutatedVersionsOutput());
     }
+
+    // The method to implement in the concrete class.
+    method ClobberMutationLock' ( input: Types.ClobberMutationLockInput )
+      returns (output: Result<Types.ClobberMutationLockOutput, Types.Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History}
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures ClobberMutationLockEnsuresPublicly(input, output)
+      ensures unchanged(History)
+    {
+      return Failure(Types.KeyStorageException(message := "ClobberMutationLock is Not yet supported."));
+    }
+
   }
+
+
 
   function method CreateTransactWritePutItem(
     encryptedKey: Types.EncryptedHierarchicalKey,
