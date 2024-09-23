@@ -28,9 +28,13 @@ module {:options "/functionSyntax:4"} TestGetItemsForInitializeMutation {
       Identifier := Fixtures.branchKeyId
     );
     var output :- expect underTest.GetItemsForInitializeMutation(input);
+    expect Structure.TYPE_FIELD in output.activeItem.EncryptionContext,
+                                   "`type` missing from activeItem!";
     expect
       output.activeItem.Type.ActiveHierarchicalSymmetricVersion?,
       "activeItem was not Active? 'type': " + output.activeItem.EncryptionContext[Structure.TYPE_FIELD];
+    expect Structure.TYPE_FIELD in output.beaconItem.EncryptionContext,
+                                   "`type` missing from beaconItem!";
     expect
       output.beaconItem.Type.ActiveHierarchicalSymmetricBeacon?,
       "beaconItem was not Beacon? 'type': " + output.beaconItem.EncryptionContext[Structure.TYPE_FIELD];
@@ -46,10 +50,13 @@ module {:options "/functionSyntax:4"} TestGetItemsForInitializeMutation {
       Identifier := mLockedId
     );
     var output :- expect underTest.GetItemsForInitializeMutation(input);
-
+    expect Structure.TYPE_FIELD in output.activeItem.EncryptionContext,
+                                   "`type` missing from activeItem!";
     expect
       output.activeItem.Type.ActiveHierarchicalSymmetricVersion?,
       "activeItem was not Active? 'type': " + output.activeItem.EncryptionContext[Structure.TYPE_FIELD];
+    expect Structure.TYPE_FIELD in output.beaconItem.EncryptionContext,
+                                   "`type` missing from beaconItem!";
     expect
       output.beaconItem.Type.ActiveHierarchicalSymmetricBeacon?,
       "beaconItem was not Beacon? 'type': " + output.beaconItem.EncryptionContext[Structure.TYPE_FIELD];
