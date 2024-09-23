@@ -4,8 +4,10 @@ package software.amazon.cryptography.example.hierarchy;
 
 import java.util.Collections;
 import java.util.Map;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.utils.StringUtils;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.CreateKeyInput;
 import software.amazon.cryptography.keystoreadmin.model.KMSIdentifier;
@@ -25,9 +27,10 @@ import software.amazon.cryptography.keystoreadmin.model.KMSIdentifier;
 public class CreateKeyExample {
 
   public static String CreateKey(
-    String keyStoreTableName,
-    String logicalKeyStoreName,
-    String kmsKeyArn,
+    @Nonnull String keyStoreTableName,
+    @Nonnull String logicalKeyStoreName,
+    @Nonnull String kmsKeyArn,
+    @Nullable String branchKeyId,
     @Nullable DynamoDbClient dynamoDbClient
   ) {
     // 1. Configure your Key Store Admin resource.
@@ -42,8 +45,10 @@ public class CreateKeyExample {
     // If an Identifier is not provided, a v4 UUID will be generated and used.
     // This example provides a combination of a fixed string and a v4 UUID;
     // this makes it easy for Crypto Tools to clean up these Example Branch Keys.
-    final String branchKeyId =
-      "mpl-java-example-" + java.util.UUID.randomUUID().toString();
+    branchKeyId =
+      StringUtils.isBlank(branchKeyId)
+        ? "mpl-java-example-" + java.util.UUID.randomUUID().toString()
+        : branchKeyId;
 
     // 3. Create a custom encryption context for the Branch Key.
     // Most encrypted data should have an associated encryption context
@@ -90,6 +95,6 @@ public class CreateKeyExample {
     final String keyStoreTableName = args[0];
     final String logicalKeyStoreName = args[1];
     final String kmsKeyArn = args[2];
-    CreateKey(keyStoreTableName, logicalKeyStoreName, kmsKeyArn, null);
+    CreateKey(keyStoreTableName, logicalKeyStoreName, kmsKeyArn, null, null);
   }
 }
