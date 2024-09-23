@@ -6,7 +6,6 @@ include "../../../../libraries/src/Collections/Maps/Maps.dfy"
 include "../../../../libraries/src/JSON/API.dfy"
 include "../../../../libraries/src/JSON/Errors.dfy"
 include "../../../../libraries/src/JSON/Values.dfy"
-include "../../AwsCryptographicMaterialProviders/src/CanonicalEncryptionContext.dfy"
 
 /** Mutation State Structures describe the Mutable Branch Key Properties that can be changed by Mutaiton. **/
 /** Methods here normialize these descriptions so they may be compared. **/
@@ -28,23 +27,17 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   import KmsArn
   import Structure
 
-  import CanonicalEncryptionContext
-  import Base64
-
   import JSON = JSON.API
   import JSONErrors = JSON.Errors
   import JSONValues = JSON.Values
 
   const MUTABLE_PROPERTY_COUNT: int := 2
   const MUTABLE_PROPERTY_COUNT_str := "2"
-  // We use "aws-crypto-ec" instead of "aws-crypto-ec:" out of a paranoia
-  // that the JSON serialization implementation is worng and does not escape
-  // keys correctly.
-  const MUTABLE_PROPERTY_EC_WORD := "aws-crypto-ec"
-  const MUTABLE_PROPERTY_KMS_ARN_WORD := Structure.KMS_FIELD
+  const AWS_CRYPTO_EC := Structure.AWS_CRYPTO_EC
+  const KMS_FIELD := Structure.KMS_FIELD
   // Ensures
   // - if KMS ARN, Valid KMS ARN
-  // - if EC, Valid non-empty EC
+  // - if EC, Valid non-empty EC, & not restricted field names
   // - non-empty
   predicate ValidMutations?(
     input: Types.Mutations
@@ -153,15 +146,17 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     requires MutationToApply?(MutationToApply)
   {
     var OriginalJson
-      := JSONValues.Object([
-                             (MUTABLE_PROPERTY_EC_WORD, EncryptionContextStringToJSON(MutationToApply.Original.customEncryptionContext)),
-                             (MUTABLE_PROPERTY_KMS_ARN_WORD, JSONValues.JSON.String(MutationToApply.Original.kmsArn))
-                           ]);
+      := JSONValues.Object(
+           [
+             (AWS_CRYPTO_EC, EncryptionContextStringToJSON(MutationToApply.Original.customEncryptionContext)),
+             (KMS_FIELD, JSONValues.JSON.String(MutationToApply.Original.kmsArn))
+           ]);
     var TerminalJson
-      := JSONValues.Object([
-                             (MUTABLE_PROPERTY_EC_WORD, EncryptionContextStringToJSON(MutationToApply.Terminal.customEncryptionContext)),
-                             (MUTABLE_PROPERTY_KMS_ARN_WORD, JSONValues.JSON.String(MutationToApply.Terminal.kmsArn))
-                           ]);
+      := JSONValues.Object(
+           [
+             (AWS_CRYPTO_EC, EncryptionContextStringToJSON(MutationToApply.Terminal.customEncryptionContext)),
+             (KMS_FIELD, JSONValues.JSON.String(MutationToApply.Terminal.kmsArn))
+           ]);
 
     var originalBytes :- JSON.Serialize(OriginalJson).MapFailure(
                            (e: JSONErrors.SerializationError)
@@ -229,22 +224,22 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
          () => Types.KeyStoreAdminException( message := ERROR_PRFX + "There should be two objects.")
        );
     :- NeedOutcome(
-         MutableProperties.obj[0].0 == MUTABLE_PROPERTY_EC_WORD,
+         MutableProperties.obj[0].0 == AWS_CRYPTO_EC,
          () => Types.KeyStoreAdminException( message := ERROR_PRFX + "First Key MUST be Encryption Context.")
        );
     :- NeedOutcome(
-         MutableProperties.obj[1].0 == MUTABLE_PROPERTY_KMS_ARN_WORD,
+         MutableProperties.obj[1].0 == KMS_FIELD,
          () => Types.KeyStoreAdminException( message := ERROR_PRFX + "Second Key MUST be KMS ARN.")
        );
     :- NeedOutcome(
          MutableProperties.obj[0].1.Object?,
          () => Types.KeyStoreAdminException(
-             message := ERROR_PRFX + "Value for `" + MUTABLE_PROPERTY_EC_WORD + "` MUST be an object.")
+             message := ERROR_PRFX + "Value for `" + AWS_CRYPTO_EC + "` MUST be an object.")
        );
     :- NeedOutcome(
          MutableProperties.obj[1].1.String?,
          () => Types.KeyStoreAdminException(
-             message := ERROR_PRFX + "Value for `" + MUTABLE_PROPERTY_KMS_ARN_WORD + "` MUST be a string.")
+             message := ERROR_PRFX + "Value for `" + KMS_FIELD + "` MUST be a string.")
        );
     :- NeedOutcome(
          KmsArn.ValidKmsArn?(MutableProperties.obj[1].1.str),
