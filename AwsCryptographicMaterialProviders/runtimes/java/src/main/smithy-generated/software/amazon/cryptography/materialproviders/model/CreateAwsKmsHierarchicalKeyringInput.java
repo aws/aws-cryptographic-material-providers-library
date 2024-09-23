@@ -34,9 +34,14 @@ public class CreateAwsKmsHierarchicalKeyringInput {
   private final long ttlSeconds;
 
   /**
-   * Which type of local cache to use.
+   * Sets the type of cache for this Hierarchical Keyring. By providing an already initialized 'Shared' cache, users can determine the scope of the cache. That is, if the cache is shared across other Cryptographic Material Providers, for instance other Hierarchical Keyrings or Caching Cryptographic Materials Managers (Caching CMMs). If any other type of cache in the CacheType union is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If not set, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
    */
   private final CacheType cache;
+
+  /**
+   * Partition ID to distinguish Cryptographic Material Providers (i.e: Keyrings) writing to a cache. If the Partition ID is the same for two Hierarchical Keyrings (or another Material Provider), they can share the same cache entries in the cache.
+   */
+  private final String partitionId;
 
   protected CreateAwsKmsHierarchicalKeyringInput(BuilderImpl builder) {
     this.branchKeyId = builder.branchKeyId();
@@ -44,6 +49,7 @@ public class CreateAwsKmsHierarchicalKeyringInput {
     this.keyStore = builder.keyStore();
     this.ttlSeconds = builder.ttlSeconds();
     this.cache = builder.cache();
+    this.partitionId = builder.partitionId();
   }
 
   /**
@@ -75,10 +81,17 @@ public class CreateAwsKmsHierarchicalKeyringInput {
   }
 
   /**
-   * @return Which type of local cache to use.
+   * @return Sets the type of cache for this Hierarchical Keyring. By providing an already initialized 'Shared' cache, users can determine the scope of the cache. That is, if the cache is shared across other Cryptographic Material Providers, for instance other Hierarchical Keyrings or Caching Cryptographic Materials Managers (Caching CMMs). If any other type of cache in the CacheType union is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If not set, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
    */
   public CacheType cache() {
     return this.cache;
+  }
+
+  /**
+   * @return Partition ID to distinguish Cryptographic Material Providers (i.e: Keyrings) writing to a cache. If the Partition ID is the same for two Hierarchical Keyrings (or another Material Provider), they can share the same cache entries in the cache.
+   */
+  public String partitionId() {
+    return this.partitionId;
   }
 
   public Builder toBuilder() {
@@ -131,14 +144,24 @@ public class CreateAwsKmsHierarchicalKeyringInput {
     long ttlSeconds();
 
     /**
-     * @param cache Which type of local cache to use.
+     * @param cache Sets the type of cache for this Hierarchical Keyring. By providing an already initialized 'Shared' cache, users can determine the scope of the cache. That is, if the cache is shared across other Cryptographic Material Providers, for instance other Hierarchical Keyrings or Caching Cryptographic Materials Managers (Caching CMMs). If any other type of cache in the CacheType union is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If not set, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
      */
     Builder cache(CacheType cache);
 
     /**
-     * @return Which type of local cache to use.
+     * @return Sets the type of cache for this Hierarchical Keyring. By providing an already initialized 'Shared' cache, users can determine the scope of the cache. That is, if the cache is shared across other Cryptographic Material Providers, for instance other Hierarchical Keyrings or Caching Cryptographic Materials Managers (Caching CMMs). If any other type of cache in the CacheType union is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If not set, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
      */
     CacheType cache();
+
+    /**
+     * @param partitionId Partition ID to distinguish Cryptographic Material Providers (i.e: Keyrings) writing to a cache. If the Partition ID is the same for two Hierarchical Keyrings (or another Material Provider), they can share the same cache entries in the cache.
+     */
+    Builder partitionId(String partitionId);
+
+    /**
+     * @return Partition ID to distinguish Cryptographic Material Providers (i.e: Keyrings) writing to a cache. If the Partition ID is the same for two Hierarchical Keyrings (or another Material Provider), they can share the same cache entries in the cache.
+     */
+    String partitionId();
 
     CreateAwsKmsHierarchicalKeyringInput build();
   }
@@ -157,6 +180,8 @@ public class CreateAwsKmsHierarchicalKeyringInput {
 
     protected CacheType cache;
 
+    protected String partitionId;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(CreateAwsKmsHierarchicalKeyringInput model) {
@@ -166,6 +191,7 @@ public class CreateAwsKmsHierarchicalKeyringInput {
       this.ttlSeconds = model.ttlSeconds();
       this._ttlSecondsSet = true;
       this.cache = model.cache();
+      this.partitionId = model.partitionId();
     }
 
     public Builder branchKeyId(String branchKeyId) {
@@ -214,6 +240,15 @@ public class CreateAwsKmsHierarchicalKeyringInput {
 
     public CacheType cache() {
       return this.cache;
+    }
+
+    public Builder partitionId(String partitionId) {
+      this.partitionId = partitionId;
+      return this;
+    }
+
+    public String partitionId() {
+      return this.partitionId;
     }
 
     public CreateAwsKmsHierarchicalKeyringInput build() {

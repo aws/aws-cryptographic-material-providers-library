@@ -135,8 +135,6 @@ module {:options "-functionSyntax:4"} CreateStaticKeyStores {
       History.GetBeaconKey := History.GetBeaconKey + [DafnyCallEvent(input, output)];
     }
 
-    // These are all not supported operations in a static context
-
     ghost predicate GetKeyStoreInfoEnsuresPublicly(output: Result<GetKeyStoreInfoOutput, Error>)
     {true}
 
@@ -153,9 +151,19 @@ module {:options "-functionSyntax:4"} CreateStaticKeyStores {
       ensures GetKeyStoreInfoEnsuresPublicly(output)
       ensures History.GetKeyStoreInfo == old(History.GetKeyStoreInfo) + [DafnyCallEvent((), output)]
     {
-      output := Failure(KeyStoreException( message := "Not Supported"));
+      output := Success(
+        AwsCryptographyKeyStoreTypes.GetKeyStoreInfoOutput(
+          keyStoreId := "key-store-id",
+          keyStoreName := "key-store-name",
+          logicalKeyStoreName := "logical-key-store-name",
+          grantTokens := [],
+          kmsConfiguration := KMSConfiguration.kmsKeyArn("arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab")
+        )
+      );
       History.GetKeyStoreInfo := History.GetKeyStoreInfo + [DafnyCallEvent((), output)];
     }
+
+    // All methods except GetKeyStoreInfo are not supported operations in a static context
 
     ghost predicate CreateKeyStoreEnsuresPublicly(input: CreateKeyStoreInput , output: Result<CreateKeyStoreOutput, Error>)
     {true}

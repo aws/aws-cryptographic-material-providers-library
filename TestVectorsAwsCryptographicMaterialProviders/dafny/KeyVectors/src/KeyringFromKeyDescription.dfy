@@ -211,7 +211,8 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
         branchKeyIdSupplier := None,
         keyStore := keyStore,
         ttlSeconds := 0,
-        cache := None
+        cache := None,
+        partitionId := None
       );
       var keyring := mpl.CreateAwsKmsHierarchicalKeyring(input);
       return keyring.MapFailure(e => AwsCryptographyMaterialProviders(e));
