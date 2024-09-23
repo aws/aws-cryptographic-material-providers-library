@@ -12,7 +12,7 @@ import (
 )
 
 func (_static *CompanionStruct_Default___) KMSClientForRegion(regionInput _dafny.Sequence) Wrappers.Result {
-	region := *ToString(regionInput)
+	region := *toString(regionInput)
 	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(ComAmazonawsKmsTypes.Companion_Error_.Create_KMSInternalException_(Wrappers.Companion_Option_.Create_Some_(_dafny.SeqOfChars([]_dafny.Char(err.Error())...))))
@@ -22,13 +22,13 @@ func (_static *CompanionStruct_Default___) KMSClientForRegion(regionInput _dafny
 	})})
 }
 
-func (_static *CompanionStruct_Default___) RegionMatch(k ComAmazonawsKmsTypes.IKMSClient, regionInput _dafny.Sequence) Wrappers.Option {
-	region := ToString(regionInput)
-	var kmsShim = k.(*KMSwrapped.Shim).Client
+func (_static *CompanionStruct_Default___) RegionMatch(ikmsClient ComAmazonawsKmsTypes.IKMSClient, regionInput _dafny.Sequence) Wrappers.Option {
+	region := toString(regionInput)
+	var kmsShim = ikmsClient.(*KMSwrapped.Shim).Client
 	return Wrappers.Companion_Option_.Create_Some_(kmsShim.Options().Region == *region)
 }
 
-func ToString(input _dafny.Sequence) *string {
+func toString(input _dafny.Sequence) *string {
 	var s string
 	for i := _dafny.Iterate(input); ; {
 		val, ok := i()
