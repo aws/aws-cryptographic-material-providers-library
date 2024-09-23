@@ -4,14 +4,14 @@
 include "../../Model/AwsCryptographyPrimitivesTypes.dfy"
 include "../Digest.dfy"
 
-module {:options "-functionSyntax:4"} {:extern "HMAC"} HMAC {
+module {:options "-functionSyntax:4"} HMAC {
   import opened Wrappers
   import opened StandardLibrary
   import opened UInt = StandardLibrary.UInt
   import Types = AwsCryptographyPrimitivesTypes
   import HashDigest = Digest
 
-  class {:extern "HMac"} HMac {
+  trait {:extern "HMac"} HMac {
 
     // These functions are used to model the extern state
     // https://github.com/dafny-lang/dafny/wiki/Modeling-External-State-Correctly
