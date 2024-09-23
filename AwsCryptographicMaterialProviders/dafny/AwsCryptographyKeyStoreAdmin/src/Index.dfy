@@ -87,7 +87,24 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny"}
     assert Operations.ValidInternalConfig?(internalConfig);
     var client := new KeyStoreAdminClient(internalConfig);
     assert client.ValidState();
-    return Success(client);
+    res := Success(client);
+    assert fresh(
+        res.value.Modifies
+        - ( if config.storage.custom? then
+              config.storage.custom.Modifies
+            else {}
+        ) - ( if config.storage.ddb? then
+                if config.storage.ddb.ddbClient.Some? then
+                  config.storage.ddb.ddbClient.value.Modifies
+                else {}
+              else {}
+        ) ) by
+    {
+      assert res.value.Modifies == Operations.ModifiesInternalConfig(internalConfig) + {res.value.History};
+      assert fresh(res.value.History);
+      assert Operations.ModifiesInternalConfig(internalConfig) == internalConfig.storage.Modifies + Operations.MutationLie();
+      reveal Operations.MutationLie();
+    }
   }
 
   class KeyStoreAdminClient... {
@@ -99,13 +116,13 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny"}
     }
 
     constructor(config: Operations.InternalConfig)
-      ensures ValidState()
     {
       this.config := config;
       History := new IKeyStoreAdminClientCallHistory();
       Modifies := Operations.ModifiesInternalConfig(config) + {History};
-      new;
-      assume {:axiom} this.History !in Operations.ModifiesInternalConfig(this.config);
+      // It is OK to reveal this value because there is no history,
+      // and therefore revealing the lie will NOT make you prove false
+      reveal Operations.MutationLie();
     }
   }
 
