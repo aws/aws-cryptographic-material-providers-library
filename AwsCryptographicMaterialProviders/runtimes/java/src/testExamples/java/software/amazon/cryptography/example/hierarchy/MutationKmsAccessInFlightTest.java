@@ -151,14 +151,21 @@ public class MutationKmsAccessInFlightTest {
         );
         versions
           .items()
-          .forEach(item ->
+          .forEach(item -> {
+            String typStr = item.EncryptionContext().get("type");
             Fixtures.deleteKeyStoreDdbItem(
               item.Identifier(),
-              item.EncryptionContext().get("type"),
+              typStr,
               Fixtures.TEST_KEYSTORE_NAME,
               Fixtures.ddbClientWest2
-            )
-          );
+            );
+            System.out.println(
+              "\nItem: " +
+              typStr +
+              " \tKMS Exception: " +
+              accessDenied.getMessage()
+            );
+          });
       }
     }
 
