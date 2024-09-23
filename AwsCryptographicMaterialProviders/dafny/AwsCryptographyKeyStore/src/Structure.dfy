@@ -23,7 +23,8 @@ module {:options "/functionSyntax:4" } Structure {
   const M_LOCK_TERMINAL := "terminal" // The DDB Attribute name for the terminal state, which is AttributeValue.B
   const M_LOCK_UUID := "uuid" // The DDB Attribute name for the uuid, which is AttributeValue.S
 
-  const ENCRYPTION_CONTEXT_PREFIX := "aws-crypto-ec:"
+  const AWS_CRYPTO_EC := "aws-crypto-ec"
+  const ENCRYPTION_CONTEXT_PREFIX := AWS_CRYPTO_EC + ":"
 
   const BRANCH_KEY_RESTRICTED_FIELD_NAMES := {
     BRANCH_KEY_IDENTIFIER_FIELD,
