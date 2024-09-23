@@ -261,8 +261,8 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   method CreateAwsKmsHierarchicalKeyring (config: InternalConfig, input: CreateAwsKmsHierarchicalKeyringInput)
     returns (output: Result<IKeyring, Error>)
   {
-    // //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#initialization
-    // //= type=implication
+    //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#initialization
+    //= type=implication
     //# If the Hierarchical Keyring does NOT get a `Shared` cache on initialization,
     //# it MUST initialize a [cryptographic-materials-cache](../local-cryptographic-materials-cache.md)
     //# with the user provided cache limit TTL and the entry capacity.
@@ -291,8 +291,8 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       );
     }
 
-    // //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#partition-id
-    // //= type=implication
+    //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#partition-id
+    //= type=implication
     //# PartitionId can be a string provided by the user. If provided, it MUST be interpreted as UTF8 bytes.
     //# If the PartitionId is NOT provided by the user, it MUST be set to the 16 byte representation of a v4 UUID.
     var partitionIdBytes : seq<uint8>;
@@ -314,8 +314,8 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       .MapFailure(e => Types.AwsCryptographicMaterialProvidersException(message := e));
     }
 
-    // //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#logical-key-store-name
-    // //= type=implication
+    //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#logical-key-store-name
+    //= type=implication
     //# Logical Key Store Name is set by the user when configuring the Key Store for
     //# the Hierarchical Keyring. This is a logical name for the key store.
     //# Logical Key Store Name MUST be converted to UTF8 Bytes to be used in
