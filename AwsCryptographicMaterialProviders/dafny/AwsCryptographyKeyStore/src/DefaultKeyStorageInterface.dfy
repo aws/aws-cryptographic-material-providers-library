@@ -168,14 +168,18 @@ module DefaultKeyStorageInterface {
     )
     {
       && (output.Success? ==>
+            // Conditions for Active
             && output.value.activeItem.Identifier == input.Identifier
             && Structure.ActiveHierarchicalSymmetricKey?(output.value.activeItem)
             && output.value.activeItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
             && KmsArn.ValidKmsArn?(output.value.activeItem.KmsArn)
+               // Conditions for Beacon
             && output.value.beaconItem.Identifier == input.Identifier
             && Structure.ActiveHierarchicalSymmetricBeaconKey?(output.value.beaconItem)
             && output.value.beaconItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
             && KmsArn.ValidKmsArn?(output.value.beaconItem.KmsArn)
+               // Conditions for M-Lock
+            && (output.value.mutationLock.Some? ==> output.value.mutationLock.value.Identifier == input.Identifier)
       )
     }
 
@@ -843,7 +847,7 @@ module DefaultKeyStorageInterface {
         MutationLockFromOptionalItem(ddbResponse.Responses.value[0].Item, input.Identifier);
 
       :- Need(
-        ddbResponse.Responses.value[1].Item.Some?,
+        ddbResponse.Responses.value[1].Item.Some? && (|ddbResponse.Responses.value[1].Item.value| == 0),
         Types.KeyStorageException(
           message:=
             "GetItemsForInitializeMutation: Could not find the ACTIVE Item. "
@@ -853,7 +857,7 @@ module DefaultKeyStorageInterface {
         EncryptedHierarchicalKeyFromItem(ddbResponse.Responses.value[1].Item.value, logicalKeyStoreName, input.Identifier);
 
       :- Need(
-        ddbResponse.Responses.value[2].Item.Some?,
+        ddbResponse.Responses.value[2].Item.Some?  && (|ddbResponse.Responses.value[2].Item.value| == 0),
         Types.KeyStorageException(
           message:=
             "GetItemsForInitializeMutation: Could not find the Beacon Item. "
@@ -877,15 +881,6 @@ module DefaultKeyStorageInterface {
             "Item returned for Beacon Key is malformed. TableName: " + ddbTableName + "\tBranch Key ID: " + input.Identifier
         ));
 
-      if (lockItem.Some?) {
-        :- Need(
-          && lockItem.value.Identifier == input.Identifier,
-          Types.KeyStorageException(
-            message:=
-              "Item returned for Mutation Lock is malformed. TableName: " + ddbTableName + "\tBranch Key ID: " + input.Identifier
-          ));
-      }
-
       return Success(
           Types.GetItemsForInitializeMutationOutput(
             activeItem := activeItem,
@@ -899,7 +894,7 @@ module DefaultKeyStorageInterface {
       identifier: string
     ): (output: Result<Option<Types.MutationLock>, Types.Error>)
     {
-      if item?.None?
+      if (item?.None? || (|item?.value| == 0))
       then Success(None)
       else
         var mLock :- MutationLockFromItem(item?.value, identifier);
