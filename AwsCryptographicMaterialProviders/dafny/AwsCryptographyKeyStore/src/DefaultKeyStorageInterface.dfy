@@ -168,14 +168,18 @@ module DefaultKeyStorageInterface {
     )
     {
       && (output.Success? ==>
+            // Conditions for Active
             && output.value.activeItem.Identifier == input.Identifier
             && Structure.ActiveHierarchicalSymmetricKey?(output.value.activeItem)
             && output.value.activeItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
             && KmsArn.ValidKmsArn?(output.value.activeItem.KmsArn)
+               // Conditions for Beacon
             && output.value.beaconItem.Identifier == input.Identifier
             && Structure.ActiveHierarchicalSymmetricBeaconKey?(output.value.beaconItem)
             && output.value.beaconItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
             && KmsArn.ValidKmsArn?(output.value.beaconItem.KmsArn)
+               // Conditions for M-Lock
+            && (output.value.mutationLock.Some? ==> output.value.mutationLock.value.Identifier == input.Identifier)
       )
     }
 
@@ -779,9 +783,18 @@ module DefaultKeyStorageInterface {
           ));
     }
 
-    // This a Get for 3 items, with ConsistentRead
-    // From DDB Docs: "If a requested item does not exist, it is not returned in the result."
-    // Thus, if Mutation Lock is not returned, than it does not exist.
+    function method DDBKeyForType(
+      typeStr: string,
+      identifier: string
+    ): (key: DDB.Key)
+    {
+      map[
+        Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(identifier),
+        Structure.TYPE_FIELD := DDB.AttributeValue.S(typeStr)
+      ]
+    }
+
+    // This a TransactGetItems for 3 items
     method GetItemsForInitializeMutation' ( input: Types.GetItemsForInitializeMutationInput )
       returns (output: Result<Types.GetItemsForInitializeMutationOutput, Types.Error>)
       requires  ValidState()
@@ -793,155 +806,102 @@ module DefaultKeyStorageInterface {
       ensures unchanged(History)
     {
       /** Construct & Issue DDB Request */
-      var mLockKey: DDB.Key := map[
-        Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(input.Identifier),
-        Structure.TYPE_FIELD := DDB.AttributeValue.S(Structure.MUTATION_LOCK_TYPE)
-      ];
-      var activeKey: DDB.Key := map[
-        Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(input.Identifier),
-        Structure.TYPE_FIELD := DDB.AttributeValue.S(Structure.BRANCH_KEY_ACTIVE_TYPE)
-      ];
-      var beaconKey: DDB.Key := map[
-        Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(input.Identifier),
-        Structure.TYPE_FIELD := DDB.AttributeValue.S(Structure.BEACON_KEY_TYPE_VALUE)
-      ];
-      var keysList := [mLockKey, activeKey, beaconKey];
-      var keysAndAttributes := DDB.KeysAndAttributes(
-        Keys := keysList,
-        ConsistentRead := Some(true));
-      var ddbRequest := DDB.BatchGetItemInput(RequestItems := map[ddbTableName := keysAndAttributes]);
-      var ddbResponse? := ddbClient.BatchGetItem(ddbRequest);
+      var transactItems: DDB.TransactGetItemList
+        := Seq.Map(
+        (typeStr: string)
+        =>
+          // The DDB request is a list of TransactGetItems
+          DDB.TransactGetItem(
+            Get := DDB.Get(
+              Key := DDBKeyForType(typeStr, input.Identifier),
+              TableName := ddbTableName)),
+
+        // This is the seq we are mapping over. The DDB Result will be in this order!
+        [Structure.MUTATION_LOCK_TYPE, Structure.BRANCH_KEY_ACTIVE_TYPE, Structure.BEACON_KEY_TYPE_VALUE]);
+
+      var ddbRequest := DDB.TransactGetItemsInput(TransactItems := transactItems);
+      var ddbResponse? := ddbClient.TransactGetItems(ddbRequest);
+
       /** Handle DDB Error */
-      // TODO Benerate KeyStorageException to have a message field and an Error field
-      // that can hold either Opaque or DDB Error
       var ddbResponse :- ddbResponse?
       .MapFailure((e: DDB.Error) =>
                     wrapDdbException(
                       e:=e,
-                      storageOperation:="GetItemForInitializeMutation",
-                      ddbOperation:="BatchGetItem",
+                      storageOperation:="GetItemsForInitializeMutation",
+                      ddbOperation:="TransactGetItems",
                       identifier:=input.Identifier,
                       tableName:=ddbTableName));
-
-        /** Handle nonsensical DDB Responses */
-        // We could debate weather it is good to conflate
-        // no response with response from more than one table
-        // with response from one table but it's the wrong table...
-        // but the only real error case we expect is no response.
-      :- Need(
-        ddbResponse.Responses.Some? && (|ddbResponse.Responses.value| == 1) && (ddbResponse.Responses.value.Keys == {ddbTableName}),
-        Types.KeyStorageException(
-          message:="DDB returned no items from table: " + ddbTableName));
 
         // SDKs/Smithy-Dafny/Custom Implementations of Storage MAY respond with None or an Empty Map.
         // .NET returns an empty map, Java returns None.
       :- Need(
-        ddbResponse.UnprocessedKeys.None? || |ddbResponse.UnprocessedKeys.value| == 0,
+        ddbResponse.Responses.Some? && (3 == |ddbResponse.Responses.value|),
         Types.KeyStorageException(
           message:=
-            "DDB returned UnprocessedKeys for a BatchGetItem request of 3 items"
-            + ", which is indicative a DDB Read error due to some conflicting activity." +
-            "Table Name: " + ddbTableName + "\tBranch Key ID: " + input.Identifier));
-      var itemList: DDB.ItemList := ddbResponse.Responses.value[ddbTableName];
-      :- Need(
-        2 <= |itemList| <= 3,
-        Types.KeyStorageException(
-          message:="DDB returned the wrong number of Items;"
-          + " 2 or 3 are expected. Received: " + String.Base10Int2String(|itemList|)));
+            "GetItemsForInitializeMutation: No items returned. "
+            + "Branch Key ID: " + input.Identifier
+            + "\tTable Name: " + ddbTableName));
 
       /** Process sensical DDB Response */
-      var itemIndex := 0;
-      var beaconItem: Option<Types.EncryptedHierarchicalKey> := None;
-      var activeItem: Option<Types.EncryptedHierarchicalKey> := None;
-      var lockItem: Option<Types.MutationLock> := None;
-      while itemIndex < |itemList|
-      {
-        var item := itemList[itemIndex];
-        :- Need(
-          Structure.TYPE_FIELD in item.Keys,
-          Types.KeyStorageException(
-            message:=
-              "Malformed Branch Key Store Item encountered. Missing TYPE Attribute. "
-              + "TableName: " + ddbTableName +
-              "\tBranch Key ID: " + input.Identifier
-          ));
-        var itemType := item[Structure.TYPE_FIELD];
-        :- Need(
-          itemType.S?,
-          Types.KeyStorageException(
-            message:=
-              "Malformed Branch Key Store Item encountered. TYPE Attribute MUST be String but is not. " +
-              "TableName: " + ddbTableName + "\tBranch Key ID: " + input.Identifier
-          ));
-        var typeStr: string := itemType.S;
-        var id: string := input.Identifier; // Tony did this solely so lines would not wrap
-        match typeStr {
-          case MUTATION_LOCK_TYPE =>
-            var lockItem? := mutationLockFromItem(item, id);
-            if (lockItem?.Success?) { lockItem := Some(lockItem?.value); } else { return Failure(lockItem?.error); }
-          case BRANCH_KEY_ACTIVE_TYPE => var activeItem? := encryptedHierarchicalKeyFromItem(item, logicalKeyStoreName, id);
-          if (activeItem?.Success?) { activeItem := Some(activeItem?.value); } else { return Failure(activeItem?.error); }
-          case BEACON_KEY_TYPE_VALUE => var beaconItem? := encryptedHierarchicalKeyFromItem(item, logicalKeyStoreName, id);
-          if (beaconItem?.Success?) { beaconItem := Some(beaconItem?.value); } else { return Failure(beaconItem?.error); }
-          case _ => return Failure(
-              Types.KeyStorageException(
-                message:=
-                  "Unexpected item returned by DDB. TableName: "
-                  + ddbTableName + "\tBranch Key ID: " + input.Identifier));
-        }
-        itemIndex := 1 + itemIndex;
-      }
+      var lockItem: Option<Types.MutationLock> :-
+        MutationLockFromOptionalItem(ddbResponse.Responses.value[0].Item, input.Identifier);
+
+      :- Need(
+        ddbResponse.Responses.value[1].Item.Some? && (0 < |ddbResponse.Responses.value[1].Item.value|),
+        Types.KeyStorageException(
+          message:=
+            "GetItemsForInitializeMutation: Could not find the ACTIVE Item. "
+            + "Branch Key ID: " + input.Identifier
+            + "\tTable Name: " + ddbTableName));
+      var activeItem: Types.EncryptedHierarchicalKey :-
+        EncryptedHierarchicalKeyFromItem(ddbResponse.Responses.value[1].Item.value, logicalKeyStoreName, input.Identifier);
+
+      :- Need(
+        ddbResponse.Responses.value[2].Item.Some?  && (0 < |ddbResponse.Responses.value[2].Item.value|),
+        Types.KeyStorageException(
+          message:=
+            "GetItemsForInitializeMutation: Could not find the Beacon Item. "
+            + "Branch Key ID: " + input.Identifier
+            + "\tTable Name: " + ddbTableName));
+      var beaconItem: Types.EncryptedHierarchicalKey :-
+        EncryptedHierarchicalKeyFromItem(ddbResponse.Responses.value[2].Item.value, logicalKeyStoreName, input.Identifier);
 
         /** Validate DDB Responses */
       :- Need(
-        activeItem.Some?,
-        Types.KeyStorageException(
-          message:=
-            "Could not find the ACTIVE Item. TableName: " + ddbTableName + "\tBranch Key ID: " + input.Identifier
-        ));
-      :- Need(
-        && Structure.ActiveHierarchicalSymmetricKey?(activeItem.value)
-        && activeItem.value.Identifier == input.Identifier
-        && activeItem.value.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
-        && KmsArn.ValidKmsArn?(activeItem.value.KmsArn),
+        && Structure.ActiveHierarchicalSymmetricKey?(activeItem),
         Types.KeyStorageException(
           message:=
             "Item returned for the ACTIVE is malformed. TableName: " + ddbTableName + "\tBranch Key ID: " + input.Identifier
         ));
 
-      :- Need(beaconItem.Some?,
-              Types.KeyStorageException(
-                message:=
-                  "Could not find the Beacon Key. TableName: " + ddbTableName + "\tBranch Key ID: " + input.Identifier
-              ));
       :- Need(
-        && Structure.ActiveHierarchicalSymmetricBeaconKey?(beaconItem.value)
-        && beaconItem.value.Identifier == input.Identifier
-        && beaconItem.value.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
-        && KmsArn.ValidKmsArn?(beaconItem.value.KmsArn),
+        && Structure.ActiveHierarchicalSymmetricBeaconKey?(beaconItem),
         Types.KeyStorageException(
           message:=
             "Item returned for Beacon Key is malformed. TableName: " + ddbTableName + "\tBranch Key ID: " + input.Identifier
         ));
 
-      if (lockItem.Some?) {
-        :- Need(
-          && lockItem.value.Identifier == input.Identifier,
-          Types.KeyStorageException(
-            message:=
-              "Item returned for Mutation Lock is malformed. TableName: " + ddbTableName + "\tBranch Key ID: " + input.Identifier
-          ));
-      }
-
       return Success(
           Types.GetItemsForInitializeMutationOutput(
-            activeItem := activeItem.value,
-            beaconItem := beaconItem.value,
+            activeItem := activeItem,
+            beaconItem := beaconItem,
             mutationLock := lockItem
           ));
     }
 
-    function method mutationLockFromItem(
+    function method MutationLockFromOptionalItem(
+      item?: Option<DDB.AttributeMap>,
+      identifier: string
+    ): (output: Result<Option<Types.MutationLock>, Types.Error>)
+    {
+      if (item?.None? || (|item?.value| == 0))
+      then Success(None)
+      else
+        var mLock :- MutationLockFromItem(item?.value, identifier);
+        Success(Some(mLock))
+    }
+
+    function method MutationLockFromItem(
       item: DDB.AttributeMap,
       identifier: string
     ): (output: Result<Types.MutationLock, Types.Error>)
@@ -955,8 +915,7 @@ module DefaultKeyStorageInterface {
       Success(Structure.ToMutationLock(item))
     }
 
-
-    function method encryptedHierarchicalKeyFromItem(
+    function method EncryptedHierarchicalKeyFromItem(
       item: DDB.AttributeMap,
       logicalKeyStoreName: string,
       identifier: string
@@ -975,8 +934,6 @@ module DefaultKeyStorageInterface {
              + ddbTableName + "\tBranch Key ID: " + identifier)
          );
       var branchKey := ToEncryptedHierarchicalKey(item, logicalKeyStoreName);
-
-      assert branchKey.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName;
       :- Need(
            && branchKey.Identifier == identifier
            && branchKey.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
@@ -1137,7 +1094,7 @@ module DefaultKeyStorageInterface {
         (item: DDB.AttributeMap)
         =>
           /* Convert DDB Item to Branch Key. */
-          var branchKey :- encryptedHierarchicalKeyFromItem(item, logicalKeyStoreName, input.Identifier);
+          var branchKey :- EncryptedHierarchicalKeyFromItem(item, logicalKeyStoreName, input.Identifier);
           /* Validate that Branch Key is a Version, or Decrypt Only, Branch Key Type. */
           :- Need(
                branchKey.Type.HierarchicalSymmetricVersion?,
