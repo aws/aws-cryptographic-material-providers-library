@@ -3,7 +3,6 @@
 package software.amazon.cryptography.example;
 
 import javax.annotation.Nonnull;
-
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.http.SdkHttpClient;
 import software.amazon.awssdk.regions.Region;

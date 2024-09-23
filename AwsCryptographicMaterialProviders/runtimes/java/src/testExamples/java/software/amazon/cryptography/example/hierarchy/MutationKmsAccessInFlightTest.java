@@ -2,17 +2,19 @@
 // SPDX-License-Identifier: Apache-2.0
 package software.amazon.cryptography.example.hierarchy;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import static software.amazon.cryptography.example.Fixtures.MRK_ARN_WEST;
+import static software.amazon.cryptography.example.Fixtures.POSTAL_HORN_KEY_ARN;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+import org.testng.Assert;
+import org.testng.annotations.Test;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.awssdk.services.kms.model.KmsException;
 import software.amazon.cryptography.example.CredentialUtils;
+import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.keystore.KeyStorageInterface;
 import software.amazon.cryptography.keystore.model.QueryForVersionsInput;
 import software.amazon.cryptography.keystore.model.QueryForVersionsOutput;
@@ -25,13 +27,11 @@ import software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
-import software.amazon.cryptography.example.Fixtures;
-
-import static software.amazon.cryptography.example.Fixtures.MRK_ARN_WEST;
-import static software.amazon.cryptography.example.Fixtures.POSTAL_HORN_KEY_ARN;
 
 public class MutationKmsAccessInFlightTest {
+
   static final String testPrefix = "mutation-kms-access-in-flight-test-";
+
   @Test
   public void test() {
     KeyStorageInterface storage = StorageCheater.create(
@@ -39,7 +39,8 @@ public class MutationKmsAccessInFlightTest {
       Fixtures.TEST_KEYSTORE_NAME,
       Fixtures.TEST_LOGICAL_KEYSTORE_NAME
     );
-    final String branchKeyId = testPrefix + java.util.UUID.randomUUID().toString();
+    final String branchKeyId =
+      testPrefix + java.util.UUID.randomUUID().toString();
     CreateKeyExample.CreateKey(
       Fixtures.TEST_KEYSTORE_NAME,
       Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
@@ -47,15 +48,20 @@ public class MutationKmsAccessInFlightTest {
       branchKeyId,
       Fixtures.ddbClientWest2
     );
-    KeyManagementStrategy strategyWest2 = AdminProvider.strategy(Fixtures.kmsClientWest2);
-    KmsClient denyMrk = KmsClient.builder()
-        .credentialsProvider(
-          CredentialUtils.credsForRole(
-            Fixtures.LIMITED_KMS_ACCESS_IAM_ROLE,
-            "java-mpl-examples",
-            Region.US_WEST_2,
-            Fixtures.httpClient,
-            Fixtures.defaultCreds))
+    KeyManagementStrategy strategyWest2 = AdminProvider.strategy(
+      Fixtures.kmsClientWest2
+    );
+    KmsClient denyMrk = KmsClient
+      .builder()
+      .credentialsProvider(
+        CredentialUtils.credsForRole(
+          Fixtures.LIMITED_KMS_ACCESS_IAM_ROLE,
+          "java-mpl-examples",
+          Region.US_WEST_2,
+          Fixtures.httpClient,
+          Fixtures.defaultCreds
+        )
+      )
       .region(Region.US_WEST_2)
       .httpClient(Fixtures.httpClient)
       .build();
@@ -114,19 +120,26 @@ public class MutationKmsAccessInFlightTest {
           "ApplyLogs: " +
           branchKeyId +
           " items: \n" +
-          AdminProvider.mutatedItemsToString(applyOutput.mutatedBranchKeyItems())
+          AdminProvider.mutatedItemsToString(
+            applyOutput.mutatedBranchKeyItems()
+          )
         );
 
-        if (result.continueMutation() != null) token = result.continueMutation();
+        if (result.continueMutation() != null) token =
+          result.continueMutation();
         if (result.completeMutation() != null) done = true;
-
       } catch (KmsException accessDenied) {
         boolean isFrom = accessDenied.getMessage().contains("ReEncryptFrom");
         isFromThrown = isFromThrown || isFrom;
         boolean isTo = accessDenied.getMessage().contains("ReEncryptTo");
         isToThrown = isToThrown || isTo;
-        Assert.assertTrue((isTo || isFrom),
-          "KMS Exception does not meet expectations. testId: " + branchKeyId + ". KMS Exception: " + accessDenied);
+        Assert.assertTrue(
+          (isTo || isFrom),
+          "KMS Exception does not meet expectations. testId: " +
+          branchKeyId +
+          ". KMS Exception: " +
+          accessDenied
+        );
         kmsExceptions.add(accessDenied);
         // An exception was thrown, let's delete the item
         QueryForVersionsOutput versions = storage.QueryForVersions(
@@ -151,10 +164,12 @@ public class MutationKmsAccessInFlightTest {
 
     // Clean Up
     Fixtures.cleanUpBranchKeyId(storage, branchKeyId);
-    Assert.assertTrue((kmsExceptions.size() == 2),
-      "More KMS Exceptions thrown than expected. kmsExceptions: " + kmsExceptions);
+    Assert.assertTrue(
+      (kmsExceptions.size() == 2),
+      "More KMS Exceptions thrown than expected. kmsExceptions: " +
+      kmsExceptions
+    );
     Assert.assertTrue(isFromThrown, "Apply never verified the new decrypt.");
     Assert.assertTrue(isToThrown, "Apply never mutated the old decrypt.");
   }
-
 }
