@@ -847,7 +847,7 @@ module DefaultKeyStorageInterface {
         MutationLockFromOptionalItem(ddbResponse.Responses.value[0].Item, input.Identifier);
 
       :- Need(
-        ddbResponse.Responses.value[1].Item.Some? && (|ddbResponse.Responses.value[1].Item.value| == 0),
+        ddbResponse.Responses.value[1].Item.Some? && (0 < |ddbResponse.Responses.value[1].Item.value|),
         Types.KeyStorageException(
           message:=
             "GetItemsForInitializeMutation: Could not find the ACTIVE Item. "
@@ -857,7 +857,7 @@ module DefaultKeyStorageInterface {
         EncryptedHierarchicalKeyFromItem(ddbResponse.Responses.value[1].Item.value, logicalKeyStoreName, input.Identifier);
 
       :- Need(
-        ddbResponse.Responses.value[2].Item.Some?  && (|ddbResponse.Responses.value[2].Item.value| == 0),
+        ddbResponse.Responses.value[2].Item.Some?  && (0 < |ddbResponse.Responses.value[2].Item.value|),
         Types.KeyStorageException(
           message:=
             "GetItemsForInitializeMutation: Could not find the Beacon Item. "
