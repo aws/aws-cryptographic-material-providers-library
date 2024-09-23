@@ -3,6 +3,8 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.keystore;
 
+import software.amazon.cryptography.keystore.model.ClobberMutationLockInput;
+import software.amazon.cryptography.keystore.model.ClobberMutationLockOutput;
 import software.amazon.cryptography.keystore.model.GetEncryptedActiveBranchKeyInput;
 import software.amazon.cryptography.keystore.model.GetEncryptedActiveBranchKeyOutput;
 import software.amazon.cryptography.keystore.model.GetEncryptedBeaconKeyInput;
@@ -13,6 +15,8 @@ import software.amazon.cryptography.keystore.model.GetItemsForInitializeMutation
 import software.amazon.cryptography.keystore.model.GetItemsForInitializeMutationOutput;
 import software.amazon.cryptography.keystore.model.GetKeyStorageInfoInput;
 import software.amazon.cryptography.keystore.model.GetKeyStorageInfoOutput;
+import software.amazon.cryptography.keystore.model.GetMutationLockInput;
+import software.amazon.cryptography.keystore.model.GetMutationLockOutput;
 import software.amazon.cryptography.keystore.model.QueryForVersionsInput;
 import software.amazon.cryptography.keystore.model.QueryForVersionsOutput;
 import software.amazon.cryptography.keystore.model.WriteInitializeMutationInput;
@@ -25,6 +29,12 @@ import software.amazon.cryptography.keystore.model.WriteNewEncryptedBranchKeyVer
 import software.amazon.cryptography.keystore.model.WriteNewEncryptedBranchKeyVersionOutput;
 
 public interface IKeyStorageInterface {
+  /**
+   * Overwrite an existing Mutation Lock.
+   *
+   */
+  ClobberMutationLockOutput ClobberMutationLock(ClobberMutationLockInput input);
+
   /**
    * Get the ACTIVE branch key for encryption for an existing branch key.
    *
@@ -72,6 +82,14 @@ public interface IKeyStorageInterface {
    * @return Output containing information about the underlying storage.
    */
   GetKeyStorageInfoOutput GetKeyStorageInfo(GetKeyStorageInfoInput input);
+
+  /**
+   * Check for Mutation Lock on a Branch Key ID.
+   * If one exists, returns the Mutation Lock.
+   * Otherwise, returns nothing.
+   *
+   */
+  GetMutationLockOutput GetMutationLock(GetMutationLockInput input);
 
   /**
    * Query Storage for a page of version (decrypt only) items

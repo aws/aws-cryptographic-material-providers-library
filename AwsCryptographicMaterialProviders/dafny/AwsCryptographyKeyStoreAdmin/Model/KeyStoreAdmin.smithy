@@ -453,23 +453,68 @@ structure MutationConflictException {
 }
 
 @error("client")
-@documentation("Key Management Authorization failed while Initializing the Mutation. No Mutation Lock was created; no items were changed.")
+@documentation(
+"Branch Key Authorization failed while Initializing the Mutation.
+No Mutation Lock was created; no items were changed.")
 structure MutationInvalidException {
   @required
   message: String,
 }
 
-// Mutation Lock's Digest is incorrect; TODO: If we trust the backing table, should we remove this error?
 @error("client")
-@documentation("Mutation Lock is failing authentication. Mutation Lock still exists but Mutation cannot proceed. No items were changed. Recommend identifying latest author of Mutation Lock and validating their access.")
+@documentation(
+"Mutation Lock disagrees with provided Mutation Token.
+Mutation Lock still exists but Mutation cannot proceed.
+No items were changed.
+Recommend identifying latest author of Mutation Lock
+and validating their access;
+or checking the integrity of Mutation Token.")
 structure MutationLockInvalidException {
   @required
   message: String,
 }
 
 @error("client")
-@documentation("An Item was encountered that is not in an expected state. Mutation Lock is still present; no items were changed by this request. Recommend audting backing table access; an Item of a Branch Key MUST only be in one of two states during a Mutation; this item is in a third state.")
+@documentation(
+"An Item was encountered that is not
+in an expected state.
+Mutation Lock is still present;
+no items were changed by this request.
+Recommend audting backing table access;
+an Item of a Branch Key MUST be in
+either the original or terminal states during a Mutation;
+encountered item(s) in other states.")
 structure UnexpectedStateException {
+  @required
+  message: String,
+}
+
+@error("client")
+@documentation(
+"Key Management generic error encountered while authenticating
+an item already in the terminal state.
+Possibly, access to the terminal KMS Key was withdrawn.")
+structure MutationVerificationException {
+  @required
+  message: String,
+}
+
+@error("client")
+@documentation(
+"Key Management generic error encountered while mutating
+an item from original to terminal.
+Possibly, access to the terminal KMS Key was withdrawn.")
+structure MutationToException {
+  @required
+  message: String,
+}
+
+@error("client")
+@documentation(
+"Key Management generic error encountered while mutating
+an item from original to terminal.
+Possibly, access to the terminal KMS Key was withdrawn.")
+structure MutationFromException {
   @required
   message: String,
 }

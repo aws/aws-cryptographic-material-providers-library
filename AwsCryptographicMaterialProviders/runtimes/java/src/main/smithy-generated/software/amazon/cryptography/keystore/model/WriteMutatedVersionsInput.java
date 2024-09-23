@@ -30,7 +30,7 @@ public class WriteMutatedVersionsInput {
   private final ByteBuffer Terminal;
 
   /**
-   * If set to True, the Mutation Lock will be deleted. Effectively defaults to false
+   * If set to True, the Mutation Lock will be deleted.
    */
   private final Boolean CompleteMutation;
 
@@ -71,7 +71,7 @@ public class WriteMutatedVersionsInput {
   }
 
   /**
-   * @return If set to True, the Mutation Lock will be deleted. Effectively defaults to false
+   * @return If set to True, the Mutation Lock will be deleted.
    */
   public Boolean CompleteMutation() {
     return this.CompleteMutation;
@@ -127,12 +127,12 @@ public class WriteMutatedVersionsInput {
     ByteBuffer Terminal();
 
     /**
-     * @param CompleteMutation If set to True, the Mutation Lock will be deleted. Effectively defaults to false
+     * @param CompleteMutation If set to True, the Mutation Lock will be deleted.
      */
     Builder CompleteMutation(Boolean CompleteMutation);
 
     /**
-     * @return If set to True, the Mutation Lock will be deleted. Effectively defaults to false
+     * @return If set to True, the Mutation Lock will be deleted.
      */
     Boolean CompleteMutation();
 

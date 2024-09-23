@@ -193,10 +193,19 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     | MutationConflictException (
         nameonly message: string
       )
+    | MutationFromException (
+        nameonly message: string
+      )
     | MutationInvalidException (
         nameonly message: string
       )
     | MutationLockInvalidException (
+        nameonly message: string
+      )
+    | MutationToException (
+        nameonly message: string
+      )
+    | MutationVerificationException (
         nameonly message: string
       )
     | UnexpectedStateException (

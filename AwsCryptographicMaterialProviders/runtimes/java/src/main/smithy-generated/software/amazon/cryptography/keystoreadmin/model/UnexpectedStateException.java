@@ -6,7 +6,14 @@ package software.amazon.cryptography.keystoreadmin.model;
 import java.util.Objects;
 
 /**
- * An Item was encountered that is not in an expected state. Mutation Lock is still present; no items were changed by this request. Recommend audting backing table access; an Item of a Branch Key MUST only be in one of two states during a Mutation; this item is in a third state.
+ * An Item was encountered that is not
+ * in an expected state.
+ * Mutation Lock is still present;
+ * no items were changed by this request.
+ * Recommend audting backing table access;
+ * an Item of a Branch Key MUST be in
+ * either the original or terminal states during a Mutation;
+ * encountered item(s) in other states.
  */
 public class UnexpectedStateException extends RuntimeException {
 

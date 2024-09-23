@@ -6,12 +6,13 @@ package software.amazon.cryptography.keystoreadmin.model;
 import java.util.Objects;
 
 /**
- * Branch Key Authorization failed while Initializing the Mutation.
- * No Mutation Lock was created; no items were changed.
+ * Key Management generic error encountered while mutating
+ * an item from original to terminal.
+ * Possibly, access to the terminal KMS Key was withdrawn.
  */
-public class MutationInvalidException extends RuntimeException {
+public class MutationToException extends RuntimeException {
 
-  protected MutationInvalidException(BuilderImpl builder) {
+  protected MutationToException(BuilderImpl builder) {
     super(messageFromBuilder(builder), builder.cause());
   }
 
@@ -68,7 +69,7 @@ public class MutationInvalidException extends RuntimeException {
      */
     Throwable cause();
 
-    MutationInvalidException build();
+    MutationToException build();
   }
 
   static class BuilderImpl implements Builder {
@@ -79,7 +80,7 @@ public class MutationInvalidException extends RuntimeException {
 
     protected BuilderImpl() {}
 
-    protected BuilderImpl(MutationInvalidException model) {
+    protected BuilderImpl(MutationToException model) {
       this.message = model.message();
       this.cause = model.cause();
     }
@@ -102,13 +103,13 @@ public class MutationInvalidException extends RuntimeException {
       return this.cause;
     }
 
-    public MutationInvalidException build() {
+    public MutationToException build() {
       if (Objects.isNull(this.message())) {
         throw new IllegalArgumentException(
           "Missing value for required field `message`"
         );
       }
-      return new MutationInvalidException(this);
+      return new MutationToException(this);
     }
   }
 }

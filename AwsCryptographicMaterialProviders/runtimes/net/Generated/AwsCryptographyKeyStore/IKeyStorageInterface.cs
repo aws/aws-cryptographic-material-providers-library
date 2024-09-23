@@ -17,5 +17,7 @@ namespace AWS.Cryptography.KeyStore
     AWS.Cryptography.KeyStore.WriteInitializeMutationOutput WriteInitializeMutation(AWS.Cryptography.KeyStore.WriteInitializeMutationInput input);
     AWS.Cryptography.KeyStore.QueryForVersionsOutput QueryForVersions(AWS.Cryptography.KeyStore.QueryForVersionsInput input);
     AWS.Cryptography.KeyStore.WriteMutatedVersionsOutput WriteMutatedVersions(AWS.Cryptography.KeyStore.WriteMutatedVersionsInput input);
+    AWS.Cryptography.KeyStore.GetMutationLockOutput GetMutationLock(AWS.Cryptography.KeyStore.GetMutationLockInput input);
+    AWS.Cryptography.KeyStore.ClobberMutationLockOutput ClobberMutationLock(AWS.Cryptography.KeyStore.ClobberMutationLockInput input);
   }
 }

@@ -10,8 +10,11 @@ import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_CollectionOfErrors;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_KeyStoreAdminException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationConflictException;
+import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationFromException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationInvalidException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationLockInvalidException;
+import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationToException;
+import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationVerificationException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_Opaque;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_UnexpectedStateException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.IKeyStoreAdminClient;
@@ -30,9 +33,12 @@ import software.amazon.cryptography.keystoreadmin.model.KeyStoreAdminException;
 import software.amazon.cryptography.keystoreadmin.model.MutatedBranchKeyItem;
 import software.amazon.cryptography.keystoreadmin.model.MutationComplete;
 import software.amazon.cryptography.keystoreadmin.model.MutationConflictException;
+import software.amazon.cryptography.keystoreadmin.model.MutationFromException;
 import software.amazon.cryptography.keystoreadmin.model.MutationInvalidException;
 import software.amazon.cryptography.keystoreadmin.model.MutationLockInvalidException;
+import software.amazon.cryptography.keystoreadmin.model.MutationToException;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
+import software.amazon.cryptography.keystoreadmin.model.MutationVerificationException;
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
 import software.amazon.cryptography.keystoreadmin.model.OpaqueError;
 import software.amazon.cryptography.keystoreadmin.model.UnexpectedStateException;
@@ -89,6 +95,19 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static MutationFromException Error(
+    Error_MutationFromException dafnyValue
+  ) {
+    MutationFromException.Builder nativeBuilder =
+      MutationFromException.builder();
+    nativeBuilder.message(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_message()
+      )
+    );
+    return nativeBuilder.build();
+  }
+
   public static MutationInvalidException Error(
     Error_MutationInvalidException dafnyValue
   ) {
@@ -107,6 +126,31 @@ public class ToNative {
   ) {
     MutationLockInvalidException.Builder nativeBuilder =
       MutationLockInvalidException.builder();
+    nativeBuilder.message(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_message()
+      )
+    );
+    return nativeBuilder.build();
+  }
+
+  public static MutationToException Error(
+    Error_MutationToException dafnyValue
+  ) {
+    MutationToException.Builder nativeBuilder = MutationToException.builder();
+    nativeBuilder.message(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_message()
+      )
+    );
+    return nativeBuilder.build();
+  }
+
+  public static MutationVerificationException Error(
+    Error_MutationVerificationException dafnyValue
+  ) {
+    MutationVerificationException.Builder nativeBuilder =
+      MutationVerificationException.builder();
     nativeBuilder.message(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
         dafnyValue.dtor_message()
@@ -135,11 +179,20 @@ public class ToNative {
     if (dafnyValue.is_MutationConflictException()) {
       return ToNative.Error((Error_MutationConflictException) dafnyValue);
     }
+    if (dafnyValue.is_MutationFromException()) {
+      return ToNative.Error((Error_MutationFromException) dafnyValue);
+    }
     if (dafnyValue.is_MutationInvalidException()) {
       return ToNative.Error((Error_MutationInvalidException) dafnyValue);
     }
     if (dafnyValue.is_MutationLockInvalidException()) {
       return ToNative.Error((Error_MutationLockInvalidException) dafnyValue);
+    }
+    if (dafnyValue.is_MutationToException()) {
+      return ToNative.Error((Error_MutationToException) dafnyValue);
+    }
+    if (dafnyValue.is_MutationVerificationException()) {
+      return ToNative.Error((Error_MutationVerificationException) dafnyValue);
     }
     if (dafnyValue.is_UnexpectedStateException()) {
       return ToNative.Error((Error_UnexpectedStateException) dafnyValue);

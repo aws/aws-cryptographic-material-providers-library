@@ -1,5 +1,5 @@
 diff --git b/ComAmazonawsKms/runtimes/net/Generated/TypeConversion.cs a/ComAmazonawsKms/runtimes/net/Generated/TypeConversion.cs
-index f479e07b..46aff0c7 100644
+index f479e07b9..46aff0c76 100644
 --- b/ComAmazonawsKms/runtimes/net/Generated/TypeConversion.cs
 +++ a/ComAmazonawsKms/runtimes/net/Generated/TypeConversion.cs
 @@ -5510,7 +5510,7 @@ namespace Com.Amazonaws.Kms

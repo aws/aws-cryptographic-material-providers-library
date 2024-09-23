@@ -8,6 +8,8 @@ import java.lang.IllegalArgumentException;
 import java.lang.RuntimeException;
 import java.util.Objects;
 import software.amazon.cryptography.keystore.internaldafny.types.Error;
+import software.amazon.cryptography.keystore.model.ClobberMutationLockInput;
+import software.amazon.cryptography.keystore.model.ClobberMutationLockOutput;
 import software.amazon.cryptography.keystore.model.GetEncryptedActiveBranchKeyInput;
 import software.amazon.cryptography.keystore.model.GetEncryptedActiveBranchKeyOutput;
 import software.amazon.cryptography.keystore.model.GetEncryptedBeaconKeyInput;
@@ -18,6 +20,8 @@ import software.amazon.cryptography.keystore.model.GetItemsForInitializeMutation
 import software.amazon.cryptography.keystore.model.GetItemsForInitializeMutationOutput;
 import software.amazon.cryptography.keystore.model.GetKeyStorageInfoInput;
 import software.amazon.cryptography.keystore.model.GetKeyStorageInfoOutput;
+import software.amazon.cryptography.keystore.model.GetMutationLockInput;
+import software.amazon.cryptography.keystore.model.GetMutationLockOutput;
 import software.amazon.cryptography.keystore.model.QueryForVersionsInput;
 import software.amazon.cryptography.keystore.model.QueryForVersionsOutput;
 import software.amazon.cryptography.keystore.model.WriteInitializeMutationInput;
@@ -67,6 +71,25 @@ public final class KeyStorageInterface implements IKeyStorageInterface {
 
   public software.amazon.cryptography.keystore.internaldafny.types.IKeyStorageInterface impl() {
     return this._impl;
+  }
+
+  /**
+   * Overwrite an existing Mutation Lock.
+   *
+   */
+  public ClobberMutationLockOutput ClobberMutationLock(
+    ClobberMutationLockInput input
+  ) {
+    software.amazon.cryptography.keystore.internaldafny.types.ClobberMutationLockInput dafnyValue =
+      ToDafny.ClobberMutationLockInput(input);
+    Result<
+      software.amazon.cryptography.keystore.internaldafny.types.ClobberMutationLockOutput,
+      Error
+    > result = this._impl.ClobberMutationLock(dafnyValue);
+    if (result.is_Failure()) {
+      throw ToNative.Error(result.dtor_error());
+    }
+    return ToNative.ClobberMutationLockOutput(result.dtor_value());
   }
 
   /**
@@ -172,6 +195,25 @@ public final class KeyStorageInterface implements IKeyStorageInterface {
       throw ToNative.Error(result.dtor_error());
     }
     return ToNative.GetKeyStorageInfoOutput(result.dtor_value());
+  }
+
+  /**
+   * Check for Mutation Lock on a Branch Key ID.
+   * If one exists, returns the Mutation Lock.
+   * Otherwise, returns nothing.
+   *
+   */
+  public GetMutationLockOutput GetMutationLock(GetMutationLockInput input) {
+    software.amazon.cryptography.keystore.internaldafny.types.GetMutationLockInput dafnyValue =
+      ToDafny.GetMutationLockInput(input);
+    Result<
+      software.amazon.cryptography.keystore.internaldafny.types.GetMutationLockOutput,
+      Error
+    > result = this._impl.GetMutationLock(dafnyValue);
+    if (result.is_Failure()) {
+      throw ToNative.Error(result.dtor_error());
+    }
+    return ToNative.GetMutationLockOutput(result.dtor_value());
   }
 
   /**
@@ -305,6 +347,42 @@ public final class KeyStorageInterface implements IKeyStorageInterface {
         );
       }
       this._impl = nativeImpl;
+    }
+
+    public Result<
+      software.amazon.cryptography.keystore.internaldafny.types.ClobberMutationLockOutput,
+      Error
+    > ClobberMutationLock(
+      software.amazon.cryptography.keystore.internaldafny.types.ClobberMutationLockInput dafnyInput
+    ) {
+      try {
+        ClobberMutationLockInput nativeInput =
+          ToNative.ClobberMutationLockInput(dafnyInput);
+        ClobberMutationLockOutput nativeOutput =
+          this._impl.ClobberMutationLock(nativeInput);
+        software.amazon.cryptography.keystore.internaldafny.types.ClobberMutationLockOutput dafnyOutput =
+          ToDafny.ClobberMutationLockOutput(nativeOutput);
+        return Result.create_Success(
+          software.amazon.cryptography.keystore.internaldafny.types.ClobberMutationLockOutput._typeDescriptor(),
+          Error._typeDescriptor(),
+          dafnyOutput
+        );
+      } catch (RuntimeException ex) {
+        return Result.create_Failure(
+          software.amazon.cryptography.keystore.internaldafny.types.ClobberMutationLockOutput._typeDescriptor(),
+          Error._typeDescriptor(),
+          ToDafny.Error(ex)
+        );
+      }
+    }
+
+    public Result<
+      software.amazon.cryptography.keystore.internaldafny.types.ClobberMutationLockOutput,
+      Error
+    > ClobberMutationLock_k(
+      software.amazon.cryptography.keystore.internaldafny.types.ClobberMutationLockInput dafnyInput
+    ) {
+      throw new RuntimeException("Not supported at this time.");
     }
 
     public Result<
@@ -484,6 +562,43 @@ public final class KeyStorageInterface implements IKeyStorageInterface {
       Error
     > GetKeyStorageInfo_k(
       software.amazon.cryptography.keystore.internaldafny.types.GetKeyStorageInfoInput dafnyInput
+    ) {
+      throw new RuntimeException("Not supported at this time.");
+    }
+
+    public Result<
+      software.amazon.cryptography.keystore.internaldafny.types.GetMutationLockOutput,
+      Error
+    > GetMutationLock(
+      software.amazon.cryptography.keystore.internaldafny.types.GetMutationLockInput dafnyInput
+    ) {
+      try {
+        GetMutationLockInput nativeInput = ToNative.GetMutationLockInput(
+          dafnyInput
+        );
+        GetMutationLockOutput nativeOutput =
+          this._impl.GetMutationLock(nativeInput);
+        software.amazon.cryptography.keystore.internaldafny.types.GetMutationLockOutput dafnyOutput =
+          ToDafny.GetMutationLockOutput(nativeOutput);
+        return Result.create_Success(
+          software.amazon.cryptography.keystore.internaldafny.types.GetMutationLockOutput._typeDescriptor(),
+          Error._typeDescriptor(),
+          dafnyOutput
+        );
+      } catch (RuntimeException ex) {
+        return Result.create_Failure(
+          software.amazon.cryptography.keystore.internaldafny.types.GetMutationLockOutput._typeDescriptor(),
+          Error._typeDescriptor(),
+          ToDafny.Error(ex)
+        );
+      }
+    }
+
+    public Result<
+      software.amazon.cryptography.keystore.internaldafny.types.GetMutationLockOutput,
+      Error
+    > GetMutationLock_k(
+      software.amazon.cryptography.keystore.internaldafny.types.GetMutationLockInput dafnyInput
     ) {
       throw new RuntimeException("Not supported at this time.");
     }

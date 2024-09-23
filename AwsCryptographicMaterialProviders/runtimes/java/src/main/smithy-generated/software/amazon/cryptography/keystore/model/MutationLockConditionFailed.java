@@ -1,17 +1,16 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
-package software.amazon.cryptography.keystoreadmin.model;
+package software.amazon.cryptography.keystore.model;
 
 import java.util.Objects;
 
 /**
- * Branch Key Authorization failed while Initializing the Mutation.
- * No Mutation Lock was created; no items were changed.
+ * Write to Storage failed due to Mutation Lock condition failure.
  */
-public class MutationInvalidException extends RuntimeException {
+public class MutationLockConditionFailed extends RuntimeException {
 
-  protected MutationInvalidException(BuilderImpl builder) {
+  protected MutationLockConditionFailed(BuilderImpl builder) {
     super(messageFromBuilder(builder), builder.cause());
   }
 
@@ -68,7 +67,7 @@ public class MutationInvalidException extends RuntimeException {
      */
     Throwable cause();
 
-    MutationInvalidException build();
+    MutationLockConditionFailed build();
   }
 
   static class BuilderImpl implements Builder {
@@ -79,7 +78,7 @@ public class MutationInvalidException extends RuntimeException {
 
     protected BuilderImpl() {}
 
-    protected BuilderImpl(MutationInvalidException model) {
+    protected BuilderImpl(MutationLockConditionFailed model) {
       this.message = model.message();
       this.cause = model.cause();
     }
@@ -102,13 +101,13 @@ public class MutationInvalidException extends RuntimeException {
       return this.cause;
     }
 
-    public MutationInvalidException build() {
+    public MutationLockConditionFailed build() {
       if (Objects.isNull(this.message())) {
         throw new IllegalArgumentException(
           "Missing value for required field `message`"
         );
       }
-      return new MutationInvalidException(this);
+      return new MutationLockConditionFailed(this);
     }
   }
 }

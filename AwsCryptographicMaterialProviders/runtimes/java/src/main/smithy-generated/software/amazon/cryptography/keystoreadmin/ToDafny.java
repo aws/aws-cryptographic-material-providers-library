@@ -23,8 +23,11 @@ import software.amazon.cryptography.keystoreadmin.internaldafny.types.CreateKeyO
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_KeyStoreAdminException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationConflictException;
+import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationFromException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationInvalidException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationLockInvalidException;
+import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationToException;
+import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationVerificationException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_UnexpectedStateException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.IKeyStoreAdminClient;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.InitializeMutationInput;
@@ -41,8 +44,11 @@ import software.amazon.cryptography.keystoreadmin.internaldafny.types.VersionKey
 import software.amazon.cryptography.keystoreadmin.model.CollectionOfErrors;
 import software.amazon.cryptography.keystoreadmin.model.KeyStoreAdminException;
 import software.amazon.cryptography.keystoreadmin.model.MutationConflictException;
+import software.amazon.cryptography.keystoreadmin.model.MutationFromException;
 import software.amazon.cryptography.keystoreadmin.model.MutationInvalidException;
 import software.amazon.cryptography.keystoreadmin.model.MutationLockInvalidException;
+import software.amazon.cryptography.keystoreadmin.model.MutationToException;
+import software.amazon.cryptography.keystoreadmin.model.MutationVerificationException;
 import software.amazon.cryptography.keystoreadmin.model.OpaqueError;
 import software.amazon.cryptography.keystoreadmin.model.UnexpectedStateException;
 
@@ -55,11 +61,20 @@ public class ToDafny {
     if (nativeValue instanceof MutationConflictException) {
       return ToDafny.Error((MutationConflictException) nativeValue);
     }
+    if (nativeValue instanceof MutationFromException) {
+      return ToDafny.Error((MutationFromException) nativeValue);
+    }
     if (nativeValue instanceof MutationInvalidException) {
       return ToDafny.Error((MutationInvalidException) nativeValue);
     }
     if (nativeValue instanceof MutationLockInvalidException) {
       return ToDafny.Error((MutationLockInvalidException) nativeValue);
+    }
+    if (nativeValue instanceof MutationToException) {
+      return ToDafny.Error((MutationToException) nativeValue);
+    }
+    if (nativeValue instanceof MutationVerificationException) {
+      return ToDafny.Error((MutationVerificationException) nativeValue);
     }
     if (nativeValue instanceof UnexpectedStateException) {
       return ToDafny.Error((UnexpectedStateException) nativeValue);
@@ -409,6 +424,15 @@ public class ToDafny {
     return new Error_MutationConflictException(message);
   }
 
+  public static Error Error(MutationFromException nativeValue) {
+    DafnySequence<? extends Character> message;
+    message =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.message()
+      );
+    return new Error_MutationFromException(message);
+  }
+
   public static Error Error(MutationInvalidException nativeValue) {
     DafnySequence<? extends Character> message;
     message =
@@ -425,6 +449,24 @@ public class ToDafny {
         nativeValue.message()
       );
     return new Error_MutationLockInvalidException(message);
+  }
+
+  public static Error Error(MutationToException nativeValue) {
+    DafnySequence<? extends Character> message;
+    message =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.message()
+      );
+    return new Error_MutationToException(message);
+  }
+
+  public static Error Error(MutationVerificationException nativeValue) {
+    DafnySequence<? extends Character> message;
+    message =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.message()
+      );
+    return new Error_MutationVerificationException(message);
   }
 
   public static Error Error(UnexpectedStateException nativeValue) {
