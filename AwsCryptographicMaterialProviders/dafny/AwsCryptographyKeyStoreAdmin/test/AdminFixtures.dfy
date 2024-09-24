@@ -87,7 +87,7 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     nameonly id: string,
     nameonly physicalName: string := Fixtures.branchKeyStoreName,
     nameonly logicalName: string := Fixtures.logicalKeyStoreName,
-    nameonly keyValue: KeyValue := KeyValue(),
+    nameonly keyValue: KeyValue := KeyValue(key:="Robbie", value:="Is a dog."),
     nameonly alsoViolateBeacon?: bool := false,
     nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None,
     nameonly kmsClient?: Option<KMS.Types.IKMSClient> := None

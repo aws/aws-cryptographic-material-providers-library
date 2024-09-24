@@ -14,7 +14,7 @@ include "../AdminFixtures.dfy"
 // - maintains un-modeled attributes in exsisting items
 // - projects un-modeled attributes to new items
 
-module {:options "/functionSyntax:4" } TestMutationsEncryptionContextUnModeledAttribute {
+module {:options "/functionSyntax:4" } TestMutationsUnModeledAttribute {
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KeyStoreAdmin
   import KeyStore
@@ -38,9 +38,9 @@ module {:options "/functionSyntax:4" } TestMutationsEncryptionContextUnModeledAt
   const kmsId: string := Fixtures.keyArn
   const physicalName: string := Fixtures.branchKeyStoreName
   const logicalName: string := Fixtures.logicalKeyStoreName
-  const testLogPrefix := "\nTestMutationsEncryptionContextUnModeledAttribute :: TestHappyCase :: "
+  const testLogPrefix := "\nTestMutationsUnModeledAttribute :: TestHappyCase :: "
 
-  method {:test} {:vcs_split_on_every_assert} TestHappyCase()
+  method {:test} TestHappyCase()
   {
     print " running";
 
@@ -61,7 +61,7 @@ module {:options "/functionSyntax:4" } TestMutationsEncryptionContextUnModeledAt
     Fixtures.CreateHappyCaseId(id:=testId, versionCount:=0, customEC:=originalEC);
 
     print testLogPrefix + " Created the legit test items with 1 versions! testId: " + testId + "\n";
-    var unModeledAttri := AdminFixtures.KeyValue();
+    var unModeledAttri := AdminFixtures.KeyValue(key:="Robbie", value:="Is a dog.");
     var _ :- expect AdminFixtures.AddAttributeWithoutLibrary(
       id:=testId,
       alsoViolateBeacon? := true,
