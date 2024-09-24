@@ -13,6 +13,7 @@ AwsKmsMrkMatchForDecrypt_Compile
 AwsKmsRsaKeyring_Compile
 AwsKmsUtils_Compile
 CMM_Compile
+CacheConstants_Compile
 CanonicalEncryptionContext_Compile
 Commitment_Compile
 Constants_Compile
