@@ -1,5 +1,11 @@
 # Changelog
 
+# [1.7.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.6.0...v1.7.0) (2024-09-23)
+
+### Features
+
+- **HierarchyKeyring; CMC:** Shared cache across Hierarchy Keyrings ([#747](https://github.com/aws/aws-cryptographic-material-providers-library/issues/747)) ([d4709e9](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d4709e91fe05180ea13712cf657373515493a3f1))
+
 # [1.6.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.5.1...v1.6.0) (2024-09-10)
 
 ### Bug Fixes
