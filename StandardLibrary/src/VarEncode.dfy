@@ -157,17 +157,17 @@ module {:options "-functionSyntax:4"} VarEncode {
     assume {:axiom} Encode(Decode(bytes)) == bytes;
   }
 
-  ghost const Max1 := 0x80
-  ghost const Max2 := 0x4000
-  ghost const Max3 := 0x200000
-  ghost const Max4 := 0x10000000
-  ghost const Max5 := 0x800000000
-  ghost const Max6 := 0x40000000000
-  ghost const Max7 := 0x2000000000000
-  ghost const Max8 := 0x100000000000000
-  ghost const Max9 := 0x8000000000000000
+  const Max1 := 0x80
+  const Max2 := 0x4000
+  const Max3 := 0x200000
+  const Max4 := 0x10000000
+  const Max5 := 0x800000000
+  const Max6 := 0x40000000000
+  const Max7 := 0x2000000000000
+  const Max8 := 0x100000000000000
+  const Max9 := 0x8000000000000000
 
-  ghost function EncodeLength(x : nat) : nat
+  function EncodeLength(x : nat) : nat
   {
     if x < Max1 then
       1
