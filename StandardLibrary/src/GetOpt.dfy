@@ -241,9 +241,15 @@ module {:options "-functionSyntax:4"} GetOpt {
     }
   }
 
+  predicate IsHelp(args : Parsed)
+  {
+    && |args.params| != 0
+    && args.params[0].name == HELP_STR
+  }
+
   function {:tailrecursion} NeedsHelp(opts : Options, args : Parsed, prefix : string := "") : Option<string>
   {
-    if |args.params| != 0 && args.params[0].name == HELP_STR then
+    if IsHelp(args) then
       Some(GetHelp(opts, prefix))
     else if args.subcommand.Some? then
       var pos :- GetSubOptions(opts.params, args.subcommand.value.command);
@@ -613,16 +619,19 @@ module {:options "-functionSyntax:4"} GetOpt {
 
   function /*{:tailrecursion}*/ PostProcess(opts : Options, args : Parsed) : Result<Parsed, string>
   {
-    var newParams :- PostProcess2(opts.params, args.params);
-    if args.subcommand.Some? then
-      var optPos := GetSubOptions(opts.params, args.subcommand.value.command);
-      if optPos.Some? then
-        var sub :- PostProcess(opts.params[optPos.value].options, args.subcommand.value);
-        Success(args.(params := args.params + newParams, subcommand := Some(sub)))
-      else
-        Failure("Internal error in GetOpt::PostProcess")
+    if IsHelp(args) then
+      Success(args)
     else
-      Success(args.(params := args.params + newParams))
+      var newParams :- PostProcess2(opts.params, args.params);
+      if args.subcommand.Some? then
+        var optPos := GetSubOptions(opts.params, args.subcommand.value.command);
+        if optPos.Some? then
+          var sub :- PostProcess(opts.params[optPos.value].options, args.subcommand.value);
+          Success(args.(params := args.params + newParams, subcommand := Some(sub)))
+        else
+          Failure("Internal error in GetOpt::PostProcess")
+      else
+        Success(args.(params := args.params + newParams))
   }
 
   predicate AllDigits(s : string)

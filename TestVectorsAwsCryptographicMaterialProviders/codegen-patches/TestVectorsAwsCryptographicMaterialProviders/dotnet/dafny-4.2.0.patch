@@ -1,8 +1,8 @@
 diff --git b/TestVectorsAwsCryptographicMaterialProviders/runtimes/net/Generated/TestVectorsAwsCryptographicMaterialProviders/TypeConversion.cs a/TestVectorsAwsCryptographicMaterialProviders/runtimes/net/Generated/TestVectorsAwsCryptographicMaterialProviders/TypeConversion.cs
-index 87b39a81..e57de1dd 100644
+index 7b556e25..5cf59ac4 100644
 --- b/TestVectorsAwsCryptographicMaterialProviders/runtimes/net/Generated/TestVectorsAwsCryptographicMaterialProviders/TypeConversion.cs
 +++ a/TestVectorsAwsCryptographicMaterialProviders/runtimes/net/Generated/TestVectorsAwsCryptographicMaterialProviders/TypeConversion.cs
-@@ -3399,7 +3399,9 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
+@@ -3835,7 +3835,9 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
              dafnyVal._ComAmazonawsDynamodb
            );
          case software.amazon.cryptography.materialproviders.internaldafny.types.Error_ComAmazonawsKms dafnyVal:

@@ -7,6 +7,10 @@ namespace Com.Amazonaws.Kms
 {
     public static class TypeConversion
     {
+        private const string ISO8601DateFormat = "yyyy-MM-dd\\THH:mm:ss.fff\\Z";
+
+        private const string ISO8601DateFormatNoMS = "yyyy-MM-dd\\THH:mm:ss\\Z";
+
         public static Amazon.KeyManagementService.AlgorithmSpec FromDafny_N3_com__N9_amazonaws__N3_kms__S13_AlgorithmSpec(software.amazon.cryptography.services.kms.internaldafny.types._IAlgorithmSpec value)
         {
             if (value.is_RSAES__PKCS1__V1__5) return Amazon.KeyManagementService.AlgorithmSpec.RSAES_PKCS1_V1_5;
@@ -5505,15 +5509,13 @@ namespace Com.Amazonaws.Kms
         }
         public static System.DateTime FromDafny_N3_com__N9_amazonaws__N3_kms__S8_DateType(Dafny.ISequence<char> value)
         {
-            System.Globalization.CultureInfo culture = new System.Globalization.CultureInfo("");
             string timestampString = new string(value.Elements);
-            return System.DateTime.ParseExact(timestampString, "s", culture);
+            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }.ToString(), System.Globalization.CultureInfo.InvariantCulture);
 
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S8_DateType(System.DateTime value)
         {
-            System.Globalization.CultureInfo culture = new System.Globalization.CultureInfo("");
-            string timestampString = value.ToString("s", culture);
+            string timestampString = value.ToString(ISO8601DateFormat, System.Globalization.CultureInfo.InvariantCulture);
             return Dafny.Sequence<char>.FromString(timestampString);
 
         }

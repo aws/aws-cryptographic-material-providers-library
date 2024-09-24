@@ -603,21 +603,24 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
 
       var sharedSecretPublicKey: seq<uint8>;
       var sharedSecretPrivateKey: seq<uint8>;
-      if {
-        case this.keyAgreementScheme.PublicKeyDiscovery? =>
+      match this.keyAgreementScheme {
+        case PublicKeyDiscovery(publicKeyDiscovery) => {
           sharedSecretPublicKey := senderPublicKey;
-          sharedSecretPrivateKey := this.keyAgreementScheme.PublicKeyDiscovery.recipientStaticPrivateKey;
-        case this.keyAgreementScheme.RawPrivateKeyToStaticPublicKey? =>
-          sharedSecretPrivateKey := this.keyAgreementScheme.RawPrivateKeyToStaticPublicKey.senderStaticPrivateKey;
-          if this.keyAgreementScheme.RawPrivateKeyToStaticPublicKey.recipientPublicKey == recipientPublicKey {
+          sharedSecretPrivateKey := publicKeyDiscovery.recipientStaticPrivateKey;
+        }
+        case RawPrivateKeyToStaticPublicKey(rawPrivateKeyToStaticPublicKey) => {
+          sharedSecretPrivateKey := rawPrivateKeyToStaticPublicKey.senderStaticPrivateKey;
+          if rawPrivateKeyToStaticPublicKey.recipientPublicKey == recipientPublicKey {
             sharedSecretPublicKey := recipientPublicKey;
           } else {
             sharedSecretPublicKey := senderPublicKey;
           }
-        case this.keyAgreementScheme.EphemeralPrivateKeyToStaticPublicKey? =>
+        }
+        case EphemeralPrivateKeyToStaticPublicKey(_) => {
           //= aws-encryption-sdk-specification/framework/key-agreement-schemas.md#ephemeralprivatekeytostaticpublickey
           //# On decrypt, the keyring MUST fail.
           return Failure(E("EphemeralPrivateKeyToStaticPublicKey Not allowed on decrypt"));
+        }
       }
 
       var _ :- ValidatePublicKey(

@@ -1208,7 +1208,7 @@
       "traits": {
         "smithy.api#length": {
           "min": 1,
-          "max": 25
+          "max": 100
         }
       }
     },
@@ -5147,7 +5147,7 @@
       "traits": {
         "smithy.api#length": {
           "min": 1,
-          "max": 25
+          "max": 100
         }
       }
     },
@@ -6179,7 +6179,7 @@
       "traits": {
         "smithy.api#length": {
           "min": 1,
-          "max": 25
+          "max": 100
         }
       }
     },
@@ -9008,7 +9008,7 @@
       "traits": {
         "smithy.api#length": {
           "min": 1,
-          "max": 25
+          "max": 100
         }
       }
     },
@@ -9122,7 +9122,7 @@
       "traits": {
         "smithy.api#length": {
           "min": 1,
-          "max": 25
+          "max": 100
         }
       }
     },
