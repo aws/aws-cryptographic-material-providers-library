@@ -81,11 +81,13 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     key: string := "Robbie",
     value: string := "Is a dog.")
 
+  /** Adds an "un-modeled Attribute" to the Active & Decrypt. */
+  /** If alsoViolateBeacion?, also add to Beacon.*/
   method AddAttributeWithoutLibrary(
     nameonly id: string,
     nameonly physicalName: string := Fixtures.branchKeyStoreName,
     nameonly logicalName: string := Fixtures.logicalKeyStoreName,
-    nameonly keyValue: KeyValue := KeyValue(key:="Robbie", value:="Is a dog."),
+    nameonly keyValue: KeyValue := KeyValue(),
     nameonly alsoViolateBeacon?: bool := false,
     nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None,
     nameonly kmsClient?: Option<KMS.Types.IKMSClient> := None
@@ -100,13 +102,10 @@ module {:options "/functionSyntax:4" } AdminFixtures {
              + (if kmsClient?.Some? then kmsClient?.value.Modifies else {})
   {
     var ddbClient :- expect Fixtures.ProvideDDBClient(ddbClient?);
-    assume {:axiom} fresh(ddbClient) && fresh(ddbClient.Modifies);
     var kmsClient :- expect Fixtures.ProvideKMSClient(None);
-    assume {:axiom} fresh(kmsClient) && fresh(kmsClient.Modifies);
-
     var storage :- expect Fixtures.DefaultStorage(
       physicalName := physicalName, logicalName := logicalName, ddbClient? := Some(ddbClient));
-    assume {:axiom} fresh(storage) && fresh(storage.Modifies);
+
     var allThree :- expect Fixtures.getItems(id:=id, underTest:=storage);
     var activeDDB :- expect ViolateItem(
       item := allThree.active, keyValue:=keyValue, kmsClient:=kmsClient, physicalName:=physicalName);
