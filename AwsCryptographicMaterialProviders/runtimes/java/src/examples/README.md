@@ -8,5 +8,5 @@ AWS Cryptographic Material Providers Library (MPL) in Java.
 
 ```
 ├── ..
-└── Hierarchy: Examples for manging the Hierarchical Keyring's Key Store
+└── Hierarchy: Examples for managing the Hierarchical Keyring's Key Store
 ```
