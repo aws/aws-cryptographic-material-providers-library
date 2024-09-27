@@ -30,6 +30,6 @@ require (
 
 replace github.com/aws/aws-cryptographic-material-providers-library/dynamodb => ../ImplementationFromDafny-go
 
-replace github.com/dafny-lang/DafnyRuntimeGo => /Volumes/workplace/smithy-dafny/DafnyRuntimeGo
+replace github.com/dafny-lang/DafnyRuntimeGo => ../../../../../smithy-dafny/DafnyRuntimeGo
 
 replace github.com/dafny-lang/DafnyStandardLibGo => ../../../../StandardLibrary/runtimes/go/ImplementationFromDafny-go/

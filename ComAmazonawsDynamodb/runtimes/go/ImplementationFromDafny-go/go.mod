@@ -27,6 +27,6 @@ require (
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 )
 
-replace github.com/dafny-lang/DafnyRuntimeGo => /Volumes/workplace/smithy-dafny/DafnyRuntimeGo
+replace github.com/dafny-lang/DafnyRuntimeGo => ../../../../../smithy-dafny/DafnyRuntimeGo
 
 replace github.com/dafny-lang/DafnyStandardLibGo => ../../../../StandardLibrary/runtimes/go/ImplementationFromDafny-go/

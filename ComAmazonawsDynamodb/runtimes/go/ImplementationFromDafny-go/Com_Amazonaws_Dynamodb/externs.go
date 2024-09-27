@@ -20,6 +20,18 @@ func (_static *CompanionStruct_Default___) DynamoDBClient() Wrappers.Result {
 	return Wrappers.Companion_Result_.Create_Success_(&DynamoDBwrapped.Shim{Client: dynamodb.NewFromConfig(cfg, func(o *dynamodb.Options) {})})
 }
 
+func (_static *CompanionStruct_Default___) DDBClientForRegion(regionInput _dafny.Sequence) Wrappers.Result {
+	region := *toString(regionInput)
+	cfg, err := config.LoadDefaultConfig(context.TODO())
+	if err != nil {
+		return Wrappers.Companion_Result_.Create_Failure_(ComAmazonawsDynamodbTypes.Companion_Error_.Create_InternalServerError_(Wrappers.Companion_Option_.Create_Some_(_dafny.SeqOfChars([]_dafny.Char(err.Error())...))))
+
+	}
+	return Wrappers.Companion_Result_.Create_Success_(&DynamoDBwrapped.Shim{Client: dynamodb.NewFromConfig(cfg, func(o *dynamodb.Options) {
+		o.Region = region
+	})})
+}
+
 func (_static *CompanionStruct_Default___) RegionMatch(iDynamodbClient ComAmazonawsDynamodbTypes.IDynamoDBClient, regionInput _dafny.Sequence) Wrappers.Option {
 	region := toString(regionInput)
 	var wrappedDynamodbClient = iDynamodbClient.(*DynamoDBwrapped.Shim).Client

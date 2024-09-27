@@ -22,6 +22,14 @@ func (_static *CompanionStruct_Default___) KMSClientForRegion(regionInput _dafny
 	})})
 }
 
+func (_static *CompanionStruct_Default___) KMSClient() Wrappers.Result {
+	cfg, err := config.LoadDefaultConfig(context.TODO())
+	if err != nil {
+		return Wrappers.Companion_Result_.Create_Failure_(ComAmazonawsKmsTypes.Companion_Error_.Create_KMSInternalException_(Wrappers.Companion_Option_.Create_Some_(_dafny.SeqOfChars([]_dafny.Char(err.Error())...))))
+	}
+	return Wrappers.Companion_Result_.Create_Success_(&KMSwrapped.Shim{Client: kms.NewFromConfig(cfg, func(o *kms.Options) {})})
+}
+
 func (_static *CompanionStruct_Default___) RegionMatch(ikmsClient ComAmazonawsKmsTypes.IKMSClient, regionInput _dafny.Sequence) Wrappers.Option {
 	region := toString(regionInput)
 	var kmsShim = ikmsClient.(*KMSwrapped.Shim).Client
