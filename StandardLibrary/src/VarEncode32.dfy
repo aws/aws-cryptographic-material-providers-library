@@ -63,20 +63,20 @@ module {:options "-functionSyntax:4"} VarEncode32 {
     else if s[0] == HighBit then
       Failure(Malformed)
     else if 1 <= len && s[0] < HighBit then
-        Success(1)
+      Success(1)
     else if 2 <= len && s[1] < HighBit then
-        Success(2)
+      Success(2)
     else if 3 <= len && s[2] < HighBit then
-        Success(3)
+      Success(3)
     else if 4 <= len && s[3] < HighBit then
-        Success(4)
+      Success(4)
     else if 5 <= len && s[4] < HighBit then
-        if s[0] < MaxLeading5Set then
-          Success(5)
-        else
-          Failure(Long)
-    else
+      if s[0] < MaxLeading5Set then
+        Success(5)
+      else
         Failure(Long)
+    else
+      Failure(Long)
   }
 
   // the sequence is a well formed encoding

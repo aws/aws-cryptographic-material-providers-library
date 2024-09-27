@@ -4,11 +4,13 @@
 include "../src/VarEncode.dfy"
 include "../src/VarEncode16.dfy"
 include "../src/VarEncode32.dfy"
+include "../src/VarEncode64.dfy"
 
 module {:options "-functionSyntax:4"} VarEncode32Test {
   import VarEncode
   import VarEncode16
   import VarEncode32
+  import VarEncode64
   import opened BoundedInts
   import opened Wrappers
 
@@ -18,11 +20,17 @@ module {:options "-functionSyntax:4"} VarEncode32Test {
       var enc := VarEncode.Encode(val);
       var enc16 := VarEncode16.Encode(val as uint16);
       var enc32 := VarEncode32.Encode(val as uint32);
-      expect enc == enc16 == enc32;
+      var enc64 := VarEncode64.Encode(val as uint64);
+      expect enc == enc16 == enc32 == enc64;
     } else if val < TWO_TO_THE_32 {
       var enc := VarEncode.Encode(val);
       var enc32 := VarEncode32.Encode(val as uint32);
-      expect enc == enc32;
+      var enc64 := VarEncode64.Encode(val as uint64);
+      expect enc == enc32 == enc64;
+    } else if val < TWO_TO_THE_64 {
+      var enc := VarEncode.Encode(val);
+      var enc64 := VarEncode64.Encode(val as uint64);
+      expect enc == enc64;
     }
   }
 

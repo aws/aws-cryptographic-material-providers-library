@@ -61,16 +61,16 @@ module {:options "-functionSyntax:4"} VarEncode16 {
     else if s[0] == HighBit then
       Failure(Malformed)
     else if 1 <= len && s[0] < HighBit then
-        Success(1)
+      Success(1)
     else if 2 <= len && s[1] < HighBit then
-        Success(2)
+      Success(2)
     else if 3 <= len && s[2] < HighBit then
-        if s[0] < MaxLeading3Set then
-          Success(3)
-        else
-          Failure(Long)
-    else
+      if s[0] < MaxLeading3Set then
+        Success(3)
+      else
         Failure(Long)
+    else
+      Failure(Long)
   }
 
   // the sequence is a well formed encoding
@@ -108,7 +108,7 @@ module {:options "-functionSyntax:4"} VarEncode16 {
     else if len == 2 then
       (s[0] - HighBit) as uint16 * Max1
       + s[1] as uint16
-    else 
+    else
       assert len == 3;
       (s[0] - HighBit) as uint16 * Max2
       + (s[1] - HighBit) as uint16 * Max1
