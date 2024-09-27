@@ -11,4 +11,4 @@ require (
 
 require github.com/google/uuid v1.6.0 // indirect
 
-replace github.com/dafny-lang/DafnyRuntimeGo => ../../../../../smithy-dafny/DafnyRuntimeGo
+replace github.com/dafny-lang/DafnyRuntimeGo => ../../../../smithy-dafny/DafnyRuntimeGo

@@ -40,6 +40,6 @@ replace (
 
 )
 
-replace github.com/dafny-lang/DafnyRuntimeGo => ../../../../../smithy-dafny/DafnyRuntimeGo
+replace github.com/dafny-lang/DafnyRuntimeGo => ../../../../smithy-dafny/DafnyRuntimeGo
 
 replace github.com/dafny-lang/DafnyStandardLibGo => ../../../../StandardLibrary/runtimes/go/ImplementationFromDafny-go/
