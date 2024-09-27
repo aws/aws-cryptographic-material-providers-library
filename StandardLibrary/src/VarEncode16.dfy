@@ -135,14 +135,12 @@ module {:options "-functionSyntax:4"} VarEncode16 {
   lemma EncodeRoundTrip(val : uint16)
     ensures Decode(Encode(val)) == val
   {
-    assume {:axiom} Decode(Encode(val)) == val;
   }
 
   lemma DecodeRoundTrip(bytes : seq<uint8>)
     requires ValidSequence(bytes)
     ensures Encode(Decode(bytes)) == bytes
   {
-    assume {:axiom} Encode(Decode(bytes)) == bytes;
   }
 
   function EncodeLength(x : uint16) : uint16
