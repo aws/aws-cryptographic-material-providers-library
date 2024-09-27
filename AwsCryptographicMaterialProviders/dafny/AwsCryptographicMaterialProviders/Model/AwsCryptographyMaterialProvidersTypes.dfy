@@ -719,6 +719,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     | SingleThreaded(SingleThreaded: SingleThreadedCache)
     | MultiThreaded(MultiThreaded: MultiThreadedCache)
     | StormTracking(StormTracking: StormTrackingCache)
+    | Shared(Shared: ICryptographicMaterialsCache)
   class IClientSupplierCallHistory {
     ghost constructor() {
       GetClient := [];
@@ -823,7 +824,8 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly branchKeyIdSupplier: Option<IBranchKeyIdSupplier> := Option.None ,
     nameonly keyStore: AwsCryptographyKeyStoreTypes.IKeyStoreClient ,
     nameonly ttlSeconds: PositiveLong ,
-    nameonly cache: Option<CacheType> := Option.None
+    nameonly cache: Option<CacheType> := Option.None ,
+    nameonly partitionId: Option<string> := Option.None
   )
   datatype CreateAwsKmsKeyringInput = | CreateAwsKmsKeyringInput (
     nameonly kmsKeyId: KmsKeyId ,
