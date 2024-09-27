@@ -6,7 +6,7 @@ include "../src/VarEncode16.dfy"
 include "../src/VarEncode32.dfy"
 include "../src/VarEncode64.dfy"
 
-module {:options "-functionSyntax:4"} VarEncode32Test {
+module {:options "-functionSyntax:4"} VarEncodeInteropTest {
   import VarEncode
   import VarEncode16
   import VarEncode32
