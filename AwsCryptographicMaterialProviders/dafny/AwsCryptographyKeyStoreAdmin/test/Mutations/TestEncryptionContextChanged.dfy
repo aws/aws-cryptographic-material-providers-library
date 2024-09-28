@@ -66,34 +66,34 @@ module {:options "/functionSyntax:4" } TestEncryptionContextChanged {
 
     var timestamp :- expect Time.GetCurrentTimeStamp();
     var newCustomEC: KeyStoreTypes.EncryptionContextString := map["Robbie" := timestamp];
-    var mutationsRequest := Types.Mutations(terminalEncryptionContext := Some(newCustomEC));
+    var mutationsRequest := Types.Mutations(TerminalEncryptionContext := Some(newCustomEC));
     var initInput := Types.InitializeMutationInput(
-      branchKeyIdentifier := testId,
-      mutations := mutationsRequest,
-      strategy := Some(strategy));
+      Identifier := testId,
+      Mutations := mutationsRequest,
+      Strategy := Some(strategy));
     var initializeOutput :- expect underTest.InitializeMutation(initInput);
-    var initializeToken := initializeOutput.mutationToken;
+    var initializeToken := initializeOutput.MutationToken;
 
     expect initializeToken.UUID.Some?, "Mutation Token from InitializeMutation does not have a UUID!";
 
     print testLogPrefix + " Initialized Mutation. M-Lock UUID " + initializeToken.UUID.value + "\n";
 
     var testInput := Types.ApplyMutationInput(
-      mutationToken := initializeToken,
-      pageSize := Some(24),
-      strategy := Some(strategy));
+      MutationToken := initializeToken,
+      PageSize := Some(24),
+      Strategy := Some(strategy));
     var applyOutput :- expect underTest.ApplyMutation(testInput);
 
     print testLogPrefix + " Applied Mutation w/ pageSize 1. testId: " + testId + "\n";
 
-    expect applyOutput.result.completeMutation?, "Apply Mutation output should not continue!";
+    expect applyOutput.MutationResult.CompleteMutation?, "Apply Mutation output should not continue!";
 
     var versionQuery := KeyStoreTypes.QueryForVersionsInput(
       Identifier := testId,
-      pageSize := 24
+      PageSize := 24
     );
     var queryOut :- expect storage.QueryForVersions(versionQuery);
-    var items := queryOut.items;
+    var items := queryOut.Items;
     expect
       |items| == 3,
       "Test expects there to be 3 Decrypt Only items! Found: " + String.Base10Int2String(|items|);

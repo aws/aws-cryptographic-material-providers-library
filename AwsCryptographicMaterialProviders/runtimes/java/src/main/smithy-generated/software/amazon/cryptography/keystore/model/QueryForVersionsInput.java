@@ -17,7 +17,7 @@ public class QueryForVersionsInput {
    *   Note: While the Default Storage is DDB,
    *   the Key Store transforms the exclusiveStartKey into an opaque representation.
    */
-  private final ByteBuffer exclusiveStartKey;
+  private final ByteBuffer ExclusiveStartKey;
 
   /**
    * The Identifier of the Branch Key.
@@ -27,12 +27,12 @@ public class QueryForVersionsInput {
   /**
    * The maximum read items.
    */
-  private final Integer pageSize;
+  private final Integer PageSize;
 
   protected QueryForVersionsInput(BuilderImpl builder) {
-    this.exclusiveStartKey = builder.exclusiveStartKey();
+    this.ExclusiveStartKey = builder.ExclusiveStartKey();
     this.Identifier = builder.Identifier();
-    this.pageSize = builder.pageSize();
+    this.PageSize = builder.PageSize();
   }
 
   /**
@@ -44,8 +44,8 @@ public class QueryForVersionsInput {
    *   Note: While the Default Storage is DDB,
    *   the Key Store transforms the exclusiveStartKey into an opaque representation.
    */
-  public ByteBuffer exclusiveStartKey() {
-    return this.exclusiveStartKey;
+  public ByteBuffer ExclusiveStartKey() {
+    return this.ExclusiveStartKey;
   }
 
   /**
@@ -58,8 +58,8 @@ public class QueryForVersionsInput {
   /**
    * @return The maximum read items.
    */
-  public Integer pageSize() {
-    return this.pageSize;
+  public Integer PageSize() {
+    return this.PageSize;
   }
 
   public Builder toBuilder() {
@@ -72,7 +72,7 @@ public class QueryForVersionsInput {
 
   public interface Builder {
     /**
-     * @param exclusiveStartKey Optional.
+     * @param ExclusiveStartKey Optional.
      *   If set, Query will start at this index and read forward.
      *   Otherwise, Query will start at the indexes begining.
      *   The Default Storage is DDB;
@@ -80,7 +80,7 @@ public class QueryForVersionsInput {
      *   Note: While the Default Storage is DDB,
      *   the Key Store transforms the exclusiveStartKey into an opaque representation.
      */
-    Builder exclusiveStartKey(ByteBuffer exclusiveStartKey);
+    Builder ExclusiveStartKey(ByteBuffer ExclusiveStartKey);
 
     /**
      * @return Optional.
@@ -91,7 +91,7 @@ public class QueryForVersionsInput {
      *   Note: While the Default Storage is DDB,
      *   the Key Store transforms the exclusiveStartKey into an opaque representation.
      */
-    ByteBuffer exclusiveStartKey();
+    ByteBuffer ExclusiveStartKey();
 
     /**
      * @param Identifier The Identifier of the Branch Key.
@@ -104,41 +104,41 @@ public class QueryForVersionsInput {
     String Identifier();
 
     /**
-     * @param pageSize The maximum read items.
+     * @param PageSize The maximum read items.
      */
-    Builder pageSize(Integer pageSize);
+    Builder PageSize(Integer PageSize);
 
     /**
      * @return The maximum read items.
      */
-    Integer pageSize();
+    Integer PageSize();
 
     QueryForVersionsInput build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected ByteBuffer exclusiveStartKey;
+    protected ByteBuffer ExclusiveStartKey;
 
     protected String Identifier;
 
-    protected Integer pageSize;
+    protected Integer PageSize;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(QueryForVersionsInput model) {
-      this.exclusiveStartKey = model.exclusiveStartKey();
+      this.ExclusiveStartKey = model.ExclusiveStartKey();
       this.Identifier = model.Identifier();
-      this.pageSize = model.pageSize();
+      this.PageSize = model.PageSize();
     }
 
-    public Builder exclusiveStartKey(ByteBuffer exclusiveStartKey) {
-      this.exclusiveStartKey = exclusiveStartKey;
+    public Builder ExclusiveStartKey(ByteBuffer ExclusiveStartKey) {
+      this.ExclusiveStartKey = ExclusiveStartKey;
       return this;
     }
 
-    public ByteBuffer exclusiveStartKey() {
-      return this.exclusiveStartKey;
+    public ByteBuffer ExclusiveStartKey() {
+      return this.ExclusiveStartKey;
     }
 
     public Builder Identifier(String Identifier) {
@@ -150,13 +150,13 @@ public class QueryForVersionsInput {
       return this.Identifier;
     }
 
-    public Builder pageSize(Integer pageSize) {
-      this.pageSize = pageSize;
+    public Builder PageSize(Integer PageSize) {
+      this.PageSize = PageSize;
       return this;
     }
 
-    public Integer pageSize() {
-      return this.pageSize;
+    public Integer PageSize() {
+      return this.PageSize;
     }
 
     public QueryForVersionsInput build() {
@@ -165,9 +165,9 @@ public class QueryForVersionsInput {
           "Missing value for required field `Identifier`"
         );
       }
-      if (Objects.isNull(this.pageSize())) {
+      if (Objects.isNull(this.PageSize())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `pageSize`"
+          "Missing value for required field `PageSize`"
         );
       }
       return new QueryForVersionsInput(this);

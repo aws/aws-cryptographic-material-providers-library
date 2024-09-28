@@ -13,10 +13,10 @@ public class ClobberMutationLockInput {
    * - only one Mutation affects a Branch Key at a time
    * - all items of a Branch Key are mutated consistently
    */
-  private final MutationLock mutationLock;
+  private final MutationLock MutationLock;
 
   protected ClobberMutationLockInput(BuilderImpl builder) {
-    this.mutationLock = builder.mutationLock();
+    this.MutationLock = builder.MutationLock();
   }
 
   /**
@@ -25,8 +25,8 @@ public class ClobberMutationLockInput {
    * - only one Mutation affects a Branch Key at a time
    * - all items of a Branch Key are mutated consistently
    */
-  public MutationLock mutationLock() {
-    return this.mutationLock;
+  public MutationLock MutationLock() {
+    return this.MutationLock;
   }
 
   public Builder toBuilder() {
@@ -39,12 +39,12 @@ public class ClobberMutationLockInput {
 
   public interface Builder {
     /**
-     * @param mutationLock Information an in-flight Mutation of a Branch Key.
+     * @param MutationLock Information an in-flight Mutation of a Branch Key.
      * This ensures:
      * - only one Mutation affects a Branch Key at a time
      * - all items of a Branch Key are mutated consistently
      */
-    Builder mutationLock(MutationLock mutationLock);
+    Builder MutationLock(MutationLock MutationLock);
 
     /**
      * @return Information an in-flight Mutation of a Branch Key.
@@ -52,34 +52,34 @@ public class ClobberMutationLockInput {
      * - only one Mutation affects a Branch Key at a time
      * - all items of a Branch Key are mutated consistently
      */
-    MutationLock mutationLock();
+    MutationLock MutationLock();
 
     ClobberMutationLockInput build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected MutationLock mutationLock;
+    protected MutationLock MutationLock;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(ClobberMutationLockInput model) {
-      this.mutationLock = model.mutationLock();
+      this.MutationLock = model.MutationLock();
     }
 
-    public Builder mutationLock(MutationLock mutationLock) {
-      this.mutationLock = mutationLock;
+    public Builder MutationLock(MutationLock MutationLock) {
+      this.MutationLock = MutationLock;
       return this;
     }
 
-    public MutationLock mutationLock() {
-      return this.mutationLock;
+    public MutationLock MutationLock() {
+      return this.MutationLock;
     }
 
     public ClobberMutationLockInput build() {
-      if (Objects.isNull(this.mutationLock())) {
+      if (Objects.isNull(this.MutationLock())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `mutationLock`"
+          "Missing value for required field `MutationLock`"
         );
       }
       return new ClobberMutationLockInput(this);

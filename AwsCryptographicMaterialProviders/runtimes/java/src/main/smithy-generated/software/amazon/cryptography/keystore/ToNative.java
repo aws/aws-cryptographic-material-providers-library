@@ -336,8 +336,8 @@ public class ToNative {
   ) {
     ClobberMutationLockInput.Builder nativeBuilder =
       ClobberMutationLockInput.builder();
-    nativeBuilder.mutationLock(
-      ToNative.MutationLock(dafnyValue.dtor_mutationLock())
+    nativeBuilder.MutationLock(
+      ToNative.MutationLock(dafnyValue.dtor_MutationLock())
     );
     return nativeBuilder.build();
   }
@@ -630,15 +630,15 @@ public class ToNative {
   ) {
     GetItemsForInitializeMutationOutput.Builder nativeBuilder =
       GetItemsForInitializeMutationOutput.builder();
-    nativeBuilder.activeItem(
-      ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_activeItem())
+    nativeBuilder.ActiveItem(
+      ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_ActiveItem())
     );
-    nativeBuilder.beaconItem(
-      ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_beaconItem())
+    nativeBuilder.BeaconItem(
+      ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_BeaconItem())
     );
-    if (dafnyValue.dtor_mutationLock().is_Some()) {
-      nativeBuilder.mutationLock(
-        ToNative.MutationLock(dafnyValue.dtor_mutationLock().dtor_value())
+    if (dafnyValue.dtor_MutationLock().is_Some()) {
+      nativeBuilder.MutationLock(
+        ToNative.MutationLock(dafnyValue.dtor_MutationLock().dtor_value())
       );
     }
     return nativeBuilder.build();
@@ -716,9 +716,9 @@ public class ToNative {
   ) {
     GetMutationLockOutput.Builder nativeBuilder =
       GetMutationLockOutput.builder();
-    if (dafnyValue.dtor_mutationLock().is_Some()) {
-      nativeBuilder.mutationLock(
-        ToNative.MutationLock(dafnyValue.dtor_mutationLock().dtor_value())
+    if (dafnyValue.dtor_MutationLock().is_Some()) {
+      nativeBuilder.MutationLock(
+        ToNative.MutationLock(dafnyValue.dtor_MutationLock().dtor_value())
       );
     }
     return nativeBuilder.build();
@@ -844,10 +844,10 @@ public class ToNative {
   ) {
     QueryForVersionsInput.Builder nativeBuilder =
       QueryForVersionsInput.builder();
-    if (dafnyValue.dtor_exclusiveStartKey().is_Some()) {
-      nativeBuilder.exclusiveStartKey(
+    if (dafnyValue.dtor_ExclusiveStartKey().is_Some()) {
+      nativeBuilder.ExclusiveStartKey(
         software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
-          dafnyValue.dtor_exclusiveStartKey().dtor_value()
+          dafnyValue.dtor_ExclusiveStartKey().dtor_value()
         )
       );
     }
@@ -856,7 +856,7 @@ public class ToNative {
         dafnyValue.dtor_Identifier()
       )
     );
-    nativeBuilder.pageSize((dafnyValue.dtor_pageSize()));
+    nativeBuilder.PageSize((dafnyValue.dtor_PageSize()));
     return nativeBuilder.build();
   }
 
@@ -865,13 +865,13 @@ public class ToNative {
   ) {
     QueryForVersionsOutput.Builder nativeBuilder =
       QueryForVersionsOutput.builder();
-    nativeBuilder.exclusiveStartKey(
+    nativeBuilder.ExclusiveStartKey(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
-        dafnyValue.dtor_exclusiveStartKey()
+        dafnyValue.dtor_ExclusiveStartKey()
       )
     );
-    nativeBuilder.items(
-      ToNative.EncryptedHierarchicalKeys(dafnyValue.dtor_items())
+    nativeBuilder.Items(
+      ToNative.EncryptedHierarchicalKeys(dafnyValue.dtor_Items())
     );
     return nativeBuilder.build();
   }
@@ -900,20 +900,20 @@ public class ToNative {
   ) {
     WriteInitializeMutationInput.Builder nativeBuilder =
       WriteInitializeMutationInput.builder();
-    nativeBuilder.active(
-      ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_active())
+    nativeBuilder.Active(
+      ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_Active())
     );
-    nativeBuilder.oldActive(
-      ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_oldActive())
+    nativeBuilder.OldActive(
+      ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_OldActive())
     );
-    nativeBuilder.version(
-      ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_version())
+    nativeBuilder.Version(
+      ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_Version())
     );
-    nativeBuilder.beacon(
-      ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_beacon())
+    nativeBuilder.Beacon(
+      ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_Beacon())
     );
-    nativeBuilder.mutationLock(
-      ToNative.MutationLock(dafnyValue.dtor_mutationLock())
+    nativeBuilder.MutationLock(
+      ToNative.MutationLock(dafnyValue.dtor_MutationLock())
     );
     return nativeBuilder.build();
   }
@@ -931,8 +931,8 @@ public class ToNative {
   ) {
     WriteMutatedVersionsInput.Builder nativeBuilder =
       WriteMutatedVersionsInput.builder();
-    nativeBuilder.items(
-      ToNative.EncryptedHierarchicalKeys(dafnyValue.dtor_items())
+    nativeBuilder.Items(
+      ToNative.EncryptedHierarchicalKeys(dafnyValue.dtor_Items())
     );
     nativeBuilder.Identifier(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
@@ -997,8 +997,8 @@ public class ToNative {
     nativeBuilder.Version(
       ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_Version())
     );
-    nativeBuilder.oldActive(
-      ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_oldActive())
+    nativeBuilder.OldActive(
+      ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_OldActive())
     );
     return nativeBuilder.build();
   }

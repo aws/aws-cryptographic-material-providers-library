@@ -313,7 +313,7 @@ structure WriteNewEncryptedBranchKeyVersionInput {
   This means that when updating the current active record
   the existing active record should be equal to this value.
   ")
-  oldActive: EncryptedHierarchicalKey
+  OldActive: EncryptedHierarchicalKey
 }
 @documentation("The output of writing a new version for an existing branch key. There is currently no additional information returned.")
 structure WriteNewEncryptedBranchKeyVersionOutput {}
@@ -406,12 +406,12 @@ structure GetItemsForInitializeMutationInput {
 structure GetItemsForInitializeMutationOutput {
   @required
   @documentation("The materials for the Branch Key.")
-  activeItem: EncryptedHierarchicalKey
+  ActiveItem: EncryptedHierarchicalKey
   @documentation("The materials for the Beacon Key.")
   @required
-  beaconItem: EncryptedHierarchicalKey
+  BeaconItem: EncryptedHierarchicalKey
   @documentation("The Mutation Lock, if it exists.")
-  mutationLock: MutationLock
+  MutationLock: MutationLock
 }
 
 structure WriteInitializeMutationInput {
@@ -420,28 +420,28 @@ structure WriteInitializeMutationInput {
   The active representation of this branch key,
   generated with the Mutation's terminal properities.  
   The plain-text cryptographic material of the Active must be the same as the Version.")
-  active: EncryptedHierarchicalKey,
+  Active: EncryptedHierarchicalKey,
   @required
   @documentation("
   The previous active version.
   This key should be used as an optimistic lock on the new version.
   This means that when updating the current active record
   the existing active record should be equal to this value.")
-  oldActive: EncryptedHierarchicalKey,
+  OldActive: EncryptedHierarchicalKey,
   @required
   @documentation("
   The decrypt representation of this branch key version,
   generated with the Mutation's terminal properities.  
   The plain-text cryptographic material of the `Version` must be the same as the `Active`.")
-  version: EncryptedHierarchicalKey,
+  Version: EncryptedHierarchicalKey,
   @required
   @documentation("
   The mutated HMAC key used to support searchable encryption.
   The cryptographic material is identical to the existing beacon,
   but is now authorized with the Mutation's terminal properities.")
-  beacon: EncryptedHierarchicalKey,
+  Beacon: EncryptedHierarchicalKey,
   @required // Smithy will copy documentation traits from existing shapes
-  mutationLock: MutationLock
+  MutationLock: MutationLock
 }
 structure WriteInitializeMutationOutput {}
 
@@ -458,13 +458,13 @@ structure QueryForVersionsInput {
   see Amazon DynamoDB's defination of exclusiveStartKey for details.
   Note: While the Default Storage is DDB,
   the Key Store transforms the exclusiveStartKey into an opaque representation.")
-  exclusiveStartKey: Blob
+  ExclusiveStartKey: Blob
   @required
   @documentation("The Identifier of the Branch Key.")
   Identifier: String
   @required // @range(min: 1) Smithy-Dafny may not respect range
   @documentation("The maximum read items.")
-  pageSize: Integer
+  PageSize: Integer
 }
 
 structure QueryForVersionsOutput {
@@ -476,16 +476,16 @@ structure QueryForVersionsOutput {
   Note: While the Default Storage is DDB,
   the Key Store transforms the exclusiveStartKey into an opaque representation.")
   @required
-  exclusiveStartKey: Blob
+  ExclusiveStartKey: Blob
   @documentation("Up to pageSize list of version (decrypt only) items of a Branch Key.")
   @required
-  items: EncryptedHierarchicalKeys
+  Items: EncryptedHierarchicalKeys
 }
 
 structure WriteMutatedVersionsInput {
   @documentation("List of version (decrypt only) items of a Branch Key to overwrite conditionally.")
   @required
-  items: EncryptedHierarchicalKeys
+  Items: EncryptedHierarchicalKeys
   @documentation("The Identifier of the Branch Key.")  
   @required
   Identifier: String
@@ -517,7 +517,7 @@ structure GetMutationLockInput {
 }
 structure GetMutationLockOutput {
   @documentation("If not present, there is no Mutation Lock.")
-  mutationLock: MutationLock
+  MutationLock: MutationLock
 }
 
 @documentation("Overwrite an existing Mutation Lock.")
@@ -531,7 +531,7 @@ operation ClobberMutationLock {
 }
 structure ClobberMutationLockInput {
   @required
-  mutationLock: MutationLock
+  MutationLock: MutationLock
 }
 structure ClobberMutationLockOutput {}
 

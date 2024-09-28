@@ -169,16 +169,16 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     ensures output.Success? ==> KeyStoreOperations.ValidInternalConfig?(output.value)
   {
     var _ :- KmsArn.IsValidKeyArn(match kmsArn
-                                  case kmsKeyArn(kmsKeyArn) => kmsKeyArn
-                                  case kmsMRKeyArn(kmsMRKeyArn) => kmsMRKeyArn)
+                                  case KmsKeyArn(kmsKeyArn) => kmsKeyArn
+                                  case KmsMRKeyArn(kmsMRKeyArn) => kmsMRKeyArn)
              .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
     var legacyConfig := KeyStoreOperations.Config(
                           id := "",
                           ddbTableName := None,
                           logicalKeyStoreName := config.logicalKeyStoreName,
                           kmsConfiguration := match kmsArn
-                          case kmsKeyArn(kmsKeyArn) => KeyStoreOperations.Types.kmsKeyArn(kmsKeyArn)
-                          case kmsMRKeyArn(kmsMRKeyArn) => KeyStoreOperations.Types.kmsMRKeyArn(kmsMRKeyArn),
+                          case KmsKeyArn(kmsKeyArn) => KeyStoreOperations.Types.kmsKeyArn(kmsKeyArn)
+                          case KmsMRKeyArn(kmsMRKeyArn) => KeyStoreOperations.Types.kmsMRKeyArn(kmsMRKeyArn),
                           grantTokens := keyManagerStrat.reEncrypt.grantTokens,
                           kmsClient := keyManagerStrat.reEncrypt.kmsClient,
                           ddbClient := None,
@@ -204,21 +204,21 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   method CreateKey ( config: InternalConfig , input: CreateKeyInput )
     returns (output: Result<CreateKeyOutput, Error>)
   {
-    var keyManagerStrat :- ResolveStrategy(input.strategy, config);
+    var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
     :- Need(
       keyManagerStrat.reEncrypt?,
       Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time.")
     );
 
-    var legacyConfig :- LegacyConfig(keyManagerStrat, input.kmsArn, config);
+    var legacyConfig :- LegacyConfig(keyManagerStrat, input.KmsArn, config);
 
     assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
 
     var output? := KeyStoreOperations.CreateKey(
       config := legacyConfig,
       input := KeyStoreOperations.Types.CreateKeyInput(
-        branchKeyIdentifier := input.branchKeyIdentifier,
-        encryptionContext := input.encryptionContext
+        branchKeyIdentifier := input.Identifier,
+        encryptionContext := input.EncryptionContext
       )
     );
     var value :- output?
@@ -226,7 +226,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
 
     output := Success(
       Types.CreateKeyOutput(
-        branchKeyIdentifier := value.branchKeyIdentifier
+        Identifier := value.branchKeyIdentifier
       ));
   }
 
@@ -237,20 +237,20 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     returns (output: Result<VersionKeyOutput, Error>)
   {
 
-    var keyManagerStrat :- ResolveStrategy(input.strategy, config);
+    var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
     :- Need(
       keyManagerStrat.reEncrypt?,
       Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time.")
     );
 
-    var legacyConfig :- LegacyConfig(keyManagerStrat, input.kmsArn, config);
+    var legacyConfig :- LegacyConfig(keyManagerStrat, input.KmsArn, config);
 
     assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
 
     var output? := KeyStoreOperations.VersionKey(
       config := legacyConfig,
       input := KeyStoreOperations.Types.VersionKeyInput(
-        branchKeyIdentifier := input.branchKeyIdentifier
+        branchKeyIdentifier := input.Identifier
       )
     );
     var value :- output?
@@ -264,7 +264,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   method InitializeMutation(config: InternalConfig, input: InitializeMutationInput )
     returns (output: Result<InitializeMutationOutput, Error>)
   {
-    var keyManagerStrat :- ResolveStrategy(input.strategy, config);
+    var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
     :- Need(
       keyManagerStrat.reEncrypt?,
       Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time.")
@@ -282,7 +282,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   method ApplyMutation(config: InternalConfig, input: ApplyMutationInput)
     returns (output: Result<ApplyMutationOutput, Error>)
   {
-    var keyManagerStrat :- ResolveStrategy(input.strategy, config);
+    var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
     :- Need(
       keyManagerStrat.reEncrypt?,
       Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time.")

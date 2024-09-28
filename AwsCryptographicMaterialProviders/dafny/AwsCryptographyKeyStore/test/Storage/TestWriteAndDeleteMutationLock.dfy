@@ -71,11 +71,11 @@ module {:options "/functionSyntax:4"} TestWriteAndDeleteMutationLock {
     );
 
     var inputInit := Types.WriteInitializeMutationInput(
-      active := allThree.active,
-      oldActive := allThree.active,
-      version := allThree.decrypt,
-      beacon := allThree.beacon,
-      mutationLock := mLock
+      Active := allThree.active,
+      OldActive := allThree.active,
+      Version := allThree.decrypt,
+      Beacon := allThree.beacon,
+      MutationLock := mLock
     );
 
     var writeInit :- expect underTest.WriteInitializeMutation(inputInit);
@@ -94,7 +94,7 @@ module {:options "/functionSyntax:4"} TestWriteAndDeleteMutationLock {
     print "\nTestWriteAndDeleteMutationLock :: TestHappyCase :: WriteInit PASS\n";
 
     var writeCompl := Types.WriteMutatedVersionsInput(
-      items := [],
+      Items := [],
       Identifier := testId,
       Original := original,
       Terminal := terminal,

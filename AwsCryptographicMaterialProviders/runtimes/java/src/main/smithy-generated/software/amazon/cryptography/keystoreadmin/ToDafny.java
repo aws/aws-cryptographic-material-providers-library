@@ -110,18 +110,18 @@ public class ToDafny {
     software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput nativeValue
   ) {
     MutationToken mutationToken;
-    mutationToken = ToDafny.MutationToken(nativeValue.mutationToken());
+    mutationToken = ToDafny.MutationToken(nativeValue.MutationToken());
     Option<Integer> pageSize;
     pageSize =
-      Objects.nonNull(nativeValue.pageSize())
-        ? Option.create_Some(TypeDescriptor.INT, (nativeValue.pageSize()))
+      Objects.nonNull(nativeValue.PageSize())
+        ? Option.create_Some(TypeDescriptor.INT, (nativeValue.PageSize()))
         : Option.create_None(TypeDescriptor.INT);
     Option<KeyManagementStrategy> strategy;
     strategy =
-      Objects.nonNull(nativeValue.strategy())
+      Objects.nonNull(nativeValue.Strategy())
         ? Option.create_Some(
           KeyManagementStrategy._typeDescriptor(),
-          ToDafny.KeyManagementStrategy(nativeValue.strategy())
+          ToDafny.KeyManagementStrategy(nativeValue.Strategy())
         )
         : Option.create_None(KeyManagementStrategy._typeDescriptor());
     return new ApplyMutationInput(mutationToken, pageSize, strategy);
@@ -130,24 +130,24 @@ public class ToDafny {
   public static ApplyMutationOutput ApplyMutationOutput(
     software.amazon.cryptography.keystoreadmin.model.ApplyMutationOutput nativeValue
   ) {
-    ApplyMutationResult result;
-    result = ToDafny.ApplyMutationResult(nativeValue.result());
+    ApplyMutationResult mutationResult;
+    mutationResult = ToDafny.ApplyMutationResult(nativeValue.MutationResult());
     DafnySequence<? extends MutatedBranchKeyItem> mutatedBranchKeyItems;
     mutatedBranchKeyItems =
-      ToDafny.MutatedBranchKeyItems(nativeValue.mutatedBranchKeyItems());
-    return new ApplyMutationOutput(result, mutatedBranchKeyItems);
+      ToDafny.MutatedBranchKeyItems(nativeValue.MutatedBranchKeyItems());
+    return new ApplyMutationOutput(mutationResult, mutatedBranchKeyItems);
   }
 
   public static CreateKeyInput CreateKeyInput(
     software.amazon.cryptography.keystoreadmin.model.CreateKeyInput nativeValue
   ) {
-    Option<DafnySequence<? extends Character>> branchKeyIdentifier;
-    branchKeyIdentifier =
-      Objects.nonNull(nativeValue.branchKeyIdentifier())
+    Option<DafnySequence<? extends Character>> identifier;
+    identifier =
+      Objects.nonNull(nativeValue.Identifier())
         ? Option.create_Some(
           DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-            nativeValue.branchKeyIdentifier()
+            nativeValue.Identifier()
           )
         )
         : Option.create_None(
@@ -160,15 +160,15 @@ public class ToDafny {
       >
     > encryptionContext;
     encryptionContext =
-      (Objects.nonNull(nativeValue.encryptionContext()) &&
-          nativeValue.encryptionContext().size() > 0)
+      (Objects.nonNull(nativeValue.EncryptionContext()) &&
+          nativeValue.EncryptionContext().size() > 0)
         ? Option.create_Some(
           DafnyMap._typeDescriptor(
             DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
             DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
           ),
           software.amazon.cryptography.keystore.ToDafny.EncryptionContext(
-            nativeValue.encryptionContext()
+            nativeValue.EncryptionContext()
           )
         )
         : Option.create_None(
@@ -178,67 +178,58 @@ public class ToDafny {
           )
         );
     KMSIdentifier kmsArn;
-    kmsArn = ToDafny.KMSIdentifier(nativeValue.kmsArn());
+    kmsArn = ToDafny.KMSIdentifier(nativeValue.KmsArn());
     Option<KeyManagementStrategy> strategy;
     strategy =
-      Objects.nonNull(nativeValue.strategy())
+      Objects.nonNull(nativeValue.Strategy())
         ? Option.create_Some(
           KeyManagementStrategy._typeDescriptor(),
-          ToDafny.KeyManagementStrategy(nativeValue.strategy())
+          ToDafny.KeyManagementStrategy(nativeValue.Strategy())
         )
         : Option.create_None(KeyManagementStrategy._typeDescriptor());
-    return new CreateKeyInput(
-      branchKeyIdentifier,
-      encryptionContext,
-      kmsArn,
-      strategy
-    );
+    return new CreateKeyInput(identifier, encryptionContext, kmsArn, strategy);
   }
 
   public static CreateKeyOutput CreateKeyOutput(
     software.amazon.cryptography.keystoreadmin.model.CreateKeyOutput nativeValue
   ) {
-    DafnySequence<? extends Character> branchKeyIdentifier;
-    branchKeyIdentifier =
+    DafnySequence<? extends Character> identifier;
+    identifier =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-        nativeValue.branchKeyIdentifier()
+        nativeValue.Identifier()
       );
-    return new CreateKeyOutput(branchKeyIdentifier);
+    return new CreateKeyOutput(identifier);
   }
 
   public static InitializeMutationInput InitializeMutationInput(
     software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput nativeValue
   ) {
-    DafnySequence<? extends Character> branchKeyIdentifier;
-    branchKeyIdentifier =
+    DafnySequence<? extends Character> identifier;
+    identifier =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-        nativeValue.branchKeyIdentifier()
+        nativeValue.Identifier()
       );
     Mutations mutations;
-    mutations = ToDafny.Mutations(nativeValue.mutations());
+    mutations = ToDafny.Mutations(nativeValue.Mutations());
     Option<KeyManagementStrategy> strategy;
     strategy =
-      Objects.nonNull(nativeValue.strategy())
+      Objects.nonNull(nativeValue.Strategy())
         ? Option.create_Some(
           KeyManagementStrategy._typeDescriptor(),
-          ToDafny.KeyManagementStrategy(nativeValue.strategy())
+          ToDafny.KeyManagementStrategy(nativeValue.Strategy())
         )
         : Option.create_None(KeyManagementStrategy._typeDescriptor());
-    return new InitializeMutationInput(
-      branchKeyIdentifier,
-      mutations,
-      strategy
-    );
+    return new InitializeMutationInput(identifier, mutations, strategy);
   }
 
   public static InitializeMutationOutput InitializeMutationOutput(
     software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput nativeValue
   ) {
     MutationToken mutationToken;
-    mutationToken = ToDafny.MutationToken(nativeValue.mutationToken());
+    mutationToken = ToDafny.MutationToken(nativeValue.MutationToken());
     DafnySequence<? extends MutatedBranchKeyItem> mutatedBranchKeyItems;
     mutatedBranchKeyItems =
-      ToDafny.MutatedBranchKeyItems(nativeValue.mutatedBranchKeyItems());
+      ToDafny.MutatedBranchKeyItems(nativeValue.MutatedBranchKeyItems());
     return new InitializeMutationOutput(mutationToken, mutatedBranchKeyItems);
   }
 
@@ -264,12 +255,12 @@ public class ToDafny {
     DafnySequence<? extends Character> itemType;
     itemType =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-        nativeValue.itemType()
+        nativeValue.ItemType()
       );
     DafnySequence<? extends Character> description;
     description =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-        nativeValue.description()
+        nativeValue.Description()
       );
     return new MutatedBranchKeyItem(itemType, description);
   }
@@ -285,11 +276,11 @@ public class ToDafny {
   ) {
     Option<DafnySequence<? extends Character>> terminalKmsArn;
     terminalKmsArn =
-      Objects.nonNull(nativeValue.terminalKmsArn())
+      Objects.nonNull(nativeValue.TerminalKmsArn())
         ? Option.create_Some(
           DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-            nativeValue.terminalKmsArn()
+            nativeValue.TerminalKmsArn()
           )
         )
         : Option.create_None(
@@ -302,15 +293,15 @@ public class ToDafny {
       >
     > terminalEncryptionContext;
     terminalEncryptionContext =
-      (Objects.nonNull(nativeValue.terminalEncryptionContext()) &&
-          nativeValue.terminalEncryptionContext().size() > 0)
+      (Objects.nonNull(nativeValue.TerminalEncryptionContext()) &&
+          nativeValue.TerminalEncryptionContext().size() > 0)
         ? Option.create_Some(
           DafnyMap._typeDescriptor(
             DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
             DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
           ),
           software.amazon.cryptography.keystore.ToDafny.EncryptionContextString(
-            nativeValue.terminalEncryptionContext()
+            nativeValue.TerminalEncryptionContext()
           )
         )
         : Option.create_None(
@@ -382,22 +373,22 @@ public class ToDafny {
   public static VersionKeyInput VersionKeyInput(
     software.amazon.cryptography.keystoreadmin.model.VersionKeyInput nativeValue
   ) {
-    DafnySequence<? extends Character> branchKeyIdentifier;
-    branchKeyIdentifier =
+    DafnySequence<? extends Character> identifier;
+    identifier =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-        nativeValue.branchKeyIdentifier()
+        nativeValue.Identifier()
       );
     KMSIdentifier kmsArn;
-    kmsArn = ToDafny.KMSIdentifier(nativeValue.kmsArn());
+    kmsArn = ToDafny.KMSIdentifier(nativeValue.KmsArn());
     Option<KeyManagementStrategy> strategy;
     strategy =
-      Objects.nonNull(nativeValue.strategy())
+      Objects.nonNull(nativeValue.Strategy())
         ? Option.create_Some(
           KeyManagementStrategy._typeDescriptor(),
-          ToDafny.KeyManagementStrategy(nativeValue.strategy())
+          ToDafny.KeyManagementStrategy(nativeValue.Strategy())
         )
         : Option.create_None(KeyManagementStrategy._typeDescriptor());
-    return new VersionKeyInput(branchKeyIdentifier, kmsArn, strategy);
+    return new VersionKeyInput(identifier, kmsArn, strategy);
   }
 
   public static VersionKeyOutput VersionKeyOutput(
@@ -481,14 +472,14 @@ public class ToDafny {
   public static ApplyMutationResult ApplyMutationResult(
     software.amazon.cryptography.keystoreadmin.model.ApplyMutationResult nativeValue
   ) {
-    if (Objects.nonNull(nativeValue.continueMutation())) {
-      return ApplyMutationResult.create_continueMutation(
-        ToDafny.MutationToken(nativeValue.continueMutation())
+    if (Objects.nonNull(nativeValue.ContinueMutation())) {
+      return ApplyMutationResult.create_ContinueMutation(
+        ToDafny.MutationToken(nativeValue.ContinueMutation())
       );
     }
-    if (Objects.nonNull(nativeValue.completeMutation())) {
-      return ApplyMutationResult.create_completeMutation(
-        ToDafny.MutationComplete(nativeValue.completeMutation())
+    if (Objects.nonNull(nativeValue.CompleteMutation())) {
+      return ApplyMutationResult.create_CompleteMutation(
+        ToDafny.MutationComplete(nativeValue.CompleteMutation())
       );
     }
     throw new IllegalArgumentException(
@@ -518,17 +509,17 @@ public class ToDafny {
   public static KMSIdentifier KMSIdentifier(
     software.amazon.cryptography.keystoreadmin.model.KMSIdentifier nativeValue
   ) {
-    if (Objects.nonNull(nativeValue.kmsKeyArn())) {
-      return KMSIdentifier.create_kmsKeyArn(
+    if (Objects.nonNull(nativeValue.KmsKeyArn())) {
+      return KMSIdentifier.create_KmsKeyArn(
         software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-          nativeValue.kmsKeyArn()
+          nativeValue.KmsKeyArn()
         )
       );
     }
-    if (Objects.nonNull(nativeValue.kmsMRKeyArn())) {
-      return KMSIdentifier.create_kmsMRKeyArn(
+    if (Objects.nonNull(nativeValue.KmsMRKeyArn())) {
+      return KMSIdentifier.create_KmsMRKeyArn(
         software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-          nativeValue.kmsMRKeyArn()
+          nativeValue.KmsMRKeyArn()
         )
       );
     }

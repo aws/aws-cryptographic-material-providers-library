@@ -39,7 +39,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     nameonly branchKey: Secret
   )
   datatype ClobberMutationLockInput = | ClobberMutationLockInput (
-    nameonly mutationLock: MutationLock
+    nameonly MutationLock: MutationLock
   )
   datatype ClobberMutationLockOutput = | ClobberMutationLockOutput (
 
@@ -117,9 +117,9 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     nameonly Identifier: string
   )
   datatype GetItemsForInitializeMutationOutput = | GetItemsForInitializeMutationOutput (
-    nameonly activeItem: EncryptedHierarchicalKey ,
-    nameonly beaconItem: EncryptedHierarchicalKey ,
-    nameonly mutationLock: Option<MutationLock> := Option.None
+    nameonly ActiveItem: EncryptedHierarchicalKey ,
+    nameonly BeaconItem: EncryptedHierarchicalKey ,
+    nameonly MutationLock: Option<MutationLock> := Option.None
   )
   datatype GetKeyStorageInfoInput = | GetKeyStorageInfoInput (
 
@@ -139,7 +139,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     nameonly Identifier: string
   )
   datatype GetMutationLockOutput = | GetMutationLockOutput (
-    nameonly mutationLock: Option<MutationLock> := Option.None
+    nameonly MutationLock: Option<MutationLock> := Option.None
   )
   type GrantTokenList = seq<string>
   datatype HierarchicalKeyType =
@@ -758,13 +758,13 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     nameonly Terminal: seq<uint8>
   )
   datatype QueryForVersionsInput = | QueryForVersionsInput (
-    nameonly exclusiveStartKey: Option<seq<uint8>> := Option.None ,
+    nameonly ExclusiveStartKey: Option<seq<uint8>> := Option.None ,
     nameonly Identifier: string ,
-    nameonly pageSize: int32
+    nameonly PageSize: int32
   )
   datatype QueryForVersionsOutput = | QueryForVersionsOutput (
-    nameonly exclusiveStartKey: seq<uint8> ,
-    nameonly items: EncryptedHierarchicalKeys
+    nameonly ExclusiveStartKey: seq<uint8> ,
+    nameonly Items: EncryptedHierarchicalKeys
   )
   type Secret = seq<uint8>
   datatype Storage =
@@ -778,17 +778,17 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
 
                               )
   datatype WriteInitializeMutationInput = | WriteInitializeMutationInput (
-    nameonly active: EncryptedHierarchicalKey ,
-    nameonly oldActive: EncryptedHierarchicalKey ,
-    nameonly version: EncryptedHierarchicalKey ,
-    nameonly beacon: EncryptedHierarchicalKey ,
-    nameonly mutationLock: MutationLock
+    nameonly Active: EncryptedHierarchicalKey ,
+    nameonly OldActive: EncryptedHierarchicalKey ,
+    nameonly Version: EncryptedHierarchicalKey ,
+    nameonly Beacon: EncryptedHierarchicalKey ,
+    nameonly MutationLock: MutationLock
   )
   datatype WriteInitializeMutationOutput = | WriteInitializeMutationOutput (
 
                                            )
   datatype WriteMutatedVersionsInput = | WriteMutatedVersionsInput (
-    nameonly items: EncryptedHierarchicalKeys ,
+    nameonly Items: EncryptedHierarchicalKeys ,
     nameonly Identifier: string ,
     nameonly Original: seq<uint8> ,
     nameonly Terminal: seq<uint8> ,
@@ -808,7 +808,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   datatype WriteNewEncryptedBranchKeyVersionInput = | WriteNewEncryptedBranchKeyVersionInput (
     nameonly Active: EncryptedHierarchicalKey ,
     nameonly Version: EncryptedHierarchicalKey ,
-    nameonly oldActive: EncryptedHierarchicalKey
+    nameonly OldActive: EncryptedHierarchicalKey
   )
   datatype WriteNewEncryptedBranchKeyVersionOutput = | WriteNewEncryptedBranchKeyVersionOutput (
 

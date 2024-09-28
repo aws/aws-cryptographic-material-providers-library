@@ -61,11 +61,11 @@ module {:options "/functionSyntax:4" } TestInitMutActiveAndBeaconAreInSameState 
 
     var timestamp :- expect Time.GetCurrentTimeStamp();
     var newCustomEC: KeyStoreTypes.EncryptionContextString := map["Koda" := timestamp];
-    var mutationsRequest := Types.Mutations(terminalEncryptionContext := Some(newCustomEC));
+    var mutationsRequest := Types.Mutations(TerminalEncryptionContext := Some(newCustomEC));
     var initInput := Types.InitializeMutationInput(
-      branchKeyIdentifier := testId,
-      mutations := mutationsRequest,
-      strategy := Some(strategy));
+      Identifier := testId,
+      Mutations := mutationsRequest,
+      Strategy := Some(strategy));
     var initializeOutput? := underTest.InitializeMutation(initInput);
 
     expect initializeOutput?.Failure?, "Initialize Mutation did not detect drifted Active & Beacon!";
@@ -80,10 +80,10 @@ module {:options "/functionSyntax:4" } TestInitMutActiveAndBeaconAreInSameState 
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_ACTIVE_TYPE, ddbClient);
 
     var versionQuery := KeyStoreTypes.QueryForVersionsInput(
-      Identifier := testId, pageSize := 24
+      Identifier := testId, PageSize := 24
     );
     var queryOut :- expect storage.QueryForVersions(versionQuery);
-    var items := queryOut.items;
+    var items := queryOut.Items;
     var itemIndex := 0;
     while itemIndex < |items|
     {

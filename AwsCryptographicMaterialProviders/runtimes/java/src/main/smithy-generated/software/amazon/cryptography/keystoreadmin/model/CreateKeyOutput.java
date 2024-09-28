@@ -10,17 +10,17 @@ public class CreateKeyOutput {
   /**
    * A identifier for the created Branch Key.
    */
-  private final String branchKeyIdentifier;
+  private final String Identifier;
 
   protected CreateKeyOutput(BuilderImpl builder) {
-    this.branchKeyIdentifier = builder.branchKeyIdentifier();
+    this.Identifier = builder.Identifier();
   }
 
   /**
    * @return A identifier for the created Branch Key.
    */
-  public String branchKeyIdentifier() {
-    return this.branchKeyIdentifier;
+  public String Identifier() {
+    return this.Identifier;
   }
 
   public Builder toBuilder() {
@@ -33,41 +33,41 @@ public class CreateKeyOutput {
 
   public interface Builder {
     /**
-     * @param branchKeyIdentifier A identifier for the created Branch Key.
+     * @param Identifier A identifier for the created Branch Key.
      */
-    Builder branchKeyIdentifier(String branchKeyIdentifier);
+    Builder Identifier(String Identifier);
 
     /**
      * @return A identifier for the created Branch Key.
      */
-    String branchKeyIdentifier();
+    String Identifier();
 
     CreateKeyOutput build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected String branchKeyIdentifier;
+    protected String Identifier;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(CreateKeyOutput model) {
-      this.branchKeyIdentifier = model.branchKeyIdentifier();
+      this.Identifier = model.Identifier();
     }
 
-    public Builder branchKeyIdentifier(String branchKeyIdentifier) {
-      this.branchKeyIdentifier = branchKeyIdentifier;
+    public Builder Identifier(String Identifier) {
+      this.Identifier = Identifier;
       return this;
     }
 
-    public String branchKeyIdentifier() {
-      return this.branchKeyIdentifier;
+    public String Identifier() {
+      return this.Identifier;
     }
 
     public CreateKeyOutput build() {
-      if (Objects.isNull(this.branchKeyIdentifier())) {
+      if (Objects.isNull(this.Identifier())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `branchKeyIdentifier`"
+          "Missing value for required field `Identifier`"
         );
       }
       return new CreateKeyOutput(this);

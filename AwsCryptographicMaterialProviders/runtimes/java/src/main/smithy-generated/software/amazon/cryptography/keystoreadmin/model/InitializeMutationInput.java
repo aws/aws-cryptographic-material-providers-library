@@ -10,43 +10,43 @@ public class InitializeMutationInput {
   /**
    * The identifier for the Branch Key to be mutated.
    */
-  private final String branchKeyIdentifier;
+  private final String Identifier;
 
   /**
    * Describes the Mutation that will be applied to all Items of the Branch Key.
    */
-  private final Mutations mutations;
+  private final Mutations Mutations;
 
   /**
    * Optional. Defaults to reEncrypt with a default KMS Client.
    */
-  private final KeyManagementStrategy strategy;
+  private final KeyManagementStrategy Strategy;
 
   protected InitializeMutationInput(BuilderImpl builder) {
-    this.branchKeyIdentifier = builder.branchKeyIdentifier();
-    this.mutations = builder.mutations();
-    this.strategy = builder.strategy();
+    this.Identifier = builder.Identifier();
+    this.Mutations = builder.Mutations();
+    this.Strategy = builder.Strategy();
   }
 
   /**
    * @return The identifier for the Branch Key to be mutated.
    */
-  public String branchKeyIdentifier() {
-    return this.branchKeyIdentifier;
+  public String Identifier() {
+    return this.Identifier;
   }
 
   /**
    * @return Describes the Mutation that will be applied to all Items of the Branch Key.
    */
-  public Mutations mutations() {
-    return this.mutations;
+  public Mutations Mutations() {
+    return this.Mutations;
   }
 
   /**
    * @return Optional. Defaults to reEncrypt with a default KMS Client.
    */
-  public KeyManagementStrategy strategy() {
-    return this.strategy;
+  public KeyManagementStrategy Strategy() {
+    return this.Strategy;
   }
 
   public Builder toBuilder() {
@@ -59,90 +59,90 @@ public class InitializeMutationInput {
 
   public interface Builder {
     /**
-     * @param branchKeyIdentifier The identifier for the Branch Key to be mutated.
+     * @param Identifier The identifier for the Branch Key to be mutated.
      */
-    Builder branchKeyIdentifier(String branchKeyIdentifier);
+    Builder Identifier(String Identifier);
 
     /**
      * @return The identifier for the Branch Key to be mutated.
      */
-    String branchKeyIdentifier();
+    String Identifier();
 
     /**
-     * @param mutations Describes the Mutation that will be applied to all Items of the Branch Key.
+     * @param Mutations Describes the Mutation that will be applied to all Items of the Branch Key.
      */
-    Builder mutations(Mutations mutations);
+    Builder Mutations(Mutations Mutations);
 
     /**
      * @return Describes the Mutation that will be applied to all Items of the Branch Key.
      */
-    Mutations mutations();
+    Mutations Mutations();
 
     /**
-     * @param strategy Optional. Defaults to reEncrypt with a default KMS Client.
+     * @param Strategy Optional. Defaults to reEncrypt with a default KMS Client.
      */
-    Builder strategy(KeyManagementStrategy strategy);
+    Builder Strategy(KeyManagementStrategy Strategy);
 
     /**
      * @return Optional. Defaults to reEncrypt with a default KMS Client.
      */
-    KeyManagementStrategy strategy();
+    KeyManagementStrategy Strategy();
 
     InitializeMutationInput build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected String branchKeyIdentifier;
+    protected String Identifier;
 
-    protected Mutations mutations;
+    protected Mutations Mutations;
 
-    protected KeyManagementStrategy strategy;
+    protected KeyManagementStrategy Strategy;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(InitializeMutationInput model) {
-      this.branchKeyIdentifier = model.branchKeyIdentifier();
-      this.mutations = model.mutations();
-      this.strategy = model.strategy();
+      this.Identifier = model.Identifier();
+      this.Mutations = model.Mutations();
+      this.Strategy = model.Strategy();
     }
 
-    public Builder branchKeyIdentifier(String branchKeyIdentifier) {
-      this.branchKeyIdentifier = branchKeyIdentifier;
+    public Builder Identifier(String Identifier) {
+      this.Identifier = Identifier;
       return this;
     }
 
-    public String branchKeyIdentifier() {
-      return this.branchKeyIdentifier;
+    public String Identifier() {
+      return this.Identifier;
     }
 
-    public Builder mutations(Mutations mutations) {
-      this.mutations = mutations;
+    public Builder Mutations(Mutations Mutations) {
+      this.Mutations = Mutations;
       return this;
     }
 
-    public Mutations mutations() {
-      return this.mutations;
+    public Mutations Mutations() {
+      return this.Mutations;
     }
 
-    public Builder strategy(KeyManagementStrategy strategy) {
-      this.strategy = strategy;
+    public Builder Strategy(KeyManagementStrategy Strategy) {
+      this.Strategy = Strategy;
       return this;
     }
 
-    public KeyManagementStrategy strategy() {
-      return this.strategy;
+    public KeyManagementStrategy Strategy() {
+      return this.Strategy;
     }
 
     public InitializeMutationInput build() {
-      if (Objects.isNull(this.branchKeyIdentifier())) {
+      if (Objects.isNull(this.Identifier())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `branchKeyIdentifier`"
+          "Missing value for required field `Identifier`"
         );
       }
-      if (Objects.isNull(this.mutations())) {
+      if (Objects.isNull(this.Mutations())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `mutations`"
+          "Missing value for required field `Mutations`"
         );
       }
       return new InitializeMutationInput(this);

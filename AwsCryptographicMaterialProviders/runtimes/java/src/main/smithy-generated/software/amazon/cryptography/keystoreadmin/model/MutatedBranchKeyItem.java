@@ -10,30 +10,30 @@ public class MutatedBranchKeyItem {
   /**
    * The item type changed. i.e: branch:version:<uuid> or MUTATION_LOCK:<uuid>
    */
-  private final String itemType;
+  private final String ItemType;
 
   /**
    * Brief description of what occurred. i.e: Mutation Applied, New Active Created, Mutation Lock Created, Mutation Lock Removed.
    */
-  private final String description;
+  private final String Description;
 
   protected MutatedBranchKeyItem(BuilderImpl builder) {
-    this.itemType = builder.itemType();
-    this.description = builder.description();
+    this.ItemType = builder.ItemType();
+    this.Description = builder.Description();
   }
 
   /**
    * @return The item type changed. i.e: branch:version:<uuid> or MUTATION_LOCK:<uuid>
    */
-  public String itemType() {
-    return this.itemType;
+  public String ItemType() {
+    return this.ItemType;
   }
 
   /**
    * @return Brief description of what occurred. i.e: Mutation Applied, New Active Created, Mutation Lock Created, Mutation Lock Removed.
    */
-  public String description() {
-    return this.description;
+  public String Description() {
+    return this.Description;
   }
 
   public Builder toBuilder() {
@@ -46,68 +46,68 @@ public class MutatedBranchKeyItem {
 
   public interface Builder {
     /**
-     * @param itemType The item type changed. i.e: branch:version:<uuid> or MUTATION_LOCK:<uuid>
+     * @param ItemType The item type changed. i.e: branch:version:<uuid> or MUTATION_LOCK:<uuid>
      */
-    Builder itemType(String itemType);
+    Builder ItemType(String ItemType);
 
     /**
      * @return The item type changed. i.e: branch:version:<uuid> or MUTATION_LOCK:<uuid>
      */
-    String itemType();
+    String ItemType();
 
     /**
-     * @param description Brief description of what occurred. i.e: Mutation Applied, New Active Created, Mutation Lock Created, Mutation Lock Removed.
+     * @param Description Brief description of what occurred. i.e: Mutation Applied, New Active Created, Mutation Lock Created, Mutation Lock Removed.
      */
-    Builder description(String description);
+    Builder Description(String Description);
 
     /**
      * @return Brief description of what occurred. i.e: Mutation Applied, New Active Created, Mutation Lock Created, Mutation Lock Removed.
      */
-    String description();
+    String Description();
 
     MutatedBranchKeyItem build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected String itemType;
+    protected String ItemType;
 
-    protected String description;
+    protected String Description;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(MutatedBranchKeyItem model) {
-      this.itemType = model.itemType();
-      this.description = model.description();
+      this.ItemType = model.ItemType();
+      this.Description = model.Description();
     }
 
-    public Builder itemType(String itemType) {
-      this.itemType = itemType;
+    public Builder ItemType(String ItemType) {
+      this.ItemType = ItemType;
       return this;
     }
 
-    public String itemType() {
-      return this.itemType;
+    public String ItemType() {
+      return this.ItemType;
     }
 
-    public Builder description(String description) {
-      this.description = description;
+    public Builder Description(String Description) {
+      this.Description = Description;
       return this;
     }
 
-    public String description() {
-      return this.description;
+    public String Description() {
+      return this.Description;
     }
 
     public MutatedBranchKeyItem build() {
-      if (Objects.isNull(this.itemType())) {
+      if (Objects.isNull(this.ItemType())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `itemType`"
+          "Missing value for required field `ItemType`"
         );
       }
-      if (Objects.isNull(this.description())) {
+      if (Objects.isNull(this.Description())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `description`"
+          "Missing value for required field `Description`"
         );
       }
       return new MutatedBranchKeyItem(this);

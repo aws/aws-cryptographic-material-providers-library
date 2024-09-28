@@ -285,7 +285,7 @@ public class ToDafny {
     software.amazon.cryptography.keystore.model.ClobberMutationLockInput nativeValue
   ) {
     MutationLock mutationLock;
-    mutationLock = ToDafny.MutationLock(nativeValue.mutationLock());
+    mutationLock = ToDafny.MutationLock(nativeValue.MutationLock());
     return new ClobberMutationLockInput(mutationLock);
   }
 
@@ -573,15 +573,15 @@ public class ToDafny {
     software.amazon.cryptography.keystore.model.GetItemsForInitializeMutationOutput nativeValue
   ) {
     EncryptedHierarchicalKey activeItem;
-    activeItem = ToDafny.EncryptedHierarchicalKey(nativeValue.activeItem());
+    activeItem = ToDafny.EncryptedHierarchicalKey(nativeValue.ActiveItem());
     EncryptedHierarchicalKey beaconItem;
-    beaconItem = ToDafny.EncryptedHierarchicalKey(nativeValue.beaconItem());
+    beaconItem = ToDafny.EncryptedHierarchicalKey(nativeValue.BeaconItem());
     Option<MutationLock> mutationLock;
     mutationLock =
-      Objects.nonNull(nativeValue.mutationLock())
+      Objects.nonNull(nativeValue.MutationLock())
         ? Option.create_Some(
           MutationLock._typeDescriptor(),
-          ToDafny.MutationLock(nativeValue.mutationLock())
+          ToDafny.MutationLock(nativeValue.MutationLock())
         )
         : Option.create_None(MutationLock._typeDescriptor());
     return new GetItemsForInitializeMutationOutput(
@@ -660,10 +660,10 @@ public class ToDafny {
   ) {
     Option<MutationLock> mutationLock;
     mutationLock =
-      Objects.nonNull(nativeValue.mutationLock())
+      Objects.nonNull(nativeValue.MutationLock())
         ? Option.create_Some(
           MutationLock._typeDescriptor(),
-          ToDafny.MutationLock(nativeValue.mutationLock())
+          ToDafny.MutationLock(nativeValue.MutationLock())
         )
         : Option.create_None(MutationLock._typeDescriptor());
     return new GetMutationLockOutput(mutationLock);
@@ -827,11 +827,11 @@ public class ToDafny {
   ) {
     Option<DafnySequence<? extends Byte>> exclusiveStartKey;
     exclusiveStartKey =
-      Objects.nonNull(nativeValue.exclusiveStartKey())
+      Objects.nonNull(nativeValue.ExclusiveStartKey())
         ? Option.create_Some(
           DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-            nativeValue.exclusiveStartKey()
+            nativeValue.ExclusiveStartKey()
           )
         )
         : Option.create_None(
@@ -843,7 +843,7 @@ public class ToDafny {
         nativeValue.Identifier()
       );
     Integer pageSize;
-    pageSize = (nativeValue.pageSize());
+    pageSize = (nativeValue.PageSize());
     return new QueryForVersionsInput(exclusiveStartKey, identifier, pageSize);
   }
 
@@ -853,10 +853,10 @@ public class ToDafny {
     DafnySequence<? extends Byte> exclusiveStartKey;
     exclusiveStartKey =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-        nativeValue.exclusiveStartKey()
+        nativeValue.ExclusiveStartKey()
       );
     DafnySequence<? extends EncryptedHierarchicalKey> items;
-    items = ToDafny.EncryptedHierarchicalKeys(nativeValue.items());
+    items = ToDafny.EncryptedHierarchicalKeys(nativeValue.Items());
     return new QueryForVersionsOutput(exclusiveStartKey, items);
   }
 
@@ -881,15 +881,15 @@ public class ToDafny {
     software.amazon.cryptography.keystore.model.WriteInitializeMutationInput nativeValue
   ) {
     EncryptedHierarchicalKey active;
-    active = ToDafny.EncryptedHierarchicalKey(nativeValue.active());
+    active = ToDafny.EncryptedHierarchicalKey(nativeValue.Active());
     EncryptedHierarchicalKey oldActive;
-    oldActive = ToDafny.EncryptedHierarchicalKey(nativeValue.oldActive());
+    oldActive = ToDafny.EncryptedHierarchicalKey(nativeValue.OldActive());
     EncryptedHierarchicalKey version;
-    version = ToDafny.EncryptedHierarchicalKey(nativeValue.version());
+    version = ToDafny.EncryptedHierarchicalKey(nativeValue.Version());
     EncryptedHierarchicalKey beacon;
-    beacon = ToDafny.EncryptedHierarchicalKey(nativeValue.beacon());
+    beacon = ToDafny.EncryptedHierarchicalKey(nativeValue.Beacon());
     MutationLock mutationLock;
-    mutationLock = ToDafny.MutationLock(nativeValue.mutationLock());
+    mutationLock = ToDafny.MutationLock(nativeValue.MutationLock());
     return new WriteInitializeMutationInput(
       active,
       oldActive,
@@ -909,7 +909,7 @@ public class ToDafny {
     software.amazon.cryptography.keystore.model.WriteMutatedVersionsInput nativeValue
   ) {
     DafnySequence<? extends EncryptedHierarchicalKey> items;
-    items = ToDafny.EncryptedHierarchicalKeys(nativeValue.items());
+    items = ToDafny.EncryptedHierarchicalKeys(nativeValue.Items());
     DafnySequence<? extends Character> identifier;
     identifier =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
@@ -968,7 +968,7 @@ public class ToDafny {
     EncryptedHierarchicalKey version;
     version = ToDafny.EncryptedHierarchicalKey(nativeValue.Version());
     EncryptedHierarchicalKey oldActive;
-    oldActive = ToDafny.EncryptedHierarchicalKey(nativeValue.oldActive());
+    oldActive = ToDafny.EncryptedHierarchicalKey(nativeValue.OldActive());
     return new WriteNewEncryptedBranchKeyVersionInput(
       active,
       version,

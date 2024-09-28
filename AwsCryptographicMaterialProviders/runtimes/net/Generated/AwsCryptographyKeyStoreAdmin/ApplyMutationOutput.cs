@@ -7,16 +7,16 @@ namespace AWS.Cryptography.KeyStoreAdmin
 {
   public class ApplyMutationOutput
   {
-    private AWS.Cryptography.KeyStoreAdmin.ApplyMutationResult _result;
+    private AWS.Cryptography.KeyStoreAdmin.ApplyMutationResult _mutationResult;
     private System.Collections.Generic.List<AWS.Cryptography.KeyStoreAdmin.MutatedBranchKeyItem> _mutatedBranchKeyItems;
-    public AWS.Cryptography.KeyStoreAdmin.ApplyMutationResult Result
+    public AWS.Cryptography.KeyStoreAdmin.ApplyMutationResult MutationResult
     {
-      get { return this._result; }
-      set { this._result = value; }
+      get { return this._mutationResult; }
+      set { this._mutationResult = value; }
     }
-    public bool IsSetResult()
+    public bool IsSetMutationResult()
     {
-      return this._result != null;
+      return this._mutationResult != null;
     }
     public System.Collections.Generic.List<AWS.Cryptography.KeyStoreAdmin.MutatedBranchKeyItem> MutatedBranchKeyItems
     {
@@ -29,7 +29,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
     }
     public void Validate()
     {
-      if (!IsSetResult()) throw new System.ArgumentException("Missing value for required property 'Result'");
+      if (!IsSetMutationResult()) throw new System.ArgumentException("Missing value for required property 'MutationResult'");
       if (!IsSetMutatedBranchKeyItems()) throw new System.ArgumentException("Missing value for required property 'MutatedBranchKeyItems'");
 
     }

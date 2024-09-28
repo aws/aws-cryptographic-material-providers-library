@@ -8,17 +8,17 @@ public class GetMutationLockOutput {
   /**
    * If not present, there is no Mutation Lock.
    */
-  private final MutationLock mutationLock;
+  private final MutationLock MutationLock;
 
   protected GetMutationLockOutput(BuilderImpl builder) {
-    this.mutationLock = builder.mutationLock();
+    this.MutationLock = builder.MutationLock();
   }
 
   /**
    * @return If not present, there is no Mutation Lock.
    */
-  public MutationLock mutationLock() {
-    return this.mutationLock;
+  public MutationLock MutationLock() {
+    return this.MutationLock;
   }
 
   public Builder toBuilder() {
@@ -31,35 +31,35 @@ public class GetMutationLockOutput {
 
   public interface Builder {
     /**
-     * @param mutationLock If not present, there is no Mutation Lock.
+     * @param MutationLock If not present, there is no Mutation Lock.
      */
-    Builder mutationLock(MutationLock mutationLock);
+    Builder MutationLock(MutationLock MutationLock);
 
     /**
      * @return If not present, there is no Mutation Lock.
      */
-    MutationLock mutationLock();
+    MutationLock MutationLock();
 
     GetMutationLockOutput build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected MutationLock mutationLock;
+    protected MutationLock MutationLock;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(GetMutationLockOutput model) {
-      this.mutationLock = model.mutationLock();
+      this.MutationLock = model.MutationLock();
     }
 
-    public Builder mutationLock(MutationLock mutationLock) {
-      this.mutationLock = mutationLock;
+    public Builder MutationLock(MutationLock MutationLock) {
+      this.MutationLock = MutationLock;
       return this;
     }
 
-    public MutationLock mutationLock() {
-      return this.mutationLock;
+    public MutationLock MutationLock() {
+      return this.MutationLock;
     }
 
     public GetMutationLockOutput build() {

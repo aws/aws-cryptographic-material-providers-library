@@ -12,7 +12,7 @@ public class WriteMutatedVersionsInput {
   /**
    * List of version (decrypt only) items of a Branch Key to overwrite conditionally.
    */
-  private final List<EncryptedHierarchicalKey> items;
+  private final List<EncryptedHierarchicalKey> Items;
 
   /**
    * The Identifier of the Branch Key.
@@ -35,7 +35,7 @@ public class WriteMutatedVersionsInput {
   private final Boolean CompleteMutation;
 
   protected WriteMutatedVersionsInput(BuilderImpl builder) {
-    this.items = builder.items();
+    this.Items = builder.Items();
     this.Identifier = builder.Identifier();
     this.Original = builder.Original();
     this.Terminal = builder.Terminal();
@@ -45,8 +45,8 @@ public class WriteMutatedVersionsInput {
   /**
    * @return List of version (decrypt only) items of a Branch Key to overwrite conditionally.
    */
-  public List<EncryptedHierarchicalKey> items() {
-    return this.items;
+  public List<EncryptedHierarchicalKey> Items() {
+    return this.Items;
   }
 
   /**
@@ -87,14 +87,14 @@ public class WriteMutatedVersionsInput {
 
   public interface Builder {
     /**
-     * @param items List of version (decrypt only) items of a Branch Key to overwrite conditionally.
+     * @param Items List of version (decrypt only) items of a Branch Key to overwrite conditionally.
      */
-    Builder items(List<EncryptedHierarchicalKey> items);
+    Builder Items(List<EncryptedHierarchicalKey> Items);
 
     /**
      * @return List of version (decrypt only) items of a Branch Key to overwrite conditionally.
      */
-    List<EncryptedHierarchicalKey> items();
+    List<EncryptedHierarchicalKey> Items();
 
     /**
      * @param Identifier The Identifier of the Branch Key.
@@ -141,7 +141,7 @@ public class WriteMutatedVersionsInput {
 
   static class BuilderImpl implements Builder {
 
-    protected List<EncryptedHierarchicalKey> items;
+    protected List<EncryptedHierarchicalKey> Items;
 
     protected String Identifier;
 
@@ -154,20 +154,20 @@ public class WriteMutatedVersionsInput {
     protected BuilderImpl() {}
 
     protected BuilderImpl(WriteMutatedVersionsInput model) {
-      this.items = model.items();
+      this.Items = model.Items();
       this.Identifier = model.Identifier();
       this.Original = model.Original();
       this.Terminal = model.Terminal();
       this.CompleteMutation = model.CompleteMutation();
     }
 
-    public Builder items(List<EncryptedHierarchicalKey> items) {
-      this.items = items;
+    public Builder Items(List<EncryptedHierarchicalKey> Items) {
+      this.Items = Items;
       return this;
     }
 
-    public List<EncryptedHierarchicalKey> items() {
-      return this.items;
+    public List<EncryptedHierarchicalKey> Items() {
+      return this.Items;
     }
 
     public Builder Identifier(String Identifier) {
@@ -207,9 +207,9 @@ public class WriteMutatedVersionsInput {
     }
 
     public WriteMutatedVersionsInput build() {
-      if (Objects.isNull(this.items())) {
+      if (Objects.isNull(this.Items())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `items`"
+          "Missing value for required field `Items`"
         );
       }
       if (Objects.isNull(this.Identifier())) {
