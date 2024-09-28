@@ -8,27 +8,27 @@ import java.util.Objects;
 
 public class ApplyMutationOutput {
 
-  private final ApplyMutationResult result;
+  private final ApplyMutationResult MutationResult;
 
   /**
    * Details what items of the Branch Key ID were changed on this invocation.
    */
-  private final List<MutatedBranchKeyItem> mutatedBranchKeyItems;
+  private final List<MutatedBranchKeyItem> MutatedBranchKeyItems;
 
   protected ApplyMutationOutput(BuilderImpl builder) {
-    this.result = builder.result();
-    this.mutatedBranchKeyItems = builder.mutatedBranchKeyItems();
+    this.MutationResult = builder.MutationResult();
+    this.MutatedBranchKeyItems = builder.MutatedBranchKeyItems();
   }
 
-  public ApplyMutationResult result() {
-    return this.result;
+  public ApplyMutationResult MutationResult() {
+    return this.MutationResult;
   }
 
   /**
    * @return Details what items of the Branch Key ID were changed on this invocation.
    */
-  public List<MutatedBranchKeyItem> mutatedBranchKeyItems() {
-    return this.mutatedBranchKeyItems;
+  public List<MutatedBranchKeyItem> MutatedBranchKeyItems() {
+    return this.MutatedBranchKeyItems;
   }
 
   public Builder toBuilder() {
@@ -40,67 +40,67 @@ public class ApplyMutationOutput {
   }
 
   public interface Builder {
-    Builder result(ApplyMutationResult result);
+    Builder MutationResult(ApplyMutationResult MutationResult);
 
-    ApplyMutationResult result();
+    ApplyMutationResult MutationResult();
 
     /**
-     * @param mutatedBranchKeyItems Details what items of the Branch Key ID were changed on this invocation.
+     * @param MutatedBranchKeyItems Details what items of the Branch Key ID were changed on this invocation.
      */
-    Builder mutatedBranchKeyItems(
-      List<MutatedBranchKeyItem> mutatedBranchKeyItems
+    Builder MutatedBranchKeyItems(
+      List<MutatedBranchKeyItem> MutatedBranchKeyItems
     );
 
     /**
      * @return Details what items of the Branch Key ID were changed on this invocation.
      */
-    List<MutatedBranchKeyItem> mutatedBranchKeyItems();
+    List<MutatedBranchKeyItem> MutatedBranchKeyItems();
 
     ApplyMutationOutput build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected ApplyMutationResult result;
+    protected ApplyMutationResult MutationResult;
 
-    protected List<MutatedBranchKeyItem> mutatedBranchKeyItems;
+    protected List<MutatedBranchKeyItem> MutatedBranchKeyItems;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(ApplyMutationOutput model) {
-      this.result = model.result();
-      this.mutatedBranchKeyItems = model.mutatedBranchKeyItems();
+      this.MutationResult = model.MutationResult();
+      this.MutatedBranchKeyItems = model.MutatedBranchKeyItems();
     }
 
-    public Builder result(ApplyMutationResult result) {
-      this.result = result;
+    public Builder MutationResult(ApplyMutationResult MutationResult) {
+      this.MutationResult = MutationResult;
       return this;
     }
 
-    public ApplyMutationResult result() {
-      return this.result;
+    public ApplyMutationResult MutationResult() {
+      return this.MutationResult;
     }
 
-    public Builder mutatedBranchKeyItems(
-      List<MutatedBranchKeyItem> mutatedBranchKeyItems
+    public Builder MutatedBranchKeyItems(
+      List<MutatedBranchKeyItem> MutatedBranchKeyItems
     ) {
-      this.mutatedBranchKeyItems = mutatedBranchKeyItems;
+      this.MutatedBranchKeyItems = MutatedBranchKeyItems;
       return this;
     }
 
-    public List<MutatedBranchKeyItem> mutatedBranchKeyItems() {
-      return this.mutatedBranchKeyItems;
+    public List<MutatedBranchKeyItem> MutatedBranchKeyItems() {
+      return this.MutatedBranchKeyItems;
     }
 
     public ApplyMutationOutput build() {
-      if (Objects.isNull(this.result())) {
+      if (Objects.isNull(this.MutationResult())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `result`"
+          "Missing value for required field `MutationResult`"
         );
       }
-      if (Objects.isNull(this.mutatedBranchKeyItems())) {
+      if (Objects.isNull(this.MutatedBranchKeyItems())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `mutatedBranchKeyItems`"
+          "Missing value for required field `MutatedBranchKeyItems`"
         );
       }
       return new ApplyMutationOutput(this);

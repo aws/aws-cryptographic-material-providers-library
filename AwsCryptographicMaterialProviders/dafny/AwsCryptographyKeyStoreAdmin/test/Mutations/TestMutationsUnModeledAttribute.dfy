@@ -8,11 +8,13 @@ include "../../../AwsCryptographyKeyStore/Model/AwsCryptographyKeyStoreTypes.dfy
 include "../AdminFixtures.dfy"
 
 // Tests that an Encryption Context only change:
-// - Completes if there is no paging
+// - Completes, without paging, since it is annoying to violate the items
 // - Changes the Custom Encryption Context for all items
 // - All items can be decrypted by KMS
+// - maintains un-modeled attributes in exsisting items
+// - projects un-modeled attributes to new items
 
-module {:options "/functionSyntax:4" } TestMutationsEncryptionContextAddValue {
+module {:options "/functionSyntax:4" } TestMutationsUnModeledAttribute {
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KeyStoreAdmin
   import KeyStore
@@ -36,14 +38,12 @@ module {:options "/functionSyntax:4" } TestMutationsEncryptionContextAddValue {
   const kmsId: string := Fixtures.keyArn
   const physicalName: string := Fixtures.branchKeyStoreName
   const logicalName: string := Fixtures.logicalKeyStoreName
-  const testLogPrefix := "\nTestMutationsEncryptionContextAddValue :: TestProofMutationsOverWritesUnModeldedAttributesCase :: "
+  const testLogPrefix := "\nTestMutationsUnModeledAttribute :: TestHappyCase :: "
 
-  // This is evidence that the code behaves in the manner we DO NOT WANT
-  method {:test} {:vcs_split_on_every_assert} TestProofMutationsOverWritesUnModeldedAttributesCase()
+  method {:test} TestHappyCase()
   {
     print " running";
 
-    // expect false; // disable test till other investigation is done
     var ddbClient :- expect DDB.DynamoDBClient();
     var kmsClient :- expect KMS.KMSClient();
 
@@ -55,46 +55,49 @@ module {:options "/functionSyntax:4" } TestMutationsEncryptionContextAddValue {
     var uuid :- expect UUID.GenerateUUID();
     var testId := happyCaseId + "-" + uuid;
 
-    // var robbieBytes :- expect UTF8.Encode("Robbie");
     var kodaBytes :- expect UTF8.Encode("Koda");
     var isADogBytes :- expect UTF8.Encode("is a dog.");
     var originalEC := map[kodaBytes := isADogBytes];
     Fixtures.CreateHappyCaseId(id:=testId, versionCount:=0, customEC:=originalEC);
 
     print testLogPrefix + " Created the legit test items with 1 versions! testId: " + testId + "\n";
-
-    var _ :- expect AdminFixtures.AddAttributeWithoutLibrary(id:=testId, alsoViolateBeacon? := true, ddbClient? := Some(ddbClient));
+    var unModeledAttri := AdminFixtures.KeyValue(key:="Robbie", value:="Is a dog.");
+    var _ :- expect AdminFixtures.AddAttributeWithoutLibrary(
+      id:=testId,
+      alsoViolateBeacon? := true,
+      ddbClient? := Some(ddbClient),
+      keyValue := unModeledAttri);
 
     print testLogPrefix + " Violated all three. testId: " + testId + "\n";
 
     var timestamp :- expect Time.GetCurrentTimeStamp();
     var newCustomEC: KeyStoreTypes.EncryptionContextString := map["Koda" := timestamp];
-    var mutationsRequest := Types.Mutations(terminalEncryptionContext := Some(newCustomEC));
+    var mutationsRequest := Types.Mutations(TerminalEncryptionContext := Some(newCustomEC));
     var initInput := Types.InitializeMutationInput(
-      branchKeyIdentifier := testId,
-      mutations := mutationsRequest,
-      strategy := Some(strategy));
+      Identifier := testId,
+      Mutations := mutationsRequest,
+      Strategy := Some(strategy));
     var initializeOutput :- expect underTest.InitializeMutation(initInput);
-    var initializeToken := initializeOutput.mutationToken;
+    var initializeToken := initializeOutput.MutationToken;
 
     print testLogPrefix + " Initialized Mutation. testId: " + testId + "\n";
 
     var testInput := Types.ApplyMutationInput(
-      mutationToken := initializeToken,
-      pageSize := Some(24),
-      strategy := Some(strategy));
+      MutationToken := initializeToken,
+      PageSize := Some(24),
+      Strategy := Some(strategy));
     var applyOutput :- expect underTest.ApplyMutation(testInput);
 
     print testLogPrefix + " Applied Mutation w/ pageSize 24. testId: " + testId + "\n";
 
-    expect applyOutput.result.completeMutation?, "Apply Mutation output should not continue!";
+    expect applyOutput.MutationResult.CompleteMutation?, "Apply Mutation output should not continue!";
 
     var versionQuery := KeyStoreTypes.QueryForVersionsInput(
       Identifier := testId,
-      pageSize := 24
+      PageSize := 24
     );
     var queryOut :- expect storage.QueryForVersions(versionQuery);
-    var items := queryOut.items;
+    var items := queryOut.Items;
 
     var itemIndex := 0;
     var inputV: KeyStoreTypes.GetBranchKeyVersionInput;
@@ -102,19 +105,9 @@ module {:options "/functionSyntax:4" } TestMutationsEncryptionContextAddValue {
     {
       var item := items[itemIndex];
       expect
-        customEC in item.EncryptionContext,
-                    "Koda should be a Key in the Custom Encryption Context of all items for this test.";
-      expect
-        item.EncryptionContext[customEC] == timestamp,
-        "Koda's value should be the test timestamp for all decrypt items for this test.";
-      expect "type" in item.EncryptionContext, "Decrypt Only item is missing 'type' from EC!!";
-      expect
         item.Type.HierarchicalSymmetricVersion?,
         "Query for Decrypt Only returned a non-Decrypt Only!";
-
-      if ("Robbie" in item.EncryptionContext) {
-        print testLogPrefix + "Robbie in " + item.EncryptionContext["type"] + "\n";
-      }
+      var _ := itemExpectations(item, timestamp, unModeledAttri);
       var versionUUID := item.Type.HierarchicalSymmetricVersion.Version;
       inputV := KeyStoreTypes.GetBranchKeyVersionInput(
         branchKeyIdentifier := testId,
@@ -123,8 +116,10 @@ module {:options "/functionSyntax:4" } TestMutationsEncryptionContextAddValue {
       var _ :- expect keyStore.GetBranchKeyVersion(inputV);
 
       // This is a best effort
-      var _ := CleanupItems.DeleteTypeWithFailure(testId, item.EncryptionContext["type"], ddbClient);
-      print testLogPrefix + " Validated Decrypt Only and tried to clean it up: " + item.EncryptionContext["type"] + "\n";
+      var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_TYPE_PREFIX + versionUUID, ddbClient);
+      print testLogPrefix
+            + " Validated Decrypt Only and tried to clean it up: "
+            + Structure.BRANCH_KEY_TYPE_PREFIX + versionUUID + "\n";
       itemIndex := 1 + itemIndex;
     }
 
@@ -132,12 +127,7 @@ module {:options "/functionSyntax:4" } TestMutationsEncryptionContextAddValue {
     var lastActive? :- expect storage.GetEncryptedActiveBranchKey(lastActiveInput);
     expect lastActive?.Item.Type.ActiveHierarchicalSymmetricVersion?;
     var lastActive := lastActive?.Item.Type.ActiveHierarchicalSymmetricVersion;
-    expect
-      customEC in lastActive?.Item.EncryptionContext,
-                  "Koda should be a Key in the Custom Encryption Context for the ACTIVE.";
-    expect
-      lastActive?.Item.EncryptionContext[customEC] == timestamp,
-      "Koda's value should be the test timestamp for the ACTIVE.";
+    var _ := itemExpectations(lastActive?.Item, timestamp, unModeledAttri);
     var _ :- expect keyStore.GetActiveBranchKey(KeyStoreTypes.GetActiveBranchKeyInput(branchKeyIdentifier := testId));
     print testLogPrefix + " Active Validated with KMS/KeyStore: " + testId + "\n";
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_ACTIVE_TYPE, ddbClient);
@@ -145,15 +135,32 @@ module {:options "/functionSyntax:4" } TestMutationsEncryptionContextAddValue {
     var beaconInput := KeyStoreTypes.GetEncryptedBeaconKeyInput(Identifier:=testId);
     var beacon? :- expect storage.GetEncryptedBeaconKey(beaconInput);
     expect beacon?.Item.Type.ActiveHierarchicalSymmetricBeacon?;
-    expect
-      customEC in beacon?.Item.EncryptionContext,
-                  "Koda should be a Key in the Custom Encryption Context for the Beacon.";
-    expect
-      beacon?.Item.EncryptionContext[customEC] == timestamp,
-      "Koda's value should be the test timestamp for the Beacon.";
+    var _ := itemExpectations(beacon?.Item, timestamp, unModeledAttri);
     var _ :- expect keyStore.GetBeaconKey(KeyStoreTypes.GetBeaconKeyInput(branchKeyIdentifier := testId));
     print testLogPrefix + " Beacon Validated with KMS/KeyStore: " + testId + "\n";
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BEACON_KEY_TYPE_VALUE, ddbClient);
+  }
+
+  method itemExpectations(
+    item: KeyStoreTypes.EncryptedHierarchicalKey,
+    timestamp : string,
+    unModeledAttri : AdminFixtures.KeyValue
+  )
+    returns (output: bool)
+    ensures output ==> "type" in item.EncryptionContext
+  {
+    expect
+      customEC in item.EncryptionContext,
+                  "Koda should be a Key in the Custom Encryption Context of all items for this test.";
+    expect
+      item.EncryptionContext[customEC] == timestamp,
+      "Koda's value should be the test timestamp for all items for this test.";
+    expect "type" in item.EncryptionContext, "item is missing 'type' from EC!!";
+    expect unModeledAttri.key in item.EncryptionContext,
+                                 "un-modeled attribute was dropped!";
+    expect item.EncryptionContext[unModeledAttri.key] == unModeledAttri.value,
+      "un-modeled attribute value is incorrect";
+    return true;
   }
 }
 

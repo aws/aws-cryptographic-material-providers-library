@@ -359,7 +359,7 @@ module TestVersionKey {
       Types.WriteNewEncryptedBranchKeyVersionInput(
         Version := Version,
         Active := Active,
-        oldActive := Active
+        OldActive := Active
       )
     );
 
@@ -404,7 +404,7 @@ module TestVersionKey {
       Types.WriteNewEncryptedBranchKeyVersionInput(
         Version := Version,
         Active := Active,
-        oldActive := Active
+        OldActive := Active
       )
     );
 

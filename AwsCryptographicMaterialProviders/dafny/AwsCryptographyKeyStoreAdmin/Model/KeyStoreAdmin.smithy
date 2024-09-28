@@ -50,9 +50,12 @@ service KeyStoreAdmin {
     KeyStoreAdminException,
     MutationConflictException,
     MutationInvalidException,
-    aws.cryptography.keyStore#VersionRaceException,
-    MutationLockInvalidException,
+    aws.cryptography.keyStore#VersionRaceException
+    MutationLockInvalidException
     UnexpectedStateException
+    MutationFromException
+    MutationToException
+    MutationVerificationException
   ]
 }
 
@@ -90,7 +93,7 @@ union KMSIdentifier {
   the whole ARN, including the Region,
   is persisted in Branch Keys and
   MUST strictly equal this value to be considered valid.")
-  kmsKeyArn: String,
+  KmsKeyArn: String,
 
   @documentation(
   "If an MRK ARN is provided,
@@ -99,10 +102,11 @@ union KMSIdentifier {
   although they must be otherwise equal.
   If either ARN is not an MRK ARN, then
   kmsMRKeyArn behaves exactly as kmsKeyArn.")
-  kmsMRKeyArn: String,
+  KmsMRKeyArn: String,
 }
 
-// For GA of Mutations, only ReEncrypt is allowd
+// TODO-Mutations-FF :
+// For GA of Mutations,  of Mutations, only ReEncrypt is allowd
 // structure AwsKmsDecryptEncrypt {
 //   @documentation("The KMS Client (and Grant Tokens) used to Decrypt Branch Key Store Items.")
 //   decrypt: aws.cryptography.keyStore#AwsKms
@@ -122,6 +126,7 @@ union KeyManagementStrategy {
   This is one request to Key Management, as compared to two.
   But only one set of credentials can be used.")
   AwsKmsReEncrypt: aws.cryptography.keyStore#AwsKms
+  // TODO-Mutations-FF :
   // For GA of Mutations, only ReEncrypt is allowd
   // @documentation(
   //   "Key Store Items are authenicated and re-wrapped via a Decrypt and then Encrypt request.
@@ -146,26 +151,26 @@ operation CreateKey {
 
 structure CreateKeyInput {
   @documentation("The identifier for the created Branch Key.")
-  branchKeyIdentifier: String,
+  Identifier: String,
 
   @documentation(
   "Custom encryption context for the Branch Key.
   Required if branchKeyIdentifier is set.")
-  encryptionContext: aws.cryptography.keyStore#EncryptionContext
+  EncryptionContext: aws.cryptography.keyStore#EncryptionContext
 
   @required
   @documentation(
   "Multi-Region or Single Region AWS KMS Key
   used to protect the Branch Key, but not aliases!")
-  kmsArn: KMSIdentifier
+  KmsArn: KMSIdentifier
 
-  strategy: KeyManagementStrategy
+  Strategy: KeyManagementStrategy
 }
 
 structure CreateKeyOutput {
   @required
   @documentation("A identifier for the created Branch Key.")
-  branchKeyIdentifier: String
+  Identifier: String
 }
 
 
@@ -185,13 +190,13 @@ operation VersionKey {
 structure VersionKeyInput {
   @required
   @documentation("The identifier for the Branch Key to be versioned.")
-  branchKeyIdentifier: String
+  Identifier: String
 
   @required
   @documentation("Multi-Region or Single Region AWS KMS Key used to protect the Branch Key, but not aliases!")
-  kmsArn: KMSIdentifier
+  KmsArn: KMSIdentifier
 
-  strategy: KeyManagementStrategy
+  Strategy: KeyManagementStrategy
 }
 
 structure VersionKeyOutput {
@@ -205,28 +210,30 @@ Establishes the Mutation Lock; Simultaneous conflicting Mutations are prevented 
 Mutations MUST be completed via subsequent invocations of the Apply Mutation Operation, first invoked with the Mutation Token returned in InitializeMutationOutput.
 Uses 1 read of 3 items and 1 write of 4 items.
 By default, Key Management will be called 5 times; 2 x GenerateDataKeyWithoutPlaintext, 3 x ReEncrypt.")
-//If verifyDecrypt is true, an additional Decrypt will be called.")
 operation InitializeMutation {
   input: InitializeMutationInput
   output: InitializeMutationOutput
   errors: [
     MutationConflictException,
     MutationInvalidException,
-    aws.cryptography.keyStore#VersionRaceException
+    aws.cryptography.keyStore#VersionRaceException,
+    MutationVerificationException,
+    MutationToException
+    MutationFromException
   ]
 }
 
 structure InitializeMutationInput {
   @documentation("The identifier for the Branch Key to be mutated.")
   @required
-  branchKeyIdentifier: String
+  Identifier: String
 
   @documentation("Describes the Mutation that will be applied to all Items of the Branch Key.")
   @required
-  mutations: Mutations
+  Mutations: Mutations
 
   @documentation("Optional. Defaults to reEncrypt with a default KMS Client.")
-  strategy: KeyManagementStrategy
+  Strategy: KeyManagementStrategy
 }
 
 structure MutationToken {
@@ -250,17 +257,17 @@ structure MutationToken {
 
   @documentation("ISO 8601 time when the mutation was initialized.")
   @required
-  CreateTime: String ,
+  CreateTime: String
 }
 
 structure MutatedBranchKeyItem {
   @required
   @documentation("The item type changed. i.e: branch:version:<uuid> or MUTATION_LOCK:<uuid>")
-  itemType: String
+  ItemType: String
 
   @required
   @documentation("Brief description of what occurred. i.e: Mutation Applied, New Active Created, Mutation Lock Created, Mutation Lock Removed.")
-  description: String // This could be an enum, which might be an optimization in some runtimes, ignoring Dafny
+  Description: String // This could be an enum, which might be an optimization in some runtimes, ignoring Dafny
 }
 
 @documentation("Details what items of the Branch Key ID were changed on this invocation.")
@@ -271,10 +278,10 @@ list MutatedBranchKeyItems {
 structure InitializeMutationOutput {
   @documentation("Pass the Mutation Token to the Apply Mutation operation to continue the Mutation.")
   @required
-  mutationToken: MutationToken
+  MutationToken: MutationToken
   
   @required
-  mutatedBranchKeyItems: MutatedBranchKeyItems
+  MutatedBranchKeyItems: MutatedBranchKeyItems
 }
 
 // TODO: assert release is v1.8.0
@@ -293,12 +300,12 @@ structure Mutations {
   AWS Key Management Service Key.
   A Multi-Region or Single Region AWS KMS Key are permitted,
   but not aliases!")
-  terminalKmsArn: String // KMS Arn validation MUST occur in Dafny
+  TerminalKmsArn: String // KMS Arn validation MUST occur in Dafny
   @documentation(
   "ReEncrypt all Items of the Branch Key
   to be authorized with this custom encryption context.
   An empty Encyrption Context is not allowed.")
-  terminalEncryptionContext: aws.cryptography.keyStore#EncryptionContextString // EC non Empty MUST be validated in Dafny
+  TerminalEncryptionContext: aws.cryptography.keyStore#EncryptionContextString // EC non Empty MUST be validated in Dafny
 }
 
 @documentation("Applies the Mutation to a page of Branch Key Items. If all Items have been mutated, removes the Mutation Lock.")
@@ -306,17 +313,17 @@ operation ApplyMutation {
   input:  ApplyMutationInput
   output: ApplyMutationOutput
   errors: [
-    MutationLockInvalidException,
+    MutationLockInvalidException
     UnexpectedStateException
+    MutationVerificationException
+    MutationToException
+    MutationFromException
   ]
 }
 
 structure ApplyMutationInput {
-  // Technically, we could XOR on ApplyMutationResult & MutationToken
-  // that MAY be user friendly, as they do not have bother unwrapping structures.
-  // For now, let's treat this as a two way door.
   @required
-  mutationToken: MutationToken
+  MutationToken: MutationToken
 
   @documentation(
   "For Default DynamoDB Table Storage, the maximum page size is 99.
@@ -324,27 +331,26 @@ structure ApplyMutationInput {
   Note that, at least for Storage:DynamoDBTable,
   an additional \"item\" is consumed by the Mutation Lock verification.
   Thus, if the pageSize is 24, 25 requests will be sent in the Transact Write Request.")
-  //@default(24) // DDB allows for 25 writes, but we need to consume one for the lock // Smithy-Dafny may not respect @default
-  pageSize: Integer
+  PageSize: Integer
 
   @documentation("Optional. Defaults to reEncrypt with a default KMS Client.")
-  strategy: KeyManagementStrategy
+  Strategy: KeyManagementStrategy
 }
 
 union ApplyMutationResult {
   @documentation("Continue applying the mutation. Invoke Apply Mutation with this Mutation Token.")
-  continueMutation: MutationToken
+  ContinueMutation: MutationToken
   @documentation("All items have been mutated; the Mutation Lock has been removed. The mutation is complete.")
-  completeMutation: MutationComplete
+  CompleteMutation: MutationComplete
 }
 
 structure MutationComplete {}
 
 structure ApplyMutationOutput {
   @required
-  result: ApplyMutationResult
+  MutationResult: ApplyMutationResult
   @required
-  mutatedBranchKeyItems: MutatedBranchKeyItems
+  MutatedBranchKeyItems: MutatedBranchKeyItems
 }
 
 // @documentation(
@@ -374,34 +380,34 @@ structure ApplyMutationOutput {
 // structure MutableBranchKeyProperities {
 //   @required
 //   @documentation("The KmsArn protecting the Branch Key.")
-//   kmsArn: String // KMS Arn validation MUST occur in Dafny
+//   KmsArn: String // KMS Arn validation MUST occur in Dafny
 //   @required  
 //   @documentation("The custom Encryption Context authenicated with this Branch Key.")
-//   customEncryptionContext: aws.cryptography.keyStore#EncryptionContextString // EC non Empty MUST be validated in Dafny
+//   CustomEncryptionContext: aws.cryptography.keyStore#EncryptionContextString // EC non Empty MUST be validated in Dafny
 // }
 
 
 // structure ResumeMutationInput {
 //   @documentation("The identifier for the Branch Key.")
 //   @required
-//   branchKeyIdentifier: String
+//   Identifier: String
 
 //   @documentation(
 //   "Describes the original mutable branch key properities.
 //   All members of the input MUST be supplied,
 //   or the operation will return an exception.")
 //   @required
-//   original: MutableBranchKeyProperities
+//   Original: MutableBranchKeyProperities
 
 //   @documentation(
 //   "Describes the terminal mutable branch key properities.
 //   All members of the input MUST be supplied,
 //   or the operation will return an exception.")
 //   @required
-//   terminal: MutableBranchKeyProperities
+//   Terminal: MutableBranchKeyProperities
 
 //   @documentation("Optional. Defaults to reEncrypt with a default KMS Client.")
-//   strategy: KeyManagementStrategy
+//   Strategy: KeyManagementStrategy
 // }
 
 // structure ResumeMutationOutput {
@@ -424,7 +430,7 @@ structure ApplyMutationOutput {
 // structure DescribeMutationInput {
 //   @documentation("The identifier for the Branch Key.")
 //   @required
-//   branchKeyIdentifier: String
+//   Identifier: String
 // }
 
 // structure DescribeMutationOutput {
@@ -433,7 +439,7 @@ structure ApplyMutationOutput {
 //   pass the Mutation Token to the Apply Mutation
 //   operation to continue the Mutation.
 //   Otherwise, there is no Mutation Lock.")
-//   mutationToken: MutationToken
+//   MutationToken: MutationToken
 // }
 
 // Errors
@@ -444,7 +450,7 @@ structure KeyStoreAdminException {
   message: String
 }
 
-// Rather than link, we could detail recovery steps in the documentation trait.
+// TODO-Mutations-GA : Document recovery
 @error("client")
 @documentation("A Mutation for this Branch Key ID is already inflight! Nothing was changed. See <link>.")
 structure MutationConflictException {
@@ -452,24 +458,75 @@ structure MutationConflictException {
   message: String,
 }
 
+// TODO-Mutations-FF : Document recovery
 @error("client")
-@documentation("Key Management Authorization failed while Initializing the Mutation. No Mutation Lock was created; no items were changed.")
+@documentation(
+"Branch Key Authorization failed while Initializing the Mutation.
+No Mutation Lock was created; no items were changed.")
 structure MutationInvalidException {
   @required
   message: String,
 }
 
-// Mutation Lock's Digest is incorrect; TODO: If we trust the backing table, should we remove this error?
+// TODO-Mutations-GA : Document recovery
 @error("client")
-@documentation("Mutation Lock is failing authentication. Mutation Lock still exists but Mutation cannot proceed. No items were changed. Recommend identifying latest author of Mutation Lock and validating their access.")
+@documentation(
+"Mutation Lock disagrees with provided Mutation Token.
+Mutation Lock still exists but Mutation cannot proceed.
+No items were changed.
+Recommend identifying latest author of Mutation Lock
+and validating their access;
+or checking the integrity of Mutation Token.")
 structure MutationLockInvalidException {
   @required
   message: String,
 }
 
+// TODO-Mutations-GA : Document recovery
 @error("client")
-@documentation("An Item was encountered that is not in an expected state. Mutation Lock is still present; no items were changed by this request. Recommend audting backing table access; an Item of a Branch Key MUST only be in one of two states during a Mutation; this item is in a third state.")
+@documentation(
+"An Item was encountered that is not
+in an expected state.
+Mutation Lock is still present;
+no items were changed by this request.
+Recommend audting backing table access;
+an Item of a Branch Key MUST be in
+either the original or terminal states during a Mutation;
+encountered item(s) in other states.")
 structure UnexpectedStateException {
+  @required
+  message: String,
+}
+
+// TODO-Mutations-GA : Document recovery
+@error("client")
+@documentation(
+"Key Management generic error encountered while authenticating
+an item already in the terminal state.
+Possibly, access to the terminal KMS Key was withdrawn.")
+structure MutationVerificationException {
+  @required
+  message: String,
+}
+
+// TODO-Mutations-GA : Document recovery
+@error("client")
+@documentation(
+"Key Management generic error encountered while mutating
+an item from original to terminal.
+Possibly, access to the terminal KMS Key was withdrawn.")
+structure MutationToException {
+  @required
+  message: String,
+}
+
+// TODO-Mutations-GA : Document recovery
+@error("client")
+@documentation(
+"Key Management generic error encountered while mutating
+an item from original to terminal.
+Possibly, access to the terminal KMS Key was withdrawn.")
+structure MutationFromException {
   @required
   message: String,
 }

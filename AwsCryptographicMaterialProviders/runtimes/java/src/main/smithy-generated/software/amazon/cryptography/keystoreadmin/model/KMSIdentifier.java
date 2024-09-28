@@ -17,7 +17,7 @@ public class KMSIdentifier {
    *   is persisted in Branch Keys and
    *   MUST strictly equal this value to be considered valid.
    */
-  private final String kmsKeyArn;
+  private final String KmsKeyArn;
 
   /**
    * If an MRK ARN is provided,
@@ -27,11 +27,11 @@ public class KMSIdentifier {
    *   If either ARN is not an MRK ARN, then
    *   kmsMRKeyArn behaves exactly as kmsKeyArn.
    */
-  private final String kmsMRKeyArn;
+  private final String KmsMRKeyArn;
 
   protected KMSIdentifier(BuilderImpl builder) {
-    this.kmsKeyArn = builder.kmsKeyArn();
-    this.kmsMRKeyArn = builder.kmsMRKeyArn();
+    this.KmsKeyArn = builder.KmsKeyArn();
+    this.KmsMRKeyArn = builder.KmsMRKeyArn();
   }
 
   /**
@@ -44,8 +44,8 @@ public class KMSIdentifier {
    *   is persisted in Branch Keys and
    *   MUST strictly equal this value to be considered valid.
    */
-  public String kmsKeyArn() {
-    return this.kmsKeyArn;
+  public String KmsKeyArn() {
+    return this.KmsKeyArn;
   }
 
   /**
@@ -56,8 +56,8 @@ public class KMSIdentifier {
    *   If either ARN is not an MRK ARN, then
    *   kmsMRKeyArn behaves exactly as kmsKeyArn.
    */
-  public String kmsMRKeyArn() {
-    return this.kmsMRKeyArn;
+  public String KmsMRKeyArn() {
+    return this.KmsMRKeyArn;
   }
 
   public Builder toBuilder() {
@@ -70,7 +70,7 @@ public class KMSIdentifier {
 
   public interface Builder {
     /**
-     * @param kmsKeyArn Key Store is restricted to only this KMS Key ARN.
+     * @param KmsKeyArn Key Store is restricted to only this KMS Key ARN.
      *   If a different KMS Key ARN is encountered
      *   when creating, versioning, or getting a Branch Key or Beacon Key,
      *   KMS is never called and an exception is thrown.
@@ -79,7 +79,7 @@ public class KMSIdentifier {
      *   is persisted in Branch Keys and
      *   MUST strictly equal this value to be considered valid.
      */
-    Builder kmsKeyArn(String kmsKeyArn);
+    Builder KmsKeyArn(String KmsKeyArn);
 
     /**
      * @return Key Store is restricted to only this KMS Key ARN.
@@ -91,17 +91,17 @@ public class KMSIdentifier {
      *   is persisted in Branch Keys and
      *   MUST strictly equal this value to be considered valid.
      */
-    String kmsKeyArn();
+    String KmsKeyArn();
 
     /**
-     * @param kmsMRKeyArn If an MRK ARN is provided,
+     * @param KmsMRKeyArn If an MRK ARN is provided,
      *   and the persisted Branch Key holds an MRK ARN,
      *   then those two ARNs may differ in region,
      *   although they must be otherwise equal.
      *   If either ARN is not an MRK ARN, then
      *   kmsMRKeyArn behaves exactly as kmsKeyArn.
      */
-    Builder kmsMRKeyArn(String kmsMRKeyArn);
+    Builder KmsMRKeyArn(String KmsMRKeyArn);
 
     /**
      * @return If an MRK ARN is provided,
@@ -111,40 +111,40 @@ public class KMSIdentifier {
      *   If either ARN is not an MRK ARN, then
      *   kmsMRKeyArn behaves exactly as kmsKeyArn.
      */
-    String kmsMRKeyArn();
+    String KmsMRKeyArn();
 
     KMSIdentifier build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected String kmsKeyArn;
+    protected String KmsKeyArn;
 
-    protected String kmsMRKeyArn;
+    protected String KmsMRKeyArn;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(KMSIdentifier model) {
-      this.kmsKeyArn = model.kmsKeyArn();
-      this.kmsMRKeyArn = model.kmsMRKeyArn();
+      this.KmsKeyArn = model.KmsKeyArn();
+      this.KmsMRKeyArn = model.KmsMRKeyArn();
     }
 
-    public Builder kmsKeyArn(String kmsKeyArn) {
-      this.kmsKeyArn = kmsKeyArn;
+    public Builder KmsKeyArn(String KmsKeyArn) {
+      this.KmsKeyArn = KmsKeyArn;
       return this;
     }
 
-    public String kmsKeyArn() {
-      return this.kmsKeyArn;
+    public String KmsKeyArn() {
+      return this.KmsKeyArn;
     }
 
-    public Builder kmsMRKeyArn(String kmsMRKeyArn) {
-      this.kmsMRKeyArn = kmsMRKeyArn;
+    public Builder KmsMRKeyArn(String KmsMRKeyArn) {
+      this.KmsMRKeyArn = KmsMRKeyArn;
       return this;
     }
 
-    public String kmsMRKeyArn() {
-      return this.kmsMRKeyArn;
+    public String KmsMRKeyArn() {
+      return this.KmsMRKeyArn;
     }
 
     public KMSIdentifier build() {
@@ -157,7 +157,7 @@ public class KMSIdentifier {
     }
 
     private boolean onlyOneNonNull() {
-      Object[] allValues = { this.kmsKeyArn, this.kmsMRKeyArn };
+      Object[] allValues = { this.KmsKeyArn, this.KmsMRKeyArn };
       boolean haveOneNonNull = false;
       for (Object o : allValues) {
         if (Objects.nonNull(o)) {

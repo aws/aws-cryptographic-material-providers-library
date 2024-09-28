@@ -7,17 +7,17 @@ namespace AWS.Cryptography.KeyStoreAdmin
 {
   public class VersionKeyInput
   {
-    private string _branchKeyIdentifier;
+    private string _identifier;
     private AWS.Cryptography.KeyStoreAdmin.KMSIdentifier _kmsArn;
     private AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy _strategy;
-    public string BranchKeyIdentifier
+    public string Identifier
     {
-      get { return this._branchKeyIdentifier; }
-      set { this._branchKeyIdentifier = value; }
+      get { return this._identifier; }
+      set { this._identifier = value; }
     }
-    public bool IsSetBranchKeyIdentifier()
+    public bool IsSetIdentifier()
     {
-      return this._branchKeyIdentifier != null;
+      return this._identifier != null;
     }
     public AWS.Cryptography.KeyStoreAdmin.KMSIdentifier KmsArn
     {
@@ -39,7 +39,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
     }
     public void Validate()
     {
-      if (!IsSetBranchKeyIdentifier()) throw new System.ArgumentException("Missing value for required property 'BranchKeyIdentifier'");
+      if (!IsSetIdentifier()) throw new System.ArgumentException("Missing value for required property 'Identifier'");
       if (!IsSetKmsArn()) throw new System.ArgumentException("Missing value for required property 'KmsArn'");
 
     }

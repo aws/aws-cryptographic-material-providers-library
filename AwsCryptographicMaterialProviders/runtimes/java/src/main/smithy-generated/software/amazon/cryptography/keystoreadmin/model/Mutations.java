@@ -24,18 +24,18 @@ public class Mutations {
    *   A Multi-Region or Single Region AWS KMS Key are permitted,
    *   but not aliases!
    */
-  private final String terminalKmsArn;
+  private final String TerminalKmsArn;
 
   /**
    * ReEncrypt all Items of the Branch Key
    *   to be authorized with this custom encryption context.
    *   An empty Encyrption Context is not allowed.
    */
-  private final Map<String, String> terminalEncryptionContext;
+  private final Map<String, String> TerminalEncryptionContext;
 
   protected Mutations(BuilderImpl builder) {
-    this.terminalKmsArn = builder.terminalKmsArn();
-    this.terminalEncryptionContext = builder.terminalEncryptionContext();
+    this.TerminalKmsArn = builder.TerminalKmsArn();
+    this.TerminalEncryptionContext = builder.TerminalEncryptionContext();
   }
 
   /**
@@ -45,8 +45,8 @@ public class Mutations {
    *   A Multi-Region or Single Region AWS KMS Key are permitted,
    *   but not aliases!
    */
-  public String terminalKmsArn() {
-    return this.terminalKmsArn;
+  public String TerminalKmsArn() {
+    return this.TerminalKmsArn;
   }
 
   /**
@@ -54,8 +54,8 @@ public class Mutations {
    *   to be authorized with this custom encryption context.
    *   An empty Encyrption Context is not allowed.
    */
-  public Map<String, String> terminalEncryptionContext() {
-    return this.terminalEncryptionContext;
+  public Map<String, String> TerminalEncryptionContext() {
+    return this.TerminalEncryptionContext;
   }
 
   public Builder toBuilder() {
@@ -68,13 +68,13 @@ public class Mutations {
 
   public interface Builder {
     /**
-     * @param terminalKmsArn ReEncrypt all Items of the Branch Key
+     * @param TerminalKmsArn ReEncrypt all Items of the Branch Key
      *   to be authorized by this
      *   AWS Key Management Service Key.
      *   A Multi-Region or Single Region AWS KMS Key are permitted,
      *   but not aliases!
      */
-    Builder terminalKmsArn(String terminalKmsArn);
+    Builder TerminalKmsArn(String TerminalKmsArn);
 
     /**
      * @return ReEncrypt all Items of the Branch Key
@@ -83,15 +83,15 @@ public class Mutations {
      *   A Multi-Region or Single Region AWS KMS Key are permitted,
      *   but not aliases!
      */
-    String terminalKmsArn();
+    String TerminalKmsArn();
 
     /**
-     * @param terminalEncryptionContext ReEncrypt all Items of the Branch Key
+     * @param TerminalEncryptionContext ReEncrypt all Items of the Branch Key
      *   to be authorized with this custom encryption context.
      *   An empty Encyrption Context is not allowed.
      */
-    Builder terminalEncryptionContext(
-      Map<String, String> terminalEncryptionContext
+    Builder TerminalEncryptionContext(
+      Map<String, String> TerminalEncryptionContext
     );
 
     /**
@@ -99,42 +99,42 @@ public class Mutations {
      *   to be authorized with this custom encryption context.
      *   An empty Encyrption Context is not allowed.
      */
-    Map<String, String> terminalEncryptionContext();
+    Map<String, String> TerminalEncryptionContext();
 
     Mutations build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected String terminalKmsArn;
+    protected String TerminalKmsArn;
 
-    protected Map<String, String> terminalEncryptionContext;
+    protected Map<String, String> TerminalEncryptionContext;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(Mutations model) {
-      this.terminalKmsArn = model.terminalKmsArn();
-      this.terminalEncryptionContext = model.terminalEncryptionContext();
+      this.TerminalKmsArn = model.TerminalKmsArn();
+      this.TerminalEncryptionContext = model.TerminalEncryptionContext();
     }
 
-    public Builder terminalKmsArn(String terminalKmsArn) {
-      this.terminalKmsArn = terminalKmsArn;
+    public Builder TerminalKmsArn(String TerminalKmsArn) {
+      this.TerminalKmsArn = TerminalKmsArn;
       return this;
     }
 
-    public String terminalKmsArn() {
-      return this.terminalKmsArn;
+    public String TerminalKmsArn() {
+      return this.TerminalKmsArn;
     }
 
-    public Builder terminalEncryptionContext(
-      Map<String, String> terminalEncryptionContext
+    public Builder TerminalEncryptionContext(
+      Map<String, String> TerminalEncryptionContext
     ) {
-      this.terminalEncryptionContext = terminalEncryptionContext;
+      this.TerminalEncryptionContext = TerminalEncryptionContext;
       return this;
     }
 
-    public Map<String, String> terminalEncryptionContext() {
-      return this.terminalEncryptionContext;
+    public Map<String, String> TerminalEncryptionContext() {
+      return this.TerminalEncryptionContext;
     }
 
     public Mutations build() {

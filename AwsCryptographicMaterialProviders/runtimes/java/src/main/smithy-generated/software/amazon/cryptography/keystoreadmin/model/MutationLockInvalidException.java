@@ -6,7 +6,12 @@ package software.amazon.cryptography.keystoreadmin.model;
 import java.util.Objects;
 
 /**
- * Mutation Lock is failing authentication. Mutation Lock still exists but Mutation cannot proceed. No items were changed. Recommend identifying latest author of Mutation Lock and validating their access.
+ * Mutation Lock disagrees with provided Mutation Token.
+ * Mutation Lock still exists but Mutation cannot proceed.
+ * No items were changed.
+ * Recommend identifying latest author of Mutation Lock
+ * and validating their access;
+ * or checking the integrity of Mutation Token.
  */
 public class MutationLockInvalidException extends RuntimeException {
 

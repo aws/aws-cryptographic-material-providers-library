@@ -10,43 +10,43 @@ public class GetItemsForInitializeMutationOutput {
   /**
    * The materials for the Branch Key.
    */
-  private final EncryptedHierarchicalKey activeItem;
+  private final EncryptedHierarchicalKey ActiveItem;
 
   /**
    * The materials for the Beacon Key.
    */
-  private final EncryptedHierarchicalKey beaconItem;
+  private final EncryptedHierarchicalKey BeaconItem;
 
   /**
    * The Mutation Lock, if it exists.
    */
-  private final MutationLock mutationLock;
+  private final MutationLock MutationLock;
 
   protected GetItemsForInitializeMutationOutput(BuilderImpl builder) {
-    this.activeItem = builder.activeItem();
-    this.beaconItem = builder.beaconItem();
-    this.mutationLock = builder.mutationLock();
+    this.ActiveItem = builder.ActiveItem();
+    this.BeaconItem = builder.BeaconItem();
+    this.MutationLock = builder.MutationLock();
   }
 
   /**
    * @return The materials for the Branch Key.
    */
-  public EncryptedHierarchicalKey activeItem() {
-    return this.activeItem;
+  public EncryptedHierarchicalKey ActiveItem() {
+    return this.ActiveItem;
   }
 
   /**
    * @return The materials for the Beacon Key.
    */
-  public EncryptedHierarchicalKey beaconItem() {
-    return this.beaconItem;
+  public EncryptedHierarchicalKey BeaconItem() {
+    return this.BeaconItem;
   }
 
   /**
    * @return The Mutation Lock, if it exists.
    */
-  public MutationLock mutationLock() {
-    return this.mutationLock;
+  public MutationLock MutationLock() {
+    return this.MutationLock;
   }
 
   public Builder toBuilder() {
@@ -59,90 +59,90 @@ public class GetItemsForInitializeMutationOutput {
 
   public interface Builder {
     /**
-     * @param activeItem The materials for the Branch Key.
+     * @param ActiveItem The materials for the Branch Key.
      */
-    Builder activeItem(EncryptedHierarchicalKey activeItem);
+    Builder ActiveItem(EncryptedHierarchicalKey ActiveItem);
 
     /**
      * @return The materials for the Branch Key.
      */
-    EncryptedHierarchicalKey activeItem();
+    EncryptedHierarchicalKey ActiveItem();
 
     /**
-     * @param beaconItem The materials for the Beacon Key.
+     * @param BeaconItem The materials for the Beacon Key.
      */
-    Builder beaconItem(EncryptedHierarchicalKey beaconItem);
+    Builder BeaconItem(EncryptedHierarchicalKey BeaconItem);
 
     /**
      * @return The materials for the Beacon Key.
      */
-    EncryptedHierarchicalKey beaconItem();
+    EncryptedHierarchicalKey BeaconItem();
 
     /**
-     * @param mutationLock The Mutation Lock, if it exists.
+     * @param MutationLock The Mutation Lock, if it exists.
      */
-    Builder mutationLock(MutationLock mutationLock);
+    Builder MutationLock(MutationLock MutationLock);
 
     /**
      * @return The Mutation Lock, if it exists.
      */
-    MutationLock mutationLock();
+    MutationLock MutationLock();
 
     GetItemsForInitializeMutationOutput build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected EncryptedHierarchicalKey activeItem;
+    protected EncryptedHierarchicalKey ActiveItem;
 
-    protected EncryptedHierarchicalKey beaconItem;
+    protected EncryptedHierarchicalKey BeaconItem;
 
-    protected MutationLock mutationLock;
+    protected MutationLock MutationLock;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(GetItemsForInitializeMutationOutput model) {
-      this.activeItem = model.activeItem();
-      this.beaconItem = model.beaconItem();
-      this.mutationLock = model.mutationLock();
+      this.ActiveItem = model.ActiveItem();
+      this.BeaconItem = model.BeaconItem();
+      this.MutationLock = model.MutationLock();
     }
 
-    public Builder activeItem(EncryptedHierarchicalKey activeItem) {
-      this.activeItem = activeItem;
+    public Builder ActiveItem(EncryptedHierarchicalKey ActiveItem) {
+      this.ActiveItem = ActiveItem;
       return this;
     }
 
-    public EncryptedHierarchicalKey activeItem() {
-      return this.activeItem;
+    public EncryptedHierarchicalKey ActiveItem() {
+      return this.ActiveItem;
     }
 
-    public Builder beaconItem(EncryptedHierarchicalKey beaconItem) {
-      this.beaconItem = beaconItem;
+    public Builder BeaconItem(EncryptedHierarchicalKey BeaconItem) {
+      this.BeaconItem = BeaconItem;
       return this;
     }
 
-    public EncryptedHierarchicalKey beaconItem() {
-      return this.beaconItem;
+    public EncryptedHierarchicalKey BeaconItem() {
+      return this.BeaconItem;
     }
 
-    public Builder mutationLock(MutationLock mutationLock) {
-      this.mutationLock = mutationLock;
+    public Builder MutationLock(MutationLock MutationLock) {
+      this.MutationLock = MutationLock;
       return this;
     }
 
-    public MutationLock mutationLock() {
-      return this.mutationLock;
+    public MutationLock MutationLock() {
+      return this.MutationLock;
     }
 
     public GetItemsForInitializeMutationOutput build() {
-      if (Objects.isNull(this.activeItem())) {
+      if (Objects.isNull(this.ActiveItem())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `activeItem`"
+          "Missing value for required field `ActiveItem`"
         );
       }
-      if (Objects.isNull(this.beaconItem())) {
+      if (Objects.isNull(this.BeaconItem())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `beaconItem`"
+          "Missing value for required field `BeaconItem`"
         );
       }
       return new GetItemsForInitializeMutationOutput(this);

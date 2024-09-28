@@ -11,30 +11,30 @@ public class InitializeMutationOutput {
   /**
    * Pass the Mutation Token to the Apply Mutation operation to continue the Mutation.
    */
-  private final MutationToken mutationToken;
+  private final MutationToken MutationToken;
 
   /**
    * Details what items of the Branch Key ID were changed on this invocation.
    */
-  private final List<MutatedBranchKeyItem> mutatedBranchKeyItems;
+  private final List<MutatedBranchKeyItem> MutatedBranchKeyItems;
 
   protected InitializeMutationOutput(BuilderImpl builder) {
-    this.mutationToken = builder.mutationToken();
-    this.mutatedBranchKeyItems = builder.mutatedBranchKeyItems();
+    this.MutationToken = builder.MutationToken();
+    this.MutatedBranchKeyItems = builder.MutatedBranchKeyItems();
   }
 
   /**
    * @return Pass the Mutation Token to the Apply Mutation operation to continue the Mutation.
    */
-  public MutationToken mutationToken() {
-    return this.mutationToken;
+  public MutationToken MutationToken() {
+    return this.MutationToken;
   }
 
   /**
    * @return Details what items of the Branch Key ID were changed on this invocation.
    */
-  public List<MutatedBranchKeyItem> mutatedBranchKeyItems() {
-    return this.mutatedBranchKeyItems;
+  public List<MutatedBranchKeyItem> MutatedBranchKeyItems() {
+    return this.MutatedBranchKeyItems;
   }
 
   public Builder toBuilder() {
@@ -47,72 +47,72 @@ public class InitializeMutationOutput {
 
   public interface Builder {
     /**
-     * @param mutationToken Pass the Mutation Token to the Apply Mutation operation to continue the Mutation.
+     * @param MutationToken Pass the Mutation Token to the Apply Mutation operation to continue the Mutation.
      */
-    Builder mutationToken(MutationToken mutationToken);
+    Builder MutationToken(MutationToken MutationToken);
 
     /**
      * @return Pass the Mutation Token to the Apply Mutation operation to continue the Mutation.
      */
-    MutationToken mutationToken();
+    MutationToken MutationToken();
 
     /**
-     * @param mutatedBranchKeyItems Details what items of the Branch Key ID were changed on this invocation.
+     * @param MutatedBranchKeyItems Details what items of the Branch Key ID were changed on this invocation.
      */
-    Builder mutatedBranchKeyItems(
-      List<MutatedBranchKeyItem> mutatedBranchKeyItems
+    Builder MutatedBranchKeyItems(
+      List<MutatedBranchKeyItem> MutatedBranchKeyItems
     );
 
     /**
      * @return Details what items of the Branch Key ID were changed on this invocation.
      */
-    List<MutatedBranchKeyItem> mutatedBranchKeyItems();
+    List<MutatedBranchKeyItem> MutatedBranchKeyItems();
 
     InitializeMutationOutput build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected MutationToken mutationToken;
+    protected MutationToken MutationToken;
 
-    protected List<MutatedBranchKeyItem> mutatedBranchKeyItems;
+    protected List<MutatedBranchKeyItem> MutatedBranchKeyItems;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(InitializeMutationOutput model) {
-      this.mutationToken = model.mutationToken();
-      this.mutatedBranchKeyItems = model.mutatedBranchKeyItems();
+      this.MutationToken = model.MutationToken();
+      this.MutatedBranchKeyItems = model.MutatedBranchKeyItems();
     }
 
-    public Builder mutationToken(MutationToken mutationToken) {
-      this.mutationToken = mutationToken;
+    public Builder MutationToken(MutationToken MutationToken) {
+      this.MutationToken = MutationToken;
       return this;
     }
 
-    public MutationToken mutationToken() {
-      return this.mutationToken;
+    public MutationToken MutationToken() {
+      return this.MutationToken;
     }
 
-    public Builder mutatedBranchKeyItems(
-      List<MutatedBranchKeyItem> mutatedBranchKeyItems
+    public Builder MutatedBranchKeyItems(
+      List<MutatedBranchKeyItem> MutatedBranchKeyItems
     ) {
-      this.mutatedBranchKeyItems = mutatedBranchKeyItems;
+      this.MutatedBranchKeyItems = MutatedBranchKeyItems;
       return this;
     }
 
-    public List<MutatedBranchKeyItem> mutatedBranchKeyItems() {
-      return this.mutatedBranchKeyItems;
+    public List<MutatedBranchKeyItem> MutatedBranchKeyItems() {
+      return this.MutatedBranchKeyItems;
     }
 
     public InitializeMutationOutput build() {
-      if (Objects.isNull(this.mutationToken())) {
+      if (Objects.isNull(this.MutationToken())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `mutationToken`"
+          "Missing value for required field `MutationToken`"
         );
       }
-      if (Objects.isNull(this.mutatedBranchKeyItems())) {
+      if (Objects.isNull(this.MutatedBranchKeyItems())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `mutatedBranchKeyItems`"
+          "Missing value for required field `MutatedBranchKeyItems`"
         );
       }
       return new InitializeMutationOutput(this);

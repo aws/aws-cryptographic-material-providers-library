@@ -39,11 +39,11 @@ module {:options "/functionSyntax:4"} TestWriteMutatedVersions {
           + testId  +  "\n";
     var inputQuery := Types.QueryForVersionsInput(
       Identifier := testId,
-      pageSize := 24
+      PageSize := 24
     );
 
     var queryOut :- expect underTest.QueryForVersions(inputQuery);
-    var items := queryOut.items;
+    var items := queryOut.Items;
     expect
       |items| == 4,
       "Test expects there to be 4 Decrypt Only items! Found: " + String.Base10Int2String(|items|);
@@ -67,7 +67,7 @@ module {:options "/functionSyntax:4"} TestWriteMutatedVersions {
     }
 
     var input := Types.WriteMutatedVersionsInput(
-      items := mutatedItems,
+      Items := mutatedItems,
       Identifier := testId,
       Original := original,
       Terminal := terminal,
@@ -79,7 +79,7 @@ module {:options "/functionSyntax:4"} TestWriteMutatedVersions {
           + testId  +  "\n";
 
     queryOut :- expect underTest.QueryForVersions(inputQuery);
-    items := queryOut.items;
+    items := queryOut.Items;
     print "\nTestWriteMutatedVersions :: TestHappyCase :: Read the \"mutated\" test items! testId: "
           + testId  +  "\n";
     itemIndex := 0;

@@ -43,13 +43,13 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     input: Types.Mutations
   )
   {
-    && (input.terminalKmsArn.Some? ==> KmsArn.ValidKmsArn?(input.terminalKmsArn.value))
-    && (input.terminalEncryptionContext.Some? ==>
-          && |input.terminalEncryptionContext.value| > 0
-          &&  forall k <- input.terminalEncryptionContext.value ::
-               && |k| > 0 && |input.terminalEncryptionContext.value[k]| > 0
-               && input.terminalEncryptionContext.value.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
-    && !(input.terminalKmsArn.None? && input.terminalEncryptionContext.None?)
+    && (input.TerminalKmsArn.Some? ==> KmsArn.ValidKmsArn?(input.TerminalKmsArn.value))
+    && (input.TerminalEncryptionContext.Some? ==>
+          && |input.TerminalEncryptionContext.value| > 0
+          &&  forall k <- input.TerminalEncryptionContext.value ::
+               && |k| > 0 && |input.TerminalEncryptionContext.value[k]| > 0
+               && input.TerminalEncryptionContext.value.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
+    && !(input.TerminalKmsArn.None? && input.TerminalEncryptionContext.None?)
   }
 
   datatype MutableProperties = | MutableProperties (

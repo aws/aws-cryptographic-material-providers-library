@@ -1,5 +1,5 @@
 diff --git b/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographicMaterialProviders/TypeConversion.cs a/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographicMaterialProviders/TypeConversion.cs
-index 0b153802..56aef9ec 100644
+index 0b153802b..56aef9ec6 100644
 --- b/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographicMaterialProviders/TypeConversion.cs
 +++ a/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographicMaterialProviders/TypeConversion.cs
 @@ -3903,7 +3903,9 @@ namespace AWS.Cryptography.MaterialProviders

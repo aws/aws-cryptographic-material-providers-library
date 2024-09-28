@@ -17,16 +17,16 @@ public class QueryForVersionsOutput {
    *   Note: While the Default Storage is DDB,
    *   the Key Store transforms the exclusiveStartKey into an opaque representation.
    */
-  private final ByteBuffer exclusiveStartKey;
+  private final ByteBuffer ExclusiveStartKey;
 
   /**
    * Up to pageSize list of version (decrypt only) items of a Branch Key.
    */
-  private final List<EncryptedHierarchicalKey> items;
+  private final List<EncryptedHierarchicalKey> Items;
 
   protected QueryForVersionsOutput(BuilderImpl builder) {
-    this.exclusiveStartKey = builder.exclusiveStartKey();
-    this.items = builder.items();
+    this.ExclusiveStartKey = builder.ExclusiveStartKey();
+    this.Items = builder.Items();
   }
 
   /**
@@ -37,15 +37,15 @@ public class QueryForVersionsOutput {
    *   Note: While the Default Storage is DDB,
    *   the Key Store transforms the exclusiveStartKey into an opaque representation.
    */
-  public ByteBuffer exclusiveStartKey() {
-    return this.exclusiveStartKey;
+  public ByteBuffer ExclusiveStartKey() {
+    return this.ExclusiveStartKey;
   }
 
   /**
    * @return Up to pageSize list of version (decrypt only) items of a Branch Key.
    */
-  public List<EncryptedHierarchicalKey> items() {
-    return this.items;
+  public List<EncryptedHierarchicalKey> Items() {
+    return this.Items;
   }
 
   public Builder toBuilder() {
@@ -58,14 +58,14 @@ public class QueryForVersionsOutput {
 
   public interface Builder {
     /**
-     * @param exclusiveStartKey If none-empty, Query did not finish searching storage.
+     * @param ExclusiveStartKey If none-empty, Query did not finish searching storage.
      *   Next Query should resume from here.
      *   The Default Storage is DDB;
      *   see Amazon DynamoDB's defination of exclusiveStartKey for details.
      *   Note: While the Default Storage is DDB,
      *   the Key Store transforms the exclusiveStartKey into an opaque representation.
      */
-    Builder exclusiveStartKey(ByteBuffer exclusiveStartKey);
+    Builder ExclusiveStartKey(ByteBuffer ExclusiveStartKey);
 
     /**
      * @return If none-empty, Query did not finish searching storage.
@@ -75,61 +75,61 @@ public class QueryForVersionsOutput {
      *   Note: While the Default Storage is DDB,
      *   the Key Store transforms the exclusiveStartKey into an opaque representation.
      */
-    ByteBuffer exclusiveStartKey();
+    ByteBuffer ExclusiveStartKey();
 
     /**
-     * @param items Up to pageSize list of version (decrypt only) items of a Branch Key.
+     * @param Items Up to pageSize list of version (decrypt only) items of a Branch Key.
      */
-    Builder items(List<EncryptedHierarchicalKey> items);
+    Builder Items(List<EncryptedHierarchicalKey> Items);
 
     /**
      * @return Up to pageSize list of version (decrypt only) items of a Branch Key.
      */
-    List<EncryptedHierarchicalKey> items();
+    List<EncryptedHierarchicalKey> Items();
 
     QueryForVersionsOutput build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected ByteBuffer exclusiveStartKey;
+    protected ByteBuffer ExclusiveStartKey;
 
-    protected List<EncryptedHierarchicalKey> items;
+    protected List<EncryptedHierarchicalKey> Items;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(QueryForVersionsOutput model) {
-      this.exclusiveStartKey = model.exclusiveStartKey();
-      this.items = model.items();
+      this.ExclusiveStartKey = model.ExclusiveStartKey();
+      this.Items = model.Items();
     }
 
-    public Builder exclusiveStartKey(ByteBuffer exclusiveStartKey) {
-      this.exclusiveStartKey = exclusiveStartKey;
+    public Builder ExclusiveStartKey(ByteBuffer ExclusiveStartKey) {
+      this.ExclusiveStartKey = ExclusiveStartKey;
       return this;
     }
 
-    public ByteBuffer exclusiveStartKey() {
-      return this.exclusiveStartKey;
+    public ByteBuffer ExclusiveStartKey() {
+      return this.ExclusiveStartKey;
     }
 
-    public Builder items(List<EncryptedHierarchicalKey> items) {
-      this.items = items;
+    public Builder Items(List<EncryptedHierarchicalKey> Items) {
+      this.Items = Items;
       return this;
     }
 
-    public List<EncryptedHierarchicalKey> items() {
-      return this.items;
+    public List<EncryptedHierarchicalKey> Items() {
+      return this.Items;
     }
 
     public QueryForVersionsOutput build() {
-      if (Objects.isNull(this.exclusiveStartKey())) {
+      if (Objects.isNull(this.ExclusiveStartKey())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `exclusiveStartKey`"
+          "Missing value for required field `ExclusiveStartKey`"
         );
       }
-      if (Objects.isNull(this.items())) {
+      if (Objects.isNull(this.Items())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `items`"
+          "Missing value for required field `Items`"
         );
       }
       return new QueryForVersionsOutput(this);

@@ -7,18 +7,18 @@ namespace AWS.Cryptography.KeyStoreAdmin
 {
   public class CreateKeyInput
   {
-    private string _branchKeyIdentifier;
+    private string _identifier;
     private System.Collections.Generic.Dictionary<string, string> _encryptionContext;
     private AWS.Cryptography.KeyStoreAdmin.KMSIdentifier _kmsArn;
     private AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy _strategy;
-    public string BranchKeyIdentifier
+    public string Identifier
     {
-      get { return this._branchKeyIdentifier; }
-      set { this._branchKeyIdentifier = value; }
+      get { return this._identifier; }
+      set { this._identifier = value; }
     }
-    public bool IsSetBranchKeyIdentifier()
+    public bool IsSetIdentifier()
     {
-      return this._branchKeyIdentifier != null;
+      return this._identifier != null;
     }
     public System.Collections.Generic.Dictionary<string, string> EncryptionContext
     {

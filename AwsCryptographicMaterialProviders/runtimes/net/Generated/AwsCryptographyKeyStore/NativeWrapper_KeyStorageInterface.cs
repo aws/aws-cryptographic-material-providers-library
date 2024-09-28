@@ -157,6 +157,34 @@ namespace AWS.Cryptography.KeyStore
     {
       throw new KeyStoreException("Not supported at this time.");
     }
+    public Wrappers_Compile._IResult<software.amazon.cryptography.keystore.internaldafny.types._IGetMutationLockOutput, software.amazon.cryptography.keystore.internaldafny.types._IError> GetMutationLock(software.amazon.cryptography.keystore.internaldafny.types._IGetMutationLockInput input)
+    {
+      void validateOutput(AWS.Cryptography.KeyStore.GetMutationLockOutput nativeOutput)
+      {
+        try { nativeOutput.Validate(); }
+        catch (ArgumentException e)
+        {
+          var message = $"Output of {_impl}._GetMutationLock is invalid. {e.Message}";
+          throw new KeyStoreException(message);
+        }
+      }
+      AWS.Cryptography.KeyStore.GetMutationLockInput nativeInput = TypeConversion.FromDafny_N3_aws__N12_cryptography__N8_keyStore__S20_GetMutationLockInput(input);
+      try
+      {
+        AWS.Cryptography.KeyStore.GetMutationLockOutput nativeOutput = _impl.GetMutationLock(nativeInput);
+        _ = nativeOutput ?? throw new KeyStoreException($"{_impl}._GetMutationLock returned null, should be {typeof(AWS.Cryptography.KeyStore.GetMutationLockOutput)}");
+        validateOutput(nativeOutput);
+        return Wrappers_Compile.Result<software.amazon.cryptography.keystore.internaldafny.types._IGetMutationLockOutput, software.amazon.cryptography.keystore.internaldafny.types._IError>.create_Success(TypeConversion.ToDafny_N3_aws__N12_cryptography__N8_keyStore__S21_GetMutationLockOutput(nativeOutput));
+      }
+      catch (Exception e)
+      {
+        return Wrappers_Compile.Result<software.amazon.cryptography.keystore.internaldafny.types._IGetMutationLockOutput, software.amazon.cryptography.keystore.internaldafny.types._IError>.create_Failure(TypeConversion.ToDafny_CommonError(e));
+      }
+    }
+    public Wrappers_Compile._IResult<software.amazon.cryptography.keystore.internaldafny.types._IGetMutationLockOutput, software.amazon.cryptography.keystore.internaldafny.types._IError> GetMutationLock_k(software.amazon.cryptography.keystore.internaldafny.types._IGetMutationLockInput input)
+    {
+      throw new KeyStoreException("Not supported at this time.");
+    }
     public Wrappers_Compile._IResult<software.amazon.cryptography.keystore.internaldafny.types._IWriteNewEncryptedBranchKeyVersionOutput, software.amazon.cryptography.keystore.internaldafny.types._IError> WriteNewEncryptedBranchKeyVersion(software.amazon.cryptography.keystore.internaldafny.types._IWriteNewEncryptedBranchKeyVersionInput input)
     {
       void validateOutput(AWS.Cryptography.KeyStore.WriteNewEncryptedBranchKeyVersionOutput nativeOutput)
@@ -210,6 +238,34 @@ namespace AWS.Cryptography.KeyStore
       }
     }
     public Wrappers_Compile._IResult<software.amazon.cryptography.keystore.internaldafny.types._IQueryForVersionsOutput, software.amazon.cryptography.keystore.internaldafny.types._IError> QueryForVersions_k(software.amazon.cryptography.keystore.internaldafny.types._IQueryForVersionsInput input)
+    {
+      throw new KeyStoreException("Not supported at this time.");
+    }
+    public Wrappers_Compile._IResult<software.amazon.cryptography.keystore.internaldafny.types._IClobberMutationLockOutput, software.amazon.cryptography.keystore.internaldafny.types._IError> ClobberMutationLock(software.amazon.cryptography.keystore.internaldafny.types._IClobberMutationLockInput input)
+    {
+      void validateOutput(AWS.Cryptography.KeyStore.ClobberMutationLockOutput nativeOutput)
+      {
+        try { nativeOutput.Validate(); }
+        catch (ArgumentException e)
+        {
+          var message = $"Output of {_impl}._ClobberMutationLock is invalid. {e.Message}";
+          throw new KeyStoreException(message);
+        }
+      }
+      AWS.Cryptography.KeyStore.ClobberMutationLockInput nativeInput = TypeConversion.FromDafny_N3_aws__N12_cryptography__N8_keyStore__S24_ClobberMutationLockInput(input);
+      try
+      {
+        AWS.Cryptography.KeyStore.ClobberMutationLockOutput nativeOutput = _impl.ClobberMutationLock(nativeInput);
+        _ = nativeOutput ?? throw new KeyStoreException($"{_impl}._ClobberMutationLock returned null, should be {typeof(AWS.Cryptography.KeyStore.ClobberMutationLockOutput)}");
+        validateOutput(nativeOutput);
+        return Wrappers_Compile.Result<software.amazon.cryptography.keystore.internaldafny.types._IClobberMutationLockOutput, software.amazon.cryptography.keystore.internaldafny.types._IError>.create_Success(TypeConversion.ToDafny_N3_aws__N12_cryptography__N8_keyStore__S25_ClobberMutationLockOutput(nativeOutput));
+      }
+      catch (Exception e)
+      {
+        return Wrappers_Compile.Result<software.amazon.cryptography.keystore.internaldafny.types._IClobberMutationLockOutput, software.amazon.cryptography.keystore.internaldafny.types._IError>.create_Failure(TypeConversion.ToDafny_CommonError(e));
+      }
+    }
+    public Wrappers_Compile._IResult<software.amazon.cryptography.keystore.internaldafny.types._IClobberMutationLockOutput, software.amazon.cryptography.keystore.internaldafny.types._IError> ClobberMutationLock_k(software.amazon.cryptography.keystore.internaldafny.types._IClobberMutationLockInput input)
     {
       throw new KeyStoreException("Not supported at this time.");
     }

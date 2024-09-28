@@ -30,6 +30,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   // This function is the lie we will tell ourselves
   // about what the mutation scope is.
   // You MUST NOT reveal this value.
+  // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
   function {:opaque} MutationLie(): set<object>
   {{}}
 
@@ -45,6 +46,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     // Because Dafny is not able to parse
     // the code that Smithy-Dafny produces for reference types inside a union,
     // the requires kms.ValidState() and modifies kmsClient are commented out.
+    // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
     // requires kms.kmsClient.Some? ==> kms.kmsClient.value.ValidState()
     // modifies (if kms.kmsClient.Some? then kms.kmsClient.value.Modifies else {})
     ensures output.Success?
@@ -59,6 +61,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     } else {
       kmsClient := kmsClient?.value;
     }
+    // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
     assume {:axiom} kmsClient.Modifies < MutationLie();
     // If the customer gave us the KMS Client, it is fresh
     // If we create the KMS Client, it is fresh
@@ -74,6 +77,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     // Because Dafny is not able to parse
     // the code that Smithy-Dafny produces for reference types inside a union,
     // the requires kms.ValidState() and modifies kmsClient are commented out.
+    // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
     // requires
     //   kmsStratgey?.Some? ==> match kmsStratgey?.value {
     //       case AwsKmsReEncrypt(kms) => kms.kmsClient.Some? ==> kms.kmsClient.value.ValidState()
@@ -113,6 +117,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       case AwsKmsReEncrypt(kms) =>
         var tuple :- ResolveKmsInput(kms, config);
         return Success(Mutations.keyManagerStrat.reEncrypt(tuple));
+        // TODO-Mutations-FF :
         // case AwsKmsDecryptEncrypt(kmsDecryptEncrypt) =>
         //   // var decrypt :- ResolveKmsInput(kmsDecryptEncrypt.decrypt, config);
         //   // var encrypt :- ResolveKmsInput(kmsDecryptEncrypt.encrypt, config);
@@ -129,6 +134,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     // Because Dafny is not able to parse
     // the code that Smithy-Dafny produces for reference types inside a union,
     // the requires kms.ValidState() and modifies kmsClient are commented out.
+    // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
     // requires kms.kmsClient.Some? ==> kms.kmsClient.value.ValidState()
     // modifies (if kms.kmsClient.Some? then kms.kmsClient.value.Modifies else {})
     requires ValidInternalConfig?(config)
@@ -148,7 +154,6 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
         message := "Grant Tokens passed to Key Store Admin are invalid.")
     );
     assume {:axiom} config.storage.Modifies !! kmsClient.Modifies;
-    // assume {:axiom} kms.kmsClient.value.ValidState();
     output := Success(Mutations.KMSTuple(kmsClient, grantTokens.value));
   }
 
@@ -157,7 +162,6 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     kmsArn: Types.KMSIdentifier,
     config: InternalConfig
   ): (output: Result<KeyStoreOperations.Config, Error>)
-    // returns (output: Result<KeyStoreOperations.Config, Error>)
     requires ValidInternalConfig?(config)
     requires
       && keyManagerStrat.reEncrypt?
@@ -169,16 +173,16 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     ensures output.Success? ==> KeyStoreOperations.ValidInternalConfig?(output.value)
   {
     var _ :- KmsArn.IsValidKeyArn(match kmsArn
-                                  case kmsKeyArn(kmsKeyArn) => kmsKeyArn
-                                  case kmsMRKeyArn(kmsMRKeyArn) => kmsMRKeyArn)
+                                  case KmsKeyArn(kmsKeyArn) => kmsKeyArn
+                                  case KmsMRKeyArn(kmsMRKeyArn) => kmsMRKeyArn)
              .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
     var legacyConfig := KeyStoreOperations.Config(
                           id := "",
                           ddbTableName := None,
                           logicalKeyStoreName := config.logicalKeyStoreName,
                           kmsConfiguration := match kmsArn
-                          case kmsKeyArn(kmsKeyArn) => KeyStoreOperations.Types.kmsKeyArn(kmsKeyArn)
-                          case kmsMRKeyArn(kmsMRKeyArn) => KeyStoreOperations.Types.kmsMRKeyArn(kmsMRKeyArn),
+                          case KmsKeyArn(kmsKeyArn) => KeyStoreOperations.Types.kmsKeyArn(kmsKeyArn)
+                          case KmsMRKeyArn(kmsMRKeyArn) => KeyStoreOperations.Types.kmsMRKeyArn(kmsMRKeyArn),
                           grantTokens := keyManagerStrat.reEncrypt.grantTokens,
                           kmsClient := keyManagerStrat.reEncrypt.kmsClient,
                           ddbClient := None,
@@ -190,11 +194,11 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     // These are required to use the existing logic.
     // This is required because Dafny is not able to parse
     // the code that Smithy-Dafny produces for reference types inside a union
+    // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
     assume {:axiom} legacyConfig.kmsClient.ValidState();
     // This is for the legacy client. Again, this should follow from the code that smithy-dafny produces.
     assume {:axiom} legacyConfig.storage.Modifies !! legacyConfig.kmsClient.Modifies;
 
-    // output := Success(legacyConfig)
     Success(legacyConfig)
   }
 
@@ -204,21 +208,22 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   method CreateKey ( config: InternalConfig , input: CreateKeyInput )
     returns (output: Result<CreateKeyOutput, Error>)
   {
-    var keyManagerStrat :- ResolveStrategy(input.strategy, config);
+    var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
     :- Need(
       keyManagerStrat.reEncrypt?,
       Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time.")
     );
 
-    var legacyConfig :- LegacyConfig(keyManagerStrat, input.kmsArn, config);
+    var legacyConfig :- LegacyConfig(keyManagerStrat, input.KmsArn, config);
 
+    // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
     assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
 
     var output? := KeyStoreOperations.CreateKey(
       config := legacyConfig,
       input := KeyStoreOperations.Types.CreateKeyInput(
-        branchKeyIdentifier := input.branchKeyIdentifier,
-        encryptionContext := input.encryptionContext
+        branchKeyIdentifier := input.Identifier,
+        encryptionContext := input.EncryptionContext
       )
     );
     var value :- output?
@@ -226,7 +231,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
 
     output := Success(
       Types.CreateKeyOutput(
-        branchKeyIdentifier := value.branchKeyIdentifier
+        Identifier := value.branchKeyIdentifier
       ));
   }
 
@@ -237,20 +242,21 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     returns (output: Result<VersionKeyOutput, Error>)
   {
 
-    var keyManagerStrat :- ResolveStrategy(input.strategy, config);
+    var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
     :- Need(
       keyManagerStrat.reEncrypt?,
       Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time.")
     );
 
-    var legacyConfig :- LegacyConfig(keyManagerStrat, input.kmsArn, config);
+    var legacyConfig :- LegacyConfig(keyManagerStrat, input.KmsArn, config);
 
+    // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
     assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
 
     var output? := KeyStoreOperations.VersionKey(
       config := legacyConfig,
       input := KeyStoreOperations.Types.VersionKeyInput(
-        branchKeyIdentifier := input.branchKeyIdentifier
+        branchKeyIdentifier := input.Identifier
       )
     );
     var value :- output?
@@ -264,11 +270,12 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   method InitializeMutation(config: InternalConfig, input: InitializeMutationInput )
     returns (output: Result<InitializeMutationOutput, Error>)
   {
-    var keyManagerStrat :- ResolveStrategy(input.strategy, config);
+    var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
     :- Need(
       keyManagerStrat.reEncrypt?,
       Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time.")
     );
+    // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
     assume {:axiom} keyManagerStrat.reEncrypt.kmsClient.Modifies < MutationLie();
 
     var _ :- Mutations.ValidateInitializeMutationInput(input, config.logicalKeyStoreName);
@@ -282,11 +289,12 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   method ApplyMutation(config: InternalConfig, input: ApplyMutationInput)
     returns (output: Result<ApplyMutationOutput, Error>)
   {
-    var keyManagerStrat :- ResolveStrategy(input.strategy, config);
+    var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
     :- Need(
       keyManagerStrat.reEncrypt?,
       Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time.")
     );
+    // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
     assume {:axiom} keyManagerStrat.reEncrypt.kmsClient.Modifies < MutationLie();
 
     var _ :- Mutations.ValidateApplyMutationInput(input, config.logicalKeyStoreName, config.storage);

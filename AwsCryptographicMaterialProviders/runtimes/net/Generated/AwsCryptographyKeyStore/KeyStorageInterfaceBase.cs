@@ -57,5 +57,15 @@ namespace AWS.Cryptography.KeyStore
       input.Validate(); return _WriteMutatedVersions(input);
     }
     protected abstract AWS.Cryptography.KeyStore.WriteMutatedVersionsOutput _WriteMutatedVersions(AWS.Cryptography.KeyStore.WriteMutatedVersionsInput input);
+    public AWS.Cryptography.KeyStore.GetMutationLockOutput GetMutationLock(AWS.Cryptography.KeyStore.GetMutationLockInput input)
+    {
+      input.Validate(); return _GetMutationLock(input);
+    }
+    protected abstract AWS.Cryptography.KeyStore.GetMutationLockOutput _GetMutationLock(AWS.Cryptography.KeyStore.GetMutationLockInput input);
+    public AWS.Cryptography.KeyStore.ClobberMutationLockOutput ClobberMutationLock(AWS.Cryptography.KeyStore.ClobberMutationLockInput input)
+    {
+      input.Validate(); return _ClobberMutationLock(input);
+    }
+    protected abstract AWS.Cryptography.KeyStore.ClobberMutationLockOutput _ClobberMutationLock(AWS.Cryptography.KeyStore.ClobberMutationLockInput input);
   }
 }

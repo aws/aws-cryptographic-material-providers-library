@@ -546,7 +546,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
           decryptOnlyEncryptionContext,
           wrappedDecryptOnlyBranchKey.CiphertextBlob.value
         ),
-        oldActive := oldActiveItem
+        OldActive := oldActiveItem
       )
     );
 

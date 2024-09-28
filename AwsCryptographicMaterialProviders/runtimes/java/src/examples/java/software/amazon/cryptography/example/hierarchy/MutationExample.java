@@ -39,25 +39,25 @@ public class MutationExample {
     terminalEC.put("Robbie", "is a dog.");
     Mutations mutations = Mutations
       .builder()
-      .terminalEncryptionContext(terminalEC)
-      .terminalKmsArn(kmsKeyArnTerminal)
+      .TerminalEncryptionContext(terminalEC)
+      .TerminalKmsArn(kmsKeyArnTerminal)
       .build();
 
     InitializeMutationInput initInput = InitializeMutationInput
       .builder()
-      .mutations(mutations)
-      .branchKeyIdentifier(branchKeyId)
-      .strategy(strategy)
+      .Mutations(mutations)
+      .Identifier(branchKeyId)
+      .Strategy(strategy)
       .build();
 
     InitializeMutationOutput initOutput = admin.InitializeMutation(initInput);
 
-    MutationToken token = initOutput.mutationToken();
+    MutationToken token = initOutput.MutationToken();
     System.out.println(
       "InitLogs: " +
       branchKeyId +
       " items: \n" +
-      AdminProvider.mutatedItemsToString(initOutput.mutatedBranchKeyItems())
+      AdminProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
     );
     boolean done = false;
     int limitLoop = 10;
@@ -65,23 +65,29 @@ public class MutationExample {
     while (!done) {
       ApplyMutationInput applyInput = ApplyMutationInput
         .builder()
-        .mutationToken(token)
-        .pageSize(98)
-        .strategy(strategy)
+        .MutationToken(token)
+        .PageSize(98)
+        .Strategy(strategy)
         .build();
       ApplyMutationOutput applyOutput = admin.ApplyMutation(applyInput);
-      ApplyMutationResult result = applyOutput.result();
+      ApplyMutationResult result = applyOutput.MutationResult();
 
       System.out.println(
         "ApplyLogs: " +
         branchKeyId +
         " items: \n" +
-        AdminProvider.mutatedItemsToString(applyOutput.mutatedBranchKeyItems())
+        AdminProvider.mutatedItemsToString(applyOutput.MutatedBranchKeyItems())
       );
 
-      if (result.continueMutation() != null) token = result.continueMutation();
-      if (result.completeMutation() != null) done = true;
-      if (limitLoop == 0) done = true;
+      if (result.ContinueMutation() != null) {
+        token = result.ContinueMutation();
+      }
+      if (result.CompleteMutation() != null) {
+        done = true;
+      }
+      if (limitLoop == 0) {
+        done = true;
+      }
 
       limitLoop--;
     }

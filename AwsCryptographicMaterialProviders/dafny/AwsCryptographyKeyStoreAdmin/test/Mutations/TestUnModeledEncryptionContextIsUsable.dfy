@@ -65,10 +65,10 @@ module {:options "/functionSyntax:4" } TestUnModeledEncryptionContextIsUsable {
 
     var versionQuery := KeyStoreTypes.QueryForVersionsInput(
       Identifier := testId,
-      pageSize := 24
+      PageSize := 24
     );
     var queryOut :- expect storage.QueryForVersions(versionQuery);
-    var items := queryOut.items;
+    var items := queryOut.Items;
 
     var itemIndex := 0;
     var inputV: KeyStoreTypes.GetBranchKeyVersionInput;

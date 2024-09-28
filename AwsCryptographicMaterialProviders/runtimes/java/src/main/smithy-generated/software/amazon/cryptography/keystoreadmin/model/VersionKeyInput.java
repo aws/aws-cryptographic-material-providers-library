@@ -10,45 +10,45 @@ public class VersionKeyInput {
   /**
    * The identifier for the Branch Key to be versioned.
    */
-  private final String branchKeyIdentifier;
+  private final String Identifier;
 
   /**
    * Multi-Region or Single Region AWS KMS Key used to protect the Branch Key, but not aliases!
    */
-  private final KMSIdentifier kmsArn;
+  private final KMSIdentifier KmsArn;
 
   /**
    * This configures which Key Management Operations will be used
    *    AND the Key Management Clients (and Grant Tokens) used to invoke those Operations.
    */
-  private final KeyManagementStrategy strategy;
+  private final KeyManagementStrategy Strategy;
 
   protected VersionKeyInput(BuilderImpl builder) {
-    this.branchKeyIdentifier = builder.branchKeyIdentifier();
-    this.kmsArn = builder.kmsArn();
-    this.strategy = builder.strategy();
+    this.Identifier = builder.Identifier();
+    this.KmsArn = builder.KmsArn();
+    this.Strategy = builder.Strategy();
   }
 
   /**
    * @return The identifier for the Branch Key to be versioned.
    */
-  public String branchKeyIdentifier() {
-    return this.branchKeyIdentifier;
+  public String Identifier() {
+    return this.Identifier;
   }
 
   /**
    * @return Multi-Region or Single Region AWS KMS Key used to protect the Branch Key, but not aliases!
    */
-  public KMSIdentifier kmsArn() {
-    return this.kmsArn;
+  public KMSIdentifier KmsArn() {
+    return this.KmsArn;
   }
 
   /**
    * @return This configures which Key Management Operations will be used
    *    AND the Key Management Clients (and Grant Tokens) used to invoke those Operations.
    */
-  public KeyManagementStrategy strategy() {
-    return this.strategy;
+  public KeyManagementStrategy Strategy() {
+    return this.Strategy;
   }
 
   public Builder toBuilder() {
@@ -61,92 +61,92 @@ public class VersionKeyInput {
 
   public interface Builder {
     /**
-     * @param branchKeyIdentifier The identifier for the Branch Key to be versioned.
+     * @param Identifier The identifier for the Branch Key to be versioned.
      */
-    Builder branchKeyIdentifier(String branchKeyIdentifier);
+    Builder Identifier(String Identifier);
 
     /**
      * @return The identifier for the Branch Key to be versioned.
      */
-    String branchKeyIdentifier();
+    String Identifier();
 
     /**
-     * @param kmsArn Multi-Region or Single Region AWS KMS Key used to protect the Branch Key, but not aliases!
+     * @param KmsArn Multi-Region or Single Region AWS KMS Key used to protect the Branch Key, but not aliases!
      */
-    Builder kmsArn(KMSIdentifier kmsArn);
+    Builder KmsArn(KMSIdentifier KmsArn);
 
     /**
      * @return Multi-Region or Single Region AWS KMS Key used to protect the Branch Key, but not aliases!
      */
-    KMSIdentifier kmsArn();
+    KMSIdentifier KmsArn();
 
     /**
-     * @param strategy This configures which Key Management Operations will be used
+     * @param Strategy This configures which Key Management Operations will be used
      *    AND the Key Management Clients (and Grant Tokens) used to invoke those Operations.
      */
-    Builder strategy(KeyManagementStrategy strategy);
+    Builder Strategy(KeyManagementStrategy Strategy);
 
     /**
      * @return This configures which Key Management Operations will be used
      *    AND the Key Management Clients (and Grant Tokens) used to invoke those Operations.
      */
-    KeyManagementStrategy strategy();
+    KeyManagementStrategy Strategy();
 
     VersionKeyInput build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected String branchKeyIdentifier;
+    protected String Identifier;
 
-    protected KMSIdentifier kmsArn;
+    protected KMSIdentifier KmsArn;
 
-    protected KeyManagementStrategy strategy;
+    protected KeyManagementStrategy Strategy;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(VersionKeyInput model) {
-      this.branchKeyIdentifier = model.branchKeyIdentifier();
-      this.kmsArn = model.kmsArn();
-      this.strategy = model.strategy();
+      this.Identifier = model.Identifier();
+      this.KmsArn = model.KmsArn();
+      this.Strategy = model.Strategy();
     }
 
-    public Builder branchKeyIdentifier(String branchKeyIdentifier) {
-      this.branchKeyIdentifier = branchKeyIdentifier;
+    public Builder Identifier(String Identifier) {
+      this.Identifier = Identifier;
       return this;
     }
 
-    public String branchKeyIdentifier() {
-      return this.branchKeyIdentifier;
+    public String Identifier() {
+      return this.Identifier;
     }
 
-    public Builder kmsArn(KMSIdentifier kmsArn) {
-      this.kmsArn = kmsArn;
+    public Builder KmsArn(KMSIdentifier KmsArn) {
+      this.KmsArn = KmsArn;
       return this;
     }
 
-    public KMSIdentifier kmsArn() {
-      return this.kmsArn;
+    public KMSIdentifier KmsArn() {
+      return this.KmsArn;
     }
 
-    public Builder strategy(KeyManagementStrategy strategy) {
-      this.strategy = strategy;
+    public Builder Strategy(KeyManagementStrategy Strategy) {
+      this.Strategy = Strategy;
       return this;
     }
 
-    public KeyManagementStrategy strategy() {
-      return this.strategy;
+    public KeyManagementStrategy Strategy() {
+      return this.Strategy;
     }
 
     public VersionKeyInput build() {
-      if (Objects.isNull(this.branchKeyIdentifier())) {
+      if (Objects.isNull(this.Identifier())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `branchKeyIdentifier`"
+          "Missing value for required field `Identifier`"
         );
       }
-      if (Objects.isNull(this.kmsArn())) {
+      if (Objects.isNull(this.KmsArn())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `kmsArn`"
+          "Missing value for required field `KmsArn`"
         );
       }
       return new VersionKeyInput(this);

@@ -32,49 +32,50 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
 
     var input := Types.CreateKeyInput(
-      branchKeyIdentifier := None,
-      encryptionContext := None,
-      kmsArn := Types.KMSIdentifier.kmsKeyArn(keyArn),
-      strategy := Some(strategy)
+      Identifier := None,
+      EncryptionContext := None,
+      KmsArn := Types.KMSIdentifier.KmsKeyArn(keyArn),
+      Strategy := Some(strategy)
     );
-    var branchKeyId :- expect underTest.CreateKey(input);
+    var identifier? :- expect underTest.CreateKey(input);
+    var identifier := identifier?.Identifier;
 
     // TODO: The rest of this is a copy/paste from KeyStore/test/TestCreateKeys.dfy
     // We should abstract and consolidate
     var beaconKeyResult :- expect keyStore.GetBeaconKey(
       KeyStoreTypes.GetBeaconKeyInput(
-        branchKeyIdentifier := branchKeyId.branchKeyIdentifier
+        branchKeyIdentifier := identifier
       ));
 
     var activeResult :- expect keyStore.GetActiveBranchKey(
       KeyStoreTypes.GetActiveBranchKeyInput(
-        branchKeyIdentifier := branchKeyId.branchKeyIdentifier
+        branchKeyIdentifier := identifier
       ));
 
     var branchKeyVersion :- expect UTF8.Decode(activeResult.branchKeyMaterials.branchKeyVersion);
     var versionResult :- expect keyStore.GetBranchKeyVersion(
       KeyStoreTypes.GetBranchKeyVersionInput(
-        branchKeyIdentifier := branchKeyId.branchKeyIdentifier,
+        branchKeyIdentifier := identifier,
         branchKeyVersion := branchKeyVersion
       ));
 
     var encryptedActive :- expect storage.GetEncryptedActiveBranchKey(
       KeyStoreTypes.GetEncryptedActiveBranchKeyInput(
-        Identifier := branchKeyId.branchKeyIdentifier
+        Identifier := identifier
       )
     );
 
     expect encryptedActive.Item.Type.ActiveHierarchicalSymmetricVersion?;
     var encryptedVersion :- expect storage.GetEncryptedBranchKeyVersion(
       KeyStoreTypes.GetEncryptedBranchKeyVersionInput(
-        Identifier := branchKeyId.branchKeyIdentifier,
+        Identifier := identifier,
         Version := encryptedActive.Item.Type.ActiveHierarchicalSymmetricVersion.Version
       )
     );
 
     var encryptedBeacon :- expect storage.GetEncryptedBeaconKey(
       KeyStoreTypes.GetEncryptedBeaconKeyInput(
-        Identifier := branchKeyId.branchKeyIdentifier
+        Identifier := identifier
       )
     );
 
@@ -88,8 +89,8 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
     // Since this process uses a read DDB table,
     // the number of records will forever increase.
     // To avoid this, remove the items.
-    CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, branchKeyVersion, ddbClient);
-    CleanupItems.DeleteActive(branchKeyId.branchKeyIdentifier, ddbClient);
+    CleanupItems.DeleteVersion(identifier, branchKeyVersion, ddbClient);
+    CleanupItems.DeleteActive(identifier, ddbClient);
 
     expect beaconKeyResult.beaconKeyMaterials.beaconKey.Some?;
     expect |beaconKeyResult.beaconKeyMaterials.beaconKey.value| == 32;

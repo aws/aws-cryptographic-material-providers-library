@@ -13,7 +13,7 @@ public class WriteInitializeMutationInput {
    *   generated with the Mutation's terminal properities.
    *   The plain-text cryptographic material of the Active must be the same as the Version.
    */
-  private final EncryptedHierarchicalKey active;
+  private final EncryptedHierarchicalKey Active;
 
   /**
    *
@@ -22,7 +22,7 @@ public class WriteInitializeMutationInput {
    *   This means that when updating the current active record
    *   the existing active record should be equal to this value.
    */
-  private final EncryptedHierarchicalKey oldActive;
+  private final EncryptedHierarchicalKey OldActive;
 
   /**
    *
@@ -30,7 +30,7 @@ public class WriteInitializeMutationInput {
    *   generated with the Mutation's terminal properities.
    *   The plain-text cryptographic material of the `Version` must be the same as the `Active`.
    */
-  private final EncryptedHierarchicalKey version;
+  private final EncryptedHierarchicalKey Version;
 
   /**
    *
@@ -38,7 +38,7 @@ public class WriteInitializeMutationInput {
    *   The cryptographic material is identical to the existing beacon,
    *   but is now authorized with the Mutation's terminal properities.
    */
-  private final EncryptedHierarchicalKey beacon;
+  private final EncryptedHierarchicalKey Beacon;
 
   /**
    * Information an in-flight Mutation of a Branch Key.
@@ -46,14 +46,14 @@ public class WriteInitializeMutationInput {
    * - only one Mutation affects a Branch Key at a time
    * - all items of a Branch Key are mutated consistently
    */
-  private final MutationLock mutationLock;
+  private final MutationLock MutationLock;
 
   protected WriteInitializeMutationInput(BuilderImpl builder) {
-    this.active = builder.active();
-    this.oldActive = builder.oldActive();
-    this.version = builder.version();
-    this.beacon = builder.beacon();
-    this.mutationLock = builder.mutationLock();
+    this.Active = builder.Active();
+    this.OldActive = builder.OldActive();
+    this.Version = builder.Version();
+    this.Beacon = builder.Beacon();
+    this.MutationLock = builder.MutationLock();
   }
 
   /**
@@ -62,8 +62,8 @@ public class WriteInitializeMutationInput {
    *   generated with the Mutation's terminal properities.
    *   The plain-text cryptographic material of the Active must be the same as the Version.
    */
-  public EncryptedHierarchicalKey active() {
-    return this.active;
+  public EncryptedHierarchicalKey Active() {
+    return this.Active;
   }
 
   /**
@@ -73,8 +73,8 @@ public class WriteInitializeMutationInput {
    *   This means that when updating the current active record
    *   the existing active record should be equal to this value.
    */
-  public EncryptedHierarchicalKey oldActive() {
-    return this.oldActive;
+  public EncryptedHierarchicalKey OldActive() {
+    return this.OldActive;
   }
 
   /**
@@ -83,8 +83,8 @@ public class WriteInitializeMutationInput {
    *   generated with the Mutation's terminal properities.
    *   The plain-text cryptographic material of the `Version` must be the same as the `Active`.
    */
-  public EncryptedHierarchicalKey version() {
-    return this.version;
+  public EncryptedHierarchicalKey Version() {
+    return this.Version;
   }
 
   /**
@@ -93,8 +93,8 @@ public class WriteInitializeMutationInput {
    *   The cryptographic material is identical to the existing beacon,
    *   but is now authorized with the Mutation's terminal properities.
    */
-  public EncryptedHierarchicalKey beacon() {
-    return this.beacon;
+  public EncryptedHierarchicalKey Beacon() {
+    return this.Beacon;
   }
 
   /**
@@ -103,8 +103,8 @@ public class WriteInitializeMutationInput {
    * - only one Mutation affects a Branch Key at a time
    * - all items of a Branch Key are mutated consistently
    */
-  public MutationLock mutationLock() {
-    return this.mutationLock;
+  public MutationLock MutationLock() {
+    return this.MutationLock;
   }
 
   public Builder toBuilder() {
@@ -117,12 +117,12 @@ public class WriteInitializeMutationInput {
 
   public interface Builder {
     /**
-     * @param active
+     * @param Active
      *   The active representation of this branch key,
      *   generated with the Mutation's terminal properities.
      *   The plain-text cryptographic material of the Active must be the same as the Version.
      */
-    Builder active(EncryptedHierarchicalKey active);
+    Builder Active(EncryptedHierarchicalKey Active);
 
     /**
      * @return
@@ -130,16 +130,16 @@ public class WriteInitializeMutationInput {
      *   generated with the Mutation's terminal properities.
      *   The plain-text cryptographic material of the Active must be the same as the Version.
      */
-    EncryptedHierarchicalKey active();
+    EncryptedHierarchicalKey Active();
 
     /**
-     * @param oldActive
+     * @param OldActive
      *   The previous active version.
      *   This key should be used as an optimistic lock on the new version.
      *   This means that when updating the current active record
      *   the existing active record should be equal to this value.
      */
-    Builder oldActive(EncryptedHierarchicalKey oldActive);
+    Builder OldActive(EncryptedHierarchicalKey OldActive);
 
     /**
      * @return
@@ -148,15 +148,15 @@ public class WriteInitializeMutationInput {
      *   This means that when updating the current active record
      *   the existing active record should be equal to this value.
      */
-    EncryptedHierarchicalKey oldActive();
+    EncryptedHierarchicalKey OldActive();
 
     /**
-     * @param version
+     * @param Version
      *   The decrypt representation of this branch key version,
      *   generated with the Mutation's terminal properities.
      *   The plain-text cryptographic material of the `Version` must be the same as the `Active`.
      */
-    Builder version(EncryptedHierarchicalKey version);
+    Builder Version(EncryptedHierarchicalKey Version);
 
     /**
      * @return
@@ -164,15 +164,15 @@ public class WriteInitializeMutationInput {
      *   generated with the Mutation's terminal properities.
      *   The plain-text cryptographic material of the `Version` must be the same as the `Active`.
      */
-    EncryptedHierarchicalKey version();
+    EncryptedHierarchicalKey Version();
 
     /**
-     * @param beacon
+     * @param Beacon
      *   The mutated HMAC key used to support searchable encryption.
      *   The cryptographic material is identical to the existing beacon,
      *   but is now authorized with the Mutation's terminal properities.
      */
-    Builder beacon(EncryptedHierarchicalKey beacon);
+    Builder Beacon(EncryptedHierarchicalKey Beacon);
 
     /**
      * @return
@@ -180,15 +180,15 @@ public class WriteInitializeMutationInput {
      *   The cryptographic material is identical to the existing beacon,
      *   but is now authorized with the Mutation's terminal properities.
      */
-    EncryptedHierarchicalKey beacon();
+    EncryptedHierarchicalKey Beacon();
 
     /**
-     * @param mutationLock Information an in-flight Mutation of a Branch Key.
+     * @param MutationLock Information an in-flight Mutation of a Branch Key.
      * This ensures:
      * - only one Mutation affects a Branch Key at a time
      * - all items of a Branch Key are mutated consistently
      */
-    Builder mutationLock(MutationLock mutationLock);
+    Builder MutationLock(MutationLock MutationLock);
 
     /**
      * @return Information an in-flight Mutation of a Branch Key.
@@ -196,102 +196,102 @@ public class WriteInitializeMutationInput {
      * - only one Mutation affects a Branch Key at a time
      * - all items of a Branch Key are mutated consistently
      */
-    MutationLock mutationLock();
+    MutationLock MutationLock();
 
     WriteInitializeMutationInput build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected EncryptedHierarchicalKey active;
+    protected EncryptedHierarchicalKey Active;
 
-    protected EncryptedHierarchicalKey oldActive;
+    protected EncryptedHierarchicalKey OldActive;
 
-    protected EncryptedHierarchicalKey version;
+    protected EncryptedHierarchicalKey Version;
 
-    protected EncryptedHierarchicalKey beacon;
+    protected EncryptedHierarchicalKey Beacon;
 
-    protected MutationLock mutationLock;
+    protected MutationLock MutationLock;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(WriteInitializeMutationInput model) {
-      this.active = model.active();
-      this.oldActive = model.oldActive();
-      this.version = model.version();
-      this.beacon = model.beacon();
-      this.mutationLock = model.mutationLock();
+      this.Active = model.Active();
+      this.OldActive = model.OldActive();
+      this.Version = model.Version();
+      this.Beacon = model.Beacon();
+      this.MutationLock = model.MutationLock();
     }
 
-    public Builder active(EncryptedHierarchicalKey active) {
-      this.active = active;
+    public Builder Active(EncryptedHierarchicalKey Active) {
+      this.Active = Active;
       return this;
     }
 
-    public EncryptedHierarchicalKey active() {
-      return this.active;
+    public EncryptedHierarchicalKey Active() {
+      return this.Active;
     }
 
-    public Builder oldActive(EncryptedHierarchicalKey oldActive) {
-      this.oldActive = oldActive;
+    public Builder OldActive(EncryptedHierarchicalKey OldActive) {
+      this.OldActive = OldActive;
       return this;
     }
 
-    public EncryptedHierarchicalKey oldActive() {
-      return this.oldActive;
+    public EncryptedHierarchicalKey OldActive() {
+      return this.OldActive;
     }
 
-    public Builder version(EncryptedHierarchicalKey version) {
-      this.version = version;
+    public Builder Version(EncryptedHierarchicalKey Version) {
+      this.Version = Version;
       return this;
     }
 
-    public EncryptedHierarchicalKey version() {
-      return this.version;
+    public EncryptedHierarchicalKey Version() {
+      return this.Version;
     }
 
-    public Builder beacon(EncryptedHierarchicalKey beacon) {
-      this.beacon = beacon;
+    public Builder Beacon(EncryptedHierarchicalKey Beacon) {
+      this.Beacon = Beacon;
       return this;
     }
 
-    public EncryptedHierarchicalKey beacon() {
-      return this.beacon;
+    public EncryptedHierarchicalKey Beacon() {
+      return this.Beacon;
     }
 
-    public Builder mutationLock(MutationLock mutationLock) {
-      this.mutationLock = mutationLock;
+    public Builder MutationLock(MutationLock MutationLock) {
+      this.MutationLock = MutationLock;
       return this;
     }
 
-    public MutationLock mutationLock() {
-      return this.mutationLock;
+    public MutationLock MutationLock() {
+      return this.MutationLock;
     }
 
     public WriteInitializeMutationInput build() {
-      if (Objects.isNull(this.active())) {
+      if (Objects.isNull(this.Active())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `active`"
+          "Missing value for required field `Active`"
         );
       }
-      if (Objects.isNull(this.oldActive())) {
+      if (Objects.isNull(this.OldActive())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `oldActive`"
+          "Missing value for required field `OldActive`"
         );
       }
-      if (Objects.isNull(this.version())) {
+      if (Objects.isNull(this.Version())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `version`"
+          "Missing value for required field `Version`"
         );
       }
-      if (Objects.isNull(this.beacon())) {
+      if (Objects.isNull(this.Beacon())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `beacon`"
+          "Missing value for required field `Beacon`"
         );
       }
-      if (Objects.isNull(this.mutationLock())) {
+      if (Objects.isNull(this.MutationLock())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `mutationLock`"
+          "Missing value for required field `MutationLock`"
         );
       }
       return new WriteInitializeMutationInput(this);

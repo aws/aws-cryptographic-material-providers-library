@@ -1,8 +1,8 @@
 diff --git b/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStoreAdmin/TypeConversion.cs a/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStoreAdmin/TypeConversion.cs
-index b8ad30a5..4904d73b 100644
+index fa79a35cd..97802ad43 100644
 --- b/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStoreAdmin/TypeConversion.cs
 +++ a/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStoreAdmin/TypeConversion.cs
-@@ -1056,7 +1056,8 @@ namespace AWS.Cryptography.KeyStoreAdmin
+@@ -963,7 +963,8 @@ namespace AWS.Cryptography.KeyStoreAdmin
              dafnyVal._ComAmazonawsDynamodb
            );
          case software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_ComAmazonawsKms dafnyVal:

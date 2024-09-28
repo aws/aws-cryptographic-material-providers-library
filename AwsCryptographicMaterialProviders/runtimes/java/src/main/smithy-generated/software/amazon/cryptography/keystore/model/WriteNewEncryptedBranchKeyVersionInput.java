@@ -36,12 +36,12 @@ public class WriteNewEncryptedBranchKeyVersionInput {
    *   the existing active record should be equal to this value.
    *
    */
-  private final EncryptedHierarchicalKey oldActive;
+  private final EncryptedHierarchicalKey OldActive;
 
   protected WriteNewEncryptedBranchKeyVersionInput(BuilderImpl builder) {
     this.Active = builder.Active();
     this.Version = builder.Version();
-    this.oldActive = builder.oldActive();
+    this.OldActive = builder.OldActive();
   }
 
   /**
@@ -72,8 +72,8 @@ public class WriteNewEncryptedBranchKeyVersionInput {
    *   the existing active record should be equal to this value.
    *
    */
-  public EncryptedHierarchicalKey oldActive() {
-    return this.oldActive;
+  public EncryptedHierarchicalKey OldActive() {
+    return this.OldActive;
   }
 
   public Builder toBuilder() {
@@ -118,14 +118,14 @@ public class WriteNewEncryptedBranchKeyVersionInput {
     EncryptedHierarchicalKey Version();
 
     /**
-     * @param oldActive
+     * @param OldActive
      *   The previous active version.
      *   This key should be used as an optimistic lock on the new version.
      *   This means that when updating the current active record
      *   the existing active record should be equal to this value.
      *
      */
-    Builder oldActive(EncryptedHierarchicalKey oldActive);
+    Builder OldActive(EncryptedHierarchicalKey OldActive);
 
     /**
      * @return
@@ -135,7 +135,7 @@ public class WriteNewEncryptedBranchKeyVersionInput {
      *   the existing active record should be equal to this value.
      *
      */
-    EncryptedHierarchicalKey oldActive();
+    EncryptedHierarchicalKey OldActive();
 
     WriteNewEncryptedBranchKeyVersionInput build();
   }
@@ -146,14 +146,14 @@ public class WriteNewEncryptedBranchKeyVersionInput {
 
     protected EncryptedHierarchicalKey Version;
 
-    protected EncryptedHierarchicalKey oldActive;
+    protected EncryptedHierarchicalKey OldActive;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(WriteNewEncryptedBranchKeyVersionInput model) {
       this.Active = model.Active();
       this.Version = model.Version();
-      this.oldActive = model.oldActive();
+      this.OldActive = model.OldActive();
     }
 
     public Builder Active(EncryptedHierarchicalKey Active) {
@@ -174,13 +174,13 @@ public class WriteNewEncryptedBranchKeyVersionInput {
       return this.Version;
     }
 
-    public Builder oldActive(EncryptedHierarchicalKey oldActive) {
-      this.oldActive = oldActive;
+    public Builder OldActive(EncryptedHierarchicalKey OldActive) {
+      this.OldActive = OldActive;
       return this;
     }
 
-    public EncryptedHierarchicalKey oldActive() {
-      return this.oldActive;
+    public EncryptedHierarchicalKey OldActive() {
+      return this.OldActive;
     }
 
     public WriteNewEncryptedBranchKeyVersionInput build() {
@@ -194,9 +194,9 @@ public class WriteNewEncryptedBranchKeyVersionInput {
           "Missing value for required field `Version`"
         );
       }
-      if (Objects.isNull(this.oldActive())) {
+      if (Objects.isNull(this.OldActive())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `oldActive`"
+          "Missing value for required field `OldActive`"
         );
       }
       return new WriteNewEncryptedBranchKeyVersionInput(this);

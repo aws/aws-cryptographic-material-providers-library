@@ -7,19 +7,19 @@ namespace AWS.Cryptography.KeyStoreAdmin
 {
   public class CreateKeyOutput
   {
-    private string _branchKeyIdentifier;
-    public string BranchKeyIdentifier
+    private string _identifier;
+    public string Identifier
     {
-      get { return this._branchKeyIdentifier; }
-      set { this._branchKeyIdentifier = value; }
+      get { return this._identifier; }
+      set { this._identifier = value; }
     }
-    public bool IsSetBranchKeyIdentifier()
+    public bool IsSetIdentifier()
     {
-      return this._branchKeyIdentifier != null;
+      return this._identifier != null;
     }
     public void Validate()
     {
-      if (!IsSetBranchKeyIdentifier()) throw new System.ArgumentException("Missing value for required property 'BranchKeyIdentifier'");
+      if (!IsSetIdentifier()) throw new System.ArgumentException("Missing value for required property 'Identifier'");
 
     }
   }

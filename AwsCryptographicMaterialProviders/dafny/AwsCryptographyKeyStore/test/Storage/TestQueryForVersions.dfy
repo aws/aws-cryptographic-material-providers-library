@@ -34,7 +34,7 @@ module {:options "/functionSyntax:4"} TestQueryForVersions {
 
     inputQuery := Types.QueryForVersionsInput(
       Identifier := happyCaseId,
-      pageSize := 2
+      PageSize := 2
     );
 
     var pageLimit := 3;
@@ -46,13 +46,13 @@ module {:options "/functionSyntax:4"} TestQueryForVersions {
       print "\nTestQueryForVersions :: TestHappyCase :: pre-Query "
             + String.Base10Int2String(queryCount+1)  +
             " :: Input Start Key is None? :: " +
-            (if inputQuery.exclusiveStartKey.None? then "True" else "False")
+            (if inputQuery.ExclusiveStartKey.None? then "True" else "False")
             + "\n";
       assume {:axiom} underTest.Modifies == {}; // Turns off verification
       queryOut :- expect underTest.QueryForVersions(inputQuery);
       queryCount := queryCount + 1;
-      items := queryOut.items;
-      startKey := queryOut.exclusiveStartKey;
+      items := queryOut.Items;
+      startKey := queryOut.ExclusiveStartKey;
       strStartKey := "";
 
       if (|items| > 0) {
@@ -78,8 +78,8 @@ module {:options "/functionSyntax:4"} TestQueryForVersions {
 
       inputQuery := Types.QueryForVersionsInput(
         Identifier := inputQuery.Identifier,
-        pageSize := inputQuery.pageSize,
-        exclusiveStartKey := if |startKey| > 0 then Some(startKey) else None()
+        PageSize := inputQuery.PageSize,
+        ExclusiveStartKey := if |startKey| > 0 then Some(startKey) else None()
       );
       pageIndex := pageIndex + 1;
     }

@@ -19,34 +19,34 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   // Begin Generated Types
 
   datatype ApplyMutationInput = | ApplyMutationInput (
-    nameonly mutationToken: MutationToken ,
-    nameonly pageSize: Option<int32> := Option.None ,
-    nameonly strategy: Option<KeyManagementStrategy> := Option.None
+    nameonly MutationToken: MutationToken ,
+    nameonly PageSize: Option<int32> := Option.None ,
+    nameonly Strategy: Option<KeyManagementStrategy> := Option.None
   )
   datatype ApplyMutationOutput = | ApplyMutationOutput (
-    nameonly result: ApplyMutationResult ,
-    nameonly mutatedBranchKeyItems: MutatedBranchKeyItems
+    nameonly MutationResult: ApplyMutationResult ,
+    nameonly MutatedBranchKeyItems: MutatedBranchKeyItems
   )
   datatype ApplyMutationResult =
-    | continueMutation(continueMutation: MutationToken)
-    | completeMutation(completeMutation: MutationComplete)
+    | ContinueMutation(ContinueMutation: MutationToken)
+    | CompleteMutation(CompleteMutation: MutationComplete)
   datatype CreateKeyInput = | CreateKeyInput (
-    nameonly branchKeyIdentifier: Option<string> := Option.None ,
-    nameonly encryptionContext: Option<AwsCryptographyKeyStoreTypes.EncryptionContext> := Option.None ,
-    nameonly kmsArn: KMSIdentifier ,
-    nameonly strategy: Option<KeyManagementStrategy> := Option.None
+    nameonly Identifier: Option<string> := Option.None ,
+    nameonly EncryptionContext: Option<AwsCryptographyKeyStoreTypes.EncryptionContext> := Option.None ,
+    nameonly KmsArn: KMSIdentifier ,
+    nameonly Strategy: Option<KeyManagementStrategy> := Option.None
   )
   datatype CreateKeyOutput = | CreateKeyOutput (
-    nameonly branchKeyIdentifier: string
+    nameonly Identifier: string
   )
   datatype InitializeMutationInput = | InitializeMutationInput (
-    nameonly branchKeyIdentifier: string ,
-    nameonly mutations: Mutations ,
-    nameonly strategy: Option<KeyManagementStrategy> := Option.None
+    nameonly Identifier: string ,
+    nameonly Mutations: Mutations ,
+    nameonly Strategy: Option<KeyManagementStrategy> := Option.None
   )
   datatype InitializeMutationOutput = | InitializeMutationOutput (
-    nameonly mutationToken: MutationToken ,
-    nameonly mutatedBranchKeyItems: MutatedBranchKeyItems
+    nameonly MutationToken: MutationToken ,
+    nameonly MutatedBranchKeyItems: MutatedBranchKeyItems
   )
   datatype KeyManagementStrategy =
     | AwsKmsReEncrypt(AwsKmsReEncrypt: AwsCryptographyKeyStoreTypes.AwsKms)
@@ -155,19 +155,19 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     nameonly storage: AwsCryptographyKeyStoreTypes.Storage
   )
   datatype KMSIdentifier =
-    | kmsKeyArn(kmsKeyArn: string)
-    | kmsMRKeyArn(kmsMRKeyArn: string)
+    | KmsKeyArn(KmsKeyArn: string)
+    | KmsMRKeyArn(KmsMRKeyArn: string)
   datatype MutatedBranchKeyItem = | MutatedBranchKeyItem (
-    nameonly itemType: string ,
-    nameonly description: string
+    nameonly ItemType: string ,
+    nameonly Description: string
   )
   type MutatedBranchKeyItems = seq<MutatedBranchKeyItem>
   datatype MutationComplete = | MutationComplete (
 
                               )
   datatype Mutations = | Mutations (
-    nameonly terminalKmsArn: Option<string> := Option.None ,
-    nameonly terminalEncryptionContext: Option<AwsCryptographyKeyStoreTypes.EncryptionContextString> := Option.None
+    nameonly TerminalKmsArn: Option<string> := Option.None ,
+    nameonly TerminalEncryptionContext: Option<AwsCryptographyKeyStoreTypes.EncryptionContextString> := Option.None
   )
   datatype MutationToken = | MutationToken (
     nameonly Identifier: string ,
@@ -178,9 +178,9 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     nameonly CreateTime: string
   )
   datatype VersionKeyInput = | VersionKeyInput (
-    nameonly branchKeyIdentifier: string ,
-    nameonly kmsArn: KMSIdentifier ,
-    nameonly strategy: Option<KeyManagementStrategy> := Option.None
+    nameonly Identifier: string ,
+    nameonly KmsArn: KMSIdentifier ,
+    nameonly Strategy: Option<KeyManagementStrategy> := Option.None
   )
   datatype VersionKeyOutput = | VersionKeyOutput (
 
@@ -193,10 +193,19 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     | MutationConflictException (
         nameonly message: string
       )
+    | MutationFromException (
+        nameonly message: string
+      )
     | MutationInvalidException (
         nameonly message: string
       )
     | MutationLockInvalidException (
+        nameonly message: string
+      )
+    | MutationToException (
+        nameonly message: string
+      )
+    | MutationVerificationException (
         nameonly message: string
       )
     | UnexpectedStateException (

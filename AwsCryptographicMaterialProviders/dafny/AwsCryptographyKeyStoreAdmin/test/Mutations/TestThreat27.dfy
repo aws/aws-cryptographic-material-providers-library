@@ -80,11 +80,11 @@ module {:options "/functionSyntax:4" } TestThreat27 {
 
     var timestamp :- expect Time.GetCurrentTimeStamp();
     var newCustomEC: KeyStoreTypes.EncryptionContextString := map["Robbie" := timestamp];
-    var mutationsRequest := Types.Mutations(terminalEncryptionContext := Some(newCustomEC));
+    var mutationsRequest := Types.Mutations(TerminalEncryptionContext := Some(newCustomEC));
     var testInput := Types.InitializeMutationInput(
-      branchKeyIdentifier := testId,
-      mutations := mutationsRequest,
-      strategy := Some(strategy));
+      Identifier := testId,
+      Mutations := mutationsRequest,
+      Strategy := Some(strategy));
     var initializeOutput :- expect underTest.InitializeMutation(testInput);
 
     print "\nTestThreat27 :: TestHappyCase :: Initialized Mutation: " + activeOne + "\n";

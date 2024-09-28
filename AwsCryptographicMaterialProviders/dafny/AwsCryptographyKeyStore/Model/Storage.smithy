@@ -137,7 +137,9 @@ resource KeyStorageInterface {
     GetItemsForInitializeMutation,
     WriteInitializeMutation,
     QueryForVersions,
-    WriteMutatedVersions
+    WriteMutatedVersions,
+    GetMutationLock,
+    ClobberMutationLock
   ]
 }
 
@@ -148,31 +150,44 @@ structure KeyStorageInterfaceReference {}
 operation WriteNewEncryptedBranchKey {
   input: WriteNewEncryptedBranchKeyInput,
   output: WriteNewEncryptedBranchKeyOutput,
+  errors: [
+    KeyStorageException
+    AlreadyExistsConditionFailed
+  ] 
 }
 @documentation("WriteNewEncryptedBranchKeyVersion persists the new active item, decrypt only (version) item of a newly generated Branch Key version.")
 operation WriteNewEncryptedBranchKeyVersion {
   input: WriteNewEncryptedBranchKeyVersionInput,
   output: WriteNewEncryptedBranchKeyVersionOutput,
+  errors: [
+    KeyStorageException
+    AlreadyExistsConditionFailed
+    OldEncConditionFailed
+  ]
 }
 @documentation("Get the ACTIVE branch key for encryption for an existing branch key.")
 operation GetEncryptedActiveBranchKey {
   input: GetEncryptedActiveBranchKeyInput,
   output: GetEncryptedActiveBranchKeyOutput,
+  errors: [ KeyStorageException ]
 }
 @documentation("Get a specific branch key version for an existing branch key.")
 operation GetEncryptedBranchKeyVersion {
   input: GetEncryptedBranchKeyVersionInput,
   output: GetEncryptedBranchKeyVersionOutput,
+  errors: [ KeyStorageException ]
 }
 @documentation("Get the beacon key associated with an existing branch key.")
 operation GetEncryptedBeaconKey {
   input: GetEncryptedBeaconKeyInput,
   output: GetEncryptedBeaconKeyOutput,
+  errors: [ KeyStorageException ]
 }
 @documentation("Gets information about the underlying storage system.")
 operation GetKeyStorageInfo {
   input: GetKeyStorageInfoInput,
-  output: GetKeyStorageInfoOutput,
+  output: GetKeyStorageInfoOutput
+  errors: [ KeyStorageException ]
 }
 
 @documentation(
@@ -195,7 +210,12 @@ Also writes the Mutation Lock.")
 operation WriteInitializeMutation {
   input: WriteInitializeMutationInput
   output: WriteInitializeMutationOutput
-  errors: [KeyStorageException]
+  errors: [
+    KeyStorageException,
+    MutationLockConditionFailed,
+    AlreadyExistsConditionFailed,
+    OldEncConditionFailed
+  ]
 }
 
 @documentation(
@@ -219,7 +239,12 @@ conditioned on:
 operation WriteMutatedVersions {
   input: WriteMutatedVersionsInput
   output: WriteMutatedVersionsOutput
-  errors: [KeyStorageException]
+  errors: [
+    KeyStorageException
+    MutationLockConditionFailed
+    OldEncConditionFailed
+    NoLongerExistsConditionFailed
+  ]
 }
 
 //= aws-encryption-sdk-specification/framework/key-store/key-storage.md#writenewencryptedbranchkey
@@ -288,7 +313,7 @@ structure WriteNewEncryptedBranchKeyVersionInput {
   This means that when updating the current active record
   the existing active record should be equal to this value.
   ")
-  oldActive: EncryptedHierarchicalKey
+  OldActive: EncryptedHierarchicalKey
 }
 @documentation("The output of writing a new version for an existing branch key. There is currently no additional information returned.")
 structure WriteNewEncryptedBranchKeyVersionOutput {}
@@ -381,12 +406,12 @@ structure GetItemsForInitializeMutationInput {
 structure GetItemsForInitializeMutationOutput {
   @required
   @documentation("The materials for the Branch Key.")
-  activeItem: EncryptedHierarchicalKey
+  ActiveItem: EncryptedHierarchicalKey
   @documentation("The materials for the Beacon Key.")
   @required
-  beaconItem: EncryptedHierarchicalKey
+  BeaconItem: EncryptedHierarchicalKey
   @documentation("The Mutation Lock, if it exists.")
-  mutationLock: MutationLock
+  MutationLock: MutationLock
 }
 
 structure WriteInitializeMutationInput {
@@ -395,28 +420,28 @@ structure WriteInitializeMutationInput {
   The active representation of this branch key,
   generated with the Mutation's terminal properities.  
   The plain-text cryptographic material of the Active must be the same as the Version.")
-  active: EncryptedHierarchicalKey,
+  Active: EncryptedHierarchicalKey,
   @required
   @documentation("
   The previous active version.
   This key should be used as an optimistic lock on the new version.
   This means that when updating the current active record
   the existing active record should be equal to this value.")
-  oldActive: EncryptedHierarchicalKey,
+  OldActive: EncryptedHierarchicalKey,
   @required
   @documentation("
   The decrypt representation of this branch key version,
   generated with the Mutation's terminal properities.  
   The plain-text cryptographic material of the `Version` must be the same as the `Active`.")
-  version: EncryptedHierarchicalKey,
+  Version: EncryptedHierarchicalKey,
   @required
   @documentation("
   The mutated HMAC key used to support searchable encryption.
   The cryptographic material is identical to the existing beacon,
   but is now authorized with the Mutation's terminal properities.")
-  beacon: EncryptedHierarchicalKey,
+  Beacon: EncryptedHierarchicalKey,
   @required // Smithy will copy documentation traits from existing shapes
-  mutationLock: MutationLock
+  MutationLock: MutationLock
 }
 structure WriteInitializeMutationOutput {}
 
@@ -433,13 +458,13 @@ structure QueryForVersionsInput {
   see Amazon DynamoDB's defination of exclusiveStartKey for details.
   Note: While the Default Storage is DDB,
   the Key Store transforms the exclusiveStartKey into an opaque representation.")
-  exclusiveStartKey: Blob
+  ExclusiveStartKey: Blob
   @required
   @documentation("The Identifier of the Branch Key.")
   Identifier: String
   @required // @range(min: 1) Smithy-Dafny may not respect range
   @documentation("The maximum read items.")
-  pageSize: Integer
+  PageSize: Integer
 }
 
 structure QueryForVersionsOutput {
@@ -451,16 +476,16 @@ structure QueryForVersionsOutput {
   Note: While the Default Storage is DDB,
   the Key Store transforms the exclusiveStartKey into an opaque representation.")
   @required
-  exclusiveStartKey: Blob
+  ExclusiveStartKey: Blob
   @documentation("Up to pageSize list of version (decrypt only) items of a Branch Key.")
   @required
-  items: EncryptedHierarchicalKeys
+  Items: EncryptedHierarchicalKeys
 }
 
 structure WriteMutatedVersionsInput {
   @documentation("List of version (decrypt only) items of a Branch Key to overwrite conditionally.")
   @required
-  items: EncryptedHierarchicalKeys
+  Items: EncryptedHierarchicalKeys
   @documentation("The Identifier of the Branch Key.")  
   @required
   Identifier: String
@@ -470,16 +495,76 @@ structure WriteMutatedVersionsInput {
   @required
   @documentation("A commitment of the Terminal Mutable Properities of the Branch Key.")  
   Terminal: Blob
-  @documentation("If set to True, the Mutation Lock will be deleted. Effectively defaults to false")
+  @documentation("If set to True, the Mutation Lock will be deleted.")
   @required // @default(false) // Smithy-Dafny may not respect defaults.
   CompleteMutation: Boolean
 }
-
-
 structure WriteMutatedVersionsOutput {}
+
+@documentation(
+"Check for Mutation Lock on a Branch Key ID.
+If one exists, returns the Mutation Lock.
+Otherwise, returns nothing.")
+operation GetMutationLock {
+  input: GetMutationLockInput
+  output: GetMutationLockOutput
+  errors: [KeyStorageException]
+}
+structure GetMutationLockInput {
+  @documentation("The Branch Key to check for a Mutation Lock.")
+  @required
+  Identifier: String
+}
+structure GetMutationLockOutput {
+  @documentation("If not present, there is no Mutation Lock.")
+  MutationLock: MutationLock
+}
+
+@documentation("Overwrite an existing Mutation Lock.")
+operation ClobberMutationLock {
+  input: ClobberMutationLockInput
+  output: ClobberMutationLockOutput
+  errors: [
+    KeyStorageException,
+    MutationLockConditionFailed
+  ]
+}
+structure ClobberMutationLockInput {
+  @required
+  MutationLock: MutationLock
+}
+structure ClobberMutationLockOutput {}
 
 @error("client")
 structure KeyStorageException {
   @required
   message: String,
+}
+
+@error("client")
+@documentation("Write to Storage failed due to Mutation Lock condition failure.")
+structure MutationLockConditionFailed {
+  @required
+  message: String
+}
+
+@error("client")
+@documentation("Write to Storage failed. An item already exists for this Branch Key ID & Type.")
+structure AlreadyExistsConditionFailed {
+  @required
+  message: String
+}
+
+@error("client")
+@documentation("Write to Storage failed. Item was deleted since it was read.")
+structure NoLongerExistsConditionFailed {
+  @required
+  message: String
+}
+
+@error("client")
+@documentation("Write to Storage failed; cipher-text attribute of an item was updated since it was read.")
+structure OldEncConditionFailed {
+  @required
+  message: String
 }
