@@ -105,7 +105,8 @@ union KMSIdentifier {
   KmsMRKeyArn: String,
 }
 
-// For GA of Mutations, only ReEncrypt is allowd
+// TODO-Mutations-FF :
+// For GA of Mutations,  of Mutations, only ReEncrypt is allowd
 // structure AwsKmsDecryptEncrypt {
 //   @documentation("The KMS Client (and Grant Tokens) used to Decrypt Branch Key Store Items.")
 //   decrypt: aws.cryptography.keyStore#AwsKms
@@ -125,6 +126,7 @@ union KeyManagementStrategy {
   This is one request to Key Management, as compared to two.
   But only one set of credentials can be used.")
   AwsKmsReEncrypt: aws.cryptography.keyStore#AwsKms
+  // TODO-Mutations-FF :
   // For GA of Mutations, only ReEncrypt is allowd
   // @documentation(
   //   "Key Store Items are authenicated and re-wrapped via a Decrypt and then Encrypt request.
@@ -208,7 +210,6 @@ Establishes the Mutation Lock; Simultaneous conflicting Mutations are prevented 
 Mutations MUST be completed via subsequent invocations of the Apply Mutation Operation, first invoked with the Mutation Token returned in InitializeMutationOutput.
 Uses 1 read of 3 items and 1 write of 4 items.
 By default, Key Management will be called 5 times; 2 x GenerateDataKeyWithoutPlaintext, 3 x ReEncrypt.")
-//If verifyDecrypt is true, an additional Decrypt will be called.")
 operation InitializeMutation {
   input: InitializeMutationInput
   output: InitializeMutationOutput
@@ -321,9 +322,6 @@ operation ApplyMutation {
 }
 
 structure ApplyMutationInput {
-  // Technically, we could XOR on ApplyMutationResult & MutationToken
-  // that MAY be user friendly, as they do not have bother unwrapping structures.
-  // For now, let's treat this as a two way door.
   @required
   MutationToken: MutationToken
 
@@ -452,7 +450,7 @@ structure KeyStoreAdminException {
   message: String
 }
 
-// Rather than link, we could detail recovery steps in the documentation trait.
+// TODO-Mutations-GA : Document recovery
 @error("client")
 @documentation("A Mutation for this Branch Key ID is already inflight! Nothing was changed. See <link>.")
 structure MutationConflictException {
@@ -460,6 +458,7 @@ structure MutationConflictException {
   message: String,
 }
 
+// TODO-Mutations-FF : Document recovery
 @error("client")
 @documentation(
 "Branch Key Authorization failed while Initializing the Mutation.
@@ -469,6 +468,7 @@ structure MutationInvalidException {
   message: String,
 }
 
+// TODO-Mutations-GA : Document recovery
 @error("client")
 @documentation(
 "Mutation Lock disagrees with provided Mutation Token.
@@ -482,6 +482,7 @@ structure MutationLockInvalidException {
   message: String,
 }
 
+// TODO-Mutations-GA : Document recovery
 @error("client")
 @documentation(
 "An Item was encountered that is not
@@ -497,6 +498,7 @@ structure UnexpectedStateException {
   message: String,
 }
 
+// TODO-Mutations-GA : Document recovery
 @error("client")
 @documentation(
 "Key Management generic error encountered while authenticating
@@ -507,6 +509,7 @@ structure MutationVerificationException {
   message: String,
 }
 
+// TODO-Mutations-GA : Document recovery
 @error("client")
 @documentation(
 "Key Management generic error encountered while mutating
@@ -517,6 +520,7 @@ structure MutationToException {
   message: String,
 }
 
+// TODO-Mutations-GA : Document recovery
 @error("client")
 @documentation(
 "Key Management generic error encountered while mutating

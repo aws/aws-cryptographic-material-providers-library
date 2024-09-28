@@ -228,6 +228,8 @@ module {:options "/functionSyntax:4" } Mutations {
         aMap := input.Mutations.TerminalEncryptionContext.value
       ) + unexpectedEC;
       // ValidateInitializeMutationInput SHOULD take care of this Need, but Dafny is struggling
+      // TODO-Mutations-FF : Replace runtime check with Lemma.
+      // See https://github.com/aws/aws-cryptographic-material-providers-library/pull/750#discussion_r1777654751
       :- Need(
         terminalEC.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES,
         Types.KeyStoreAdminException(message:="Terminal Encryption Context contains a reserved word!")
@@ -364,7 +366,7 @@ module {:options "/functionSyntax:4" } Mutations {
           Terminal := MutationToken.Terminal
         )
       ));
-    // TODO Mutations FastFollow? :: Ideally, we would diagnosis the Storage Failure.
+    // TODO-Mutations-FF :: Ideally, we would diagnosis the Storage Failure.
     // What Condition Check failed? Was the Key Versioned? Or did another M-Lock get written?
     var _ :- throwAway2?.MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
 
