@@ -79,8 +79,12 @@ public class MutationExample {
         AdminProvider.mutatedItemsToString(applyOutput.MutatedBranchKeyItems())
       );
 
-      if (result.ContinueMutation() != null) {token = result.ContinueMutation();}
-      if (result.CompleteMutation() != null) {done = true;}
+      if (result.ContinueMutation() != null) {
+        token = result.ContinueMutation();
+      }
+      if (result.CompleteMutation() != null) {
+        done = true;
+      }
       if (limitLoop == 0) {
         done = true;
       }

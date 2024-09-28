@@ -275,7 +275,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       keyManagerStrat.reEncrypt?,
       Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time.")
     );
-    // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543  
+    // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
     assume {:axiom} keyManagerStrat.reEncrypt.kmsClient.Modifies < MutationLie();
 
     var _ :- Mutations.ValidateInitializeMutationInput(input, config.logicalKeyStoreName);
@@ -294,7 +294,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       keyManagerStrat.reEncrypt?,
       Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time.")
     );
-    // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543  
+    // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
     assume {:axiom} keyManagerStrat.reEncrypt.kmsClient.Modifies < MutationLie();
 
     var _ :- Mutations.ValidateApplyMutationInput(input, config.logicalKeyStoreName, config.storage);
