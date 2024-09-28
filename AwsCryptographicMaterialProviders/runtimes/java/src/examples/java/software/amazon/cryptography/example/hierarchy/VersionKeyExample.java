@@ -63,9 +63,9 @@ public class VersionKeyExample {
         // This is the KMS ARN that will be used to protect the Branch Key.
         // It is a required argument.
         // This ARN MUST match the ARN that protects the Branch Key.
-        .kmsArn(KMSIdentifier.builder().kmsKeyArn(kmsKeyArn).build())
+        .KmsArn(KMSIdentifier.builder().KmsKeyArn(kmsKeyArn).build())
         // This the Identifier for the Branch Key that is being rotated/versioned.
-        .branchKeyIdentifier(branchKeyId)
+        .Identifier(branchKeyId)
         .build()
     );
 

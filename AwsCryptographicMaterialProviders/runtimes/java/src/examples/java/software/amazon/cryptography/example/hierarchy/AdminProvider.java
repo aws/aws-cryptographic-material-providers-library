@@ -69,7 +69,7 @@ public class AdminProvider {
   ) {
     return mutatedItems
       .stream()
-      .map(item -> String.format("%s : %s", item.itemType(), item.description())
+      .map(item -> String.format("%s : %s", item.ItemType(), item.Description())
       )
       .collect(Collectors.joining(",\n"));
   }

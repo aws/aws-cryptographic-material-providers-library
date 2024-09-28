@@ -79,24 +79,24 @@ public class MutationKmsAccessInFlightTest {
 
     Mutations mutations = Mutations
       .builder()
-      .terminalEncryptionContext(terminalEC)
-      .terminalKmsArn(MRK_ARN_WEST)
+      .TerminalEncryptionContext(terminalEC)
+      .TerminalKmsArn(MRK_ARN_WEST)
       .build();
 
     InitializeMutationInput initInput = InitializeMutationInput
       .builder()
-      .mutations(mutations)
-      .branchKeyIdentifier(branchKeyId)
-      .strategy(strategyWest2)
+      .Mutations(mutations)
+      .Identifier(branchKeyId)
+      .Strategy(strategyWest2)
       .build();
 
     InitializeMutationOutput initOutput = admin.InitializeMutation(initInput);
-    MutationToken token = initOutput.mutationToken();
+    MutationToken token = initOutput.MutationToken();
     System.out.println(
       "InitLogs: " +
       branchKeyId +
       " items: \n" +
-      AdminProvider.mutatedItemsToString(initOutput.mutatedBranchKeyItems())
+      AdminProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
     );
     boolean done = false;
     List<KmsException> kmsExceptions = new ArrayList<>();
@@ -110,24 +110,24 @@ public class MutationKmsAccessInFlightTest {
         if (limitLoop == 0) done = true;
         ApplyMutationInput applyInput = ApplyMutationInput
           .builder()
-          .mutationToken(token)
-          .pageSize(1)
-          .strategy(strategyDenyMrk)
+          .MutationToken(token)
+          .PageSize(1)
+          .Strategy(strategyDenyMrk)
           .build();
         ApplyMutationOutput applyOutput = admin.ApplyMutation(applyInput);
-        ApplyMutationResult result = applyOutput.result();
+        ApplyMutationResult result = applyOutput.MutationResult();
         System.out.println(
           "ApplyLogs: " +
           branchKeyId +
           " items: \n" +
           AdminProvider.mutatedItemsToString(
-            applyOutput.mutatedBranchKeyItems()
+            applyOutput.MutatedBranchKeyItems()
           )
         );
 
-        if (result.continueMutation() != null) token =
-          result.continueMutation();
-        if (result.completeMutation() != null) done = true;
+        if (result.ContinueMutation() != null) token =
+          result.ContinueMutation();
+        if (result.CompleteMutation() != null) done = true;
       } catch (KmsException accessDenied) {
         boolean isFrom = accessDenied.getMessage().contains("ReEncryptFrom");
         isFromThrown = isFromThrown || isFrom;
@@ -146,11 +146,11 @@ public class MutationKmsAccessInFlightTest {
           QueryForVersionsInput
             .builder()
             .Identifier(branchKeyId)
-            .pageSize(1)
+            .PageSize(1)
             .build()
         );
         versions
-          .items()
+          .Items()
           .forEach(item -> {
             String typStr = item.EncryptionContext().get("type");
             Fixtures.deleteKeyStoreDdbItem(

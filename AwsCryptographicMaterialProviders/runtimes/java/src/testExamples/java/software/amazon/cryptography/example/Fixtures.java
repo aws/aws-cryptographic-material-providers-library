@@ -111,14 +111,14 @@ public class Fixtures {
       QueryForVersionsInput
         .builder()
         .Identifier(branchKeyId)
-        .pageSize(99)
+        .PageSize(99)
         .build()
     );
     String physicalName = storage
       .GetKeyStorageInfo(GetKeyStorageInfoInput.builder().build())
       .Name();
     versions
-      .items()
+      .Items()
       .forEach(item ->
         deleteKeyStoreDdbItem(
           item.Identifier(),

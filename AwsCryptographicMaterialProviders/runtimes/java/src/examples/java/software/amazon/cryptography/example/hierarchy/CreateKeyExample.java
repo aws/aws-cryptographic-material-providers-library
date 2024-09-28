@@ -71,16 +71,16 @@ public class CreateKeyExample {
           .builder()
           // This is the KMS ARN that will be used to protect the Branch Key.
           // It is a required argument.
-          .kmsArn(KMSIdentifier.builder().kmsKeyArn(kmsKeyArn).build())
+          .KmsArn(KMSIdentifier.builder().KmsKeyArn(kmsKeyArn).build())
           // If you need to specify the Identifier for a Branch Key, you may.
           // This is an optional argument.
-          .branchKeyIdentifier(branchKeyId)
+          .Identifier(branchKeyId)
           // If a branch key Identifier is provided,
           // custom encryption context MUST be provided as well.
-          .encryptionContext(encryptionContext)
+          .EncryptionContext(encryptionContext)
           .build()
       )
-      .branchKeyIdentifier();
+      .Identifier();
 
     assert actualBranchKeyId.equals(branchKeyId);
     return branchKeyId;
