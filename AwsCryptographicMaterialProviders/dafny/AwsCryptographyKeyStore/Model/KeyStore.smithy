@@ -456,14 +456,3 @@ structure KeyManagementException {
   @required
   message: String
 }
-
-@error("client")
-@documentation("AWS KMS request was unsuccesful or response was invalid.")
-structure ComAmazonawsKms {
-  error: com.amazonaws.kms#Error
-}
-
-union com.amazonaws.kms#Error (
-  AlreadyExistsException: com.amazonaws.kms#AlreadyExistsException
-  CloudHsmClusterInUseException: com.amazonaws.kms#CloudHsmClusterInUseException
-)

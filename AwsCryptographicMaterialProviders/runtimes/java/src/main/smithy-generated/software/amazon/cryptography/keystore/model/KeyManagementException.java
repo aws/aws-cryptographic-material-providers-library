@@ -6,7 +6,7 @@ package software.amazon.cryptography.keystore.model;
 import java.util.Objects;
 
 /**
- * AWS KMS returned an invalid response.
+ * AWS KMS request was unsuccesful or response was invalid.
  */
 public class KeyManagementException extends RuntimeException {
 
