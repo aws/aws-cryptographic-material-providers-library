@@ -12,6 +12,7 @@ namespace AWS.Cryptography.MaterialProviders
     private AWS.Cryptography.MaterialProviders.SingleThreadedCache _singleThreaded;
     private AWS.Cryptography.MaterialProviders.MultiThreadedCache _multiThreaded;
     private AWS.Cryptography.MaterialProviders.StormTrackingCache _stormTracking;
+    private AWS.Cryptography.MaterialProviders.ICryptographicMaterialsCache _shared;
     public AWS.Cryptography.MaterialProviders.DefaultCache Default
     {
       get { return this._default; }
@@ -57,13 +58,23 @@ namespace AWS.Cryptography.MaterialProviders
     {
       return this._stormTracking != null;
     }
+    public AWS.Cryptography.MaterialProviders.ICryptographicMaterialsCache Shared
+    {
+      get { return this._shared; }
+      set { this._shared = value; }
+    }
+    public bool IsSetShared()
+    {
+      return this._shared != null;
+    }
     public void Validate()
     {
       var numberOfPropertiesSet = Convert.ToUInt16(IsSetDefault()) +
       Convert.ToUInt16(IsSetNo()) +
       Convert.ToUInt16(IsSetSingleThreaded()) +
       Convert.ToUInt16(IsSetMultiThreaded()) +
-      Convert.ToUInt16(IsSetStormTracking());
+      Convert.ToUInt16(IsSetStormTracking()) +
+      Convert.ToUInt16(IsSetShared());
       if (numberOfPropertiesSet == 0) throw new System.ArgumentException("No union value set");
 
       if (numberOfPropertiesSet > 1) throw new System.ArgumentException("Multiple union values set");

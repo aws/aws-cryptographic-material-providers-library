@@ -16,6 +16,7 @@ AWS_SDK_CMD := --aws-sdk
 STD_LIBRARY=StandardLibrary
 SMITHY_DEPS=model
 
+<<<<<<< HEAD
 # Constants for languages that drop extern names (Python, Go)
 
 TYPES_FILE_PATH=Model/ComAmazonawsKmsTypes.dfy
@@ -32,3 +33,5 @@ PYTHON_MODULE_NAME=aws_cryptography_internal_kms
 
 TRANSLATION_RECORD_PYTHON := \
     --translation-record ../StandardLibrary/runtimes/python/src/smithy_dafny_standard_library/internaldafny/generated/dafny_src-py.dtr
+=======
+>>>>>>> main
