@@ -13,6 +13,7 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     CacheType_Default,
     CacheType_MultiThreaded,
     CacheType_No,
+    CacheType_Shared,
     CacheType_SingleThreaded,
     CacheType_StormTracking,
     CommitmentPolicy_DBE,
@@ -1499,6 +1500,31 @@ def aws_cryptography_materialproviders_CreateAwsKmsHierarchicalKeyringInput(
             if (native_input.cache is not None)
             else (Option_None())
         ),
+        partitionId=(
+            (
+                Option_Some(
+                    Seq(
+                        "".join(
+                            [
+                                chr(int.from_bytes(pair, "big"))
+                                for pair in zip(
+                                    *[
+                                        iter(
+                                            native_input.partition_id.encode(
+                                                "utf-16-be"
+                                            )
+                                        )
+                                    ]
+                                    * 2
+                                )
+                            ]
+                        )
+                    )
+                )
+            )
+            if (native_input.partition_id is not None)
+            else (Option_None())
+        ),
     )
 
 
@@ -1560,6 +1586,15 @@ def aws_cryptography_materialproviders_CacheType(native_input):
                 native_input.value
             )
         )
+    elif isinstance(
+        native_input,
+        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CacheTypeShared,
+    ):
+        CacheType_union_value = CacheType_Shared(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CryptographicMaterialsCacheReference(
+                native_input.value
+            )
+        )
     else:
         raise ValueError(
             "No recognized union value in union type: " + str(native_input)
@@ -1614,6 +1649,16 @@ def aws_cryptography_materialproviders_StormTrackingCache(native_input):
         inFlightTTL=native_input.in_flight_ttl,
         sleepMilli=native_input.sleep_milli,
     )
+
+
+def aws_cryptography_materialproviders_CryptographicMaterialsCacheReference(
+    native_input,
+):
+    if hasattr(native_input, "_impl"):
+        return native_input._impl
+
+    else:
+        return native_input
 
 
 def aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(native_input):
@@ -2223,16 +2268,6 @@ def aws_cryptography_materialproviders_CreateCryptographicMaterialsCacheOutput(
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CryptographicMaterialsCacheReference(
         native_input
     )
-
-
-def aws_cryptography_materialproviders_CryptographicMaterialsCacheReference(
-    native_input,
-):
-    if hasattr(native_input, "_impl"):
-        return native_input._impl
-
-    else:
-        return native_input
 
 
 def aws_cryptography_materialproviders_CreateDefaultClientSupplierOutput(native_input):
