@@ -6,13 +6,11 @@ package software.amazon.cryptography.keystore.model;
 import java.util.Objects;
 
 /**
- * Operation was rejected due to a race with VersionKey.
- * No items were changed.
- * Retry operation when no other agent is Versioning this Branch Key ID.
+ * AWS KMS returned an invalid response.
  */
-public class VersionRaceException extends RuntimeException {
+public class KeyManagementException extends RuntimeException {
 
-  protected VersionRaceException(BuilderImpl builder) {
+  protected KeyManagementException(BuilderImpl builder) {
     super(messageFromBuilder(builder), builder.cause());
   }
 
@@ -69,7 +67,7 @@ public class VersionRaceException extends RuntimeException {
      */
     Throwable cause();
 
-    VersionRaceException build();
+    KeyManagementException build();
   }
 
   static class BuilderImpl implements Builder {
@@ -80,7 +78,7 @@ public class VersionRaceException extends RuntimeException {
 
     protected BuilderImpl() {}
 
-    protected BuilderImpl(VersionRaceException model) {
+    protected BuilderImpl(KeyManagementException model) {
       this.message = model.message();
       this.cause = model.cause();
     }
@@ -103,13 +101,13 @@ public class VersionRaceException extends RuntimeException {
       return this.cause;
     }
 
-    public VersionRaceException build() {
+    public KeyManagementException build() {
       if (Objects.isNull(this.message())) {
         throw new IllegalArgumentException(
           "Missing value for required field `message`"
         );
       }
-      return new VersionRaceException(this);
+      return new KeyManagementException(this);
     }
   }
 }

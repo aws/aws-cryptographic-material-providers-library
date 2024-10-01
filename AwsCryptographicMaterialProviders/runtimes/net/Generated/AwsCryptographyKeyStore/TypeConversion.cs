@@ -339,6 +339,19 @@ namespace AWS.Cryptography.KeyStore
       }
       throw new System.ArgumentException("Invalid AWS.Cryptography.KeyStore.KeyManagement state");
     }
+    public static AWS.Cryptography.KeyStore.KeyManagementException FromDafny_N3_aws__N12_cryptography__N8_keyStore__S22_KeyManagementException(software.amazon.cryptography.keystore.internaldafny.types.Error_KeyManagementException value)
+    {
+      return new AWS.Cryptography.KeyStore.KeyManagementException(
+      FromDafny_N3_aws__N12_cryptography__N8_keyStore__S22_KeyManagementException__M7_message(value._message)
+      );
+    }
+    public static software.amazon.cryptography.keystore.internaldafny.types.Error_KeyManagementException ToDafny_N3_aws__N12_cryptography__N8_keyStore__S22_KeyManagementException(AWS.Cryptography.KeyStore.KeyManagementException value)
+    {
+
+      return new software.amazon.cryptography.keystore.internaldafny.types.Error_KeyManagementException(
+      ToDafny_N3_aws__N12_cryptography__N8_keyStore__S22_KeyManagementException__M7_message(value.Message)
+      );
+    }
     public static AWS.Cryptography.KeyStore.KeyStorageException FromDafny_N3_aws__N12_cryptography__N8_keyStore__S19_KeyStorageException(software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStorageException value)
     {
       return new AWS.Cryptography.KeyStore.KeyStorageException(
@@ -943,6 +956,14 @@ namespace AWS.Cryptography.KeyStore
     public static software.amazon.cryptography.keystore.internaldafny.types._IAwsKms ToDafny_N3_aws__N12_cryptography__N8_keyStore__S13_KeyManagement__M3_kms(AWS.Cryptography.KeyStore.AwsKms value)
     {
       return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S6_AwsKms(value);
+    }
+    public static string FromDafny_N3_aws__N12_cryptography__N8_keyStore__S22_KeyManagementException__M7_message(Dafny.ISequence<char> value)
+    {
+      return FromDafny_N6_smithy__N3_api__S6_String(value);
+    }
+    public static Dafny.ISequence<char> ToDafny_N3_aws__N12_cryptography__N8_keyStore__S22_KeyManagementException__M7_message(string value)
+    {
+      return ToDafny_N6_smithy__N3_api__S6_String(value);
     }
     public static string FromDafny_N3_aws__N12_cryptography__N8_keyStore__S19_KeyStorageException__M7_message(Dafny.ISequence<char> value)
     {
@@ -1880,6 +1901,8 @@ namespace AWS.Cryptography.KeyStore
           );
         case software.amazon.cryptography.keystore.internaldafny.types.Error_AlreadyExistsConditionFailed dafnyVal:
           return FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_AlreadyExistsConditionFailed(dafnyVal);
+        case software.amazon.cryptography.keystore.internaldafny.types.Error_KeyManagementException dafnyVal:
+          return FromDafny_N3_aws__N12_cryptography__N8_keyStore__S22_KeyManagementException(dafnyVal);
         case software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStorageException dafnyVal:
           return FromDafny_N3_aws__N12_cryptography__N8_keyStore__S19_KeyStorageException(dafnyVal);
         case software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStoreException dafnyVal:
@@ -1921,6 +1944,8 @@ namespace AWS.Cryptography.KeyStore
       {
         case AWS.Cryptography.KeyStore.AlreadyExistsConditionFailed exception:
           return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_AlreadyExistsConditionFailed(exception);
+        case AWS.Cryptography.KeyStore.KeyManagementException exception:
+          return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S22_KeyManagementException(exception);
         case AWS.Cryptography.KeyStore.KeyStorageException exception:
           return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S19_KeyStorageException(exception);
         case AWS.Cryptography.KeyStore.KeyStoreException exception:

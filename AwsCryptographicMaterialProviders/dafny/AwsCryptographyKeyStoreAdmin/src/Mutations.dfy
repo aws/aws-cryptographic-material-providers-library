@@ -4,6 +4,7 @@ include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "MutationStateStructures.dfy"
 include "PrefixUtils.dfy"
 include "MutationValidation.dfy"
+include "MutationErrorRefinement.dfy"
 
 module {:options "/functionSyntax:4" } Mutations {
   import opened StandardLibrary
@@ -29,6 +30,7 @@ module {:options "/functionSyntax:4" } Mutations {
 
   import PrefixUtils
   import MutationValidation
+  import MutationErrorRefinement
 
   const DEFAULT_APPLY_PAGE_SIZE := 3 as StandardLibrary.UInt.int32
 
@@ -258,13 +260,16 @@ module {:options "/functionSyntax:4" } Mutations {
     assert MutationToApply.Terminal.customEncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
     // -= BEGIN Version Active Branch Key
     // --= Validate Active Branch Key
-    // TODO-Mutations-GA? :: If the KMS Call fails with access denied,
-    // it indicates that the MPL Consumer does not have access to the
-    // the original key.
-    :- VerifyEncryptedHierarchicalKey(
+    var verifyActive? := VerifyEncryptedHierarchicalKey(
       item := activeItem,
       keyManagerStrategy := keyManagerStrategy
     );
+    if (verifyActive?.Fail?) {
+      return Failure(
+          MutationErrorRefinement.VerifyActiveException(
+            branchKeyItem := activeItem,
+            error := verifyActive?.error));
+    }
 
       // -= Assert Beacon Key is in Original
     :- Need(
@@ -272,7 +277,7 @@ module {:options "/functionSyntax:4" } Mutations {
       Types.UnexpectedStateException(
         message :=
           "Beacon Item is not encrypted with the same KMS Key as ACTIVE!"
-          + " For Initialize Mutation to succeed, the ACTIVE & Beacon Key MUST be in the same, original state."
+          + " For Initialize Mutation to succeed, the ACTIVE & Beacon Key MUST have the same KMS-ARN and Custom Encryption Context!"
       ));
     :- Need(
       readItems.BeaconItem.EncryptionContext
@@ -530,15 +535,19 @@ module {:options "/functionSyntax:4" } Mutations {
       var item := itemsToProcess[versionIndex];
       match item {
         case itemTerminal(item) =>
-          // TODO-Mutations-GA? :: If the KMS Call fails with access denied,
-          // the agent has lost access to the terminal Key.
-          :- VerifyEncryptedHierarchicalKey(
+          var verify? := VerifyEncryptedHierarchicalKey(
             item := item,
             keyManagerStrategy:= keyManagerStrategy
           );
+          if (verify?.Fail?) {
+            return Failure(
+                MutationErrorRefinement.VerifyTerminalException(
+                  branchKeyItem := item,
+                  error := verify?.error));
+          }
           logStatements := logStatements
           + [Types.MutatedBranchKeyItem(
-               ItemType := "Decrypt Only: " + item.Type.HierarchicalSymmetricVersion.Version,
+               ItemType := "Version (Decrypt Only): " + item.Type.HierarchicalSymmetricVersion.Version,
                Description := " Validated in Terminal")];
         // if item is original, mutate with Failure
         case itemOriginal(item) =>
@@ -626,7 +635,7 @@ module {:options "/functionSyntax:4" } Mutations {
     nameonly item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
     nameonly keyManagerStrategy: keyManagerStrat
   )
-    returns (output: Outcome<Types.Error>)
+    returns (output: Outcome<KMSKeystoreOperations.KmsError>)
     requires keyManagerStrategy.reEncrypt?
 
     requires Structure.EncryptedHierarchicalKey?(item)
@@ -650,7 +659,7 @@ module {:options "/functionSyntax:4" } Mutations {
     output := if throwAway?.Success? then
       Pass
     else
-      Fail(Types.Error.AwsCryptographyKeyStore(throwAway?.error));
+      Fail(throwAway?.error);
   }
 
   method {:isolate_assertions} ReEncryptHierarchicalKey(

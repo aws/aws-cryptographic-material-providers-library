@@ -25,6 +25,9 @@ import software.amazon.cryptography.keystoreadmin.model.ApplyMutationResult;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
+import software.amazon.cryptography.keystoreadmin.model.KeyStoreAdminException;
+import software.amazon.cryptography.keystoreadmin.model.MutationFromException;
+import software.amazon.cryptography.keystoreadmin.model.MutationToException;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
 
@@ -99,9 +102,10 @@ public class MutationKmsAccessInFlightTest {
       AdminProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
     );
     boolean done = false;
-    List<KmsException> kmsExceptions = new ArrayList<>();
+    List<Exception> exceptions = new ArrayList<>();
     boolean isFromThrown = false;
     boolean isToThrown = false;
+    boolean verifyTerminalThrown = false;
     int limitLoop = 5;
 
     while (!done) {
@@ -125,22 +129,39 @@ public class MutationKmsAccessInFlightTest {
           )
         );
 
-        if (result.ContinueMutation() != null) token =
-          result.ContinueMutation();
-        if (result.CompleteMutation() != null) done = true;
-      } catch (KmsException accessDenied) {
-        boolean isFrom = accessDenied.getMessage().contains("ReEncryptFrom");
-        isFromThrown = isFromThrown || isFrom;
-        boolean isTo = accessDenied.getMessage().contains("ReEncryptTo");
-        isToThrown = isToThrown || isTo;
-        Assert.assertTrue(
-          (isTo || isFrom),
-          "KMS Exception does not meet expectations. testId: " +
-          branchKeyId +
-          ". KMS Exception: " +
-          accessDenied
-        );
-        kmsExceptions.add(accessDenied);
+        if (result.ContinueMutation() != null) {
+          token = result.ContinueMutation();
+        }
+        if (result.CompleteMutation() != null) {
+          done = true;
+        }
+      } catch (
+        KmsException
+        | MutationFromException
+        | MutationToException
+        | KeyStoreAdminException accessDenied
+      ) {
+        if (accessDenied instanceof MutationToException) {
+          boolean isTo =
+            ((MutationToException) accessDenied).getMessage()
+              .contains("while verifying a Version with terminal properities");
+          verifyTerminalThrown = verifyTerminalThrown || isTo;
+        }
+
+        if (accessDenied instanceof KmsException) {
+          boolean isFrom = accessDenied.getMessage().contains("ReEncryptFrom");
+          isFromThrown = isFromThrown || isFrom;
+          boolean isTo = accessDenied.getMessage().contains("ReEncryptTo");
+          isToThrown = isToThrown || isTo;
+          Assert.assertTrue(
+            (isTo || isFrom),
+            "KMS Exception does not meet expectations. testId: " +
+            branchKeyId +
+            ". KMS Exception: " +
+            accessDenied
+          );
+        }
+        exceptions.add(accessDenied);
         // An exception was thrown, let's delete the item
         QueryForVersionsOutput versions = storage.QueryForVersions(
           QueryForVersionsInput
@@ -162,7 +183,9 @@ public class MutationKmsAccessInFlightTest {
             System.out.println(
               "\nItem: " +
               typStr +
-              " \tKMS Exception: " +
+              " \t" +
+              accessDenied.getClass().getSimpleName() +
+              ": " +
               accessDenied.getMessage()
             );
           });
@@ -172,11 +195,13 @@ public class MutationKmsAccessInFlightTest {
     // Clean Up
     Fixtures.cleanUpBranchKeyId(storage, branchKeyId);
     Assert.assertTrue(
-      (kmsExceptions.size() == 2),
-      "More KMS Exceptions thrown than expected. kmsExceptions: " +
-      kmsExceptions
+      (exceptions.size() == 2),
+      "More Exceptions thrown than expected. Exceptions: " + exceptions
     );
-    Assert.assertTrue(isFromThrown, "Apply never verified the new decrypt.");
+    Assert.assertTrue(
+      verifyTerminalThrown,
+      "Apply never verified the new decrypt."
+    );
     Assert.assertTrue(isToThrown, "Apply never mutated the old decrypt.");
   }
 }

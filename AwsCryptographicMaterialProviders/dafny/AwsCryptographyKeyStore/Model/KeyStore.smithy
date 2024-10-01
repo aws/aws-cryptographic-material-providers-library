@@ -433,8 +433,37 @@ structure KeyStoreException {
 // Can be thrown by InitializeMutation & VersionKey
 @error("client")
 @retryable
-@documentation("Operation was rejected due to a race with VersionKey. No items were changed. Retry operation when no other agent is Versioning this Branch Key ID.")
+@documentation(
+"Operation was rejected due to a race with VersionKey.
+No items were changed.
+Retry operation when no other agent is Versioning this Branch Key ID.")
 structure VersionRaceException {
   @required
   message: String,
 }
+
+// This should be used very carefully.
+// It is often better to simply return the KMS Exception,
+// rather than obscuring it with this.
+// However, in cases where the KMS response
+// is invalid due to Client Side Validation,
+// this MAY be a better error to throw than
+// the generic local service exception.
+// See https://github.com/smithy-lang/smithy-dafny/issues/614
+@error("client")
+@documentation("AWS KMS request was unsuccesful or response was invalid.")
+structure KeyManagementException {
+  @required
+  message: String
+}
+
+@error("client")
+@documentation("AWS KMS request was unsuccesful or response was invalid.")
+structure ComAmazonawsKms {
+  error: com.amazonaws.kms#Error
+}
+
+union com.amazonaws.kms#Error (
+  AlreadyExistsException: com.amazonaws.kms#AlreadyExistsException
+  CloudHsmClusterInUseException: com.amazonaws.kms#CloudHsmClusterInUseException
+)

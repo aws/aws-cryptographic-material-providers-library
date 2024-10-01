@@ -818,6 +818,9 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     | AlreadyExistsConditionFailed (
         nameonly message: string
       )
+    | KeyManagementException (
+        nameonly message: string
+      )
     | KeyStorageException (
         nameonly message: string
       )
