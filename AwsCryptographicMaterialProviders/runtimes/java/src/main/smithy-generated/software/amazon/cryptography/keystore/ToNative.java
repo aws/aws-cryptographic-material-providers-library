@@ -15,6 +15,7 @@ import java.util.Map;
 import software.amazon.cryptography.keystore.internaldafny.types.Error;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_AlreadyExistsConditionFailed;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_CollectionOfErrors;
+import software.amazon.cryptography.keystore.internaldafny.types.Error_KeyManagementException;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStorageException;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStoreException;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_MutationLockConditionFailed;
@@ -62,6 +63,7 @@ import software.amazon.cryptography.keystore.model.HierarchicalKeyType;
 import software.amazon.cryptography.keystore.model.HierarchicalSymmetric;
 import software.amazon.cryptography.keystore.model.KMSConfiguration;
 import software.amazon.cryptography.keystore.model.KeyManagement;
+import software.amazon.cryptography.keystore.model.KeyManagementException;
 import software.amazon.cryptography.keystore.model.KeyStorageException;
 import software.amazon.cryptography.keystore.model.KeyStoreConfig;
 import software.amazon.cryptography.keystore.model.KeyStoreException;
@@ -115,6 +117,19 @@ public class ToNative {
   ) {
     AlreadyExistsConditionFailed.Builder nativeBuilder =
       AlreadyExistsConditionFailed.builder();
+    nativeBuilder.message(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_message()
+      )
+    );
+    return nativeBuilder.build();
+  }
+
+  public static KeyManagementException Error(
+    Error_KeyManagementException dafnyValue
+  ) {
+    KeyManagementException.Builder nativeBuilder =
+      KeyManagementException.builder();
     nativeBuilder.message(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
         dafnyValue.dtor_message()
@@ -199,6 +214,9 @@ public class ToNative {
   public static RuntimeException Error(Error dafnyValue) {
     if (dafnyValue.is_AlreadyExistsConditionFailed()) {
       return ToNative.Error((Error_AlreadyExistsConditionFailed) dafnyValue);
+    }
+    if (dafnyValue.is_KeyManagementException()) {
+      return ToNative.Error((Error_KeyManagementException) dafnyValue);
     }
     if (dafnyValue.is_KeyStorageException()) {
       return ToNative.Error((Error_KeyStorageException) dafnyValue);
