@@ -263,7 +263,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     String.Base10Int2String(n as int)
   }
 
-  method CheckCache(cache : CacheType, ttlSeconds: PositiveLong) returns (output : Result<bool, Error>)
+  method CheckCache(cache : CacheType, ttlSeconds: PositiveLong) returns (output : Outcome<Error>)
   {
     if cache.StormTracking? {
       var storm := cache.StormTracking;
@@ -271,11 +271,11 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
         var msg := "When creating an AwsKmsHierarchicalKeyring with a StormCache, " +
         "the ttlSeconds of the KeyRing must be greater than the gracePeriod of the StormCache " +
         "yet the ttlSeconds is " + N(ttlSeconds) + " and the gracePeriod is " + N(storm.gracePeriod as PositiveLong) + ".";
-        return Failure(Types.AwsCryptographicMaterialProvidersException(message := msg));
+        return Fail(Types.AwsCryptographicMaterialProvidersException(message := msg));
       }
-      return Success(true);
+      return Pass;
     } else {
-      return Success(true);
+      return Pass;
     }
   }
 
@@ -291,7 +291,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     var cmc;
 
     if input.cache.Some? {
-      var _ :- CheckCache(input.cache.value, input.ttlSeconds);
+      :- CheckCache(input.cache.value, input.ttlSeconds);
       match input.cache.value {
         case Shared(c) =>
           cmc := c;
@@ -303,7 +303,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       }
     }
     else {
-      var _ :- CheckCache(CacheType.StormTracking(StormTracker.DefaultStorm()), input.ttlSeconds);
+      :- CheckCache(CacheType.StormTracking(StormTracker.DefaultStorm()), input.ttlSeconds);
       cmc :- CreateCryptographicMaterialsCache(
         config,
         CreateCryptographicMaterialsCacheInput(
