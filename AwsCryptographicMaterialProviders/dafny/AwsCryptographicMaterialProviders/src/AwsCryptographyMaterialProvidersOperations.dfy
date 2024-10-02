@@ -291,7 +291,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     var cmc;
 
     if input.cache.Some? {
-      var _ := CheckCache(input.cache.value, input.ttlSeconds);
+      var _ :- CheckCache(input.cache.value, input.ttlSeconds);
       match input.cache.value {
         case Shared(c) =>
           cmc := c;
@@ -303,7 +303,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       }
     }
     else {
-      var _ := CheckCache(CacheType.StormTracking(StormTracker.DefaultStorm()), input.ttlSeconds);
+      var _ :- CheckCache(CacheType.StormTracking(StormTracker.DefaultStorm()), input.ttlSeconds);
       cmc :- CreateCryptographicMaterialsCache(
         config,
         CreateCryptographicMaterialsCacheInput(
