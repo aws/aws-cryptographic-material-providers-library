@@ -25,6 +25,7 @@ module {:options "/functionSyntax:4" }  StormTracker {
   import Time
   import SortedSets
   import Seq
+  import StandardLibrary.String
 
   datatype CacheState =
     | EmptyWait // No data, client should wait
@@ -43,6 +44,60 @@ module {:options "/functionSyntax:4" }  StormTracker {
       sleepMilli := 20
     )
   }
+
+  predicate ConsistentSettings(
+    cache: Types.StormTrackingCache
+  ) {
+    && cache.graceInterval <= cache.gracePeriod
+    && cache.inFlightTTL <= cache.gracePeriod
+    && cache.graceInterval <= cache.inFlightTTL
+  }
+
+  function N(n : Types.CountingNumber) : string {
+    String.Base10Int2String(n as int)
+  }
+
+  function BadCacheMsg(cache: Types.StormTrackingCache) : string
+    requires !ConsistentSettings(cache)
+  {
+    var msg := "For a StormCache : ";
+
+    var msg := msg +
+
+               if !(cache.graceInterval <= cache.gracePeriod) then
+                 "graceInterval must not exceed gracePeriod, yet configuration has graceInterval="
+                 + N(cache.graceInterval) + " and gracePeriod=" + N(cache.gracePeriod) + ". "
+               else
+                 "";
+
+    var msg := msg +
+               if !(cache.inFlightTTL <= cache.gracePeriod) then
+                 "inFlightTTL must not exceed gracePeriod, yet configuration has inFlightTTL="
+                 + N(cache.inFlightTTL) + " and gracePeriod=" + N(cache.gracePeriod) + ". "
+               else
+                 "";
+
+    var msg := msg +
+               if !(cache.graceInterval <= cache.inFlightTTL) then
+                 "graceInterval must not exceed inFlightTTL, yet configuration has graceInterval="
+                 + N(cache.graceInterval) + " and inFlightTTL=" + N(cache.inFlightTTL) + ". "
+               else
+                 "";
+
+    msg
+  }
+
+  function CheckSettings(
+    cache: Types.StormTrackingCache
+  ) : (res : Result<bool, Types.Error> )
+    ensures res.Success? ==> ConsistentSettings(cache)
+  {
+    if ConsistentSettings(cache) then
+      Success(true)
+    else
+      Failure(Types.AwsCryptographicMaterialProvidersException(message := BadCacheMsg(cache)))
+  }
+
 
   class StormTracker {
 
@@ -65,6 +120,7 @@ module {:options "/functionSyntax:4" }  StormTracker {
     constructor(
       cache: Types.StormTrackingCache
     )
+      requires ConsistentSettings(cache)
       ensures
         && this.ValidState()
         && fresh(this.wrapped)
