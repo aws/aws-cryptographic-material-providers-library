@@ -40,7 +40,7 @@ module {:options "/functionSyntax:4" }  StormTracker {
       gracePeriod := 10,
       graceInterval := 1,
       fanOut := 20,
-      inFlightTTL := 20,
+      inFlightTTL := 10,
       sleepMilli := 20
     )
   }
