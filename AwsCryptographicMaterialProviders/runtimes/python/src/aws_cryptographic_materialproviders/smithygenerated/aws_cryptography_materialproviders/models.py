@@ -2209,6 +2209,43 @@ class CacheTypeStormTracking:
         return self.value == other.value
 
 
+class CacheTypeShared:
+    """Shared cache across multiple Hierarchical Keyrings.
+
+    For this cache type, the user should provide an already constructed
+    CryptographicMaterialsCache to the Hierarchical Keyring at
+    initialization.
+    """
+
+    def __init__(
+        self,
+        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsCache",
+    ):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"Shared": self.value.as_dict()}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "CacheTypeShared":
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
+            CryptographicMaterialsCache,
+        )
+
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return CacheTypeShared(CryptographicMaterialsCache.from_dict(d["Shared"]))
+
+    def __repr__(self) -> str:
+        return f"CacheTypeShared(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, CacheTypeShared):
+            return False
+        return self.value == other.value
+
+
 class CacheTypeUnknown:
     """Represents an unknown variant.
 
@@ -2240,6 +2277,7 @@ CacheType = Union[
     CacheTypeSingleThreaded,
     CacheTypeMultiThreaded,
     CacheTypeStormTracking,
+    CacheTypeShared,
     CacheTypeUnknown,
 ]
 
@@ -2260,6 +2298,9 @@ def _cache_type_from_dict(d: Dict[str, Any]) -> CacheType:
     if "StormTracking" in d:
         return CacheTypeStormTracking.from_dict(d)
 
+    if "Shared" in d:
+        return CacheTypeShared.from_dict(d)
+
     raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
 
@@ -2271,6 +2312,7 @@ class CreateAwsKmsHierarchicalKeyringInput:
     key_store: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.client.KeyStore"
     ttl_seconds: int
     cache: Optional[CacheType]
+    partition_id: Optional[str]
 
     def __init__(
         self,
@@ -2282,6 +2324,7 @@ class CreateAwsKmsHierarchicalKeyringInput:
         ] = None,
         ttl_seconds: int = 0,
         cache: Optional[CacheType] = None,
+        partition_id: Optional[str] = None,
     ):
         """Inputs for creating a Hierarchical Keyring.
 
@@ -2298,7 +2341,22 @@ class CreateAwsKmsHierarchicalKeyringInput:
             allowed to be reused within the local cache before it is re-
             retrieved from Amazon DynamoDB and re-authenticated with AWS
             KMS.
-        :param cache: Which type of local cache to use.
+        :param cache: Sets the type of cache for this Hierarchical
+            Keyring. By providing an already initialized 'Shared' cache,
+            users can determine the scope of the cache. That is, if the
+            cache is shared across other Cryptographic Material
+            Providers, for instance other Hierarchical Keyrings or
+            Caching Cryptographic Materials Managers (Caching CMMs). If
+            any other type of cache in the CacheType union is provided,
+            the Hierarchical Keyring will initialize a cache of that
+            type, to be used with only this Hierarchical Keyring. If not
+            set, a DefaultCache is initialized to be used with only this
+            Hierarchical Keyring with entryCapacity = 1000.
+        :param partition_id: Partition ID to distinguish Cryptographic
+            Material Providers (i.e: Keyrings) writing to a cache. If
+            the Partition ID is the same for two Hierarchical Keyrings
+            (or another Material Provider), they can share the same
+            cache entries in the cache.
         """
         self.key_store = key_store
         self.branch_key_id = branch_key_id
@@ -2308,6 +2366,7 @@ class CreateAwsKmsHierarchicalKeyringInput:
 
         self.ttl_seconds = ttl_seconds
         self.cache = cache
+        self.partition_id = partition_id
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the CreateAwsKmsHierarchicalKeyringInput to a
@@ -2327,6 +2386,9 @@ class CreateAwsKmsHierarchicalKeyringInput:
 
         if self.cache is not None:
             d["cache"] = self.cache.as_dict()
+
+        if self.partition_id is not None:
+            d["partition_id"] = self.partition_id
 
         return d
 
@@ -2358,6 +2420,9 @@ class CreateAwsKmsHierarchicalKeyringInput:
         if "cache" in d:
             kwargs["cache"] = (_cache_type_from_dict(d["cache"]),)
 
+        if "partition_id" in d:
+            kwargs["partition_id"] = d["partition_id"]
+
         return CreateAwsKmsHierarchicalKeyringInput(**kwargs)
 
     def __repr__(self) -> str:
@@ -2375,7 +2440,10 @@ class CreateAwsKmsHierarchicalKeyringInput:
             result += f"ttl_seconds={repr(self.ttl_seconds)}, "
 
         if self.cache is not None:
-            result += f"cache={repr(self.cache)}"
+            result += f"cache={repr(self.cache)}, "
+
+        if self.partition_id is not None:
+            result += f"partition_id={repr(self.partition_id)}"
 
         return result + ")"
 
@@ -2388,6 +2456,7 @@ class CreateAwsKmsHierarchicalKeyringInput:
             "key_store",
             "ttl_seconds",
             "cache",
+            "partition_id",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 

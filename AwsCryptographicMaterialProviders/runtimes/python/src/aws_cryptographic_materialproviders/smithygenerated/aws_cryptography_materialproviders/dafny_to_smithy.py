@@ -11,6 +11,7 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     CacheType_Default,
     CacheType_MultiThreaded,
     CacheType_No,
+    CacheType_Shared,
     CacheType_SingleThreaded,
     CacheType_StormTracking,
     CommitmentPolicy_DBE,
@@ -1113,6 +1114,12 @@ def aws_cryptography_materialproviders_CacheType(dafny_input):
                 dafny_input.StormTracking
             )
         )
+    elif isinstance(dafny_input, CacheType_Shared):
+        CacheType_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CacheTypeShared(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CryptographicMaterialsCacheReference(
+                dafny_input.Shared
+            )
+        )
     else:
         raise ValueError("No recognized union value in union type: " + str(dafny_input))
 
@@ -1169,6 +1176,20 @@ def aws_cryptography_materialproviders_StormTrackingCache(dafny_input):
     )
 
 
+def aws_cryptography_materialproviders_CryptographicMaterialsCacheReference(
+    dafny_input,
+):
+    if hasattr(dafny_input, "_native_impl"):
+        return dafny_input._native_impl
+
+    else:
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
+            CryptographicMaterialsCache,
+        )
+
+        return CryptographicMaterialsCache(_impl=dafny_input)
+
+
 def aws_cryptography_materialproviders_CreateAwsKmsHierarchicalKeyringInput(
     dafny_input,
 ):
@@ -1208,6 +1229,15 @@ def aws_cryptography_materialproviders_CreateAwsKmsHierarchicalKeyringInput(
                 )
             )
             if (dafny_input.cache.is_Some)
+            else None
+        ),
+        partition_id=(
+            (
+                b"".join(
+                    ord(c).to_bytes(2, "big") for c in dafny_input.partitionId.value
+                ).decode("utf-16-be")
+            )
+            if (dafny_input.partitionId.is_Some)
             else None
         ),
     )
@@ -1686,20 +1716,6 @@ def aws_cryptography_materialproviders_CreateRequiredEncryptionContextCMMOutput(
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(
         dafny_input
     )
-
-
-def aws_cryptography_materialproviders_CryptographicMaterialsCacheReference(
-    dafny_input,
-):
-    if hasattr(dafny_input, "_native_impl"):
-        return dafny_input._native_impl
-
-    else:
-        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
-            CryptographicMaterialsCache,
-        )
-
-        return CryptographicMaterialsCache(_impl=dafny_input)
 
 
 def aws_cryptography_materialproviders_CreateCryptographicMaterialsCacheOutput(
