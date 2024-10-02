@@ -126,6 +126,9 @@ python-module-name = "aws_cryptographic_materialproviders.internaldafny.generate
 [options_by_module.StormTrackingCMC]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
+[options_by_module.CacheConstants]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.AwsKmsHierarchicalKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
