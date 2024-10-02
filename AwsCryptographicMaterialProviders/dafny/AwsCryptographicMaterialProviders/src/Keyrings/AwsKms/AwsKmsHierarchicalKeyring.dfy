@@ -179,9 +179,9 @@ module AwsKmsHierarchicalKeyring {
       ttlSeconds: Types.PositiveLong,
 
       cmc: Types.ICryptographicMaterialsCache,
-      cryptoPrimitives : AtomicPrimitives.AtomicPrimitivesClient,
       partitionIdBytes: seq<uint8>,
-      logicalKeyStoreNameBytes: seq<uint8>
+      logicalKeyStoreNameBytes: seq<uint8>,
+      cryptoPrimitives : AtomicPrimitives.AtomicPrimitivesClient
     )
       requires ttlSeconds >= 0
       requires keyStore.ValidState() && cryptoPrimitives.ValidState()
