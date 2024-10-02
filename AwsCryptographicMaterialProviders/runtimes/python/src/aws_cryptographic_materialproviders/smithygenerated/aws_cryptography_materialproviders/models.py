@@ -4,9 +4,6 @@
 
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.client
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references
-from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
-    CryptographicMaterialsCache,
-)
 import botocore.client
 from typing import Any, Dict, List, Optional, Union
 
@@ -2220,7 +2217,10 @@ class CacheTypeShared:
     initialization.
     """
 
-    def __init__(self, value: CryptographicMaterialsCache):
+    def __init__(
+        self,
+        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsCache",
+    ):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -2228,6 +2228,10 @@ class CacheTypeShared:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CacheTypeShared":
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
+            CryptographicMaterialsCache,
+        )
+
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
