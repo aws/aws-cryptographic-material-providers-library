@@ -68,16 +68,16 @@ module Constants {
     s
 
   // UTF-8 Encoded "aws-kms-ecdh"
-  const KMS_ECDH_PROVIDER_ID: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii("aws-kms-ecdh");
+  const KMS_ECDH_PROVIDER_ID: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii("aws-kms-ecdh")
 
   // UTF-8 Encoded "raw-ecdh"
-  const RAW_ECDH_PROVIDER_ID: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii("raw-ecdh");
+  const RAW_ECDH_PROVIDER_ID: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii("raw-ecdh")
 
   // UTF-8 Encoded "HMAC_SHA384"
-  const ECDH_KDF_PRF_NAME: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii("HMAC_SHA384");
+  const ECDH_KDF_PRF_NAME: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii("HMAC_SHA384")
 
   // UTF-8 Encoded "ecdh-key-derivation"
-  const ECDH_KDF_UTF8: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii("ecdh-key-derivation");
+  const ECDH_KDF_UTF8: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii("ecdh-key-derivation")
 
   type AwsKmsEncryptedDataKey = edk: Types.EncryptedDataKey |
       && edk.keyProviderId == PROVIDER_ID

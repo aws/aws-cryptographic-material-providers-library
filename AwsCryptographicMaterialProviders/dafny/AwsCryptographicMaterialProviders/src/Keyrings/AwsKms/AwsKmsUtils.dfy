@@ -114,7 +114,7 @@ module AwsKmsUtils {
               && getPublicKeyResponse.KeyUsage.value == KMS.KeyUsageType.KEY_AGREEMENT
               && getPublicKeyResponse.PublicKey.Some?
               && var publicKey := getPublicKeyResponse.PublicKey.value;
-              && KMS.IsValid_PublicKeyType(publicKey);
+              && KMS.IsValid_PublicKeyType(publicKey)
   {
     var getPublicKeyRequest := KMS.GetPublicKeyRequest(
       KeyId := awsKmsKey,
