@@ -135,6 +135,7 @@ module TestECDH {
 
   // Rust does not provide a separate error message for infinity or out of bounds
   const BAD_X509_KEY_ERR_MSG_RUST := "Invalid X509 Public Key."
+  const BAD_X509_KEY_ERR_MSG_GO := "x509: failed to unmarshal elliptic curve point"
 
   method {:test} TestKeyGen()
   {
@@ -298,6 +299,7 @@ module TestECDH {
 
       expect (
           errMsg == BAD_X509_KEY_ERR_MSG_RUST ||
+          errMsg == BAD_X509_KEY_ERR_MSG_GO ||
           errMsg == INFINITY_POINT_ERR_MSG_JAVA ||
           errMsg == INFINITY_POINT_ERR_MSG_NET6 ||
           errMsg == INFINITY_POINT_ERR_MSG_NET48
@@ -348,6 +350,7 @@ module TestECDH {
       expect (
           seq_contains(errMsg, OUT_OF_BOUNDS_ERR_MSG_JAVA) ||
           errMsg == BAD_X509_KEY_ERR_MSG_RUST ||
+          errMsg == BAD_X509_KEY_ERR_MSG_GO ||
           errMsg == OUT_OF_BOUNDS_ERR_MSG_NET6 ||
           errMsg == OUT_OF_BOUNDS_ERR_MSG_NE48
         );
@@ -516,6 +519,7 @@ module TestECDH {
       expect (
           errMsg == INFINITY_POINT_ERR_MSG_JAVA ||
           errMsg == BAD_X509_KEY_ERR_MSG_RUST ||
+          errMsg == BAD_X509_KEY_ERR_MSG_GO ||
           errMsg == INFINITY_POINT_ERR_MSG_NET6 ||
           errMsg == INFINITY_POINT_ERR_MSG_NET48
         );
@@ -543,6 +547,7 @@ module TestECDH {
       expect (
           seq_contains(errMsg, OUT_OF_BOUNDS_ERR_MSG_JAVA) ||
           errMsg == BAD_X509_KEY_ERR_MSG_RUST ||
+          errMsg == BAD_X509_KEY_ERR_MSG_GO ||
           errMsg == OUT_OF_BOUNDS_ERR_MSG_NET6 ||
           errMsg == OUT_OF_BOUNDS_ERR_MSG_NE48
         );
@@ -564,10 +569,10 @@ module TestECDH {
       seq_contains(haystack[1..], needle)
   }
 
-  method {:extern "ECDH.ECCUtils", "GetInfinityPublicKey" } GetInfinityPublicKey(curve: Types.ECDHCurveSpec)
+  method {:extern "GetInfinityPublicKey" } GetInfinityPublicKey(curve: Types.ECDHCurveSpec)
     returns (res: Result<seq<uint8>, Types.Error>)
 
-  method {:extern "ECDH.ECCUtils", "GetOutOfBoundsPublicKey" } GetOutOfBoundsPublicKey(curve: Types.ECDHCurveSpec)
+  method {:extern "GetOutOfBoundsPublicKey" } GetOutOfBoundsPublicKey(curve: Types.ECDHCurveSpec)
     returns (res: Result<seq<uint8>, Types.Error>)
 
 }
