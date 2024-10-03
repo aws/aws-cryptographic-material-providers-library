@@ -149,7 +149,9 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - input.kmsClient.Modifies ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - input.kmsClient.Modifies ) )
       ensures CreateAwsKmsKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsKeyring == old(History.CreateAwsKmsKeyring) + [DafnyCallEvent(input, output)]
 
@@ -173,7 +175,9 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - input.kmsClient.Modifies ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - input.kmsClient.Modifies ) )
       ensures CreateAwsKmsDiscoveryKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsDiscoveryKeyring == old(History.CreateAwsKmsDiscoveryKeyring) + [DafnyCallEvent(input, output)]
 
@@ -198,7 +202,9 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
       ensures CreateAwsKmsMultiKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsMultiKeyring == old(History.CreateAwsKmsMultiKeyring) + [DafnyCallEvent(input, output)]
 
@@ -223,7 +229,9 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
       ensures CreateAwsKmsDiscoveryMultiKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsDiscoveryMultiKeyring == old(History.CreateAwsKmsDiscoveryMultiKeyring) + [DafnyCallEvent(input, output)]
 
@@ -247,7 +255,9 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - input.kmsClient.Modifies ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - input.kmsClient.Modifies ) )
       ensures CreateAwsKmsMrkKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsMrkKeyring == old(History.CreateAwsKmsMrkKeyring) + [DafnyCallEvent(input, output)]
 
@@ -272,7 +282,9 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
       ensures CreateAwsKmsMrkMultiKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsMrkMultiKeyring == old(History.CreateAwsKmsMrkMultiKeyring) + [DafnyCallEvent(input, output)]
 
@@ -296,7 +308,9 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - input.kmsClient.Modifies ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - input.kmsClient.Modifies ) )
       ensures CreateAwsKmsMrkDiscoveryKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsMrkDiscoveryKeyring == old(History.CreateAwsKmsMrkDiscoveryKeyring) + [DafnyCallEvent(input, output)]
 
@@ -321,7 +335,9 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
       ensures CreateAwsKmsMrkDiscoveryMultiKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsMrkDiscoveryMultiKeyring == old(History.CreateAwsKmsMrkDiscoveryMultiKeyring) + [DafnyCallEvent(input, output)]
 
@@ -336,21 +352,45 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
            )
         && input.keyStore.ValidState()
         && input.keyStore.Modifies !! {History}
+        && ( input.cache.Some?
+             ==> match input.cache.value
+                 case Shared(o) =>
+                   && o.ValidState()
+                   && o.Modifies !! {History}
+                 case _ => true)
       modifies Modifies - {History} ,
                (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) ,
                input.keyStore.Modifies ,
+               (if input.cache.Some? then
+                  match input.cache.value
+                  case Shared(o) => o.Modifies
+                  case _ => {}
+                else {}) ,
                History`CreateAwsKmsHierarchicalKeyring
       // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History} ,
                 (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) ,
-                input.keyStore.Modifies
+                input.keyStore.Modifies ,
+                (if input.cache.Some? then
+                   match input.cache.value
+                   case Shared(o) => o.Modifies
+                   case _ => {}
+                 else {})
       ensures
         && ValidState()
         && ( output.Success? ==>
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) - input.keyStore.Modifies ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {})
+                          - input.keyStore.Modifies
+                          - (if input.cache.Some? then
+                               match input.cache.value
+                               case Shared(o) => o.Modifies
+                               case _ => {}
+                             else {}) ) )
       ensures CreateAwsKmsHierarchicalKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsHierarchicalKeyring == old(History.CreateAwsKmsHierarchicalKeyring) + [DafnyCallEvent(input, output)]
 
@@ -375,7 +415,9 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {}) ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {}) ) )
       ensures CreateAwsKmsRsaKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsRsaKeyring == old(History.CreateAwsKmsRsaKeyring) + [DafnyCallEvent(input, output)]
 
@@ -399,7 +441,9 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - input.kmsClient.Modifies ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - input.kmsClient.Modifies ) )
       ensures CreateAwsKmsEcdhKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsEcdhKeyring == old(History.CreateAwsKmsEcdhKeyring) + [DafnyCallEvent(input, output)]
 
@@ -429,7 +473,10 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - (if input.generator.Some? then input.generator.value.Modifies else {}) - (set m: object, i | i in input.childKeyrings && m in i.Modifies :: m) ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - (if input.generator.Some? then input.generator.value.Modifies else {})
+                          - (set m: object, i | i in input.childKeyrings && m in i.Modifies :: m) ) )
       ensures CreateMultiKeyringEnsuresPublicly(input, output)
       ensures History.CreateMultiKeyring == old(History.CreateMultiKeyring) + [DafnyCallEvent(input, output)]
 
@@ -449,7 +496,8 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History} ) )
       ensures CreateRawAesKeyringEnsuresPublicly(input, output)
       ensures History.CreateRawAesKeyring == old(History.CreateRawAesKeyring) + [DafnyCallEvent(input, output)]
 
@@ -469,7 +517,8 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History} ) )
       ensures CreateRawRsaKeyringEnsuresPublicly(input, output)
       ensures History.CreateRawRsaKeyring == old(History.CreateRawRsaKeyring) + [DafnyCallEvent(input, output)]
 
@@ -489,7 +538,8 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History} ) )
       ensures CreateRawEcdhKeyringEnsuresPublicly(input, output)
       ensures History.CreateRawEcdhKeyring == old(History.CreateRawEcdhKeyring) + [DafnyCallEvent(input, output)]
 
@@ -513,7 +563,9 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - input.keyring.Modifies ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - input.keyring.Modifies ) )
       ensures CreateDefaultCryptographicMaterialsManagerEnsuresPublicly(input, output)
       ensures History.CreateDefaultCryptographicMaterialsManager == old(History.CreateDefaultCryptographicMaterialsManager) + [DafnyCallEvent(input, output)]
 
@@ -543,7 +595,10 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - (if input.underlyingCMM.Some? then input.underlyingCMM.value.Modifies else {}) - (if input.keyring.Some? then input.keyring.value.Modifies else {}) ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - (if input.underlyingCMM.Some? then input.underlyingCMM.value.Modifies else {})
+                          - (if input.keyring.Some? then input.keyring.value.Modifies else {}) ) )
       ensures CreateRequiredEncryptionContextCMMEnsuresPublicly(input, output)
       ensures History.CreateRequiredEncryptionContextCMM == old(History.CreateRequiredEncryptionContextCMM) + [DafnyCallEvent(input, output)]
 
@@ -553,17 +608,32 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
       returns (output: Result<ICryptographicMaterialsCache, Error>)
       requires
         && ValidState()
+        && (match input.cache
+            case Shared(o) =>
+              && o.ValidState()
+              && o.Modifies !! {History}
+            case _ => true)
       modifies Modifies - {History} ,
+               (match input.cache
+                case Shared(o) => o.Modifies
+                case _ => {}) ,
                History`CreateCryptographicMaterialsCache
       // Dafny will skip type parameters when generating a default decreases clause.
-      decreases Modifies - {History}
+      decreases Modifies - {History} ,
+                (match input.cache
+                 case Shared(o) => o.Modifies
+                 case _ => {})
       ensures
         && ValidState()
         && ( output.Success? ==>
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - (match input.cache
+                             case Shared(o) => o.Modifies
+                             case _ => {}) ) )
       ensures CreateCryptographicMaterialsCacheEnsuresPublicly(input, output)
       ensures History.CreateCryptographicMaterialsCache == old(History.CreateCryptographicMaterialsCache) + [DafnyCallEvent(input, output)]
 
@@ -583,7 +653,8 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History} ) )
       ensures CreateDefaultClientSupplierEnsuresPublicly(input, output)
       ensures History.CreateDefaultClientSupplier == old(History.CreateDefaultClientSupplier) + [DafnyCallEvent(input, output)]
 
@@ -769,7 +840,8 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History} ) )
       ensures GetClientEnsuresPublicly(input, output)
       ensures History.GetClient == old(History.GetClient) + [DafnyCallEvent(input, output)]
     {
@@ -790,7 +862,8 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History} ) )
       ensures GetClientEnsuresPublicly(input, output)
       ensures unchanged(History)
 
@@ -1680,7 +1753,9 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - input.kmsClient.Modifies ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - input.kmsClient.Modifies ) )
       ensures CreateAwsKmsKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsKeyring == old(History.CreateAwsKmsKeyring) + [DafnyCallEvent(input, output)]
     {
@@ -1709,7 +1784,9 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - input.kmsClient.Modifies ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - input.kmsClient.Modifies ) )
       ensures CreateAwsKmsDiscoveryKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsDiscoveryKeyring == old(History.CreateAwsKmsDiscoveryKeyring) + [DafnyCallEvent(input, output)]
     {
@@ -1739,7 +1816,9 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
       ensures CreateAwsKmsMultiKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsMultiKeyring == old(History.CreateAwsKmsMultiKeyring) + [DafnyCallEvent(input, output)]
     {
@@ -1769,7 +1848,9 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
       ensures CreateAwsKmsDiscoveryMultiKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsDiscoveryMultiKeyring == old(History.CreateAwsKmsDiscoveryMultiKeyring) + [DafnyCallEvent(input, output)]
     {
@@ -1798,7 +1879,9 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - input.kmsClient.Modifies ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - input.kmsClient.Modifies ) )
       ensures CreateAwsKmsMrkKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsMrkKeyring == old(History.CreateAwsKmsMrkKeyring) + [DafnyCallEvent(input, output)]
     {
@@ -1828,7 +1911,9 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
       ensures CreateAwsKmsMrkMultiKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsMrkMultiKeyring == old(History.CreateAwsKmsMrkMultiKeyring) + [DafnyCallEvent(input, output)]
     {
@@ -1857,7 +1942,9 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - input.kmsClient.Modifies ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - input.kmsClient.Modifies ) )
       ensures CreateAwsKmsMrkDiscoveryKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsMrkDiscoveryKeyring == old(History.CreateAwsKmsMrkDiscoveryKeyring) + [DafnyCallEvent(input, output)]
     {
@@ -1887,7 +1974,9 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
       ensures CreateAwsKmsMrkDiscoveryMultiKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsMrkDiscoveryMultiKeyring == old(History.CreateAwsKmsMrkDiscoveryMultiKeyring) + [DafnyCallEvent(input, output)]
     {
@@ -1907,21 +1996,45 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
            )
         && input.keyStore.ValidState()
         && input.keyStore.Modifies !! {History}
+        && ( input.cache.Some?
+             ==> match input.cache.value
+                 case Shared(o) =>
+                   && o.ValidState()
+                   && o.Modifies !! {History}
+                 case _ => true)
       modifies Modifies - {History} ,
                (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) ,
                input.keyStore.Modifies ,
+               (if input.cache.Some? then
+                  match input.cache.value
+                  case Shared(o) => o.Modifies
+                  case _ => {}
+                else {}) ,
                History`CreateAwsKmsHierarchicalKeyring
       // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History} ,
                 (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) ,
-                input.keyStore.Modifies
+                input.keyStore.Modifies ,
+                (if input.cache.Some? then
+                   match input.cache.value
+                   case Shared(o) => o.Modifies
+                   case _ => {}
+                 else {})
       ensures
         && ValidState()
         && ( output.Success? ==>
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) - input.keyStore.Modifies ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {})
+                          - input.keyStore.Modifies
+                          - (if input.cache.Some? then
+                               match input.cache.value
+                               case Shared(o) => o.Modifies
+                               case _ => {}
+                             else {}) ) )
       ensures CreateAwsKmsHierarchicalKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsHierarchicalKeyring == old(History.CreateAwsKmsHierarchicalKeyring) + [DafnyCallEvent(input, output)]
     {
@@ -1951,7 +2064,9 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {}) ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {}) ) )
       ensures CreateAwsKmsRsaKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsRsaKeyring == old(History.CreateAwsKmsRsaKeyring) + [DafnyCallEvent(input, output)]
     {
@@ -1980,7 +2095,9 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - input.kmsClient.Modifies ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - input.kmsClient.Modifies ) )
       ensures CreateAwsKmsEcdhKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsEcdhKeyring == old(History.CreateAwsKmsEcdhKeyring) + [DafnyCallEvent(input, output)]
     {
@@ -2015,7 +2132,10 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - (if input.generator.Some? then input.generator.value.Modifies else {}) - (set m: object, i | i in input.childKeyrings && m in i.Modifies :: m) ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - (if input.generator.Some? then input.generator.value.Modifies else {})
+                          - (set m: object, i | i in input.childKeyrings && m in i.Modifies :: m) ) )
       ensures CreateMultiKeyringEnsuresPublicly(input, output)
       ensures History.CreateMultiKeyring == old(History.CreateMultiKeyring) + [DafnyCallEvent(input, output)]
     {
@@ -2040,7 +2160,8 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History} ) )
       ensures CreateRawAesKeyringEnsuresPublicly(input, output)
       ensures History.CreateRawAesKeyring == old(History.CreateRawAesKeyring) + [DafnyCallEvent(input, output)]
     {
@@ -2065,7 +2186,8 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History} ) )
       ensures CreateRawRsaKeyringEnsuresPublicly(input, output)
       ensures History.CreateRawRsaKeyring == old(History.CreateRawRsaKeyring) + [DafnyCallEvent(input, output)]
     {
@@ -2090,7 +2212,8 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History} ) )
       ensures CreateRawEcdhKeyringEnsuresPublicly(input, output)
       ensures History.CreateRawEcdhKeyring == old(History.CreateRawEcdhKeyring) + [DafnyCallEvent(input, output)]
     {
@@ -2119,7 +2242,9 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - input.keyring.Modifies ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - input.keyring.Modifies ) )
       ensures CreateDefaultCryptographicMaterialsManagerEnsuresPublicly(input, output)
       ensures History.CreateDefaultCryptographicMaterialsManager == old(History.CreateDefaultCryptographicMaterialsManager) + [DafnyCallEvent(input, output)]
     {
@@ -2154,7 +2279,10 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - (if input.underlyingCMM.Some? then input.underlyingCMM.value.Modifies else {}) - (if input.keyring.Some? then input.keyring.value.Modifies else {}) ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - (if input.underlyingCMM.Some? then input.underlyingCMM.value.Modifies else {})
+                          - (if input.keyring.Some? then input.keyring.value.Modifies else {}) ) )
       ensures CreateRequiredEncryptionContextCMMEnsuresPublicly(input, output)
       ensures History.CreateRequiredEncryptionContextCMM == old(History.CreateRequiredEncryptionContextCMM) + [DafnyCallEvent(input, output)]
     {
@@ -2169,17 +2297,32 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
       returns (output: Result<ICryptographicMaterialsCache, Error>)
       requires
         && ValidState()
+        && (match input.cache
+            case Shared(o) =>
+              && o.ValidState()
+              && o.Modifies !! {History}
+            case _ => true)
       modifies Modifies - {History} ,
+               (match input.cache
+                case Shared(o) => o.Modifies
+                case _ => {}) ,
                History`CreateCryptographicMaterialsCache
       // Dafny will skip type parameters when generating a default decreases clause.
-      decreases Modifies - {History}
+      decreases Modifies - {History} ,
+                (match input.cache
+                 case Shared(o) => o.Modifies
+                 case _ => {})
       ensures
         && ValidState()
         && ( output.Success? ==>
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History}
+                          - (match input.cache
+                             case Shared(o) => o.Modifies
+                             case _ => {}) ) )
       ensures CreateCryptographicMaterialsCacheEnsuresPublicly(input, output)
       ensures History.CreateCryptographicMaterialsCache == old(History.CreateCryptographicMaterialsCache) + [DafnyCallEvent(input, output)]
     {
@@ -2204,7 +2347,8 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History} ) )
       ensures CreateDefaultClientSupplierEnsuresPublicly(input, output)
       ensures History.CreateDefaultClientSupplier == old(History.CreateDefaultClientSupplier) + [DafnyCallEvent(input, output)]
     {
@@ -2331,7 +2475,9 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) - input.kmsClient.Modifies ) )
+             && fresh ( output.value.Modifies
+                        - ModifiesInternalConfig(config)
+                        - input.kmsClient.Modifies ) )
     ensures CreateAwsKmsKeyringEnsuresPublicly(input, output)
 
 
@@ -2354,7 +2500,9 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) - input.kmsClient.Modifies ) )
+             && fresh ( output.value.Modifies
+                        - ModifiesInternalConfig(config)
+                        - input.kmsClient.Modifies ) )
     ensures CreateAwsKmsDiscoveryKeyringEnsuresPublicly(input, output)
 
 
@@ -2378,7 +2526,9 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
+             && fresh ( output.value.Modifies
+                        - ModifiesInternalConfig(config)
+                        - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
     ensures CreateAwsKmsMultiKeyringEnsuresPublicly(input, output)
 
 
@@ -2402,7 +2552,9 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
+             && fresh ( output.value.Modifies
+                        - ModifiesInternalConfig(config)
+                        - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
     ensures CreateAwsKmsDiscoveryMultiKeyringEnsuresPublicly(input, output)
 
 
@@ -2425,7 +2577,9 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) - input.kmsClient.Modifies ) )
+             && fresh ( output.value.Modifies
+                        - ModifiesInternalConfig(config)
+                        - input.kmsClient.Modifies ) )
     ensures CreateAwsKmsMrkKeyringEnsuresPublicly(input, output)
 
 
@@ -2449,7 +2603,9 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
+             && fresh ( output.value.Modifies
+                        - ModifiesInternalConfig(config)
+                        - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
     ensures CreateAwsKmsMrkMultiKeyringEnsuresPublicly(input, output)
 
 
@@ -2472,7 +2628,9 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) - input.kmsClient.Modifies ) )
+             && fresh ( output.value.Modifies
+                        - ModifiesInternalConfig(config)
+                        - input.kmsClient.Modifies ) )
     ensures CreateAwsKmsMrkDiscoveryKeyringEnsuresPublicly(input, output)
 
 
@@ -2496,7 +2654,9 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
+             && fresh ( output.value.Modifies
+                        - ModifiesInternalConfig(config)
+                        - (if input.clientSupplier.Some? then input.clientSupplier.value.Modifies else {}) ) )
     ensures CreateAwsKmsMrkDiscoveryMultiKeyringEnsuresPublicly(input, output)
 
 
@@ -2511,19 +2671,42 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
                                              && input.branchKeyIdSupplier.value.ValidState()
          )
       && input.keyStore.ValidState()
+      && ( input.cache.Some?
+           ==> match input.cache.value
+               case Shared(o) =>
+                 && o.ValidState()
+               case _ => true)
     modifies ModifiesInternalConfig(config) ,
              (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) ,
-             input.keyStore.Modifies
+             input.keyStore.Modifies ,
+             (if input.cache.Some? then
+                match input.cache.value
+                case Shared(o) => o.Modifies
+                case _ => {}
+              else {})
     // Dafny will skip type parameters when generating a default decreases clause.
     decreases ModifiesInternalConfig(config) ,
               (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) ,
-              input.keyStore.Modifies
+              input.keyStore.Modifies ,
+              (if input.cache.Some? then
+                 match input.cache.value
+                 case Shared(o) => o.Modifies
+                 case _ => {}
+               else {})
     ensures
       && ValidInternalConfig?(config)
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) - (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) - input.keyStore.Modifies ) )
+             && fresh ( output.value.Modifies
+                        - ModifiesInternalConfig(config)
+                        - (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {})
+                        - input.keyStore.Modifies
+                        - (if input.cache.Some? then
+                             match input.cache.value
+                             case Shared(o) => o.Modifies
+                             case _ => {}
+                           else {}) ) )
     ensures CreateAwsKmsHierarchicalKeyringEnsuresPublicly(input, output)
 
 
@@ -2547,7 +2730,9 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) - (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {}) ) )
+             && fresh ( output.value.Modifies
+                        - ModifiesInternalConfig(config)
+                        - (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {}) ) )
     ensures CreateAwsKmsRsaKeyringEnsuresPublicly(input, output)
 
 
@@ -2570,7 +2755,9 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) - input.kmsClient.Modifies ) )
+             && fresh ( output.value.Modifies
+                        - ModifiesInternalConfig(config)
+                        - input.kmsClient.Modifies ) )
     ensures CreateAwsKmsEcdhKeyringEnsuresPublicly(input, output)
 
 
@@ -2598,7 +2785,10 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) - (if input.generator.Some? then input.generator.value.Modifies else {}) - (set m: object, i | i in input.childKeyrings && m in i.Modifies :: m) ) )
+             && fresh ( output.value.Modifies
+                        - ModifiesInternalConfig(config)
+                        - (if input.generator.Some? then input.generator.value.Modifies else {})
+                        - (set m: object, i | i in input.childKeyrings && m in i.Modifies :: m) ) )
     ensures CreateMultiKeyringEnsuresPublicly(input, output)
 
 
@@ -2618,7 +2808,8 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) ) )
+             && fresh ( output.value.Modifies
+                        - ModifiesInternalConfig(config) ) )
     ensures CreateRawAesKeyringEnsuresPublicly(input, output)
 
 
@@ -2638,7 +2829,8 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) ) )
+             && fresh ( output.value.Modifies
+                        - ModifiesInternalConfig(config) ) )
     ensures CreateRawRsaKeyringEnsuresPublicly(input, output)
 
 
@@ -2658,7 +2850,8 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) ) )
+             && fresh ( output.value.Modifies
+                        - ModifiesInternalConfig(config) ) )
     ensures CreateRawEcdhKeyringEnsuresPublicly(input, output)
 
 
@@ -2681,7 +2874,9 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) - input.keyring.Modifies ) )
+             && fresh ( output.value.Modifies
+                        - ModifiesInternalConfig(config)
+                        - input.keyring.Modifies ) )
     ensures CreateDefaultCryptographicMaterialsManagerEnsuresPublicly(input, output)
 
 
@@ -2709,7 +2904,10 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) - (if input.underlyingCMM.Some? then input.underlyingCMM.value.Modifies else {}) - (if input.keyring.Some? then input.keyring.value.Modifies else {}) ) )
+             && fresh ( output.value.Modifies
+                        - ModifiesInternalConfig(config)
+                        - (if input.underlyingCMM.Some? then input.underlyingCMM.value.Modifies else {})
+                        - (if input.keyring.Some? then input.keyring.value.Modifies else {}) ) )
     ensures CreateRequiredEncryptionContextCMMEnsuresPublicly(input, output)
 
 
@@ -2721,15 +2919,29 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
     returns (output: Result<ICryptographicMaterialsCache, Error>)
     requires
       && ValidInternalConfig?(config)
-    modifies ModifiesInternalConfig(config)
+      && (match input.cache
+          case Shared(o) =>
+            && o.ValidState()
+          case _ => true)
+    modifies ModifiesInternalConfig(config) ,
+             (match input.cache
+              case Shared(o) => o.Modifies
+              case _ => {})
     // Dafny will skip type parameters when generating a default decreases clause.
-    decreases ModifiesInternalConfig(config)
+    decreases ModifiesInternalConfig(config) ,
+              (match input.cache
+               case Shared(o) => o.Modifies
+               case _ => {})
     ensures
       && ValidInternalConfig?(config)
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) ) )
+             && fresh ( output.value.Modifies
+                        - ModifiesInternalConfig(config)
+                        - (match input.cache
+                           case Shared(o) => o.Modifies
+                           case _ => {}) ) )
     ensures CreateCryptographicMaterialsCacheEnsuresPublicly(input, output)
 
 
@@ -2749,7 +2961,8 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) ) )
+             && fresh ( output.value.Modifies
+                        - ModifiesInternalConfig(config) ) )
     ensures CreateDefaultClientSupplierEnsuresPublicly(input, output)
 
 
