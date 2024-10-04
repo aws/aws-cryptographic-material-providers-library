@@ -1,0 +1,32 @@
+file_format_version = "1.0"
+dafny_version = "4.8.0.0"
+[options_by_module.TestSignature]
+legacy-module-names = false
+[options_by_module.TestAwsCryptographyPrimitivesHKDF]
+legacy-module-names = false
+[options_by_module.TestAwsCryptographyPrimitivesGenerateRandomBytes]
+legacy-module-names = false
+[options_by_module.ConstantTime]
+legacy-module-names = false
+[options_by_module.ConstantTimeTest]
+legacy-module-names = false
+[options_by_module.TestHKDF_Rfc5869TestVectors]
+legacy-module-names = false
+[options_by_module.TestKDF]
+legacy-module-names = false
+[options_by_module.TestKDFK_TestVectors]
+legacy-module-names = false
+[options_by_module.TestAwsCryptographyPrimitivesRSA]
+legacy-module-names = false
+[options_by_module.TestAwsCryptographyPrimitivesAES]
+legacy-module-names = false
+[options_by_module.TestAwsCryptographyPrimitivesHMAC]
+legacy-module-names = false
+[options_by_module.TestAwsCryptographyPrimitivesDigest]
+legacy-module-names = false
+[options_by_module.TestAwsCryptographyPrimitivesHMacDigest]
+legacy-module-names = false
+[options_by_module.TestECDH]
+legacy-module-names = false
+[options_by_module.TestAwsCryptographyPrimitivesAesKdfCtr]
+legacy-module-names = false
