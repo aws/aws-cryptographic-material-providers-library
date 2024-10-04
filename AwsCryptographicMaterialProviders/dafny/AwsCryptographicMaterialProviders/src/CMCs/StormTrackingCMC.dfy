@@ -27,7 +27,7 @@ module {:options "/functionSyntax:4" } {:extern "software.amazon.cryptography.in
       wrapped: StormTracker.StormTracker
     )
       ensures
-        && ValidState() 
+        && ValidState()
         && InternalValidState()
         && fresh(this.Modifies)
         && fresh(this.InternalModifies)
