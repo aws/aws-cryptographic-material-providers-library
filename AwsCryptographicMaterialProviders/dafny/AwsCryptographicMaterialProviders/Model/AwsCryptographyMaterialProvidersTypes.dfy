@@ -1027,7 +1027,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
 
     predicate ValidState()
       ensures ValidState() ==>
-      && History in Modifies
+                && History in Modifies
 
     predicate InternalValidState()
       reads this`InternalModifies, InternalModifies
@@ -1121,14 +1121,14 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     method GetCacheEntry' ( input: GetCacheEntryInput )
       returns (output: Result<GetCacheEntryOutput, Error>)
       requires
-          // && ValidState()
-          && InternalValidState()
+        // && ValidState()
+        && InternalValidState()
       modifies InternalModifies - {History}
       // Dafny will skip type parameters when generating a default decreases clause.
       decreases InternalModifies - {History}
       ensures
-          // && ValidState()
-          && InternalValidState()
+        // && ValidState()
+        && InternalValidState()
       ensures GetCacheEntryEnsuresPublicly(input, output)
       ensures unchanged(History)
 
