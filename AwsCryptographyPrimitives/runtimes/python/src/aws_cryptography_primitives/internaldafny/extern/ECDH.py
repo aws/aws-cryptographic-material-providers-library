@@ -225,6 +225,15 @@ class ECCUtils:
                         )
                     )
                 )
+        else:
+            return default__.CreateExternEccKeyGenFailure(
+                    _smithy_error_to_dafny_error(
+                        ValueError(
+                            "SM2 not supported."
+                        )
+                    )
+                )
+
         
     def ValidatePublicKey(dafny_eccAlgorithm, dafny_publicKey):
         public_key_bytes = bytes(dafny_publicKey)
