@@ -103,7 +103,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     ghost var ValidateCommitmentPolicyOnDecrypt: seq<DafnyCallEvent<ValidateCommitmentPolicyOnDecryptInput, Result<(), Error>>>
   }
   trait {:termination false} IAwsCryptographicMaterialProvidersClient
-    {
+  {
     // Helper to define any additional modifies/reads clauses.
     // If your operations need to mutate state,
     // add it in your constructor function:
@@ -389,10 +389,10 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
                           - (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {})
                           - input.keyStore.Modifies
                           - (if input.cache.Some? then
-if input.cache.value.Shared? then
-  input.cache.value.Shared.Modifies
-else
-  {}
+                               if input.cache.value.Shared? then
+                                 input.cache.value.Shared.Modifies
+                               else
+                                 {}
                              else {}) ) )
       ensures CreateAwsKmsHierarchicalKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsHierarchicalKeyring == old(History.CreateAwsKmsHierarchicalKeyring) + [DafnyCallEvent(input, output)]
@@ -612,22 +612,22 @@ else
       requires
         && ValidState()
         && (if input.cache.Shared? then
-  && input.cache.Shared.ValidState()
-  && input.cache.Shared.Modifies !! {History}
-else
-  true)
+              && input.cache.Shared.ValidState()
+              && input.cache.Shared.Modifies !! {History}
+            else
+              true)
       modifies Modifies - {History} ,
                (if input.cache.Shared? then
-  input.cache.Shared.Modifies
-else
-  {}) ,
+                  input.cache.Shared.Modifies
+                else
+                  {}) ,
                History`CreateCryptographicMaterialsCache
       // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History} ,
                 (if input.cache.Shared? then
-  input.cache.Shared.Modifies
-else
-  {})
+                   input.cache.Shared.Modifies
+                 else
+                   {})
       ensures
         && ValidState()
         && ( output.Success? ==>
@@ -637,9 +637,9 @@ else
                && fresh ( output.value.Modifies
                           - Modifies - {History}
                           - (if input.cache.Shared? then
-  input.cache.Shared.Modifies
-else
-  {}) ) )
+                               input.cache.Shared.Modifies
+                             else
+                               {}) ) )
       ensures CreateCryptographicMaterialsCacheEnsuresPublicly(input, output)
       ensures History.CreateCryptographicMaterialsCache == old(History.CreateCryptographicMaterialsCache) + [DafnyCallEvent(input, output)]
 
@@ -732,7 +732,7 @@ else
     ghost var GetBranchKeyId: seq<DafnyCallEvent<GetBranchKeyIdInput, Result<GetBranchKeyIdOutput, Error>>>
   }
   trait {:termination false} IBranchKeyIdSupplier
-    {
+  {
     // Helper to define any additional modifies/reads clauses.
     // If your operations need to mutate state,
     // add it in your constructor function:
@@ -804,7 +804,7 @@ else
     ghost var GetClient: seq<DafnyCallEvent<GetClientInput, Result<ComAmazonawsKmsTypes.IKMSClient, Error>>>
   }
   trait {:termination false} IClientSupplier
-    {
+  {
     // Helper to define any additional modifies/reads clauses.
     // If your operations need to mutate state,
     // add it in your constructor function:
@@ -995,7 +995,7 @@ else
     ghost var DeleteCacheEntry: seq<DafnyCallEvent<DeleteCacheEntryInput, Result<(), Error>>>
   }
   trait {:termination false} ICryptographicMaterialsCache
-    {
+  {
     // Helper to define any additional modifies/reads clauses.
     // If your operations need to mutate state,
     // add it in your constructor function:
@@ -1180,7 +1180,7 @@ else
     ghost var DecryptMaterials: seq<DafnyCallEvent<DecryptMaterialsInput, Result<DecryptMaterialsOutput, Error>>>
   }
   trait {:termination false} ICryptographicMaterialsManager
-    {
+  {
     // Helper to define any additional modifies/reads clauses.
     // If your operations need to mutate state,
     // add it in your constructor function:
@@ -1423,7 +1423,7 @@ else
     ghost var OnDecrypt: seq<DafnyCallEvent<OnDecryptInput, Result<OnDecryptOutput, Error>>>
   }
   trait {:termination false} IKeyring
-    {
+  {
     // Helper to define any additional modifies/reads clauses.
     // If your operations need to mutate state,
     // add it in your constructor function:
@@ -1725,7 +1725,7 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
     Failure(error)
   }
   class MaterialProvidersClient extends IAwsCryptographicMaterialProvidersClient
-    {
+  {
     constructor(config: Operations.InternalConfig)
       requires Operations.ValidInternalConfig?(config)
       ensures
@@ -2039,10 +2039,10 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
                           - (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {})
                           - input.keyStore.Modifies
                           - (if input.cache.Some? then
-if input.cache.value.Shared? then
-  input.cache.value.Shared.Modifies
-else
-  {}
+                               if input.cache.value.Shared? then
+                                 input.cache.value.Shared.Modifies
+                               else
+                                 {}
                              else {}) ) )
       ensures CreateAwsKmsHierarchicalKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsHierarchicalKeyring == old(History.CreateAwsKmsHierarchicalKeyring) + [DafnyCallEvent(input, output)]
@@ -2307,22 +2307,22 @@ else
       requires
         && ValidState()
         && (if input.cache.Shared? then
-  && input.cache.Shared.ValidState()
-  && input.cache.Shared.Modifies !! {History}
-else
-  true)
+              && input.cache.Shared.ValidState()
+              && input.cache.Shared.Modifies !! {History}
+            else
+              true)
       modifies Modifies - {History} ,
                (if input.cache.Shared? then
-  input.cache.Shared.Modifies
-else
-  {}) ,
+                  input.cache.Shared.Modifies
+                else
+                  {}) ,
                History`CreateCryptographicMaterialsCache
       // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History} ,
                 (if input.cache.Shared? then
-  input.cache.Shared.Modifies
-else
-  {})
+                   input.cache.Shared.Modifies
+                 else
+                   {})
       ensures
         && ValidState()
         && ( output.Success? ==>
@@ -2332,9 +2332,9 @@ else
                && fresh ( output.value.Modifies
                           - Modifies - {History}
                           - (if input.cache.Shared? then
-  input.cache.Shared.Modifies
-else
-  {}) ) )
+                               input.cache.Shared.Modifies
+                             else
+                               {}) ) )
       ensures CreateCryptographicMaterialsCacheEnsuresPublicly(input, output)
       ensures History.CreateCryptographicMaterialsCache == old(History.CreateCryptographicMaterialsCache) + [DafnyCallEvent(input, output)]
     {
@@ -2685,17 +2685,17 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
       && input.keyStore.ValidState()
       && ( input.cache.Some?
            ==> if input.cache.value.Shared? then
-  && input.cache.value.Shared.ValidState()
-else
-  true)
+               && input.cache.value.Shared.ValidState()
+             else
+               true)
     modifies ModifiesInternalConfig(config) ,
              (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) ,
              input.keyStore.Modifies ,
              (if input.cache.Some? then
                 if input.cache.value.Shared? then
-  input.cache.value.Shared.Modifies
-else
-  {}
+                  input.cache.value.Shared.Modifies
+                else
+                  {}
               else {})
     // Dafny will skip type parameters when generating a default decreases clause.
     decreases ModifiesInternalConfig(config) ,
@@ -2703,9 +2703,9 @@ else
               input.keyStore.Modifies ,
               (if input.cache.Some? then
                  if input.cache.value.Shared? then
-  input.cache.value.Shared.Modifies
-else
-  {}
+                   input.cache.value.Shared.Modifies
+                 else
+                   {}
                else {})
     ensures
       && ValidInternalConfig?(config)
@@ -2717,10 +2717,10 @@ else
                         - (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {})
                         - input.keyStore.Modifies
                         - (if input.cache.Some? then
-if input.cache.value.Shared? then
-  input.cache.value.Shared.Modifies
-else
-  {}
+                             if input.cache.value.Shared? then
+                               input.cache.value.Shared.Modifies
+                             else
+                               {}
                            else {}) ) )
     ensures CreateAwsKmsHierarchicalKeyringEnsuresPublicly(input, output)
 
@@ -2935,20 +2935,20 @@ else
     requires
       && ValidInternalConfig?(config)
       && (if input.cache.Shared? then
-  && input.cache.Shared.ValidState()
-else
-  true)
+            && input.cache.Shared.ValidState()
+          else
+            true)
     modifies ModifiesInternalConfig(config) ,
              (if input.cache.Shared? then
-  input.cache.Shared.Modifies
-else
-  {})
+                input.cache.Shared.Modifies
+              else
+                {})
     // Dafny will skip type parameters when generating a default decreases clause.
     decreases ModifiesInternalConfig(config) ,
               (if input.cache.Shared? then
-  input.cache.Shared.Modifies
-else
-  {})
+                 input.cache.Shared.Modifies
+               else
+                 {})
     ensures
       && ValidInternalConfig?(config)
       && ( output.Success? ==>
@@ -2957,9 +2957,9 @@ else
              && fresh ( output.value.Modifies
                         - ModifiesInternalConfig(config)
                         - (if input.cache.Shared? then
-  input.cache.Shared.Modifies
-else
-  {}) ) )
+                             input.cache.Shared.Modifies
+                           else
+                             {}) ) )
     ensures CreateCryptographicMaterialsCacheEnsuresPublicly(input, output)
 
 
