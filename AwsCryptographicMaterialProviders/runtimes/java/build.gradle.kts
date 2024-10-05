@@ -21,6 +21,29 @@ group = "software.amazon.cryptography"
 version = "1.8.0-SNAPSHOT"
 description = "AWS Cryptographic Material Providers Library"
 
+sourceSets {
+    create("examples") {
+        compileClasspath += sourceSets.main.get().output
+        runtimeClasspath += sourceSets.main.get().output
+    }
+    create("testExamples") {
+        compileClasspath += sourceSets.test.get().output + sourceSets["examples"].output + sourceSets.main.get().output
+        runtimeClasspath += sourceSets.test.get().output + sourceSets["examples"].output + sourceSets.main.get().output
+    }
+}
+val examplesImplementation: Configuration by configurations.getting{
+    extendsFrom(configurations.testImplementation.get())
+}
+configurations.add(examplesImplementation)
+val examplesAnnotationProcessor: Configuration by configurations.getting{
+    extendsFrom(configurations.testAnnotationProcessor.get())
+}
+configurations.add(examplesAnnotationProcessor)
+val testExamplesImplementation: Configuration by configurations.getting{
+    extendsFrom(configurations["examplesImplementation"])
+}
+configurations.add(testExamplesImplementation)
+
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(8))
     sourceSets["main"].java {
@@ -28,6 +51,12 @@ java {
     }
     sourceSets["test"].java {
         srcDir("src/test")
+    }
+    sourceSets["examples"].java {
+        srcDir("src/examples")
+    }
+    sourceSets["testExamples"].java {
+        srcDir("src/testExamples")
     }
     withJavadocJar()
     withSourcesJar()
@@ -83,6 +112,10 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.testng/testng
     testImplementation("org.testng:testng:7.5")
+
+    // Example Dependencies
+    examplesImplementation("com.google.code.findbugs:jsr305:3.0.2")
+    examplesImplementation("com.google.guava:guava:33.3.1-jre")
 }
 
 publishing {
@@ -224,18 +257,18 @@ tasks.test {
     // This will show System.out.println statements
     testLogging.showStandardStreams = true
 
-    testLogging {
-        lifecycle {
-            events = mutableSetOf(org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED, org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED, org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED)
-            exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
-            showExceptions = true
-            showCauses = true
-            showStackTraces = true
-            showStandardStreams = true
-        }
-        info.events = lifecycle.events
-        info.exceptionFormat = lifecycle.exceptionFormat
-    }
+    // testLogging {
+    //     lifecycle {
+    //         events = mutableSetOf(org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED, org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED, org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED)
+    //         exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+    //         showExceptions = true
+    //         showCauses = true
+    //         showStackTraces = true
+    //         showStandardStreams = true
+    //     }
+    //     info.events = lifecycle.events
+    //     info.exceptionFormat = lifecycle.exceptionFormat
+    // }
 
     // See https://github.com/gradle/kotlin-dsl/issues/836
     addTestListener(object : TestListener {
@@ -254,6 +287,22 @@ tasks.test {
             }
         }
     })
+}
+
+val testExamples = task<Test>("testExamples") {
+    description = "Runs examples tests."
+    group = "verification"
+
+    testClassesDirs = sourceSets["testExamples"].output.classesDirs
+    classpath = sourceSets["testExamples"].runtimeClasspath + sourceSets["examples"].output + sourceSets.main.get().output
+    shouldRunAfter("compileJava", "compileExamplesJava", "test")
+    // This will show System.out.println statements
+    testLogging.showStandardStreams = true
+    useTestNG()
+
+    testLogging {
+        events("passed")
+    }
 }
 
 fun buildPom(mavenPublication: MavenPublication) {
