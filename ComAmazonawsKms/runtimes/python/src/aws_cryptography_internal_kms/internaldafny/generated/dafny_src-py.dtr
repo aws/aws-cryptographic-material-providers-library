@@ -1,0 +1,14 @@
+file_format_version = "1.0"
+dafny_version = "4.8.0.0"
+[options_by_module.ComAmazonawsKmsTypes]
+legacy-module-names = false
+python-module-name = "aws_cryptography_internal_kms.internaldafny.generated"
+[options_by_module.AbstractComAmazonawsKmsService]
+legacy-module-names = false
+python-module-name = "aws_cryptography_internal_kms.internaldafny.generated"
+[options_by_module.AbstractComAmazonawsKmsOperations]
+legacy-module-names = false
+python-module-name = "aws_cryptography_internal_kms.internaldafny.generated"
+[options_by_module."Com.Amazonaws.Kms"]
+legacy-module-names = false
+python-module-name = "aws_cryptography_internal_kms.internaldafny.generated"

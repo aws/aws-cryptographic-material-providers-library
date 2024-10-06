@@ -17,3 +17,6 @@ transpile_implementation: STD_LIBRARY=
 transpile_test: STD_LIBRARY=
 transpile_dependencies: STD_LIBRARY=
 
+# Python
+
+PYTHON_MODULE_NAME=smithy_dafny_standard_library

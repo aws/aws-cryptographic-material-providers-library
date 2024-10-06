@@ -1,0 +1,59 @@
+file_format_version = "1.0"
+dafny_version = "4.8.0.0"
+[options_by_module.AwsCryptographyPrimitivesTypes]
+legacy-module-names = false
+python-module-name = "aws_cryptography_primitives.internaldafny.generated"
+[options_by_module.AbstractAwsCryptographyPrimitivesOperations]
+legacy-module-names = false
+python-module-name = "aws_cryptography_primitives.internaldafny.generated"
+[options_by_module.AbstractAwsCryptographyPrimitivesService]
+legacy-module-names = false
+python-module-name = "aws_cryptography_primitives.internaldafny.generated"
+[options_by_module.ExternRandom]
+legacy-module-names = false
+python-module-name = "aws_cryptography_primitives.internaldafny.generated"
+[options_by_module.Random]
+legacy-module-names = false
+python-module-name = "aws_cryptography_primitives.internaldafny.generated"
+[options_by_module.AESEncryption]
+legacy-module-names = false
+python-module-name = "aws_cryptography_primitives.internaldafny.generated"
+[options_by_module.ExternDigest]
+legacy-module-names = false
+python-module-name = "aws_cryptography_primitives.internaldafny.generated"
+[options_by_module.Digest]
+legacy-module-names = false
+python-module-name = "aws_cryptography_primitives.internaldafny.generated"
+[options_by_module.HMAC]
+legacy-module-names = false
+python-module-name = "aws_cryptography_primitives.internaldafny.generated"
+[options_by_module.WrappedHMAC]
+legacy-module-names = false
+python-module-name = "aws_cryptography_primitives.internaldafny.generated"
+[options_by_module.HKDF]
+legacy-module-names = false
+python-module-name = "aws_cryptography_primitives.internaldafny.generated"
+[options_by_module.WrappedHKDF]
+legacy-module-names = false
+python-module-name = "aws_cryptography_primitives.internaldafny.generated"
+[options_by_module.Signature]
+legacy-module-names = false
+python-module-name = "aws_cryptography_primitives.internaldafny.generated"
+[options_by_module.KdfCtr]
+legacy-module-names = false
+python-module-name = "aws_cryptography_primitives.internaldafny.generated"
+[options_by_module.RSAEncryption]
+legacy-module-names = false
+python-module-name = "aws_cryptography_primitives.internaldafny.generated"
+[options_by_module.ECDH]
+legacy-module-names = false
+python-module-name = "aws_cryptography_primitives.internaldafny.generated"
+[options_by_module.AwsCryptographyPrimitivesOperations]
+legacy-module-names = false
+python-module-name = "aws_cryptography_primitives.internaldafny.generated"
+[options_by_module.AtomicPrimitives]
+legacy-module-names = false
+python-module-name = "aws_cryptography_primitives.internaldafny.generated"
+[options_by_module.AesKdfCtr]
+legacy-module-names = false
+python-module-name = "aws_cryptography_primitives.internaldafny.generated"
