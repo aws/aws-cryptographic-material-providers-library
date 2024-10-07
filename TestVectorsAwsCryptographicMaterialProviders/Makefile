@@ -73,7 +73,7 @@ WRAPPED_INDEX_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptog
 WRAPPED_INDEX_FILE_WITHOUT_EXTERN_STRING="module WrappedMaterialProviders refines WrappedAbstractAwsCryptographyMaterialProvidersService"
 
 # Go
-GO_MODULE_NAME="github.com/aws/aws-cryptographic-material-providers-library/TestVectorsAwsCryptographicMaterialProviders"
+GO_MODULE_NAME="github.com/aws/aws-cryptographic-material-providers-library/testvectors"
 GO_DEPENDENCY_MODULE_NAMES := \
 	--dependency-library-name=com.amazonaws.dynamodb=github.com/aws/aws-cryptographic-material-providers-library/dynamodb \
 	--dependency-library-name=com.amazonaws.kms=github.com/aws/aws-cryptographic-material-providers-library/kms \
