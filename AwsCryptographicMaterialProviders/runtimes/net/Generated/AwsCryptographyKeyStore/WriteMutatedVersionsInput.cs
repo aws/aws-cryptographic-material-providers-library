@@ -7,12 +7,9 @@ namespace AWS.Cryptography.KeyStore
 {
   public class WriteMutatedVersionsInput
   {
-    private System.Collections.Generic.List<AWS.Cryptography.KeyStore.EncryptedHierarchicalKey> _items;
-    private string _identifier;
-    private System.IO.MemoryStream _original;
-    private System.IO.MemoryStream _terminal;
-    private bool? _completeMutation;
-    public System.Collections.Generic.List<AWS.Cryptography.KeyStore.EncryptedHierarchicalKey> Items
+    private System.Collections.Generic.List<AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey> _items;
+    private AWS.Cryptography.KeyStore.MutationLock _mutationLock;
+    public System.Collections.Generic.List<AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey> Items
     {
       get { return this._items; }
       set { this._items = value; }
@@ -21,49 +18,19 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._items != null;
     }
-    public string Identifier
+    public AWS.Cryptography.KeyStore.MutationLock MutationLock
     {
-      get { return this._identifier; }
-      set { this._identifier = value; }
+      get { return this._mutationLock; }
+      set { this._mutationLock = value; }
     }
-    public bool IsSetIdentifier()
+    public bool IsSetMutationLock()
     {
-      return this._identifier != null;
-    }
-    public System.IO.MemoryStream Original
-    {
-      get { return this._original; }
-      set { this._original = value; }
-    }
-    public bool IsSetOriginal()
-    {
-      return this._original != null;
-    }
-    public System.IO.MemoryStream Terminal
-    {
-      get { return this._terminal; }
-      set { this._terminal = value; }
-    }
-    public bool IsSetTerminal()
-    {
-      return this._terminal != null;
-    }
-    public bool CompleteMutation
-    {
-      get { return this._completeMutation.GetValueOrDefault(); }
-      set { this._completeMutation = value; }
-    }
-    public bool IsSetCompleteMutation()
-    {
-      return this._completeMutation.HasValue;
+      return this._mutationLock != null;
     }
     public void Validate()
     {
       if (!IsSetItems()) throw new System.ArgumentException("Missing value for required property 'Items'");
-      if (!IsSetIdentifier()) throw new System.ArgumentException("Missing value for required property 'Identifier'");
-      if (!IsSetOriginal()) throw new System.ArgumentException("Missing value for required property 'Original'");
-      if (!IsSetTerminal()) throw new System.ArgumentException("Missing value for required property 'Terminal'");
-      if (!IsSetCompleteMutation()) throw new System.ArgumentException("Missing value for required property 'CompleteMutation'");
+      if (!IsSetMutationLock()) throw new System.ArgumentException("Missing value for required property 'MutationLock'");
 
     }
   }

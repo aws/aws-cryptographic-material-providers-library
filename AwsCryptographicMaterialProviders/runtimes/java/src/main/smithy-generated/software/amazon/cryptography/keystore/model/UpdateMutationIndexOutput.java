@@ -3,9 +3,9 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.keystore.model;
 
-public class ClobberMutationLockOutput {
+public class UpdateMutationIndexOutput {
 
-  protected ClobberMutationLockOutput(BuilderImpl builder) {}
+  protected UpdateMutationIndexOutput(BuilderImpl builder) {}
 
   public Builder toBuilder() {
     return new BuilderImpl(this);
@@ -16,17 +16,17 @@ public class ClobberMutationLockOutput {
   }
 
   public interface Builder {
-    ClobberMutationLockOutput build();
+    UpdateMutationIndexOutput build();
   }
 
   static class BuilderImpl implements Builder {
 
     protected BuilderImpl() {}
 
-    protected BuilderImpl(ClobberMutationLockOutput model) {}
+    protected BuilderImpl(UpdateMutationIndexOutput model) {}
 
-    public ClobberMutationLockOutput build() {
-      return new ClobberMutationLockOutput(this);
+    public UpdateMutationIndexOutput build() {
+      return new UpdateMutationIndexOutput(this);
     }
   }
 }
