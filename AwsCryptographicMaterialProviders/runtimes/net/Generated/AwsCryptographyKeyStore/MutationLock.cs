@@ -12,7 +12,7 @@ namespace AWS.Cryptography.KeyStore
     private string _uUID;
     private System.IO.MemoryStream _original;
     private System.IO.MemoryStream _terminal;
-    private System.IO.MemoryStream _enc;
+    private System.IO.MemoryStream _ciphertextBlob;
     public string Identifier
     {
       get { return this._identifier; }
@@ -58,14 +58,14 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._terminal != null;
     }
-    public System.IO.MemoryStream Enc
+    public System.IO.MemoryStream CiphertextBlob
     {
-      get { return this._enc; }
-      set { this._enc = value; }
+      get { return this._ciphertextBlob; }
+      set { this._ciphertextBlob = value; }
     }
-    public bool IsSetEnc()
+    public bool IsSetCiphertextBlob()
     {
-      return this._enc != null;
+      return this._ciphertextBlob != null;
     }
     public void Validate()
     {
@@ -74,7 +74,7 @@ namespace AWS.Cryptography.KeyStore
       if (!IsSetUUID()) throw new System.ArgumentException("Missing value for required property 'UUID'");
       if (!IsSetOriginal()) throw new System.ArgumentException("Missing value for required property 'Original'");
       if (!IsSetTerminal()) throw new System.ArgumentException("Missing value for required property 'Terminal'");
-      if (!IsSetEnc()) throw new System.ArgumentException("Missing value for required property 'Enc'");
+      if (!IsSetCiphertextBlob()) throw new System.ArgumentException("Missing value for required property 'CiphertextBlob'");
 
     }
   }
