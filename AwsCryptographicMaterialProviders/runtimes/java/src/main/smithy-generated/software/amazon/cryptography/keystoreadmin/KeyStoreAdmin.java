@@ -14,6 +14,8 @@ import software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.CreateKeyInput;
 import software.amazon.cryptography.keystoreadmin.model.CreateKeyOutput;
+import software.amazon.cryptography.keystoreadmin.model.DescribeMutationInput;
+import software.amazon.cryptography.keystoreadmin.model.DescribeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.KeyStoreAdminConfig;
@@ -78,6 +80,24 @@ public class KeyStoreAdmin {
       throw ToNative.Error(result.dtor_error());
     }
     return ToNative.CreateKeyOutput(result.dtor_value());
+  }
+
+  /**
+   * Check for an in-flight Mutation on a Branch Key ID.
+   * If one exists, return a description of the mutation.
+   *
+   */
+  public DescribeMutationOutput DescribeMutation(DescribeMutationInput input) {
+    software.amazon.cryptography.keystoreadmin.internaldafny.types.DescribeMutationInput dafnyValue =
+      ToDafny.DescribeMutationInput(input);
+    Result<
+      software.amazon.cryptography.keystoreadmin.internaldafny.types.DescribeMutationOutput,
+      Error
+    > result = this._impl.DescribeMutation(dafnyValue);
+    if (result.is_Failure()) {
+      throw ToNative.Error(result.dtor_error());
+    }
+    return ToNative.DescribeMutationOutput(result.dtor_value());
   }
 
   /**
