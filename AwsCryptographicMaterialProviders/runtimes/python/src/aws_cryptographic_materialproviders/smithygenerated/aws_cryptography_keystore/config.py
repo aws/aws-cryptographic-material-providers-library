@@ -16,7 +16,7 @@ from botocore.client import BaseClient
 from smithy_python._private.retries import SimpleRetryStrategy
 from smithy_python.interfaces.retries import RetryStrategy
 
-from .models import KMSConfiguration
+from .models import KMSConfiguration, KeyManagement, Storage
 
 
 _ServiceInterceptor = Any
@@ -57,34 +57,40 @@ Plugin: TypeAlias = Callable[[Config], None]
 class KeyStoreConfig(Config):
     """Smithy-modelled localService Config shape for this localService."""
 
-    ddb_table_name: str
     kms_configuration: KMSConfiguration
     logical_key_store_name: str
+    key_management: Optional[KeyManagement]
+    ddb_table_name: Optional[str]
     id: Optional[str]
     grant_tokens: Optional[list[str]]
+    storage: Optional[Storage]
     ddb_client: Optional[BaseClient]
     kms_client: Optional[BaseClient]
 
     def __init__(
         self,
-        ddb_table_name: str,
         kms_configuration: KMSConfiguration,
         logical_key_store_name: str,
+        key_management: Optional[KeyManagement] = None,
+        ddb_table_name: Optional[str] = None,
         id: Optional[str] = None,
         grant_tokens: Optional[list[str]] = None,
+        storage: Optional[Storage] = None,
         ddb_client: Optional[BaseClient] = None,
         kms_client: Optional[BaseClient] = None,
     ):
         """Constructor for KeyStoreConfig.
 
-        :param ddb_table_name: The DynamoDB table name that backs this Key Store.
         :param kms_configuration: Configures Key Store's KMS Key ARN restrictions.
         :param logical_key_store_name: The logical name for this Key Store, which is
         cryptographically bound to the keys it holds. This appears in the Encryption
         Context of KMS requests as `tablename`.
+        :param key_management: The key management configuration for this Key Store.
+        :param ddb_table_name: The DynamoDB table name that backs this Key Store.
         :param id: An identifier for this Key Store.
         :param grant_tokens: The AWS KMS grant tokens that are used when this Key Store
         calls to AWS KMS.
+        :param storage: The storage configuration for this Key Store.
         :param ddb_client: The DynamoDB client this Key Store uses to call Amazon
         DynamoDB. If None is provided and the KMS ARN is, the KMS ARN is used to
         determine the Region of the default client.
@@ -93,11 +99,13 @@ class KeyStoreConfig(Config):
         the default client.
         """
         super().__init__()
-        self.ddb_table_name = ddb_table_name
         self.kms_configuration = kms_configuration
         self.logical_key_store_name = logical_key_store_name
+        self.key_management = key_management
+        self.ddb_table_name = ddb_table_name
         self.id = id
         self.grant_tokens = grant_tokens
+        self.storage = storage
         self.ddb_client = ddb_client
         self.kms_client = kms_client
 

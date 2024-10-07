@@ -8,3 +8,5 @@ TestsFromDafny-cs.dtr
 **/obj
 
 runtimes/net/Folder.DotSettings.user
+
+*.dtr
