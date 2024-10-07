@@ -7,16 +7,16 @@ namespace AWS.Cryptography.KeyStore
 {
   public class OverWriteEncryptedHierarchicalKey
   {
-    private AWS.Cryptography.KeyStore.EncryptedHierarchicalKey _encryptedHierarchicalKey;
+    private AWS.Cryptography.KeyStore.EncryptedHierarchicalKey _item;
     private AWS.Cryptography.KeyStore.EncryptedHierarchicalKey _old;
-    public AWS.Cryptography.KeyStore.EncryptedHierarchicalKey EncryptedHierarchicalKey
+    public AWS.Cryptography.KeyStore.EncryptedHierarchicalKey Item
     {
-      get { return this._encryptedHierarchicalKey; }
-      set { this._encryptedHierarchicalKey = value; }
+      get { return this._item; }
+      set { this._item = value; }
     }
-    public bool IsSetEncryptedHierarchicalKey()
+    public bool IsSetItem()
     {
-      return this._encryptedHierarchicalKey != null;
+      return this._item != null;
     }
     public AWS.Cryptography.KeyStore.EncryptedHierarchicalKey Old
     {
@@ -29,7 +29,7 @@ namespace AWS.Cryptography.KeyStore
     }
     public void Validate()
     {
-      if (!IsSetEncryptedHierarchicalKey()) throw new System.ArgumentException("Missing value for required property 'EncryptedHierarchicalKey'");
+      if (!IsSetItem()) throw new System.ArgumentException("Missing value for required property 'Item'");
       if (!IsSetOld()) throw new System.ArgumentException("Missing value for required property 'Old'");
 
     }

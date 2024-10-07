@@ -28,14 +28,14 @@ public class MutationIndex {
 
   private final ByteBuffer PageIndex;
 
-  private final ByteBuffer Enc;
+  private final ByteBuffer CiphertextBlob;
 
   protected MutationIndex(BuilderImpl builder) {
     this.Identifier = builder.Identifier();
     this.CreateTime = builder.CreateTime();
     this.UUID = builder.UUID();
     this.PageIndex = builder.PageIndex();
-    this.Enc = builder.Enc();
+    this.CiphertextBlob = builder.CiphertextBlob();
   }
 
   /**
@@ -63,8 +63,8 @@ public class MutationIndex {
     return this.PageIndex;
   }
 
-  public ByteBuffer Enc() {
-    return this.Enc;
+  public ByteBuffer CiphertextBlob() {
+    return this.CiphertextBlob;
   }
 
   public Builder toBuilder() {
@@ -110,9 +110,9 @@ public class MutationIndex {
 
     ByteBuffer PageIndex();
 
-    Builder Enc(ByteBuffer Enc);
+    Builder CiphertextBlob(ByteBuffer CiphertextBlob);
 
-    ByteBuffer Enc();
+    ByteBuffer CiphertextBlob();
 
     MutationIndex build();
   }
@@ -127,7 +127,7 @@ public class MutationIndex {
 
     protected ByteBuffer PageIndex;
 
-    protected ByteBuffer Enc;
+    protected ByteBuffer CiphertextBlob;
 
     protected BuilderImpl() {}
 
@@ -136,7 +136,7 @@ public class MutationIndex {
       this.CreateTime = model.CreateTime();
       this.UUID = model.UUID();
       this.PageIndex = model.PageIndex();
-      this.Enc = model.Enc();
+      this.CiphertextBlob = model.CiphertextBlob();
     }
 
     public Builder Identifier(String Identifier) {
@@ -175,13 +175,13 @@ public class MutationIndex {
       return this.PageIndex;
     }
 
-    public Builder Enc(ByteBuffer Enc) {
-      this.Enc = Enc;
+    public Builder CiphertextBlob(ByteBuffer CiphertextBlob) {
+      this.CiphertextBlob = CiphertextBlob;
       return this;
     }
 
-    public ByteBuffer Enc() {
-      return this.Enc;
+    public ByteBuffer CiphertextBlob() {
+      return this.CiphertextBlob;
     }
 
     public MutationIndex build() {
@@ -205,9 +205,9 @@ public class MutationIndex {
           "Missing value for required field `PageIndex`"
         );
       }
-      if (Objects.isNull(this.Enc())) {
+      if (Objects.isNull(this.CiphertextBlob())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `Enc`"
+          "Missing value for required field `CiphertextBlob`"
         );
       }
       return new MutationIndex(this);

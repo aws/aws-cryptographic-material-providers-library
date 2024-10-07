@@ -92,7 +92,7 @@ list EncryptedHierarchicalKeys {
 are done conditioned on the old value.")
 structure OverWriteEncryptedHierarchicalKey {
   @required
-  EncryptedHierarchicalKey: EncryptedHierarchicalKey
+  Item: EncryptedHierarchicalKey
 
   @required
   @documentation("The previous itme. Used to construct an optimistic lock for the overwrite.")
@@ -130,7 +130,7 @@ structure MutationLock {
   Terminal: Blob
 
   @required
-  Enc: Blob
+  CiphertextBlob: Blob
 }
 
 @documentation("Information on an in-flight Mutation of a Branch Key.")
@@ -151,7 +151,7 @@ structure MutationIndex {
   PageIndex: Blob
 
   @required
-  Enc: Blob
+  CiphertextBlob: Blob
 }
 
 map EncryptionContextString {

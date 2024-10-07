@@ -829,7 +829,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     nameonly CreateTime: string ,
     nameonly UUID: string ,
     nameonly PageIndex: seq<uint8> ,
-    nameonly Enc: seq<uint8>
+    nameonly CiphertextBlob: seq<uint8>
   )
   datatype MutationLock = | MutationLock (
     nameonly Identifier: string ,
@@ -837,10 +837,10 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     nameonly UUID: string ,
     nameonly Original: seq<uint8> ,
     nameonly Terminal: seq<uint8> ,
-    nameonly Enc: seq<uint8>
+    nameonly CiphertextBlob: seq<uint8>
   )
   datatype OverWriteEncryptedHierarchicalKey = | OverWriteEncryptedHierarchicalKey (
-    nameonly EncryptedHierarchicalKey: EncryptedHierarchicalKey ,
+    nameonly Item: EncryptedHierarchicalKey ,
     nameonly Old: EncryptedHierarchicalKey
   )
   type OverWriteEncryptedHierarchicalKeys = seq<OverWriteEncryptedHierarchicalKey>
