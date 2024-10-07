@@ -2,7 +2,9 @@ TestResults
 ImplementationFromDafny.cs
 TestsFromDafny.cs
 ImplementationFromDafny-cs.dtr
-TestsFromDafny-cs.dtr
+# Ignore Python .dtr files for normal commits;
+# Releases will override .gitignore and commit updated Python .dtr files
+*-py.dtr
 
 **/bin
 **/obj
