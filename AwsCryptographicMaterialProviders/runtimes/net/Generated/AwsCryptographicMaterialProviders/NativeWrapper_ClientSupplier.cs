@@ -30,7 +30,7 @@ namespace AWS.Cryptography.MaterialProviders
       }
       catch (Exception e)
       {
-        return Wrappers_Compile.Result<software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient, software.amazon.cryptography.materialproviders.internaldafny.types._IError>.create_Failure(TypeConversion.ToDafny_CommonError(e));
+        return Wrappers_Compile.Result<software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient, software.amazon.cryptography.materialproviders.internaldafny.types._IError>.create_Failure(TypeConversion.ToDafny_CommonError(e, Dafny.Sequence<char>.FromString(e.ToString())));
       }
     }
     public Wrappers_Compile._IResult<software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient, software.amazon.cryptography.materialproviders.internaldafny.types._IError> GetClient_k(software.amazon.cryptography.materialproviders.internaldafny.types._IGetClientInput input)

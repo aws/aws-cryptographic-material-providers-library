@@ -38,7 +38,7 @@ namespace AWS.Cryptography.MaterialProviders
       }
       catch (Exception e)
       {
-        return Wrappers_Compile.Result<software.amazon.cryptography.materialproviders.internaldafny.types._IGetEncryptionMaterialsOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError>.create_Failure(TypeConversion.ToDafny_CommonError(e));
+        return Wrappers_Compile.Result<software.amazon.cryptography.materialproviders.internaldafny.types._IGetEncryptionMaterialsOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError>.create_Failure(TypeConversion.ToDafny_CommonError(e, Dafny.Sequence<char>.FromString(e.ToString())));
       }
     }
     public Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types._IGetEncryptionMaterialsOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError> GetEncryptionMaterials_k(software.amazon.cryptography.materialproviders.internaldafny.types._IGetEncryptionMaterialsInput input)
@@ -66,7 +66,7 @@ namespace AWS.Cryptography.MaterialProviders
       }
       catch (Exception e)
       {
-        return Wrappers_Compile.Result<software.amazon.cryptography.materialproviders.internaldafny.types._IDecryptMaterialsOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError>.create_Failure(TypeConversion.ToDafny_CommonError(e));
+        return Wrappers_Compile.Result<software.amazon.cryptography.materialproviders.internaldafny.types._IDecryptMaterialsOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError>.create_Failure(TypeConversion.ToDafny_CommonError(e, Dafny.Sequence<char>.FromString(e.ToString())));
       }
     }
     public Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types._IDecryptMaterialsOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError> DecryptMaterials_k(software.amazon.cryptography.materialproviders.internaldafny.types._IDecryptMaterialsInput input)

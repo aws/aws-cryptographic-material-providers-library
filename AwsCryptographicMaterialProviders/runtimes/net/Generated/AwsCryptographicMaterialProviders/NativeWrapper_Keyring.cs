@@ -38,7 +38,7 @@ namespace AWS.Cryptography.MaterialProviders
       }
       catch (Exception e)
       {
-        return Wrappers_Compile.Result<software.amazon.cryptography.materialproviders.internaldafny.types._IOnEncryptOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError>.create_Failure(TypeConversion.ToDafny_CommonError(e));
+        return Wrappers_Compile.Result<software.amazon.cryptography.materialproviders.internaldafny.types._IOnEncryptOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError>.create_Failure(TypeConversion.ToDafny_CommonError(e, Dafny.Sequence<char>.FromString(e.ToString())));
       }
     }
     public Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types._IOnEncryptOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError> OnEncrypt_k(software.amazon.cryptography.materialproviders.internaldafny.types._IOnEncryptInput input)
@@ -66,7 +66,7 @@ namespace AWS.Cryptography.MaterialProviders
       }
       catch (Exception e)
       {
-        return Wrappers_Compile.Result<software.amazon.cryptography.materialproviders.internaldafny.types._IOnDecryptOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError>.create_Failure(TypeConversion.ToDafny_CommonError(e));
+        return Wrappers_Compile.Result<software.amazon.cryptography.materialproviders.internaldafny.types._IOnDecryptOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError>.create_Failure(TypeConversion.ToDafny_CommonError(e, Dafny.Sequence<char>.FromString(e.ToString())));
       }
     }
     public Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types._IOnDecryptOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError> OnDecrypt_k(software.amazon.cryptography.materialproviders.internaldafny.types._IOnDecryptInput input)

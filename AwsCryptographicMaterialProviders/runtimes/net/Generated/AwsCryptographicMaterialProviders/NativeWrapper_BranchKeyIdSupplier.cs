@@ -38,7 +38,7 @@ namespace AWS.Cryptography.MaterialProviders
       }
       catch (Exception e)
       {
-        return Wrappers_Compile.Result<software.amazon.cryptography.materialproviders.internaldafny.types._IGetBranchKeyIdOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError>.create_Failure(TypeConversion.ToDafny_CommonError(e));
+        return Wrappers_Compile.Result<software.amazon.cryptography.materialproviders.internaldafny.types._IGetBranchKeyIdOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError>.create_Failure(TypeConversion.ToDafny_CommonError(e, Dafny.Sequence<char>.FromString(e.ToString())));
       }
     }
     public Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types._IGetBranchKeyIdOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError> GetBranchKeyId_k(software.amazon.cryptography.materialproviders.internaldafny.types._IGetBranchKeyIdInput input)
