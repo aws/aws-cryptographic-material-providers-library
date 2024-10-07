@@ -12,6 +12,7 @@ namespace AWS.Cryptography.KeyStore
     private string _uUID;
     private System.IO.MemoryStream _original;
     private System.IO.MemoryStream _terminal;
+    private System.IO.MemoryStream _enc;
     public string Identifier
     {
       get { return this._identifier; }
@@ -57,6 +58,15 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._terminal != null;
     }
+    public System.IO.MemoryStream Enc
+    {
+      get { return this._enc; }
+      set { this._enc = value; }
+    }
+    public bool IsSetEnc()
+    {
+      return this._enc != null;
+    }
     public void Validate()
     {
       if (!IsSetIdentifier()) throw new System.ArgumentException("Missing value for required property 'Identifier'");
@@ -64,6 +74,7 @@ namespace AWS.Cryptography.KeyStore
       if (!IsSetUUID()) throw new System.ArgumentException("Missing value for required property 'UUID'");
       if (!IsSetOriginal()) throw new System.ArgumentException("Missing value for required property 'Original'");
       if (!IsSetTerminal()) throw new System.ArgumentException("Missing value for required property 'Terminal'");
+      if (!IsSetEnc()) throw new System.ArgumentException("Missing value for required property 'Enc'");
 
     }
   }
