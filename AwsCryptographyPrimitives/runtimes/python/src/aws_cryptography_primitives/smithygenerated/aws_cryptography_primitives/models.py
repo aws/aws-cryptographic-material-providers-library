@@ -9,6 +9,7 @@ class AES_GCM:
     key_length: int
     tag_length: int
     iv_length: int
+
     def __init__(
         self,
         *,
@@ -39,9 +40,7 @@ class AES_GCM:
         self.iv_length = iv_length
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the AES_GCM to a dictionary.
-
-        """
+        """Converts the AES_GCM to a dictionary."""
         d: Dict[str, Any] = {}
 
         if self.key_length is not None:
@@ -57,9 +56,7 @@ class AES_GCM:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "AES_GCM":
-        """Creates a AES_GCM from a dictionary.
-
-        """
+        """Creates a AES_GCM from a dictionary."""
         kwargs: Dict[str, Any] = {}
 
         if "key_length" in d:
@@ -89,11 +86,13 @@ class AES_GCM:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, AES_GCM):
             return False
-        attributes: list[str] = ['key_length','tag_length','iv_length',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "key_length",
+            "tag_length",
+            "iv_length",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class AESDecryptInput:
     enc_alg: AES_GCM
@@ -102,6 +101,7 @@ class AESDecryptInput:
     auth_tag: bytes | bytearray
     iv: bytes | bytearray
     aad: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -120,9 +120,7 @@ class AESDecryptInput:
         self.aad = aad
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the AESDecryptInput to a dictionary.
-
-        """
+        """Converts the AESDecryptInput to a dictionary."""
         return {
             "enc_alg": self.enc_alg.as_dict(),
             "key": self.key,
@@ -134,9 +132,7 @@ class AESDecryptInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "AESDecryptInput":
-        """Creates a AESDecryptInput from a dictionary.
-
-        """
+        """Creates a AESDecryptInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "enc_alg": AES_GCM.from_dict(d["enc_alg"]),
             "key": d["key"],
@@ -173,11 +169,16 @@ class AESDecryptInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, AESDecryptInput):
             return False
-        attributes: list[str] = ['enc_alg','key','cipher_txt','auth_tag','iv','aad',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "enc_alg",
+            "key",
+            "cipher_txt",
+            "auth_tag",
+            "iv",
+            "aad",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class AESEncryptInput:
     enc_alg: AES_GCM
@@ -185,6 +186,7 @@ class AESEncryptInput:
     key: bytes | bytearray
     msg: bytes | bytearray
     aad: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -201,9 +203,7 @@ class AESEncryptInput:
         self.aad = aad
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the AESEncryptInput to a dictionary.
-
-        """
+        """Converts the AESEncryptInput to a dictionary."""
         return {
             "enc_alg": self.enc_alg.as_dict(),
             "iv": self.iv,
@@ -214,9 +214,7 @@ class AESEncryptInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "AESEncryptInput":
-        """Creates a AESEncryptInput from a dictionary.
-
-        """
+        """Creates a AESEncryptInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "enc_alg": AES_GCM.from_dict(d["enc_alg"]),
             "iv": d["iv"],
@@ -249,15 +247,20 @@ class AESEncryptInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, AESEncryptInput):
             return False
-        attributes: list[str] = ['enc_alg','iv','key','msg','aad',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "enc_alg",
+            "iv",
+            "key",
+            "msg",
+            "aad",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class AESEncryptOutput:
     cipher_text: bytes | bytearray
     auth_tag: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -268,9 +271,7 @@ class AESEncryptOutput:
         self.auth_tag = auth_tag
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the AESEncryptOutput to a dictionary.
-
-        """
+        """Converts the AESEncryptOutput to a dictionary."""
         return {
             "cipher_text": self.cipher_text,
             "auth_tag": self.auth_tag,
@@ -278,9 +279,7 @@ class AESEncryptOutput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "AESEncryptOutput":
-        """Creates a AESEncryptOutput from a dictionary.
-
-        """
+        """Creates a AESEncryptOutput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "cipher_text": d["cipher_text"],
             "auth_tag": d["auth_tag"],
@@ -301,16 +300,18 @@ class AESEncryptOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, AESEncryptOutput):
             return False
-        attributes: list[str] = ['cipher_text','auth_tag',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "cipher_text",
+            "auth_tag",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class AesKdfCtrInput:
     ikm: bytes | bytearray
     expected_length: int
     nonce: Optional[bytes | bytearray]
+
     def __init__(
         self,
         *,
@@ -326,9 +327,7 @@ class AesKdfCtrInput:
         self.nonce = nonce
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the AesKdfCtrInput to a dictionary.
-
-        """
+        """Converts the AesKdfCtrInput to a dictionary."""
         d: Dict[str, Any] = {
             "ikm": self.ikm,
         }
@@ -343,9 +342,7 @@ class AesKdfCtrInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "AesKdfCtrInput":
-        """Creates a AesKdfCtrInput from a dictionary.
-
-        """
+        """Creates a AesKdfCtrInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "ikm": d["ikm"],
         }
@@ -374,11 +371,13 @@ class AesKdfCtrInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, AesKdfCtrInput):
             return False
-        attributes: list[str] = ['ikm','expected_length','nonce',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "ikm",
+            "expected_length",
+            "nonce",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class ECDHCurveSpec:
     ECC_NIST_P256 = "ECC_NIST_P256"
@@ -393,8 +392,10 @@ class ECDHCurveSpec:
     # values may be added in the future.
     values = frozenset({"ECC_NIST_P256", "ECC_NIST_P384", "ECC_NIST_P521", "SM2"})
 
+
 class ECCPublicKey:
     der: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -403,18 +404,14 @@ class ECCPublicKey:
         self.der = der
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the ECCPublicKey to a dictionary.
-
-        """
+        """Converts the ECCPublicKey to a dictionary."""
         return {
             "der": self.der,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "ECCPublicKey":
-        """Creates a ECCPublicKey from a dictionary.
-
-        """
+        """Creates a ECCPublicKey from a dictionary."""
         kwargs: Dict[str, Any] = {
             "der": d["der"],
         }
@@ -431,15 +428,16 @@ class ECCPublicKey:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, ECCPublicKey):
             return False
-        attributes: list[str] = ['der',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "der",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class CompressPublicKeyInput:
     public_key: ECCPublicKey
     ecc_curve: str
+
     def __init__(
         self,
         *,
@@ -450,9 +448,7 @@ class CompressPublicKeyInput:
         self.ecc_curve = ecc_curve
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CompressPublicKeyInput to a dictionary.
-
-        """
+        """Converts the CompressPublicKeyInput to a dictionary."""
         return {
             "public_key": self.public_key.as_dict(),
             "ecc_curve": self.ecc_curve,
@@ -460,9 +456,7 @@ class CompressPublicKeyInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CompressPublicKeyInput":
-        """Creates a CompressPublicKeyInput from a dictionary.
-
-        """
+        """Creates a CompressPublicKeyInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "public_key": ECCPublicKey.from_dict(d["public_key"]),
             "ecc_curve": d["ecc_curve"],
@@ -483,14 +477,16 @@ class CompressPublicKeyInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CompressPublicKeyInput):
             return False
-        attributes: list[str] = ['public_key','ecc_curve',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "public_key",
+            "ecc_curve",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class CompressPublicKeyOutput:
     compressed_public_key: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -499,18 +495,14 @@ class CompressPublicKeyOutput:
         self.compressed_public_key = compressed_public_key
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CompressPublicKeyOutput to a dictionary.
-
-        """
+        """Converts the CompressPublicKeyOutput to a dictionary."""
         return {
             "compressed_public_key": self.compressed_public_key,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CompressPublicKeyOutput":
-        """Creates a CompressPublicKeyOutput from a dictionary.
-
-        """
+        """Creates a CompressPublicKeyOutput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "compressed_public_key": d["compressed_public_key"],
         }
@@ -527,15 +519,16 @@ class CompressPublicKeyOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CompressPublicKeyOutput):
             return False
-        attributes: list[str] = ['compressed_public_key',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "compressed_public_key",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class DecompressPublicKeyInput:
     compressed_public_key: bytes | bytearray
     ecc_curve: str
+
     def __init__(
         self,
         *,
@@ -546,9 +539,7 @@ class DecompressPublicKeyInput:
         self.ecc_curve = ecc_curve
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the DecompressPublicKeyInput to a dictionary.
-
-        """
+        """Converts the DecompressPublicKeyInput to a dictionary."""
         return {
             "compressed_public_key": self.compressed_public_key,
             "ecc_curve": self.ecc_curve,
@@ -556,9 +547,7 @@ class DecompressPublicKeyInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "DecompressPublicKeyInput":
-        """Creates a DecompressPublicKeyInput from a dictionary.
-
-        """
+        """Creates a DecompressPublicKeyInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "compressed_public_key": d["compressed_public_key"],
             "ecc_curve": d["ecc_curve"],
@@ -579,14 +568,16 @@ class DecompressPublicKeyInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, DecompressPublicKeyInput):
             return False
-        attributes: list[str] = ['compressed_public_key','ecc_curve',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "compressed_public_key",
+            "ecc_curve",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class DecompressPublicKeyOutput:
     public_key: ECCPublicKey
+
     def __init__(
         self,
         *,
@@ -595,18 +586,14 @@ class DecompressPublicKeyOutput:
         self.public_key = public_key
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the DecompressPublicKeyOutput to a dictionary.
-
-        """
+        """Converts the DecompressPublicKeyOutput to a dictionary."""
         return {
             "public_key": self.public_key.as_dict(),
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "DecompressPublicKeyOutput":
-        """Creates a DecompressPublicKeyOutput from a dictionary.
-
-        """
+        """Creates a DecompressPublicKeyOutput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "public_key": ECCPublicKey.from_dict(d["public_key"]),
         }
@@ -623,14 +610,15 @@ class DecompressPublicKeyOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, DecompressPublicKeyOutput):
             return False
-        attributes: list[str] = ['public_key',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "public_key",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class ECCPrivateKey:
     pem: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -639,18 +627,14 @@ class ECCPrivateKey:
         self.pem = pem
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the ECCPrivateKey to a dictionary.
-
-        """
+        """Converts the ECCPrivateKey to a dictionary."""
         return {
             "pem": self.pem,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "ECCPrivateKey":
-        """Creates a ECCPrivateKey from a dictionary.
-
-        """
+        """Creates a ECCPrivateKey from a dictionary."""
         kwargs: Dict[str, Any] = {
             "pem": d["pem"],
         }
@@ -667,16 +651,17 @@ class ECCPrivateKey:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, ECCPrivateKey):
             return False
-        attributes: list[str] = ['pem',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "pem",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class DeriveSharedSecretInput:
     ecc_curve: str
     private_key: ECCPrivateKey
     public_key: ECCPublicKey
+
     def __init__(
         self,
         *,
@@ -689,9 +674,7 @@ class DeriveSharedSecretInput:
         self.public_key = public_key
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the DeriveSharedSecretInput to a dictionary.
-
-        """
+        """Converts the DeriveSharedSecretInput to a dictionary."""
         return {
             "ecc_curve": self.ecc_curve,
             "private_key": self.private_key.as_dict(),
@@ -700,9 +683,7 @@ class DeriveSharedSecretInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "DeriveSharedSecretInput":
-        """Creates a DeriveSharedSecretInput from a dictionary.
-
-        """
+        """Creates a DeriveSharedSecretInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "ecc_curve": d["ecc_curve"],
             "private_key": ECCPrivateKey.from_dict(d["private_key"]),
@@ -727,14 +708,17 @@ class DeriveSharedSecretInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, DeriveSharedSecretInput):
             return False
-        attributes: list[str] = ['ecc_curve','private_key','public_key',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "ecc_curve",
+            "private_key",
+            "public_key",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class DeriveSharedSecretOutput:
     shared_secret: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -743,18 +727,14 @@ class DeriveSharedSecretOutput:
         self.shared_secret = shared_secret
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the DeriveSharedSecretOutput to a dictionary.
-
-        """
+        """Converts the DeriveSharedSecretOutput to a dictionary."""
         return {
             "shared_secret": self.shared_secret,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "DeriveSharedSecretOutput":
-        """Creates a DeriveSharedSecretOutput from a dictionary.
-
-        """
+        """Creates a DeriveSharedSecretOutput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "shared_secret": d["shared_secret"],
         }
@@ -771,11 +751,11 @@ class DeriveSharedSecretOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, DeriveSharedSecretOutput):
             return False
-        attributes: list[str] = ['shared_secret',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "shared_secret",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class DigestAlgorithm:
     SHA_512 = "SHA_512"
@@ -788,9 +768,11 @@ class DigestAlgorithm:
     # values may be added in the future.
     values = frozenset({"SHA_512", "SHA_384", "SHA_256"})
 
+
 class DigestInput:
     digest_algorithm: str
     message: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -801,9 +783,7 @@ class DigestInput:
         self.message = message
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the DigestInput to a dictionary.
-
-        """
+        """Converts the DigestInput to a dictionary."""
         return {
             "digest_algorithm": self.digest_algorithm,
             "message": self.message,
@@ -811,9 +791,7 @@ class DigestInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "DigestInput":
-        """Creates a DigestInput from a dictionary.
-
-        """
+        """Creates a DigestInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "digest_algorithm": d["digest_algorithm"],
             "message": d["message"],
@@ -834,11 +812,12 @@ class DigestInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, DigestInput):
             return False
-        attributes: list[str] = ['digest_algorithm','message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "digest_algorithm",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class ECDSASignatureAlgorithm:
     ECDSA_P384 = "ECDSA_P384"
@@ -849,10 +828,12 @@ class ECDSASignatureAlgorithm:
     # values may be added in the future.
     values = frozenset({"ECDSA_P384", "ECDSA_P256"})
 
+
 class ECDSASignInput:
     signature_algorithm: str
     signing_key: bytes | bytearray
     message: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -865,9 +846,7 @@ class ECDSASignInput:
         self.message = message
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the ECDSASignInput to a dictionary.
-
-        """
+        """Converts the ECDSASignInput to a dictionary."""
         return {
             "signature_algorithm": self.signature_algorithm,
             "signing_key": self.signing_key,
@@ -876,9 +855,7 @@ class ECDSASignInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "ECDSASignInput":
-        """Creates a ECDSASignInput from a dictionary.
-
-        """
+        """Creates a ECDSASignInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "signature_algorithm": d["signature_algorithm"],
             "signing_key": d["signing_key"],
@@ -903,17 +880,20 @@ class ECDSASignInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, ECDSASignInput):
             return False
-        attributes: list[str] = ['signature_algorithm','signing_key','message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "signature_algorithm",
+            "signing_key",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class ECDSAVerifyInput:
     signature_algorithm: str
     verification_key: bytes | bytearray
     message: bytes | bytearray
     signature: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -928,9 +908,7 @@ class ECDSAVerifyInput:
         self.signature = signature
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the ECDSAVerifyInput to a dictionary.
-
-        """
+        """Converts the ECDSAVerifyInput to a dictionary."""
         return {
             "signature_algorithm": self.signature_algorithm,
             "verification_key": self.verification_key,
@@ -940,9 +918,7 @@ class ECDSAVerifyInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "ECDSAVerifyInput":
-        """Creates a ECDSAVerifyInput from a dictionary.
-
-        """
+        """Creates a ECDSAVerifyInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "signature_algorithm": d["signature_algorithm"],
             "verification_key": d["verification_key"],
@@ -971,14 +947,18 @@ class ECDSAVerifyInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, ECDSAVerifyInput):
             return False
-        attributes: list[str] = ['signature_algorithm','verification_key','message','signature',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "signature_algorithm",
+            "verification_key",
+            "message",
+            "signature",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class GenerateECCKeyPairInput:
     ecc_curve: str
+
     def __init__(
         self,
         *,
@@ -987,18 +967,14 @@ class GenerateECCKeyPairInput:
         self.ecc_curve = ecc_curve
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GenerateECCKeyPairInput to a dictionary.
-
-        """
+        """Converts the GenerateECCKeyPairInput to a dictionary."""
         return {
             "ecc_curve": self.ecc_curve,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GenerateECCKeyPairInput":
-        """Creates a GenerateECCKeyPairInput from a dictionary.
-
-        """
+        """Creates a GenerateECCKeyPairInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "ecc_curve": d["ecc_curve"],
         }
@@ -1015,16 +991,17 @@ class GenerateECCKeyPairInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GenerateECCKeyPairInput):
             return False
-        attributes: list[str] = ['ecc_curve',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "ecc_curve",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class GenerateECCKeyPairOutput:
     ecc_curve: str
     private_key: ECCPrivateKey
     public_key: ECCPublicKey
+
     def __init__(
         self,
         *,
@@ -1037,9 +1014,7 @@ class GenerateECCKeyPairOutput:
         self.public_key = public_key
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GenerateECCKeyPairOutput to a dictionary.
-
-        """
+        """Converts the GenerateECCKeyPairOutput to a dictionary."""
         return {
             "ecc_curve": self.ecc_curve,
             "private_key": self.private_key.as_dict(),
@@ -1048,9 +1023,7 @@ class GenerateECCKeyPairOutput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GenerateECCKeyPairOutput":
-        """Creates a GenerateECCKeyPairOutput from a dictionary.
-
-        """
+        """Creates a GenerateECCKeyPairOutput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "ecc_curve": d["ecc_curve"],
             "private_key": ECCPrivateKey.from_dict(d["private_key"]),
@@ -1075,14 +1048,17 @@ class GenerateECCKeyPairOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GenerateECCKeyPairOutput):
             return False
-        attributes: list[str] = ['ecc_curve','private_key','public_key',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "ecc_curve",
+            "private_key",
+            "public_key",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class GenerateECDSASignatureKeyInput:
     signature_algorithm: str
+
     def __init__(
         self,
         *,
@@ -1091,18 +1067,14 @@ class GenerateECDSASignatureKeyInput:
         self.signature_algorithm = signature_algorithm
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GenerateECDSASignatureKeyInput to a dictionary.
-
-        """
+        """Converts the GenerateECDSASignatureKeyInput to a dictionary."""
         return {
             "signature_algorithm": self.signature_algorithm,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GenerateECDSASignatureKeyInput":
-        """Creates a GenerateECDSASignatureKeyInput from a dictionary.
-
-        """
+        """Creates a GenerateECDSASignatureKeyInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "signature_algorithm": d["signature_algorithm"],
         }
@@ -1119,16 +1091,17 @@ class GenerateECDSASignatureKeyInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GenerateECDSASignatureKeyInput):
             return False
-        attributes: list[str] = ['signature_algorithm',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "signature_algorithm",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class GenerateECDSASignatureKeyOutput:
     signature_algorithm: str
     verification_key: bytes | bytearray
     signing_key: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -1141,9 +1114,7 @@ class GenerateECDSASignatureKeyOutput:
         self.signing_key = signing_key
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GenerateECDSASignatureKeyOutput to a dictionary.
-
-        """
+        """Converts the GenerateECDSASignatureKeyOutput to a dictionary."""
         return {
             "signature_algorithm": self.signature_algorithm,
             "verification_key": self.verification_key,
@@ -1152,9 +1123,7 @@ class GenerateECDSASignatureKeyOutput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GenerateECDSASignatureKeyOutput":
-        """Creates a GenerateECDSASignatureKeyOutput from a dictionary.
-
-        """
+        """Creates a GenerateECDSASignatureKeyOutput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "signature_algorithm": d["signature_algorithm"],
             "verification_key": d["verification_key"],
@@ -1179,14 +1148,17 @@ class GenerateECDSASignatureKeyOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GenerateECDSASignatureKeyOutput):
             return False
-        attributes: list[str] = ['signature_algorithm','verification_key','signing_key',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "signature_algorithm",
+            "verification_key",
+            "signing_key",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class GenerateRandomBytesInput:
     length: int
+
     def __init__(
         self,
         *,
@@ -1198,9 +1170,7 @@ class GenerateRandomBytesInput:
         self.length = length
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GenerateRandomBytesInput to a dictionary.
-
-        """
+        """Converts the GenerateRandomBytesInput to a dictionary."""
         d: Dict[str, Any] = {}
 
         if self.length is not None:
@@ -1210,9 +1180,7 @@ class GenerateRandomBytesInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GenerateRandomBytesInput":
-        """Creates a GenerateRandomBytesInput from a dictionary.
-
-        """
+        """Creates a GenerateRandomBytesInput from a dictionary."""
         kwargs: Dict[str, Any] = {}
 
         if "length" in d:
@@ -1230,14 +1198,15 @@ class GenerateRandomBytesInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GenerateRandomBytesInput):
             return False
-        attributes: list[str] = ['length',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "length",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class GenerateRSAKeyPairInput:
     length_bits: int
+
     def __init__(
         self,
         *,
@@ -1252,9 +1221,7 @@ class GenerateRSAKeyPairInput:
         self.length_bits = length_bits
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GenerateRSAKeyPairInput to a dictionary.
-
-        """
+        """Converts the GenerateRSAKeyPairInput to a dictionary."""
         d: Dict[str, Any] = {}
 
         if self.length_bits is not None:
@@ -1264,9 +1231,7 @@ class GenerateRSAKeyPairInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GenerateRSAKeyPairInput":
-        """Creates a GenerateRSAKeyPairInput from a dictionary.
-
-        """
+        """Creates a GenerateRSAKeyPairInput from a dictionary."""
         kwargs: Dict[str, Any] = {}
 
         if "length_bits" in d:
@@ -1284,15 +1249,16 @@ class GenerateRSAKeyPairInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GenerateRSAKeyPairInput):
             return False
-        attributes: list[str] = ['length_bits',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "length_bits",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class RSAPrivateKey:
     length_bits: int
     pem: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -1306,9 +1272,7 @@ class RSAPrivateKey:
         self.length_bits = length_bits
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the RSAPrivateKey to a dictionary.
-
-        """
+        """Converts the RSAPrivateKey to a dictionary."""
         d: Dict[str, Any] = {
             "pem": self.pem,
         }
@@ -1320,9 +1284,7 @@ class RSAPrivateKey:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "RSAPrivateKey":
-        """Creates a RSAPrivateKey from a dictionary.
-
-        """
+        """Creates a RSAPrivateKey from a dictionary."""
         kwargs: Dict[str, Any] = {
             "pem": d["pem"],
         }
@@ -1345,15 +1307,17 @@ class RSAPrivateKey:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, RSAPrivateKey):
             return False
-        attributes: list[str] = ['length_bits','pem',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "length_bits",
+            "pem",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class RSAPublicKey:
     length_bits: int
     pem: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -1367,9 +1331,7 @@ class RSAPublicKey:
         self.length_bits = length_bits
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the RSAPublicKey to a dictionary.
-
-        """
+        """Converts the RSAPublicKey to a dictionary."""
         d: Dict[str, Any] = {
             "pem": self.pem,
         }
@@ -1381,9 +1343,7 @@ class RSAPublicKey:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "RSAPublicKey":
-        """Creates a RSAPublicKey from a dictionary.
-
-        """
+        """Creates a RSAPublicKey from a dictionary."""
         kwargs: Dict[str, Any] = {
             "pem": d["pem"],
         }
@@ -1406,15 +1366,17 @@ class RSAPublicKey:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, RSAPublicKey):
             return False
-        attributes: list[str] = ['length_bits','pem',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "length_bits",
+            "pem",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class GenerateRSAKeyPairOutput:
     public_key: RSAPublicKey
     private_key: RSAPrivateKey
+
     def __init__(
         self,
         *,
@@ -1425,9 +1387,7 @@ class GenerateRSAKeyPairOutput:
         self.private_key = private_key
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GenerateRSAKeyPairOutput to a dictionary.
-
-        """
+        """Converts the GenerateRSAKeyPairOutput to a dictionary."""
         return {
             "public_key": self.public_key.as_dict(),
             "private_key": self.private_key.as_dict(),
@@ -1435,9 +1395,7 @@ class GenerateRSAKeyPairOutput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GenerateRSAKeyPairOutput":
-        """Creates a GenerateRSAKeyPairOutput from a dictionary.
-
-        """
+        """Creates a GenerateRSAKeyPairOutput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "public_key": RSAPublicKey.from_dict(d["public_key"]),
             "private_key": RSAPrivateKey.from_dict(d["private_key"]),
@@ -1458,15 +1416,17 @@ class GenerateRSAKeyPairOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GenerateRSAKeyPairOutput):
             return False
-        attributes: list[str] = ['public_key','private_key',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "public_key",
+            "private_key",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class GetPublicKeyFromPrivateKeyInput:
     ecc_curve: str
     private_key: ECCPrivateKey
+
     def __init__(
         self,
         *,
@@ -1477,9 +1437,7 @@ class GetPublicKeyFromPrivateKeyInput:
         self.private_key = private_key
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GetPublicKeyFromPrivateKeyInput to a dictionary.
-
-        """
+        """Converts the GetPublicKeyFromPrivateKeyInput to a dictionary."""
         return {
             "ecc_curve": self.ecc_curve,
             "private_key": self.private_key.as_dict(),
@@ -1487,9 +1445,7 @@ class GetPublicKeyFromPrivateKeyInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GetPublicKeyFromPrivateKeyInput":
-        """Creates a GetPublicKeyFromPrivateKeyInput from a dictionary.
-
-        """
+        """Creates a GetPublicKeyFromPrivateKeyInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "ecc_curve": d["ecc_curve"],
             "private_key": ECCPrivateKey.from_dict(d["private_key"]),
@@ -1510,16 +1466,18 @@ class GetPublicKeyFromPrivateKeyInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GetPublicKeyFromPrivateKeyInput):
             return False
-        attributes: list[str] = ['ecc_curve','private_key',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "ecc_curve",
+            "private_key",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class GetPublicKeyFromPrivateKeyOutput:
     ecc_curve: str
     private_key: ECCPrivateKey
     public_key: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -1532,9 +1490,7 @@ class GetPublicKeyFromPrivateKeyOutput:
         self.public_key = public_key
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GetPublicKeyFromPrivateKeyOutput to a dictionary.
-
-        """
+        """Converts the GetPublicKeyFromPrivateKeyOutput to a dictionary."""
         return {
             "ecc_curve": self.ecc_curve,
             "private_key": self.private_key.as_dict(),
@@ -1543,9 +1499,7 @@ class GetPublicKeyFromPrivateKeyOutput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GetPublicKeyFromPrivateKeyOutput":
-        """Creates a GetPublicKeyFromPrivateKeyOutput from a dictionary.
-
-        """
+        """Creates a GetPublicKeyFromPrivateKeyOutput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "ecc_curve": d["ecc_curve"],
             "private_key": ECCPrivateKey.from_dict(d["private_key"]),
@@ -1570,14 +1524,17 @@ class GetPublicKeyFromPrivateKeyOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GetPublicKeyFromPrivateKeyOutput):
             return False
-        attributes: list[str] = ['ecc_curve','private_key','public_key',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "ecc_curve",
+            "private_key",
+            "public_key",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class GetRSAKeyModulusLengthInput:
     public_key: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -1586,18 +1543,14 @@ class GetRSAKeyModulusLengthInput:
         self.public_key = public_key
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GetRSAKeyModulusLengthInput to a dictionary.
-
-        """
+        """Converts the GetRSAKeyModulusLengthInput to a dictionary."""
         return {
             "public_key": self.public_key,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GetRSAKeyModulusLengthInput":
-        """Creates a GetRSAKeyModulusLengthInput from a dictionary.
-
-        """
+        """Creates a GetRSAKeyModulusLengthInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "public_key": d["public_key"],
         }
@@ -1614,14 +1567,15 @@ class GetRSAKeyModulusLengthInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GetRSAKeyModulusLengthInput):
             return False
-        attributes: list[str] = ['public_key',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "public_key",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class GetRSAKeyModulusLengthOutput:
     length: int
+
     def __init__(
         self,
         *,
@@ -1633,9 +1587,7 @@ class GetRSAKeyModulusLengthOutput:
         self.length = length
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the GetRSAKeyModulusLengthOutput to a dictionary.
-
-        """
+        """Converts the GetRSAKeyModulusLengthOutput to a dictionary."""
         d: Dict[str, Any] = {}
 
         if self.length is not None:
@@ -1645,9 +1597,7 @@ class GetRSAKeyModulusLengthOutput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "GetRSAKeyModulusLengthOutput":
-        """Creates a GetRSAKeyModulusLengthOutput from a dictionary.
-
-        """
+        """Creates a GetRSAKeyModulusLengthOutput from a dictionary."""
         kwargs: Dict[str, Any] = {}
 
         if "length" in d:
@@ -1665,11 +1615,11 @@ class GetRSAKeyModulusLengthOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GetRSAKeyModulusLengthOutput):
             return False
-        attributes: list[str] = ['length',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "length",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class HkdfInput:
     digest_algorithm: str
@@ -1677,6 +1627,7 @@ class HkdfInput:
     ikm: bytes | bytearray
     info: bytes | bytearray
     expected_length: int
+
     def __init__(
         self,
         *,
@@ -1696,9 +1647,7 @@ class HkdfInput:
         self.expected_length = expected_length
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the HkdfInput to a dictionary.
-
-        """
+        """Converts the HkdfInput to a dictionary."""
         d: Dict[str, Any] = {
             "digest_algorithm": self.digest_algorithm,
             "ikm": self.ikm,
@@ -1715,9 +1664,7 @@ class HkdfInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "HkdfInput":
-        """Creates a HkdfInput from a dictionary.
-
-        """
+        """Creates a HkdfInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "digest_algorithm": d["digest_algorithm"],
             "ikm": d["ikm"],
@@ -1754,17 +1701,22 @@ class HkdfInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, HkdfInput):
             return False
-        attributes: list[str] = ['digest_algorithm','salt','ikm','info','expected_length',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "digest_algorithm",
+            "salt",
+            "ikm",
+            "info",
+            "expected_length",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class HkdfExpandInput:
     digest_algorithm: str
     prk: bytes | bytearray
     info: bytes | bytearray
     expected_length: int
+
     def __init__(
         self,
         *,
@@ -1782,9 +1734,7 @@ class HkdfExpandInput:
         self.expected_length = expected_length
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the HkdfExpandInput to a dictionary.
-
-        """
+        """Converts the HkdfExpandInput to a dictionary."""
         d: Dict[str, Any] = {
             "digest_algorithm": self.digest_algorithm,
             "prk": self.prk,
@@ -1798,9 +1748,7 @@ class HkdfExpandInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "HkdfExpandInput":
-        """Creates a HkdfExpandInput from a dictionary.
-
-        """
+        """Creates a HkdfExpandInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "digest_algorithm": d["digest_algorithm"],
             "prk": d["prk"],
@@ -1831,16 +1779,20 @@ class HkdfExpandInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, HkdfExpandInput):
             return False
-        attributes: list[str] = ['digest_algorithm','prk','info','expected_length',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "digest_algorithm",
+            "prk",
+            "info",
+            "expected_length",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class HkdfExtractInput:
     digest_algorithm: str
     salt: Optional[bytes | bytearray]
     ikm: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -1853,9 +1805,7 @@ class HkdfExtractInput:
         self.salt = salt
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the HkdfExtractInput to a dictionary.
-
-        """
+        """Converts the HkdfExtractInput to a dictionary."""
         d: Dict[str, Any] = {
             "digest_algorithm": self.digest_algorithm,
             "ikm": self.ikm,
@@ -1868,9 +1818,7 @@ class HkdfExtractInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "HkdfExtractInput":
-        """Creates a HkdfExtractInput from a dictionary.
-
-        """
+        """Creates a HkdfExtractInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "digest_algorithm": d["digest_algorithm"],
             "ikm": d["ikm"],
@@ -1897,16 +1845,19 @@ class HkdfExtractInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, HkdfExtractInput):
             return False
-        attributes: list[str] = ['digest_algorithm','salt','ikm',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "digest_algorithm",
+            "salt",
+            "ikm",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class HMacInput:
     digest_algorithm: str
     key: bytes | bytearray
     message: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -1919,9 +1870,7 @@ class HMacInput:
         self.message = message
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the HMacInput to a dictionary.
-
-        """
+        """Converts the HMacInput to a dictionary."""
         return {
             "digest_algorithm": self.digest_algorithm,
             "key": self.key,
@@ -1930,9 +1879,7 @@ class HMacInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "HMacInput":
-        """Creates a HMacInput from a dictionary.
-
-        """
+        """Creates a HMacInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "digest_algorithm": d["digest_algorithm"],
             "key": d["key"],
@@ -1957,11 +1904,13 @@ class HMacInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, HMacInput):
             return False
-        attributes: list[str] = ['digest_algorithm','key','message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "digest_algorithm",
+            "key",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class KdfCtrInput:
     digest_algorithm: str
@@ -1969,6 +1918,7 @@ class KdfCtrInput:
     expected_length: int
     purpose: Optional[bytes | bytearray]
     nonce: Optional[bytes | bytearray]
+
     def __init__(
         self,
         *,
@@ -1988,9 +1938,7 @@ class KdfCtrInput:
         self.nonce = nonce
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the KdfCtrInput to a dictionary.
-
-        """
+        """Converts the KdfCtrInput to a dictionary."""
         d: Dict[str, Any] = {
             "digest_algorithm": self.digest_algorithm,
             "ikm": self.ikm,
@@ -2009,9 +1957,7 @@ class KdfCtrInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "KdfCtrInput":
-        """Creates a KdfCtrInput from a dictionary.
-
-        """
+        """Creates a KdfCtrInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "digest_algorithm": d["digest_algorithm"],
             "ikm": d["ikm"],
@@ -2050,14 +1996,19 @@ class KdfCtrInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, KdfCtrInput):
             return False
-        attributes: list[str] = ['digest_algorithm','ikm','expected_length','purpose','nonce',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "digest_algorithm",
+            "ikm",
+            "expected_length",
+            "purpose",
+            "nonce",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class ParsePublicKeyInput:
     public_key: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -2066,18 +2017,14 @@ class ParsePublicKeyInput:
         self.public_key = public_key
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the ParsePublicKeyInput to a dictionary.
-
-        """
+        """Converts the ParsePublicKeyInput to a dictionary."""
         return {
             "public_key": self.public_key,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "ParsePublicKeyInput":
-        """Creates a ParsePublicKeyInput from a dictionary.
-
-        """
+        """Creates a ParsePublicKeyInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "public_key": d["public_key"],
         }
@@ -2094,14 +2041,15 @@ class ParsePublicKeyInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, ParsePublicKeyInput):
             return False
-        attributes: list[str] = ['public_key',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "public_key",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class ParsePublicKeyOutput:
     public_key: ECCPublicKey
+
     def __init__(
         self,
         *,
@@ -2110,18 +2058,14 @@ class ParsePublicKeyOutput:
         self.public_key = public_key
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the ParsePublicKeyOutput to a dictionary.
-
-        """
+        """Converts the ParsePublicKeyOutput to a dictionary."""
         return {
             "public_key": self.public_key.as_dict(),
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "ParsePublicKeyOutput":
-        """Creates a ParsePublicKeyOutput from a dictionary.
-
-        """
+        """Creates a ParsePublicKeyOutput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "public_key": ECCPublicKey.from_dict(d["public_key"]),
         }
@@ -2138,11 +2082,11 @@ class ParsePublicKeyOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, ParsePublicKeyOutput):
             return False
-        attributes: list[str] = ['public_key',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "public_key",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class RSAPaddingMode:
     PKCS1 = "PKCS1"
@@ -2157,12 +2101,16 @@ class RSAPaddingMode:
 
     # This set contains every possible value known at the time this was generated. New
     # values may be added in the future.
-    values = frozenset({"PKCS1", "OAEP_SHA1", "OAEP_SHA256", "OAEP_SHA384", "OAEP_SHA512"})
+    values = frozenset(
+        {"PKCS1", "OAEP_SHA1", "OAEP_SHA256", "OAEP_SHA384", "OAEP_SHA512"}
+    )
+
 
 class RSADecryptInput:
     padding: str
     private_key: bytes | bytearray
     cipher_text: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -2175,9 +2123,7 @@ class RSADecryptInput:
         self.cipher_text = cipher_text
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the RSADecryptInput to a dictionary.
-
-        """
+        """Converts the RSADecryptInput to a dictionary."""
         return {
             "padding": self.padding,
             "private_key": self.private_key,
@@ -2186,9 +2132,7 @@ class RSADecryptInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "RSADecryptInput":
-        """Creates a RSADecryptInput from a dictionary.
-
-        """
+        """Creates a RSADecryptInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "padding": d["padding"],
             "private_key": d["private_key"],
@@ -2213,16 +2157,19 @@ class RSADecryptInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, RSADecryptInput):
             return False
-        attributes: list[str] = ['padding','private_key','cipher_text',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "padding",
+            "private_key",
+            "cipher_text",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class RSAEncryptInput:
     padding: str
     public_key: bytes | bytearray
     plaintext: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -2235,9 +2182,7 @@ class RSAEncryptInput:
         self.plaintext = plaintext
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the RSAEncryptInput to a dictionary.
-
-        """
+        """Converts the RSAEncryptInput to a dictionary."""
         return {
             "padding": self.padding,
             "public_key": self.public_key,
@@ -2246,9 +2191,7 @@ class RSAEncryptInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "RSAEncryptInput":
-        """Creates a RSAEncryptInput from a dictionary.
-
-        """
+        """Creates a RSAEncryptInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "padding": d["padding"],
             "public_key": d["public_key"],
@@ -2273,15 +2216,18 @@ class RSAEncryptInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, RSAEncryptInput):
             return False
-        attributes: list[str] = ['padding','public_key','plaintext',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "padding",
+            "public_key",
+            "plaintext",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class ValidatePublicKeyInput:
     ecc_curve: str
     public_key: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -2292,9 +2238,7 @@ class ValidatePublicKeyInput:
         self.public_key = public_key
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the ValidatePublicKeyInput to a dictionary.
-
-        """
+        """Converts the ValidatePublicKeyInput to a dictionary."""
         return {
             "ecc_curve": self.ecc_curve,
             "public_key": self.public_key,
@@ -2302,9 +2246,7 @@ class ValidatePublicKeyInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "ValidatePublicKeyInput":
-        """Creates a ValidatePublicKeyInput from a dictionary.
-
-        """
+        """Creates a ValidatePublicKeyInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "ecc_curve": d["ecc_curve"],
             "public_key": d["public_key"],
@@ -2325,14 +2267,16 @@ class ValidatePublicKeyInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, ValidatePublicKeyInput):
             return False
-        attributes: list[str] = ['ecc_curve','public_key',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "ecc_curve",
+            "public_key",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class ValidatePublicKeyOutput:
     success: bool
+
     def __init__(
         self,
         *,
@@ -2341,18 +2285,14 @@ class ValidatePublicKeyOutput:
         self.success = success
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the ValidatePublicKeyOutput to a dictionary.
-
-        """
+        """Converts the ValidatePublicKeyOutput to a dictionary."""
         return {
             "success": self.success,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "ValidatePublicKeyOutput":
-        """Creates a ValidatePublicKeyOutput from a dictionary.
-
-        """
+        """Creates a ValidatePublicKeyOutput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "success": d["success"],
         }
@@ -2369,11 +2309,11 @@ class ValidatePublicKeyOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, ValidatePublicKeyOutput):
             return False
-        attributes: list[str] = ['success',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "success",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class Unit:
     pass
