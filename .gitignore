@@ -8,11 +8,6 @@ test/**/Output/*
 /node_modules
 *.log
 
-# Python docs build Artifacts
-build
-doc/build
-AwsCryptographicMaterialProviders/runtimes/python/doc/generated/*
-
 # Duvet output
 specification_compliance_report.html
 
