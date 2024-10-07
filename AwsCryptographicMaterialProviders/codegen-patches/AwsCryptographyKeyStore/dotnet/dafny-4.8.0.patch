@@ -1,0 +1,22 @@
+diff --git b/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/TypeConversion.cs a/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/TypeConversion.cs
+index 2804c8f21..868d600b3 100644
+--- b/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/TypeConversion.cs
++++ a/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/TypeConversion.cs
+@@ -1875,7 +1875,7 @@ namespace AWS.Cryptography.KeyStore
+             dafnyVal._ComAmazonawsDynamodb
+           );
+         case software.amazon.cryptography.keystore.internaldafny.types.Error_ComAmazonawsKms dafnyVal:
+-          return Com.Amazonaws.KMS.TypeConversion.FromDafny_CommonError(
++          return Com.Amazonaws.Kms.TypeConversion.FromDafny_CommonError( // Manual edit KMS. -> Kms.
+             dafnyVal._ComAmazonawsKms
+           );
+         case software.amazon.cryptography.keystore.internaldafny.types.Error_AlreadyExistsConditionFailed dafnyVal:
+@@ -1910,7 +1910,7 @@ namespace AWS.Cryptography.KeyStore
+       {
+         case "Com.Amazonaws.KMS":
+           return software.amazon.cryptography.keystore.internaldafny.types.Error.create_ComAmazonawsKms(
+-            Com.Amazonaws.KMS.TypeConversion.ToDafny_CommonError(value)
++            Com.Amazonaws.Kms.TypeConversion.ToDafny_CommonError(value) // Manual edit KMS. -> Kms.
+           );
+         case "Com.Amazonaws.Dynamodb":
+           return software.amazon.cryptography.keystore.internaldafny.types.Error.create_ComAmazonawsDynamodb(

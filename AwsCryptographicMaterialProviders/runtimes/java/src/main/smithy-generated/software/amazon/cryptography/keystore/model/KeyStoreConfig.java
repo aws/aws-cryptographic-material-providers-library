@@ -11,11 +11,6 @@ import software.amazon.awssdk.services.kms.KmsClient;
 public class KeyStoreConfig {
 
   /**
-   * The DynamoDB table name that backs this Key Store.
-   */
-  private final String ddbTableName;
-
-  /**
    * Configures Key Store's KMS Key ARN restrictions.
    */
   private final KMSConfiguration kmsConfiguration;
@@ -24,6 +19,16 @@ public class KeyStoreConfig {
    * The logical name for this Key Store, which is cryptographically bound to the keys it holds. This appears in the Encryption Context of KMS requests as `tablename`.
    */
   private final String logicalKeyStoreName;
+
+  /**
+   * The key management configuration for this Key Store.
+   */
+  private final KeyManagement keyManagement;
+
+  /**
+   * The DynamoDB table name that backs this Key Store.
+   */
+  private final String ddbTableName;
 
   /**
    * An identifier for this Key Store.
@@ -36,6 +41,11 @@ public class KeyStoreConfig {
   private final List<String> grantTokens;
 
   /**
+   * The storage configuration for this Key Store.
+   */
+  private final Storage storage;
+
+  /**
    * The DynamoDB client this Key Store uses to call Amazon DynamoDB. If None is provided and the KMS ARN is, the KMS ARN is used to determine the Region of the default client.
    */
   private final DynamoDbClient ddbClient;
@@ -46,20 +56,15 @@ public class KeyStoreConfig {
   private final KmsClient kmsClient;
 
   protected KeyStoreConfig(BuilderImpl builder) {
-    this.ddbTableName = builder.ddbTableName();
     this.kmsConfiguration = builder.kmsConfiguration();
     this.logicalKeyStoreName = builder.logicalKeyStoreName();
+    this.keyManagement = builder.keyManagement();
+    this.ddbTableName = builder.ddbTableName();
     this.id = builder.id();
     this.grantTokens = builder.grantTokens();
+    this.storage = builder.storage();
     this.ddbClient = builder.ddbClient();
     this.kmsClient = builder.kmsClient();
-  }
-
-  /**
-   * @return The DynamoDB table name that backs this Key Store.
-   */
-  public String ddbTableName() {
-    return this.ddbTableName;
   }
 
   /**
@@ -77,6 +82,20 @@ public class KeyStoreConfig {
   }
 
   /**
+   * @return The key management configuration for this Key Store.
+   */
+  public KeyManagement keyManagement() {
+    return this.keyManagement;
+  }
+
+  /**
+   * @return The DynamoDB table name that backs this Key Store.
+   */
+  public String ddbTableName() {
+    return this.ddbTableName;
+  }
+
+  /**
    * @return An identifier for this Key Store.
    */
   public String id() {
@@ -88,6 +107,13 @@ public class KeyStoreConfig {
    */
   public List<String> grantTokens() {
     return this.grantTokens;
+  }
+
+  /**
+   * @return The storage configuration for this Key Store.
+   */
+  public Storage storage() {
+    return this.storage;
   }
 
   /**
@@ -114,16 +140,6 @@ public class KeyStoreConfig {
 
   public interface Builder {
     /**
-     * @param ddbTableName The DynamoDB table name that backs this Key Store.
-     */
-    Builder ddbTableName(String ddbTableName);
-
-    /**
-     * @return The DynamoDB table name that backs this Key Store.
-     */
-    String ddbTableName();
-
-    /**
      * @param kmsConfiguration Configures Key Store's KMS Key ARN restrictions.
      */
     Builder kmsConfiguration(KMSConfiguration kmsConfiguration);
@@ -144,6 +160,26 @@ public class KeyStoreConfig {
     String logicalKeyStoreName();
 
     /**
+     * @param keyManagement The key management configuration for this Key Store.
+     */
+    Builder keyManagement(KeyManagement keyManagement);
+
+    /**
+     * @return The key management configuration for this Key Store.
+     */
+    KeyManagement keyManagement();
+
+    /**
+     * @param ddbTableName The DynamoDB table name that backs this Key Store.
+     */
+    Builder ddbTableName(String ddbTableName);
+
+    /**
+     * @return The DynamoDB table name that backs this Key Store.
+     */
+    String ddbTableName();
+
+    /**
      * @param id An identifier for this Key Store.
      */
     Builder id(String id);
@@ -162,6 +198,16 @@ public class KeyStoreConfig {
      * @return The AWS KMS grant tokens that are used when this Key Store calls to AWS KMS.
      */
     List<String> grantTokens();
+
+    /**
+     * @param storage The storage configuration for this Key Store.
+     */
+    Builder storage(Storage storage);
+
+    /**
+     * @return The storage configuration for this Key Store.
+     */
+    Storage storage();
 
     /**
      * @param ddbClient The DynamoDB client this Key Store uses to call Amazon DynamoDB. If None is provided and the KMS ARN is, the KMS ARN is used to determine the Region of the default client.
@@ -188,15 +234,19 @@ public class KeyStoreConfig {
 
   static class BuilderImpl implements Builder {
 
-    protected String ddbTableName;
-
     protected KMSConfiguration kmsConfiguration;
 
     protected String logicalKeyStoreName;
 
+    protected KeyManagement keyManagement;
+
+    protected String ddbTableName;
+
     protected String id;
 
     protected List<String> grantTokens;
+
+    protected Storage storage;
 
     protected DynamoDbClient ddbClient;
 
@@ -205,22 +255,15 @@ public class KeyStoreConfig {
     protected BuilderImpl() {}
 
     protected BuilderImpl(KeyStoreConfig model) {
-      this.ddbTableName = model.ddbTableName();
       this.kmsConfiguration = model.kmsConfiguration();
       this.logicalKeyStoreName = model.logicalKeyStoreName();
+      this.keyManagement = model.keyManagement();
+      this.ddbTableName = model.ddbTableName();
       this.id = model.id();
       this.grantTokens = model.grantTokens();
+      this.storage = model.storage();
       this.ddbClient = model.ddbClient();
       this.kmsClient = model.kmsClient();
-    }
-
-    public Builder ddbTableName(String ddbTableName) {
-      this.ddbTableName = ddbTableName;
-      return this;
-    }
-
-    public String ddbTableName() {
-      return this.ddbTableName;
     }
 
     public Builder kmsConfiguration(KMSConfiguration kmsConfiguration) {
@@ -241,6 +284,24 @@ public class KeyStoreConfig {
       return this.logicalKeyStoreName;
     }
 
+    public Builder keyManagement(KeyManagement keyManagement) {
+      this.keyManagement = keyManagement;
+      return this;
+    }
+
+    public KeyManagement keyManagement() {
+      return this.keyManagement;
+    }
+
+    public Builder ddbTableName(String ddbTableName) {
+      this.ddbTableName = ddbTableName;
+      return this;
+    }
+
+    public String ddbTableName() {
+      return this.ddbTableName;
+    }
+
     public Builder id(String id) {
       this.id = id;
       return this;
@@ -257,6 +318,15 @@ public class KeyStoreConfig {
 
     public List<String> grantTokens() {
       return this.grantTokens;
+    }
+
+    public Builder storage(Storage storage) {
+      this.storage = storage;
+      return this;
+    }
+
+    public Storage storage() {
+      return this.storage;
     }
 
     public Builder ddbClient(DynamoDbClient ddbClient) {
@@ -278,9 +348,14 @@ public class KeyStoreConfig {
     }
 
     public KeyStoreConfig build() {
-      if (Objects.isNull(this.ddbTableName())) {
+      if (Objects.isNull(this.kmsConfiguration())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `ddbTableName`"
+          "Missing value for required field `kmsConfiguration`"
+        );
+      }
+      if (Objects.isNull(this.logicalKeyStoreName())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `logicalKeyStoreName`"
         );
       }
       if (
@@ -296,16 +371,6 @@ public class KeyStoreConfig {
       ) {
         throw new IllegalArgumentException(
           "The size of `ddbTableName` must be less than or equal to 255"
-        );
-      }
-      if (Objects.isNull(this.kmsConfiguration())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `kmsConfiguration`"
-        );
-      }
-      if (Objects.isNull(this.logicalKeyStoreName())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `logicalKeyStoreName`"
         );
       }
       return new KeyStoreConfig(this);

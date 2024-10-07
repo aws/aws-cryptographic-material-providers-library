@@ -37,11 +37,6 @@ jobs:
     with:
       dafny: "nightly-latest"
       regenerate-code: true
-  dafny-nightly-python:
-    needs: getVersion
-    uses: ./.github/workflows/library_python_tests.yml
-    with:
-      dafny: ${{needs.getVersion.outputs.version}}
 
   cut-issue-on-failure:
     runs-on: ubuntu-latest
