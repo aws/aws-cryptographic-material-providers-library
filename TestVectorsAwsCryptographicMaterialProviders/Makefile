@@ -3,9 +3,9 @@
 
 CORES=2
 
-include ../SharedMakefileV2.mk
-
 ENABLE_EXTERN_PROCESSING=1
+
+include ../SharedMakefileV2.mk
 
 PROJECT_SERVICES := \
 	KeyVectors \
