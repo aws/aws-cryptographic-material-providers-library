@@ -880,12 +880,18 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
         nativeValue.PageIndex()
       );
-    DafnySequence<? extends Byte> enc;
-    enc =
+    DafnySequence<? extends Byte> ciphertextBlob;
+    ciphertextBlob =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-        nativeValue.Enc()
+        nativeValue.CiphertextBlob()
       );
-    return new MutationIndex(identifier, createTime, uUID, pageIndex, enc);
+    return new MutationIndex(
+      identifier,
+      createTime,
+      uUID,
+      pageIndex,
+      ciphertextBlob
+    );
   }
 
   public static MutationLock MutationLock(
@@ -916,10 +922,10 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
         nativeValue.Terminal()
       );
-    DafnySequence<? extends Byte> enc;
-    enc =
+    DafnySequence<? extends Byte> ciphertextBlob;
+    ciphertextBlob =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-        nativeValue.Enc()
+        nativeValue.CiphertextBlob()
       );
     return new MutationLock(
       identifier,
@@ -927,19 +933,18 @@ public class ToDafny {
       uUID,
       original,
       terminal,
-      enc
+      ciphertextBlob
     );
   }
 
   public static OverWriteEncryptedHierarchicalKey OverWriteEncryptedHierarchicalKey(
     software.amazon.cryptography.keystore.model.OverWriteEncryptedHierarchicalKey nativeValue
   ) {
-    EncryptedHierarchicalKey encryptedHierarchicalKey;
-    encryptedHierarchicalKey =
-      ToDafny.EncryptedHierarchicalKey(nativeValue.EncryptedHierarchicalKey());
+    EncryptedHierarchicalKey item;
+    item = ToDafny.EncryptedHierarchicalKey(nativeValue.Item());
     EncryptedHierarchicalKey old;
     old = ToDafny.EncryptedHierarchicalKey(nativeValue.Old());
-    return new OverWriteEncryptedHierarchicalKey(encryptedHierarchicalKey, old);
+    return new OverWriteEncryptedHierarchicalKey(item, old);
   }
 
   public static QueryForVersionsInput QueryForVersionsInput(
