@@ -14,7 +14,7 @@ public class OverWriteEncryptedHierarchicalKey {
   /**
    * Information about an encrypted hierarchical key. This abstracts the structure of this information from the underlying storage.
    */
-  private final EncryptedHierarchicalKey EncryptedHierarchicalKey;
+  private final EncryptedHierarchicalKey Item;
 
   /**
    * The previous itme. Used to construct an optimistic lock for the overwrite.
@@ -22,15 +22,15 @@ public class OverWriteEncryptedHierarchicalKey {
   private final EncryptedHierarchicalKey Old;
 
   protected OverWriteEncryptedHierarchicalKey(BuilderImpl builder) {
-    this.EncryptedHierarchicalKey = builder.EncryptedHierarchicalKey();
+    this.Item = builder.Item();
     this.Old = builder.Old();
   }
 
   /**
    * @return Information about an encrypted hierarchical key. This abstracts the structure of this information from the underlying storage.
    */
-  public EncryptedHierarchicalKey EncryptedHierarchicalKey() {
-    return this.EncryptedHierarchicalKey;
+  public EncryptedHierarchicalKey Item() {
+    return this.Item;
   }
 
   /**
@@ -50,16 +50,14 @@ public class OverWriteEncryptedHierarchicalKey {
 
   public interface Builder {
     /**
-     * @param EncryptedHierarchicalKey Information about an encrypted hierarchical key. This abstracts the structure of this information from the underlying storage.
+     * @param Item Information about an encrypted hierarchical key. This abstracts the structure of this information from the underlying storage.
      */
-    Builder EncryptedHierarchicalKey(
-      EncryptedHierarchicalKey EncryptedHierarchicalKey
-    );
+    Builder Item(EncryptedHierarchicalKey Item);
 
     /**
      * @return Information about an encrypted hierarchical key. This abstracts the structure of this information from the underlying storage.
      */
-    EncryptedHierarchicalKey EncryptedHierarchicalKey();
+    EncryptedHierarchicalKey Item();
 
     /**
      * @param Old The previous itme. Used to construct an optimistic lock for the overwrite.
@@ -76,26 +74,24 @@ public class OverWriteEncryptedHierarchicalKey {
 
   static class BuilderImpl implements Builder {
 
-    protected EncryptedHierarchicalKey EncryptedHierarchicalKey;
+    protected EncryptedHierarchicalKey Item;
 
     protected EncryptedHierarchicalKey Old;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(OverWriteEncryptedHierarchicalKey model) {
-      this.EncryptedHierarchicalKey = model.EncryptedHierarchicalKey();
+      this.Item = model.Item();
       this.Old = model.Old();
     }
 
-    public Builder EncryptedHierarchicalKey(
-      EncryptedHierarchicalKey EncryptedHierarchicalKey
-    ) {
-      this.EncryptedHierarchicalKey = EncryptedHierarchicalKey;
+    public Builder Item(EncryptedHierarchicalKey Item) {
+      this.Item = Item;
       return this;
     }
 
-    public EncryptedHierarchicalKey EncryptedHierarchicalKey() {
-      return this.EncryptedHierarchicalKey;
+    public EncryptedHierarchicalKey Item() {
+      return this.Item;
     }
 
     public Builder Old(EncryptedHierarchicalKey Old) {
@@ -108,9 +104,9 @@ public class OverWriteEncryptedHierarchicalKey {
     }
 
     public OverWriteEncryptedHierarchicalKey build() {
-      if (Objects.isNull(this.EncryptedHierarchicalKey())) {
+      if (Objects.isNull(this.Item())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `EncryptedHierarchicalKey`"
+          "Missing value for required field `Item`"
         );
       }
       if (Objects.isNull(this.Old())) {

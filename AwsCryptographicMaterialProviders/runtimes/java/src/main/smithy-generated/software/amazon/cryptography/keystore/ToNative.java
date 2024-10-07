@@ -891,9 +891,9 @@ public class ToNative {
         dafnyValue.dtor_PageIndex()
       )
     );
-    nativeBuilder.Enc(
+    nativeBuilder.CiphertextBlob(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
-        dafnyValue.dtor_Enc()
+        dafnyValue.dtor_CiphertextBlob()
       )
     );
     return nativeBuilder.build();
@@ -928,9 +928,9 @@ public class ToNative {
         dafnyValue.dtor_Terminal()
       )
     );
-    nativeBuilder.Enc(
+    nativeBuilder.CiphertextBlob(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
-        dafnyValue.dtor_Enc()
+        dafnyValue.dtor_CiphertextBlob()
       )
     );
     return nativeBuilder.build();
@@ -941,10 +941,8 @@ public class ToNative {
   ) {
     OverWriteEncryptedHierarchicalKey.Builder nativeBuilder =
       OverWriteEncryptedHierarchicalKey.builder();
-    nativeBuilder.EncryptedHierarchicalKey(
-      ToNative.EncryptedHierarchicalKey(
-        dafnyValue.dtor_EncryptedHierarchicalKey()
-      )
+    nativeBuilder.Item(
+      ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_Item())
     );
     nativeBuilder.Old(ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_Old()));
     return nativeBuilder.build();

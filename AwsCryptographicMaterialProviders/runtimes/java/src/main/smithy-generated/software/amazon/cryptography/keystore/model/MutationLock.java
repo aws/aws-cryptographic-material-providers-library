@@ -39,7 +39,7 @@ public class MutationLock {
    */
   private final ByteBuffer Terminal;
 
-  private final ByteBuffer Enc;
+  private final ByteBuffer CiphertextBlob;
 
   protected MutationLock(BuilderImpl builder) {
     this.Identifier = builder.Identifier();
@@ -47,7 +47,7 @@ public class MutationLock {
     this.UUID = builder.UUID();
     this.Original = builder.Original();
     this.Terminal = builder.Terminal();
-    this.Enc = builder.Enc();
+    this.CiphertextBlob = builder.CiphertextBlob();
   }
 
   /**
@@ -85,8 +85,8 @@ public class MutationLock {
     return this.Terminal;
   }
 
-  public ByteBuffer Enc() {
-    return this.Enc;
+  public ByteBuffer CiphertextBlob() {
+    return this.CiphertextBlob;
   }
 
   public Builder toBuilder() {
@@ -148,9 +148,9 @@ public class MutationLock {
      */
     ByteBuffer Terminal();
 
-    Builder Enc(ByteBuffer Enc);
+    Builder CiphertextBlob(ByteBuffer CiphertextBlob);
 
-    ByteBuffer Enc();
+    ByteBuffer CiphertextBlob();
 
     MutationLock build();
   }
@@ -167,7 +167,7 @@ public class MutationLock {
 
     protected ByteBuffer Terminal;
 
-    protected ByteBuffer Enc;
+    protected ByteBuffer CiphertextBlob;
 
     protected BuilderImpl() {}
 
@@ -177,7 +177,7 @@ public class MutationLock {
       this.UUID = model.UUID();
       this.Original = model.Original();
       this.Terminal = model.Terminal();
-      this.Enc = model.Enc();
+      this.CiphertextBlob = model.CiphertextBlob();
     }
 
     public Builder Identifier(String Identifier) {
@@ -225,13 +225,13 @@ public class MutationLock {
       return this.Terminal;
     }
 
-    public Builder Enc(ByteBuffer Enc) {
-      this.Enc = Enc;
+    public Builder CiphertextBlob(ByteBuffer CiphertextBlob) {
+      this.CiphertextBlob = CiphertextBlob;
       return this;
     }
 
-    public ByteBuffer Enc() {
-      return this.Enc;
+    public ByteBuffer CiphertextBlob() {
+      return this.CiphertextBlob;
     }
 
     public MutationLock build() {
@@ -260,9 +260,9 @@ public class MutationLock {
           "Missing value for required field `Terminal`"
         );
       }
-      if (Objects.isNull(this.Enc())) {
+      if (Objects.isNull(this.CiphertextBlob())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `Enc`"
+          "Missing value for required field `CiphertextBlob`"
         );
       }
       return new MutationLock(this);
