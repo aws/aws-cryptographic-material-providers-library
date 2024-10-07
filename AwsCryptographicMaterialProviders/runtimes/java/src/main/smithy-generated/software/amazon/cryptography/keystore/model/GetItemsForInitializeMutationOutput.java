@@ -22,10 +22,16 @@ public class GetItemsForInitializeMutationOutput {
    */
   private final MutationLock MutationLock;
 
+  /**
+   * A Mutation Index, if it exists.
+   */
+  private final MutationIndex MutationIndex;
+
   protected GetItemsForInitializeMutationOutput(BuilderImpl builder) {
     this.ActiveItem = builder.ActiveItem();
     this.BeaconItem = builder.BeaconItem();
     this.MutationLock = builder.MutationLock();
+    this.MutationIndex = builder.MutationIndex();
   }
 
   /**
@@ -47,6 +53,13 @@ public class GetItemsForInitializeMutationOutput {
    */
   public MutationLock MutationLock() {
     return this.MutationLock;
+  }
+
+  /**
+   * @return A Mutation Index, if it exists.
+   */
+  public MutationIndex MutationIndex() {
+    return this.MutationIndex;
   }
 
   public Builder toBuilder() {
@@ -88,6 +101,16 @@ public class GetItemsForInitializeMutationOutput {
      */
     MutationLock MutationLock();
 
+    /**
+     * @param MutationIndex A Mutation Index, if it exists.
+     */
+    Builder MutationIndex(MutationIndex MutationIndex);
+
+    /**
+     * @return A Mutation Index, if it exists.
+     */
+    MutationIndex MutationIndex();
+
     GetItemsForInitializeMutationOutput build();
   }
 
@@ -99,12 +122,15 @@ public class GetItemsForInitializeMutationOutput {
 
     protected MutationLock MutationLock;
 
+    protected MutationIndex MutationIndex;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(GetItemsForInitializeMutationOutput model) {
       this.ActiveItem = model.ActiveItem();
       this.BeaconItem = model.BeaconItem();
       this.MutationLock = model.MutationLock();
+      this.MutationIndex = model.MutationIndex();
     }
 
     public Builder ActiveItem(EncryptedHierarchicalKey ActiveItem) {
@@ -132,6 +158,15 @@ public class GetItemsForInitializeMutationOutput {
 
     public MutationLock MutationLock() {
       return this.MutationLock;
+    }
+
+    public Builder MutationIndex(MutationIndex MutationIndex) {
+      this.MutationIndex = MutationIndex;
+      return this;
+    }
+
+    public MutationIndex MutationIndex() {
+      return this.MutationIndex;
     }
 
     public GetItemsForInitializeMutationOutput build() {

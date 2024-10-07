@@ -18,9 +18,12 @@ public class InitializeMutationOutput {
    */
   private final List<MutatedBranchKeyItem> MutatedBranchKeyItems;
 
+  private final InitializeMutationFlag InitializeMutationFlag;
+
   protected InitializeMutationOutput(BuilderImpl builder) {
     this.MutationToken = builder.MutationToken();
     this.MutatedBranchKeyItems = builder.MutatedBranchKeyItems();
+    this.InitializeMutationFlag = builder.InitializeMutationFlag();
   }
 
   /**
@@ -35,6 +38,10 @@ public class InitializeMutationOutput {
    */
   public List<MutatedBranchKeyItem> MutatedBranchKeyItems() {
     return this.MutatedBranchKeyItems;
+  }
+
+  public InitializeMutationFlag InitializeMutationFlag() {
+    return this.InitializeMutationFlag;
   }
 
   public Builder toBuilder() {
@@ -68,6 +75,12 @@ public class InitializeMutationOutput {
      */
     List<MutatedBranchKeyItem> MutatedBranchKeyItems();
 
+    Builder InitializeMutationFlag(
+      InitializeMutationFlag InitializeMutationFlag
+    );
+
+    InitializeMutationFlag InitializeMutationFlag();
+
     InitializeMutationOutput build();
   }
 
@@ -77,11 +90,14 @@ public class InitializeMutationOutput {
 
     protected List<MutatedBranchKeyItem> MutatedBranchKeyItems;
 
+    protected InitializeMutationFlag InitializeMutationFlag;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(InitializeMutationOutput model) {
       this.MutationToken = model.MutationToken();
       this.MutatedBranchKeyItems = model.MutatedBranchKeyItems();
+      this.InitializeMutationFlag = model.InitializeMutationFlag();
     }
 
     public Builder MutationToken(MutationToken MutationToken) {
@@ -104,6 +120,17 @@ public class InitializeMutationOutput {
       return this.MutatedBranchKeyItems;
     }
 
+    public Builder InitializeMutationFlag(
+      InitializeMutationFlag InitializeMutationFlag
+    ) {
+      this.InitializeMutationFlag = InitializeMutationFlag;
+      return this;
+    }
+
+    public InitializeMutationFlag InitializeMutationFlag() {
+      return this.InitializeMutationFlag;
+    }
+
     public InitializeMutationOutput build() {
       if (Objects.isNull(this.MutationToken())) {
         throw new IllegalArgumentException(
@@ -113,6 +140,11 @@ public class InitializeMutationOutput {
       if (Objects.isNull(this.MutatedBranchKeyItems())) {
         throw new IllegalArgumentException(
           "Missing value for required field `MutatedBranchKeyItems`"
+        );
+      }
+      if (Objects.isNull(this.InitializeMutationFlag())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `InitializeMutationFlag`"
         );
       }
       return new InitializeMutationOutput(this);

@@ -17,7 +17,7 @@ public class QueryForVersionsInput {
    *   Note: While the Default Storage is DDB,
    *   the Key Store transforms the exclusiveStartKey into an opaque representation.
    */
-  private final ByteBuffer ExclusiveStartKey;
+  private final ByteBuffer PageIndex;
 
   /**
    * The Identifier of the Branch Key.
@@ -30,7 +30,7 @@ public class QueryForVersionsInput {
   private final Integer PageSize;
 
   protected QueryForVersionsInput(BuilderImpl builder) {
-    this.ExclusiveStartKey = builder.ExclusiveStartKey();
+    this.PageIndex = builder.PageIndex();
     this.Identifier = builder.Identifier();
     this.PageSize = builder.PageSize();
   }
@@ -44,8 +44,8 @@ public class QueryForVersionsInput {
    *   Note: While the Default Storage is DDB,
    *   the Key Store transforms the exclusiveStartKey into an opaque representation.
    */
-  public ByteBuffer ExclusiveStartKey() {
-    return this.ExclusiveStartKey;
+  public ByteBuffer PageIndex() {
+    return this.PageIndex;
   }
 
   /**
@@ -72,7 +72,7 @@ public class QueryForVersionsInput {
 
   public interface Builder {
     /**
-     * @param ExclusiveStartKey Optional.
+     * @param PageIndex Optional.
      *   If set, Query will start at this index and read forward.
      *   Otherwise, Query will start at the indexes begining.
      *   The Default Storage is DDB;
@@ -80,7 +80,7 @@ public class QueryForVersionsInput {
      *   Note: While the Default Storage is DDB,
      *   the Key Store transforms the exclusiveStartKey into an opaque representation.
      */
-    Builder ExclusiveStartKey(ByteBuffer ExclusiveStartKey);
+    Builder PageIndex(ByteBuffer PageIndex);
 
     /**
      * @return Optional.
@@ -91,7 +91,7 @@ public class QueryForVersionsInput {
      *   Note: While the Default Storage is DDB,
      *   the Key Store transforms the exclusiveStartKey into an opaque representation.
      */
-    ByteBuffer ExclusiveStartKey();
+    ByteBuffer PageIndex();
 
     /**
      * @param Identifier The Identifier of the Branch Key.
@@ -118,7 +118,7 @@ public class QueryForVersionsInput {
 
   static class BuilderImpl implements Builder {
 
-    protected ByteBuffer ExclusiveStartKey;
+    protected ByteBuffer PageIndex;
 
     protected String Identifier;
 
@@ -127,18 +127,18 @@ public class QueryForVersionsInput {
     protected BuilderImpl() {}
 
     protected BuilderImpl(QueryForVersionsInput model) {
-      this.ExclusiveStartKey = model.ExclusiveStartKey();
+      this.PageIndex = model.PageIndex();
       this.Identifier = model.Identifier();
       this.PageSize = model.PageSize();
     }
 
-    public Builder ExclusiveStartKey(ByteBuffer ExclusiveStartKey) {
-      this.ExclusiveStartKey = ExclusiveStartKey;
+    public Builder PageIndex(ByteBuffer PageIndex) {
+      this.PageIndex = PageIndex;
       return this;
     }
 
-    public ByteBuffer ExclusiveStartKey() {
-      return this.ExclusiveStartKey;
+    public ByteBuffer PageIndex() {
+      return this.PageIndex;
     }
 
     public Builder Identifier(String Identifier) {

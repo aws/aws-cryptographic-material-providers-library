@@ -22,10 +22,17 @@ public class InitializeMutationInput {
    */
   private final KeyManagementStrategy Strategy;
 
+  /**
+   * Key Store Admin protects any non-cryptographic
+   * items stored with this Key.
+   */
+  private final SystemKey SystemKey;
+
   protected InitializeMutationInput(BuilderImpl builder) {
     this.Identifier = builder.Identifier();
     this.Mutations = builder.Mutations();
     this.Strategy = builder.Strategy();
+    this.SystemKey = builder.SystemKey();
   }
 
   /**
@@ -47,6 +54,14 @@ public class InitializeMutationInput {
    */
   public KeyManagementStrategy Strategy() {
     return this.Strategy;
+  }
+
+  /**
+   * @return Key Store Admin protects any non-cryptographic
+   * items stored with this Key.
+   */
+  public SystemKey SystemKey() {
+    return this.SystemKey;
   }
 
   public Builder toBuilder() {
@@ -88,6 +103,18 @@ public class InitializeMutationInput {
      */
     KeyManagementStrategy Strategy();
 
+    /**
+     * @param SystemKey Key Store Admin protects any non-cryptographic
+     * items stored with this Key.
+     */
+    Builder SystemKey(SystemKey SystemKey);
+
+    /**
+     * @return Key Store Admin protects any non-cryptographic
+     * items stored with this Key.
+     */
+    SystemKey SystemKey();
+
     InitializeMutationInput build();
   }
 
@@ -99,12 +126,15 @@ public class InitializeMutationInput {
 
     protected KeyManagementStrategy Strategy;
 
+    protected SystemKey SystemKey;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(InitializeMutationInput model) {
       this.Identifier = model.Identifier();
       this.Mutations = model.Mutations();
       this.Strategy = model.Strategy();
+      this.SystemKey = model.SystemKey();
     }
 
     public Builder Identifier(String Identifier) {
@@ -134,6 +164,15 @@ public class InitializeMutationInput {
       return this.Strategy;
     }
 
+    public Builder SystemKey(SystemKey SystemKey) {
+      this.SystemKey = SystemKey;
+      return this;
+    }
+
+    public SystemKey SystemKey() {
+      return this.SystemKey;
+    }
+
     public InitializeMutationInput build() {
       if (Objects.isNull(this.Identifier())) {
         throw new IllegalArgumentException(
@@ -143,6 +182,11 @@ public class InitializeMutationInput {
       if (Objects.isNull(this.Mutations())) {
         throw new IllegalArgumentException(
           "Missing value for required field `Mutations`"
+        );
+      }
+      if (Objects.isNull(this.SystemKey())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `SystemKey`"
         );
       }
       return new InitializeMutationInput(this);
