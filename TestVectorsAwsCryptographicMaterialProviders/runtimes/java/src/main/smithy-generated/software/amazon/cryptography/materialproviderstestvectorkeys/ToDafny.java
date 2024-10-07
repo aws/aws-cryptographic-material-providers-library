@@ -54,11 +54,14 @@ public class ToDafny {
     if (nativeValue instanceof CollectionOfErrors) {
       return ToDafny.Error((CollectionOfErrors) nativeValue);
     }
-    return Error.create_Opaque(nativeValue);
+    return Error.create_Opaque(nativeValue, dafny.DafnySequence.asString(""));
   }
 
   public static Error Error(OpaqueError nativeValue) {
-    return Error.create_Opaque(nativeValue.obj());
+    return Error.create_Opaque(
+      nativeValue.obj(),
+      dafny.DafnySequence.asString(nativeValue.alt_text())
+    );
   }
 
   public static Error Error(CollectionOfErrors nativeValue) {
