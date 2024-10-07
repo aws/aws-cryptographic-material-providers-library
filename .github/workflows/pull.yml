@@ -39,6 +39,11 @@ jobs:
     uses: ./.github/workflows/library_net_tests.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
+  pr-ci-python:
+    needs: getVersion
+    uses: ./.github/workflows/library_python_tests.yml
+    with:
+      dafny: ${{needs.getVersion.outputs.version}}
   pr-interop-test:
     needs: getVersion
     uses: ./.github/workflows/library_interop_tests.yml
