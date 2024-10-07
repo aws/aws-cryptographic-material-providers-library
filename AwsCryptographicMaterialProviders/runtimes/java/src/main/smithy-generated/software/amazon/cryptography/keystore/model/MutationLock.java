@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 /**
- * Information an in-flight Mutation of a Branch Key.
+ * Information on an in-flight Mutation of a Branch Key.
  * This ensures:
  * - only one Mutation affects a Branch Key at a time
  * - all items of a Branch Key are mutated consistently
@@ -39,12 +39,15 @@ public class MutationLock {
    */
   private final ByteBuffer Terminal;
 
+  private final ByteBuffer Enc;
+
   protected MutationLock(BuilderImpl builder) {
     this.Identifier = builder.Identifier();
     this.CreateTime = builder.CreateTime();
     this.UUID = builder.UUID();
     this.Original = builder.Original();
     this.Terminal = builder.Terminal();
+    this.Enc = builder.Enc();
   }
 
   /**
@@ -80,6 +83,10 @@ public class MutationLock {
    */
   public ByteBuffer Terminal() {
     return this.Terminal;
+  }
+
+  public ByteBuffer Enc() {
+    return this.Enc;
   }
 
   public Builder toBuilder() {
@@ -141,6 +148,10 @@ public class MutationLock {
      */
     ByteBuffer Terminal();
 
+    Builder Enc(ByteBuffer Enc);
+
+    ByteBuffer Enc();
+
     MutationLock build();
   }
 
@@ -156,6 +167,8 @@ public class MutationLock {
 
     protected ByteBuffer Terminal;
 
+    protected ByteBuffer Enc;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(MutationLock model) {
@@ -164,6 +177,7 @@ public class MutationLock {
       this.UUID = model.UUID();
       this.Original = model.Original();
       this.Terminal = model.Terminal();
+      this.Enc = model.Enc();
     }
 
     public Builder Identifier(String Identifier) {
@@ -211,6 +225,15 @@ public class MutationLock {
       return this.Terminal;
     }
 
+    public Builder Enc(ByteBuffer Enc) {
+      this.Enc = Enc;
+      return this;
+    }
+
+    public ByteBuffer Enc() {
+      return this.Enc;
+    }
+
     public MutationLock build() {
       if (Objects.isNull(this.Identifier())) {
         throw new IllegalArgumentException(
@@ -235,6 +258,11 @@ public class MutationLock {
       if (Objects.isNull(this.Terminal())) {
         throw new IllegalArgumentException(
           "Missing value for required field `Terminal`"
+        );
+      }
+      if (Objects.isNull(this.Enc())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `Enc`"
         );
       }
       return new MutationLock(this);

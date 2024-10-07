@@ -82,8 +82,29 @@ structure EncryptedHierarchicalKey {
   CiphertextBlob: Blob,
 }
 
+list EncryptedHierarchicalKeys {
+  member: EncryptedHierarchicalKey
+}
+
+
 @documentation(
-"Information an in-flight Mutation of a Branch Key.
+"To avoid information loss, overwrites to a EncryptedHierarchicalKey
+are done conditioned on the old value.")
+structure OverWriteEncryptedHierarchicalKey {
+  @required
+  EncryptedHierarchicalKey: EncryptedHierarchicalKey
+
+  @required
+  @documentation("The previous itme. Used to construct an optimistic lock for the overwrite.")
+  Old: EncryptedHierarchicalKey
+}
+
+list OverWriteEncryptedHierarchicalKeys {
+  member: OverWriteEncryptedHierarchicalKey
+}
+
+@documentation(
+"Information on an in-flight Mutation of a Branch Key.
 This ensures:
 - only one Mutation affects a Branch Key at a time  
 - all items of a Branch Key are mutated consistently")
@@ -107,6 +128,30 @@ structure MutationLock {
   @required
   @documentation("A commitment of the Terminal Mutable Properities of the Branch Key.")
   Terminal: Blob
+
+  @required
+  Enc: Blob
+}
+
+@documentation("Information on an in-flight Mutation of a Branch Key.")
+structure MutationIndex {
+  @required
+  @documentation("The Branch Key under Mutation.")
+  Identifier: String
+
+  @required
+  @documentation("The create time as an ISO 8061 UTC string.")
+  CreateTime: String
+
+  @required
+  @documentation("A unique identifier for the Mutation.")
+  UUID: String
+
+  @required
+  PageIndex: Blob
+
+  @required
+  Enc: Blob
 }
 
 map EncryptionContextString {
@@ -138,8 +183,10 @@ resource KeyStorageInterface {
     WriteInitializeMutation,
     QueryForVersions,
     WriteMutatedVersions,
+    UpdateMutationIndex,
     GetMutationLock,
-    ClobberMutationLock
+    GetMutationLockAndIndex,
+    DeleteMutationLockAndIndex
   ]
 }
 
@@ -192,8 +239,8 @@ operation GetKeyStorageInfo {
 
 @documentation(
 "Gets the ACTIVE branch key and the beacon key,
-and looks for a Mutation Lock,
-returning it if found.")
+and looks for a Mutation Lock & Index,
+returning them if found.")
 operation GetItemsForInitializeMutation {
   input: GetItemsForInitializeMutationInput
   output: GetItemsForInitializeMutationOutput
@@ -205,8 +252,8 @@ operation GetItemsForInitializeMutation {
 in the terminal state of a Mutation:  
 - new ACTIVE item  
 - version (decrypt only) for new ACTIVE  
-- beacon key  
-Also writes the Mutation Lock.")
+- beacon key
+Also writes the Mutation Lock & Index.")
 operation WriteInitializeMutation {
   input: WriteInitializeMutationInput
   output: WriteInitializeMutationOutput
@@ -233,6 +280,7 @@ in the terminal state of a Mutation,
 a page of version (decrypt only) items,
 conditioned on:
 - every version already exsisting
+- every version's enc has not changed
 - the original of a Mutation Lock commits to the original provided  
 - the terminal of a Mutation Lock commits to the terminal provided  
 ")
@@ -299,21 +347,13 @@ structure WriteNewEncryptedBranchKeyVersionInput {
   The new active version to be written to the key store.
   The plain-text cryptographic material of the Active must be the same as the Version.
   ")
-  Active: EncryptedHierarchicalKey,
+  Active: OverWriteEncryptedHierarchicalKey,
   @required
   @documentation("
   The decrypt representation of this branch key version.
   The plain-text cryptographic material of the `Version` must be the same as the `Active`.
   ")
-  Version: EncryptedHierarchicalKey,
-  @required
-  @documentation("
-  The previous active version.
-  This key should be used as an optimistic lock on the new version.
-  This means that when updating the current active record
-  the existing active record should be equal to this value.
-  ")
-  OldActive: EncryptedHierarchicalKey
+  Version: EncryptedHierarchicalKey
 }
 @documentation("The output of writing a new version for an existing branch key. There is currently no additional information returned.")
 structure WriteNewEncryptedBranchKeyVersionOutput {}
@@ -412,6 +452,8 @@ structure GetItemsForInitializeMutationOutput {
   BeaconItem: EncryptedHierarchicalKey
   @documentation("The Mutation Lock, if it exists.")
   MutationLock: MutationLock
+  @documentation("A Mutation Index, if it exists.")
+  MutationIndex: MutationIndex
 }
 
 structure WriteInitializeMutationInput {
@@ -420,14 +462,7 @@ structure WriteInitializeMutationInput {
   The active representation of this branch key,
   generated with the Mutation's terminal properities.  
   The plain-text cryptographic material of the Active must be the same as the Version.")
-  Active: EncryptedHierarchicalKey,
-  @required
-  @documentation("
-  The previous active version.
-  This key should be used as an optimistic lock on the new version.
-  This means that when updating the current active record
-  the existing active record should be equal to this value.")
-  OldActive: EncryptedHierarchicalKey,
+  Active: OverWriteEncryptedHierarchicalKey,
   @required
   @documentation("
   The decrypt representation of this branch key version,
@@ -439,15 +474,13 @@ structure WriteInitializeMutationInput {
   The mutated HMAC key used to support searchable encryption.
   The cryptographic material is identical to the existing beacon,
   but is now authorized with the Mutation's terminal properities.")
-  Beacon: EncryptedHierarchicalKey,
+  Beacon: OverWriteEncryptedHierarchicalKey,
   @required // Smithy will copy documentation traits from existing shapes
   MutationLock: MutationLock
+  @required
+  MutationIndex: MutationIndex
 }
 structure WriteInitializeMutationOutput {}
-
-list EncryptedHierarchicalKeys {
-  member: EncryptedHierarchicalKey
-}
 
 structure QueryForVersionsInput {
   @documentation(
@@ -458,7 +491,7 @@ structure QueryForVersionsInput {
   see Amazon DynamoDB's defination of exclusiveStartKey for details.
   Note: While the Default Storage is DDB,
   the Key Store transforms the exclusiveStartKey into an opaque representation.")
-  ExclusiveStartKey: Blob
+  PageIndex: Blob
   @required
   @documentation("The Identifier of the Branch Key.")
   Identifier: String
@@ -476,7 +509,7 @@ structure QueryForVersionsOutput {
   Note: While the Default Storage is DDB,
   the Key Store transforms the exclusiveStartKey into an opaque representation.")
   @required
-  ExclusiveStartKey: Blob
+  PageIndex: Blob
   @documentation("Up to pageSize list of version (decrypt only) items of a Branch Key.")
   @required
   Items: EncryptedHierarchicalKeys
@@ -485,21 +518,28 @@ structure QueryForVersionsOutput {
 structure WriteMutatedVersionsInput {
   @documentation("List of version (decrypt only) items of a Branch Key to overwrite conditionally.")
   @required
-  Items: EncryptedHierarchicalKeys
-  @documentation("The Identifier of the Branch Key.")  
+  Items: OverWriteEncryptedHierarchicalKeys
   @required
-  Identifier: String
-  @documentation("A commitment of the Original Mutable Properities of the Branch Key.")
-  @required
-  Original: Blob
-  @required
-  @documentation("A commitment of the Terminal Mutable Properities of the Branch Key.")  
-  Terminal: Blob
-  @documentation("If set to True, the Mutation Lock will be deleted.")
-  @required // @default(false) // Smithy-Dafny may not respect defaults.
-  CompleteMutation: Boolean
+  MutationLock: MutationLock
 }
 structure WriteMutatedVersionsOutput {}
+
+@documentation("Updates a Mutation Index.")
+operation UpdateMutationIndex {
+  input: UpdateMutationIndexInput
+  output: UpdateMutationIndexOutput
+  errors: [
+    KeyStorageException
+    OldEncConditionFailed
+    NoLongerExistsConditionFailed]
+}
+structure UpdateMutationIndexInput {
+  @required
+  MutationIndex: MutationIndex
+  @required
+  OldMutationIndex: MutationIndex
+}
+structure UpdateMutationIndexOutput {}
 
 @documentation(
 "Check for Mutation Lock on a Branch Key ID.
@@ -520,20 +560,38 @@ structure GetMutationLockOutput {
   MutationLock: MutationLock
 }
 
-@documentation("Overwrite an existing Mutation Lock.")
-operation ClobberMutationLock {
-  input: ClobberMutationLockInput
-  output: ClobberMutationLockOutput
+@documentation(
+"Check for Mutation Lock on a Branch Key ID.
+If one exists, returns the Mutation Lock.
+Otherwise, returns nothing.")
+operation GetMutationLockAndIndex {
+  input: GetMutationLockAndIndexInput
+  output: GetMutationLockAndIndexOutput
+  errors: [KeyStorageException]
+}
+structure GetMutationLockAndIndexInput {
+  @required
+  Identifier: String
+}
+structure GetMutationLockAndIndexOutput {
+  MutationLock: MutationLock
+  MutationIndex: MutationIndex
+}
+
+@documentation("Delete an existing Mutation Lock & Mutation Index.")
+operation DeleteMutationLockAndIndex {
+  input: DeleteMutationLockAndIndexInput
+  output: DeleteMutationLockAndIndexOutput
   errors: [
     KeyStorageException,
     MutationLockConditionFailed
   ]
 }
-structure ClobberMutationLockInput {
+structure DeleteMutationLockAndIndexInput {
   @required
   MutationLock: MutationLock
 }
-structure ClobberMutationLockOutput {}
+structure DeleteMutationLockAndIndexOutput {}
 
 @error("client")
 structure KeyStorageException {

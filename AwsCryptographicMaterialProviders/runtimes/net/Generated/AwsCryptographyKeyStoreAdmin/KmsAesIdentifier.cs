@@ -5,7 +5,7 @@ using System;
 using AWS.Cryptography.KeyStoreAdmin;
 namespace AWS.Cryptography.KeyStoreAdmin
 {
-  public class KMSIdentifier
+  public class KmsAesIdentifier
   {
     private string _kmsKeyArn;
     private string _kmsMRKeyArn;
