@@ -92,20 +92,6 @@ class KeyVectorsConfig:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
-class KeyVectorsConfig(Config):
-    """Smithy-modelled localService Config shape for this localService."""
-
-    key_manifest_path: str
-
-    def __init__(
-        self,
-        key_manifest_path: str,
-    ):
-        """Constructor for KeyVectorsConfig."""
-        super().__init__()
-        self.key_manifest_path = key_manifest_path
-
-
 def dafny_config_to_smithy_config(dafny_config) -> KeyVectorsConfig:
     """Converts the provided Dafny shape for this localService's config into
     the corresponding Smithy-modelled shape."""
