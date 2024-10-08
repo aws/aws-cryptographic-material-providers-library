@@ -240,5 +240,13 @@ def _smithy_error_to_dafny_error(e: ServiceError):
 
     else:
         return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_Opaque(
-            obj=e, alt__text=repr(e)
+            obj=e,
+            alt__text=_dafny.Seq(
+                "".join(
+                    [
+                        chr(int.from_bytes(pair, "big"))
+                        for pair in zip(*[iter(repr(e).encode("utf-16-be"))] * 2)
+                    ]
+                )
+            ),
         )
