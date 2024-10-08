@@ -38,7 +38,10 @@ module {:options "/functionSyntax:4"} StorageHelpers {
     ddbTableName: string
   ): (output: Result<Types.MutationLock, Types.Error>)
     ensures output.Success? ==>
-              (output.value.Identifier == identifier)
+              && (output.value.Identifier == identifier)
+              && Structure.MutationLockAttribute?(item)
+              && output.value == Structure.ToMutationLock(item)
+    ensures !Structure.MutationLockAttribute?(item) ==> output.Failure?
   {
     :- Need(
          Structure.MutationLockAttribute?(item),
@@ -66,6 +69,43 @@ module {:options "/functionSyntax:4"} StorageHelpers {
   ): (output: Result<Option<Types.MutationIndex>, Types.Error>)
     ensures output.Success? && output.value.Some? ==>
               (output.value.value.Identifier == identifier)
+  {
+    if (item?.None? || (|item?.value| == 0))
+    then Success(None)
+    else
+      var mIndex :- MutationIndexFromItem(item?.value, identifier, ddbTableName);
+      Success(Some(mIndex))
+  }
+
+  function MutationIndexFromItem(
+    item: DDB.Types.AttributeMap,
+    identifier: string,
+    ddbTableName: string
+  ): (output: Result<Types.MutationIndex, Types.Error>)
+    ensures output.Success? ==>
+              && (output.value.Identifier == identifier)
+              && Structure.MutationIndexAttribute?(item)
+              && output.value == Structure.ToMutationIndex(item)
+    ensures !Structure.MutationIndexAttribute?(item) ==> output.Failure?
+  {
+    :- Need(
+         Structure.MutationIndexAttribute?(item),
+         Types.KeyStorageException(
+           message:="Malformed Mutation Index encountered. TableName: "
+           + ddbTableName + "\tBranch Key ID: " + identifier)
+       );
+    var mIndex := Structure.ToMutationIndex(item);
+    :- Need(
+         mIndex.Identifier == identifier,
+         Types.KeyStorageException(
+           message:=
+             "Mutation Index returned by DDB is for wrong Branch Key ID. "
+             + "TableName: " + ddbTableName
+             + "\tRequested Branch Key ID: " + identifier
+             + "\tReturned Branch Key ID: " + mIndex.Identifier)
+       );
+    Success(mIndex)
+  }
 
   function EncryptedHierarchicalKeyFromItem(
     item: DDB.Types.AttributeMap,
