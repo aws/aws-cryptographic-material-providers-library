@@ -4,12 +4,12 @@
 
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.client
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references
-import botocore.client
 from typing import Any, Dict, List, Optional, Union
 
 from aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.models import (
     AES_GCM,
 )
+from botocore.client import BaseClient
 
 from ..aws_cryptography_keystore.models import BeaconKeyMaterials, BranchKeyMaterials
 
@@ -1179,14 +1179,14 @@ class DiscoveryFilter:
 
 
 class CreateAwsKmsDiscoveryKeyringInput:
-    kms_client: "botocore.client.BaseClient"
+    kms_client: BaseClient
     discovery_filter: Optional[DiscoveryFilter]
     grant_tokens: Optional[list[str]]
 
     def __init__(
         self,
         *,
-        kms_client: "botocore.client.BaseClient",
+        kms_client: BaseClient,
         discovery_filter: Optional[DiscoveryFilter] = None,
         grant_tokens: Optional[list[str]] = None,
     ):
@@ -1221,8 +1221,6 @@ class CreateAwsKmsDiscoveryKeyringInput:
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsDiscoveryKeyringInput":
         """Creates a CreateAwsKmsDiscoveryKeyringInput from a dictionary."""
-        from botocore.client import BaseClient
-
         kwargs: Dict[str, Any] = {
             "kms_client": d["kms_client"],
         }
@@ -1607,7 +1605,7 @@ def _kms_ecdh_static_configurations_from_dict(
 class CreateAwsKmsEcdhKeyringInput:
     key_agreement_scheme: KmsEcdhStaticConfigurations
     curve_spec: str
-    kms_client: "botocore.client.BaseClient"
+    kms_client: BaseClient
     grant_tokens: Optional[list[str]]
 
     def __init__(
@@ -1615,7 +1613,7 @@ class CreateAwsKmsEcdhKeyringInput:
         *,
         key_agreement_scheme: KmsEcdhStaticConfigurations,
         curve_spec: str,
-        kms_client: "botocore.client.BaseClient",
+        kms_client: BaseClient,
         grant_tokens: Optional[list[str]] = None,
     ):
         """Inputs for creating an AWS KMS ECDH Keyring.
@@ -1652,8 +1650,6 @@ class CreateAwsKmsEcdhKeyringInput:
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsEcdhKeyringInput":
         """Creates a CreateAwsKmsEcdhKeyringInput from a dictionary."""
-        from botocore.client import BaseClient
-
         kwargs: Dict[str, Any] = {
             "key_agreement_scheme": _kms_ecdh_static_configurations_from_dict(
                 d["key_agreement_scheme"]
@@ -2463,14 +2459,14 @@ class CreateAwsKmsHierarchicalKeyringInput:
 
 class CreateAwsKmsKeyringInput:
     kms_key_id: str
-    kms_client: "botocore.client.BaseClient"
+    kms_client: BaseClient
     grant_tokens: Optional[list[str]]
 
     def __init__(
         self,
         *,
         kms_key_id: str,
-        kms_client: "botocore.client.BaseClient",
+        kms_client: BaseClient,
         grant_tokens: Optional[list[str]] = None,
     ):
         """Inputs for for creating a AWS KMS Keyring.
@@ -2502,8 +2498,6 @@ class CreateAwsKmsKeyringInput:
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsKeyringInput":
         """Creates a CreateAwsKmsKeyringInput from a dictionary."""
-        from botocore.client import BaseClient
-
         kwargs: Dict[str, Any] = {
             "kms_key_id": d["kms_key_id"],
             "kms_client": d["kms_client"],
@@ -2539,7 +2533,7 @@ class CreateAwsKmsKeyringInput:
 
 
 class CreateAwsKmsMrkDiscoveryKeyringInput:
-    kms_client: "botocore.client.BaseClient"
+    kms_client: BaseClient
     discovery_filter: Optional[DiscoveryFilter]
     grant_tokens: Optional[list[str]]
     region: str
@@ -2547,7 +2541,7 @@ class CreateAwsKmsMrkDiscoveryKeyringInput:
     def __init__(
         self,
         *,
-        kms_client: "botocore.client.BaseClient",
+        kms_client: BaseClient,
         region: str,
         discovery_filter: Optional[DiscoveryFilter] = None,
         grant_tokens: Optional[list[str]] = None,
@@ -2587,8 +2581,6 @@ class CreateAwsKmsMrkDiscoveryKeyringInput:
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsMrkDiscoveryKeyringInput":
         """Creates a CreateAwsKmsMrkDiscoveryKeyringInput from a dictionary."""
-        from botocore.client import BaseClient
-
         kwargs: Dict[str, Any] = {
             "kms_client": d["kms_client"],
             "region": d["region"],
@@ -2743,14 +2735,14 @@ class CreateAwsKmsMrkDiscoveryMultiKeyringInput:
 
 class CreateAwsKmsMrkKeyringInput:
     kms_key_id: str
-    kms_client: "botocore.client.BaseClient"
+    kms_client: BaseClient
     grant_tokens: Optional[list[str]]
 
     def __init__(
         self,
         *,
         kms_key_id: str,
-        kms_client: "botocore.client.BaseClient",
+        kms_client: BaseClient,
         grant_tokens: Optional[list[str]] = None,
     ):
         """Inputs for for creating an AWS KMS MRK Keyring.
@@ -2782,8 +2774,6 @@ class CreateAwsKmsMrkKeyringInput:
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsMrkKeyringInput":
         """Creates a CreateAwsKmsMrkKeyringInput from a dictionary."""
-        from botocore.client import BaseClient
-
         kwargs: Dict[str, Any] = {
             "kms_key_id": d["kms_key_id"],
             "kms_client": d["kms_client"],
@@ -3043,7 +3033,7 @@ class CreateAwsKmsRsaKeyringInput:
     public_key: Optional[bytes | bytearray]
     kms_key_id: str
     encryption_algorithm: str
-    kms_client: Optional["botocore.client.BaseClient"]
+    kms_client: Optional[BaseClient]
     grant_tokens: Optional[list[str]]
 
     def __init__(
@@ -3052,7 +3042,7 @@ class CreateAwsKmsRsaKeyringInput:
         kms_key_id: str,
         encryption_algorithm: str,
         public_key: Optional[bytes | bytearray] = None,
-        kms_client: Optional["botocore.client.BaseClient"] = None,
+        kms_client: Optional[BaseClient] = None,
         grant_tokens: Optional[list[str]] = None,
     ):
         """Inputs for creating a AWS KMS RSA Keyring.
@@ -3098,8 +3088,6 @@ class CreateAwsKmsRsaKeyringInput:
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsRsaKeyringInput":
         """Creates a CreateAwsKmsRsaKeyringInput from a dictionary."""
-        from botocore.client import BaseClient
-
         kwargs: Dict[str, Any] = {
             "kms_key_id": d["kms_key_id"],
             "encryption_algorithm": d["encryption_algorithm"],

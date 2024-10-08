@@ -8,11 +8,11 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
 import aws_cryptographic_materialproviders.internaldafny.generated.module_
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny
-import botocore.client
 from dataclasses import dataclass
 from typing import Any, Callable, Dict, Optional, TypeAlias
 
 from .dafnyImplInterface import DafnyImplInterface
+from botocore.client import BaseClient
 from smithy_python._private.retries import SimpleRetryStrategy
 from smithy_python.interfaces.retries import RetryStrategy
 
@@ -60,8 +60,8 @@ class KeyStoreConfig(Config):
     logical_key_store_name: str
     id: Optional[str]
     grant_tokens: Optional[list[str]]
-    ddb_client: Optional["botocore.client.BaseClient"]
-    kms_client: Optional["botocore.client.BaseClient"]
+    ddb_client: Optional[BaseClient]
+    kms_client: Optional[BaseClient]
 
     def __init__(
         self,
@@ -71,8 +71,8 @@ class KeyStoreConfig(Config):
         logical_key_store_name: str,
         id: Optional[str] = None,
         grant_tokens: Optional[list[str]] = None,
-        ddb_client: Optional["botocore.client.BaseClient"] = None,
-        kms_client: Optional["botocore.client.BaseClient"] = None,
+        ddb_client: Optional[BaseClient] = None,
+        kms_client: Optional[BaseClient] = None,
     ):
         """
         :param ddb_table_name: The DynamoDB table name that backs this Key Store.
@@ -134,9 +134,6 @@ class KeyStoreConfig(Config):
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "KeyStoreConfig":
         """Creates a KeyStoreConfig from a dictionary."""
-        from botocore.client import BaseClient
-        from botocore.client import BaseClient
-
         kwargs: Dict[str, Any] = {
             "ddb_table_name": d["ddb_table_name"],
             "kms_configuration": _kms_configuration_from_dict(d["kms_configuration"]),
