@@ -5731,6 +5731,169 @@ class ValidEncryptionMaterialsTransitionInput:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
+class StaticConfigurationsAWS_KMS_ECDH:
+    """Allowed configurations when using KmsEcdhStaticConfigurations."""
+
+    def __init__(self, value: KmsEcdhStaticConfigurations):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"AWS_KMS_ECDH": self.value.as_dict()}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "StaticConfigurationsAWS_KMS_ECDH":
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return StaticConfigurationsAWS_KMS_ECDH(
+            _kms_ecdh_static_configurations_from_dict(d["AWS_KMS_ECDH"])
+        )
+
+    def __repr__(self) -> str:
+        return f"StaticConfigurationsAWS_KMS_ECDH(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, StaticConfigurationsAWS_KMS_ECDH):
+            return False
+        return self.value == other.value
+
+
+class StaticConfigurationsRAW_ECDH:
+    """List of configurations when using RawEcdhStaticConfigurations."""
+
+    def __init__(self, value: RawEcdhStaticConfigurations):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"RAW_ECDH": self.value.as_dict()}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "StaticConfigurationsRAW_ECDH":
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return StaticConfigurationsRAW_ECDH(
+            _raw_ecdh_static_configurations_from_dict(d["RAW_ECDH"])
+        )
+
+    def __repr__(self) -> str:
+        return f"StaticConfigurationsRAW_ECDH(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, StaticConfigurationsRAW_ECDH):
+            return False
+        return self.value == other.value
+
+
+class StaticConfigurationsUnknown:
+    """Represents an unknown variant.
+
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
+
+    This value may not be deliberately sent.
+    """
+
+    def __init__(self, tag: str):
+        self.tag = tag
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "StaticConfigurationsUnknown":
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+        return StaticConfigurationsUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
+
+    def __repr__(self) -> str:
+        return f"StaticConfigurationsUnknown(tag={self.tag})"
+
+
+# Supported configurations for the StaticConfiguration Key Agreement Scheme.
+StaticConfigurations = Union[
+    StaticConfigurationsAWS_KMS_ECDH,
+    StaticConfigurationsRAW_ECDH,
+    StaticConfigurationsUnknown,
+]
+
+
+def _static_configurations_from_dict(d: Dict[str, Any]) -> StaticConfigurations:
+    if "AWS_KMS_ECDH" in d:
+        return StaticConfigurationsAWS_KMS_ECDH.from_dict(d)
+
+    if "RAW_ECDH" in d:
+        return StaticConfigurationsRAW_ECDH.from_dict(d)
+
+    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+
+class KeyAgreementSchemeStaticConfiguration:
+    """Supported configurations for the StaticConfiguration Key Agreement
+    Scheme."""
+
+    def __init__(self, value: StaticConfigurations):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"StaticConfiguration": self.value.as_dict()}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KeyAgreementSchemeStaticConfiguration":
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return KeyAgreementSchemeStaticConfiguration(
+            _static_configurations_from_dict(d["StaticConfiguration"])
+        )
+
+    def __repr__(self) -> str:
+        return f"KeyAgreementSchemeStaticConfiguration(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, KeyAgreementSchemeStaticConfiguration):
+            return False
+        return self.value == other.value
+
+
+class KeyAgreementSchemeUnknown:
+    """Represents an unknown variant.
+
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
+
+    This value may not be deliberately sent.
+    """
+
+    def __init__(self, tag: str):
+        self.tag = tag
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KeyAgreementSchemeUnknown":
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+        return KeyAgreementSchemeUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
+
+    def __repr__(self) -> str:
+        return f"KeyAgreementSchemeUnknown(tag={self.tag})"
+
+
+# Supported ECDH Key Agreement Schemes.
+KeyAgreementScheme = Union[
+    KeyAgreementSchemeStaticConfiguration, KeyAgreementSchemeUnknown
+]
+
+
+def _key_agreement_scheme_from_dict(d: Dict[str, Any]) -> KeyAgreementScheme:
+    if "StaticConfiguration" in d:
+        return KeyAgreementSchemeStaticConfiguration.from_dict(d)
+
+    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+
 def _encrypted_data_key_list_as_dict(given: list[EncryptedDataKey]) -> List[Any]:
     return [v.as_dict() for v in given]
 

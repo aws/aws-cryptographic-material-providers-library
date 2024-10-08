@@ -9,7 +9,7 @@ import aws_cryptography_primitives.internaldafny.generated.module_
 import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy
 import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny
 from dataclasses import dataclass
-from typing import Any, Callable, TypeAlias
+from typing import Any, Callable, Dict, TypeAlias
 
 from .dafnyImplInterface import DafnyImplInterface
 from smithy_python._private.retries import SimpleRetryStrategy
@@ -49,6 +49,25 @@ class Config:
 
 # A callable that allows customizing the config object on each request.
 Plugin: TypeAlias = Callable[[Config], None]
+
+
+class CryptoConfig:
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the CryptoConfig to a dictionary."""
+        return {}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "CryptoConfig":
+        """Creates a CryptoConfig from a dictionary."""
+        return CryptoConfig()
+
+    def __repr__(self) -> str:
+        result = "CryptoConfig("
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        return isinstance(other, CryptoConfig)
 
 
 class CryptoConfig(Config):

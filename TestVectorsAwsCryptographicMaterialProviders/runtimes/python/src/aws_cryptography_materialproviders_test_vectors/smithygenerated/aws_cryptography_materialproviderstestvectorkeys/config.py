@@ -9,7 +9,7 @@ import aws_cryptography_materialproviders_test_vectors.internaldafny.generated.m
 import aws_cryptography_materialproviders_test_vectors.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.dafny_to_smithy
 import aws_cryptography_materialproviders_test_vectors.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny
 from dataclasses import dataclass
-from typing import Any, Callable, TypeAlias
+from typing import Any, Callable, Dict, TypeAlias
 
 from .dafnyImplInterface import DafnyImplInterface
 from smithy_python._private.retries import SimpleRetryStrategy
@@ -49,6 +49,47 @@ class Config:
 
 # A callable that allows customizing the config object on each request.
 Plugin: TypeAlias = Callable[[Config], None]
+
+
+class KeyVectorsConfig:
+    key_manifest_path: str
+
+    def __init__(
+        self,
+        *,
+        key_manifest_path: str,
+    ):
+        self.key_manifest_path = key_manifest_path
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the KeyVectorsConfig to a dictionary."""
+        return {
+            "key_manifest_path": self.key_manifest_path,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KeyVectorsConfig":
+        """Creates a KeyVectorsConfig from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "key_manifest_path": d["key_manifest_path"],
+        }
+
+        return KeyVectorsConfig(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "KeyVectorsConfig("
+        if self.key_manifest_path is not None:
+            result += f"key_manifest_path={repr(self.key_manifest_path)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, KeyVectorsConfig):
+            return False
+        attributes: list[str] = [
+            "key_manifest_path",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
 class KeyVectorsConfig(Config):
