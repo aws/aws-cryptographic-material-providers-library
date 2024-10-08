@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
+import _dafny
 from aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes import (
     BatchExecuteStatementInput_BatchExecuteStatementInput as DafnyBatchExecuteStatementInput,
     BatchExecuteStatementOutput_BatchExecuteStatementOutput as DafnyBatchExecuteStatementOutput,
