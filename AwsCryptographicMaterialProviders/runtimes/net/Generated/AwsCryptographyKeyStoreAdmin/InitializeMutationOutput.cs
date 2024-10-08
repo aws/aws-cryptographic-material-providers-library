@@ -9,6 +9,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
   {
     private AWS.Cryptography.KeyStoreAdmin.MutationToken _mutationToken;
     private System.Collections.Generic.List<AWS.Cryptography.KeyStoreAdmin.MutatedBranchKeyItem> _mutatedBranchKeyItems;
+    private AWS.Cryptography.KeyStoreAdmin.InitializeMutationFlag _initializeMutationFlag;
     public AWS.Cryptography.KeyStoreAdmin.MutationToken MutationToken
     {
       get { return this._mutationToken; }
@@ -27,10 +28,20 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       return this._mutatedBranchKeyItems != null;
     }
+    public AWS.Cryptography.KeyStoreAdmin.InitializeMutationFlag InitializeMutationFlag
+    {
+      get { return this._initializeMutationFlag; }
+      set { this._initializeMutationFlag = value; }
+    }
+    public bool IsSetInitializeMutationFlag()
+    {
+      return this._initializeMutationFlag != null;
+    }
     public void Validate()
     {
       if (!IsSetMutationToken()) throw new System.ArgumentException("Missing value for required property 'MutationToken'");
       if (!IsSetMutatedBranchKeyItems()) throw new System.ArgumentException("Missing value for required property 'MutatedBranchKeyItems'");
+      if (!IsSetInitializeMutationFlag()) throw new System.ArgumentException("Missing value for required property 'InitializeMutationFlag'");
 
     }
   }

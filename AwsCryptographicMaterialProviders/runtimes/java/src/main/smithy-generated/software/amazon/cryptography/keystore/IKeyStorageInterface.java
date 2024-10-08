@@ -3,8 +3,8 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.keystore;
 
-import software.amazon.cryptography.keystore.model.ClobberMutationLockInput;
-import software.amazon.cryptography.keystore.model.ClobberMutationLockOutput;
+import software.amazon.cryptography.keystore.model.DeleteMutationLockAndIndexInput;
+import software.amazon.cryptography.keystore.model.DeleteMutationLockAndIndexOutput;
 import software.amazon.cryptography.keystore.model.GetEncryptedActiveBranchKeyInput;
 import software.amazon.cryptography.keystore.model.GetEncryptedActiveBranchKeyOutput;
 import software.amazon.cryptography.keystore.model.GetEncryptedBeaconKeyInput;
@@ -15,10 +15,14 @@ import software.amazon.cryptography.keystore.model.GetItemsForInitializeMutation
 import software.amazon.cryptography.keystore.model.GetItemsForInitializeMutationOutput;
 import software.amazon.cryptography.keystore.model.GetKeyStorageInfoInput;
 import software.amazon.cryptography.keystore.model.GetKeyStorageInfoOutput;
+import software.amazon.cryptography.keystore.model.GetMutationLockAndIndexInput;
+import software.amazon.cryptography.keystore.model.GetMutationLockAndIndexOutput;
 import software.amazon.cryptography.keystore.model.GetMutationLockInput;
 import software.amazon.cryptography.keystore.model.GetMutationLockOutput;
 import software.amazon.cryptography.keystore.model.QueryForVersionsInput;
 import software.amazon.cryptography.keystore.model.QueryForVersionsOutput;
+import software.amazon.cryptography.keystore.model.UpdateMutationIndexInput;
+import software.amazon.cryptography.keystore.model.UpdateMutationIndexOutput;
 import software.amazon.cryptography.keystore.model.WriteInitializeMutationInput;
 import software.amazon.cryptography.keystore.model.WriteInitializeMutationOutput;
 import software.amazon.cryptography.keystore.model.WriteMutatedVersionsInput;
@@ -30,10 +34,12 @@ import software.amazon.cryptography.keystore.model.WriteNewEncryptedBranchKeyVer
 
 public interface IKeyStorageInterface {
   /**
-   * Overwrite an existing Mutation Lock.
+   * Delete an existing Mutation Lock & Mutation Index.
    *
    */
-  ClobberMutationLockOutput ClobberMutationLock(ClobberMutationLockInput input);
+  DeleteMutationLockAndIndexOutput DeleteMutationLockAndIndex(
+    DeleteMutationLockAndIndexInput input
+  );
 
   /**
    * Get the ACTIVE branch key for encryption for an existing branch key.
@@ -67,8 +73,8 @@ public interface IKeyStorageInterface {
 
   /**
    * Gets the ACTIVE branch key and the beacon key,
-   * and looks for a Mutation Lock,
-   * returning it if found.
+   * and looks for a Mutation Lock & Index,
+   * returning them if found.
    *
    */
   GetItemsForInitializeMutationOutput GetItemsForInitializeMutation(
@@ -92,6 +98,16 @@ public interface IKeyStorageInterface {
   GetMutationLockOutput GetMutationLock(GetMutationLockInput input);
 
   /**
+   * Check for Mutation Lock on a Branch Key ID.
+   * If one exists, returns the Mutation Lock.
+   * Otherwise, returns nothing.
+   *
+   */
+  GetMutationLockAndIndexOutput GetMutationLockAndIndex(
+    GetMutationLockAndIndexInput input
+  );
+
+  /**
    * Query Storage for a page of version (decrypt only) items
    * of a Branch Key.
    *
@@ -99,12 +115,18 @@ public interface IKeyStorageInterface {
   QueryForVersionsOutput QueryForVersions(QueryForVersionsInput input);
 
   /**
+   * Updates a Mutation Index.
+   *
+   */
+  UpdateMutationIndexOutput UpdateMutationIndex(UpdateMutationIndexInput input);
+
+  /**
    * Atomically writes,
    * in the terminal state of a Mutation:
    * - new ACTIVE item
    * - version (decrypt only) for new ACTIVE
    * - beacon key
-   * Also writes the Mutation Lock.
+   * Also writes the Mutation Lock & Index.
    *
    */
   WriteInitializeMutationOutput WriteInitializeMutation(
@@ -117,6 +139,7 @@ public interface IKeyStorageInterface {
    * a page of version (decrypt only) items,
    * conditioned on:
    * - every version already exsisting
+   * - every version's enc has not changed
    * - the original of a Mutation Lock commits to the original provided
    * - the terminal of a Mutation Lock commits to the terminal provided
    *

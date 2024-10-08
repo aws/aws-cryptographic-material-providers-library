@@ -17,7 +17,7 @@ public class QueryForVersionsOutput {
    *   Note: While the Default Storage is DDB,
    *   the Key Store transforms the exclusiveStartKey into an opaque representation.
    */
-  private final ByteBuffer ExclusiveStartKey;
+  private final ByteBuffer PageIndex;
 
   /**
    * Up to pageSize list of version (decrypt only) items of a Branch Key.
@@ -25,7 +25,7 @@ public class QueryForVersionsOutput {
   private final List<EncryptedHierarchicalKey> Items;
 
   protected QueryForVersionsOutput(BuilderImpl builder) {
-    this.ExclusiveStartKey = builder.ExclusiveStartKey();
+    this.PageIndex = builder.PageIndex();
     this.Items = builder.Items();
   }
 
@@ -37,8 +37,8 @@ public class QueryForVersionsOutput {
    *   Note: While the Default Storage is DDB,
    *   the Key Store transforms the exclusiveStartKey into an opaque representation.
    */
-  public ByteBuffer ExclusiveStartKey() {
-    return this.ExclusiveStartKey;
+  public ByteBuffer PageIndex() {
+    return this.PageIndex;
   }
 
   /**
@@ -58,14 +58,14 @@ public class QueryForVersionsOutput {
 
   public interface Builder {
     /**
-     * @param ExclusiveStartKey If none-empty, Query did not finish searching storage.
+     * @param PageIndex If none-empty, Query did not finish searching storage.
      *   Next Query should resume from here.
      *   The Default Storage is DDB;
      *   see Amazon DynamoDB's defination of exclusiveStartKey for details.
      *   Note: While the Default Storage is DDB,
      *   the Key Store transforms the exclusiveStartKey into an opaque representation.
      */
-    Builder ExclusiveStartKey(ByteBuffer ExclusiveStartKey);
+    Builder PageIndex(ByteBuffer PageIndex);
 
     /**
      * @return If none-empty, Query did not finish searching storage.
@@ -75,7 +75,7 @@ public class QueryForVersionsOutput {
      *   Note: While the Default Storage is DDB,
      *   the Key Store transforms the exclusiveStartKey into an opaque representation.
      */
-    ByteBuffer ExclusiveStartKey();
+    ByteBuffer PageIndex();
 
     /**
      * @param Items Up to pageSize list of version (decrypt only) items of a Branch Key.
@@ -92,24 +92,24 @@ public class QueryForVersionsOutput {
 
   static class BuilderImpl implements Builder {
 
-    protected ByteBuffer ExclusiveStartKey;
+    protected ByteBuffer PageIndex;
 
     protected List<EncryptedHierarchicalKey> Items;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(QueryForVersionsOutput model) {
-      this.ExclusiveStartKey = model.ExclusiveStartKey();
+      this.PageIndex = model.PageIndex();
       this.Items = model.Items();
     }
 
-    public Builder ExclusiveStartKey(ByteBuffer ExclusiveStartKey) {
-      this.ExclusiveStartKey = ExclusiveStartKey;
+    public Builder PageIndex(ByteBuffer PageIndex) {
+      this.PageIndex = PageIndex;
       return this;
     }
 
-    public ByteBuffer ExclusiveStartKey() {
-      return this.ExclusiveStartKey;
+    public ByteBuffer PageIndex() {
+      return this.PageIndex;
     }
 
     public Builder Items(List<EncryptedHierarchicalKey> Items) {
@@ -122,9 +122,9 @@ public class QueryForVersionsOutput {
     }
 
     public QueryForVersionsOutput build() {
-      if (Objects.isNull(this.ExclusiveStartKey())) {
+      if (Objects.isNull(this.PageIndex())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `ExclusiveStartKey`"
+          "Missing value for required field `PageIndex`"
         );
       }
       if (Objects.isNull(this.Items())) {

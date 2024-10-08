@@ -5,7 +5,7 @@ package software.amazon.cryptography.keystoreadmin.model;
 
 import java.util.Objects;
 
-public class KMSIdentifier {
+public class KmsAesIdentifier {
 
   /**
    * Key Store is restricted to only this KMS Key ARN.
@@ -25,11 +25,11 @@ public class KMSIdentifier {
    *   then those two ARNs may differ in region,
    *   although they must be otherwise equal.
    *   If either ARN is not an MRK ARN, then
-   *   kmsMRKeyArn behaves exactly as kmsKeyArn.
+   *   KmsMRKeyArn behaves exactly as kmsKeyArn.
    */
   private final String KmsMRKeyArn;
 
-  protected KMSIdentifier(BuilderImpl builder) {
+  protected KmsAesIdentifier(BuilderImpl builder) {
     this.KmsKeyArn = builder.KmsKeyArn();
     this.KmsMRKeyArn = builder.KmsMRKeyArn();
   }
@@ -54,7 +54,7 @@ public class KMSIdentifier {
    *   then those two ARNs may differ in region,
    *   although they must be otherwise equal.
    *   If either ARN is not an MRK ARN, then
-   *   kmsMRKeyArn behaves exactly as kmsKeyArn.
+   *   KmsMRKeyArn behaves exactly as kmsKeyArn.
    */
   public String KmsMRKeyArn() {
     return this.KmsMRKeyArn;
@@ -99,7 +99,7 @@ public class KMSIdentifier {
      *   then those two ARNs may differ in region,
      *   although they must be otherwise equal.
      *   If either ARN is not an MRK ARN, then
-     *   kmsMRKeyArn behaves exactly as kmsKeyArn.
+     *   KmsMRKeyArn behaves exactly as kmsKeyArn.
      */
     Builder KmsMRKeyArn(String KmsMRKeyArn);
 
@@ -109,11 +109,11 @@ public class KMSIdentifier {
      *   then those two ARNs may differ in region,
      *   although they must be otherwise equal.
      *   If either ARN is not an MRK ARN, then
-     *   kmsMRKeyArn behaves exactly as kmsKeyArn.
+     *   KmsMRKeyArn behaves exactly as kmsKeyArn.
      */
     String KmsMRKeyArn();
 
-    KMSIdentifier build();
+    KmsAesIdentifier build();
   }
 
   static class BuilderImpl implements Builder {
@@ -124,7 +124,7 @@ public class KMSIdentifier {
 
     protected BuilderImpl() {}
 
-    protected BuilderImpl(KMSIdentifier model) {
+    protected BuilderImpl(KmsAesIdentifier model) {
       this.KmsKeyArn = model.KmsKeyArn();
       this.KmsMRKeyArn = model.KmsMRKeyArn();
     }
@@ -147,13 +147,13 @@ public class KMSIdentifier {
       return this.KmsMRKeyArn;
     }
 
-    public KMSIdentifier build() {
+    public KmsAesIdentifier build() {
       if (!onlyOneNonNull()) {
         throw new IllegalArgumentException(
-          "`KMSIdentifier` is a Union. A Union MUST have one and only one value set."
+          "`KmsAesIdentifier` is a Union. A Union MUST have one and only one value set."
         );
       }
-      return new KMSIdentifier(this);
+      return new KmsAesIdentifier(this);
     }
 
     private boolean onlyOneNonNull() {

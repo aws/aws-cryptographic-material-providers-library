@@ -5,22 +5,22 @@ package software.amazon.cryptography.keystore.model;
 
 import java.util.Objects;
 
-public class ClobberMutationLockInput {
+public class DeleteMutationLockAndIndexInput {
 
   /**
-   * Information an in-flight Mutation of a Branch Key.
+   * Information on an in-flight Mutation of a Branch Key.
    * This ensures:
    * - only one Mutation affects a Branch Key at a time
    * - all items of a Branch Key are mutated consistently
    */
   private final MutationLock MutationLock;
 
-  protected ClobberMutationLockInput(BuilderImpl builder) {
+  protected DeleteMutationLockAndIndexInput(BuilderImpl builder) {
     this.MutationLock = builder.MutationLock();
   }
 
   /**
-   * @return Information an in-flight Mutation of a Branch Key.
+   * @return Information on an in-flight Mutation of a Branch Key.
    * This ensures:
    * - only one Mutation affects a Branch Key at a time
    * - all items of a Branch Key are mutated consistently
@@ -39,7 +39,7 @@ public class ClobberMutationLockInput {
 
   public interface Builder {
     /**
-     * @param MutationLock Information an in-flight Mutation of a Branch Key.
+     * @param MutationLock Information on an in-flight Mutation of a Branch Key.
      * This ensures:
      * - only one Mutation affects a Branch Key at a time
      * - all items of a Branch Key are mutated consistently
@@ -47,14 +47,14 @@ public class ClobberMutationLockInput {
     Builder MutationLock(MutationLock MutationLock);
 
     /**
-     * @return Information an in-flight Mutation of a Branch Key.
+     * @return Information on an in-flight Mutation of a Branch Key.
      * This ensures:
      * - only one Mutation affects a Branch Key at a time
      * - all items of a Branch Key are mutated consistently
      */
     MutationLock MutationLock();
 
-    ClobberMutationLockInput build();
+    DeleteMutationLockAndIndexInput build();
   }
 
   static class BuilderImpl implements Builder {
@@ -63,7 +63,7 @@ public class ClobberMutationLockInput {
 
     protected BuilderImpl() {}
 
-    protected BuilderImpl(ClobberMutationLockInput model) {
+    protected BuilderImpl(DeleteMutationLockAndIndexInput model) {
       this.MutationLock = model.MutationLock();
     }
 
@@ -76,13 +76,13 @@ public class ClobberMutationLockInput {
       return this.MutationLock;
     }
 
-    public ClobberMutationLockInput build() {
+    public DeleteMutationLockAndIndexInput build() {
       if (Objects.isNull(this.MutationLock())) {
         throw new IllegalArgumentException(
           "Missing value for required field `MutationLock`"
         );
       }
-      return new ClobberMutationLockInput(this);
+      return new DeleteMutationLockAndIndexInput(this);
     }
   }
 }

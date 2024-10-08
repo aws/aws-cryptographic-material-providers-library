@@ -10,6 +10,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
     private string _identifier;
     private AWS.Cryptography.KeyStoreAdmin.Mutations _mutations;
     private AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy _strategy;
+    private AWS.Cryptography.KeyStoreAdmin.SystemKey _systemKey;
     public string Identifier
     {
       get { return this._identifier; }
@@ -37,10 +38,20 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       return this._strategy != null;
     }
+    public AWS.Cryptography.KeyStoreAdmin.SystemKey SystemKey
+    {
+      get { return this._systemKey; }
+      set { this._systemKey = value; }
+    }
+    public bool IsSetSystemKey()
+    {
+      return this._systemKey != null;
+    }
     public void Validate()
     {
       if (!IsSetIdentifier()) throw new System.ArgumentException("Missing value for required property 'Identifier'");
       if (!IsSetMutations()) throw new System.ArgumentException("Missing value for required property 'Mutations'");
+      if (!IsSetSystemKey()) throw new System.ArgumentException("Missing value for required property 'SystemKey'");
 
     }
   }
