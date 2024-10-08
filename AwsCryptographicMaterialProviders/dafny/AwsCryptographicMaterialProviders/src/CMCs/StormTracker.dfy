@@ -89,13 +89,13 @@ module {:options "/functionSyntax:4" }  StormTracker {
 
   function CheckSettings(
     cache: Types.StormTrackingCache
-  ) : (res : Result<bool, Types.Error> )
-    ensures res.Success? ==> ConsistentSettings(cache)
+  ) : (res : Outcome<Types.Error> )
+    ensures res.Pass? ==> ConsistentSettings(cache)
   {
     if ConsistentSettings(cache) then
-      Success(true)
+      Pass
     else
-      Failure(Types.AwsCryptographicMaterialProvidersException(message := BadCacheMsg(cache)))
+      Fail(Types.AwsCryptographicMaterialProvidersException(message := BadCacheMsg(cache)))
   }
 
 
