@@ -34,6 +34,11 @@ module DefaultKeyStorageInterface {
        ]
   const BRANCH_KEY_NOT_EXIST_CONDITION := "attribute_not_exists(" + BRANCH_KEY_EXISTS_EXPRESSION_ATTRIBUTE_NAME + ")"
   const BRANCH_KEY_EXISTS_CONDITION := "attribute_exists(" + BRANCH_KEY_EXISTS_EXPRESSION_ATTRIBUTE_NAME + ")"
+  // The Table's Index is BRANCH_KEY_IDENTIFIER_FIELD & TYPE_FIELD
+  const INDEX_EXP_ATT_NAMES: DDB.ExpressionAttributeNameMap :=
+    map[
+      "#pk" := Structure.BRANCH_KEY_IDENTIFIER_FIELD,
+      "#sk" := Structure.TYPE_FIELD]
 
   datatype ConditionExpression =
     | BRANCH_KEY_NOT_EXIST
@@ -43,16 +48,18 @@ module DefaultKeyStorageInterface {
   // This means that Dafny can not use `Structure.MUTATION_LOCK_TYPE`
   // in the case statement to evaluate a literal.
   const MUTATION_LOCK_TYPE := "branch:MUTATION_LOCK" // Structure.MUTATION_LOCK_TYPE
-  const BRANCH_KEY_ACTIVE_TYPE := "branch:ACTIVE" // Structure.BRANCH_KEY_ACTIVE_TYPE
-  const BEACON_KEY_TYPE_VALUE :=  "beacon:ACTIVE" // Structure.BEACON_KEY_TYPE_VALUE
-  const VERSION_TYPE_PREFIX := "branch:version:" // Structure.BRANCH_KEY_TYPE_PREFIX
+  const MUTATION_INDEX_TYPE := "branch:MUTATION_INDEX" // Structure.MUTATION_INDEX_TYPE
+  // const BRANCH_KEY_ACTIVE_TYPE := "branch:ACTIVE" // Structure.BRANCH_KEY_ACTIVE_TYPE
+  // const BEACON_KEY_TYPE_VALUE :=  "beacon:ACTIVE" // Structure.BEACON_KEY_TYPE_VALUE
+  // const VERSION_TYPE_PREFIX := "branch:version:" // Structure.BRANCH_KEY_TYPE_PREFIX
 
   lemma TypesAreCorrect()
     ensures
       && MUTATION_LOCK_TYPE == Structure.MUTATION_LOCK_TYPE
-      && BRANCH_KEY_ACTIVE_TYPE == Structure.BRANCH_KEY_ACTIVE_TYPE
-      && BEACON_KEY_TYPE_VALUE == Structure.BEACON_KEY_TYPE_VALUE
-      && VERSION_TYPE_PREFIX == Structure.BRANCH_KEY_TYPE_PREFIX
+      && MUTATION_INDEX_TYPE == Structure.MUTATION_INDEX_TYPE
+    // && BRANCH_KEY_ACTIVE_TYPE == Structure.BRANCH_KEY_ACTIVE_TYPE
+    // && BEACON_KEY_TYPE_VALUE == Structure.BEACON_KEY_TYPE_VALUE
+    // && VERSION_TYPE_PREFIX == Structure.BRANCH_KEY_TYPE_PREFIX
   {}
 
   class {:termination false} DynamoDBKeyStorageInterface
@@ -539,7 +546,85 @@ module DefaultKeyStorageInterface {
       ensures ValidState()
       ensures GetMutationLockAndIndexEnsuresPublicly(input, output)
       ensures unchanged(History)
-    {return Failure(Types.KeyStorageException(message:="WIP"));}
+
+      ensures |ddbClient.History.TransactGetItems| == |old(ddbClient.History.TransactGetItems)| + 1
+      ensures output.Success?
+              ==>
+                && Seq.Last(ddbClient.History.TransactGetItems).output.Success?
+
+      ensures
+        && old(ddbClient.History.TransactGetItems) < ddbClient.History.TransactGetItems
+
+      // If the lock is invalid, must fail
+      // TODO-Mutations-FF I cannot get these prove quickly, even though they seem quite straight forward
+      // ensures
+      //   && Seq.Last(ddbClient.History.TransactGetItems).output.Success?
+      //   && Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.Some?
+      //   && |Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.value| == 2
+      //   && Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.value[0].Item.Some?
+      //   && !Structure.MutationLockAttribute?(Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.value[0].Item.value)
+      //   ==> output.Failure?
+      // If the index is invalid, must fail
+      // ensures
+      //   && Seq.Last(ddbClient.History.TransactGetItems).output.Success?
+      //   && Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.Some?
+      //   && |Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.value| == 2
+      //   && Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.value[1].Item.Some?
+      //   && !Structure.MutationIndexAttribute?(Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.value[1].Item.value)
+      //   ==> output.Failure?
+    {
+      var transactItems: DDB.TransactGetItemList
+        := Seq.Map(
+        (typeStr: string)
+        =>
+          // The DDB request is a list of TransactGetItems
+          DDB.TransactGetItem(
+            Get := DDB.Get(
+              Key := DDBKeyForType(typeStr, input.Identifier),
+              TableName := ddbTableName)),
+
+        // This is the seq we are mapping over. The DDB Result will be in this order!
+        [Structure.MUTATION_LOCK_TYPE, Structure.MUTATION_INDEX_TYPE]);
+
+      var ddbRequest := DDB.TransactGetItemsInput(TransactItems := transactItems);
+      var ddbResponse? := ddbClient.TransactGetItems(ddbRequest);
+
+      /** Handle DDB Error */
+      var ddbResponse :- ddbResponse?
+      .MapFailure((e: DDB.Error) =>
+                    wrapDdbException(
+                      e:=e,
+                      storageOperation:="GetMutationLockAndIndex",
+                      ddbOperation:="TransactGetItems",
+                      identifier:=input.Identifier,
+                      tableName:=ddbTableName));
+
+        // SDKs/Smithy-Dafny/Custom Implementations of Storage MAY respond with None or an Empty Map.
+        // .NET returns an empty map, Java returns None.
+      :- Need(
+        ddbResponse.Responses.Some? && (2 == |ddbResponse.Responses.value|),
+        Types.KeyStorageException(
+          message:=
+            "GetMutationLockAndIndex: No items returned. "
+            + "Branch Key ID: " + input.Identifier
+            + "\tTable Name: " + ddbTableName));
+
+      /** Process sensical DDB Response */
+      var lockCanidate := ddbResponse.Responses.value[0].Item;
+      var lockItem: Option<Types.MutationLock> :-
+        MutationLockFromOptionalItem(lockCanidate, input.Identifier, ddbTableName);
+      assert lockItem.Some? ==> lockCanidate.Some? && Structure.MutationLockAttribute?(lockCanidate.value);
+
+      var indexCanidate := ddbResponse.Responses.value[1].Item;
+      var indexItem: Option<Types.MutationIndex> :-
+        MutationIndexFromOptionalItem(indexCanidate, input.Identifier, ddbTableName);
+      assert indexItem.Some? ==> indexCanidate.Some? && Structure.MutationIndexAttribute?(indexCanidate.value);
+
+      return Success(
+          Types.GetMutationLockAndIndexOutput(
+            MutationLock := lockItem,
+            MutationIndex := indexItem));
+    }
 
     method GetEncryptedActiveBranchKey' ( input: Types.GetEncryptedActiveBranchKeyInput )
       returns (output: Result<Types.GetEncryptedActiveBranchKeyOutput, Types.Error>)
@@ -1024,22 +1109,14 @@ module DefaultKeyStorageInterface {
     }
 
     static const queryForVersionsKeyExpression: DDB.KeyExpression := "#pk = :pk AND begins_with( #sk, :decryptOnlyPrefix )"
-    static const queryForVersionsExpAttNames: DDB.ExpressionAttributeNameMap :=
-      map[
-        "#pk" := Structure.BRANCH_KEY_IDENTIFIER_FIELD,
-        "#sk" := Structure.TYPE_FIELD]
 
     method QueryForVersions' ( input: Types.QueryForVersionsInput )
       returns (output: Result<Types.QueryForVersionsOutput, Types.Error>)
-      requires
-        && ValidState()
+      requires ValidState()
       modifies Modifies - {History}
-      // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History}
-      ensures
-        && ValidState()
+      ensures ValidState() && unchanged(History)
       ensures QueryForVersionsEnsuresPublicly(input, output)
-      ensures unchanged(History)
     {
       /** Construct & Issue DDB Request */
       var exclusiveStartKey: Option<DDB.Key> := None;
@@ -1060,7 +1137,7 @@ module DefaultKeyStorageInterface {
         ConsistentRead := Some(true),
         ExclusiveStartKey := exclusiveStartKey,
         KeyConditionExpression := Some(queryForVersionsKeyExpression),
-        ExpressionAttributeNames := Some(queryForVersionsExpAttNames),
+        ExpressionAttributeNames := Some(INDEX_EXP_ATT_NAMES),
         ExpressionAttributeValues := Some(exprAttributeValues)
       );
       var ddbResponse? := ddbClient.Query(ddbRequest);
@@ -1169,7 +1246,7 @@ module DefaultKeyStorageInterface {
         input.Items);
 
       var mLock := input.MutationLock;
-      var mLockAction := conditionalCheckOnMutationLock(mLock.Identifier, mLock.Original, mLock.Terminal, ddbTableName);
+      var mLockAction := conditionalCheckOnMutationLock(mLock, ddbTableName);
 
       /** Construct & Issue DDB Request */
       var ddbRequest := DDB.TransactWriteItemsInput(
@@ -1209,8 +1286,74 @@ module DefaultKeyStorageInterface {
       decreases Modifies - {History}
       ensures ValidState() && unchanged(History)
       ensures DeleteMutationLockAndIndexEnsuresPublicly(input, output)
+
+      ensures !Structure.MutationLock?(input.MutationLock) ==> output.Failure?
+      ensures
+        && Structure.MutationLock?(input.MutationLock) ==>(
+            && |ddbClient.History.TransactWriteItems| == |old(ddbClient.History.TransactWriteItems)| + 1
+            && old(ddbClient.History.TransactWriteItems) < ddbClient.History.TransactWriteItems
+            && (output.Success? ==> Seq.Last(ddbClient.History.TransactWriteItems).output.Success?)
+            && (Seq.Last(ddbClient.History.TransactWriteItems).output.Failure? ==> output.Failure?))
+
+      ensures
+        output.Success?
+        ==>
+          && Seq.Last(ddbClient.History.TransactWriteItems).input
+             == DDB.TransactWriteItemsInput(
+                  TransactItems := [
+                    CreateTransactDeleteMutationLock(
+                      input.MutationLock,
+                      ddbTableName),
+                    CreateTransactDeleteMutationIndex(
+                      input.MutationLock.Identifier,
+                      ddbTableName
+                    )
+                  ]
+                )
     {
-      return Failure(Types.KeyStorageException(message := "DeleteMutationLockAndIndex is Not yet supported."));
+      /** Validate Input */
+      :- Need(
+        Structure.MutationLock?(input.MutationLock),
+        Types.KeyStorageException(message:="Mutation Index must be valid."));
+
+      var items: DDB.TransactWriteItemList := [
+        CreateTransactDeleteMutationLock(
+          input.MutationLock,
+          ddbTableName),
+        CreateTransactDeleteMutationIndex(
+          input.MutationLock.Identifier,
+          ddbTableName
+        )
+      ];
+
+      /** Construct & Issue DDB Request */
+      var ddbRequest := DDB.TransactWriteItemsInput(
+        TransactItems := items
+      );
+      var ddbResponse? := ddbClient.TransactWriteItems(ddbRequest);
+
+      /** Handle DDB Error */
+      // TODO: Wherever we write a Transaction, to explain race failure, we MUST do something like this:
+      if (ddbResponse?.Failure? && ddbResponse?.error.TransactionCanceledException?) {
+        return Failure(
+            Types.KeyStorageException(
+              message :=
+                "DDB request to Delete Mutation Lock & Index was failed by DDB with TransactionCanceledException. "
+                + "This MAY be caused by a race between hosts mutating the same Branch Key ID. "
+                + "The Mutation has NOT completed. "
+                + "Table Name: "+ ddbTableName
+                + "\tBranch Key ID: " + input.MutationLock.Identifier
+                + "\tDDB Exception Message: \n" + ddbResponse?.error.Message.UnwrapOr("")));
+      }
+      var ddbResponse :- ddbResponse?
+      .MapFailure(
+        (e: DDB.Error) => wrapDdbException(
+            e:=e,
+            storageOperation:="DeleteMutationLockAndIndex",
+            ddbOperation:="TransactionWriteItems",
+            identifier:=input.MutationLock.Identifier,
+            tableName:=ddbTableName));
+      return Success(Types.DeleteMutationLockAndIndexOutput());
     }
 
     method UpdateMutationIndex' ( input: Types.UpdateMutationIndexInput )
@@ -1220,8 +1363,78 @@ module DefaultKeyStorageInterface {
       decreases Modifies - {History}
       ensures ValidState() && unchanged(History)
       ensures UpdateMutationIndexEnsuresPublicly(input, output)
+
+      ensures input.MutationIndex.Identifier != input.OldMutationIndex.Identifier ==> output.Failure?
+      ensures !Structure.MutationIndex?(input.MutationIndex) ==> output.Failure?
+      ensures
+        && input.MutationIndex.Identifier == input.OldMutationIndex.Identifier
+        && Structure.MutationIndex?(input.MutationIndex) ==>(
+            && |ddbClient.History.TransactWriteItems| == |old(ddbClient.History.TransactWriteItems)| + 1
+            && old(ddbClient.History.TransactWriteItems) < ddbClient.History.TransactWriteItems
+            && (output.Success? ==> Seq.Last(ddbClient.History.TransactWriteItems).output.Success?)
+            && (Seq.Last(ddbClient.History.TransactWriteItems).output.Failure? ==> output.Failure?))
+
+      ensures
+        output.Success?
+        ==>
+          && Seq.Last(ddbClient.History.TransactWriteItems).input
+             == DDB.TransactWriteItemsInput(
+                  TransactItems := [
+                    CreateTransactOverwriteMutationIndex(
+                      input.MutationIndex,
+                      input.OldMutationIndex,
+                      ddbTableName
+                    )
+                  ]
+                )
     {
-      return Failure(Types.KeyStorageException(message := "UpdateMutationIndex is Not yet supported."));
+      /** Validate Input */
+      :- Need(
+        input.MutationIndex.Identifier == input.OldMutationIndex.Identifier,
+        Types.KeyStorageException(message:="Mutation Index Identifiers MUST be equal."
+        ));
+
+      :- Need(
+        Structure.MutationIndex?(input.MutationIndex),
+        Types.KeyStorageException(message:="Mutation Index must be valid."));
+
+      // TODO-Mutations-GA? PutItem would be better than TransactWriteItem, but TIME
+      var items: DDB.TransactWriteItemList := [
+        CreateTransactOverwriteMutationIndex(
+          input.MutationIndex,
+          input.OldMutationIndex,
+          ddbTableName
+        )
+      ];
+
+      /** Construct & Issue DDB Request */
+      var ddbRequest := DDB.TransactWriteItemsInput(
+        TransactItems := items
+      );
+      var ddbResponse? := ddbClient.TransactWriteItems(ddbRequest);
+
+      /** Handle DDB Error */
+      // TODO: Wherever we write a Transaction, to explain race failure, we MUST do something like this:
+      if (ddbResponse?.Failure? && ddbResponse?.error.TransactionCanceledException?) {
+        return Failure(
+            Types.KeyStorageException(
+              message :=
+                "DDB request to Update Mutation Index was failed by DDB with TransactionCanceledException. "
+                + "This MAY be caused by a race between hosts mutating the same Branch Key ID. "
+                + "The Mutation has NOT completed. "
+                + "Table Name: "+ ddbTableName
+                + "\tBranch Key ID: " + input.MutationIndex.Identifier
+                + "\tDDB Exception Message: \n" + ddbResponse?.error.Message.UnwrapOr("")));
+      }
+      var ddbResponse :- ddbResponse?
+      .MapFailure(
+        (e: DDB.Error) => wrapDdbException(
+            e:=e,
+            storageOperation:="UpdateMutationIndex",
+            ddbOperation:="TransactionWriteItems",
+            identifier:=input.MutationIndex.Identifier,
+            tableName:=ddbTableName));
+      return Success(Types.UpdateMutationIndexOutput());
     }
   }
 
@@ -1268,19 +1481,17 @@ module DefaultKeyStorageInterface {
   }
 
   function method CreateTransactDeleteMutationLock(
-    branchKeyIdentifier: string,
-    original: seq<Types.UInt.uint8> ,
-    terminal: seq<Types.UInt.uint8> ,
+    mLock: Types.MutationLock,
     tableName: DDB.TableName
   ): (output: DDB.TransactWriteItem)
   {
-    var check := checkForMutationLock(branchKeyIdentifier, original, terminal);
+    var check := checkForMutationLock(mLock);
     DDB.TransactWriteItem(
       Delete := Some(
         DDB.Delete(
           Key :=
             map[
-              Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(branchKeyIdentifier),
+              Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(mLock.Identifier),
               Structure.TYPE_FIELD := DDB.AttributeValue.S(Structure.MUTATION_LOCK_TYPE)
             ],
           TableName := tableName,
@@ -1297,7 +1508,7 @@ module DefaultKeyStorageInterface {
   ): (output: DDB.TransactWriteItem)
     requires (forall k <- item.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
   {
-    var check := checkForOldItem(oldItem);
+    var check := checkForOldEnc(oldItem.CiphertextBlob);
     DDB.TransactWriteItem(
       Put := Some(
         DDB.Put(
@@ -1309,35 +1520,74 @@ module DefaultKeyStorageInterface {
         )))
   }
 
+  function method CreateTransactOverwriteMutationIndex(
+    index: Types.MutationIndex,
+    oldIndex: Types.MutationIndex,
+    tableName: DDB.TableName
+  ): (output: DDB.TransactWriteItem)
+    requires Structure.MutationIndex?(index)
+  {
+    var check := checkForOldEnc(oldIndex.CiphertextBlob);
+    DDB.TransactWriteItem(
+      Put := Some(
+        DDB.Put(
+          Item := Structure.MutationIndexToAttributeMap(index),
+          TableName := tableName,
+          ConditionExpression := Some(check.ConditionExpression),
+          ExpressionAttributeNames := Some(check.ExpressionAttributeNames),
+          ExpressionAttributeValues := Some(check.ExpressionAttributeValues)
+        )))
+  }
+
+  function method CreateTransactDeleteMutationIndex(
+    identifier: string,
+    tableName: DDB.TableName
+  ): (output: DDB.TransactWriteItem)
+  {
+    DDB.TransactWriteItem(
+      Delete := Some(
+        DDB.Delete(
+          Key :=
+            map[
+              Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(identifier),
+              Structure.TYPE_FIELD := DDB.AttributeValue.S(Structure.MUTATION_INDEX_TYPE)
+            ],
+          TableName := tableName
+        )))
+  }
+
   datatype check = | check(
     nameonly ConditionExpression: DDB.ConditionExpression ,
     nameonly ExpressionAttributeNames: DDB.ExpressionAttributeNameMap ,
     nameonly ExpressionAttributeValues: DDB.ExpressionAttributeValueMap)
 
   /** Assert the cipherText of the Active Item has not changed since it was read.*/
-  function method checkForOldItem(
-    oldItem: Types.EncryptedHierarchicalKey
+  function method checkForOldEnc(
+    oldCiphertextBlob: seq<Types.UInt.uint8>
   ): (output: check)
   {
     check(
-      ConditionExpression := "attribute_exists(#pk) AND enc = :encOld",
+      ConditionExpression := "attribute_exists(#pk) AND " + Structure.ENC_FIELD + " = :encOld",
       ExpressionAttributeNames := map["#pk" := Structure.BRANCH_KEY_IDENTIFIER_FIELD],
-      ExpressionAttributeValues := map[":encOld" := DDB.AttributeValue.B(oldItem.CiphertextBlob)])
+      ExpressionAttributeValues := map[":encOld" := DDB.AttributeValue.B(oldCiphertextBlob)])
   }
 
   function method checkForMutationLock(
-    branchKeyIdentifier: string,
-    original: seq<Types.UInt.uint8> ,
-    terminal: seq<Types.UInt.uint8>
+    mLock: Types.MutationLock
   ): (output: check)
   {
     check(
-      ConditionExpression := "attribute_exists(#pk) AND original = :original AND terminal = :terminal",
+      ConditionExpression :=
+        "attribute_exists(#pk) "
+        + "AND original = :original "
+        + "AND terminal = :terminal "
+        + "AND " + Structure.ENC_FIELD + " = :encOld",
       ExpressionAttributeNames := map["#pk" := Structure.BRANCH_KEY_IDENTIFIER_FIELD], // "#pk":="branch-key-id"
       ExpressionAttributeValues :=
         map[
-          ":original" := DDB.AttributeValue.B(original),
-          ":terminal" := DDB.AttributeValue.B(terminal)
+          ":original" := DDB.AttributeValue.B(mLock.Original),
+          ":terminal" := DDB.AttributeValue.B(mLock.Terminal),
+          ":encOld" := DDB.AttributeValue.B(mLock.CiphertextBlob)
         ]
     )
   }
@@ -1345,18 +1595,16 @@ module DefaultKeyStorageInterface {
   /** Assert a Mutation Lock exists for Branch Key ID, with Original and Terminal as expected.*/
   /** For use with WriteMutatedVersions. */
   function method conditionalCheckOnMutationLock(
-    branchKeyIdentifier: string,
-    original: seq<Types.UInt.uint8> ,
-    terminal: seq<Types.UInt.uint8> ,
+    mLock: Types.MutationLock,
     tableName: DDB.TableName
   ): (output: DDB.TransactWriteItem)
   {
-    var check := checkForMutationLock(branchKeyIdentifier, original, terminal);
+    var check := checkForMutationLock(mLock);
     var conditionCheck
       :=
       DDB.ConditionCheck(
         Key := map[
-          Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(branchKeyIdentifier),
+          Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(mLock.Identifier),
           Structure.TYPE_FIELD := DDB.AttributeValue.S(Structure.MUTATION_LOCK_TYPE)
         ],
         TableName := tableName,
