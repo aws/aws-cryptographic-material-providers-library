@@ -793,7 +793,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     match input.cache {
       case Default(c) =>
         var cache := StormTracker.DefaultStorm().(entryCapacity := c.entryCapacity);
-        var _ :- StormTracker.CheckSettings(cache);
+        :- StormTracker.CheckSettings(cache);
         var cmc := new StormTracker.StormTracker(cache);
         var synCmc := new StormTrackingCMC.StormTrackingCMC(cmc);
         return Success(synCmc);
@@ -815,7 +815,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
         return Success(synCmc);
       case StormTracking(c) =>
         var cache := c.( entryPruningTailSize := OptionalCountingNumber(c.entryPruningTailSize));
-        var _ :- StormTracker.CheckSettings(cache);
+        :- StormTracker.CheckSettings(cache);
         var cmc := new StormTracker.StormTracker(cache);
         var synCmc := new StormTrackingCMC.StormTrackingCMC(cmc);
         return Success(synCmc);
