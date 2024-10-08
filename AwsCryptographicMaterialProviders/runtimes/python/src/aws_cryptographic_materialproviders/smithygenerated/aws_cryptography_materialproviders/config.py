@@ -55,7 +55,7 @@ class MaterialProvidersConfig(Config):
     def __init__(
         self,
     ):
-        super().__init__(message)
+        super().__init__()
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the MaterialProvidersConfig to a dictionary."""

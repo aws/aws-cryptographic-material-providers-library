@@ -55,7 +55,7 @@ class CryptoConfig(Config):
     def __init__(
         self,
     ):
-        super().__init__(message)
+        super().__init__()
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the CryptoConfig to a dictionary."""

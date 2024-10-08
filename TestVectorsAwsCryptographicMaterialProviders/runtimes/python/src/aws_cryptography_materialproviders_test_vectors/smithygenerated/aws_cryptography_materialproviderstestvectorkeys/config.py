@@ -59,7 +59,7 @@ class KeyVectorsConfig(Config):
         *,
         key_manifest_path: str,
     ):
-        super().__init__(message)
+        super().__init__()
         self.key_manifest_path = key_manifest_path
 
     def as_dict(self) -> Dict[str, Any]:
