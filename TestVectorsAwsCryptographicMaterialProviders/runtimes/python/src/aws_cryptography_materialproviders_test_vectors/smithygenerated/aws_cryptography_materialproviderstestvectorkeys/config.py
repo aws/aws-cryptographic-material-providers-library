@@ -51,7 +51,7 @@ class Config:
 Plugin: TypeAlias = Callable[[Config], None]
 
 
-class KeyVectorsConfig:
+class KeyVectorsConfig(Config):
     key_manifest_path: str
 
     def __init__(
@@ -59,6 +59,7 @@ class KeyVectorsConfig:
         *,
         key_manifest_path: str,
     ):
+        super().__init__(message)
         self.key_manifest_path = key_manifest_path
 
     def as_dict(self) -> Dict[str, Any]:

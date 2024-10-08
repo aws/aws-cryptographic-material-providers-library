@@ -51,7 +51,12 @@ class Config:
 Plugin: TypeAlias = Callable[[Config], None]
 
 
-class MaterialProvidersConfig:
+class MaterialProvidersConfig(Config):
+    def __init__(
+        self,
+    ):
+        super().__init__(message)
+
     def as_dict(self) -> Dict[str, Any]:
         """Converts the MaterialProvidersConfig to a dictionary."""
         return {}

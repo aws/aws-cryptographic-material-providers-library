@@ -51,7 +51,12 @@ class Config:
 Plugin: TypeAlias = Callable[[Config], None]
 
 
-class CryptoConfig:
+class CryptoConfig(Config):
+    def __init__(
+        self,
+    ):
+        super().__init__(message)
+
     def as_dict(self) -> Dict[str, Any]:
         """Converts the CryptoConfig to a dictionary."""
         return {}
