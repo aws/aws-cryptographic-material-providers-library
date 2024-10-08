@@ -70,16 +70,6 @@ class CryptoConfig:
         return isinstance(other, CryptoConfig)
 
 
-class CryptoConfig(Config):
-    """Smithy-modelled localService Config shape for this localService."""
-
-    def __init__(
-        self,
-    ):
-        """Constructor for CryptoConfig."""
-        super().__init__()
-
-
 def dafny_config_to_smithy_config(dafny_config) -> CryptoConfig:
     """Converts the provided Dafny shape for this localService's config into
     the corresponding Smithy-modelled shape."""
