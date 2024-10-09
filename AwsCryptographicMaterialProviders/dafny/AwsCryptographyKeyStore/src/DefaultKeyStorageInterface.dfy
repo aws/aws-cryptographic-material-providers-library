@@ -98,7 +98,18 @@ module DefaultKeyStorageInterface {
       input: Types.GetMutationLockAndIndexInput,
       output: Result<Types.GetMutationLockAndIndexOutput, Types.Error>
     )
-    {true}
+    {
+      && (output.Success? ==>
+            // Conditions for M-Lock
+            && (output.value.MutationLock.Some? ==>
+                  && output.value.MutationLock.value.Identifier == input.Identifier
+                  && Structure.MutationLock?(output.value.MutationLock.value))
+               // Conditions for M-Index
+            && (output.value.MutationIndex.Some? ==>
+                  && output.value.MutationIndex.value.Identifier == input.Identifier
+                  && Structure.MutationIndex?(output.value.MutationIndex.value) )
+      )
+    }
 
     predicate WriteNewEncryptedBranchKeyVersionEnsuresPublicly(
       input: Types.WriteNewEncryptedBranchKeyVersionInput ,
@@ -206,8 +217,13 @@ module DefaultKeyStorageInterface {
             && output.value.BeaconItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
             && KmsArn.ValidKmsArn?(output.value.BeaconItem.KmsArn)
                // Conditions for M-Lock
-            && (output.value.MutationLock.Some? ==> output.value.MutationLock.value.Identifier == input.Identifier)
-            && (output.value.MutationIndex.Some? ==> output.value.MutationIndex.value.Identifier == input.Identifier)
+            && (output.value.MutationLock.Some? ==>
+                  && output.value.MutationLock.value.Identifier == input.Identifier
+                  && Structure.MutationLock?(output.value.MutationLock.value))
+               // Conditions for M-Index
+            && (output.value.MutationIndex.Some? ==>
+                  && output.value.MutationIndex.value.Identifier == input.Identifier
+                  && Structure.MutationIndex?(output.value.MutationIndex.value) )
       )
     }
 
@@ -217,7 +233,11 @@ module DefaultKeyStorageInterface {
     )
     {
       && (output.Success? ==>
-            && (output.value.MutationLock.Some? ==> output.value.MutationLock.value.Identifier == input.Identifier))
+            // Conditions for M-Lock
+            && (output.value.MutationLock.Some? ==>
+                  && output.value.MutationLock.value.Identifier == input.Identifier
+                  && Structure.MutationLock?(output.value.MutationLock.value))
+      )
     }
 
     predicate WriteInitializeMutationEnsuresPublicly(
@@ -293,15 +313,11 @@ module DefaultKeyStorageInterface {
 
     method GetMutationLock' ( input: Types.GetMutationLockInput )
       returns (output: Result<Types.GetMutationLockOutput, Types.Error>)
-      requires
-        && ValidState()
+      requires ValidState()
       modifies Modifies - {History}
-      // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History}
-      ensures
-        && ValidState()
+      ensures ValidState() && unchanged(History)
       ensures GetMutationLockEnsuresPublicly(input, output)
-      ensures unchanged(History)
     {
       return Failure(Types.KeyStorageException(message := "GetMutationLock is not yet supported."));
     }
@@ -1033,25 +1049,72 @@ module DefaultKeyStorageInterface {
           ));
     }
 
-    /** A transaction write for 4 items, conditioned on No Mutation Lock exsisting for Identifier.*/
+    /** A transaction write for 5 items, conditioned on No Mutation Lock Or Index exsisting for Identifier.*/
     /** One of the items is a new Active; it is conditioned on the oldActive's enc still being present at write time.*/
     method WriteInitializeMutation' ( input: Types.WriteInitializeMutationInput )
       returns (output: Result<Types.WriteInitializeMutationOutput, Types.Error>)
-      requires
-        && ValidState()
+      requires ValidState()
       modifies Modifies - {History}
-      // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History}
-      ensures
-        && ValidState()
+      ensures ValidState() && unchanged(History)
       ensures WriteInitializeMutationEnsuresPublicly(input, output)
-      ensures unchanged(History)
+
+      ensures
+        && Structure.MutationLock?(input.MutationLock)
+        && Structure.MutationIndex?(input.MutationIndex)
+        && (forall k <- input.Version.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
+        && (forall k <- input.Active.Item.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
+        && (forall k <- input.Beacon.Item.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
+        ==> (
+            && |ddbClient.History.TransactWriteItems| == |old(ddbClient.History.TransactWriteItems)| + 1
+            && old(ddbClient.History.TransactWriteItems) < ddbClient.History.TransactWriteItems
+            && (output.Success? ==> Seq.Last(ddbClient.History.TransactWriteItems).output.Success?)
+            && (Seq.Last(ddbClient.History.TransactWriteItems).output.Failure? ==> output.Failure?)
+            && Seq.Last(ddbClient.History.TransactWriteItems).input
+               ==
+               DDB.TransactWriteItemsInput(
+                 TransactItems := [
+                   CreateTransactWritePutItem(
+                     input.Version,
+                     ddbTableName,
+                     BRANCH_KEY_NOT_EXIST // The new Decrypt Only MUST not exist
+                   ),
+                   CreateTransactOverwrite(
+                     input.Active.Item,
+                     input.Active.Old,
+                     ddbTableName
+                   ),
+                   CreateTransactOverwrite(
+                     input.Beacon.Item,
+                     input.Beacon.Old,
+                     ddbTableName
+                   ),
+                   CreateTransactWriteMLock(
+                     input.MutationLock,
+                     ddbTableName,
+                     BRANCH_KEY_NOT_EXIST // The M-LOCK MUST not exist
+                   ),
+                   CreateTransactWriteMIndex(
+                     input.MutationIndex,
+                     ddbTableName,
+                     BRANCH_KEY_NOT_EXIST // The M-Index MUST not exist
+                   )
+                 ]
+               ))
+
     {
 
       :- Need(
         Structure.MutationLock?(input.MutationLock)
       , Types.KeyStorageException(
           message := "Invalid mutation lock."
+        )
+      );
+
+      :- Need(
+        Structure.MutationIndex?(input.MutationIndex)
+      , Types.KeyStorageException(
+          message := "Invalid mutation Index."
         )
       );
 
@@ -1062,6 +1125,7 @@ module DefaultKeyStorageInterface {
         && (forall k <- input.Beacon.Item.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
       , Types.KeyStorageException( message := ErrorMessages.ENCRYPTION_CONTEXT_EXCEEDS_DDB_LIMIT)
       );
+
       /** Convert Inputs to DDB Items.*/
       var items: DDB.TransactWriteItemList := [
         CreateTransactWritePutItem(
@@ -1083,6 +1147,11 @@ module DefaultKeyStorageInterface {
           input.MutationLock,
           ddbTableName,
           BRANCH_KEY_NOT_EXIST // The M-LOCK MUST not exist
+        ),
+        CreateTransactWriteMIndex(
+          input.MutationIndex,
+          ddbTableName,
+          BRANCH_KEY_NOT_EXIST // The M-Index MUST not exist
         )
       ];
       var transactRequest := DDB.TransactWriteItemsInput(
@@ -1470,6 +1539,27 @@ module DefaultKeyStorageInterface {
       Put := Some(
         DDB.Put(
           Item := Structure.MutationLockToAttributeMap(mutationLock),
+          TableName := tableName,
+          ConditionExpression := Some(
+            match ConditionExpression
+            case BRANCH_KEY_NOT_EXIST() => BRANCH_KEY_NOT_EXIST_CONDITION
+            case BRANCH_KEY_EXISTS() => BRANCH_KEY_EXISTS_CONDITION
+          ),
+          ExpressionAttributeNames := Some(BRANCH_KEY_EXISTS_EXPRESSION_ATTRIBUTE_NAMES)))
+    )
+  }
+
+  function method CreateTransactWriteMIndex(
+    mutationIndex: Types.MutationIndex,
+    tableName: DDB.TableName,
+    ConditionExpression: ConditionExpression
+  ): (output: DDB.TransactWriteItem)
+    requires Structure.MutationIndex?(mutationIndex)
+  {
+    DDB.TransactWriteItem(
+      Put := Some(
+        DDB.Put(
+          Item := Structure.MutationIndexToAttributeMap(mutationIndex),
           TableName := tableName,
           ConditionExpression := Some(
             match ConditionExpression
