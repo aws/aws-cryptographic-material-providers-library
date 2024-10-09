@@ -3,11 +3,13 @@
 
 include "./StandardLibrary.dfy"
 include "./UInt.dfy"
+include "./String.dfy"
 
 module {:extern "Time"} Time {
   import opened StandardLibrary
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import StandardLibrary.String
 
   // Time is non-deterministic.
   // In this way it is similar to random number.
@@ -37,6 +39,28 @@ module {:extern "Time"} Time {
   // Returns a timestamp for the current time in ISO8601 format in UTC
   // to microsecond precision (e.g. “YYYY-MM-DDTHH:mm:ss.ssssssZ“)
   method {:extern "GetCurrentTimeStamp"} GetCurrentTimeStamp() returns (res: Result<string, string>)
+
+  function method FormatMilli(diff : nat) : string
+  {
+    var whole := String.Base10Int2String((diff / 1000) as int);
+    var frac := String.Base10Int2String((diff % 1000) as int);
+    if |frac| == 1 then
+      whole + ".00" + frac
+    else if |frac| == 2 then
+      whole + ".0" + frac
+    else
+      whole + "." + frac
+  }
+
+  function method FormatMilliDiff(start : int64, end : int64) : string
+    requires start >= 0
+    requires end >= 0
+  {
+    if start <= end then
+      FormatMilli(end as nat - start as nat)
+    else
+      "-" + FormatMilli(start as nat - end as nat)
+  }
 
   // The next two functions are for the benefit of the extern implementation to call,
   // avoiding direct references to generic datatype constructors
