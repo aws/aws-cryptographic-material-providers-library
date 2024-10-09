@@ -4,6 +4,10 @@ TestsFromDafny.cs
 Folder.DotSettings.user
 ImplementationFromDafny-cs.dtr
 TestsFromDafny-cs.dtr
+# Ignore Python .dtr files for normal commits;
+# Releases will override .gitignore and commit updated Python .dtr files
+dafny_src-py.dtr
+dafny_test-py.dtr
 
 **/bin
 **/obj

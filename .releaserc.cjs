@@ -174,7 +174,20 @@ module.exports = {
       "@semantic-release/exec",
       {
         prepareCmd:
-          "make -C TestVectorsAwsCryptographicMaterialProviders transpile_python",
+          "make -C TestVectorsAwsCryptographicMaterialProviders transpile_python \
+          && git add -f TestVectorsAwsCryptographicMaterialProviders/runtimes/python/src/aws_cryptography_materialproviders_test_vectors/internaldafny/generated/dafny_src-py.dtr \
+          && git add -f TestVectorsAwsCryptographicMaterialProviders/runtimes/python/test/internaldafny/generated/dafny_test-py.dtr \
+          && git add -f StandardLibrary/runtimes/python/src/smithy_dafny_standard_library/internaldafny/generated/dafny_src-py.dtr \
+          && git add -f StandardLibrary/runtimes/python/test/internaldafny/generated/dafny_test-py.dtr \
+          && git add -f ComAmazonawsKms/runtimes/python/src/aws_cryptography_internal_kms/internaldafny/generated/dafny_src-py.dtr \
+          && git add -f ComAmazonawsKms/runtimes/python/test/internaldafny/generated/dafny_test-py.dtr \
+          && git add -f ComAmazonawsDynamodb/runtimes/python/src/aws_cryptography_internal_dynamodb/internaldafny/generated/dafny_src-py.dtr \
+          && git add -f ComAmazonawsDynamodb/runtimes/python/test/internaldafny/generated/dafny_test-py.dtr \
+          && git add -f AwsCryptographyPrimitives/runtimes/python/src/aws_cryptography_primitives/internaldafny/generated/dafny_src-py.dtr \
+          && git add -f AwsCryptographyPrimitives/runtimes/python/test/internaldafny/generated/dafny_test-py.dtr \
+          && git add -f AwsCryptographicMaterialProviders/runtimes/python/src/aws_cryptographic_materialproviders/internaldafny/generated/dafny_src-py.dtr \
+          && git add -f AwsCryptographicMaterialProviders/runtimes/python/test/internaldafny/generated/dafny_test-py.dtr \
+          ",
       },
     ],
     // Commit and push changes the changelog and versions bumps
