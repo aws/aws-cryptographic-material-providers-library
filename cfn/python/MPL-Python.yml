@@ -157,8 +157,6 @@ Resources:
         - !Ref CodeBuildProdReleaseBasePolicy
         - !Ref SecretsManagerProdReleasePolicy
         - !Ref CodeBuildCISTSAllow
-        # - "arn:aws:iam::aws:policy/AWSCodeArtifactReadOnlyAccess"
-        # - "arn:aws:iam::aws:policy/AWSCodeArtifactAdminAccess"
 
   CodeBuildTestReleaseBatchPolicy:
     Type: "AWS::IAM::ManagedPolicy"
@@ -336,6 +334,7 @@ Resources:
           ]
         }
 
+  # TODO: Log into Admin, ListSecrets; see if I need more here?
   SecretsManagerProdReleasePolicy:
     Type: "AWS::IAM::ManagedPolicy"
     Properties:
