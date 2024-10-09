@@ -263,6 +263,9 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     String.Base10Int2String(n as int)
   }
 
+  // = aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#initialization
+  // # If the cache to initialize is a [Storm Tracking Cryptographic Materials Cache](../storm-tracking-cryptographic-materials-cache.md#overview)
+  // # then the [Grace Period](../storm-tracking-cryptographic-materials-cache.md#grace-period) MUST be less than the [cache limit TTL](#cache-limit-ttl).
   method CheckCache(cache : CacheType, ttlSeconds: PositiveLong) returns (output : Outcome<Error>)
   {
     if cache.StormTracking? {

@@ -45,6 +45,18 @@ module {:options "/functionSyntax:4" }  StormTracker {
     )
   }
 
+  // = aws-encryption-sdk-specification/framework/storm-tracking-cryptographic-materials-cache.md#consistency
+  // = type=implication
+  // # - The [Grace Interval](#grace-interval) MUST be less than or equal to the [Grace Period](#grace-period).
+
+  // = aws-encryption-sdk-specification/framework/storm-tracking-cryptographic-materials-cache.md#consistency
+  // = type=implication
+  // # - The [Inflight TTL](#inflight-ttl) MUST be less than or equal to the [Grace Period](#grace-period).
+
+  // = aws-encryption-sdk-specification/framework/storm-tracking-cryptographic-materials-cache.md#consistency
+  // = type=implication
+  // # - The [Grace Interval](#grace-interval) MUST be less than or equal to the [Inflight TTL](#inflight-ttl).
+
   predicate ConsistentSettings(
     cache: Types.StormTrackingCache
   ) {
