@@ -74,8 +74,7 @@ class KeyStoreConfig(Config):
         ddb_client: Optional[BaseClient] = None,
         kms_client: Optional[BaseClient] = None,
     ):
-        """Constructor for aws_cryptographic_materialproviders.smithygenerated.
-        aws_cryptography_keystore.config.KeyStoreConfig.
+        """Constructor for KeyStoreConfig.
 
         :param ddb_table_name: The DynamoDB table name that backs this Key Store.
         :param kms_configuration: Configures Key Store's KMS Key ARN restrictions.

@@ -55,8 +55,7 @@ class CryptoConfig(Config):
     def __init__(
         self,
     ):
-        """Constructor for aws_cryptography_primitives.smithygenerated.aws_cryp
-        tography_primitives.config.CryptoConfig."""
+        """Constructor for CryptoConfig."""
         super().__init__()
 
     def as_dict(self) -> Dict[str, Any]:

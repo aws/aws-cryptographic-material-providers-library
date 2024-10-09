@@ -59,9 +59,7 @@ class KeyVectorsConfig(Config):
         *,
         key_manifest_path: str,
     ):
-        """Constructor for aws_cryptography_materialproviders_test_vectors.smit
-        hygenerated.aws_cryptography_materialproviderstestvectorkeys.config.Key
-        VectorsConfig."""
+        """Constructor for KeyVectorsConfig."""
         super().__init__()
         self.key_manifest_path = key_manifest_path
 
