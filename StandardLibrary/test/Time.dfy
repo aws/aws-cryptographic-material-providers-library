@@ -13,6 +13,12 @@ module {:options "/functionSyntax:4" } TestTime {
     expect t2 >= t1;
   }
 
+  method {:test} TestNonDecreasingMilli() {
+    var t1 := Time.GetCurrentMilli();
+    var t2 := Time.GetCurrentMilli();
+    expect t2 >= t1;
+  }
+
   method {:test} TestPositiveValues() {
     var t1 := Time.GetCurrent();
     var t2 := Time.GetCurrent();

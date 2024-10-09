@@ -26,6 +26,14 @@ module {:extern "Time"} Time {
     // be negative.
     ensures res >= 0
 
+  // Returns the number of milliseconds since some fixed-as-long-as-this-program-is-running moment in the past
+  // Time is represented as signed over unsigned because java does not do unsigned
+  // values - net can do both so we are able to change the representation to signed.
+  method {:extern "CurrentRelativeTimeMilli"} GetCurrentMilli() returns (res: int64)
+    // We are able to make this claim because it does not make sense for time to
+    // be negative.
+    ensures res >= 0
+
   // Returns a timestamp for the current time in ISO8601 format in UTC
   // to microsecond precision (e.g. “YYYY-MM-DDTHH:mm:ss.ssssssZ“)
   method {:extern "GetCurrentTimeStamp"} GetCurrentTimeStamp() returns (res: Result<string, string>)
