@@ -353,11 +353,10 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
         && input.keyStore.ValidState()
         && input.keyStore.Modifies !! {History}
         && ( input.cache.Some?
-             ==> if input.cache.value.Shared? then
-                 && input.cache.value.Shared.ValidState()
-                 && input.cache.value.Shared.Modifies !! {History}
-               else
-                 true)
+             ==> || ( input.cache.value.Shared? ==>
+                        && input.cache.value.Shared.ValidState()
+                        && input.cache.value.Shared.Modifies !! {History}
+               ) )
       modifies Modifies - {History} ,
                (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) ,
                input.keyStore.Modifies ,
@@ -611,23 +610,26 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
       returns (output: Result<ICryptographicMaterialsCache, Error>)
       requires
         && ValidState()
-        && (if input.cache.Shared? then
-              && input.cache.Shared.ValidState()
-              && input.cache.Shared.Modifies !! {History}
-            else
-              true)
+        && ( || ( input.cache.Shared? ==>
+                    && input.cache.Shared.ValidState()
+                    && input.cache.Shared.Modifies !! {History}
+             ) )
       modifies Modifies - {History} ,
-               (if input.cache.Shared? then
-                  input.cache.Shared.Modifies
-                else
-                  {}) ,
+               (
+                 if input.cache.Shared? then
+                   input.cache.Shared.Modifies
+                 else
+                   {}
+               ) ,
                History`CreateCryptographicMaterialsCache
       // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History} ,
-                (if input.cache.Shared? then
-                   input.cache.Shared.Modifies
-                 else
-                   {})
+                (
+                  if input.cache.Shared? then
+                    input.cache.Shared.Modifies
+                  else
+                    {}
+                )
       ensures
         && ValidState()
         && ( output.Success? ==>
@@ -636,10 +638,12 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
                && fresh(output.value)
                && fresh ( output.value.Modifies
                           - Modifies - {History}
-                          - (if input.cache.Shared? then
-                               input.cache.Shared.Modifies
-                             else
-                               {}) ) )
+                          - (
+                            if input.cache.Shared? then
+                              input.cache.Shared.Modifies
+                            else
+                              {}
+                          ) ) )
       ensures CreateCryptographicMaterialsCacheEnsuresPublicly(input, output)
       ensures History.CreateCryptographicMaterialsCache == old(History.CreateCryptographicMaterialsCache) + [DafnyCallEvent(input, output)]
 
@@ -1000,11 +1004,10 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     // If your operations need to mutate state,
     // add it in your constructor function:
     // Modifies := {your, fields, here, History};
-    // Given that you are mutating state,
-    // your ValidState function is going to get complicated.
+    // If you do not need to mutate anything:
+    // Modifies := {History};
 
     ghost const Modifies: set<object>
-    ghost var InternalModifies: set<object>
     // For an unassigned field defined in a trait,
     // Dafny can only assign a value in the constructor.
     // This means that for Dafny to reason about this value,
@@ -1019,6 +1022,13 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     // If you require any additional mutation,
     // then you MUST ensure everything you need in ValidState.
     // You MUST also ensure ValidState in your constructor.
+    predicate ValidState()
+      ensures ValidState() ==> History in Modifies
+
+    // Need to update all these words
+    //
+
+
     // Not only will you need to ensure
     // that all your mutable elements are contained in History,
     // you MUST also ensure
@@ -1030,15 +1040,10 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     // && property != History as object        // property really is not History!
     // && (forall m <- property.Modifies    // everything in property.Modifies
     //    :: m in Modifies - History)              // is in Modifies and really is not History!
-
-    predicate ValidState()
-      ensures ValidState() ==>
-                && History in Modifies
-
+    ghost var InternalModifies: set<object>
     predicate InternalValidState()
       reads this`InternalModifies, InternalModifies
       ensures InternalValidState() ==> History !in InternalModifies
-
     ghost const History: ICryptographicMaterialsCacheCallHistory
     predicate PutCacheEntryEnsuresPublicly(input: PutCacheEntryInput , output: Result<(), Error>)
     // The public method to be called by library consumers
@@ -1055,6 +1060,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
       ensures PutCacheEntryEnsuresPublicly(input, output)
       ensures History.PutCacheEntry == old(History.PutCacheEntry) + [DafnyCallEvent(input, output)]
     {
+      // There needs to be a bit of comments here
       assume {:axiom} InternalModifies < Modifies && InternalValidState();
       output := PutCacheEntry' (input);
       History.PutCacheEntry := History.PutCacheEntry + [DafnyCallEvent(input, output)];
@@ -1087,6 +1093,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
       ensures UpdateUsageMetadataEnsuresPublicly(input, output)
       ensures History.UpdateUsageMetadata == old(History.UpdateUsageMetadata) + [DafnyCallEvent(input, output)]
     {
+      // There needs to be a bit of comments here
       assume {:axiom} InternalModifies < Modifies && InternalValidState();
       output := UpdateUsageMetadata' (input);
       History.UpdateUsageMetadata := History.UpdateUsageMetadata + [DafnyCallEvent(input, output)];
@@ -1119,6 +1126,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
       ensures GetCacheEntryEnsuresPublicly(input, output)
       ensures History.GetCacheEntry == old(History.GetCacheEntry) + [DafnyCallEvent(input, output)]
     {
+      // There needs to be a bit of comments here
       assume {:axiom} InternalModifies < Modifies && InternalValidState();
       output := GetCacheEntry' (input);
       History.GetCacheEntry := History.GetCacheEntry + [DafnyCallEvent(input, output)];
@@ -1127,13 +1135,11 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     method GetCacheEntry' ( input: GetCacheEntryInput )
       returns (output: Result<GetCacheEntryOutput, Error>)
       requires
-        // && ValidState()
         && InternalValidState()
-      modifies InternalModifies - {History}
+      modifies InternalModifies
       // Dafny will skip type parameters when generating a default decreases clause.
-      decreases InternalModifies - {History}
+      decreases InternalModifies
       ensures
-        // && ValidState()
         && InternalValidState()
       ensures GetCacheEntryEnsuresPublicly(input, output)
       ensures unchanged(History)
@@ -1153,6 +1159,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
       ensures DeleteCacheEntryEnsuresPublicly(input, output)
       ensures History.DeleteCacheEntry == old(History.DeleteCacheEntry) + [DafnyCallEvent(input, output)]
     {
+      // There needs to be a bit of comments here
       assume {:axiom} InternalModifies < Modifies && InternalValidState();
       output := DeleteCacheEntry' (input);
       History.DeleteCacheEntry := History.DeleteCacheEntry + [DafnyCallEvent(input, output)];
@@ -2003,11 +2010,10 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
         && input.keyStore.ValidState()
         && input.keyStore.Modifies !! {History}
         && ( input.cache.Some?
-             ==> if input.cache.value.Shared? then
-                 && input.cache.value.Shared.ValidState()
-                 && input.cache.value.Shared.Modifies !! {History}
-               else
-                 true)
+             ==> || ( input.cache.value.Shared? ==>
+                        && input.cache.value.Shared.ValidState()
+                        && input.cache.value.Shared.Modifies !! {History}
+               ) )
       modifies Modifies - {History} ,
                (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) ,
                input.keyStore.Modifies ,
@@ -2306,23 +2312,26 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
       returns (output: Result<ICryptographicMaterialsCache, Error>)
       requires
         && ValidState()
-        && (if input.cache.Shared? then
-              && input.cache.Shared.ValidState()
-              && input.cache.Shared.Modifies !! {History}
-            else
-              true)
+        && ( || ( input.cache.Shared? ==>
+                    && input.cache.Shared.ValidState()
+                    && input.cache.Shared.Modifies !! {History}
+             ) )
       modifies Modifies - {History} ,
-               (if input.cache.Shared? then
-                  input.cache.Shared.Modifies
-                else
-                  {}) ,
+               (
+                 if input.cache.Shared? then
+                   input.cache.Shared.Modifies
+                 else
+                   {}
+               ) ,
                History`CreateCryptographicMaterialsCache
       // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History} ,
-                (if input.cache.Shared? then
-                   input.cache.Shared.Modifies
-                 else
-                   {})
+                (
+                  if input.cache.Shared? then
+                    input.cache.Shared.Modifies
+                  else
+                    {}
+                )
       ensures
         && ValidState()
         && ( output.Success? ==>
@@ -2331,10 +2340,12 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
                && fresh(output.value)
                && fresh ( output.value.Modifies
                           - Modifies - {History}
-                          - (if input.cache.Shared? then
-                               input.cache.Shared.Modifies
-                             else
-                               {}) ) )
+                          - (
+                            if input.cache.Shared? then
+                              input.cache.Shared.Modifies
+                            else
+                              {}
+                          ) ) )
       ensures CreateCryptographicMaterialsCacheEnsuresPublicly(input, output)
       ensures History.CreateCryptographicMaterialsCache == old(History.CreateCryptographicMaterialsCache) + [DafnyCallEvent(input, output)]
     {
@@ -2684,10 +2695,9 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
          )
       && input.keyStore.ValidState()
       && ( input.cache.Some?
-           ==> if input.cache.value.Shared? then
-               && input.cache.value.Shared.ValidState()
-             else
-               true)
+           ==> || ( input.cache.value.Shared? ==>
+                      && input.cache.value.Shared.ValidState()
+             ) )
     modifies ModifiesInternalConfig(config) ,
              (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) ,
              input.keyStore.Modifies ,
@@ -2934,21 +2944,24 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
     returns (output: Result<ICryptographicMaterialsCache, Error>)
     requires
       && ValidInternalConfig?(config)
-      && (if input.cache.Shared? then
-            && input.cache.Shared.ValidState()
-          else
-            true)
+      && ( || ( input.cache.Shared? ==>
+                  && input.cache.Shared.ValidState()
+           ) )
     modifies ModifiesInternalConfig(config) ,
-             (if input.cache.Shared? then
-                input.cache.Shared.Modifies
-              else
-                {})
-    // Dafny will skip type parameters when generating a default decreases clause.
-    decreases ModifiesInternalConfig(config) ,
-              (if input.cache.Shared? then
+             (
+               if input.cache.Shared? then
                  input.cache.Shared.Modifies
                else
-                 {})
+                 {}
+             )
+    // Dafny will skip type parameters when generating a default decreases clause.
+    decreases ModifiesInternalConfig(config) ,
+              (
+                if input.cache.Shared? then
+                  input.cache.Shared.Modifies
+                else
+                  {}
+              )
     ensures
       && ValidInternalConfig?(config)
       && ( output.Success? ==>
@@ -2956,10 +2969,12 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
              && fresh(output.value)
              && fresh ( output.value.Modifies
                         - ModifiesInternalConfig(config)
-                        - (if input.cache.Shared? then
-                             input.cache.Shared.Modifies
-                           else
-                             {}) ) )
+                        - (
+                          if input.cache.Shared? then
+                            input.cache.Shared.Modifies
+                          else
+                            {}
+                        ) ) )
     ensures CreateCryptographicMaterialsCacheEnsuresPublicly(input, output)
 
 
