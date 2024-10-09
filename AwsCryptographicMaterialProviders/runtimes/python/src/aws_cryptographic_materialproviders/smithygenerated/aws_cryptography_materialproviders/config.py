@@ -55,6 +55,8 @@ class MaterialProvidersConfig(Config):
     def __init__(
         self,
     ):
+        """Constructor for aws_cryptographic_materialproviders.smithygenerated.
+        aws_cryptography_materialproviders.config.MaterialProvidersConfig."""
         super().__init__()
 
     def as_dict(self) -> Dict[str, Any]:
