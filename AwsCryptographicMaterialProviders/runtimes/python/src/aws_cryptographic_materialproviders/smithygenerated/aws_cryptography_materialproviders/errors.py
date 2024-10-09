@@ -422,6 +422,94 @@ class InvalidEncryptionMaterialsTransition(
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
+class EntryAlreadyExists(ApiError[Literal["EntryAlreadyExists"]]):
+    code: Literal["EntryAlreadyExists"] = "EntryAlreadyExists"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the EntryAlreadyExists to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "EntryAlreadyExists":
+        """Creates a EntryAlreadyExists from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return EntryAlreadyExists(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "EntryAlreadyExists("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, EntryAlreadyExists):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class EntryDoesNotExist(ApiError[Literal["EntryDoesNotExist"]]):
+    code: Literal["EntryDoesNotExist"] = "EntryDoesNotExist"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the EntryDoesNotExist to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "EntryDoesNotExist":
+        """Creates a EntryDoesNotExist from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return EntryDoesNotExist(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "EntryDoesNotExist("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, EntryDoesNotExist):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
 class AwsCryptographicMaterialProvidersException(
     ApiError[Literal["AwsCryptographicMaterialProvidersException"]]
 ):

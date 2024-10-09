@@ -9,7 +9,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.module_
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny
 from dataclasses import dataclass
-from typing import Any, Callable, TypeAlias
+from typing import Any, Callable, Dict, TypeAlias
 
 from .dafnyImplInterface import DafnyImplInterface
 from smithy_python._private.retries import SimpleRetryStrategy
@@ -52,13 +52,28 @@ Plugin: TypeAlias = Callable[[Config], None]
 
 
 class MaterialProvidersConfig(Config):
-    """Smithy-modelled localService Config shape for this localService."""
-
     def __init__(
         self,
     ):
         """Constructor for MaterialProvidersConfig."""
         super().__init__()
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the MaterialProvidersConfig to a dictionary."""
+        return {}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "MaterialProvidersConfig":
+        """Creates a MaterialProvidersConfig from a dictionary."""
+        return MaterialProvidersConfig()
+
+    def __repr__(self) -> str:
+        result = "MaterialProvidersConfig("
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        return isinstance(other, MaterialProvidersConfig)
 
 
 def dafny_config_to_smithy_config(dafny_config) -> MaterialProvidersConfig:
