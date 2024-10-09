@@ -21,6 +21,12 @@ namespace Time
             return (long)timespan.TotalSeconds;
         }
 
+        public static long CurrentRelativeTimeMilli()
+        {
+            var timespan = DateTime.Now - DateTime.MinValue;
+            return (long)timespan.TotalMilliseconds;
+        }
+
         public static _IResult<icharseq, icharseq> GetCurrentTimeStamp()
         {
             var utcTime = DateTime.UtcNow;
