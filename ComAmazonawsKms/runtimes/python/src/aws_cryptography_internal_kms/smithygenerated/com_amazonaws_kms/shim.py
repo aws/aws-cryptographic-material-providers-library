@@ -357,14 +357,7 @@ def _sdk_error_to_dafny_error(e: ClientError):
 
     return aws_cryptography_internal_kms.internaldafny.generated.ComAmazonawsKmsTypes.Error_Opaque(
         obj=e,
-        alt__text=_dafny.Seq(
-            "".join(
-                [
-                    chr(int.from_bytes(pair, "big"))
-                    for pair in zip(*[iter(repr(e).encode("utf-16-be"))] * 2)
-                ]
-            )
-        ),
+        alt__text='        _dafny.Seq(\n            "".join(\n                [\n                    chr(int.from_bytes(pair, "big"))\n                    for pair in zip(\n                        *[iter(repr(e).encode("utf-16-be"))] * 2\n                    )\n                ]\n            )\n        )\n',
     )
 
 

@@ -68,8 +68,8 @@ public class ToDafny {
     return Error.create_Opaque(
       nativeValue.obj(),
       dafny.DafnySequence.asString(
-        java.util.Objects.nonNull(nativeValue.alt_text())
-          ? nativeValue.alt_text()
+        java.util.Objects.nonNull(nativeValue.altText())
+          ? nativeValue.altText()
           : ""
       )
     );

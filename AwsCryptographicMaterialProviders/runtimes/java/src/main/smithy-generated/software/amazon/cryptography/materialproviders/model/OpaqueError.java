@@ -13,11 +13,11 @@ public class OpaqueError extends RuntimeException {
   /**
    * A best effort text representation of obj.
    */
-  private final String alt_text;
+  private final String altText;
 
   protected OpaqueError(BuilderImpl builder) {
     super(messageFromBuilder(builder), builder.cause());
-    this.alt_text = builder.alt_text();
+    this.altText = builder.altText();
     this.obj = builder.obj();
   }
 
@@ -55,8 +55,8 @@ public class OpaqueError extends RuntimeException {
   /**
    * @return A best effort text representation of obj.
    */
-  public String alt_text() {
-    return this.alt_text;
+  public String altText() {
+    return this.altText;
   }
 
   public Builder toBuilder() {
@@ -99,14 +99,14 @@ public class OpaqueError extends RuntimeException {
     Object obj();
 
     /**
-     * @param alt_text A best effort text representation of obj.
+     * @param altText A best effort text representation of obj.
      */
-    Builder alt_text(String alt_text);
+    Builder altText(String altText);
 
     /**
      * @return A best effort text representation of obj.
      */
-    String alt_text();
+    String altText();
 
     OpaqueError build();
   }
@@ -119,7 +119,7 @@ public class OpaqueError extends RuntimeException {
 
     protected Object obj;
 
-    protected String alt_text;
+    protected String altText;
 
     protected BuilderImpl() {}
 
@@ -156,13 +156,13 @@ public class OpaqueError extends RuntimeException {
       return this.obj;
     }
 
-    public Builder alt_text(String alt_text) {
-      this.alt_text = alt_text;
+    public Builder altText(String altText) {
+      this.altText = altText;
       return this;
     }
 
-    public String alt_text() {
-      return this.alt_text;
+    public String altText() {
+      return this.altText;
     }
 
     public OpaqueError build() {
