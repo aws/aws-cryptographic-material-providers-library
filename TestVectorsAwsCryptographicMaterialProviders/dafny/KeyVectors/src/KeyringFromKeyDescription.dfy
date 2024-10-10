@@ -210,7 +210,7 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
         branchKeyId := Some(material.value.keyIdentifier),
         branchKeyIdSupplier := None,
         keyStore := keyStore,
-        ttlSeconds := 0,
+        ttlSeconds := 11,
         cache := None,
         partitionId := None
       );
