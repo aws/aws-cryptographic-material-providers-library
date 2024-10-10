@@ -6837,7 +6837,7 @@ namespace Com.Amazonaws.Kms
                     return TypeConversion.ToDafny_N3_com__N9_amazonaws__N3_kms__S43_XksProxyVpcEndpointServiceNotFoundException(e);
 
                 default:
-                    return new software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque(value);
+                    return new software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque(value, Dafny.Sequence<char>.FromString(value.ToString()));
 
             }
         }
