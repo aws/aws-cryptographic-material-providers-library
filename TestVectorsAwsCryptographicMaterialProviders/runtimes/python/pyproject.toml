@@ -17,6 +17,7 @@ aws-cryptographic-materialproviders = { path = "../../../AwsCryptographicMateria
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.0"
+pytest-cov = "5"
 
 [build-system]
 requires = ["poetry-core"]
