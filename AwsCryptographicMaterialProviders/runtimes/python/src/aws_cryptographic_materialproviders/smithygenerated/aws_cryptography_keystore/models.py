@@ -4,6 +4,8 @@
 
 from typing import Any, Dict, List, Optional, Union
 
+from botocore.client import BaseClient
+
 
 class ActiveHierarchicalSymmetric:
     version: str
@@ -2704,6 +2706,299 @@ class VersionKeyOutput:
 
     def __eq__(self, other: Any) -> bool:
         return isinstance(other, VersionKeyOutput)
+
+
+class AwsKms:
+    grant_tokens: Optional[list[str]]
+    kms_client: Optional[BaseClient]
+
+    def __init__(
+        self,
+        *,
+        grant_tokens: Optional[list[str]] = None,
+        kms_client: Optional[BaseClient] = None,
+    ):
+        """
+        :param grant_tokens: The AWS KMS grant tokens that are used when this Key Store
+        calls to AWS KMS.
+        :param kms_client: The KMS client this Key Store uses to call AWS KMS.  If None
+        is provided and the KMS ARN is, the KMS ARN is used to determine the Region of
+        the default client.
+        """
+        self.grant_tokens = grant_tokens
+        self.kms_client = kms_client
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the AwsKms to a dictionary."""
+        d: Dict[str, Any] = {}
+
+        if self.grant_tokens is not None:
+            d["grant_tokens"] = self.grant_tokens
+
+        if self.kms_client is not None:
+            d["kms_client"] = self.kms_client
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "AwsKms":
+        """Creates a AwsKms from a dictionary."""
+        kwargs: Dict[str, Any] = {}
+
+        if "grant_tokens" in d:
+            kwargs["grant_tokens"] = d["grant_tokens"]
+
+        if "kms_client" in d:
+            kwargs["kms_client"] = d["kms_client"]
+
+        return AwsKms(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "AwsKms("
+        if self.grant_tokens is not None:
+            result += f"grant_tokens={repr(self.grant_tokens)}, "
+
+        if self.kms_client is not None:
+            result += f"kms_client={repr(self.kms_client)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, AwsKms):
+            return False
+        attributes: list[str] = [
+            "grant_tokens",
+            "kms_client",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class DynamoDBTable:
+    ddb_table_name: str
+    ddb_client: Optional[BaseClient]
+
+    def __init__(
+        self,
+        *,
+        ddb_table_name: str,
+        ddb_client: Optional[BaseClient] = None,
+    ):
+        """
+        :param ddb_table_name: The DynamoDB table name that backs this Key Store.
+        :param ddb_client: The DynamoDB client this Key Store uses to call Amazon
+        DynamoDB. If None is provided and the KMS ARN is, the KMS ARN is used to
+        determine the Region of the default client.
+        """
+        if (ddb_table_name is not None) and (len(ddb_table_name) < 3):
+            raise ValueError(
+                "The size of ddb_table_name must be greater than or equal to 3"
+            )
+
+        if (ddb_table_name is not None) and (len(ddb_table_name) > 255):
+            raise ValueError(
+                "The size of ddb_table_name must be less than or equal to 255"
+            )
+
+        self.ddb_table_name = ddb_table_name
+        self.ddb_client = ddb_client
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the DynamoDBTable to a dictionary."""
+        d: Dict[str, Any] = {
+            "ddb_table_name": self.ddb_table_name,
+        }
+
+        if self.ddb_client is not None:
+            d["ddb_client"] = self.ddb_client
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "DynamoDBTable":
+        """Creates a DynamoDBTable from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "ddb_table_name": d["ddb_table_name"],
+        }
+
+        if "ddb_client" in d:
+            kwargs["ddb_client"] = d["ddb_client"]
+
+        return DynamoDBTable(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "DynamoDBTable("
+        if self.ddb_table_name is not None:
+            result += f"ddb_table_name={repr(self.ddb_table_name)}, "
+
+        if self.ddb_client is not None:
+            result += f"ddb_client={repr(self.ddb_client)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, DynamoDBTable):
+            return False
+        attributes: list[str] = [
+            "ddb_table_name",
+            "ddb_client",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class KeyManagementKms:
+    """The AWS KMS configuration this Key Store with use to authenticate branch
+    keys."""
+
+    def __init__(self, value: AwsKms):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"kms": self.value.as_dict()}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KeyManagementKms":
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return KeyManagementKms(AwsKms.from_dict(d["kms"]))
+
+    def __repr__(self) -> str:
+        return f"KeyManagementKms(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, KeyManagementKms):
+            return False
+        return self.value == other.value
+
+
+class KeyManagementUnknown:
+    """Represents an unknown variant.
+
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
+
+    This value may not be deliberately sent.
+    """
+
+    def __init__(self, tag: str):
+        self.tag = tag
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KeyManagementUnknown":
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+        return KeyManagementUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
+
+    def __repr__(self) -> str:
+        return f"KeyManagementUnknown(tag={self.tag})"
+
+
+KeyManagement = Union[KeyManagementKms, KeyManagementUnknown]
+
+
+def _key_management_from_dict(d: Dict[str, Any]) -> KeyManagement:
+    if "kms" in d:
+        return KeyManagementKms.from_dict(d)
+
+    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+
+class StorageDdb:
+    """The DynamoDB configuration that backs this Key Store."""
+
+    def __init__(self, value: DynamoDBTable):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"ddb": self.value.as_dict()}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "StorageDdb":
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return StorageDdb(DynamoDBTable.from_dict(d["ddb"]))
+
+    def __repr__(self) -> str:
+        return f"StorageDdb(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, StorageDdb):
+            return False
+        return self.value == other.value
+
+
+class StorageCustom:
+    """The custom storage configuration that backs this Key Store."""
+
+    def __init__(
+        self,
+        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.references.KeyStorageInterface",
+    ):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"custom": self.value.as_dict()}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "StorageCustom":
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.references import (
+            KeyStorageInterface,
+        )
+
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return StorageCustom(KeyStorageInterface.from_dict(d["custom"]))
+
+    def __repr__(self) -> str:
+        return f"StorageCustom(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, StorageCustom):
+            return False
+        return self.value == other.value
+
+
+class StorageUnknown:
+    """Represents an unknown variant.
+
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
+
+    This value may not be deliberately sent.
+    """
+
+    def __init__(self, tag: str):
+        self.tag = tag
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "StorageUnknown":
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+        return StorageUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
+
+    def __repr__(self) -> str:
+        return f"StorageUnknown(tag={self.tag})"
+
+
+Storage = Union[StorageDdb, StorageCustom, StorageUnknown]
+
+
+def _storage_from_dict(d: Dict[str, Any]) -> Storage:
+    if "ddb" in d:
+        return StorageDdb.from_dict(d)
+
+    if "custom" in d:
+        return StorageCustom.from_dict(d)
+
+    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
 
 def _encrypted_hierarchical_keys_as_dict(

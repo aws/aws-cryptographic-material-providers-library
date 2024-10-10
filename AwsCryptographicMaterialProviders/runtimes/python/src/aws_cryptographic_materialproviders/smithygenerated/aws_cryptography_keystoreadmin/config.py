@@ -9,13 +9,13 @@ import aws_cryptographic_materialproviders.internaldafny.generated.module_
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny
 from dataclasses import dataclass
-from typing import Any, Callable, TypeAlias
+from typing import Any, Callable, Dict, TypeAlias
 
 from .dafnyImplInterface import DafnyImplInterface
 from smithy_python._private.retries import SimpleRetryStrategy
 from smithy_python.interfaces.retries import RetryStrategy
 
-from ..aws_cryptography_keystore.models import Storage
+from ..aws_cryptography_keystore.models import Storage, _storage_from_dict
 
 
 _ServiceInterceptor = Any
@@ -54,13 +54,12 @@ Plugin: TypeAlias = Callable[[Config], None]
 
 
 class KeyStoreAdminConfig(Config):
-    """Smithy-modelled localService Config shape for this localService."""
-
     logical_key_store_name: str
     storage: Storage
 
     def __init__(
         self,
+        *,
         logical_key_store_name: str,
         storage: Storage,
     ):
@@ -91,6 +90,42 @@ class KeyStoreAdminConfig(Config):
         super().__init__()
         self.logical_key_store_name = logical_key_store_name
         self.storage = storage
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the KeyStoreAdminConfig to a dictionary."""
+        return {
+            "logical_key_store_name": self.logical_key_store_name,
+            "storage": self.storage.as_dict(),
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KeyStoreAdminConfig":
+        """Creates a KeyStoreAdminConfig from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "logical_key_store_name": d["logical_key_store_name"],
+            "storage": _storage_from_dict(d["storage"]),
+        }
+
+        return KeyStoreAdminConfig(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "KeyStoreAdminConfig("
+        if self.logical_key_store_name is not None:
+            result += f"logical_key_store_name={repr(self.logical_key_store_name)}, "
+
+        if self.storage is not None:
+            result += f"storage={repr(self.storage)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, KeyStoreAdminConfig):
+            return False
+        attributes: list[str] = [
+            "logical_key_store_name",
+            "storage",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
 def dafny_config_to_smithy_config(dafny_config) -> KeyStoreAdminConfig:

@@ -90,7 +90,7 @@ def _deserialize_apply_mutation(input: DafnyResponse, config: Config):
 
 def _deserialize_error(error: Error) -> ServiceError:
     if error.is_Opaque:
-        return OpaqueError(obj=error.obj)
+        return OpaqueError(obj=error.obj, alt_text=error.alt__text)
     elif error.is_CollectionOfErrors:
         return CollectionOfErrors(
             message=_dafny.string_of(error.message),
@@ -123,4 +123,4 @@ def _deserialize_error(error: Error) -> ServiceError:
             message=_dafny.string_of(error.ComAmazonawsDynamodb.message)
         )
     else:
-        return OpaqueError(obj=error)
+        return OpaqueError(obj=error, alt_text=repr(error))
