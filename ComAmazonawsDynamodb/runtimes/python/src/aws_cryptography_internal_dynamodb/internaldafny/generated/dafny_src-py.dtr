@@ -1,0 +1,14 @@
+file_format_version = "1.0"
+dafny_version = "4.8.0.0"
+[options_by_module.ComAmazonawsDynamodbTypes]
+legacy-module-names = false
+python-module-name = "aws_cryptography_internal_dynamodb.internaldafny.generated"
+[options_by_module.AbstractComAmazonawsDynamodbService]
+legacy-module-names = false
+python-module-name = "aws_cryptography_internal_dynamodb.internaldafny.generated"
+[options_by_module.AbstractComAmazonawsDynamodbOperations]
+legacy-module-names = false
+python-module-name = "aws_cryptography_internal_dynamodb.internaldafny.generated"
+[options_by_module."Com.Amazonaws.Dynamodb"]
+legacy-module-names = false
+python-module-name = "aws_cryptography_internal_dynamodb.internaldafny.generated"
