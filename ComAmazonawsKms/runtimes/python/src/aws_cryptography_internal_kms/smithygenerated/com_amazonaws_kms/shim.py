@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
+import _dafny
 from aws_cryptography_internal_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     CancelKeyDeletionRequest_CancelKeyDeletionRequest as DafnyCancelKeyDeletionRequest,
     CancelKeyDeletionResponse_CancelKeyDeletionResponse as DafnyCancelKeyDeletionResponse,
@@ -355,7 +356,15 @@ def _sdk_error_to_dafny_error(e: ClientError):
         )
 
     return aws_cryptography_internal_kms.internaldafny.generated.ComAmazonawsKmsTypes.Error_Opaque(
-        obj=e
+        obj=e,
+        alt__text=_dafny.Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(*[iter(repr(e).encode("utf-16-be"))] * 2)
+                ]
+            )
+        ),
     )
 
 

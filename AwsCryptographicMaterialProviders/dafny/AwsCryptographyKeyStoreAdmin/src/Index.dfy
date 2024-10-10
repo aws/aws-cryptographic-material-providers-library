@@ -4,8 +4,7 @@ include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "AwsCryptographyKeyStoreAdminOperations.dfy"
   // include "../../AwsCryptographyKeyStore/Model/AwsCryptographyKeyStoreTypes.dfy"
 
-module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny"}
-  KeyStoreAdmin refines AbstractAwsCryptographyKeyStoreAdminService
+module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny"} KeyStoreAdmin refines AbstractAwsCryptographyKeyStoreAdminService
 {
   import opened AwsKmsUtils
   import DDB = Com.Amazonaws.Dynamodb
