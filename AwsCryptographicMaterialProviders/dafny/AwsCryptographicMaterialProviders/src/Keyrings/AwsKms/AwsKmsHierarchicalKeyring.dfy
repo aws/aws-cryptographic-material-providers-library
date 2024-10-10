@@ -482,6 +482,11 @@ module AwsKmsHierarchicalKeyring {
       verifyValidStateCache(cache);
       var getCacheOutput := getEntry(cache, getCacheInput);
 
+      // If error is opaque, return Failure
+      if (getCacheOutput.Failure? && getCacheOutput.error.Opaque?) {
+        return Failure(getCacheOutput.error);
+      }
+
       var now := Time.GetCurrent();
 
       // //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#onencrypt
@@ -863,6 +868,11 @@ module AwsKmsHierarchicalKeyring {
       var getCacheInput := Types.GetCacheEntryInput(identifier := cacheId, bytesUsed := None);
       verifyValidStateCache(cache);
       var getCacheOutput := getEntry(cache, getCacheInput);
+
+      // If error is opaque, return Failure
+      if (getCacheOutput.Failure? && getCacheOutput.error.Opaque?) {
+        return Failure(getCacheOutput.error);
+      }
 
       var now := Time.GetCurrent();
 
