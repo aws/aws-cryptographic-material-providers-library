@@ -264,62 +264,47 @@ public class ToDafny {
     aliasName =
       Objects.nonNull(nativeValue.aliasName())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.aliasName()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> aliasArn;
     aliasArn =
       Objects.nonNull(nativeValue.aliasArn())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.aliasArn()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> targetKeyId;
     targetKeyId =
       Objects.nonNull(nativeValue.targetKeyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.targetKeyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> creationDate;
     creationDate =
       Objects.nonNull(nativeValue.creationDate())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.creationDate()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> lastUpdatedDate;
     lastUpdatedDate =
       Objects.nonNull(nativeValue.lastUpdatedDate())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.lastUpdatedDate()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new AliasListEntry(
       aliasName,
       aliasArn,
@@ -347,14 +332,11 @@ public class ToDafny {
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new CancelKeyDeletionResponse(keyId);
   }
 
@@ -403,104 +385,81 @@ public class ToDafny {
     cloudHsmClusterId =
       Objects.nonNull(nativeValue.cloudHsmClusterId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.cloudHsmClusterId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> trustAnchorCertificate;
     trustAnchorCertificate =
       Objects.nonNull(nativeValue.trustAnchorCertificate())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.trustAnchorCertificate()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> keyStorePassword;
     keyStorePassword =
       Objects.nonNull(nativeValue.keyStorePassword())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyStorePassword()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<CustomKeyStoreType> customKeyStoreType;
     customKeyStoreType =
       Objects.nonNull(nativeValue.customKeyStoreType())
         ? Option.create_Some(
-          CustomKeyStoreType._typeDescriptor(),
           ToDafny.CustomKeyStoreType(nativeValue.customKeyStoreType())
         )
-        : Option.create_None(CustomKeyStoreType._typeDescriptor());
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> xksProxyUriEndpoint;
     xksProxyUriEndpoint =
       Objects.nonNull(nativeValue.xksProxyUriEndpoint())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.xksProxyUriEndpoint()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> xksProxyUriPath;
     xksProxyUriPath =
       Objects.nonNull(nativeValue.xksProxyUriPath())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.xksProxyUriPath()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> xksProxyVpcEndpointServiceName;
     xksProxyVpcEndpointServiceName =
       Objects.nonNull(nativeValue.xksProxyVpcEndpointServiceName())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.xksProxyVpcEndpointServiceName()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<
       XksProxyAuthenticationCredentialType
     > xksProxyAuthenticationCredential;
     xksProxyAuthenticationCredential =
       Objects.nonNull(nativeValue.xksProxyAuthenticationCredential())
         ? Option.create_Some(
-          XksProxyAuthenticationCredentialType._typeDescriptor(),
           ToDafny.XksProxyAuthenticationCredentialType(
             nativeValue.xksProxyAuthenticationCredential()
           )
         )
-        : Option.create_None(
-          XksProxyAuthenticationCredentialType._typeDescriptor()
-        );
+        : Option.create_None();
     Option<XksProxyConnectivityType> xksProxyConnectivity;
     xksProxyConnectivity =
       Objects.nonNull(nativeValue.xksProxyConnectivity())
         ? Option.create_Some(
-          XksProxyConnectivityType._typeDescriptor(),
           ToDafny.XksProxyConnectivityType(nativeValue.xksProxyConnectivity())
         )
-        : Option.create_None(XksProxyConnectivityType._typeDescriptor());
+        : Option.create_None();
     return new CreateCustomKeyStoreRequest(
       customKeyStoreName,
       cloudHsmClusterId,
@@ -522,14 +481,11 @@ public class ToDafny {
     customKeyStoreId =
       Objects.nonNull(nativeValue.customKeyStoreId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.customKeyStoreId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new CreateCustomKeyStoreResponse(customKeyStoreId);
   }
 
@@ -550,58 +506,42 @@ public class ToDafny {
     retiringPrincipal =
       Objects.nonNull(nativeValue.retiringPrincipal())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.retiringPrincipal()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     DafnySequence<? extends GrantOperation> operations;
     operations = ToDafny.GrantOperationList(nativeValue.operations());
     Option<GrantConstraints> constraints;
     constraints =
       Objects.nonNull(nativeValue.constraints())
         ? Option.create_Some(
-          GrantConstraints._typeDescriptor(),
           ToDafny.GrantConstraints(nativeValue.constraints())
         )
-        : Option.create_None(GrantConstraints._typeDescriptor());
+        : Option.create_None();
     Option<
       DafnySequence<? extends DafnySequence<? extends Character>>
     > grantTokens;
     grantTokens =
       (Objects.nonNull(nativeValue.grantTokens()) &&
           nativeValue.grantTokens().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
-          ToDafny.GrantTokenList(nativeValue.grantTokens())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> name;
     name =
       Objects.nonNull(nativeValue.name())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.name()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<Boolean> dryRun;
     dryRun =
       Objects.nonNull(nativeValue.dryRun())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.dryRun()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new CreateGrantRequest(
       keyId,
       granteePrincipal,
@@ -621,26 +561,20 @@ public class ToDafny {
     grantToken =
       Objects.nonNull(nativeValue.grantToken())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.grantToken()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> grantId;
     grantId =
       Objects.nonNull(nativeValue.grantId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.grantId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new CreateGrantResponse(grantToken, grantId);
   }
 
@@ -651,108 +585,75 @@ public class ToDafny {
     policy =
       Objects.nonNull(nativeValue.policy())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.policy()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> description;
     description =
       Objects.nonNull(nativeValue.description())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.description()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<KeyUsageType> keyUsage;
     keyUsage =
       Objects.nonNull(nativeValue.keyUsage())
-        ? Option.create_Some(
-          KeyUsageType._typeDescriptor(),
-          ToDafny.KeyUsageType(nativeValue.keyUsage())
-        )
-        : Option.create_None(KeyUsageType._typeDescriptor());
+        ? Option.create_Some(ToDafny.KeyUsageType(nativeValue.keyUsage()))
+        : Option.create_None();
     Option<CustomerMasterKeySpec> customerMasterKeySpec;
     customerMasterKeySpec =
       Objects.nonNull(nativeValue.customerMasterKeySpec())
         ? Option.create_Some(
-          CustomerMasterKeySpec._typeDescriptor(),
           ToDafny.CustomerMasterKeySpec(nativeValue.customerMasterKeySpec())
         )
-        : Option.create_None(CustomerMasterKeySpec._typeDescriptor());
+        : Option.create_None();
     Option<KeySpec> keySpec;
     keySpec =
       Objects.nonNull(nativeValue.keySpec())
-        ? Option.create_Some(
-          KeySpec._typeDescriptor(),
-          ToDafny.KeySpec(nativeValue.keySpec())
-        )
-        : Option.create_None(KeySpec._typeDescriptor());
+        ? Option.create_Some(ToDafny.KeySpec(nativeValue.keySpec()))
+        : Option.create_None();
     Option<OriginType> origin;
     origin =
       Objects.nonNull(nativeValue.origin())
-        ? Option.create_Some(
-          OriginType._typeDescriptor(),
-          ToDafny.OriginType(nativeValue.origin())
-        )
-        : Option.create_None(OriginType._typeDescriptor());
+        ? Option.create_Some(ToDafny.OriginType(nativeValue.origin()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> customKeyStoreId;
     customKeyStoreId =
       Objects.nonNull(nativeValue.customKeyStoreId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.customKeyStoreId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<Boolean> bypassPolicyLockoutSafetyCheck;
     bypassPolicyLockoutSafetyCheck =
       Objects.nonNull(nativeValue.bypassPolicyLockoutSafetyCheck())
-        ? Option.create_Some(
-          TypeDescriptor.BOOLEAN,
-          (nativeValue.bypassPolicyLockoutSafetyCheck())
-        )
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.bypassPolicyLockoutSafetyCheck()))
+        : Option.create_None();
     Option<DafnySequence<? extends Tag>> tags;
     tags =
       (Objects.nonNull(nativeValue.tags()) && nativeValue.tags().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(Tag._typeDescriptor()),
-          ToDafny.TagList(nativeValue.tags())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(Tag._typeDescriptor())
-        );
+        ? Option.create_Some(ToDafny.TagList(nativeValue.tags()))
+        : Option.create_None();
     Option<Boolean> multiRegion;
     multiRegion =
       Objects.nonNull(nativeValue.multiRegion())
-        ? Option.create_Some(
-          TypeDescriptor.BOOLEAN,
-          (nativeValue.multiRegion())
-        )
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.multiRegion()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> xksKeyId;
     xksKeyId =
       Objects.nonNull(nativeValue.xksKeyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.xksKeyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new CreateKeyRequest(
       policy,
       description,
@@ -774,11 +675,8 @@ public class ToDafny {
     Option<KeyMetadata> keyMetadata;
     keyMetadata =
       Objects.nonNull(nativeValue.keyMetadata())
-        ? Option.create_Some(
-          KeyMetadata._typeDescriptor(),
-          ToDafny.KeyMetadata(nativeValue.keyMetadata())
-        )
-        : Option.create_None(KeyMetadata._typeDescriptor());
+        ? Option.create_Some(ToDafny.KeyMetadata(nativeValue.keyMetadata()))
+        : Option.create_None();
     return new CreateKeyResponse(keyMetadata);
   }
 
@@ -803,94 +701,75 @@ public class ToDafny {
     customKeyStoreId =
       Objects.nonNull(nativeValue.customKeyStoreId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.customKeyStoreId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> customKeyStoreName;
     customKeyStoreName =
       Objects.nonNull(nativeValue.customKeyStoreName())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.customKeyStoreName()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> cloudHsmClusterId;
     cloudHsmClusterId =
       Objects.nonNull(nativeValue.cloudHsmClusterId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.cloudHsmClusterId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> trustAnchorCertificate;
     trustAnchorCertificate =
       Objects.nonNull(nativeValue.trustAnchorCertificate())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.trustAnchorCertificate()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<ConnectionStateType> connectionState;
     connectionState =
       Objects.nonNull(nativeValue.connectionState())
         ? Option.create_Some(
-          ConnectionStateType._typeDescriptor(),
           ToDafny.ConnectionStateType(nativeValue.connectionState())
         )
-        : Option.create_None(ConnectionStateType._typeDescriptor());
+        : Option.create_None();
     Option<ConnectionErrorCodeType> connectionErrorCode;
     connectionErrorCode =
       Objects.nonNull(nativeValue.connectionErrorCode())
         ? Option.create_Some(
-          ConnectionErrorCodeType._typeDescriptor(),
           ToDafny.ConnectionErrorCodeType(nativeValue.connectionErrorCode())
         )
-        : Option.create_None(ConnectionErrorCodeType._typeDescriptor());
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> creationDate;
     creationDate =
       Objects.nonNull(nativeValue.creationDate())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.creationDate()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<CustomKeyStoreType> customKeyStoreType;
     customKeyStoreType =
       Objects.nonNull(nativeValue.customKeyStoreType())
         ? Option.create_Some(
-          CustomKeyStoreType._typeDescriptor(),
           ToDafny.CustomKeyStoreType(nativeValue.customKeyStoreType())
         )
-        : Option.create_None(CustomKeyStoreType._typeDescriptor());
+        : Option.create_None();
     Option<XksProxyConfigurationType> xksProxyConfiguration;
     xksProxyConfiguration =
       Objects.nonNull(nativeValue.xksProxyConfiguration())
         ? Option.create_Some(
-          XksProxyConfigurationType._typeDescriptor(),
           ToDafny.XksProxyConfigurationType(nativeValue.xksProxyConfiguration())
         )
-        : Option.create_None(XksProxyConfigurationType._typeDescriptor());
+        : Option.create_None();
     return new CustomKeyStoresListEntry(
       customKeyStoreId,
       customKeyStoreName,
@@ -922,68 +801,43 @@ public class ToDafny {
       (Objects.nonNull(nativeValue.encryptionContext()) &&
           nativeValue.encryptionContext().size() > 0)
         ? Option.create_Some(
-          DafnyMap._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
           ToDafny.EncryptionContextType(nativeValue.encryptionContext())
         )
-        : Option.create_None(
-          DafnyMap._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        : Option.create_None();
     Option<
       DafnySequence<? extends DafnySequence<? extends Character>>
     > grantTokens;
     grantTokens =
       (Objects.nonNull(nativeValue.grantTokens()) &&
           nativeValue.grantTokens().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
-          ToDafny.GrantTokenList(nativeValue.grantTokens())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> keyId;
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<EncryptionAlgorithmSpec> encryptionAlgorithm;
     encryptionAlgorithm =
       Objects.nonNull(nativeValue.encryptionAlgorithm())
         ? Option.create_Some(
-          EncryptionAlgorithmSpec._typeDescriptor(),
           ToDafny.EncryptionAlgorithmSpec(nativeValue.encryptionAlgorithm())
         )
-        : Option.create_None(EncryptionAlgorithmSpec._typeDescriptor());
+        : Option.create_None();
     Option<RecipientInfo> recipient;
     recipient =
       Objects.nonNull(nativeValue.recipient())
-        ? Option.create_Some(
-          RecipientInfo._typeDescriptor(),
-          ToDafny.RecipientInfo(nativeValue.recipient())
-        )
-        : Option.create_None(RecipientInfo._typeDescriptor());
+        ? Option.create_Some(ToDafny.RecipientInfo(nativeValue.recipient()))
+        : Option.create_None();
     Option<Boolean> dryRun;
     dryRun =
       Objects.nonNull(nativeValue.dryRun())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.dryRun()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new DecryptRequest(
       ciphertextBlob,
       encryptionContext,
@@ -1002,46 +856,36 @@ public class ToDafny {
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Byte>> plaintext;
     plaintext =
       Objects.nonNull(nativeValue.plaintext())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.plaintext().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     Option<EncryptionAlgorithmSpec> encryptionAlgorithm;
     encryptionAlgorithm =
       Objects.nonNull(nativeValue.encryptionAlgorithm())
         ? Option.create_Some(
-          EncryptionAlgorithmSpec._typeDescriptor(),
           ToDafny.EncryptionAlgorithmSpec(nativeValue.encryptionAlgorithm())
         )
-        : Option.create_None(EncryptionAlgorithmSpec._typeDescriptor());
+        : Option.create_None();
     Option<DafnySequence<? extends Byte>> ciphertextForRecipient;
     ciphertextForRecipient =
       Objects.nonNull(nativeValue.ciphertextForRecipient())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.ciphertextForRecipient().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     return new DecryptResponse(
       keyId,
       plaintext,
@@ -1111,30 +955,18 @@ public class ToDafny {
     grantTokens =
       (Objects.nonNull(nativeValue.grantTokens()) &&
           nativeValue.grantTokens().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
-          ToDafny.GrantTokenList(nativeValue.grantTokens())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
+        : Option.create_None();
     Option<Boolean> dryRun;
     dryRun =
       Objects.nonNull(nativeValue.dryRun())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.dryRun()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     Option<RecipientInfo> recipient;
     recipient =
       Objects.nonNull(nativeValue.recipient())
-        ? Option.create_Some(
-          RecipientInfo._typeDescriptor(),
-          ToDafny.RecipientInfo(nativeValue.recipient())
-        )
-        : Option.create_None(RecipientInfo._typeDescriptor());
+        ? Option.create_Some(ToDafny.RecipientInfo(nativeValue.recipient()))
+        : Option.create_None();
     return new DeriveSharedSecretRequest(
       keyId,
       keyAgreementAlgorithm,
@@ -1152,54 +984,41 @@ public class ToDafny {
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Byte>> sharedSecret;
     sharedSecret =
       Objects.nonNull(nativeValue.sharedSecret())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.sharedSecret().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Byte>> ciphertextForRecipient;
     ciphertextForRecipient =
       Objects.nonNull(nativeValue.ciphertextForRecipient())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.ciphertextForRecipient().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     Option<KeyAgreementAlgorithmSpec> keyAgreementAlgorithm;
     keyAgreementAlgorithm =
       Objects.nonNull(nativeValue.keyAgreementAlgorithm())
         ? Option.create_Some(
-          KeyAgreementAlgorithmSpec._typeDescriptor(),
           ToDafny.KeyAgreementAlgorithmSpec(nativeValue.keyAgreementAlgorithm())
         )
-        : Option.create_None(KeyAgreementAlgorithmSpec._typeDescriptor());
+        : Option.create_None();
     Option<OriginType> keyOrigin;
     keyOrigin =
       Objects.nonNull(nativeValue.keyOrigin())
-        ? Option.create_Some(
-          OriginType._typeDescriptor(),
-          ToDafny.OriginType(nativeValue.keyOrigin())
-        )
-        : Option.create_None(OriginType._typeDescriptor());
+        ? Option.create_Some(ToDafny.OriginType(nativeValue.keyOrigin()))
+        : Option.create_None();
     return new DeriveSharedSecretResponse(
       keyId,
       sharedSecret,
@@ -1216,43 +1035,34 @@ public class ToDafny {
     customKeyStoreId =
       Objects.nonNull(nativeValue.customKeyStoreId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.customKeyStoreId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> customKeyStoreName;
     customKeyStoreName =
       Objects.nonNull(nativeValue.customKeyStoreName())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.customKeyStoreName()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<Integer> limit;
     limit =
       Objects.nonNull(nativeValue.limit())
-        ? Option.create_Some(TypeDescriptor.INT, (nativeValue.limit()))
-        : Option.create_None(TypeDescriptor.INT);
+        ? Option.create_Some((nativeValue.limit()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> marker;
     marker =
       Objects.nonNull(nativeValue.marker())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.marker()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new DescribeCustomKeyStoresRequest(
       customKeyStoreId,
       customKeyStoreName,
@@ -1269,33 +1079,23 @@ public class ToDafny {
       (Objects.nonNull(nativeValue.customKeyStores()) &&
           nativeValue.customKeyStores().size() > 0)
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(
-            CustomKeyStoresListEntry._typeDescriptor()
-          ),
           ToDafny.CustomKeyStoresList(nativeValue.customKeyStores())
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(
-            CustomKeyStoresListEntry._typeDescriptor()
-          )
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> nextMarker;
     nextMarker =
       Objects.nonNull(nativeValue.nextMarker())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.nextMarker()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<Boolean> truncated;
     truncated =
       Objects.nonNull(nativeValue.truncated())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.truncated()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.truncated()))
+        : Option.create_None();
     return new DescribeCustomKeyStoresResponse(
       customKeyStores,
       nextMarker,
@@ -1317,17 +1117,8 @@ public class ToDafny {
     grantTokens =
       (Objects.nonNull(nativeValue.grantTokens()) &&
           nativeValue.grantTokens().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
-          ToDafny.GrantTokenList(nativeValue.grantTokens())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
+        : Option.create_None();
     return new DescribeKeyRequest(keyId, grantTokens);
   }
 
@@ -1337,11 +1128,8 @@ public class ToDafny {
     Option<KeyMetadata> keyMetadata;
     keyMetadata =
       Objects.nonNull(nativeValue.keyMetadata())
-        ? Option.create_Some(
-          KeyMetadata._typeDescriptor(),
-          ToDafny.KeyMetadata(nativeValue.keyMetadata())
-        )
-        : Option.create_None(KeyMetadata._typeDescriptor());
+        ? Option.create_Some(ToDafny.KeyMetadata(nativeValue.keyMetadata()))
+        : Option.create_None();
     return new DescribeKeyResponse(keyMetadata);
   }
 
@@ -1406,11 +1194,8 @@ public class ToDafny {
     Option<Integer> rotationPeriodInDays;
     rotationPeriodInDays =
       Objects.nonNull(nativeValue.rotationPeriodInDays())
-        ? Option.create_Some(
-          TypeDescriptor.INT,
-          (nativeValue.rotationPeriodInDays())
-        )
-        : Option.create_None(TypeDescriptor.INT);
+        ? Option.create_Some((nativeValue.rotationPeriodInDays()))
+        : Option.create_None();
     return new EnableKeyRotationRequest(keyId, rotationPeriodInDays);
   }
 
@@ -1462,48 +1247,29 @@ public class ToDafny {
       (Objects.nonNull(nativeValue.encryptionContext()) &&
           nativeValue.encryptionContext().size() > 0)
         ? Option.create_Some(
-          DafnyMap._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
           ToDafny.EncryptionContextType(nativeValue.encryptionContext())
         )
-        : Option.create_None(
-          DafnyMap._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        : Option.create_None();
     Option<
       DafnySequence<? extends DafnySequence<? extends Character>>
     > grantTokens;
     grantTokens =
       (Objects.nonNull(nativeValue.grantTokens()) &&
           nativeValue.grantTokens().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
-          ToDafny.GrantTokenList(nativeValue.grantTokens())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
+        : Option.create_None();
     Option<EncryptionAlgorithmSpec> encryptionAlgorithm;
     encryptionAlgorithm =
       Objects.nonNull(nativeValue.encryptionAlgorithm())
         ? Option.create_Some(
-          EncryptionAlgorithmSpec._typeDescriptor(),
           ToDafny.EncryptionAlgorithmSpec(nativeValue.encryptionAlgorithm())
         )
-        : Option.create_None(EncryptionAlgorithmSpec._typeDescriptor());
+        : Option.create_None();
     Option<Boolean> dryRun;
     dryRun =
       Objects.nonNull(nativeValue.dryRun())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.dryRun()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new EncryptRequest(
       keyId,
       plaintext,
@@ -1521,34 +1287,27 @@ public class ToDafny {
     ciphertextBlob =
       Objects.nonNull(nativeValue.ciphertextBlob())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.ciphertextBlob().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> keyId;
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<EncryptionAlgorithmSpec> encryptionAlgorithm;
     encryptionAlgorithm =
       Objects.nonNull(nativeValue.encryptionAlgorithm())
         ? Option.create_Some(
-          EncryptionAlgorithmSpec._typeDescriptor(),
           ToDafny.EncryptionAlgorithmSpec(nativeValue.encryptionAlgorithm())
         )
-        : Option.create_None(EncryptionAlgorithmSpec._typeDescriptor());
+        : Option.create_None();
     return new EncryptResponse(ciphertextBlob, keyId, encryptionAlgorithm);
   }
 
@@ -1565,18 +1324,9 @@ public class ToDafny {
       (Objects.nonNull(nativeValue.encryptionContext()) &&
           nativeValue.encryptionContext().size() > 0)
         ? Option.create_Some(
-          DafnyMap._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
           ToDafny.EncryptionContextType(nativeValue.encryptionContext())
         )
-        : Option.create_None(
-          DafnyMap._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        : Option.create_None();
     DafnySequence<? extends Character> keyId;
     keyId =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
@@ -1590,30 +1340,18 @@ public class ToDafny {
     grantTokens =
       (Objects.nonNull(nativeValue.grantTokens()) &&
           nativeValue.grantTokens().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
-          ToDafny.GrantTokenList(nativeValue.grantTokens())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
+        : Option.create_None();
     Option<RecipientInfo> recipient;
     recipient =
       Objects.nonNull(nativeValue.recipient())
-        ? Option.create_Some(
-          RecipientInfo._typeDescriptor(),
-          ToDafny.RecipientInfo(nativeValue.recipient())
-        )
-        : Option.create_None(RecipientInfo._typeDescriptor());
+        ? Option.create_Some(ToDafny.RecipientInfo(nativeValue.recipient()))
+        : Option.create_None();
     Option<Boolean> dryRun;
     dryRun =
       Objects.nonNull(nativeValue.dryRun())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.dryRun()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new GenerateDataKeyPairRequest(
       encryptionContext,
       keyId,
@@ -1631,70 +1369,52 @@ public class ToDafny {
     privateKeyCiphertextBlob =
       Objects.nonNull(nativeValue.privateKeyCiphertextBlob())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.privateKeyCiphertextBlob().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Byte>> privateKeyPlaintext;
     privateKeyPlaintext =
       Objects.nonNull(nativeValue.privateKeyPlaintext())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.privateKeyPlaintext().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Byte>> publicKey;
     publicKey =
       Objects.nonNull(nativeValue.publicKey())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.publicKey().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> keyId;
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DataKeyPairSpec> keyPairSpec;
     keyPairSpec =
       Objects.nonNull(nativeValue.keyPairSpec())
-        ? Option.create_Some(
-          DataKeyPairSpec._typeDescriptor(),
-          ToDafny.DataKeyPairSpec(nativeValue.keyPairSpec())
-        )
-        : Option.create_None(DataKeyPairSpec._typeDescriptor());
+        ? Option.create_Some(ToDafny.DataKeyPairSpec(nativeValue.keyPairSpec()))
+        : Option.create_None();
     Option<DafnySequence<? extends Byte>> ciphertextForRecipient;
     ciphertextForRecipient =
       Objects.nonNull(nativeValue.ciphertextForRecipient())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.ciphertextForRecipient().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     return new GenerateDataKeyPairResponse(
       privateKeyCiphertextBlob,
       privateKeyPlaintext,
@@ -1718,18 +1438,9 @@ public class ToDafny {
       (Objects.nonNull(nativeValue.encryptionContext()) &&
           nativeValue.encryptionContext().size() > 0)
         ? Option.create_Some(
-          DafnyMap._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
           ToDafny.EncryptionContextType(nativeValue.encryptionContext())
         )
-        : Option.create_None(
-          DafnyMap._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        : Option.create_None();
     DafnySequence<? extends Character> keyId;
     keyId =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
@@ -1743,22 +1454,13 @@ public class ToDafny {
     grantTokens =
       (Objects.nonNull(nativeValue.grantTokens()) &&
           nativeValue.grantTokens().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
-          ToDafny.GrantTokenList(nativeValue.grantTokens())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
+        : Option.create_None();
     Option<Boolean> dryRun;
     dryRun =
       Objects.nonNull(nativeValue.dryRun())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.dryRun()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new GenerateDataKeyPairWithoutPlaintextRequest(
       encryptionContext,
       keyId,
@@ -1775,46 +1477,34 @@ public class ToDafny {
     privateKeyCiphertextBlob =
       Objects.nonNull(nativeValue.privateKeyCiphertextBlob())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.privateKeyCiphertextBlob().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Byte>> publicKey;
     publicKey =
       Objects.nonNull(nativeValue.publicKey())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.publicKey().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> keyId;
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DataKeyPairSpec> keyPairSpec;
     keyPairSpec =
       Objects.nonNull(nativeValue.keyPairSpec())
-        ? Option.create_Some(
-          DataKeyPairSpec._typeDescriptor(),
-          ToDafny.DataKeyPairSpec(nativeValue.keyPairSpec())
-        )
-        : Option.create_None(DataKeyPairSpec._typeDescriptor());
+        ? Option.create_Some(ToDafny.DataKeyPairSpec(nativeValue.keyPairSpec()))
+        : Option.create_None();
     return new GenerateDataKeyPairWithoutPlaintextResponse(
       privateKeyCiphertextBlob,
       publicKey,
@@ -1841,61 +1531,37 @@ public class ToDafny {
       (Objects.nonNull(nativeValue.encryptionContext()) &&
           nativeValue.encryptionContext().size() > 0)
         ? Option.create_Some(
-          DafnyMap._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
           ToDafny.EncryptionContextType(nativeValue.encryptionContext())
         )
-        : Option.create_None(
-          DafnyMap._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        : Option.create_None();
     Option<Integer> numberOfBytes;
     numberOfBytes =
       Objects.nonNull(nativeValue.numberOfBytes())
-        ? Option.create_Some(TypeDescriptor.INT, (nativeValue.numberOfBytes()))
-        : Option.create_None(TypeDescriptor.INT);
+        ? Option.create_Some((nativeValue.numberOfBytes()))
+        : Option.create_None();
     Option<DataKeySpec> keySpec;
     keySpec =
       Objects.nonNull(nativeValue.keySpec())
-        ? Option.create_Some(
-          DataKeySpec._typeDescriptor(),
-          ToDafny.DataKeySpec(nativeValue.keySpec())
-        )
-        : Option.create_None(DataKeySpec._typeDescriptor());
+        ? Option.create_Some(ToDafny.DataKeySpec(nativeValue.keySpec()))
+        : Option.create_None();
     Option<
       DafnySequence<? extends DafnySequence<? extends Character>>
     > grantTokens;
     grantTokens =
       (Objects.nonNull(nativeValue.grantTokens()) &&
           nativeValue.grantTokens().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
-          ToDafny.GrantTokenList(nativeValue.grantTokens())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
+        : Option.create_None();
     Option<RecipientInfo> recipient;
     recipient =
       Objects.nonNull(nativeValue.recipient())
-        ? Option.create_Some(
-          RecipientInfo._typeDescriptor(),
-          ToDafny.RecipientInfo(nativeValue.recipient())
-        )
-        : Option.create_None(RecipientInfo._typeDescriptor());
+        ? Option.create_Some(ToDafny.RecipientInfo(nativeValue.recipient()))
+        : Option.create_None();
     Option<Boolean> dryRun;
     dryRun =
       Objects.nonNull(nativeValue.dryRun())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.dryRun()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new GenerateDataKeyRequest(
       keyId,
       encryptionContext,
@@ -1914,50 +1580,38 @@ public class ToDafny {
     ciphertextBlob =
       Objects.nonNull(nativeValue.ciphertextBlob())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.ciphertextBlob().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Byte>> plaintext;
     plaintext =
       Objects.nonNull(nativeValue.plaintext())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.plaintext().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> keyId;
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Byte>> ciphertextForRecipient;
     ciphertextForRecipient =
       Objects.nonNull(nativeValue.ciphertextForRecipient())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.ciphertextForRecipient().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     return new GenerateDataKeyResponse(
       ciphertextBlob,
       plaintext,
@@ -1984,53 +1638,32 @@ public class ToDafny {
       (Objects.nonNull(nativeValue.encryptionContext()) &&
           nativeValue.encryptionContext().size() > 0)
         ? Option.create_Some(
-          DafnyMap._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
           ToDafny.EncryptionContextType(nativeValue.encryptionContext())
         )
-        : Option.create_None(
-          DafnyMap._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        : Option.create_None();
     Option<DataKeySpec> keySpec;
     keySpec =
       Objects.nonNull(nativeValue.keySpec())
-        ? Option.create_Some(
-          DataKeySpec._typeDescriptor(),
-          ToDafny.DataKeySpec(nativeValue.keySpec())
-        )
-        : Option.create_None(DataKeySpec._typeDescriptor());
+        ? Option.create_Some(ToDafny.DataKeySpec(nativeValue.keySpec()))
+        : Option.create_None();
     Option<Integer> numberOfBytes;
     numberOfBytes =
       Objects.nonNull(nativeValue.numberOfBytes())
-        ? Option.create_Some(TypeDescriptor.INT, (nativeValue.numberOfBytes()))
-        : Option.create_None(TypeDescriptor.INT);
+        ? Option.create_Some((nativeValue.numberOfBytes()))
+        : Option.create_None();
     Option<
       DafnySequence<? extends DafnySequence<? extends Character>>
     > grantTokens;
     grantTokens =
       (Objects.nonNull(nativeValue.grantTokens()) &&
           nativeValue.grantTokens().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
-          ToDafny.GrantTokenList(nativeValue.grantTokens())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
+        : Option.create_None();
     Option<Boolean> dryRun;
     dryRun =
       Objects.nonNull(nativeValue.dryRun())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.dryRun()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new GenerateDataKeyWithoutPlaintextRequest(
       keyId,
       encryptionContext,
@@ -2048,26 +1681,20 @@ public class ToDafny {
     ciphertextBlob =
       Objects.nonNull(nativeValue.ciphertextBlob())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.ciphertextBlob().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> keyId;
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new GenerateDataKeyWithoutPlaintextResponse(ciphertextBlob, keyId);
   }
 
@@ -2092,22 +1719,13 @@ public class ToDafny {
     grantTokens =
       (Objects.nonNull(nativeValue.grantTokens()) &&
           nativeValue.grantTokens().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
-          ToDafny.GrantTokenList(nativeValue.grantTokens())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
+        : Option.create_None();
     Option<Boolean> dryRun;
     dryRun =
       Objects.nonNull(nativeValue.dryRun())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.dryRun()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new GenerateMacRequest(
       message,
       keyId,
@@ -2124,34 +1742,27 @@ public class ToDafny {
     mac =
       Objects.nonNull(nativeValue.mac())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.mac().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     Option<MacAlgorithmSpec> macAlgorithm;
     macAlgorithm =
       Objects.nonNull(nativeValue.macAlgorithm())
         ? Option.create_Some(
-          MacAlgorithmSpec._typeDescriptor(),
           ToDafny.MacAlgorithmSpec(nativeValue.macAlgorithm())
         )
-        : Option.create_None(MacAlgorithmSpec._typeDescriptor());
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> keyId;
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new GenerateMacResponse(mac, macAlgorithm, keyId);
   }
 
@@ -2161,28 +1772,22 @@ public class ToDafny {
     Option<Integer> numberOfBytes;
     numberOfBytes =
       Objects.nonNull(nativeValue.numberOfBytes())
-        ? Option.create_Some(TypeDescriptor.INT, (nativeValue.numberOfBytes()))
-        : Option.create_None(TypeDescriptor.INT);
+        ? Option.create_Some((nativeValue.numberOfBytes()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> customKeyStoreId;
     customKeyStoreId =
       Objects.nonNull(nativeValue.customKeyStoreId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.customKeyStoreId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<RecipientInfo> recipient;
     recipient =
       Objects.nonNull(nativeValue.recipient())
-        ? Option.create_Some(
-          RecipientInfo._typeDescriptor(),
-          ToDafny.RecipientInfo(nativeValue.recipient())
-        )
-        : Option.create_None(RecipientInfo._typeDescriptor());
+        ? Option.create_Some(ToDafny.RecipientInfo(nativeValue.recipient()))
+        : Option.create_None();
     return new GenerateRandomRequest(
       numberOfBytes,
       customKeyStoreId,
@@ -2197,26 +1802,20 @@ public class ToDafny {
     plaintext =
       Objects.nonNull(nativeValue.plaintext())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.plaintext().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Byte>> ciphertextForRecipient;
     ciphertextForRecipient =
       Objects.nonNull(nativeValue.ciphertextForRecipient())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.ciphertextForRecipient().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     return new GenerateRandomResponse(plaintext, ciphertextForRecipient);
   }
 
@@ -2232,14 +1831,11 @@ public class ToDafny {
     policyName =
       Objects.nonNull(nativeValue.policyName())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.policyName()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new GetKeyPolicyRequest(keyId, policyName);
   }
 
@@ -2250,26 +1846,20 @@ public class ToDafny {
     policy =
       Objects.nonNull(nativeValue.policy())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.policy()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> policyName;
     policyName =
       Objects.nonNull(nativeValue.policyName())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.policyName()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new GetKeyPolicyResponse(policy, policyName);
   }
 
@@ -2290,55 +1880,40 @@ public class ToDafny {
     Option<Boolean> keyRotationEnabled;
     keyRotationEnabled =
       Objects.nonNull(nativeValue.keyRotationEnabled())
-        ? Option.create_Some(
-          TypeDescriptor.BOOLEAN,
-          (nativeValue.keyRotationEnabled())
-        )
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.keyRotationEnabled()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> keyId;
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<Integer> rotationPeriodInDays;
     rotationPeriodInDays =
       Objects.nonNull(nativeValue.rotationPeriodInDays())
-        ? Option.create_Some(
-          TypeDescriptor.INT,
-          (nativeValue.rotationPeriodInDays())
-        )
-        : Option.create_None(TypeDescriptor.INT);
+        ? Option.create_Some((nativeValue.rotationPeriodInDays()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> nextRotationDate;
     nextRotationDate =
       Objects.nonNull(nativeValue.nextRotationDate())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.nextRotationDate()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> onDemandRotationStartDate;
     onDemandRotationStartDate =
       Objects.nonNull(nativeValue.onDemandRotationStartDate())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.onDemandRotationStartDate()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new GetKeyRotationStatusResponse(
       keyRotationEnabled,
       keyId,
@@ -2374,50 +1949,38 @@ public class ToDafny {
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Byte>> importToken;
     importToken =
       Objects.nonNull(nativeValue.importToken())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.importToken().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Byte>> publicKey;
     publicKey =
       Objects.nonNull(nativeValue.publicKey())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.publicKey().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> parametersValidTo;
     parametersValidTo =
       Objects.nonNull(nativeValue.parametersValidTo())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.parametersValidTo()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new GetParametersForImportResponse(
       keyId,
       importToken,
@@ -2440,17 +2003,8 @@ public class ToDafny {
     grantTokens =
       (Objects.nonNull(nativeValue.grantTokens()) &&
           nativeValue.grantTokens().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
-          ToDafny.GrantTokenList(nativeValue.grantTokens())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
+        : Option.create_None();
     return new GetPublicKeyRequest(keyId, grantTokens);
   }
 
@@ -2461,50 +2015,37 @@ public class ToDafny {
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Byte>> publicKey;
     publicKey =
       Objects.nonNull(nativeValue.publicKey())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.publicKey().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     Option<CustomerMasterKeySpec> customerMasterKeySpec;
     customerMasterKeySpec =
       Objects.nonNull(nativeValue.customerMasterKeySpec())
         ? Option.create_Some(
-          CustomerMasterKeySpec._typeDescriptor(),
           ToDafny.CustomerMasterKeySpec(nativeValue.customerMasterKeySpec())
         )
-        : Option.create_None(CustomerMasterKeySpec._typeDescriptor());
+        : Option.create_None();
     Option<KeySpec> keySpec;
     keySpec =
       Objects.nonNull(nativeValue.keySpec())
-        ? Option.create_Some(
-          KeySpec._typeDescriptor(),
-          ToDafny.KeySpec(nativeValue.keySpec())
-        )
-        : Option.create_None(KeySpec._typeDescriptor());
+        ? Option.create_Some(ToDafny.KeySpec(nativeValue.keySpec()))
+        : Option.create_None();
     Option<KeyUsageType> keyUsage;
     keyUsage =
       Objects.nonNull(nativeValue.keyUsage())
-        ? Option.create_Some(
-          KeyUsageType._typeDescriptor(),
-          ToDafny.KeyUsageType(nativeValue.keyUsage())
-        )
-        : Option.create_None(KeyUsageType._typeDescriptor());
+        ? Option.create_Some(ToDafny.KeyUsageType(nativeValue.keyUsage()))
+        : Option.create_None();
     Option<
       DafnySequence<? extends EncryptionAlgorithmSpec>
     > encryptionAlgorithms;
@@ -2512,29 +2053,19 @@ public class ToDafny {
       (Objects.nonNull(nativeValue.encryptionAlgorithms()) &&
           nativeValue.encryptionAlgorithms().size() > 0)
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(
-            EncryptionAlgorithmSpec._typeDescriptor()
-          ),
           ToDafny.EncryptionAlgorithmSpecList(
             nativeValue.encryptionAlgorithms()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(
-            EncryptionAlgorithmSpec._typeDescriptor()
-          )
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends SigningAlgorithmSpec>> signingAlgorithms;
     signingAlgorithms =
       (Objects.nonNull(nativeValue.signingAlgorithms()) &&
           nativeValue.signingAlgorithms().size() > 0)
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(SigningAlgorithmSpec._typeDescriptor()),
           ToDafny.SigningAlgorithmSpecList(nativeValue.signingAlgorithms())
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(SigningAlgorithmSpec._typeDescriptor())
-        );
+        : Option.create_None();
     Option<
       DafnySequence<? extends KeyAgreementAlgorithmSpec>
     > keyAgreementAlgorithms;
@@ -2542,18 +2073,11 @@ public class ToDafny {
       (Objects.nonNull(nativeValue.keyAgreementAlgorithms()) &&
           nativeValue.keyAgreementAlgorithms().size() > 0)
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(
-            KeyAgreementAlgorithmSpec._typeDescriptor()
-          ),
           ToDafny.KeyAgreementAlgorithmSpecList(
             nativeValue.keyAgreementAlgorithms()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(
-            KeyAgreementAlgorithmSpec._typeDescriptor()
-          )
-        );
+        : Option.create_None();
     return new GetPublicKeyResponse(
       keyId,
       publicKey,
@@ -2579,18 +2103,9 @@ public class ToDafny {
       (Objects.nonNull(nativeValue.encryptionContextSubset()) &&
           nativeValue.encryptionContextSubset().size() > 0)
         ? Option.create_Some(
-          DafnyMap._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
           ToDafny.EncryptionContextType(nativeValue.encryptionContextSubset())
         )
-        : Option.create_None(
-          DafnyMap._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        : Option.create_None();
     Option<
       DafnyMap<
         ? extends DafnySequence<? extends Character>,
@@ -2601,18 +2116,9 @@ public class ToDafny {
       (Objects.nonNull(nativeValue.encryptionContextEquals()) &&
           nativeValue.encryptionContextEquals().size() > 0)
         ? Option.create_Some(
-          DafnyMap._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
           ToDafny.EncryptionContextType(nativeValue.encryptionContextEquals())
         )
-        : Option.create_None(
-          DafnyMap._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        : Option.create_None();
     return new GrantConstraints(
       encryptionContextSubset,
       encryptionContextEquals
@@ -2636,105 +2142,80 @@ public class ToDafny {
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> grantId;
     grantId =
       Objects.nonNull(nativeValue.grantId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.grantId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> name;
     name =
       Objects.nonNull(nativeValue.name())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.name()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> creationDate;
     creationDate =
       Objects.nonNull(nativeValue.creationDate())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.creationDate()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> granteePrincipal;
     granteePrincipal =
       Objects.nonNull(nativeValue.granteePrincipal())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.granteePrincipal()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> retiringPrincipal;
     retiringPrincipal =
       Objects.nonNull(nativeValue.retiringPrincipal())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.retiringPrincipal()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> issuingAccount;
     issuingAccount =
       Objects.nonNull(nativeValue.issuingAccount())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.issuingAccount()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends GrantOperation>> operations;
     operations =
       (Objects.nonNull(nativeValue.operations()) &&
           nativeValue.operations().size() > 0)
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(GrantOperation._typeDescriptor()),
           ToDafny.GrantOperationList(nativeValue.operations())
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(GrantOperation._typeDescriptor())
-        );
+        : Option.create_None();
     Option<GrantConstraints> constraints;
     constraints =
       Objects.nonNull(nativeValue.constraints())
         ? Option.create_Some(
-          GrantConstraints._typeDescriptor(),
           ToDafny.GrantConstraints(nativeValue.constraints())
         )
-        : Option.create_None(GrantConstraints._typeDescriptor());
+        : Option.create_None();
     return new GrantListEntry(
       keyId,
       grantId,
@@ -2790,22 +2271,18 @@ public class ToDafny {
     validTo =
       Objects.nonNull(nativeValue.validTo())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.validTo()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<ExpirationModelType> expirationModel;
     expirationModel =
       Objects.nonNull(nativeValue.expirationModel())
         ? Option.create_Some(
-          ExpirationModelType._typeDescriptor(),
           ToDafny.ExpirationModelType(nativeValue.expirationModel())
         )
-        : Option.create_None(ExpirationModelType._typeDescriptor());
+        : Option.create_None();
     return new ImportKeyMaterialRequest(
       keyId,
       importToken,
@@ -2852,26 +2329,20 @@ public class ToDafny {
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> keyArn;
     keyArn =
       Objects.nonNull(nativeValue.keyArn())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyArn()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new KeyListEntry(keyId, keyArn);
   }
 
@@ -2882,14 +2353,11 @@ public class ToDafny {
     aWSAccountId =
       Objects.nonNull(nativeValue.awsAccountId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.awsAccountId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     DafnySequence<? extends Character> keyId;
     keyId =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
@@ -2899,147 +2367,109 @@ public class ToDafny {
     arn =
       Objects.nonNull(nativeValue.arn())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.arn()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> creationDate;
     creationDate =
       Objects.nonNull(nativeValue.creationDate())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.creationDate()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<Boolean> enabled;
     enabled =
       Objects.nonNull(nativeValue.enabled())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.enabled()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.enabled()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> description;
     description =
       Objects.nonNull(nativeValue.description())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.description()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<KeyUsageType> keyUsage;
     keyUsage =
       Objects.nonNull(nativeValue.keyUsage())
-        ? Option.create_Some(
-          KeyUsageType._typeDescriptor(),
-          ToDafny.KeyUsageType(nativeValue.keyUsage())
-        )
-        : Option.create_None(KeyUsageType._typeDescriptor());
+        ? Option.create_Some(ToDafny.KeyUsageType(nativeValue.keyUsage()))
+        : Option.create_None();
     Option<KeyState> keyState;
     keyState =
       Objects.nonNull(nativeValue.keyState())
-        ? Option.create_Some(
-          KeyState._typeDescriptor(),
-          ToDafny.KeyState(nativeValue.keyState())
-        )
-        : Option.create_None(KeyState._typeDescriptor());
+        ? Option.create_Some(ToDafny.KeyState(nativeValue.keyState()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> deletionDate;
     deletionDate =
       Objects.nonNull(nativeValue.deletionDate())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.deletionDate()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> validTo;
     validTo =
       Objects.nonNull(nativeValue.validTo())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.validTo()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<OriginType> origin;
     origin =
       Objects.nonNull(nativeValue.origin())
-        ? Option.create_Some(
-          OriginType._typeDescriptor(),
-          ToDafny.OriginType(nativeValue.origin())
-        )
-        : Option.create_None(OriginType._typeDescriptor());
+        ? Option.create_Some(ToDafny.OriginType(nativeValue.origin()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> customKeyStoreId;
     customKeyStoreId =
       Objects.nonNull(nativeValue.customKeyStoreId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.customKeyStoreId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> cloudHsmClusterId;
     cloudHsmClusterId =
       Objects.nonNull(nativeValue.cloudHsmClusterId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.cloudHsmClusterId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<ExpirationModelType> expirationModel;
     expirationModel =
       Objects.nonNull(nativeValue.expirationModel())
         ? Option.create_Some(
-          ExpirationModelType._typeDescriptor(),
           ToDafny.ExpirationModelType(nativeValue.expirationModel())
         )
-        : Option.create_None(ExpirationModelType._typeDescriptor());
+        : Option.create_None();
     Option<KeyManagerType> keyManager;
     keyManager =
       Objects.nonNull(nativeValue.keyManager())
-        ? Option.create_Some(
-          KeyManagerType._typeDescriptor(),
-          ToDafny.KeyManagerType(nativeValue.keyManager())
-        )
-        : Option.create_None(KeyManagerType._typeDescriptor());
+        ? Option.create_Some(ToDafny.KeyManagerType(nativeValue.keyManager()))
+        : Option.create_None();
     Option<CustomerMasterKeySpec> customerMasterKeySpec;
     customerMasterKeySpec =
       Objects.nonNull(nativeValue.customerMasterKeySpec())
         ? Option.create_Some(
-          CustomerMasterKeySpec._typeDescriptor(),
           ToDafny.CustomerMasterKeySpec(nativeValue.customerMasterKeySpec())
         )
-        : Option.create_None(CustomerMasterKeySpec._typeDescriptor());
+        : Option.create_None();
     Option<KeySpec> keySpec;
     keySpec =
       Objects.nonNull(nativeValue.keySpec())
-        ? Option.create_Some(
-          KeySpec._typeDescriptor(),
-          ToDafny.KeySpec(nativeValue.keySpec())
-        )
-        : Option.create_None(KeySpec._typeDescriptor());
+        ? Option.create_Some(ToDafny.KeySpec(nativeValue.keySpec()))
+        : Option.create_None();
     Option<
       DafnySequence<? extends EncryptionAlgorithmSpec>
     > encryptionAlgorithms;
@@ -3047,29 +2477,19 @@ public class ToDafny {
       (Objects.nonNull(nativeValue.encryptionAlgorithms()) &&
           nativeValue.encryptionAlgorithms().size() > 0)
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(
-            EncryptionAlgorithmSpec._typeDescriptor()
-          ),
           ToDafny.EncryptionAlgorithmSpecList(
             nativeValue.encryptionAlgorithms()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(
-            EncryptionAlgorithmSpec._typeDescriptor()
-          )
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends SigningAlgorithmSpec>> signingAlgorithms;
     signingAlgorithms =
       (Objects.nonNull(nativeValue.signingAlgorithms()) &&
           nativeValue.signingAlgorithms().size() > 0)
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(SigningAlgorithmSpec._typeDescriptor()),
           ToDafny.SigningAlgorithmSpecList(nativeValue.signingAlgorithms())
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(SigningAlgorithmSpec._typeDescriptor())
-        );
+        : Option.create_None();
     Option<
       DafnySequence<? extends KeyAgreementAlgorithmSpec>
     > keyAgreementAlgorithms;
@@ -3077,63 +2497,45 @@ public class ToDafny {
       (Objects.nonNull(nativeValue.keyAgreementAlgorithms()) &&
           nativeValue.keyAgreementAlgorithms().size() > 0)
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(
-            KeyAgreementAlgorithmSpec._typeDescriptor()
-          ),
           ToDafny.KeyAgreementAlgorithmSpecList(
             nativeValue.keyAgreementAlgorithms()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(
-            KeyAgreementAlgorithmSpec._typeDescriptor()
-          )
-        );
+        : Option.create_None();
     Option<Boolean> multiRegion;
     multiRegion =
       Objects.nonNull(nativeValue.multiRegion())
-        ? Option.create_Some(
-          TypeDescriptor.BOOLEAN,
-          (nativeValue.multiRegion())
-        )
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.multiRegion()))
+        : Option.create_None();
     Option<MultiRegionConfiguration> multiRegionConfiguration;
     multiRegionConfiguration =
       Objects.nonNull(nativeValue.multiRegionConfiguration())
         ? Option.create_Some(
-          MultiRegionConfiguration._typeDescriptor(),
           ToDafny.MultiRegionConfiguration(
             nativeValue.multiRegionConfiguration()
           )
         )
-        : Option.create_None(MultiRegionConfiguration._typeDescriptor());
+        : Option.create_None();
     Option<Integer> pendingDeletionWindowInDays;
     pendingDeletionWindowInDays =
       Objects.nonNull(nativeValue.pendingDeletionWindowInDays())
-        ? Option.create_Some(
-          TypeDescriptor.INT,
-          (nativeValue.pendingDeletionWindowInDays())
-        )
-        : Option.create_None(TypeDescriptor.INT);
+        ? Option.create_Some((nativeValue.pendingDeletionWindowInDays()))
+        : Option.create_None();
     Option<DafnySequence<? extends MacAlgorithmSpec>> macAlgorithms;
     macAlgorithms =
       (Objects.nonNull(nativeValue.macAlgorithms()) &&
           nativeValue.macAlgorithms().size() > 0)
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(MacAlgorithmSpec._typeDescriptor()),
           ToDafny.MacAlgorithmSpecList(nativeValue.macAlgorithms())
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(MacAlgorithmSpec._typeDescriptor())
-        );
+        : Option.create_None();
     Option<XksKeyConfigurationType> xksKeyConfiguration;
     xksKeyConfiguration =
       Objects.nonNull(nativeValue.xksKeyConfiguration())
         ? Option.create_Some(
-          XksKeyConfigurationType._typeDescriptor(),
           ToDafny.XksKeyConfigurationType(nativeValue.xksKeyConfiguration())
         )
-        : Option.create_None(XksKeyConfigurationType._typeDescriptor());
+        : Option.create_None();
     return new KeyMetadata(
       aWSAccountId,
       keyId,
@@ -3170,31 +2572,25 @@ public class ToDafny {
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<Integer> limit;
     limit =
       Objects.nonNull(nativeValue.limit())
-        ? Option.create_Some(TypeDescriptor.INT, (nativeValue.limit()))
-        : Option.create_None(TypeDescriptor.INT);
+        ? Option.create_Some((nativeValue.limit()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> marker;
     marker =
       Objects.nonNull(nativeValue.marker())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.marker()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new ListAliasesRequest(keyId, limit, marker);
   }
 
@@ -3205,30 +2601,22 @@ public class ToDafny {
     aliases =
       (Objects.nonNull(nativeValue.aliases()) &&
           nativeValue.aliases().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(AliasListEntry._typeDescriptor()),
-          ToDafny.AliasList(nativeValue.aliases())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(AliasListEntry._typeDescriptor())
-        );
+        ? Option.create_Some(ToDafny.AliasList(nativeValue.aliases()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> nextMarker;
     nextMarker =
       Objects.nonNull(nativeValue.nextMarker())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.nextMarker()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<Boolean> truncated;
     truncated =
       Objects.nonNull(nativeValue.truncated())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.truncated()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.truncated()))
+        : Option.create_None();
     return new ListAliasesResponse(aliases, nextMarker, truncated);
   }
 
@@ -3238,20 +2626,17 @@ public class ToDafny {
     Option<Integer> limit;
     limit =
       Objects.nonNull(nativeValue.limit())
-        ? Option.create_Some(TypeDescriptor.INT, (nativeValue.limit()))
-        : Option.create_None(TypeDescriptor.INT);
+        ? Option.create_Some((nativeValue.limit()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> marker;
     marker =
       Objects.nonNull(nativeValue.marker())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.marker()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     DafnySequence<? extends Character> keyId;
     keyId =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
@@ -3261,26 +2646,20 @@ public class ToDafny {
     grantId =
       Objects.nonNull(nativeValue.grantId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.grantId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> granteePrincipal;
     granteePrincipal =
       Objects.nonNull(nativeValue.granteePrincipal())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.granteePrincipal()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new ListGrantsRequest(
       limit,
       marker,
@@ -3296,30 +2675,22 @@ public class ToDafny {
     Option<DafnySequence<? extends GrantListEntry>> grants;
     grants =
       (Objects.nonNull(nativeValue.grants()) && nativeValue.grants().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(GrantListEntry._typeDescriptor()),
-          ToDafny.GrantList(nativeValue.grants())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(GrantListEntry._typeDescriptor())
-        );
+        ? Option.create_Some(ToDafny.GrantList(nativeValue.grants()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> nextMarker;
     nextMarker =
       Objects.nonNull(nativeValue.nextMarker())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.nextMarker()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<Boolean> truncated;
     truncated =
       Objects.nonNull(nativeValue.truncated())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.truncated()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.truncated()))
+        : Option.create_None();
     return new ListGrantsResponse(grants, nextMarker, truncated);
   }
 
@@ -3334,20 +2705,17 @@ public class ToDafny {
     Option<Integer> limit;
     limit =
       Objects.nonNull(nativeValue.limit())
-        ? Option.create_Some(TypeDescriptor.INT, (nativeValue.limit()))
-        : Option.create_None(TypeDescriptor.INT);
+        ? Option.create_Some((nativeValue.limit()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> marker;
     marker =
       Objects.nonNull(nativeValue.marker())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.marker()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new ListKeyPoliciesRequest(keyId, limit, marker);
   }
 
@@ -3360,34 +2728,22 @@ public class ToDafny {
     policyNames =
       (Objects.nonNull(nativeValue.policyNames()) &&
           nativeValue.policyNames().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
-          ToDafny.PolicyNameList(nativeValue.policyNames())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        ? Option.create_Some(ToDafny.PolicyNameList(nativeValue.policyNames()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> nextMarker;
     nextMarker =
       Objects.nonNull(nativeValue.nextMarker())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.nextMarker()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<Boolean> truncated;
     truncated =
       Objects.nonNull(nativeValue.truncated())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.truncated()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.truncated()))
+        : Option.create_None();
     return new ListKeyPoliciesResponse(policyNames, nextMarker, truncated);
   }
 
@@ -3402,20 +2758,17 @@ public class ToDafny {
     Option<Integer> limit;
     limit =
       Objects.nonNull(nativeValue.limit())
-        ? Option.create_Some(TypeDescriptor.INT, (nativeValue.limit()))
-        : Option.create_None(TypeDescriptor.INT);
+        ? Option.create_Some((nativeValue.limit()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> marker;
     marker =
       Objects.nonNull(nativeValue.marker())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.marker()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new ListKeyRotationsRequest(keyId, limit, marker);
   }
 
@@ -3426,30 +2779,22 @@ public class ToDafny {
     rotations =
       (Objects.nonNull(nativeValue.rotations()) &&
           nativeValue.rotations().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(RotationsListEntry._typeDescriptor()),
-          ToDafny.RotationsList(nativeValue.rotations())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(RotationsListEntry._typeDescriptor())
-        );
+        ? Option.create_Some(ToDafny.RotationsList(nativeValue.rotations()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> nextMarker;
     nextMarker =
       Objects.nonNull(nativeValue.nextMarker())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.nextMarker()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<Boolean> truncated;
     truncated =
       Objects.nonNull(nativeValue.truncated())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.truncated()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.truncated()))
+        : Option.create_None();
     return new ListKeyRotationsResponse(rotations, nextMarker, truncated);
   }
 
@@ -3459,20 +2804,17 @@ public class ToDafny {
     Option<Integer> limit;
     limit =
       Objects.nonNull(nativeValue.limit())
-        ? Option.create_Some(TypeDescriptor.INT, (nativeValue.limit()))
-        : Option.create_None(TypeDescriptor.INT);
+        ? Option.create_Some((nativeValue.limit()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> marker;
     marker =
       Objects.nonNull(nativeValue.marker())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.marker()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new ListKeysRequest(limit, marker);
   }
 
@@ -3482,30 +2824,22 @@ public class ToDafny {
     Option<DafnySequence<? extends KeyListEntry>> keys;
     keys =
       (Objects.nonNull(nativeValue.keys()) && nativeValue.keys().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(KeyListEntry._typeDescriptor()),
-          ToDafny.KeyList(nativeValue.keys())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(KeyListEntry._typeDescriptor())
-        );
+        ? Option.create_Some(ToDafny.KeyList(nativeValue.keys()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> nextMarker;
     nextMarker =
       Objects.nonNull(nativeValue.nextMarker())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.nextMarker()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<Boolean> truncated;
     truncated =
       Objects.nonNull(nativeValue.truncated())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.truncated()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.truncated()))
+        : Option.create_None();
     return new ListKeysResponse(keys, nextMarker, truncated);
   }
 
@@ -3520,20 +2854,17 @@ public class ToDafny {
     Option<Integer> limit;
     limit =
       Objects.nonNull(nativeValue.limit())
-        ? Option.create_Some(TypeDescriptor.INT, (nativeValue.limit()))
-        : Option.create_None(TypeDescriptor.INT);
+        ? Option.create_Some((nativeValue.limit()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> marker;
     marker =
       Objects.nonNull(nativeValue.marker())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.marker()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new ListResourceTagsRequest(keyId, limit, marker);
   }
 
@@ -3543,30 +2874,22 @@ public class ToDafny {
     Option<DafnySequence<? extends Tag>> tags;
     tags =
       (Objects.nonNull(nativeValue.tags()) && nativeValue.tags().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(Tag._typeDescriptor()),
-          ToDafny.TagList(nativeValue.tags())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(Tag._typeDescriptor())
-        );
+        ? Option.create_Some(ToDafny.TagList(nativeValue.tags()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> nextMarker;
     nextMarker =
       Objects.nonNull(nativeValue.nextMarker())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.nextMarker()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<Boolean> truncated;
     truncated =
       Objects.nonNull(nativeValue.truncated())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.truncated()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.truncated()))
+        : Option.create_None();
     return new ListResourceTagsResponse(tags, nextMarker, truncated);
   }
 
@@ -3587,29 +2910,22 @@ public class ToDafny {
     multiRegionKeyType =
       Objects.nonNull(nativeValue.multiRegionKeyType())
         ? Option.create_Some(
-          MultiRegionKeyType._typeDescriptor(),
           ToDafny.MultiRegionKeyType(nativeValue.multiRegionKeyType())
         )
-        : Option.create_None(MultiRegionKeyType._typeDescriptor());
+        : Option.create_None();
     Option<MultiRegionKey> primaryKey;
     primaryKey =
       Objects.nonNull(nativeValue.primaryKey())
-        ? Option.create_Some(
-          MultiRegionKey._typeDescriptor(),
-          ToDafny.MultiRegionKey(nativeValue.primaryKey())
-        )
-        : Option.create_None(MultiRegionKey._typeDescriptor());
+        ? Option.create_Some(ToDafny.MultiRegionKey(nativeValue.primaryKey()))
+        : Option.create_None();
     Option<DafnySequence<? extends MultiRegionKey>> replicaKeys;
     replicaKeys =
       (Objects.nonNull(nativeValue.replicaKeys()) &&
           nativeValue.replicaKeys().size() > 0)
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(MultiRegionKey._typeDescriptor()),
           ToDafny.MultiRegionKeyList(nativeValue.replicaKeys())
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(MultiRegionKey._typeDescriptor())
-        );
+        : Option.create_None();
     return new MultiRegionConfiguration(
       multiRegionKeyType,
       primaryKey,
@@ -3624,26 +2940,20 @@ public class ToDafny {
     arn =
       Objects.nonNull(nativeValue.arn())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.arn()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> region;
     region =
       Objects.nonNull(nativeValue.region())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.region()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new MultiRegionKey(arn, region);
   }
 
@@ -3679,14 +2989,11 @@ public class ToDafny {
     policyName =
       Objects.nonNull(nativeValue.policyName())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.policyName()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     DafnySequence<? extends Character> policy;
     policy =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
@@ -3695,11 +3002,8 @@ public class ToDafny {
     Option<Boolean> bypassPolicyLockoutSafetyCheck;
     bypassPolicyLockoutSafetyCheck =
       Objects.nonNull(nativeValue.bypassPolicyLockoutSafetyCheck())
-        ? Option.create_Some(
-          TypeDescriptor.BOOLEAN,
-          (nativeValue.bypassPolicyLockoutSafetyCheck())
-        )
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.bypassPolicyLockoutSafetyCheck()))
+        : Option.create_None();
     return new PutKeyPolicyRequest(
       keyId,
       policyName,
@@ -3715,22 +3019,18 @@ public class ToDafny {
     keyEncryptionAlgorithm =
       Objects.nonNull(nativeValue.keyEncryptionAlgorithm())
         ? Option.create_Some(
-          KeyEncryptionMechanism._typeDescriptor(),
           ToDafny.KeyEncryptionMechanism(nativeValue.keyEncryptionAlgorithm())
         )
-        : Option.create_None(KeyEncryptionMechanism._typeDescriptor());
+        : Option.create_None();
     Option<DafnySequence<? extends Byte>> attestationDocument;
     attestationDocument =
       Objects.nonNull(nativeValue.attestationDocument())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.attestationDocument().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     return new RecipientInfo(keyEncryptionAlgorithm, attestationDocument);
   }
 
@@ -3752,30 +3052,18 @@ public class ToDafny {
       (Objects.nonNull(nativeValue.sourceEncryptionContext()) &&
           nativeValue.sourceEncryptionContext().size() > 0)
         ? Option.create_Some(
-          DafnyMap._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
           ToDafny.EncryptionContextType(nativeValue.sourceEncryptionContext())
         )
-        : Option.create_None(
-          DafnyMap._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> sourceKeyId;
     sourceKeyId =
       Objects.nonNull(nativeValue.sourceKeyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.sourceKeyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     DafnySequence<? extends Character> destinationKeyId;
     destinationKeyId =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
@@ -3791,62 +3079,42 @@ public class ToDafny {
       (Objects.nonNull(nativeValue.destinationEncryptionContext()) &&
           nativeValue.destinationEncryptionContext().size() > 0)
         ? Option.create_Some(
-          DafnyMap._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
           ToDafny.EncryptionContextType(
             nativeValue.destinationEncryptionContext()
           )
         )
-        : Option.create_None(
-          DafnyMap._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        : Option.create_None();
     Option<EncryptionAlgorithmSpec> sourceEncryptionAlgorithm;
     sourceEncryptionAlgorithm =
       Objects.nonNull(nativeValue.sourceEncryptionAlgorithm())
         ? Option.create_Some(
-          EncryptionAlgorithmSpec._typeDescriptor(),
           ToDafny.EncryptionAlgorithmSpec(
             nativeValue.sourceEncryptionAlgorithm()
           )
         )
-        : Option.create_None(EncryptionAlgorithmSpec._typeDescriptor());
+        : Option.create_None();
     Option<EncryptionAlgorithmSpec> destinationEncryptionAlgorithm;
     destinationEncryptionAlgorithm =
       Objects.nonNull(nativeValue.destinationEncryptionAlgorithm())
         ? Option.create_Some(
-          EncryptionAlgorithmSpec._typeDescriptor(),
           ToDafny.EncryptionAlgorithmSpec(
             nativeValue.destinationEncryptionAlgorithm()
           )
         )
-        : Option.create_None(EncryptionAlgorithmSpec._typeDescriptor());
+        : Option.create_None();
     Option<
       DafnySequence<? extends DafnySequence<? extends Character>>
     > grantTokens;
     grantTokens =
       (Objects.nonNull(nativeValue.grantTokens()) &&
           nativeValue.grantTokens().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
-          ToDafny.GrantTokenList(nativeValue.grantTokens())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
+        : Option.create_None();
     Option<Boolean> dryRun;
     dryRun =
       Objects.nonNull(nativeValue.dryRun())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.dryRun()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new ReEncryptRequest(
       ciphertextBlob,
       sourceEncryptionContext,
@@ -3867,58 +3135,47 @@ public class ToDafny {
     ciphertextBlob =
       Objects.nonNull(nativeValue.ciphertextBlob())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.ciphertextBlob().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> sourceKeyId;
     sourceKeyId =
       Objects.nonNull(nativeValue.sourceKeyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.sourceKeyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> keyId;
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<EncryptionAlgorithmSpec> sourceEncryptionAlgorithm;
     sourceEncryptionAlgorithm =
       Objects.nonNull(nativeValue.sourceEncryptionAlgorithm())
         ? Option.create_Some(
-          EncryptionAlgorithmSpec._typeDescriptor(),
           ToDafny.EncryptionAlgorithmSpec(
             nativeValue.sourceEncryptionAlgorithm()
           )
         )
-        : Option.create_None(EncryptionAlgorithmSpec._typeDescriptor());
+        : Option.create_None();
     Option<EncryptionAlgorithmSpec> destinationEncryptionAlgorithm;
     destinationEncryptionAlgorithm =
       Objects.nonNull(nativeValue.destinationEncryptionAlgorithm())
         ? Option.create_Some(
-          EncryptionAlgorithmSpec._typeDescriptor(),
           ToDafny.EncryptionAlgorithmSpec(
             nativeValue.destinationEncryptionAlgorithm()
           )
         )
-        : Option.create_None(EncryptionAlgorithmSpec._typeDescriptor());
+        : Option.create_None();
     return new ReEncryptResponse(
       ciphertextBlob,
       sourceKeyId,
@@ -3945,44 +3202,30 @@ public class ToDafny {
     policy =
       Objects.nonNull(nativeValue.policy())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.policy()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<Boolean> bypassPolicyLockoutSafetyCheck;
     bypassPolicyLockoutSafetyCheck =
       Objects.nonNull(nativeValue.bypassPolicyLockoutSafetyCheck())
-        ? Option.create_Some(
-          TypeDescriptor.BOOLEAN,
-          (nativeValue.bypassPolicyLockoutSafetyCheck())
-        )
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.bypassPolicyLockoutSafetyCheck()))
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> description;
     description =
       Objects.nonNull(nativeValue.description())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.description()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Tag>> tags;
     tags =
       (Objects.nonNull(nativeValue.tags()) && nativeValue.tags().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(Tag._typeDescriptor()),
-          ToDafny.TagList(nativeValue.tags())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(Tag._typeDescriptor())
-        );
+        ? Option.create_Some(ToDafny.TagList(nativeValue.tags()))
+        : Option.create_None();
     return new ReplicateKeyRequest(
       keyId,
       replicaRegion,
@@ -4000,33 +3243,24 @@ public class ToDafny {
     replicaKeyMetadata =
       Objects.nonNull(nativeValue.replicaKeyMetadata())
         ? Option.create_Some(
-          KeyMetadata._typeDescriptor(),
           ToDafny.KeyMetadata(nativeValue.replicaKeyMetadata())
         )
-        : Option.create_None(KeyMetadata._typeDescriptor());
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> replicaPolicy;
     replicaPolicy =
       Objects.nonNull(nativeValue.replicaPolicy())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.replicaPolicy()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Tag>> replicaTags;
     replicaTags =
       (Objects.nonNull(nativeValue.replicaTags()) &&
           nativeValue.replicaTags().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(Tag._typeDescriptor()),
-          ToDafny.TagList(nativeValue.replicaTags())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(Tag._typeDescriptor())
-        );
+        ? Option.create_Some(ToDafny.TagList(nativeValue.replicaTags()))
+        : Option.create_None();
     return new ReplicateKeyResponse(
       replicaKeyMetadata,
       replicaPolicy,
@@ -4041,43 +3275,34 @@ public class ToDafny {
     grantToken =
       Objects.nonNull(nativeValue.grantToken())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.grantToken()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> keyId;
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> grantId;
     grantId =
       Objects.nonNull(nativeValue.grantId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.grantId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<Boolean> dryRun;
     dryRun =
       Objects.nonNull(nativeValue.dryRun())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.dryRun()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new RetireGrantRequest(grantToken, keyId, grantId, dryRun);
   }
 
@@ -4097,8 +3322,8 @@ public class ToDafny {
     Option<Boolean> dryRun;
     dryRun =
       Objects.nonNull(nativeValue.dryRun())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.dryRun()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new RevokeGrantRequest(keyId, grantId, dryRun);
   }
 
@@ -4120,14 +3345,11 @@ public class ToDafny {
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new RotateKeyOnDemandResponse(keyId);
   }
 
@@ -4150,34 +3372,25 @@ public class ToDafny {
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> rotationDate;
     rotationDate =
       Objects.nonNull(nativeValue.rotationDate())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.rotationDate()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<RotationType> rotationType;
     rotationType =
       Objects.nonNull(nativeValue.rotationType())
-        ? Option.create_Some(
-          RotationType._typeDescriptor(),
-          ToDafny.RotationType(nativeValue.rotationType())
-        )
-        : Option.create_None(RotationType._typeDescriptor());
+        ? Option.create_Some(ToDafny.RotationType(nativeValue.rotationType()))
+        : Option.create_None();
     return new RotationsListEntry(keyId, rotationDate, rotationType);
   }
 
@@ -4192,11 +3405,8 @@ public class ToDafny {
     Option<Integer> pendingWindowInDays;
     pendingWindowInDays =
       Objects.nonNull(nativeValue.pendingWindowInDays())
-        ? Option.create_Some(
-          TypeDescriptor.INT,
-          (nativeValue.pendingWindowInDays())
-        )
-        : Option.create_None(TypeDescriptor.INT);
+        ? Option.create_Some((nativeValue.pendingWindowInDays()))
+        : Option.create_None();
     return new ScheduleKeyDeletionRequest(keyId, pendingWindowInDays);
   }
 
@@ -4207,42 +3417,30 @@ public class ToDafny {
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> deletionDate;
     deletionDate =
       Objects.nonNull(nativeValue.deletionDate())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.deletionDate()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<KeyState> keyState;
     keyState =
       Objects.nonNull(nativeValue.keyState())
-        ? Option.create_Some(
-          KeyState._typeDescriptor(),
-          ToDafny.KeyState(nativeValue.keyState())
-        )
-        : Option.create_None(KeyState._typeDescriptor());
+        ? Option.create_Some(ToDafny.KeyState(nativeValue.keyState()))
+        : Option.create_None();
     Option<Integer> pendingWindowInDays;
     pendingWindowInDays =
       Objects.nonNull(nativeValue.pendingWindowInDays())
-        ? Option.create_Some(
-          TypeDescriptor.INT,
-          (nativeValue.pendingWindowInDays())
-        )
-        : Option.create_None(TypeDescriptor.INT);
+        ? Option.create_Some((nativeValue.pendingWindowInDays()))
+        : Option.create_None();
     return new ScheduleKeyDeletionResponse(
       keyId,
       deletionDate,
@@ -4281,36 +3479,24 @@ public class ToDafny {
     Option<MessageType> messageType;
     messageType =
       Objects.nonNull(nativeValue.messageType())
-        ? Option.create_Some(
-          MessageType._typeDescriptor(),
-          ToDafny.MessageType(nativeValue.messageType())
-        )
-        : Option.create_None(MessageType._typeDescriptor());
+        ? Option.create_Some(ToDafny.MessageType(nativeValue.messageType()))
+        : Option.create_None();
     Option<
       DafnySequence<? extends DafnySequence<? extends Character>>
     > grantTokens;
     grantTokens =
       (Objects.nonNull(nativeValue.grantTokens()) &&
           nativeValue.grantTokens().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
-          ToDafny.GrantTokenList(nativeValue.grantTokens())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
+        : Option.create_None();
     SigningAlgorithmSpec signingAlgorithm;
     signingAlgorithm =
       ToDafny.SigningAlgorithmSpec(nativeValue.signingAlgorithm());
     Option<Boolean> dryRun;
     dryRun =
       Objects.nonNull(nativeValue.dryRun())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.dryRun()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new SignRequest(
       keyId,
       message,
@@ -4328,34 +3514,27 @@ public class ToDafny {
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Byte>> signature;
     signature =
       Objects.nonNull(nativeValue.signature())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.signature().asByteArray()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
-        );
+        : Option.create_None();
     Option<SigningAlgorithmSpec> signingAlgorithm;
     signingAlgorithm =
       Objects.nonNull(nativeValue.signingAlgorithm())
         ? Option.create_Some(
-          SigningAlgorithmSpec._typeDescriptor(),
           ToDafny.SigningAlgorithmSpec(nativeValue.signingAlgorithm())
         )
-        : Option.create_None(SigningAlgorithmSpec._typeDescriptor());
+        : Option.create_None();
     return new SignResponse(keyId, signature, signingAlgorithm);
   }
 
@@ -4449,96 +3628,74 @@ public class ToDafny {
     newCustomKeyStoreName =
       Objects.nonNull(nativeValue.newCustomKeyStoreName())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.newCustomKeyStoreName()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> keyStorePassword;
     keyStorePassword =
       Objects.nonNull(nativeValue.keyStorePassword())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyStorePassword()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> cloudHsmClusterId;
     cloudHsmClusterId =
       Objects.nonNull(nativeValue.cloudHsmClusterId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.cloudHsmClusterId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> xksProxyUriEndpoint;
     xksProxyUriEndpoint =
       Objects.nonNull(nativeValue.xksProxyUriEndpoint())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.xksProxyUriEndpoint()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> xksProxyUriPath;
     xksProxyUriPath =
       Objects.nonNull(nativeValue.xksProxyUriPath())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.xksProxyUriPath()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> xksProxyVpcEndpointServiceName;
     xksProxyVpcEndpointServiceName =
       Objects.nonNull(nativeValue.xksProxyVpcEndpointServiceName())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.xksProxyVpcEndpointServiceName()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<
       XksProxyAuthenticationCredentialType
     > xksProxyAuthenticationCredential;
     xksProxyAuthenticationCredential =
       Objects.nonNull(nativeValue.xksProxyAuthenticationCredential())
         ? Option.create_Some(
-          XksProxyAuthenticationCredentialType._typeDescriptor(),
           ToDafny.XksProxyAuthenticationCredentialType(
             nativeValue.xksProxyAuthenticationCredential()
           )
         )
-        : Option.create_None(
-          XksProxyAuthenticationCredentialType._typeDescriptor()
-        );
+        : Option.create_None();
     Option<XksProxyConnectivityType> xksProxyConnectivity;
     xksProxyConnectivity =
       Objects.nonNull(nativeValue.xksProxyConnectivity())
         ? Option.create_Some(
-          XksProxyConnectivityType._typeDescriptor(),
           ToDafny.XksProxyConnectivityType(nativeValue.xksProxyConnectivity())
         )
-        : Option.create_None(XksProxyConnectivityType._typeDescriptor());
+        : Option.create_None();
     return new UpdateCustomKeyStoreRequest(
       customKeyStoreId,
       newCustomKeyStoreName,
@@ -4616,22 +3773,13 @@ public class ToDafny {
     grantTokens =
       (Objects.nonNull(nativeValue.grantTokens()) &&
           nativeValue.grantTokens().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
-          ToDafny.GrantTokenList(nativeValue.grantTokens())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
+        : Option.create_None();
     Option<Boolean> dryRun;
     dryRun =
       Objects.nonNull(nativeValue.dryRun())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.dryRun()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new VerifyMacRequest(
       message,
       keyId,
@@ -4649,27 +3797,23 @@ public class ToDafny {
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<Boolean> macValid;
     macValid =
       Objects.nonNull(nativeValue.macValid())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.macValid()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.macValid()))
+        : Option.create_None();
     Option<MacAlgorithmSpec> macAlgorithm;
     macAlgorithm =
       Objects.nonNull(nativeValue.macAlgorithm())
         ? Option.create_Some(
-          MacAlgorithmSpec._typeDescriptor(),
           ToDafny.MacAlgorithmSpec(nativeValue.macAlgorithm())
         )
-        : Option.create_None(MacAlgorithmSpec._typeDescriptor());
+        : Option.create_None();
     return new VerifyMacResponse(keyId, macValid, macAlgorithm);
   }
 
@@ -4689,11 +3833,8 @@ public class ToDafny {
     Option<MessageType> messageType;
     messageType =
       Objects.nonNull(nativeValue.messageType())
-        ? Option.create_Some(
-          MessageType._typeDescriptor(),
-          ToDafny.MessageType(nativeValue.messageType())
-        )
-        : Option.create_None(MessageType._typeDescriptor());
+        ? Option.create_Some(ToDafny.MessageType(nativeValue.messageType()))
+        : Option.create_None();
     DafnySequence<? extends Byte> signature;
     signature =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
@@ -4708,22 +3849,13 @@ public class ToDafny {
     grantTokens =
       (Objects.nonNull(nativeValue.grantTokens()) &&
           nativeValue.grantTokens().size() > 0)
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          ),
-          ToDafny.GrantTokenList(nativeValue.grantTokens())
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(
-            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-          )
-        );
+        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
+        : Option.create_None();
     Option<Boolean> dryRun;
     dryRun =
       Objects.nonNull(nativeValue.dryRun())
-        ? Option.create_Some(TypeDescriptor.BOOLEAN, (nativeValue.dryRun()))
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new VerifyRequest(
       keyId,
       message,
@@ -4742,30 +3874,23 @@ public class ToDafny {
     keyId =
       Objects.nonNull(nativeValue.keyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.keyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<Boolean> signatureValid;
     signatureValid =
       Objects.nonNull(nativeValue.signatureValid())
-        ? Option.create_Some(
-          TypeDescriptor.BOOLEAN,
-          (nativeValue.signatureValid())
-        )
-        : Option.create_None(TypeDescriptor.BOOLEAN);
+        ? Option.create_Some((nativeValue.signatureValid()))
+        : Option.create_None();
     Option<SigningAlgorithmSpec> signingAlgorithm;
     signingAlgorithm =
       Objects.nonNull(nativeValue.signingAlgorithm())
         ? Option.create_Some(
-          SigningAlgorithmSpec._typeDescriptor(),
           ToDafny.SigningAlgorithmSpec(nativeValue.signingAlgorithm())
         )
-        : Option.create_None(SigningAlgorithmSpec._typeDescriptor());
+        : Option.create_None();
     return new VerifyResponse(keyId, signatureValid, signingAlgorithm);
   }
 
@@ -4776,14 +3901,11 @@ public class ToDafny {
     id =
       Objects.nonNull(nativeValue.id())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.id()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new XksKeyConfigurationType(id);
   }
 
@@ -4813,58 +3935,45 @@ public class ToDafny {
     connectivity =
       Objects.nonNull(nativeValue.connectivity())
         ? Option.create_Some(
-          XksProxyConnectivityType._typeDescriptor(),
           ToDafny.XksProxyConnectivityType(nativeValue.connectivity())
         )
-        : Option.create_None(XksProxyConnectivityType._typeDescriptor());
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> accessKeyId;
     accessKeyId =
       Objects.nonNull(nativeValue.accessKeyId())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.accessKeyId()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> uriEndpoint;
     uriEndpoint =
       Objects.nonNull(nativeValue.uriEndpoint())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.uriEndpoint()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> uriPath;
     uriPath =
       Objects.nonNull(nativeValue.uriPath())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.uriPath()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     Option<DafnySequence<? extends Character>> vpcEndpointServiceName;
     vpcEndpointServiceName =
       Objects.nonNull(nativeValue.vpcEndpointServiceName())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.vpcEndpointServiceName()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new XksProxyConfigurationType(
       connectivity,
       accessKeyId,
@@ -4879,14 +3988,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_AlreadyExistsException(message);
   }
 
@@ -4895,14 +4001,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_CloudHsmClusterInUseException(message);
   }
 
@@ -4913,14 +4016,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_CloudHsmClusterInvalidConfigurationException(message);
   }
 
@@ -4929,14 +4029,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_CloudHsmClusterNotActiveException(message);
   }
 
@@ -4945,14 +4042,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_CloudHsmClusterNotFoundException(message);
   }
 
@@ -4961,14 +4055,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_CloudHsmClusterNotRelatedException(message);
   }
 
@@ -4977,14 +4068,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_ConflictException(message);
   }
 
@@ -4993,14 +4081,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_CustomKeyStoreHasCMKsException(message);
   }
 
@@ -5009,14 +4094,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_CustomKeyStoreInvalidStateException(message);
   }
 
@@ -5025,14 +4107,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_CustomKeyStoreNameInUseException(message);
   }
 
@@ -5041,14 +4120,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_CustomKeyStoreNotFoundException(message);
   }
 
@@ -5057,14 +4133,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_DependencyTimeoutException(message);
   }
 
@@ -5073,14 +4146,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_DisabledException(message);
   }
 
@@ -5089,14 +4159,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_DryRunOperationException(message);
   }
 
@@ -5105,14 +4172,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_ExpiredImportTokenException(message);
   }
 
@@ -5121,14 +4185,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_IncorrectKeyException(message);
   }
 
@@ -5137,14 +4198,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_IncorrectKeyMaterialException(message);
   }
 
@@ -5153,14 +4211,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_IncorrectTrustAnchorException(message);
   }
 
@@ -5169,14 +4224,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_InvalidAliasNameException(message);
   }
 
@@ -5185,14 +4237,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_InvalidArnException(message);
   }
 
@@ -5201,14 +4250,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_InvalidCiphertextException(message);
   }
 
@@ -5217,14 +4263,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_InvalidGrantIdException(message);
   }
 
@@ -5233,14 +4276,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_InvalidGrantTokenException(message);
   }
 
@@ -5249,14 +4289,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_InvalidImportTokenException(message);
   }
 
@@ -5265,14 +4302,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_InvalidKeyUsageException(message);
   }
 
@@ -5281,14 +4315,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_InvalidMarkerException(message);
   }
 
@@ -5297,14 +4328,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_KeyUnavailableException(message);
   }
 
@@ -5313,14 +4341,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_KMSInternalException(message);
   }
 
@@ -5329,14 +4354,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_KMSInvalidMacException(message);
   }
 
@@ -5345,14 +4367,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_KMSInvalidSignatureException(message);
   }
 
@@ -5361,14 +4380,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_KMSInvalidStateException(message);
   }
 
@@ -5377,14 +4393,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_LimitExceededException(message);
   }
 
@@ -5393,14 +4406,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_MalformedPolicyDocumentException(message);
   }
 
@@ -5409,14 +4419,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_NotFoundException(message);
   }
 
@@ -5425,14 +4432,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_TagException(message);
   }
 
@@ -5441,14 +4445,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_UnsupportedOperationException(message);
   }
 
@@ -5457,14 +4458,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_XksKeyAlreadyInUseException(message);
   }
 
@@ -5473,14 +4471,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_XksKeyInvalidConfigurationException(message);
   }
 
@@ -5489,14 +4484,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_XksKeyNotFoundException(message);
   }
 
@@ -5507,14 +4499,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_XksProxyIncorrectAuthenticationCredentialException(
       message
     );
@@ -5525,14 +4514,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_XksProxyInvalidConfigurationException(message);
   }
 
@@ -5541,14 +4527,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_XksProxyInvalidResponseException(message);
   }
 
@@ -5557,14 +4540,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_XksProxyUriEndpointInUseException(message);
   }
 
@@ -5573,14 +4553,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_XksProxyUriInUseException(message);
   }
 
@@ -5589,14 +4566,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_XksProxyUriUnreachableException(message);
   }
 
@@ -5607,14 +4581,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_XksProxyVpcEndpointServiceInUseException(message);
   }
 
@@ -5625,14 +4596,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_XksProxyVpcEndpointServiceInvalidConfigurationException(
       message
     );
@@ -5645,14 +4613,11 @@ public class ToDafny {
     message =
       Objects.nonNull(nativeValue.getMessage())
         ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.getMessage()
           )
         )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
+        : Option.create_None();
     return new Error_XksProxyVpcEndpointServiceNotFoundException(message);
   }
 
@@ -5680,7 +4645,9 @@ public class ToDafny {
         {
           return AlgorithmSpec.create_RSA__AES__KEY__WRAP__SHA__256();
         }
-      case SM2PKE:
+      // BEGIN MANUAL EDIT
+      case SM2_PKE:
+        // END MANUAL EDIT
         {
           return AlgorithmSpec.create_SM2PKE();
         }
@@ -6487,7 +5454,9 @@ public class ToDafny {
         {
           return SigningAlgorithmSpec.create_ECDSA__SHA__512();
         }
-      case SM2DSA:
+      // BEGIN MANUAL EDIT
+      case SM2_DSA:
+        // END MANUAL EDIT
         {
           return SigningAlgorithmSpec.create_SM2DSA();
         }
