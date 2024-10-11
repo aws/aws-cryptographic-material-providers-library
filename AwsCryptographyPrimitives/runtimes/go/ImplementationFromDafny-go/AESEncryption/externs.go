@@ -42,6 +42,9 @@ func (CompanionStruct_Default___) AESDecryptExtern(algo AwsCryptographyPrimitive
 		}
 
 		plaintext, err := gcm.Open(nil, ivBytes, append(cipherTextBytes, authTagBytes...), aadBytes)
+		if err != nil {
+			return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		}
 		return Wrappers.Companion_Result_.Create_Success_(dafny.SeqOfBytes(plaintext))
 	}
 	return Wrappers.Companion_Result_.Create_Failure_(false)
@@ -73,6 +76,9 @@ func (CompanionStruct_Default___) AESEncryptExtern(algo AwsCryptographyPrimitive
 		}
 
 		cipherText := gcm.Seal(nil, ivBytes, dafny.ToByteArray(msg), aadBytes)
+		if cipherText == nil {
+			return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(fmt.Errorf("failed to do AES_GCM Encrypt with the given parameters").Error())...)))
+		}
 		return Wrappers.Companion_Result_.Create_Success_(AwsCryptographyPrimitivesTypes.Companion_AESEncryptOutput_.Create_AESEncryptOutput_(dafny.SeqOfBytes(cipherText[:len(cipherText)-gcm.Overhead()]), dafny.SeqOfBytes(cipherText[len(cipherText)-gcm.Overhead():])))
 	}
 	return Wrappers.Companion_Result_.Create_Failure_(false)
