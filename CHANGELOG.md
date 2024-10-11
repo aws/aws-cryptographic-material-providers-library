@@ -2,16 +2,11 @@
 
 # [1.7.1](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.0...v1.7.1) (2024-10-11)
 
+This is the first release for the Python implementation of the AWS Cryptographic Material Providers Library. ([#805](https://github.com/aws/aws-cryptographic-material-providers-library/issues/805)) ([cfb2f7e](https://github.com/aws/aws-cryptographic-material-providers-library/commit/cfb2f7e06c406b3f3ddb506a6356382737b53746))
 
 ### Bug Fixes
 
 * **H-Keyring:** if getCache returns Error not EntryDoesNotExist, error ([#846](https://github.com/aws/aws-cryptographic-material-providers-library/issues/846)) ([3413fcb](https://github.com/aws/aws-cryptographic-material-providers-library/commit/3413fcbc889e2c31fb753ff3eca852c1d5db1140))
-* **Python:** Repolymorph to add orphaned shapes ([#831](https://github.com/aws/aws-cryptographic-material-providers-library/issues/831)) ([2481dd8](https://github.com/aws/aws-cryptographic-material-providers-library/commit/2481dd8dbad94213acbec25441421ff6d1eb104e))
-
-
-### Features
-
-* Python MPL ([#805](https://github.com/aws/aws-cryptographic-material-providers-library/issues/805)) ([cfb2f7e](https://github.com/aws/aws-cryptographic-material-providers-library/commit/cfb2f7e06c406b3f3ddb506a6356382737b53746))
 
 # [1.7.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.6.0...v1.7.0) (2024-09-23)
 
