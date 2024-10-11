@@ -1,6 +1,6 @@
 # Changelog
 
-# [1.8.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.0...v1.8.0) (2024-10-11)
+# [1.7.1](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.0...v1.7.1) (2024-10-11)
 
 
 ### Bug Fixes
