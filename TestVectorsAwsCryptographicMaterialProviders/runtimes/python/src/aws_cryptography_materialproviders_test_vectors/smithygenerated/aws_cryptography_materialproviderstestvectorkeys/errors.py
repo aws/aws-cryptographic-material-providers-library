@@ -38,6 +38,50 @@ class KeyVectorException(ApiError[Literal["KeyVectorException"]]):
     code: Literal["KeyVectorException"] = "KeyVectorException"
     message: str
 
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the KeyVectorException to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KeyVectorException":
+        """Creates a KeyVectorException from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return KeyVectorException(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "KeyVectorException("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, KeyVectorException):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class KeyVectorException(ApiError[Literal["KeyVectorException"]]):
+    code: Literal["KeyVectorException"] = "KeyVectorException"
+    message: str
+
 
 class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
     code: Literal["CollectionOfErrors"] = "CollectionOfErrors"
