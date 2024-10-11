@@ -482,8 +482,8 @@ module AwsKmsHierarchicalKeyring {
       verifyValidStateCache(cache);
       var getCacheOutput := getEntry(cache, getCacheInput);
 
-      // If error is opaque, return Failure
-      if (getCacheOutput.Failure? && getCacheOutput.error.Opaque?) {
+      // If error is not EntryDoesNotExist, return Failure
+      if (getCacheOutput.Failure? && !getCacheOutput.error.EntryDoesNotExist?) {
         return Failure(getCacheOutput.error);
       }
 
@@ -869,8 +869,8 @@ module AwsKmsHierarchicalKeyring {
       verifyValidStateCache(cache);
       var getCacheOutput := getEntry(cache, getCacheInput);
 
-      // If error is opaque, return Failure
-      if (getCacheOutput.Failure? && getCacheOutput.error.Opaque?) {
+      // If error is not EntryDoesNotExist, return Failure
+      if (getCacheOutput.Failure? && !getCacheOutput.error.EntryDoesNotExist?) {
         return Failure(getCacheOutput.error);
       }
 
