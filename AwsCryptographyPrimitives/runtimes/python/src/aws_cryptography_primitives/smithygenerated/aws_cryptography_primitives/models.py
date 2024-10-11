@@ -2315,5 +2315,75 @@ class ValidatePublicKeyOutput:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
+class AES_CTR:
+    key_length: int
+    nonce_length: int
+
+    def __init__(
+        self,
+        *,
+        key_length: int = 0,
+        nonce_length: int = 0,
+    ):
+        if (key_length is not None) and (key_length < 1):
+            raise ValueError("key_length must be greater than or equal to 1")
+
+        if (key_length is not None) and (key_length > 32):
+            raise ValueError("key_length must be less than or equal to 32")
+
+        self.key_length = key_length
+        if (nonce_length is not None) and (nonce_length < 0):
+            raise ValueError("nonce_length must be greater than or equal to 0")
+
+        if (nonce_length is not None) and (nonce_length > 255):
+            raise ValueError("nonce_length must be less than or equal to 255")
+
+        self.nonce_length = nonce_length
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the AES_CTR to a dictionary."""
+        d: Dict[str, Any] = {}
+
+        if self.key_length is not None:
+            d["key_length"] = self.key_length
+
+        if self.nonce_length is not None:
+            d["nonce_length"] = self.nonce_length
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "AES_CTR":
+        """Creates a AES_CTR from a dictionary."""
+        kwargs: Dict[str, Any] = {}
+
+        if "key_length" in d:
+            kwargs["key_length"] = d["key_length"]
+
+        if "nonce_length" in d:
+            kwargs["nonce_length"] = d["nonce_length"]
+
+        return AES_CTR(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "AES_CTR("
+        if self.key_length is not None:
+            result += f"key_length={repr(self.key_length)}, "
+
+        if self.nonce_length is not None:
+            result += f"nonce_length={repr(self.nonce_length)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, AES_CTR):
+            return False
+        attributes: list[str] = [
+            "key_length",
+            "nonce_length",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
 class Unit:
     pass
