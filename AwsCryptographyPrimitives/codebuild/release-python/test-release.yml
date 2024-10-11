@@ -25,6 +25,7 @@ phases:
       # Switch back to the main directory
       - cd aws-cryptographic-material-providers-library
       # Assert that project version is the expected released version
+      - git fetch --tags
       - git checkout $COMMIT_ID
       - FOUND_VERSION=$(sed -n 's/version = "\(.*\)"/\1/p' AwsCryptographyPrimitives/runtimes/python/pyproject.toml)
       - |
