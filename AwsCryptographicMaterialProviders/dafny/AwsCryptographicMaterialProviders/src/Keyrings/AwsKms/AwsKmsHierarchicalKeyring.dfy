@@ -529,7 +529,10 @@ module AwsKmsHierarchicalKeyring {
         );
 
         verifyValidStateCache(cache);
-        var _ :- putEntry(cache, putCacheEntryInput);
+        var putResult := putEntry(cache, putCacheEntryInput);
+        if (putResult.Failure? && !putResult.error.EntryAlreadyExists?) {
+          return Failure(putResult.error);
+        }
 
         return Success(branchKeyMaterials);
       } else {
@@ -918,7 +921,10 @@ module AwsKmsHierarchicalKeyring {
         );
 
         verifyValidStateCache(cache);
-        var _ :- putEntry(cache, putCacheEntryInput);
+        var putResult := putEntry(cache, putCacheEntryInput);
+        if (putResult.Failure? && !putResult.error.EntryAlreadyExists?) {
+          return Failure(putResult.error);
+        }
 
         return Success(branchKeyMaterials);
       } else {
