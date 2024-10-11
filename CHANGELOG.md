@@ -6,7 +6,7 @@ This is the first release for the Python implementation of the AWS Cryptographic
 
 ### Bug Fixes
 
-* **H-Keyring:** if getCache returns Error not EntryDoesNotExist, error ([#846](https://github.com/aws/aws-cryptographic-material-providers-library/issues/846)) ([3413fcb](https://github.com/aws/aws-cryptographic-material-providers-library/commit/3413fcbc889e2c31fb753ff3eca852c1d5db1140))
+- **H-Keyring:** if getCache returns Error not EntryDoesNotExist, error ([#846](https://github.com/aws/aws-cryptographic-material-providers-library/issues/846)) ([3413fcb](https://github.com/aws/aws-cryptographic-material-providers-library/commit/3413fcbc889e2c31fb753ff3eca852c1d5db1140))
 
 # [1.7.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.6.0...v1.7.0) (2024-09-23)
 
