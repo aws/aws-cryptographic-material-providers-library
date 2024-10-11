@@ -100,7 +100,7 @@ dependencies {
 
     // Dafny dependencies
     implementation("org.dafny:DafnyRuntime:${dafnyVersion}")
-    implementation("software.amazon.smithy.dafny:conversion:0.1")
+    implementation("software.amazon.smithy.dafny:conversion:0.1.1")
 
     // sdk dependencies
     implementation(platform("software.amazon.awssdk:bom:2.26.3"))

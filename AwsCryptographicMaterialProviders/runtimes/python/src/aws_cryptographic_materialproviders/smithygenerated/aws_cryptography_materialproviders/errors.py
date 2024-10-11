@@ -422,6 +422,94 @@ class InvalidEncryptionMaterialsTransition(
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
+class EntryAlreadyExists(ApiError[Literal["EntryAlreadyExists"]]):
+    code: Literal["EntryAlreadyExists"] = "EntryAlreadyExists"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the EntryAlreadyExists to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "EntryAlreadyExists":
+        """Creates a EntryAlreadyExists from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return EntryAlreadyExists(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "EntryAlreadyExists("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, EntryAlreadyExists):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class EntryDoesNotExist(ApiError[Literal["EntryDoesNotExist"]]):
+    code: Literal["EntryDoesNotExist"] = "EntryDoesNotExist"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the EntryDoesNotExist to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "EntryDoesNotExist":
+        """Creates a EntryDoesNotExist from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return EntryDoesNotExist(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "EntryDoesNotExist("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, EntryDoesNotExist):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
 class AwsCryptographicMaterialProvidersException(
     ApiError[Literal["AwsCryptographicMaterialProvidersException"]]
 ):
@@ -563,9 +651,10 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
     code: Literal["OpaqueError"] = "OpaqueError"
     obj: Any  # As an OpaqueError, type of obj is unknown
 
-    def __init__(self, *, obj):
+    def __init__(self, *, obj, alt_text):
         super().__init__("")
         self.obj = obj
+        self.alt_text = alt_text
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the OpaqueError to a dictionary.
@@ -577,6 +666,7 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
             "message": self.message,
             "code": self.code,
             "obj": self.obj,
+            "alt_text": self.alt_text,
         }
 
     @staticmethod
@@ -587,7 +677,11 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
         than the parameter names as keys to be mostly compatible with
         boto3.
         """
-        kwargs: Dict[str, Any] = {"message": d["message"], "obj": d["obj"]}
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+            "obj": d["obj"],
+            "alt_text": d["alt_text"],
+        }
 
         return OpaqueError(**kwargs)
 
@@ -596,7 +690,7 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
         result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
-        result += f"obj={self.obj}"
+        result += f"obj={self.alt_text}"
         result += ")"
         return result
 
@@ -722,10 +816,18 @@ def _smithy_error_to_dafny_error(e: ServiceError):
 
     if isinstance(e, OpaqueError):
         return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_Opaque(
-            obj=e.obj
+            obj=e.obj, alt__text=e.alt_text
         )
 
     else:
         return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_Opaque(
-            obj=e
+            obj=e,
+            alt__text=_dafny.Seq(
+                "".join(
+                    [
+                        chr(int.from_bytes(pair, "big"))
+                        for pair in zip(*[iter(repr(e).encode("utf-16-be"))] * 2)
+                    ]
+                )
+            ),
         )
