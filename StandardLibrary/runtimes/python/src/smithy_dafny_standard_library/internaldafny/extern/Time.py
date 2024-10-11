@@ -5,9 +5,13 @@ import _dafny
 import smithy_dafny_standard_library.internaldafny.generated.Time
 import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
 
-class default__:
-    def CurrentRelativeTime():
+# Extend generated class with our externs
+class default__(smithy_dafny_standard_library.internaldafny.generated.Time.default__):
+    def CurrentRelativeTimeMilli():
         return datetime.datetime.now(tz = pytz.UTC).timestamp() * 1000
+
+    def CurrentRelativeTime():
+        return datetime.datetime.now(tz = pytz.UTC).timestamp()
 
     def GetCurrentTimeStamp():
         try:
