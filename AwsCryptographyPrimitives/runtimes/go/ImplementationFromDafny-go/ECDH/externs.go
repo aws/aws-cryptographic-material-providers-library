@@ -10,7 +10,7 @@ import (
 	"fmt"
 
 	AwsCryptographyPrimitivesTypes "github.com/aws/aws-cryptographic-material-providers-library/primitives/AwsCryptographyPrimitivesTypes"
-	dafny "github.com/dafny-lang/DafnyRuntimeGo/dafny"
+	dafny "github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
 )
 

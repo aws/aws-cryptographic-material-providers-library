@@ -6,7 +6,7 @@ import (
 
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/AwsCryptographyMaterialProvidersTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/StormTracker"
-	_dafny "github.com/dafny-lang/DafnyRuntimeGo/dafny"
+	_dafny "github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
 )
 

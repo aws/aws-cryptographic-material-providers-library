@@ -11,7 +11,7 @@ require (
 	github.com/aws/aws-cryptographic-material-providers-library/kms v0.0.0
 	github.com/aws/aws-cryptographic-material-providers-library/mpl v0.0.0
 	github.com/aws/aws-cryptographic-material-providers-library/primitives v0.0.0
-	github.com/dafny-lang/DafnyRuntimeGo v0.0.0
+	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.7.0
 
 )
 
@@ -42,7 +42,5 @@ replace (
 	github.com/aws/aws-cryptographic-material-providers-library/primitives v0.0.0 => ../../../../AwsCryptographyPrimitives/runtimes/go/ImplementationFromDafny-go/
 
 )
-
-replace github.com/dafny-lang/DafnyRuntimeGo => ../../../../smithy-dafny/DafnyRuntimeGo
 
 replace github.com/dafny-lang/DafnyStandardLibGo => ../../../../StandardLibrary/runtimes/go/ImplementationFromDafny-go/

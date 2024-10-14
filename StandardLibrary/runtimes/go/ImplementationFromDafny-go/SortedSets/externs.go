@@ -3,7 +3,7 @@ package SortedSets
 import (
 	"sort"
 
-	"github.com/dafny-lang/DafnyRuntimeGo/dafny"
+	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 )
 
 func SetToOrderedSequence(set dafny.Set, fn func(interface{}, interface{}) bool) dafny.Sequence {

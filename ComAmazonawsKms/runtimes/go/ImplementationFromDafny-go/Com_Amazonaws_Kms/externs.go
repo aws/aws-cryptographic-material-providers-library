@@ -7,7 +7,7 @@ import (
 	"github.com/aws/aws-cryptographic-material-providers-library/kms/KMSwrapped"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/kms"
-	_dafny "github.com/dafny-lang/DafnyRuntimeGo/dafny"
+	_dafny "github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
 )
 
@@ -27,7 +27,9 @@ func (_static *CompanionStruct_Default___) KMSClient() Wrappers.Result {
 	if err != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(ComAmazonawsKmsTypes.Companion_Error_.Create_KMSInternalException_(Wrappers.Companion_Option_.Create_Some_(_dafny.SeqOfChars([]_dafny.Char(err.Error())...))))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(&KMSwrapped.Shim{Client: kms.NewFromConfig(cfg, func(o *kms.Options) {})})
+	return Wrappers.Companion_Result_.Create_Success_(&KMSwrapped.Shim{Client: kms.NewFromConfig(cfg, func(o *kms.Options) {
+		o.Region = "us-west-2"
+	})})
 }
 
 func (_static *CompanionStruct_Default___) RegionMatch(ikmsClient ComAmazonawsKmsTypes.IKMSClient, regionInput _dafny.Sequence) Wrappers.Option {

@@ -6,9 +6,10 @@ import (
 	"crypto/rand"
 	"crypto/x509"
 	"fmt"
+
 	"github.com/aws/aws-cryptographic-material-providers-library/primitives/AwsCryptographyPrimitivesTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/primitives/ExternDigest"
-	dafny "github.com/dafny-lang/DafnyRuntimeGo/dafny"
+	dafny "github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
 )
 

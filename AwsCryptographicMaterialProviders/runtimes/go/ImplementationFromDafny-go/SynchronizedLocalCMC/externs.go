@@ -1,10 +1,11 @@
 package SynchronizedLocalCMC
 
 import (
+	"sync"
+
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/AwsCryptographyMaterialProvidersTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/LocalCMC"
 	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
-	"sync"
 )
 
 type SynchronizedLocalCMC struct {

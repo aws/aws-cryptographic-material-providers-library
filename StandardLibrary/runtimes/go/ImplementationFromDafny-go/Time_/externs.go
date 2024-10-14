@@ -3,7 +3,7 @@ package _Time
 import (
 	"time"
 
-	"github.com/dafny-lang/DafnyRuntimeGo/dafny"
+	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
 )
 

@@ -5,7 +5,7 @@ import (
 	os "os"
 	"path/filepath"
 
-	_dafny "github.com/dafny-lang/DafnyRuntimeGo/dafny"
+	_dafny "github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 )
 
 func (_static CompanionStruct_Default___) INTERNAL_ReadBytesFromFile(path _dafny.Sequence) (isError bool, bytesRead _dafny.Sequence, errorMsg _dafny.Sequence) {

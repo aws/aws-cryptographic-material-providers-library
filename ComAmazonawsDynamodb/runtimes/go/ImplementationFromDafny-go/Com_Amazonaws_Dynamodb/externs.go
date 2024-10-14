@@ -7,7 +7,7 @@ import (
 	"github.com/aws/aws-cryptographic-material-providers-library/dynamodb/DynamoDBwrapped"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
-	_dafny "github.com/dafny-lang/DafnyRuntimeGo/dafny"
+	_dafny "github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
 )
 
@@ -17,7 +17,9 @@ func (_static *CompanionStruct_Default___) DynamoDBClient() Wrappers.Result {
 		return Wrappers.Companion_Result_.Create_Failure_(ComAmazonawsDynamodbTypes.Companion_Error_.Create_InternalServerError_(Wrappers.Companion_Option_.Create_Some_(_dafny.SeqOfChars([]_dafny.Char(err.Error())...))))
 
 	}
-	return Wrappers.Companion_Result_.Create_Success_(&DynamoDBwrapped.Shim{Client: dynamodb.NewFromConfig(cfg, func(o *dynamodb.Options) {})})
+	return Wrappers.Companion_Result_.Create_Success_(&DynamoDBwrapped.Shim{Client: dynamodb.NewFromConfig(cfg, func(o *dynamodb.Options) {
+		o.Region = "us-west-2"
+	})})
 }
 
 func (_static *CompanionStruct_Default___) DDBClientForRegion(regionInput _dafny.Sequence) Wrappers.Result {
