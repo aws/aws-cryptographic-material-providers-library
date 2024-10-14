@@ -7,8 +7,8 @@ ENABLE_EXTERN_PROCESSING=1
 include ../SharedMakefileV2.mk
 
 PROJECT_SERVICES := \
-	AwsCryptographicMaterialProviders \
 	AwsCryptographyKeyStore \
+	AwsCryptographicMaterialProviders \
 
 SERVICE_NAMESPACE_AwsCryptographicMaterialProviders=aws.cryptography.materialProviders
 SERVICE_NAMESPACE_AwsCryptographyKeyStore=aws.cryptography.keyStore
@@ -66,9 +66,7 @@ MPL_CORE_TYPES_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.crypto
 MPL_CORE_TYPES_FILE_WITHOUT_EXTERN_STRING="module AwsCryptographyMaterialProvidersTypes"
 
 MPL_CORE_INDEX_FILE_PATH=dafny/AwsCryptographicMaterialProviders/src/Index.dfy
-MPL_CORE_INDEX_FILE_WITH_EXTERN_STRING="module\
-                                                                                 {:extern \"software.amazon.cryptography.materialproviders.internaldafny\" }\
-                                                                                 MaterialProviders refines AbstractAwsCryptographyMaterialProvidersService"
+MPL_CORE_INDEX_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.materialproviders.internaldafny\" } MaterialProviders refines AbstractAwsCryptographyMaterialProvidersService"
 MPL_CORE_INDEX_FILE_WITHOUT_EXTERN_STRING="module MaterialProviders refines AbstractAwsCryptographyMaterialProvidersService"
 
 KEYSTORE_TYPES_FILE_PATH=dafny/AwsCryptographyKeyStore/Model/AwsCryptographyKeyStoreTypes.dfy
@@ -106,3 +104,20 @@ _sed_index_file_add_extern:
 	$(MAKE) _sed_file SED_FILE_PATH=$(KEYSTORE_INDEX_FILE_PATH) SED_BEFORE_STRING=$(KEYSTORE_INDEX_FILE_WITHOUT_EXTERN_STRING) SED_AFTER_STRING=$(KEYSTORE_INDEX_FILE_WITH_EXTERN_STRING)
 	$(MAKE) _sed_file SED_FILE_PATH=$(SYNCHRONIZED_LOCAL_CMC_FILE_PATH) SED_BEFORE_STRING=$(SYNCHRONIZED_LOCAL_CMC_WITHOUT_EXTERN_STRING) SED_AFTER_STRING=$(SYNCHRONIZED_LOCAL_CMC_WITH_EXTERN_STRING)
 	$(MAKE) _sed_file SED_FILE_PATH=$(STORM_TRACKING_CMC_FILE_PATH) SED_BEFORE_STRING=$(STORM_TRACKING_CMC_WITHOUT_EXTERN_STRING) SED_AFTER_STRING=$(STORM_TRACKING_CMC_WITH_EXTERN_STRING)
+
+# Python
+
+PYTHON_MODULE_NAME=aws_cryptographic_materialproviders
+
+TRANSLATION_RECORD_PYTHON := \
+    --translation-record ../StandardLibrary/runtimes/python/src/smithy_dafny_standard_library/internaldafny/generated/dafny_src-py.dtr \
+    --translation-record ../ComAmazonawsKms/runtimes/python/src/aws_cryptography_internal_kms/internaldafny/generated/dafny_src-py.dtr \
+    --translation-record ../ComAmazonawsDynamodb/runtimes/python/src/aws_cryptography_internal_dynamodb/internaldafny/generated/dafny_src-py.dtr \
+    --translation-record ../AwsCryptographyPrimitives/runtimes/python/src/aws_cryptography_primitives/internaldafny/generated/dafny_src-py.dtr
+
+PYTHON_DEPENDENCY_MODULE_NAMES := \
+	--dependency-library-name=aws.cryptography.primitives=aws_cryptography_primitives \
+	--dependency-library-name=com.amazonaws.kms=aws_cryptography_internal_kms \
+	--dependency-library-name=com.amazonaws.dynamodb=aws_cryptography_internal_dynamodb \
+	--dependency-library-name=aws.cryptography.materialProviders=aws_cryptographic_materialproviders \
+	--dependency-library-name=aws.cryptography.keyStore=aws_cryptographic_materialproviders \

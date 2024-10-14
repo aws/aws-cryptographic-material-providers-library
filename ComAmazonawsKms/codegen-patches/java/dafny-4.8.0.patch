@@ -2065,21 +2065,6 @@ index 5e894e4e..9d02d333 100644
      return new ImportKeyMaterialRequest(
        keyId,
        importToken,
-@@ -2823,7 +2300,13 @@ public class ToDafny {
- 
-   public static DafnySequence<
-     ? extends KeyAgreementAlgorithmSpec
--  > KeyAgreementAlgorithmSpecList(List<String> nativeValue) {
-+    // BEGIN MANUAL EDIT
-+  > KeyAgreementAlgorithmSpecList(
-+    List<
-+      software.amazon.awssdk.services.kms.model.KeyAgreementAlgorithmSpec
-+    > nativeValue
-+  ) {
-+    // END MANUAL EDIT
-     return software.amazon.smithy.dafny.conversion.ToDafny.Aggregate.GenericToSequence(
-       nativeValue,
-       software.amazon.cryptography.services.kms.internaldafny.ToDafny::KeyAgreementAlgorithmSpec,
 @@ -2848,26 +2331,20 @@ public class ToDafny {
      keyId =
        Objects.nonNull(nativeValue.keyId())
@@ -2767,7 +2752,7 @@ index 5e894e4e..9d02d333 100644
      return new ListResourceTagsRequest(keyId, limit, marker);
    }
  
-@@ -3539,35 +2876,29 @@ public class ToDafny {
+@@ -3539,31 +2876,23 @@ public class ToDafny {
      Option<DafnySequence<? extends Tag>> tags;
      tags =
        (Objects.nonNull(nativeValue.tags()) && nativeValue.tags().size() > 0)
@@ -2804,13 +2789,6 @@ index 5e894e4e..9d02d333 100644
    }
  
    public static DafnySequence<? extends MacAlgorithmSpec> MacAlgorithmSpecList(
--    List<String> nativeValue
-+    // BEGIN MANUAL EDIT
-+    List<software.amazon.awssdk.services.kms.model.MacAlgorithmSpec> nativeValue
-+    // END MANUAL EDIT
-   ) {
-     return software.amazon.smithy.dafny.conversion.ToDafny.Aggregate.GenericToSequence(
-       nativeValue,
 @@ -3583,29 +2914,22 @@ public class ToDafny {
      multiRegionKeyType =
        Objects.nonNull(nativeValue.multiRegionKeyType())

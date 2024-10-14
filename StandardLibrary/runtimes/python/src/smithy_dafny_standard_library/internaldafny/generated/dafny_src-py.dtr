@@ -1,0 +1,251 @@
+file_format_version = "1.0"
+dafny_version = "4.8.0.0"
+[options_by_module.Wrappers]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.Relations]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."Seq.MergeSort"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.Math]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.Seq]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.BoundedInts]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.AbstractUnicodeStrings]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.Unicode]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.Functions]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.UnicodeEncodingForm]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.Utf8EncodingForm]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.Utf16EncodingForm]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.UnicodeStrings]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.FileIO]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.GeneralInternals]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.MulInternalsNonlinear]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.MulInternals]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.Mul]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.ModInternalsNonlinear]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.DivInternalsNonlinear]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.ModInternals]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.DivInternals]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.DivMod]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.Power]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.Logarithm]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.StandardLibraryInterop]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."StandardLibrary.UInt"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."StandardLibrary.String"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.StandardLibrary]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.UUID]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.UTF8]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.Time]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.Streams]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.Sorting]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.SortedSets]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.HexStrings]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.GetOpt]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.FloatCompare]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.ConcurrentCall]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.Base64]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.Base64Lemmas]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.Actions]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.DafnyLibraries]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Views.Core"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Views.Writers"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Lexers.Core"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Lexers.Strings"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Cursors"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Parsers"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Str.ParametricConversion"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Str.ParametricEscaping"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Str.CharStrConversion"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Str.CharStrEscaping"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Str"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Seq"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Vectors"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.Errors"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.Values"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.Spec"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.Grammar"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.Serializer.ByteStrConversion"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.Serializer"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.Deserializer.Uint16StrConversion"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.Deserializer.ByteStrConversion"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.Deserializer"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.ConcreteSyntax.Spec"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.ConcreteSyntax.SpecProperties"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Serializer"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.Core"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.SequenceParams"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.Sequences"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.Strings"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.Numbers"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.ObjectParams"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.Objects"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.ArrayParams"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.Arrays"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.Constants"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.Values"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.API"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.API"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."JSON.API"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
