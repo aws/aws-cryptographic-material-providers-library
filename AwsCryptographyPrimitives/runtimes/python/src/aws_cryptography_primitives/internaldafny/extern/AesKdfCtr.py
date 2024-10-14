@@ -25,10 +25,12 @@ class default__(aws_cryptography_primitives.internaldafny.generated.AesKdfCtr.de
       ciphertext = encryptor.update(plaintext) + encryptor.finalize()
     except ValueError:
       return Wrappers.Result_Failure(Error_Opaque(
+        "Cannot finalize an encryptor when the plaintext data is not a multiple of the algorithm block size",
         "Cannot finalize an encryptor when the plaintext data is not a multiple of the algorithm block size"
       ))
     except AlreadyFinalized:
       return Wrappers.Result_Failure(Error_Opaque(
+        "Cannot update or finalize an encryptor which was already finalized",
         "Cannot update or finalize an encryptor which was already finalized"
       ))
     return Wrappers.Result_Success(_dafny.Seq(ciphertext))
