@@ -7,16 +7,16 @@ namespace AWS.Cryptography.KeyStore
 {
   public class QueryForVersionsOutput
   {
-    private System.IO.MemoryStream _pageIndex;
+    private System.IO.MemoryStream _exclusiveStartKey;
     private System.Collections.Generic.List<AWS.Cryptography.KeyStore.EncryptedHierarchicalKey> _items;
-    public System.IO.MemoryStream PageIndex
+    public System.IO.MemoryStream ExclusiveStartKey
     {
-      get { return this._pageIndex; }
-      set { this._pageIndex = value; }
+      get { return this._exclusiveStartKey; }
+      set { this._exclusiveStartKey = value; }
     }
-    public bool IsSetPageIndex()
+    public bool IsSetExclusiveStartKey()
     {
-      return this._pageIndex != null;
+      return this._exclusiveStartKey != null;
     }
     public System.Collections.Generic.List<AWS.Cryptography.KeyStore.EncryptedHierarchicalKey> Items
     {
@@ -29,7 +29,7 @@ namespace AWS.Cryptography.KeyStore
     }
     public void Validate()
     {
-      if (!IsSetPageIndex()) throw new System.ArgumentException("Missing value for required property 'PageIndex'");
+      if (!IsSetExclusiveStartKey()) throw new System.ArgumentException("Missing value for required property 'ExclusiveStartKey'");
       if (!IsSetItems()) throw new System.ArgumentException("Missing value for required property 'Items'");
 
     }

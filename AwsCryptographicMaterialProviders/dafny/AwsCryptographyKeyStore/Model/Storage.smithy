@@ -491,7 +491,7 @@ structure QueryForVersionsInput {
   see Amazon DynamoDB's defination of exclusiveStartKey for details.
   Note: While the Default Storage is DDB,
   the Key Store transforms the exclusiveStartKey into an opaque representation.")
-  PageIndex: Blob
+  ExclusiveStartKey: Blob
   @required
   @documentation("The Identifier of the Branch Key.")
   Identifier: String
@@ -509,7 +509,7 @@ structure QueryForVersionsOutput {
   Note: While the Default Storage is DDB,
   the Key Store transforms the exclusiveStartKey into an opaque representation.")
   @required
-  PageIndex: Blob
+  ExclusiveStartKey: Blob
   @documentation("Up to pageSize list of version (decrypt only) items of a Branch Key.")
   @required
   Items: EncryptedHierarchicalKeys

@@ -512,26 +512,26 @@ namespace AWS.Cryptography.KeyStore
     }
     public static AWS.Cryptography.KeyStore.QueryForVersionsInput FromDafny_N3_aws__N12_cryptography__N8_keyStore__S21_QueryForVersionsInput(software.amazon.cryptography.keystore.internaldafny.types._IQueryForVersionsInput value)
     {
-      software.amazon.cryptography.keystore.internaldafny.types.QueryForVersionsInput concrete = (software.amazon.cryptography.keystore.internaldafny.types.QueryForVersionsInput)value; AWS.Cryptography.KeyStore.QueryForVersionsInput converted = new AWS.Cryptography.KeyStore.QueryForVersionsInput(); if (concrete._PageIndex.is_Some) converted.PageIndex = (System.IO.MemoryStream)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S21_QueryForVersionsInput__M9_PageIndex(concrete._PageIndex);
+      software.amazon.cryptography.keystore.internaldafny.types.QueryForVersionsInput concrete = (software.amazon.cryptography.keystore.internaldafny.types.QueryForVersionsInput)value; AWS.Cryptography.KeyStore.QueryForVersionsInput converted = new AWS.Cryptography.KeyStore.QueryForVersionsInput(); if (concrete._ExclusiveStartKey.is_Some) converted.ExclusiveStartKey = (System.IO.MemoryStream)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S21_QueryForVersionsInput__M17_ExclusiveStartKey(concrete._ExclusiveStartKey);
       converted.Identifier = (string)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S21_QueryForVersionsInput__M10_Identifier(concrete._Identifier);
       converted.PageSize = (int)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S21_QueryForVersionsInput__M8_PageSize(concrete._PageSize); return converted;
     }
     public static software.amazon.cryptography.keystore.internaldafny.types._IQueryForVersionsInput ToDafny_N3_aws__N12_cryptography__N8_keyStore__S21_QueryForVersionsInput(AWS.Cryptography.KeyStore.QueryForVersionsInput value)
     {
       value.Validate();
-      System.IO.MemoryStream var_pageIndex = value.IsSetPageIndex() ? value.PageIndex : (System.IO.MemoryStream)null;
-      return new software.amazon.cryptography.keystore.internaldafny.types.QueryForVersionsInput(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S21_QueryForVersionsInput__M9_PageIndex(var_pageIndex), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S21_QueryForVersionsInput__M10_Identifier(value.Identifier), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S21_QueryForVersionsInput__M8_PageSize(value.PageSize));
+      System.IO.MemoryStream var_exclusiveStartKey = value.IsSetExclusiveStartKey() ? value.ExclusiveStartKey : (System.IO.MemoryStream)null;
+      return new software.amazon.cryptography.keystore.internaldafny.types.QueryForVersionsInput(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S21_QueryForVersionsInput__M17_ExclusiveStartKey(var_exclusiveStartKey), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S21_QueryForVersionsInput__M10_Identifier(value.Identifier), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S21_QueryForVersionsInput__M8_PageSize(value.PageSize));
     }
     public static AWS.Cryptography.KeyStore.QueryForVersionsOutput FromDafny_N3_aws__N12_cryptography__N8_keyStore__S22_QueryForVersionsOutput(software.amazon.cryptography.keystore.internaldafny.types._IQueryForVersionsOutput value)
     {
-      software.amazon.cryptography.keystore.internaldafny.types.QueryForVersionsOutput concrete = (software.amazon.cryptography.keystore.internaldafny.types.QueryForVersionsOutput)value; AWS.Cryptography.KeyStore.QueryForVersionsOutput converted = new AWS.Cryptography.KeyStore.QueryForVersionsOutput(); converted.PageIndex = (System.IO.MemoryStream)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S22_QueryForVersionsOutput__M9_PageIndex(concrete._PageIndex);
+      software.amazon.cryptography.keystore.internaldafny.types.QueryForVersionsOutput concrete = (software.amazon.cryptography.keystore.internaldafny.types.QueryForVersionsOutput)value; AWS.Cryptography.KeyStore.QueryForVersionsOutput converted = new AWS.Cryptography.KeyStore.QueryForVersionsOutput(); converted.ExclusiveStartKey = (System.IO.MemoryStream)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S22_QueryForVersionsOutput__M17_ExclusiveStartKey(concrete._ExclusiveStartKey);
       converted.Items = (System.Collections.Generic.List<AWS.Cryptography.KeyStore.EncryptedHierarchicalKey>)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S22_QueryForVersionsOutput__M5_Items(concrete._Items); return converted;
     }
     public static software.amazon.cryptography.keystore.internaldafny.types._IQueryForVersionsOutput ToDafny_N3_aws__N12_cryptography__N8_keyStore__S22_QueryForVersionsOutput(AWS.Cryptography.KeyStore.QueryForVersionsOutput value)
     {
       value.Validate();
 
-      return new software.amazon.cryptography.keystore.internaldafny.types.QueryForVersionsOutput(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S22_QueryForVersionsOutput__M9_PageIndex(value.PageIndex), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S22_QueryForVersionsOutput__M5_Items(value.Items));
+      return new software.amazon.cryptography.keystore.internaldafny.types.QueryForVersionsOutput(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S22_QueryForVersionsOutput__M17_ExclusiveStartKey(value.ExclusiveStartKey), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S22_QueryForVersionsOutput__M5_Items(value.Items));
     }
     public static AWS.Cryptography.KeyStore.Storage FromDafny_N3_aws__N12_cryptography__N8_keyStore__S7_Storage(software.amazon.cryptography.keystore.internaldafny.types._IStorage value)
     {
@@ -1182,11 +1182,11 @@ namespace AWS.Cryptography.KeyStore
     {
       return ToDafny_N6_smithy__N3_api__S6_String(value);
     }
-    public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N8_keyStore__S21_QueryForVersionsInput__M9_PageIndex(Wrappers_Compile._IOption<Dafny.ISequence<byte>> value)
+    public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N8_keyStore__S21_QueryForVersionsInput__M17_ExclusiveStartKey(Wrappers_Compile._IOption<Dafny.ISequence<byte>> value)
     {
       return value.is_None ? (System.IO.MemoryStream)null : FromDafny_N6_smithy__N3_api__S4_Blob(value.Extract());
     }
-    public static Wrappers_Compile._IOption<Dafny.ISequence<byte>> ToDafny_N3_aws__N12_cryptography__N8_keyStore__S21_QueryForVersionsInput__M9_PageIndex(System.IO.MemoryStream value)
+    public static Wrappers_Compile._IOption<Dafny.ISequence<byte>> ToDafny_N3_aws__N12_cryptography__N8_keyStore__S21_QueryForVersionsInput__M17_ExclusiveStartKey(System.IO.MemoryStream value)
     {
       return value == null ? Wrappers_Compile.Option<Dafny.ISequence<byte>>.create_None() : Wrappers_Compile.Option<Dafny.ISequence<byte>>.create_Some(ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value));
     }
@@ -1206,11 +1206,11 @@ namespace AWS.Cryptography.KeyStore
     {
       return ToDafny_N6_smithy__N3_api__S7_Integer(value);
     }
-    public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N8_keyStore__S22_QueryForVersionsOutput__M9_PageIndex(Dafny.ISequence<byte> value)
+    public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N8_keyStore__S22_QueryForVersionsOutput__M17_ExclusiveStartKey(Dafny.ISequence<byte> value)
     {
       return FromDafny_N6_smithy__N3_api__S4_Blob(value);
     }
-    public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N8_keyStore__S22_QueryForVersionsOutput__M9_PageIndex(System.IO.MemoryStream value)
+    public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N8_keyStore__S22_QueryForVersionsOutput__M17_ExclusiveStartKey(System.IO.MemoryStream value)
     {
       return ToDafny_N6_smithy__N3_api__S4_Blob(value);
     }

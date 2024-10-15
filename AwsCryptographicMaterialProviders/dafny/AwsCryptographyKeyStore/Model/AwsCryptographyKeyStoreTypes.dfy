@@ -845,12 +845,12 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   )
   type OverWriteEncryptedHierarchicalKeys = seq<OverWriteEncryptedHierarchicalKey>
   datatype QueryForVersionsInput = | QueryForVersionsInput (
-    nameonly PageIndex: Option<seq<uint8>> := Option.None ,
+    nameonly ExclusiveStartKey: Option<seq<uint8>> := Option.None ,
     nameonly Identifier: string ,
     nameonly PageSize: int32
   )
   datatype QueryForVersionsOutput = | QueryForVersionsOutput (
-    nameonly PageIndex: seq<uint8> ,
+    nameonly ExclusiveStartKey: seq<uint8> ,
     nameonly Items: EncryptedHierarchicalKeys
   )
   type Secret = seq<uint8>

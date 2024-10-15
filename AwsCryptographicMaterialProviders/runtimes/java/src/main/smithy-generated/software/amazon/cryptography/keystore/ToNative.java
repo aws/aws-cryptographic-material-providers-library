@@ -953,10 +953,10 @@ public class ToNative {
   ) {
     QueryForVersionsInput.Builder nativeBuilder =
       QueryForVersionsInput.builder();
-    if (dafnyValue.dtor_PageIndex().is_Some()) {
-      nativeBuilder.PageIndex(
+    if (dafnyValue.dtor_ExclusiveStartKey().is_Some()) {
+      nativeBuilder.ExclusiveStartKey(
         software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
-          dafnyValue.dtor_PageIndex().dtor_value()
+          dafnyValue.dtor_ExclusiveStartKey().dtor_value()
         )
       );
     }
@@ -974,9 +974,9 @@ public class ToNative {
   ) {
     QueryForVersionsOutput.Builder nativeBuilder =
       QueryForVersionsOutput.builder();
-    nativeBuilder.PageIndex(
+    nativeBuilder.ExclusiveStartKey(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
-        dafnyValue.dtor_PageIndex()
+        dafnyValue.dtor_ExclusiveStartKey()
       )
     );
     nativeBuilder.Items(
