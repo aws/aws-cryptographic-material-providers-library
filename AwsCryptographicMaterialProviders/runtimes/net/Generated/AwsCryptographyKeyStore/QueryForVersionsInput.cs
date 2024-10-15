@@ -7,17 +7,17 @@ namespace AWS.Cryptography.KeyStore
 {
   public class QueryForVersionsInput
   {
-    private System.IO.MemoryStream _pageIndex;
+    private System.IO.MemoryStream _exclusiveStartKey;
     private string _identifier;
     private int? _pageSize;
-    public System.IO.MemoryStream PageIndex
+    public System.IO.MemoryStream ExclusiveStartKey
     {
-      get { return this._pageIndex; }
-      set { this._pageIndex = value; }
+      get { return this._exclusiveStartKey; }
+      set { this._exclusiveStartKey = value; }
     }
-    public bool IsSetPageIndex()
+    public bool IsSetExclusiveStartKey()
     {
-      return this._pageIndex != null;
+      return this._exclusiveStartKey != null;
     }
     public string Identifier
     {

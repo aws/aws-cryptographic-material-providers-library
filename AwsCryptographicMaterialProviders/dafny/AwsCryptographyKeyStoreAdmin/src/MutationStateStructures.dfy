@@ -6,6 +6,7 @@ include "../../../../libraries/src/Collections/Maps/Maps.dfy"
 include "../../../../libraries/src/JSON/API.dfy"
 include "../../../../libraries/src/JSON/Errors.dfy"
 include "../../../../libraries/src/JSON/Values.dfy"
+include "MutationIndexUtils.dfy"
 
 /** Mutation State Structures describe the Mutable Branch Key Properties that can be changed by Mutaiton. **/
 /** Methods here normialize these descriptions so they may be compared. **/
@@ -30,6 +31,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   import JSON = JSON.API
   import JSONErrors = JSON.Errors
   import JSONValues = JSON.Values
+  import MutationIndexUtils
 
   const MUTABLE_PROPERTY_COUNT: int := 2
   const MUTABLE_PROPERTY_COUNT_str := "2"
@@ -64,9 +66,27 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     Original: MutableProperties,
     Terminal: MutableProperties,
     CreateTime: string,
-    ExclusiveStartKey: Option<seq<uint8>> := Option.None ,
-    UUID: Option<string> := Option.None
+    ExclusiveStartKey: MutationIndexUtils.ExclusiveStartKey := Option.None ,
+    UUID: string
   )
+
+  /** The Lock & Index are persisted to the storage by Initialize. **/
+  /** The Lock & Index are read by Apply. **/
+  /** The Index is updated by Apply. **/
+  /** Both are deleted when the Mutation is completed by Apply. **/
+  datatype LockAndIndex = LockAndIndex(
+    Lock: KeyStoreTypes.MutationLock,
+    Index: KeyStoreTypes.MutationIndex
+  )
+  {
+    /** The Lock & Index MUST always have the same Identifier & UUID. **/
+    /** They MAY NOT have the same CreateTime. **/
+    ghost predicate ValidState()
+    {
+      && Lock.Identifier == Index.Identifier
+      && Lock.UUID == Index.UUID
+    }
+  }
 
   predicate MutationToApply?(MutationToApply: MutationToApply)
   {
@@ -142,7 +162,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
 
   function SerializeMutableBranchKeyProperties(
     MutationToApply: MutationToApply
-  ): (output: Result<Types.MutationToken, Types.Error>)
+  ): (output: Result<LockAndIndex, Types.Error>)
     requires MutationToApply?(MutationToApply)
   {
     var OriginalJson
@@ -166,21 +186,27 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
                            (e: JSONErrors.SerializationError)
                            => Types.KeyStoreAdminException(
                                message := "Could not JSON Serialize state: terminal properties. " + e.ToString()));
-    Success(
-      Types.MutationToken(
-        Identifier := MutationToApply.Identifier,
-        Original := originalBytes,
-        Terminal := terminalBytes,
-        ExclusiveStartKey := MutationToApply.ExclusiveStartKey,
-        UUID := MutationToApply.UUID,
-        CreateTime := MutationToApply.CreateTime
-      ))
+    var lock := KeyStoreTypes.MutationLock(
+                  Identifier := MutationToApply.Identifier,
+                  Original := originalBytes,
+                  Terminal := terminalBytes,
+                  UUID := MutationToApply.UUID,
+                  CreateTime := MutationToApply.CreateTime,
+                  CiphertextBlob := [0] //TODO-Mutations-GA Wire up System Key
+                );
+    var index := KeyStoreTypes.MutationIndex(
+                   Identifier := MutationToApply.Identifier,
+                   PageIndex := MutationIndexUtils.ExclusiveStartKeyToPageIndex(MutationToApply.ExclusiveStartKey),
+                   UUID := MutationToApply.UUID,
+                   CreateTime := MutationToApply.CreateTime,
+                   CiphertextBlob := [0] //TODO-Mutations-GA Wire up System Key
+                 );
+    Success(LockAndIndex(lock, index))
   }
 
-  function DeserializeMutationToken(
-    Token: Types.MutationToken
-  )
-    : (output: Result<MutationToApply, Types.Error>)
+  function DeserializeMutation(
+    lockAndIndex: LockAndIndex
+  ): (output: Result<MutationToApply, Types.Error>)
     ensures output.Success? ==> MutationToApply?(output.value)
   {
     var OriginalJson :- JSON.Deserialize(Token.Original).MapFailure(
@@ -207,7 +233,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
           kmsArn := TerminalJson.obj[1].1.str,
           customEncryptionContext := JSONToEncryptionContextString(TerminalJson.obj[0].1)
         ),
-        ExclusiveStartKey := Token.ExclusiveStartKey,
+        // ExclusiveStartKey := Token.ExclusiveStartKey,
         UUID := Token.UUID,
         CreateTime := Token.CreateTime
       ))

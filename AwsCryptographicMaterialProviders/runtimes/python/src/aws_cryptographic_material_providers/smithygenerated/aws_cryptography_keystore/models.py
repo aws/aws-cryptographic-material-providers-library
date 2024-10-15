@@ -222,167 +222,6 @@ class BranchKeyMaterials:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
-class MutationLock:
-    identifier: str
-    create_time: str
-    uuid: str
-    original: bytes | bytearray
-    terminal: bytes | bytearray
-
-    def __init__(
-        self,
-        *,
-        identifier: str,
-        create_time: str,
-        uuid: str,
-        original: bytes | bytearray,
-        terminal: bytes | bytearray,
-    ):
-        """Information an in-flight Mutation of a Branch Key.
-
-        This ensures:
-        - only one
-        Mutation affects a Branch Key at a time
-        - all items of a Branch Key are
-        mutated consistently
-
-        :param identifier: The Branch Key under Mutation.
-        :param create_time: The create time as an ISO 8061 UTC string.
-        :param uuid: A unique identifier for the Mutation.
-        :param original: A commitment of the Original Mutable Properities of the Branch
-        Key.
-        :param terminal: A commitment of the Terminal Mutable Properities of the Branch
-        Key.
-        """
-        self.identifier = identifier
-        self.create_time = create_time
-        self.uuid = uuid
-        self.original = original
-        self.terminal = terminal
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the MutationLock to a dictionary."""
-        return {
-            "identifier": self.identifier,
-            "create_time": self.create_time,
-            "uuid": self.uuid,
-            "original": self.original,
-            "terminal": self.terminal,
-        }
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "MutationLock":
-        """Creates a MutationLock from a dictionary."""
-        kwargs: Dict[str, Any] = {
-            "identifier": d["identifier"],
-            "create_time": d["create_time"],
-            "uuid": d["uuid"],
-            "original": d["original"],
-            "terminal": d["terminal"],
-        }
-
-        return MutationLock(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "MutationLock("
-        if self.identifier is not None:
-            result += f"identifier={repr(self.identifier)}, "
-
-        if self.create_time is not None:
-            result += f"create_time={repr(self.create_time)}, "
-
-        if self.uuid is not None:
-            result += f"uuid={repr(self.uuid)}, "
-
-        if self.original is not None:
-            result += f"original={repr(self.original)}, "
-
-        if self.terminal is not None:
-            result += f"terminal={repr(self.terminal)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, MutationLock):
-            return False
-        attributes: list[str] = [
-            "identifier",
-            "create_time",
-            "uuid",
-            "original",
-            "terminal",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
-
-class ClobberMutationLockInput:
-    mutation_lock: MutationLock
-
-    def __init__(
-        self,
-        *,
-        mutation_lock: MutationLock,
-    ):
-        """
-        :param mutation_lock: Information an in-flight Mutation of a Branch Key.
-        This
-        ensures:
-        - only one Mutation affects a Branch Key at a time
-        - all items of a
-        Branch Key are mutated consistently
-        """
-        self.mutation_lock = mutation_lock
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the ClobberMutationLockInput to a dictionary."""
-        return {
-            "mutation_lock": self.mutation_lock.as_dict(),
-        }
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "ClobberMutationLockInput":
-        """Creates a ClobberMutationLockInput from a dictionary."""
-        kwargs: Dict[str, Any] = {
-            "mutation_lock": MutationLock.from_dict(d["mutation_lock"]),
-        }
-
-        return ClobberMutationLockInput(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "ClobberMutationLockInput("
-        if self.mutation_lock is not None:
-            result += f"mutation_lock={repr(self.mutation_lock)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, ClobberMutationLockInput):
-            return False
-        attributes: list[str] = [
-            "mutation_lock",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
-
-class ClobberMutationLockOutput:
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the ClobberMutationLockOutput to a dictionary."""
-        return {}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "ClobberMutationLockOutput":
-        """Creates a ClobberMutationLockOutput from a dictionary."""
-        return ClobberMutationLockOutput()
-
-    def __repr__(self) -> str:
-        result = "ClobberMutationLockOutput("
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        return isinstance(other, ClobberMutationLockOutput)
-
-
 class CreateKeyInput:
     branch_key_identifier: Optional[str]
     encryption_context: Optional[dict[str, str]]
@@ -561,6 +400,176 @@ class CreateKeyStoreOutput:
             "table_arn",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class MutationLock:
+    identifier: str
+    create_time: str
+    uuid: str
+    original: bytes | bytearray
+    terminal: bytes | bytearray
+    ciphertext_blob: bytes | bytearray
+
+    def __init__(
+        self,
+        *,
+        identifier: str,
+        create_time: str,
+        uuid: str,
+        original: bytes | bytearray,
+        terminal: bytes | bytearray,
+        ciphertext_blob: bytes | bytearray,
+    ):
+        """Information on an in-flight Mutation of a Branch Key.
+
+        This ensures:
+        - only one
+        Mutation affects a Branch Key at a time
+        - all items of a Branch Key are
+        mutated consistently
+
+        :param identifier: The Branch Key under Mutation.
+        :param create_time: The create time as an ISO 8061 UTC string.
+        :param uuid: A unique identifier for the Mutation.
+        :param original: A commitment of the Original Mutable Properities of the Branch
+        Key.
+        :param terminal: A commitment of the Terminal Mutable Properities of the Branch
+        Key.
+        """
+        self.identifier = identifier
+        self.create_time = create_time
+        self.uuid = uuid
+        self.original = original
+        self.terminal = terminal
+        self.ciphertext_blob = ciphertext_blob
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the MutationLock to a dictionary."""
+        return {
+            "identifier": self.identifier,
+            "create_time": self.create_time,
+            "uuid": self.uuid,
+            "original": self.original,
+            "terminal": self.terminal,
+            "ciphertext_blob": self.ciphertext_blob,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "MutationLock":
+        """Creates a MutationLock from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "identifier": d["identifier"],
+            "create_time": d["create_time"],
+            "uuid": d["uuid"],
+            "original": d["original"],
+            "terminal": d["terminal"],
+            "ciphertext_blob": d["ciphertext_blob"],
+        }
+
+        return MutationLock(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "MutationLock("
+        if self.identifier is not None:
+            result += f"identifier={repr(self.identifier)}, "
+
+        if self.create_time is not None:
+            result += f"create_time={repr(self.create_time)}, "
+
+        if self.uuid is not None:
+            result += f"uuid={repr(self.uuid)}, "
+
+        if self.original is not None:
+            result += f"original={repr(self.original)}, "
+
+        if self.terminal is not None:
+            result += f"terminal={repr(self.terminal)}, "
+
+        if self.ciphertext_blob is not None:
+            result += f"ciphertext_blob={repr(self.ciphertext_blob)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, MutationLock):
+            return False
+        attributes: list[str] = [
+            "identifier",
+            "create_time",
+            "uuid",
+            "original",
+            "terminal",
+            "ciphertext_blob",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class DeleteMutationLockAndIndexInput:
+    mutation_lock: MutationLock
+
+    def __init__(
+        self,
+        *,
+        mutation_lock: MutationLock,
+    ):
+        """
+        :param mutation_lock: Information on an in-flight Mutation of a Branch Key.
+        This
+        ensures:
+        - only one Mutation affects a Branch Key at a time
+        - all items of a
+        Branch Key are mutated consistently
+        """
+        self.mutation_lock = mutation_lock
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the DeleteMutationLockAndIndexInput to a dictionary."""
+        return {
+            "mutation_lock": self.mutation_lock.as_dict(),
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "DeleteMutationLockAndIndexInput":
+        """Creates a DeleteMutationLockAndIndexInput from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "mutation_lock": MutationLock.from_dict(d["mutation_lock"]),
+        }
+
+        return DeleteMutationLockAndIndexInput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "DeleteMutationLockAndIndexInput("
+        if self.mutation_lock is not None:
+            result += f"mutation_lock={repr(self.mutation_lock)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, DeleteMutationLockAndIndexInput):
+            return False
+        attributes: list[str] = [
+            "mutation_lock",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class DeleteMutationLockAndIndexOutput:
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the DeleteMutationLockAndIndexOutput to a dictionary."""
+        return {}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "DeleteMutationLockAndIndexOutput":
+        """Creates a DeleteMutationLockAndIndexOutput from a dictionary."""
+        return DeleteMutationLockAndIndexOutput()
+
+    def __repr__(self) -> str:
+        result = "DeleteMutationLockAndIndexOutput("
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        return isinstance(other, DeleteMutationLockAndIndexOutput)
 
 
 class Discovery:
@@ -1489,10 +1498,94 @@ class GetItemsForInitializeMutationInput:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
+class MutationIndex:
+    identifier: str
+    create_time: str
+    uuid: str
+    page_index: bytes | bytearray
+    ciphertext_blob: bytes | bytearray
+
+    def __init__(
+        self,
+        *,
+        identifier: str,
+        create_time: str,
+        uuid: str,
+        page_index: bytes | bytearray,
+        ciphertext_blob: bytes | bytearray,
+    ):
+        """Information on an in-flight Mutation of a Branch Key.
+
+        :param identifier: The Branch Key under Mutation.
+        :param create_time: The create time as an ISO 8061 UTC string.
+        :param uuid: A unique identifier for the Mutation.
+        """
+        self.identifier = identifier
+        self.create_time = create_time
+        self.uuid = uuid
+        self.page_index = page_index
+        self.ciphertext_blob = ciphertext_blob
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the MutationIndex to a dictionary."""
+        return {
+            "identifier": self.identifier,
+            "create_time": self.create_time,
+            "uuid": self.uuid,
+            "page_index": self.page_index,
+            "ciphertext_blob": self.ciphertext_blob,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "MutationIndex":
+        """Creates a MutationIndex from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "identifier": d["identifier"],
+            "create_time": d["create_time"],
+            "uuid": d["uuid"],
+            "page_index": d["page_index"],
+            "ciphertext_blob": d["ciphertext_blob"],
+        }
+
+        return MutationIndex(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "MutationIndex("
+        if self.identifier is not None:
+            result += f"identifier={repr(self.identifier)}, "
+
+        if self.create_time is not None:
+            result += f"create_time={repr(self.create_time)}, "
+
+        if self.uuid is not None:
+            result += f"uuid={repr(self.uuid)}, "
+
+        if self.page_index is not None:
+            result += f"page_index={repr(self.page_index)}, "
+
+        if self.ciphertext_blob is not None:
+            result += f"ciphertext_blob={repr(self.ciphertext_blob)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, MutationIndex):
+            return False
+        attributes: list[str] = [
+            "identifier",
+            "create_time",
+            "uuid",
+            "page_index",
+            "ciphertext_blob",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
 class GetItemsForInitializeMutationOutput:
     active_item: EncryptedHierarchicalKey
     beacon_item: EncryptedHierarchicalKey
     mutation_lock: Optional[MutationLock]
+    mutation_index: Optional[MutationIndex]
 
     def __init__(
         self,
@@ -1500,15 +1593,18 @@ class GetItemsForInitializeMutationOutput:
         active_item: EncryptedHierarchicalKey,
         beacon_item: EncryptedHierarchicalKey,
         mutation_lock: Optional[MutationLock] = None,
+        mutation_index: Optional[MutationIndex] = None,
     ):
         """
         :param active_item: The materials for the Branch Key.
         :param beacon_item: The materials for the Beacon Key.
         :param mutation_lock: The Mutation Lock, if it exists.
+        :param mutation_index: A Mutation Index, if it exists.
         """
         self.active_item = active_item
         self.beacon_item = beacon_item
         self.mutation_lock = mutation_lock
+        self.mutation_index = mutation_index
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the GetItemsForInitializeMutationOutput to a dictionary."""
@@ -1519,6 +1615,9 @@ class GetItemsForInitializeMutationOutput:
 
         if self.mutation_lock is not None:
             d["mutation_lock"] = self.mutation_lock.as_dict()
+
+        if self.mutation_index is not None:
+            d["mutation_index"] = self.mutation_index.as_dict()
 
         return d
 
@@ -1533,6 +1632,9 @@ class GetItemsForInitializeMutationOutput:
         if "mutation_lock" in d:
             kwargs["mutation_lock"] = MutationLock.from_dict(d["mutation_lock"])
 
+        if "mutation_index" in d:
+            kwargs["mutation_index"] = MutationIndex.from_dict(d["mutation_index"])
+
         return GetItemsForInitializeMutationOutput(**kwargs)
 
     def __repr__(self) -> str:
@@ -1544,7 +1646,10 @@ class GetItemsForInitializeMutationOutput:
             result += f"beacon_item={repr(self.beacon_item)}, "
 
         if self.mutation_lock is not None:
-            result += f"mutation_lock={repr(self.mutation_lock)}"
+            result += f"mutation_lock={repr(self.mutation_lock)}, "
+
+        if self.mutation_index is not None:
+            result += f"mutation_index={repr(self.mutation_index)}"
 
         return result + ")"
 
@@ -1555,6 +1660,7 @@ class GetItemsForInitializeMutationOutput:
             "active_item",
             "beacon_item",
             "mutation_lock",
+            "mutation_index",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
@@ -2058,6 +2164,114 @@ class GetMutationLockOutput:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
+class GetMutationLockAndIndexInput:
+    identifier: str
+
+    def __init__(
+        self,
+        *,
+        identifier: str,
+    ):
+        self.identifier = identifier
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the GetMutationLockAndIndexInput to a dictionary."""
+        return {
+            "identifier": self.identifier,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "GetMutationLockAndIndexInput":
+        """Creates a GetMutationLockAndIndexInput from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "identifier": d["identifier"],
+        }
+
+        return GetMutationLockAndIndexInput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "GetMutationLockAndIndexInput("
+        if self.identifier is not None:
+            result += f"identifier={repr(self.identifier)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, GetMutationLockAndIndexInput):
+            return False
+        attributes: list[str] = [
+            "identifier",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class GetMutationLockAndIndexOutput:
+    mutation_lock: Optional[MutationLock]
+    mutation_index: Optional[MutationIndex]
+
+    def __init__(
+        self,
+        *,
+        mutation_lock: Optional[MutationLock] = None,
+        mutation_index: Optional[MutationIndex] = None,
+    ):
+        """
+        :param mutation_lock: Information on an in-flight Mutation of a Branch Key.
+        This
+        ensures:
+        - only one Mutation affects a Branch Key at a time
+        - all items of a
+        Branch Key are mutated consistently
+        :param mutation_index: Information on an in-flight Mutation of a Branch Key.
+        """
+        self.mutation_lock = mutation_lock
+        self.mutation_index = mutation_index
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the GetMutationLockAndIndexOutput to a dictionary."""
+        d: Dict[str, Any] = {}
+
+        if self.mutation_lock is not None:
+            d["mutation_lock"] = self.mutation_lock.as_dict()
+
+        if self.mutation_index is not None:
+            d["mutation_index"] = self.mutation_index.as_dict()
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "GetMutationLockAndIndexOutput":
+        """Creates a GetMutationLockAndIndexOutput from a dictionary."""
+        kwargs: Dict[str, Any] = {}
+
+        if "mutation_lock" in d:
+            kwargs["mutation_lock"] = MutationLock.from_dict(d["mutation_lock"])
+
+        if "mutation_index" in d:
+            kwargs["mutation_index"] = MutationIndex.from_dict(d["mutation_index"])
+
+        return GetMutationLockAndIndexOutput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "GetMutationLockAndIndexOutput("
+        if self.mutation_lock is not None:
+            result += f"mutation_lock={repr(self.mutation_lock)}, "
+
+        if self.mutation_index is not None:
+            result += f"mutation_index={repr(self.mutation_index)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, GetMutationLockAndIndexOutput):
+            return False
+        attributes: list[str] = [
+            "mutation_lock",
+            "mutation_index",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
 class QueryForVersionsInput:
     exclusive_start_key: Optional[bytes | bytearray]
     identifier: str
@@ -2202,21 +2416,153 @@ class QueryForVersionsOutput:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
-class WriteInitializeMutationInput:
-    active: EncryptedHierarchicalKey
-    old_active: EncryptedHierarchicalKey
-    version: EncryptedHierarchicalKey
-    beacon: EncryptedHierarchicalKey
-    mutation_lock: MutationLock
+class UpdateMutationIndexInput:
+    mutation_index: MutationIndex
+    old_mutation_index: MutationIndex
 
     def __init__(
         self,
         *,
-        active: EncryptedHierarchicalKey,
-        old_active: EncryptedHierarchicalKey,
+        mutation_index: MutationIndex,
+        old_mutation_index: MutationIndex,
+    ):
+        """
+        :param mutation_index: Information on an in-flight Mutation of a Branch Key.
+        :param old_mutation_index: Information on an in-flight Mutation of a Branch Key.
+        """
+        self.mutation_index = mutation_index
+        self.old_mutation_index = old_mutation_index
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the UpdateMutationIndexInput to a dictionary."""
+        return {
+            "mutation_index": self.mutation_index.as_dict(),
+            "old_mutation_index": self.old_mutation_index.as_dict(),
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "UpdateMutationIndexInput":
+        """Creates a UpdateMutationIndexInput from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "mutation_index": MutationIndex.from_dict(d["mutation_index"]),
+            "old_mutation_index": MutationIndex.from_dict(d["old_mutation_index"]),
+        }
+
+        return UpdateMutationIndexInput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "UpdateMutationIndexInput("
+        if self.mutation_index is not None:
+            result += f"mutation_index={repr(self.mutation_index)}, "
+
+        if self.old_mutation_index is not None:
+            result += f"old_mutation_index={repr(self.old_mutation_index)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, UpdateMutationIndexInput):
+            return False
+        attributes: list[str] = [
+            "mutation_index",
+            "old_mutation_index",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class UpdateMutationIndexOutput:
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the UpdateMutationIndexOutput to a dictionary."""
+        return {}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "UpdateMutationIndexOutput":
+        """Creates a UpdateMutationIndexOutput from a dictionary."""
+        return UpdateMutationIndexOutput()
+
+    def __repr__(self) -> str:
+        result = "UpdateMutationIndexOutput("
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        return isinstance(other, UpdateMutationIndexOutput)
+
+
+class OverWriteEncryptedHierarchicalKey:
+    item: EncryptedHierarchicalKey
+    old: EncryptedHierarchicalKey
+
+    def __init__(
+        self,
+        *,
+        item: EncryptedHierarchicalKey,
+        old: EncryptedHierarchicalKey,
+    ):
+        """To avoid information loss, overwrites to a EncryptedHierarchicalKey
+        are done conditioned on the old value.
+
+        :param item: Information about an encrypted hierarchical key.
+            This abstracts the structure of this information from the
+            underlying storage.
+        :param old: The previous itme. Used to construct an optimistic
+            lock for the overwrite.
+        """
+        self.item = item
+        self.old = old
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the OverWriteEncryptedHierarchicalKey to a dictionary."""
+        return {
+            "item": self.item.as_dict(),
+            "old": self.old.as_dict(),
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "OverWriteEncryptedHierarchicalKey":
+        """Creates a OverWriteEncryptedHierarchicalKey from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "item": EncryptedHierarchicalKey.from_dict(d["item"]),
+            "old": EncryptedHierarchicalKey.from_dict(d["old"]),
+        }
+
+        return OverWriteEncryptedHierarchicalKey(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "OverWriteEncryptedHierarchicalKey("
+        if self.item is not None:
+            result += f"item={repr(self.item)}, "
+
+        if self.old is not None:
+            result += f"old={repr(self.old)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, OverWriteEncryptedHierarchicalKey):
+            return False
+        attributes: list[str] = [
+            "item",
+            "old",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class WriteInitializeMutationInput:
+    active: OverWriteEncryptedHierarchicalKey
+    version: EncryptedHierarchicalKey
+    beacon: OverWriteEncryptedHierarchicalKey
+    mutation_lock: MutationLock
+    mutation_index: MutationIndex
+
+    def __init__(
+        self,
+        *,
+        active: OverWriteEncryptedHierarchicalKey,
         version: EncryptedHierarchicalKey,
-        beacon: EncryptedHierarchicalKey,
+        beacon: OverWriteEncryptedHierarchicalKey,
         mutation_lock: MutationLock,
+        mutation_index: MutationIndex,
     ):
         """
         :param active:
@@ -2225,14 +2571,6 @@ class WriteInitializeMutationInput:
         the Mutation's terminal properities.
           The plain-text cryptographic material
         of the Active must be the same as the Version.
-        :param old_active:
-          The previous active version.
-          This key should be used as
-        an optimistic lock on the new version.
-          This means that when updating the
-        current active record
-          the existing active record should be equal to this
-        value.
         :param version:
           The decrypt representation of this branch key version,
 
@@ -2245,38 +2583,39 @@ class WriteInitializeMutationInput:
         The cryptographic material is identical to the existing beacon,
           but is now
         authorized with the Mutation's terminal properities.
-        :param mutation_lock: Information an in-flight Mutation of a Branch Key.
+        :param mutation_lock: Information on an in-flight Mutation of a Branch Key.
         This
         ensures:
         - only one Mutation affects a Branch Key at a time
         - all items of a
         Branch Key are mutated consistently
+        :param mutation_index: Information on an in-flight Mutation of a Branch Key.
         """
         self.active = active
-        self.old_active = old_active
         self.version = version
         self.beacon = beacon
         self.mutation_lock = mutation_lock
+        self.mutation_index = mutation_index
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the WriteInitializeMutationInput to a dictionary."""
         return {
             "active": self.active.as_dict(),
-            "old_active": self.old_active.as_dict(),
             "version": self.version.as_dict(),
             "beacon": self.beacon.as_dict(),
             "mutation_lock": self.mutation_lock.as_dict(),
+            "mutation_index": self.mutation_index.as_dict(),
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "WriteInitializeMutationInput":
         """Creates a WriteInitializeMutationInput from a dictionary."""
         kwargs: Dict[str, Any] = {
-            "active": EncryptedHierarchicalKey.from_dict(d["active"]),
-            "old_active": EncryptedHierarchicalKey.from_dict(d["old_active"]),
+            "active": OverWriteEncryptedHierarchicalKey.from_dict(d["active"]),
             "version": EncryptedHierarchicalKey.from_dict(d["version"]),
-            "beacon": EncryptedHierarchicalKey.from_dict(d["beacon"]),
+            "beacon": OverWriteEncryptedHierarchicalKey.from_dict(d["beacon"]),
             "mutation_lock": MutationLock.from_dict(d["mutation_lock"]),
+            "mutation_index": MutationIndex.from_dict(d["mutation_index"]),
         }
 
         return WriteInitializeMutationInput(**kwargs)
@@ -2286,9 +2625,6 @@ class WriteInitializeMutationInput:
         if self.active is not None:
             result += f"active={repr(self.active)}, "
 
-        if self.old_active is not None:
-            result += f"old_active={repr(self.old_active)}, "
-
         if self.version is not None:
             result += f"version={repr(self.version)}, "
 
@@ -2296,7 +2632,10 @@ class WriteInitializeMutationInput:
             result += f"beacon={repr(self.beacon)}, "
 
         if self.mutation_lock is not None:
-            result += f"mutation_lock={repr(self.mutation_lock)}"
+            result += f"mutation_lock={repr(self.mutation_lock)}, "
+
+        if self.mutation_index is not None:
+            result += f"mutation_index={repr(self.mutation_index)}"
 
         return result + ")"
 
@@ -2305,10 +2644,10 @@ class WriteInitializeMutationInput:
             return False
         attributes: list[str] = [
             "active",
-            "old_active",
             "version",
             "beacon",
             "mutation_lock",
+            "mutation_index",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
@@ -2333,56 +2672,41 @@ class WriteInitializeMutationOutput:
 
 
 class WriteMutatedVersionsInput:
-    items: list[EncryptedHierarchicalKey]
-    identifier: str
-    original: bytes | bytearray
-    terminal: bytes | bytearray
-    complete_mutation: bool
+    items: list[OverWriteEncryptedHierarchicalKey]
+    mutation_lock: MutationLock
 
     def __init__(
         self,
         *,
-        items: list[EncryptedHierarchicalKey],
-        identifier: str,
-        original: bytes | bytearray,
-        terminal: bytes | bytearray,
-        complete_mutation: bool,
+        items: list[OverWriteEncryptedHierarchicalKey],
+        mutation_lock: MutationLock,
     ):
         """
         :param items: List of version (decrypt only) items of a Branch Key to overwrite
         conditionally.
-        :param identifier: The Identifier of the Branch Key.
-        :param original: A commitment of the Original Mutable Properities of the Branch
-        Key.
-        :param terminal: A commitment of the Terminal Mutable Properities of the Branch
-        Key.
-        :param complete_mutation: If set to True, the Mutation Lock will be deleted.
+        :param mutation_lock: Information on an in-flight Mutation of a Branch Key.
+        This
+        ensures:
+        - only one Mutation affects a Branch Key at a time
+        - all items of a
+        Branch Key are mutated consistently
         """
         self.items = items
-        self.identifier = identifier
-        self.original = original
-        self.terminal = terminal
-        self.complete_mutation = complete_mutation
+        self.mutation_lock = mutation_lock
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the WriteMutatedVersionsInput to a dictionary."""
         return {
-            "items": _encrypted_hierarchical_keys_as_dict(self.items),
-            "identifier": self.identifier,
-            "original": self.original,
-            "terminal": self.terminal,
-            "complete_mutation": self.complete_mutation,
+            "items": _over_write_encrypted_hierarchical_keys_as_dict(self.items),
+            "mutation_lock": self.mutation_lock.as_dict(),
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "WriteMutatedVersionsInput":
         """Creates a WriteMutatedVersionsInput from a dictionary."""
         kwargs: Dict[str, Any] = {
-            "items": _encrypted_hierarchical_keys_from_dict(d["items"]),
-            "identifier": d["identifier"],
-            "original": d["original"],
-            "terminal": d["terminal"],
-            "complete_mutation": d["complete_mutation"],
+            "items": _over_write_encrypted_hierarchical_keys_from_dict(d["items"]),
+            "mutation_lock": MutationLock.from_dict(d["mutation_lock"]),
         }
 
         return WriteMutatedVersionsInput(**kwargs)
@@ -2392,17 +2716,8 @@ class WriteMutatedVersionsInput:
         if self.items is not None:
             result += f"items={repr(self.items)}, "
 
-        if self.identifier is not None:
-            result += f"identifier={repr(self.identifier)}, "
-
-        if self.original is not None:
-            result += f"original={repr(self.original)}, "
-
-        if self.terminal is not None:
-            result += f"terminal={repr(self.terminal)}, "
-
-        if self.complete_mutation is not None:
-            result += f"complete_mutation={repr(self.complete_mutation)}"
+        if self.mutation_lock is not None:
+            result += f"mutation_lock={repr(self.mutation_lock)}"
 
         return result + ")"
 
@@ -2411,10 +2726,7 @@ class WriteMutatedVersionsInput:
             return False
         attributes: list[str] = [
             "items",
-            "identifier",
-            "original",
-            "terminal",
-            "complete_mutation",
+            "mutation_lock",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
@@ -2536,16 +2848,14 @@ class WriteNewEncryptedBranchKeyOutput:
 
 
 class WriteNewEncryptedBranchKeyVersionInput:
-    active: EncryptedHierarchicalKey
+    active: OverWriteEncryptedHierarchicalKey
     version: EncryptedHierarchicalKey
-    old_active: EncryptedHierarchicalKey
 
     def __init__(
         self,
         *,
-        active: EncryptedHierarchicalKey,
+        active: OverWriteEncryptedHierarchicalKey,
         version: EncryptedHierarchicalKey,
-        old_active: EncryptedHierarchicalKey,
     ):
         """The information required to atomically write a new version for an
         existing branch key into a key store. The identifiers for all keys
@@ -2562,19 +2872,9 @@ class WriteNewEncryptedBranchKeyVersionInput:
           The
         plain-text cryptographic material of the `Version` must be the same as the
         `Active`.
-
-        :param old_active:
-          The previous active version.
-          This key should be used as
-        an optimistic lock on the new version.
-          This means that when updating the
-        current active record
-          the existing active record should be equal to this
-        value.
         """
         self.active = active
         self.version = version
-        self.old_active = old_active
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the WriteNewEncryptedBranchKeyVersionInput to a
@@ -2582,7 +2882,6 @@ class WriteNewEncryptedBranchKeyVersionInput:
         return {
             "active": self.active.as_dict(),
             "version": self.version.as_dict(),
-            "old_active": self.old_active.as_dict(),
         }
 
     @staticmethod
@@ -2590,9 +2889,8 @@ class WriteNewEncryptedBranchKeyVersionInput:
         """Creates a WriteNewEncryptedBranchKeyVersionInput from a
         dictionary."""
         kwargs: Dict[str, Any] = {
-            "active": EncryptedHierarchicalKey.from_dict(d["active"]),
+            "active": OverWriteEncryptedHierarchicalKey.from_dict(d["active"]),
             "version": EncryptedHierarchicalKey.from_dict(d["version"]),
-            "old_active": EncryptedHierarchicalKey.from_dict(d["old_active"]),
         }
 
         return WriteNewEncryptedBranchKeyVersionInput(**kwargs)
@@ -2603,10 +2901,7 @@ class WriteNewEncryptedBranchKeyVersionInput:
             result += f"active={repr(self.active)}, "
 
         if self.version is not None:
-            result += f"version={repr(self.version)}, "
-
-        if self.old_active is not None:
-            result += f"old_active={repr(self.old_active)}"
+            result += f"version={repr(self.version)}"
 
         return result + ")"
 
@@ -2616,7 +2911,6 @@ class WriteNewEncryptedBranchKeyVersionInput:
         attributes: list[str] = [
             "active",
             "version",
-            "old_active",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
@@ -3005,6 +3299,18 @@ def _storage_from_dict(d: Dict[str, Any]) -> Storage:
         return StorageCustom.from_dict(d)
 
     raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+
+def _over_write_encrypted_hierarchical_keys_as_dict(
+    given: list[OverWriteEncryptedHierarchicalKey],
+) -> List[Any]:
+    return [v.as_dict() for v in given]
+
+
+def _over_write_encrypted_hierarchical_keys_from_dict(
+    given: List[Any],
+) -> list[OverWriteEncryptedHierarchicalKey]:
+    return [OverWriteEncryptedHierarchicalKey.from_dict(v) for v in given]
 
 
 def _encrypted_hierarchical_keys_as_dict(
