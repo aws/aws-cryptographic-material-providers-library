@@ -34,8 +34,8 @@ phases:
           exit 1;
         fi
       - cd ComAmazonawsKms
-      # Build Dafny test source code
-      - make transpile_only_test_python
+      # Build Dafny source code
+      - make transpile_python
   build:
     commands:
       - cd runtimes/python/
