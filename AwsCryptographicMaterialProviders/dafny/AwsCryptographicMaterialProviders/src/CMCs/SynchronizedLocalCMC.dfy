@@ -11,10 +11,16 @@ module {:options "/functionSyntax:4" } {:extern "software.amazon.cryptography.in
   class {:extern} SynchronizedLocalCMC extends Types.ICryptographicMaterialsCache {
 
     ghost predicate ValidState()
-      reads this`Modifies, Modifies - {History}
       ensures ValidState() ==> History in Modifies
     {
       History in Modifies
+    }
+
+    ghost predicate InternalValidState()
+      reads this`InternalModifies, InternalModifies
+      ensures InternalValidState() ==> History !in InternalModifies
+    {
+      && History !in InternalModifies
     }
 
     constructor {:extern} (
@@ -30,10 +36,11 @@ module {:options "/functionSyntax:4" } {:extern "software.amazon.cryptography.in
 
     method {:extern "GetCacheEntry"}  GetCacheEntry'(input: Types.GetCacheEntryInput)
       returns (output: Result<Types.GetCacheEntryOutput, Types.Error>)
-      requires ValidState()
-      modifies Modifies - {History}
-      decreases Modifies - {History}
-      ensures ValidState()
+      requires InternalValidState()
+      modifies InternalModifies
+      decreases InternalModifies
+      ensures InternalValidState()
+
       // ensures output.Failure? ==> input.identifier !in cache
       ensures GetCacheEntryEnsuresPublicly(input, output)
       ensures unchanged(History)
@@ -43,10 +50,11 @@ module {:options "/functionSyntax:4" } {:extern "software.amazon.cryptography.in
 
     method {:extern "PutCacheEntry"} PutCacheEntry' (input: Types.PutCacheEntryInput)
       returns (output: Result<(), Types.Error>)
-      requires ValidState()
-      modifies Modifies - {History}
-      decreases Modifies - {History}
-      ensures ValidState()
+      requires InternalValidState()
+      modifies InternalModifies
+      decreases InternalModifies
+      ensures InternalValidState()
+
       ensures PutCacheEntryEnsuresPublicly(input, output)
       ensures unchanged(History)
 
@@ -55,23 +63,25 @@ module {:options "/functionSyntax:4" } {:extern "software.amazon.cryptography.in
 
     method {:extern "DeleteCacheEntry"} DeleteCacheEntry'(input: Types.DeleteCacheEntryInput)
       returns (output: Result<(), Types.Error>)
-      requires ValidState()
-      modifies Modifies - {History}
-      decreases Modifies - {History}
-      ensures ValidState()
+      requires InternalValidState()
+      modifies InternalModifies
+      decreases InternalModifies
+      ensures InternalValidState()
+
       ensures DeleteCacheEntryEnsuresPublicly(input, output)
       ensures unchanged(History)
-      ensures Modifies <= old(Modifies)
+      ensures InternalModifies <= old(InternalModifies)
 
     ghost predicate UpdateUsageMetadataEnsuresPublicly(input: Types.UpdateUsageMetadataInput, output: Result<(), Types.Error>)
     {true}
 
     method {:extern "UpdateUsageMetadata"} UpdateUsageMetadata'(input: Types.UpdateUsageMetadataInput)
       returns (output: Result<(), Types.Error>)
-      requires ValidState()
-      modifies Modifies - {History}
-      decreases Modifies - {History}
-      ensures ValidState()
+      requires InternalValidState()
+      modifies InternalModifies
+      decreases InternalModifies
+      ensures InternalValidState()
+
 
   }
 }

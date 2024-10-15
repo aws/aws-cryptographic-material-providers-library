@@ -924,7 +924,8 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     // Given that you are mutating state,
     // your ValidState function is going to get complicated.
 
-    ghost var Modifies: set<object>
+    ghost const Modifies: set<object>
+    ghost var InternalModifies: set<object>
     // For an unassigned field defined in a trait,
     // Dafny can only assign a value in the constructor.
     // This means that for Dafny to reason about this value,
@@ -952,8 +953,13 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     //    :: m in Modifies - History)              // is in Modifies and really is not History!
 
     predicate ValidState()
-      reads this`Modifies, Modifies - {History}
-      ensures ValidState() ==> History in Modifies
+      ensures ValidState() ==>
+      && History in Modifies
+
+    predicate InternalValidState()
+      reads this`InternalModifies, InternalModifies
+      ensures InternalValidState() ==> History !in InternalModifies
+
     ghost const History: ICryptographicMaterialsCacheCallHistory
     predicate PutCacheEntryEnsuresPublicly(input: PutCacheEntryInput , output: Result<(), Error>)
     // The public method to be called by library consumers
@@ -970,6 +976,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
       ensures PutCacheEntryEnsuresPublicly(input, output)
       ensures History.PutCacheEntry == old(History.PutCacheEntry) + [DafnyCallEvent(input, output)]
     {
+      assume {:axiom} InternalModifies < Modifies && InternalValidState();
       output := PutCacheEntry' (input);
       History.PutCacheEntry := History.PutCacheEntry + [DafnyCallEvent(input, output)];
     }
@@ -977,12 +984,12 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     method PutCacheEntry' ( input: PutCacheEntryInput )
       returns (output: Result<(), Error>)
       requires
-        && ValidState()
-      modifies Modifies - {History}
+        && InternalValidState()
+      modifies InternalModifies
       // Dafny will skip type parameters when generating a default decreases clause.
-      decreases Modifies - {History}
+      decreases InternalModifies
       ensures
-        && ValidState()
+        && InternalValidState()
       ensures PutCacheEntryEnsuresPublicly(input, output)
       ensures unchanged(History)
 
@@ -1001,6 +1008,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
       ensures UpdateUsageMetadataEnsuresPublicly(input, output)
       ensures History.UpdateUsageMetadata == old(History.UpdateUsageMetadata) + [DafnyCallEvent(input, output)]
     {
+      assume {:axiom} InternalModifies < Modifies && InternalValidState();
       output := UpdateUsageMetadata' (input);
       History.UpdateUsageMetadata := History.UpdateUsageMetadata + [DafnyCallEvent(input, output)];
     }
@@ -1008,12 +1016,12 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     method UpdateUsageMetadata' ( input: UpdateUsageMetadataInput )
       returns (output: Result<(), Error>)
       requires
-        && ValidState()
-      modifies Modifies - {History}
+        && InternalValidState()
+      modifies InternalModifies
       // Dafny will skip type parameters when generating a default decreases clause.
-      decreases Modifies - {History}
+      decreases InternalModifies
       ensures
-        && ValidState()
+        && InternalValidState()
       ensures UpdateUsageMetadataEnsuresPublicly(input, output)
       ensures unchanged(History)
 
@@ -1032,6 +1040,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
       ensures GetCacheEntryEnsuresPublicly(input, output)
       ensures History.GetCacheEntry == old(History.GetCacheEntry) + [DafnyCallEvent(input, output)]
     {
+      assume {:axiom} InternalModifies < Modifies && InternalValidState();
       output := GetCacheEntry' (input);
       History.GetCacheEntry := History.GetCacheEntry + [DafnyCallEvent(input, output)];
     }
@@ -1039,12 +1048,14 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     method GetCacheEntry' ( input: GetCacheEntryInput )
       returns (output: Result<GetCacheEntryOutput, Error>)
       requires
-        && ValidState()
-      modifies Modifies - {History}
+          // && ValidState()
+          && InternalValidState()
+      modifies InternalModifies - {History}
       // Dafny will skip type parameters when generating a default decreases clause.
-      decreases Modifies - {History}
+      decreases InternalModifies - {History}
       ensures
-        && ValidState()
+          // && ValidState()
+          && InternalValidState()
       ensures GetCacheEntryEnsuresPublicly(input, output)
       ensures unchanged(History)
 
@@ -1063,6 +1074,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
       ensures DeleteCacheEntryEnsuresPublicly(input, output)
       ensures History.DeleteCacheEntry == old(History.DeleteCacheEntry) + [DafnyCallEvent(input, output)]
     {
+      assume {:axiom} InternalModifies < Modifies && InternalValidState();
       output := DeleteCacheEntry' (input);
       History.DeleteCacheEntry := History.DeleteCacheEntry + [DafnyCallEvent(input, output)];
     }
@@ -1070,12 +1082,12 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     method DeleteCacheEntry' ( input: DeleteCacheEntryInput )
       returns (output: Result<(), Error>)
       requires
-        && ValidState()
-      modifies Modifies - {History}
+        && InternalValidState()
+      modifies InternalModifies
       // Dafny will skip type parameters when generating a default decreases clause.
-      decreases Modifies - {History}
+      decreases InternalModifies
       ensures
-        && ValidState()
+        && InternalValidState()
       ensures DeleteCacheEntryEnsuresPublicly(input, output)
       ensures unchanged(History)
 
