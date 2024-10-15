@@ -5,6 +5,7 @@
 from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreAdminTypes import (
     ApplyMutationInput_ApplyMutationInput as DafnyApplyMutationInput,
     CreateKeyInput_CreateKeyInput as DafnyCreateKeyInput,
+    DescribeMutationInput_DescribeMutationInput as DafnyDescribeMutationInput,
     InitializeMutationInput_InitializeMutationInput as DafnyInitializeMutationInput,
     VersionKeyInput_VersionKeyInput as DafnyVersionKeyInput,
 )
@@ -21,6 +22,7 @@ class DafnyRequest:
     # dafny_operation_input can take on any one of the types
     # of the input values passed to the Dafny implementation
     dafny_operation_input: Union[
+        DafnyDescribeMutationInput,
         DafnyApplyMutationInput,
         DafnyCreateKeyInput,
         DafnyVersionKeyInput,

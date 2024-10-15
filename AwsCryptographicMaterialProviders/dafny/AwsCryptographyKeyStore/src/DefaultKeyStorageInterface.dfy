@@ -1189,9 +1189,9 @@ module DefaultKeyStorageInterface {
     {
       /** Construct & Issue DDB Request */
       var exclusiveStartKey: Option<DDB.Key> := None;
-      if (input.PageIndex.Some?) {
+      if (input.ExclusiveStartKey.Some?) {
         var decodedLastKey :- BlobToExclusiveStartKey(
-          input.PageIndex.value,
+          input.ExclusiveStartKey.value,
           input.Identifier);
         exclusiveStartKey := Some(decodedLastKey);
       }
@@ -1232,7 +1232,7 @@ module DefaultKeyStorageInterface {
       }
       if (ddbResponse.Items.None? || ( |ddbResponse.Items.value| == 0) ) {
         return Success(Types.QueryForVersionsOutput(
-                         PageIndex := lastKeyBlob,
+                         ExclusiveStartKey := lastKeyBlob,
                          Items := []
                        ));
       }
@@ -1256,7 +1256,7 @@ module DefaultKeyStorageInterface {
 
       return Success(
           Types.QueryForVersionsOutput(
-            PageIndex := lastKeyBlob,
+            ExclusiveStartKey := lastKeyBlob,
             Items := branchKeys
           ));
     }

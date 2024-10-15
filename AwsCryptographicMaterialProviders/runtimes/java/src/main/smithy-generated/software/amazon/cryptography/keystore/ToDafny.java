@@ -950,13 +950,13 @@ public class ToDafny {
   public static QueryForVersionsInput QueryForVersionsInput(
     software.amazon.cryptography.keystore.model.QueryForVersionsInput nativeValue
   ) {
-    Option<DafnySequence<? extends Byte>> pageIndex;
-    pageIndex =
-      Objects.nonNull(nativeValue.PageIndex())
+    Option<DafnySequence<? extends Byte>> exclusiveStartKey;
+    exclusiveStartKey =
+      Objects.nonNull(nativeValue.ExclusiveStartKey())
         ? Option.create_Some(
           DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-            nativeValue.PageIndex()
+            nativeValue.ExclusiveStartKey()
           )
         )
         : Option.create_None(
@@ -969,20 +969,20 @@ public class ToDafny {
       );
     Integer pageSize;
     pageSize = (nativeValue.PageSize());
-    return new QueryForVersionsInput(pageIndex, identifier, pageSize);
+    return new QueryForVersionsInput(exclusiveStartKey, identifier, pageSize);
   }
 
   public static QueryForVersionsOutput QueryForVersionsOutput(
     software.amazon.cryptography.keystore.model.QueryForVersionsOutput nativeValue
   ) {
-    DafnySequence<? extends Byte> pageIndex;
-    pageIndex =
+    DafnySequence<? extends Byte> exclusiveStartKey;
+    exclusiveStartKey =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-        nativeValue.PageIndex()
+        nativeValue.ExclusiveStartKey()
       );
     DafnySequence<? extends EncryptedHierarchicalKey> items;
     items = ToDafny.EncryptedHierarchicalKeys(nativeValue.Items());
-    return new QueryForVersionsOutput(pageIndex, items);
+    return new QueryForVersionsOutput(exclusiveStartKey, items);
   }
 
   public static UpdateMutationIndexInput UpdateMutationIndexInput(
