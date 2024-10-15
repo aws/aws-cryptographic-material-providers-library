@@ -34,8 +34,8 @@ phases:
           exit 1;
         fi
       - cd ComAmazonawsDynamodb
-      # Build Dafny test source code
-      - make transpile_only_test_python
+      # Build Dafny source code
+      - make transpile_python
   build:
     commands:
       - cd runtimes/python/
@@ -47,8 +47,7 @@ phases:
       # Install project dependencies with release dependencies
       - poetry install --with release
       # Build whl/sdist, upload to PyPI
-      # TODO: When ready to prod release, uncomment this line
-      # tox -e release
+      - tox -e release
 
 batch:
   fast-fail: true
