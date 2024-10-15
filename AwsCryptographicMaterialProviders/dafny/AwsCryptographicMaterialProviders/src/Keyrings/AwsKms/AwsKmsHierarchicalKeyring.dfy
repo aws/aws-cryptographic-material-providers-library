@@ -482,6 +482,11 @@ module AwsKmsHierarchicalKeyring {
       verifyValidStateCache(cache);
       var getCacheOutput := getEntry(cache, getCacheInput);
 
+      // If error is not EntryDoesNotExist, return Failure
+      if (getCacheOutput.Failure? && !getCacheOutput.error.EntryDoesNotExist?) {
+        return Failure(getCacheOutput.error);
+      }
+
       var now := Time.GetCurrent();
 
       // //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#onencrypt
@@ -524,7 +529,10 @@ module AwsKmsHierarchicalKeyring {
         );
 
         verifyValidStateCache(cache);
-        var _ :- putEntry(cache, putCacheEntryInput);
+        var putResult := putEntry(cache, putCacheEntryInput);
+        if (putResult.Failure? && !putResult.error.EntryAlreadyExists?) {
+          return Failure(putResult.error);
+        }
 
         return Success(branchKeyMaterials);
       } else {
@@ -864,6 +872,11 @@ module AwsKmsHierarchicalKeyring {
       verifyValidStateCache(cache);
       var getCacheOutput := getEntry(cache, getCacheInput);
 
+      // If error is not EntryDoesNotExist, return Failure
+      if (getCacheOutput.Failure? && !getCacheOutput.error.EntryDoesNotExist?) {
+        return Failure(getCacheOutput.error);
+      }
+
       var now := Time.GetCurrent();
 
       // //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#ondecrypt
@@ -908,7 +921,10 @@ module AwsKmsHierarchicalKeyring {
         );
 
         verifyValidStateCache(cache);
-        var _ :- putEntry(cache, putCacheEntryInput);
+        var putResult := putEntry(cache, putCacheEntryInput);
+        if (putResult.Failure? && !putResult.error.EntryAlreadyExists?) {
+          return Failure(putResult.error);
+        }
 
         return Success(branchKeyMaterials);
       } else {
