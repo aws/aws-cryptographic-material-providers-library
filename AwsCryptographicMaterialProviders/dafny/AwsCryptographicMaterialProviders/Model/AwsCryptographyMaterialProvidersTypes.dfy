@@ -1024,22 +1024,13 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     // You MUST also ensure ValidState in your constructor.
     predicate ValidState()
       ensures ValidState() ==> History in Modifies
-
-    // Need to update all these words
-    //
-
-
-    // Not only will you need to ensure
-    // that all your mutable elements are contained in History,
-    // you MUST also ensure
-    // that your invariant does not rely on Modifies.
+    // Dynamic mutable state MUST be internal to the resource.
+    // All your dynamic elements are copied in InternalModifies.
     // This means your invariant will begin to look like:
-    // && History in Modifies
-    // && this in Modifies                      // so we can read property
-    // && property in Modifies                  // so we can read properties of property
-    // && property != History as object        // property really is not History!
-    // && (forall m <- property.Modifies    // everything in property.Modifies
-    //    :: m in Modifies - History)              // is in Modifies and really is not History!
+    // && History !in InternalModifies
+    // && this in InternalModifies                      // so we can read property
+    // && property in InternalModifies                  // so we can read properties of property
+    // It is up to you to maintain control of your dynamically mutable elements
     ghost var InternalModifies: set<object>
     predicate InternalValidState()
       reads this`InternalModifies, InternalModifies
@@ -1060,7 +1051,11 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
       ensures PutCacheEntryEnsuresPublicly(input, output)
       ensures History.PutCacheEntry == old(History.PutCacheEntry) + [DafnyCallEvent(input, output)]
     {
-      // There needs to be a bit of comments here
+      // This axiom is intended to create a seperated class.
+      // The idea is that the memory inside the resource is controlled locally
+      // and that no external code gets to mutate this state.
+      // Dafny can not currently model this idea as a language feature.
+      // So this axiom is approximating it.
       assume {:axiom} InternalModifies < Modifies && InternalValidState();
       output := PutCacheEntry' (input);
       History.PutCacheEntry := History.PutCacheEntry + [DafnyCallEvent(input, output)];
@@ -1093,7 +1088,11 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
       ensures UpdateUsageMetadataEnsuresPublicly(input, output)
       ensures History.UpdateUsageMetadata == old(History.UpdateUsageMetadata) + [DafnyCallEvent(input, output)]
     {
-      // There needs to be a bit of comments here
+      // This axiom is intended to create a seperated class.
+      // The idea is that the memory inside the resource is controlled locally
+      // and that no external code gets to mutate this state.
+      // Dafny can not currently model this idea as a language feature.
+      // So this axiom is approximating it.
       assume {:axiom} InternalModifies < Modifies && InternalValidState();
       output := UpdateUsageMetadata' (input);
       History.UpdateUsageMetadata := History.UpdateUsageMetadata + [DafnyCallEvent(input, output)];
@@ -1126,7 +1125,11 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
       ensures GetCacheEntryEnsuresPublicly(input, output)
       ensures History.GetCacheEntry == old(History.GetCacheEntry) + [DafnyCallEvent(input, output)]
     {
-      // There needs to be a bit of comments here
+      // This axiom is intended to create a seperated class.
+      // The idea is that the memory inside the resource is controlled locally
+      // and that no external code gets to mutate this state.
+      // Dafny can not currently model this idea as a language feature.
+      // So this axiom is approximating it.
       assume {:axiom} InternalModifies < Modifies && InternalValidState();
       output := GetCacheEntry' (input);
       History.GetCacheEntry := History.GetCacheEntry + [DafnyCallEvent(input, output)];
@@ -1159,7 +1162,11 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
       ensures DeleteCacheEntryEnsuresPublicly(input, output)
       ensures History.DeleteCacheEntry == old(History.DeleteCacheEntry) + [DafnyCallEvent(input, output)]
     {
-      // There needs to be a bit of comments here
+      // This axiom is intended to create a seperated class.
+      // The idea is that the memory inside the resource is controlled locally
+      // and that no external code gets to mutate this state.
+      // Dafny can not currently model this idea as a language feature.
+      // So this axiom is approximating it.
       assume {:axiom} InternalModifies < Modifies && InternalValidState();
       output := DeleteCacheEntry' (input);
       History.DeleteCacheEntry := History.DeleteCacheEntry + [DafnyCallEvent(input, output)];
