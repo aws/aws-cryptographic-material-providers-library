@@ -350,7 +350,7 @@ module DDBKeystoreOperations {
   function method CreateTransactWritePutItem(
     item: DDB.AttributeMap,
     tableName: DDB.TableName,
-    ConditionExpression: ConditionExpression
+    conditionExpression: ConditionExpression
   ): (output: DDB.TransactWriteItem)
   {
 
@@ -361,7 +361,7 @@ module DDBKeystoreOperations {
           Item := item,
           TableName := tableName,
           ConditionExpression := Some(
-            match ConditionExpression
+            match conditionExpression
             case BRANCH_KEY_NOT_EXIST() => BRANCH_KEY_NOT_EXIST_CONDITION
             case BRANCH_KEY_EXISTS() => BRANCH_KEY_EXISTS_CONDITION
           ),
