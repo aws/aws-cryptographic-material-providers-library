@@ -47,8 +47,7 @@ phases:
       # Install project dependencies with release dependencies
       - poetry install --with release
       # Build whl/sdist, upload to PyPI
-      # TODO: When ready to prod release, uncomment this line
-      # tox -e release
+      - tox -e release
 
 batch:
   fast-fail: true
