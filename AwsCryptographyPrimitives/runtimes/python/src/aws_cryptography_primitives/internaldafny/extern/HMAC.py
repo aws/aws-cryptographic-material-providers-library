@@ -27,8 +27,7 @@ class default__(aws_cryptography_primitives.internaldafny.generated.HMAC.default
       output = hmac.GetResult()
       return Wrappers.Result_Success(_dafny.Seq(output))
 
-# Extend generated class
-class HMac(aws_cryptography_primitives.internaldafny.generated.HMAC.HMac):
+class HMac:
 
     @staticmethod
     def Build(digest):

@@ -12,7 +12,7 @@ import software.amazon.cryptography.primitives.internaldafny.types.DigestAlgorit
 import software.amazon.cryptography.primitives.internaldafny.types.Error;
 import software.amazon.cryptography.primitives.model.AwsCryptographicPrimitivesError;
 
-public class HMac extends _ExternBase_HMac {
+public class HMac extends _ExternBase___default {
 
   private String algorithm;
   private Mac hmac;
