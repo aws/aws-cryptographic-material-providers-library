@@ -1,5 +1,19 @@
 # Changelog
 
+# [1.7.1](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.0...v1.7.1) (2024-10-11)
+
+This release is available in the following languages:
+
+- Python
+
+This is the first release for the Python implementation of the AWS Cryptographic Material Providers Library. ([#805](https://github.com/aws/aws-cryptographic-material-providers-library/issues/805)) ([cfb2f7e](https://github.com/aws/aws-cryptographic-material-providers-library/commit/cfb2f7e06c406b3f3ddb506a6356382737b53746))
+
+### Bug Fixes
+
+- **H-Keyring:** if getCache returns Error not EntryDoesNotExist, raise error ([#846](https://github.com/aws/aws-cryptographic-material-providers-library/issues/846)) ([3413fcb](https://github.com/aws/aws-cryptographic-material-providers-library/commit/3413fcbc889e2c31fb753ff3eca852c1d5db1140))
+- **H-Keyring:** if putCache throws EntryAlreadyExists, swallow ([#856](https://github.com/aws/aws-cryptographic-material-providers-library/issues/856)) ([d01a182
+  ](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d01a182b5e62010f44616dacd6730aa873dec4c7))
+
 # [1.7.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.6.0...v1.7.0) (2024-09-23)
 
 ### Features

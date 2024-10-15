@@ -69,7 +69,7 @@ def _deserialize_serialize_key_description(input: DafnyResponse, config: Config)
 
 def _deserialize_error(error: Error) -> ServiceError:
     if error.is_Opaque:
-        return OpaqueError(obj=error.obj)
+        return OpaqueError(obj=error.obj, alt_text=error.alt__text)
     elif error.is_CollectionOfErrors:
         return CollectionOfErrors(
             message=_dafny.string_of(error.message),
@@ -78,4 +78,4 @@ def _deserialize_error(error: Error) -> ServiceError:
     elif error.is_KeyVectorException:
         return KeyVectorException(message=_dafny.string_of(error.message))
     else:
-        return OpaqueError(obj=error)
+        return OpaqueError(obj=error, alt_text=repr(error))
