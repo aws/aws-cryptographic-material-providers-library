@@ -2,11 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 include "../src/VarEncode.dfy"
+include "../src/Time.dfy"
 
 module {:options "-functionSyntax:4"} VarEncodeTest {
   import opened VarEncode
   import opened StandardLibrary.UInt
   import opened Wrappers
+  import Time
 
   method CheckValue(val : nat)
   {
@@ -62,6 +64,8 @@ module {:options "-functionSyntax:4"} VarEncodeTest {
   }
 
   method {:test} TestDecode() {
+    var start := Time.GetCurrentMilli();
+
     for i : nat := 0 to 256 {
       var bytes : seq<uint8> := [i as uint8];
       CheckSeq(bytes);
@@ -82,6 +86,8 @@ module {:options "-functionSyntax:4"} VarEncodeTest {
         }
       }
     }
+    var end := Time.GetCurrentMilli();
+    print Time.FormatMilliDiff(start, end), " ";
   }
 
 }
