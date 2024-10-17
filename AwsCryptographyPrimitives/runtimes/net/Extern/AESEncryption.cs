@@ -60,7 +60,7 @@ namespace AESEncryption
             catch (Exception ex)
             {
                 return Wrappers_Compile.Result<_IAESEncryptOutput, _IError>
-                    .create_Failure(new Error_Opaque(ex));
+                    .create_Failure(new Error_Opaque(ex, Dafny.Sequence<char>.FromString(ex.ToString())));
             }
         }
 
@@ -103,7 +103,7 @@ namespace AESEncryption
             catch (Exception ex)
             {
                 return Wrappers_Compile.Result<ibyteseq, _IError>
-                    .create_Failure(new Error_Opaque(ex));
+                    .create_Failure(new Error_Opaque(ex, Dafny.Sequence<char>.FromString(ex.ToString())));
             }
         }
     }

@@ -117,7 +117,7 @@ module {:options "-functionSyntax:4"} TestAwsCryptographyPrimitivesRSA {
   }
 
   method {:test} TestingPemParsingInRSAEncryptionForRSAKeyPairStoredInPEM() {
-    var allPadding := set p: AtomicPrimitives.Types.RSAPaddingMode | true :: p;
+    var allPadding := set p: AtomicPrimitives.Types.RSAPaddingMode {:nowarn} | true :: p;
 
     var PublicKeyFromGenerateRSAKeyPairPemBytes :- expect UTF8.Encode(StaticPublicKeyFromGenerateRSAKeyPair());
     var PrivateKeyFromGenerateRSAKeyPairPemBytes :- expect UTF8.Encode(StaticPrivateKeyFromGenerateRSAKeyPair());
@@ -150,7 +150,7 @@ module {:options "-functionSyntax:4"} TestAwsCryptographyPrimitivesRSA {
   }
 
   method {:test} TestingPemParsingInRSAEncryptionForOnlyRSAPrivateKeyStoredInPEM() {
-    var allPadding := set p: AtomicPrimitives.Types.RSAPaddingMode | true :: p;
+    var allPadding := set p: AtomicPrimitives.Types.RSAPaddingMode {:nowarn} | true :: p;
 
     var PublicKeyFromTestVectorsPemBytes :- expect UTF8.Encode(StaticPublicKeyFromTestVectors());
     var PrivateKeyFromTestVectorsPemBytes :- expect UTF8.Encode(StaticPrivateKeyFromTestVectors());
