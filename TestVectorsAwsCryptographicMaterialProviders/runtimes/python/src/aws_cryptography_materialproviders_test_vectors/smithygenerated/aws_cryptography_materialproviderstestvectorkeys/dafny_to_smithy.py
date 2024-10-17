@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy
+import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy
 import aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk
 from aws_cryptography_materialproviders_test_vectors.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes import (
     CmmOperation_DECRYPT,
@@ -131,7 +131,7 @@ def aws_cryptography_materialproviderstestvectorkeys_KmsMrkAwareDiscovery(dafny_
         ).decode("utf-16-be"),
         aws_kms_discovery_filter=(
             (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DiscoveryFilter(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DiscoveryFilter(
                     dafny_input.awsKmsDiscoveryFilter.value
                 )
             )
@@ -149,7 +149,7 @@ def aws_cryptography_materialproviderstestvectorkeys_RawRSA(dafny_input):
         provider_id=b"".join(
             ord(c).to_bytes(2, "big") for c in dafny_input.providerId
         ).decode("utf-16-be"),
-        padding=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_PaddingScheme(
+        padding=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_PaddingScheme(
             dafny_input.padding
         ),
     )
@@ -329,7 +329,7 @@ def aws_cryptography_materialproviderstestvectorkeys_SerializeKeyDescriptionInpu
 def aws_cryptography_materialproviderstestvectorkeys_CreateWrappedTestVectorCmmOutput(
     dafny_input,
 ):
-    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(
         dafny_input
     )
 
