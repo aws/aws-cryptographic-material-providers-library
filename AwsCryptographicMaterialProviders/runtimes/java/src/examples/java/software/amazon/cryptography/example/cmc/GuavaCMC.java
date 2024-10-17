@@ -98,7 +98,6 @@ public class GuavaCMC {
           // Not all applications need to track bytes or messages used.
           // Doing so may help some security engineers, but at a performance cost.
           entry.updateUsage(input.bytesUsed(), 1);
-          this.cache.put(input.identifier(), entry);
         }
         return entry.toGetCacheEntryOutput();
       } else if (entry != null) {

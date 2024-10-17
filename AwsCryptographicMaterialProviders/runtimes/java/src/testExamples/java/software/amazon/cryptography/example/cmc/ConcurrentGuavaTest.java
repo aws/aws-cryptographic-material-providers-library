@@ -1,4 +1,4 @@
-package software.amazon.cryptography.example.hierarchy;
+package software.amazon.cryptography.example.cmc;
 
 import Time.__default;
 import java.nio.ByteBuffer;
@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
-import org.testng.Assert;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import software.amazon.cryptography.example.cmc.GuavaCMC;
+
 import software.amazon.cryptography.keystore.model.BranchKeyMaterials;
 import software.amazon.cryptography.materialproviders.ICryptographicMaterialsCache;
 import software.amazon.cryptography.materialproviders.model.CacheType;
