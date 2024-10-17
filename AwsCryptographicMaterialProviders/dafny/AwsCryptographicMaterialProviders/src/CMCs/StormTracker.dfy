@@ -114,10 +114,11 @@ module {:options "/functionSyntax:4" }  StormTracker {
   class StormTracker {
 
     ghost predicate ValidState()
-      reads this, wrapped, wrapped.Modifies
+      reads this, wrapped, wrapped.InternalModifies
     {
-      && this !in wrapped.Modifies
-      && inFlight !in wrapped.Modifies
+      && this !in wrapped.InternalModifies
+      && inFlight !in wrapped.InternalModifies
+      && wrapped.InternalValidState()
       && wrapped.ValidState()
     }
     var wrapped : LocalCMC.LocalCMC // the actual cache
@@ -136,7 +137,7 @@ module {:options "/functionSyntax:4" }  StormTracker {
       ensures
         && this.ValidState()
         && fresh(this.wrapped)
-        && fresh(this.wrapped.Modifies)
+        && fresh(this.wrapped.InternalModifies)
         && fresh(this.inFlight)
     {
       this.wrapped := new LocalCMC.LocalCMC(cache.entryCapacity as nat, cache.entryPruningTailSize.UnwrapOr(1) as nat);
@@ -254,11 +255,11 @@ module {:options "/functionSyntax:4" }  StormTracker {
     method GetFromCacheWithTime(input: Types.GetCacheEntryInput, now : Types.PositiveLong)
       returns (output: Result<CacheState, Types.Error>)
       requires ValidState()
-      modifies this`lastPrune, inFlight, wrapped.Modifies
+      modifies this`lastPrune, inFlight, wrapped.InternalModifies
       ensures ValidState()
       ensures inFlight == old(inFlight)
       ensures wrapped == old(wrapped)
-      ensures wrapped.Modifies <= old(wrapped.Modifies)
+      ensures wrapped.InternalModifies <= old(wrapped.InternalModifies)
     {
       var result := wrapped.GetCacheEntryWithTime(input, now);
       if result.Success? {
@@ -275,11 +276,11 @@ module {:options "/functionSyntax:4" }  StormTracker {
     method GetFromCache(input: Types.GetCacheEntryInput)
       returns (output: Result<CacheState, Types.Error>)
       requires ValidState()
-      modifies this`lastPrune, inFlight, wrapped.Modifies
+      modifies this`lastPrune, inFlight, wrapped.InternalModifies
       ensures ValidState()
       ensures inFlight == old(inFlight)
       ensures wrapped == old(wrapped)
-      ensures wrapped.Modifies <= old(wrapped.Modifies)
+      ensures wrapped.InternalModifies <= old(wrapped.InternalModifies)
     {
       var now := Time.GetCurrent();
       output := GetFromCacheWithTime(input, now);
@@ -291,11 +292,11 @@ module {:options "/functionSyntax:4" }  StormTracker {
     method GetCacheEntry(input: Types.GetCacheEntryInput)
       returns (output: Result<Types.GetCacheEntryOutput, Types.Error>)
       requires ValidState()
-      modifies this`lastPrune, inFlight, wrapped.Modifies
+      modifies this`lastPrune, inFlight, wrapped.InternalModifies
       ensures ValidState()
       ensures inFlight == old(inFlight)
       ensures wrapped == old(wrapped)
-      ensures wrapped.Modifies <= old(wrapped.Modifies)
+      ensures wrapped.InternalModifies <= old(wrapped.InternalModifies)
     {
       var result := GetFromCache(input);
       if result.Failure? {
@@ -310,11 +311,11 @@ module {:options "/functionSyntax:4" }  StormTracker {
     method PutCacheEntry(input: Types.PutCacheEntryInput)
       returns (output: Result<(), Types.Error>)
       requires ValidState()
-      modifies inFlight, wrapped.Modifies
+      modifies inFlight, wrapped.InternalModifies
       ensures ValidState()
       ensures inFlight == old(inFlight)
       ensures wrapped == old(wrapped)
-      ensures fresh(wrapped.Modifies - old(wrapped.Modifies))
+      ensures fresh(wrapped.InternalModifies - old(wrapped.InternalModifies))
     {
       inFlight.Remove(input.identifier);
       output := wrapped.PutCacheEntry'(input);
@@ -323,9 +324,9 @@ module {:options "/functionSyntax:4" }  StormTracker {
     method DeleteCacheEntry(input: Types.DeleteCacheEntryInput)
       returns (output: Result<(), Types.Error>)
       requires ValidState()
-      modifies inFlight, wrapped.Modifies
+      modifies inFlight, wrapped.InternalModifies
       ensures ValidState()
-      ensures wrapped.Modifies <= old(wrapped.Modifies)
+      ensures wrapped.InternalModifies <= old(wrapped.InternalModifies)
     {
       inFlight.Remove(input.identifier);
       output := wrapped.DeleteCacheEntry'(input);
@@ -334,7 +335,7 @@ module {:options "/functionSyntax:4" }  StormTracker {
     method UpdateUsageMetadata(input: Types.UpdateUsageMetadataInput)
       returns (output: Result<(), Types.Error>)
       requires ValidState()
-      modifies inFlight, wrapped.Modifies
+      modifies inFlight, wrapped.InternalModifies
       ensures ValidState()
     {
       output := wrapped.UpdateUsageMetadata'(input);

@@ -8,6 +8,7 @@ use aws.polymorph#javadoc
 @range(min: 1)
 integer CountingNumber
 
+@smithy.api#suppress(["MutableLocalStateTrait"])
 @aws.polymorph#mutableLocalState
 @aws.polymorph#extendable
 resource CryptographicMaterialsCache {

@@ -90,34 +90,34 @@ module AwsKmsHierarchicalKeyring {
   // Salt = 16, IV = 12, Version = 16, Authentication Tag = 16
   const EXPECTED_EDK_CIPHERTEXT_OVERHEAD := EDK_CIPHERTEXT_VERSION_INDEX + AES_256_ENC_TAG_LENGTH
 
-  // We add this axiom here because verifying the mutability of the share state of the
-  // cache. Dafny does not support concurrency and proving the state of mutable frames
-  // is complicated.
-  lemma {:axiom} verifyValidStateCache (cmc: Types.ICryptographicMaterialsCache) ensures cmc.ValidState()
+  // // We add this axiom here because verifying the mutability of the share state of the
+  // // cache. Dafny does not support concurrency and proving the state of mutable frames
+  // // is complicated.
+  // lemma {:axiom} verifyValidStateCache (cmc: Types.ICryptographicMaterialsCache) ensures cmc.ValidState()
 
-  method getEntry(cmc: Types.ICryptographicMaterialsCache, input: Types.GetCacheEntryInput) returns (res: Result<Types.GetCacheEntryOutput, Types.Error>)
-    requires cmc.ValidState()
-    ensures cmc.ValidState()
-    ensures cmc.GetCacheEntryEnsuresPublicly(input, res)
-    ensures unchanged(cmc.History)
-  {
-    // Because of the mutable state of the cache you may not know if you have an entry in cache
-    // at this point in execution; assuming we have not modified it allows dafny to verify that it can get an entry.
-    assume {:axiom} cmc.Modifies == {};
-    res := cmc.GetCacheEntry(input);
-  }
+  // method getEntry(cmc: Types.ICryptographicMaterialsCache, input: Types.GetCacheEntryInput) returns (res: Result<Types.GetCacheEntryOutput, Types.Error>)
+  //   requires cmc.ValidState()
+  //   ensures cmc.ValidState()
+  //   ensures cmc.GetCacheEntryEnsuresPublicly(input, res)
+  //   ensures unchanged(cmc.History)
+  // {
+  //   // Because of the mutable state of the cache you may not know if you have an entry in cache
+  //   // at this point in execution; assuming we have not modified it allows dafny to verify that it can get an entry.
+  //   assume {:axiom} cmc.Modifies == {};
+  //   res := cmc.GetCacheEntry(input);
+  // }
 
-  method putEntry(cmc: Types.ICryptographicMaterialsCache, input: Types.PutCacheEntryInput) returns (res: Result<(), Types.Error>)
-    requires cmc.ValidState()
-    ensures cmc.ValidState()
-    ensures cmc.PutCacheEntryEnsuresPublicly(input, res)
-    ensures unchanged(cmc.History)
-  {
-    // Because of the mutable state of the cache you may not know if you have an entry in cache
-    // at this point in execution; assuming we have not modified it allows dafny to verify that it can put an entry.
-    assume {:axiom} cmc.Modifies == {};
-    res := cmc.PutCacheEntry(input);
-  }
+  // method putEntry(cmc: Types.ICryptographicMaterialsCache, input: Types.PutCacheEntryInput) returns (res: Result<(), Types.Error>)
+  //   requires cmc.ValidState()
+  //   ensures cmc.ValidState()
+  //   ensures cmc.PutCacheEntryEnsuresPublicly(input, res)
+  //   ensures unchanged(cmc.History)
+  // {
+  //   // Because of the mutable state of the cache you may not know if you have an entry in cache
+  //   // at this point in execution; assuming we have not modified it allows dafny to verify that it can put an entry.
+  //   assume {:axiom} cmc.Modifies == {};
+  //   res := cmc.PutCacheEntry(input);
+  // }
 
   // Checks if (time_now - cache creation time of the extracted cache entry) is less than the allowed
   // TTL of the current Hierarchical Keyring calling the getEntry method from the cache.
@@ -152,12 +152,15 @@ module AwsKmsHierarchicalKeyring {
       && History in Modifies
       && keyStore.ValidState()
       && cryptoPrimitives.ValidState()
+      && cache.ValidState()
       && (branchKeyIdSupplier.Some? ==> branchKeyIdSupplier.value.ValidState())
       && keyStore.Modifies <= Modifies
       && cryptoPrimitives.Modifies <= Modifies
+      && cache.Modifies <= Modifies
       && (branchKeyIdSupplier.Some? ==> branchKeyIdSupplier.value.Modifies <= Modifies)
       && History !in keyStore.Modifies
       && History !in cryptoPrimitives.Modifies
+      && History !in cache.Modifies
       && (branchKeyIdSupplier.Some? ==> History !in branchKeyIdSupplier.value.Modifies)
       && (branchKeyIdSupplier.Some? || branchKeyId.Some?)
       && (branchKeyIdSupplier.None? || branchKeyId.None?)
@@ -184,7 +187,7 @@ module AwsKmsHierarchicalKeyring {
       cryptoPrimitives : AtomicPrimitives.AtomicPrimitivesClient
     )
       requires ttlSeconds >= 0
-      requires keyStore.ValidState() && cryptoPrimitives.ValidState()
+      requires keyStore.ValidState() && cryptoPrimitives.ValidState() && cmc.ValidState()
       requires branchKeyIdSupplier.Some? ==> branchKeyIdSupplier.value.ValidState()
       requires (branchKeyIdSupplier.Some? || branchKeyId.Some?)
       requires (branchKeyIdSupplier.None? || branchKeyId.None?)
@@ -194,12 +197,13 @@ module AwsKmsHierarchicalKeyring {
         && this.ttlSeconds   == ttlSeconds
         && this.partitionIdBytes   == partitionIdBytes
         && this.logicalKeyStoreNameBytes == logicalKeyStoreNameBytes
+        && this.cache == cmc
       ensures
         && ValidState()
         && fresh(this)
         && fresh(History)
         && var maybeSupplierModifies := if branchKeyIdSupplier.Some? then branchKeyIdSupplier.value.Modifies else {};
-        && fresh(Modifies - keyStore.Modifies - cryptoPrimitives.Modifies - maybeSupplierModifies)
+        && fresh(Modifies - keyStore.Modifies - cryptoPrimitives.Modifies - maybeSupplierModifies - cmc.Modifies)
     {
       this.keyStore                 := keyStore;
       this.branchKeyId              := branchKeyId;
@@ -212,7 +216,7 @@ module AwsKmsHierarchicalKeyring {
 
       History := new Types.IKeyringCallHistory();
       var maybeSupplierModifies := if branchKeyIdSupplier.Some? then branchKeyIdSupplier.value.Modifies else {};
-      Modifies := {History} + keyStore.Modifies + cryptoPrimitives.Modifies + maybeSupplierModifies;
+      Modifies := {History} + keyStore.Modifies + cryptoPrimitives.Modifies + maybeSupplierModifies + cmc.Modifies;
     }
 
     method GetBranchKeyId(context: Types.EncryptionContext) returns (ret: Result<string, Types.Error>)
@@ -472,15 +476,15 @@ module AwsKmsHierarchicalKeyring {
     )
       returns (material: Result<KeyStore.BranchKeyMaterials, Types.Error>)
       requires ValidState()
-      requires keyStore.ValidState()
-      modifies keyStore.Modifies
+      requires keyStore.ValidState() && cache.ValidState()
+      modifies keyStore.Modifies, cache.Modifies
       ensures ValidState()
-      ensures keyStore.ValidState()
+      ensures keyStore.ValidState() && cache.ValidState()
     {
       // call cache
       var getCacheInput := Types.GetCacheEntryInput(identifier := cacheId, bytesUsed := None);
-      verifyValidStateCache(cache);
-      var getCacheOutput := getEntry(cache, getCacheInput);
+      // verifyValidStateCache(cache);
+      var getCacheOutput := cache.GetCacheEntry(getCacheInput); // getEntry(cache, getCacheInput);
 
       // If error is not EntryDoesNotExist, return Failure
       if (getCacheOutput.Failure? && !getCacheOutput.error.EntryDoesNotExist?) {
@@ -528,8 +532,8 @@ module AwsKmsHierarchicalKeyring {
           bytesUsed := None
         );
 
-        verifyValidStateCache(cache);
-        var putResult := putEntry(cache, putCacheEntryInput);
+        // verifyValidStateCache(cache);
+        var putResult := cache.PutCacheEntry(putCacheEntryInput); // putEntry(cache, putCacheEntryInput);
         if (putResult.Failure? && !putResult.error.EntryAlreadyExists?) {
           return Failure(putResult.error);
         }
@@ -682,7 +686,7 @@ module AwsKmsHierarchicalKeyring {
       partitionIdBytes: seq<uint8>,
       logicalKeyStoreNameBytes: seq<uint8>
     )
-      requires keyStore.ValidState() && cryptoPrimitives.ValidState()
+      requires keyStore.ValidState() && cryptoPrimitives.ValidState() && cache.ValidState()
       ensures
         && this.materials == materials
         && this.keyStore == keyStore
@@ -702,7 +706,7 @@ module AwsKmsHierarchicalKeyring {
       this.cache := cache;
       this.partitionIdBytes := partitionIdBytes;
       this.logicalKeyStoreNameBytes := logicalKeyStoreNameBytes;
-      Modifies := keyStore.Modifies + cryptoPrimitives.Modifies;
+      Modifies := keyStore.Modifies + cryptoPrimitives.Modifies + cache.Modifies;
     }
 
     predicate Invariant()
@@ -711,7 +715,8 @@ module AwsKmsHierarchicalKeyring {
     {
       && keyStore.ValidState()
       && cryptoPrimitives.ValidState()
-      && keyStore.Modifies + cryptoPrimitives.Modifies == Modifies
+      && cache.ValidState()
+      && keyStore.Modifies + cryptoPrimitives.Modifies + cache.Modifies == Modifies
     }
 
     predicate Ensures(
@@ -863,16 +868,15 @@ module AwsKmsHierarchicalKeyring {
     )
       returns (material: Result<KeyStore.BranchKeyMaterials, Types.Error>)
       requires Invariant()
-      requires keyStore.ValidState()
-      modifies keyStore.Modifies
-      ensures keyStore.ValidState()
+      requires keyStore.ValidState() && cache.ValidState()
+      modifies keyStore.Modifies, cache.Modifies
+      ensures keyStore.ValidState() && cache.ValidState()
     {
       // call cache
       var getCacheInput := Types.GetCacheEntryInput(identifier := cacheId, bytesUsed := None);
-      verifyValidStateCache(cache);
-      var getCacheOutput := getEntry(cache, getCacheInput);
-
-      // If error is not EntryDoesNotExist, return Failure
+      // verifyValidStateCache(cache);
+      // var getCacheOutput := getEntry(cache, getCacheInput);
+      var getCacheOutput := cache.GetCacheEntry(getCacheInput);
       if (getCacheOutput.Failure? && !getCacheOutput.error.EntryDoesNotExist?) {
         return Failure(getCacheOutput.error);
       }
@@ -920,8 +924,8 @@ module AwsKmsHierarchicalKeyring {
           bytesUsed := None
         );
 
-        verifyValidStateCache(cache);
-        var putResult := putEntry(cache, putCacheEntryInput);
+        // verifyValidStateCache(cache);
+        var putResult := cache.PutCacheEntry(putCacheEntryInput); // putEntry(cache, putCacheEntryInput);
         if (putResult.Failure? && !putResult.error.EntryAlreadyExists?) {
           return Failure(putResult.error);
         }
