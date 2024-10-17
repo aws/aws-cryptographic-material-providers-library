@@ -108,3 +108,6 @@ PYTHON_DEPENDENCY_MODULE_NAMES := \
 	--dependency-library-name=com.amazonaws.dynamodb=aws_cryptography_internal_dynamodb \
 	--dependency-library-name=aws.cryptography.materialProviders=aws_cryptographic_materialproviders \
 	--dependency-library-name=aws.cryptography.keyStore=aws_cryptographic_materialproviders \
+
+test_example_java:
+	$(GRADLEW) -p runtimes/java testExamples
