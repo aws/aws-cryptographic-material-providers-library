@@ -1,7 +1,7 @@
 import time
-import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC
+import aws_cryptographic_material_providers.internaldafny.generated.StormTrackingCMC
 import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
-import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes
+import aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes
 from . import Lock
 
 class StormTrackingCMC:
@@ -61,7 +61,7 @@ class StormTrackingCMC:
                 return Wrappers.Result_Success(result.value.data)
             elif result.value.is_EmptyFetch:
                 return Wrappers.Result_Failure(
-                    aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_EntryDoesNotExist(
+                    aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_EntryDoesNotExist(
                         "Entry does not exist"
                     )
                 ) 
@@ -80,4 +80,4 @@ class StormTrackingCMC:
     def __str__(self):
         return "StormTracker.StormTrackerCMC"
 
-aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC.StormTrackingCMC = StormTrackingCMC
+aws_cryptographic_material_providers.internaldafny.generated.StormTrackingCMC.StormTrackingCMC = StormTrackingCMC

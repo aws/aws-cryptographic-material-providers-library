@@ -1,7 +1,7 @@
-import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC
-import aws_cryptographic_materialproviders.internaldafny.generated.SynchronizedLocalCMC
+import aws_cryptographic_material_providers.internaldafny.generated.StormTrackingCMC
+import aws_cryptographic_material_providers.internaldafny.generated.SynchronizedLocalCMC
 import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
-import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes
+import aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes
 from . import Lock
 
 class SynchronizedLocalCMC:
@@ -67,4 +67,4 @@ class SynchronizedLocalCMC:
     def __str__(self):
         return "LocalCMC.SynchronizedLocalCMC"
 
-aws_cryptographic_materialproviders.internaldafny.generated.SynchronizedLocalCMC.SynchronizedLocalCMC = SynchronizedLocalCMC
+aws_cryptographic_material_providers.internaldafny.generated.SynchronizedLocalCMC.SynchronizedLocalCMC = SynchronizedLocalCMC
