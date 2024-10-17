@@ -7,8 +7,10 @@ import javax.annotation.Nullable;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.cryptography.keystore.KeyStore;
+import software.amazon.cryptography.keystore.model.BeaconKeyMaterials;
 import software.amazon.cryptography.keystore.model.BranchKeyMaterials;
 import software.amazon.cryptography.keystore.model.GetActiveBranchKeyInput;
+import software.amazon.cryptography.keystore.model.GetBeaconKeyInput;
 import software.amazon.cryptography.keystore.model.GetBranchKeyVersionInput;
 
 public class BranchKeyReadExample {
@@ -60,6 +62,16 @@ public class BranchKeyReadExample {
 
     // Print the Encryption Context
     System.out.println(branchKeyMaterials.encryptionContext().toString());
+
+    // 3. Get the Beacon Key
+    BeaconKeyMaterials beaconKeyMaterials = strict
+      .GetBeaconKey(
+        GetBeaconKeyInput.builder().branchKeyIdentifier(branchKeyId).build()
+      )
+      .beaconKeyMaterials();
+
+    // Print the Encryption Context
+    System.out.println(beaconKeyMaterials.encryptionContext().toString());
     return branchKeyId;
   }
 
