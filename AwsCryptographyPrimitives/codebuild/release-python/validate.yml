@@ -34,6 +34,6 @@ phases:
       - NUM_RETRIES=3
       - cd AwsCryptographyPrimitives
       # Transpile code (for tests)
-      - make transpile_python
+      - make transpile_only_test_python
       - cd runtimes/python
       - python -m pytest test/ -s -v
