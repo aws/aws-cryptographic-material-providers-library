@@ -280,8 +280,10 @@ module {:options "/functionSyntax:4" } LocalCMC {
     ghost predicate ValidState()
       ensures ValidState() ==>
                 && History in Modifies
+                && this in Modifies
     {
       && History in Modifies
+      && this in Modifies
     }
 
     ghost predicate InternalValidState()
@@ -359,7 +361,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
 
       History := new Types.ICryptographicMaterialsCacheCallHistory();
 
-      Modifies := { History };
+      Modifies := { History, this };
       InternalModifies := { queue, cache, this };
 
     }

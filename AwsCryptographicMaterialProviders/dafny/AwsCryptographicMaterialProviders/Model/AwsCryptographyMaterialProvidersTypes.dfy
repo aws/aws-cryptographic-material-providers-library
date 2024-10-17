@@ -1023,7 +1023,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     // then you MUST ensure everything you need in ValidState.
     // You MUST also ensure ValidState in your constructor.
     predicate ValidState()
-      ensures ValidState() ==> History in Modifies
+      ensures ValidState() ==> History in Modifies && this in Modifies
     // Dynamic mutable state MUST be internal to the resource.
     // All your dynamic elements are copied in InternalModifies.
     // This means your invariant will begin to look like:
