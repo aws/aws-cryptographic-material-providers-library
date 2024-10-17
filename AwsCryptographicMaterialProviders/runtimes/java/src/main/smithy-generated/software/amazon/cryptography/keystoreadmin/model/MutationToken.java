@@ -3,7 +3,6 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.keystoreadmin.model;
 
-import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class MutationToken {
@@ -14,22 +13,7 @@ public class MutationToken {
   private final String Identifier;
 
   /**
-   * Describes the original state of the Branch Key.
-   */
-  private final ByteBuffer Original;
-
-  /**
-   * Describes the terminal (or final) state of the Branch Key.
-   */
-  private final ByteBuffer Terminal;
-
-  /**
-   * Indirectly describes which items have already been mutated. Used to determine where to continue applying mutations.
-   */
-  private final ByteBuffer ExclusiveStartKey;
-
-  /**
-   * UUID of the Mutation Lock. If not provided, a Query will be issued to find the Mutation Lock.
+   * UUID of the Mutation Lock.
    */
   private final String UUID;
 
@@ -40,9 +24,6 @@ public class MutationToken {
 
   protected MutationToken(BuilderImpl builder) {
     this.Identifier = builder.Identifier();
-    this.Original = builder.Original();
-    this.Terminal = builder.Terminal();
-    this.ExclusiveStartKey = builder.ExclusiveStartKey();
     this.UUID = builder.UUID();
     this.CreateTime = builder.CreateTime();
   }
@@ -55,28 +36,7 @@ public class MutationToken {
   }
 
   /**
-   * @return Describes the original state of the Branch Key.
-   */
-  public ByteBuffer Original() {
-    return this.Original;
-  }
-
-  /**
-   * @return Describes the terminal (or final) state of the Branch Key.
-   */
-  public ByteBuffer Terminal() {
-    return this.Terminal;
-  }
-
-  /**
-   * @return Indirectly describes which items have already been mutated. Used to determine where to continue applying mutations.
-   */
-  public ByteBuffer ExclusiveStartKey() {
-    return this.ExclusiveStartKey;
-  }
-
-  /**
-   * @return UUID of the Mutation Lock. If not provided, a Query will be issued to find the Mutation Lock.
+   * @return UUID of the Mutation Lock.
    */
   public String UUID() {
     return this.UUID;
@@ -109,42 +69,12 @@ public class MutationToken {
     String Identifier();
 
     /**
-     * @param Original Describes the original state of the Branch Key.
-     */
-    Builder Original(ByteBuffer Original);
-
-    /**
-     * @return Describes the original state of the Branch Key.
-     */
-    ByteBuffer Original();
-
-    /**
-     * @param Terminal Describes the terminal (or final) state of the Branch Key.
-     */
-    Builder Terminal(ByteBuffer Terminal);
-
-    /**
-     * @return Describes the terminal (or final) state of the Branch Key.
-     */
-    ByteBuffer Terminal();
-
-    /**
-     * @param ExclusiveStartKey Indirectly describes which items have already been mutated. Used to determine where to continue applying mutations.
-     */
-    Builder ExclusiveStartKey(ByteBuffer ExclusiveStartKey);
-
-    /**
-     * @return Indirectly describes which items have already been mutated. Used to determine where to continue applying mutations.
-     */
-    ByteBuffer ExclusiveStartKey();
-
-    /**
-     * @param UUID UUID of the Mutation Lock. If not provided, a Query will be issued to find the Mutation Lock.
+     * @param UUID UUID of the Mutation Lock.
      */
     Builder UUID(String UUID);
 
     /**
-     * @return UUID of the Mutation Lock. If not provided, a Query will be issued to find the Mutation Lock.
+     * @return UUID of the Mutation Lock.
      */
     String UUID();
 
@@ -165,12 +95,6 @@ public class MutationToken {
 
     protected String Identifier;
 
-    protected ByteBuffer Original;
-
-    protected ByteBuffer Terminal;
-
-    protected ByteBuffer ExclusiveStartKey;
-
     protected String UUID;
 
     protected String CreateTime;
@@ -179,9 +103,6 @@ public class MutationToken {
 
     protected BuilderImpl(MutationToken model) {
       this.Identifier = model.Identifier();
-      this.Original = model.Original();
-      this.Terminal = model.Terminal();
-      this.ExclusiveStartKey = model.ExclusiveStartKey();
       this.UUID = model.UUID();
       this.CreateTime = model.CreateTime();
     }
@@ -193,33 +114,6 @@ public class MutationToken {
 
     public String Identifier() {
       return this.Identifier;
-    }
-
-    public Builder Original(ByteBuffer Original) {
-      this.Original = Original;
-      return this;
-    }
-
-    public ByteBuffer Original() {
-      return this.Original;
-    }
-
-    public Builder Terminal(ByteBuffer Terminal) {
-      this.Terminal = Terminal;
-      return this;
-    }
-
-    public ByteBuffer Terminal() {
-      return this.Terminal;
-    }
-
-    public Builder ExclusiveStartKey(ByteBuffer ExclusiveStartKey) {
-      this.ExclusiveStartKey = ExclusiveStartKey;
-      return this;
-    }
-
-    public ByteBuffer ExclusiveStartKey() {
-      return this.ExclusiveStartKey;
     }
 
     public Builder UUID(String UUID) {
@@ -244,16 +138,6 @@ public class MutationToken {
       if (Objects.isNull(this.Identifier())) {
         throw new IllegalArgumentException(
           "Missing value for required field `Identifier`"
-        );
-      }
-      if (Objects.isNull(this.Original())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `Original`"
-        );
-      }
-      if (Objects.isNull(this.Terminal())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `Terminal`"
         );
       }
       if (Objects.isNull(this.CreateTime())) {

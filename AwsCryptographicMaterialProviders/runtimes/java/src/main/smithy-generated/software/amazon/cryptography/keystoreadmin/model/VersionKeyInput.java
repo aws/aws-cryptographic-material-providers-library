@@ -15,7 +15,7 @@ public class VersionKeyInput {
   /**
    * Multi-Region or Single Region AWS KMS Key used to protect the Branch Key, but not aliases!
    */
-  private final KMSIdentifier KmsArn;
+  private final KmsAesIdentifier KmsArn;
 
   /**
    * This configures which Key Management Operations will be used
@@ -39,7 +39,7 @@ public class VersionKeyInput {
   /**
    * @return Multi-Region or Single Region AWS KMS Key used to protect the Branch Key, but not aliases!
    */
-  public KMSIdentifier KmsArn() {
+  public KmsAesIdentifier KmsArn() {
     return this.KmsArn;
   }
 
@@ -73,12 +73,12 @@ public class VersionKeyInput {
     /**
      * @param KmsArn Multi-Region or Single Region AWS KMS Key used to protect the Branch Key, but not aliases!
      */
-    Builder KmsArn(KMSIdentifier KmsArn);
+    Builder KmsArn(KmsAesIdentifier KmsArn);
 
     /**
      * @return Multi-Region or Single Region AWS KMS Key used to protect the Branch Key, but not aliases!
      */
-    KMSIdentifier KmsArn();
+    KmsAesIdentifier KmsArn();
 
     /**
      * @param Strategy This configures which Key Management Operations will be used
@@ -99,7 +99,7 @@ public class VersionKeyInput {
 
     protected String Identifier;
 
-    protected KMSIdentifier KmsArn;
+    protected KmsAesIdentifier KmsArn;
 
     protected KeyManagementStrategy Strategy;
 
@@ -120,12 +120,12 @@ public class VersionKeyInput {
       return this.Identifier;
     }
 
-    public Builder KmsArn(KMSIdentifier KmsArn) {
+    public Builder KmsArn(KmsAesIdentifier KmsArn) {
       this.KmsArn = KmsArn;
       return this;
     }
 
-    public KMSIdentifier KmsArn() {
+    public KmsAesIdentifier KmsArn() {
       return this.KmsArn;
     }
 
