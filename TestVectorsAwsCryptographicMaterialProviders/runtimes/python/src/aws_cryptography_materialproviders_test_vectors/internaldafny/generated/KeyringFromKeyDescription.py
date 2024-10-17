@@ -415,7 +415,7 @@ class default__:
                         out7_ = CreateStaticKeyStores.default__.CreateStaticKeyStore((d_0_material_).value)
                         d_30_keyStore_ = out7_
                         d_31_input_: AwsCryptographyMaterialProvidersTypes.CreateAwsKmsHierarchicalKeyringInput
-                        d_31_input_ = AwsCryptographyMaterialProvidersTypes.CreateAwsKmsHierarchicalKeyringInput_CreateAwsKmsHierarchicalKeyringInput(Wrappers.Option_Some(((d_0_material_).value).keyIdentifier), Wrappers.Option_None(), d_30_keyStore_, 0, Wrappers.Option_None(), Wrappers.Option_None())
+                        d_31_input_ = AwsCryptographyMaterialProvidersTypes.CreateAwsKmsHierarchicalKeyringInput_CreateAwsKmsHierarchicalKeyringInput(Wrappers.Option_Some(((d_0_material_).value).keyIdentifier), Wrappers.Option_None(), d_30_keyStore_, 11, Wrappers.Option_None(), Wrappers.Option_None())
                         d_32_keyring_: Wrappers.Result
                         out8_: Wrappers.Result
                         out8_ = (mpl).CreateAwsKmsHierarchicalKeyring(d_31_input_)

@@ -501,6 +501,9 @@ class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, AwsCryptographyMate
         out0_: Wrappers.Result
         out0_ = default__.getEntry((self).cache, d_0_getCacheInput_)
         d_1_getCacheOutput_ = out0_
+        if ((d_1_getCacheOutput_).is_Failure) and (not(((d_1_getCacheOutput_).error).is_EntryDoesNotExist)):
+            material = Wrappers.Result_Failure((d_1_getCacheOutput_).error)
+            return material
         d_2_now_: int
         out1_: int
         out1_ = Time.default__.CurrentRelativeTime()
@@ -533,22 +536,20 @@ class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, AwsCryptographyMate
                 return material
             d_10_putCacheEntryInput_: AwsCryptographyMaterialProvidersTypes.PutCacheEntryInput
             d_10_putCacheEntryInput_ = AwsCryptographyMaterialProvidersTypes.PutCacheEntryInput_PutCacheEntryInput(cacheId, AwsCryptographyMaterialProvidersTypes.Materials_BranchKey(d_7_branchKeyMaterials_), d_8_now_, ((self).ttlSeconds) + (d_8_now_), Wrappers.Option_None(), Wrappers.Option_None())
-            d_11_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+            d_11_putResult_: Wrappers.Result
             out4_: Wrappers.Result
             out4_ = default__.putEntry((self).cache, d_10_putCacheEntryInput_)
-            d_11_valueOrError2_ = out4_
-            if (d_11_valueOrError2_).IsFailure():
-                material = (d_11_valueOrError2_).PropagateFailure()
+            d_11_putResult_ = out4_
+            if ((d_11_putResult_).is_Failure) and (not(((d_11_putResult_).error).is_EntryAlreadyExists)):
+                material = Wrappers.Result_Failure((d_11_putResult_).error)
                 return material
-            d_12___v0_: tuple
-            d_12___v0_ = (d_11_valueOrError2_).Extract()
             material = Wrappers.Result_Success(d_7_branchKeyMaterials_)
             return material
         elif True:
-            d_13_valueOrError3_: Wrappers.Outcome = Wrappers.Outcome.default()()
-            d_13_valueOrError3_ = Wrappers.default__.Need(((((d_1_getCacheOutput_).value).materials).is_BranchKey) and ((((d_1_getCacheOutput_).value).materials) == (AwsCryptographyMaterialProvidersTypes.Materials_BranchKey((((d_1_getCacheOutput_).value).materials).BranchKey))), default__.E(_dafny.Seq("Invalid Material Type.")))
-            if (d_13_valueOrError3_).IsFailure():
-                material = (d_13_valueOrError3_).PropagateFailure()
+            d_12_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
+            d_12_valueOrError2_ = Wrappers.default__.Need(((((d_1_getCacheOutput_).value).materials).is_BranchKey) and ((((d_1_getCacheOutput_).value).materials) == (AwsCryptographyMaterialProvidersTypes.Materials_BranchKey((((d_1_getCacheOutput_).value).materials).BranchKey))), default__.E(_dafny.Seq("Invalid Material Type.")))
+            if (d_12_valueOrError2_).IsFailure():
+                material = (d_12_valueOrError2_).PropagateFailure()
                 return material
             material = Wrappers.Result_Success((((d_1_getCacheOutput_).value).materials).BranchKey)
             return material
@@ -815,6 +816,9 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
         out0_: Wrappers.Result
         out0_ = default__.getEntry((self).cache, d_0_getCacheInput_)
         d_1_getCacheOutput_ = out0_
+        if ((d_1_getCacheOutput_).is_Failure) and (not(((d_1_getCacheOutput_).error).is_EntryDoesNotExist)):
+            material = Wrappers.Result_Failure((d_1_getCacheOutput_).error)
+            return material
         d_2_now_: int
         out1_: int
         out1_ = Time.default__.CurrentRelativeTime()
@@ -847,22 +851,20 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
                 return material
             d_10_putCacheEntryInput_: AwsCryptographyMaterialProvidersTypes.PutCacheEntryInput
             d_10_putCacheEntryInput_ = AwsCryptographyMaterialProvidersTypes.PutCacheEntryInput_PutCacheEntryInput(cacheId, AwsCryptographyMaterialProvidersTypes.Materials_BranchKey(d_7_branchKeyMaterials_), d_8_now_, ((self).ttlSeconds) + (d_8_now_), Wrappers.Option_None(), Wrappers.Option_None())
-            d_11_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+            d_11_putResult_: Wrappers.Result
             out4_: Wrappers.Result
             out4_ = default__.putEntry((self).cache, d_10_putCacheEntryInput_)
-            d_11_valueOrError2_ = out4_
-            if (d_11_valueOrError2_).IsFailure():
-                material = (d_11_valueOrError2_).PropagateFailure()
+            d_11_putResult_ = out4_
+            if ((d_11_putResult_).is_Failure) and (not(((d_11_putResult_).error).is_EntryAlreadyExists)):
+                material = Wrappers.Result_Failure((d_11_putResult_).error)
                 return material
-            d_12___v1_: tuple
-            d_12___v1_ = (d_11_valueOrError2_).Extract()
             material = Wrappers.Result_Success(d_7_branchKeyMaterials_)
             return material
         elif True:
-            d_13_valueOrError3_: Wrappers.Outcome = Wrappers.Outcome.default()()
-            d_13_valueOrError3_ = Wrappers.default__.Need(((((d_1_getCacheOutput_).value).materials).is_BranchKey) and ((((d_1_getCacheOutput_).value).materials) == (AwsCryptographyMaterialProvidersTypes.Materials_BranchKey((((d_1_getCacheOutput_).value).materials).BranchKey))), default__.E(_dafny.Seq("Invalid Material Type.")))
-            if (d_13_valueOrError3_).IsFailure():
-                material = (d_13_valueOrError3_).PropagateFailure()
+            d_12_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
+            d_12_valueOrError2_ = Wrappers.default__.Need(((((d_1_getCacheOutput_).value).materials).is_BranchKey) and ((((d_1_getCacheOutput_).value).materials) == (AwsCryptographyMaterialProvidersTypes.Materials_BranchKey((((d_1_getCacheOutput_).value).materials).BranchKey))), default__.E(_dafny.Seq("Invalid Material Type.")))
+            if (d_12_valueOrError2_).IsFailure():
+                material = (d_12_valueOrError2_).PropagateFailure()
                 return material
             material = Wrappers.Result_Success((((d_1_getCacheOutput_).value).materials).BranchKey)
             return material

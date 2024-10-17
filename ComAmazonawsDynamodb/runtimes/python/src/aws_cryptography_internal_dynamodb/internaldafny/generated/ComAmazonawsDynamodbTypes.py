@@ -7594,11 +7594,11 @@ class Error_TransactionInProgressException(Error, NamedTuple('TransactionInProgr
     def __hash__(self) -> int:
         return super().__hash__()
 
-class Error_Opaque(Error, NamedTuple('Opaque', [('obj', Any)])):
+class Error_Opaque(Error, NamedTuple('Opaque', [('obj', Any), ('alt__text', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.Error.Opaque({_dafny.string_of(self.obj)})'
+        return f'ComAmazonawsDynamodbTypes.Error.Opaque({_dafny.string_of(self.obj)}, {_dafny.string_of(self.alt__text)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, Error_Opaque) and self.obj == __o.obj
+        return isinstance(__o, Error_Opaque) and self.obj == __o.obj and self.alt__text == __o.alt__text
     def __hash__(self) -> int:
         return super().__hash__()
 

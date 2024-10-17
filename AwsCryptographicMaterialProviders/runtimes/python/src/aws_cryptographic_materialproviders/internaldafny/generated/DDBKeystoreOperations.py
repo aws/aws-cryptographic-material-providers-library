@@ -233,9 +233,9 @@ class default__:
         return output
 
     @staticmethod
-    def CreateTransactWritePutItem(item, tableName, ConditionExpression):
+    def CreateTransactWritePutItem(item, tableName, conditionExpression):
         def lambda0_():
-            source0_ = ConditionExpression
+            source0_ = conditionExpression
             if True:
                 if source0_.is_BRANCH__KEY__NOT__EXIST:
                     return default__.BRANCH__KEY__NOT__EXIST__CONDITION

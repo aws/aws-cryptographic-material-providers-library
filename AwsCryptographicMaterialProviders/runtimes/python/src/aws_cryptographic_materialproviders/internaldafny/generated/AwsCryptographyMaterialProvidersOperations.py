@@ -348,112 +348,148 @@ class default__:
         return output
 
     @staticmethod
+    def N(n):
+        return StandardLibrary_String.default__.Base10Int2String(n)
+
+    @staticmethod
+    def CheckCache(cache, ttlSeconds):
+        output: Wrappers.Outcome = Wrappers.Outcome.default()()
+        if (cache).is_StormTracking:
+            d_0_storm_: AwsCryptographyMaterialProvidersTypes.StormTrackingCache
+            d_0_storm_ = (cache).StormTracking
+            if (ttlSeconds) <= ((d_0_storm_).gracePeriod):
+                d_1_msg_: _dafny.Seq
+                d_1_msg_ = ((((((_dafny.Seq("When creating an AwsKmsHierarchicalKeyring with a StormCache, ")) + (_dafny.Seq("the ttlSeconds of the KeyRing must be greater than the gracePeriod of the StormCache "))) + (_dafny.Seq("yet the ttlSeconds is "))) + (default__.N(ttlSeconds))) + (_dafny.Seq(" and the gracePeriod is "))) + (default__.N((d_0_storm_).gracePeriod))) + (_dafny.Seq("."))
+                output = Wrappers.Outcome_Fail(AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_1_msg_))
+                return output
+            output = Wrappers.Outcome_Pass()
+            return output
+        elif True:
+            output = Wrappers.Outcome_Pass()
+            return output
+        return output
+
+    @staticmethod
     def CreateAwsKmsHierarchicalKeyring(config, input):
         output: Wrappers.Result = None
         d_0_cmc_: AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCache = None
         if ((input).cache).is_Some:
+            d_1_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+            out0_: Wrappers.Outcome
+            out0_ = default__.CheckCache(((input).cache).value, (input).ttlSeconds)
+            d_1_valueOrError0_ = out0_
+            if (d_1_valueOrError0_).IsFailure():
+                output = (d_1_valueOrError0_).PropagateFailure()
+                return output
             source0_ = ((input).cache).value
             with _dafny.label("match0"):
                 if True:
                     if source0_.is_Shared:
-                        d_1_c_ = source0_.Shared
-                        d_0_cmc_ = d_1_c_
+                        d_2_c_ = source0_.Shared
+                        d_0_cmc_ = d_2_c_
                         raise _dafny.Break("match0")
                 if True:
-                    d_2_valueOrError0_: Wrappers.Result = None
-                    out0_: Wrappers.Result
-                    out0_ = default__.CreateCryptographicMaterialsCache(config, AwsCryptographyMaterialProvidersTypes.CreateCryptographicMaterialsCacheInput_CreateCryptographicMaterialsCacheInput(((input).cache).value))
-                    d_2_valueOrError0_ = out0_
-                    if (d_2_valueOrError0_).IsFailure():
-                        output = (d_2_valueOrError0_).PropagateFailure()
+                    d_3_valueOrError1_: Wrappers.Result = None
+                    out1_: Wrappers.Result
+                    out1_ = default__.CreateCryptographicMaterialsCache(config, AwsCryptographyMaterialProvidersTypes.CreateCryptographicMaterialsCacheInput_CreateCryptographicMaterialsCacheInput(((input).cache).value))
+                    d_3_valueOrError1_ = out1_
+                    if (d_3_valueOrError1_).IsFailure():
+                        output = (d_3_valueOrError1_).PropagateFailure()
                         return output
-                    d_0_cmc_ = (d_2_valueOrError0_).Extract()
+                    d_0_cmc_ = (d_3_valueOrError1_).Extract()
                 pass
         elif True:
-            d_3_valueOrError1_: Wrappers.Result = None
-            out1_: Wrappers.Result
-            out1_ = default__.CreateCryptographicMaterialsCache(config, AwsCryptographyMaterialProvidersTypes.CreateCryptographicMaterialsCacheInput_CreateCryptographicMaterialsCacheInput(AwsCryptographyMaterialProvidersTypes.CacheType_Default(AwsCryptographyMaterialProvidersTypes.DefaultCache_DefaultCache(1000))))
-            d_3_valueOrError1_ = out1_
-            if (d_3_valueOrError1_).IsFailure():
-                output = (d_3_valueOrError1_).PropagateFailure()
+            d_4_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
+            out2_: Wrappers.Outcome
+            out2_ = default__.CheckCache(AwsCryptographyMaterialProvidersTypes.CacheType_StormTracking(StormTracker.default__.DefaultStorm()), (input).ttlSeconds)
+            d_4_valueOrError2_ = out2_
+            if (d_4_valueOrError2_).IsFailure():
+                output = (d_4_valueOrError2_).PropagateFailure()
                 return output
-            d_0_cmc_ = (d_3_valueOrError1_).Extract()
-        d_4_partitionIdBytes_: _dafny.Seq = _dafny.Seq({})
+            d_5_valueOrError3_: Wrappers.Result = None
+            out3_: Wrappers.Result
+            out3_ = default__.CreateCryptographicMaterialsCache(config, AwsCryptographyMaterialProvidersTypes.CreateCryptographicMaterialsCacheInput_CreateCryptographicMaterialsCacheInput(AwsCryptographyMaterialProvidersTypes.CacheType_Default(AwsCryptographyMaterialProvidersTypes.DefaultCache_DefaultCache(1000))))
+            d_5_valueOrError3_ = out3_
+            if (d_5_valueOrError3_).IsFailure():
+                output = (d_5_valueOrError3_).PropagateFailure()
+                return output
+            d_0_cmc_ = (d_5_valueOrError3_).Extract()
+        d_6_partitionIdBytes_: _dafny.Seq = _dafny.Seq({})
         if ((input).partitionId).is_Some:
-            d_5_valueOrError2_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
-            def lambda0_(d_6_e_):
-                return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException((_dafny.Seq("Could not UTF-8 Encode Partition ID: ")) + (d_6_e_))
+            d_7_valueOrError4_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
+            def lambda0_(d_8_e_):
+                return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException((_dafny.Seq("Could not UTF-8 Encode Partition ID: ")) + (d_8_e_))
 
-            d_5_valueOrError2_ = (UTF8.default__.Encode(((input).partitionId).value)).MapFailure(lambda0_)
-            if (d_5_valueOrError2_).IsFailure():
-                output = (d_5_valueOrError2_).PropagateFailure()
+            d_7_valueOrError4_ = (UTF8.default__.Encode(((input).partitionId).value)).MapFailure(lambda0_)
+            if (d_7_valueOrError4_).IsFailure():
+                output = (d_7_valueOrError4_).PropagateFailure()
                 return output
-            d_4_partitionIdBytes_ = (d_5_valueOrError2_).Extract()
+            d_6_partitionIdBytes_ = (d_7_valueOrError4_).Extract()
         elif True:
-            d_7_uuid_q_: Wrappers.Result
-            out2_: Wrappers.Result
-            out2_ = UUID.default__.GenerateUUID()
-            d_7_uuid_q_ = out2_
-            d_8_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-            def lambda1_(d_9_e_):
-                return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_9_e_)
+            d_9_uuid_q_: Wrappers.Result
+            out4_: Wrappers.Result
+            out4_ = UUID.default__.GenerateUUID()
+            d_9_uuid_q_ = out4_
+            d_10_valueOrError5_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+            def lambda1_(d_11_e_):
+                return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_11_e_)
 
-            d_8_valueOrError3_ = (d_7_uuid_q_).MapFailure(lambda1_)
-            if (d_8_valueOrError3_).IsFailure():
-                output = (d_8_valueOrError3_).PropagateFailure()
+            d_10_valueOrError5_ = (d_9_uuid_q_).MapFailure(lambda1_)
+            if (d_10_valueOrError5_).IsFailure():
+                output = (d_10_valueOrError5_).PropagateFailure()
                 return output
-            d_10_uuid_: _dafny.Seq
-            d_10_uuid_ = (d_8_valueOrError3_).Extract()
-            d_11_valueOrError4_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-            def lambda2_(d_12_e_):
-                return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_12_e_)
+            d_12_uuid_: _dafny.Seq
+            d_12_uuid_ = (d_10_valueOrError5_).Extract()
+            d_13_valueOrError6_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+            def lambda2_(d_14_e_):
+                return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_14_e_)
 
-            d_11_valueOrError4_ = (UUID.default__.ToByteArray(d_10_uuid_)).MapFailure(lambda2_)
-            if (d_11_valueOrError4_).IsFailure():
-                output = (d_11_valueOrError4_).PropagateFailure()
+            d_13_valueOrError6_ = (UUID.default__.ToByteArray(d_12_uuid_)).MapFailure(lambda2_)
+            if (d_13_valueOrError6_).IsFailure():
+                output = (d_13_valueOrError6_).PropagateFailure()
                 return output
-            d_4_partitionIdBytes_ = (d_11_valueOrError4_).Extract()
-        d_13_getKeyStoreInfoOutput_q_: Wrappers.Result
-        out3_: Wrappers.Result
-        out3_ = ((input).keyStore).GetKeyStoreInfo()
-        d_13_getKeyStoreInfoOutput_q_ = out3_
-        d_14_valueOrError5_: Wrappers.Result = None
-        def lambda3_(d_15_e_):
-            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyKeyStore(d_15_e_)
+            d_6_partitionIdBytes_ = (d_13_valueOrError6_).Extract()
+        d_15_getKeyStoreInfoOutput_q_: Wrappers.Result
+        out5_: Wrappers.Result
+        out5_ = ((input).keyStore).GetKeyStoreInfo()
+        d_15_getKeyStoreInfoOutput_q_ = out5_
+        d_16_valueOrError7_: Wrappers.Result = None
+        def lambda3_(d_17_e_):
+            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyKeyStore(d_17_e_)
 
-        d_14_valueOrError5_ = (d_13_getKeyStoreInfoOutput_q_).MapFailure(lambda3_)
-        if (d_14_valueOrError5_).IsFailure():
-            output = (d_14_valueOrError5_).PropagateFailure()
+        d_16_valueOrError7_ = (d_15_getKeyStoreInfoOutput_q_).MapFailure(lambda3_)
+        if (d_16_valueOrError7_).IsFailure():
+            output = (d_16_valueOrError7_).PropagateFailure()
             return output
-        d_16_getKeyStoreInfoOutput_: AwsCryptographyKeyStoreTypes.GetKeyStoreInfoOutput
-        d_16_getKeyStoreInfoOutput_ = (d_14_valueOrError5_).Extract()
-        d_17_logicalKeyStoreName_: _dafny.Seq
-        d_17_logicalKeyStoreName_ = (d_16_getKeyStoreInfoOutput_).logicalKeyStoreName
-        d_18_valueOrError6_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
-        def lambda4_(d_19_e_):
-            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException((_dafny.Seq("Could not UTF-8 Encode Logical Key Store Name: ")) + (d_19_e_))
+        d_18_getKeyStoreInfoOutput_: AwsCryptographyKeyStoreTypes.GetKeyStoreInfoOutput
+        d_18_getKeyStoreInfoOutput_ = (d_16_valueOrError7_).Extract()
+        d_19_logicalKeyStoreName_: _dafny.Seq
+        d_19_logicalKeyStoreName_ = (d_18_getKeyStoreInfoOutput_).logicalKeyStoreName
+        d_20_valueOrError8_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
+        def lambda4_(d_21_e_):
+            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException((_dafny.Seq("Could not UTF-8 Encode Logical Key Store Name: ")) + (d_21_e_))
 
-        d_18_valueOrError6_ = (UTF8.default__.Encode(d_17_logicalKeyStoreName_)).MapFailure(lambda4_)
-        if (d_18_valueOrError6_).IsFailure():
-            output = (d_18_valueOrError6_).PropagateFailure()
+        d_20_valueOrError8_ = (UTF8.default__.Encode(d_19_logicalKeyStoreName_)).MapFailure(lambda4_)
+        if (d_20_valueOrError8_).IsFailure():
+            output = (d_20_valueOrError8_).PropagateFailure()
             return output
-        d_20_logicalKeyStoreNameBytes_: _dafny.Seq
-        d_20_logicalKeyStoreNameBytes_ = (d_18_valueOrError6_).Extract()
-        d_21_valueOrError7_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_21_valueOrError7_ = Wrappers.default__.Need((((input).branchKeyId).is_None) or (((input).branchKeyIdSupplier).is_None), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Cannot initialize keyring with both a branchKeyId and BranchKeyIdSupplier.")))
-        if (d_21_valueOrError7_).IsFailure():
-            output = (d_21_valueOrError7_).PropagateFailure()
+        d_22_logicalKeyStoreNameBytes_: _dafny.Seq
+        d_22_logicalKeyStoreNameBytes_ = (d_20_valueOrError8_).Extract()
+        d_23_valueOrError9_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_23_valueOrError9_ = Wrappers.default__.Need((((input).branchKeyId).is_None) or (((input).branchKeyIdSupplier).is_None), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Cannot initialize keyring with both a branchKeyId and BranchKeyIdSupplier.")))
+        if (d_23_valueOrError9_).IsFailure():
+            output = (d_23_valueOrError9_).PropagateFailure()
             return output
-        d_22_valueOrError8_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_22_valueOrError8_ = Wrappers.default__.Need((((input).branchKeyId).is_Some) or (((input).branchKeyIdSupplier).is_Some), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Must initialize keyring with either branchKeyId or BranchKeyIdSupplier.")))
-        if (d_22_valueOrError8_).IsFailure():
-            output = (d_22_valueOrError8_).PropagateFailure()
+        d_24_valueOrError10_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_24_valueOrError10_ = Wrappers.default__.Need((((input).branchKeyId).is_Some) or (((input).branchKeyIdSupplier).is_Some), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Must initialize keyring with either branchKeyId or BranchKeyIdSupplier.")))
+        if (d_24_valueOrError10_).IsFailure():
+            output = (d_24_valueOrError10_).PropagateFailure()
             return output
-        d_23_keyring_: AwsKmsHierarchicalKeyring.AwsKmsHierarchicalKeyring
+        d_25_keyring_: AwsKmsHierarchicalKeyring.AwsKmsHierarchicalKeyring
         nw0_ = AwsKmsHierarchicalKeyring.AwsKmsHierarchicalKeyring()
-        nw0_.ctor__((input).keyStore, (input).branchKeyId, (input).branchKeyIdSupplier, (input).ttlSeconds, d_0_cmc_, d_4_partitionIdBytes_, d_20_logicalKeyStoreNameBytes_, (config).crypto)
-        d_23_keyring_ = nw0_
-        output = Wrappers.Result_Success(d_23_keyring_)
+        nw0_.ctor__((input).keyStore, (input).branchKeyId, (input).branchKeyIdSupplier, (input).ttlSeconds, d_0_cmc_, d_6_partitionIdBytes_, d_22_logicalKeyStoreNameBytes_, (config).crypto)
+        d_25_keyring_ = nw0_
+        output = Wrappers.Result_Success(d_25_keyring_)
         return output
         return output
 
@@ -952,75 +988,80 @@ class default__:
                     d_2_dt__update__tmp_h0_ = StormTracker.default__.DefaultStorm()
                     d_3_dt__update_hentryCapacity_h0_ = (d_0_c_).entryCapacity
                     d_1_cache_ = AwsCryptographyMaterialProvidersTypes.StormTrackingCache_StormTrackingCache(d_3_dt__update_hentryCapacity_h0_, (d_2_dt__update__tmp_h0_).entryPruningTailSize, (d_2_dt__update__tmp_h0_).gracePeriod, (d_2_dt__update__tmp_h0_).graceInterval, (d_2_dt__update__tmp_h0_).fanOut, (d_2_dt__update__tmp_h0_).inFlightTTL, (d_2_dt__update__tmp_h0_).sleepMilli)
-                    d_4_cmc_: StormTracker.StormTracker
+                    d_4_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+                    d_4_valueOrError0_ = StormTracker.default__.CheckSettings(d_1_cache_)
+                    if (d_4_valueOrError0_).IsFailure():
+                        output = (d_4_valueOrError0_).PropagateFailure()
+                        return output
+                    d_5_cmc_: StormTracker.StormTracker
                     nw0_ = StormTracker.StormTracker()
                     nw0_.ctor__(d_1_cache_)
-                    d_4_cmc_ = nw0_
-                    d_5_synCmc_: StormTrackingCMC.StormTrackingCMC
-                    nw1_ = StormTrackingCMC.StormTrackingCMC(d_4_cmc_)
-                    d_5_synCmc_ = nw1_
-                    output = Wrappers.Result_Success(d_5_synCmc_)
+                    d_5_cmc_ = nw0_
+                    d_6_synCmc_: StormTrackingCMC.StormTrackingCMC
+                    nw1_ = StormTrackingCMC.StormTrackingCMC(d_5_cmc_)
+                    d_6_synCmc_ = nw1_
+                    output = Wrappers.Result_Success(d_6_synCmc_)
                     return output
                     raise _dafny.Break("match0")
             if True:
                 if source0_.is_No:
-                    d_6_cmc_: LocalCMC.LocalCMC
+                    d_7_cmc_: LocalCMC.LocalCMC
                     nw2_ = LocalCMC.LocalCMC()
                     nw2_.ctor__(0, 1)
-                    d_6_cmc_ = nw2_
-                    output = Wrappers.Result_Success(d_6_cmc_)
+                    d_7_cmc_ = nw2_
+                    output = Wrappers.Result_Success(d_7_cmc_)
                     return output
                     raise _dafny.Break("match0")
             if True:
                 if source0_.is_SingleThreaded:
-                    d_7_c_ = source0_.SingleThreaded
-                    d_8_cmc_: LocalCMC.LocalCMC
+                    d_8_c_ = source0_.SingleThreaded
+                    d_9_cmc_: LocalCMC.LocalCMC
                     nw3_ = LocalCMC.LocalCMC()
-                    nw3_.ctor__((d_7_c_).entryCapacity, (default__.OptionalCountingNumber((d_7_c_).entryPruningTailSize)).UnwrapOr(1))
-                    d_8_cmc_ = nw3_
-                    output = Wrappers.Result_Success(d_8_cmc_)
+                    nw3_.ctor__((d_8_c_).entryCapacity, (default__.OptionalCountingNumber((d_8_c_).entryPruningTailSize)).UnwrapOr(1))
+                    d_9_cmc_ = nw3_
+                    output = Wrappers.Result_Success(d_9_cmc_)
                     return output
                     raise _dafny.Break("match0")
             if True:
                 if source0_.is_MultiThreaded:
-                    d_9_c_ = source0_.MultiThreaded
-                    d_10_cmc_: LocalCMC.LocalCMC
+                    d_10_c_ = source0_.MultiThreaded
+                    d_11_cmc_: LocalCMC.LocalCMC
                     nw4_ = LocalCMC.LocalCMC()
-                    nw4_.ctor__((d_9_c_).entryCapacity, (default__.OptionalCountingNumber((d_9_c_).entryPruningTailSize)).UnwrapOr(1))
-                    d_10_cmc_ = nw4_
-                    d_11_synCmc_: SynchronizedLocalCMC.SynchronizedLocalCMC
-                    nw5_ = SynchronizedLocalCMC.SynchronizedLocalCMC(d_10_cmc_)
-                    d_11_synCmc_ = nw5_
-                    output = Wrappers.Result_Success(d_11_synCmc_)
+                    nw4_.ctor__((d_10_c_).entryCapacity, (default__.OptionalCountingNumber((d_10_c_).entryPruningTailSize)).UnwrapOr(1))
+                    d_11_cmc_ = nw4_
+                    d_12_synCmc_: SynchronizedLocalCMC.SynchronizedLocalCMC
+                    nw5_ = SynchronizedLocalCMC.SynchronizedLocalCMC(d_11_cmc_)
+                    d_12_synCmc_ = nw5_
+                    output = Wrappers.Result_Success(d_12_synCmc_)
                     return output
                     raise _dafny.Break("match0")
             if True:
                 if source0_.is_StormTracking:
-                    d_12_c_ = source0_.StormTracking
-                    pat_let_tv0_ = d_12_c_
-                    d_13_cmc_: StormTracker.StormTracker
+                    d_13_c_ = source0_.StormTracking
+                    d_14_cache_: AwsCryptographyMaterialProvidersTypes.StormTrackingCache
+                    d_15_dt__update__tmp_h1_ = d_13_c_
+                    d_16_dt__update_hentryPruningTailSize_h0_ = default__.OptionalCountingNumber((d_13_c_).entryPruningTailSize)
+                    d_14_cache_ = AwsCryptographyMaterialProvidersTypes.StormTrackingCache_StormTrackingCache((d_15_dt__update__tmp_h1_).entryCapacity, d_16_dt__update_hentryPruningTailSize_h0_, (d_15_dt__update__tmp_h1_).gracePeriod, (d_15_dt__update__tmp_h1_).graceInterval, (d_15_dt__update__tmp_h1_).fanOut, (d_15_dt__update__tmp_h1_).inFlightTTL, (d_15_dt__update__tmp_h1_).sleepMilli)
+                    d_17_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+                    d_17_valueOrError1_ = StormTracker.default__.CheckSettings(d_14_cache_)
+                    if (d_17_valueOrError1_).IsFailure():
+                        output = (d_17_valueOrError1_).PropagateFailure()
+                        return output
+                    d_18_cmc_: StormTracker.StormTracker
                     nw6_ = StormTracker.StormTracker()
-                    def iife0_(_pat_let10_0):
-                        def iife1_(d_14_dt__update__tmp_h1_):
-                            def iife2_(_pat_let11_0):
-                                def iife3_(d_15_dt__update_hentryPruningTailSize_h0_):
-                                    return AwsCryptographyMaterialProvidersTypes.StormTrackingCache_StormTrackingCache((d_14_dt__update__tmp_h1_).entryCapacity, d_15_dt__update_hentryPruningTailSize_h0_, (d_14_dt__update__tmp_h1_).gracePeriod, (d_14_dt__update__tmp_h1_).graceInterval, (d_14_dt__update__tmp_h1_).fanOut, (d_14_dt__update__tmp_h1_).inFlightTTL, (d_14_dt__update__tmp_h1_).sleepMilli)
-                                return iife3_(_pat_let11_0)
-                            return iife2_(default__.OptionalCountingNumber((pat_let_tv0_).entryPruningTailSize))
-                        return iife1_(_pat_let10_0)
-                    nw6_.ctor__(iife0_(d_12_c_))
-                    d_13_cmc_ = nw6_
-                    d_16_synCmc_: StormTrackingCMC.StormTrackingCMC
-                    nw7_ = StormTrackingCMC.StormTrackingCMC(d_13_cmc_)
-                    d_16_synCmc_ = nw7_
-                    output = Wrappers.Result_Success(d_16_synCmc_)
+                    nw6_.ctor__(d_14_cache_)
+                    d_18_cmc_ = nw6_
+                    d_19_synCmc_: StormTrackingCMC.StormTrackingCMC
+                    nw7_ = StormTrackingCMC.StormTrackingCMC(d_18_cmc_)
+                    d_19_synCmc_ = nw7_
+                    output = Wrappers.Result_Success(d_19_synCmc_)
                     return output
                     raise _dafny.Break("match0")
             if True:
-                d_17_c_ = source0_.Shared
-                d_18_exception_: AwsCryptographyMaterialProvidersTypes.Error
-                d_18_exception_ = AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("CreateCryptographicMaterialsCache should never be called with Shared CacheType."))
-                output = Wrappers.Result_Failure(d_18_exception_)
+                d_20_c_ = source0_.Shared
+                d_21_exception_: AwsCryptographyMaterialProvidersTypes.Error
+                d_21_exception_ = AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("CreateCryptographicMaterialsCache should never be called with Shared CacheType."))
+                output = Wrappers.Result_Failure(d_21_exception_)
                 return output
             pass
         return output

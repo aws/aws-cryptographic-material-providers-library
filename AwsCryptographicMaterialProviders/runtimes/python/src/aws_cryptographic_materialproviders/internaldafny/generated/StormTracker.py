@@ -113,7 +113,30 @@ class default__:
 
     @staticmethod
     def DefaultStorm():
-        return AwsCryptographyMaterialProvidersTypes.StormTrackingCache_StormTrackingCache(1000, Wrappers.Option_Some(1), 10, 1, 20, 20, 20)
+        return AwsCryptographyMaterialProvidersTypes.StormTrackingCache_StormTrackingCache(1000, Wrappers.Option_Some(1), 10, 1, 20, 10, 20)
+
+    @staticmethod
+    def ConsistentSettings(cache):
+        return ((((cache).graceInterval) <= ((cache).gracePeriod)) and (((cache).inFlightTTL) <= ((cache).gracePeriod))) and (((cache).graceInterval) <= ((cache).inFlightTTL))
+
+    @staticmethod
+    def N(n):
+        return StandardLibrary_String.default__.Base10Int2String(n)
+
+    @staticmethod
+    def BadCacheMsg(cache):
+        d_0_msg_ = _dafny.Seq("For a StormCache : ")
+        d_1_msg_ = (d_0_msg_) + ((((((_dafny.Seq("graceInterval must not exceed gracePeriod, yet configuration has graceInterval=")) + (default__.N((cache).graceInterval))) + (_dafny.Seq(" and gracePeriod="))) + (default__.N((cache).gracePeriod))) + (_dafny.Seq(". ")) if not(((cache).graceInterval) <= ((cache).gracePeriod)) else _dafny.Seq("")))
+        d_2_msg_ = (d_1_msg_) + ((((((_dafny.Seq("inFlightTTL must not exceed gracePeriod, yet configuration has inFlightTTL=")) + (default__.N((cache).inFlightTTL))) + (_dafny.Seq(" and gracePeriod="))) + (default__.N((cache).gracePeriod))) + (_dafny.Seq(". ")) if not(((cache).inFlightTTL) <= ((cache).gracePeriod)) else _dafny.Seq("")))
+        d_3_msg_ = (d_2_msg_) + ((((((_dafny.Seq("graceInterval must not exceed inFlightTTL, yet configuration has graceInterval=")) + (default__.N((cache).graceInterval))) + (_dafny.Seq(" and inFlightTTL="))) + (default__.N((cache).inFlightTTL))) + (_dafny.Seq(". ")) if not(((cache).graceInterval) <= ((cache).inFlightTTL)) else _dafny.Seq("")))
+        return d_3_msg_
+
+    @staticmethod
+    def CheckSettings(cache):
+        if default__.ConsistentSettings(cache):
+            return Wrappers.Outcome_Pass()
+        elif True:
+            return Wrappers.Outcome_Fail(AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(default__.BadCacheMsg(cache)))
 
 
 class CacheState:

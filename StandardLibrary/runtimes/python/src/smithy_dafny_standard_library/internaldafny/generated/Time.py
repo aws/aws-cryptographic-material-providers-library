@@ -43,6 +43,24 @@ class default__:
         pass
 
     @staticmethod
+    def FormatMilli(diff):
+        d_0_whole_ = StandardLibrary_String.default__.Base10Int2String(_dafny.euclidian_division(diff, 1000))
+        d_1_frac_ = StandardLibrary_String.default__.Base10Int2String(_dafny.euclidian_modulus(diff, 1000))
+        if (len(d_1_frac_)) == (1):
+            return ((d_0_whole_) + (_dafny.Seq(".00"))) + (d_1_frac_)
+        elif (len(d_1_frac_)) == (2):
+            return ((d_0_whole_) + (_dafny.Seq(".0"))) + (d_1_frac_)
+        elif True:
+            return ((d_0_whole_) + (_dafny.Seq("."))) + (d_1_frac_)
+
+    @staticmethod
+    def FormatMilliDiff(start, end):
+        if (start) <= (end):
+            return default__.FormatMilli((end) - (start))
+        elif True:
+            return (_dafny.Seq("-")) + (default__.FormatMilli((start) - (end)))
+
+    @staticmethod
     def CreateGetCurrentTimeStampSuccess(value):
         return Wrappers.Result_Success(value)
 

@@ -61,6 +61,14 @@ class default__:
         pass
 
     @staticmethod
+    def CreateHMacSuccess(hmac):
+        return Wrappers.Result_Success(hmac)
+
+    @staticmethod
+    def CreateHMacFailure(error):
+        return Wrappers.Result_Failure(error)
+
+    @staticmethod
     def CreateDigestSuccess(bytes):
         return Wrappers.Result_Success(bytes)
 
@@ -68,18 +76,4 @@ class default__:
     def CreateDigestFailure(error):
         return Wrappers.Result_Failure(error)
 
-
-class HMac:
-    def  __init__(self):
-        pass
-
-    def __dafnystr__(self) -> str:
-        return "HMAC.HMac"
-    @staticmethod
-    def CreateHMacSuccess(hmac):
-        return Wrappers.Result_Success(hmac)
-
-    @staticmethod
-    def CreateHMacFailure(error):
-        return Wrappers.Result_Failure(error)
 
