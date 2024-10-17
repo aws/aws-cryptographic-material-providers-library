@@ -36,7 +36,7 @@ Required Prerequisites
 
 * Python 3.11+
 * cryptography >= 43.0.1
-* boto3 >= 1.28.0
+* boto3 >= 1.35.42
 
 Installation
 ============
