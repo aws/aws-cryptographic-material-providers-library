@@ -11,6 +11,10 @@ on:
     - cron: "30 16 * * *"
 
 jobs:
+  getVersion:
+    # Don't run the cron builds on forks
+    if: github.event_name != 'schedule' || github.repository_owner == 'aws'
+    uses: ./.github/workflows/dafny_version.yaml
   dafny-nightly-format:
     # Don't run the cron builds on forks
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
@@ -39,6 +43,7 @@ jobs:
       regenerate-code: true
   dafny-nightly-python:
     needs: getVersion
+    if: github.event_name != 'schedule' || github.repository_owner == 'aws'
     uses: ./.github/workflows/library_python_tests.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
