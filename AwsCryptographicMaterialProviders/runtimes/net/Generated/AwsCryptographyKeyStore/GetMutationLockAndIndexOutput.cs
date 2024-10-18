@@ -5,9 +5,10 @@ using System;
 using AWS.Cryptography.KeyStore;
 namespace AWS.Cryptography.KeyStore
 {
-  public class ClobberMutationLockInput
+  public class GetMutationLockAndIndexOutput
   {
     private AWS.Cryptography.KeyStore.MutationLock _mutationLock;
+    private AWS.Cryptography.KeyStore.MutationIndex _mutationIndex;
     public AWS.Cryptography.KeyStore.MutationLock MutationLock
     {
       get { return this._mutationLock; }
@@ -17,9 +18,17 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._mutationLock != null;
     }
+    public AWS.Cryptography.KeyStore.MutationIndex MutationIndex
+    {
+      get { return this._mutationIndex; }
+      set { this._mutationIndex = value; }
+    }
+    public bool IsSetMutationIndex()
+    {
+      return this._mutationIndex != null;
+    }
     public void Validate()
     {
-      if (!IsSetMutationLock()) throw new System.ArgumentException("Missing value for required property 'MutationLock'");
 
     }
   }

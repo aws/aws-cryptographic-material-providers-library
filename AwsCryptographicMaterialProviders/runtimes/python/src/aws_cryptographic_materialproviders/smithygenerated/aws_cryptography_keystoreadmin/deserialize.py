@@ -6,6 +6,7 @@ import _dafny
 from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreAdminTypes import (
     ApplyMutationOutput_ApplyMutationOutput as DafnyApplyMutationOutput,
     CreateKeyOutput_CreateKeyOutput as DafnyCreateKeyOutput,
+    DescribeMutationOutput_DescribeMutationOutput as DafnyDescribeMutationOutput,
     Error,
     Error_KeyStoreAdminException,
     Error_MutationConflictException,
@@ -84,6 +85,15 @@ def _deserialize_apply_mutation(input: DafnyResponse, config: Config):
     if input.IsFailure():
         return _deserialize_error(input.error)
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_ApplyMutationOutput(
+        input.value
+    )
+
+
+def _deserialize_describe_mutation(input: DafnyResponse, config: Config):
+
+    if input.IsFailure():
+        return _deserialize_error(input.error)
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_DescribeMutationOutput(
         input.value
     )
 

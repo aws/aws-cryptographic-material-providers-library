@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 using System;
-using AWS.Cryptography.KeyStore;
-namespace AWS.Cryptography.KeyStore
+using AWS.Cryptography.KeyStoreAdmin;
+namespace AWS.Cryptography.KeyStoreAdmin
 {
-  public class ClobberMutationLockOutput
+  public class TrustStorage
   {
 
 
