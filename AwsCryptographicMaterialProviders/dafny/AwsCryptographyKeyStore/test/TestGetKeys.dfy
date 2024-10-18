@@ -28,10 +28,17 @@ module TestGetKeys {
       id := None,
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
-      grantTokens := None,
-      ddbTableName := branchKeyStoreName,
-      ddbClient := Some(ddbClient),
-      kmsClient := Some(kmsClient)
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := branchKeyStoreName,
+            ddbClient := Some(ddbClient)
+          ))),
+      keyManagement := Some(
+        Types.kms(
+          Types.AwsKms(
+            kmsClient := Some(kmsClient)
+          )))
     );
 
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
@@ -45,20 +52,27 @@ module TestGetKeys {
     expect |beaconKeyResult.beaconKeyMaterials.beaconKey.value| == 32;
   }
 
-  method {:test} TestGetActiveKey()
+  method {:test} {:isolate_assertions} TestGetActiveKey()
   {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
-
+    assume {:axiom} ddbClient.Modifies == {}; // Turns off verification
     var keyStoreConfig := Types.KeyStoreConfig(
       id := None,
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
-      grantTokens := None,
-      ddbTableName := branchKeyStoreName,
-      ddbClient := Some(ddbClient),
-      kmsClient := Some(kmsClient)
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := branchKeyStoreName,
+            ddbClient := Some(ddbClient)
+          ))),
+      keyManagement := Some(
+        Types.kms(
+          Types.AwsKms(
+            kmsClient := Some(kmsClient)
+          )))
     );
 
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
@@ -73,44 +87,56 @@ module TestGetKeys {
     expect |activeResult.branchKeyMaterials.branchKey| == 32;
   }
 
-  method {:test} TestGetActiveMrkKey()
+  method {:test} {:isolate_assertions} TestGetActiveMrkKey()
   {
     var ddbClient :- expect DDB.DynamoDBClient();
-
+    assume {:axiom} ddbClient.Modifies == {}; // Turns off verification, but allows calling underTest
     var eastKeyStoreConfig := Types.KeyStoreConfig(
       id := None,
       kmsConfiguration := KmsConfigEast,
       logicalKeyStoreName := logicalKeyStoreName,
-      grantTokens := None,
-      ddbTableName := branchKeyStoreName,
-      ddbClient := Some(ddbClient)
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := branchKeyStoreName,
+            ddbClient := Some(ddbClient)
+          )))
     );
 
     var westKeyStoreConfig := Types.KeyStoreConfig(
       id := None,
       kmsConfiguration := KmsConfigWest,
       logicalKeyStoreName := logicalKeyStoreName,
-      grantTokens := None,
-      ddbTableName := branchKeyStoreName,
-      ddbClient := Some(ddbClient)
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := branchKeyStoreName,
+            ddbClient := Some(ddbClient)
+          )))
     );
 
     var eastMrkKeyStoreConfig := Types.KeyStoreConfig(
       id := None,
       kmsConfiguration := KmsMrkConfigEast,
       logicalKeyStoreName := logicalKeyStoreName,
-      grantTokens := None,
-      ddbTableName := branchKeyStoreName,
-      ddbClient := Some(ddbClient)
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := branchKeyStoreName,
+            ddbClient := Some(ddbClient)
+          )))
     );
 
     var westMrkKeyStoreConfig := Types.KeyStoreConfig(
       id := None,
       kmsConfiguration := KmsMrkConfigWest,
       logicalKeyStoreName := logicalKeyStoreName,
-      grantTokens := None,
-      ddbTableName := branchKeyStoreName,
-      ddbClient := Some(ddbClient)
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := branchKeyStoreName,
+            ddbClient := Some(ddbClient)
+          )))
     );
 
     // KmsMrkConfigAP is NOT created
@@ -118,9 +144,12 @@ module TestGetKeys {
       id := None,
       kmsConfiguration := KmsMrkConfigAP,
       logicalKeyStoreName := logicalKeyStoreName,
-      grantTokens := None,
-      ddbTableName := branchKeyStoreName,
-      ddbClient := Some(ddbClient)
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := branchKeyStoreName,
+            ddbClient := Some(ddbClient)
+          )))
     );
 
 
@@ -188,21 +217,7 @@ module TestGetKeys {
 
   method {:test} TestGetBranchKeyVersion()
   {
-    var kmsClient :- expect KMS.KMSClient();
-    var ddbClient :- expect DDB.DynamoDBClient();
-    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
-
-    var keyStoreConfig := Types.KeyStoreConfig(
-      id := None,
-      kmsConfiguration := kmsConfig,
-      logicalKeyStoreName := logicalKeyStoreName,
-      grantTokens := None,
-      ddbTableName := branchKeyStoreName,
-      ddbClient := Some(ddbClient),
-      kmsClient := Some(kmsClient)
-    );
-
-    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+    var keyStore :- expect DefaultKeyStore();
 
     var versionResult :- expect keyStore.GetBranchKeyVersion(
       Types.GetBranchKeyVersionInput(
@@ -227,10 +242,17 @@ module TestGetKeys {
       id := None,
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
-      grantTokens := None,
-      ddbTableName := branchKeyStoreName,
-      ddbClient := Some(ddbClient),
-      kmsClient := Some(kmsClient)
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := branchKeyStoreName,
+            ddbClient := Some(ddbClient)
+          ))),
+      keyManagement := Some(
+        Types.kms(
+          Types.AwsKms(
+            kmsClient := Some(kmsClient)
+          )))
     );
 
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
@@ -252,10 +274,17 @@ module TestGetKeys {
       id := None,
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := incorrectLogicalName,
-      grantTokens := None,
-      ddbTableName := branchKeyStoreName,
-      ddbClient := Some(ddbClient),
-      kmsClient := Some(kmsClient)
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := branchKeyStoreName,
+            ddbClient := Some(ddbClient)
+          ))),
+      keyManagement := Some(
+        Types.kms(
+          Types.AwsKms(
+            kmsClient := Some(kmsClient)
+          )))
     );
 
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
@@ -283,10 +312,17 @@ module TestGetKeys {
       id := None,
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
-      grantTokens := None,
-      ddbTableName := branchKeyStoreName,
-      ddbClient := Some(ddbClient),
-      kmsClient := Some(kmsClient)
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := branchKeyStoreName,
+            ddbClient := Some(ddbClient)
+          ))),
+      keyManagement := Some(
+        Types.kms(
+          Types.AwsKms(
+            kmsClient := Some(kmsClient)
+          )))
     );
 
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
@@ -308,10 +344,11 @@ module TestGetKeys {
       id := None,
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
-      grantTokens := None,
-      ddbTableName := branchKeyStoreName,
-      ddbClient := None,
-      kmsClient := None
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := branchKeyStoreName
+          )))
     );
 
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
