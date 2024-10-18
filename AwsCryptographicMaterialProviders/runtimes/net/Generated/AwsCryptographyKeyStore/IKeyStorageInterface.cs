@@ -17,9 +17,7 @@ namespace AWS.Cryptography.KeyStore
     AWS.Cryptography.KeyStore.WriteInitializeMutationOutput WriteInitializeMutation(AWS.Cryptography.KeyStore.WriteInitializeMutationInput input);
     AWS.Cryptography.KeyStore.QueryForVersionsOutput QueryForVersions(AWS.Cryptography.KeyStore.QueryForVersionsInput input);
     AWS.Cryptography.KeyStore.WriteMutatedVersionsOutput WriteMutatedVersions(AWS.Cryptography.KeyStore.WriteMutatedVersionsInput input);
-    AWS.Cryptography.KeyStore.UpdateMutationIndexOutput UpdateMutationIndex(AWS.Cryptography.KeyStore.UpdateMutationIndexInput input);
-    AWS.Cryptography.KeyStore.GetMutationLockOutput GetMutationLock(AWS.Cryptography.KeyStore.GetMutationLockInput input);
-    AWS.Cryptography.KeyStore.GetMutationLockAndIndexOutput GetMutationLockAndIndex(AWS.Cryptography.KeyStore.GetMutationLockAndIndexInput input);
-    AWS.Cryptography.KeyStore.DeleteMutationLockAndIndexOutput DeleteMutationLockAndIndex(AWS.Cryptography.KeyStore.DeleteMutationLockAndIndexInput input);
+    AWS.Cryptography.KeyStore.GetMutationOutput GetMutation(AWS.Cryptography.KeyStore.GetMutationInput input);
+    AWS.Cryptography.KeyStore.DeleteMutationOutput DeleteMutation(AWS.Cryptography.KeyStore.DeleteMutationInput input);
   }
 }
