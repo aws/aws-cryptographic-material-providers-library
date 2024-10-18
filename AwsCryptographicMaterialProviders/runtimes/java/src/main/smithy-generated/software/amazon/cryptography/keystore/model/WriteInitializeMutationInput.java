@@ -3,6 +3,7 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.keystore.model;
 
+import java.util.List;
 import java.util.Objects;
 
 public class WriteInitializeMutationInput {
@@ -37,19 +38,25 @@ public class WriteInitializeMutationInput {
    * - only one Mutation affects a Branch Key at a time
    * - all items of a Branch Key are mutated consistently
    */
-  private final MutationLock MutationLock;
+  private final MutationCommitment MutationCommitment;
 
   /**
    * Information on an in-flight Mutation of a Branch Key.
    */
   private final MutationIndex MutationIndex;
 
+  /**
+   * List of version (decrypt only) items of a Branch Key to overwrite conditionally.
+   */
+  private final List<OverWriteEncryptedHierarchicalKey> Versions;
+
   protected WriteInitializeMutationInput(BuilderImpl builder) {
     this.Active = builder.Active();
     this.Version = builder.Version();
     this.Beacon = builder.Beacon();
-    this.MutationLock = builder.MutationLock();
+    this.MutationCommitment = builder.MutationCommitment();
     this.MutationIndex = builder.MutationIndex();
+    this.Versions = builder.Versions();
   }
 
   /**
@@ -88,8 +95,8 @@ public class WriteInitializeMutationInput {
    * - only one Mutation affects a Branch Key at a time
    * - all items of a Branch Key are mutated consistently
    */
-  public MutationLock MutationLock() {
-    return this.MutationLock;
+  public MutationCommitment MutationCommitment() {
+    return this.MutationCommitment;
   }
 
   /**
@@ -97,6 +104,13 @@ public class WriteInitializeMutationInput {
    */
   public MutationIndex MutationIndex() {
     return this.MutationIndex;
+  }
+
+  /**
+   * @return List of version (decrypt only) items of a Branch Key to overwrite conditionally.
+   */
+  public List<OverWriteEncryptedHierarchicalKey> Versions() {
+    return this.Versions;
   }
 
   public Builder toBuilder() {
@@ -157,12 +171,12 @@ public class WriteInitializeMutationInput {
     OverWriteEncryptedHierarchicalKey Beacon();
 
     /**
-     * @param MutationLock Information on an in-flight Mutation of a Branch Key.
+     * @param MutationCommitment Information on an in-flight Mutation of a Branch Key.
      * This ensures:
      * - only one Mutation affects a Branch Key at a time
      * - all items of a Branch Key are mutated consistently
      */
-    Builder MutationLock(MutationLock MutationLock);
+    Builder MutationCommitment(MutationCommitment MutationCommitment);
 
     /**
      * @return Information on an in-flight Mutation of a Branch Key.
@@ -170,7 +184,7 @@ public class WriteInitializeMutationInput {
      * - only one Mutation affects a Branch Key at a time
      * - all items of a Branch Key are mutated consistently
      */
-    MutationLock MutationLock();
+    MutationCommitment MutationCommitment();
 
     /**
      * @param MutationIndex Information on an in-flight Mutation of a Branch Key.
@@ -181,6 +195,16 @@ public class WriteInitializeMutationInput {
      * @return Information on an in-flight Mutation of a Branch Key.
      */
     MutationIndex MutationIndex();
+
+    /**
+     * @param Versions List of version (decrypt only) items of a Branch Key to overwrite conditionally.
+     */
+    Builder Versions(List<OverWriteEncryptedHierarchicalKey> Versions);
+
+    /**
+     * @return List of version (decrypt only) items of a Branch Key to overwrite conditionally.
+     */
+    List<OverWriteEncryptedHierarchicalKey> Versions();
 
     WriteInitializeMutationInput build();
   }
@@ -193,9 +217,11 @@ public class WriteInitializeMutationInput {
 
     protected OverWriteEncryptedHierarchicalKey Beacon;
 
-    protected MutationLock MutationLock;
+    protected MutationCommitment MutationCommitment;
 
     protected MutationIndex MutationIndex;
+
+    protected List<OverWriteEncryptedHierarchicalKey> Versions;
 
     protected BuilderImpl() {}
 
@@ -203,8 +229,9 @@ public class WriteInitializeMutationInput {
       this.Active = model.Active();
       this.Version = model.Version();
       this.Beacon = model.Beacon();
-      this.MutationLock = model.MutationLock();
+      this.MutationCommitment = model.MutationCommitment();
       this.MutationIndex = model.MutationIndex();
+      this.Versions = model.Versions();
     }
 
     public Builder Active(OverWriteEncryptedHierarchicalKey Active) {
@@ -234,13 +261,13 @@ public class WriteInitializeMutationInput {
       return this.Beacon;
     }
 
-    public Builder MutationLock(MutationLock MutationLock) {
-      this.MutationLock = MutationLock;
+    public Builder MutationCommitment(MutationCommitment MutationCommitment) {
+      this.MutationCommitment = MutationCommitment;
       return this;
     }
 
-    public MutationLock MutationLock() {
-      return this.MutationLock;
+    public MutationCommitment MutationCommitment() {
+      return this.MutationCommitment;
     }
 
     public Builder MutationIndex(MutationIndex MutationIndex) {
@@ -252,30 +279,24 @@ public class WriteInitializeMutationInput {
       return this.MutationIndex;
     }
 
+    public Builder Versions(List<OverWriteEncryptedHierarchicalKey> Versions) {
+      this.Versions = Versions;
+      return this;
+    }
+
+    public List<OverWriteEncryptedHierarchicalKey> Versions() {
+      return this.Versions;
+    }
+
     public WriteInitializeMutationInput build() {
-      if (Objects.isNull(this.Active())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `Active`"
-        );
-      }
-      if (Objects.isNull(this.Version())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `Version`"
-        );
-      }
       if (Objects.isNull(this.Beacon())) {
         throw new IllegalArgumentException(
           "Missing value for required field `Beacon`"
         );
       }
-      if (Objects.isNull(this.MutationLock())) {
+      if (Objects.isNull(this.Versions())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `MutationLock`"
-        );
-      }
-      if (Objects.isNull(this.MutationIndex())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `MutationIndex`"
+          "Missing value for required field `Versions`"
         );
       }
       return new WriteInitializeMutationInput(this);
