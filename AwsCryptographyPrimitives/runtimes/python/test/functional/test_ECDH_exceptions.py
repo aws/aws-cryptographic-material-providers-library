@@ -42,9 +42,9 @@ from pyasn1.codec.der.encoder import encode as der_encode
 from pyasn1.type.univ import BitString, Sequence
 
 # This exception string is raised when pyca cannot load the DER-encoded public key.
-GENERIC_EXCEPTION_STRING = "Could not deserialize key data. The data may be in an incorrect format, it may be encrypted with an unsupported algorithm, or it may be an unsupported key type (e.g. EC curves with explicit parameters"
+GENERIC_EXCEPTION_STRING = "Invalid key"
 # This exception string appears to be raised ONLY for the invalid public key for the point at infinity.
-INF_EXCEPTION_STRING = "Unable to load EC key"
+INF_EXCEPTION_STRING = "Cannot load an EC public key where the point is at infinity"
 
 def get_valid_der_components():
     """
