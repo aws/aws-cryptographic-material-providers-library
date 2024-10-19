@@ -10,6 +10,14 @@ public class WriteInitializeMutationInput {
 
   /**
    *
+   *   The mutated HMAC key used to support searchable encryption.
+   *   The cryptographic material is identical to the existing beacon,
+   *   but is now authorized with the Mutation's terminal properities.
+   */
+  private final OverWriteEncryptedHierarchicalKey Beacon;
+
+  /**
+   *
    *   The active representation of this branch key,
    *   generated with the Mutation's terminal properities.
    *   The plain-text cryptographic material of the Active must be the same as the Version.
@@ -25,25 +33,19 @@ public class WriteInitializeMutationInput {
   private final EncryptedHierarchicalKey Version;
 
   /**
-   *
-   *   The mutated HMAC key used to support searchable encryption.
-   *   The cryptographic material is identical to the existing beacon,
-   *   but is now authorized with the Mutation's terminal properities.
-   */
-  private final OverWriteEncryptedHierarchicalKey Beacon;
-
-  /**
-   * Information on an in-flight Mutation of a Branch Key.
-   * This ensures:
-   * - only one Mutation affects a Branch Key at a time
-   * - all items of a Branch Key are mutated consistently
+   * If Mutation is non-automic, a commitment is required.
    */
   private final MutationCommitment MutationCommitment;
 
   /**
-   * Information on an in-flight Mutation of a Branch Key.
+   * If Mutation is non-automic, an index is required.
    */
   private final MutationIndex MutationIndex;
+
+  /**
+   * If Mutation is being resumed, an overwrite index is required.
+   */
+  private final OverWriteMutationIndex OverWriteMutationIndex;
 
   /**
    * List of version (decrypt only) items of a Branch Key to overwrite conditionally.
@@ -51,12 +53,23 @@ public class WriteInitializeMutationInput {
   private final List<OverWriteEncryptedHierarchicalKey> Versions;
 
   protected WriteInitializeMutationInput(BuilderImpl builder) {
+    this.Beacon = builder.Beacon();
     this.Active = builder.Active();
     this.Version = builder.Version();
-    this.Beacon = builder.Beacon();
     this.MutationCommitment = builder.MutationCommitment();
     this.MutationIndex = builder.MutationIndex();
+    this.OverWriteMutationIndex = builder.OverWriteMutationIndex();
     this.Versions = builder.Versions();
+  }
+
+  /**
+   * @return
+   *   The mutated HMAC key used to support searchable encryption.
+   *   The cryptographic material is identical to the existing beacon,
+   *   but is now authorized with the Mutation's terminal properities.
+   */
+  public OverWriteEncryptedHierarchicalKey Beacon() {
+    return this.Beacon;
   }
 
   /**
@@ -80,30 +93,24 @@ public class WriteInitializeMutationInput {
   }
 
   /**
-   * @return
-   *   The mutated HMAC key used to support searchable encryption.
-   *   The cryptographic material is identical to the existing beacon,
-   *   but is now authorized with the Mutation's terminal properities.
-   */
-  public OverWriteEncryptedHierarchicalKey Beacon() {
-    return this.Beacon;
-  }
-
-  /**
-   * @return Information on an in-flight Mutation of a Branch Key.
-   * This ensures:
-   * - only one Mutation affects a Branch Key at a time
-   * - all items of a Branch Key are mutated consistently
+   * @return If Mutation is non-automic, a commitment is required.
    */
   public MutationCommitment MutationCommitment() {
     return this.MutationCommitment;
   }
 
   /**
-   * @return Information on an in-flight Mutation of a Branch Key.
+   * @return If Mutation is non-automic, an index is required.
    */
   public MutationIndex MutationIndex() {
     return this.MutationIndex;
+  }
+
+  /**
+   * @return If Mutation is being resumed, an overwrite index is required.
+   */
+  public OverWriteMutationIndex OverWriteMutationIndex() {
+    return this.OverWriteMutationIndex;
   }
 
   /**
@@ -122,6 +129,22 @@ public class WriteInitializeMutationInput {
   }
 
   public interface Builder {
+    /**
+     * @param Beacon
+     *   The mutated HMAC key used to support searchable encryption.
+     *   The cryptographic material is identical to the existing beacon,
+     *   but is now authorized with the Mutation's terminal properities.
+     */
+    Builder Beacon(OverWriteEncryptedHierarchicalKey Beacon);
+
+    /**
+     * @return
+     *   The mutated HMAC key used to support searchable encryption.
+     *   The cryptographic material is identical to the existing beacon,
+     *   but is now authorized with the Mutation's terminal properities.
+     */
+    OverWriteEncryptedHierarchicalKey Beacon();
+
     /**
      * @param Active
      *   The active representation of this branch key,
@@ -155,46 +178,36 @@ public class WriteInitializeMutationInput {
     EncryptedHierarchicalKey Version();
 
     /**
-     * @param Beacon
-     *   The mutated HMAC key used to support searchable encryption.
-     *   The cryptographic material is identical to the existing beacon,
-     *   but is now authorized with the Mutation's terminal properities.
-     */
-    Builder Beacon(OverWriteEncryptedHierarchicalKey Beacon);
-
-    /**
-     * @return
-     *   The mutated HMAC key used to support searchable encryption.
-     *   The cryptographic material is identical to the existing beacon,
-     *   but is now authorized with the Mutation's terminal properities.
-     */
-    OverWriteEncryptedHierarchicalKey Beacon();
-
-    /**
-     * @param MutationCommitment Information on an in-flight Mutation of a Branch Key.
-     * This ensures:
-     * - only one Mutation affects a Branch Key at a time
-     * - all items of a Branch Key are mutated consistently
+     * @param MutationCommitment If Mutation is non-automic, a commitment is required.
      */
     Builder MutationCommitment(MutationCommitment MutationCommitment);
 
     /**
-     * @return Information on an in-flight Mutation of a Branch Key.
-     * This ensures:
-     * - only one Mutation affects a Branch Key at a time
-     * - all items of a Branch Key are mutated consistently
+     * @return If Mutation is non-automic, a commitment is required.
      */
     MutationCommitment MutationCommitment();
 
     /**
-     * @param MutationIndex Information on an in-flight Mutation of a Branch Key.
+     * @param MutationIndex If Mutation is non-automic, an index is required.
      */
     Builder MutationIndex(MutationIndex MutationIndex);
 
     /**
-     * @return Information on an in-flight Mutation of a Branch Key.
+     * @return If Mutation is non-automic, an index is required.
      */
     MutationIndex MutationIndex();
+
+    /**
+     * @param OverWriteMutationIndex If Mutation is being resumed, an overwrite index is required.
+     */
+    Builder OverWriteMutationIndex(
+      OverWriteMutationIndex OverWriteMutationIndex
+    );
+
+    /**
+     * @return If Mutation is being resumed, an overwrite index is required.
+     */
+    OverWriteMutationIndex OverWriteMutationIndex();
 
     /**
      * @param Versions List of version (decrypt only) items of a Branch Key to overwrite conditionally.
@@ -211,27 +224,39 @@ public class WriteInitializeMutationInput {
 
   static class BuilderImpl implements Builder {
 
+    protected OverWriteEncryptedHierarchicalKey Beacon;
+
     protected OverWriteEncryptedHierarchicalKey Active;
 
     protected EncryptedHierarchicalKey Version;
 
-    protected OverWriteEncryptedHierarchicalKey Beacon;
-
     protected MutationCommitment MutationCommitment;
 
     protected MutationIndex MutationIndex;
+
+    protected OverWriteMutationIndex OverWriteMutationIndex;
 
     protected List<OverWriteEncryptedHierarchicalKey> Versions;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(WriteInitializeMutationInput model) {
+      this.Beacon = model.Beacon();
       this.Active = model.Active();
       this.Version = model.Version();
-      this.Beacon = model.Beacon();
       this.MutationCommitment = model.MutationCommitment();
       this.MutationIndex = model.MutationIndex();
+      this.OverWriteMutationIndex = model.OverWriteMutationIndex();
       this.Versions = model.Versions();
+    }
+
+    public Builder Beacon(OverWriteEncryptedHierarchicalKey Beacon) {
+      this.Beacon = Beacon;
+      return this;
+    }
+
+    public OverWriteEncryptedHierarchicalKey Beacon() {
+      return this.Beacon;
     }
 
     public Builder Active(OverWriteEncryptedHierarchicalKey Active) {
@@ -252,15 +277,6 @@ public class WriteInitializeMutationInput {
       return this.Version;
     }
 
-    public Builder Beacon(OverWriteEncryptedHierarchicalKey Beacon) {
-      this.Beacon = Beacon;
-      return this;
-    }
-
-    public OverWriteEncryptedHierarchicalKey Beacon() {
-      return this.Beacon;
-    }
-
     public Builder MutationCommitment(MutationCommitment MutationCommitment) {
       this.MutationCommitment = MutationCommitment;
       return this;
@@ -277,6 +293,17 @@ public class WriteInitializeMutationInput {
 
     public MutationIndex MutationIndex() {
       return this.MutationIndex;
+    }
+
+    public Builder OverWriteMutationIndex(
+      OverWriteMutationIndex OverWriteMutationIndex
+    ) {
+      this.OverWriteMutationIndex = OverWriteMutationIndex;
+      return this;
+    }
+
+    public OverWriteMutationIndex OverWriteMutationIndex() {
+      return this.OverWriteMutationIndex;
     }
 
     public Builder Versions(List<OverWriteEncryptedHierarchicalKey> Versions) {

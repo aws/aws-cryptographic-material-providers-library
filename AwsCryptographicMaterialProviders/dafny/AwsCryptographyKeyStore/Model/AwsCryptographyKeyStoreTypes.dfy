@@ -773,6 +773,10 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     nameonly Old: EncryptedHierarchicalKey
   )
   type OverWriteEncryptedHierarchicalKeys = seq<OverWriteEncryptedHierarchicalKey>
+  datatype OverWriteMutationIndex = | OverWriteMutationIndex (
+    nameonly Index: MutationIndex ,
+    nameonly Old: MutationIndex
+  )
   datatype QueryForVersionsInput = | QueryForVersionsInput (
     nameonly ExclusiveStartKey: Option<seq<uint8>> := Option.None ,
     nameonly Identifier: string ,
@@ -794,11 +798,12 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
 
                               )
   datatype WriteInitializeMutationInput = | WriteInitializeMutationInput (
+    nameonly Beacon: OverWriteEncryptedHierarchicalKey ,
     nameonly Active: Option<OverWriteEncryptedHierarchicalKey> := Option.None ,
     nameonly Version: Option<EncryptedHierarchicalKey> := Option.None ,
-    nameonly Beacon: OverWriteEncryptedHierarchicalKey ,
     nameonly MutationCommitment: Option<MutationCommitment> := Option.None ,
     nameonly MutationIndex: Option<MutationIndex> := Option.None ,
+    nameonly OverWriteMutationIndex: Option<OverWriteMutationIndex> := Option.None ,
     nameonly Versions: OverWriteEncryptedHierarchicalKeys
   )
   datatype WriteInitializeMutationOutput = | WriteInitializeMutationOutput (
@@ -807,7 +812,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   datatype WriteMutatedVersionsInput = | WriteMutatedVersionsInput (
     nameonly Items: OverWriteEncryptedHierarchicalKeys ,
     nameonly MutationCommitment: MutationCommitment ,
-    nameonly MutationIndex: MutationIndex ,
+    nameonly MutationIndex: OverWriteMutationIndex ,
     nameonly EndMutation: bool
   )
   datatype WriteMutatedVersionsOutput = | WriteMutatedVersionsOutput (

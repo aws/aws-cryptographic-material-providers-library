@@ -70,6 +70,7 @@ import software.amazon.cryptography.keystore.internaldafny.types.MRDiscovery;
 import software.amazon.cryptography.keystore.internaldafny.types.MutationCommitment;
 import software.amazon.cryptography.keystore.internaldafny.types.MutationIndex;
 import software.amazon.cryptography.keystore.internaldafny.types.OverWriteEncryptedHierarchicalKey;
+import software.amazon.cryptography.keystore.internaldafny.types.OverWriteMutationIndex;
 import software.amazon.cryptography.keystore.internaldafny.types.QueryForVersionsInput;
 import software.amazon.cryptography.keystore.internaldafny.types.QueryForVersionsOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.Storage;
@@ -926,6 +927,16 @@ public class ToDafny {
     return new OverWriteEncryptedHierarchicalKey(item, old);
   }
 
+  public static OverWriteMutationIndex OverWriteMutationIndex(
+    software.amazon.cryptography.keystore.model.OverWriteMutationIndex nativeValue
+  ) {
+    MutationIndex index;
+    index = ToDafny.MutationIndex(nativeValue.Index());
+    MutationIndex old;
+    old = ToDafny.MutationIndex(nativeValue.Old());
+    return new OverWriteMutationIndex(index, old);
+  }
+
   public static QueryForVersionsInput QueryForVersionsInput(
     software.amazon.cryptography.keystore.model.QueryForVersionsInput nativeValue
   ) {
@@ -984,6 +995,8 @@ public class ToDafny {
   public static WriteInitializeMutationInput WriteInitializeMutationInput(
     software.amazon.cryptography.keystore.model.WriteInitializeMutationInput nativeValue
   ) {
+    OverWriteEncryptedHierarchicalKey beacon;
+    beacon = ToDafny.OverWriteEncryptedHierarchicalKey(nativeValue.Beacon());
     Option<OverWriteEncryptedHierarchicalKey> active;
     active =
       Objects.nonNull(nativeValue.Active())
@@ -1002,8 +1015,6 @@ public class ToDafny {
           ToDafny.EncryptedHierarchicalKey(nativeValue.Version())
         )
         : Option.create_None(EncryptedHierarchicalKey._typeDescriptor());
-    OverWriteEncryptedHierarchicalKey beacon;
-    beacon = ToDafny.OverWriteEncryptedHierarchicalKey(nativeValue.Beacon());
     Option<MutationCommitment> mutationCommitment;
     mutationCommitment =
       Objects.nonNull(nativeValue.MutationCommitment())
@@ -1020,15 +1031,24 @@ public class ToDafny {
           ToDafny.MutationIndex(nativeValue.MutationIndex())
         )
         : Option.create_None(MutationIndex._typeDescriptor());
+    Option<OverWriteMutationIndex> overWriteMutationIndex;
+    overWriteMutationIndex =
+      Objects.nonNull(nativeValue.OverWriteMutationIndex())
+        ? Option.create_Some(
+          OverWriteMutationIndex._typeDescriptor(),
+          ToDafny.OverWriteMutationIndex(nativeValue.OverWriteMutationIndex())
+        )
+        : Option.create_None(OverWriteMutationIndex._typeDescriptor());
     DafnySequence<? extends OverWriteEncryptedHierarchicalKey> versions;
     versions =
       ToDafny.OverWriteEncryptedHierarchicalKeys(nativeValue.Versions());
     return new WriteInitializeMutationInput(
+      beacon,
       active,
       version,
-      beacon,
       mutationCommitment,
       mutationIndex,
+      overWriteMutationIndex,
       versions
     );
   }
@@ -1047,8 +1067,8 @@ public class ToDafny {
     MutationCommitment mutationCommitment;
     mutationCommitment =
       ToDafny.MutationCommitment(nativeValue.MutationCommitment());
-    MutationIndex mutationIndex;
-    mutationIndex = ToDafny.MutationIndex(nativeValue.MutationIndex());
+    OverWriteMutationIndex mutationIndex;
+    mutationIndex = ToDafny.OverWriteMutationIndex(nativeValue.MutationIndex());
     Boolean endMutation;
     endMutation = (nativeValue.EndMutation());
     return new WriteMutatedVersionsInput(
