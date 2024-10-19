@@ -22,9 +22,10 @@ public class WriteMutatedVersionsInput {
   private final MutationCommitment MutationCommitment;
 
   /**
-   * Information on an in-flight Mutation of a Branch Key.
+   * To avoid information loss, overwrites to any itme in the Key Store
+   * are done conditioned on the old value.
    */
-  private final MutationIndex MutationIndex;
+  private final OverWriteMutationIndex MutationIndex;
 
   private final Boolean EndMutation;
 
@@ -53,9 +54,10 @@ public class WriteMutatedVersionsInput {
   }
 
   /**
-   * @return Information on an in-flight Mutation of a Branch Key.
+   * @return To avoid information loss, overwrites to any itme in the Key Store
+   * are done conditioned on the old value.
    */
-  public MutationIndex MutationIndex() {
+  public OverWriteMutationIndex MutationIndex() {
     return this.MutationIndex;
   }
 
@@ -99,14 +101,16 @@ public class WriteMutatedVersionsInput {
     MutationCommitment MutationCommitment();
 
     /**
-     * @param MutationIndex Information on an in-flight Mutation of a Branch Key.
+     * @param MutationIndex To avoid information loss, overwrites to any itme in the Key Store
+     * are done conditioned on the old value.
      */
-    Builder MutationIndex(MutationIndex MutationIndex);
+    Builder MutationIndex(OverWriteMutationIndex MutationIndex);
 
     /**
-     * @return Information on an in-flight Mutation of a Branch Key.
+     * @return To avoid information loss, overwrites to any itme in the Key Store
+     * are done conditioned on the old value.
      */
-    MutationIndex MutationIndex();
+    OverWriteMutationIndex MutationIndex();
 
     Builder EndMutation(Boolean EndMutation);
 
@@ -121,7 +125,7 @@ public class WriteMutatedVersionsInput {
 
     protected MutationCommitment MutationCommitment;
 
-    protected MutationIndex MutationIndex;
+    protected OverWriteMutationIndex MutationIndex;
 
     protected Boolean EndMutation;
 
@@ -152,12 +156,12 @@ public class WriteMutatedVersionsInput {
       return this.MutationCommitment;
     }
 
-    public Builder MutationIndex(MutationIndex MutationIndex) {
+    public Builder MutationIndex(OverWriteMutationIndex MutationIndex) {
       this.MutationIndex = MutationIndex;
       return this;
     }
 
-    public MutationIndex MutationIndex() {
+    public OverWriteMutationIndex MutationIndex() {
       return this.MutationIndex;
     }
 

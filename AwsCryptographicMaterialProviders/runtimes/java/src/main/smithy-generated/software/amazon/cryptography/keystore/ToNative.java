@@ -75,6 +75,7 @@ import software.amazon.cryptography.keystore.model.NoLongerExistsConditionFailed
 import software.amazon.cryptography.keystore.model.OldEncConditionFailed;
 import software.amazon.cryptography.keystore.model.OpaqueError;
 import software.amazon.cryptography.keystore.model.OverWriteEncryptedHierarchicalKey;
+import software.amazon.cryptography.keystore.model.OverWriteMutationIndex;
 import software.amazon.cryptography.keystore.model.QueryForVersionsInput;
 import software.amazon.cryptography.keystore.model.QueryForVersionsOutput;
 import software.amazon.cryptography.keystore.model.Storage;
@@ -926,6 +927,16 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static OverWriteMutationIndex OverWriteMutationIndex(
+    software.amazon.cryptography.keystore.internaldafny.types.OverWriteMutationIndex dafnyValue
+  ) {
+    OverWriteMutationIndex.Builder nativeBuilder =
+      OverWriteMutationIndex.builder();
+    nativeBuilder.Index(ToNative.MutationIndex(dafnyValue.dtor_Index()));
+    nativeBuilder.Old(ToNative.MutationIndex(dafnyValue.dtor_Old()));
+    return nativeBuilder.build();
+  }
+
   public static QueryForVersionsInput QueryForVersionsInput(
     software.amazon.cryptography.keystore.internaldafny.types.QueryForVersionsInput dafnyValue
   ) {
@@ -987,6 +998,9 @@ public class ToNative {
   ) {
     WriteInitializeMutationInput.Builder nativeBuilder =
       WriteInitializeMutationInput.builder();
+    nativeBuilder.Beacon(
+      ToNative.OverWriteEncryptedHierarchicalKey(dafnyValue.dtor_Beacon())
+    );
     if (dafnyValue.dtor_Active().is_Some()) {
       nativeBuilder.Active(
         ToNative.OverWriteEncryptedHierarchicalKey(
@@ -1001,9 +1015,6 @@ public class ToNative {
         )
       );
     }
-    nativeBuilder.Beacon(
-      ToNative.OverWriteEncryptedHierarchicalKey(dafnyValue.dtor_Beacon())
-    );
     if (dafnyValue.dtor_MutationCommitment().is_Some()) {
       nativeBuilder.MutationCommitment(
         ToNative.MutationCommitment(
@@ -1014,6 +1025,13 @@ public class ToNative {
     if (dafnyValue.dtor_MutationIndex().is_Some()) {
       nativeBuilder.MutationIndex(
         ToNative.MutationIndex(dafnyValue.dtor_MutationIndex().dtor_value())
+      );
+    }
+    if (dafnyValue.dtor_OverWriteMutationIndex().is_Some()) {
+      nativeBuilder.OverWriteMutationIndex(
+        ToNative.OverWriteMutationIndex(
+          dafnyValue.dtor_OverWriteMutationIndex().dtor_value()
+        )
       );
     }
     nativeBuilder.Versions(
@@ -1042,7 +1060,7 @@ public class ToNative {
       ToNative.MutationCommitment(dafnyValue.dtor_MutationCommitment())
     );
     nativeBuilder.MutationIndex(
-      ToNative.MutationIndex(dafnyValue.dtor_MutationIndex())
+      ToNative.OverWriteMutationIndex(dafnyValue.dtor_MutationIndex())
     );
     nativeBuilder.EndMutation((dafnyValue.dtor_EndMutation()));
     return nativeBuilder.build();

@@ -2354,7 +2354,7 @@ class OverWriteEncryptedHierarchicalKey:
         :param item: Information about an encrypted hierarchical key.
             This abstracts the structure of this information from the
             underlying storage.
-        :param old: The previous itme. Used to construct an optimistic
+        :param old: The previous item. Used to construct an optimistic
             lock for the overwrite.
         """
         self.item = item
@@ -2397,12 +2397,71 @@ class OverWriteEncryptedHierarchicalKey:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
+class OverWriteMutationIndex:
+    index: MutationIndex
+    old: MutationIndex
+
+    def __init__(
+        self,
+        *,
+        index: MutationIndex,
+        old: MutationIndex,
+    ):
+        """To avoid information loss, overwrites to any itme in the Key Store
+        are done conditioned on the old value.
+
+        :param index: Information on an in-flight Mutation of a Branch
+            Key.
+        :param old: The previous item. Used to construct an optimistic
+            lock for the overwrite.
+        """
+        self.index = index
+        self.old = old
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the OverWriteMutationIndex to a dictionary."""
+        return {
+            "index": self.index.as_dict(),
+            "old": self.old.as_dict(),
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "OverWriteMutationIndex":
+        """Creates a OverWriteMutationIndex from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "index": MutationIndex.from_dict(d["index"]),
+            "old": MutationIndex.from_dict(d["old"]),
+        }
+
+        return OverWriteMutationIndex(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "OverWriteMutationIndex("
+        if self.index is not None:
+            result += f"index={repr(self.index)}, "
+
+        if self.old is not None:
+            result += f"old={repr(self.old)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, OverWriteMutationIndex):
+            return False
+        attributes: list[str] = [
+            "index",
+            "old",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
 class WriteInitializeMutationInput:
+    beacon: OverWriteEncryptedHierarchicalKey
     active: Optional[OverWriteEncryptedHierarchicalKey]
     version: Optional[EncryptedHierarchicalKey]
-    beacon: OverWriteEncryptedHierarchicalKey
     mutation_commitment: Optional[MutationCommitment]
     mutation_index: Optional[MutationIndex]
+    over_write_mutation_index: Optional[OverWriteMutationIndex]
     versions: list[OverWriteEncryptedHierarchicalKey]
 
     def __init__(
@@ -2414,6 +2473,7 @@ class WriteInitializeMutationInput:
         version: Optional[EncryptedHierarchicalKey] = None,
         mutation_commitment: Optional[MutationCommitment] = None,
         mutation_index: Optional[MutationIndex] = None,
+        over_write_mutation_index: Optional[OverWriteMutationIndex] = None,
     ):
         """
         :param beacon:
@@ -2436,13 +2496,11 @@ class WriteInitializeMutationInput:
         generated with the Mutation's terminal properities.
           The plain-text
         cryptographic material of the `Version` must be the same as the `Active`.
-        :param mutation_commitment: Information on an in-flight Mutation of a Branch
-        Key.
-        This ensures:
-        - only one Mutation affects a Branch Key at a time
-        - all
-        items of a Branch Key are mutated consistently
-        :param mutation_index: Information on an in-flight Mutation of a Branch Key.
+        :param mutation_commitment: If Mutation is non-automic, a commitment is
+        required.
+        :param mutation_index: If Mutation is non-automic, an index is required.
+        :param over_write_mutation_index: If Mutation is being resumed, an overwrite
+        index is required.
         """
         self.beacon = beacon
         self.versions = versions
@@ -2450,6 +2508,7 @@ class WriteInitializeMutationInput:
         self.version = version
         self.mutation_commitment = mutation_commitment
         self.mutation_index = mutation_index
+        self.over_write_mutation_index = over_write_mutation_index
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the WriteInitializeMutationInput to a dictionary."""
@@ -2469,6 +2528,9 @@ class WriteInitializeMutationInput:
 
         if self.mutation_index is not None:
             d["mutation_index"] = self.mutation_index.as_dict()
+
+        if self.over_write_mutation_index is not None:
+            d["over_write_mutation_index"] = self.over_write_mutation_index.as_dict()
 
         return d
 
@@ -2496,24 +2558,34 @@ class WriteInitializeMutationInput:
         if "mutation_index" in d:
             kwargs["mutation_index"] = MutationIndex.from_dict(d["mutation_index"])
 
+        if "over_write_mutation_index" in d:
+            kwargs["over_write_mutation_index"] = OverWriteMutationIndex.from_dict(
+                d["over_write_mutation_index"]
+            )
+
         return WriteInitializeMutationInput(**kwargs)
 
     def __repr__(self) -> str:
         result = "WriteInitializeMutationInput("
+        if self.beacon is not None:
+            result += f"beacon={repr(self.beacon)}, "
+
         if self.active is not None:
             result += f"active={repr(self.active)}, "
 
         if self.version is not None:
             result += f"version={repr(self.version)}, "
 
-        if self.beacon is not None:
-            result += f"beacon={repr(self.beacon)}, "
-
         if self.mutation_commitment is not None:
             result += f"mutation_commitment={repr(self.mutation_commitment)}, "
 
         if self.mutation_index is not None:
             result += f"mutation_index={repr(self.mutation_index)}, "
+
+        if self.over_write_mutation_index is not None:
+            result += (
+                f"over_write_mutation_index={repr(self.over_write_mutation_index)}, "
+            )
 
         if self.versions is not None:
             result += f"versions={repr(self.versions)}"
@@ -2524,11 +2596,12 @@ class WriteInitializeMutationInput:
         if not isinstance(other, WriteInitializeMutationInput):
             return False
         attributes: list[str] = [
+            "beacon",
             "active",
             "version",
-            "beacon",
             "mutation_commitment",
             "mutation_index",
+            "over_write_mutation_index",
             "versions",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
@@ -2556,7 +2629,7 @@ class WriteInitializeMutationOutput:
 class WriteMutatedVersionsInput:
     items: list[OverWriteEncryptedHierarchicalKey]
     mutation_commitment: MutationCommitment
-    mutation_index: MutationIndex
+    mutation_index: OverWriteMutationIndex
     end_mutation: bool
 
     def __init__(
@@ -2564,7 +2637,7 @@ class WriteMutatedVersionsInput:
         *,
         items: list[OverWriteEncryptedHierarchicalKey],
         mutation_commitment: MutationCommitment,
-        mutation_index: MutationIndex,
+        mutation_index: OverWriteMutationIndex,
         end_mutation: bool,
     ):
         """
@@ -2576,7 +2649,9 @@ class WriteMutatedVersionsInput:
         - only one Mutation affects a Branch Key at a time
         - all
         items of a Branch Key are mutated consistently
-        :param mutation_index: Information on an in-flight Mutation of a Branch Key.
+        :param mutation_index: To avoid information loss, overwrites to any itme in the
+        Key Store
+        are done conditioned on the old value.
         """
         self.items = items
         self.mutation_commitment = mutation_commitment
@@ -2600,7 +2675,7 @@ class WriteMutatedVersionsInput:
             "mutation_commitment": MutationCommitment.from_dict(
                 d["mutation_commitment"]
             ),
-            "mutation_index": MutationIndex.from_dict(d["mutation_index"]),
+            "mutation_index": OverWriteMutationIndex.from_dict(d["mutation_index"]),
             "end_mutation": d["end_mutation"],
         }
 

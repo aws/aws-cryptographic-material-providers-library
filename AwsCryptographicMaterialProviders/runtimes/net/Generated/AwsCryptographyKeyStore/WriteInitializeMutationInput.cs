@@ -7,12 +7,22 @@ namespace AWS.Cryptography.KeyStore
 {
   public class WriteInitializeMutationInput
   {
+    private AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey _beacon;
     private AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey _active;
     private AWS.Cryptography.KeyStore.EncryptedHierarchicalKey _version;
-    private AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey _beacon;
     private AWS.Cryptography.KeyStore.MutationCommitment _mutationCommitment;
     private AWS.Cryptography.KeyStore.MutationIndex _mutationIndex;
+    private AWS.Cryptography.KeyStore.OverWriteMutationIndex _overWriteMutationIndex;
     private System.Collections.Generic.List<AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey> _versions;
+    public AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey Beacon
+    {
+      get { return this._beacon; }
+      set { this._beacon = value; }
+    }
+    public bool IsSetBeacon()
+    {
+      return this._beacon != null;
+    }
     public AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey Active
     {
       get { return this._active; }
@@ -31,15 +41,6 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._version != null;
     }
-    public AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey Beacon
-    {
-      get { return this._beacon; }
-      set { this._beacon = value; }
-    }
-    public bool IsSetBeacon()
-    {
-      return this._beacon != null;
-    }
     public AWS.Cryptography.KeyStore.MutationCommitment MutationCommitment
     {
       get { return this._mutationCommitment; }
@@ -57,6 +58,15 @@ namespace AWS.Cryptography.KeyStore
     public bool IsSetMutationIndex()
     {
       return this._mutationIndex != null;
+    }
+    public AWS.Cryptography.KeyStore.OverWriteMutationIndex OverWriteMutationIndex
+    {
+      get { return this._overWriteMutationIndex; }
+      set { this._overWriteMutationIndex = value; }
+    }
+    public bool IsSetOverWriteMutationIndex()
+    {
+      return this._overWriteMutationIndex != null;
     }
     public System.Collections.Generic.List<AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey> Versions
     {

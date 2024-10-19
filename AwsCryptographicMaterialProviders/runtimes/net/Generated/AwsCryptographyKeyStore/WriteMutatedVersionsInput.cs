@@ -9,7 +9,7 @@ namespace AWS.Cryptography.KeyStore
   {
     private System.Collections.Generic.List<AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey> _items;
     private AWS.Cryptography.KeyStore.MutationCommitment _mutationCommitment;
-    private AWS.Cryptography.KeyStore.MutationIndex _mutationIndex;
+    private AWS.Cryptography.KeyStore.OverWriteMutationIndex _mutationIndex;
     private bool? _endMutation;
     public System.Collections.Generic.List<AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey> Items
     {
@@ -29,7 +29,7 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._mutationCommitment != null;
     }
-    public AWS.Cryptography.KeyStore.MutationIndex MutationIndex
+    public AWS.Cryptography.KeyStore.OverWriteMutationIndex MutationIndex
     {
       get { return this._mutationIndex; }
       set { this._mutationIndex = value; }

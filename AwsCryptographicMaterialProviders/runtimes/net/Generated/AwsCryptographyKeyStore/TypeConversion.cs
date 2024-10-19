@@ -575,11 +575,12 @@ namespace AWS.Cryptography.KeyStore
     }
     public static AWS.Cryptography.KeyStore.WriteInitializeMutationInput FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput(software.amazon.cryptography.keystore.internaldafny.types._IWriteInitializeMutationInput value)
     {
-      software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationInput concrete = (software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationInput)value; AWS.Cryptography.KeyStore.WriteInitializeMutationInput converted = new AWS.Cryptography.KeyStore.WriteInitializeMutationInput(); if (concrete._Active.is_Some) converted.Active = (AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M6_Active(concrete._Active);
+      software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationInput concrete = (software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationInput)value; AWS.Cryptography.KeyStore.WriteInitializeMutationInput converted = new AWS.Cryptography.KeyStore.WriteInitializeMutationInput(); converted.Beacon = (AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M6_Beacon(concrete._Beacon);
+      if (concrete._Active.is_Some) converted.Active = (AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M6_Active(concrete._Active);
       if (concrete._Version.is_Some) converted.Version = (AWS.Cryptography.KeyStore.EncryptedHierarchicalKey)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M7_Version(concrete._Version);
-      converted.Beacon = (AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M6_Beacon(concrete._Beacon);
       if (concrete._MutationCommitment.is_Some) converted.MutationCommitment = (AWS.Cryptography.KeyStore.MutationCommitment)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M18_MutationCommitment(concrete._MutationCommitment);
       if (concrete._MutationIndex.is_Some) converted.MutationIndex = (AWS.Cryptography.KeyStore.MutationIndex)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M13_MutationIndex(concrete._MutationIndex);
+      if (concrete._OverWriteMutationIndex.is_Some) converted.OverWriteMutationIndex = (AWS.Cryptography.KeyStore.OverWriteMutationIndex)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M22_OverWriteMutationIndex(concrete._OverWriteMutationIndex);
       converted.Versions = (System.Collections.Generic.List<AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey>)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M8_Versions(concrete._Versions); return converted;
     }
     public static software.amazon.cryptography.keystore.internaldafny.types._IWriteInitializeMutationInput ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput(AWS.Cryptography.KeyStore.WriteInitializeMutationInput value)
@@ -589,7 +590,8 @@ namespace AWS.Cryptography.KeyStore
       AWS.Cryptography.KeyStore.EncryptedHierarchicalKey var_version = value.IsSetVersion() ? value.Version : (AWS.Cryptography.KeyStore.EncryptedHierarchicalKey)null;
       AWS.Cryptography.KeyStore.MutationCommitment var_mutationCommitment = value.IsSetMutationCommitment() ? value.MutationCommitment : (AWS.Cryptography.KeyStore.MutationCommitment)null;
       AWS.Cryptography.KeyStore.MutationIndex var_mutationIndex = value.IsSetMutationIndex() ? value.MutationIndex : (AWS.Cryptography.KeyStore.MutationIndex)null;
-      return new software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationInput(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M6_Active(var_active), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M7_Version(var_version), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M6_Beacon(value.Beacon), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M18_MutationCommitment(var_mutationCommitment), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M13_MutationIndex(var_mutationIndex), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M8_Versions(value.Versions));
+      AWS.Cryptography.KeyStore.OverWriteMutationIndex var_overWriteMutationIndex = value.IsSetOverWriteMutationIndex() ? value.OverWriteMutationIndex : (AWS.Cryptography.KeyStore.OverWriteMutationIndex)null;
+      return new software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationInput(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M6_Beacon(value.Beacon), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M6_Active(var_active), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M7_Version(var_version), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M18_MutationCommitment(var_mutationCommitment), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M13_MutationIndex(var_mutationIndex), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M22_OverWriteMutationIndex(var_overWriteMutationIndex), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M8_Versions(value.Versions));
     }
     public static AWS.Cryptography.KeyStore.WriteInitializeMutationOutput FromDafny_N3_aws__N12_cryptography__N8_keyStore__S29_WriteInitializeMutationOutput(software.amazon.cryptography.keystore.internaldafny.types._IWriteInitializeMutationOutput value)
     {
@@ -605,7 +607,7 @@ namespace AWS.Cryptography.KeyStore
     {
       software.amazon.cryptography.keystore.internaldafny.types.WriteMutatedVersionsInput concrete = (software.amazon.cryptography.keystore.internaldafny.types.WriteMutatedVersionsInput)value; AWS.Cryptography.KeyStore.WriteMutatedVersionsInput converted = new AWS.Cryptography.KeyStore.WriteMutatedVersionsInput(); converted.Items = (System.Collections.Generic.List<AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey>)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S25_WriteMutatedVersionsInput__M5_Items(concrete._Items);
       converted.MutationCommitment = (AWS.Cryptography.KeyStore.MutationCommitment)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S25_WriteMutatedVersionsInput__M18_MutationCommitment(concrete._MutationCommitment);
-      converted.MutationIndex = (AWS.Cryptography.KeyStore.MutationIndex)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S25_WriteMutatedVersionsInput__M13_MutationIndex(concrete._MutationIndex);
+      converted.MutationIndex = (AWS.Cryptography.KeyStore.OverWriteMutationIndex)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S25_WriteMutatedVersionsInput__M13_MutationIndex(concrete._MutationIndex);
       converted.EndMutation = (bool)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S25_WriteMutatedVersionsInput__M11_EndMutation(concrete._EndMutation); return converted;
     }
     public static software.amazon.cryptography.keystore.internaldafny.types._IWriteMutatedVersionsInput ToDafny_N3_aws__N12_cryptography__N8_keyStore__S25_WriteMutatedVersionsInput(AWS.Cryptography.KeyStore.WriteMutatedVersionsInput value)
@@ -1203,6 +1205,14 @@ namespace AWS.Cryptography.KeyStore
     {
       return ToDafny_N6_smithy__N3_api__S6_String(value);
     }
+    public static AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M6_Beacon(software.amazon.cryptography.keystore.internaldafny.types._IOverWriteEncryptedHierarchicalKey value)
+    {
+      return FromDafny_N3_aws__N12_cryptography__N8_keyStore__S33_OverWriteEncryptedHierarchicalKey(value);
+    }
+    public static software.amazon.cryptography.keystore.internaldafny.types._IOverWriteEncryptedHierarchicalKey ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M6_Beacon(AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey value)
+    {
+      return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S33_OverWriteEncryptedHierarchicalKey(value);
+    }
     public static AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M6_Active(Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IOverWriteEncryptedHierarchicalKey> value)
     {
       return value.is_None ? (AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey)null : FromDafny_N3_aws__N12_cryptography__N8_keyStore__S33_OverWriteEncryptedHierarchicalKey(value.Extract());
@@ -1219,14 +1229,6 @@ namespace AWS.Cryptography.KeyStore
     {
       return value == null ? Wrappers_Compile.Option<software.amazon.cryptography.keystore.internaldafny.types._IEncryptedHierarchicalKey>.create_None() : Wrappers_Compile.Option<software.amazon.cryptography.keystore.internaldafny.types._IEncryptedHierarchicalKey>.create_Some(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey((AWS.Cryptography.KeyStore.EncryptedHierarchicalKey)value));
     }
-    public static AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M6_Beacon(software.amazon.cryptography.keystore.internaldafny.types._IOverWriteEncryptedHierarchicalKey value)
-    {
-      return FromDafny_N3_aws__N12_cryptography__N8_keyStore__S33_OverWriteEncryptedHierarchicalKey(value);
-    }
-    public static software.amazon.cryptography.keystore.internaldafny.types._IOverWriteEncryptedHierarchicalKey ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M6_Beacon(AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey value)
-    {
-      return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S33_OverWriteEncryptedHierarchicalKey(value);
-    }
     public static AWS.Cryptography.KeyStore.MutationCommitment FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M18_MutationCommitment(Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IMutationCommitment> value)
     {
       return value.is_None ? (AWS.Cryptography.KeyStore.MutationCommitment)null : FromDafny_N3_aws__N12_cryptography__N8_keyStore__S18_MutationCommitment(value.Extract());
@@ -1242,6 +1244,14 @@ namespace AWS.Cryptography.KeyStore
     public static Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IMutationIndex> ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M13_MutationIndex(AWS.Cryptography.KeyStore.MutationIndex value)
     {
       return value == null ? Wrappers_Compile.Option<software.amazon.cryptography.keystore.internaldafny.types._IMutationIndex>.create_None() : Wrappers_Compile.Option<software.amazon.cryptography.keystore.internaldafny.types._IMutationIndex>.create_Some(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex((AWS.Cryptography.KeyStore.MutationIndex)value));
+    }
+    public static AWS.Cryptography.KeyStore.OverWriteMutationIndex FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M22_OverWriteMutationIndex(Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IOverWriteMutationIndex> value)
+    {
+      return value.is_None ? (AWS.Cryptography.KeyStore.OverWriteMutationIndex)null : FromDafny_N3_aws__N12_cryptography__N8_keyStore__S22_OverWriteMutationIndex(value.Extract());
+    }
+    public static Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IOverWriteMutationIndex> ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M22_OverWriteMutationIndex(AWS.Cryptography.KeyStore.OverWriteMutationIndex value)
+    {
+      return value == null ? Wrappers_Compile.Option<software.amazon.cryptography.keystore.internaldafny.types._IOverWriteMutationIndex>.create_None() : Wrappers_Compile.Option<software.amazon.cryptography.keystore.internaldafny.types._IOverWriteMutationIndex>.create_Some(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S22_OverWriteMutationIndex((AWS.Cryptography.KeyStore.OverWriteMutationIndex)value));
     }
     public static System.Collections.Generic.List<AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey> FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_WriteInitializeMutationInput__M8_Versions(Dafny.ISequence<software.amazon.cryptography.keystore.internaldafny.types._IOverWriteEncryptedHierarchicalKey> value)
     {
@@ -1267,13 +1277,13 @@ namespace AWS.Cryptography.KeyStore
     {
       return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S18_MutationCommitment(value);
     }
-    public static AWS.Cryptography.KeyStore.MutationIndex FromDafny_N3_aws__N12_cryptography__N8_keyStore__S25_WriteMutatedVersionsInput__M13_MutationIndex(software.amazon.cryptography.keystore.internaldafny.types._IMutationIndex value)
+    public static AWS.Cryptography.KeyStore.OverWriteMutationIndex FromDafny_N3_aws__N12_cryptography__N8_keyStore__S25_WriteMutatedVersionsInput__M13_MutationIndex(software.amazon.cryptography.keystore.internaldafny.types._IOverWriteMutationIndex value)
     {
-      return FromDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex(value);
+      return FromDafny_N3_aws__N12_cryptography__N8_keyStore__S22_OverWriteMutationIndex(value);
     }
-    public static software.amazon.cryptography.keystore.internaldafny.types._IMutationIndex ToDafny_N3_aws__N12_cryptography__N8_keyStore__S25_WriteMutatedVersionsInput__M13_MutationIndex(AWS.Cryptography.KeyStore.MutationIndex value)
+    public static software.amazon.cryptography.keystore.internaldafny.types._IOverWriteMutationIndex ToDafny_N3_aws__N12_cryptography__N8_keyStore__S25_WriteMutatedVersionsInput__M13_MutationIndex(AWS.Cryptography.KeyStore.OverWriteMutationIndex value)
     {
-      return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex(value);
+      return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S22_OverWriteMutationIndex(value);
     }
     public static bool FromDafny_N3_aws__N12_cryptography__N8_keyStore__S25_WriteMutatedVersionsInput__M11_EndMutation(bool value)
     {
@@ -1607,6 +1617,17 @@ namespace AWS.Cryptography.KeyStore
 
       return new software.amazon.cryptography.keystore.internaldafny.types.OverWriteEncryptedHierarchicalKey(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S33_OverWriteEncryptedHierarchicalKey__M4_Item(value.Item), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S33_OverWriteEncryptedHierarchicalKey__M3_Old(value.Old));
     }
+    public static AWS.Cryptography.KeyStore.OverWriteMutationIndex FromDafny_N3_aws__N12_cryptography__N8_keyStore__S22_OverWriteMutationIndex(software.amazon.cryptography.keystore.internaldafny.types._IOverWriteMutationIndex value)
+    {
+      software.amazon.cryptography.keystore.internaldafny.types.OverWriteMutationIndex concrete = (software.amazon.cryptography.keystore.internaldafny.types.OverWriteMutationIndex)value; AWS.Cryptography.KeyStore.OverWriteMutationIndex converted = new AWS.Cryptography.KeyStore.OverWriteMutationIndex(); converted.Index = (AWS.Cryptography.KeyStore.MutationIndex)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S22_OverWriteMutationIndex__M5_Index(concrete._Index);
+      converted.Old = (AWS.Cryptography.KeyStore.MutationIndex)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S22_OverWriteMutationIndex__M3_Old(concrete._Old); return converted;
+    }
+    public static software.amazon.cryptography.keystore.internaldafny.types._IOverWriteMutationIndex ToDafny_N3_aws__N12_cryptography__N8_keyStore__S22_OverWriteMutationIndex(AWS.Cryptography.KeyStore.OverWriteMutationIndex value)
+    {
+      value.Validate();
+
+      return new software.amazon.cryptography.keystore.internaldafny.types.OverWriteMutationIndex(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S22_OverWriteMutationIndex__M5_Index(value.Index), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S22_OverWriteMutationIndex__M3_Old(value.Old));
+    }
     public static System.Collections.Generic.List<AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey> FromDafny_N3_aws__N12_cryptography__N8_keyStore__S34_OverWriteEncryptedHierarchicalKeys(Dafny.ISequence<software.amazon.cryptography.keystore.internaldafny.types._IOverWriteEncryptedHierarchicalKey> value)
     {
       return new System.Collections.Generic.List<AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey>(value.Elements.Select(FromDafny_N3_aws__N12_cryptography__N8_keyStore__S34_OverWriteEncryptedHierarchicalKeys__M6_member));
@@ -1934,6 +1955,22 @@ namespace AWS.Cryptography.KeyStore
     public static software.amazon.cryptography.keystore.internaldafny.types._IEncryptedHierarchicalKey ToDafny_N3_aws__N12_cryptography__N8_keyStore__S33_OverWriteEncryptedHierarchicalKey__M3_Old(AWS.Cryptography.KeyStore.EncryptedHierarchicalKey value)
     {
       return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey(value);
+    }
+    public static AWS.Cryptography.KeyStore.MutationIndex FromDafny_N3_aws__N12_cryptography__N8_keyStore__S22_OverWriteMutationIndex__M5_Index(software.amazon.cryptography.keystore.internaldafny.types._IMutationIndex value)
+    {
+      return FromDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex(value);
+    }
+    public static software.amazon.cryptography.keystore.internaldafny.types._IMutationIndex ToDafny_N3_aws__N12_cryptography__N8_keyStore__S22_OverWriteMutationIndex__M5_Index(AWS.Cryptography.KeyStore.MutationIndex value)
+    {
+      return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex(value);
+    }
+    public static AWS.Cryptography.KeyStore.MutationIndex FromDafny_N3_aws__N12_cryptography__N8_keyStore__S22_OverWriteMutationIndex__M3_Old(software.amazon.cryptography.keystore.internaldafny.types._IMutationIndex value)
+    {
+      return FromDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex(value);
+    }
+    public static software.amazon.cryptography.keystore.internaldafny.types._IMutationIndex ToDafny_N3_aws__N12_cryptography__N8_keyStore__S22_OverWriteMutationIndex__M3_Old(AWS.Cryptography.KeyStore.MutationIndex value)
+    {
+      return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex(value);
     }
     public static AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey FromDafny_N3_aws__N12_cryptography__N8_keyStore__S34_OverWriteEncryptedHierarchicalKeys__M6_member(software.amazon.cryptography.keystore.internaldafny.types._IOverWriteEncryptedHierarchicalKey value)
     {

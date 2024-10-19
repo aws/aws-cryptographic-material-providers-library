@@ -81,11 +81,9 @@ structure EncryptedHierarchicalKey {
   @documentation("The ciphertext for this encrypted key.")
   CiphertextBlob: Blob,
 }
-
 list EncryptedHierarchicalKeys {
   member: EncryptedHierarchicalKey
 }
-
 
 @documentation(
 "To avoid information loss, overwrites to a EncryptedHierarchicalKey
@@ -95,12 +93,22 @@ structure OverWriteEncryptedHierarchicalKey {
   Item: EncryptedHierarchicalKey
 
   @required
-  @documentation("The previous itme. Used to construct an optimistic lock for the overwrite.")
+  @documentation("The previous item. Used to construct an optimistic lock for the overwrite.")
   Old: EncryptedHierarchicalKey
 }
-
 list OverWriteEncryptedHierarchicalKeys {
   member: OverWriteEncryptedHierarchicalKey
+}
+
+@documentation(
+"To avoid information loss, overwrites to any itme in the Key Store
+are done conditioned on the old value.")
+structure OverWriteMutationIndex {
+  @required
+  Index: MutationIndex
+  @required
+  @documentation("The previous item. Used to construct an optimistic lock for the overwrite.")
+  Old: MutationIndex
 }
 
 @documentation(
@@ -459,24 +467,28 @@ structure GetItemsForInitializeMutationOutput {
 }
 
 structure WriteInitializeMutationInput {
-  @documentation("
-  The active representation of this branch key,
-  generated with the Mutation's terminal properities.  
-  The plain-text cryptographic material of the Active must be the same as the Version.")
-  Active: OverWriteEncryptedHierarchicalKey,
-  @documentation("
-  The decrypt representation of this branch key version,
-  generated with the Mutation's terminal properities.  
-  The plain-text cryptographic material of the `Version` must be the same as the `Active`.")
-  Version: EncryptedHierarchicalKey,
   @required
   @documentation("
   The mutated HMAC key used to support searchable encryption.
   The cryptographic material is identical to the existing beacon,
   but is now authorized with the Mutation's terminal properities.")
-  Beacon: OverWriteEncryptedHierarchicalKey,
+  Beacon: OverWriteEncryptedHierarchicalKey
+  @documentation("
+  The active representation of this branch key,
+  generated with the Mutation's terminal properities.  
+  The plain-text cryptographic material of the Active must be the same as the Version.")
+  Active: OverWriteEncryptedHierarchicalKey
+  @documentation("
+  The decrypt representation of this branch key version,
+  generated with the Mutation's terminal properities.  
+  The plain-text cryptographic material of the `Version` must be the same as the `Active`.")
+  Version: EncryptedHierarchicalKey
+  @documentation("If Mutation is non-automic, a commitment is required.")
   MutationCommitment: MutationCommitment
+  @documentation("If Mutation is non-automic, an index is required.")
   MutationIndex: MutationIndex
+  @documentation("If Mutation is being resumed, an overwrite index is required.")
+  OverWriteMutationIndex: OverWriteMutationIndex
   @required
   @documentation(
   "List of version (decrypt only) items of a Branch Key to overwrite conditionally.")
@@ -525,7 +537,7 @@ structure WriteMutatedVersionsInput {
   @required
   MutationCommitment: MutationCommitment
   @required
-  MutationIndex: MutationIndex
+  MutationIndex: OverWriteMutationIndex
   @required
   EndMutation: Boolean
 }
