@@ -57,15 +57,15 @@ namespace AWS.Cryptography.KeyStore
       input.Validate(); return _WriteMutatedVersions(input);
     }
     protected abstract AWS.Cryptography.KeyStore.WriteMutatedVersionsOutput _WriteMutatedVersions(AWS.Cryptography.KeyStore.WriteMutatedVersionsInput input);
-    public AWS.Cryptography.KeyStore.GetMutationLockOutput GetMutationLock(AWS.Cryptography.KeyStore.GetMutationLockInput input)
+    public AWS.Cryptography.KeyStore.GetMutationOutput GetMutation(AWS.Cryptography.KeyStore.GetMutationInput input)
     {
-      input.Validate(); return _GetMutationLock(input);
+      input.Validate(); return _GetMutation(input);
     }
-    protected abstract AWS.Cryptography.KeyStore.GetMutationLockOutput _GetMutationLock(AWS.Cryptography.KeyStore.GetMutationLockInput input);
-    public AWS.Cryptography.KeyStore.ClobberMutationLockOutput ClobberMutationLock(AWS.Cryptography.KeyStore.ClobberMutationLockInput input)
+    protected abstract AWS.Cryptography.KeyStore.GetMutationOutput _GetMutation(AWS.Cryptography.KeyStore.GetMutationInput input);
+    public AWS.Cryptography.KeyStore.DeleteMutationOutput DeleteMutation(AWS.Cryptography.KeyStore.DeleteMutationInput input)
     {
-      input.Validate(); return _ClobberMutationLock(input);
+      input.Validate(); return _DeleteMutation(input);
     }
-    protected abstract AWS.Cryptography.KeyStore.ClobberMutationLockOutput _ClobberMutationLock(AWS.Cryptography.KeyStore.ClobberMutationLockInput input);
+    protected abstract AWS.Cryptography.KeyStore.DeleteMutationOutput _DeleteMutation(AWS.Cryptography.KeyStore.DeleteMutationInput input);
   }
 }

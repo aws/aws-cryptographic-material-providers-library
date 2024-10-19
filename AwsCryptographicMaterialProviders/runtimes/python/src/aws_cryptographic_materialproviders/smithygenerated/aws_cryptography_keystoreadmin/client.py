@@ -18,6 +18,7 @@ from .config import Plugin
 from .deserialize import (
     _deserialize_apply_mutation,
     _deserialize_create_key,
+    _deserialize_describe_mutation,
     _deserialize_initialize_mutation,
     _deserialize_version_key,
 )
@@ -27,6 +28,8 @@ from .models import (
     ApplyMutationOutput,
     CreateKeyInput,
     CreateKeyOutput,
+    DescribeMutationInput,
+    DescribeMutationOutput,
     InitializeMutationInput,
     InitializeMutationOutput,
     VersionKeyInput,
@@ -35,6 +38,7 @@ from .models import (
 from .serialize import (
     _serialize_apply_mutation,
     _serialize_create_key,
+    _serialize_describe_mutation,
     _serialize_initialize_mutation,
     _serialize_version_key,
 )
@@ -139,6 +143,21 @@ class KeyStoreAdmin:
             deserialize=_deserialize_apply_mutation,
             config=self._config,
             operation_name="ApplyMutation",
+        )
+
+    def describe_mutation(self, input: DescribeMutationInput) -> DescribeMutationOutput:
+        """Check for an in-flight Mutation on a Branch Key ID. If one exists,
+        return a description of the mutation.
+
+        :param input: The operation's input.
+        """
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_describe_mutation,
+            deserialize=_deserialize_describe_mutation,
+            config=self._config,
+            operation_name="DescribeMutation",
         )
 
     def _execute_operation(

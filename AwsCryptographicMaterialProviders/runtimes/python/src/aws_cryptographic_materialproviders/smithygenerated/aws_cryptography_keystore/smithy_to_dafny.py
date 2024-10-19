@@ -9,12 +9,12 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     AwsKms_AwsKms as DafnyAwsKms,
     BeaconKeyMaterials_BeaconKeyMaterials as DafnyBeaconKeyMaterials,
     BranchKeyMaterials_BranchKeyMaterials as DafnyBranchKeyMaterials,
-    ClobberMutationLockInput_ClobberMutationLockInput as DafnyClobberMutationLockInput,
-    ClobberMutationLockOutput_ClobberMutationLockOutput as DafnyClobberMutationLockOutput,
     CreateKeyInput_CreateKeyInput as DafnyCreateKeyInput,
     CreateKeyOutput_CreateKeyOutput as DafnyCreateKeyOutput,
     CreateKeyStoreInput_CreateKeyStoreInput as DafnyCreateKeyStoreInput,
     CreateKeyStoreOutput_CreateKeyStoreOutput as DafnyCreateKeyStoreOutput,
+    DeleteMutationInput_DeleteMutationInput as DafnyDeleteMutationInput,
+    DeleteMutationOutput_DeleteMutationOutput as DafnyDeleteMutationOutput,
     Discovery_Discovery as DafnyDiscovery,
     DynamoDBTable_DynamoDBTable as DafnyDynamoDBTable,
     EncryptedHierarchicalKey_EncryptedHierarchicalKey as DafnyEncryptedHierarchicalKey,
@@ -35,8 +35,8 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     GetKeyStorageInfoInput_GetKeyStorageInfoInput as DafnyGetKeyStorageInfoInput,
     GetKeyStorageInfoOutput_GetKeyStorageInfoOutput as DafnyGetKeyStorageInfoOutput,
     GetKeyStoreInfoOutput_GetKeyStoreInfoOutput as DafnyGetKeyStoreInfoOutput,
-    GetMutationLockInput_GetMutationLockInput as DafnyGetMutationLockInput,
-    GetMutationLockOutput_GetMutationLockOutput as DafnyGetMutationLockOutput,
+    GetMutationInput_GetMutationInput as DafnyGetMutationInput,
+    GetMutationOutput_GetMutationOutput as DafnyGetMutationOutput,
     HierarchicalKeyType_ActiveHierarchicalSymmetricBeacon,
     HierarchicalKeyType_ActiveHierarchicalSymmetricVersion,
     HierarchicalKeyType_HierarchicalSymmetricVersion,
@@ -48,7 +48,10 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     KeyManagement_kms,
     KeyStoreConfig_KeyStoreConfig as DafnyKeyStoreConfig,
     MRDiscovery_MRDiscovery as DafnyMRDiscovery,
-    MutationLock_MutationLock as DafnyMutationLock,
+    MutationCommitment_MutationCommitment as DafnyMutationCommitment,
+    MutationIndex_MutationIndex as DafnyMutationIndex,
+    OverWriteEncryptedHierarchicalKey_OverWriteEncryptedHierarchicalKey as DafnyOverWriteEncryptedHierarchicalKey,
+    OverWriteMutationIndex_OverWriteMutationIndex as DafnyOverWriteMutationIndex,
     QueryForVersionsInput_QueryForVersionsInput as DafnyQueryForVersionsInput,
     QueryForVersionsOutput_QueryForVersionsOutput as DafnyQueryForVersionsOutput,
     Storage_custom,
@@ -230,14 +233,22 @@ def aws_cryptography_keystore_WriteNewEncryptedBranchKeyOutput(native_input):
 
 def aws_cryptography_keystore_WriteNewEncryptedBranchKeyVersionInput(native_input):
     return DafnyWriteNewEncryptedBranchKeyVersionInput(
-        Active=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_EncryptedHierarchicalKey(
+        Active=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_OverWriteEncryptedHierarchicalKey(
             native_input.active
         ),
         Version=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_EncryptedHierarchicalKey(
             native_input.version
         ),
-        OldActive=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_EncryptedHierarchicalKey(
-            native_input.old_active
+    )
+
+
+def aws_cryptography_keystore_OverWriteEncryptedHierarchicalKey(native_input):
+    return DafnyOverWriteEncryptedHierarchicalKey(
+        Item=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_EncryptedHierarchicalKey(
+            native_input.item
+        ),
+        Old=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_EncryptedHierarchicalKey(
+            native_input.old
         ),
     )
 
@@ -359,22 +370,33 @@ def aws_cryptography_keystore_GetItemsForInitializeMutationOutput(native_input):
         BeaconItem=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_EncryptedHierarchicalKey(
             native_input.beacon_item
         ),
-        MutationLock=(
+        MutationCommitment=(
             (
                 Option_Some(
-                    aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_MutationLock(
-                        native_input.mutation_lock
+                    aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_MutationCommitment(
+                        native_input.mutation_commitment
                     )
                 )
             )
-            if (native_input.mutation_lock is not None)
+            if (native_input.mutation_commitment is not None)
+            else (Option_None())
+        ),
+        MutationIndex=(
+            (
+                Option_Some(
+                    aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_MutationIndex(
+                        native_input.mutation_index
+                    )
+                )
+            )
+            if (native_input.mutation_index is not None)
             else (Option_None())
         ),
     )
 
 
-def aws_cryptography_keystore_MutationLock(native_input):
-    return DafnyMutationLock(
+def aws_cryptography_keystore_MutationCommitment(native_input):
+    return DafnyMutationCommitment(
         Identifier=Seq(
             "".join(
                 [
@@ -405,25 +427,124 @@ def aws_cryptography_keystore_MutationLock(native_input):
         ),
         Original=Seq(native_input.original),
         Terminal=Seq(native_input.terminal),
+        Input=Seq(native_input.input),
+        CiphertextBlob=Seq(native_input.ciphertext_blob),
+    )
+
+
+def aws_cryptography_keystore_MutationIndex(native_input):
+    return DafnyMutationIndex(
+        Identifier=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.identifier.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        CreateTime=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.create_time.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        UUID=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(*[iter(native_input.uuid.encode("utf-16-be"))] * 2)
+                ]
+            )
+        ),
+        PageIndex=Seq(native_input.page_index),
+        CiphertextBlob=Seq(native_input.ciphertext_blob),
     )
 
 
 def aws_cryptography_keystore_WriteInitializeMutationInput(native_input):
     return DafnyWriteInitializeMutationInput(
-        Active=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_EncryptedHierarchicalKey(
-            native_input.active
-        ),
-        OldActive=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_EncryptedHierarchicalKey(
-            native_input.old_active
-        ),
-        Version=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_EncryptedHierarchicalKey(
-            native_input.version
-        ),
-        Beacon=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_EncryptedHierarchicalKey(
+        Beacon=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_OverWriteEncryptedHierarchicalKey(
             native_input.beacon
         ),
-        MutationLock=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_MutationLock(
-            native_input.mutation_lock
+        Active=(
+            (
+                Option_Some(
+                    aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_OverWriteEncryptedHierarchicalKey(
+                        native_input.active
+                    )
+                )
+            )
+            if (native_input.active is not None)
+            else (Option_None())
+        ),
+        Version=(
+            (
+                Option_Some(
+                    aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_EncryptedHierarchicalKey(
+                        native_input.version
+                    )
+                )
+            )
+            if (native_input.version is not None)
+            else (Option_None())
+        ),
+        MutationCommitment=(
+            (
+                Option_Some(
+                    aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_MutationCommitment(
+                        native_input.mutation_commitment
+                    )
+                )
+            )
+            if (native_input.mutation_commitment is not None)
+            else (Option_None())
+        ),
+        MutationIndex=(
+            (
+                Option_Some(
+                    aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_MutationIndex(
+                        native_input.mutation_index
+                    )
+                )
+            )
+            if (native_input.mutation_index is not None)
+            else (Option_None())
+        ),
+        OverWriteMutationIndex=(
+            (
+                Option_Some(
+                    aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_OverWriteMutationIndex(
+                        native_input.over_write_mutation_index
+                    )
+                )
+            )
+            if (native_input.over_write_mutation_index is not None)
+            else (Option_None())
+        ),
+        Versions=Seq(
+            [
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_OverWriteEncryptedHierarchicalKey(
+                    list_element
+                )
+                for list_element in native_input.versions
+            ]
+        ),
+    )
+
+
+def aws_cryptography_keystore_OverWriteMutationIndex(native_input):
+    return DafnyOverWriteMutationIndex(
+        Index=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_MutationIndex(
+            native_input.index
+        ),
+        Old=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_MutationIndex(
+            native_input.old
         ),
     )
 
@@ -471,25 +592,19 @@ def aws_cryptography_keystore_WriteMutatedVersionsInput(native_input):
     return DafnyWriteMutatedVersionsInput(
         Items=Seq(
             [
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_EncryptedHierarchicalKey(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_OverWriteEncryptedHierarchicalKey(
                     list_element
                 )
                 for list_element in native_input.items
             ]
         ),
-        Identifier=Seq(
-            "".join(
-                [
-                    chr(int.from_bytes(pair, "big"))
-                    for pair in zip(
-                        *[iter(native_input.identifier.encode("utf-16-be"))] * 2
-                    )
-                ]
-            )
+        MutationCommitment=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_MutationCommitment(
+            native_input.mutation_commitment
         ),
-        Original=Seq(native_input.original),
-        Terminal=Seq(native_input.terminal),
-        CompleteMutation=native_input.complete_mutation,
+        MutationIndex=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_OverWriteMutationIndex(
+            native_input.mutation_index
+        ),
+        EndMutation=native_input.end_mutation,
     )
 
 
@@ -497,8 +612,8 @@ def aws_cryptography_keystore_WriteMutatedVersionsOutput(native_input):
     return DafnyWriteMutatedVersionsOutput()
 
 
-def aws_cryptography_keystore_GetMutationLockInput(native_input):
-    return DafnyGetMutationLockInput(
+def aws_cryptography_keystore_GetMutationInput(native_input):
+    return DafnyGetMutationInput(
         Identifier=Seq(
             "".join(
                 [
@@ -512,32 +627,43 @@ def aws_cryptography_keystore_GetMutationLockInput(native_input):
     )
 
 
-def aws_cryptography_keystore_GetMutationLockOutput(native_input):
-    return DafnyGetMutationLockOutput(
-        MutationLock=(
+def aws_cryptography_keystore_GetMutationOutput(native_input):
+    return DafnyGetMutationOutput(
+        MutationCommitment=(
             (
                 Option_Some(
-                    aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_MutationLock(
-                        native_input.mutation_lock
+                    aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_MutationCommitment(
+                        native_input.mutation_commitment
                     )
                 )
             )
-            if (native_input.mutation_lock is not None)
+            if (native_input.mutation_commitment is not None)
+            else (Option_None())
+        ),
+        MutationIndex=(
+            (
+                Option_Some(
+                    aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_MutationIndex(
+                        native_input.mutation_index
+                    )
+                )
+            )
+            if (native_input.mutation_index is not None)
             else (Option_None())
         ),
     )
 
 
-def aws_cryptography_keystore_ClobberMutationLockInput(native_input):
-    return DafnyClobberMutationLockInput(
-        MutationLock=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_MutationLock(
-            native_input.mutation_lock
+def aws_cryptography_keystore_DeleteMutationInput(native_input):
+    return DafnyDeleteMutationInput(
+        MutationCommitment=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_MutationCommitment(
+            native_input.mutation_commitment
         ),
     )
 
 
-def aws_cryptography_keystore_ClobberMutationLockOutput(native_input):
-    return DafnyClobberMutationLockOutput()
+def aws_cryptography_keystore_DeleteMutationOutput(native_input):
+    return DafnyDeleteMutationOutput()
 
 
 def smithy_api_Unit(native_input):

@@ -3,9 +3,18 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.keystore.model;
 
+import java.util.List;
 import java.util.Objects;
 
 public class WriteInitializeMutationInput {
+
+  /**
+   *
+   *   The mutated HMAC key used to support searchable encryption.
+   *   The cryptographic material is identical to the existing beacon,
+   *   but is now authorized with the Mutation's terminal properities.
+   */
+  private final OverWriteEncryptedHierarchicalKey Beacon;
 
   /**
    *
@@ -13,16 +22,7 @@ public class WriteInitializeMutationInput {
    *   generated with the Mutation's terminal properities.
    *   The plain-text cryptographic material of the Active must be the same as the Version.
    */
-  private final EncryptedHierarchicalKey Active;
-
-  /**
-   *
-   *   The previous active version.
-   *   This key should be used as an optimistic lock on the new version.
-   *   This means that when updating the current active record
-   *   the existing active record should be equal to this value.
-   */
-  private final EncryptedHierarchicalKey OldActive;
+  private final OverWriteEncryptedHierarchicalKey Active;
 
   /**
    *
@@ -33,27 +33,43 @@ public class WriteInitializeMutationInput {
   private final EncryptedHierarchicalKey Version;
 
   /**
-   *
+   * If Mutation is non-automic, a commitment is required.
+   */
+  private final MutationCommitment MutationCommitment;
+
+  /**
+   * If Mutation is non-automic, an index is required.
+   */
+  private final MutationIndex MutationIndex;
+
+  /**
+   * If Mutation is being resumed, an overwrite index is required.
+   */
+  private final OverWriteMutationIndex OverWriteMutationIndex;
+
+  /**
+   * List of version (decrypt only) items of a Branch Key to overwrite conditionally.
+   */
+  private final List<OverWriteEncryptedHierarchicalKey> Versions;
+
+  protected WriteInitializeMutationInput(BuilderImpl builder) {
+    this.Beacon = builder.Beacon();
+    this.Active = builder.Active();
+    this.Version = builder.Version();
+    this.MutationCommitment = builder.MutationCommitment();
+    this.MutationIndex = builder.MutationIndex();
+    this.OverWriteMutationIndex = builder.OverWriteMutationIndex();
+    this.Versions = builder.Versions();
+  }
+
+  /**
+   * @return
    *   The mutated HMAC key used to support searchable encryption.
    *   The cryptographic material is identical to the existing beacon,
    *   but is now authorized with the Mutation's terminal properities.
    */
-  private final EncryptedHierarchicalKey Beacon;
-
-  /**
-   * Information an in-flight Mutation of a Branch Key.
-   * This ensures:
-   * - only one Mutation affects a Branch Key at a time
-   * - all items of a Branch Key are mutated consistently
-   */
-  private final MutationLock MutationLock;
-
-  protected WriteInitializeMutationInput(BuilderImpl builder) {
-    this.Active = builder.Active();
-    this.OldActive = builder.OldActive();
-    this.Version = builder.Version();
-    this.Beacon = builder.Beacon();
-    this.MutationLock = builder.MutationLock();
+  public OverWriteEncryptedHierarchicalKey Beacon() {
+    return this.Beacon;
   }
 
   /**
@@ -62,19 +78,8 @@ public class WriteInitializeMutationInput {
    *   generated with the Mutation's terminal properities.
    *   The plain-text cryptographic material of the Active must be the same as the Version.
    */
-  public EncryptedHierarchicalKey Active() {
+  public OverWriteEncryptedHierarchicalKey Active() {
     return this.Active;
-  }
-
-  /**
-   * @return
-   *   The previous active version.
-   *   This key should be used as an optimistic lock on the new version.
-   *   This means that when updating the current active record
-   *   the existing active record should be equal to this value.
-   */
-  public EncryptedHierarchicalKey OldActive() {
-    return this.OldActive;
   }
 
   /**
@@ -88,23 +93,31 @@ public class WriteInitializeMutationInput {
   }
 
   /**
-   * @return
-   *   The mutated HMAC key used to support searchable encryption.
-   *   The cryptographic material is identical to the existing beacon,
-   *   but is now authorized with the Mutation's terminal properities.
+   * @return If Mutation is non-automic, a commitment is required.
    */
-  public EncryptedHierarchicalKey Beacon() {
-    return this.Beacon;
+  public MutationCommitment MutationCommitment() {
+    return this.MutationCommitment;
   }
 
   /**
-   * @return Information an in-flight Mutation of a Branch Key.
-   * This ensures:
-   * - only one Mutation affects a Branch Key at a time
-   * - all items of a Branch Key are mutated consistently
+   * @return If Mutation is non-automic, an index is required.
    */
-  public MutationLock MutationLock() {
-    return this.MutationLock;
+  public MutationIndex MutationIndex() {
+    return this.MutationIndex;
+  }
+
+  /**
+   * @return If Mutation is being resumed, an overwrite index is required.
+   */
+  public OverWriteMutationIndex OverWriteMutationIndex() {
+    return this.OverWriteMutationIndex;
+  }
+
+  /**
+   * @return List of version (decrypt only) items of a Branch Key to overwrite conditionally.
+   */
+  public List<OverWriteEncryptedHierarchicalKey> Versions() {
+    return this.Versions;
   }
 
   public Builder toBuilder() {
@@ -117,12 +130,28 @@ public class WriteInitializeMutationInput {
 
   public interface Builder {
     /**
+     * @param Beacon
+     *   The mutated HMAC key used to support searchable encryption.
+     *   The cryptographic material is identical to the existing beacon,
+     *   but is now authorized with the Mutation's terminal properities.
+     */
+    Builder Beacon(OverWriteEncryptedHierarchicalKey Beacon);
+
+    /**
+     * @return
+     *   The mutated HMAC key used to support searchable encryption.
+     *   The cryptographic material is identical to the existing beacon,
+     *   but is now authorized with the Mutation's terminal properities.
+     */
+    OverWriteEncryptedHierarchicalKey Beacon();
+
+    /**
      * @param Active
      *   The active representation of this branch key,
      *   generated with the Mutation's terminal properities.
      *   The plain-text cryptographic material of the Active must be the same as the Version.
      */
-    Builder Active(EncryptedHierarchicalKey Active);
+    Builder Active(OverWriteEncryptedHierarchicalKey Active);
 
     /**
      * @return
@@ -130,25 +159,7 @@ public class WriteInitializeMutationInput {
      *   generated with the Mutation's terminal properities.
      *   The plain-text cryptographic material of the Active must be the same as the Version.
      */
-    EncryptedHierarchicalKey Active();
-
-    /**
-     * @param OldActive
-     *   The previous active version.
-     *   This key should be used as an optimistic lock on the new version.
-     *   This means that when updating the current active record
-     *   the existing active record should be equal to this value.
-     */
-    Builder OldActive(EncryptedHierarchicalKey OldActive);
-
-    /**
-     * @return
-     *   The previous active version.
-     *   This key should be used as an optimistic lock on the new version.
-     *   This means that when updating the current active record
-     *   the existing active record should be equal to this value.
-     */
-    EncryptedHierarchicalKey OldActive();
+    OverWriteEncryptedHierarchicalKey Active();
 
     /**
      * @param Version
@@ -167,78 +178,94 @@ public class WriteInitializeMutationInput {
     EncryptedHierarchicalKey Version();
 
     /**
-     * @param Beacon
-     *   The mutated HMAC key used to support searchable encryption.
-     *   The cryptographic material is identical to the existing beacon,
-     *   but is now authorized with the Mutation's terminal properities.
+     * @param MutationCommitment If Mutation is non-automic, a commitment is required.
      */
-    Builder Beacon(EncryptedHierarchicalKey Beacon);
+    Builder MutationCommitment(MutationCommitment MutationCommitment);
 
     /**
-     * @return
-     *   The mutated HMAC key used to support searchable encryption.
-     *   The cryptographic material is identical to the existing beacon,
-     *   but is now authorized with the Mutation's terminal properities.
+     * @return If Mutation is non-automic, a commitment is required.
      */
-    EncryptedHierarchicalKey Beacon();
+    MutationCommitment MutationCommitment();
 
     /**
-     * @param MutationLock Information an in-flight Mutation of a Branch Key.
-     * This ensures:
-     * - only one Mutation affects a Branch Key at a time
-     * - all items of a Branch Key are mutated consistently
+     * @param MutationIndex If Mutation is non-automic, an index is required.
      */
-    Builder MutationLock(MutationLock MutationLock);
+    Builder MutationIndex(MutationIndex MutationIndex);
 
     /**
-     * @return Information an in-flight Mutation of a Branch Key.
-     * This ensures:
-     * - only one Mutation affects a Branch Key at a time
-     * - all items of a Branch Key are mutated consistently
+     * @return If Mutation is non-automic, an index is required.
      */
-    MutationLock MutationLock();
+    MutationIndex MutationIndex();
+
+    /**
+     * @param OverWriteMutationIndex If Mutation is being resumed, an overwrite index is required.
+     */
+    Builder OverWriteMutationIndex(
+      OverWriteMutationIndex OverWriteMutationIndex
+    );
+
+    /**
+     * @return If Mutation is being resumed, an overwrite index is required.
+     */
+    OverWriteMutationIndex OverWriteMutationIndex();
+
+    /**
+     * @param Versions List of version (decrypt only) items of a Branch Key to overwrite conditionally.
+     */
+    Builder Versions(List<OverWriteEncryptedHierarchicalKey> Versions);
+
+    /**
+     * @return List of version (decrypt only) items of a Branch Key to overwrite conditionally.
+     */
+    List<OverWriteEncryptedHierarchicalKey> Versions();
 
     WriteInitializeMutationInput build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected EncryptedHierarchicalKey Active;
+    protected OverWriteEncryptedHierarchicalKey Beacon;
 
-    protected EncryptedHierarchicalKey OldActive;
+    protected OverWriteEncryptedHierarchicalKey Active;
 
     protected EncryptedHierarchicalKey Version;
 
-    protected EncryptedHierarchicalKey Beacon;
+    protected MutationCommitment MutationCommitment;
 
-    protected MutationLock MutationLock;
+    protected MutationIndex MutationIndex;
+
+    protected OverWriteMutationIndex OverWriteMutationIndex;
+
+    protected List<OverWriteEncryptedHierarchicalKey> Versions;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(WriteInitializeMutationInput model) {
-      this.Active = model.Active();
-      this.OldActive = model.OldActive();
-      this.Version = model.Version();
       this.Beacon = model.Beacon();
-      this.MutationLock = model.MutationLock();
+      this.Active = model.Active();
+      this.Version = model.Version();
+      this.MutationCommitment = model.MutationCommitment();
+      this.MutationIndex = model.MutationIndex();
+      this.OverWriteMutationIndex = model.OverWriteMutationIndex();
+      this.Versions = model.Versions();
     }
 
-    public Builder Active(EncryptedHierarchicalKey Active) {
+    public Builder Beacon(OverWriteEncryptedHierarchicalKey Beacon) {
+      this.Beacon = Beacon;
+      return this;
+    }
+
+    public OverWriteEncryptedHierarchicalKey Beacon() {
+      return this.Beacon;
+    }
+
+    public Builder Active(OverWriteEncryptedHierarchicalKey Active) {
       this.Active = Active;
       return this;
     }
 
-    public EncryptedHierarchicalKey Active() {
+    public OverWriteEncryptedHierarchicalKey Active() {
       return this.Active;
-    }
-
-    public Builder OldActive(EncryptedHierarchicalKey OldActive) {
-      this.OldActive = OldActive;
-      return this;
-    }
-
-    public EncryptedHierarchicalKey OldActive() {
-      return this.OldActive;
     }
 
     public Builder Version(EncryptedHierarchicalKey Version) {
@@ -250,48 +277,53 @@ public class WriteInitializeMutationInput {
       return this.Version;
     }
 
-    public Builder Beacon(EncryptedHierarchicalKey Beacon) {
-      this.Beacon = Beacon;
+    public Builder MutationCommitment(MutationCommitment MutationCommitment) {
+      this.MutationCommitment = MutationCommitment;
       return this;
     }
 
-    public EncryptedHierarchicalKey Beacon() {
-      return this.Beacon;
+    public MutationCommitment MutationCommitment() {
+      return this.MutationCommitment;
     }
 
-    public Builder MutationLock(MutationLock MutationLock) {
-      this.MutationLock = MutationLock;
+    public Builder MutationIndex(MutationIndex MutationIndex) {
+      this.MutationIndex = MutationIndex;
       return this;
     }
 
-    public MutationLock MutationLock() {
-      return this.MutationLock;
+    public MutationIndex MutationIndex() {
+      return this.MutationIndex;
+    }
+
+    public Builder OverWriteMutationIndex(
+      OverWriteMutationIndex OverWriteMutationIndex
+    ) {
+      this.OverWriteMutationIndex = OverWriteMutationIndex;
+      return this;
+    }
+
+    public OverWriteMutationIndex OverWriteMutationIndex() {
+      return this.OverWriteMutationIndex;
+    }
+
+    public Builder Versions(List<OverWriteEncryptedHierarchicalKey> Versions) {
+      this.Versions = Versions;
+      return this;
+    }
+
+    public List<OverWriteEncryptedHierarchicalKey> Versions() {
+      return this.Versions;
     }
 
     public WriteInitializeMutationInput build() {
-      if (Objects.isNull(this.Active())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `Active`"
-        );
-      }
-      if (Objects.isNull(this.OldActive())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `OldActive`"
-        );
-      }
-      if (Objects.isNull(this.Version())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `Version`"
-        );
-      }
       if (Objects.isNull(this.Beacon())) {
         throw new IllegalArgumentException(
           "Missing value for required field `Beacon`"
         );
       }
-      if (Objects.isNull(this.MutationLock())) {
+      if (Objects.isNull(this.Versions())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `MutationLock`"
+          "Missing value for required field `Versions`"
         );
       }
       return new WriteInitializeMutationInput(this);

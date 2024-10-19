@@ -7,12 +7,23 @@ namespace AWS.Cryptography.KeyStore
 {
   public class WriteInitializeMutationInput
   {
-    private AWS.Cryptography.KeyStore.EncryptedHierarchicalKey _active;
-    private AWS.Cryptography.KeyStore.EncryptedHierarchicalKey _oldActive;
+    private AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey _beacon;
+    private AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey _active;
     private AWS.Cryptography.KeyStore.EncryptedHierarchicalKey _version;
-    private AWS.Cryptography.KeyStore.EncryptedHierarchicalKey _beacon;
-    private AWS.Cryptography.KeyStore.MutationLock _mutationLock;
-    public AWS.Cryptography.KeyStore.EncryptedHierarchicalKey Active
+    private AWS.Cryptography.KeyStore.MutationCommitment _mutationCommitment;
+    private AWS.Cryptography.KeyStore.MutationIndex _mutationIndex;
+    private AWS.Cryptography.KeyStore.OverWriteMutationIndex _overWriteMutationIndex;
+    private System.Collections.Generic.List<AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey> _versions;
+    public AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey Beacon
+    {
+      get { return this._beacon; }
+      set { this._beacon = value; }
+    }
+    public bool IsSetBeacon()
+    {
+      return this._beacon != null;
+    }
+    public AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey Active
     {
       get { return this._active; }
       set { this._active = value; }
@@ -20,15 +31,6 @@ namespace AWS.Cryptography.KeyStore
     public bool IsSetActive()
     {
       return this._active != null;
-    }
-    public AWS.Cryptography.KeyStore.EncryptedHierarchicalKey OldActive
-    {
-      get { return this._oldActive; }
-      set { this._oldActive = value; }
-    }
-    public bool IsSetOldActive()
-    {
-      return this._oldActive != null;
     }
     public AWS.Cryptography.KeyStore.EncryptedHierarchicalKey Version
     {
@@ -39,31 +41,46 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._version != null;
     }
-    public AWS.Cryptography.KeyStore.EncryptedHierarchicalKey Beacon
+    public AWS.Cryptography.KeyStore.MutationCommitment MutationCommitment
     {
-      get { return this._beacon; }
-      set { this._beacon = value; }
+      get { return this._mutationCommitment; }
+      set { this._mutationCommitment = value; }
     }
-    public bool IsSetBeacon()
+    public bool IsSetMutationCommitment()
     {
-      return this._beacon != null;
+      return this._mutationCommitment != null;
     }
-    public AWS.Cryptography.KeyStore.MutationLock MutationLock
+    public AWS.Cryptography.KeyStore.MutationIndex MutationIndex
     {
-      get { return this._mutationLock; }
-      set { this._mutationLock = value; }
+      get { return this._mutationIndex; }
+      set { this._mutationIndex = value; }
     }
-    public bool IsSetMutationLock()
+    public bool IsSetMutationIndex()
     {
-      return this._mutationLock != null;
+      return this._mutationIndex != null;
+    }
+    public AWS.Cryptography.KeyStore.OverWriteMutationIndex OverWriteMutationIndex
+    {
+      get { return this._overWriteMutationIndex; }
+      set { this._overWriteMutationIndex = value; }
+    }
+    public bool IsSetOverWriteMutationIndex()
+    {
+      return this._overWriteMutationIndex != null;
+    }
+    public System.Collections.Generic.List<AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey> Versions
+    {
+      get { return this._versions; }
+      set { this._versions = value; }
+    }
+    public bool IsSetVersions()
+    {
+      return this._versions != null;
     }
     public void Validate()
     {
-      if (!IsSetActive()) throw new System.ArgumentException("Missing value for required property 'Active'");
-      if (!IsSetOldActive()) throw new System.ArgumentException("Missing value for required property 'OldActive'");
-      if (!IsSetVersion()) throw new System.ArgumentException("Missing value for required property 'Version'");
       if (!IsSetBeacon()) throw new System.ArgumentException("Missing value for required property 'Beacon'");
-      if (!IsSetMutationLock()) throw new System.ArgumentException("Missing value for required property 'MutationLock'");
+      if (!IsSetVersions()) throw new System.ArgumentException("Missing value for required property 'Versions'");
 
     }
   }

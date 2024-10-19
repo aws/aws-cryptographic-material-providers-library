@@ -297,6 +297,50 @@ class UnexpectedStateException(ApiError[Literal["UnexpectedStateException"]]):
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
+class KeyStoreAdminException(ApiError[Literal["KeyStoreAdminException"]]):
+    code: Literal["KeyStoreAdminException"] = "KeyStoreAdminException"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the KeyStoreAdminException to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KeyStoreAdminException":
+        """Creates a KeyStoreAdminException from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return KeyStoreAdminException(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "KeyStoreAdminException("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, KeyStoreAdminException):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
 class MutationConflictException(ApiError[Literal["MutationConflictException"]]):
     code: Literal["MutationConflictException"] = "MutationConflictException"
     message: str
@@ -387,50 +431,6 @@ class MutationInvalidException(ApiError[Literal["MutationInvalidException"]]):
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, MutationInvalidException):
-            return False
-        attributes: list[str] = [
-            "message",
-            "message",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
-
-class KeyStoreAdminException(ApiError[Literal["KeyStoreAdminException"]]):
-    code: Literal["KeyStoreAdminException"] = "KeyStoreAdminException"
-    message: str
-
-    def __init__(
-        self,
-        *,
-        message: str,
-    ):
-        super().__init__(message)
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the KeyStoreAdminException to a dictionary."""
-        return {
-            "message": self.message,
-            "code": self.code,
-        }
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "KeyStoreAdminException":
-        """Creates a KeyStoreAdminException from a dictionary."""
-        kwargs: Dict[str, Any] = {
-            "message": d["message"],
-        }
-
-        return KeyStoreAdminException(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "KeyStoreAdminException("
-        if self.message is not None:
-            result += f"message={repr(self.message)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, KeyStoreAdminException):
             return False
         attributes: list[str] = [
             "message",

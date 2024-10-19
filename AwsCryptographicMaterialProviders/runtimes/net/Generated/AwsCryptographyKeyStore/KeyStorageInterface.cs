@@ -40,19 +40,19 @@ namespace AWS.Cryptography.KeyStore
       if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
       return TypeConversion.FromDafny_N3_aws__N12_cryptography__N8_keyStore__S29_WriteInitializeMutationOutput(result.dtor_value);
     }
+    protected override AWS.Cryptography.KeyStore.GetMutationOutput _GetMutation(AWS.Cryptography.KeyStore.GetMutationInput input)
+    {
+      software.amazon.cryptography.keystore.internaldafny.types._IGetMutationInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N8_keyStore__S16_GetMutationInput(input);
+      Wrappers_Compile._IResult<software.amazon.cryptography.keystore.internaldafny.types._IGetMutationOutput, software.amazon.cryptography.keystore.internaldafny.types._IError> result = this._impl.GetMutation(internalInput);
+      if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
+      return TypeConversion.FromDafny_N3_aws__N12_cryptography__N8_keyStore__S17_GetMutationOutput(result.dtor_value);
+    }
     protected override AWS.Cryptography.KeyStore.GetItemsForInitializeMutationOutput _GetItemsForInitializeMutation(AWS.Cryptography.KeyStore.GetItemsForInitializeMutationInput input)
     {
       software.amazon.cryptography.keystore.internaldafny.types._IGetItemsForInitializeMutationInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N8_keyStore__S34_GetItemsForInitializeMutationInput(input);
       Wrappers_Compile._IResult<software.amazon.cryptography.keystore.internaldafny.types._IGetItemsForInitializeMutationOutput, software.amazon.cryptography.keystore.internaldafny.types._IError> result = this._impl.GetItemsForInitializeMutation(internalInput);
       if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
       return TypeConversion.FromDafny_N3_aws__N12_cryptography__N8_keyStore__S35_GetItemsForInitializeMutationOutput(result.dtor_value);
-    }
-    protected override AWS.Cryptography.KeyStore.GetMutationLockOutput _GetMutationLock(AWS.Cryptography.KeyStore.GetMutationLockInput input)
-    {
-      software.amazon.cryptography.keystore.internaldafny.types._IGetMutationLockInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N8_keyStore__S20_GetMutationLockInput(input);
-      Wrappers_Compile._IResult<software.amazon.cryptography.keystore.internaldafny.types._IGetMutationLockOutput, software.amazon.cryptography.keystore.internaldafny.types._IError> result = this._impl.GetMutationLock(internalInput);
-      if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
-      return TypeConversion.FromDafny_N3_aws__N12_cryptography__N8_keyStore__S21_GetMutationLockOutput(result.dtor_value);
     }
     protected override AWS.Cryptography.KeyStore.WriteNewEncryptedBranchKeyVersionOutput _WriteNewEncryptedBranchKeyVersion(AWS.Cryptography.KeyStore.WriteNewEncryptedBranchKeyVersionInput input)
     {
@@ -68,13 +68,6 @@ namespace AWS.Cryptography.KeyStore
       if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
       return TypeConversion.FromDafny_N3_aws__N12_cryptography__N8_keyStore__S22_QueryForVersionsOutput(result.dtor_value);
     }
-    protected override AWS.Cryptography.KeyStore.ClobberMutationLockOutput _ClobberMutationLock(AWS.Cryptography.KeyStore.ClobberMutationLockInput input)
-    {
-      software.amazon.cryptography.keystore.internaldafny.types._IClobberMutationLockInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N8_keyStore__S24_ClobberMutationLockInput(input);
-      Wrappers_Compile._IResult<software.amazon.cryptography.keystore.internaldafny.types._IClobberMutationLockOutput, software.amazon.cryptography.keystore.internaldafny.types._IError> result = this._impl.ClobberMutationLock(internalInput);
-      if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
-      return TypeConversion.FromDafny_N3_aws__N12_cryptography__N8_keyStore__S25_ClobberMutationLockOutput(result.dtor_value);
-    }
     protected override AWS.Cryptography.KeyStore.GetKeyStorageInfoOutput _GetKeyStorageInfo(AWS.Cryptography.KeyStore.GetKeyStorageInfoInput input)
     {
       software.amazon.cryptography.keystore.internaldafny.types._IGetKeyStorageInfoInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N8_keyStore__S22_GetKeyStorageInfoInput(input);
@@ -88,6 +81,13 @@ namespace AWS.Cryptography.KeyStore
       Wrappers_Compile._IResult<software.amazon.cryptography.keystore.internaldafny.types._IGetEncryptedBranchKeyVersionOutput, software.amazon.cryptography.keystore.internaldafny.types._IError> result = this._impl.GetEncryptedBranchKeyVersion(internalInput);
       if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
       return TypeConversion.FromDafny_N3_aws__N12_cryptography__N8_keyStore__S34_GetEncryptedBranchKeyVersionOutput(result.dtor_value);
+    }
+    protected override AWS.Cryptography.KeyStore.DeleteMutationOutput _DeleteMutation(AWS.Cryptography.KeyStore.DeleteMutationInput input)
+    {
+      software.amazon.cryptography.keystore.internaldafny.types._IDeleteMutationInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N8_keyStore__S19_DeleteMutationInput(input);
+      Wrappers_Compile._IResult<software.amazon.cryptography.keystore.internaldafny.types._IDeleteMutationOutput, software.amazon.cryptography.keystore.internaldafny.types._IError> result = this._impl.DeleteMutation(internalInput);
+      if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
+      return TypeConversion.FromDafny_N3_aws__N12_cryptography__N8_keyStore__S20_DeleteMutationOutput(result.dtor_value);
     }
     protected override AWS.Cryptography.KeyStore.GetEncryptedBeaconKeyOutput _GetEncryptedBeaconKey(AWS.Cryptography.KeyStore.GetEncryptedBeaconKeyInput input)
     {

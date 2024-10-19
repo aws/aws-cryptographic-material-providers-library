@@ -5,8 +5,8 @@
 import abc
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes
 from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes import (
-    ClobberMutationLockInput_ClobberMutationLockInput as DafnyClobberMutationLockInput,
-    ClobberMutationLockOutput_ClobberMutationLockOutput as DafnyClobberMutationLockOutput,
+    DeleteMutationInput_DeleteMutationInput as DafnyDeleteMutationInput,
+    DeleteMutationOutput_DeleteMutationOutput as DafnyDeleteMutationOutput,
     GetEncryptedActiveBranchKeyInput_GetEncryptedActiveBranchKeyInput as DafnyGetEncryptedActiveBranchKeyInput,
     GetEncryptedActiveBranchKeyOutput_GetEncryptedActiveBranchKeyOutput as DafnyGetEncryptedActiveBranchKeyOutput,
     GetEncryptedBeaconKeyInput_GetEncryptedBeaconKeyInput as DafnyGetEncryptedBeaconKeyInput,
@@ -17,8 +17,8 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     GetItemsForInitializeMutationOutput_GetItemsForInitializeMutationOutput as DafnyGetItemsForInitializeMutationOutput,
     GetKeyStorageInfoInput_GetKeyStorageInfoInput as DafnyGetKeyStorageInfoInput,
     GetKeyStorageInfoOutput_GetKeyStorageInfoOutput as DafnyGetKeyStorageInfoOutput,
-    GetMutationLockInput_GetMutationLockInput as DafnyGetMutationLockInput,
-    GetMutationLockOutput_GetMutationLockOutput as DafnyGetMutationLockOutput,
+    GetMutationInput_GetMutationInput as DafnyGetMutationInput,
+    GetMutationOutput_GetMutationOutput as DafnyGetMutationOutput,
     QueryForVersionsInput_QueryForVersionsInput as DafnyQueryForVersionsInput,
     QueryForVersionsOutput_QueryForVersionsOutput as DafnyQueryForVersionsOutput,
     WriteInitializeMutationInput_WriteInitializeMutationInput as DafnyWriteInitializeMutationInput,
@@ -66,10 +66,10 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
             and callable(subclass.QueryForVersions)
             and hasattr(subclass, "WriteMutatedVersions")
             and callable(subclass.WriteMutatedVersions)
-            and hasattr(subclass, "GetMutationLock")
-            and callable(subclass.GetMutationLock)
-            and hasattr(subclass, "ClobberMutationLock")
-            and callable(subclass.ClobberMutationLock)
+            and hasattr(subclass, "GetMutation")
+            and callable(subclass.GetMutation)
+            and hasattr(subclass, "DeleteMutation")
+            and callable(subclass.DeleteMutation)
         )
 
     @abc.abstractmethod
@@ -162,7 +162,7 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
         param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetItemsForInitializeMutationInput",
     ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetItemsForInitializeMutationOutput":
         """Gets the ACTIVE branch key and the beacon key, and looks for a
-        Mutation Lock, returning it if found."""
+        Mutation Commitment & Index, returning them if found."""
         raise NotImplementedError
 
     @abc.abstractmethod
@@ -177,8 +177,9 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
         -
         version (decrypt only) for new ACTIVE
         - beacon key
-        Also writes the Mutation
-        Lock.
+        - mutated Versions
+        Also
+        writes the Mutation Commitment & Index.
         """
         raise NotImplementedError
 
@@ -201,19 +202,18 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
 
         conditioned on:
         - every version already exsisting
-        - the
-        original of a Mutation Lock commits to the original provided
-        - the terminal of
-        a Mutation Lock commits to the terminal provided
+        - every
+        version's enc has not changed
+        - the Mutation Commitment has not changed
         """
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get_mutation_lock(
+    def get_mutation(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetMutationLockInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetMutationLockOutput":
-        """Check for Mutation Lock on a Branch Key ID.
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetMutationInput",
+    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetMutationOutput":
+        """Check for Mutation Commitment on a Branch Key ID.
 
         If one exists, returns the Mutation Lock. Otherwise, returns
         nothing.
@@ -221,11 +221,11 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def clobber_mutation_lock(
+    def delete_mutation(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.ClobberMutationLockInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.ClobberMutationLockOutput":
-        """Overwrite an existing Mutation Lock."""
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.DeleteMutationInput",
+    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.DeleteMutationOutput":
+        """Delete an existing Mutation Commitment & Index."""
         raise NotImplementedError
 
     def WriteNewEncryptedBranchKey(
@@ -438,20 +438,20 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
             error = _smithy_error_to_dafny_error(e)
             return Wrappers.Result_Failure(error)
 
-    def GetMutationLock(
-        self, dafny_input: "DafnyGetMutationLockInput"
-    ) -> "DafnyGetMutationLockOutput":
+    def GetMutation(
+        self, dafny_input: "DafnyGetMutationInput"
+    ) -> "DafnyGetMutationOutput":
         """Do not use.
 
         This method allows custom implementations of this interface to
         interact with generated code.
         """
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetMutationLockInput(
+        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetMutationInput(
             dafny_input
         )
         try:
-            native_output = self.get_mutation_lock(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetMutationLockOutput(
+            native_output = self.get_mutation(native_input)
+            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetMutationOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -459,20 +459,20 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
             error = _smithy_error_to_dafny_error(e)
             return Wrappers.Result_Failure(error)
 
-    def ClobberMutationLock(
-        self, dafny_input: "DafnyClobberMutationLockInput"
-    ) -> "DafnyClobberMutationLockOutput":
+    def DeleteMutation(
+        self, dafny_input: "DafnyDeleteMutationInput"
+    ) -> "DafnyDeleteMutationOutput":
         """Do not use.
 
         This method allows custom implementations of this interface to
         interact with generated code.
         """
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_ClobberMutationLockInput(
+        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_DeleteMutationInput(
             dafny_input
         )
         try:
-            native_output = self.clobber_mutation_lock(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_ClobberMutationLockOutput(
+            native_output = self.delete_mutation(native_input)
+            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_DeleteMutationOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -666,7 +666,7 @@ class KeyStorageInterface(IKeyStorageInterface):
         param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetItemsForInitializeMutationInput",
     ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetItemsForInitializeMutationOutput":
         """Gets the ACTIVE branch key and the beacon key, and looks for a
-        Mutation Lock, returning it if found."""
+        Mutation Commitment & Index, returning them if found."""
         dafny_output = self._impl.GetItemsForInitializeMutation(
             aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetItemsForInitializeMutationInput(
                 param
@@ -695,8 +695,9 @@ class KeyStorageInterface(IKeyStorageInterface):
         -
         version (decrypt only) for new ACTIVE
         - beacon key
-        Also writes the Mutation
-        Lock.
+        - mutated Versions
+        Also
+        writes the Mutation Commitment & Index.
         """
         dafny_output = self._impl.WriteInitializeMutation(
             aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteInitializeMutationInput(
@@ -747,10 +748,9 @@ class KeyStorageInterface(IKeyStorageInterface):
 
         conditioned on:
         - every version already exsisting
-        - the
-        original of a Mutation Lock commits to the original provided
-        - the terminal of
-        a Mutation Lock commits to the terminal provided
+        - every
+        version's enc has not changed
+        - the Mutation Commitment has not changed
         """
         dafny_output = self._impl.WriteMutatedVersions(
             aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteMutatedVersionsInput(
@@ -769,17 +769,17 @@ class KeyStorageInterface(IKeyStorageInterface):
                 dafny_output.value
             )
 
-    def get_mutation_lock(
+    def get_mutation(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetMutationLockInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetMutationLockOutput":
-        """Check for Mutation Lock on a Branch Key ID.
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetMutationInput",
+    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetMutationOutput":
+        """Check for Mutation Commitment on a Branch Key ID.
 
         If one exists, returns the Mutation Lock. Otherwise, returns
         nothing.
         """
-        dafny_output = self._impl.GetMutationLock(
-            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetMutationLockInput(
+        dafny_output = self._impl.GetMutation(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetMutationInput(
                 param
             )
         )
@@ -791,17 +791,17 @@ class KeyStorageInterface(IKeyStorageInterface):
             raise aws_cryptography_keystore_deserialize_error(dafny_output.error)
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetMutationLockOutput(
+            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetMutationOutput(
                 dafny_output.value
             )
 
-    def clobber_mutation_lock(
+    def delete_mutation(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.ClobberMutationLockInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.ClobberMutationLockOutput":
-        """Overwrite an existing Mutation Lock."""
-        dafny_output = self._impl.ClobberMutationLock(
-            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_ClobberMutationLockInput(
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.DeleteMutationInput",
+    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.DeleteMutationOutput":
+        """Delete an existing Mutation Commitment & Index."""
+        dafny_output = self._impl.DeleteMutation(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_DeleteMutationInput(
                 param
             )
         )
@@ -813,7 +813,7 @@ class KeyStorageInterface(IKeyStorageInterface):
             raise aws_cryptography_keystore_deserialize_error(dafny_output.error)
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_ClobberMutationLockOutput(
+            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_DeleteMutationOutput(
                 dafny_output.value
             )
 
