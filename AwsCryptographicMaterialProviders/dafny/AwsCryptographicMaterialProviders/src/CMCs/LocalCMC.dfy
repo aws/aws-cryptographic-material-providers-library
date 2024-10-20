@@ -12,6 +12,43 @@ module {:options "/functionSyntax:4" } LocalCMC {
   import Types = AwsCryptographyMaterialProvidersTypes
   import Seq
 
+  // This limits the visibility of the LocalCMC
+  // Doing this ensures that the smithy-dafny `axiom`
+  // added because the Types.ICryptographicMaterialsCache
+  // has the @aws.polymorph#mutableLocalState trait added in the smithy model
+  // can not leak and create unsoundness.
+  export
+    // This shows that LocalCMC extends Types.ICryptographicMaterialsCache
+    // as well as revealing the constructors spec.
+    reveals LocalCMC
+    provides
+      // These are dependent types that are needed
+      Types,
+      Wrappers,
+      DafnyLibraries,
+      CacheEntry,
+      UInt,
+
+      // These are the implementations of the trait
+      LocalCMC.GetCacheEntry',
+      LocalCMC.PutCacheEntry',
+      LocalCMC.DeleteCacheEntry',
+      LocalCMC.UpdateUsageMetadata',
+      LocalCMC.GetCacheEntryEnsuresPublicly,
+      LocalCMC.PutCacheEntryEnsuresPublicly,
+      LocalCMC.DeleteCacheEntryEnsuresPublicly,
+      LocalCMC.UpdateUsageMetadataEnsuresPublicly,
+      LocalCMC.ValidState,
+      LocalCMC.InternalValidState,
+
+      // These are internal details
+      // that come from the constructor
+      // or the delete operation.
+      LocalCMC.InternalDeleteCacheEntry?,
+      LocalCMC.entryCapacity,
+      LocalCMC.entryPruningTailSize
+
+
   datatype Ref<T> =
     | Ptr(deref: T)
     | Null
@@ -514,6 +551,18 @@ module {:options "/functionSyntax:4" } LocalCMC {
     ghost predicate DeleteCacheEntryEnsuresPublicly(input: Types.DeleteCacheEntryInput, output: Result<(), Types.Error>)
     {true}
 
+    twostate predicate InternalDeleteCacheEntry?(input: Types.DeleteCacheEntryInput, new output: Result<(), Types.Error>)
+      requires InternalValidState()
+      reads InternalModifies
+    {
+      && input.identifier !in cache.Keys()
+      && (input.identifier in old(cache.Keys())
+          ==>
+            && (old(cache.Select(input.identifier)) !in queue.Items
+                && cache.Size() == old(cache.Size()) - 1
+                && old(cache.Keys()) - {input.identifier} == cache.Keys()))
+    }
+
     method {:vcs_split_on_every_assert} DeleteCacheEntry'(input: Types.DeleteCacheEntryInput)
       returns (output: Result<(), Types.Error>)
       requires InternalValidState()
@@ -522,15 +571,8 @@ module {:options "/functionSyntax:4" } LocalCMC {
       ensures InternalValidState()
       ensures DeleteCacheEntryEnsuresPublicly(input, output)
       ensures unchanged(History)
-      ensures input.identifier !in cache.Keys()
       ensures InternalModifies <= old(InternalModifies)
-      ensures
-        && input.identifier in old(cache.Keys())
-        ==>
-          // && output.Success?
-          && (old(cache.Select(input.identifier)) !in queue.Items
-              && cache.Size() == old(cache.Size()) - 1
-              && old(cache.Keys()) - {input.identifier} == cache.Keys())
+      ensures InternalDeleteCacheEntry?(input, output)
     {
       if cache.HasKey(input.identifier) {
         assert input.identifier in cache.Keys();
