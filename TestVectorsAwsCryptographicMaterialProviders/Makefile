@@ -85,9 +85,9 @@ PYTHON_DEPENDENCY_MODULE_NAMES := \
 	--dependency-library-name=aws.cryptography.primitives=aws_cryptography_primitives \
 	--dependency-library-name=com.amazonaws.kms=aws_cryptography_internal_kms \
 	--dependency-library-name=com.amazonaws.dynamodb=aws_cryptography_internal_dynamodb \
-	--dependency-library-name=aws.cryptography.materialProviders=aws_cryptographic_materialproviders \
-	--dependency-library-name=aws.cryptography.keyStore=aws_cryptographic_materialproviders \
-	--dependency-library-name=smithy.api=aws_cryptographic_materialproviders
+	--dependency-library-name=aws.cryptography.materialProviders=aws_cryptographic_material_providers \
+	--dependency-library-name=aws.cryptography.keyStore=aws_cryptographic_material_providers \
+	--dependency-library-name=smithy.api=aws_cryptographic_material_providers
 
 PYTHON_MODULE_NAME=aws_cryptography_materialproviders_test_vectors
 
@@ -96,7 +96,7 @@ TRANSLATION_RECORD_PYTHON := \
     --translation-record ../ComAmazonawsKms/runtimes/python/src/aws_cryptography_internal_kms/internaldafny/generated/dafny_src-py.dtr \
     --translation-record ../ComAmazonawsDynamodb/runtimes/python/src/aws_cryptography_internal_dynamodb/internaldafny/generated/dafny_src-py.dtr \
     --translation-record ../AwsCryptographyPrimitives/runtimes/python/src/aws_cryptography_primitives/internaldafny/generated/dafny_src-py.dtr \
-	--translation-record ../AwsCryptographicMaterialProviders/runtimes/python/src/aws_cryptographic_materialproviders/internaldafny/generated/dafny_src-py.dtr
+	--translation-record ../AwsCryptographicMaterialProviders/runtimes/python/src/aws_cryptographic_material_providers/internaldafny/generated/dafny_src-py.dtr
 
 # Python
 
