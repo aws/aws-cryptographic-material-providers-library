@@ -11,9 +11,10 @@ module {:options "/functionSyntax:4" } {:extern "software.amazon.cryptography.in
   class {:extern} SynchronizedLocalCMC extends Types.ICryptographicMaterialsCache {
 
     ghost predicate ValidState()
-      ensures ValidState() ==> History in Modifies
+      ensures ValidState() ==> History in Modifies && this in Modifies
     {
-      History in Modifies
+      && History in Modifies
+      && this in Modifies
     }
 
     ghost predicate InternalValidState()
