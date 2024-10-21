@@ -51,7 +51,7 @@ phases:
       - NUM_RETRIES=3
       # First, run tests with the published package
       - cd AwsCryptographicMaterialProviders
-      - make transpile_python
+      - make transpile_only_test_python
       - cd runtimes/python
       - python -m pytest test/ -s -v
       # Then, run ESDK local tests with the new MPL artifact installed
