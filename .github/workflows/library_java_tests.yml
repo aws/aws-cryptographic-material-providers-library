@@ -74,7 +74,7 @@ jobs:
           diff-generated-code: false
 
       - name: Copy over keys.json so that it is discoverable by the tests
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: copyKeysJSON
           build-root-directory: ./TestVectorsAwsCryptographicMaterialProviders/runtimes/java
