@@ -20,10 +20,11 @@ module {:options "/functionSyntax:4" } Structure {
   const BRANCH_KEY_FIELD := "enc"
   const ENC_FIELD := BRANCH_KEY_FIELD
   const BRANCH_KEY_ACTIVE_VERSION_FIELD := "version"
-  const M_LOCK_ORIGINAL := "original" // The DDB Attribute name for the original state, which is AttributeValue.B
-  const M_LOCK_TERMINAL := "terminal" // The DDB Attribute name for the terminal state, which is AttributeValue.B
+  const M_ORIGINAL := "original" // The DDB Attribute name for the original state, which is AttributeValue.B
+  const M_TERMINAL := "terminal" // The DDB Attribute name for the terminal state, which is AttributeValue.B
+  const M_INPUT := "input" // The DDB Attribute name for the input, which is AttributeValue.B
   const M_UUID := "uuid" // The DDB Attribute name for the uuid, which is AttributeValue.S
-  const M_INDEX_PAGE := "pageIndex" // The DDB Attribute name for the pageIndex, which is AttributeValue.B
+  const M_PAGE_INDEX := "pageIndex" // The DDB Attribute name for the pageIndex, which is AttributeValue.B
 
   const AWS_CRYPTO_EC := "aws-crypto-ec"
   const ENCRYPTION_CONTEXT_PREFIX := AWS_CRYPTO_EC + ":"
@@ -45,7 +46,7 @@ module {:options "/functionSyntax:4" } Structure {
   const BRANCH_KEY_TYPE_PREFIX := "branch:version:"
   const BRANCH_KEY_ACTIVE_TYPE := "branch:ACTIVE"
   const BEACON_KEY_TYPE_VALUE := "beacon:ACTIVE"
-  const MUTATION_LOCK_TYPE := "branch:MUTATION_LOCK"
+  const MUTATION_COMMITMENT_TYPE := "branch:MUTATION_COMMITMENT"
   const MUTATION_INDEX_TYPE := "branch:MUTATION_INDEX"
   //= aws-encryption-sdk-specification/framework/branch-key-store.md#custom-encryption-context
   //= type=exception
@@ -723,7 +724,7 @@ module {:options "/functionSyntax:4" } Structure {
          ToEncryptedHierarchicalKey(item, key.EncryptionContext[TABLE_FIELD]) == key
   {}
 
-  predicate MutationLockAttribute?(m: DDB.AttributeMap) {
+  predicate MutationCommitmentAttribute?(m: DDB.AttributeMap) {
     && BRANCH_KEY_IDENTIFIER_FIELD in m && m[BRANCH_KEY_IDENTIFIER_FIELD].S?
     && KEY_CREATE_TIME in m && m[KEY_CREATE_TIME].S?
     && TYPE_FIELD in m && m[TYPE_FIELD].S?
@@ -734,16 +735,17 @@ module {:options "/functionSyntax:4" } Structure {
     && 0 < |m[TYPE_FIELD].S|
     && 0 < |m[M_UUID].S|
 
-    && (forall k <- m.Keys - {M_LOCK_ORIGINAL, M_LOCK_TERMINAL, HIERARCHY_VERSION, ENC_FIELD} :: m[k].S?)
+    && (forall k <- m.Keys - {M_ORIGINAL, M_TERMINAL, HIERARCHY_VERSION, ENC_FIELD, M_INPUT} :: m[k].S?)
 
-    && m[TYPE_FIELD].S == MUTATION_LOCK_TYPE
+    && m[TYPE_FIELD].S == MUTATION_COMMITMENT_TYPE
 
     // Structure & DefaultKeyStorage do not care about the Byte structure of the original or terminal.
     // That is the concern of Mutation State Structures.
     // Structure & DefaultKeyStorage care that these are non-empty Byte Fields.
-    && M_LOCK_ORIGINAL in m && m[M_LOCK_ORIGINAL].B? && 0 < |m[M_LOCK_ORIGINAL].B|
-    && M_LOCK_TERMINAL in m && m[M_LOCK_TERMINAL].B? && 0 < |m[M_LOCK_TERMINAL].B|
+    && M_ORIGINAL in m && m[M_ORIGINAL].B? && 0 < |m[M_ORIGINAL].B|
+    && M_TERMINAL in m && m[M_TERMINAL].B? && 0 < |m[M_TERMINAL].B|
     && ENC_FIELD in m && m[ENC_FIELD].B? && 0 < |m[ENC_FIELD].B|
+    && M_INPUT in m && m[M_INPUT].B? && 0 < |m[M_INPUT].B|
 
     && m.Keys == {
                    TYPE_FIELD,
@@ -751,63 +753,67 @@ module {:options "/functionSyntax:4" } Structure {
                    BRANCH_KEY_IDENTIFIER_FIELD,
                    KEY_CREATE_TIME,
                    M_UUID,
-                   M_LOCK_ORIGINAL,
-                   M_LOCK_TERMINAL,
-                   ENC_FIELD
+                   M_ORIGINAL,
+                   M_TERMINAL,
+                   ENC_FIELD,
+                   M_INPUT
                  }
   }
 
-  predicate MutationLock?(m: Types.MutationLock)
+  predicate MutationCommitment?(m: Types.MutationCommitment)
   {
     && 0 < |m.Identifier|
     && 0 < |m.UUID|
     && 0 < |m.Original|
     && 0 < |m.Terminal|
     && 0 < |m.CiphertextBlob|
+    && 0 < |m.Input|
   }
 
-  function ToMutationLock(
+  function ToMutationCommitment(
     item: DDB.AttributeMap
-  ): (output: Types.MutationLock)
-    requires MutationLockAttribute?(item)
-    ensures MutationLock?(output)
+  ): (output: Types.MutationCommitment)
+    requires MutationCommitmentAttribute?(item)
+    ensures MutationCommitment?(output)
   {
-    Types.MutationLock(
+    Types.MutationCommitment(
       Identifier := item[BRANCH_KEY_IDENTIFIER_FIELD].S,
       CreateTime := item[KEY_CREATE_TIME].S,
       UUID := item[M_UUID].S,
-      Original := item[M_LOCK_ORIGINAL].B,
-      Terminal := item[M_LOCK_TERMINAL].B,
-      CiphertextBlob := item[ENC_FIELD].B
+      Original := item[M_ORIGINAL].B,
+      Terminal := item[M_TERMINAL].B,
+      CiphertextBlob := item[ENC_FIELD].B,
+      Input := item[M_INPUT].B
     )
   }
 
-  function MutationLockToAttributeMap(
-    lock: Types.MutationLock
+  function MutationCommitmentToAttributeMap(
+    lock: Types.MutationCommitment
   ): (output: DDB.AttributeMap)
-    requires MutationLock?(lock)
-    ensures MutationLockAttribute?(output)
+    requires MutationCommitment?(lock)
+    ensures MutationCommitmentAttribute?(output)
   {
     map[
-      TYPE_FIELD := DDB.AttributeValue.S(MUTATION_LOCK_TYPE),
+      TYPE_FIELD := DDB.AttributeValue.S(MUTATION_COMMITMENT_TYPE),
       HIERARCHY_VERSION := HIERARCHY_VERSION_ATTRIBUTE_VALUE,
       BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(lock.Identifier),
       KEY_CREATE_TIME := DDB.AttributeValue.S(lock.CreateTime),
       M_UUID := DDB.AttributeValue.S(lock.UUID),
-      M_LOCK_ORIGINAL := DDB.AttributeValue.B(lock.Original),
-      M_LOCK_TERMINAL := DDB.AttributeValue.B(lock.Terminal),
-      ENC_FIELD := DDB.AttributeValue.B(lock.CiphertextBlob)
+      M_ORIGINAL := DDB.AttributeValue.B(lock.Original),
+      M_TERMINAL := DDB.AttributeValue.B(lock.Terminal),
+      ENC_FIELD := DDB.AttributeValue.B(lock.CiphertextBlob),
+      M_INPUT := DDB.AttributeValue.B(lock.Input)
     ]
   }
 
-  lemma MutationLockAndMutationLockToAttributeMapAreInverse(
+  lemma MutationCommitmentAndMutationCommitmentToAttributeMapAreInverse(
     item: DDB.AttributeMap,
-    lock: Types.MutationLock
+    lock: Types.MutationCommitment
   )
-    requires MutationLockAttribute?(item)
-    requires MutationLock?(lock)
+    requires MutationCommitmentAttribute?(item)
+    requires MutationCommitment?(lock)
     ensures
-      ToMutationLock(item) == lock <==> MutationLockToAttributeMap(lock) == item
+      ToMutationCommitment(item) == lock <==> MutationCommitmentToAttributeMap(lock) == item
   {}
 
   predicate MutationIndexAttribute?(m: DDB.AttributeMap) {
@@ -817,13 +823,13 @@ module {:options "/functionSyntax:4" } Structure {
     && HIERARCHY_VERSION in m && m[HIERARCHY_VERSION].N? && m[HIERARCHY_VERSION].N == HIERARCHY_VERSION_VALUE
     && M_UUID in m && m[M_UUID].S? && 0 < |m[M_UUID].S|
 
-    && (forall k <- m.Keys - {M_INDEX_PAGE, HIERARCHY_VERSION, ENC_FIELD} :: m[k].S?)
+    && (forall k <- m.Keys - {M_PAGE_INDEX, HIERARCHY_VERSION, ENC_FIELD} :: m[k].S?)
     && m[TYPE_FIELD].S == MUTATION_INDEX_TYPE
        // Structure & DefaultKeyStorage do not care about these Byte structures.
        // That is the concern of Mutation State Structures.
        // Structure & DefaultKeyStorage care that these are non-empty Byte Fields.
     && ENC_FIELD in m && m[ENC_FIELD].B? && 0 < |m[ENC_FIELD].B|
-    && M_INDEX_PAGE in m && m[M_INDEX_PAGE].B? && 0 < |m[M_INDEX_PAGE].B|
+    && M_PAGE_INDEX in m && m[M_PAGE_INDEX].B? && 0 < |m[M_PAGE_INDEX].B|
 
     && m.Keys == {
                    TYPE_FIELD,
@@ -831,7 +837,7 @@ module {:options "/functionSyntax:4" } Structure {
                    BRANCH_KEY_IDENTIFIER_FIELD,
                    KEY_CREATE_TIME,
                    M_UUID,
-                   M_INDEX_PAGE,
+                   M_PAGE_INDEX,
                    ENC_FIELD
                  }
   }
@@ -854,7 +860,7 @@ module {:options "/functionSyntax:4" } Structure {
       Identifier := item[BRANCH_KEY_IDENTIFIER_FIELD].S,
       CreateTime := item[KEY_CREATE_TIME].S,
       UUID := item[M_UUID].S,
-      PageIndex := item[M_INDEX_PAGE].B,
+      PageIndex := item[M_PAGE_INDEX].B,
       CiphertextBlob := item[ENC_FIELD].B
     )
   }
@@ -871,7 +877,7 @@ module {:options "/functionSyntax:4" } Structure {
       BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(index.Identifier),
       KEY_CREATE_TIME := DDB.AttributeValue.S(index.CreateTime),
       M_UUID := DDB.AttributeValue.S(index.UUID),
-      M_INDEX_PAGE := DDB.AttributeValue.B(index.PageIndex),
+      M_PAGE_INDEX := DDB.AttributeValue.B(index.PageIndex),
       ENC_FIELD := DDB.AttributeValue.B(index.CiphertextBlob)
     ]
   }

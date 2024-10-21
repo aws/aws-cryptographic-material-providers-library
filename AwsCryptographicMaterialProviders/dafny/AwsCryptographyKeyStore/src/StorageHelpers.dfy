@@ -17,39 +17,39 @@ module {:options "/functionSyntax:4"} StorageHelpers {
   const ToAttributeMap := Structure.ToAttributeMap
   const ToEncryptedHierarchicalKey := Structure.ToEncryptedHierarchicalKey
 
-  function MutationLockFromOptionalItem(
+  function MutationCommitmentFromOptionalItem(
     item?: Option<DDB.Types.AttributeMap>,
     identifier: string,
     ddbTableName: string
-  ): (output: Result<Option<Types.MutationLock>, Types.Error>)
+  ): (output: Result<Option<Types.MutationCommitment>, Types.Error>)
     ensures output.Success? && output.value.Some? ==>
               (output.value.value.Identifier == identifier)
   {
     if (item?.None? || (|item?.value| == 0))
     then Success(None)
     else
-      var mLock :- MutationLockFromItem(item?.value, identifier, ddbTableName);
+      var mLock :- MutationCommitmentFromItem(item?.value, identifier, ddbTableName);
       Success(Some(mLock))
   }
 
-  function MutationLockFromItem(
+  function MutationCommitmentFromItem(
     item: DDB.Types.AttributeMap,
     identifier: string,
     ddbTableName: string
-  ): (output: Result<Types.MutationLock, Types.Error>)
+  ): (output: Result<Types.MutationCommitment, Types.Error>)
     ensures output.Success? ==>
               && (output.value.Identifier == identifier)
-              && Structure.MutationLockAttribute?(item)
-              && output.value == Structure.ToMutationLock(item)
-    ensures !Structure.MutationLockAttribute?(item) ==> output.Failure?
+              && Structure.MutationCommitmentAttribute?(item)
+              && output.value == Structure.ToMutationCommitment(item)
+    ensures !Structure.MutationCommitmentAttribute?(item) ==> output.Failure?
   {
     :- Need(
-         Structure.MutationLockAttribute?(item),
+         Structure.MutationCommitmentAttribute?(item),
          Types.KeyStorageException(
            message:="Malformed Mutation Lock encountered. TableName: "
            + ddbTableName + "\tBranch Key ID: " + identifier)
        );
-    var mLock := Structure.ToMutationLock(item);
+    var mLock := Structure.ToMutationCommitment(item);
     :- Need(
          mLock.Identifier == identifier,
          Types.KeyStorageException(
@@ -193,7 +193,4 @@ module {:options "/functionSyntax:4"} StorageHelpers {
                         "Could not UTF8 Encode Last Evaluated Key. " + eString));
     Success(blob)
   }
-
-
-
 }
