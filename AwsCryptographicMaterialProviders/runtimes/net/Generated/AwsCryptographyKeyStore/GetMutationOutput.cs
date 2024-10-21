@@ -5,18 +5,18 @@ using System;
 using AWS.Cryptography.KeyStore;
 namespace AWS.Cryptography.KeyStore
 {
-  public class GetMutationLockAndIndexOutput
+  public class GetMutationOutput
   {
-    private AWS.Cryptography.KeyStore.MutationLock _mutationLock;
+    private AWS.Cryptography.KeyStore.MutationCommitment _mutationCommitment;
     private AWS.Cryptography.KeyStore.MutationIndex _mutationIndex;
-    public AWS.Cryptography.KeyStore.MutationLock MutationLock
+    public AWS.Cryptography.KeyStore.MutationCommitment MutationCommitment
     {
-      get { return this._mutationLock; }
-      set { this._mutationLock = value; }
+      get { return this._mutationCommitment; }
+      set { this._mutationCommitment = value; }
     }
-    public bool IsSetMutationLock()
+    public bool IsSetMutationCommitment()
     {
-      return this._mutationLock != null;
+      return this._mutationCommitment != null;
     }
     public AWS.Cryptography.KeyStore.MutationIndex MutationIndex
     {

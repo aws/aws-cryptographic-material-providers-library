@@ -17,7 +17,7 @@ public class OverWriteEncryptedHierarchicalKey {
   private final EncryptedHierarchicalKey Item;
 
   /**
-   * The previous itme. Used to construct an optimistic lock for the overwrite.
+   * The previous item. Used to construct an optimistic lock for the overwrite.
    */
   private final EncryptedHierarchicalKey Old;
 
@@ -34,7 +34,7 @@ public class OverWriteEncryptedHierarchicalKey {
   }
 
   /**
-   * @return The previous itme. Used to construct an optimistic lock for the overwrite.
+   * @return The previous item. Used to construct an optimistic lock for the overwrite.
    */
   public EncryptedHierarchicalKey Old() {
     return this.Old;
@@ -60,12 +60,12 @@ public class OverWriteEncryptedHierarchicalKey {
     EncryptedHierarchicalKey Item();
 
     /**
-     * @param Old The previous itme. Used to construct an optimistic lock for the overwrite.
+     * @param Old The previous item. Used to construct an optimistic lock for the overwrite.
      */
     Builder Old(EncryptedHierarchicalKey Old);
 
     /**
-     * @return The previous itme. Used to construct an optimistic lock for the overwrite.
+     * @return The previous item. Used to construct an optimistic lock for the overwrite.
      */
     EncryptedHierarchicalKey Old();
 

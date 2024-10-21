@@ -19,11 +19,21 @@ public class WriteMutatedVersionsInput {
    * - only one Mutation affects a Branch Key at a time
    * - all items of a Branch Key are mutated consistently
    */
-  private final MutationLock MutationLock;
+  private final MutationCommitment MutationCommitment;
+
+  /**
+   * To avoid information loss, overwrites to any itme in the Key Store
+   * are done conditioned on the old value.
+   */
+  private final OverWriteMutationIndex MutationIndex;
+
+  private final Boolean EndMutation;
 
   protected WriteMutatedVersionsInput(BuilderImpl builder) {
     this.Items = builder.Items();
-    this.MutationLock = builder.MutationLock();
+    this.MutationCommitment = builder.MutationCommitment();
+    this.MutationIndex = builder.MutationIndex();
+    this.EndMutation = builder.EndMutation();
   }
 
   /**
@@ -39,8 +49,20 @@ public class WriteMutatedVersionsInput {
    * - only one Mutation affects a Branch Key at a time
    * - all items of a Branch Key are mutated consistently
    */
-  public MutationLock MutationLock() {
-    return this.MutationLock;
+  public MutationCommitment MutationCommitment() {
+    return this.MutationCommitment;
+  }
+
+  /**
+   * @return To avoid information loss, overwrites to any itme in the Key Store
+   * are done conditioned on the old value.
+   */
+  public OverWriteMutationIndex MutationIndex() {
+    return this.MutationIndex;
+  }
+
+  public Boolean EndMutation() {
+    return this.EndMutation;
   }
 
   public Builder toBuilder() {
@@ -63,12 +85,12 @@ public class WriteMutatedVersionsInput {
     List<OverWriteEncryptedHierarchicalKey> Items();
 
     /**
-     * @param MutationLock Information on an in-flight Mutation of a Branch Key.
+     * @param MutationCommitment Information on an in-flight Mutation of a Branch Key.
      * This ensures:
      * - only one Mutation affects a Branch Key at a time
      * - all items of a Branch Key are mutated consistently
      */
-    Builder MutationLock(MutationLock MutationLock);
+    Builder MutationCommitment(MutationCommitment MutationCommitment);
 
     /**
      * @return Information on an in-flight Mutation of a Branch Key.
@@ -76,7 +98,23 @@ public class WriteMutatedVersionsInput {
      * - only one Mutation affects a Branch Key at a time
      * - all items of a Branch Key are mutated consistently
      */
-    MutationLock MutationLock();
+    MutationCommitment MutationCommitment();
+
+    /**
+     * @param MutationIndex To avoid information loss, overwrites to any itme in the Key Store
+     * are done conditioned on the old value.
+     */
+    Builder MutationIndex(OverWriteMutationIndex MutationIndex);
+
+    /**
+     * @return To avoid information loss, overwrites to any itme in the Key Store
+     * are done conditioned on the old value.
+     */
+    OverWriteMutationIndex MutationIndex();
+
+    Builder EndMutation(Boolean EndMutation);
+
+    Boolean EndMutation();
 
     WriteMutatedVersionsInput build();
   }
@@ -85,13 +123,19 @@ public class WriteMutatedVersionsInput {
 
     protected List<OverWriteEncryptedHierarchicalKey> Items;
 
-    protected MutationLock MutationLock;
+    protected MutationCommitment MutationCommitment;
+
+    protected OverWriteMutationIndex MutationIndex;
+
+    protected Boolean EndMutation;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(WriteMutatedVersionsInput model) {
       this.Items = model.Items();
-      this.MutationLock = model.MutationLock();
+      this.MutationCommitment = model.MutationCommitment();
+      this.MutationIndex = model.MutationIndex();
+      this.EndMutation = model.EndMutation();
     }
 
     public Builder Items(List<OverWriteEncryptedHierarchicalKey> Items) {
@@ -103,13 +147,31 @@ public class WriteMutatedVersionsInput {
       return this.Items;
     }
 
-    public Builder MutationLock(MutationLock MutationLock) {
-      this.MutationLock = MutationLock;
+    public Builder MutationCommitment(MutationCommitment MutationCommitment) {
+      this.MutationCommitment = MutationCommitment;
       return this;
     }
 
-    public MutationLock MutationLock() {
-      return this.MutationLock;
+    public MutationCommitment MutationCommitment() {
+      return this.MutationCommitment;
+    }
+
+    public Builder MutationIndex(OverWriteMutationIndex MutationIndex) {
+      this.MutationIndex = MutationIndex;
+      return this;
+    }
+
+    public OverWriteMutationIndex MutationIndex() {
+      return this.MutationIndex;
+    }
+
+    public Builder EndMutation(Boolean EndMutation) {
+      this.EndMutation = EndMutation;
+      return this;
+    }
+
+    public Boolean EndMutation() {
+      return this.EndMutation;
     }
 
     public WriteMutatedVersionsInput build() {
@@ -118,9 +180,19 @@ public class WriteMutatedVersionsInput {
           "Missing value for required field `Items`"
         );
       }
-      if (Objects.isNull(this.MutationLock())) {
+      if (Objects.isNull(this.MutationCommitment())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `MutationLock`"
+          "Missing value for required field `MutationCommitment`"
+        );
+      }
+      if (Objects.isNull(this.MutationIndex())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `MutationIndex`"
+        );
+      }
+      if (Objects.isNull(this.EndMutation())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `EndMutation`"
         );
       }
       return new WriteMutatedVersionsInput(this);
