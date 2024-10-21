@@ -40,6 +40,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
       LocalCMC.UpdateUsageMetadataEnsuresPublicly,
       LocalCMC.ValidState,
       LocalCMC.InternalValidState,
+      LocalCMC.GetCacheEntryWithTime,
 
       // These are internal details
       // that come from the constructor
@@ -47,7 +48,6 @@ module {:options "/functionSyntax:4" } LocalCMC {
       LocalCMC.InternalDeleteCacheEntry?,
       LocalCMC.entryCapacity,
       LocalCMC.entryPruningTailSize
-
 
   datatype Ref<T> =
     | Ptr(deref: T)
