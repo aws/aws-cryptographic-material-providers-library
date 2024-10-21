@@ -7,22 +7,11 @@ namespace AWS.Cryptography.KeyStore
 {
   public class WriteInitializeMutationInput
   {
-    private AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey _beacon;
     private AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey _active;
     private AWS.Cryptography.KeyStore.EncryptedHierarchicalKey _version;
-    private AWS.Cryptography.KeyStore.MutationCommitment _mutationCommitment;
+    private AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey _beacon;
+    private AWS.Cryptography.KeyStore.MutationLock _mutationLock;
     private AWS.Cryptography.KeyStore.MutationIndex _mutationIndex;
-    private AWS.Cryptography.KeyStore.OverWriteMutationIndex _overWriteMutationIndex;
-    private System.Collections.Generic.List<AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey> _versions;
-    public AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey Beacon
-    {
-      get { return this._beacon; }
-      set { this._beacon = value; }
-    }
-    public bool IsSetBeacon()
-    {
-      return this._beacon != null;
-    }
     public AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey Active
     {
       get { return this._active; }
@@ -41,14 +30,23 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._version != null;
     }
-    public AWS.Cryptography.KeyStore.MutationCommitment MutationCommitment
+    public AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey Beacon
     {
-      get { return this._mutationCommitment; }
-      set { this._mutationCommitment = value; }
+      get { return this._beacon; }
+      set { this._beacon = value; }
     }
-    public bool IsSetMutationCommitment()
+    public bool IsSetBeacon()
     {
-      return this._mutationCommitment != null;
+      return this._beacon != null;
+    }
+    public AWS.Cryptography.KeyStore.MutationLock MutationLock
+    {
+      get { return this._mutationLock; }
+      set { this._mutationLock = value; }
+    }
+    public bool IsSetMutationLock()
+    {
+      return this._mutationLock != null;
     }
     public AWS.Cryptography.KeyStore.MutationIndex MutationIndex
     {
@@ -59,28 +57,13 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._mutationIndex != null;
     }
-    public AWS.Cryptography.KeyStore.OverWriteMutationIndex OverWriteMutationIndex
-    {
-      get { return this._overWriteMutationIndex; }
-      set { this._overWriteMutationIndex = value; }
-    }
-    public bool IsSetOverWriteMutationIndex()
-    {
-      return this._overWriteMutationIndex != null;
-    }
-    public System.Collections.Generic.List<AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey> Versions
-    {
-      get { return this._versions; }
-      set { this._versions = value; }
-    }
-    public bool IsSetVersions()
-    {
-      return this._versions != null;
-    }
     public void Validate()
     {
+      if (!IsSetActive()) throw new System.ArgumentException("Missing value for required property 'Active'");
+      if (!IsSetVersion()) throw new System.ArgumentException("Missing value for required property 'Version'");
       if (!IsSetBeacon()) throw new System.ArgumentException("Missing value for required property 'Beacon'");
-      if (!IsSetVersions()) throw new System.ArgumentException("Missing value for required property 'Versions'");
+      if (!IsSetMutationLock()) throw new System.ArgumentException("Missing value for required property 'MutationLock'");
+      if (!IsSetMutationIndex()) throw new System.ArgumentException("Missing value for required property 'MutationIndex'");
 
     }
   }
