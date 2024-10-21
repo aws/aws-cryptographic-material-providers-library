@@ -9,7 +9,7 @@ namespace AWS.Cryptography.KeyStore
   {
     private AWS.Cryptography.KeyStore.EncryptedHierarchicalKey _activeItem;
     private AWS.Cryptography.KeyStore.EncryptedHierarchicalKey _beaconItem;
-    private AWS.Cryptography.KeyStore.MutationCommitment _mutationCommitment;
+    private AWS.Cryptography.KeyStore.MutationLock _mutationLock;
     private AWS.Cryptography.KeyStore.MutationIndex _mutationIndex;
     public AWS.Cryptography.KeyStore.EncryptedHierarchicalKey ActiveItem
     {
@@ -29,14 +29,14 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._beaconItem != null;
     }
-    public AWS.Cryptography.KeyStore.MutationCommitment MutationCommitment
+    public AWS.Cryptography.KeyStore.MutationLock MutationLock
     {
-      get { return this._mutationCommitment; }
-      set { this._mutationCommitment = value; }
+      get { return this._mutationLock; }
+      set { this._mutationLock = value; }
     }
-    public bool IsSetMutationCommitment()
+    public bool IsSetMutationLock()
     {
-      return this._mutationCommitment != null;
+      return this._mutationLock != null;
     }
     public AWS.Cryptography.KeyStore.MutationIndex MutationIndex
     {

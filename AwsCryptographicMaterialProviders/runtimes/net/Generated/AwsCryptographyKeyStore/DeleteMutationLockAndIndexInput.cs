@@ -5,19 +5,9 @@ using System;
 using AWS.Cryptography.KeyStore;
 namespace AWS.Cryptography.KeyStore
 {
-  public class WriteMutatedVersionsInput
+  public class DeleteMutationLockAndIndexInput
   {
-    private System.Collections.Generic.List<AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey> _items;
     private AWS.Cryptography.KeyStore.MutationLock _mutationLock;
-    public System.Collections.Generic.List<AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey> Items
-    {
-      get { return this._items; }
-      set { this._items = value; }
-    }
-    public bool IsSetItems()
-    {
-      return this._items != null;
-    }
     public AWS.Cryptography.KeyStore.MutationLock MutationLock
     {
       get { return this._mutationLock; }
@@ -29,7 +19,6 @@ namespace AWS.Cryptography.KeyStore
     }
     public void Validate()
     {
-      if (!IsSetItems()) throw new System.ArgumentException("Missing value for required property 'Items'");
       if (!IsSetMutationLock()) throw new System.ArgumentException("Missing value for required property 'MutationLock'");
 
     }

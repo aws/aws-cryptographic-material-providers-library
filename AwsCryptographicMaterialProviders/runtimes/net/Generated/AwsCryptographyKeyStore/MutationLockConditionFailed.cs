@@ -5,9 +5,9 @@ using System;
 using AWS.Cryptography.KeyStore;
 namespace AWS.Cryptography.KeyStore
 {
-  public class MutationCommitmentConditionFailed : Exception
+  public class MutationLockConditionFailed : Exception
   {
-    public MutationCommitmentConditionFailed(string message) : base(message) { }
+    public MutationLockConditionFailed(string message) : base(message) { }
     public string getMessage() { return this.Message; }
   }
 }

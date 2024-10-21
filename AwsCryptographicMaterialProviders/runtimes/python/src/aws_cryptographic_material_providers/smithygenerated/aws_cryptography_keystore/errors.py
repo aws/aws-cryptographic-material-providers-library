@@ -133,12 +133,8 @@ class KeyStorageException(ApiError[Literal["KeyStorageException"]]):
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
-class MutationCommitmentConditionFailed(
-    ApiError[Literal["MutationCommitmentConditionFailed"]]
-):
-    code: Literal["MutationCommitmentConditionFailed"] = (
-        "MutationCommitmentConditionFailed"
-    )
+class MutationLockConditionFailed(ApiError[Literal["MutationLockConditionFailed"]]):
+    code: Literal["MutationLockConditionFailed"] = "MutationLockConditionFailed"
     message: str
 
     def __init__(
@@ -153,79 +149,30 @@ class MutationCommitmentConditionFailed(
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the MutationCommitmentConditionFailed to a dictionary."""
+        """Converts the MutationLockConditionFailed to a dictionary."""
         return {
             "message": self.message,
             "code": self.code,
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "MutationCommitmentConditionFailed":
-        """Creates a MutationCommitmentConditionFailed from a dictionary."""
+    def from_dict(d: Dict[str, Any]) -> "MutationLockConditionFailed":
+        """Creates a MutationLockConditionFailed from a dictionary."""
         kwargs: Dict[str, Any] = {
             "message": d["message"],
         }
 
-        return MutationCommitmentConditionFailed(**kwargs)
+        return MutationLockConditionFailed(**kwargs)
 
     def __repr__(self) -> str:
-        result = "MutationCommitmentConditionFailed("
+        result = "MutationLockConditionFailed("
         if self.message is not None:
             result += f"message={repr(self.message)}"
 
         return result + ")"
 
     def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, MutationCommitmentConditionFailed):
-            return False
-        attributes: list[str] = [
-            "message",
-            "message",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
-
-class OldEncConditionFailed(ApiError[Literal["OldEncConditionFailed"]]):
-    code: Literal["OldEncConditionFailed"] = "OldEncConditionFailed"
-    message: str
-
-    def __init__(
-        self,
-        *,
-        message: str,
-    ):
-        """Write to Storage failed; cipher-text attribute of an item was
-        updated since it was read.
-
-        :param message: A message associated with the specific error.
-        """
-        super().__init__(message)
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the OldEncConditionFailed to a dictionary."""
-        return {
-            "message": self.message,
-            "code": self.code,
-        }
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "OldEncConditionFailed":
-        """Creates a OldEncConditionFailed from a dictionary."""
-        kwargs: Dict[str, Any] = {
-            "message": d["message"],
-        }
-
-        return OldEncConditionFailed(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "OldEncConditionFailed("
-        if self.message is not None:
-            result += f"message={repr(self.message)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, OldEncConditionFailed):
+        if not isinstance(other, MutationLockConditionFailed):
             return False
         attributes: list[str] = [
             "message",
@@ -275,6 +222,55 @@ class NoLongerExistsConditionFailed(ApiError[Literal["NoLongerExistsConditionFai
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, NoLongerExistsConditionFailed):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class OldEncConditionFailed(ApiError[Literal["OldEncConditionFailed"]]):
+    code: Literal["OldEncConditionFailed"] = "OldEncConditionFailed"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        """Write to Storage failed; cipher-text attribute of an item was
+        updated since it was read.
+
+        :param message: A message associated with the specific error.
+        """
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the OldEncConditionFailed to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "OldEncConditionFailed":
+        """Creates a OldEncConditionFailed from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return OldEncConditionFailed(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "OldEncConditionFailed("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, OldEncConditionFailed):
             return False
         attributes: list[str] = [
             "message",
@@ -445,12 +441,8 @@ class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
     message: str
 
 
-class MutationCommitmentConditionFailed(
-    ApiError[Literal["MutationCommitmentConditionFailed"]]
-):
-    code: Literal["MutationCommitmentConditionFailed"] = (
-        "MutationCommitmentConditionFailed"
-    )
+class MutationLockConditionFailed(ApiError[Literal["MutationLockConditionFailed"]]):
+    code: Literal["MutationLockConditionFailed"] = "MutationLockConditionFailed"
     message: str
 
 

@@ -18,9 +18,9 @@ public class GetItemsForInitializeMutationOutput {
   private final EncryptedHierarchicalKey BeaconItem;
 
   /**
-   * The Mutation Commitment, if it exists.
+   * The Mutation Lock, if it exists.
    */
-  private final MutationCommitment MutationCommitment;
+  private final MutationLock MutationLock;
 
   /**
    * A Mutation Index, if it exists.
@@ -30,7 +30,7 @@ public class GetItemsForInitializeMutationOutput {
   protected GetItemsForInitializeMutationOutput(BuilderImpl builder) {
     this.ActiveItem = builder.ActiveItem();
     this.BeaconItem = builder.BeaconItem();
-    this.MutationCommitment = builder.MutationCommitment();
+    this.MutationLock = builder.MutationLock();
     this.MutationIndex = builder.MutationIndex();
   }
 
@@ -49,10 +49,10 @@ public class GetItemsForInitializeMutationOutput {
   }
 
   /**
-   * @return The Mutation Commitment, if it exists.
+   * @return The Mutation Lock, if it exists.
    */
-  public MutationCommitment MutationCommitment() {
-    return this.MutationCommitment;
+  public MutationLock MutationLock() {
+    return this.MutationLock;
   }
 
   /**
@@ -92,14 +92,14 @@ public class GetItemsForInitializeMutationOutput {
     EncryptedHierarchicalKey BeaconItem();
 
     /**
-     * @param MutationCommitment The Mutation Commitment, if it exists.
+     * @param MutationLock The Mutation Lock, if it exists.
      */
-    Builder MutationCommitment(MutationCommitment MutationCommitment);
+    Builder MutationLock(MutationLock MutationLock);
 
     /**
-     * @return The Mutation Commitment, if it exists.
+     * @return The Mutation Lock, if it exists.
      */
-    MutationCommitment MutationCommitment();
+    MutationLock MutationLock();
 
     /**
      * @param MutationIndex A Mutation Index, if it exists.
@@ -120,7 +120,7 @@ public class GetItemsForInitializeMutationOutput {
 
     protected EncryptedHierarchicalKey BeaconItem;
 
-    protected MutationCommitment MutationCommitment;
+    protected MutationLock MutationLock;
 
     protected MutationIndex MutationIndex;
 
@@ -129,7 +129,7 @@ public class GetItemsForInitializeMutationOutput {
     protected BuilderImpl(GetItemsForInitializeMutationOutput model) {
       this.ActiveItem = model.ActiveItem();
       this.BeaconItem = model.BeaconItem();
-      this.MutationCommitment = model.MutationCommitment();
+      this.MutationLock = model.MutationLock();
       this.MutationIndex = model.MutationIndex();
     }
 
@@ -151,13 +151,13 @@ public class GetItemsForInitializeMutationOutput {
       return this.BeaconItem;
     }
 
-    public Builder MutationCommitment(MutationCommitment MutationCommitment) {
-      this.MutationCommitment = MutationCommitment;
+    public Builder MutationLock(MutationLock MutationLock) {
+      this.MutationLock = MutationLock;
       return this;
     }
 
-    public MutationCommitment MutationCommitment() {
-      return this.MutationCommitment;
+    public MutationLock MutationLock() {
+      return this.MutationLock;
     }
 
     public Builder MutationIndex(MutationIndex MutationIndex) {

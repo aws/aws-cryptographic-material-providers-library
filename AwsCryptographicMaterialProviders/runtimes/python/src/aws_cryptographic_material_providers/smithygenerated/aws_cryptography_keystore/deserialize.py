@@ -11,7 +11,7 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     Error_KeyManagementException,
     Error_KeyStorageException,
     Error_KeyStoreException,
-    Error_MutationCommitmentConditionFailed,
+    Error_MutationLockConditionFailed,
     Error_NoLongerExistsConditionFailed,
     Error_OldEncConditionFailed,
     Error_VersionRaceException,
@@ -34,7 +34,7 @@ from .errors import (
     KeyManagementException,
     KeyStorageException,
     KeyStoreException,
-    MutationCommitmentConditionFailed,
+    MutationLockConditionFailed,
     NoLongerExistsConditionFailed,
     OldEncConditionFailed,
     OpaqueError,
@@ -130,10 +130,8 @@ def _deserialize_error(error: Error) -> ServiceError:
         return KeyStorageException(message=_dafny.string_of(error.message))
     elif error.is_KeyStoreException:
         return KeyStoreException(message=_dafny.string_of(error.message))
-    elif error.is_MutationCommitmentConditionFailed:
-        return MutationCommitmentConditionFailed(
-            message=_dafny.string_of(error.message)
-        )
+    elif error.is_MutationLockConditionFailed:
+        return MutationLockConditionFailed(message=_dafny.string_of(error.message))
     elif error.is_NoLongerExistsConditionFailed:
         return NoLongerExistsConditionFailed(message=_dafny.string_of(error.message))
     elif error.is_OldEncConditionFailed:

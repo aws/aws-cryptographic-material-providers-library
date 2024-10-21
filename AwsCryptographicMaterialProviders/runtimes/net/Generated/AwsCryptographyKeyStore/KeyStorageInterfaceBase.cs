@@ -57,15 +57,25 @@ namespace AWS.Cryptography.KeyStore
       input.Validate(); return _WriteMutatedVersions(input);
     }
     protected abstract AWS.Cryptography.KeyStore.WriteMutatedVersionsOutput _WriteMutatedVersions(AWS.Cryptography.KeyStore.WriteMutatedVersionsInput input);
-    public AWS.Cryptography.KeyStore.GetMutationOutput GetMutation(AWS.Cryptography.KeyStore.GetMutationInput input)
+    public AWS.Cryptography.KeyStore.UpdateMutationIndexOutput UpdateMutationIndex(AWS.Cryptography.KeyStore.UpdateMutationIndexInput input)
     {
-      input.Validate(); return _GetMutation(input);
+      input.Validate(); return _UpdateMutationIndex(input);
     }
-    protected abstract AWS.Cryptography.KeyStore.GetMutationOutput _GetMutation(AWS.Cryptography.KeyStore.GetMutationInput input);
-    public AWS.Cryptography.KeyStore.DeleteMutationOutput DeleteMutation(AWS.Cryptography.KeyStore.DeleteMutationInput input)
+    protected abstract AWS.Cryptography.KeyStore.UpdateMutationIndexOutput _UpdateMutationIndex(AWS.Cryptography.KeyStore.UpdateMutationIndexInput input);
+    public AWS.Cryptography.KeyStore.GetMutationLockOutput GetMutationLock(AWS.Cryptography.KeyStore.GetMutationLockInput input)
     {
-      input.Validate(); return _DeleteMutation(input);
+      input.Validate(); return _GetMutationLock(input);
     }
-    protected abstract AWS.Cryptography.KeyStore.DeleteMutationOutput _DeleteMutation(AWS.Cryptography.KeyStore.DeleteMutationInput input);
+    protected abstract AWS.Cryptography.KeyStore.GetMutationLockOutput _GetMutationLock(AWS.Cryptography.KeyStore.GetMutationLockInput input);
+    public AWS.Cryptography.KeyStore.GetMutationLockAndIndexOutput GetMutationLockAndIndex(AWS.Cryptography.KeyStore.GetMutationLockAndIndexInput input)
+    {
+      input.Validate(); return _GetMutationLockAndIndex(input);
+    }
+    protected abstract AWS.Cryptography.KeyStore.GetMutationLockAndIndexOutput _GetMutationLockAndIndex(AWS.Cryptography.KeyStore.GetMutationLockAndIndexInput input);
+    public AWS.Cryptography.KeyStore.DeleteMutationLockAndIndexOutput DeleteMutationLockAndIndex(AWS.Cryptography.KeyStore.DeleteMutationLockAndIndexInput input)
+    {
+      input.Validate(); return _DeleteMutationLockAndIndex(input);
+    }
+    protected abstract AWS.Cryptography.KeyStore.DeleteMutationLockAndIndexOutput _DeleteMutationLockAndIndex(AWS.Cryptography.KeyStore.DeleteMutationLockAndIndexInput input);
   }
 }

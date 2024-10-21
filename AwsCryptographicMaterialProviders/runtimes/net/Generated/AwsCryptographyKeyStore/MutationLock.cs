@@ -5,14 +5,13 @@ using System;
 using AWS.Cryptography.KeyStore;
 namespace AWS.Cryptography.KeyStore
 {
-  public class MutationCommitment
+  public class MutationLock
   {
     private string _identifier;
     private string _createTime;
     private string _uUID;
     private System.IO.MemoryStream _original;
     private System.IO.MemoryStream _terminal;
-    private System.IO.MemoryStream _input;
     private System.IO.MemoryStream _ciphertextBlob;
     public string Identifier
     {
@@ -59,15 +58,6 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._terminal != null;
     }
-    public System.IO.MemoryStream Input
-    {
-      get { return this._input; }
-      set { this._input = value; }
-    }
-    public bool IsSetInput()
-    {
-      return this._input != null;
-    }
     public System.IO.MemoryStream CiphertextBlob
     {
       get { return this._ciphertextBlob; }
@@ -84,7 +74,6 @@ namespace AWS.Cryptography.KeyStore
       if (!IsSetUUID()) throw new System.ArgumentException("Missing value for required property 'UUID'");
       if (!IsSetOriginal()) throw new System.ArgumentException("Missing value for required property 'Original'");
       if (!IsSetTerminal()) throw new System.ArgumentException("Missing value for required property 'Terminal'");
-      if (!IsSetInput()) throw new System.ArgumentException("Missing value for required property 'Input'");
       if (!IsSetCiphertextBlob()) throw new System.ArgumentException("Missing value for required property 'CiphertextBlob'");
 
     }
