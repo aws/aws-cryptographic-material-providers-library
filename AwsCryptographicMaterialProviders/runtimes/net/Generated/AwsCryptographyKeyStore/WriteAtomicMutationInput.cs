@@ -5,13 +5,12 @@ using System;
 using AWS.Cryptography.KeyStore;
 namespace AWS.Cryptography.KeyStore
 {
-  public class WriteInitializeMutationInput
+  public class WriteAtomicMutationInput
   {
     private AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey _active;
     private AWS.Cryptography.KeyStore.EncryptedHierarchicalKey _version;
     private AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey _beacon;
-    private AWS.Cryptography.KeyStore.MutationCommitment _mutationCommitment;
-    private AWS.Cryptography.KeyStore.MutationIndex _mutationIndex;
+    private System.Collections.Generic.List<AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey> _items;
     public AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey Active
     {
       get { return this._active; }
@@ -39,29 +38,19 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._beacon != null;
     }
-    public AWS.Cryptography.KeyStore.MutationCommitment MutationCommitment
+    public System.Collections.Generic.List<AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey> Items
     {
-      get { return this._mutationCommitment; }
-      set { this._mutationCommitment = value; }
+      get { return this._items; }
+      set { this._items = value; }
     }
-    public bool IsSetMutationCommitment()
+    public bool IsSetItems()
     {
-      return this._mutationCommitment != null;
-    }
-    public AWS.Cryptography.KeyStore.MutationIndex MutationIndex
-    {
-      get { return this._mutationIndex; }
-      set { this._mutationIndex = value; }
-    }
-    public bool IsSetMutationIndex()
-    {
-      return this._mutationIndex != null;
+      return this._items != null;
     }
     public void Validate()
     {
       if (!IsSetBeacon()) throw new System.ArgumentException("Missing value for required property 'Beacon'");
-      if (!IsSetMutationCommitment()) throw new System.ArgumentException("Missing value for required property 'MutationCommitment'");
-      if (!IsSetMutationIndex()) throw new System.ArgumentException("Missing value for required property 'MutationIndex'");
+      if (!IsSetItems()) throw new System.ArgumentException("Missing value for required property 'Items'");
 
     }
   }
