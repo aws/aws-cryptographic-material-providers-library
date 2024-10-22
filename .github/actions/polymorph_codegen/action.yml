@@ -46,6 +46,12 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: Setup Java 17 for smithy-dafny
+      uses: actions/setup-java@v3
+      with:
+        distribution: "corretto"
+        java-version: 16
+
     - name: Install smithy-dafny dependencies locally
       shell: bash
       run: |
