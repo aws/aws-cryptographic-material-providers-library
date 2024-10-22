@@ -41,7 +41,7 @@ jobs:
       #  Not all submodules are needed.
       # We manually pull the submodule we DO need.
       - run: git submodule update --init libraries
-      - run: git submodule update --init recursive smithy-dafny
+      - run: git submodule update --init --recursive smithy-dafny
 
       # Set up runtimes
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
@@ -170,7 +170,7 @@ jobs:
       #  Not all submodules are needed.
       # We manually pull the submodule we DO need.
       - run: git submodule update --init libraries
-      - run: git submodule update --init recursive smithy-dafny
+      - run: git submodule update --init --recursive smithy-dafny
 
       # Set up runtimes
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}

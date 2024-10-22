@@ -67,9 +67,6 @@ jobs:
           distribution: "corretto"
           java-version: "17"
 
-      - name: Install Smithy-Dafny codegen dependencies
-        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
-
       - name: Setup Python, black, and docformatter for code formatting
         uses: actions/setup-python@v4
         with:
