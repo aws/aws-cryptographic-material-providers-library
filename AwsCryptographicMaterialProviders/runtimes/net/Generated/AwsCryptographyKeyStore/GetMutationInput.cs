@@ -5,7 +5,7 @@ using System;
 using AWS.Cryptography.KeyStore;
 namespace AWS.Cryptography.KeyStore
 {
-  public class GetMutationLockInput
+  public class GetMutationInput
   {
     private string _identifier;
     public string Identifier

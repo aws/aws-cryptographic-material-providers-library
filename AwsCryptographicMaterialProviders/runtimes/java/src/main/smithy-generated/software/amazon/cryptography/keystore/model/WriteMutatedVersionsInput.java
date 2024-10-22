@@ -3,7 +3,6 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.keystore.model;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,69 +11,58 @@ public class WriteMutatedVersionsInput {
   /**
    * List of version (decrypt only) items of a Branch Key to overwrite conditionally.
    */
-  private final List<EncryptedHierarchicalKey> Items;
+  private final List<OverWriteEncryptedHierarchicalKey> Items;
 
   /**
-   * The Identifier of the Branch Key.
+   * Information on an in-flight Mutation of a Branch Key.
+   * This ensures:
+   * - only one Mutation affects a Branch Key at a time
+   * - all items of a Branch Key are mutated consistently
    */
-  private final String Identifier;
+  private final MutationCommitment MutationCommitment;
 
   /**
-   * A commitment of the Original Mutable Properities of the Branch Key.
+   * To avoid information loss, overwrites to any itme in the Key Store
+   * are done conditioned on the old value.
    */
-  private final ByteBuffer Original;
+  private final OverWriteMutationIndex MutationIndex;
 
-  /**
-   * A commitment of the Terminal Mutable Properities of the Branch Key.
-   */
-  private final ByteBuffer Terminal;
-
-  /**
-   * If set to True, the Mutation Lock will be deleted.
-   */
-  private final Boolean CompleteMutation;
+  private final Boolean EndMutation;
 
   protected WriteMutatedVersionsInput(BuilderImpl builder) {
     this.Items = builder.Items();
-    this.Identifier = builder.Identifier();
-    this.Original = builder.Original();
-    this.Terminal = builder.Terminal();
-    this.CompleteMutation = builder.CompleteMutation();
+    this.MutationCommitment = builder.MutationCommitment();
+    this.MutationIndex = builder.MutationIndex();
+    this.EndMutation = builder.EndMutation();
   }
 
   /**
    * @return List of version (decrypt only) items of a Branch Key to overwrite conditionally.
    */
-  public List<EncryptedHierarchicalKey> Items() {
+  public List<OverWriteEncryptedHierarchicalKey> Items() {
     return this.Items;
   }
 
   /**
-   * @return The Identifier of the Branch Key.
+   * @return Information on an in-flight Mutation of a Branch Key.
+   * This ensures:
+   * - only one Mutation affects a Branch Key at a time
+   * - all items of a Branch Key are mutated consistently
    */
-  public String Identifier() {
-    return this.Identifier;
+  public MutationCommitment MutationCommitment() {
+    return this.MutationCommitment;
   }
 
   /**
-   * @return A commitment of the Original Mutable Properities of the Branch Key.
+   * @return To avoid information loss, overwrites to any itme in the Key Store
+   * are done conditioned on the old value.
    */
-  public ByteBuffer Original() {
-    return this.Original;
+  public OverWriteMutationIndex MutationIndex() {
+    return this.MutationIndex;
   }
 
-  /**
-   * @return A commitment of the Terminal Mutable Properities of the Branch Key.
-   */
-  public ByteBuffer Terminal() {
-    return this.Terminal;
-  }
-
-  /**
-   * @return If set to True, the Mutation Lock will be deleted.
-   */
-  public Boolean CompleteMutation() {
-    return this.CompleteMutation;
+  public Boolean EndMutation() {
+    return this.EndMutation;
   }
 
   public Builder toBuilder() {
@@ -89,121 +77,101 @@ public class WriteMutatedVersionsInput {
     /**
      * @param Items List of version (decrypt only) items of a Branch Key to overwrite conditionally.
      */
-    Builder Items(List<EncryptedHierarchicalKey> Items);
+    Builder Items(List<OverWriteEncryptedHierarchicalKey> Items);
 
     /**
      * @return List of version (decrypt only) items of a Branch Key to overwrite conditionally.
      */
-    List<EncryptedHierarchicalKey> Items();
+    List<OverWriteEncryptedHierarchicalKey> Items();
 
     /**
-     * @param Identifier The Identifier of the Branch Key.
+     * @param MutationCommitment Information on an in-flight Mutation of a Branch Key.
+     * This ensures:
+     * - only one Mutation affects a Branch Key at a time
+     * - all items of a Branch Key are mutated consistently
      */
-    Builder Identifier(String Identifier);
+    Builder MutationCommitment(MutationCommitment MutationCommitment);
 
     /**
-     * @return The Identifier of the Branch Key.
+     * @return Information on an in-flight Mutation of a Branch Key.
+     * This ensures:
+     * - only one Mutation affects a Branch Key at a time
+     * - all items of a Branch Key are mutated consistently
      */
-    String Identifier();
+    MutationCommitment MutationCommitment();
 
     /**
-     * @param Original A commitment of the Original Mutable Properities of the Branch Key.
+     * @param MutationIndex To avoid information loss, overwrites to any itme in the Key Store
+     * are done conditioned on the old value.
      */
-    Builder Original(ByteBuffer Original);
+    Builder MutationIndex(OverWriteMutationIndex MutationIndex);
 
     /**
-     * @return A commitment of the Original Mutable Properities of the Branch Key.
+     * @return To avoid information loss, overwrites to any itme in the Key Store
+     * are done conditioned on the old value.
      */
-    ByteBuffer Original();
+    OverWriteMutationIndex MutationIndex();
 
-    /**
-     * @param Terminal A commitment of the Terminal Mutable Properities of the Branch Key.
-     */
-    Builder Terminal(ByteBuffer Terminal);
+    Builder EndMutation(Boolean EndMutation);
 
-    /**
-     * @return A commitment of the Terminal Mutable Properities of the Branch Key.
-     */
-    ByteBuffer Terminal();
-
-    /**
-     * @param CompleteMutation If set to True, the Mutation Lock will be deleted.
-     */
-    Builder CompleteMutation(Boolean CompleteMutation);
-
-    /**
-     * @return If set to True, the Mutation Lock will be deleted.
-     */
-    Boolean CompleteMutation();
+    Boolean EndMutation();
 
     WriteMutatedVersionsInput build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected List<EncryptedHierarchicalKey> Items;
+    protected List<OverWriteEncryptedHierarchicalKey> Items;
 
-    protected String Identifier;
+    protected MutationCommitment MutationCommitment;
 
-    protected ByteBuffer Original;
+    protected OverWriteMutationIndex MutationIndex;
 
-    protected ByteBuffer Terminal;
-
-    protected Boolean CompleteMutation = false; // Manual Edit to default to false
+    protected Boolean EndMutation;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(WriteMutatedVersionsInput model) {
       this.Items = model.Items();
-      this.Identifier = model.Identifier();
-      this.Original = model.Original();
-      this.Terminal = model.Terminal();
-      this.CompleteMutation = model.CompleteMutation();
+      this.MutationCommitment = model.MutationCommitment();
+      this.MutationIndex = model.MutationIndex();
+      this.EndMutation = model.EndMutation();
     }
 
-    public Builder Items(List<EncryptedHierarchicalKey> Items) {
+    public Builder Items(List<OverWriteEncryptedHierarchicalKey> Items) {
       this.Items = Items;
       return this;
     }
 
-    public List<EncryptedHierarchicalKey> Items() {
+    public List<OverWriteEncryptedHierarchicalKey> Items() {
       return this.Items;
     }
 
-    public Builder Identifier(String Identifier) {
-      this.Identifier = Identifier;
+    public Builder MutationCommitment(MutationCommitment MutationCommitment) {
+      this.MutationCommitment = MutationCommitment;
       return this;
     }
 
-    public String Identifier() {
-      return this.Identifier;
+    public MutationCommitment MutationCommitment() {
+      return this.MutationCommitment;
     }
 
-    public Builder Original(ByteBuffer Original) {
-      this.Original = Original;
+    public Builder MutationIndex(OverWriteMutationIndex MutationIndex) {
+      this.MutationIndex = MutationIndex;
       return this;
     }
 
-    public ByteBuffer Original() {
-      return this.Original;
+    public OverWriteMutationIndex MutationIndex() {
+      return this.MutationIndex;
     }
 
-    public Builder Terminal(ByteBuffer Terminal) {
-      this.Terminal = Terminal;
+    public Builder EndMutation(Boolean EndMutation) {
+      this.EndMutation = EndMutation;
       return this;
     }
 
-    public ByteBuffer Terminal() {
-      return this.Terminal;
-    }
-
-    public Builder CompleteMutation(Boolean CompleteMutation) {
-      this.CompleteMutation = CompleteMutation;
-      return this;
-    }
-
-    public Boolean CompleteMutation() {
-      return this.CompleteMutation;
+    public Boolean EndMutation() {
+      return this.EndMutation;
     }
 
     public WriteMutatedVersionsInput build() {
@@ -212,24 +180,19 @@ public class WriteMutatedVersionsInput {
           "Missing value for required field `Items`"
         );
       }
-      if (Objects.isNull(this.Identifier())) {
+      if (Objects.isNull(this.MutationCommitment())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `Identifier`"
+          "Missing value for required field `MutationCommitment`"
         );
       }
-      if (Objects.isNull(this.Original())) {
+      if (Objects.isNull(this.MutationIndex())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `Original`"
+          "Missing value for required field `MutationIndex`"
         );
       }
-      if (Objects.isNull(this.Terminal())) {
+      if (Objects.isNull(this.EndMutation())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `Terminal`"
-        );
-      }
-      if (Objects.isNull(this.CompleteMutation())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `CompleteMutation`"
+          "Missing value for required field `EndMutation`"
         );
       }
       return new WriteMutatedVersionsInput(this);

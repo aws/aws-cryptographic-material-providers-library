@@ -7,12 +7,11 @@ namespace AWS.Cryptography.KeyStore
 {
   public class WriteMutatedVersionsInput
   {
-    private System.Collections.Generic.List<AWS.Cryptography.KeyStore.EncryptedHierarchicalKey> _items;
-    private string _identifier;
-    private System.IO.MemoryStream _original;
-    private System.IO.MemoryStream _terminal;
-    private bool? _completeMutation;
-    public System.Collections.Generic.List<AWS.Cryptography.KeyStore.EncryptedHierarchicalKey> Items
+    private System.Collections.Generic.List<AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey> _items;
+    private AWS.Cryptography.KeyStore.MutationCommitment _mutationCommitment;
+    private AWS.Cryptography.KeyStore.OverWriteMutationIndex _mutationIndex;
+    private bool? _endMutation;
+    public System.Collections.Generic.List<AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey> Items
     {
       get { return this._items; }
       set { this._items = value; }
@@ -21,49 +20,39 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._items != null;
     }
-    public string Identifier
+    public AWS.Cryptography.KeyStore.MutationCommitment MutationCommitment
     {
-      get { return this._identifier; }
-      set { this._identifier = value; }
+      get { return this._mutationCommitment; }
+      set { this._mutationCommitment = value; }
     }
-    public bool IsSetIdentifier()
+    public bool IsSetMutationCommitment()
     {
-      return this._identifier != null;
+      return this._mutationCommitment != null;
     }
-    public System.IO.MemoryStream Original
+    public AWS.Cryptography.KeyStore.OverWriteMutationIndex MutationIndex
     {
-      get { return this._original; }
-      set { this._original = value; }
+      get { return this._mutationIndex; }
+      set { this._mutationIndex = value; }
     }
-    public bool IsSetOriginal()
+    public bool IsSetMutationIndex()
     {
-      return this._original != null;
+      return this._mutationIndex != null;
     }
-    public System.IO.MemoryStream Terminal
+    public bool EndMutation
     {
-      get { return this._terminal; }
-      set { this._terminal = value; }
+      get { return this._endMutation.GetValueOrDefault(); }
+      set { this._endMutation = value; }
     }
-    public bool IsSetTerminal()
+    public bool IsSetEndMutation()
     {
-      return this._terminal != null;
-    }
-    public bool CompleteMutation
-    {
-      get { return this._completeMutation.GetValueOrDefault(); }
-      set { this._completeMutation = value; }
-    }
-    public bool IsSetCompleteMutation()
-    {
-      return this._completeMutation.HasValue;
+      return this._endMutation.HasValue;
     }
     public void Validate()
     {
       if (!IsSetItems()) throw new System.ArgumentException("Missing value for required property 'Items'");
-      if (!IsSetIdentifier()) throw new System.ArgumentException("Missing value for required property 'Identifier'");
-      if (!IsSetOriginal()) throw new System.ArgumentException("Missing value for required property 'Original'");
-      if (!IsSetTerminal()) throw new System.ArgumentException("Missing value for required property 'Terminal'");
-      if (!IsSetCompleteMutation()) throw new System.ArgumentException("Missing value for required property 'CompleteMutation'");
+      if (!IsSetMutationCommitment()) throw new System.ArgumentException("Missing value for required property 'MutationCommitment'");
+      if (!IsSetMutationIndex()) throw new System.ArgumentException("Missing value for required property 'MutationIndex'");
+      if (!IsSetEndMutation()) throw new System.ArgumentException("Missing value for required property 'EndMutation'");
 
     }
   }

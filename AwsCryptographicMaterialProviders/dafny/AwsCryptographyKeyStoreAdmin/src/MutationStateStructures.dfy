@@ -6,6 +6,7 @@ include "../../../../libraries/src/Collections/Maps/Maps.dfy"
 include "../../../../libraries/src/JSON/API.dfy"
 include "../../../../libraries/src/JSON/Errors.dfy"
 include "../../../../libraries/src/JSON/Values.dfy"
+include "MutationIndexUtils.dfy"
 
 /** Mutation State Structures describe the Mutable Branch Key Properties that can be changed by Mutaiton. **/
 /** Methods here normialize these descriptions so they may be compared. **/
@@ -30,6 +31,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   import JSON = JSON.API
   import JSONErrors = JSON.Errors
   import JSONValues = JSON.Values
+  import MutationIndexUtils
 
   const MUTABLE_PROPERTY_COUNT: int := 2
   const MUTABLE_PROPERTY_COUNT_str := "2"
@@ -64,9 +66,30 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     Original: MutableProperties,
     Terminal: MutableProperties,
     CreateTime: string,
-    ExclusiveStartKey: Option<seq<uint8>> := Option.None ,
-    UUID: Option<string> := Option.None
+    ExclusiveStartKey: MutationIndexUtils.ExclusiveStartKey := Option.None,
+    UUID: string,
+    Input: seq<uint8>,
+    CommitmentCiphertext: seq<uint8>,
+    IndexCiphertext: seq<uint8>
   )
+
+  /** The Commitment & Index are persisted to the storage by Initialize. **/
+  /** The Commitment & Index are read by Apply. **/
+  /** The Index is updated by Apply. **/
+  /** Both are deleted when the Mutation is completed by Apply. **/
+  datatype CommitmentAndIndex = CommitmentAndIndex(
+    Commitment: KeyStoreTypes.MutationCommitment,
+    Index: KeyStoreTypes.MutationIndex
+  )
+  {
+    /** The Commitment & Index MUST always have the same Identifier & UUID. **/
+    /** They MAY NOT have the same CreateTime. **/
+    ghost predicate ValidState()
+    {
+      && Commitment.Identifier == Index.Identifier
+      && Commitment.UUID == Index.UUID
+    }
+  }
 
   predicate MutationToApply?(MutationToApply: MutationToApply)
   {
@@ -142,7 +165,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
 
   function SerializeMutableBranchKeyProperties(
     MutationToApply: MutationToApply
-  ): (output: Result<Types.MutationToken, Types.Error>)
+  ): (output: Result<CommitmentAndIndex, Types.Error>)
     requires MutationToApply?(MutationToApply)
   {
     var OriginalJson
@@ -166,29 +189,38 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
                            (e: JSONErrors.SerializationError)
                            => Types.KeyStoreAdminException(
                                message := "Could not JSON Serialize state: terminal properties. " + e.ToString()));
-    Success(
-      Types.MutationToken(
-        Identifier := MutationToApply.Identifier,
-        Original := originalBytes,
-        Terminal := terminalBytes,
-        ExclusiveStartKey := MutationToApply.ExclusiveStartKey,
-        UUID := MutationToApply.UUID,
-        CreateTime := MutationToApply.CreateTime
-      ))
+    var commitment := KeyStoreTypes.MutationCommitment(
+                        Identifier := MutationToApply.Identifier,
+                        Original := originalBytes,
+                        Terminal := terminalBytes,
+                        UUID := MutationToApply.UUID,
+                        CreateTime := MutationToApply.CreateTime,
+                        CiphertextBlob := MutationToApply.CommitmentCiphertext,
+                        Input := MutationToApply.Input
+                      );
+    var index := KeyStoreTypes.MutationIndex(
+                   Identifier := MutationToApply.Identifier,
+                   PageIndex := MutationIndexUtils.ExclusiveStartKeyToPageIndex(MutationToApply.ExclusiveStartKey),
+                   UUID := MutationToApply.UUID,
+                   CreateTime := MutationToApply.CreateTime,
+                   CiphertextBlob := MutationToApply.IndexCiphertext
+                 );
+    Success(CommitmentAndIndex(commitment, index))
   }
 
-  function DeserializeMutationToken(
-    Token: Types.MutationToken
-  )
-    : (output: Result<MutationToApply, Types.Error>)
+  function DeserializeMutation(
+    commitmentAndIndex: CommitmentAndIndex
+  ): (output: Result<MutationToApply, Types.Error>)
     ensures output.Success? ==> MutationToApply?(output.value)
   {
-    var OriginalJson :- JSON.Deserialize(Token.Original).MapFailure(
+    var commitment := commitmentAndIndex.Commitment;
+    var index := commitmentAndIndex.Index;
+    var OriginalJson :- JSON.Deserialize(commitment.Original).MapFailure(
                           (e: JSONErrors.DeserializationError)
                           => Types.KeyStoreAdminException(
                               message := "Could not JSON Deserialize state: original properties. " + e.ToString()));
 
-    var TerminalJson :- JSON.Deserialize(Token.Terminal).MapFailure(
+    var TerminalJson :- JSON.Deserialize(commitment.Terminal).MapFailure(
                           (e: JSONErrors.DeserializationError)
                           => Types.KeyStoreAdminException(
                               message := "Could not JSON Deserialize state: terminal properties. " + e.ToString()));
@@ -198,7 +230,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
 
     Success(
       MutationToApply(
-        Identifier := Token.Identifier,
+        Identifier := commitment.Identifier,
         Original := MutableProperties(
           kmsArn := OriginalJson.obj[1].1.str,
           customEncryptionContext := JSONToEncryptionContextString(OriginalJson.obj[0].1)
@@ -207,9 +239,12 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
           kmsArn := TerminalJson.obj[1].1.str,
           customEncryptionContext := JSONToEncryptionContextString(TerminalJson.obj[0].1)
         ),
-        ExclusiveStartKey := Token.ExclusiveStartKey,
-        UUID := Token.UUID,
-        CreateTime := Token.CreateTime
+        UUID := commitment.UUID,
+        CreateTime := commitment.CreateTime,
+        ExclusiveStartKey := MutationIndexUtils.PageIndexToExclusiveStartKey(index.PageIndex),
+        CommitmentCiphertext := commitment.CiphertextBlob,
+        IndexCiphertext := index.CiphertextBlob,
+        Input := commitment.Input
       ))
   }
 

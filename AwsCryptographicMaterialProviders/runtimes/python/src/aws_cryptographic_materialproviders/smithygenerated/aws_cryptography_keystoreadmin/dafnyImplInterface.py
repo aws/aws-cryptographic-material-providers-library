@@ -25,6 +25,7 @@ class DafnyImplInterface:
                 "VersionKey": self.impl.VersionKey,
                 "InitializeMutation": self.impl.InitializeMutation,
                 "ApplyMutation": self.impl.ApplyMutation,
+                "DescribeMutation": self.impl.DescribeMutation,
             }
 
         # This logic is where a typical Smithy client would expect the "server" to be.

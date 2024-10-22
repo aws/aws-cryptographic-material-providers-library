@@ -3,8 +3,8 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.keystore;
 
-import software.amazon.cryptography.keystore.model.ClobberMutationLockInput;
-import software.amazon.cryptography.keystore.model.ClobberMutationLockOutput;
+import software.amazon.cryptography.keystore.model.DeleteMutationInput;
+import software.amazon.cryptography.keystore.model.DeleteMutationOutput;
 import software.amazon.cryptography.keystore.model.GetEncryptedActiveBranchKeyInput;
 import software.amazon.cryptography.keystore.model.GetEncryptedActiveBranchKeyOutput;
 import software.amazon.cryptography.keystore.model.GetEncryptedBeaconKeyInput;
@@ -15,10 +15,12 @@ import software.amazon.cryptography.keystore.model.GetItemsForInitializeMutation
 import software.amazon.cryptography.keystore.model.GetItemsForInitializeMutationOutput;
 import software.amazon.cryptography.keystore.model.GetKeyStorageInfoInput;
 import software.amazon.cryptography.keystore.model.GetKeyStorageInfoOutput;
-import software.amazon.cryptography.keystore.model.GetMutationLockInput;
-import software.amazon.cryptography.keystore.model.GetMutationLockOutput;
+import software.amazon.cryptography.keystore.model.GetMutationInput;
+import software.amazon.cryptography.keystore.model.GetMutationOutput;
 import software.amazon.cryptography.keystore.model.QueryForVersionsInput;
 import software.amazon.cryptography.keystore.model.QueryForVersionsOutput;
+import software.amazon.cryptography.keystore.model.WriteAtomicMutationInput;
+import software.amazon.cryptography.keystore.model.WriteAtomicMutationOutput;
 import software.amazon.cryptography.keystore.model.WriteInitializeMutationInput;
 import software.amazon.cryptography.keystore.model.WriteInitializeMutationOutput;
 import software.amazon.cryptography.keystore.model.WriteMutatedVersionsInput;
@@ -30,10 +32,10 @@ import software.amazon.cryptography.keystore.model.WriteNewEncryptedBranchKeyVer
 
 public interface IKeyStorageInterface {
   /**
-   * Overwrite an existing Mutation Lock.
+   * Delete an existing Mutation Commitment & Index.
    *
    */
-  ClobberMutationLockOutput ClobberMutationLock(ClobberMutationLockInput input);
+  DeleteMutationOutput DeleteMutation(DeleteMutationInput input);
 
   /**
    * Get the ACTIVE branch key for encryption for an existing branch key.
@@ -67,8 +69,8 @@ public interface IKeyStorageInterface {
 
   /**
    * Gets the ACTIVE branch key and the beacon key,
-   * and looks for a Mutation Lock,
-   * returning it if found.
+   * and looks for a Mutation Commitment & Index,
+   * returning them if found.
    *
    */
   GetItemsForInitializeMutationOutput GetItemsForInitializeMutation(
@@ -84,12 +86,12 @@ public interface IKeyStorageInterface {
   GetKeyStorageInfoOutput GetKeyStorageInfo(GetKeyStorageInfoInput input);
 
   /**
-   * Check for Mutation Lock on a Branch Key ID.
+   * Check for Mutation Commitment on a Branch Key ID.
    * If one exists, returns the Mutation Lock.
    * Otherwise, returns nothing.
    *
    */
-  GetMutationLockOutput GetMutationLock(GetMutationLockInput input);
+  GetMutationOutput GetMutation(GetMutationInput input);
 
   /**
    * Query Storage for a page of version (decrypt only) items
@@ -101,10 +103,21 @@ public interface IKeyStorageInterface {
   /**
    * Atomically writes,
    * in the terminal state of a Mutation:
-   * - new ACTIVE item
-   * - version (decrypt only) for new ACTIVE
+   * - new ACTIVE item, if provided
+   * - version (decrypt only) for new ACTIVE, if provided
    * - beacon key
-   * Also writes the Mutation Lock.
+   * - a page of version (decrypt only) items
+   *
+   */
+  WriteAtomicMutationOutput WriteAtomicMutation(WriteAtomicMutationInput input);
+
+  /**
+   * Atomically writes,
+   * in the terminal state of a Mutation:
+   * - new ACTIVE item, if provided
+   * - version (decrypt only) for new ACTIVE, if provided
+   * - beacon key
+   * Also writes the Mutation Commitment & Index.
    *
    */
   WriteInitializeMutationOutput WriteInitializeMutation(
@@ -117,8 +130,8 @@ public interface IKeyStorageInterface {
    * a page of version (decrypt only) items,
    * conditioned on:
    * - every version already exsisting
-   * - the original of a Mutation Lock commits to the original provided
-   * - the terminal of a Mutation Lock commits to the terminal provided
+   * - every version's enc has not changed
+   * - the Mutation Commitment has not changed
    *
    *
    */

@@ -5,13 +5,13 @@ using System;
 using AWS.Cryptography.KeyStore;
 namespace AWS.Cryptography.KeyStore
 {
-  public class MutationLock
+  public class MutationIndex
   {
     private string _identifier;
     private string _createTime;
     private string _uUID;
-    private System.IO.MemoryStream _original;
-    private System.IO.MemoryStream _terminal;
+    private System.IO.MemoryStream _pageIndex;
+    private System.IO.MemoryStream _ciphertextBlob;
     public string Identifier
     {
       get { return this._identifier; }
@@ -39,31 +39,31 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._uUID != null;
     }
-    public System.IO.MemoryStream Original
+    public System.IO.MemoryStream PageIndex
     {
-      get { return this._original; }
-      set { this._original = value; }
+      get { return this._pageIndex; }
+      set { this._pageIndex = value; }
     }
-    public bool IsSetOriginal()
+    public bool IsSetPageIndex()
     {
-      return this._original != null;
+      return this._pageIndex != null;
     }
-    public System.IO.MemoryStream Terminal
+    public System.IO.MemoryStream CiphertextBlob
     {
-      get { return this._terminal; }
-      set { this._terminal = value; }
+      get { return this._ciphertextBlob; }
+      set { this._ciphertextBlob = value; }
     }
-    public bool IsSetTerminal()
+    public bool IsSetCiphertextBlob()
     {
-      return this._terminal != null;
+      return this._ciphertextBlob != null;
     }
     public void Validate()
     {
       if (!IsSetIdentifier()) throw new System.ArgumentException("Missing value for required property 'Identifier'");
       if (!IsSetCreateTime()) throw new System.ArgumentException("Missing value for required property 'CreateTime'");
       if (!IsSetUUID()) throw new System.ArgumentException("Missing value for required property 'UUID'");
-      if (!IsSetOriginal()) throw new System.ArgumentException("Missing value for required property 'Original'");
-      if (!IsSetTerminal()) throw new System.ArgumentException("Missing value for required property 'Terminal'");
+      if (!IsSetPageIndex()) throw new System.ArgumentException("Missing value for required property 'PageIndex'");
+      if (!IsSetCiphertextBlob()) throw new System.ArgumentException("Missing value for required property 'CiphertextBlob'");
 
     }
   }
