@@ -46,6 +46,11 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: Install smithy-dafny dependencies locally
+      shell: bash
+      run: |
+        make -C smithy-dafny mvn_local_deploy_polymorph_dependencies
+
     # Replace the project.properties file so that we pick up the right runtimes etc.,
     # in cases where inputs.dafny is different from the current value in that file.
     - name: Update top-level project.properties file
