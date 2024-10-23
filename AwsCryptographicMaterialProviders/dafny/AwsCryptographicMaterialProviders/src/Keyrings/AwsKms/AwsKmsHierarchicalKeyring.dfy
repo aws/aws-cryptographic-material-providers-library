@@ -207,7 +207,28 @@ module AwsKmsHierarchicalKeyring {
       }
     }
 
-    predicate OnEncryptEnsuresPublicly ( input: Types.OnEncryptInput , output: Result<Types.OnEncryptOutput, Types.Error> ) {true}
+    predicate OnEncryptEnsuresPublicly (
+      input: Types.OnEncryptInput ,
+      output: Result<Types.OnEncryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+            && Materials.ValidEncryptionMaterialsTransition(
+                 input.materials,
+                 output.value.materials
+               )
+    {
+      output.Success?
+      ==>
+        && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+        && Materials.ValidEncryptionMaterialsTransition(
+             input.materials,
+             output.value.materials
+           )
+    }
 
     //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#onencrypt
     //= type=implication
@@ -221,12 +242,6 @@ module AwsKmsHierarchicalKeyring {
       ensures ValidState()
       ensures OnEncryptEnsuresPublicly(input, res)
       ensures unchanged(History)
-      ensures res.Success?
-              ==>
-                && Materials.ValidEncryptionMaterialsTransition(
-                  input.materials,
-                  res.value.materials
-                )
     {
       var materials := input.materials;
       var suite := materials.algorithmSuite;
@@ -309,7 +324,24 @@ module AwsKmsHierarchicalKeyring {
       }
     }
 
-    predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> ) {true}
+    predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.DecryptionMaterialsTransitionIsValid(
+              input.materials,
+              output.value.materials
+            )
+    {
+      output.Success?
+      ==>
+        && Materials.DecryptionMaterialsTransitionIsValid(
+          input.materials,
+          output.value.materials
+        )
+    }
     method OnDecrypt'(input: Types.OnDecryptInput)
       returns (res: Result<Types.OnDecryptOutput, Types.Error>)
       requires ValidState()
@@ -319,11 +351,6 @@ module AwsKmsHierarchicalKeyring {
       ensures OnDecryptEnsuresPublicly(input, res)
       ensures unchanged(History)
 
-      ensures res.Success?
-              ==>
-                && Materials.DecryptionMaterialsTransitionIsValid(
-                  input.materials,
-                  res.value.materials)
     {
       var materials := input.materials;
       var suite := input.materials.algorithmSuite;

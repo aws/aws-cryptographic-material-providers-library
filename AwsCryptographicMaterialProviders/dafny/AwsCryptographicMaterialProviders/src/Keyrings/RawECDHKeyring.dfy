@@ -133,7 +133,28 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
     }
 
 
-    ghost predicate OnEncryptEnsuresPublicly ( input: Types.OnEncryptInput , output: Result<Types.OnEncryptOutput, Types.Error> ) {true}
+    ghost     predicate OnEncryptEnsuresPublicly (
+      input: Types.OnEncryptInput ,
+      output: Result<Types.OnEncryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+            && Materials.ValidEncryptionMaterialsTransition(
+                 input.materials,
+                 output.value.materials
+               )
+    {
+      output.Success?
+      ==>
+        && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+        && Materials.ValidEncryptionMaterialsTransition(
+             input.materials,
+             output.value.materials
+           )
+    }
 
     //= aws-encryption-sdk-specification/framework/raw-ecdh-keyring.md#onencrypt
     //= type=implication
@@ -146,12 +167,6 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
       ensures ValidState()
       ensures OnEncryptEnsuresPublicly(input, res)
       ensures unchanged(History)
-      ensures res.Success?
-              ==>
-                && Materials.ValidEncryptionMaterialsTransition(
-                  input.materials,
-                  res.value.materials
-                )
       //= aws-encryption-sdk-specification/framework/raw-ecdh-keyring.md#onencrypt
       //= type=implication
       //# OnEncrypt MUST fail if configured with a
@@ -288,7 +303,24 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
       }
     }
 
-    ghost predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> ) {true}
+    ghost     predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.DecryptionMaterialsTransitionIsValid(
+              input.materials,
+              output.value.materials
+            )
+    {
+      output.Success?
+      ==>
+        && Materials.DecryptionMaterialsTransitionIsValid(
+          input.materials,
+          output.value.materials
+        )
+    }
 
     method {:vcs_split_on_every_assert} OnDecrypt'(input: Types.OnDecryptInput)
       returns (res: Result<Types.OnDecryptOutput, Types.Error>)

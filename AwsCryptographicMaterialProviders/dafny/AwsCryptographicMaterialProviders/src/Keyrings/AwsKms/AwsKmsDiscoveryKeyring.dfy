@@ -81,8 +81,24 @@ module AwsKmsDiscoveryKeyring {
     predicate OnEncryptEnsuresPublicly (
       input: Types.OnEncryptInput ,
       output: Result<Types.OnEncryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+            && Materials.ValidEncryptionMaterialsTransition(
+                 input.materials,
+                 output.value.materials
+               )
     {
-      true
+      output.Success?
+      ==>
+        && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+        && Materials.ValidEncryptionMaterialsTransition(
+             input.materials,
+             output.value.materials
+           )
     }
 
     method OnEncrypt'(
@@ -105,8 +121,22 @@ module AwsKmsDiscoveryKeyring {
     }
 
     predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.DecryptionMaterialsTransitionIsValid(
+              input.materials,
+              output.value.materials
+            )
     {
-      true
+      output.Success?
+      ==>
+        && Materials.DecryptionMaterialsTransitionIsValid(
+          input.materials,
+          output.value.materials
+        )
     }
 
     //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-discovery-keyring.md#ondecrypt
@@ -123,12 +153,6 @@ module AwsKmsDiscoveryKeyring {
       ensures ValidState()
       ensures OnDecryptEnsuresPublicly(input, res)
       ensures unchanged(History)
-      ensures res.Success?
-              ==>
-                && Materials.DecryptionMaterialsTransitionIsValid(
-                  input.materials,
-                  res.value.materials
-                )
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-discovery-keyring.md#ondecrypt
       //= type=implication
