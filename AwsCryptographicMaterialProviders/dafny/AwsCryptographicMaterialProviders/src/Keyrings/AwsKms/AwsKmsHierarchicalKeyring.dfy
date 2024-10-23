@@ -107,7 +107,7 @@ module AwsKmsHierarchicalKeyring {
   //# MUST implement the [AWS Encryption SDK Keyring interface](../keyring-interface.md#interface)
   class AwsKmsHierarchicalKeyring
     extends Keyring.VerifiableInterface
-  {
+    {
     const branchKeyId: Option<string>
     const branchKeyIdSupplier: Option<Types.IBranchKeyIdSupplier>
     const keyStore: KeyStore.IKeyStoreClient
@@ -606,7 +606,7 @@ module AwsKmsHierarchicalKeyring {
 
   class OnDecryptHierarchyEncryptedDataKeyFilter
     extends DeterministicActionWithResult<Types.EncryptedDataKey, bool, Types.Error>
-  {
+    {
     const branchKeyId: string
 
     constructor(
@@ -640,16 +640,14 @@ module AwsKmsHierarchicalKeyring {
         return Success(false);
       }
 
-      if !UTF8.ValidUTF8Seq(providerInfo) {
-        // The Keyring produces UTF8 keyProviderInfo.
-        // If an `aws-kms-hierarchy` encrypted data key's keyProviderInfo is not UTF8
-        // this is an error, not simply an EDK to filter out.
-        return Failure(E("Invalid encoding, provider info is not UTF8."));
-      }
+      // We filter out values that do not match,
+      // Therefore we know that this provider ID is UTF8 encoded
+      assert UTF8.ValidUTF8Seq(PROVIDER_ID_HIERARCHY);
+      assert providerId == PROVIDER_ID_HIERARCHY;
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#ondecrypt
       //# -- The deserialized key provider info MUST be UTF8 Decoded
-      var branchKeyId :- UTF8.Decode(providerInfo).MapFailure(WrapStringToError);
+      var branchKeyId :- UTF8.Decode(providerInfo).MapFailure(e => E("Invalid encoding, provider info is not UTF8."));
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#ondecrypt
       //#  MUST match this keyring's configured `Branch Key Identifier`.
@@ -662,7 +660,7 @@ module AwsKmsHierarchicalKeyring {
       Types.EncryptedDataKey,
       Materials.SealedDecryptionMaterials,
       Types.Error>
-  {
+    {
     const materials: Materials.DecryptionMaterialsPendingPlaintextDataKey
     const keyStore: KeyStore.IKeyStoreClient
     const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
@@ -847,11 +845,7 @@ module AwsKmsHierarchicalKeyring {
       var maybeCacheDigest := Digest.Digest(identifierDigestInput);
       var cacheDigest :- maybeCacheDigest.MapFailure(e => Types.AwsCryptographyPrimitives(e));
 
-      :- Need(
-        |cacheDigest| == Digest.Length(hashAlgorithm),
-        Types.AwsCryptographicMaterialProvidersException(
-          message := "Digest generated a message not equal to the expected length.")
-      );
+      assert |cacheDigest| == Digest.Length(hashAlgorithm);
 
       return Success(cacheDigest);
     }
@@ -925,11 +919,7 @@ module AwsKmsHierarchicalKeyring {
 
         return Success(branchKeyMaterials);
       } else {
-        :- Need(
-          && getCacheOutput.value.materials.BranchKey?
-          && getCacheOutput.value.materials == Types.Materials.BranchKey(getCacheOutput.value.materials.BranchKey),
-          E("Invalid Material Type.")
-        );
+        :- Need(getCacheOutput.value.materials.BranchKey?, E("Invalid Material Type."));
         return Success(getCacheOutput.value.materials.BranchKey);
       }
     }
@@ -940,7 +930,7 @@ module AwsKmsHierarchicalKeyring {
 
   class KmsHierarchyUnwrapKeyMaterial
     extends MaterialWrapping.UnwrapMaterial<HierarchyUnwrapInfo>
-  {
+    {
     const branchKey: seq<uint8>
     const branchKeyIdUtf8 : UTF8.ValidUTF8Bytes
     const branchKeyVersionAsBytes: seq<uint8>
@@ -1063,10 +1053,7 @@ module AwsKmsHierarchicalKeyring {
       );
       var unwrappedPdk :- maybeUnwrappedPdk.MapFailure(e => Types.AwsCryptographyPrimitives(AwsCryptographyPrimitives := e));
 
-      :- Need(
-        |unwrappedPdk| == AlgorithmSuites.GetEncryptKeyLength(input.algorithmSuite) as nat,
-        E("Invalid Key Length")
-      );
+      assert |unwrappedPdk| == AlgorithmSuites.GetEncryptKeyLength(input.algorithmSuite) as nat;
 
       var output := MaterialWrapping.UnwrapOutput(
         unwrappedMaterial := unwrappedPdk,
@@ -1079,7 +1066,7 @@ module AwsKmsHierarchicalKeyring {
 
   class KmsHierarchyGenerateAndWrapKeyMaterial
     extends MaterialWrapping.GenerateAndWrapMaterial<HierarchyWrapInfo>
-  {
+    {
     const branchKey: seq<uint8>
     const branchKeyIdUtf8 : UTF8.ValidUTF8Bytes
     const branchKeyVersionAsBytes: seq<uint8>
@@ -1169,7 +1156,7 @@ module AwsKmsHierarchicalKeyring {
 
   class KmsHierarchyWrapKeyMaterial
     extends MaterialWrapping.WrapMaterial<HierarchyWrapInfo>
-  {
+    {
     const branchKey: seq<uint8>
     const branchKeyIdUtf8 : UTF8.ValidUTF8Bytes
     const branchKeyVersionAsBytes: seq<uint8>
