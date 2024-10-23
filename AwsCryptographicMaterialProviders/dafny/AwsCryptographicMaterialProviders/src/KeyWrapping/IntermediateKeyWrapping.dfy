@@ -115,9 +115,7 @@ module IntermediateKeyWrapping {
     var decOutR := cryptoPrimitives.AESDecrypt(decInput);
     var plaintextDataKey :- decOutR.MapFailure(e => Types.AwsCryptographyPrimitives(e));
 
-    :- Need(|plaintextDataKey| == AlgorithmSuites.GetEncryptKeyLength(algorithmSuite) as nat,
-            Types.AwsCryptographicMaterialProvidersException(
-              message := "Unexpected AES_GCM Decrypt length"));
+    assert |plaintextDataKey| == AlgorithmSuites.GetEncryptKeyLength(algorithmSuite) as nat;
 
     return Success(IntermediateUnwrapOutput(
                      plaintextDataKey := plaintextDataKey,
@@ -214,10 +212,8 @@ module IntermediateKeyWrapping {
     var encOutR := cryptoPrimitives.AESEncrypt(encInput);
     var encryptedPdk :- encOutR.MapFailure(e => Types.AwsCryptographyPrimitives(e));
 
-    :- Need(|encryptedPdk.cipherText + encryptedPdk.authTag| ==
-            (AlgorithmSuites.GetEncryptKeyLength(algorithmSuite) + AlgorithmSuites.GetEncryptTagLength(algorithmSuite)) as nat,
-            Types.AwsCryptographicMaterialProvidersException(
-              message := "Unexpected AES_GCM Encrypt length"));
+    assert |encryptedPdk.cipherText + encryptedPdk.authTag| ==
+            (AlgorithmSuites.GetEncryptKeyLength(algorithmSuite) + AlgorithmSuites.GetEncryptTagLength(algorithmSuite)) as nat;
 
     var serializedMaterial := encryptedPdk.cipherText + encryptedPdk.authTag + providerWrappedIkm;
 
