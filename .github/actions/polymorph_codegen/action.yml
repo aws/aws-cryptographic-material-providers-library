@@ -50,7 +50,7 @@ runs:
       uses: actions/setup-java@v3
       with:
         distribution: "corretto"
-        java-version: 16
+        java-version: 17
 
     - name: Install smithy-dafny dependencies locally
       shell: bash
