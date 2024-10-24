@@ -532,7 +532,7 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
     }
 
     ghost predicate Requires(edk: Types.EncryptedDataKey){
-      && UTF8.ValidUTF8Seq(edk.keyProviderInfo)
+      && UTF8.ValidUTF8Seq(edk.keyProviderId)
     }
 
     method {:vcs_split_on_every_assert}  Invoke(
@@ -540,6 +540,7 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
       ghost attemptsState: seq<ActionInvoke<Types.EncryptedDataKey, Result<Materials.SealedDecryptionMaterials, Types.Error>>>
     ) returns (res: Result<Materials.SealedDecryptionMaterials, Types.Error>)
       requires Invariant()
+      requires Requires(edk)
       modifies Modifies
       decreases Modifies
       ensures Invariant()
@@ -684,6 +685,7 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
         ==>
           (edk.keyProviderId == KMS_ECDH_PROVIDER_ID ||
            edk.keyProviderId == RAW_ECDH_PROVIDER_ID)
+           && UTF8.ValidUTF8Seq(edk.keyProviderId)
       )
     }
 

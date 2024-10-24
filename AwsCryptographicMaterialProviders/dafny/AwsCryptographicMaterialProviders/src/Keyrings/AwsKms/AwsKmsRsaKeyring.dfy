@@ -109,8 +109,29 @@ module AwsKmsRsaKeyring {
       this.grantTokens := grantTokens;
     }
 
-    predicate OnEncryptEnsuresPublicly(input: Types.OnEncryptInput , output: Result<Types.OnEncryptOutput, Types.Error>)
-    {true}
+    predicate OnEncryptEnsuresPublicly (
+      input: Types.OnEncryptInput ,
+      output: Result<Types.OnEncryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+            && Materials.ValidEncryptionMaterialsTransition(
+                 input.materials,
+                 output.value.materials
+               )
+    {
+      output.Success?
+      ==>
+        && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+        && Materials.ValidEncryptionMaterialsTransition(
+             input.materials,
+             output.value.materials
+           )
+    }
+
 
     method OnEncrypt'(input: Types.OnEncryptInput)
       returns (res: Result<Types.OnEncryptOutput, Types.Error>)
