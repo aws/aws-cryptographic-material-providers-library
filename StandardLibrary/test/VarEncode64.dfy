@@ -70,21 +70,21 @@ module {:options "-functionSyntax:4"} VarEncode64Test {
   method {:test} TestDecode() {
     var start := Time.GetCurrentMilli();
 
-    for i : nat := 0 to 256 {
+    for i : uint32 := 0 to 256 {
       var bytes : seq<uint8> := [i as uint8];
       CheckSeq(bytes);
     }
 
-    for i : nat := 0 to 256 {
-      for j : nat := 0 to 256 {
+    for i : uint32 := 0 to 256 {
+      for j : uint32 := 0 to 256 {
         var bytes : seq<uint8> := [i as uint8, j as uint8];
         CheckSeq(bytes);
       }
     }
 
-    for i : nat := 0 to 256 {
-      for j : nat := 0 to 256 {
-        for k : nat := 0 to 256 {
+    for i : uint32 := 0 to 256 {
+      for j : uint32 := 0 to 256 {
+        for k : uint32 := 0 to 256 {
           var bytes : seq<uint8> := [i as uint8, j as uint8, k as uint8];
           CheckSeq(bytes);
         }

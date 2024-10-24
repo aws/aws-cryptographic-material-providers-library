@@ -258,77 +258,77 @@ module {:options "-functionSyntax:4"} VarEncode64m {
     if val < Max1 {
       return new uint8[] [val as uint8];
     } else if val < Max2 {
-      return new uint8[] 
-      [ (val / Max1) as uint8 + HighBit,
-        (val % Max1) as uint8];
+      return new uint8[]
+        [ (val / Max1) as uint8 + HighBit,
+          (val % Max1) as uint8];
     } else if val < Max3 {
-      return new uint8[] 
-      [ (val / Max2) as uint8 + HighBit,
-        ((val / Max1) % Max1) as uint8 + HighBit,
-        (val % Max1) as uint8];
+      return new uint8[]
+        [ (val / Max2) as uint8 + HighBit,
+          ((val / Max1) % Max1) as uint8 + HighBit,
+          (val % Max1) as uint8];
     } else if val < Max4 {
-      return new uint8[] 
-      [ (val / Max3) as uint8  + HighBit,
-        ((val / Max2) % Max1) as uint8 + HighBit,
-        ((val / Max1) % Max1) as uint8 + HighBit,
-        (val % Max1) as uint8];
+      return new uint8[]
+        [ (val / Max3) as uint8  + HighBit,
+          ((val / Max2) % Max1) as uint8 + HighBit,
+          ((val / Max1) % Max1) as uint8 + HighBit,
+          (val % Max1) as uint8];
     } else if val < Max5 {
-      return new uint8[] 
-      [ (val / Max4) as uint8 + HighBit,
-        ((val / Max3) % Max1) as uint8 + HighBit,
-        ((val / Max2) % Max1) as uint8 + HighBit,
-        ((val / Max1) % Max1) as uint8 + HighBit,
-        (val % Max1) as uint8];
+      return new uint8[]
+        [ (val / Max4) as uint8 + HighBit,
+          ((val / Max3) % Max1) as uint8 + HighBit,
+          ((val / Max2) % Max1) as uint8 + HighBit,
+          ((val / Max1) % Max1) as uint8 + HighBit,
+          (val % Max1) as uint8];
     } else if val < Max6 {
-      return new uint8[] 
-      [ (val / Max5) as uint8 + HighBit,
-        ((val / Max4) % Max1) as uint8 + HighBit,
-        ((val / Max3) % Max1) as uint8 + HighBit,
-        ((val / Max2) % Max1) as uint8 + HighBit,
-        ((val / Max1) % Max1) as uint8 + HighBit,
-        (val % Max1) as uint8];
+      return new uint8[]
+        [ (val / Max5) as uint8 + HighBit,
+          ((val / Max4) % Max1) as uint8 + HighBit,
+          ((val / Max3) % Max1) as uint8 + HighBit,
+          ((val / Max2) % Max1) as uint8 + HighBit,
+          ((val / Max1) % Max1) as uint8 + HighBit,
+          (val % Max1) as uint8];
     } else if val < Max7 {
-      return new uint8[] 
-      [ (val / Max6) as uint8 + HighBit,
-        ((val / Max5) % Max1) as uint8 + HighBit,
-        ((val / Max4) % Max1) as uint8 + HighBit,
-        ((val / Max3) % Max1) as uint8 + HighBit,
-        ((val / Max2) % Max1) as uint8 + HighBit,
-        ((val / Max1) % Max1) as uint8 + HighBit,
-        (val % Max1) as uint8];
+      return new uint8[]
+        [ (val / Max6) as uint8 + HighBit,
+          ((val / Max5) % Max1) as uint8 + HighBit,
+          ((val / Max4) % Max1) as uint8 + HighBit,
+          ((val / Max3) % Max1) as uint8 + HighBit,
+          ((val / Max2) % Max1) as uint8 + HighBit,
+          ((val / Max1) % Max1) as uint8 + HighBit,
+          (val % Max1) as uint8];
     } else if val < Max8 {
-      return new uint8[] 
-      [ (val / Max7) as uint8 + HighBit,
-        ((val / Max6) % Max1) as uint8 + HighBit,
-        ((val / Max5) % Max1) as uint8 + HighBit,
-        ((val / Max4) % Max1) as uint8 + HighBit,
-        ((val / Max3) % Max1) as uint8 + HighBit,
-        ((val / Max2) % Max1) as uint8 + HighBit,
-        ((val / Max1) % Max1) as uint8 + HighBit,
-        (val % Max1) as uint8];
+      return new uint8[]
+        [ (val / Max7) as uint8 + HighBit,
+          ((val / Max6) % Max1) as uint8 + HighBit,
+          ((val / Max5) % Max1) as uint8 + HighBit,
+          ((val / Max4) % Max1) as uint8 + HighBit,
+          ((val / Max3) % Max1) as uint8 + HighBit,
+          ((val / Max2) % Max1) as uint8 + HighBit,
+          ((val / Max1) % Max1) as uint8 + HighBit,
+          (val % Max1) as uint8];
     } else if val < Max9 {
-      return new uint8[] 
-      [ (val / Max8) as uint8 + HighBit,
-        ((val / Max7) % Max1) as uint8 + HighBit,
-        ((val / Max6) % Max1) as uint8 + HighBit,
-        ((val / Max5) % Max1) as uint8 + HighBit,
-        ((val / Max4) % Max1) as uint8 + HighBit,
-        ((val / Max3) % Max1) as uint8 + HighBit,
-        ((val / Max2) % Max1) as uint8 + HighBit,
-        ((val / Max1) % Max1) as uint8 + HighBit,
-        (val % Max1) as uint8];
+      return new uint8[]
+        [ (val / Max8) as uint8 + HighBit,
+          ((val / Max7) % Max1) as uint8 + HighBit,
+          ((val / Max6) % Max1) as uint8 + HighBit,
+          ((val / Max5) % Max1) as uint8 + HighBit,
+          ((val / Max4) % Max1) as uint8 + HighBit,
+          ((val / Max3) % Max1) as uint8 + HighBit,
+          ((val / Max2) % Max1) as uint8 + HighBit,
+          ((val / Max1) % Max1) as uint8 + HighBit,
+          (val % Max1) as uint8];
     } else {
-      return new uint8[] 
-      [ (val / Max9) as uint8 + HighBit,
-        ((val / Max8) % Max1) as uint8 + HighBit,
-        ((val / Max7) % Max1) as uint8 + HighBit,
-        ((val / Max6) % Max1) as uint8 + HighBit,
-        ((val / Max5) % Max1) as uint8 + HighBit,
-        ((val / Max4) % Max1) as uint8 + HighBit,
-        ((val / Max3) % Max1) as uint8 + HighBit,
-        ((val / Max2) % Max1) as uint8 + HighBit,
-        ((val / Max1) % Max1) as uint8 + HighBit,
-        (val % Max1) as uint8];
+      return new uint8[]
+        [ (val / Max9) as uint8 + HighBit,
+          ((val / Max8) % Max1) as uint8 + HighBit,
+          ((val / Max7) % Max1) as uint8 + HighBit,
+          ((val / Max6) % Max1) as uint8 + HighBit,
+          ((val / Max5) % Max1) as uint8 + HighBit,
+          ((val / Max4) % Max1) as uint8 + HighBit,
+          ((val / Max3) % Max1) as uint8 + HighBit,
+          ((val / Max2) % Max1) as uint8 + HighBit,
+          ((val / Max1) % Max1) as uint8 + HighBit,
+          (val % Max1) as uint8];
     }
   }
 
