@@ -50,7 +50,7 @@ module {:options "-functionSyntax:4"} VarEncode64mTest {
     }
   }
 
- /* Converts a sequence to an array. */
+  /* Converts a sequence to an array. */
   method ToArray<T>(xs: seq<T>) returns (a: array<T>)
     ensures fresh(a)
     ensures a.Length == |xs|
