@@ -474,6 +474,13 @@ public class ToNative {
         ToNative.CacheType(dafnyValue.dtor_cache().dtor_value())
       );
     }
+    if (dafnyValue.dtor_partitionId().is_Some()) {
+      nativeBuilder.partitionId(
+        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+          dafnyValue.dtor_partitionId().dtor_value()
+        )
+      );
+    }
     return nativeBuilder.build();
   }
 
@@ -1667,6 +1674,11 @@ public class ToNative {
     if (dafnyValue.is_StormTracking()) {
       nativeBuilder.StormTracking(
         ToNative.StormTrackingCache(dafnyValue.dtor_StormTracking())
+      );
+    }
+    if (dafnyValue.is_Shared()) {
+      nativeBuilder.Shared(
+        ToNative.CryptographicMaterialsCache(dafnyValue.dtor_Shared())
       );
     }
     return nativeBuilder.build();

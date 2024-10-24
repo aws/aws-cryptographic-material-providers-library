@@ -8,6 +8,7 @@ use aws.polymorph#javadoc
 @range(min: 1)
 integer CountingNumber
 
+@smithy.api#suppress(["MutableLocalStateTrait"])
 @aws.polymorph#mutableLocalState
 @aws.polymorph#extendable
 resource CryptographicMaterialsCache {
@@ -215,7 +216,9 @@ union CacheType {
   No: NoCache,
   SingleThreaded: SingleThreadedCache,
   MultiThreaded: MultiThreadedCache,
-  StormTracking: StormTrackingCache
+  StormTracking: StormTrackingCache,
+  @documentation("Shared cache across multiple Hierarchical Keyrings. For this cache type, the user should provide an already constructed CryptographicMaterialsCache to the Hierarchical Keyring at initialization.")
+  Shared: CryptographicMaterialsCacheReference
 }
 
 structure CreateCryptographicMaterialsCacheInput {

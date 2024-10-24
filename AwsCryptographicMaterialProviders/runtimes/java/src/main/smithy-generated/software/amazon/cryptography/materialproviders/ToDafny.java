@@ -173,11 +173,25 @@ public class ToDafny {
     if (nativeValue instanceof CollectionOfErrors) {
       return ToDafny.Error((CollectionOfErrors) nativeValue);
     }
-    return Error.create_Opaque(nativeValue);
+    return Error.create_Opaque(
+      nativeValue,
+      dafny.DafnySequence.asString(
+        java.util.Objects.nonNull(nativeValue.getMessage())
+          ? nativeValue.getMessage()
+          : ""
+      )
+    );
   }
 
   public static Error Error(OpaqueError nativeValue) {
-    return Error.create_Opaque(nativeValue.obj());
+    return Error.create_Opaque(
+      nativeValue.obj(),
+      dafny.DafnySequence.asString(
+        java.util.Objects.nonNull(nativeValue.altText())
+          ? nativeValue.altText()
+          : ""
+      )
+    );
   }
 
   public static Error Error(CollectionOfErrors nativeValue) {
@@ -413,12 +427,25 @@ public class ToDafny {
           ToDafny.CacheType(nativeValue.cache())
         )
         : Option.create_None(CacheType._typeDescriptor());
+    Option<DafnySequence<? extends Character>> partitionId;
+    partitionId =
+      Objects.nonNull(nativeValue.partitionId())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.partitionId()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
     return new CreateAwsKmsHierarchicalKeyringInput(
       branchKeyId,
       branchKeyIdSupplier,
       keyStore,
       ttlSeconds,
-      cache
+      cache,
+      partitionId
     );
   }
 
@@ -2130,6 +2157,11 @@ public class ToDafny {
     if (Objects.nonNull(nativeValue.StormTracking())) {
       return CacheType.create_StormTracking(
         ToDafny.StormTrackingCache(nativeValue.StormTracking())
+      );
+    }
+    if (Objects.nonNull(nativeValue.Shared())) {
+      return CacheType.create_Shared(
+        ToDafny.CryptographicMaterialsCache(nativeValue.Shared())
       );
     }
     throw new IllegalArgumentException(

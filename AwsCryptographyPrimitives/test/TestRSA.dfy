@@ -5,7 +5,7 @@ include "../src/Index.dfy"
 include "../src/Digest.dfy"
 
 module {:options "-functionSyntax:4"} TestAwsCryptographyPrimitivesRSA {
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import opened Wrappers
   import opened StandardLibrary.UInt
   import UTF8
@@ -49,13 +49,13 @@ module {:options "-functionSyntax:4"} TestAwsCryptographyPrimitivesRSA {
                            + "-----END PUBLIC KEY-----"
 
   method {:test} RSAEncryptTests() {
-    var client :- expect Primitives.AtomicPrimitives();
-    var keys := client.GenerateRSAKeyPair(input := Primitives.Types.GenerateRSAKeyPairInput(lengthBits := 2048 as Primitives.Types.RSAModulusLengthBits));
+    var client :- expect AtomicPrimitives.AtomicPrimitives();
+    var keys := client.GenerateRSAKeyPair(input := AtomicPrimitives.Types.GenerateRSAKeyPairInput(lengthBits := 2048 as AtomicPrimitives.Types.RSAModulusLengthBits));
     expect keys.Success?;
 
     BasicRSAEncryptTest(
-      Primitives.Types.RSAEncryptInput(
-        padding := Primitives.Types.RSAPaddingMode.OAEP_SHA256,
+      AtomicPrimitives.Types.RSAEncryptInput(
+        padding := AtomicPrimitives.Types.RSAPaddingMode.OAEP_SHA256,
         publicKey := keys.value.publicKey.pem,
         // The string "asdf" as bytes
         plaintext := [ 97, 115, 100, 102 ]
@@ -65,34 +65,34 @@ module {:options "-functionSyntax:4"} TestAwsCryptographyPrimitivesRSA {
   }
 
   method {:test} GetRSAKeyModulusLength() {
-    var client :- expect Primitives.AtomicPrimitives();
+    var client :- expect AtomicPrimitives.AtomicPrimitives();
 
     // 2048
 
     var publicKey2048 :- expect UTF8.Encode(RSA_PUBLIC_2048);
     var length2048 :- expect client.GetRSAKeyModulusLength(
-      Primitives.Types.GetRSAKeyModulusLengthInput(publicKey := publicKey2048));
+      AtomicPrimitives.Types.GetRSAKeyModulusLengthInput(publicKey := publicKey2048));
     expect length2048.length == 2048;
 
     // 3072
     var publicKey3072 :- expect UTF8.Encode(RSA_PUBLIC_3072);
     var length3072 :- expect client.GetRSAKeyModulusLength(
-      Primitives.Types.GetRSAKeyModulusLengthInput(publicKey := publicKey3072));
+      AtomicPrimitives.Types.GetRSAKeyModulusLengthInput(publicKey := publicKey3072));
     expect length3072.length == 3072;
 
     // 4096
     var publicKey4096 :- expect UTF8.Encode(RSA_PUBLIC_4096);
     var length4096 :- expect client.GetRSAKeyModulusLength(
-      Primitives.Types.GetRSAKeyModulusLengthInput(publicKey := publicKey4096));
+      AtomicPrimitives.Types.GetRSAKeyModulusLengthInput(publicKey := publicKey4096));
     expect length4096.length == 4096;
   }
 
   method BasicRSADecryptTests(
-    input: Primitives.Types.RSADecryptInput,
+    input: AtomicPrimitives.Types.RSADecryptInput,
     expectedOutput: seq<uint8>
   )
   {
-    var client :- expect Primitives.AtomicPrimitives();
+    var client :- expect AtomicPrimitives.AtomicPrimitives();
     var output :- expect client.RSADecrypt(input);
 
     expect output == expectedOutput;
@@ -100,14 +100,14 @@ module {:options "-functionSyntax:4"} TestAwsCryptographyPrimitivesRSA {
   }
 
   method BasicRSAEncryptTest(
-    input: Primitives.Types.RSAEncryptInput,
-    keypair: Primitives.Types.GenerateRSAKeyPairOutput
+    input: AtomicPrimitives.Types.RSAEncryptInput,
+    keypair: AtomicPrimitives.Types.GenerateRSAKeyPairOutput
   )
   {
-    var client :- expect Primitives.AtomicPrimitives();
+    var client :- expect AtomicPrimitives.AtomicPrimitives();
     var output :- expect client.RSAEncrypt(input);
 
-    var decryptInput := Primitives.Types.RSADecryptInput(
+    var decryptInput := AtomicPrimitives.Types.RSADecryptInput(
       padding := input.padding,
       privateKey := keypair.privateKey.pem,
       cipherText := output
@@ -117,17 +117,17 @@ module {:options "-functionSyntax:4"} TestAwsCryptographyPrimitivesRSA {
   }
 
   method {:test} TestingPemParsingInRSAEncryptionForRSAKeyPairStoredInPEM() {
-    var allPadding := set p: Primitives.Types.RSAPaddingMode | true :: p;
+    var allPadding := set p: AtomicPrimitives.Types.RSAPaddingMode {:nowarn} | true :: p;
 
     var PublicKeyFromGenerateRSAKeyPairPemBytes :- expect UTF8.Encode(StaticPublicKeyFromGenerateRSAKeyPair());
     var PrivateKeyFromGenerateRSAKeyPairPemBytes :- expect UTF8.Encode(StaticPrivateKeyFromGenerateRSAKeyPair());
 
-    var KeyFromGenerateRSAKeyPair := Primitives.Types.GenerateRSAKeyPairOutput(
-      publicKey := Primitives.Types.RSAPublicKey(
+    var KeyFromGenerateRSAKeyPair := AtomicPrimitives.Types.GenerateRSAKeyPairOutput(
+      publicKey := AtomicPrimitives.Types.RSAPublicKey(
         lengthBits := 2048,
         pem := PublicKeyFromGenerateRSAKeyPairPemBytes
       ),
-      privateKey := Primitives.Types.RSAPrivateKey(
+      privateKey := AtomicPrimitives.Types.RSAPrivateKey(
         lengthBits := 2048,
         pem := PrivateKeyFromGenerateRSAKeyPairPemBytes
       ));
@@ -137,7 +137,7 @@ module {:options "-functionSyntax:4"} TestAwsCryptographyPrimitivesRSA {
       var padding := paddingSeq[paddingIdx];
 
       BasicRSAEncryptTest(
-        Primitives.Types.RSAEncryptInput(
+        AtomicPrimitives.Types.RSAEncryptInput(
           padding := padding,
           publicKey := KeyFromGenerateRSAKeyPair.publicKey.pem,
           // The string "asdf" as bytes
@@ -150,17 +150,17 @@ module {:options "-functionSyntax:4"} TestAwsCryptographyPrimitivesRSA {
   }
 
   method {:test} TestingPemParsingInRSAEncryptionForOnlyRSAPrivateKeyStoredInPEM() {
-    var allPadding := set p: Primitives.Types.RSAPaddingMode | true :: p;
+    var allPadding := set p: AtomicPrimitives.Types.RSAPaddingMode {:nowarn} | true :: p;
 
     var PublicKeyFromTestVectorsPemBytes :- expect UTF8.Encode(StaticPublicKeyFromTestVectors());
     var PrivateKeyFromTestVectorsPemBytes :- expect UTF8.Encode(StaticPrivateKeyFromTestVectors());
 
-    var KeyFromTestVectorsPair := Primitives.Types.GenerateRSAKeyPairOutput(
-      publicKey := Primitives.Types.RSAPublicKey(
+    var KeyFromTestVectorsPair := AtomicPrimitives.Types.GenerateRSAKeyPairOutput(
+      publicKey := AtomicPrimitives.Types.RSAPublicKey(
         lengthBits := 4096,
         pem := PublicKeyFromTestVectorsPemBytes
       ),
-      privateKey := Primitives.Types.RSAPrivateKey(
+      privateKey := AtomicPrimitives.Types.RSAPrivateKey(
         lengthBits := 4096,
         pem := PrivateKeyFromTestVectorsPemBytes
       ));
@@ -171,7 +171,7 @@ module {:options "-functionSyntax:4"} TestAwsCryptographyPrimitivesRSA {
       var padding := paddingSeq[paddingIdx];
 
       BasicRSAEncryptTest(
-        Primitives.Types.RSAEncryptInput(
+        AtomicPrimitives.Types.RSAEncryptInput(
           padding := padding,
           publicKey := KeyFromTestVectorsPair.publicKey.pem,
           // The string "asdf" as bytes

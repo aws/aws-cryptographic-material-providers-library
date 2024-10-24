@@ -55,7 +55,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   import StormTracker
   import StormTrackingCMC
   import Crypto = AwsCryptographyPrimitivesTypes
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import opened AwsKmsUtils
   import DefaultClientSupplier
   import Materials
@@ -66,9 +66,11 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   import Kms = Com.Amazonaws.Kms
   import Ddb = ComAmazonawsDynamodbTypes
   import RequiredEncryptionContextCMM
+  import UUID
+  import StandardLibrary.String
 
   datatype Config = Config(
-    nameonly crypto: Primitives.AtomicPrimitivesClient
+    nameonly crypto: AtomicPrimitives.AtomicPrimitivesClient
   )
 
   type InternalConfig = Config
@@ -257,19 +259,104 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   predicate CreateAwsKmsHierarchicalKeyringEnsuresPublicly(input: CreateAwsKmsHierarchicalKeyringInput, output: Result<IKeyring, Error>)
   {true}
 
+  function method N(n : PositiveLong) : string {
+    String.Base10Int2String(n as int)
+  }
+
+  // = aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#initialization
+  // # If the cache to initialize is a [Storm Tracking Cryptographic Materials Cache](../storm-tracking-cryptographic-materials-cache.md#overview)
+  // # then the [Grace Period](../storm-tracking-cryptographic-materials-cache.md#grace-period) MUST be less than the [cache limit TTL](#cache-limit-ttl).
+  method CheckCache(cache : CacheType, ttlSeconds: PositiveLong) returns (output : Outcome<Error>)
+  {
+    if cache.StormTracking? {
+      var storm := cache.StormTracking;
+      if ttlSeconds <= storm.gracePeriod as PositiveLong {
+        var msg := "When creating an AwsKmsHierarchicalKeyring with a StormCache, " +
+        "the ttlSeconds of the KeyRing must be greater than the gracePeriod of the StormCache " +
+        "yet the ttlSeconds is " + N(ttlSeconds) + " and the gracePeriod is " + N(storm.gracePeriod as PositiveLong) + ".";
+        return Fail(Types.AwsCryptographicMaterialProvidersException(message := msg));
+      }
+      return Pass;
+    } else {
+      return Pass;
+    }
+  }
+
   method CreateAwsKmsHierarchicalKeyring (config: InternalConfig, input: CreateAwsKmsHierarchicalKeyringInput)
     returns (output: Result<IKeyring, Error>)
   {
-    var maxCacheSize : int32;
+    // //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#initialization
+    // //= type=implication
+    //# If the Hierarchical Keyring does NOT get a `Shared` cache on initialization,
+    //# it MUST initialize a [cryptographic-materials-cache](../local-cryptographic-materials-cache.md)
+    //# with the user provided cache limit TTL and the entry capacity.
+    //# If no `cache` is provided, a `DefaultCache` MUST be configured with entry capacity of 1000.
+    var cmc;
 
-    //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#initialization
-    //= type=implication
-    //# If no max cache size is provided, the crypotgraphic materials cache MUST be configured to a
-    //# max cache size of 1000.
-    var cache := if input.cache.Some? then
-      input.cache.value
-    else
-      Types.Default(Types.DefaultCache(entryCapacity := 1000));
+    if input.cache.Some? {
+      :- CheckCache(input.cache.value, input.ttlSeconds);
+      match input.cache.value {
+        case Shared(c) =>
+          cmc := c;
+        case _ =>
+          cmc :- CreateCryptographicMaterialsCache(
+            config,
+            CreateCryptographicMaterialsCacheInput(cache := input.cache.value)
+          );
+      }
+    }
+    else {
+      :- CheckCache(CacheType.StormTracking(StormTracker.DefaultStorm()), input.ttlSeconds);
+      cmc :- CreateCryptographicMaterialsCache(
+        config,
+        CreateCryptographicMaterialsCacheInput(
+          cache := Types.Default(
+            Types.DefaultCache(entryCapacity := 1000)
+          )
+        )
+      );
+    }
+
+    // //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#partition-id
+    // //= type=implication
+    //# PartitionId can be a string provided by the user. If provided, it MUST be interpreted as UTF8 bytes.
+    //# If the PartitionId is NOT provided by the user, it MUST be set to the 16 byte representation of a v4 UUID.
+    var partitionIdBytes : seq<uint8>;
+
+    if input.partitionId.Some? {
+      partitionIdBytes :- UTF8.Encode(input.partitionId.value)
+      .MapFailure(
+        e => Types.AwsCryptographicMaterialProvidersException(
+            message := "Could not UTF-8 Encode Partition ID: " + e
+          )
+      );
+    } else {
+      var uuid? := UUID.GenerateUUID();
+
+      var uuid :- uuid?
+      .MapFailure(e => Types.AwsCryptographicMaterialProvidersException(message := e));
+
+      partitionIdBytes :- UUID.ToByteArray(uuid)
+      .MapFailure(e => Types.AwsCryptographicMaterialProvidersException(message := e));
+    }
+
+    // //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#logical-key-store-name
+    // //= type=implication
+    //# Logical Key Store Name is set by the user when configuring the Key Store for
+    //# the Hierarchical Keyring. This is a logical name for the key store.
+    //# Logical Key Store Name MUST be converted to UTF8 Bytes to be used in
+    //# the cache identifiers.
+    var getKeyStoreInfoOutput? := input.keyStore.GetKeyStoreInfo();
+    var getKeyStoreInfoOutput :- getKeyStoreInfoOutput?
+    .MapFailure(e => Types.AwsCryptographyKeyStore(AwsCryptographyKeyStore := e));
+    var logicalKeyStoreName := getKeyStoreInfoOutput.logicalKeyStoreName;
+
+    var logicalKeyStoreNameBytes : seq<uint8> :- UTF8.Encode(logicalKeyStoreName)
+    .MapFailure(
+      e => Types.AwsCryptographicMaterialProvidersException(
+          message := "Could not UTF-8 Encode Logical Key Store Name: " + e
+        )
+    );
 
     :- Need(input.branchKeyId.None? || input.branchKeyIdSupplier.None?,
             Types.AwsCryptographicMaterialProvidersException(
@@ -279,14 +366,14 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
             Types.AwsCryptographicMaterialProvidersException(
               message := "Must initialize keyring with either branchKeyId or BranchKeyIdSupplier."));
 
-    var cmc :- CreateCryptographicMaterialsCache(config, CreateCryptographicMaterialsCacheInput(cache := cache));
     var keyring := new AwsKmsHierarchicalKeyring.AwsKmsHierarchicalKeyring(
       keyStore := input.keyStore,
       branchKeyId := input.branchKeyId,
       branchKeyIdSupplier := input.branchKeyIdSupplier,
       ttlSeconds := input.ttlSeconds,
-      // maxCacheSize := maxCacheSize,
       cmc := cmc,
+      partitionIdBytes := partitionIdBytes,
+      logicalKeyStoreNameBytes := logicalKeyStoreNameBytes,
       cryptoPrimitives := config.crypto
     );
     return Success(keyring);
@@ -429,17 +516,17 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
               message := "keyNamespace must not be `aws-kms`"));
 
     var wrappingAlg:Crypto.AES_GCM := match input.wrappingAlg
-      case ALG_AES128_GCM_IV12_TAG16 => Crypto.AES_GCM(
+      case ALG_AES128_GCM_IV12_TAG16() => Crypto.AES_GCM(
         keyLength := 16,
         tagLength := 16,
         ivLength := 12
       )
-      case ALG_AES192_GCM_IV12_TAG16 => Crypto.AES_GCM(
+      case ALG_AES192_GCM_IV12_TAG16() => Crypto.AES_GCM(
         keyLength := 24,
         tagLength := 16,
         ivLength := 12
       )
-      case ALG_AES256_GCM_IV12_TAG16 => Crypto.AES_GCM(
+      case ALG_AES256_GCM_IV12_TAG16() => Crypto.AES_GCM(
         keyLength := 32,
         tagLength := 16,
         ivLength := 12
@@ -491,11 +578,11 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
               message := "A publicKey or a privateKey is required"));
 
     var padding: Crypto.RSAPaddingMode := match input.paddingScheme
-      case PKCS1 => Crypto.RSAPaddingMode.PKCS1
-      case OAEP_SHA1_MGF1 => Crypto.RSAPaddingMode.OAEP_SHA1
-      case OAEP_SHA256_MGF1 => Crypto.RSAPaddingMode.OAEP_SHA256
-      case OAEP_SHA384_MGF1 => Crypto.RSAPaddingMode.OAEP_SHA384
-      case OAEP_SHA512_MGF1 => Crypto.RSAPaddingMode.OAEP_SHA512
+      case PKCS1() => Crypto.RSAPaddingMode.PKCS1
+      case OAEP_SHA1_MGF1() => Crypto.RSAPaddingMode.OAEP_SHA1
+      case OAEP_SHA256_MGF1() => Crypto.RSAPaddingMode.OAEP_SHA256
+      case OAEP_SHA384_MGF1() => Crypto.RSAPaddingMode.OAEP_SHA384
+      case OAEP_SHA512_MGF1() => Crypto.RSAPaddingMode.OAEP_SHA512
       ;
 
     var namespaceAndName :- ParseKeyNamespaceAndName(input.keyNamespace, input.keyName);
@@ -700,7 +787,6 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     return Success(cmm);
   }
 
-
   predicate CreateCryptographicMaterialsCacheEnsuresPublicly(input: CreateCryptographicMaterialsCacheInput , output: Result<ICryptographicMaterialsCache, Error>)
   {true}
 
@@ -710,6 +796,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     match input.cache {
       case Default(c) =>
         var cache := StormTracker.DefaultStorm().(entryCapacity := c.entryCapacity);
+        :- StormTracker.CheckSettings(cache);
         var cmc := new StormTracker.StormTracker(cache);
         var synCmc := new StormTrackingCMC.StormTrackingCMC(cmc);
         return Success(synCmc);
@@ -730,11 +817,15 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
         var synCmc := new SynchronizedLocalCMC.SynchronizedLocalCMC(cmc);
         return Success(synCmc);
       case StormTracking(c) =>
-        var cmc := new StormTracker.StormTracker(
-          c.( entryPruningTailSize := OptionalCountingNumber(c.entryPruningTailSize) )
-        );
+        var cache := c.( entryPruningTailSize := OptionalCountingNumber(c.entryPruningTailSize));
+        :- StormTracker.CheckSettings(cache);
+        var cmc := new StormTracker.StormTracker(cache);
         var synCmc := new StormTrackingCMC.StormTrackingCMC(cmc);
         return Success(synCmc);
+      case Shared(c) =>
+        var exception := Types.AwsCryptographicMaterialProvidersException(
+          message := "CreateCryptographicMaterialsCache should never be called with Shared CacheType.");
+        return Failure(exception);
     }
   }
 

@@ -22,6 +22,10 @@ list ServiceList {
 // A trait for explicitly modeling the configuration options that should be
 // available in the generated methods for creating clients.
 @trait(selector: "service")
+// @protocolDefinition trait is used by Smithy code generators
+// (Smithy-Python, Smithy-Rust, Smithy-Go)
+// to identify shapes that define protocols used by services.
+@protocolDefinition
 structure localService {
   @required
   sdkId: String,
