@@ -153,15 +153,21 @@ module {:options "/functionSyntax:4" } Mutations {
       Types.AwsCryptographyKeyStoreTypes.GetItemsForInitializeMutationInput(Identifier := input.Identifier));
     var readItems :- readItems?
     .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
-    // If Mutation Lock exists, fail
 
-    :- Need(readItems.MutationLock.None?,
+
+    // If Mutation Lock exists, fail
+    if (readItems.MutationCommitment.Some?) {
+      // Deserialize MutationCommitment.value.Input
+      // Compare MutationCommitment.value.Input to input.Mutations
+      // If the same, return resume Mutation
+    }
+    :- Need(readItems.MutationCommitment.None?,
             Types.MutationConflictException(
               message :=
-                if readItems.MutationLock.Some? then
+                if readItems.MutationCommitment.Some? then
                   "A Mutation is already in-flight! It's UUID is "
-                  + readItems.MutationLock.value.UUID
-                  + ". It was created on: " + readItems.MutationLock.value.CreateTime
+                  + readItems.MutationCommitment.value.UUID
+                  + ". It was created on: " + readItems.MutationCommitment.value.CreateTime
                 else
                   "Should not happen because this conflicts with the Need condition."
             )
@@ -199,16 +205,16 @@ module {:options "/functionSyntax:4" } Mutations {
       Types.KeyStoreAdminException(message := "The terminal KMS ARN is invalid. Note that Aliases are not allowed.")
     );
 
-    // timestamp is for the new Active & Decrypt Only AND for the Mutation Lock
+    // timestamp is for the new Active & Decrypt Only AND for the Mutation Commitment
     var timestamp? := Time.GetCurrentTimeStamp();
     var timestamp :- timestamp?
     .MapFailure(e => Types.KeyStoreAdminException(
                     message := "Could not generate a timestamp: " + e));
 
-    var mutationLockUUID? := UUID.GenerateUUID();
-    var mutationLockUUID :- mutationLockUUID?
+    var mutationCommitmentUUID? := UUID.GenerateUUID();
+    var mutationCommitmentUUID :- mutationCommitmentUUID?
     .MapFailure(e => Types.KeyStoreAdminException(
-                    message := "Could not generate UUID for Mutation Lock. " + e));
+                    message := "Could not generate UUID for Mutation Commitment. " + e));
 
     var inferredOriginalEC
       := map k <- activeItem.EncryptionContext
@@ -256,8 +262,11 @@ module {:options "/functionSyntax:4" } Mutations {
         customEncryptionContext := terminalEC?.UnwrapOr(inferredOriginalEC)
       ),
       ExclusiveStartKey := None,
-      UUID := Some(mutationLockUUID),
-      CreateTime := timestamp
+      UUID := mutationCommitmentUUID,
+      CreateTime := timestamp,
+      Input := input.Mutations,
+      CommitmentCiphertext := [0], // TODO-Mutations-GA Create Commitment Ciphertext
+      IndexCiphertext := [0] // TODO-Mutations-GA Create Index Ciphertext
     );
 
     assert MutationToApply.Original.customEncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
@@ -357,38 +366,43 @@ module {:options "/functionSyntax:4" } Mutations {
       keyManagerStrategy := keyManagerStrategy
     );
 
-    // -= Create Mutation Lock
-    var MutationToken :- StateStrucs.SerializeMutableBranchKeyProperties(MutationToApply);
+    // -= Create Mutation Commitment
+    var CommitmentAndIndex :- StateStrucs.SerializeMutableBranchKeyProperties(MutationToApply);
+    var MutationCommitment := CommitmentAndIndex.Commitment;
+    var MutationIndex := CommitmentAndIndex.Index;
 
-    // -= Write Mutation Lock, new branch key version, mutated beacon key
+    // -= Write Mutation Commitment, new branch key version, mutated beacon key
     var throwAway2? := storage.WriteInitializeMutation(
       Types.AwsCryptographyKeyStoreTypes.WriteInitializeMutationInput(
-        Active := newActive,
-        OldActive := activeItem,
-        Version := newDecryptOnly,
-        Beacon := newBeaconKey,
-        MutationLock := KeyStoreTypes.MutationLock(
-          Identifier := MutationToken.Identifier,
-          CreateTime := MutationToken.CreateTime,
-          UUID := MutationToken.UUID.value,
-          Original := MutationToken.Original,
-          Terminal := MutationToken.Terminal
-        )
+        Active := Some(KeyStoreTypes.OverWriteEncryptedHierarchicalKey(Item:=newActive, Old:=activeItem)),
+        Version := Some(newDecryptOnly),
+        Beacon := KeyStoreTypes.OverWriteEncryptedHierarchicalKey(Item:=newBeaconKey, Old:=readItems.BeaconItem),
+        MutationCommitment := MutationCommitment,
+        MutationIndex := MutationIndex
       ));
     // TODO-Mutations-FF :: Ideally, we would diagnosis the Storage Failure.
-    // What Condition Check failed? Was the Key Versioned? Or did another M-Lock get written?
+    // What Condition Check failed? Was the Key Versioned? Or did another M-Commitment get written?
     var _ :- throwAway2?.MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
 
     var mutatedBranchKeyItems := [
-      Types.MutatedBranchKeyItem(ItemType := "Mutation Lock: " + mutationLockUUID, Description := "Created"),
+      Types.MutatedBranchKeyItem(ItemType := "Mutation Commitment: " + mutationCommitmentUUID, Description := "Created"),
+      Types.MutatedBranchKeyItem(ItemType := "Mutation Index: " + mutationCommitmentUUID, Description := "Created"),
       Types.MutatedBranchKeyItem(ItemType := "Active: " + newVersion, Description := "Created"),
       Types.MutatedBranchKeyItem(ItemType := "Decrypt Only: " + newVersion, Description := "Created"),
       Types.MutatedBranchKeyItem(ItemType := "Beacon", Description := "Mutated")
     ];
 
+    var Token := Types.MutationToken(
+      Identifier := input.Identifier,
+      UUID := Some(mutationCommitmentUUID),
+      CreateTime := timestamp);
+
+    var Flag: Types.InitializeMutationFlag := Types.Created("");
+
     return Success(Types.InitializeMutationOutput(
-                     MutationToken := MutationToken,
-                     MutatedBranchKeyItems := mutatedBranchKeyItems));
+                     MutationToken := Token,
+                     MutatedBranchKeyItems := mutatedBranchKeyItems,
+                     InitializeMutationFlag := Flag));
   }
 
   // Ensures:
@@ -430,23 +444,15 @@ module {:options "/functionSyntax:4" } Mutations {
 
   // Ensures:
   // Branch Key ID is set
-  // Original is set (not going to deseriazlize yet)
-  // Terminal is Valid (not going to deseriazlize yet)
   function ValidateMutationToken(
     input: Types.MutationToken
   ): (output: Result<Types.MutationToken, Types.Error>)
     ensures output.Success?
             ==>
               && |input.Identifier| > 0
-              && |input.Original| > 0
-              && |input.Terminal| > 0
   {
     :- Need(|input.Identifier| > 0,
             Types.KeyStoreAdminException(message := "Mutation Token's Branch Key Identifier cannot be empty!"));
-    :- Need(|input.Original| > 0,
-            Types.KeyStoreAdminException(message := "Mutation Token's Original cannot be empty!"));
-    :- Need(|input.Terminal| > 0,
-            Types.KeyStoreAdminException(message := "Mutation Token's Terminal cannot be empty!"));
     Success(input)
   }
 
@@ -472,6 +478,7 @@ module {:options "/functionSyntax:4" } Mutations {
     requires keyManagerStrategy.reEncrypt?
   {
     var keyManager := keyManagerStrategy.reEncrypt;
+
 
     // -= Query for page Size Branch Key Items
     var queryOut? := storage.QueryForVersions(
@@ -581,7 +588,7 @@ module {:options "/functionSyntax:4" } Mutations {
       }
     }
 
-    // Add conditional check on Mutation Lock & Mutation Token agreement to Write Request
+    // Add conditional check on Mutation Commitment & Mutation Token agreement to Write Request
     var writeReq := KeyStoreTypes.WriteMutatedVersionsInput(
       Items := itemsEvaluated,
       Identifier := input.MutationToken.Identifier,
@@ -590,7 +597,7 @@ module {:options "/functionSyntax:4" } Mutations {
       CompleteMutation := (|queryOut.ExclusiveStartKey| == 0)
     );
 
-    // -= write to storage ;; MUST write to storage to ensure Terminal in M-Lock and M-Token agree
+    // -= write to storage ;; MUST write to storage to ensure Terminal in M-Commitment and M-Token agree
     var throwAway2? := storage.WriteMutatedVersions(writeReq);
     var _ :- throwAway2?.MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
 
