@@ -13,6 +13,10 @@ public class __default extends Time._ExternBase___default {
     return System.currentTimeMillis() / 1000;
   }
 
+  public static Long CurrentRelativeTimeMilli() {
+    return System.currentTimeMillis();
+  }
+
   public static Result<
     DafnySequence<? extends Character>,
     DafnySequence<? extends Character>

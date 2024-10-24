@@ -18,7 +18,7 @@ var props = Properties().apply {
 var dafnyVersion = props.getProperty("dafnyVersion")
 
 group = "software.amazon.cryptography"
-version = "1.7.0-SNAPSHOT"
+version = "1.7.2-SNAPSHOT"
 description = "AWS Cryptographic Material Providers Library"
 
 java {
@@ -71,7 +71,7 @@ dependencies {
 
     // Dafny dependencies
     implementation("org.dafny:DafnyRuntime:${dafnyVersion}")
-    implementation("software.amazon.smithy.dafny:conversion:0.1")
+    implementation("software.amazon.smithy.dafny:conversion:0.1.1")
 
     // sdk dependencies
     implementation(platform("software.amazon.awssdk:bom:2.26.3"))

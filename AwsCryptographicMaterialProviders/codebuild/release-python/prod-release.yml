@@ -25,6 +25,7 @@ phases:
       # Switch back to the main directory
       - cd aws-cryptographic-material-providers-library
       # Assert that project version is the expected released version
+      - git fetch --tags
       - git checkout $COMMIT_ID
       - FOUND_VERSION=$(sed -n 's/version = "\(.*\)"/\1/p' AwsCryptographicMaterialProviders/runtimes/python/pyproject.toml)
       - |
@@ -33,8 +34,8 @@ phases:
           exit 1;
         fi
       - cd AwsCryptographicMaterialProviders
-      # Build Dafny test source code
-      - make transpile_only_test_python
+      # Build Dafny source code
+      - make transpile_python
   build:
     commands:
       - cd runtimes/python/
@@ -44,8 +45,7 @@ phases:
       # Install project dependencies with release dependencies
       - poetry install --with release
       # Build whl/sdist, upload to PyPI
-      # TODO: When ready to prod release, uncomment this line
-      # tox -e release
+      - tox -e release
 
 batch:
   fast-fail: true

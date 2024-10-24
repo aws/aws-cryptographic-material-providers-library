@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "aws-cryptographic-materialproviders"
-version = "0.1.1"
+name = "aws-cryptographic-material-providers"
+version = "1.7.2"
 description = "AWS Cryptographic Material Providers Library for Python"
 authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
 packages = [
-    { include = "aws_cryptographic_materialproviders", from = "src" },
+    { include = "aws_cryptographic_material_providers", from = "src" },
 ]
 # Include generated internaldafny files in package distributions,
 # even though they are not included in version control

@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes import (
+from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes import (
     AlgorithmSuiteInfo_AlgorithmSuiteInfo as DafnyAlgorithmSuiteInfo,
     CreateAwsKmsDiscoveryKeyringInput_CreateAwsKmsDiscoveryKeyringInput as DafnyCreateAwsKmsDiscoveryKeyringInput,
     CreateAwsKmsDiscoveryMultiKeyringInput_CreateAwsKmsDiscoveryMultiKeyringInput as DafnyCreateAwsKmsDiscoveryMultiKeyringInput,
@@ -32,27 +32,27 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     ValidateCommitmentPolicyOnDecryptInput_ValidateCommitmentPolicyOnDecryptInput as DafnyValidateCommitmentPolicyOnDecryptInput,
     ValidateCommitmentPolicyOnEncryptInput_ValidateCommitmentPolicyOnEncryptInput as DafnyValidateCommitmentPolicyOnEncryptInput,
 )
-import aws_cryptographic_materialproviders.internaldafny.generated.module_
-import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy
-import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.errors
-from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.errors import (
+import aws_cryptographic_material_providers.internaldafny.generated.module_
+import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy
+import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors
+from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors import (
     CollectionOfErrors,
     OpaqueError,
     ServiceError,
     _smithy_error_to_dafny_error,
 )
-import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models
-import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny
+import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models
+import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny
 from typing import Any
 
 
 import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
-import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes
-import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.client as client_impl
+import aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes
+import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.client as client_impl
 
 
 class MaterialProvidersShim(
-    aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.IAwsCryptographicMaterialProvidersClient
+    aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.IAwsCryptographicMaterialProvidersClient
 ):
     def __init__(self, _impl: client_impl):
         self._impl = _impl
@@ -60,15 +60,15 @@ class MaterialProvidersShim(
     def CreateAwsKmsKeyring(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsKeyringInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsKeyringInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsKeyringInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsKeyringInput(
                 input
             )
             smithy_client_response = self._impl.create_aws_kms_keyring(
                 smithy_client_request
             )
             return Wrappers.Result_Success(
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
                     smithy_client_response
                 )
             )
@@ -78,15 +78,15 @@ class MaterialProvidersShim(
     def CreateAwsKmsDiscoveryKeyring(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsDiscoveryKeyringInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsDiscoveryKeyringInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsDiscoveryKeyringInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsDiscoveryKeyringInput(
                 input
             )
             smithy_client_response = self._impl.create_aws_kms_discovery_keyring(
                 smithy_client_request
             )
             return Wrappers.Result_Success(
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
                     smithy_client_response
                 )
             )
@@ -96,15 +96,15 @@ class MaterialProvidersShim(
     def CreateAwsKmsMultiKeyring(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsMultiKeyringInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsMultiKeyringInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsMultiKeyringInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsMultiKeyringInput(
                 input
             )
             smithy_client_response = self._impl.create_aws_kms_multi_keyring(
                 smithy_client_request
             )
             return Wrappers.Result_Success(
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
                     smithy_client_response
                 )
             )
@@ -114,15 +114,15 @@ class MaterialProvidersShim(
     def CreateAwsKmsDiscoveryMultiKeyring(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsDiscoveryMultiKeyringInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsDiscoveryMultiKeyringInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsDiscoveryMultiKeyringInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsDiscoveryMultiKeyringInput(
                 input
             )
             smithy_client_response = self._impl.create_aws_kms_discovery_multi_keyring(
                 smithy_client_request
             )
             return Wrappers.Result_Success(
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
                     smithy_client_response
                 )
             )
@@ -132,15 +132,15 @@ class MaterialProvidersShim(
     def CreateAwsKmsMrkKeyring(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsMrkKeyringInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsMrkKeyringInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsMrkKeyringInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsMrkKeyringInput(
                 input
             )
             smithy_client_response = self._impl.create_aws_kms_mrk_keyring(
                 smithy_client_request
             )
             return Wrappers.Result_Success(
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
                     smithy_client_response
                 )
             )
@@ -150,15 +150,15 @@ class MaterialProvidersShim(
     def CreateAwsKmsMrkMultiKeyring(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsMrkMultiKeyringInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsMrkMultiKeyringInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsMrkMultiKeyringInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsMrkMultiKeyringInput(
                 input
             )
             smithy_client_response = self._impl.create_aws_kms_mrk_multi_keyring(
                 smithy_client_request
             )
             return Wrappers.Result_Success(
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
                     smithy_client_response
                 )
             )
@@ -168,15 +168,15 @@ class MaterialProvidersShim(
     def CreateAwsKmsMrkDiscoveryKeyring(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsMrkDiscoveryKeyringInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryKeyringInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsMrkDiscoveryKeyringInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryKeyringInput(
                 input
             )
             smithy_client_response = self._impl.create_aws_kms_mrk_discovery_keyring(
                 smithy_client_request
             )
             return Wrappers.Result_Success(
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
                     smithy_client_response
                 )
             )
@@ -186,8 +186,8 @@ class MaterialProvidersShim(
     def CreateAwsKmsMrkDiscoveryMultiKeyring(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsMrkDiscoveryMultiKeyringInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsMrkDiscoveryMultiKeyringInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput(
                 input
             )
             smithy_client_response = (
@@ -196,7 +196,7 @@ class MaterialProvidersShim(
                 )
             )
             return Wrappers.Result_Success(
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
                     smithy_client_response
                 )
             )
@@ -206,15 +206,15 @@ class MaterialProvidersShim(
     def CreateAwsKmsHierarchicalKeyring(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsHierarchicalKeyringInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsHierarchicalKeyringInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsHierarchicalKeyringInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsHierarchicalKeyringInput(
                 input
             )
             smithy_client_response = self._impl.create_aws_kms_hierarchical_keyring(
                 smithy_client_request
             )
             return Wrappers.Result_Success(
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
                     smithy_client_response
                 )
             )
@@ -224,15 +224,15 @@ class MaterialProvidersShim(
     def CreateAwsKmsRsaKeyring(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsRsaKeyringInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsRsaKeyringInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(
                 input
             )
             smithy_client_response = self._impl.create_aws_kms_rsa_keyring(
                 smithy_client_request
             )
             return Wrappers.Result_Success(
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
                     smithy_client_response
                 )
             )
@@ -242,15 +242,15 @@ class MaterialProvidersShim(
     def CreateAwsKmsEcdhKeyring(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsEcdhKeyringInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsEcdhKeyringInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsEcdhKeyringInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsEcdhKeyringInput(
                 input
             )
             smithy_client_response = self._impl.create_aws_kms_ecdh_keyring(
                 smithy_client_request
             )
             return Wrappers.Result_Success(
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
                     smithy_client_response
                 )
             )
@@ -260,15 +260,15 @@ class MaterialProvidersShim(
     def CreateMultiKeyring(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateMultiKeyringInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateMultiKeyringInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateMultiKeyringInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateMultiKeyringInput(
                 input
             )
             smithy_client_response = self._impl.create_multi_keyring(
                 smithy_client_request
             )
             return Wrappers.Result_Success(
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
                     smithy_client_response
                 )
             )
@@ -278,15 +278,15 @@ class MaterialProvidersShim(
     def CreateRawAesKeyring(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateRawAesKeyringInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateRawAesKeyringInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateRawAesKeyringInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateRawAesKeyringInput(
                 input
             )
             smithy_client_response = self._impl.create_raw_aes_keyring(
                 smithy_client_request
             )
             return Wrappers.Result_Success(
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
                     smithy_client_response
                 )
             )
@@ -296,15 +296,15 @@ class MaterialProvidersShim(
     def CreateRawRsaKeyring(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateRawRsaKeyringInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateRawRsaKeyringInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateRawRsaKeyringInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateRawRsaKeyringInput(
                 input
             )
             smithy_client_response = self._impl.create_raw_rsa_keyring(
                 smithy_client_request
             )
             return Wrappers.Result_Success(
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
                     smithy_client_response
                 )
             )
@@ -314,15 +314,15 @@ class MaterialProvidersShim(
     def CreateRawEcdhKeyring(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateRawEcdhKeyringInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateRawEcdhKeyringInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateRawEcdhKeyringInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateRawEcdhKeyringInput(
                 input
             )
             smithy_client_response = self._impl.create_raw_ecdh_keyring(
                 smithy_client_request
             )
             return Wrappers.Result_Success(
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(
                     smithy_client_response
                 )
             )
@@ -332,8 +332,8 @@ class MaterialProvidersShim(
     def CreateDefaultCryptographicMaterialsManager(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateDefaultCryptographicMaterialsManagerInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateDefaultCryptographicMaterialsManagerInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateDefaultCryptographicMaterialsManagerInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateDefaultCryptographicMaterialsManagerInput(
                 input
             )
             smithy_client_response = (
@@ -342,7 +342,7 @@ class MaterialProvidersShim(
                 )
             )
             return Wrappers.Result_Success(
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateCryptographicMaterialsManagerOutput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateCryptographicMaterialsManagerOutput(
                     smithy_client_response
                 )
             )
@@ -352,15 +352,15 @@ class MaterialProvidersShim(
     def CreateRequiredEncryptionContextCMM(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateRequiredEncryptionContextCMMInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateRequiredEncryptionContextCMMInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateRequiredEncryptionContextCMMInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateRequiredEncryptionContextCMMInput(
                 input
             )
             smithy_client_response = self._impl.create_required_encryption_context_cmm(
                 smithy_client_request
             )
             return Wrappers.Result_Success(
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateRequiredEncryptionContextCMMOutput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateRequiredEncryptionContextCMMOutput(
                     smithy_client_response
                 )
             )
@@ -370,15 +370,15 @@ class MaterialProvidersShim(
     def CreateCryptographicMaterialsCache(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateCryptographicMaterialsCacheInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateCryptographicMaterialsCacheInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateCryptographicMaterialsCacheInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateCryptographicMaterialsCacheInput(
                 input
             )
             smithy_client_response = self._impl.create_cryptographic_materials_cache(
                 smithy_client_request
             )
             return Wrappers.Result_Success(
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateCryptographicMaterialsCacheOutput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateCryptographicMaterialsCacheOutput(
                     smithy_client_response
                 )
             )
@@ -388,15 +388,15 @@ class MaterialProvidersShim(
     def CreateDefaultClientSupplier(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateDefaultClientSupplierInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateDefaultClientSupplierInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateDefaultClientSupplierInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateDefaultClientSupplierInput(
                 input
             )
             smithy_client_response = self._impl.create_default_client_supplier(
                 smithy_client_request
             )
             return Wrappers.Result_Success(
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateDefaultClientSupplierOutput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateDefaultClientSupplierOutput(
                     smithy_client_response
                 )
             )
@@ -406,15 +406,15 @@ class MaterialProvidersShim(
     def InitializeEncryptionMaterials(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.InitializeEncryptionMaterialsInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_InitializeEncryptionMaterialsInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.InitializeEncryptionMaterialsInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_InitializeEncryptionMaterialsInput(
                 input
             )
             smithy_client_response = self._impl.initialize_encryption_materials(
                 smithy_client_request
             )
             return Wrappers.Result_Success(
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_EncryptionMaterials(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_EncryptionMaterials(
                     smithy_client_response
                 )
             )
@@ -424,15 +424,15 @@ class MaterialProvidersShim(
     def InitializeDecryptionMaterials(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.InitializeDecryptionMaterialsInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_InitializeDecryptionMaterialsInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.InitializeDecryptionMaterialsInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_InitializeDecryptionMaterialsInput(
                 input
             )
             smithy_client_response = self._impl.initialize_decryption_materials(
                 smithy_client_request
             )
             return Wrappers.Result_Success(
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_DecryptionMaterials(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_DecryptionMaterials(
                     smithy_client_response
                 )
             )
@@ -442,8 +442,8 @@ class MaterialProvidersShim(
     def ValidEncryptionMaterialsTransition(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.ValidEncryptionMaterialsTransitionInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ValidEncryptionMaterialsTransitionInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.ValidEncryptionMaterialsTransitionInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ValidEncryptionMaterialsTransitionInput(
                 input
             )
             smithy_client_response = self._impl.valid_encryption_materials_transition(
@@ -456,8 +456,8 @@ class MaterialProvidersShim(
     def ValidDecryptionMaterialsTransition(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.ValidDecryptionMaterialsTransitionInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ValidDecryptionMaterialsTransitionInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.ValidDecryptionMaterialsTransitionInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ValidDecryptionMaterialsTransitionInput(
                 input
             )
             smithy_client_response = self._impl.valid_decryption_materials_transition(
@@ -470,8 +470,8 @@ class MaterialProvidersShim(
     def EncryptionMaterialsHasPlaintextDataKey(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EncryptionMaterials
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptionMaterials(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.EncryptionMaterials
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptionMaterials(
                 input
             )
             smithy_client_response = (
@@ -486,8 +486,8 @@ class MaterialProvidersShim(
     def DecryptionMaterialsWithPlaintextDataKey(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DecryptionMaterials
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DecryptionMaterials(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.DecryptionMaterials
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DecryptionMaterials(
                 input
             )
             smithy_client_response = (
@@ -502,15 +502,15 @@ class MaterialProvidersShim(
     def GetAlgorithmSuiteInfo(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetAlgorithmSuiteInfoInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_GetAlgorithmSuiteInfoInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.GetAlgorithmSuiteInfoInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_GetAlgorithmSuiteInfoInput(
                 input
             )
             smithy_client_response = self._impl.get_algorithm_suite_info(
                 smithy_client_request
             )
             return Wrappers.Result_Success(
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_AlgorithmSuiteInfo(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_AlgorithmSuiteInfo(
                     smithy_client_response
                 )
             )
@@ -520,8 +520,8 @@ class MaterialProvidersShim(
     def ValidAlgorithmSuiteInfo(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.AlgorithmSuiteInfo
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteInfo(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.AlgorithmSuiteInfo
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteInfo(
                 input
             )
             smithy_client_response = self._impl.valid_algorithm_suite_info(
@@ -534,8 +534,8 @@ class MaterialProvidersShim(
     def ValidateCommitmentPolicyOnEncrypt(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.ValidateCommitmentPolicyOnEncryptInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ValidateCommitmentPolicyOnEncryptInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.ValidateCommitmentPolicyOnEncryptInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ValidateCommitmentPolicyOnEncryptInput(
                 input
             )
             smithy_client_response = self._impl.validate_commitment_policy_on_encrypt(
@@ -548,8 +548,8 @@ class MaterialProvidersShim(
     def ValidateCommitmentPolicyOnDecrypt(self, input):
         try:
             smithy_client_request: (
-                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.ValidateCommitmentPolicyOnDecryptInput
-            ) = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ValidateCommitmentPolicyOnDecryptInput(
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.ValidateCommitmentPolicyOnDecryptInput
+            ) = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ValidateCommitmentPolicyOnDecryptInput(
                 input
             )
             smithy_client_response = self._impl.validate_commitment_policy_on_decrypt(

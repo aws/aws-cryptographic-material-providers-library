@@ -33,11 +33,11 @@ phases:
       # Install the published artifact from PyPI.
       # The tests will use the installed package, not the local code.
       # The actual test code must be from local, since we don't publish tests.
-      - pip install aws-cryptographic-materialproviders==$VERSION
+      - pip install aws-cryptographic-material-providers==$VERSION
       # Install ESDK-Python, override its requirements to force use of the just-published MPL version
       - git clone -b mpl-reviewed https://github.com/aws/aws-encryption-sdk-python.git
       - cd aws-encryption-sdk-python
-      - sed -i "s/aws-cryptographic-materialproviders.*/aws-cryptographic-materialproviders==$VERSION/" requirements_mpl.txt
+      - sed -i "s/aws-cryptographic-material-providers.*/aws-cryptographic-material-providers==$VERSION/" requirements_mpl.txt
       - cd ..
       # Get CI Creds to be able to call KMS and DDB
       - TMP_ROLE=$(aws sts assume-role --role-arn "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2" --role-session-name "MPL-Python-Release")
@@ -51,7 +51,7 @@ phases:
       - NUM_RETRIES=3
       # First, run tests with the published package
       - cd AwsCryptographicMaterialProviders
-      - make transpile_python
+      - make transpile_only_test_python
       - cd runtimes/python
       - python -m pytest test/ -s -v
       # Then, run ESDK local tests with the new MPL artifact installed
