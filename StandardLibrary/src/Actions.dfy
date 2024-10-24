@@ -15,13 +15,14 @@ module Actions {
    * and return results of type R.
    */
   trait {:termination false} Action<A, R>
-  {
+    {
     /*
      * Contains the implementation of the given action
      */
     method Invoke(a: A, ghost attemptsState: seq<ActionInvoke<A, R>>)
       returns (r: R)
       requires Invariant()
+      requires Requires(a)
       modifies Modifies
       decreases Modifies
       ensures Invariant()
@@ -30,6 +31,8 @@ module Actions {
     predicate Invariant()
       reads Modifies
       decreases Modifies
+
+    predicate Requires(a: A)
 
     /*
      * Contains the assertions that should be true upon return of the Invoke method
@@ -55,10 +58,11 @@ module Actions {
    */
   trait {:termination false} ActionWithResult<A, R, E>
     extends Action<A, Result<R, E>>
-  {
+    {
     method Invoke(a: A, ghost attemptsState: seq<ActionInvoke<A, Result<R, E>>>)
       returns (r: Result<R, E>)
       requires Invariant()
+      requires Requires(a)
       modifies Modifies
       decreases Modifies
       ensures Invariant()
@@ -66,7 +70,7 @@ module Actions {
   }
 
   trait {:termination false} DeterministicAction<A, R>
-  {
+    {
     /*
      * Contains the implementation of the given deterministic action
      */
@@ -88,7 +92,7 @@ module Actions {
    */
   trait {:termination false} DeterministicActionWithResult<A, R, E>
     extends DeterministicAction<A, Result<R, E>>
-  {
+    {
     method Invoke(a: A)
       returns (r: Result<R, E>)
       ensures Ensures(a, r)
@@ -325,6 +329,7 @@ module Actions {
     )
     requires 0 < |s|
     requires action.Invariant()
+    requires forall i <- s :: action.Requires(i)
     modifies action.Modifies
     decreases action.Modifies
     ensures 0 < |attemptsState| <= |s|
