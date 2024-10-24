@@ -38,7 +38,7 @@ module AwsKmsMrkKeyring {
   //# MUST implement the [AWS Encryption SDK Keyring interface](../keyring-interface.md#interface)
   class AwsKmsMrkKeyring
     extends Keyring.VerifiableInterface
-  {
+    {
 
     const client: KMS.IKMSClient
     const awsKmsKey: AwsKmsIdentifierString
@@ -565,7 +565,7 @@ module AwsKmsMrkKeyring {
       Types.EncryptedDataKey,
       Materials.SealedDecryptionMaterials,
       Types.Error>
-  {
+    {
     const materials: Materials.DecryptionMaterialsPendingPlaintextDataKey
     const client: KMS.IKMSClient
     const awsKmsKey: AwsKmsIdentifierString
@@ -634,6 +634,10 @@ module AwsKmsMrkKeyring {
                    == res.value.plaintextDataKey)
             && Last(client.History.Decrypt).output.value.KeyId == Some(awsKmsKey)
       )
+    }
+
+    predicate Requires(edk: Types.EncryptedDataKey){
+      true
     }
 
     method Invoke(

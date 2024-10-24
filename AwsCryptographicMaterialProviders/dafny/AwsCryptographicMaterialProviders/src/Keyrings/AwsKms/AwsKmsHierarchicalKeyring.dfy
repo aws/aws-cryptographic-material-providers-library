@@ -741,6 +741,8 @@ module AwsKmsHierarchicalKeyring {
       ensures Ensures(edk, res, attemptsState)
     {
 
+      assert UTF8.ValidUTF8Seq(edk.keyProviderId);
+
       var suite := materials.algorithmSuite;
       var keyProviderId := edk.keyProviderId;
       var branchKeyIdUtf8 := edk.keyProviderInfo;

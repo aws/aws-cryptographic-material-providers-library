@@ -39,7 +39,7 @@ module AwsKmsKeyring {
   //# MUST implement the [AWS Encryption SDK Keyring interface](../keyring-interface.md#interface)
   class AwsKmsKeyring
     extends Keyring.VerifiableInterface
-  {
+    {
     const client: KMS.IKMSClient
     const awsKmsKey: AwsKmsIdentifierString
     const awsKmsArn: AwsKmsIdentifier
@@ -586,7 +586,7 @@ module AwsKmsKeyring {
 
   class OnDecryptEncryptedDataKeyFilter
     extends DeterministicActionWithResult<Types.EncryptedDataKey, bool, Types.Error>
-  {
+    {
     const awsKmsKey: AwsKmsIdentifierString
 
     constructor(awsKmsKey: AwsKmsIdentifierString) {
@@ -640,7 +640,7 @@ module AwsKmsKeyring {
       Types.EncryptedDataKey,
       Materials.SealedDecryptionMaterials,
       Types.Error>
-  {
+    {
     const materials: Materials.DecryptionMaterialsPendingPlaintextDataKey
     const client: KMS.IKMSClient
     const awsKmsKey: AwsKmsIdentifierString
@@ -710,6 +710,10 @@ module AwsKmsKeyring {
         && Last(client.History.Decrypt).output.value.KeyId == Some(awsKmsKey)
     }
 
+    predicate Requires(edk: Types.EncryptedDataKey){
+      true
+    }
+
     method Invoke(
       edk: Types.EncryptedDataKey,
       ghost attemptsState: seq<ActionInvoke<Types.EncryptedDataKey, Result<Materials.SealedDecryptionMaterials, Types.Error>>>
@@ -752,7 +756,7 @@ module AwsKmsKeyring {
 
   class KmsUnwrapKeyMaterial
     extends MaterialWrapping.UnwrapMaterial<KmsUnwrapInfo>
-  {
+    {
     const client: KMS.IKMSClient
     const awsKmsKey: AwsKmsIdentifierString
     const grantTokens: KMS.GrantTokenList
@@ -856,7 +860,7 @@ module AwsKmsKeyring {
 
   class KmsGenerateAndWrapKeyMaterial
     extends MaterialWrapping.GenerateAndWrapMaterial<KmsWrapInfo>
-  {
+    {
     const client: KMS.IKMSClient
     const awsKmsKey: AwsKmsIdentifierString
     const grantTokens: KMS.GrantTokenList
@@ -1002,7 +1006,7 @@ module AwsKmsKeyring {
 
   class KmsWrapKeyMaterial
     extends MaterialWrapping.WrapMaterial<KmsWrapInfo>
-  {
+    {
     const client: KMS.IKMSClient
     const awsKmsKey: AwsKmsIdentifierString
     const grantTokens: KMS.GrantTokenList

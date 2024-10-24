@@ -38,7 +38,7 @@ module AwsKmsMrkDiscoveryKeyring {
     //# MUST implement that [AWS Encryption SDK Keyring interface](../keyring-
     //# interface.md#interface)
     extends Keyring.VerifiableInterface
-  {
+    {
     const client: KMS.IKMSClient
     const discoveryFilter: Option<Types.DiscoveryFilter>
     const grantTokens: KMS.GrantTokenList
@@ -347,9 +347,9 @@ module AwsKmsMrkDiscoveryKeyring {
     extends DeterministicActionWithResult<
       Types.EncryptedDataKey,
       seq<AwsKmsEdkHelper>,
-      Types.Error
+          Types.Error
     >
-  {
+    {
     const region: string
     const discoveryFilter: Option<Types.DiscoveryFilter>
     constructor(
@@ -430,7 +430,7 @@ module AwsKmsMrkDiscoveryKeyring {
       AwsKmsEdkHelper,
       Materials.SealedDecryptionMaterials,
       Types.Error>
-  {
+    {
     const materials: Materials.DecryptionMaterialsPendingPlaintextDataKey
     const client: KMS.IKMSClient
     const region : string
@@ -511,6 +511,10 @@ module AwsKmsMrkDiscoveryKeyring {
              materials.algorithmSuite.edkWrapping.DIRECT_KEY_WRAPPING? ==>
                Seq.Last(client.History.Decrypt).output.value.Plaintext
                == res.value.plaintextDataKey)
+    }
+
+    predicate Requires(helper: AwsKmsEdkHelper){
+      true
     }
 
     method Invoke(

@@ -65,7 +65,7 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
   //# MUST implement the [AWS Encryption SDK Keyring interface](../keyring-interface.md#interface)
   class RawEcdhKeyring
     extends Keyring.VerifiableInterface
-  {
+    {
     const senderPrivateKey: PrimitiveTypes.ECCPrivateKey
     const senderPublicKey: PrimitiveTypes.ECCPublicKey
     const recipientPublicKey: PrimitiveTypes.ECCPublicKey
@@ -415,7 +415,7 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
 
   class OnDecryptEcdhDataKeyFilter
     extends DeterministicActionWithResult<Types.EncryptedDataKey, bool, Types.Error>
-  {
+    {
     const keyAgreementScheme: Types.RawEcdhStaticConfigurations
     const compressedRecipientPublicKey: seq<uint8>
     const compressedSenderPublicKey: seq<uint8>
@@ -512,7 +512,7 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
       Types.EncryptedDataKey,
       Materials.SealedDecryptionMaterials,
       Types.Error>
-  {
+    {
     const materials: Materials.DecryptionMaterialsPendingPlaintextDataKey
     const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
     const senderPublicKey: seq<uint8>
@@ -572,6 +572,11 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
         && Materials.DecryptionMaterialsTransitionIsValid(materials, res.value)
 
     }
+
+    ghost predicate Requires(edk: Types.EncryptedDataKey){
+      && UTF8.ValidUTF8Seq(edk.keyProviderInfo)
+    }
+
     method {:vcs_split_on_every_assert} Invoke(
       edk: Types.EncryptedDataKey,
       ghost attemptsState: seq<ActionInvoke<Types.EncryptedDataKey, Result<Materials.SealedDecryptionMaterials, Types.Error>>>
@@ -582,10 +587,7 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
       ensures Invariant()
       ensures Ensures(edk, res, attemptsState)
     {
-      :- Need (
-        UTF8.ValidUTF8Seq(edk.keyProviderId),
-        Types.AwsCryptographicMaterialProvidersException(message := "Received invalid EDK provider id for AWS KMS ECDH Keyring")
-      );
+      assert UTF8.ValidUTF8Seq(edk.keyProviderId);
 
       var suite := materials.algorithmSuite;
       var keyProviderId := edk.keyProviderId;

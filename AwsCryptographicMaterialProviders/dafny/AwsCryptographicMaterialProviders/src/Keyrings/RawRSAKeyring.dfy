@@ -520,7 +520,8 @@ module RawRSAKeyring {
         MaterialWrapping.WrapInput(
           plaintextMaterial := plaintextMaterial,
           algorithmSuite := input.algorithmSuite,
-          encryptionContext := input.encryptionContext
+          encryptionContext := input.encryptionContext,
+          serializedEC := input.serializedEC
         ), []);
 
       var output := MaterialWrapping.GenerateAndWrapOutput(

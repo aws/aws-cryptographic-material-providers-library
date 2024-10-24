@@ -48,7 +48,7 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
   //# MUST implement the [AWS Encryption SDK Keyring interface](../keyring-interface.md#interface)
   class AwsKmsEcdhKeyring
     extends Keyring.VerifiableInterface
-  {
+    {
     const client: KMS.IKMSClient
     const senderKmsKeyId: Option<AwsKmsIdentifierString>
     const senderPublicKey: Option<KMS.PublicKeyType>
@@ -469,7 +469,7 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
       Types.EncryptedDataKey,
       Materials.SealedDecryptionMaterials,
       Types.Error>
-  {
+    {
     const materials: Materials.DecryptionMaterialsPendingPlaintextDataKey
     const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
     const recipientPublicKey: seq<uint8>
@@ -530,6 +530,11 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
         && Materials.DecryptionMaterialsTransitionIsValid(materials, res.value)
 
     }
+
+    ghost predicate Requires(edk: Types.EncryptedDataKey){
+      && UTF8.ValidUTF8Seq(edk.keyProviderInfo)
+    }
+
     method {:vcs_split_on_every_assert}  Invoke(
       edk: Types.EncryptedDataKey,
       ghost attemptsState: seq<ActionInvoke<Types.EncryptedDataKey, Result<Materials.SealedDecryptionMaterials, Types.Error>>>
@@ -540,10 +545,7 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
       ensures Invariant()
       ensures Ensures(edk, res, attemptsState)
     {
-      :- Need (
-        UTF8.ValidUTF8Seq(edk.keyProviderId),
-        Types.AwsCryptographicMaterialProvidersException(message := "Received invalid EDK provider id for AWS KMS ECDH Keyring")
-      );
+      assert UTF8.ValidUTF8Seq(edk.keyProviderId);
 
       var suite := materials.algorithmSuite;
       var keyProviderId := edk.keyProviderId;
@@ -652,7 +654,7 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
 
   class OnDecryptEcdhDataKeyFilter
     extends DeterministicActionWithResult<Types.EncryptedDataKey, bool, Types.Error>
-  {
+    {
     const keyAgreementScheme: Types.KmsEcdhStaticConfigurations
     const compressedRecipientPublicKey: seq<uint8>
     const compressedSenderPublicKey: seq<uint8>

@@ -41,7 +41,7 @@ module AwsKmsRsaKeyring {
 
   class AwsKmsRsaKeyring
     extends Keyring.VerifiableInterface
-  {
+    {
     const client: Option<KMS.IKMSClient>
     const grantTokens: KMS.GrantTokenList
     const awsKmsKey: AwsArnParsing.AwsKmsIdentifierString
@@ -321,7 +321,7 @@ module AwsKmsRsaKeyring {
       Types.EncryptedDataKey,
       Materials.SealedDecryptionMaterials,
       Types.Error>
-  {
+    {
     const materials: Materials.DecryptionMaterialsPendingPlaintextDataKey
     const client: KMS.IKMSClient
     const awsKmsKey: AwsArnParsing.AwsKmsIdentifierString
@@ -397,6 +397,10 @@ module AwsKmsRsaKeyring {
         && Seq.Last(client.History.Decrypt).output.value.KeyId == Some(awsKmsKey)
     }
 
+    predicate Requires(edk: Types.EncryptedDataKey){
+      true
+    }
+
     method Invoke(
       edk: Types.EncryptedDataKey,
       ghost attemptsState: seq<ActionInvoke<Types.EncryptedDataKey, Result<Materials.SealedDecryptionMaterials, Types.Error>>>
@@ -431,7 +435,7 @@ module AwsKmsRsaKeyring {
 
   class KmsRsaGenerateAndWrapKeyMaterial
     extends MaterialWrapping.GenerateAndWrapMaterial<KmsRsaWrapInfo>
-  {
+    {
     const publicKey: seq<uint8>
     const paddingScheme: KMS.EncryptionAlgorithmSpec
     const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
@@ -497,7 +501,8 @@ module AwsKmsRsaKeyring {
         MaterialWrapping.WrapInput(
           plaintextMaterial := plaintextMaterial,
           algorithmSuite := input.algorithmSuite,
-          encryptionContext := input.encryptionContext
+          encryptionContext := input.encryptionContext,
+          serializedEC := input.serializedEC
         ), []);
 
       var output := MaterialWrapping.GenerateAndWrapOutput(
@@ -512,7 +517,7 @@ module AwsKmsRsaKeyring {
 
   class KmsRsaWrapKeyMaterial
     extends MaterialWrapping.WrapMaterial<KmsRsaWrapInfo>
-  {
+    {
     const publicKey: seq<uint8>
     const paddingScheme: KMS.EncryptionAlgorithmSpec
     const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
@@ -590,7 +595,7 @@ module AwsKmsRsaKeyring {
 
   class KmsRsaUnwrapKeyMaterial
     extends MaterialWrapping.UnwrapMaterial<KmsRsaUnwrapInfo>
-  {
+    {
     const client: KMS.IKMSClient
     const awsKmsKey: AwsArnParsing.AwsKmsIdentifierString
     const paddingScheme: KMS.EncryptionAlgorithmSpec
