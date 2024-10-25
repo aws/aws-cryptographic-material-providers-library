@@ -19,7 +19,7 @@ module MultiKeyring {
     extends
       Keyring.VerifiableInterface,
       Types.IKeyring
-  {
+      {
 
     predicate ValidState()
       ensures ValidState() ==> History in Modifies
@@ -93,7 +93,6 @@ module MultiKeyring {
                      && k.ValidState()
                      && k.Modifies <= Modifies);
     }
-
 
     predicate OnEncryptEnsuresPublicly (
       input: Types.OnEncryptInput ,
@@ -195,27 +194,44 @@ module MultiKeyring {
         :- Need(onEncryptOutput.Success?,
                 if onEncryptOutput.Failure? then onEncryptOutput.error else Types.AwsCryptographicMaterialProvidersException( message := "Unexpected failure. Input to Need is !Success.") );
 
-          //= aws-encryption-sdk-specification/framework/multi-keyring.md#onencrypt
-          //# - If the generator keyring returns encryption materials missing a
-          //# plaintext data key, OnEncrypt MUST fail.
-        :- Need(Materials.ValidEncryptionMaterialsTransition(input.materials, onEncryptOutput.value.materials),
-                Types.AwsCryptographicMaterialProvidersException( message := "Generator keyring returned invalid encryption materials"));
+
+        // For Dafny these are trivial statements
+        // because they implement a trait that ensures this.
+        // However not all CMM/keyrings are Dafny CMM/keyrings.
+        // Customers can create custom CMM/keyrings.
+        if !(this.generatorKeyring.value is Keyring.VerifiableInterface) {
+
+            //= aws-encryption-sdk-specification/framework/multi-keyring.md#onencrypt
+            //# - If the generator keyring returns encryption materials missing a
+            //# plaintext data key, OnEncrypt MUST fail.
+          :- Need(
+            Materials.EncryptionMaterialsHasPlaintextDataKey(onEncryptOutput.value.materials),
+            Types.AwsCryptographicMaterialProvidersException(
+              message := "Could not retrieve materials required for encryption"));
+
+          :- Need(Materials.ValidEncryptionMaterialsTransition(input.materials, onEncryptOutput.value.materials),
+                  Types.AwsCryptographicMaterialProvidersException( message := "Generator keyring returned invalid encryption materials"));
+        }
 
         returnMaterials := onEncryptOutput.value.materials;
       }
 
       for i := 0 to |this.childKeyrings|
+        invariant input.materials != returnMaterials ==>
+            && Materials.ValidEncryptionMaterialsTransition(input.materials, returnMaterials)
+            && Materials.EncryptionMaterialsHasPlaintextDataKey(returnMaterials)
         invariant returnMaterials.plaintextDataKey.Some?
         invariant unchanged(History)
         invariant i < |this.childKeyrings| ==> this.childKeyrings[i].Modifies <= Modifies
       {
         var onEncryptInput := Types.OnEncryptInput(materials := returnMaterials);
+        var child: Types.IKeyring := this.childKeyrings[i];
 
         //= aws-encryption-sdk-specification/framework/multi-keyring.md#onencrypt
         //# Next, for each [keyring](keyring-interface.md) in this keyring's list
         //# of [child keyrings](#child-keyrings), the keyring MUST call [OnEncrypt]
         //# (keyring-interface.md#onencrypt).
-        var onEncryptOutput := this.childKeyrings[i].OnEncrypt(onEncryptInput);
+        var onEncryptOutput := child.OnEncrypt(onEncryptInput);
 
           //= aws-encryption-sdk-specification/framework/multi-keyring.md#onencrypt
           //# If the child keyring's [OnEncrypt](keyring-
@@ -223,19 +239,33 @@ module MultiKeyring {
         :- Need(onEncryptOutput.Success?,
                 Types.AwsCryptographicMaterialProvidersException( message := "Child keyring failed to encrypt plaintext data key"));
 
+        // For Dafny these are trivial statements
+        // because they implement a trait that ensures this.
+        // However not all CMM/keyrings are Dafny CMM/keyrings.
+        // Customers can create custom CMM/keyrings.
+        if !(child is Keyring.VerifiableInterface) {
           // We have to explicitly check for this because our child and generator keyrings are of type
           // IKeyring, rather than VerifiableKeyring.
           // If we knew we would always have VerifiableKeyrings, we would get this for free.
           // However, we want to support customer implementations of keyrings which may or may
           // not perform valid transitions.
-        :- Need(Materials.ValidEncryptionMaterialsTransition(returnMaterials, onEncryptOutput.value.materials),
-                Types.AwsCryptographicMaterialProvidersException( message := "Child keyring performed invalid transition on encryption materials"));
+
+          :- Need(
+            Materials.EncryptionMaterialsHasPlaintextDataKey(onEncryptOutput.value.materials),
+            Types.AwsCryptographicMaterialProvidersException(
+              message := "Could not retrieve materials required for encryption"));
+
+          :- Need(Materials.ValidEncryptionMaterialsTransition(returnMaterials, onEncryptOutput.value.materials),
+                  Types.AwsCryptographicMaterialProvidersException( message := "Child keyring performed invalid transition on encryption materials"));
+        }
 
         returnMaterials := onEncryptOutput.value.materials;
       }
 
-      :- Need(Materials.ValidEncryptionMaterialsTransition(input.materials, returnMaterials),
-              Types.AwsCryptographicMaterialProvidersException( message := "A child or generator keyring modified the encryption materials in illegal ways."));
+      :- Need(input.materials != returnMaterials, Types.AwsCryptographicMaterialProvidersException( message := "????"));
+
+      assert Materials.EncryptionMaterialsHasPlaintextDataKey(returnMaterials);
+      assert Materials.ValidEncryptionMaterialsTransition(input.materials, returnMaterials);
 
       //= aws-encryption-sdk-specification/framework/multi-keyring.md#onencrypt
       //# If all previous [OnEncrypt](keyring-interface.md#onencrypt) calls
@@ -245,7 +275,24 @@ module MultiKeyring {
       return Success(Types.OnEncryptOutput(materials := returnMaterials));
     }
 
-    predicate OnDecryptEnsuresPublicly(input: Types.OnDecryptInput, output: Result<Types.OnDecryptOutput, Types.Error>) {true}
+    predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.DecryptionMaterialsTransitionIsValid(
+              input.materials,
+              output.value.materials
+            )
+    {
+      output.Success?
+      ==>
+        && Materials.DecryptionMaterialsTransitionIsValid(
+          input.materials,
+          output.value.materials
+        )
+    }
     /*
      * OnDecrypt
      */
