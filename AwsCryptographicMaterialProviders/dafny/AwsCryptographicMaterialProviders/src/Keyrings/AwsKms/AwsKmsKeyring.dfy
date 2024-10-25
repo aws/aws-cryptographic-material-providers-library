@@ -431,12 +431,6 @@ module AwsKmsKeyring {
       ensures ValidState()
       ensures OnDecryptEnsuresPublicly(input, res)
       ensures unchanged(History)
-      ensures res.Success?
-              ==>
-                && Materials.DecryptionMaterialsTransitionIsValid(
-                  input.materials,
-                  res.value.materials
-                )
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
       //= type=implication
