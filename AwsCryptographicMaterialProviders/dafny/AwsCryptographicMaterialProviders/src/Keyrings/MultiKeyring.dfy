@@ -35,6 +35,7 @@ module MultiKeyring {
               && History !in k.Modifies
               && k.ValidState()
               && k.Modifies <= Modifies)
+      && (generatorKeyring.None? ==> 0 < |childKeyrings|)
     }
 
     const generatorKeyring: Option<Types.IKeyring>
@@ -217,7 +218,8 @@ module MultiKeyring {
       }
 
       for i := 0 to |this.childKeyrings|
-        invariant input.materials != returnMaterials ==>
+        invariant 0 == i && this.generatorKeyring.None? ==> returnMaterials == input.materials
+        invariant 0 < i || this.generatorKeyring.Some?  ==>
             && Materials.ValidEncryptionMaterialsTransition(input.materials, returnMaterials)
             && Materials.EncryptionMaterialsHasPlaintextDataKey(returnMaterials)
         invariant returnMaterials.plaintextDataKey.Some?
@@ -261,11 +263,6 @@ module MultiKeyring {
 
         returnMaterials := onEncryptOutput.value.materials;
       }
-
-      :- Need(input.materials != returnMaterials, Types.AwsCryptographicMaterialProvidersException( message := "????"));
-
-      assert Materials.EncryptionMaterialsHasPlaintextDataKey(returnMaterials);
-      assert Materials.ValidEncryptionMaterialsTransition(input.materials, returnMaterials);
 
       //= aws-encryption-sdk-specification/framework/multi-keyring.md#onencrypt
       //# If all previous [OnEncrypt](keyring-interface.md#onencrypt) calls
