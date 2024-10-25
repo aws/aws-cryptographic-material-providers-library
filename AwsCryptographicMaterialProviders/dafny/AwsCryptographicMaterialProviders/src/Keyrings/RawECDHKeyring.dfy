@@ -303,7 +303,7 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
       }
     }
 
-    ghost     predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> )
+    ghost predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> )
       : (outcome: bool)
       ensures
         outcome ==>
@@ -445,6 +445,7 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
         ==>
           (edk.keyProviderId == KMS_ECDH_PROVIDER_ID ||
            edk.keyProviderId == RAW_ECDH_PROVIDER_ID)
+          && UTF8.ValidUTF8Seq(edk.keyProviderId)
       )
     }
 
