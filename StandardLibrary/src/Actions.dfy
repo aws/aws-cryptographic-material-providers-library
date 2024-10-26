@@ -15,7 +15,7 @@ module Actions {
    * and return results of type R.
    */
   trait {:termination false} Action<A, R>
-    {
+  {
     /*
      * Contains the implementation of the given action
      */
@@ -58,7 +58,7 @@ module Actions {
    */
   trait {:termination false} ActionWithResult<A, R, E>
     extends Action<A, Result<R, E>>
-    {
+  {
     method Invoke(a: A, ghost attemptsState: seq<ActionInvoke<A, Result<R, E>>>)
       returns (r: Result<R, E>)
       requires Invariant()
@@ -70,7 +70,7 @@ module Actions {
   }
 
   trait {:termination false} DeterministicAction<A, R>
-    {
+  {
     /*
      * Contains the implementation of the given deterministic action
      */
@@ -92,7 +92,7 @@ module Actions {
    */
   trait {:termination false} DeterministicActionWithResult<A, R, E>
     extends DeterministicAction<A, Result<R, E>>
-    {
+  {
     method Invoke(a: A)
       returns (r: Result<R, E>)
       ensures Ensures(a, r)

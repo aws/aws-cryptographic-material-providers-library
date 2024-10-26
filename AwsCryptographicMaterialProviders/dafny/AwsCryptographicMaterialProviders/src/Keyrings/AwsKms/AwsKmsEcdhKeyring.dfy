@@ -48,7 +48,7 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
   //# MUST implement the [AWS Encryption SDK Keyring interface](../keyring-interface.md#interface)
   class AwsKmsEcdhKeyring
     extends Keyring.VerifiableInterface
-    {
+  {
     const client: KMS.IKMSClient
     const senderKmsKeyId: Option<AwsKmsIdentifierString>
     const senderPublicKey: Option<KMS.PublicKeyType>
@@ -469,7 +469,7 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
       Types.EncryptedDataKey,
       Materials.SealedDecryptionMaterials,
       Types.Error>
-    {
+  {
     const materials: Materials.DecryptionMaterialsPendingPlaintextDataKey
     const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
     const recipientPublicKey: seq<uint8>
@@ -655,7 +655,7 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
 
   class OnDecryptEcdhDataKeyFilter
     extends DeterministicActionWithResult<Types.EncryptedDataKey, bool, Types.Error>
-    {
+  {
     const keyAgreementScheme: Types.KmsEcdhStaticConfigurations
     const compressedRecipientPublicKey: seq<uint8>
     const compressedSenderPublicKey: seq<uint8>
@@ -685,7 +685,7 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
         ==>
           (edk.keyProviderId == KMS_ECDH_PROVIDER_ID ||
            edk.keyProviderId == RAW_ECDH_PROVIDER_ID)
-           && UTF8.ValidUTF8Seq(edk.keyProviderId)
+          && UTF8.ValidUTF8Seq(edk.keyProviderId)
       )
     }
 

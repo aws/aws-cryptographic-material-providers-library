@@ -76,7 +76,7 @@ module MaterialWrapping {
   // a set of material originally wrapped by `WrapMaterial`.
   trait {:termination false} GenerateAndWrapMaterial<T>
     extends ActionWithResult<GenerateAndWrapInput, GenerateAndWrapOutput<T>, Types.Error>
-    {
+  {
     method Invoke(input: GenerateAndWrapInput, ghost attemptsState: seq<ActionInvoke<GenerateAndWrapInput, Result<GenerateAndWrapOutput<T>, Types.Error>>>)
       returns (r: Result<GenerateAndWrapOutput<T>, Types.Error>)
       requires Invariant()
@@ -97,7 +97,7 @@ module MaterialWrapping {
 
   trait {:termination false} WrapMaterial<T>
     extends ActionWithResult<WrapInput, WrapOutput<T>, Types.Error>
-    {
+  {
     method Invoke(input: WrapInput, ghost attemptsState: seq<ActionInvoke<WrapInput, Result<WrapOutput<T>, Types.Error>>>)
       returns (r: Result<WrapOutput<T>, Types.Error>)
       requires Invariant()
@@ -116,7 +116,7 @@ module MaterialWrapping {
 
   trait {:termination false} UnwrapMaterial<T>
     extends ActionWithResult<UnwrapInput, UnwrapOutput<T>, Types.Error>
-    {
+  {
     method Invoke(input: UnwrapInput, ghost attemptsState: seq<ActionInvoke<UnwrapInput, Result<UnwrapOutput<T>, Types.Error>>>)
       returns (r: Result<UnwrapOutput<T>, Types.Error>)
       requires Invariant()

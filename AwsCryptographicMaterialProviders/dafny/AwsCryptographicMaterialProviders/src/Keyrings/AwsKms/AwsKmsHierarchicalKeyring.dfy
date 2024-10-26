@@ -107,7 +107,7 @@ module AwsKmsHierarchicalKeyring {
   //# MUST implement the [AWS Encryption SDK Keyring interface](../keyring-interface.md#interface)
   class AwsKmsHierarchicalKeyring
     extends Keyring.VerifiableInterface
-    {
+  {
     const branchKeyId: Option<string>
     const branchKeyIdSupplier: Option<Types.IBranchKeyIdSupplier>
     const keyStore: KeyStore.IKeyStoreClient
@@ -602,7 +602,7 @@ module AwsKmsHierarchicalKeyring {
 
   class OnDecryptHierarchyEncryptedDataKeyFilter
     extends DeterministicActionWithResult<Types.EncryptedDataKey, bool, Types.Error>
-    {
+  {
     const branchKeyId: string
 
     constructor(
@@ -658,7 +658,7 @@ module AwsKmsHierarchicalKeyring {
       Types.EncryptedDataKey,
       Materials.SealedDecryptionMaterials,
       Types.Error>
-    {
+  {
     const materials: Materials.DecryptionMaterialsPendingPlaintextDataKey
     const keyStore: KeyStore.IKeyStoreClient
     const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
@@ -931,7 +931,7 @@ module AwsKmsHierarchicalKeyring {
 
   class KmsHierarchyUnwrapKeyMaterial
     extends MaterialWrapping.UnwrapMaterial<HierarchyUnwrapInfo>
-    {
+  {
     const branchKey: seq<uint8>
     const branchKeyIdUtf8 : UTF8.ValidUTF8Bytes
     const branchKeyVersionAsBytes: seq<uint8>
@@ -1068,7 +1068,7 @@ module AwsKmsHierarchicalKeyring {
 
   class KmsHierarchyGenerateAndWrapKeyMaterial
     extends MaterialWrapping.GenerateAndWrapMaterial<HierarchyWrapInfo>
-    {
+  {
     const branchKey: seq<uint8>
     const branchKeyIdUtf8 : UTF8.ValidUTF8Bytes
     const branchKeyVersionAsBytes: seq<uint8>
@@ -1160,7 +1160,7 @@ module AwsKmsHierarchicalKeyring {
 
   class KmsHierarchyWrapKeyMaterial
     extends MaterialWrapping.WrapMaterial<HierarchyWrapInfo>
-    {
+  {
     const branchKey: seq<uint8>
     const branchKeyIdUtf8 : UTF8.ValidUTF8Bytes
     const branchKeyVersionAsBytes: seq<uint8>

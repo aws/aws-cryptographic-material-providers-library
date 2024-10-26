@@ -19,7 +19,7 @@ module MultiKeyring {
     extends
       Keyring.VerifiableInterface,
       Types.IKeyring
-      {
+  {
 
     predicate ValidState()
       ensures ValidState() ==> History in Modifies

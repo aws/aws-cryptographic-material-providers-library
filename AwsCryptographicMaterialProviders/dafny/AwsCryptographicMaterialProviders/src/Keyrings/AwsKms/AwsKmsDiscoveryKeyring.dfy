@@ -36,7 +36,7 @@ module AwsKmsDiscoveryKeyring {
     //= type=implication
     //# MUST implement that [AWS Encryption SDK Keyring interface](../keyring-interface.md#interface)
     extends Keyring.VerifiableInterface
-    {
+  {
     const client: KMS.IKMSClient
     const discoveryFilter: Option<Types.DiscoveryFilter>
     const grantTokens: KMS.GrantTokenList
@@ -312,7 +312,7 @@ module AwsKmsDiscoveryKeyring {
       bool,
       Types.Error
     >
-    {
+  {
     const discoveryFilter: Option<Types.DiscoveryFilter>
     constructor(
       discoveryFilter: Option<Types.DiscoveryFilter>
@@ -398,9 +398,9 @@ module AwsKmsDiscoveryKeyring {
     extends DeterministicActionWithResult<
       Types.EncryptedDataKey,
       seq<AwsKmsEdkHelper>,
-          Types.Error
+      Types.Error
     >
-    {
+  {
     constructor() {}
 
     predicate Ensures(
@@ -454,7 +454,7 @@ module AwsKmsDiscoveryKeyring {
       AwsKmsEdkHelper,
       Materials.SealedDecryptionMaterials,
       Types.Error>
-    {
+  {
     const materials: Materials.DecryptionMaterialsPendingPlaintextDataKey
     const client: KMS.IKMSClient
     const grantTokens: KMS.GrantTokenList
