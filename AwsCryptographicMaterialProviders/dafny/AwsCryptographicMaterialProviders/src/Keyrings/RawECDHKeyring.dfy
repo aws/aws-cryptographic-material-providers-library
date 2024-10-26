@@ -575,7 +575,7 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
     }
 
     ghost predicate Requires(edk: Types.EncryptedDataKey){
-      && UTF8.ValidUTF8Seq(edk.keyProviderInfo)
+      && UTF8.ValidUTF8Seq(edk.keyProviderId)
     }
 
     method {:vcs_split_on_every_assert} Invoke(
