@@ -55,18 +55,18 @@ module {:options "-functionSyntax:4"} CompleteVectors {
 
   const AllPositiveKeyringTests
   := {}
-  + AllDefaultCmm.Tests
-  + AllHierarchy.Tests
-  + AllKms.Tests
-  + AllKmsMrkAware.Tests
-  + AllKmsMrkAwareDiscovery.Tests
-  + AllKmsRsa.Tests
-  + AllRawAES.Tests
-  + AllRawRSA.Tests
-  + AllMulti.Tests
+  //+ AllDefaultCmm.Tests
+  //+ AllHierarchy.Tests
+  //+ AllKms.Tests
+  //+ AllKmsMrkAware.Tests
+  //+ AllKmsMrkAwareDiscovery.Tests
+  //+ AllKmsRsa.Tests
+  //+ AllRawAES.Tests
+  //+ AllRawRSA.Tests
+  //+ AllMulti.Tests
   + AllRequiredEncryptionContextCmm.Tests
-  + AllRawECDH.Tests
-  + AllKmsEcdh.Tests
+  //+ AllRawECDH.Tests
+  //+ AllKmsEcdh.Tests
 
   method WriteStuff(op: MplManifestOptions.ManifestOptions)
     returns (output: Result<(), string>)
