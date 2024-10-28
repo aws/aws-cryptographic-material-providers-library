@@ -39,7 +39,7 @@ module {:options "-functionSyntax:4"} AllRequiredEncryptionContextCmm {
            s <- AllDefaultCmm.SubSets(
                   encryptionContext,
                   SortedSets.ComputeSetToOrderedSequence2(encryptionContext.Keys, (a, b) => a < b))
-                  | |s| != 0
+           | |s| != 0
            :: s.Keys,
       reproducedEncryptionContext
       <- set
@@ -78,7 +78,7 @@ module {:options "-functionSyntax:4"} AllRequiredEncryptionContextCmm {
            s <- AllDefaultCmm.SubSets(
                   encryptionContext,
                   SortedSets.ComputeSetToOrderedSequence2(encryptionContext.Keys, (a, b) => a < b))
-                  | |s| != 0
+           | |s| != 0
            :: s.Keys,
       incorrectEncryptionContext
       <- set
