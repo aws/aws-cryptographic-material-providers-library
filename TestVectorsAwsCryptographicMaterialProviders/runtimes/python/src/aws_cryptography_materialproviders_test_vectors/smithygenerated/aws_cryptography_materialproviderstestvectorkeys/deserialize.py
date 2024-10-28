@@ -22,50 +22,33 @@ from .config import Config
 
 def _deserialize_create_test_vector_keyring(input: DafnyResponse, config: Config):
 
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
-        input.value
-    )
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(input.value)
 
+def _deserialize_create_wrapped_test_vector_keyring(input: DafnyResponse, config: Config):
 
-def _deserialize_create_wrapped_test_vector_keyring(
-    input: DafnyResponse, config: Config
-):
-
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
-        input.value
-    )
-
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(input.value)
 
 def _deserialize_create_wrapped_test_vector_cmm(input: DafnyResponse, config: Config):
 
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptography_materialproviders_test_vectors.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.dafny_to_smithy.aws_cryptography_materialproviderstestvectorkeys_CreateWrappedTestVectorCmmOutput(
-        input.value
-    )
-
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptography_materialproviders_test_vectors.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.dafny_to_smithy.aws_cryptography_materialproviderstestvectorkeys_CreateWrappedTestVectorCmmOutput(input.value)
 
 def _deserialize_get_key_description(input: DafnyResponse, config: Config):
 
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptography_materialproviders_test_vectors.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.dafny_to_smithy.aws_cryptography_materialproviderstestvectorkeys_GetKeyDescriptionOutput(
-        input.value
-    )
-
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptography_materialproviders_test_vectors.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.dafny_to_smithy.aws_cryptography_materialproviderstestvectorkeys_GetKeyDescriptionOutput(input.value)
 
 def _deserialize_serialize_key_description(input: DafnyResponse, config: Config):
 
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptography_materialproviders_test_vectors.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.dafny_to_smithy.aws_cryptography_materialproviderstestvectorkeys_SerializeKeyDescriptionOutput(
-        input.value
-    )
-
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptography_materialproviders_test_vectors.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.dafny_to_smithy.aws_cryptography_materialproviderstestvectorkeys_SerializeKeyDescriptionOutput(input.value)
 
 def _deserialize_error(error: Error) -> ServiceError:
     if error.is_Opaque:
@@ -76,6 +59,6 @@ def _deserialize_error(error: Error) -> ServiceError:
             list=[_deserialize_error(dafny_e) for dafny_e in error.list],
         )
     elif error.is_KeyVectorException:
-        return KeyVectorException(message=_dafny.string_of(error.message))
+      return KeyVectorException(message=_dafny.string_of(error.message))
     else:
         return OpaqueError(obj=error, alt_text=repr(error))
