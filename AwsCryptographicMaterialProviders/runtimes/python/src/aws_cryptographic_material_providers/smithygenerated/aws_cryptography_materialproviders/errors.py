@@ -22,27 +22,38 @@ from typing import Any, Dict, Generic, List, Literal, TypeVar
 
 
 class ServiceError(Exception):
-    """Base error for all errors in the service.
-    """
+    """Base error for all errors in the service."""
+
     pass
 
-T = TypeVar('T')
+
+T = TypeVar("T")
+
+
 class ApiError(ServiceError, Generic[T]):
-    """Base error for all api errors in the service.
-    """
+    """Base error for all api errors in the service."""
+
     code: T
+
     def __init__(self, message: str):
         super().__init__(message)
         self.message = message
 
-class UnknownApiError(ApiError[Literal['Unknown']]):
-    """Error representing any unknown api errors
-    """
-    code: Literal['Unknown'] = 'Unknown'
 
-class AwsCryptographicMaterialProvidersException(ApiError[Literal["AwsCryptographicMaterialProvidersException"]]):
-    code: Literal["AwsCryptographicMaterialProvidersException"] = "AwsCryptographicMaterialProvidersException"
+class UnknownApiError(ApiError[Literal["Unknown"]]):
+    """Error representing any unknown api errors."""
+
+    code: Literal["Unknown"] = "Unknown"
+
+
+class AwsCryptographicMaterialProvidersException(
+    ApiError[Literal["AwsCryptographicMaterialProvidersException"]]
+):
+    code: Literal["AwsCryptographicMaterialProvidersException"] = (
+        "AwsCryptographicMaterialProvidersException"
+    )
     message: str
+
     def __init__(
         self,
         *,
@@ -51,21 +62,19 @@ class AwsCryptographicMaterialProvidersException(ApiError[Literal["AwsCryptograp
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the AwsCryptographicMaterialProvidersException to a dictionary.
-
-        """
+        """Converts the AwsCryptographicMaterialProvidersException to a
+        dictionary."""
         return {
-            'message': self.message,
-            'code': self.code,
+            "message": self.message,
+            "code": self.code,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "AwsCryptographicMaterialProvidersException":
-        """Creates a AwsCryptographicMaterialProvidersException from a dictionary.
-
-        """
+        """Creates a AwsCryptographicMaterialProvidersException from a
+        dictionary."""
         kwargs: Dict[str, Any] = {
-            'message': d['message'],
+            "message": d["message"],
         }
 
         return AwsCryptographicMaterialProvidersException(**kwargs)
@@ -80,15 +89,17 @@ class AwsCryptographicMaterialProvidersException(ApiError[Literal["AwsCryptograp
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, AwsCryptographicMaterialProvidersException):
             return False
-        attributes: list[str] = ['message','message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class InvalidDecryptionMaterials(ApiError[Literal["InvalidDecryptionMaterials"]]):
     code: Literal["InvalidDecryptionMaterials"] = "InvalidDecryptionMaterials"
     message: str
+
     def __init__(
         self,
         *,
@@ -97,21 +108,17 @@ class InvalidDecryptionMaterials(ApiError[Literal["InvalidDecryptionMaterials"]]
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the InvalidDecryptionMaterials to a dictionary.
-
-        """
+        """Converts the InvalidDecryptionMaterials to a dictionary."""
         return {
-            'message': self.message,
-            'code': self.code,
+            "message": self.message,
+            "code": self.code,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "InvalidDecryptionMaterials":
-        """Creates a InvalidDecryptionMaterials from a dictionary.
-
-        """
+        """Creates a InvalidDecryptionMaterials from a dictionary."""
         kwargs: Dict[str, Any] = {
-            'message': d['message'],
+            "message": d["message"],
         }
 
         return InvalidDecryptionMaterials(**kwargs)
@@ -126,15 +133,17 @@ class InvalidDecryptionMaterials(ApiError[Literal["InvalidDecryptionMaterials"]]
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InvalidDecryptionMaterials):
             return False
-        attributes: list[str] = ['message','message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class InvalidEncryptionMaterials(ApiError[Literal["InvalidEncryptionMaterials"]]):
     code: Literal["InvalidEncryptionMaterials"] = "InvalidEncryptionMaterials"
     message: str
+
     def __init__(
         self,
         *,
@@ -143,21 +152,17 @@ class InvalidEncryptionMaterials(ApiError[Literal["InvalidEncryptionMaterials"]]
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the InvalidEncryptionMaterials to a dictionary.
-
-        """
+        """Converts the InvalidEncryptionMaterials to a dictionary."""
         return {
-            'message': self.message,
-            'code': self.code,
+            "message": self.message,
+            "code": self.code,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "InvalidEncryptionMaterials":
-        """Creates a InvalidEncryptionMaterials from a dictionary.
-
-        """
+        """Creates a InvalidEncryptionMaterials from a dictionary."""
         kwargs: Dict[str, Any] = {
-            'message': d['message'],
+            "message": d["message"],
         }
 
         return InvalidEncryptionMaterials(**kwargs)
@@ -172,15 +177,17 @@ class InvalidEncryptionMaterials(ApiError[Literal["InvalidEncryptionMaterials"]]
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InvalidEncryptionMaterials):
             return False
-        attributes: list[str] = ['message','message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class InvalidAlgorithmSuiteInfo(ApiError[Literal["InvalidAlgorithmSuiteInfo"]]):
     code: Literal["InvalidAlgorithmSuiteInfo"] = "InvalidAlgorithmSuiteInfo"
     message: str
+
     def __init__(
         self,
         *,
@@ -189,21 +196,17 @@ class InvalidAlgorithmSuiteInfo(ApiError[Literal["InvalidAlgorithmSuiteInfo"]]):
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the InvalidAlgorithmSuiteInfo to a dictionary.
-
-        """
+        """Converts the InvalidAlgorithmSuiteInfo to a dictionary."""
         return {
-            'message': self.message,
-            'code': self.code,
+            "message": self.message,
+            "code": self.code,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "InvalidAlgorithmSuiteInfo":
-        """Creates a InvalidAlgorithmSuiteInfo from a dictionary.
-
-        """
+        """Creates a InvalidAlgorithmSuiteInfo from a dictionary."""
         kwargs: Dict[str, Any] = {
-            'message': d['message'],
+            "message": d["message"],
         }
 
         return InvalidAlgorithmSuiteInfo(**kwargs)
@@ -218,15 +221,21 @@ class InvalidAlgorithmSuiteInfo(ApiError[Literal["InvalidAlgorithmSuiteInfo"]]):
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InvalidAlgorithmSuiteInfo):
             return False
-        attributes: list[str] = ['message','message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
-class InvalidAlgorithmSuiteInfoOnDecrypt(ApiError[Literal["InvalidAlgorithmSuiteInfoOnDecrypt"]]):
-    code: Literal["InvalidAlgorithmSuiteInfoOnDecrypt"] = "InvalidAlgorithmSuiteInfoOnDecrypt"
+
+class InvalidAlgorithmSuiteInfoOnDecrypt(
+    ApiError[Literal["InvalidAlgorithmSuiteInfoOnDecrypt"]]
+):
+    code: Literal["InvalidAlgorithmSuiteInfoOnDecrypt"] = (
+        "InvalidAlgorithmSuiteInfoOnDecrypt"
+    )
     message: str
+
     def __init__(
         self,
         *,
@@ -235,21 +244,17 @@ class InvalidAlgorithmSuiteInfoOnDecrypt(ApiError[Literal["InvalidAlgorithmSuite
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the InvalidAlgorithmSuiteInfoOnDecrypt to a dictionary.
-
-        """
+        """Converts the InvalidAlgorithmSuiteInfoOnDecrypt to a dictionary."""
         return {
-            'message': self.message,
-            'code': self.code,
+            "message": self.message,
+            "code": self.code,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "InvalidAlgorithmSuiteInfoOnDecrypt":
-        """Creates a InvalidAlgorithmSuiteInfoOnDecrypt from a dictionary.
-
-        """
+        """Creates a InvalidAlgorithmSuiteInfoOnDecrypt from a dictionary."""
         kwargs: Dict[str, Any] = {
-            'message': d['message'],
+            "message": d["message"],
         }
 
         return InvalidAlgorithmSuiteInfoOnDecrypt(**kwargs)
@@ -264,15 +269,21 @@ class InvalidAlgorithmSuiteInfoOnDecrypt(ApiError[Literal["InvalidAlgorithmSuite
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InvalidAlgorithmSuiteInfoOnDecrypt):
             return False
-        attributes: list[str] = ['message','message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
-class InvalidAlgorithmSuiteInfoOnEncrypt(ApiError[Literal["InvalidAlgorithmSuiteInfoOnEncrypt"]]):
-    code: Literal["InvalidAlgorithmSuiteInfoOnEncrypt"] = "InvalidAlgorithmSuiteInfoOnEncrypt"
+
+class InvalidAlgorithmSuiteInfoOnEncrypt(
+    ApiError[Literal["InvalidAlgorithmSuiteInfoOnEncrypt"]]
+):
+    code: Literal["InvalidAlgorithmSuiteInfoOnEncrypt"] = (
+        "InvalidAlgorithmSuiteInfoOnEncrypt"
+    )
     message: str
+
     def __init__(
         self,
         *,
@@ -281,21 +292,17 @@ class InvalidAlgorithmSuiteInfoOnEncrypt(ApiError[Literal["InvalidAlgorithmSuite
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the InvalidAlgorithmSuiteInfoOnEncrypt to a dictionary.
-
-        """
+        """Converts the InvalidAlgorithmSuiteInfoOnEncrypt to a dictionary."""
         return {
-            'message': self.message,
-            'code': self.code,
+            "message": self.message,
+            "code": self.code,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "InvalidAlgorithmSuiteInfoOnEncrypt":
-        """Creates a InvalidAlgorithmSuiteInfoOnEncrypt from a dictionary.
-
-        """
+        """Creates a InvalidAlgorithmSuiteInfoOnEncrypt from a dictionary."""
         kwargs: Dict[str, Any] = {
-            'message': d['message'],
+            "message": d["message"],
         }
 
         return InvalidAlgorithmSuiteInfoOnEncrypt(**kwargs)
@@ -310,15 +317,21 @@ class InvalidAlgorithmSuiteInfoOnEncrypt(ApiError[Literal["InvalidAlgorithmSuite
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InvalidAlgorithmSuiteInfoOnEncrypt):
             return False
-        attributes: list[str] = ['message','message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
-class InvalidDecryptionMaterialsTransition(ApiError[Literal["InvalidDecryptionMaterialsTransition"]]):
-    code: Literal["InvalidDecryptionMaterialsTransition"] = "InvalidDecryptionMaterialsTransition"
+
+class InvalidDecryptionMaterialsTransition(
+    ApiError[Literal["InvalidDecryptionMaterialsTransition"]]
+):
+    code: Literal["InvalidDecryptionMaterialsTransition"] = (
+        "InvalidDecryptionMaterialsTransition"
+    )
     message: str
+
     def __init__(
         self,
         *,
@@ -327,21 +340,18 @@ class InvalidDecryptionMaterialsTransition(ApiError[Literal["InvalidDecryptionMa
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the InvalidDecryptionMaterialsTransition to a dictionary.
-
-        """
+        """Converts the InvalidDecryptionMaterialsTransition to a
+        dictionary."""
         return {
-            'message': self.message,
-            'code': self.code,
+            "message": self.message,
+            "code": self.code,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "InvalidDecryptionMaterialsTransition":
-        """Creates a InvalidDecryptionMaterialsTransition from a dictionary.
-
-        """
+        """Creates a InvalidDecryptionMaterialsTransition from a dictionary."""
         kwargs: Dict[str, Any] = {
-            'message': d['message'],
+            "message": d["message"],
         }
 
         return InvalidDecryptionMaterialsTransition(**kwargs)
@@ -356,15 +366,21 @@ class InvalidDecryptionMaterialsTransition(ApiError[Literal["InvalidDecryptionMa
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InvalidDecryptionMaterialsTransition):
             return False
-        attributes: list[str] = ['message','message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
-class InvalidEncryptionMaterialsTransition(ApiError[Literal["InvalidEncryptionMaterialsTransition"]]):
-    code: Literal["InvalidEncryptionMaterialsTransition"] = "InvalidEncryptionMaterialsTransition"
+
+class InvalidEncryptionMaterialsTransition(
+    ApiError[Literal["InvalidEncryptionMaterialsTransition"]]
+):
+    code: Literal["InvalidEncryptionMaterialsTransition"] = (
+        "InvalidEncryptionMaterialsTransition"
+    )
     message: str
+
     def __init__(
         self,
         *,
@@ -373,21 +389,18 @@ class InvalidEncryptionMaterialsTransition(ApiError[Literal["InvalidEncryptionMa
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the InvalidEncryptionMaterialsTransition to a dictionary.
-
-        """
+        """Converts the InvalidEncryptionMaterialsTransition to a
+        dictionary."""
         return {
-            'message': self.message,
-            'code': self.code,
+            "message": self.message,
+            "code": self.code,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "InvalidEncryptionMaterialsTransition":
-        """Creates a InvalidEncryptionMaterialsTransition from a dictionary.
-
-        """
+        """Creates a InvalidEncryptionMaterialsTransition from a dictionary."""
         kwargs: Dict[str, Any] = {
-            'message': d['message'],
+            "message": d["message"],
         }
 
         return InvalidEncryptionMaterialsTransition(**kwargs)
@@ -402,15 +415,17 @@ class InvalidEncryptionMaterialsTransition(ApiError[Literal["InvalidEncryptionMa
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InvalidEncryptionMaterialsTransition):
             return False
-        attributes: list[str] = ['message','message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class EntryAlreadyExists(ApiError[Literal["EntryAlreadyExists"]]):
     code: Literal["EntryAlreadyExists"] = "EntryAlreadyExists"
     message: str
+
     def __init__(
         self,
         *,
@@ -419,21 +434,17 @@ class EntryAlreadyExists(ApiError[Literal["EntryAlreadyExists"]]):
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the EntryAlreadyExists to a dictionary.
-
-        """
+        """Converts the EntryAlreadyExists to a dictionary."""
         return {
-            'message': self.message,
-            'code': self.code,
+            "message": self.message,
+            "code": self.code,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "EntryAlreadyExists":
-        """Creates a EntryAlreadyExists from a dictionary.
-
-        """
+        """Creates a EntryAlreadyExists from a dictionary."""
         kwargs: Dict[str, Any] = {
-            'message': d['message'],
+            "message": d["message"],
         }
 
         return EntryAlreadyExists(**kwargs)
@@ -448,15 +459,17 @@ class EntryAlreadyExists(ApiError[Literal["EntryAlreadyExists"]]):
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, EntryAlreadyExists):
             return False
-        attributes: list[str] = ['message','message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class EntryDoesNotExist(ApiError[Literal["EntryDoesNotExist"]]):
     code: Literal["EntryDoesNotExist"] = "EntryDoesNotExist"
     message: str
+
     def __init__(
         self,
         *,
@@ -465,21 +478,17 @@ class EntryDoesNotExist(ApiError[Literal["EntryDoesNotExist"]]):
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the EntryDoesNotExist to a dictionary.
-
-        """
+        """Converts the EntryDoesNotExist to a dictionary."""
         return {
-            'message': self.message,
-            'code': self.code,
+            "message": self.message,
+            "code": self.code,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "EntryDoesNotExist":
-        """Creates a EntryDoesNotExist from a dictionary.
-
-        """
+        """Creates a EntryDoesNotExist from a dictionary."""
         kwargs: Dict[str, Any] = {
-            'message': d['message'],
+            "message": d["message"],
         }
 
         return EntryDoesNotExist(**kwargs)
@@ -494,110 +503,138 @@ class EntryDoesNotExist(ApiError[Literal["EntryDoesNotExist"]]):
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, EntryDoesNotExist):
             return False
-        attributes: list[str] = ['message','message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
-class AwsCryptographicMaterialProvidersException(ApiError[Literal["AwsCryptographicMaterialProvidersException"]]):
-    code: Literal["AwsCryptographicMaterialProvidersException"] = "AwsCryptographicMaterialProvidersException"
+
+class AwsCryptographicMaterialProvidersException(
+    ApiError[Literal["AwsCryptographicMaterialProvidersException"]]
+):
+    code: Literal["AwsCryptographicMaterialProvidersException"] = (
+        "AwsCryptographicMaterialProvidersException"
+    )
     message: str
+
 
 class EntryAlreadyExists(ApiError[Literal["EntryAlreadyExists"]]):
     code: Literal["EntryAlreadyExists"] = "EntryAlreadyExists"
     message: str
 
+
 class EntryDoesNotExist(ApiError[Literal["EntryDoesNotExist"]]):
     code: Literal["EntryDoesNotExist"] = "EntryDoesNotExist"
     message: str
+
 
 class InvalidAlgorithmSuiteInfo(ApiError[Literal["InvalidAlgorithmSuiteInfo"]]):
     code: Literal["InvalidAlgorithmSuiteInfo"] = "InvalidAlgorithmSuiteInfo"
     message: str
 
-class InvalidAlgorithmSuiteInfoOnDecrypt(ApiError[Literal["InvalidAlgorithmSuiteInfoOnDecrypt"]]):
-    code: Literal["InvalidAlgorithmSuiteInfoOnDecrypt"] = "InvalidAlgorithmSuiteInfoOnDecrypt"
+
+class InvalidAlgorithmSuiteInfoOnDecrypt(
+    ApiError[Literal["InvalidAlgorithmSuiteInfoOnDecrypt"]]
+):
+    code: Literal["InvalidAlgorithmSuiteInfoOnDecrypt"] = (
+        "InvalidAlgorithmSuiteInfoOnDecrypt"
+    )
     message: str
 
-class InvalidAlgorithmSuiteInfoOnEncrypt(ApiError[Literal["InvalidAlgorithmSuiteInfoOnEncrypt"]]):
-    code: Literal["InvalidAlgorithmSuiteInfoOnEncrypt"] = "InvalidAlgorithmSuiteInfoOnEncrypt"
+
+class InvalidAlgorithmSuiteInfoOnEncrypt(
+    ApiError[Literal["InvalidAlgorithmSuiteInfoOnEncrypt"]]
+):
+    code: Literal["InvalidAlgorithmSuiteInfoOnEncrypt"] = (
+        "InvalidAlgorithmSuiteInfoOnEncrypt"
+    )
     message: str
+
 
 class InvalidDecryptionMaterials(ApiError[Literal["InvalidDecryptionMaterials"]]):
     code: Literal["InvalidDecryptionMaterials"] = "InvalidDecryptionMaterials"
     message: str
 
-class InvalidDecryptionMaterialsTransition(ApiError[Literal["InvalidDecryptionMaterialsTransition"]]):
-    code: Literal["InvalidDecryptionMaterialsTransition"] = "InvalidDecryptionMaterialsTransition"
+
+class InvalidDecryptionMaterialsTransition(
+    ApiError[Literal["InvalidDecryptionMaterialsTransition"]]
+):
+    code: Literal["InvalidDecryptionMaterialsTransition"] = (
+        "InvalidDecryptionMaterialsTransition"
+    )
     message: str
+
 
 class InvalidEncryptionMaterials(ApiError[Literal["InvalidEncryptionMaterials"]]):
     code: Literal["InvalidEncryptionMaterials"] = "InvalidEncryptionMaterials"
     message: str
 
-class InvalidEncryptionMaterialsTransition(ApiError[Literal["InvalidEncryptionMaterialsTransition"]]):
-    code: Literal["InvalidEncryptionMaterialsTransition"] = "InvalidEncryptionMaterialsTransition"
+
+class InvalidEncryptionMaterialsTransition(
+    ApiError[Literal["InvalidEncryptionMaterialsTransition"]]
+):
+    code: Literal["InvalidEncryptionMaterialsTransition"] = (
+        "InvalidEncryptionMaterialsTransition"
+    )
     message: str
+
 
 class AwsCryptographicPrimitives(ApiError[Literal["AwsCryptographicPrimitives"]]):
     AwsCryptographicPrimitives: Any
 
+
 class ComAmazonawsDynamodb(ApiError[Literal["ComAmazonawsDynamodb"]]):
     ComAmazonawsDynamodb: Any
+
 
 class ComAmazonawsKms(ApiError[Literal["ComAmazonawsKms"]]):
     ComAmazonawsKms: Any
 
+
 class KeyStore(ApiError[Literal["KeyStore"]]):
     KeyStore: Any
+
 
 class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
     code: Literal["CollectionOfErrors"] = "CollectionOfErrors"
     message: str
     list: List[ServiceError]
 
-    def __init__(
-        self,
-        *,
-        message: str,
-        list
-    ):
+    def __init__(self, *, message: str, list):
         super().__init__(message)
         self.list = list
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the CollectionOfErrors to a dictionary.
 
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
+        The dictionary uses the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
         """
         return {
-            'message': self.message,
-            'code': self.code,
-            'list': self.list,
+            "message": self.message,
+            "code": self.code,
+            "list": self.list,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CollectionOfErrors":
         """Creates a CollectionOfErrors from a dictionary.
 
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
+        The dictionary is expected to use the modeled shape names rather
+        than the parameter names as keys to be mostly compatible with
+        boto3.
         """
-        kwargs: Dict[str, Any] = {
-            'message': d['message'],
-            'list': d['list']
-        }
+        kwargs: Dict[str, Any] = {"message": d["message"], "list": d["list"]}
 
         return CollectionOfErrors(**kwargs)
 
     def __repr__(self) -> str:
         result = "CollectionOfErrors("
-        result += f'message={self.message},'
+        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
-        result += f'list={self.list}'
+        result += f"list={self.list}"
         result += ")"
         return result
 
@@ -606,22 +643,15 @@ class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
             return False
         if not (self.list == other.list):
             return False
-        attributes: list[str] = ['message','message']
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = ["message", "message"]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class OpaqueError(ApiError[Literal["OpaqueError"]]):
     code: Literal["OpaqueError"] = "OpaqueError"
     obj: Any  # As an OpaqueError, type of obj is unknown
 
-    def __init__(
-        self,
-        *,
-        obj,
-        alt_text
-    ):
+    def __init__(self, *, obj, alt_text):
         super().__init__("")
         self.obj = obj
         self.alt_text = alt_text
@@ -629,37 +659,38 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
     def as_dict(self) -> Dict[str, Any]:
         """Converts the OpaqueError to a dictionary.
 
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
+        The dictionary uses the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
         """
         return {
-            'message': self.message,
-            'code': self.code,
-            'obj': self.obj,
-            'alt_text': self.alt_text,
+            "message": self.message,
+            "code": self.code,
+            "obj": self.obj,
+            "alt_text": self.alt_text,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "OpaqueError":
         """Creates a OpaqueError from a dictionary.
 
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
+        The dictionary is expected to use the modeled shape names rather
+        than the parameter names as keys to be mostly compatible with
+        boto3.
         """
         kwargs: Dict[str, Any] = {
-            'message': d['message'],
-            'obj': d['obj'],
-            'alt_text': d['alt_text']
+            "message": d["message"],
+            "obj": d["obj"],
+            "alt_text": d["alt_text"],
         }
 
         return OpaqueError(**kwargs)
 
     def __repr__(self) -> str:
         result = "OpaqueError("
-        result += f'message={self.message},'
+        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
-        result += f'obj={self.alt_text}'
+        result += f"obj={self.alt_text}"
         result += ")"
         return result
 
@@ -668,75 +699,135 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
             return False
         if not (self.obj == other.obj):
             return False
-        attributes: list[str] = ['message','message']
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = ["message", "message"]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 def _smithy_error_to_dafny_error(e: ServiceError):
-    """
-    Converts the provided native Smithy-modeled error
-    into the corresponding Dafny error.
-    """
-    if isinstance(e, aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.AwsCryptographicMaterialProvidersException):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(message=_dafny.Seq(e.message))
+    """Converts the provided native Smithy-modeled error into the corresponding
+    Dafny error."""
+    if isinstance(
+        e,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.AwsCryptographicMaterialProvidersException,
+    ):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(
+            message=_dafny.Seq(e.message)
+        )
 
-    if isinstance(e, aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.EntryAlreadyExists):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_EntryAlreadyExists(message=_dafny.Seq(e.message))
+    if isinstance(
+        e,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.EntryAlreadyExists,
+    ):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_EntryAlreadyExists(
+            message=_dafny.Seq(e.message)
+        )
 
-    if isinstance(e, aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.EntryDoesNotExist):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_EntryDoesNotExist(message=_dafny.Seq(e.message))
+    if isinstance(
+        e,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.EntryDoesNotExist,
+    ):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_EntryDoesNotExist(
+            message=_dafny.Seq(e.message)
+        )
 
-    if isinstance(e, aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InvalidAlgorithmSuiteInfo):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidAlgorithmSuiteInfo(message=_dafny.Seq(e.message))
+    if isinstance(
+        e,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InvalidAlgorithmSuiteInfo,
+    ):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidAlgorithmSuiteInfo(
+            message=_dafny.Seq(e.message)
+        )
 
-    if isinstance(e, aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InvalidAlgorithmSuiteInfoOnDecrypt):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidAlgorithmSuiteInfoOnDecrypt(message=_dafny.Seq(e.message))
+    if isinstance(
+        e,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InvalidAlgorithmSuiteInfoOnDecrypt,
+    ):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidAlgorithmSuiteInfoOnDecrypt(
+            message=_dafny.Seq(e.message)
+        )
 
-    if isinstance(e, aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InvalidAlgorithmSuiteInfoOnEncrypt):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidAlgorithmSuiteInfoOnEncrypt(message=_dafny.Seq(e.message))
+    if isinstance(
+        e,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InvalidAlgorithmSuiteInfoOnEncrypt,
+    ):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidAlgorithmSuiteInfoOnEncrypt(
+            message=_dafny.Seq(e.message)
+        )
 
-    if isinstance(e, aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InvalidDecryptionMaterials):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidDecryptionMaterials(message=_dafny.Seq(e.message))
+    if isinstance(
+        e,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InvalidDecryptionMaterials,
+    ):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidDecryptionMaterials(
+            message=_dafny.Seq(e.message)
+        )
 
-    if isinstance(e, aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InvalidDecryptionMaterialsTransition):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidDecryptionMaterialsTransition(message=_dafny.Seq(e.message))
+    if isinstance(
+        e,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InvalidDecryptionMaterialsTransition,
+    ):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidDecryptionMaterialsTransition(
+            message=_dafny.Seq(e.message)
+        )
 
-    if isinstance(e, aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InvalidEncryptionMaterials):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterials(message=_dafny.Seq(e.message))
+    if isinstance(
+        e,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InvalidEncryptionMaterials,
+    ):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterials(
+            message=_dafny.Seq(e.message)
+        )
 
-    if isinstance(e, aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InvalidEncryptionMaterialsTransition):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterialsTransition(message=_dafny.Seq(e.message))
+    if isinstance(
+        e,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InvalidEncryptionMaterialsTransition,
+    ):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterialsTransition(
+            message=_dafny.Seq(e.message)
+        )
 
     if isinstance(e, AwsCryptographicPrimitives):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(aws_cryptography_primitives_smithy_error_to_dafny_error(e.message))
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(
+            aws_cryptography_primitives_smithy_error_to_dafny_error(e.message)
+        )
 
     if isinstance(e, ComAmazonawsDynamodb):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_ComAmazonawsDynamodb(com_amazonaws_dynamodb_sdk_error_to_dafny_error(e.message))
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_ComAmazonawsDynamodb(
+            com_amazonaws_dynamodb_sdk_error_to_dafny_error(e.message)
+        )
 
     if isinstance(e, ComAmazonawsKms):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_ComAmazonawsKms(com_amazonaws_kms_sdk_error_to_dafny_error(e.message))
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_ComAmazonawsKms(
+            com_amazonaws_kms_sdk_error_to_dafny_error(e.message)
+        )
 
     if isinstance(e, KeyStore):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyKeyStore(aws_cryptography_keystore_smithy_error_to_dafny_error(e.message))
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyKeyStore(
+            aws_cryptography_keystore_smithy_error_to_dafny_error(e.message)
+        )
 
     if isinstance(e, CollectionOfErrors):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_CollectionOfErrors(message=_dafny.Seq(e.message), list=_dafny.Seq(
-            _smithy_error_to_dafny_error(native_err) for native_err in e.list
-        ))
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_CollectionOfErrors(
+            message=_dafny.Seq(e.message),
+            list=_dafny.Seq(
+                _smithy_error_to_dafny_error(native_err) for native_err in e.list
+            ),
+        )
 
     if isinstance(e, OpaqueError):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_Opaque(obj=e.obj, alt__text=e.alt_text)
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_Opaque(
+            obj=e.obj, alt__text=e.alt_text
+        )
 
     else:
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_Opaque(obj=e, alt__text=_dafny.Seq(
-          "".join(
-              [
-                  chr(int.from_bytes(pair, "big"))
-                  for pair in zip(
-                      *[iter(repr(e).encode("utf-16-be"))] * 2
-                  )
-              ]
-          )
-      ))
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_Opaque(
+            obj=e,
+            alt__text=_dafny.Seq(
+                "".join(
+                    [
+                        chr(int.from_bytes(pair, "big"))
+                        for pair in zip(*[iter(repr(e).encode("utf-16-be"))] * 2)
+                    ]
+                )
+            ),
+        )
