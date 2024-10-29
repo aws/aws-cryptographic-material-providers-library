@@ -630,12 +630,12 @@ public class ToDafny {
   public static SystemKey SystemKey(
     software.amazon.cryptography.keystoreadmin.model.SystemKey nativeValue
   ) {
-    if (Objects.nonNull(nativeValue.KmsAes())) {
-      return SystemKey.create_KmsAes(ToDafny.KmsAes(nativeValue.KmsAes()));
+    if (Objects.nonNull(nativeValue.kmsAes())) {
+      return SystemKey.create_kmsAes(ToDafny.KmsAes(nativeValue.kmsAes()));
     }
-    if (Objects.nonNull(nativeValue.TrustStorage())) {
-      return SystemKey.create_TrustStorage(
-        ToDafny.TrustStorage(nativeValue.TrustStorage())
+    if (Objects.nonNull(nativeValue.trustStorage())) {
+      return SystemKey.create_trustStorage(
+        ToDafny.TrustStorage(nativeValue.trustStorage())
       );
     }
     throw new IllegalArgumentException(

@@ -335,14 +335,14 @@ class SystemKeyKmsAes:
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
-        return {"KmsAes": self.value.as_dict()}
+        return {"kmsAes": self.value.as_dict()}
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "SystemKeyKmsAes":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
-        return SystemKeyKmsAes(KmsAes.from_dict(d["KmsAes"]))
+        return SystemKeyKmsAes(KmsAes.from_dict(d["kmsAes"]))
 
     def __repr__(self) -> str:
         return f"SystemKeyKmsAes(value=repr(self.value))"
@@ -360,14 +360,14 @@ class SystemKeyTrustStorage:
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
-        return {"TrustStorage": self.value.as_dict()}
+        return {"trustStorage": self.value.as_dict()}
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "SystemKeyTrustStorage":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
-        return SystemKeyTrustStorage(TrustStorage.from_dict(d["TrustStorage"]))
+        return SystemKeyTrustStorage(TrustStorage.from_dict(d["trustStorage"]))
 
     def __repr__(self) -> str:
         return f"SystemKeyTrustStorage(value=repr(self.value))"
@@ -408,10 +408,10 @@ SystemKey = Union[SystemKeyKmsAes, SystemKeyTrustStorage, SystemKeyUnknown]
 
 
 def _system_key_from_dict(d: Dict[str, Any]) -> SystemKey:
-    if "KmsAes" in d:
+    if "kmsAes" in d:
         return SystemKeyKmsAes.from_dict(d)
 
-    if "TrustStorage" in d:
+    if "trustStorage" in d:
         return SystemKeyTrustStorage.from_dict(d)
 
     raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")

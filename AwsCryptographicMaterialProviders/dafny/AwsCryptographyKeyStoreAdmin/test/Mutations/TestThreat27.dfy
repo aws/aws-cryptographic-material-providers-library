@@ -84,7 +84,8 @@ module {:options "/functionSyntax:4" } TestThreat27 {
     var testInput := Types.InitializeMutationInput(
       Identifier := testId,
       Mutations := mutationsRequest,
-      Strategy := Some(strategy));
+      Strategy := Some(strategy),
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
     var initializeOutput :- expect underTest.InitializeMutation(testInput);
 
     print "\nTestThreat27 :: TestHappyCase :: Initialized Mutation: " + activeOne + "\n";
@@ -151,7 +152,8 @@ module {:options "/functionSyntax:4" } TestThreat27 {
 
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_ACTIVE_TYPE, ddbClient);
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BEACON_KEY_TYPE_VALUE, ddbClient);
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.MUTATION_LOCK_TYPE, ddbClient);
+    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.MUTATION_COMMITMENT_TYPE, ddbClient);
+    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.MUTATION_INDEX_TYPE, ddbClient);
     print "\nTestThreat27 :: TestHappyCase :: Delete Version for activeOne: " + activeOne + "\n";
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_TYPE_PREFIX + activeOne, ddbClient);
     print "\nTestThreat27 :: TestHappyCase :: Delete Version for activeTwo: " + activeTwo + "\n";

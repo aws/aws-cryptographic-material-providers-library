@@ -82,7 +82,8 @@ module {:options "/functionSyntax:4" } TestThreat28 {
     var initInput := Types.InitializeMutationInput(
       Identifier := testId,
       Mutations := mutationsRequest,
-      Strategy := Some(strategy));
+      Strategy := Some(strategy),
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
     var initializeOutput :- expect underTest.InitializeMutation(initInput);
     var initializeToken := initializeOutput.MutationToken;
 
@@ -93,7 +94,8 @@ module {:options "/functionSyntax:4" } TestThreat28 {
     var testInput := Types.ApplyMutationInput(
       MutationToken := initializeToken,
       PageSize := Some(1), //Some(24),
-      Strategy := Some(strategy));
+      Strategy := Some(strategy),
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
     // var applyOutput :- expect underTest.ApplyMutation(testInput);
     var applyOutput? := underTest.ApplyMutation(testInput);
     if (applyOutput?.Failure?) {
@@ -104,17 +106,15 @@ module {:options "/functionSyntax:4" } TestThreat28 {
     print testLogPrefix + " Applied Mutation w/ pageSize 1. testId: " + testId + "\n";
     expect applyOutput.MutationResult.ContinueMutation?, "Apply Mutation output should continue!";
     var applyToken: Types.MutationToken := applyOutput.MutationResult.ContinueMutation;
-    expect applyToken.ExclusiveStartKey.Some?, "Apply Mutation output continues but pageIndex is None?";
-    expect |applyToken.ExclusiveStartKey.value| > 0, "Apply Mutation output continues but pageIndex has length 0.";
 
     print testLogPrefix + " Apply 1 output met expectations. testId: " + testId + "\n";
-    // TODO: Assert the M-Lock is still there
     // TODO: Assert log lines
 
     testInput := Types.ApplyMutationInput(
       MutationToken := applyToken,
       PageSize := Some(1),
-      Strategy := Some(strategy));
+      Strategy := Some(strategy),
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
     applyOutput? := underTest.ApplyMutation(testInput);
     if (applyOutput?.Failure?) {
       print applyOutput?;
@@ -125,14 +125,13 @@ module {:options "/functionSyntax:4" } TestThreat28 {
     // print testLogPrefix + " Applied 2 Mutation w/ pageSize 1. testId: " + testId + "\n";
     expect applyOutput.MutationResult.ContinueMutation?, "Apply Mutation output should continue, based on the DDB Limit";
     applyToken := applyOutput.MutationResult.ContinueMutation;
-    expect applyToken.ExclusiveStartKey.Some?, "Apply Mutation output continues but pageIndex is None?";
-    expect |applyToken.ExclusiveStartKey.value| > 0, "Apply Mutation output continues but pageIndex has length 0.";
     print testLogPrefix + " Apply 2 output met expectations. testId: " + testId + "\n";
 
     testInput := Types.ApplyMutationInput(
       MutationToken := applyToken,
       PageSize := Some(1),
-      Strategy := Some(strategy));
+      Strategy := Some(strategy),
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
     applyOutput? := underTest.ApplyMutation(testInput);
     if (applyOutput?.Failure?) {
       print applyOutput?;
@@ -193,7 +192,7 @@ module {:options "/functionSyntax:4" } TestThreat28 {
 
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_ACTIVE_TYPE, ddbClient);
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BEACON_KEY_TYPE_VALUE, ddbClient);
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.MUTATION_LOCK_TYPE, ddbClient);
+    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.MUTATION_COMMITMENT_TYPE, ddbClient);
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_TYPE_PREFIX + lastActive, ddbClient);
 
     print "TestThreat28.TestHappyCase: ";

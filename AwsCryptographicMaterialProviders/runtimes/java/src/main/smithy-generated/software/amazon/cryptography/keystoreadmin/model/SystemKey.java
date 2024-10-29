@@ -16,17 +16,17 @@ public class SystemKey {
    * in a KMS Encrypt or Decrypt call,
    * effectively signing the attributes.
    */
-  private final KmsAes KmsAes;
+  private final KmsAes kmsAes;
 
   /**
    * The Storage is trusted enough
    * for non-cryptographic items.
    */
-  private final TrustStorage TrustStorage;
+  private final TrustStorage trustStorage;
 
   protected SystemKey(BuilderImpl builder) {
-    this.KmsAes = builder.KmsAes();
-    this.TrustStorage = builder.TrustStorage();
+    this.kmsAes = builder.kmsAes();
+    this.trustStorage = builder.trustStorage();
   }
 
   /**
@@ -34,16 +34,16 @@ public class SystemKey {
    * in a KMS Encrypt or Decrypt call,
    * effectively signing the attributes.
    */
-  public KmsAes KmsAes() {
-    return this.KmsAes;
+  public KmsAes kmsAes() {
+    return this.kmsAes;
   }
 
   /**
    * @return The Storage is trusted enough
    * for non-cryptographic items.
    */
-  public TrustStorage TrustStorage() {
-    return this.TrustStorage;
+  public TrustStorage trustStorage() {
+    return this.trustStorage;
   }
 
   public Builder toBuilder() {
@@ -56,63 +56,63 @@ public class SystemKey {
 
   public interface Builder {
     /**
-     * @param KmsAes Include all attributes of an item as Encryption Context
+     * @param kmsAes Include all attributes of an item as Encryption Context
      * in a KMS Encrypt or Decrypt call,
      * effectively signing the attributes.
      */
-    Builder KmsAes(KmsAes KmsAes);
+    Builder kmsAes(KmsAes kmsAes);
 
     /**
      * @return Include all attributes of an item as Encryption Context
      * in a KMS Encrypt or Decrypt call,
      * effectively signing the attributes.
      */
-    KmsAes KmsAes();
+    KmsAes kmsAes();
 
     /**
-     * @param TrustStorage The Storage is trusted enough
+     * @param trustStorage The Storage is trusted enough
      * for non-cryptographic items.
      */
-    Builder TrustStorage(TrustStorage TrustStorage);
+    Builder trustStorage(TrustStorage trustStorage);
 
     /**
      * @return The Storage is trusted enough
      * for non-cryptographic items.
      */
-    TrustStorage TrustStorage();
+    TrustStorage trustStorage();
 
     SystemKey build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected KmsAes KmsAes;
+    protected KmsAes kmsAes;
 
-    protected TrustStorage TrustStorage;
+    protected TrustStorage trustStorage;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(SystemKey model) {
-      this.KmsAes = model.KmsAes();
-      this.TrustStorage = model.TrustStorage();
+      this.kmsAes = model.kmsAes();
+      this.trustStorage = model.trustStorage();
     }
 
-    public Builder KmsAes(KmsAes KmsAes) {
-      this.KmsAes = KmsAes;
+    public Builder kmsAes(KmsAes kmsAes) {
+      this.kmsAes = kmsAes;
       return this;
     }
 
-    public KmsAes KmsAes() {
-      return this.KmsAes;
+    public KmsAes kmsAes() {
+      return this.kmsAes;
     }
 
-    public Builder TrustStorage(TrustStorage TrustStorage) {
-      this.TrustStorage = TrustStorage;
+    public Builder trustStorage(TrustStorage trustStorage) {
+      this.trustStorage = trustStorage;
       return this;
     }
 
-    public TrustStorage TrustStorage() {
-      return this.TrustStorage;
+    public TrustStorage trustStorage() {
+      return this.trustStorage;
     }
 
     public SystemKey build() {
@@ -125,7 +125,7 @@ public class SystemKey {
     }
 
     private boolean onlyOneNonNull() {
-      Object[] allValues = { this.KmsAes, this.TrustStorage };
+      Object[] allValues = { this.kmsAes, this.trustStorage };
       boolean haveOneNonNull = false;
       for (Object o : allValues) {
         if (Objects.nonNull(o)) {

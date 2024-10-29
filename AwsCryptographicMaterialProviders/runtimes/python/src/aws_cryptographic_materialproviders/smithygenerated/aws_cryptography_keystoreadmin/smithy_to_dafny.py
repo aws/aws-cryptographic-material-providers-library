@@ -27,8 +27,8 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     MutationComplete_MutationComplete as DafnyMutationComplete,
     MutationToken_MutationToken as DafnyMutationToken,
     Mutations_Mutations as DafnyMutations,
-    SystemKey_KmsAes,
-    SystemKey_TrustStorage,
+    SystemKey_kmsAes,
+    SystemKey_trustStorage,
     TrustStorage_TrustStorage as DafnyTrustStorage,
     VersionKeyInput_VersionKeyInput as DafnyVersionKeyInput,
     VersionKeyOutput_VersionKeyOutput as DafnyVersionKeyOutput,
@@ -285,7 +285,7 @@ def aws_cryptography_keystoreadmin_SystemKey(native_input):
         native_input,
         aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystoreadmin.models.SystemKeyKmsAes,
     ):
-        SystemKey_union_value = SystemKey_KmsAes(
+        SystemKey_union_value = SystemKey_kmsAes(
             aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_KmsAes(
                 native_input.value
             )
@@ -294,7 +294,7 @@ def aws_cryptography_keystoreadmin_SystemKey(native_input):
         native_input,
         aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystoreadmin.models.SystemKeyTrustStorage,
     ):
-        SystemKey_union_value = SystemKey_TrustStorage(
+        SystemKey_union_value = SystemKey_trustStorage(
             aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_TrustStorage(
                 native_input.value
             )

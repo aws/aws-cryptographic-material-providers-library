@@ -39,8 +39,11 @@ module {:options "/functionSyntax:4"} TestGetItemsForInitializeMutation {
       output.BeaconItem.Type.ActiveHierarchicalSymmetricBeacon?,
       "beaconItem was not Beacon? 'type': " + output.BeaconItem.EncryptionContext[Structure.TYPE_FIELD];
     expect
-      output.MutationLock.None?,
-      "MutationLock was not None. 'UUID': " + output.MutationLock.value.UUID;
+      output.MutationCommitment.None?,
+      "MutationCommitment was not None. 'UUID': " + output.MutationCommitment.value.UUID;
+    expect
+      output.MutationIndex.None?,
+      "MutationIndex was not None. 'UUID': " + output.MutationIndex.value.UUID;
   }
 
   method {:test} TestHappyCaseMLocked()
@@ -61,7 +64,10 @@ module {:options "/functionSyntax:4"} TestGetItemsForInitializeMutation {
       output.BeaconItem.Type.ActiveHierarchicalSymmetricBeacon?,
       "beaconItem was not Beacon? 'type': " + output.BeaconItem.EncryptionContext[Structure.TYPE_FIELD];
     expect
-      output.MutationLock.Some?,
-      "MutationLock was not Some.";
+      output.MutationCommitment.Some?,
+      "MutationCommitment was not Some.";
+    expect
+      output.MutationIndex.Some?,
+      "MutationIndex was not Some.";
   }
 }
