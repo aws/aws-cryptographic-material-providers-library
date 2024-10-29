@@ -73,9 +73,7 @@ module {:options "/functionSyntax:4" } Mutations {
   ): (output: Result<Types.InitializeMutationInput, Types.Error>)
     ensures
       output.Success?
-      ==>
-        && StateStrucs.ValidMutations?(input.Mutations)
-        && input.Mutations.TerminalKmsArn.Some? ==> KmsArn.ValidKmsArn?(input.Mutations.TerminalKmsArn.value)
+      ==> (StateStrucs.ValidMutations?(input.Mutations) && input.Mutations.TerminalKmsArn.Some? ==> KmsArn.ValidKmsArn?(input.Mutations.TerminalKmsArn.value))
 
   {
     :- Need(|input.Identifier| > 0,

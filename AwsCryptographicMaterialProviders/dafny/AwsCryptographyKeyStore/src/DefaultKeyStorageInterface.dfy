@@ -1041,17 +1041,12 @@ module DefaultKeyStorageInterface {
       ensures WriteInitializeMutationEnsuresPublicly(input, output)
 
       ensures
-        (&& Structure.MutationCommitment?(input.MutationCommitment)
-         && Structure.MutationIndex?(input.MutationIndex))
-        == false ==> output.Failure?
+        ((Structure.MutationCommitment?(input.MutationCommitment) && Structure.MutationIndex?(input.MutationIndex)) == false ==> output.Failure?)
 
       ensures
         && input.Active.Some?
         ==>
-          ((&& input.Version.Some?
-            && (forall k <- input.Version.value.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
-            && (forall k <- input.Active.value.Item.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k)))
-           == false ==> output.Failure?)
+          ((&& input.Version.Some? && (forall k <- input.Version.value.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k)) && (forall k <- input.Active.value.Item.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))) == false ==> output.Failure?)
 
     {
       :- Need(
