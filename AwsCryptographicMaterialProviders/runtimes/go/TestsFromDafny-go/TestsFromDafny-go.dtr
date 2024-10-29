@@ -1,0 +1,74 @@
+file_format_version = "1.0"
+dafny_version = "4.8.1.0"
+[options_by_module.Fixtures]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
+[options_by_module.TestGetKeys]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
+[options_by_module.TestDiscoveryGetKeys]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
+[options_by_module.CleanupItems]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
+[options_by_module.TestCreateKeys]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
+[options_by_module.TestCreateKeyStore]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
+[options_by_module.TestLyingBranchKey]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
+[options_by_module.TestVersionKey]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
+[options_by_module.TestConfig]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
+[options_by_module.TestErrorMessages]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
+[options_by_module.TestUtils]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
+[options_by_module.TestStormTracker]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
+[options_by_module.TestLocalCMC]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
+[options_by_module.TestRawECDHKeyring]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
+[options_by_module.TestAwsKmsEncryptedDataKeyFilter]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
+[options_by_module.TestAwsKmsEcdhKeyring]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
+[options_by_module.TestAwsKmsHierarchicalKeyring]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
+[options_by_module.TestAwsKmsRsaKeyring]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
+[options_by_module.TestRawAESKeyring]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
+[options_by_module.TestMultiKeyring]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
+[options_by_module.TestRawRSAKeying]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
+[options_by_module.TestEcdhCalculation]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
+[options_by_module.TestIntermediateKeyWrapping]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
+[options_by_module.TestDefaultClientProvider]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/mpl/test"
+legacy-module-names = false
