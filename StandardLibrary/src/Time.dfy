@@ -5,8 +5,7 @@ include "./StandardLibrary.dfy"
 include "./UInt.dfy"
 include "./String.dfy"
 
-//TODO: Dropping extern to make it work with GO. Find a better solution.
-module Time {
+module {:extern "Time"} Time {
   import opened StandardLibrary
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
