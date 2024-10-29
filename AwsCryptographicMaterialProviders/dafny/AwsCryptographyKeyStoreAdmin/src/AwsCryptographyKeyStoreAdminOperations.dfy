@@ -159,7 +159,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
 
   function method LegacyConfig(
     keyManagerStrat: Mutations.keyManagerStrat,
-    kmsArn: Types.KMSIdentifier,
+    kmsArn: Types.KmsAesIdentifier,
     config: InternalConfig
   ): (output: Result<KeyStoreOperations.Config, Error>)
     requires ValidInternalConfig?(config)
