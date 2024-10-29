@@ -310,4 +310,19 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   // {
   //   return Failure(Types.KeyStoreAdminException(message := "Implement me"));
   // }
+
+  predicate DescribeMutationEnsuresPublicly(
+    input: DescribeMutationInput,
+    output: Result<DescribeMutationOutput, Error>
+  )
+  {true}
+
+  method DescribeMutation(
+    config: InternalConfig,
+    input: DescribeMutationInput
+  )
+    returns (output: Result<DescribeMutationOutput, Error>)
+  {
+    return Failure(Types.KeyStoreAdminException(message := "Implement me"));
+  }
 }
