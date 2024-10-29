@@ -8,7 +8,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.27.36
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.34
 	github.com/aws/aws-sdk-go-v2/service/kms v1.36.0
-	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.7.0
+	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.8.0
 )
 
 require (

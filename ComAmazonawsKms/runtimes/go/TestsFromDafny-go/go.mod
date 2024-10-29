@@ -9,7 +9,7 @@ require github.com/dafny-lang/DafnyStandardLibGo v0.0.0
 require (
 	github.com/aws/aws-cryptographic-material-providers-library/kms v0.0.0
 	github.com/aws/aws-sdk-go-v2/service/kms v1.36.0
-	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.7.0
+	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.8.0
 )
 
 require (
