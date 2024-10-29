@@ -11,8 +11,8 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     KeyManagementStrategy_AwsKmsReEncrypt,
     KmsAesIdentifier_KmsKeyArn,
     KmsAesIdentifier_KmsMRKeyArn,
-    SystemKey_KmsAes,
-    SystemKey_TrustStorage,
+    SystemKey_kmsAes,
+    SystemKey_trustStorage,
 )
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy
@@ -144,16 +144,16 @@ def aws_cryptography_keystoreadmin_Mutations(dafny_input):
 
 def aws_cryptography_keystoreadmin_SystemKey(dafny_input):
     # Convert SystemKey
-    if isinstance(dafny_input, SystemKey_KmsAes):
+    if isinstance(dafny_input, SystemKey_kmsAes):
         SystemKey_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystoreadmin.models.SystemKeyKmsAes(
             aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_KmsAes(
-                dafny_input.KmsAes
+                dafny_input.kmsAes
             )
         )
-    elif isinstance(dafny_input, SystemKey_TrustStorage):
+    elif isinstance(dafny_input, SystemKey_trustStorage):
         SystemKey_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystoreadmin.models.SystemKeyTrustStorage(
             aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_TrustStorage(
-                dafny_input.TrustStorage
+                dafny_input.trustStorage
             )
         )
     else:

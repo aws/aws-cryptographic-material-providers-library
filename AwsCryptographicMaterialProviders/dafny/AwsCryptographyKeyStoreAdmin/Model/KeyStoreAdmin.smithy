@@ -124,8 +124,8 @@ structure TrustStorage {}
 "Key Store Admin protects any non-cryptographic
 items stored with this Key.")
 union SystemKey {
-  KmsAes: KmsAes
-  TrustStorage: TrustStorage
+  kmsAes: KmsAes
+  trustStorage: TrustStorage
 }
 
 // TODO-Mutations-FF :

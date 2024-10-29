@@ -321,14 +321,14 @@ namespace AWS.Cryptography.KeyStoreAdmin
     public static AWS.Cryptography.KeyStoreAdmin.SystemKey FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey(software.amazon.cryptography.keystoreadmin.internaldafny.types._ISystemKey value)
     {
       software.amazon.cryptography.keystoreadmin.internaldafny.types.SystemKey concrete = (software.amazon.cryptography.keystoreadmin.internaldafny.types.SystemKey)value;
-      var converted = new AWS.Cryptography.KeyStoreAdmin.SystemKey(); if (value.is_KmsAes)
+      var converted = new AWS.Cryptography.KeyStoreAdmin.SystemKey(); if (value.is_kmsAes)
       {
-        converted.KmsAes = FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey__M6_KmsAes(concrete.dtor_KmsAes);
+        converted.KmsAes = FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey__M6_kmsAes(concrete.dtor_kmsAes);
         return converted;
       }
-      if (value.is_TrustStorage)
+      if (value.is_trustStorage)
       {
-        converted.TrustStorage = FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey__M12_TrustStorage(concrete.dtor_TrustStorage);
+        converted.TrustStorage = FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey__M12_trustStorage(concrete.dtor_trustStorage);
         return converted;
       }
       throw new System.ArgumentException("Invalid AWS.Cryptography.KeyStoreAdmin.SystemKey state");
@@ -337,11 +337,11 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       value.Validate(); if (value.IsSetKmsAes())
       {
-        return software.amazon.cryptography.keystoreadmin.internaldafny.types.SystemKey.create_KmsAes(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey__M6_KmsAes(value.KmsAes));
+        return software.amazon.cryptography.keystoreadmin.internaldafny.types.SystemKey.create_kmsAes(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey__M6_kmsAes(value.KmsAes));
       }
       if (value.IsSetTrustStorage())
       {
-        return software.amazon.cryptography.keystoreadmin.internaldafny.types.SystemKey.create_TrustStorage(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey__M12_TrustStorage(value.TrustStorage));
+        return software.amazon.cryptography.keystoreadmin.internaldafny.types.SystemKey.create_trustStorage(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey__M12_trustStorage(value.TrustStorage));
       }
       throw new System.ArgumentException("Invalid AWS.Cryptography.KeyStoreAdmin.SystemKey state");
     }
@@ -684,19 +684,19 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       return ToDafny_N6_smithy__N3_api__S6_String(value);
     }
-    public static AWS.Cryptography.KeyStoreAdmin.KmsAes FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey__M6_KmsAes(software.amazon.cryptography.keystoreadmin.internaldafny.types._IKmsAes value)
+    public static AWS.Cryptography.KeyStoreAdmin.KmsAes FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey__M6_kmsAes(software.amazon.cryptography.keystoreadmin.internaldafny.types._IKmsAes value)
     {
       return FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S6_KmsAes(value);
     }
-    public static software.amazon.cryptography.keystoreadmin.internaldafny.types._IKmsAes ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey__M6_KmsAes(AWS.Cryptography.KeyStoreAdmin.KmsAes value)
+    public static software.amazon.cryptography.keystoreadmin.internaldafny.types._IKmsAes ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey__M6_kmsAes(AWS.Cryptography.KeyStoreAdmin.KmsAes value)
     {
       return ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S6_KmsAes(value);
     }
-    public static AWS.Cryptography.KeyStoreAdmin.TrustStorage FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey__M12_TrustStorage(software.amazon.cryptography.keystoreadmin.internaldafny.types._ITrustStorage value)
+    public static AWS.Cryptography.KeyStoreAdmin.TrustStorage FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey__M12_trustStorage(software.amazon.cryptography.keystoreadmin.internaldafny.types._ITrustStorage value)
     {
       return FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S12_TrustStorage(value);
     }
-    public static software.amazon.cryptography.keystoreadmin.internaldafny.types._ITrustStorage ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey__M12_TrustStorage(AWS.Cryptography.KeyStoreAdmin.TrustStorage value)
+    public static software.amazon.cryptography.keystoreadmin.internaldafny.types._ITrustStorage ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey__M12_trustStorage(AWS.Cryptography.KeyStoreAdmin.TrustStorage value)
     {
       return ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S12_TrustStorage(value);
     }

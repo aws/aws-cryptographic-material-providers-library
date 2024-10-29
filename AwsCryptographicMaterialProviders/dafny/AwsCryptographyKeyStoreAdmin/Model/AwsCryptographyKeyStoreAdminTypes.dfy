@@ -214,8 +214,8 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     nameonly CreateTime: string
   )
   datatype SystemKey =
-    | KmsAes(KmsAes: KmsAes)
-    | TrustStorage(TrustStorage: TrustStorage)
+    | kmsAes(kmsAes: KmsAes)
+    | trustStorage(trustStorage: TrustStorage)
   datatype TrustStorage = | TrustStorage (
 
                           )

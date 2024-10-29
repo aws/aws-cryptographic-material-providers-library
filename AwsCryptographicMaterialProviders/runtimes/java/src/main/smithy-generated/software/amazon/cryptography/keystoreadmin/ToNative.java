@@ -610,12 +610,12 @@ public class ToNative {
     software.amazon.cryptography.keystoreadmin.internaldafny.types.SystemKey dafnyValue
   ) {
     SystemKey.Builder nativeBuilder = SystemKey.builder();
-    if (dafnyValue.is_KmsAes()) {
-      nativeBuilder.KmsAes(ToNative.KmsAes(dafnyValue.dtor_KmsAes()));
+    if (dafnyValue.is_kmsAes()) {
+      nativeBuilder.kmsAes(ToNative.KmsAes(dafnyValue.dtor_kmsAes()));
     }
-    if (dafnyValue.is_TrustStorage()) {
-      nativeBuilder.TrustStorage(
-        ToNative.TrustStorage(dafnyValue.dtor_TrustStorage())
+    if (dafnyValue.is_trustStorage()) {
+      nativeBuilder.trustStorage(
+        ToNative.TrustStorage(dafnyValue.dtor_trustStorage())
       );
     }
     return nativeBuilder.build();

@@ -42,14 +42,17 @@ module {:options "/functionSyntax:4" } TestKmsArnChanged {
     print " running";
 
     // expect false; // disable test till other investigation is done
-    var ddbClient :- expect DDB.DynamoDBClient();
-    var kmsClient :- expect KMS.KMSClient();
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
 
-    var storage :- expect Fixtures.DefaultStorage();
+    var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
     var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
-    var keyStoreOriginal :- expect Fixtures.DefaultKeyStore();
-    var keyStoreTerminal :- expect Fixtures.DefaultKeyStore(kmsId:=Fixtures.postalHornKeyArn);
+    var keyStoreOriginal :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+    var keyStoreTerminal :- expect Fixtures.DefaultKeyStore(
+      kmsId:=Fixtures.postalHornKeyArn,
+      ddbClient?:=Some(ddbClient),
+      kmsClient?:=Some(kmsClient));
 
     var uuid :- expect UUID.GenerateUUID();
     var testId := happyCaseId + "-" + uuid;
@@ -63,7 +66,8 @@ module {:options "/functionSyntax:4" } TestKmsArnChanged {
     var initInput := Types.InitializeMutationInput(
       Identifier := testId,
       Mutations := mutationsRequest,
-      Strategy := Some(strategy));
+      Strategy := Some(strategy),
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
     var initializeOutput :- expect underTest.InitializeMutation(initInput);
     var initializeToken := initializeOutput.MutationToken;
 
@@ -73,7 +77,8 @@ module {:options "/functionSyntax:4" } TestKmsArnChanged {
     var testInput := Types.ApplyMutationInput(
       MutationToken := initializeToken,
       PageSize := Some(24),
-      Strategy := Some(strategy));
+      Strategy := Some(strategy),
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
     var applyOutput :- expect underTest.ApplyMutation(testInput);
 
     print testLogPrefix + " Applied Mutation w/ pageSize 24. testId: " + testId + "\n";

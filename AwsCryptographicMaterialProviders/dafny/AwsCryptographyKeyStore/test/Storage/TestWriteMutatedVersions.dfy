@@ -124,13 +124,13 @@ module {:options "/functionSyntax:4"} TestWriteMutatedVersions {
     Fixtures.CreateHappyCaseId(id:=id, versionCount:=3);
     var item: DDB.Types.PutItemInputAttributeMap :=
       map[
-        "type":=DDB.Types.AttributeValue.S(Structure.MUTATION_LOCK_TYPE),
+        "type":=DDB.Types.AttributeValue.S(Structure.MUTATION_COMMITMENT_TYPE),
         Structure.HIERARCHY_VERSION := DDB.Types.AttributeValue.N("1"),
         Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.Types.AttributeValue.S(id),
         Structure.KEY_CREATE_TIME :=  DDB.Types.AttributeValue.S("now!"),
         Structure.M_UUID := DDB.Types.AttributeValue.S("this-is-not-a-uuid-but-storage-does-not-validate-this"),
-        Structure.M_LOCK_ORIGINAL := DDB.Types.AttributeValue.B(UTF8.EncodeAscii("storage-does-not-validate-original-only-that-is-binary")),
-        Structure.M_LOCK_TERMINAL := DDB.Types.AttributeValue.B(UTF8.EncodeAscii("storage-does-not-validate-terminal-only-that-is-binary")),
+        Structure.M_ORIGINAL := DDB.Types.AttributeValue.B(UTF8.EncodeAscii("storage-does-not-validate-original-only-that-is-binary")),
+        Structure.M_TERMINAL := DDB.Types.AttributeValue.B(UTF8.EncodeAscii("storage-does-not-validate-terminal-only-that-is-binary")),
         Structure.ENC_FIELD := DDB.Types.AttributeValue.B(UTF8.EncodeAscii("storage-does-not-validate-enc-only-that-is-binary"))
       ];
     var inputPut := DDB.Types.PutItemInput(TableName := ddbTableName, Item := item);

@@ -70,7 +70,8 @@ module {:options "/functionSyntax:4" } TestEncryptionContextChanged {
     var initInput := Types.InitializeMutationInput(
       Identifier := testId,
       Mutations := mutationsRequest,
-      Strategy := Some(strategy));
+      Strategy := Some(strategy),
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
     var initializeOutput :- expect underTest.InitializeMutation(initInput);
     var initializeToken := initializeOutput.MutationToken;
 
@@ -81,7 +82,8 @@ module {:options "/functionSyntax:4" } TestEncryptionContextChanged {
     var testInput := Types.ApplyMutationInput(
       MutationToken := initializeToken,
       PageSize := Some(24),
-      Strategy := Some(strategy));
+      Strategy := Some(strategy),
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
     var applyOutput :- expect underTest.ApplyMutation(testInput);
 
     print testLogPrefix + " Applied Mutation w/ pageSize 1. testId: " + testId + "\n";

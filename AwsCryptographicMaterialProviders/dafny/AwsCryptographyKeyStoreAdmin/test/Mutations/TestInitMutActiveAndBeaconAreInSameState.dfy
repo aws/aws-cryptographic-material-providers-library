@@ -65,7 +65,8 @@ module {:options "/functionSyntax:4" } TestInitMutActiveAndBeaconAreInSameState 
     var initInput := Types.InitializeMutationInput(
       Identifier := testId,
       Mutations := mutationsRequest,
-      Strategy := Some(strategy));
+      Strategy := Some(strategy),
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
     var initializeOutput? := underTest.InitializeMutation(initInput);
 
     expect initializeOutput?.Failure?, "Initialize Mutation did not detect drifted Active & Beacon!";
