@@ -70,4 +70,24 @@ module {:options "/functionSyntax:4"} TestGetItemsForInitializeMutation {
       output.MutationIndex.Some?,
       "MutationIndex was not Some.";
   }
+
+  method createHappyCaseMLocked(
+    nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None,
+    nameonly kmsClient?: Option<KMS.Types.IKMSClient> := None
+  )
+    requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
+    requires kmsClient?.Some? ==> kmsClient?.value.ValidState()
+    ensures output.Success? ==> output.value.ValidState()
+    modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
+    + (if kmsClient?.Some? then kmsClient?.value.Modifies else {})
+    ensures ddbClient?.Some? ==> ddbClient?.value.ValidState()
+    ensures kmsClient?.Some? ==> kmsClient?.value.ValidState()
+  {
+    var ddbClient :- expect ProvideDDBClient(ddbClient?);
+    assume {:axiom} fresh(ddbClient) && fresh(ddbClient.Modifies);
+    var kmsClient :- expect ProvideKMSClient(kmsClient?);
+    assume {:axiom} fresh(kmsClient) && fresh(kmsClient.Modifies);
+    Fixtures.CreateHappyCaseId(id:=testId, versionCount:=0);
+    
+  }
 }

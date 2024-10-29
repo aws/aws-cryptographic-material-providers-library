@@ -171,6 +171,18 @@ map EncryptionContextString {
   value: String,
 }
 
+@documentation("Write Initialize Mutation allows Mutations to either rotate/version or simply mutate the Active.")
+union WriteInitializeMutationVersion {
+  rotate: EncryptedHierarchicalKey
+  mutate: OverWriteEncryptedHierarchicalKey
+}
+
+@documentation("Write Initialize Mutation allows Mutations to either create or update the Index.")
+union WriteInitializeMutationIndex {
+  create: MutationIndex
+  update: OverWriteMutationIndex
+}
+
 @aws.polymorph#extendable
 resource KeyStorageInterface {
 
@@ -484,16 +496,18 @@ structure GetItemsForInitializeMutationOutput {
 }
 
 structure WriteInitializeMutationInput {
+  @required
   @documentation("
   The active representation of this branch key,
   generated with the Mutation's terminal properities.  
   The plain-text cryptographic material of the Active must be the same as the Version.")
+  @required
   Active: OverWriteEncryptedHierarchicalKey,
   @documentation("
   The decrypt representation of this branch key version,
   generated with the Mutation's terminal properities.  
   The plain-text cryptographic material of the `Version` must be the same as the `Active`.")
-  Version: EncryptedHierarchicalKey,
+  Version: WriteInitializeMutationVersion,
   @required
   @documentation("
   The mutated HMAC key used to support searchable encryption.
@@ -503,21 +517,23 @@ structure WriteInitializeMutationInput {
   @required // Smithy will copy documentation traits from existing shapes
   MutationCommitment: MutationCommitment
   @required
-  MutationIndex: MutationIndex
+  MutationIndex: WriteInitializeMutationIndex
 }
 structure WriteInitializeMutationOutput {}
 
 structure WriteAtomicMutationInput {
+  @required
   @documentation("
   The active representation of this branch key,
   generated with the Mutation's terminal properities.  
   The plain-text cryptographic material of the Active must be the same as the Version.")
   Active: OverWriteEncryptedHierarchicalKey,
+  @required
   @documentation("
   The decrypt representation of this branch key version,
   generated with the Mutation's terminal properities.  
   The plain-text cryptographic material of the `Version` must be the same as the `Active`.")
-  Version: EncryptedHierarchicalKey,
+  Version: WriteInitializeMutationVersion,
   @required
   @documentation("
   The mutated HMAC key used to support searchable encryption.

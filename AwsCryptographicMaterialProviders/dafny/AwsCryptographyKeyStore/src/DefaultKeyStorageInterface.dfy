@@ -1552,10 +1552,10 @@ module DefaultKeyStorageInterface {
   {
     check(
       ConditionExpression :=
-        "attribute_exists(#pk) "
-        + "AND original = :original "
-        + "AND terminal = :terminal "
-        + "AND " + Structure.ENC_FIELD + " = :encOld",
+        "attribute_exists(#pk)"
+        + " AND original = :original"
+        + " AND terminal = :terminal"
+        + " AND " + Structure.ENC_FIELD + " = :encOld",
       ExpressionAttributeNames := map["#pk" := Structure.BRANCH_KEY_IDENTIFIER_FIELD], // "#pk":="branch-key-id"
       ExpressionAttributeValues :=
         map[
@@ -1595,9 +1595,9 @@ module DefaultKeyStorageInterface {
   {
     check(
       ConditionExpression :=
-        "attribute_exists(#pk) "
-        + "AND " + Structure.M_PAGE_INDEX + " = :" + Structure.M_PAGE_INDEX + "Old"
-        + "AND " + Structure.ENC_FIELD + " = :" + Structure.ENC_FIELD + "Old",
+        "attribute_exists(#pk)"
+        + " AND " + Structure.M_PAGE_INDEX + " = :" + Structure.M_PAGE_INDEX + "Old"
+        + " AND " + Structure.ENC_FIELD + " = :" + Structure.ENC_FIELD + "Old",
       ExpressionAttributeNames := map["#pk" := Structure.BRANCH_KEY_IDENTIFIER_FIELD], // "#pk":="branch-key-id"
       ExpressionAttributeValues :=
         map[
