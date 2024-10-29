@@ -7,7 +7,7 @@ require github.com/dafny-lang/DafnyStandardLibGo v0.0.0
 require (
 	github.com/aws/aws-cryptographic-material-providers-library/dynamodb v0.0.0-00010101000000-000000000000
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.35.1
-	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.7.0
+	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.8.0
 )
 
 require (
