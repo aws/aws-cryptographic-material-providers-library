@@ -9267,7 +9267,7 @@ namespace Com.Amazonaws.Dynamodb
         public static System.DateTime FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S14_ExportFromTime(Dafny.ISequence<char> value)
         {
             string timestampString = new string(value.Elements);
-            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }, System.Globalization.CultureInfo.InvariantCulture);
+            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }.ToString(), System.Globalization.CultureInfo.InvariantCulture);
 
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S14_ExportFromTime(System.DateTime value)
