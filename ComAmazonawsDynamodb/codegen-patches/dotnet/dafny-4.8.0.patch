@@ -133,11 +133,10 @@ unchanged:
          }
          public static string FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S30_LocalSecondaryIndexDescription__M9_IndexName(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
          {
-only in patch2:
-unchanged:
---- a/ComAmazonawsDynamodb/runtimes/net/Generated/TypeConversion.cs
+diff -u b/ComAmazonawsDynamodb/runtimes/net/Generated/TypeConversion.cs b/ComAmazonawsDynamodb/runtimes/net/Generated/TypeConversion.cs
+--- b/ComAmazonawsDynamodb/runtimes/net/Generated/TypeConversion.cs
 +++ b/ComAmazonawsDynamodb/runtimes/net/Generated/TypeConversion.cs
-@@ -9267,7 +9267,7 @@ namespace Com.Amazonaws.Dynamodb
+@@ -9267,7 +9267,7 @@
          public static System.DateTime FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S14_ExportFromTime(Dafny.ISequence<char> value)
          {
              string timestampString = new string(value.Elements);
@@ -146,3 +145,12 @@ unchanged:
  
          }
          public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S14_ExportFromTime(System.DateTime value)
+@@ -9279,7 +9279,7 @@
+         public static System.DateTime FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S12_ExportToTime(Dafny.ISequence<char> value)
+         {
+             string timestampString = new string(value.Elements);
+-            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }, System.Globalization.CultureInfo.InvariantCulture);
++            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }.ToString(), System.Globalization.CultureInfo.InvariantCulture);
+ 
+         }
+         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S12_ExportToTime(System.DateTime value)
