@@ -2,19 +2,19 @@
 // SPDX-License-Identifier: Apache-2.0
 package software.amazon.cryptography.example.hierarchy;
 
-import static software.amazon.cryptography.example.Fixtures.MRK_ARN_WEST;
-import static software.amazon.cryptography.example.Fixtures.POSTAL_HORN_KEY_ARN;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.awssdk.services.kms.model.KmsException;
 import software.amazon.cryptography.example.CredentialUtils;
 import software.amazon.cryptography.example.Fixtures;
+import software.amazon.cryptography.example.StorageCheater;
 import software.amazon.cryptography.keystore.KeyStorageInterface;
 import software.amazon.cryptography.keystore.model.QueryForVersionsInput;
 import software.amazon.cryptography.keystore.model.QueryForVersionsOutput;
@@ -31,9 +31,12 @@ import software.amazon.cryptography.keystoreadmin.model.MutationToException;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
 
-public class MutationKmsAccessInFlightTest {
+import static software.amazon.cryptography.example.Fixtures.MRK_ARN_WEST;
+import static software.amazon.cryptography.example.Fixtures.POSTAL_HORN_KEY_ARN;
 
-  static final String testPrefix = "mutation-kms-access-in-flight-test-";
+public class MutationKmsAccessOriginalInFlightTest {
+
+  static final String testPrefix = "mutation-kms-access-in-flight-original-test-";
 
   @Test
   public void test() {
@@ -47,11 +50,11 @@ public class MutationKmsAccessInFlightTest {
     CreateKeyExample.CreateKey(
       Fixtures.TEST_KEYSTORE_NAME,
       Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
-      POSTAL_HORN_KEY_ARN,
+        MRK_ARN_WEST,
       branchKeyId,
       Fixtures.ddbClientWest2
     );
-    KeyManagementStrategy strategyWest2 = AdminProvider.strategy(
+    KeyManagementStrategy strategyAll = AdminProvider.strategy(
       Fixtures.kmsClientWest2
     );
     KmsClient denyMrk = KmsClient
@@ -83,14 +86,14 @@ public class MutationKmsAccessInFlightTest {
     Mutations mutations = Mutations
       .builder()
       .TerminalEncryptionContext(terminalEC)
-      .TerminalKmsArn(MRK_ARN_WEST)
+      .TerminalKmsArn(POSTAL_HORN_KEY_ARN)
       .build();
 
     InitializeMutationInput initInput = InitializeMutationInput
       .builder()
       .Mutations(mutations)
       .Identifier(branchKeyId)
-      .Strategy(strategyWest2)
+      .Strategy(strategyAll)
       .build();
 
     InitializeMutationOutput initOutput = admin.InitializeMutation(initInput);
@@ -147,7 +150,12 @@ public class MutationKmsAccessInFlightTest {
               .contains("while verifying a Version with terminal properities");
           verifyTerminalThrown = verifyTerminalThrown || isTo;
         }
-
+          if (accessDenied instanceof MutationFromException) {
+              boolean isFrom =
+                  ((MutationFromException) accessDenied).getMessage()
+                      .contains("while verifying a Version with terminal properities");
+              verifyTerminalThrown = verifyTerminalThrown || isFrom;
+          }
         if (accessDenied instanceof KmsException) {
           boolean isFrom = accessDenied.getMessage().contains("ReEncryptFrom");
           isFromThrown = isFromThrown || isFrom;

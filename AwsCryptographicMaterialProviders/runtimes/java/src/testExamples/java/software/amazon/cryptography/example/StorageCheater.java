@@ -1,6 +1,6 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
-package software.amazon.cryptography.example.hierarchy;
+package software.amazon.cryptography.example;
 
 import static software.amazon.cryptography.services.dynamodb.internaldafny.ToDafny.DynamoDB_20120810;
 import static software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence;
