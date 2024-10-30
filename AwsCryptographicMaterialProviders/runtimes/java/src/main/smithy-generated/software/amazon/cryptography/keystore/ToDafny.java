@@ -78,8 +78,10 @@ import software.amazon.cryptography.keystore.internaldafny.types.VersionKeyInput
 import software.amazon.cryptography.keystore.internaldafny.types.VersionKeyOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteAtomicMutationInput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteAtomicMutationOutput;
+import software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationIndex;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationInput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationOutput;
+import software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationVersion;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteMutatedVersionsInput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteMutatedVersionsOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteNewEncryptedBranchKeyInput;
@@ -983,24 +985,10 @@ public class ToDafny {
   public static WriteAtomicMutationInput WriteAtomicMutationInput(
     software.amazon.cryptography.keystore.model.WriteAtomicMutationInput nativeValue
   ) {
-    Option<OverWriteEncryptedHierarchicalKey> active;
-    active =
-      Objects.nonNull(nativeValue.Active())
-        ? Option.create_Some(
-          OverWriteEncryptedHierarchicalKey._typeDescriptor(),
-          ToDafny.OverWriteEncryptedHierarchicalKey(nativeValue.Active())
-        )
-        : Option.create_None(
-          OverWriteEncryptedHierarchicalKey._typeDescriptor()
-        );
-    Option<EncryptedHierarchicalKey> version;
-    version =
-      Objects.nonNull(nativeValue.Version())
-        ? Option.create_Some(
-          EncryptedHierarchicalKey._typeDescriptor(),
-          ToDafny.EncryptedHierarchicalKey(nativeValue.Version())
-        )
-        : Option.create_None(EncryptedHierarchicalKey._typeDescriptor());
+    OverWriteEncryptedHierarchicalKey active;
+    active = ToDafny.OverWriteEncryptedHierarchicalKey(nativeValue.Active());
+    WriteInitializeMutationVersion version;
+    version = ToDafny.WriteInitializeMutationVersion(nativeValue.Version());
     OverWriteEncryptedHierarchicalKey beacon;
     beacon = ToDafny.OverWriteEncryptedHierarchicalKey(nativeValue.Beacon());
     DafnySequence<? extends OverWriteEncryptedHierarchicalKey> items;
@@ -1017,31 +1005,24 @@ public class ToDafny {
   public static WriteInitializeMutationInput WriteInitializeMutationInput(
     software.amazon.cryptography.keystore.model.WriteInitializeMutationInput nativeValue
   ) {
-    Option<OverWriteEncryptedHierarchicalKey> active;
-    active =
-      Objects.nonNull(nativeValue.Active())
-        ? Option.create_Some(
-          OverWriteEncryptedHierarchicalKey._typeDescriptor(),
-          ToDafny.OverWriteEncryptedHierarchicalKey(nativeValue.Active())
-        )
-        : Option.create_None(
-          OverWriteEncryptedHierarchicalKey._typeDescriptor()
-        );
-    Option<EncryptedHierarchicalKey> version;
+    OverWriteEncryptedHierarchicalKey active;
+    active = ToDafny.OverWriteEncryptedHierarchicalKey(nativeValue.Active());
+    Option<WriteInitializeMutationVersion> version;
     version =
       Objects.nonNull(nativeValue.Version())
         ? Option.create_Some(
-          EncryptedHierarchicalKey._typeDescriptor(),
-          ToDafny.EncryptedHierarchicalKey(nativeValue.Version())
+          WriteInitializeMutationVersion._typeDescriptor(),
+          ToDafny.WriteInitializeMutationVersion(nativeValue.Version())
         )
-        : Option.create_None(EncryptedHierarchicalKey._typeDescriptor());
+        : Option.create_None(WriteInitializeMutationVersion._typeDescriptor());
     OverWriteEncryptedHierarchicalKey beacon;
     beacon = ToDafny.OverWriteEncryptedHierarchicalKey(nativeValue.Beacon());
     MutationCommitment mutationCommitment;
     mutationCommitment =
       ToDafny.MutationCommitment(nativeValue.MutationCommitment());
-    MutationIndex mutationIndex;
-    mutationIndex = ToDafny.MutationIndex(nativeValue.MutationIndex());
+    WriteInitializeMutationIndex mutationIndex;
+    mutationIndex =
+      ToDafny.WriteInitializeMutationIndex(nativeValue.MutationIndex());
     return new WriteInitializeMutationInput(
       active,
       version,
@@ -1282,6 +1263,46 @@ public class ToDafny {
       "Cannot convert " +
       nativeValue +
       " to software.amazon.cryptography.keystore.internaldafny.types.Storage."
+    );
+  }
+
+  public static WriteInitializeMutationIndex WriteInitializeMutationIndex(
+    software.amazon.cryptography.keystore.model.WriteInitializeMutationIndex nativeValue
+  ) {
+    if (Objects.nonNull(nativeValue.create())) {
+      return WriteInitializeMutationIndex.create_create(
+        ToDafny.MutationIndex(nativeValue.create())
+      );
+    }
+    if (Objects.nonNull(nativeValue.update())) {
+      return WriteInitializeMutationIndex.create_update(
+        ToDafny.OverWriteMutationIndex(nativeValue.update())
+      );
+    }
+    throw new IllegalArgumentException(
+      "Cannot convert " +
+      nativeValue +
+      " to software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationIndex."
+    );
+  }
+
+  public static WriteInitializeMutationVersion WriteInitializeMutationVersion(
+    software.amazon.cryptography.keystore.model.WriteInitializeMutationVersion nativeValue
+  ) {
+    if (Objects.nonNull(nativeValue.rotate())) {
+      return WriteInitializeMutationVersion.create_rotate(
+        ToDafny.EncryptedHierarchicalKey(nativeValue.rotate())
+      );
+    }
+    if (Objects.nonNull(nativeValue.mutate())) {
+      return WriteInitializeMutationVersion.create_mutate(
+        ToDafny.OverWriteEncryptedHierarchicalKey(nativeValue.mutate())
+      );
+    }
+    throw new IllegalArgumentException(
+      "Cannot convert " +
+      nativeValue +
+      " to software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationVersion."
     );
   }
 

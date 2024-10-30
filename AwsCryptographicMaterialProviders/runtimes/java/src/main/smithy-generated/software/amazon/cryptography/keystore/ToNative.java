@@ -84,8 +84,10 @@ import software.amazon.cryptography.keystore.model.VersionKeyOutput;
 import software.amazon.cryptography.keystore.model.VersionRaceException;
 import software.amazon.cryptography.keystore.model.WriteAtomicMutationInput;
 import software.amazon.cryptography.keystore.model.WriteAtomicMutationOutput;
+import software.amazon.cryptography.keystore.model.WriteInitializeMutationIndex;
 import software.amazon.cryptography.keystore.model.WriteInitializeMutationInput;
 import software.amazon.cryptography.keystore.model.WriteInitializeMutationOutput;
+import software.amazon.cryptography.keystore.model.WriteInitializeMutationVersion;
 import software.amazon.cryptography.keystore.model.WriteMutatedVersionsInput;
 import software.amazon.cryptography.keystore.model.WriteMutatedVersionsOutput;
 import software.amazon.cryptography.keystore.model.WriteNewEncryptedBranchKeyInput;
@@ -1000,20 +1002,12 @@ public class ToNative {
   ) {
     WriteAtomicMutationInput.Builder nativeBuilder =
       WriteAtomicMutationInput.builder();
-    if (dafnyValue.dtor_Active().is_Some()) {
-      nativeBuilder.Active(
-        ToNative.OverWriteEncryptedHierarchicalKey(
-          dafnyValue.dtor_Active().dtor_value()
-        )
-      );
-    }
-    if (dafnyValue.dtor_Version().is_Some()) {
-      nativeBuilder.Version(
-        ToNative.EncryptedHierarchicalKey(
-          dafnyValue.dtor_Version().dtor_value()
-        )
-      );
-    }
+    nativeBuilder.Active(
+      ToNative.OverWriteEncryptedHierarchicalKey(dafnyValue.dtor_Active())
+    );
+    nativeBuilder.Version(
+      ToNative.WriteInitializeMutationVersion(dafnyValue.dtor_Version())
+    );
     nativeBuilder.Beacon(
       ToNative.OverWriteEncryptedHierarchicalKey(dafnyValue.dtor_Beacon())
     );
@@ -1036,16 +1030,12 @@ public class ToNative {
   ) {
     WriteInitializeMutationInput.Builder nativeBuilder =
       WriteInitializeMutationInput.builder();
-    if (dafnyValue.dtor_Active().is_Some()) {
-      nativeBuilder.Active(
-        ToNative.OverWriteEncryptedHierarchicalKey(
-          dafnyValue.dtor_Active().dtor_value()
-        )
-      );
-    }
+    nativeBuilder.Active(
+      ToNative.OverWriteEncryptedHierarchicalKey(dafnyValue.dtor_Active())
+    );
     if (dafnyValue.dtor_Version().is_Some()) {
       nativeBuilder.Version(
-        ToNative.EncryptedHierarchicalKey(
+        ToNative.WriteInitializeMutationVersion(
           dafnyValue.dtor_Version().dtor_value()
         )
       );
@@ -1057,7 +1047,7 @@ public class ToNative {
       ToNative.MutationCommitment(dafnyValue.dtor_MutationCommitment())
     );
     nativeBuilder.MutationIndex(
-      ToNative.MutationIndex(dafnyValue.dtor_MutationIndex())
+      ToNative.WriteInitializeMutationIndex(dafnyValue.dtor_MutationIndex())
     );
     return nativeBuilder.build();
   }
@@ -1220,6 +1210,40 @@ public class ToNative {
     if (dafnyValue.is_custom()) {
       nativeBuilder.custom(
         ToNative.KeyStorageInterface(dafnyValue.dtor_custom())
+      );
+    }
+    return nativeBuilder.build();
+  }
+
+  public static WriteInitializeMutationIndex WriteInitializeMutationIndex(
+    software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationIndex dafnyValue
+  ) {
+    WriteInitializeMutationIndex.Builder nativeBuilder =
+      WriteInitializeMutationIndex.builder();
+    if (dafnyValue.is_create()) {
+      nativeBuilder.create(ToNative.MutationIndex(dafnyValue.dtor_create()));
+    }
+    if (dafnyValue.is_update()) {
+      nativeBuilder.update(
+        ToNative.OverWriteMutationIndex(dafnyValue.dtor_update())
+      );
+    }
+    return nativeBuilder.build();
+  }
+
+  public static WriteInitializeMutationVersion WriteInitializeMutationVersion(
+    software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationVersion dafnyValue
+  ) {
+    WriteInitializeMutationVersion.Builder nativeBuilder =
+      WriteInitializeMutationVersion.builder();
+    if (dafnyValue.is_rotate()) {
+      nativeBuilder.rotate(
+        ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_rotate())
+      );
+    }
+    if (dafnyValue.is_mutate()) {
+      nativeBuilder.mutate(
+        ToNative.OverWriteEncryptedHierarchicalKey(dafnyValue.dtor_mutate())
       );
     }
     return nativeBuilder.build();

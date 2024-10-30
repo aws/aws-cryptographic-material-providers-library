@@ -22,7 +22,7 @@ public class WriteAtomicMutationInput {
    *   generated with the Mutation's terminal properities.
    *   The plain-text cryptographic material of the `Version` must be the same as the `Active`.
    */
-  private final EncryptedHierarchicalKey Version;
+  private final WriteInitializeMutationVersion Version;
 
   /**
    *
@@ -60,7 +60,7 @@ public class WriteAtomicMutationInput {
    *   generated with the Mutation's terminal properities.
    *   The plain-text cryptographic material of the `Version` must be the same as the `Active`.
    */
-  public EncryptedHierarchicalKey Version() {
+  public WriteInitializeMutationVersion Version() {
     return this.Version;
   }
 
@@ -112,7 +112,7 @@ public class WriteAtomicMutationInput {
      *   generated with the Mutation's terminal properities.
      *   The plain-text cryptographic material of the `Version` must be the same as the `Active`.
      */
-    Builder Version(EncryptedHierarchicalKey Version);
+    Builder Version(WriteInitializeMutationVersion Version);
 
     /**
      * @return
@@ -120,7 +120,7 @@ public class WriteAtomicMutationInput {
      *   generated with the Mutation's terminal properities.
      *   The plain-text cryptographic material of the `Version` must be the same as the `Active`.
      */
-    EncryptedHierarchicalKey Version();
+    WriteInitializeMutationVersion Version();
 
     /**
      * @param Beacon
@@ -155,7 +155,7 @@ public class WriteAtomicMutationInput {
 
     protected OverWriteEncryptedHierarchicalKey Active;
 
-    protected EncryptedHierarchicalKey Version;
+    protected WriteInitializeMutationVersion Version;
 
     protected OverWriteEncryptedHierarchicalKey Beacon;
 
@@ -179,12 +179,12 @@ public class WriteAtomicMutationInput {
       return this.Active;
     }
 
-    public Builder Version(EncryptedHierarchicalKey Version) {
+    public Builder Version(WriteInitializeMutationVersion Version) {
       this.Version = Version;
       return this;
     }
 
-    public EncryptedHierarchicalKey Version() {
+    public WriteInitializeMutationVersion Version() {
       return this.Version;
     }
 
@@ -207,6 +207,16 @@ public class WriteAtomicMutationInput {
     }
 
     public WriteAtomicMutationInput build() {
+      if (Objects.isNull(this.Active())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `Active`"
+        );
+      }
+      if (Objects.isNull(this.Version())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `Version`"
+        );
+      }
       if (Objects.isNull(this.Beacon())) {
         throw new IllegalArgumentException(
           "Missing value for required field `Beacon`"

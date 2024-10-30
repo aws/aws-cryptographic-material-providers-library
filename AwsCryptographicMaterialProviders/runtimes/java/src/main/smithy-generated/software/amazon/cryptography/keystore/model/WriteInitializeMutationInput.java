@@ -21,7 +21,7 @@ public class WriteInitializeMutationInput {
    *   generated with the Mutation's terminal properities.
    *   The plain-text cryptographic material of the `Version` must be the same as the `Active`.
    */
-  private final EncryptedHierarchicalKey Version;
+  private final WriteInitializeMutationVersion Version;
 
   /**
    *
@@ -40,9 +40,9 @@ public class WriteInitializeMutationInput {
   private final MutationCommitment MutationCommitment;
 
   /**
-   * Information on an in-flight Mutation of a Branch Key.
+   * Write Initialize Mutation allows Mutations to either create or update the Index.
    */
-  private final MutationIndex MutationIndex;
+  private final WriteInitializeMutationIndex MutationIndex;
 
   protected WriteInitializeMutationInput(BuilderImpl builder) {
     this.Active = builder.Active();
@@ -68,7 +68,7 @@ public class WriteInitializeMutationInput {
    *   generated with the Mutation's terminal properities.
    *   The plain-text cryptographic material of the `Version` must be the same as the `Active`.
    */
-  public EncryptedHierarchicalKey Version() {
+  public WriteInitializeMutationVersion Version() {
     return this.Version;
   }
 
@@ -93,9 +93,9 @@ public class WriteInitializeMutationInput {
   }
 
   /**
-   * @return Information on an in-flight Mutation of a Branch Key.
+   * @return Write Initialize Mutation allows Mutations to either create or update the Index.
    */
-  public MutationIndex MutationIndex() {
+  public WriteInitializeMutationIndex MutationIndex() {
     return this.MutationIndex;
   }
 
@@ -130,7 +130,7 @@ public class WriteInitializeMutationInput {
      *   generated with the Mutation's terminal properities.
      *   The plain-text cryptographic material of the `Version` must be the same as the `Active`.
      */
-    Builder Version(EncryptedHierarchicalKey Version);
+    Builder Version(WriteInitializeMutationVersion Version);
 
     /**
      * @return
@@ -138,7 +138,7 @@ public class WriteInitializeMutationInput {
      *   generated with the Mutation's terminal properities.
      *   The plain-text cryptographic material of the `Version` must be the same as the `Active`.
      */
-    EncryptedHierarchicalKey Version();
+    WriteInitializeMutationVersion Version();
 
     /**
      * @param Beacon
@@ -173,14 +173,14 @@ public class WriteInitializeMutationInput {
     MutationCommitment MutationCommitment();
 
     /**
-     * @param MutationIndex Information on an in-flight Mutation of a Branch Key.
+     * @param MutationIndex Write Initialize Mutation allows Mutations to either create or update the Index.
      */
-    Builder MutationIndex(MutationIndex MutationIndex);
+    Builder MutationIndex(WriteInitializeMutationIndex MutationIndex);
 
     /**
-     * @return Information on an in-flight Mutation of a Branch Key.
+     * @return Write Initialize Mutation allows Mutations to either create or update the Index.
      */
-    MutationIndex MutationIndex();
+    WriteInitializeMutationIndex MutationIndex();
 
     WriteInitializeMutationInput build();
   }
@@ -189,13 +189,13 @@ public class WriteInitializeMutationInput {
 
     protected OverWriteEncryptedHierarchicalKey Active;
 
-    protected EncryptedHierarchicalKey Version;
+    protected WriteInitializeMutationVersion Version;
 
     protected OverWriteEncryptedHierarchicalKey Beacon;
 
     protected MutationCommitment MutationCommitment;
 
-    protected MutationIndex MutationIndex;
+    protected WriteInitializeMutationIndex MutationIndex;
 
     protected BuilderImpl() {}
 
@@ -216,12 +216,12 @@ public class WriteInitializeMutationInput {
       return this.Active;
     }
 
-    public Builder Version(EncryptedHierarchicalKey Version) {
+    public Builder Version(WriteInitializeMutationVersion Version) {
       this.Version = Version;
       return this;
     }
 
-    public EncryptedHierarchicalKey Version() {
+    public WriteInitializeMutationVersion Version() {
       return this.Version;
     }
 
@@ -243,16 +243,21 @@ public class WriteInitializeMutationInput {
       return this.MutationCommitment;
     }
 
-    public Builder MutationIndex(MutationIndex MutationIndex) {
+    public Builder MutationIndex(WriteInitializeMutationIndex MutationIndex) {
       this.MutationIndex = MutationIndex;
       return this;
     }
 
-    public MutationIndex MutationIndex() {
+    public WriteInitializeMutationIndex MutationIndex() {
       return this.MutationIndex;
     }
 
     public WriteInitializeMutationInput build() {
+      if (Objects.isNull(this.Active())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `Active`"
+        );
+      }
       if (Objects.isNull(this.Beacon())) {
         throw new IllegalArgumentException(
           "Missing value for required field `Beacon`"
