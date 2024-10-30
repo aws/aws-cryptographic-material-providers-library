@@ -2769,7 +2769,7 @@ def _write_initialize_mutation_index_from_dict(
 
 class WriteInitializeMutationInput:
     active: OverWriteEncryptedHierarchicalKey
-    version: Optional[WriteInitializeMutationVersion]
+    version: WriteInitializeMutationVersion
     beacon: OverWriteEncryptedHierarchicalKey
     mutation_commitment: MutationCommitment
     mutation_index: WriteInitializeMutationIndex
@@ -2778,10 +2778,10 @@ class WriteInitializeMutationInput:
         self,
         *,
         active: OverWriteEncryptedHierarchicalKey,
+        version: WriteInitializeMutationVersion,
         beacon: OverWriteEncryptedHierarchicalKey,
         mutation_commitment: MutationCommitment,
         mutation_index: WriteInitializeMutationIndex,
-        version: Optional[WriteInitializeMutationVersion] = None,
     ):
         """
         :param active:
@@ -2790,6 +2790,12 @@ class WriteInitializeMutationInput:
         the Mutation's terminal properities.
           The plain-text cryptographic material
         of the Active must be the same as the Version.
+        :param version:
+          The decrypt representation of this branch key version,
+
+        generated with the Mutation's terminal properities.
+          The plain-text
+        cryptographic material of the `Version` must be the same as the `Active`.
         :param beacon:
           The mutated HMAC key used to support searchable encryption.
 
@@ -2804,38 +2810,29 @@ class WriteInitializeMutationInput:
         items of a Branch Key are mutated consistently
         :param mutation_index: Write Initialize Mutation allows Mutations to either
         create or update the Index.
-        :param version:
-          The decrypt representation of this branch key version,
-
-        generated with the Mutation's terminal properities.
-          The plain-text
-        cryptographic material of the `Version` must be the same as the `Active`.
         """
         self.active = active
+        self.version = version
         self.beacon = beacon
         self.mutation_commitment = mutation_commitment
         self.mutation_index = mutation_index
-        self.version = version
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the WriteInitializeMutationInput to a dictionary."""
-        d: Dict[str, Any] = {
+        return {
             "active": self.active.as_dict(),
+            "version": self.version.as_dict(),
             "beacon": self.beacon.as_dict(),
             "mutation_commitment": self.mutation_commitment.as_dict(),
             "mutation_index": self.mutation_index.as_dict(),
         }
-
-        if self.version is not None:
-            d["version"] = self.version.as_dict()
-
-        return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "WriteInitializeMutationInput":
         """Creates a WriteInitializeMutationInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "active": OverWriteEncryptedHierarchicalKey.from_dict(d["active"]),
+            "version": _write_initialize_mutation_version_from_dict(d["version"]),
             "beacon": OverWriteEncryptedHierarchicalKey.from_dict(d["beacon"]),
             "mutation_commitment": MutationCommitment.from_dict(
                 d["mutation_commitment"]
@@ -2844,11 +2841,6 @@ class WriteInitializeMutationInput:
                 d["mutation_index"]
             ),
         }
-
-        if "version" in d:
-            kwargs["version"] = (
-                _write_initialize_mutation_version_from_dict(d["version"]),
-            )
 
         return WriteInitializeMutationInput(**kwargs)
 

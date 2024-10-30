@@ -1007,14 +1007,8 @@ public class ToDafny {
   ) {
     OverWriteEncryptedHierarchicalKey active;
     active = ToDafny.OverWriteEncryptedHierarchicalKey(nativeValue.Active());
-    Option<WriteInitializeMutationVersion> version;
-    version =
-      Objects.nonNull(nativeValue.Version())
-        ? Option.create_Some(
-          WriteInitializeMutationVersion._typeDescriptor(),
-          ToDafny.WriteInitializeMutationVersion(nativeValue.Version())
-        )
-        : Option.create_None(WriteInitializeMutationVersion._typeDescriptor());
+    WriteInitializeMutationVersion version;
+    version = ToDafny.WriteInitializeMutationVersion(nativeValue.Version());
     OverWriteEncryptedHierarchicalKey beacon;
     beacon = ToDafny.OverWriteEncryptedHierarchicalKey(nativeValue.Beacon());
     MutationCommitment mutationCommitment;

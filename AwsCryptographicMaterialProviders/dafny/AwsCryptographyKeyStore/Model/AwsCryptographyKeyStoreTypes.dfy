@@ -844,7 +844,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     | update(update: OverWriteMutationIndex)
   datatype WriteInitializeMutationInput = | WriteInitializeMutationInput (
     nameonly Active: OverWriteEncryptedHierarchicalKey ,
-    nameonly Version: Option<WriteInitializeMutationVersion> := Option.None ,
+    nameonly Version: WriteInitializeMutationVersion ,
     nameonly Beacon: OverWriteEncryptedHierarchicalKey ,
     nameonly MutationCommitment: MutationCommitment ,
     nameonly MutationIndex: WriteInitializeMutationIndex
