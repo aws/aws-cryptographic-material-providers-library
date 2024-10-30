@@ -1040,14 +1040,6 @@ module DefaultKeyStorageInterface {
       ensures ValidState() && unchanged(History)
       ensures WriteInitializeMutationEnsuresPublicly(input, output)
 
-      ensures
-        ((Structure.MutationCommitment?(input.MutationCommitment) && Structure.MutationIndex?(input.MutationIndex)) == false ==> output.Failure?)
-
-      ensures
-        && input.Active.Some?
-        ==>
-          ((&& input.Version.Some? && (forall k <- input.Version.value.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k)) && (forall k <- input.Active.value.Item.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))) == false ==> output.Failure?)
-
     {
       :- Need(
         Structure.MutationCommitment?(input.MutationCommitment),
@@ -1055,23 +1047,26 @@ module DefaultKeyStorageInterface {
           message := "Invalid mutation commitment."
         ));
       :- Need(
-        Structure.MutationIndex?(input.MutationIndex),
+        Structure.MutationIndex?(
+          if input.MutationIndex.create?
+          then input.MutationIndex.create
+          else input.MutationIndex.update.Index ),
         Types.KeyStorageException(
           message := "Invalid mutation index."
         ));
 
-      if (input.Version.None? || input.Active.None?) {
+      if (input.Version.mutate?) {
         return Failure(
             Types.KeyStorageException(
-              message := "At this time, a new version is required."
+              message := "At this time, only rotation is supported."
             ));
-      } else {
-        :- Need(
-          && (forall k <- input.Version.value.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
-          && (forall k <- input.Active.value.Item.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k)),
-          Types.KeyStorageException( message := ErrorMessages.ENCRYPTION_CONTEXT_EXCEEDS_DDB_LIMIT)
-        );
       }
+
+      :- Need(
+        && (forall k <- input.Version.rotate.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
+        && (forall k <- input.Active.Item.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k)),
+        Types.KeyStorageException( message := ErrorMessages.ENCRYPTION_CONTEXT_EXCEEDS_DDB_LIMIT)
+      );
 
         /** Validate Inputs can be mapped to DDB Items */
       :- Need(
@@ -1082,12 +1077,12 @@ module DefaultKeyStorageInterface {
       /** Convert Inputs to DDB Items.*/
       var items: DDB.TransactWriteItemList := [
         TransactCreateHKey(
-          input.Version.value,
+          input.Version.rotate,
           ddbTableName
         ),
         TransactOverwriteHKey(
-          input.Active.value.Item,
-          input.Active.value.Old,
+          input.Active.Item,
+          input.Active.Old,
           ddbTableName
         ),
         TransactOverwriteHKey(
@@ -1098,14 +1093,16 @@ module DefaultKeyStorageInterface {
         TransactCreateMutationCommitment(
           input.MutationCommitment,
           ddbTableName
-        ),
-        TransactCreateMutationIndex(
-          input.MutationIndex,
-          ddbTableName
         )
       ];
+      var indexAction := if input.MutationIndex.create?
+      then TransactCreateMutationIndex(input.MutationIndex.create, ddbTableName)
+      else TransactOverwriteMutationIndex(
+          input.MutationIndex.update.Index,
+          input.MutationIndex.update.Old,
+          ddbTableName);
       var transactRequest := DDB.TransactWriteItemsInput(
-        TransactItems := items
+        TransactItems := items + [indexAction]
       );
 
       var transactWriteItemsResponse? := ddbClient.TransactWriteItems(transactRequest);
@@ -1118,7 +1115,7 @@ module DefaultKeyStorageInterface {
                       e:=e,
                       storageOperation:="WriteInitializeMutation",
                       ddbOperation:="TransactWriteItems",
-                      identifier:=input.Active.value.Item.Identifier,
+                      identifier:=input.Active.Item.Identifier,
                       tableName:=ddbTableName));
       // This is a Smithy Modeled Operation; the output MUST be a Structure
       output := Success(Types.WriteInitializeMutationOutput());
