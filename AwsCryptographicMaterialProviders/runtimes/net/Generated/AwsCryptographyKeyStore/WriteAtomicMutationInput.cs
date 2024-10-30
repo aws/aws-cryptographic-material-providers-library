@@ -8,7 +8,7 @@ namespace AWS.Cryptography.KeyStore
   public class WriteAtomicMutationInput
   {
     private AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey _active;
-    private AWS.Cryptography.KeyStore.EncryptedHierarchicalKey _version;
+    private AWS.Cryptography.KeyStore.WriteInitializeMutationVersion _version;
     private AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey _beacon;
     private System.Collections.Generic.List<AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey> _items;
     public AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey Active
@@ -20,7 +20,7 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._active != null;
     }
-    public AWS.Cryptography.KeyStore.EncryptedHierarchicalKey Version
+    public AWS.Cryptography.KeyStore.WriteInitializeMutationVersion Version
     {
       get { return this._version; }
       set { this._version = value; }
@@ -49,6 +49,8 @@ namespace AWS.Cryptography.KeyStore
     }
     public void Validate()
     {
+      if (!IsSetActive()) throw new System.ArgumentException("Missing value for required property 'Active'");
+      if (!IsSetVersion()) throw new System.ArgumentException("Missing value for required property 'Version'");
       if (!IsSetBeacon()) throw new System.ArgumentException("Missing value for required property 'Beacon'");
       if (!IsSetItems()) throw new System.ArgumentException("Missing value for required property 'Items'");
 

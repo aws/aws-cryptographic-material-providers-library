@@ -831,24 +831,30 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
 
                               )
   datatype WriteAtomicMutationInput = | WriteAtomicMutationInput (
-    nameonly Active: Option<OverWriteEncryptedHierarchicalKey> := Option.None ,
-    nameonly Version: Option<EncryptedHierarchicalKey> := Option.None ,
+    nameonly Active: OverWriteEncryptedHierarchicalKey ,
+    nameonly Version: WriteInitializeMutationVersion ,
     nameonly Beacon: OverWriteEncryptedHierarchicalKey ,
     nameonly Items: OverWriteEncryptedHierarchicalKeys
   )
   datatype WriteAtomicMutationOutput = | WriteAtomicMutationOutput (
 
                                        )
+  datatype WriteInitializeMutationIndex =
+    | create(create: MutationIndex)
+    | update(update: OverWriteMutationIndex)
   datatype WriteInitializeMutationInput = | WriteInitializeMutationInput (
-    nameonly Active: Option<OverWriteEncryptedHierarchicalKey> := Option.None ,
-    nameonly Version: Option<EncryptedHierarchicalKey> := Option.None ,
+    nameonly Active: OverWriteEncryptedHierarchicalKey ,
+    nameonly Version: Option<WriteInitializeMutationVersion> := Option.None ,
     nameonly Beacon: OverWriteEncryptedHierarchicalKey ,
     nameonly MutationCommitment: MutationCommitment ,
-    nameonly MutationIndex: MutationIndex
+    nameonly MutationIndex: WriteInitializeMutationIndex
   )
   datatype WriteInitializeMutationOutput = | WriteInitializeMutationOutput (
 
                                            )
+  datatype WriteInitializeMutationVersion =
+    | rotate(rotate: EncryptedHierarchicalKey)
+    | mutate(mutate: OverWriteEncryptedHierarchicalKey)
   datatype WriteMutatedVersionsInput = | WriteMutatedVersionsInput (
     nameonly Items: OverWriteEncryptedHierarchicalKeys ,
     nameonly MutationCommitment: MutationCommitment ,

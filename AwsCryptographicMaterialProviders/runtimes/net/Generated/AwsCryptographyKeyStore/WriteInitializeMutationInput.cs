@@ -8,10 +8,10 @@ namespace AWS.Cryptography.KeyStore
   public class WriteInitializeMutationInput
   {
     private AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey _active;
-    private AWS.Cryptography.KeyStore.EncryptedHierarchicalKey _version;
+    private AWS.Cryptography.KeyStore.WriteInitializeMutationVersion _version;
     private AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey _beacon;
     private AWS.Cryptography.KeyStore.MutationCommitment _mutationCommitment;
-    private AWS.Cryptography.KeyStore.MutationIndex _mutationIndex;
+    private AWS.Cryptography.KeyStore.WriteInitializeMutationIndex _mutationIndex;
     public AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey Active
     {
       get { return this._active; }
@@ -21,7 +21,7 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._active != null;
     }
-    public AWS.Cryptography.KeyStore.EncryptedHierarchicalKey Version
+    public AWS.Cryptography.KeyStore.WriteInitializeMutationVersion Version
     {
       get { return this._version; }
       set { this._version = value; }
@@ -48,7 +48,7 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._mutationCommitment != null;
     }
-    public AWS.Cryptography.KeyStore.MutationIndex MutationIndex
+    public AWS.Cryptography.KeyStore.WriteInitializeMutationIndex MutationIndex
     {
       get { return this._mutationIndex; }
       set { this._mutationIndex = value; }
@@ -59,6 +59,7 @@ namespace AWS.Cryptography.KeyStore
     }
     public void Validate()
     {
+      if (!IsSetActive()) throw new System.ArgumentException("Missing value for required property 'Active'");
       if (!IsSetBeacon()) throw new System.ArgumentException("Missing value for required property 'Beacon'");
       if (!IsSetMutationCommitment()) throw new System.ArgumentException("Missing value for required property 'MutationCommitment'");
       if (!IsSetMutationIndex()) throw new System.ArgumentException("Missing value for required property 'MutationIndex'");
