@@ -478,16 +478,8 @@ def aws_cryptography_keystore_WriteInitializeMutationInput(native_input):
         Active=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_OverWriteEncryptedHierarchicalKey(
             native_input.active
         ),
-        Version=(
-            (
-                Option_Some(
-                    aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteInitializeMutationVersion(
-                        native_input.version
-                    )
-                )
-            )
-            if (native_input.version is not None)
-            else (Option_None())
+        Version=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteInitializeMutationVersion(
+            native_input.version
         ),
         Beacon=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_OverWriteEncryptedHierarchicalKey(
             native_input.beacon

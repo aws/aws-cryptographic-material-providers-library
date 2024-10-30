@@ -1033,13 +1033,9 @@ public class ToNative {
     nativeBuilder.Active(
       ToNative.OverWriteEncryptedHierarchicalKey(dafnyValue.dtor_Active())
     );
-    if (dafnyValue.dtor_Version().is_Some()) {
-      nativeBuilder.Version(
-        ToNative.WriteInitializeMutationVersion(
-          dafnyValue.dtor_Version().dtor_value()
-        )
-      );
-    }
+    nativeBuilder.Version(
+      ToNative.WriteInitializeMutationVersion(dafnyValue.dtor_Version())
+    );
     nativeBuilder.Beacon(
       ToNative.OverWriteEncryptedHierarchicalKey(dafnyValue.dtor_Beacon())
     );

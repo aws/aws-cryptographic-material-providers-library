@@ -258,6 +258,11 @@ public class WriteInitializeMutationInput {
           "Missing value for required field `Active`"
         );
       }
+      if (Objects.isNull(this.Version())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `Version`"
+        );
+      }
       if (Objects.isNull(this.Beacon())) {
         throw new IllegalArgumentException(
           "Missing value for required field `Beacon`"

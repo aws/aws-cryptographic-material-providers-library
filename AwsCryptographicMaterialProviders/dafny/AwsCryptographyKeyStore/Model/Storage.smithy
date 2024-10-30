@@ -501,8 +501,8 @@ structure WriteInitializeMutationInput {
   The active representation of this branch key,
   generated with the Mutation's terminal properities.  
   The plain-text cryptographic material of the Active must be the same as the Version.")
-  @required
   Active: OverWriteEncryptedHierarchicalKey,
+  @required
   @documentation("
   The decrypt representation of this branch key version,
   generated with the Mutation's terminal properities.  

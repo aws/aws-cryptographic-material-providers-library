@@ -60,6 +60,7 @@ namespace AWS.Cryptography.KeyStore
     public void Validate()
     {
       if (!IsSetActive()) throw new System.ArgumentException("Missing value for required property 'Active'");
+      if (!IsSetVersion()) throw new System.ArgumentException("Missing value for required property 'Version'");
       if (!IsSetBeacon()) throw new System.ArgumentException("Missing value for required property 'Beacon'");
       if (!IsSetMutationCommitment()) throw new System.ArgumentException("Missing value for required property 'MutationCommitment'");
       if (!IsSetMutationIndex()) throw new System.ArgumentException("Missing value for required property 'MutationIndex'");
