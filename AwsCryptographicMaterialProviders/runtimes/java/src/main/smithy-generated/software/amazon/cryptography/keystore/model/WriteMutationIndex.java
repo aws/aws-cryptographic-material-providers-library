@@ -6,9 +6,9 @@ package software.amazon.cryptography.keystore.model;
 import java.util.Objects;
 
 /**
- * Write Initialize Mutation allows Mutations to either create or update the Index.
+ * Write Mutation Index allows Operations to either create or update the Index.
  */
-public class WriteInitializeMutationIndex {
+public class WriteMutationIndex {
 
   /**
    * Information on an in-flight Mutation of a Branch Key.
@@ -21,7 +21,7 @@ public class WriteInitializeMutationIndex {
    */
   private final OverWriteMutationIndex update;
 
-  protected WriteInitializeMutationIndex(BuilderImpl builder) {
+  protected WriteMutationIndex(BuilderImpl builder) {
     this.create = builder.create();
     this.update = builder.update();
   }
@@ -72,7 +72,7 @@ public class WriteInitializeMutationIndex {
      */
     OverWriteMutationIndex update();
 
-    WriteInitializeMutationIndex build();
+    WriteMutationIndex build();
   }
 
   static class BuilderImpl implements Builder {
@@ -83,7 +83,7 @@ public class WriteInitializeMutationIndex {
 
     protected BuilderImpl() {}
 
-    protected BuilderImpl(WriteInitializeMutationIndex model) {
+    protected BuilderImpl(WriteMutationIndex model) {
       this.create = model.create();
       this.update = model.update();
     }
@@ -106,13 +106,13 @@ public class WriteInitializeMutationIndex {
       return this.update;
     }
 
-    public WriteInitializeMutationIndex build() {
+    public WriteMutationIndex build() {
       if (!onlyOneNonNull()) {
         throw new IllegalArgumentException(
-          "`WriteInitializeMutationIndex` is a Union. A Union MUST have one and only one value set."
+          "`WriteMutationIndex` is a Union. A Union MUST have one and only one value set."
         );
       }
-      return new WriteInitializeMutationIndex(this);
+      return new WriteMutationIndex(this);
     }
 
     private boolean onlyOneNonNull() {

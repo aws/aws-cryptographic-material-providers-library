@@ -6,7 +6,7 @@ package software.amazon.cryptography.keystore.model;
 import java.util.Objects;
 
 /**
- * Write Initialize Mutation allows Mutations to either rotate/version or simply mutate the Active.
+ * Write Initialize Mutation allows Operations to either rotate/version or simply mutate the Active.
  */
 public class WriteInitializeMutationVersion {
 

@@ -78,12 +78,12 @@ import software.amazon.cryptography.keystore.internaldafny.types.VersionKeyInput
 import software.amazon.cryptography.keystore.internaldafny.types.VersionKeyOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteAtomicMutationInput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteAtomicMutationOutput;
-import software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationIndex;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationInput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationVersion;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteMutatedVersionsInput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteMutatedVersionsOutput;
+import software.amazon.cryptography.keystore.internaldafny.types.WriteMutationIndex;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteNewEncryptedBranchKeyInput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteNewEncryptedBranchKeyOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteNewEncryptedBranchKeyVersionInput;
@@ -1028,9 +1028,8 @@ public class ToDafny {
     MutationCommitment mutationCommitment;
     mutationCommitment =
       ToDafny.MutationCommitment(nativeValue.MutationCommitment());
-    WriteInitializeMutationIndex mutationIndex;
-    mutationIndex =
-      ToDafny.WriteInitializeMutationIndex(nativeValue.MutationIndex());
+    WriteMutationIndex mutationIndex;
+    mutationIndex = ToDafny.WriteMutationIndex(nativeValue.MutationIndex());
     return new WriteInitializeMutationInput(
       active,
       version,
@@ -1054,8 +1053,8 @@ public class ToDafny {
     MutationCommitment mutationCommitment;
     mutationCommitment =
       ToDafny.MutationCommitment(nativeValue.MutationCommitment());
-    OverWriteMutationIndex mutationIndex;
-    mutationIndex = ToDafny.OverWriteMutationIndex(nativeValue.MutationIndex());
+    WriteMutationIndex mutationIndex;
+    mutationIndex = ToDafny.WriteMutationIndex(nativeValue.MutationIndex());
     Boolean endMutation;
     endMutation = (nativeValue.EndMutation());
     return new WriteMutatedVersionsInput(
@@ -1274,26 +1273,6 @@ public class ToDafny {
     );
   }
 
-  public static WriteInitializeMutationIndex WriteInitializeMutationIndex(
-    software.amazon.cryptography.keystore.model.WriteInitializeMutationIndex nativeValue
-  ) {
-    if (Objects.nonNull(nativeValue.create())) {
-      return WriteInitializeMutationIndex.create_create(
-        ToDafny.MutationIndex(nativeValue.create())
-      );
-    }
-    if (Objects.nonNull(nativeValue.update())) {
-      return WriteInitializeMutationIndex.create_update(
-        ToDafny.OverWriteMutationIndex(nativeValue.update())
-      );
-    }
-    throw new IllegalArgumentException(
-      "Cannot convert " +
-      nativeValue +
-      " to software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationIndex."
-    );
-  }
-
   public static WriteInitializeMutationVersion WriteInitializeMutationVersion(
     software.amazon.cryptography.keystore.model.WriteInitializeMutationVersion nativeValue
   ) {
@@ -1311,6 +1290,26 @@ public class ToDafny {
       "Cannot convert " +
       nativeValue +
       " to software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationVersion."
+    );
+  }
+
+  public static WriteMutationIndex WriteMutationIndex(
+    software.amazon.cryptography.keystore.model.WriteMutationIndex nativeValue
+  ) {
+    if (Objects.nonNull(nativeValue.create())) {
+      return WriteMutationIndex.create_create(
+        ToDafny.MutationIndex(nativeValue.create())
+      );
+    }
+    if (Objects.nonNull(nativeValue.update())) {
+      return WriteMutationIndex.create_update(
+        ToDafny.OverWriteMutationIndex(nativeValue.update())
+      );
+    }
+    throw new IllegalArgumentException(
+      "Cannot convert " +
+      nativeValue +
+      " to software.amazon.cryptography.keystore.internaldafny.types.WriteMutationIndex."
     );
   }
 

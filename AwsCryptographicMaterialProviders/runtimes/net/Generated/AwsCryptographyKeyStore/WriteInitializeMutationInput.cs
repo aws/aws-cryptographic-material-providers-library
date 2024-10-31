@@ -11,7 +11,7 @@ namespace AWS.Cryptography.KeyStore
     private AWS.Cryptography.KeyStore.WriteInitializeMutationVersion _version;
     private AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey _beacon;
     private AWS.Cryptography.KeyStore.MutationCommitment _mutationCommitment;
-    private AWS.Cryptography.KeyStore.WriteInitializeMutationIndex _mutationIndex;
+    private AWS.Cryptography.KeyStore.WriteMutationIndex _mutationIndex;
     public AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey Active
     {
       get { return this._active; }
@@ -48,7 +48,7 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._mutationCommitment != null;
     }
-    public AWS.Cryptography.KeyStore.WriteInitializeMutationIndex MutationIndex
+    public AWS.Cryptography.KeyStore.WriteMutationIndex MutationIndex
     {
       get { return this._mutationIndex; }
       set { this._mutationIndex = value; }
