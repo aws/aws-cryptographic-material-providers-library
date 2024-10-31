@@ -1402,36 +1402,7 @@ public class ToDafny {
         : Option.create_None(
           DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
         );
-    Option<
-      DafnyMap<
-        ? extends DafnySequence<? extends Character>,
-        ? extends AttributeValue
-      >
-    > item;
-    item =
-      (Objects.nonNull(nativeValue.item()) && nativeValue.item().size() > 0)
-        ? Option.create_Some(
-          TypeDescriptor.referenceWithInitializer(
-            dafny.DafnyMap.class,
-            () ->
-              dafny.DafnyMap.<
-                dafny.DafnySequence<? extends Character>,
-                AttributeValue
-              >empty()
-          ),
-          ToDafny.AttributeMap(nativeValue.item())
-        )
-        : Option.create_None(
-          TypeDescriptor.referenceWithInitializer(
-            dafny.DafnyMap.class,
-            () ->
-              dafny.DafnyMap.<
-                dafny.DafnySequence<? extends Character>,
-                AttributeValue
-              >empty()
-          )
-        );
-    return new BatchStatementError(code, message, item);
+    return new BatchStatementError(code, message);
   }
 
   public static BatchStatementRequest BatchStatementRequest(
@@ -1461,26 +1432,7 @@ public class ToDafny {
           (nativeValue.consistentRead())
         )
         : Option.create_None(TypeDescriptor.BOOLEAN);
-    Option<
-      ReturnValuesOnConditionCheckFailure
-    > returnValuesOnConditionCheckFailure;
-    returnValuesOnConditionCheckFailure =
-      Objects.nonNull(nativeValue.returnValuesOnConditionCheckFailure())
-        ? Option.create_Some(
-          ReturnValuesOnConditionCheckFailure._typeDescriptor(),
-          ToDafny.ReturnValuesOnConditionCheckFailure(
-            nativeValue.returnValuesOnConditionCheckFailure()
-          )
-        )
-        : Option.create_None(
-          ReturnValuesOnConditionCheckFailure._typeDescriptor()
-        );
-    return new BatchStatementRequest(
-      statement,
-      parameters,
-      consistentRead,
-      returnValuesOnConditionCheckFailure
-    );
+    return new BatchStatementRequest(statement, parameters, consistentRead);
   }
 
   public static BatchStatementResponse BatchStatementResponse(
@@ -2762,20 +2714,6 @@ public class ToDafny {
             AttributeValue._typeDescriptor()
           )
         );
-    Option<
-      ReturnValuesOnConditionCheckFailure
-    > returnValuesOnConditionCheckFailure;
-    returnValuesOnConditionCheckFailure =
-      Objects.nonNull(nativeValue.returnValuesOnConditionCheckFailure())
-        ? Option.create_Some(
-          ReturnValuesOnConditionCheckFailure._typeDescriptor(),
-          ToDafny.ReturnValuesOnConditionCheckFailure(
-            nativeValue.returnValuesOnConditionCheckFailure()
-          )
-        )
-        : Option.create_None(
-          ReturnValuesOnConditionCheckFailure._typeDescriptor()
-        );
     return new DeleteItemInput(
       tableName,
       key,
@@ -2786,8 +2724,7 @@ public class ToDafny {
       returnItemCollectionMetrics,
       conditionExpression,
       expressionAttributeNames,
-      expressionAttributeValues,
-      returnValuesOnConditionCheckFailure
+      expressionAttributeValues
     );
   }
 
@@ -3696,28 +3633,13 @@ public class ToDafny {
       Objects.nonNull(nativeValue.limit())
         ? Option.create_Some(TypeDescriptor.INT, (nativeValue.limit()))
         : Option.create_None(TypeDescriptor.INT);
-    Option<
-      ReturnValuesOnConditionCheckFailure
-    > returnValuesOnConditionCheckFailure;
-    returnValuesOnConditionCheckFailure =
-      Objects.nonNull(nativeValue.returnValuesOnConditionCheckFailure())
-        ? Option.create_Some(
-          ReturnValuesOnConditionCheckFailure._typeDescriptor(),
-          ToDafny.ReturnValuesOnConditionCheckFailure(
-            nativeValue.returnValuesOnConditionCheckFailure()
-          )
-        )
-        : Option.create_None(
-          ReturnValuesOnConditionCheckFailure._typeDescriptor()
-        );
     return new ExecuteStatementInput(
       statement,
       parameters,
       consistentRead,
       nextToken,
       returnConsumedCapacity,
-      limit,
-      returnValuesOnConditionCheckFailure
+      limit
     );
   }
 
@@ -6775,25 +6697,7 @@ public class ToDafny {
         : Option.create_None(
           DafnySequence._typeDescriptor(AttributeValue._typeDescriptor())
         );
-    Option<
-      ReturnValuesOnConditionCheckFailure
-    > returnValuesOnConditionCheckFailure;
-    returnValuesOnConditionCheckFailure =
-      Objects.nonNull(nativeValue.returnValuesOnConditionCheckFailure())
-        ? Option.create_Some(
-          ReturnValuesOnConditionCheckFailure._typeDescriptor(),
-          ToDafny.ReturnValuesOnConditionCheckFailure(
-            nativeValue.returnValuesOnConditionCheckFailure()
-          )
-        )
-        : Option.create_None(
-          ReturnValuesOnConditionCheckFailure._typeDescriptor()
-        );
-    return new ParameterizedStatement(
-      statement,
-      parameters,
-      returnValuesOnConditionCheckFailure
-    );
+    return new ParameterizedStatement(statement, parameters);
   }
 
   public static DafnySequence<
@@ -7243,20 +7147,6 @@ public class ToDafny {
             AttributeValue._typeDescriptor()
           )
         );
-    Option<
-      ReturnValuesOnConditionCheckFailure
-    > returnValuesOnConditionCheckFailure;
-    returnValuesOnConditionCheckFailure =
-      Objects.nonNull(nativeValue.returnValuesOnConditionCheckFailure())
-        ? Option.create_Some(
-          ReturnValuesOnConditionCheckFailure._typeDescriptor(),
-          ToDafny.ReturnValuesOnConditionCheckFailure(
-            nativeValue.returnValuesOnConditionCheckFailure()
-          )
-        )
-        : Option.create_None(
-          ReturnValuesOnConditionCheckFailure._typeDescriptor()
-        );
     return new PutItemInput(
       tableName,
       item,
@@ -7267,8 +7157,7 @@ public class ToDafny {
       conditionalOperator,
       conditionExpression,
       expressionAttributeNames,
-      expressionAttributeValues,
-      returnValuesOnConditionCheckFailure
+      expressionAttributeValues
     );
   }
 
@@ -10939,20 +10828,6 @@ public class ToDafny {
             AttributeValue._typeDescriptor()
           )
         );
-    Option<
-      ReturnValuesOnConditionCheckFailure
-    > returnValuesOnConditionCheckFailure;
-    returnValuesOnConditionCheckFailure =
-      Objects.nonNull(nativeValue.returnValuesOnConditionCheckFailure())
-        ? Option.create_Some(
-          ReturnValuesOnConditionCheckFailure._typeDescriptor(),
-          ToDafny.ReturnValuesOnConditionCheckFailure(
-            nativeValue.returnValuesOnConditionCheckFailure()
-          )
-        )
-        : Option.create_None(
-          ReturnValuesOnConditionCheckFailure._typeDescriptor()
-        );
     return new UpdateItemInput(
       tableName,
       key,
@@ -10965,8 +10840,7 @@ public class ToDafny {
       updateExpression,
       conditionExpression,
       expressionAttributeNames,
-      expressionAttributeValues,
-      returnValuesOnConditionCheckFailure
+      expressionAttributeValues
     );
   }
 
