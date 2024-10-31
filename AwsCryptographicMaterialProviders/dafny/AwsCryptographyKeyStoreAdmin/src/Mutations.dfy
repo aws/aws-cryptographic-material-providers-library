@@ -5,52 +5,52 @@ include "MutationStateStructures.dfy"
 include "PrefixUtils.dfy"
 include "MutationValidation.dfy"
 include "MutationErrorRefinement.dfy"
+include "KmsUtils.dfy"
 
 module {:options "/functionSyntax:4" } Mutations {
   import opened StandardLibrary
   import opened Wrappers
   import opened Seq
+  import Time
+  import UUID
 
+  import KeyStoreTypes = AwsCryptographyKeyStoreAdminTypes.AwsCryptographyKeyStoreTypes
   import Structure
   import DefaultKeyStorageInterface
   import ErrorMessages = KeyStoreErrorMessages
-
-  import Types = AwsCryptographyKeyStoreAdminTypes
-  import KeyStoreTypes = AwsCryptographyKeyStoreAdminTypes.AwsCryptographyKeyStoreTypes
   import DDB = ComAmazonawsDynamodbTypes
   import KMS = ComAmazonawsKmsTypes
   import UTF8
   import KmsArn
   import KMSKeystoreOperations
-
-  import StateStrucs = MutationStateStructures
   import AwsKmsUtils
-  import Time
-  import UUID
 
+  import Types = AwsCryptographyKeyStoreAdminTypes
+  import StateStrucs = MutationStateStructures
   import PrefixUtils
   import MutationValidation
   import MutationErrorRefinement
+  import KmsUtils
 
   const DEFAULT_APPLY_PAGE_SIZE := 3 as StandardLibrary.UInt.int32
 
-  datatype KMSTuple = | KMSTuple(
-    kmsClient: KMS.IKMSClient,
-    grantTokens: KMS.GrantTokenList)
+  // datatype KmsUtils.KMSTuple = | KmsUtils.KMSTuple(
+  //   kmsClient: KMS.IKMSClient,
+  //   grantTokens: KMS.GrantTokenList)
 
-  datatype keyManagerStrat =
-    | reEncrypt(reEncrypt: KMSTuple)
-    | decryptEncrypt(decrypt: KMSTuple, encrypt: KMSTuple)
-  {
-    ghost predicate ValidState()
-    {
-      match this
-      case reEncrypt(km) => km.kmsClient.ValidState()
-      case decryptEncrypt(kmD, kmE) =>
-        && kmD.kmsClient.ValidState()
-        && kmE.kmsClient.ValidState()
-    }
-  }
+  // datatype keyManagerStrat =
+  //   | reEncrypt(reEncrypt: KmsUtils.KMSTuple)
+  //   | decryptEncrypt(decrypt: KmsUtils.KMSTuple, encrypt: KmsUtils.KMSTuple)
+  // {
+  //   ghost predicate ValidState()
+  //   {
+  //     match this
+  //     case reEncrypt(km) => km.kmsClient.ValidState()
+  //     case decryptEncrypt(kmD, kmE) =>
+  //       && kmD.kmsClient.ValidState()
+  //       && kmE.kmsClient.ValidState()
+  //   }
+  // }
 
   datatype CheckedItem =
     | itemOriginal(item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey)
@@ -116,7 +116,7 @@ module {:options "/functionSyntax:4" } Mutations {
   method {:vcs_split_on_every_assert} InitializeMutation(
     input: Types.InitializeMutationInput,
     logicalKeyStoreName: string,
-    keyManagerStrategy: keyManagerStrat,
+    keyManagerStrategy: KmsUtils.keyManagerStrat,
     storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
   )
     returns (output: Result<Types.InitializeMutationOutput, Types.Error>)
@@ -141,6 +141,7 @@ module {:options "/functionSyntax:4" } Mutations {
     requires keyManagerStrategy.reEncrypt?
   {
     var keyManager := keyManagerStrategy.reEncrypt;
+    var resumeMutation? := false;
 
     // Fetch Active Branch Key & Beacon Key & Mutation Lock
     var readItems? := storage.GetItemsForInitializeMutation(
@@ -148,35 +149,78 @@ module {:options "/functionSyntax:4" } Mutations {
     var readItems :- readItems?
     .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
 
-   // TODO-Mutations-GA Resume Mutations
-      // If Mutation Lock exists, fail
-      // if (readItems.MutationCommitment.Some?) {
-      // Deserialize MutationCommitment.value.Input
-      // Compare MutationCommitment.value.Input to input.Mutations
-      // If the same, return resume Mutation
-      // }
-    :- Need(readItems.MutationCommitment.None?,
-            Types.MutationConflictException(
-              message :=
-                if readItems.MutationCommitment.Some? then
-                  "A Mutation is already in-flight! It's UUID is "
-                  + readItems.MutationCommitment.value.UUID
-                  + ". It was created on: " + readItems.MutationCommitment.value.CreateTime
-                else
-                  "Should not happen because this conflicts with the Need condition."
-            )
-    );
-    :- Need(readItems.MutationIndex.None?,
-            Types.MutationConflictException(
-              message :=
-                if readItems.MutationIndex.Some? then
-                  "A Mutation is already in-flight! It's UUID is "
-                  + readItems.MutationIndex.value.UUID
-                  + ". It was created on: " + readItems.MutationIndex.value.CreateTime
-                else
-                  "Should not happen because this conflicts with the Need condition."
-            )
-    );
+    if (readItems.MutationCommitment.None? && readItems.MutationIndex.Some?) {
+      var indexUUID := readItems.MutationIndex.value.UUID;
+      return Failure(
+          Types.MutationInvalidException(
+            message := "Found a Mutation Index but no Mutation Commitment."
+            + " The Key Store's Storage has become corrupted."
+            + " Recommend auditing the Branch Key's items for tampering."
+            + " Recommend auditing access to the storage."
+            + " To successfully start a new mutation, delete the Mutation Index."
+            + " But know that the new mutation will fail if any corrupt items are encountered."
+            + " Branch Key ID: " + input.Identifier
+            + " \tMutation Index UUID: " + indexUUID));
+    }
+
+    if (readItems.MutationCommitment.Some?) {
+      resumeMutation? :- CommitmentAndInputMatch(
+        input := input,
+        commitment := readItems.MutationCommitment.value);
+      if (resumeMutation?) {
+        output := ResumeMutation(
+          commitment := readItems.MutationCommitment.value,
+          index := readItems.MutationIndex,
+          logicalKeyStoreName := logicalKeyStoreName,
+          keyManagerStrategy := keyManagerStrategy,
+          storage := storage);
+        return output;
+      }
+      return Failure(
+          Types.MutationConflictException(
+            message :=
+              "A Mutation is already in-flight!"
+              + " The in-flight Mutation was created with a different Input."
+              + " Complete the in-flight before starting a new one. "
+              + " If you need to resume the in-flight Mutation,"
+              + " provide identical input to InitializeMutation."
+              + " DescribeMutation can be used to retrieve the verbatim input."
+              + " MutationCommitment UUID: " + readItems.MutationCommitment.value.UUID
+              + " CreatedOn: " + readItems.MutationCommitment.value.CreateTime
+              + " BranchKeyID: " + input.Identifier
+          ));
+    }
+
+    // TODO-Mutations-GA Resume Mutations
+    // If Mutation Lock exists, fail
+    // if (readItems.MutationCommitment.Some?) {
+    // Deserialize MutationCommitment.value.Input
+    // Compare MutationCommitment.value.Input to input.Mutations
+    // If the same, return resume Mutation
+    // }
+    // :- Need(readItems.MutationCommitment.None?,
+    //         Types.MutationConflictException(
+    //           message :=
+    //             if readItems.MutationCommitment.Some? then
+    //               "A Mutation is already in-flight! It's UUID is "
+    //               + readItems.MutationCommitment.value.UUID
+    //               + ". It was created on: " + readItems.MutationCommitment.value.CreateTime
+    //             else
+    //               "Should not happen because this conflicts with the Need condition."
+    //         )
+    // );
+
+    // :- Need(readItems.MutationIndex.None?,
+    //         Types.MutationConflictException(
+    //           message :=
+    //             if readItems.MutationIndex.Some? then
+    //               "A Mutation is already in-flight! It's UUID is "
+    //               + readItems.MutationIndex.value.UUID
+    //               + ". It was created on: " + readItems.MutationIndex.value.CreateTime
+    //             else
+    //               "Should not happen because this conflicts with the Need condition."
+    //         )
+    // );
 
     var activeItem := readItems.ActiveItem;
 
@@ -464,7 +508,7 @@ module {:options "/functionSyntax:4" } Mutations {
   method {:vcs_split_on_every_assert} ApplyMutation(
     input: Types.ApplyMutationInput,
     logicalKeyStoreName: string,
-    keyManagerStrategy: keyManagerStrat,
+    keyManagerStrategy: KmsUtils.keyManagerStrat,
     storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
   )
     returns (output: Result<Types.ApplyMutationOutput, Types.Error>)
@@ -683,7 +727,7 @@ module {:options "/functionSyntax:4" } Mutations {
 
   method VerifyEncryptedHierarchicalKey(
     nameonly item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
-    nameonly keyManagerStrategy: keyManagerStrat
+    nameonly keyManagerStrategy: KmsUtils.keyManagerStrat
   )
     returns (output: Outcome<KMSKeystoreOperations.KmsError>)
     requires keyManagerStrategy.reEncrypt?
@@ -717,7 +761,7 @@ module {:options "/functionSyntax:4" } Mutations {
     nameonly originalKmsArn: string,
     nameonly terminalKmsArn: string,
     nameonly terminalEncryptionContext: Structure.BranchKeyContext,
-    nameonly keyManagerStrategy: keyManagerStrat
+    nameonly keyManagerStrategy: KmsUtils.keyManagerStrat
   )
     returns (output: Result<Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
     requires keyManagerStrategy.reEncrypt?
@@ -759,4 +803,29 @@ module {:options "/functionSyntax:4" } Mutations {
   {
     reveal Seq.Filter();
   }
+
+  // Note: Assumes the System Key has already verified
+  function CommitmentAndInputMatch(
+    nameonly input: Types.InitializeMutationInput,
+    nameonly commitment: KeyStoreTypes.MutationCommitment
+  ): (output: Result<bool, Types.Error>)
+  {
+    var readMutations :- StateStrucs.DeserializeMutationInput(commitment);
+    var givenMutations := input.Mutations;
+    Success(readMutations == givenMutations)
+  }
+
+
+  method {:vcs_split_on_every_assert} ResumeMutation(
+    nameonly commitment: KeyStoreTypes.MutationCommitment,
+    nameonly index: Option<KeyStoreTypes.MutationIndex>,
+    nameonly logicalKeyStoreName: string,
+    nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
+    nameonly storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
+  )
+    returns (output: Result<Types.InitializeMutationOutput, Types.Error>)
+  {
+    return Failure(Types.KeyStoreAdminException(message := "Implement me"));
+  }
+
 }

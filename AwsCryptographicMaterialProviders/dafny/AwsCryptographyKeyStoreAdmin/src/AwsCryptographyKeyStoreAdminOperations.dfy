@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "Mutations.dfy"
+include "KmsUtils.dfy"
 
 module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKeyStoreAdminOperations {
   import opened AwsKmsUtils
@@ -11,6 +12,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   import KeyStoreTypes = KeyStoreOperations.Types
   import KMS = Com.Amazonaws.Kms
   import Mutations
+  import KmsUtils
 
   datatype Config = Config(
     nameonly logicalKeyStoreName: string,
@@ -73,7 +75,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     kmsStratgey?: Option<KeyManagementStrategy>,
     config: InternalConfig
   )
-    returns (output: Result<Mutations.keyManagerStrat, Error>)
+    returns (output: Result<KmsUtils.keyManagerStrat, Error>)
     // Because Dafny is not able to parse
     // the code that Smithy-Dafny produces for reference types inside a union,
     // the requires kms.ValidState() and modifies kmsClient are commented out.
@@ -116,12 +118,12 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     match input {
       case AwsKmsReEncrypt(kms) =>
         var tuple :- ResolveKmsInput(kms, config);
-        return Success(Mutations.keyManagerStrat.reEncrypt(tuple));
+        return Success(KmsUtils.keyManagerStrat.reEncrypt(tuple));
         // TODO-Mutations-FF :
         // case AwsKmsDecryptEncrypt(kmsDecryptEncrypt) =>
         //   // var decrypt :- ResolveKmsInput(kmsDecryptEncrypt.decrypt, config);
         //   // var encrypt :- ResolveKmsInput(kmsDecryptEncrypt.encrypt, config);
-        //   // return Success(Mutations.keyManagerStrat.decryptEncrypt(decrypt, encrypt));
+        //   // return Success(KmsUtils.keyManagerStrat.decryptEncrypt(decrypt, encrypt));
         //   return Failure(Types.KeyStoreAdminException(message :="BETA :: Only Re Encrypt is supported!!"));
     }
   }
@@ -130,7 +132,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     kms: KeyStoreTypes.AwsKms,
     config: InternalConfig
   )
-    returns (output: Result<Mutations.KMSTuple, Error>)
+    returns (output: Result<KmsUtils.KMSTuple, Error>)
     // Because Dafny is not able to parse
     // the code that Smithy-Dafny produces for reference types inside a union,
     // the requires kms.ValidState() and modifies kmsClient are commented out.
@@ -154,11 +156,11 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
         message := "Grant Tokens passed to Key Store Admin are invalid.")
     );
     assume {:axiom} config.storage.Modifies !! kmsClient.Modifies;
-    output := Success(Mutations.KMSTuple(kmsClient, grantTokens.value));
+    output := Success(KmsUtils.KMSTuple(kmsClient, grantTokens.value));
   }
 
   function method LegacyConfig(
-    keyManagerStrat: Mutations.keyManagerStrat,
+    keyManagerStrat: KmsUtils.keyManagerStrat,
     kmsArn: Types.KmsAesIdentifier,
     config: InternalConfig
   ): (output: Result<KeyStoreOperations.Config, Error>)
@@ -301,15 +303,6 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     output := Mutations.ApplyMutation(input, config.logicalKeyStoreName, keyManagerStrat, config.storage);
     return output;
   }
-
-  // predicate ResumeMutationEnsuresPublicly(input: ResumeMutationInput , output: Result<ResumeMutationOutput, Error>)
-  // {true}
-
-  // method ResumeMutation ( config: InternalConfig , input: ResumeMutationInput )
-  //   returns (output: Result<ResumeMutationOutput, Error>)
-  // {
-  //   return Failure(Types.KeyStoreAdminException(message := "Implement me"));
-  // }
 
   predicate DescribeMutationEnsuresPublicly(
     input: DescribeMutationInput,
