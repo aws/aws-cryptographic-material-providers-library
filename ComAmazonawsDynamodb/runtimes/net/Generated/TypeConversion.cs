@@ -12435,7 +12435,7 @@ namespace Com.Amazonaws.Dynamodb
                     return TypeConversion.ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S30_TransactionInProgressException(e);
 
                 default:
-                    return new software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_Opaque(value, Dafny.Sequence<char>.FromString(value.ToString()));
+                    return new software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_Opaque(value);
 
             }
         }
