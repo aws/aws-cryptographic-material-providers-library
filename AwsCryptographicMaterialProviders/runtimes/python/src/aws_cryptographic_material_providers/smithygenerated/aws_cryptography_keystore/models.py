@@ -2481,7 +2481,7 @@ class WriteInitializeMutationVersionUnknown:
         return f"WriteInitializeMutationVersionUnknown(tag={self.tag})"
 
 
-# Write Initialize Mutation allows Mutations to either rotate/version or simply
+# Write Initialize Mutation allows Operations to either rotate/version or simply
 # mutate the Active.
 WriteInitializeMutationVersion = Union[
     WriteInitializeMutationVersionRotate,
@@ -2669,7 +2669,7 @@ class OverWriteMutationIndex:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
-class WriteInitializeMutationIndexCreate:
+class WriteMutationIndexCreate:
     """Information on an in-flight Mutation of a Branch Key."""
 
     def __init__(self, value: MutationIndex):
@@ -2679,22 +2679,22 @@ class WriteInitializeMutationIndexCreate:
         return {"create": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "WriteInitializeMutationIndexCreate":
+    def from_dict(d: Dict[str, Any]) -> "WriteMutationIndexCreate":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
-        return WriteInitializeMutationIndexCreate(MutationIndex.from_dict(d["create"]))
+        return WriteMutationIndexCreate(MutationIndex.from_dict(d["create"]))
 
     def __repr__(self) -> str:
-        return f"WriteInitializeMutationIndexCreate(value=repr(self.value))"
+        return f"WriteMutationIndexCreate(value=repr(self.value))"
 
     def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, WriteInitializeMutationIndexCreate):
+        if not isinstance(other, WriteMutationIndexCreate):
             return False
         return self.value == other.value
 
 
-class WriteInitializeMutationIndexUpdate:
+class WriteMutationIndexUpdate:
     """To avoid information loss, overwrites to any itme in the Key Store are
     done conditioned on the old value."""
 
@@ -2705,24 +2705,22 @@ class WriteInitializeMutationIndexUpdate:
         return {"update": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "WriteInitializeMutationIndexUpdate":
+    def from_dict(d: Dict[str, Any]) -> "WriteMutationIndexUpdate":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
-        return WriteInitializeMutationIndexUpdate(
-            OverWriteMutationIndex.from_dict(d["update"])
-        )
+        return WriteMutationIndexUpdate(OverWriteMutationIndex.from_dict(d["update"]))
 
     def __repr__(self) -> str:
-        return f"WriteInitializeMutationIndexUpdate(value=repr(self.value))"
+        return f"WriteMutationIndexUpdate(value=repr(self.value))"
 
     def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, WriteInitializeMutationIndexUpdate):
+        if not isinstance(other, WriteMutationIndexUpdate):
             return False
         return self.value == other.value
 
 
-class WriteInitializeMutationIndexUnknown:
+class WriteMutationIndexUnknown:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to
@@ -2738,31 +2736,27 @@ class WriteInitializeMutationIndexUnknown:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "WriteInitializeMutationIndexUnknown":
+    def from_dict(d: Dict[str, Any]) -> "WriteMutationIndexUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return WriteInitializeMutationIndexUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return WriteMutationIndexUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"WriteInitializeMutationIndexUnknown(tag={self.tag})"
+        return f"WriteMutationIndexUnknown(tag={self.tag})"
 
 
-# Write Initialize Mutation allows Mutations to either create or update the Index.
-WriteInitializeMutationIndex = Union[
-    WriteInitializeMutationIndexCreate,
-    WriteInitializeMutationIndexUpdate,
-    WriteInitializeMutationIndexUnknown,
+# Write Mutation Index allows Operations to either create or update the Index.
+WriteMutationIndex = Union[
+    WriteMutationIndexCreate, WriteMutationIndexUpdate, WriteMutationIndexUnknown
 ]
 
 
-def _write_initialize_mutation_index_from_dict(
-    d: Dict[str, Any]
-) -> WriteInitializeMutationIndex:
+def _write_mutation_index_from_dict(d: Dict[str, Any]) -> WriteMutationIndex:
     if "create" in d:
-        return WriteInitializeMutationIndexCreate.from_dict(d)
+        return WriteMutationIndexCreate.from_dict(d)
 
     if "update" in d:
-        return WriteInitializeMutationIndexUpdate.from_dict(d)
+        return WriteMutationIndexUpdate.from_dict(d)
 
     raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
@@ -2772,7 +2766,7 @@ class WriteInitializeMutationInput:
     version: WriteInitializeMutationVersion
     beacon: OverWriteEncryptedHierarchicalKey
     mutation_commitment: MutationCommitment
-    mutation_index: WriteInitializeMutationIndex
+    mutation_index: WriteMutationIndex
 
     def __init__(
         self,
@@ -2781,7 +2775,7 @@ class WriteInitializeMutationInput:
         version: WriteInitializeMutationVersion,
         beacon: OverWriteEncryptedHierarchicalKey,
         mutation_commitment: MutationCommitment,
-        mutation_index: WriteInitializeMutationIndex,
+        mutation_index: WriteMutationIndex,
     ):
         """
         :param active:
@@ -2808,8 +2802,8 @@ class WriteInitializeMutationInput:
         - only one Mutation affects a Branch Key at a time
         - all
         items of a Branch Key are mutated consistently
-        :param mutation_index: Write Initialize Mutation allows Mutations to either
-        create or update the Index.
+        :param mutation_index: Write Mutation Index allows Operations to either create
+        or update the Index.
         """
         self.active = active
         self.version = version
@@ -2837,9 +2831,7 @@ class WriteInitializeMutationInput:
             "mutation_commitment": MutationCommitment.from_dict(
                 d["mutation_commitment"]
             ),
-            "mutation_index": _write_initialize_mutation_index_from_dict(
-                d["mutation_index"]
-            ),
+            "mutation_index": _write_mutation_index_from_dict(d["mutation_index"]),
         }
 
         return WriteInitializeMutationInput(**kwargs)
@@ -2898,7 +2890,7 @@ class WriteInitializeMutationOutput:
 class WriteMutatedVersionsInput:
     items: list[OverWriteEncryptedHierarchicalKey]
     mutation_commitment: MutationCommitment
-    mutation_index: OverWriteMutationIndex
+    mutation_index: WriteMutationIndex
     end_mutation: bool
 
     def __init__(
@@ -2906,7 +2898,7 @@ class WriteMutatedVersionsInput:
         *,
         items: list[OverWriteEncryptedHierarchicalKey],
         mutation_commitment: MutationCommitment,
-        mutation_index: OverWriteMutationIndex,
+        mutation_index: WriteMutationIndex,
         end_mutation: bool,
     ):
         """
@@ -2918,9 +2910,8 @@ class WriteMutatedVersionsInput:
         - only one Mutation affects a Branch Key at a time
         - all
         items of a Branch Key are mutated consistently
-        :param mutation_index: To avoid information loss, overwrites to any itme in the
-        Key Store
-        are done conditioned on the old value.
+        :param mutation_index: Write Mutation Index allows Operations to either create
+        or update the Index.
         """
         self.items = items
         self.mutation_commitment = mutation_commitment
@@ -2944,7 +2935,7 @@ class WriteMutatedVersionsInput:
             "mutation_commitment": MutationCommitment.from_dict(
                 d["mutation_commitment"]
             ),
-            "mutation_index": OverWriteMutationIndex.from_dict(d["mutation_index"]),
+            "mutation_index": _write_mutation_index_from_dict(d["mutation_index"]),
             "end_mutation": d["end_mutation"],
         }
 
