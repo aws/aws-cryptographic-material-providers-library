@@ -71,23 +71,28 @@ module {:options "/functionSyntax:4"} TestGetItemsForInitializeMutation {
       "MutationIndex was not Some.";
   }
 
+  // TODO-Mutations-GA ::
+  //method {:test} TestHappyCaseMCommitmentAndIndex()
+  
   method createHappyCaseMLocked(
+    nameonly testId: string,
+    nameonly alsoIndex?: bool := false,
     nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None,
     nameonly kmsClient?: Option<KMS.Types.IKMSClient> := None
   )
     requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
     requires kmsClient?.Some? ==> kmsClient?.value.ValidState()
-    ensures output.Success? ==> output.value.ValidState()
     modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
     + (if kmsClient?.Some? then kmsClient?.value.Modifies else {})
     ensures ddbClient?.Some? ==> ddbClient?.value.ValidState()
     ensures kmsClient?.Some? ==> kmsClient?.value.ValidState()
   {
-    var ddbClient :- expect ProvideDDBClient(ddbClient?);
+    var ddbClient :- expect Fixtures.ProvideDDBClient(ddbClient?);
     assume {:axiom} fresh(ddbClient) && fresh(ddbClient.Modifies);
-    var kmsClient :- expect ProvideKMSClient(kmsClient?);
+    var kmsClient :- expect Fixtures.ProvideKMSClient(kmsClient?);
     assume {:axiom} fresh(kmsClient) && fresh(kmsClient.Modifies);
     Fixtures.CreateHappyCaseId(id:=testId, versionCount:=0);
-    
+    // TODO-Mutations-GA :: manually create the commitment
+    // TODO-Mutations-GA :: if alsoIndex?, manually create Index
   }
 }

@@ -148,7 +148,7 @@ module {:options "/functionSyntax:4" } Mutations {
     var readItems :- readItems?
     .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
 
-
+   // TODO-Mutations-GA Resume Mutations
       // If Mutation Lock exists, fail
       // if (readItems.MutationCommitment.Some?) {
       // Deserialize MutationCommitment.value.Input
@@ -379,11 +379,11 @@ module {:options "/functionSyntax:4" } Mutations {
     // -= Write Mutation Commitment, new branch key version, mutated beacon key
     var throwAway2? := storage.WriteInitializeMutation(
       KeyStoreTypes.WriteInitializeMutationInput(
-        Active := Some(KeyStoreTypes.OverWriteEncryptedHierarchicalKey(Item:=newActive, Old:=activeItem)),
-        Version := Some(newDecryptOnly),
+        Active := KeyStoreTypes.OverWriteEncryptedHierarchicalKey(Item:=newActive, Old:=activeItem),
+        Version := KeyStoreTypes.WriteInitializeMutationVersion.rotate(rotate:=newDecryptOnly),
         Beacon := KeyStoreTypes.OverWriteEncryptedHierarchicalKey(Item:=newBeaconKey, Old:=readItems.BeaconItem),
         MutationCommitment := MutationCommitment,
-        MutationIndex := MutationIndex
+        MutationIndex := KeyStoreTypes.WriteInitializeMutationIndex.create(create:=MutationIndex)
       ));
     // TODO-Mutations-FF :: Ideally, we would diagnosis the Storage Failure.
     // What Condition Check failed? Was the Key Versioned? Or did another M-Commitment get written?
