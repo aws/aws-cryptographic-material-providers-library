@@ -22,9 +22,10 @@ public class WriteMutatedVersionsInput {
   private final MutationCommitment MutationCommitment;
 
   /**
-   * Write Mutation Index allows Operations to either create or update the Index.
+   * To avoid information loss, overwrites to any itme in the Key Store
+   * are done conditioned on the old value.
    */
-  private final WriteMutationIndex MutationIndex;
+  private final OverWriteMutationIndex MutationIndex;
 
   private final Boolean EndMutation;
 
@@ -53,9 +54,10 @@ public class WriteMutatedVersionsInput {
   }
 
   /**
-   * @return Write Mutation Index allows Operations to either create or update the Index.
+   * @return To avoid information loss, overwrites to any itme in the Key Store
+   * are done conditioned on the old value.
    */
-  public WriteMutationIndex MutationIndex() {
+  public OverWriteMutationIndex MutationIndex() {
     return this.MutationIndex;
   }
 
@@ -99,14 +101,16 @@ public class WriteMutatedVersionsInput {
     MutationCommitment MutationCommitment();
 
     /**
-     * @param MutationIndex Write Mutation Index allows Operations to either create or update the Index.
+     * @param MutationIndex To avoid information loss, overwrites to any itme in the Key Store
+     * are done conditioned on the old value.
      */
-    Builder MutationIndex(WriteMutationIndex MutationIndex);
+    Builder MutationIndex(OverWriteMutationIndex MutationIndex);
 
     /**
-     * @return Write Mutation Index allows Operations to either create or update the Index.
+     * @return To avoid information loss, overwrites to any itme in the Key Store
+     * are done conditioned on the old value.
      */
-    WriteMutationIndex MutationIndex();
+    OverWriteMutationIndex MutationIndex();
 
     Builder EndMutation(Boolean EndMutation);
 
@@ -121,7 +125,7 @@ public class WriteMutatedVersionsInput {
 
     protected MutationCommitment MutationCommitment;
 
-    protected WriteMutationIndex MutationIndex;
+    protected OverWriteMutationIndex MutationIndex;
 
     protected Boolean EndMutation;
 
@@ -152,12 +156,12 @@ public class WriteMutatedVersionsInput {
       return this.MutationCommitment;
     }
 
-    public Builder MutationIndex(WriteMutationIndex MutationIndex) {
+    public Builder MutationIndex(OverWriteMutationIndex MutationIndex) {
       this.MutationIndex = MutationIndex;
       return this;
     }
 
-    public WriteMutationIndex MutationIndex() {
+    public OverWriteMutationIndex MutationIndex() {
       return this.MutationIndex;
     }
 

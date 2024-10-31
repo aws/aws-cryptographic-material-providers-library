@@ -5,7 +5,7 @@ using System;
 using AWS.Cryptography.KeyStore;
 namespace AWS.Cryptography.KeyStore
 {
-  public class WriteMutationIndex
+  public class WriteInitializeMutationIndex
   {
     private AWS.Cryptography.KeyStore.MutationIndex _create;
     private AWS.Cryptography.KeyStore.OverWriteMutationIndex _update;

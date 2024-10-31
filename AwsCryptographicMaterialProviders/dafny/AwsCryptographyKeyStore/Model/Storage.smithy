@@ -171,14 +171,14 @@ map EncryptionContextString {
   value: String,
 }
 
-@documentation("Write Initialize Mutation allows Operations to either rotate/version or simply mutate the Active.")
+@documentation("Write Initialize Mutation allows Mutations to either rotate/version or simply mutate the Active.")
 union WriteInitializeMutationVersion {
   rotate: EncryptedHierarchicalKey
   mutate: OverWriteEncryptedHierarchicalKey
 }
 
-@documentation("Write Mutation Index allows Operations to either create or update the Index.")
-union WriteMutationIndex {
+@documentation("Write Initialize Mutation allows Mutations to either create or update the Index.")
+union WriteInitializeMutationIndex {
   create: MutationIndex
   update: OverWriteMutationIndex
 }
@@ -517,7 +517,7 @@ structure WriteInitializeMutationInput {
   @required // Smithy will copy documentation traits from existing shapes
   MutationCommitment: MutationCommitment
   @required
-  MutationIndex: WriteMutationIndex
+  MutationIndex: WriteInitializeMutationIndex
 }
 structure WriteInitializeMutationOutput {}
 
@@ -588,7 +588,7 @@ structure WriteMutatedVersionsInput {
   @required
   MutationCommitment: MutationCommitment
   @required
-  MutationIndex: WriteMutationIndex
+  MutationIndex: OverWriteMutationIndex
   @required
   EndMutation: Boolean
 }
