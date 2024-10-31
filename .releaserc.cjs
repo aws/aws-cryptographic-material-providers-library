@@ -160,7 +160,7 @@ module.exports = {
           {
             files: Object.keys(Runtimes.python),
             from: "{path =.*",
-            to: '"~${nextRelease.version}"',
+            to: '"${nextRelease.version}"',
             results: Object.keys(Runtimes.python).map(
               CheckDependencyReplacementResults,
             ),
