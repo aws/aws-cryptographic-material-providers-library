@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 CORES=2
-
 ENABLE_EXTERN_PROCESSING=1
 
 include ../SharedMakefileV2.mk
@@ -15,6 +14,14 @@ MAX_RESOURCE_COUNT=10000000
 AWS_SDK_CMD := --aws-sdk
 STD_LIBRARY=StandardLibrary
 SMITHY_DEPS=model
+
+GO_MODULE_NAME="github.com/aws/aws-cryptographic-material-providers-library/dynamodb"
+
+GO_DEPENDENCY_MODULE_NAMES := \
+	--dependency-library-name=sdk.com.amazonaws.dynamodb=github.com/aws/aws-sdk-go-v2/service/dynamodb \
+
+TRANSLATION_RECORD_GO := \
+    StandardLibrary/runtimes/go/ImplementationFromDafny-go/ImplementationFromDafny-go.dtr
 
 # Constants for languages that drop extern names (Python, Go)
 
