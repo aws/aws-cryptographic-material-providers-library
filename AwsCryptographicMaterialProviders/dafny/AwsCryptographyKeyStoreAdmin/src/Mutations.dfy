@@ -34,24 +34,6 @@ module {:options "/functionSyntax:4" } Mutations {
 
   const DEFAULT_APPLY_PAGE_SIZE := 3 as StandardLibrary.UInt.int32
 
-  // datatype KmsUtils.KMSTuple = | KmsUtils.KMSTuple(
-  //   kmsClient: KMS.IKMSClient,
-  //   grantTokens: KMS.GrantTokenList)
-
-  // datatype keyManagerStrat =
-  //   | reEncrypt(reEncrypt: KmsUtils.KMSTuple)
-  //   | decryptEncrypt(decrypt: KmsUtils.KMSTuple, encrypt: KmsUtils.KMSTuple)
-  // {
-  //   ghost predicate ValidState()
-  //   {
-  //     match this
-  //     case reEncrypt(km) => km.kmsClient.ValidState()
-  //     case decryptEncrypt(kmD, kmE) =>
-  //       && kmD.kmsClient.ValidState()
-  //       && kmE.kmsClient.ValidState()
-  //   }
-  // }
-
   datatype CheckedItem =
     | itemOriginal(item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey)
     | itemTerminal(item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey)
@@ -178,7 +160,6 @@ module {:options "/functionSyntax:4" } Mutations {
           commitment := readItems.MutationCommitment.value,
           index := readItems.MutationIndex,
           logicalKeyStoreName := logicalKeyStoreName,
-          keyManagerStrategy := keyManagerStrategy,
           storage := storage);
         return output;
       }
@@ -196,37 +177,6 @@ module {:options "/functionSyntax:4" } Mutations {
               + " BranchKeyID: " + input.Identifier
           ));
     }
-
-    // TODO-Mutations-GA Resume Mutations
-    // If Mutation Lock exists, fail
-    // if (readItems.MutationCommitment.Some?) {
-    // Deserialize MutationCommitment.value.Input
-    // Compare MutationCommitment.value.Input to input.Mutations
-    // If the same, return resume Mutation
-    // }
-    // :- Need(readItems.MutationCommitment.None?,
-    //         Types.MutationConflictException(
-    //           message :=
-    //             if readItems.MutationCommitment.Some? then
-    //               "A Mutation is already in-flight! It's UUID is "
-    //               + readItems.MutationCommitment.value.UUID
-    //               + ". It was created on: " + readItems.MutationCommitment.value.CreateTime
-    //             else
-    //               "Should not happen because this conflicts with the Need condition."
-    //         )
-    // );
-
-    // :- Need(readItems.MutationIndex.None?,
-    //         Types.MutationConflictException(
-    //           message :=
-    //             if readItems.MutationIndex.Some? then
-    //               "A Mutation is already in-flight! It's UUID is "
-    //               + readItems.MutationIndex.value.UUID
-    //               + ". It was created on: " + readItems.MutationIndex.value.CreateTime
-    //             else
-    //               "Should not happen because this conflicts with the Need condition."
-    //         )
-    // );
 
     var activeItem := readItems.ActiveItem;
 
@@ -826,12 +776,45 @@ module {:options "/functionSyntax:4" } Mutations {
     nameonly commitment: KeyStoreTypes.MutationCommitment,
     nameonly index: Option<KeyStoreTypes.MutationIndex>,
     nameonly logicalKeyStoreName: string,
-    nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
     nameonly storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
   )
-    returns (output: Result<Types.InitializeMutationOutput, Types.Error>)
+  returns (output: Result<Types.InitializeMutationOutput, Types.Error>)
+    requires storage.ValidState()
+    ensures storage.ValidState()   
+    modifies storage.Modifies
   {
-    return Failure(Types.KeyStoreAdminException(message := "Implement me"));
+    var mutatedBranchKeyItems := [
+      Types.MutatedBranchKeyItem(ItemType := "Mutation Commitment: " + mutationCommitmentUUID, Description := "Matched Input")
+    ];
+    var Flag: Types.InitializeMutationFlag := Types.Resumed("");
+    
+    if (index.None?) {
+      Flag := Types.ResumedWithoutIndex("");
+      var newIndex := KeyStoreTypes.MutationIndex(
+        Identifier := commitment.Identifier,
+        PageIndex := MutationIndexUtils.ExclusiveStartKeyToPageIndex(None),
+        UUID := commitment.UUID,
+        CreateTime := commitment.CreateTime,
+        CiphertextBlob := [0] // TODO-Mutations-GA
+      );
+    }
+
+    var Token := Types.MutationToken(
+      Identifier := input.Identifier,
+      UUID := Some(commitment.UUID),
+      CreateTime := commitment.CreateTime);
+
+    return Success(Types.InitializeMutationOutput(
+                     MutationToken := Token,
+                     MutatedBranchKeyItems := mutatedBranchKeyItems,
+                     InitializeMutationFlag := Flag));
+
   }
 
+    // return Failure(Types.KeyStoreAdminException(message := "Implement me"));
+      //   Types.MutatedBranchKeyItem(ItemType := "Mutation Index: " + mutationCommitmentUUID, Description := "Created"),
+    //   Types.MutatedBranchKeyItem(ItemType := "Active: " + newVersion, Description := "Created"),
+    //   Types.MutatedBranchKeyItem(ItemType := "Decrypt Only: " + newVersion, Description := "Created"),
+    //   Types.MutatedBranchKeyItem(ItemType := "Beacon", Description := "Mutated")
+    // ];
 }
