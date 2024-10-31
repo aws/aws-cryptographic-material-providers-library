@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.7.3](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.2...v1.7.3) (2024-10-31)
+
+
+### Bug Fixes
+
+* python time externs should return integers ([#898](https://github.com/aws/aws-cryptographic-material-providers-library/issues/898)) ([56b9b67](https://github.com/aws/aws-cryptographic-material-providers-library/commit/56b9b6745eee5782bcec3f3e51f5b27a5ffe223e))
+* repolymorph to get default parameter for OpaqueError ([#911](https://github.com/aws/aws-cryptographic-material-providers-library/issues/911)) ([5669e0b](https://github.com/aws/aws-cryptographic-material-providers-library/commit/5669e0b709b29612f3177802fce57bcd9ff7ea90))
+
 ## [1.7.2](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.1...v1.7.2) (2024-10-22)
 
 This release is available in the following languages:
