@@ -203,6 +203,19 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     input
   }
 
+  function DeserializeMutationInput(
+    commitment: KeyStoreTypes.MutationCommitment
+  ): (output: Result<Types.Mutations, Types.Error>)
+  {
+    var InputJson :- JSON.Deserialize(commitment.Input).MapFailure(
+                       (e: JSONErrors.DeserializationError)
+                       => Types.KeyStoreAdminException(
+                           message := "Could not JSON Deserialize: Input. " + e.ToString()));
+    :- MutationsInputJson?(InputJson);
+    var input := InputMutationsFromJson(InputJson);
+    Success(input)
+  }
+
   function SerializeMutationCommitment(
     MutationToApply: MutationToApply
   ): (output: Result<KeyStoreTypes.MutationCommitment, Types.Error>)
