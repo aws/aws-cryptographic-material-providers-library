@@ -260,7 +260,7 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
     // || (!exit(A(I)) && !access(B(I)))
     | CollectionOfErrors(list: seq<Error>, nameonly message: string)
       // The Opaque error, used for native, extern, wrapped or unknown errors
-    | Opaque(obj: object, alt_text : string := "")
+    | Opaque(obj: object)
   type OpaqueError = e: Error | e.Opaque? witness *
 }
 abstract module AbstractAwsCryptographyMaterialProvidersTestVectorKeysService

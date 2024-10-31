@@ -165,7 +165,7 @@ namespace RSAEncryption
             catch (Exception encryptEx)
             {
                 return Result<uint, _IError>
-                    .create_Failure(new Error_Opaque(encryptEx, Dafny.Sequence<char>.FromString(encryptEx.ToString())));
+                    .create_Failure(new Error_Opaque(encryptEx));
             }
         }
 
@@ -183,7 +183,7 @@ namespace RSAEncryption
             catch (Exception encryptEx)
             {
                 return Result<ibyteseq, _IError>
-                    .create_Failure(new Error_Opaque(encryptEx, Dafny.Sequence<char>.FromString(encryptEx.ToString())));
+                    .create_Failure(new Error_Opaque(encryptEx));
             }
         }
 
@@ -201,7 +201,7 @@ namespace RSAEncryption
             catch (Exception decryptEx)
             {
                 return Result<ibyteseq, _IError>
-                    .create_Failure(new Error_Opaque(decryptEx, Dafny.Sequence<char>.FromString(decryptEx.ToString())));
+                    .create_Failure(new Error_Opaque(decryptEx));
             }
         }
 
