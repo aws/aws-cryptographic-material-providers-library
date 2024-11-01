@@ -32,6 +32,8 @@ import software.amazon.cryptography.keystoreadmin.model.MutationFromException;
 import software.amazon.cryptography.keystoreadmin.model.MutationToException;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
+import software.amazon.cryptography.keystoreadmin.model.SystemKey;
+import software.amazon.cryptography.keystoreadmin.model.TrustStorage;
 
 public class MutationKmsAccessOriginalInFlightTest {
 
@@ -40,6 +42,10 @@ public class MutationKmsAccessOriginalInFlightTest {
 
   @Test
   public void test() {
+    SystemKey systemKey = SystemKey
+      .builder()
+      .trustStorage(TrustStorage.builder().build())
+      .build();
     KeyStorageInterface storage = StorageCheater.create(
       Fixtures.ddbClientWest2,
       Fixtures.TEST_KEYSTORE_NAME,
@@ -94,6 +100,7 @@ public class MutationKmsAccessOriginalInFlightTest {
       .Mutations(mutations)
       .Identifier(branchKeyId)
       .Strategy(strategyAll)
+      .SystemKey(systemKey)
       .build();
 
     InitializeMutationOutput initOutput = admin.InitializeMutation(initInput);

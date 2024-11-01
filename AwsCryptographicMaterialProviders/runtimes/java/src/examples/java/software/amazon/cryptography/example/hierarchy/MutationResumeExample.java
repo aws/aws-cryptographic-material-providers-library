@@ -14,6 +14,7 @@ import software.amazon.cryptography.keystoreadmin.model.ApplyMutationResult;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
+import software.amazon.cryptography.keystoreadmin.model.MutationConflictException;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
 import software.amazon.cryptography.keystoreadmin.model.SystemKey;
@@ -30,6 +31,8 @@ public class MutationResumeExample {
     @Nullable DynamoDbClient dynamoDbClient,
     @Nullable KmsClient kmsClient
   ) {
+    boolean mutationConflictThrown = false;
+
     kmsClient = AdminProvider.kms(kmsClient);
     KeyManagementStrategy strategy = AdminProvider.strategy(kmsClient);
     KeyStoreAdmin admin = AdminProvider.admin(
@@ -73,6 +76,26 @@ public class MutationResumeExample {
     // Pretend the Mutation is halted for some reason.
     // We can Resume it by calling Initialize again.
     token = executeInitialize(branchKeyId, admin, initInput, "Resume Logs");
+    try {
+      HashMap<String, String> badTerminalEC = new HashMap<>();
+      badTerminalEC.put("Robbie", "is a Cat.");
+      Mutations badMutations = Mutations
+        .builder()
+        .TerminalEncryptionContext(badTerminalEC)
+        .TerminalKmsArn(kmsKeyArnTerminal)
+        .build();
+      InitializeMutationInput badInput = InitializeMutationInput
+        .builder()
+        .Mutations(badMutations)
+        .Identifier(branchKeyId)
+        .Strategy(strategy)
+        .SystemKey(systemKey)
+        .build();
+      executeInitialize(branchKeyId, admin, badInput, "Fail Resume Logs");
+    } catch (MutationConflictException ex) {
+      System.out.println(ex.getMessage());
+      mutationConflictThrown = true;
+    }
     result = workPage(branchKeyId, systemKey, token, strategy, admin, 1);
     // If we want to restart the Mutation from the beginning, we delete the Index.
     DdbHelper.deleteKeyStoreDdbItem(
@@ -87,6 +110,7 @@ public class MutationResumeExample {
 
     System.out.println("Done with Mutation: " + branchKeyId);
 
+    assert mutationConflictThrown;
     return branchKeyId;
   }
 
