@@ -292,6 +292,12 @@ class CreateKeyStoreOutput:
         :param table_arn: The ARN of the DynamoDB table that backs this
             Key Store.
         """
+        if (table_arn is not None) and (len(table_arn) < 1):
+            raise ValueError("The size of table_arn must be greater than or equal to 1")
+
+        if (table_arn is not None) and (len(table_arn) > 1024):
+            raise ValueError("The size of table_arn must be less than or equal to 1024")
+
         self.table_arn = table_arn
 
     def as_dict(self) -> Dict[str, Any]:

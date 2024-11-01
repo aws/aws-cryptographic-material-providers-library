@@ -55,7 +55,7 @@ namespace ECDH
             catch (Exception e)
             {
                 return Result<EccKeyPair, _IError>
-                    .create_Failure(new Error_Opaque(e, Dafny.Sequence<char>.FromString(e.ToString())));
+                    .create_Failure(new Error_Opaque(e));
             }
         }
 
@@ -120,7 +120,7 @@ namespace ECDH
             }
             catch (Exception e)
             {
-                return Result<Dafny.ISequence<byte>, _IError>.create_Failure(new Error_Opaque(e, Dafny.Sequence<char>.FromString(e.ToString())));
+                return Result<Dafny.ISequence<byte>, _IError>.create_Failure(new Error_Opaque(e));
             }
 
         }
@@ -288,7 +288,7 @@ namespace ECDH
             }
             catch (Exception e)
             {
-                return Result<ISequence<byte>, _IError>.create_Failure(new Error_Opaque(e, Dafny.Sequence<char>.FromString(e.ToString())));
+                return Result<ISequence<byte>, _IError>.create_Failure(new Error_Opaque(e));
             }
         }
 
@@ -308,7 +308,7 @@ namespace ECDH
             }
             catch (Exception e)
             {
-                return Result<ISequence<byte>, _IError>.create_Failure(new Error_Opaque(e, Dafny.Sequence<char>.FromString(e.ToString())));
+                return Result<ISequence<byte>, _IError>.create_Failure(new Error_Opaque(e));
             }
         }
 
@@ -445,7 +445,7 @@ namespace ECDH
             }
             catch (Exception e)
             {
-                return Result<ISequence<byte>, _IError>.create_Failure(new Error_Opaque(e, Dafny.Sequence<char>.FromString(e.ToString())));
+                return Result<ISequence<byte>, _IError>.create_Failure(new Error_Opaque(e));
             }
         }
         private static byte[] _fromBytesPublicKey(byte[] publicKeyBytes, ECDomainParameters dp)
