@@ -89,6 +89,13 @@ namespace AWS.Cryptography.KeyStore
       if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
       return TypeConversion.FromDafny_N3_aws__N12_cryptography__N8_keyStore__S39_WriteNewEncryptedBranchKeyVersionOutput(result.dtor_value);
     }
+    protected override AWS.Cryptography.KeyStore.WriteMutationIndexOutput _WriteMutationIndex(AWS.Cryptography.KeyStore.WriteMutationIndexInput input)
+    {
+      software.amazon.cryptography.keystore.internaldafny.types._IWriteMutationIndexInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N8_keyStore__S23_WriteMutationIndexInput(input);
+      Wrappers_Compile._IResult<software.amazon.cryptography.keystore.internaldafny.types._IWriteMutationIndexOutput, software.amazon.cryptography.keystore.internaldafny.types._IError> result = this._impl.WriteMutationIndex(internalInput);
+      if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
+      return TypeConversion.FromDafny_N3_aws__N12_cryptography__N8_keyStore__S24_WriteMutationIndexOutput(result.dtor_value);
+    }
     protected override AWS.Cryptography.KeyStore.QueryForVersionsOutput _QueryForVersions(AWS.Cryptography.KeyStore.QueryForVersionsInput input)
     {
       software.amazon.cryptography.keystore.internaldafny.types._IQueryForVersionsInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N8_keyStore__S21_QueryForVersionsInput(input);

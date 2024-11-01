@@ -6,6 +6,7 @@ include "PrefixUtils.dfy"
 include "MutationValidation.dfy"
 include "MutationErrorRefinement.dfy"
 include "KmsUtils.dfy"
+include "MutationIndexUtils.dfy"
 
 module {:options "/functionSyntax:4" } Mutations {
   import opened StandardLibrary
@@ -31,6 +32,7 @@ module {:options "/functionSyntax:4" } Mutations {
   import MutationValidation
   import MutationErrorRefinement
   import KmsUtils
+  import MutationIndexUtils
 
   const DEFAULT_APPLY_PAGE_SIZE := 3 as StandardLibrary.UInt.int32
 
@@ -383,7 +385,7 @@ module {:options "/functionSyntax:4" } Mutations {
         Version := KeyStoreTypes.WriteInitializeMutationVersion.rotate(rotate:=newDecryptOnly),
         Beacon := KeyStoreTypes.OverWriteEncryptedHierarchicalKey(Item:=newBeaconKey, Old:=readItems.BeaconItem),
         MutationCommitment := MutationCommitment,
-        MutationIndex := KeyStoreTypes.WriteInitializeMutationIndex.create(create:=MutationIndex)
+        MutationIndex := MutationIndex
       ));
     // TODO-Mutations-FF :: Ideally, we would diagnosis the Storage Failure.
     // What Condition Check failed? Was the Key Versioned? Or did another M-Commitment get written?
@@ -778,16 +780,16 @@ module {:options "/functionSyntax:4" } Mutations {
     nameonly logicalKeyStoreName: string,
     nameonly storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
   )
-  returns (output: Result<Types.InitializeMutationOutput, Types.Error>)
+    returns (output: Result<Types.InitializeMutationOutput, Types.Error>)
     requires storage.ValidState()
-    ensures storage.ValidState()   
+    ensures storage.ValidState()
     modifies storage.Modifies
   {
     var mutatedBranchKeyItems := [
-      Types.MutatedBranchKeyItem(ItemType := "Mutation Commitment: " + mutationCommitmentUUID, Description := "Matched Input")
+      Types.MutatedBranchKeyItem(ItemType := "Mutation Commitment: " + commitment.UUID, Description := "Matched Input")
     ];
     var Flag: Types.InitializeMutationFlag := Types.Resumed("");
-    
+
     if (index.None?) {
       Flag := Types.ResumedWithoutIndex("");
       var newIndex := KeyStoreTypes.MutationIndex(
@@ -795,12 +797,23 @@ module {:options "/functionSyntax:4" } Mutations {
         PageIndex := MutationIndexUtils.ExclusiveStartKeyToPageIndex(None),
         UUID := commitment.UUID,
         CreateTime := commitment.CreateTime,
-        CiphertextBlob := [0] // TODO-Mutations-GA
+        CiphertextBlob := [0] // TODO-Mutations-GA System Key
       );
+      // -= Write Mutation Index, conditioned on Mutation Commitment
+      var throwAway2? := storage.WriteMutationIndex(
+        KeyStoreTypes.WriteMutationIndexInput(
+          MutationCommitment := commitment,
+          MutationIndex := newIndex
+        ));
+      // TODO-Mutations-FF :: Ideally, we would diagnosis the Storage Failure.
+      // What Condition Check failed?
+      var _ :- throwAway2?.MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
+      mutatedBranchKeyItems := mutatedBranchKeyItems
+      + [Types.MutatedBranchKeyItem(ItemType := "Mutation Index: " + commitment.UUID, Description := "Created")];
     }
 
     var Token := Types.MutationToken(
-      Identifier := input.Identifier,
+      Identifier := commitment.Identifier,
       UUID := Some(commitment.UUID),
       CreateTime := commitment.CreateTime);
 
@@ -811,10 +824,10 @@ module {:options "/functionSyntax:4" } Mutations {
 
   }
 
-    // return Failure(Types.KeyStoreAdminException(message := "Implement me"));
-      //   Types.MutatedBranchKeyItem(ItemType := "Mutation Index: " + mutationCommitmentUUID, Description := "Created"),
-    //   Types.MutatedBranchKeyItem(ItemType := "Active: " + newVersion, Description := "Created"),
-    //   Types.MutatedBranchKeyItem(ItemType := "Decrypt Only: " + newVersion, Description := "Created"),
-    //   Types.MutatedBranchKeyItem(ItemType := "Beacon", Description := "Mutated")
-    // ];
+  // return Failure(Types.KeyStoreAdminException(message := "Implement me"));
+  //   Types.MutatedBranchKeyItem(ItemType := "Mutation Index: " + mutationCommitmentUUID, Description := "Created"),
+  //   Types.MutatedBranchKeyItem(ItemType := "Active: " + newVersion, Description := "Created"),
+  //   Types.MutatedBranchKeyItem(ItemType := "Decrypt Only: " + newVersion, Description := "Created"),
+  //   Types.MutatedBranchKeyItem(ItemType := "Beacon", Description := "Mutated")
+  // ];
 }

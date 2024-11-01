@@ -177,12 +177,6 @@ union WriteInitializeMutationVersion {
   mutate: OverWriteEncryptedHierarchicalKey
 }
 
-@documentation("Write Initialize Mutation allows Mutations to either create or update the Index.")
-union WriteInitializeMutationIndex {
-  create: MutationIndex
-  update: OverWriteMutationIndex
-}
-
 @aws.polymorph#extendable
 resource KeyStorageInterface {
 
@@ -209,7 +203,8 @@ resource KeyStorageInterface {
     QueryForVersions,
     WriteMutatedVersions,
     GetMutation,
-    DeleteMutation
+    DeleteMutation,
+    WriteMutationIndex
   ]
 }
 
@@ -285,6 +280,21 @@ operation WriteInitializeMutation {
     MutationCommitmentConditionFailed,
     AlreadyExistsConditionFailed,
     OldEncConditionFailed
+  ]
+}
+
+@documentation(
+"Creates a Mutation Index, conditioned on the Mutation Commitment.
+Used in the edge case where the Commitment exists and Index does not.
+The Index may have been deleted to restart the mutation from the very begining.
+")
+operation WriteMutationIndex {
+  input: WriteMutationIndexInput
+  output: WriteMutationIndexOutput
+  errors: [
+    KeyStorageException,
+    MutationCommitmentConditionFailed,
+    AlreadyExistsConditionFailed
   ]
 }
 
@@ -517,9 +527,17 @@ structure WriteInitializeMutationInput {
   @required // Smithy will copy documentation traits from existing shapes
   MutationCommitment: MutationCommitment
   @required
-  MutationIndex: WriteInitializeMutationIndex
+  MutationIndex: MutationIndex
 }
 structure WriteInitializeMutationOutput {}
+
+structure WriteMutationIndexInput {
+  @required // Smithy will copy documentation traits from existing shapes
+  MutationCommitment: MutationCommitment
+  @required
+  MutationIndex: MutationIndex
+}
+structure WriteMutationIndexOutput {}
 
 structure WriteAtomicMutationInput {
   @required

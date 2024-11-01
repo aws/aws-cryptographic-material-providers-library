@@ -94,6 +94,12 @@ module DefaultKeyStorageInterface {
     )
     {true}
 
+    predicate WriteMutationIndexEnsuresPublicly(
+      input: Types.WriteMutationIndexInput,
+      output: Result<Types.WriteMutationIndexOutput, Types.Error>
+    )
+    {true}
+
     predicate GetMutationEnsuresPublicly(
       input: Types.GetMutationInput,
       output: Result<Types.GetMutationOutput, Types.Error>
@@ -518,6 +524,61 @@ module DefaultKeyStorageInterface {
       .MapFailure(e => Types.ComAmazonawsDynamodb(ComAmazonawsDynamodb := e));
       output := Success(Types.WriteNewEncryptedBranchKeyVersionOutput);
     }
+
+    method WriteMutationIndex'(input: Types.WriteMutationIndexInput)
+      returns (output: Result<Types.WriteMutationIndexOutput, Types.Error>)
+      requires ValidState()
+      modifies Modifies - {History}
+      decreases Modifies - {History}
+      ensures ValidState() && unchanged(History)
+      ensures WriteMutationIndexEnsuresPublicly(input, output)
+    {
+      /** Validate Input */
+      :- Need(
+        Structure.MutationCommitment?(input.MutationCommitment),
+        Types.KeyStorageException(
+          message := "Invalid mutation commitment."
+        ));
+      :- Need(
+        Structure.MutationIndex?(input.MutationIndex),
+        Types.KeyStorageException(
+          message := "Invalid mutation index."
+        ));
+      /** Construct & Issue DDB Request */
+      var ddbRequest := DDB.TransactWriteItemsInput(
+        TransactItems :=
+          [
+            TransactConditionCheckOnMutationCommitment(input.MutationCommitment, ddbTableName),
+            TransactCreateMutationIndex(input.MutationIndex, ddbTableName)
+          ]
+      );
+      var ddbResponse? := ddbClient.TransactWriteItems(ddbRequest);
+
+      /** Handle DDB Error */
+      // TODO: Wherever we write a Transaction, to explain race failure, we MUST do something like this:
+      if (ddbResponse?.Failure? && ddbResponse?.error.TransactionCanceledException?) {
+        return Failure(
+            Types.KeyStorageException(
+              message :=
+                "DDB request to Write Mutated Versions was failed by DDB with TransactionCanceledException. "
+                + "This MAY be caused by a race between hosts mutating the same Branch Key ID. "
+                + "The Mutation has NOT completed. "
+                + "Table Name: "+ ddbTableName
+                + "\tBranch Key ID: " + input.MutationCommitment.Identifier
+                + "\tDDB Exception Message: \n" + ddbResponse?.error.Message.UnwrapOr("")));
+      }
+      var ddbResponse :- ddbResponse?
+      .MapFailure(
+        (e: DDB.Error) => wrapDdbException(
+            e:=e,
+            storageOperation:="WriteMutationIndex",
+            ddbOperation:="TransactionWriteItems",
+            identifier:=input.MutationCommitment.Identifier,
+            tableName:=ddbTableName));
+
+      return Success(Types.WriteMutationIndexOutput());
+    }
+
 
     method GetMutation' ( input: Types.GetMutationInput )
       returns (output: Result<Types.GetMutationOutput, Types.Error>)
@@ -1047,10 +1108,7 @@ module DefaultKeyStorageInterface {
           message := "Invalid mutation commitment."
         ));
       :- Need(
-        Structure.MutationIndex?(
-          if input.MutationIndex.create?
-          then input.MutationIndex.create
-          else input.MutationIndex.update.Index ),
+        Structure.MutationIndex?(input.MutationIndex),
         Types.KeyStorageException(
           message := "Invalid mutation index."
         ));
@@ -1093,16 +1151,13 @@ module DefaultKeyStorageInterface {
         TransactCreateMutationCommitment(
           input.MutationCommitment,
           ddbTableName
-        )
+        ),
+        TransactCreateMutationIndex(
+          input.MutationIndex,
+          ddbTableName)
       ];
-      var indexAction := if input.MutationIndex.create?
-      then TransactCreateMutationIndex(input.MutationIndex.create, ddbTableName)
-      else TransactOverwriteMutationIndex(
-          input.MutationIndex.update.Index,
-          input.MutationIndex.update.Old,
-          ddbTableName);
       var transactRequest := DDB.TransactWriteItemsInput(
-        TransactItems := items + [indexAction]
+        TransactItems := items
       );
 
       var transactWriteItemsResponse? := ddbClient.TransactWriteItems(transactRequest);
