@@ -3,7 +3,7 @@
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
 from _dafny import Seq
-import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny
+import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny
 import aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny
 from aws_cryptography_materialproviders_test_vectors.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes import (
     CmmOperation_DECRYPT,
@@ -231,7 +231,7 @@ def aws_cryptography_materialproviderstestvectorkeys_KmsMrkAwareDiscovery(native
         awsKmsDiscoveryFilter=(
             (
                 Option_Some(
-                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_DiscoveryFilter(
+                    aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_DiscoveryFilter(
                         native_input.aws_kms_discovery_filter
                     )
                 )
@@ -264,7 +264,7 @@ def aws_cryptography_materialproviderstestvectorkeys_RawRSA(native_input):
                 ]
             )
         ),
-        padding=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_PaddingScheme(
+        padding=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_PaddingScheme(
             native_input.padding
         ),
     )
@@ -570,7 +570,7 @@ def aws_cryptography_materialproviderstestvectorkeys_SerializeKeyDescriptionInpu
 def aws_cryptography_materialproviderstestvectorkeys_CreateWrappedTestVectorCmmOutput(
     native_input,
 ):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(
         native_input
     )
 

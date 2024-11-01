@@ -4,7 +4,7 @@
 
 from typing import Any, Dict, List, Optional, Union
 
-from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models import (
+from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models import (
     DiscoveryFilter,
 )
 
