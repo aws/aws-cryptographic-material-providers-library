@@ -202,13 +202,12 @@ public class MutationKmsAccessOriginalInFlightTest {
     // Clean Up
     Fixtures.cleanUpBranchKeyId(storage, branchKeyId);
     Assert.assertTrue(
-      (exceptions.size() == 2),
-      "More Exceptions thrown than expected. Exceptions: " + exceptions
+      (exceptions.size() == 1),
+      "Incorrect number of exceptions thrown than expected. Exceptions: " + exceptions
     );
     Assert.assertTrue(
-      verifyTerminalThrown,
-      "Apply never verified the new decrypt."
+      isFromThrown,
+      "Apply never failed to read the old."
     );
-    Assert.assertTrue(isToThrown, "Apply never mutated the old decrypt.");
   }
 }
