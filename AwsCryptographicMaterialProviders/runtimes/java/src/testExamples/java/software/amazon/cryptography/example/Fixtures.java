@@ -68,24 +68,6 @@ public class Fixtures {
     .region(Region.US_EAST_1)
     .build();
 
-  public static void deleteKeyStoreDdbItem(
-    final String branchKeyId,
-    final String branchKeyType,
-    final String physicalName,
-    @Nullable DynamoDbClient dynamoDbClient
-  ) {
-    Map<String, AttributeValue> ddbKey = new HashMap<>(3);
-    ddbKey.put(
-      "branch-key-id",
-      AttributeValue.builder().s(branchKeyId).build()
-    );
-    ddbKey.put("type", AttributeValue.builder().s(branchKeyType).build());
-    dynamoDbClient = AdminProvider.dynamoDB(dynamoDbClient);
-    dynamoDbClient.deleteItem(builder ->
-      builder.tableName(physicalName).key(ddbKey)
-    );
-  }
-
   public static GetItemResponse getKeyStoreDdbItem(
     final String branchKeyId,
     final String branchKeyType,
@@ -121,7 +103,7 @@ public class Fixtures {
     versions
       .Items()
       .forEach(item ->
-        deleteKeyStoreDdbItem(
+        DdbHelper.deleteKeyStoreDdbItem(
           item.Identifier(),
           item.EncryptionContext().get("type"),
           physicalName,
@@ -129,13 +111,13 @@ public class Fixtures {
         )
       );
 
-    deleteKeyStoreDdbItem(
+    DdbHelper.deleteKeyStoreDdbItem(
       branchKeyId,
       "branch:ACTIVE",
       physicalName,
       ddbClientWest2
     );
-    deleteKeyStoreDdbItem(
+    DdbHelper.deleteKeyStoreDdbItem(
       branchKeyId,
       "beacon:ACTIVE",
       physicalName,

@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kms.KmsClient;
+import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationOutput;
@@ -17,6 +18,8 @@ import software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
+import software.amazon.cryptography.keystoreadmin.model.SystemKey;
+import software.amazon.cryptography.keystoreadmin.model.TrustStorage;
 
 public class MutationResumeExample {
 
@@ -25,6 +28,7 @@ public class MutationResumeExample {
     String logicalKeyStoreName,
     String kmsKeyArnTerminal,
     String branchKeyId,
+    SystemKey systemKey,
     @Nullable DynamoDbClient dynamoDbClient,
     @Nullable KmsClient kmsClient
   ) {
@@ -50,48 +54,39 @@ public class MutationResumeExample {
       .Mutations(mutations)
       .Identifier(branchKeyId)
       .Strategy(strategy)
+      .SystemKey(systemKey)
       .build();
 
-    InitializeMutationOutput initOutput = admin.InitializeMutation(initInput);
-
-    MutationToken token = initOutput.MutationToken();
-    System.out.println(
-      "InitLogs: " +
-      branchKeyId +
-      " items: \n" +
-      AdminProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
-    );
-
+    MutationToken token = executeInitialize(branchKeyId, admin, initInput, "InitLogs");
+    // Work the Mutation once
+    ApplyMutationResult result = workPage(branchKeyId, systemKey, token, strategy, admin, 1);
     // Pretend the Mutation is halted for some reason.
-    initOutput = admin.InitializeMutation(initInput);
+    // We can Resume it by calling Initialize again.
+    token = executeInitialize(branchKeyId, admin, initInput, "Resume Logs");
+    result = workPage(branchKeyId, systemKey, token, strategy, admin, 1);
+    // If we want to restart the Mutation from the beginning, we delete the Index.
+    DdbHelper.deleteKeyStoreDdbItem(branchKeyId, "branch:MUTATION_INDEX", logicalKeyStoreName, dynamoDbClient);
+    token = executeInitialize(branchKeyId, admin, initInput, "Restart Logs");
 
-    token = initOutput.MutationToken();
-    System.out.println(
-      "Resume Logs: " +
-      branchKeyId +
-      " items: \n" +
-      AdminProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
-    );
+    workMutation(branchKeyId, systemKey, token, strategy, admin);
 
+    System.out.println("Done with Mutation: " + branchKeyId);
+
+    return branchKeyId;
+  }
+
+  public static void workMutation(
+    String branchKeyId,
+    SystemKey systemKey,
+    MutationToken token,
+    KeyManagementStrategy strategy,
+    KeyStoreAdmin admin
+  ) {
     boolean done = false;
     int limitLoop = 10;
 
     while (!done) {
-      ApplyMutationInput applyInput = ApplyMutationInput
-        .builder()
-        .MutationToken(token)
-        .PageSize(98)
-        .Strategy(strategy)
-        .build();
-      ApplyMutationOutput applyOutput = admin.ApplyMutation(applyInput);
-      ApplyMutationResult result = applyOutput.MutationResult();
-
-      System.out.println(
-        "ApplyLogs: " +
-        branchKeyId +
-        " items: \n" +
-        AdminProvider.mutatedItemsToString(applyOutput.MutatedBranchKeyItems())
-      );
+      ApplyMutationResult result = workPage(branchKeyId, systemKey, token, strategy, admin, 98);
 
       if (result.ContinueMutation() != null) {
         token = result.ContinueMutation();
@@ -102,13 +97,53 @@ public class MutationResumeExample {
       if (limitLoop == 0) {
         done = true;
       }
-
       limitLoop--;
     }
+  }
 
-    System.out.println("Done with Mutation: " + branchKeyId);
+  private static ApplyMutationResult workPage(
+    String branchKeyId,
+    SystemKey systemKey,
+    MutationToken token,
+    KeyManagementStrategy strategy,
+    KeyStoreAdmin admin,
+    Integer pageSize
+  ) {
+    ApplyMutationInput applyInput = ApplyMutationInput
+      .builder()
+      .MutationToken(token)
+      .PageSize(pageSize)
+      .Strategy(strategy)
+      .SystemKey(systemKey)
+      .build();
+    ApplyMutationOutput applyOutput = admin.ApplyMutation(applyInput);
+    ApplyMutationResult result = applyOutput.MutationResult();
 
-    return branchKeyId;
+    System.out.println(
+      "ApplyLogs: " +
+      branchKeyId +
+      " items: \n" +
+      AdminProvider.mutatedItemsToString(applyOutput.MutatedBranchKeyItems())
+    );
+    return result;
+  }
+
+  private static MutationToken executeInitialize(
+    String branchKeyId,
+    KeyStoreAdmin admin,
+    InitializeMutationInput initInput,
+    String logPrefix
+  ) {
+    InitializeMutationOutput initOutput = admin.InitializeMutation(initInput);
+    MutationToken token = initOutput.MutationToken();
+    System.out.println(
+      logPrefix + ": " +
+      " Flag: " + initOutput.InitializeMutationFlag().toString() +
+      " " + branchKeyId +
+      " items: \n" +
+      AdminProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
+    );
+    return token;
   }
 
   public static void main(final String[] args) {
@@ -126,6 +161,7 @@ public class MutationResumeExample {
       logicalKeyStoreName,
       kmsKeyArnTerminal,
       branchKeyId,
+      SystemKey.builder().trustStorage(TrustStorage.builder().build()).build(),
       null,
       null
     );

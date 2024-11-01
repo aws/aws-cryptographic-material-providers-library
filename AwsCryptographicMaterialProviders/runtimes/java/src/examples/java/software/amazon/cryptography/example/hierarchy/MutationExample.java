@@ -15,6 +15,8 @@ import software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
+import software.amazon.cryptography.keystoreadmin.model.SystemKey;
+import software.amazon.cryptography.keystoreadmin.model.TrustStorage;
 
 public class MutationExample {
 
@@ -23,6 +25,7 @@ public class MutationExample {
     String logicalKeyStoreName,
     String kmsKeyArnTerminal,
     String branchKeyId,
+    SystemKey systemKey,
     @Nullable DynamoDbClient dynamoDbClient,
     @Nullable KmsClient kmsClient
   ) {
@@ -48,6 +51,7 @@ public class MutationExample {
       .Mutations(mutations)
       .Identifier(branchKeyId)
       .Strategy(strategy)
+      .SystemKey(systemKey)
       .build();
 
     InitializeMutationOutput initOutput = admin.InitializeMutation(initInput);
@@ -59,38 +63,7 @@ public class MutationExample {
       " items: \n" +
       AdminProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
     );
-    boolean done = false;
-    int limitLoop = 10;
-
-    while (!done) {
-      ApplyMutationInput applyInput = ApplyMutationInput
-        .builder()
-        .MutationToken(token)
-        .PageSize(98)
-        .Strategy(strategy)
-        .build();
-      ApplyMutationOutput applyOutput = admin.ApplyMutation(applyInput);
-      ApplyMutationResult result = applyOutput.MutationResult();
-
-      System.out.println(
-        "ApplyLogs: " +
-        branchKeyId +
-        " items: \n" +
-        AdminProvider.mutatedItemsToString(applyOutput.MutatedBranchKeyItems())
-      );
-
-      if (result.ContinueMutation() != null) {
-        token = result.ContinueMutation();
-      }
-      if (result.CompleteMutation() != null) {
-        done = true;
-      }
-      if (limitLoop == 0) {
-        done = true;
-      }
-
-      limitLoop--;
-    }
+    MutationResumeExample.workMutation(branchKeyId, systemKey, token, strategy, admin);
 
     System.out.println("Done with Mutation: " + branchKeyId);
 
@@ -112,6 +85,7 @@ public class MutationExample {
       logicalKeyStoreName,
       kmsKeyArnTerminal,
       branchKeyId,
+      SystemKey.builder().trustStorage(TrustStorage.builder().build()).build(),
       null,
       null
     );
