@@ -14,6 +14,7 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.awssdk.services.kms.model.KmsException;
 import software.amazon.cryptography.example.CredentialUtils;
+import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.keystore.KeyStorageInterface;
 import software.amazon.cryptography.keystore.model.QueryForVersionsInput;
@@ -30,6 +31,8 @@ import software.amazon.cryptography.keystoreadmin.model.MutationFromException;
 import software.amazon.cryptography.keystoreadmin.model.MutationToException;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
+import software.amazon.cryptography.keystoreadmin.model.SystemKey;
+import software.amazon.cryptography.keystoreadmin.model.TrustStorage;
 
 public class MutationKmsAccessInFlightTest {
 
@@ -42,6 +45,7 @@ public class MutationKmsAccessInFlightTest {
       Fixtures.TEST_KEYSTORE_NAME,
       Fixtures.TEST_LOGICAL_KEYSTORE_NAME
     );
+    SystemKey systemKey = SystemKey.builder().trustStorage(TrustStorage.builder().build()).build();
     final String branchKeyId =
       testPrefix + java.util.UUID.randomUUID().toString();
     CreateKeyExample.CreateKey(
@@ -91,6 +95,7 @@ public class MutationKmsAccessInFlightTest {
       .Mutations(mutations)
       .Identifier(branchKeyId)
       .Strategy(strategyWest2)
+      .SystemKey(systemKey)
       .build();
 
     InitializeMutationOutput initOutput = admin.InitializeMutation(initInput);
@@ -117,6 +122,7 @@ public class MutationKmsAccessInFlightTest {
           .MutationToken(token)
           .PageSize(1)
           .Strategy(strategyDenyMrk)
+          .SystemKey(systemKey)
           .build();
         ApplyMutationOutput applyOutput = admin.ApplyMutation(applyInput);
         ApplyMutationResult result = applyOutput.MutationResult();
@@ -174,7 +180,7 @@ public class MutationKmsAccessInFlightTest {
           .Items()
           .forEach(item -> {
             String typStr = item.EncryptionContext().get("type");
-            Fixtures.deleteKeyStoreDdbItem(
+            DdbHelper.deleteKeyStoreDdbItem(
               item.Identifier(),
               typStr,
               Fixtures.TEST_KEYSTORE_NAME,
