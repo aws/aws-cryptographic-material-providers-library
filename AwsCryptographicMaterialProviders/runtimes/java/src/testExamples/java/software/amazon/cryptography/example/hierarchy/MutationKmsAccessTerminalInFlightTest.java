@@ -37,7 +37,8 @@ import software.amazon.cryptography.keystoreadmin.model.TrustStorage;
 
 public class MutationKmsAccessTerminalInFlightTest {
 
-  static final String testPrefix = "mutation-kms-access-in-flight-terminal-test-";
+  static final String testPrefix =
+    "mutation-kms-access-in-flight-terminal-test-";
 
   @Test
   public void test() {
@@ -46,7 +47,10 @@ public class MutationKmsAccessTerminalInFlightTest {
       Fixtures.TEST_KEYSTORE_NAME,
       Fixtures.TEST_LOGICAL_KEYSTORE_NAME
     );
-    SystemKey systemKey = SystemKey.builder().trustStorage(TrustStorage.builder().build()).build();
+    SystemKey systemKey = SystemKey
+      .builder()
+      .trustStorage(TrustStorage.builder().build())
+      .build();
     final String branchKeyId =
       testPrefix + java.util.UUID.randomUUID().toString();
     CreateKeyExample.CreateKey(

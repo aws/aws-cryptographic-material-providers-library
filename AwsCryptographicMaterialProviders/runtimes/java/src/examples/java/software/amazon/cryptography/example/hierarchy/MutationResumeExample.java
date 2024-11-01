@@ -3,9 +3,7 @@
 package software.amazon.cryptography.example.hierarchy;
 
 import java.util.HashMap;
-
 import javax.annotation.Nullable;
-
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.cryptography.example.DdbHelper;
@@ -57,15 +55,32 @@ public class MutationResumeExample {
       .SystemKey(systemKey)
       .build();
 
-    MutationToken token = executeInitialize(branchKeyId, admin, initInput, "InitLogs");
+    MutationToken token = executeInitialize(
+      branchKeyId,
+      admin,
+      initInput,
+      "InitLogs"
+    );
     // Work the Mutation once
-    ApplyMutationResult result = workPage(branchKeyId, systemKey, token, strategy, admin, 1);
+    ApplyMutationResult result = workPage(
+      branchKeyId,
+      systemKey,
+      token,
+      strategy,
+      admin,
+      1
+    );
     // Pretend the Mutation is halted for some reason.
     // We can Resume it by calling Initialize again.
     token = executeInitialize(branchKeyId, admin, initInput, "Resume Logs");
     result = workPage(branchKeyId, systemKey, token, strategy, admin, 1);
     // If we want to restart the Mutation from the beginning, we delete the Index.
-    DdbHelper.deleteKeyStoreDdbItem(branchKeyId, "branch:MUTATION_INDEX", logicalKeyStoreName, dynamoDbClient);
+    DdbHelper.deleteKeyStoreDdbItem(
+      branchKeyId,
+      "branch:MUTATION_INDEX",
+      logicalKeyStoreName,
+      dynamoDbClient
+    );
     token = executeInitialize(branchKeyId, admin, initInput, "Restart Logs");
 
     workMutation(branchKeyId, systemKey, token, strategy, admin);
@@ -86,7 +101,14 @@ public class MutationResumeExample {
     int limitLoop = 10;
 
     while (!done) {
-      ApplyMutationResult result = workPage(branchKeyId, systemKey, token, strategy, admin, 98);
+      ApplyMutationResult result = workPage(
+        branchKeyId,
+        systemKey,
+        token,
+        strategy,
+        admin,
+        98
+      );
 
       if (result.ContinueMutation() != null) {
         token = result.ContinueMutation();
@@ -137,9 +159,12 @@ public class MutationResumeExample {
     InitializeMutationOutput initOutput = admin.InitializeMutation(initInput);
     MutationToken token = initOutput.MutationToken();
     System.out.println(
-      logPrefix + ": " +
-      " Flag: " + initOutput.InitializeMutationFlag().toString() +
-      " " + branchKeyId +
+      logPrefix +
+      ": " +
+      " Flag: " +
+      initOutput.InitializeMutationFlag().toString() +
+      " " +
+      branchKeyId +
       " items: \n" +
       AdminProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
     );

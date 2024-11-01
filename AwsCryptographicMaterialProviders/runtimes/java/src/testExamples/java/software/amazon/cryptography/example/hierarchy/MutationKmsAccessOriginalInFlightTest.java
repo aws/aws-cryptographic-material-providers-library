@@ -2,13 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 package software.amazon.cryptography.example.hierarchy;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import static software.amazon.cryptography.example.Fixtures.MRK_ARN_WEST;
+import static software.amazon.cryptography.example.Fixtures.POSTAL_HORN_KEY_ARN;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+import org.testng.Assert;
+import org.testng.annotations.Test;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.awssdk.services.kms.model.KmsException;
@@ -31,12 +32,10 @@ import software.amazon.cryptography.keystoreadmin.model.MutationToException;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
 
-import static software.amazon.cryptography.example.Fixtures.MRK_ARN_WEST;
-import static software.amazon.cryptography.example.Fixtures.POSTAL_HORN_KEY_ARN;
-
 public class MutationKmsAccessOriginalInFlightTest {
 
-  static final String testPrefix = "mutation-kms-access-in-flight-original-test-";
+  static final String testPrefix =
+    "mutation-kms-access-in-flight-original-test-";
 
   @Test
   public void test() {
@@ -50,7 +49,7 @@ public class MutationKmsAccessOriginalInFlightTest {
     CreateKeyExample.CreateKey(
       Fixtures.TEST_KEYSTORE_NAME,
       Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
-        MRK_ARN_WEST,
+      MRK_ARN_WEST,
       branchKeyId,
       Fixtures.ddbClientWest2
     );
@@ -150,12 +149,12 @@ public class MutationKmsAccessOriginalInFlightTest {
               .contains("while verifying a Version with terminal properities");
           verifyTerminalThrown = verifyTerminalThrown || isTo;
         }
-          if (accessDenied instanceof MutationFromException) {
-              boolean isFrom =
-                  ((MutationFromException) accessDenied).getMessage()
-                      .contains("while verifying a Version with terminal properities");
-              verifyTerminalThrown = verifyTerminalThrown || isFrom;
-          }
+        if (accessDenied instanceof MutationFromException) {
+          boolean isFrom =
+            ((MutationFromException) accessDenied).getMessage()
+              .contains("while verifying a Version with terminal properities");
+          verifyTerminalThrown = verifyTerminalThrown || isFrom;
+        }
         if (accessDenied instanceof KmsException) {
           boolean isFrom = accessDenied.getMessage().contains("ReEncryptFrom");
           isFromThrown = isFromThrown || isFrom;

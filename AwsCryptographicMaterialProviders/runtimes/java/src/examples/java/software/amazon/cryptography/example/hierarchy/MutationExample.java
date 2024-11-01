@@ -63,7 +63,13 @@ public class MutationExample {
       " items: \n" +
       AdminProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
     );
-    MutationResumeExample.workMutation(branchKeyId, systemKey, token, strategy, admin);
+    MutationResumeExample.workMutation(
+      branchKeyId,
+      systemKey,
+      token,
+      strategy,
+      admin
+    );
 
     System.out.println("Done with Mutation: " + branchKeyId);
 
