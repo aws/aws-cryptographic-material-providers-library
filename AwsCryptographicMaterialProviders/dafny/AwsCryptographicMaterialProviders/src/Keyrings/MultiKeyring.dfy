@@ -4,9 +4,19 @@
 include "../Keyring.dfy"
 include "../Materials.dfy"
 include "../../Model/AwsCryptographyMaterialProvidersTypes.dfy"
-include "../../../../../libraries/src/Collections/Sequences/Seq.dfy"
 
-module MultiKeyring {
+include "RawAESKeyring.dfy"
+include "RawECDHKeyring.dfy"
+include "RawRSAKeyring.dfy"
+include "AwsKms/AwsKmsDiscoveryKeyring.dfy"
+include "AwsKms/AwsKmsEcdhKeyring.dfy"
+include "AwsKms/AwsKmsHierarchicalKeyring.dfy"
+include "AwsKms/AwsKmsKeyring.dfy"
+include "AwsKms/AwsKmsMrkDiscoveryKeyring.dfy"
+include "AwsKms/AwsKmsMrkKeyring.dfy"
+include "AwsKms/AwsKmsRsaKeyring.dfy"
+
+module {:options "-functionSyntax:4"} MultiKeyring {
   import opened StandardLibrary
   import opened Wrappers
   import Types = AwsCryptographyMaterialProvidersTypes
@@ -15,13 +25,52 @@ module MultiKeyring {
   import UTF8
   import Seq
 
+  // Rust traits do not have extensive runtime dependency information.
+  // This means that in Rust you cannot know that one trait also implements another trait.
+  // This is problematic because in Dafny this is trivial,
+  // and given how we set up our keyrings and CMMs
+  // it is very convenient.
+  // By checking `keyring: Types.IKeyring is Keyring.VerifiableInterface`
+  // the MultiKeyring can do less work.
+  // Because it can prove, via Dafny that some work has already been done.
+  // However the above cannot be currently compiled into Rust.
+  // This means that to offer this we need to check a different way.
+  // The workaround for now is to use list of all know verified keyrings.
+  import RawAESKeyring
+  import RawECDHKeyring
+  import RawRSAKeyring
+  import AwsKmsDiscoveryKeyring
+  import AwsKmsEcdhKeyring
+  import AwsKmsHierarchicalKeyring
+  import AwsKmsKeyring
+  import AwsKmsMrkDiscoveryKeyring
+  import AwsKmsMrkKeyring
+  import AwsKmsRsaKeyring
+
+  predicate Verified?(keyring: Types.IKeyring)
+    : (outcome: bool)
+    ensures outcome ==> keyring is Keyring.VerifiableInterface
+  {
+    || keyring is RawAESKeyring.RawAESKeyring
+    || keyring is RawECDHKeyring.RawEcdhKeyring
+    || keyring is RawRSAKeyring.RawRSAKeyring
+    || keyring is AwsKmsDiscoveryKeyring.AwsKmsDiscoveryKeyring
+    || keyring is AwsKmsEcdhKeyring.AwsKmsEcdhKeyring
+    || keyring is AwsKmsHierarchicalKeyring.AwsKmsHierarchicalKeyring
+    || keyring is AwsKmsKeyring.AwsKmsKeyring
+    || keyring is AwsKmsMrkDiscoveryKeyring.AwsKmsMrkDiscoveryKeyring
+    || keyring is AwsKmsMrkKeyring.AwsKmsMrkKeyring
+    || keyring is AwsKmsRsaKeyring.AwsKmsRsaKeyring
+  }
+
+
   class MultiKeyring
     extends
       Keyring.VerifiableInterface,
       Types.IKeyring
   {
 
-    predicate ValidState()
+    ghost predicate ValidState()
       ensures ValidState() ==> History in Modifies
     {
       && History in Modifies
@@ -95,7 +144,7 @@ module MultiKeyring {
                      && k.Modifies <= Modifies);
     }
 
-    predicate OnEncryptEnsuresPublicly (
+    ghost predicate OnEncryptEnsuresPublicly (
       input: Types.OnEncryptInput ,
       output: Result<Types.OnEncryptOutput, Types.Error> )
       : (outcome: bool)
@@ -200,8 +249,10 @@ module MultiKeyring {
         // because they implement a trait that ensures this.
         // However not all CMM/keyrings are Dafny CMM/keyrings.
         // Customers can create custom CMM/keyrings.
-        if !(this.generatorKeyring.value is Keyring.VerifiableInterface) {
-
+        if !(
+          || Verified?(generatorKeyring.value)
+          || generatorKeyring.value is MultiKeyring
+          ) {
             //= aws-encryption-sdk-specification/framework/multi-keyring.md#onencrypt
             //# - If the generator keyring returns encryption materials missing a
             //# plaintext data key, OnEncrypt MUST fail.
@@ -245,7 +296,10 @@ module MultiKeyring {
         // because they implement a trait that ensures this.
         // However not all CMM/keyrings are Dafny CMM/keyrings.
         // Customers can create custom CMM/keyrings.
-        if !(child is Keyring.VerifiableInterface) {
+        if !(
+          || Verified?(child)
+          || child is MultiKeyring
+          ) {
           // We have to explicitly check for this because our child and generator keyrings are of type
           // IKeyring, rather than VerifiableKeyring.
           // If we knew we would always have VerifiableKeyrings, we would get this for free.
@@ -272,7 +326,7 @@ module MultiKeyring {
       return Success(Types.OnEncryptOutput(materials := returnMaterials));
     }
 
-    predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> )
+    ghost predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> )
       : (outcome: bool)
       ensures
         outcome ==>
@@ -411,10 +465,19 @@ module MultiKeyring {
   {
     var output :- keyring.OnDecrypt(input);
 
-    :- Need(
-      Materials.DecryptionMaterialsTransitionIsValid(input.materials, output.materials),
-      Types.AwsCryptographicMaterialProvidersException( message := "Keyring performed invalid material transition")
-    );
+    // For Dafny these are trivial statements
+    // because they implement a trait that ensures this.
+    // However not all CMM/keyrings are Dafny CMM/keyrings.
+    // Customers can create custom CMM/keyrings.
+    if !(
+      || Verified?(keyring)
+      || keyring is MultiKeyring
+      ) {
+      :- Need(
+        Materials.DecryptionMaterialsTransitionIsValid(input.materials, output.materials),
+        Types.AwsCryptographicMaterialProvidersException( message := "Keyring performed invalid material transition")
+      );
+    }
     return Success(output);
   }
 
@@ -423,7 +486,7 @@ module MultiKeyring {
   // for Dafny.
   // Makes the code in the constructor
   // a little more readable.
-  function GatherModifies(
+  ghost function GatherModifies(
     generatorKeyring: Option<Types.IKeyring>,
     childKeyrings: seq<Types.IKeyring>
   ):

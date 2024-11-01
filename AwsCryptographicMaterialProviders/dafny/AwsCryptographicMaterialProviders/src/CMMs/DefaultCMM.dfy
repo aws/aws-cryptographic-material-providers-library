@@ -8,6 +8,7 @@ include "../Defaults.dfy"
 include "../Commitment.dfy"
 include "../../Model/AwsCryptographyMaterialProvidersTypes.dfy"
 include "../Keyring.dfy"
+include "../Keyrings/MultiKeyring.dfy"
 
 module DefaultCMM {
   import opened Wrappers
@@ -26,6 +27,7 @@ module DefaultCMM {
   import Seq
   import SortedSets
   import Keyring
+  import MultiKeyring
 
   class DefaultCMM
     extends CMM.VerifiableInterface
@@ -272,11 +274,14 @@ module DefaultCMM {
       var result :- keyring.OnEncrypt(Types.OnEncryptInput(materials:=materials));
       var encryptionMaterialsOutput := Types.GetEncryptionMaterialsOutput(encryptionMaterials:=result.materials);
 
-      // For Dafny these are trivial statements
-      // because they implement a trait that ensures this.
-      // However not all CMM/keyrings are Dafny CMM/keyrings.
-      // Customers can create custom CMM/keyrings.
-      if !(keyring is Keyring.VerifiableInterface) {
+        // For Dafny these are trivial statements
+        // because they implement a trait that ensures this.
+        // However not all CMM/keyrings are Dafny CMM/keyrings.
+        // Customers can create custom CMM/keyrings.
+        if !(
+          || MultiKeyring.Verified?(keyring)
+          || keyring is MultiKeyring.MultiKeyring
+        ) {
         :- Need(
           Materials.EncryptionMaterialsHasPlaintextDataKey(encryptionMaterialsOutput.encryptionMaterials),
           Types.AwsCryptographicMaterialProvidersException(
@@ -508,7 +513,10 @@ module DefaultCMM {
       // because they implement a trait that ensures this.
       // However not all CMM/keyrings are Dafny CMM/keyrings.
       // Customers can create custom CMM/keyrings.
-      if !(keyring is Keyring.VerifiableInterface) {
+      if !(
+        || MultiKeyring.Verified?(keyring)
+        || keyring is MultiKeyring.MultiKeyring
+      ) {
         :- Need(
           Materials.DecryptionMaterialsTransitionIsValid(materials, result.materials),
           Types.AwsCryptographicMaterialProvidersException(

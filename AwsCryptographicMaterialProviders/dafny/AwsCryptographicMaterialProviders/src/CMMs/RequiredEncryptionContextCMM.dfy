@@ -7,6 +7,7 @@ include "../CMM.dfy"
 include "../Defaults.dfy"
 include "../Commitment.dfy"
 include "../../Model/AwsCryptographyMaterialProvidersTypes.dfy"
+include "DefaultCMM.dfy"
 
 module RequiredEncryptionContextCMM {
   import opened Wrappers
@@ -17,6 +18,8 @@ module RequiredEncryptionContextCMM {
   import Types = AwsCryptographyMaterialProvidersTypes
   import Seq
   import SortedSets
+
+  import DefaultCMM
 
   class RequiredEncryptionContextCMM
     extends CMM.VerifiableInterface
@@ -181,7 +184,10 @@ module RequiredEncryptionContextCMM {
       // because they implement a trait that ensures this.
       // However not all CMM/keyrings are Dafny CMM/keyrings.
       // Customers can create custom CMM/keyrings.
-      if !(underlyingCMM is CMM.VerifiableInterface) {
+      if !(
+        || underlyingCMM is DefaultCMM.DefaultCMM
+        || underlyingCMM is RequiredEncryptionContextCMM
+      ) {
 
         :- Need(forall k <- requiredEncryptionContextKeys :: k in result.encryptionMaterials.requiredEncryptionContextKeys,
                 Types.AwsCryptographicMaterialProvidersException(
@@ -310,7 +316,10 @@ module RequiredEncryptionContextCMM {
       // because they implement a trait that ensures this.
       // However not all CMM/keyrings are Dafny CMM/keyrings.
       // Customers can create custom CMM/keyrings.
-      if !(underlyingCMM is CMM.VerifiableInterface) {
+      if !(
+        || underlyingCMM is DefaultCMM.DefaultCMM
+        || underlyingCMM is RequiredEncryptionContextCMM
+      ) {
         :- Need(forall k <- requiredEncryptionContextKeys :: k in result.decryptionMaterials.encryptionContext,
                 Types.AwsCryptographicMaterialProvidersException(
                   message := "Final encryption context missing required keys.")
