@@ -35,6 +35,15 @@ public class ExampleTests {
         branchKeyId,
         Fixtures.ddbClientWest2
       );
+    branchKeyId =
+      MutationResumeExample.Resume2End(
+        Fixtures.TEST_KEYSTORE_NAME,
+        Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
+        Fixtures.KEYSTORE_KMS_ARN,
+        branchKeyId,
+        Fixtures.ddbClientWest2,
+        Fixtures.kmsClientWest2
+      );
     KeyStorageInterface storage = StorageCheater.create(
       Fixtures.ddbClientWest2,
       Fixtures.TEST_KEYSTORE_NAME,
