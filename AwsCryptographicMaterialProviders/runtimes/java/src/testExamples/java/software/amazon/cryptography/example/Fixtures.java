@@ -39,6 +39,7 @@ public class Fixtures {
     "arn:aws:kms:ap-south-2:658956600833:key/mrk-80bd8ecdcd4342aebd84b7dc9da498a7";
   public static final String LIMITED_KMS_ACCESS_IAM_ROLE =
     "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Limited-KMS-us-west-2";
+  // ^ can not access: MRK_ARN_EAST, MRK_ARN_WEST, and MRK_ARN_AP
   public static final String NO_KMS_ACCESS_IAM_ROLE =
     "arn:aws:iam::370957321024:role/GitHub-CI-MPL-No-KMS-us-west-2";
 
