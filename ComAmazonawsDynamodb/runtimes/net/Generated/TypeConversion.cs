@@ -213,11 +213,12 @@ namespace Com.Amazonaws.Dynamodb
         }
         public static Amazon.DynamoDBv2.Model.ConditionalCheckFailedException FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S31_ConditionalCheckFailedException(software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ConditionalCheckFailedException value)
         {
-            return new Amazon.DynamoDBv2.Model.ConditionalCheckFailedException(
-            FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S31_ConditionalCheckFailedException__M7_message(value._message)
-            ,
-            FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S31_ConditionalCheckFailedException__M4_Item(value._Item)
-            );
+            var conditionalCheckFailedException = new Amazon.DynamoDBv2.Model.ConditionalCheckFailedException(
+                FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S31_ConditionalCheckFailedException__M7_message(
+                    value._message));
+            conditionalCheckFailedException.Item =
+                FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S31_ConditionalCheckFailedException__M4_Item(value._Item);
+            return conditionalCheckFailedException;
         }
         public static software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ConditionalCheckFailedException ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S31_ConditionalCheckFailedException(Amazon.DynamoDBv2.Model.ConditionalCheckFailedException value)
         {
