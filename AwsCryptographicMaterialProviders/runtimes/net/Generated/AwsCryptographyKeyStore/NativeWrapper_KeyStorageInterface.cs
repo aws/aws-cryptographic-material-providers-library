@@ -325,6 +325,34 @@ namespace AWS.Cryptography.KeyStore
     {
       throw new KeyStoreException("Not supported at this time.");
     }
+    public Wrappers_Compile._IResult<software.amazon.cryptography.keystore.internaldafny.types._IWriteMutationIndexOutput, software.amazon.cryptography.keystore.internaldafny.types._IError> WriteMutationIndex(software.amazon.cryptography.keystore.internaldafny.types._IWriteMutationIndexInput input)
+    {
+      void validateOutput(AWS.Cryptography.KeyStore.WriteMutationIndexOutput nativeOutput)
+      {
+        try { nativeOutput.Validate(); }
+        catch (ArgumentException e)
+        {
+          var message = $"Output of {_impl}._WriteMutationIndex is invalid. {e.Message}";
+          throw new KeyStoreException(message);
+        }
+      }
+      AWS.Cryptography.KeyStore.WriteMutationIndexInput nativeInput = TypeConversion.FromDafny_N3_aws__N12_cryptography__N8_keyStore__S23_WriteMutationIndexInput(input);
+      try
+      {
+        AWS.Cryptography.KeyStore.WriteMutationIndexOutput nativeOutput = _impl.WriteMutationIndex(nativeInput);
+        _ = nativeOutput ?? throw new KeyStoreException($"{_impl}._WriteMutationIndex returned null, should be {typeof(AWS.Cryptography.KeyStore.WriteMutationIndexOutput)}");
+        validateOutput(nativeOutput);
+        return Wrappers_Compile.Result<software.amazon.cryptography.keystore.internaldafny.types._IWriteMutationIndexOutput, software.amazon.cryptography.keystore.internaldafny.types._IError>.create_Success(TypeConversion.ToDafny_N3_aws__N12_cryptography__N8_keyStore__S24_WriteMutationIndexOutput(nativeOutput));
+      }
+      catch (Exception e)
+      {
+        return Wrappers_Compile.Result<software.amazon.cryptography.keystore.internaldafny.types._IWriteMutationIndexOutput, software.amazon.cryptography.keystore.internaldafny.types._IError>.create_Failure(TypeConversion.ToDafny_CommonError(e));
+      }
+    }
+    public Wrappers_Compile._IResult<software.amazon.cryptography.keystore.internaldafny.types._IWriteMutationIndexOutput, software.amazon.cryptography.keystore.internaldafny.types._IError> WriteMutationIndex_k(software.amazon.cryptography.keystore.internaldafny.types._IWriteMutationIndexInput input)
+    {
+      throw new KeyStoreException("Not supported at this time.");
+    }
     public Wrappers_Compile._IResult<software.amazon.cryptography.keystore.internaldafny.types._IQueryForVersionsOutput, software.amazon.cryptography.keystore.internaldafny.types._IError> QueryForVersions(software.amazon.cryptography.keystore.internaldafny.types._IQueryForVersionsInput input)
     {
       void validateOutput(AWS.Cryptography.KeyStore.QueryForVersionsOutput nativeOutput)

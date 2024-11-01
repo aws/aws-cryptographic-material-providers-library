@@ -30,6 +30,8 @@ import software.amazon.cryptography.keystore.model.WriteInitializeMutationInput;
 import software.amazon.cryptography.keystore.model.WriteInitializeMutationOutput;
 import software.amazon.cryptography.keystore.model.WriteMutatedVersionsInput;
 import software.amazon.cryptography.keystore.model.WriteMutatedVersionsOutput;
+import software.amazon.cryptography.keystore.model.WriteMutationIndexInput;
+import software.amazon.cryptography.keystore.model.WriteMutationIndexOutput;
 import software.amazon.cryptography.keystore.model.WriteNewEncryptedBranchKeyInput;
 import software.amazon.cryptography.keystore.model.WriteNewEncryptedBranchKeyOutput;
 import software.amazon.cryptography.keystore.model.WriteNewEncryptedBranchKeyVersionInput;
@@ -306,6 +308,28 @@ public final class KeyStorageInterface implements IKeyStorageInterface {
       throw ToNative.Error(result.dtor_error());
     }
     return ToNative.WriteMutatedVersionsOutput(result.dtor_value());
+  }
+
+  /**
+   * Creates a Mutation Index, conditioned on the Mutation Commitment.
+   * Used in the edge case where the Commitment exists and Index does not.
+   * The Index may have been deleted to restart the mutation from the very begining.
+   *
+   *
+   */
+  public WriteMutationIndexOutput WriteMutationIndex(
+    WriteMutationIndexInput input
+  ) {
+    software.amazon.cryptography.keystore.internaldafny.types.WriteMutationIndexInput dafnyValue =
+      ToDafny.WriteMutationIndexInput(input);
+    Result<
+      software.amazon.cryptography.keystore.internaldafny.types.WriteMutationIndexOutput,
+      Error
+    > result = this._impl.WriteMutationIndex(dafnyValue);
+    if (result.is_Failure()) {
+      throw ToNative.Error(result.dtor_error());
+    }
+    return ToNative.WriteMutationIndexOutput(result.dtor_value());
   }
 
   /**
@@ -766,6 +790,43 @@ public final class KeyStorageInterface implements IKeyStorageInterface {
       Error
     > WriteMutatedVersions_k(
       software.amazon.cryptography.keystore.internaldafny.types.WriteMutatedVersionsInput dafnyInput
+    ) {
+      throw new RuntimeException("Not supported at this time.");
+    }
+
+    public Result<
+      software.amazon.cryptography.keystore.internaldafny.types.WriteMutationIndexOutput,
+      Error
+    > WriteMutationIndex(
+      software.amazon.cryptography.keystore.internaldafny.types.WriteMutationIndexInput dafnyInput
+    ) {
+      try {
+        WriteMutationIndexInput nativeInput = ToNative.WriteMutationIndexInput(
+          dafnyInput
+        );
+        WriteMutationIndexOutput nativeOutput =
+          this._impl.WriteMutationIndex(nativeInput);
+        software.amazon.cryptography.keystore.internaldafny.types.WriteMutationIndexOutput dafnyOutput =
+          ToDafny.WriteMutationIndexOutput(nativeOutput);
+        return Result.create_Success(
+          software.amazon.cryptography.keystore.internaldafny.types.WriteMutationIndexOutput._typeDescriptor(),
+          Error._typeDescriptor(),
+          dafnyOutput
+        );
+      } catch (RuntimeException ex) {
+        return Result.create_Failure(
+          software.amazon.cryptography.keystore.internaldafny.types.WriteMutationIndexOutput._typeDescriptor(),
+          Error._typeDescriptor(),
+          ToDafny.Error(ex)
+        );
+      }
+    }
+
+    public Result<
+      software.amazon.cryptography.keystore.internaldafny.types.WriteMutationIndexOutput,
+      Error
+    > WriteMutationIndex_k(
+      software.amazon.cryptography.keystore.internaldafny.types.WriteMutationIndexInput dafnyInput
     ) {
       throw new RuntimeException("Not supported at this time.");
     }

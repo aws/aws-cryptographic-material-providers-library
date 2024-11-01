@@ -27,6 +27,8 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     WriteInitializeMutationOutput_WriteInitializeMutationOutput as DafnyWriteInitializeMutationOutput,
     WriteMutatedVersionsInput_WriteMutatedVersionsInput as DafnyWriteMutatedVersionsInput,
     WriteMutatedVersionsOutput_WriteMutatedVersionsOutput as DafnyWriteMutatedVersionsOutput,
+    WriteMutationIndexInput_WriteMutationIndexInput as DafnyWriteMutationIndexInput,
+    WriteMutationIndexOutput_WriteMutationIndexOutput as DafnyWriteMutationIndexOutput,
     WriteNewEncryptedBranchKeyInput_WriteNewEncryptedBranchKeyInput as DafnyWriteNewEncryptedBranchKeyInput,
     WriteNewEncryptedBranchKeyOutput_WriteNewEncryptedBranchKeyOutput as DafnyWriteNewEncryptedBranchKeyOutput,
     WriteNewEncryptedBranchKeyVersionInput_WriteNewEncryptedBranchKeyVersionInput as DafnyWriteNewEncryptedBranchKeyVersionInput,
@@ -74,6 +76,8 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
             and callable(subclass.GetMutation)
             and hasattr(subclass, "DeleteMutation")
             and callable(subclass.DeleteMutation)
+            and hasattr(subclass, "WriteMutationIndex")
+            and callable(subclass.WriteMutationIndex)
         )
 
     @abc.abstractmethod
@@ -246,6 +250,19 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
         param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.DeleteMutationInput",
     ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.DeleteMutationOutput":
         """Delete an existing Mutation Commitment & Index."""
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def write_mutation_index(
+        self,
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.WriteMutationIndexInput",
+    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.WriteMutationIndexOutput":
+        """Creates a Mutation Index, conditioned on the Mutation Commitment.
+
+        Used in the edge case where the Commitment exists and Index does
+        not. The Index may have been deleted to restart the mutation
+        from the very begining.
+        """
         raise NotImplementedError
 
     def WriteNewEncryptedBranchKey(
@@ -514,6 +531,27 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
         try:
             native_output = self.delete_mutation(native_input)
             dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_DeleteMutationOutput(
+                native_output
+            )
+            return Wrappers.Result_Success(dafny_output)
+        except Exception as e:
+            error = _smithy_error_to_dafny_error(e)
+            return Wrappers.Result_Failure(error)
+
+    def WriteMutationIndex(
+        self, dafny_input: "DafnyWriteMutationIndexInput"
+    ) -> "DafnyWriteMutationIndexOutput":
+        """Do not use.
+
+        This method allows custom implementations of this interface to
+        interact with generated code.
+        """
+        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_WriteMutationIndexInput(
+            dafny_input
+        )
+        try:
+            native_output = self.write_mutation_index(native_input)
+            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteMutationIndexOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -885,6 +923,33 @@ class KeyStorageInterface(IKeyStorageInterface):
 
         else:
             return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_DeleteMutationOutput(
+                dafny_output.value
+            )
+
+    def write_mutation_index(
+        self,
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.WriteMutationIndexInput",
+    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.WriteMutationIndexOutput":
+        """Creates a Mutation Index, conditioned on the Mutation Commitment.
+
+        Used in the edge case where the Commitment exists and Index does
+        not. The Index may have been deleted to restart the mutation
+        from the very begining.
+        """
+        dafny_output = self._impl.WriteMutationIndex(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteMutationIndexInput(
+                param
+            )
+        )
+        if dafny_output.IsFailure():
+            from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.deserialize import (
+                _deserialize_error as aws_cryptography_keystore_deserialize_error,
+            )
+
+            raise aws_cryptography_keystore_deserialize_error(dafny_output.error)
+
+        else:
+            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_WriteMutationIndexOutput(
                 dafny_output.value
             )
 

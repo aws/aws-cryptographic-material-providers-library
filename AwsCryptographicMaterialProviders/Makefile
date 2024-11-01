@@ -135,17 +135,17 @@ PYTHON_DEPENDENCY_MODULE_NAMES := \
 	--dependency-library-name=aws.cryptography.keyStore=aws_cryptographic_materialproviders \
 	--dependency-library-name=aws.cryptography.keyStoreadmin=aws_cryptographic_materialproviders \
 
-_polymorph_dependencies:
-	@echo "No polymorphing of dependency"
+# _polymorph_dependencies:
+# 	@echo "No polymorphing of dependency"
 
-transpile_dependencies_java:
-	@echo "No java transpile of dependency"
+# transpile_dependencies_java:
+# 	@echo "No java transpile of dependency"
 
-mvn_local_deploy_dependencies:
-	@echo "No mvn_local_deploy of dependency"
+# mvn_local_deploy_dependencies:
+# 	@echo "No mvn_local_deploy of dependency"
 
-_transpile_test_all:
-	@echo "No _transpile_test_all of dependency"
+# _transpile_test_all:
+# 	@echo "No _transpile_test_all of dependency"
 
-_transpile_implementation_all:
-	@echo "No transpile_implementation_all of dependency"
+# _transpile_implementation_all:
+# 	@echo "No transpile_implementation_all of dependency"

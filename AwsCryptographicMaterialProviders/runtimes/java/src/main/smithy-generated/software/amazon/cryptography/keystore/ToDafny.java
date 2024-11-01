@@ -78,12 +78,13 @@ import software.amazon.cryptography.keystore.internaldafny.types.VersionKeyInput
 import software.amazon.cryptography.keystore.internaldafny.types.VersionKeyOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteAtomicMutationInput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteAtomicMutationOutput;
-import software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationIndex;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationInput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationVersion;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteMutatedVersionsInput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteMutatedVersionsOutput;
+import software.amazon.cryptography.keystore.internaldafny.types.WriteMutationIndexInput;
+import software.amazon.cryptography.keystore.internaldafny.types.WriteMutationIndexOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteNewEncryptedBranchKeyInput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteNewEncryptedBranchKeyOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteNewEncryptedBranchKeyVersionInput;
@@ -1028,9 +1029,8 @@ public class ToDafny {
     MutationCommitment mutationCommitment;
     mutationCommitment =
       ToDafny.MutationCommitment(nativeValue.MutationCommitment());
-    WriteInitializeMutationIndex mutationIndex;
-    mutationIndex =
-      ToDafny.WriteInitializeMutationIndex(nativeValue.MutationIndex());
+    MutationIndex mutationIndex;
+    mutationIndex = ToDafny.MutationIndex(nativeValue.MutationIndex());
     return new WriteInitializeMutationInput(
       active,
       version,
@@ -1070,6 +1070,23 @@ public class ToDafny {
     software.amazon.cryptography.keystore.model.WriteMutatedVersionsOutput nativeValue
   ) {
     return new WriteMutatedVersionsOutput();
+  }
+
+  public static WriteMutationIndexInput WriteMutationIndexInput(
+    software.amazon.cryptography.keystore.model.WriteMutationIndexInput nativeValue
+  ) {
+    MutationCommitment mutationCommitment;
+    mutationCommitment =
+      ToDafny.MutationCommitment(nativeValue.MutationCommitment());
+    MutationIndex mutationIndex;
+    mutationIndex = ToDafny.MutationIndex(nativeValue.MutationIndex());
+    return new WriteMutationIndexInput(mutationCommitment, mutationIndex);
+  }
+
+  public static WriteMutationIndexOutput WriteMutationIndexOutput(
+    software.amazon.cryptography.keystore.model.WriteMutationIndexOutput nativeValue
+  ) {
+    return new WriteMutationIndexOutput();
   }
 
   public static WriteNewEncryptedBranchKeyInput WriteNewEncryptedBranchKeyInput(
@@ -1271,26 +1288,6 @@ public class ToDafny {
       "Cannot convert " +
       nativeValue +
       " to software.amazon.cryptography.keystore.internaldafny.types.Storage."
-    );
-  }
-
-  public static WriteInitializeMutationIndex WriteInitializeMutationIndex(
-    software.amazon.cryptography.keystore.model.WriteInitializeMutationIndex nativeValue
-  ) {
-    if (Objects.nonNull(nativeValue.create())) {
-      return WriteInitializeMutationIndex.create_create(
-        ToDafny.MutationIndex(nativeValue.create())
-      );
-    }
-    if (Objects.nonNull(nativeValue.update())) {
-      return WriteInitializeMutationIndex.create_update(
-        ToDafny.OverWriteMutationIndex(nativeValue.update())
-      );
-    }
-    throw new IllegalArgumentException(
-      "Cannot convert " +
-      nativeValue +
-      " to software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationIndex."
     );
   }
 

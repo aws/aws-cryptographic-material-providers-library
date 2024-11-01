@@ -40,9 +40,9 @@ public class WriteInitializeMutationInput {
   private final MutationCommitment MutationCommitment;
 
   /**
-   * Write Initialize Mutation allows Mutations to either create or update the Index.
+   * Information on an in-flight Mutation of a Branch Key.
    */
-  private final WriteInitializeMutationIndex MutationIndex;
+  private final MutationIndex MutationIndex;
 
   protected WriteInitializeMutationInput(BuilderImpl builder) {
     this.Active = builder.Active();
@@ -93,9 +93,9 @@ public class WriteInitializeMutationInput {
   }
 
   /**
-   * @return Write Initialize Mutation allows Mutations to either create or update the Index.
+   * @return Information on an in-flight Mutation of a Branch Key.
    */
-  public WriteInitializeMutationIndex MutationIndex() {
+  public MutationIndex MutationIndex() {
     return this.MutationIndex;
   }
 
@@ -173,14 +173,14 @@ public class WriteInitializeMutationInput {
     MutationCommitment MutationCommitment();
 
     /**
-     * @param MutationIndex Write Initialize Mutation allows Mutations to either create or update the Index.
+     * @param MutationIndex Information on an in-flight Mutation of a Branch Key.
      */
-    Builder MutationIndex(WriteInitializeMutationIndex MutationIndex);
+    Builder MutationIndex(MutationIndex MutationIndex);
 
     /**
-     * @return Write Initialize Mutation allows Mutations to either create or update the Index.
+     * @return Information on an in-flight Mutation of a Branch Key.
      */
-    WriteInitializeMutationIndex MutationIndex();
+    MutationIndex MutationIndex();
 
     WriteInitializeMutationInput build();
   }
@@ -195,7 +195,7 @@ public class WriteInitializeMutationInput {
 
     protected MutationCommitment MutationCommitment;
 
-    protected WriteInitializeMutationIndex MutationIndex;
+    protected MutationIndex MutationIndex;
 
     protected BuilderImpl() {}
 
@@ -243,12 +243,12 @@ public class WriteInitializeMutationInput {
       return this.MutationCommitment;
     }
 
-    public Builder MutationIndex(WriteInitializeMutationIndex MutationIndex) {
+    public Builder MutationIndex(MutationIndex MutationIndex) {
       this.MutationIndex = MutationIndex;
       return this;
     }
 
-    public WriteInitializeMutationIndex MutationIndex() {
+    public MutationIndex MutationIndex() {
       return this.MutationIndex;
     }
 

@@ -20,5 +20,6 @@ namespace AWS.Cryptography.KeyStore
     AWS.Cryptography.KeyStore.WriteMutatedVersionsOutput WriteMutatedVersions(AWS.Cryptography.KeyStore.WriteMutatedVersionsInput input);
     AWS.Cryptography.KeyStore.GetMutationOutput GetMutation(AWS.Cryptography.KeyStore.GetMutationInput input);
     AWS.Cryptography.KeyStore.DeleteMutationOutput DeleteMutation(AWS.Cryptography.KeyStore.DeleteMutationInput input);
+    AWS.Cryptography.KeyStore.WriteMutationIndexOutput WriteMutationIndex(AWS.Cryptography.KeyStore.WriteMutationIndexInput input);
   }
 }

@@ -72,5 +72,10 @@ namespace AWS.Cryptography.KeyStore
       input.Validate(); return _DeleteMutation(input);
     }
     protected abstract AWS.Cryptography.KeyStore.DeleteMutationOutput _DeleteMutation(AWS.Cryptography.KeyStore.DeleteMutationInput input);
+    public AWS.Cryptography.KeyStore.WriteMutationIndexOutput WriteMutationIndex(AWS.Cryptography.KeyStore.WriteMutationIndexInput input)
+    {
+      input.Validate(); return _WriteMutationIndex(input);
+    }
+    protected abstract AWS.Cryptography.KeyStore.WriteMutationIndexOutput _WriteMutationIndex(AWS.Cryptography.KeyStore.WriteMutationIndexInput input);
   }
 }

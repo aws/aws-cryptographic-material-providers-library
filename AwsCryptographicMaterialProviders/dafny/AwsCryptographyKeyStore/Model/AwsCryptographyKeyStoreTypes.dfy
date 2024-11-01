@@ -167,6 +167,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
       WriteMutatedVersions := [];
       WriteInitializeMutation := [];
       WriteNewEncryptedBranchKeyVersion := [];
+      WriteMutationIndex := [];
       QueryForVersions := [];
       DeleteMutation := [];
     }
@@ -181,6 +182,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     ghost var WriteMutatedVersions: seq<DafnyCallEvent<WriteMutatedVersionsInput, Result<WriteMutatedVersionsOutput, Error>>>
     ghost var WriteInitializeMutation: seq<DafnyCallEvent<WriteInitializeMutationInput, Result<WriteInitializeMutationOutput, Error>>>
     ghost var WriteNewEncryptedBranchKeyVersion: seq<DafnyCallEvent<WriteNewEncryptedBranchKeyVersionInput, Result<WriteNewEncryptedBranchKeyVersionOutput, Error>>>
+    ghost var WriteMutationIndex: seq<DafnyCallEvent<WriteMutationIndexInput, Result<WriteMutationIndexOutput, Error>>>
     ghost var QueryForVersions: seq<DafnyCallEvent<QueryForVersionsInput, Result<QueryForVersionsOutput, Error>>>
     ghost var DeleteMutation: seq<DafnyCallEvent<DeleteMutationInput, Result<DeleteMutationOutput, Error>>>
   }
@@ -552,6 +554,37 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
       ensures WriteNewEncryptedBranchKeyVersionEnsuresPublicly(input, output)
       ensures unchanged(History)
 
+    predicate WriteMutationIndexEnsuresPublicly(input: WriteMutationIndexInput , output: Result<WriteMutationIndexOutput, Error>)
+    // The public method to be called by library consumers
+    method WriteMutationIndex ( input: WriteMutationIndexInput )
+      returns (output: Result<WriteMutationIndexOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`WriteMutationIndex
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures WriteMutationIndexEnsuresPublicly(input, output)
+      ensures History.WriteMutationIndex == old(History.WriteMutationIndex) + [DafnyCallEvent(input, output)]
+    {
+      output := WriteMutationIndex' (input);
+      History.WriteMutationIndex := History.WriteMutationIndex + [DafnyCallEvent(input, output)];
+    }
+    // The method to implement in the concrete class.
+    method WriteMutationIndex' ( input: WriteMutationIndexInput )
+      returns (output: Result<WriteMutationIndexOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History}
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures WriteMutationIndexEnsuresPublicly(input, output)
+      ensures unchanged(History)
+
     predicate QueryForVersionsEnsuresPublicly(input: QueryForVersionsInput , output: Result<QueryForVersionsOutput, Error>)
     // The public method to be called by library consumers
     method QueryForVersions ( input: QueryForVersionsInput )
@@ -839,15 +872,12 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   datatype WriteAtomicMutationOutput = | WriteAtomicMutationOutput (
 
                                        )
-  datatype WriteInitializeMutationIndex =
-    | create(create: MutationIndex)
-    | update(update: OverWriteMutationIndex)
   datatype WriteInitializeMutationInput = | WriteInitializeMutationInput (
     nameonly Active: OverWriteEncryptedHierarchicalKey ,
     nameonly Version: WriteInitializeMutationVersion ,
     nameonly Beacon: OverWriteEncryptedHierarchicalKey ,
     nameonly MutationCommitment: MutationCommitment ,
-    nameonly MutationIndex: WriteInitializeMutationIndex
+    nameonly MutationIndex: MutationIndex
   )
   datatype WriteInitializeMutationOutput = | WriteInitializeMutationOutput (
 
@@ -864,6 +894,13 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   datatype WriteMutatedVersionsOutput = | WriteMutatedVersionsOutput (
 
                                         )
+  datatype WriteMutationIndexInput = | WriteMutationIndexInput (
+    nameonly MutationCommitment: MutationCommitment ,
+    nameonly MutationIndex: MutationIndex
+  )
+  datatype WriteMutationIndexOutput = | WriteMutationIndexOutput (
+
+                                      )
   datatype WriteNewEncryptedBranchKeyInput = | WriteNewEncryptedBranchKeyInput (
     nameonly Active: EncryptedHierarchicalKey ,
     nameonly Version: EncryptedHierarchicalKey ,

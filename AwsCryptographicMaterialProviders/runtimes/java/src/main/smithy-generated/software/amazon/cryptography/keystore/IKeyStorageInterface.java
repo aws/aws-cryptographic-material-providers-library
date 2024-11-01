@@ -25,6 +25,8 @@ import software.amazon.cryptography.keystore.model.WriteInitializeMutationInput;
 import software.amazon.cryptography.keystore.model.WriteInitializeMutationOutput;
 import software.amazon.cryptography.keystore.model.WriteMutatedVersionsInput;
 import software.amazon.cryptography.keystore.model.WriteMutatedVersionsOutput;
+import software.amazon.cryptography.keystore.model.WriteMutationIndexInput;
+import software.amazon.cryptography.keystore.model.WriteMutationIndexOutput;
 import software.amazon.cryptography.keystore.model.WriteNewEncryptedBranchKeyInput;
 import software.amazon.cryptography.keystore.model.WriteNewEncryptedBranchKeyOutput;
 import software.amazon.cryptography.keystore.model.WriteNewEncryptedBranchKeyVersionInput;
@@ -138,6 +140,15 @@ public interface IKeyStorageInterface {
   WriteMutatedVersionsOutput WriteMutatedVersions(
     WriteMutatedVersionsInput input
   );
+
+  /**
+   * Creates a Mutation Index, conditioned on the Mutation Commitment.
+   * Used in the edge case where the Commitment exists and Index does not.
+   * The Index may have been deleted to restart the mutation from the very begining.
+   *
+   *
+   */
+  WriteMutationIndexOutput WriteMutationIndex(WriteMutationIndexInput input);
 
   /**
    * WriteNewEncryptedBranchKey persists the active item, decrypt only (version) item, and Beacon Key Item of a newly created Branch Key.
