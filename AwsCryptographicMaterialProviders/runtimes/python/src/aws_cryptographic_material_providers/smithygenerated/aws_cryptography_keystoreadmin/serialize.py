@@ -43,3 +43,12 @@ def _serialize_apply_mutation(input, config: Config) -> DafnyRequest:
             input
         ),
     )
+
+
+def _serialize_describe_mutation(input, config: Config) -> DafnyRequest:
+    return DafnyRequest(
+        operation_name="DescribeMutation",
+        dafny_operation_input=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_DescribeMutationInput(
+            input
+        ),
+    )
