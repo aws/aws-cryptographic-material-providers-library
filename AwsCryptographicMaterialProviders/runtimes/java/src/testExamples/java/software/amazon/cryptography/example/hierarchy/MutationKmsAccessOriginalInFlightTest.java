@@ -14,6 +14,7 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.awssdk.services.kms.model.KmsException;
 import software.amazon.cryptography.example.CredentialUtils;
+import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.StorageCheater;
 import software.amazon.cryptography.keystore.KeyStorageInterface;
@@ -181,7 +182,7 @@ public class MutationKmsAccessOriginalInFlightTest {
           .Items()
           .forEach(item -> {
             String typStr = item.EncryptionContext().get("type");
-            Fixtures.deleteKeyStoreDdbItem(
+            DdbHelper.deleteKeyStoreDdbItem(
               item.Identifier(),
               typStr,
               Fixtures.TEST_KEYSTORE_NAME,
