@@ -615,9 +615,9 @@ def _smithy_error_to_dafny_error(e: ServiceError):
 
     if isinstance(
         e,
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.MutationLockConditionFailed,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.MutationCommitmentConditionFailed,
     ):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_MutationLockConditionFailed(
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_MutationCommitmentConditionFailed(
             message=_dafny.Seq(e.message)
         )
 
