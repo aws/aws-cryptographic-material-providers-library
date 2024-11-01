@@ -34,7 +34,8 @@ import software.amazon.cryptography.keystoreadmin.model.Mutations;
 
 public class MutationKmsAccessTerminalInFlightTest {
 
-  static final String testPrefix = "mutation-kms-access-in-flight-terminal-test-";
+  static final String testPrefix =
+    "mutation-kms-access-in-flight-terminal-test-";
 
   @Test
   public void test() {
