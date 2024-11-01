@@ -3,9 +3,9 @@
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
 import _dafny
-import aws_cryptographic_materialproviders.internaldafny.generated
-import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes
-import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors
+import aws_cryptographic_material_providers.internaldafny.generated
+import aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes
+import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors
 from aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.shim import (
     _sdk_error_to_dafny_error as com_amazonaws_dynamodb_sdk_error_to_dafny_error,
 )
@@ -575,80 +575,80 @@ def _smithy_error_to_dafny_error(e: ServiceError):
     Dafny error."""
     if isinstance(
         e,
-        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors.AlreadyExistsConditionFailed,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.AlreadyExistsConditionFailed,
     ):
-        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_AlreadyExistsConditionFailed(
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_AlreadyExistsConditionFailed(
             message=_dafny.Seq(e.message)
         )
 
     if isinstance(
         e,
-        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors.KeyManagementException,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.KeyManagementException,
     ):
-        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_KeyManagementException(
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_KeyManagementException(
             message=_dafny.Seq(e.message)
         )
 
     if isinstance(
         e,
-        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors.KeyStorageException,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.KeyStorageException,
     ):
-        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_KeyStorageException(
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_KeyStorageException(
             message=_dafny.Seq(e.message)
         )
 
     if isinstance(
         e,
-        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors.KeyStoreException,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.KeyStoreException,
     ):
-        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_KeyStoreException(
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_KeyStoreException(
             message=_dafny.Seq(e.message)
         )
 
     if isinstance(
         e,
-        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors.MutationLockConditionFailed,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.MutationLockConditionFailed,
     ):
-        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_MutationLockConditionFailed(
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_MutationLockConditionFailed(
             message=_dafny.Seq(e.message)
         )
 
     if isinstance(
         e,
-        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors.NoLongerExistsConditionFailed,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.NoLongerExistsConditionFailed,
     ):
-        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_NoLongerExistsConditionFailed(
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_NoLongerExistsConditionFailed(
             message=_dafny.Seq(e.message)
         )
 
     if isinstance(
         e,
-        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors.OldEncConditionFailed,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.OldEncConditionFailed,
     ):
-        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_OldEncConditionFailed(
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_OldEncConditionFailed(
             message=_dafny.Seq(e.message)
         )
 
     if isinstance(
         e,
-        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors.VersionRaceException,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.VersionRaceException,
     ):
-        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_VersionRaceException(
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_VersionRaceException(
             message=_dafny.Seq(e.message)
         )
 
     if isinstance(e, ComAmazonawsDynamodb):
-        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_ComAmazonawsDynamodb(
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_ComAmazonawsDynamodb(
             com_amazonaws_dynamodb_sdk_error_to_dafny_error(e.message)
         )
 
     if isinstance(e, ComAmazonawsKms):
-        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_ComAmazonawsKms(
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_ComAmazonawsKms(
             com_amazonaws_kms_sdk_error_to_dafny_error(e.message)
         )
 
     if isinstance(e, CollectionOfErrors):
-        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_CollectionOfErrors(
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_CollectionOfErrors(
             message=_dafny.Seq(e.message),
             list=_dafny.Seq(
                 _smithy_error_to_dafny_error(native_err) for native_err in e.list
@@ -656,11 +656,11 @@ def _smithy_error_to_dafny_error(e: ServiceError):
         )
 
     if isinstance(e, OpaqueError):
-        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_Opaque(
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_Opaque(
             obj=e.obj
         )
 
     else:
-        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_Opaque(
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_Opaque(
             obj=e
         )

@@ -3,8 +3,8 @@
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
 import abc
-import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes
-from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes import (
+import aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes
+from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes import (
     ClobberMutationLockInput_ClobberMutationLockInput as DafnyClobberMutationLockInput,
     ClobberMutationLockOutput_ClobberMutationLockOutput as DafnyClobberMutationLockOutput,
     GetEncryptedActiveBranchKeyInput_GetEncryptedActiveBranchKeyInput as DafnyGetEncryptedActiveBranchKeyInput,
@@ -30,13 +30,13 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     WriteNewEncryptedBranchKeyVersionInput_WriteNewEncryptedBranchKeyVersionInput as DafnyWriteNewEncryptedBranchKeyVersionInput,
     WriteNewEncryptedBranchKeyVersionOutput_WriteNewEncryptedBranchKeyVersionOutput as DafnyWriteNewEncryptedBranchKeyVersionOutput,
 )
-import aws_cryptographic_materialproviders.internaldafny.generated.module_
-import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
-from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors import (
+import aws_cryptographic_material_providers.internaldafny.generated.module_
+import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
+from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors import (
     _smithy_error_to_dafny_error,
 )
-import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models
-import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny
+import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models
+import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny
 from smithy_dafny_standard_library.internaldafny.generated import Wrappers
 from typing import Any, Dict
 
@@ -75,8 +75,8 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def write_new_encrypted_branch_key(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.WriteNewEncryptedBranchKeyInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.WriteNewEncryptedBranchKeyOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.WriteNewEncryptedBranchKeyInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.WriteNewEncryptedBranchKeyOutput":
         """WriteNewEncryptedBranchKey persists the active item, decrypt only
         (version) item, and Beacon Key Item of a newly created Branch Key.
         :param param: The information required to atomically write an a new
@@ -91,8 +91,8 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def write_new_encrypted_branch_key_version(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.WriteNewEncryptedBranchKeyVersionInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.WriteNewEncryptedBranchKeyVersionOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.WriteNewEncryptedBranchKeyVersionInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.WriteNewEncryptedBranchKeyVersionOutput":
         """WriteNewEncryptedBranchKeyVersion persists the new active item,
         decrypt only (version) item of a newly generated Branch Key version.
         :param param: The information required to atomically write a new
@@ -108,8 +108,8 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def get_encrypted_active_branch_key(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetEncryptedActiveBranchKeyInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetEncryptedActiveBranchKeyOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetEncryptedActiveBranchKeyInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetEncryptedActiveBranchKeyOutput":
         """Get the ACTIVE branch key for encryption for an existing branch key.
 
         :param param: Get the ACTIVE version for a particular Branch
@@ -121,8 +121,8 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def get_encrypted_branch_key_version(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetEncryptedBranchKeyVersionInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetEncryptedBranchKeyVersionOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetEncryptedBranchKeyVersionInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetEncryptedBranchKeyVersionOutput":
         """Get a specific branch key version for an existing branch key.
 
         :param param: Inputs for getting a version of a Branch Key.
@@ -133,8 +133,8 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def get_encrypted_beacon_key(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetEncryptedBeaconKeyInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetEncryptedBeaconKeyOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetEncryptedBeaconKeyInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetEncryptedBeaconKeyOutput":
         """Get the beacon key associated with an existing branch key.
 
         :param param: Inputs for getting a Beacon Key
@@ -145,8 +145,8 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def get_key_storage_info(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetKeyStorageInfoInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetKeyStorageInfoOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetKeyStorageInfoInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetKeyStorageInfoOutput":
         """Gets information about the underlying storage system.
 
         :param param: Input for getting information about the underlying
@@ -159,8 +159,8 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def get_items_for_initialize_mutation(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetItemsForInitializeMutationInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetItemsForInitializeMutationOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetItemsForInitializeMutationInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetItemsForInitializeMutationOutput":
         """Gets the ACTIVE branch key and the beacon key, and looks for a
         Mutation Lock, returning it if found."""
         raise NotImplementedError
@@ -168,8 +168,8 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def write_initialize_mutation(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.WriteInitializeMutationInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.WriteInitializeMutationOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.WriteInitializeMutationInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.WriteInitializeMutationOutput":
         """Atomically writes,
 
         in the terminal state of a Mutation:
@@ -185,8 +185,8 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def query_for_versions(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.QueryForVersionsInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.QueryForVersionsOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.QueryForVersionsInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.QueryForVersionsOutput":
         """Query Storage for a page of version (decrypt only) items of a Branch
         Key."""
         raise NotImplementedError
@@ -194,8 +194,8 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def write_mutated_versions(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.WriteMutatedVersionsInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.WriteMutatedVersionsOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.WriteMutatedVersionsInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.WriteMutatedVersionsOutput":
         """Atomically writes, in the terminal state of a Mutation, a page of
         version (decrypt only) items,
 
@@ -211,8 +211,8 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def get_mutation_lock(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetMutationLockInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetMutationLockOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetMutationLockInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetMutationLockOutput":
         """Check for Mutation Lock on a Branch Key ID.
 
         If one exists, returns the Mutation Lock. Otherwise, returns
@@ -223,8 +223,8 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def clobber_mutation_lock(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.ClobberMutationLockInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.ClobberMutationLockOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.ClobberMutationLockInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.ClobberMutationLockOutput":
         """Overwrite an existing Mutation Lock."""
         raise NotImplementedError
 
@@ -236,12 +236,12 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
         This method allows custom implementations of this interface to
         interact with generated code.
         """
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_WriteNewEncryptedBranchKeyInput(
+        native_input = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_WriteNewEncryptedBranchKeyInput(
             dafny_input
         )
         try:
             native_output = self.write_new_encrypted_branch_key(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteNewEncryptedBranchKeyOutput(
+            dafny_output = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteNewEncryptedBranchKeyOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -257,12 +257,12 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
         This method allows custom implementations of this interface to
         interact with generated code.
         """
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_WriteNewEncryptedBranchKeyVersionInput(
+        native_input = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_WriteNewEncryptedBranchKeyVersionInput(
             dafny_input
         )
         try:
             native_output = self.write_new_encrypted_branch_key_version(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteNewEncryptedBranchKeyVersionOutput(
+            dafny_output = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteNewEncryptedBranchKeyVersionOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -278,12 +278,12 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
         This method allows custom implementations of this interface to
         interact with generated code.
         """
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetEncryptedActiveBranchKeyInput(
+        native_input = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetEncryptedActiveBranchKeyInput(
             dafny_input
         )
         try:
             native_output = self.get_encrypted_active_branch_key(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetEncryptedActiveBranchKeyOutput(
+            dafny_output = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetEncryptedActiveBranchKeyOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -299,12 +299,12 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
         This method allows custom implementations of this interface to
         interact with generated code.
         """
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetEncryptedBranchKeyVersionInput(
+        native_input = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetEncryptedBranchKeyVersionInput(
             dafny_input
         )
         try:
             native_output = self.get_encrypted_branch_key_version(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetEncryptedBranchKeyVersionOutput(
+            dafny_output = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetEncryptedBranchKeyVersionOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -320,12 +320,12 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
         This method allows custom implementations of this interface to
         interact with generated code.
         """
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetEncryptedBeaconKeyInput(
+        native_input = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetEncryptedBeaconKeyInput(
             dafny_input
         )
         try:
             native_output = self.get_encrypted_beacon_key(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetEncryptedBeaconKeyOutput(
+            dafny_output = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetEncryptedBeaconKeyOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -341,12 +341,12 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
         This method allows custom implementations of this interface to
         interact with generated code.
         """
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetKeyStorageInfoInput(
+        native_input = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetKeyStorageInfoInput(
             dafny_input
         )
         try:
             native_output = self.get_key_storage_info(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetKeyStorageInfoOutput(
+            dafny_output = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetKeyStorageInfoOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -362,12 +362,12 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
         This method allows custom implementations of this interface to
         interact with generated code.
         """
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetItemsForInitializeMutationInput(
+        native_input = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetItemsForInitializeMutationInput(
             dafny_input
         )
         try:
             native_output = self.get_items_for_initialize_mutation(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetItemsForInitializeMutationOutput(
+            dafny_output = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetItemsForInitializeMutationOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -383,12 +383,12 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
         This method allows custom implementations of this interface to
         interact with generated code.
         """
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_WriteInitializeMutationInput(
+        native_input = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_WriteInitializeMutationInput(
             dafny_input
         )
         try:
             native_output = self.write_initialize_mutation(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteInitializeMutationOutput(
+            dafny_output = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteInitializeMutationOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -404,12 +404,12 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
         This method allows custom implementations of this interface to
         interact with generated code.
         """
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_QueryForVersionsInput(
+        native_input = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_QueryForVersionsInput(
             dafny_input
         )
         try:
             native_output = self.query_for_versions(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_QueryForVersionsOutput(
+            dafny_output = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_QueryForVersionsOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -425,12 +425,12 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
         This method allows custom implementations of this interface to
         interact with generated code.
         """
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_WriteMutatedVersionsInput(
+        native_input = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_WriteMutatedVersionsInput(
             dafny_input
         )
         try:
             native_output = self.write_mutated_versions(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteMutatedVersionsOutput(
+            dafny_output = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteMutatedVersionsOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -446,12 +446,12 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
         This method allows custom implementations of this interface to
         interact with generated code.
         """
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetMutationLockInput(
+        native_input = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetMutationLockInput(
             dafny_input
         )
         try:
             native_output = self.get_mutation_lock(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetMutationLockOutput(
+            dafny_output = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetMutationLockOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -467,12 +467,12 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
         This method allows custom implementations of this interface to
         interact with generated code.
         """
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_ClobberMutationLockInput(
+        native_input = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_ClobberMutationLockInput(
             dafny_input
         )
         try:
             native_output = self.clobber_mutation_lock(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_ClobberMutationLockOutput(
+            dafny_output = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_ClobberMutationLockOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -484,19 +484,19 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
 class KeyStorageInterface(IKeyStorageInterface):
 
     _impl: (
-        aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
+        aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
     )
 
     def __init__(
         self,
-        _impl: aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.IKeyStorageInterface,
+        _impl: aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.IKeyStorageInterface,
     ):
         self._impl = _impl
 
     def write_new_encrypted_branch_key(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.WriteNewEncryptedBranchKeyInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.WriteNewEncryptedBranchKeyOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.WriteNewEncryptedBranchKeyInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.WriteNewEncryptedBranchKeyOutput":
         """WriteNewEncryptedBranchKey persists the active item, decrypt only
         (version) item, and Beacon Key Item of a newly created Branch Key.
         :param param: The information required to atomically write an a new
@@ -507,26 +507,26 @@ class KeyStorageInterface(IKeyStorageInterface):
             currently no additional information returned.
         """
         dafny_output = self._impl.WriteNewEncryptedBranchKey(
-            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteNewEncryptedBranchKeyInput(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteNewEncryptedBranchKeyInput(
                 param
             )
         )
         if dafny_output.IsFailure():
-            from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.deserialize import (
+            from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.deserialize import (
                 _deserialize_error as aws_cryptography_keystore_deserialize_error,
             )
 
             raise aws_cryptography_keystore_deserialize_error(dafny_output.error)
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_WriteNewEncryptedBranchKeyOutput(
+            return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_WriteNewEncryptedBranchKeyOutput(
                 dafny_output.value
             )
 
     def write_new_encrypted_branch_key_version(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.WriteNewEncryptedBranchKeyVersionInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.WriteNewEncryptedBranchKeyVersionOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.WriteNewEncryptedBranchKeyVersionInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.WriteNewEncryptedBranchKeyVersionOutput":
         """WriteNewEncryptedBranchKeyVersion persists the new active item,
         decrypt only (version) item of a newly generated Branch Key version.
         :param param: The information required to atomically write a new
@@ -538,26 +538,26 @@ class KeyStorageInterface(IKeyStorageInterface):
             returned.
         """
         dafny_output = self._impl.WriteNewEncryptedBranchKeyVersion(
-            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteNewEncryptedBranchKeyVersionInput(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteNewEncryptedBranchKeyVersionInput(
                 param
             )
         )
         if dafny_output.IsFailure():
-            from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.deserialize import (
+            from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.deserialize import (
                 _deserialize_error as aws_cryptography_keystore_deserialize_error,
             )
 
             raise aws_cryptography_keystore_deserialize_error(dafny_output.error)
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_WriteNewEncryptedBranchKeyVersionOutput(
+            return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_WriteNewEncryptedBranchKeyVersionOutput(
                 dafny_output.value
             )
 
     def get_encrypted_active_branch_key(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetEncryptedActiveBranchKeyInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetEncryptedActiveBranchKeyOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetEncryptedActiveBranchKeyInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetEncryptedActiveBranchKeyOutput":
         """Get the ACTIVE branch key for encryption for an existing branch key.
 
         :param param: Get the ACTIVE version for a particular Branch
@@ -565,78 +565,78 @@ class KeyStorageInterface(IKeyStorageInterface):
         :returns: Outputs for getting a Branch Key's ACTIVE version.
         """
         dafny_output = self._impl.GetEncryptedActiveBranchKey(
-            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetEncryptedActiveBranchKeyInput(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetEncryptedActiveBranchKeyInput(
                 param
             )
         )
         if dafny_output.IsFailure():
-            from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.deserialize import (
+            from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.deserialize import (
                 _deserialize_error as aws_cryptography_keystore_deserialize_error,
             )
 
             raise aws_cryptography_keystore_deserialize_error(dafny_output.error)
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetEncryptedActiveBranchKeyOutput(
+            return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetEncryptedActiveBranchKeyOutput(
                 dafny_output.value
             )
 
     def get_encrypted_branch_key_version(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetEncryptedBranchKeyVersionInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetEncryptedBranchKeyVersionOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetEncryptedBranchKeyVersionInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetEncryptedBranchKeyVersionOutput":
         """Get a specific branch key version for an existing branch key.
 
         :param param: Inputs for getting a version of a Branch Key.
         :returns: Outputs for getting a version of a Branch Key.
         """
         dafny_output = self._impl.GetEncryptedBranchKeyVersion(
-            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetEncryptedBranchKeyVersionInput(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetEncryptedBranchKeyVersionInput(
                 param
             )
         )
         if dafny_output.IsFailure():
-            from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.deserialize import (
+            from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.deserialize import (
                 _deserialize_error as aws_cryptography_keystore_deserialize_error,
             )
 
             raise aws_cryptography_keystore_deserialize_error(dafny_output.error)
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetEncryptedBranchKeyVersionOutput(
+            return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetEncryptedBranchKeyVersionOutput(
                 dafny_output.value
             )
 
     def get_encrypted_beacon_key(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetEncryptedBeaconKeyInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetEncryptedBeaconKeyOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetEncryptedBeaconKeyInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetEncryptedBeaconKeyOutput":
         """Get the beacon key associated with an existing branch key.
 
         :param param: Inputs for getting a Beacon Key
         :returns: Outputs for getting a Beacon Key
         """
         dafny_output = self._impl.GetEncryptedBeaconKey(
-            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetEncryptedBeaconKeyInput(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetEncryptedBeaconKeyInput(
                 param
             )
         )
         if dafny_output.IsFailure():
-            from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.deserialize import (
+            from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.deserialize import (
                 _deserialize_error as aws_cryptography_keystore_deserialize_error,
             )
 
             raise aws_cryptography_keystore_deserialize_error(dafny_output.error)
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetEncryptedBeaconKeyOutput(
+            return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetEncryptedBeaconKeyOutput(
                 dafny_output.value
             )
 
     def get_key_storage_info(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetKeyStorageInfoInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetKeyStorageInfoOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetKeyStorageInfoInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetKeyStorageInfoOutput":
         """Gets information about the underlying storage system.
 
         :param param: Input for getting information about the underlying
@@ -645,49 +645,49 @@ class KeyStorageInterface(IKeyStorageInterface):
             storage.
         """
         dafny_output = self._impl.GetKeyStorageInfo(
-            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetKeyStorageInfoInput(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetKeyStorageInfoInput(
                 param
             )
         )
         if dafny_output.IsFailure():
-            from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.deserialize import (
+            from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.deserialize import (
                 _deserialize_error as aws_cryptography_keystore_deserialize_error,
             )
 
             raise aws_cryptography_keystore_deserialize_error(dafny_output.error)
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetKeyStorageInfoOutput(
+            return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetKeyStorageInfoOutput(
                 dafny_output.value
             )
 
     def get_items_for_initialize_mutation(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetItemsForInitializeMutationInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetItemsForInitializeMutationOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetItemsForInitializeMutationInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetItemsForInitializeMutationOutput":
         """Gets the ACTIVE branch key and the beacon key, and looks for a
         Mutation Lock, returning it if found."""
         dafny_output = self._impl.GetItemsForInitializeMutation(
-            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetItemsForInitializeMutationInput(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetItemsForInitializeMutationInput(
                 param
             )
         )
         if dafny_output.IsFailure():
-            from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.deserialize import (
+            from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.deserialize import (
                 _deserialize_error as aws_cryptography_keystore_deserialize_error,
             )
 
             raise aws_cryptography_keystore_deserialize_error(dafny_output.error)
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetItemsForInitializeMutationOutput(
+            return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetItemsForInitializeMutationOutput(
                 dafny_output.value
             )
 
     def write_initialize_mutation(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.WriteInitializeMutationInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.WriteInitializeMutationOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.WriteInitializeMutationInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.WriteInitializeMutationOutput":
         """Atomically writes,
 
         in the terminal state of a Mutation:
@@ -699,49 +699,49 @@ class KeyStorageInterface(IKeyStorageInterface):
         Lock.
         """
         dafny_output = self._impl.WriteInitializeMutation(
-            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteInitializeMutationInput(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteInitializeMutationInput(
                 param
             )
         )
         if dafny_output.IsFailure():
-            from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.deserialize import (
+            from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.deserialize import (
                 _deserialize_error as aws_cryptography_keystore_deserialize_error,
             )
 
             raise aws_cryptography_keystore_deserialize_error(dafny_output.error)
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_WriteInitializeMutationOutput(
+            return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_WriteInitializeMutationOutput(
                 dafny_output.value
             )
 
     def query_for_versions(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.QueryForVersionsInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.QueryForVersionsOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.QueryForVersionsInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.QueryForVersionsOutput":
         """Query Storage for a page of version (decrypt only) items of a Branch
         Key."""
         dafny_output = self._impl.QueryForVersions(
-            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_QueryForVersionsInput(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_QueryForVersionsInput(
                 param
             )
         )
         if dafny_output.IsFailure():
-            from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.deserialize import (
+            from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.deserialize import (
                 _deserialize_error as aws_cryptography_keystore_deserialize_error,
             )
 
             raise aws_cryptography_keystore_deserialize_error(dafny_output.error)
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_QueryForVersionsOutput(
+            return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_QueryForVersionsOutput(
                 dafny_output.value
             )
 
     def write_mutated_versions(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.WriteMutatedVersionsInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.WriteMutatedVersionsOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.WriteMutatedVersionsInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.WriteMutatedVersionsOutput":
         """Atomically writes, in the terminal state of a Mutation, a page of
         version (decrypt only) items,
 
@@ -753,67 +753,67 @@ class KeyStorageInterface(IKeyStorageInterface):
         a Mutation Lock commits to the terminal provided
         """
         dafny_output = self._impl.WriteMutatedVersions(
-            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteMutatedVersionsInput(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteMutatedVersionsInput(
                 param
             )
         )
         if dafny_output.IsFailure():
-            from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.deserialize import (
+            from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.deserialize import (
                 _deserialize_error as aws_cryptography_keystore_deserialize_error,
             )
 
             raise aws_cryptography_keystore_deserialize_error(dafny_output.error)
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_WriteMutatedVersionsOutput(
+            return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_WriteMutatedVersionsOutput(
                 dafny_output.value
             )
 
     def get_mutation_lock(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetMutationLockInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetMutationLockOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetMutationLockInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetMutationLockOutput":
         """Check for Mutation Lock on a Branch Key ID.
 
         If one exists, returns the Mutation Lock. Otherwise, returns
         nothing.
         """
         dafny_output = self._impl.GetMutationLock(
-            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetMutationLockInput(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetMutationLockInput(
                 param
             )
         )
         if dafny_output.IsFailure():
-            from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.deserialize import (
+            from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.deserialize import (
                 _deserialize_error as aws_cryptography_keystore_deserialize_error,
             )
 
             raise aws_cryptography_keystore_deserialize_error(dafny_output.error)
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetMutationLockOutput(
+            return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetMutationLockOutput(
                 dafny_output.value
             )
 
     def clobber_mutation_lock(
         self,
-        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.ClobberMutationLockInput",
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.ClobberMutationLockOutput":
+        param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.ClobberMutationLockInput",
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.ClobberMutationLockOutput":
         """Overwrite an existing Mutation Lock."""
         dafny_output = self._impl.ClobberMutationLock(
-            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_ClobberMutationLockInput(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_ClobberMutationLockInput(
                 param
             )
         )
         if dafny_output.IsFailure():
-            from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.deserialize import (
+            from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.deserialize import (
                 _deserialize_error as aws_cryptography_keystore_deserialize_error,
             )
 
             raise aws_cryptography_keystore_deserialize_error(dafny_output.error)
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_ClobberMutationLockOutput(
+            return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_ClobberMutationLockOutput(
                 dafny_output.value
             )
 

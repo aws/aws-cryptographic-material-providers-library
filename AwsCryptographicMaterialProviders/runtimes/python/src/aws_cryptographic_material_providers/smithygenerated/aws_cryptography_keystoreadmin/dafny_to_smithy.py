@@ -9,9 +9,9 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     KMSIdentifier_KmsMRKeyArn,
     KeyManagementStrategy_AwsKmsReEncrypt,
 )
+import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
 import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy
 import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models
-import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
 
 
 def aws_cryptography_keystoreadmin_KMSIdentifier(dafny_input):
@@ -38,7 +38,7 @@ def aws_cryptography_keystoreadmin_KeyManagementStrategy(dafny_input):
     # Convert KeyManagementStrategy
     if isinstance(dafny_input, KeyManagementStrategy_AwsKmsReEncrypt):
         KeyManagementStrategy_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.KeyManagementStrategyAwsKmsReEncrypt(
-            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_AwsKms(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_AwsKms(
                 dafny_input.AwsKmsReEncrypt
             )
         )
@@ -291,7 +291,7 @@ def aws_cryptography_keystoreadmin_KeyStoreAdminConfig(dafny_input):
         logical_key_store_name=b"".join(
             ord(c).to_bytes(2, "big") for c in dafny_input.logicalKeyStoreName
         ).decode("utf-16-be"),
-        storage=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_Storage(
+        storage=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_Storage(
             dafny_input.storage
         ),
     )

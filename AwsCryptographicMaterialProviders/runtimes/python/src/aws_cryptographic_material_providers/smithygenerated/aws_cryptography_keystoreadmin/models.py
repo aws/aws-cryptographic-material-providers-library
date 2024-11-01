@@ -4,9 +4,7 @@
 
 from typing import Any, Dict, List, Optional, Union
 
-from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models import (
-    AwsKms,
-)
+from ..aws_cryptography_keystore.models import AwsKms
 
 
 class MutationToken:

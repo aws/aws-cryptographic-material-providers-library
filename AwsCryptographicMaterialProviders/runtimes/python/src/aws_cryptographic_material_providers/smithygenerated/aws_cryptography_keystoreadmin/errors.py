@@ -5,10 +5,10 @@
 import _dafny
 import aws_cryptographic_material_providers.internaldafny.generated
 import aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreAdminTypes
-import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.errors
-from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors import (
+from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors import (
     _smithy_error_to_dafny_error as aws_cryptography_keystore_smithy_error_to_dafny_error,
 )
+import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.errors
 from aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.shim import (
     _sdk_error_to_dafny_error as com_amazonaws_dynamodb_sdk_error_to_dafny_error,
 )

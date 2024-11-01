@@ -3,7 +3,7 @@
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
 import _dafny
-from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes import (
+from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes import (
     CreateKeyOutput_CreateKeyOutput as DafnyCreateKeyOutput,
     CreateKeyStoreOutput_CreateKeyStoreOutput as DafnyCreateKeyStoreOutput,
     Error,
@@ -21,8 +21,8 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     GetKeyStoreInfoOutput_GetKeyStoreInfoOutput as DafnyGetKeyStoreInfoOutput,
     VersionKeyOutput_VersionKeyOutput as DafnyVersionKeyOutput,
 )
-import aws_cryptographic_materialproviders.internaldafny.generated.module_
-import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
+import aws_cryptographic_material_providers.internaldafny.generated.module_
+import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
 from typing import Any
 
 from .dafny_protocol import DafnyResponse
@@ -41,9 +41,6 @@ from .errors import (
     ServiceError,
     VersionRaceException,
 )
-from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.config import (
-    Config,
-)
 from aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.shim import (
     _sdk_error_to_dafny_error as com_amazonaws_dynamodb_sdk_error_to_dafny_error,
 )
@@ -51,12 +48,14 @@ from aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.shim import
     _sdk_error_to_dafny_error as com_amazonaws_kms_sdk_error_to_dafny_error,
 )
 
+from .config import Config
+
 
 def _deserialize_get_key_store_info(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetKeyStoreInfoOutput(
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetKeyStoreInfoOutput(
         input.value
     )
 
@@ -65,7 +64,7 @@ def _deserialize_create_key_store(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_CreateKeyStoreOutput(
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_CreateKeyStoreOutput(
         input.value
     )
 
@@ -74,7 +73,7 @@ def _deserialize_create_key(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_CreateKeyOutput(
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_CreateKeyOutput(
         input.value
     )
 
@@ -83,7 +82,7 @@ def _deserialize_version_key(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_VersionKeyOutput(
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_VersionKeyOutput(
         input.value
     )
 
@@ -92,7 +91,7 @@ def _deserialize_get_active_branch_key(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetActiveBranchKeyOutput(
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetActiveBranchKeyOutput(
         input.value
     )
 
@@ -101,7 +100,7 @@ def _deserialize_get_branch_key_version(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetBranchKeyVersionOutput(
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetBranchKeyVersionOutput(
         input.value
     )
 
@@ -110,7 +109,7 @@ def _deserialize_get_beacon_key(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetBeaconKeyOutput(
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetBeaconKeyOutput(
         input.value
     )
 

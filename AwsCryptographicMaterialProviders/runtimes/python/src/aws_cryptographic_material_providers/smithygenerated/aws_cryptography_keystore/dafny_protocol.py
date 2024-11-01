@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes import (
+from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes import (
     CreateKeyInput_CreateKeyInput as DafnyCreateKeyInput,
     CreateKeyStoreInput_CreateKeyStoreInput as DafnyCreateKeyStoreInput,
     GetActiveBranchKeyInput_GetActiveBranchKeyInput as DafnyGetActiveBranchKeyInput,
@@ -10,7 +10,7 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     GetBranchKeyVersionInput_GetBranchKeyVersionInput as DafnyGetBranchKeyVersionInput,
     VersionKeyInput_VersionKeyInput as DafnyVersionKeyInput,
 )
-import aws_cryptographic_materialproviders.internaldafny.generated.module_
+import aws_cryptographic_material_providers.internaldafny.generated.module_
 
 
 import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers

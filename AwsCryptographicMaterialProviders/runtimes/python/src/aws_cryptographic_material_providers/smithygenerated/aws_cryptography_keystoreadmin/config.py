@@ -12,12 +12,10 @@ from dataclasses import dataclass
 from typing import Any, Callable, Dict, TypeAlias
 
 from .dafnyImplInterface import DafnyImplInterface
-from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models import (
-    Storage,
-    _storage_from_dict,
-)
 from smithy_python._private.retries import SimpleRetryStrategy
 from smithy_python.interfaces.retries import RetryStrategy
+
+from ..aws_cryptography_keystore.models import Storage, _storage_from_dict
 
 
 _ServiceInterceptor = Any

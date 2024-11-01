@@ -24,9 +24,9 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     VersionKeyOutput_VersionKeyOutput as DafnyVersionKeyOutput,
 )
 import aws_cryptographic_material_providers.internaldafny.generated.module_
+import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny
 import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models
 import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny
-import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny
 from smithy_dafny_standard_library.internaldafny.generated.Wrappers import (
     Option_None,
     Option_Some,
@@ -132,7 +132,7 @@ def aws_cryptography_keystoreadmin_KeyManagementStrategy(native_input):
         aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.KeyManagementStrategyAwsKmsReEncrypt,
     ):
         KeyManagementStrategy_union_value = KeyManagementStrategy_AwsKmsReEncrypt(
-            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_AwsKms(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_AwsKms(
                 native_input.value
             )
         )
@@ -461,7 +461,7 @@ def aws_cryptography_keystoreadmin_KeyStoreAdminConfig(native_input):
                 ]
             )
         ),
-        storage=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_Storage(
+        storage=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_Storage(
             native_input.storage
         ),
     )

@@ -13,7 +13,7 @@ def set_config_impl(config: Config):
     and load our custom NoRetriesStrategy."""
     config.dafnyImplInterface = DafnyImplInterface()
     if isinstance(config, KeyStoreConfig):
-        from aws_cryptographic_materialproviders.internaldafny.generated.KeyStore import (
+        from aws_cryptographic_material_providers.internaldafny.generated.KeyStore import (
             default__,
         )
 

@@ -203,11 +203,9 @@ public class MutationKmsAccessOriginalInFlightTest {
     Fixtures.cleanUpBranchKeyId(storage, branchKeyId);
     Assert.assertTrue(
       (exceptions.size() == 1),
-      "Incorrect number of exceptions thrown than expected. Exceptions: " + exceptions
+      "Incorrect number of exceptions thrown than expected. Exceptions: " +
+      exceptions
     );
-    Assert.assertTrue(
-      isFromThrown,
-      "Apply never failed to read the old."
-    );
+    Assert.assertTrue(isFromThrown, "Apply never failed to read the old.");
   }
 }

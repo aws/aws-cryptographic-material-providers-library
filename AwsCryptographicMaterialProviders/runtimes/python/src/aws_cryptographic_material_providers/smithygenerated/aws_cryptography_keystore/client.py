@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes import (
+from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes import (
     IKeyStoreClient,
 )
 from typing import Callable, TypeVar, cast
@@ -10,10 +10,12 @@ from typing import Callable, TypeVar, cast
 from .config import Config, KeyStoreConfig
 from .dafny_protocol import DafnyRequest, DafnyResponse
 from .plugin import set_config_impl
-from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.config import (
-    Plugin,
-)
-from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.deserialize import (
+from smithy_python.exceptions import SmithyRetryException
+from smithy_python.interfaces.interceptor import Interceptor, InterceptorContext
+from smithy_python.interfaces.retries import RetryErrorInfo, RetryErrorType
+
+from .config import Plugin
+from .deserialize import (
     _deserialize_create_key,
     _deserialize_create_key_store,
     _deserialize_get_active_branch_key,
@@ -22,10 +24,8 @@ from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keysto
     _deserialize_get_key_store_info,
     _deserialize_version_key,
 )
-from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors import (
-    ServiceError,
-)
-from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models import (
+from .errors import ServiceError
+from .models import (
     CreateKeyInput,
     CreateKeyOutput,
     CreateKeyStoreInput,
@@ -37,10 +37,11 @@ from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keysto
     GetBranchKeyVersionInput,
     GetBranchKeyVersionOutput,
     GetKeyStoreInfoOutput,
+    Unit,
     VersionKeyInput,
     VersionKeyOutput,
 )
-from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.serialize import (
+from .serialize import (
     _serialize_create_key,
     _serialize_create_key_store,
     _serialize_get_active_branch_key,
@@ -48,13 +49,6 @@ from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keysto
     _serialize_get_branch_key_version,
     _serialize_get_key_store_info,
     _serialize_version_key,
-)
-from smithy_python.exceptions import SmithyRetryException
-from smithy_python.interfaces.interceptor import Interceptor, InterceptorContext
-from smithy_python.interfaces.retries import RetryErrorInfo, RetryErrorType
-
-from ....aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models import (
-    Unit,
 )
 
 

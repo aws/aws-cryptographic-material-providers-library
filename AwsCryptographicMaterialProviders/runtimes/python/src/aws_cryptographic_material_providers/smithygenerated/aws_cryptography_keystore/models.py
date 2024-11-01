@@ -2942,7 +2942,7 @@ class StorageCustom:
 
     def __init__(
         self,
-        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.references.KeyStorageInterface",
+        value: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.references.KeyStorageInterface",
     ):
         self.value = value
 
@@ -2951,7 +2951,7 @@ class StorageCustom:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "StorageCustom":
-        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.references import (
+        from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.references import (
             KeyStorageInterface,
         )
 

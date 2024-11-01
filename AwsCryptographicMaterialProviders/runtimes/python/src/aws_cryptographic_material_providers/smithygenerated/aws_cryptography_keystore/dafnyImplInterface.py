@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-from aws_cryptographic_materialproviders.internaldafny.generated.KeyStore import (
+from aws_cryptographic_material_providers.internaldafny.generated.KeyStore import (
     KeyStoreClient,
 )
 from .dafny_protocol import DafnyRequest
