@@ -127,6 +127,7 @@ public class MutationKmsAccessOriginalInFlightTest {
           .MutationToken(token)
           .PageSize(1)
           .Strategy(strategyDenyMrk)
+          .SystemKey(systemKey)
           .build();
         ApplyMutationOutput applyOutput = admin.ApplyMutation(applyInput);
         ApplyMutationResult result = applyOutput.MutationResult();
