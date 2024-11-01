@@ -1479,7 +1479,7 @@ module DefaultKeyStorageInterface {
     // TODO Benerate KeyStorageException to have a message field and an Error field
     // that can hold either Opaque or DDB Error
     match e {
-      case Opaque(obj, altMsg) => Types.Opaque(obj, altMsg) //https://github.com/smithy-lang/smithy-dafny/issues/450#issuecomment-2322149920
+      case Opaque(obj) => Types.Opaque(obj) //https://github.com/smithy-lang/smithy-dafny/issues/450#issuecomment-2322149920
       case IdempotentParameterMismatchException(Message) => Types.KeyStorageException(
         message :=
           "DDB through an exception for " +  storageOperation + "'s " + ddbOperation + ". Table Name: "
