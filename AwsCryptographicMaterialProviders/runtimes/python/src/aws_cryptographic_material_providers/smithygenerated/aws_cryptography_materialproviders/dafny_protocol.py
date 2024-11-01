@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes import (
+from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes import (
     AlgorithmSuiteInfo_AlgorithmSuiteInfo as DafnyAlgorithmSuiteInfo,
     CreateAwsKmsDiscoveryKeyringInput_CreateAwsKmsDiscoveryKeyringInput as DafnyCreateAwsKmsDiscoveryKeyringInput,
     CreateAwsKmsDiscoveryMultiKeyringInput_CreateAwsKmsDiscoveryMultiKeyringInput as DafnyCreateAwsKmsDiscoveryMultiKeyringInput,
@@ -32,7 +32,7 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     ValidateCommitmentPolicyOnDecryptInput_ValidateCommitmentPolicyOnDecryptInput as DafnyValidateCommitmentPolicyOnDecryptInput,
     ValidateCommitmentPolicyOnEncryptInput_ValidateCommitmentPolicyOnEncryptInput as DafnyValidateCommitmentPolicyOnEncryptInput,
 )
-import aws_cryptographic_material_providers.internaldafny.generated.module_
+import aws_cryptographic_materialproviders.internaldafny.generated.module_
 
 
 import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers

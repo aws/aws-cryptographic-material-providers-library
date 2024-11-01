@@ -2,59 +2,41 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes import (
-    IKeyStoreClient,
+from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreAdminTypes import (
+    IKeyStoreAdminClient,
 )
 from typing import Callable, TypeVar, cast
 
-from .config import Config, KeyStoreConfig
+from .config import Config, KeyStoreAdminConfig
 from .dafny_protocol import DafnyRequest, DafnyResponse
 from .plugin import set_config_impl
-from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.config import (
-    Plugin,
-)
-from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.deserialize import (
-    _deserialize_create_key,
-    _deserialize_create_key_store,
-    _deserialize_get_active_branch_key,
-    _deserialize_get_beacon_key,
-    _deserialize_get_branch_key_version,
-    _deserialize_get_key_store_info,
-    _deserialize_version_key,
-)
-from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors import (
-    ServiceError,
-)
-from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models import (
-    CreateKeyInput,
-    CreateKeyOutput,
-    CreateKeyStoreInput,
-    CreateKeyStoreOutput,
-    GetActiveBranchKeyInput,
-    GetActiveBranchKeyOutput,
-    GetBeaconKeyInput,
-    GetBeaconKeyOutput,
-    GetBranchKeyVersionInput,
-    GetBranchKeyVersionOutput,
-    GetKeyStoreInfoOutput,
-    VersionKeyInput,
-    VersionKeyOutput,
-)
-from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.serialize import (
-    _serialize_create_key,
-    _serialize_create_key_store,
-    _serialize_get_active_branch_key,
-    _serialize_get_beacon_key,
-    _serialize_get_branch_key_version,
-    _serialize_get_key_store_info,
-    _serialize_version_key,
-)
 from smithy_python.exceptions import SmithyRetryException
 from smithy_python.interfaces.interceptor import Interceptor, InterceptorContext
 from smithy_python.interfaces.retries import RetryErrorInfo, RetryErrorType
 
-from ....aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models import (
-    Unit,
+from .config import Plugin
+from .deserialize import (
+    _deserialize_apply_mutation,
+    _deserialize_create_key,
+    _deserialize_initialize_mutation,
+    _deserialize_version_key,
+)
+from .errors import ServiceError
+from .models import (
+    ApplyMutationInput,
+    ApplyMutationOutput,
+    CreateKeyInput,
+    CreateKeyOutput,
+    InitializeMutationInput,
+    InitializeMutationOutput,
+    VersionKeyInput,
+    VersionKeyOutput,
+)
+from .serialize import (
+    _serialize_apply_mutation,
+    _serialize_create_key,
+    _serialize_initialize_mutation,
+    _serialize_version_key,
 )
 
 
@@ -62,16 +44,16 @@ Input = TypeVar("Input")
 Output = TypeVar("Output")
 
 
-class KeyStore:
-    """Client for KeyStore.
+class KeyStoreAdmin:
+    """Client for KeyStoreAdmin.
 
     :param config: Configuration for the client.
     """
 
     def __init__(
         self,
-        config: KeyStoreConfig | None = None,
-        dafny_client: IKeyStoreClient | None = None,
+        config: KeyStoreAdminConfig | None = None,
+        dafny_client: IKeyStoreAdminClient | None = None,
     ):
         if config is None:
             self._config = Config()
@@ -87,36 +69,6 @@ class KeyStore:
 
         if dafny_client is not None:
             self._config.dafnyImplInterface.impl = dafny_client
-
-    def get_key_store_info(self, input: Unit) -> GetKeyStoreInfoOutput:
-        """Returns the configuration information for a Key Store.
-
-        :param input: The operation's input.
-        """
-        return self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_get_key_store_info,
-            deserialize=_deserialize_get_key_store_info,
-            config=self._config,
-            operation_name="GetKeyStoreInfo",
-        )
-
-    def create_key_store(self, input: CreateKeyStoreInput) -> CreateKeyStoreOutput:
-        """Create the DynamoDB table that backs this Key Store based on the Key
-        Store configuration. If a table already exists, validate it is
-        configured as expected.
-
-        :param input: The operation's input.
-        """
-        return self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_create_key_store,
-            deserialize=_deserialize_create_key_store,
-            config=self._config,
-            operation_name="CreateKeyStore",
-        )
 
     def create_key(self, input: CreateKeyInput) -> CreateKeyOutput:
         """Create a new Branch Key in the Key Store. Additionally create a
@@ -134,10 +86,12 @@ class KeyStore:
         )
 
     def version_key(self, input: VersionKeyInput) -> VersionKeyOutput:
-        """Create a new ACTIVE version of an existing Branch Key in the Key
-        Store, and set the previously ACTIVE version to DECRYPT_ONLY.
+        """Create a new ACTIVE version of an existing Branch Key, along with a
+        complementing Version (DECRYT_ONLY) in the Key Store. This generates a
+        fresh AES-256 key which all future encrypts will use for the Key
+        Derivation Function, until VersionKey is executed again.
 
-        :param input: Inputs for versioning a Branch Key.
+        :param input: The operation's input.
         """
         return self._execute_operation(
             input=input,
@@ -148,51 +102,43 @@ class KeyStore:
             operation_name="VersionKey",
         )
 
-    def get_active_branch_key(
-        self, input: GetActiveBranchKeyInput
-    ) -> GetActiveBranchKeyOutput:
-        """Get the ACTIVE version for a particular Branch Key from the Key
-        Store.
+    def initialize_mutation(
+        self, input: InitializeMutationInput
+    ) -> InitializeMutationOutput:
+        """Starts a Mutation to all Items of a Branch Key ID. Versions the
+        Branch Key ID, such that the new version only has existed in the final
+        state. Mutates the Beacon Key. Establishes the Mutation Lock;
+        Simultaneous conflicting Mutations are prevented by the Mutation Lock.
+        Mutations MUST be completed via subsequent invocations of the Apply
+        Mutation Operation, first invoked with the Mutation Token returned in
+        InitializeMutationOutput. Uses 1 read of 3 items and 1 write of 4
+        items. By default, Key Management will be called 5 times; 2 x
+        GenerateDataKeyWithoutPlaintext, 3 x ReEncrypt.
 
-        :param input: Inputs for getting a Branch Key's ACTIVE version.
+        :param input: The operation's input.
         """
         return self._execute_operation(
             input=input,
             plugins=[],
-            serialize=_serialize_get_active_branch_key,
-            deserialize=_deserialize_get_active_branch_key,
+            serialize=_serialize_initialize_mutation,
+            deserialize=_deserialize_initialize_mutation,
             config=self._config,
-            operation_name="GetActiveBranchKey",
+            operation_name="InitializeMutation",
         )
 
-    def get_branch_key_version(
-        self, input: GetBranchKeyVersionInput
-    ) -> GetBranchKeyVersionOutput:
-        """Get a particular version of a Branch Key from the Key Store.
+    def apply_mutation(self, input: ApplyMutationInput) -> ApplyMutationOutput:
+        """Applies the Mutation to a page of Branch Key Items. If all Items
+        have been mutated, removes the Mutation Lock.
 
-        :param input: Inputs for getting a version of a Branch Key.
+        :param input: The operation's input.
         """
         return self._execute_operation(
             input=input,
             plugins=[],
-            serialize=_serialize_get_branch_key_version,
-            deserialize=_deserialize_get_branch_key_version,
+            serialize=_serialize_apply_mutation,
+            deserialize=_deserialize_apply_mutation,
             config=self._config,
-            operation_name="GetBranchKeyVersion",
-        )
-
-    def get_beacon_key(self, input: GetBeaconKeyInput) -> GetBeaconKeyOutput:
-        """Get a Beacon Key from the Key Store.
-
-        :param input: Inputs for getting a Beacon Key
-        """
-        return self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_get_beacon_key,
-            deserialize=_deserialize_get_beacon_key,
-            config=self._config,
-            operation_name="GetBeaconKey",
+            operation_name="ApplyMutation",
         )
 
     def _execute_operation(

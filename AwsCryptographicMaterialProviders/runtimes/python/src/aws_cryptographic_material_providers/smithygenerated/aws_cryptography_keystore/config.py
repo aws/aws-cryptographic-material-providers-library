@@ -2,21 +2,17 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes import (
+from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes import (
     KeyStoreConfig_KeyStoreConfig as DafnyKeyStoreConfig,
 )
-import aws_cryptographic_material_providers.internaldafny.generated.module_
-import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
-import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny
+import aws_cryptographic_materialproviders.internaldafny.generated.module_
+import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
+import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny
 from dataclasses import dataclass
 from typing import Any, Callable, Dict, Optional, TypeAlias
 
 from .dafnyImplInterface import DafnyImplInterface
-from botocore.client import BaseClient
-from smithy_python._private.retries import SimpleRetryStrategy
-from smithy_python.interfaces.retries import RetryStrategy
-
-from .models import (
+from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models import (
     KMSConfiguration,
     KeyManagement,
     Storage,
@@ -24,6 +20,9 @@ from .models import (
     _kms_configuration_from_dict,
     _storage_from_dict,
 )
+from botocore.client import BaseClient
+from smithy_python._private.retries import SimpleRetryStrategy
+from smithy_python.interfaces.retries import RetryStrategy
 
 
 _ServiceInterceptor = Any
@@ -237,7 +236,7 @@ class KeyStoreConfig(Config):
 def dafny_config_to_smithy_config(dafny_config) -> KeyStoreConfig:
     """Converts the provided Dafny shape for this localService's config into
     the corresponding Smithy-modelled shape."""
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_KeyStoreConfig(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_KeyStoreConfig(
         dafny_config
     )
 
@@ -245,6 +244,6 @@ def dafny_config_to_smithy_config(dafny_config) -> KeyStoreConfig:
 def smithy_config_to_dafny_config(smithy_config) -> DafnyKeyStoreConfig:
     """Converts the provided Smithy-modelled shape for this localService's
     config into the corresponding Dafny shape."""
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_KeyStoreConfig(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_KeyStoreConfig(
         smithy_config
     )

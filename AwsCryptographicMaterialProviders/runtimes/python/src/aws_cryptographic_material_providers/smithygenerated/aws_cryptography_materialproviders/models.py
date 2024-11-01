@@ -2,16 +2,18 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.client
-import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references
+import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.client
+import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references
 from typing import Any, Dict, List, Optional, Union
 
+from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models import (
+    BeaconKeyMaterials,
+    BranchKeyMaterials,
+)
 from aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.models import (
     AES_GCM,
 )
 from botocore.client import BaseClient
-
-from ..aws_cryptography_keystore.models import BeaconKeyMaterials, BranchKeyMaterials
 
 
 class AesWrappingAlg:
@@ -1263,7 +1265,7 @@ class CreateAwsKmsDiscoveryMultiKeyringInput:
     regions: list[str]
     discovery_filter: Optional[DiscoveryFilter]
     client_supplier: Optional[
-        "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
+        "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
     ]
     grant_tokens: Optional[list[str]]
 
@@ -1273,7 +1275,7 @@ class CreateAwsKmsDiscoveryMultiKeyringInput:
         regions: list[str],
         discovery_filter: Optional[DiscoveryFilter] = None,
         client_supplier: Optional[
-            "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
+            "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
         ] = None,
         grant_tokens: Optional[list[str]] = None,
     ):
@@ -1319,7 +1321,7 @@ class CreateAwsKmsDiscoveryMultiKeyringInput:
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsDiscoveryMultiKeyringInput":
         """Creates a CreateAwsKmsDiscoveryMultiKeyringInput from a
         dictionary."""
-        from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references import (
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             ClientSupplier,
         )
 
@@ -2215,7 +2217,7 @@ class CacheTypeShared:
 
     def __init__(
         self,
-        value: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsCache",
+        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsCache",
     ):
         self.value = value
 
@@ -2224,7 +2226,7 @@ class CacheTypeShared:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CacheTypeShared":
-        from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references import (
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             CryptographicMaterialsCache,
         )
 
@@ -2303,9 +2305,9 @@ def _cache_type_from_dict(d: Dict[str, Any]) -> CacheType:
 class CreateAwsKmsHierarchicalKeyringInput:
     branch_key_id: Optional[str]
     branch_key_id_supplier: Optional[
-        "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.BranchKeyIdSupplier"
+        "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.BranchKeyIdSupplier"
     ]
-    key_store: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.client.KeyStore"
+    key_store: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.client.KeyStore"
     ttl_seconds: int
     cache: Optional[CacheType]
     partition_id: Optional[str]
@@ -2313,10 +2315,10 @@ class CreateAwsKmsHierarchicalKeyringInput:
     def __init__(
         self,
         *,
-        key_store: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.client.KeyStore",
+        key_store: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.client.KeyStore",
         branch_key_id: Optional[str] = None,
         branch_key_id_supplier: Optional[
-            "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.BranchKeyIdSupplier"
+            "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.BranchKeyIdSupplier"
         ] = None,
         ttl_seconds: int = 0,
         cache: Optional[CacheType] = None,
@@ -2391,10 +2393,10 @@ class CreateAwsKmsHierarchicalKeyringInput:
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsHierarchicalKeyringInput":
         """Creates a CreateAwsKmsHierarchicalKeyringInput from a dictionary."""
-        from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references import (
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             BranchKeyIdSupplier,
         )
-        from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.client import (
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.client import (
             KeyStore,
         )
 
@@ -2628,7 +2630,7 @@ class CreateAwsKmsMrkDiscoveryMultiKeyringInput:
     regions: list[str]
     discovery_filter: Optional[DiscoveryFilter]
     client_supplier: Optional[
-        "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
+        "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
     ]
     grant_tokens: Optional[list[str]]
 
@@ -2638,7 +2640,7 @@ class CreateAwsKmsMrkDiscoveryMultiKeyringInput:
         regions: list[str],
         discovery_filter: Optional[DiscoveryFilter] = None,
         client_supplier: Optional[
-            "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
+            "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
         ] = None,
         grant_tokens: Optional[list[str]] = None,
     ):
@@ -2684,7 +2686,7 @@ class CreateAwsKmsMrkDiscoveryMultiKeyringInput:
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsMrkDiscoveryMultiKeyringInput":
         """Creates a CreateAwsKmsMrkDiscoveryMultiKeyringInput from a
         dictionary."""
-        from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references import (
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             ClientSupplier,
         )
 
@@ -2812,7 +2814,7 @@ class CreateAwsKmsMrkMultiKeyringInput:
     generator: Optional[str]
     kms_key_ids: Optional[list[str]]
     client_supplier: Optional[
-        "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
+        "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
     ]
     grant_tokens: Optional[list[str]]
 
@@ -2822,7 +2824,7 @@ class CreateAwsKmsMrkMultiKeyringInput:
         generator: Optional[str] = None,
         kms_key_ids: Optional[list[str]] = None,
         client_supplier: Optional[
-            "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
+            "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
         ] = None,
         grant_tokens: Optional[list[str]] = None,
     ):
@@ -2870,7 +2872,7 @@ class CreateAwsKmsMrkMultiKeyringInput:
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsMrkMultiKeyringInput":
         """Creates a CreateAwsKmsMrkMultiKeyringInput from a dictionary."""
-        from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references import (
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             ClientSupplier,
         )
 
@@ -2922,7 +2924,7 @@ class CreateAwsKmsMultiKeyringInput:
     generator: Optional[str]
     kms_key_ids: Optional[list[str]]
     client_supplier: Optional[
-        "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
+        "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
     ]
     grant_tokens: Optional[list[str]]
 
@@ -2932,7 +2934,7 @@ class CreateAwsKmsMultiKeyringInput:
         generator: Optional[str] = None,
         kms_key_ids: Optional[list[str]] = None,
         client_supplier: Optional[
-            "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
+            "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
         ] = None,
         grant_tokens: Optional[list[str]] = None,
     ):
@@ -2981,7 +2983,7 @@ class CreateAwsKmsMultiKeyringInput:
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsMultiKeyringInput":
         """Creates a CreateAwsKmsMultiKeyringInput from a dictionary."""
-        from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references import (
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             ClientSupplier,
         )
 
@@ -3202,12 +3204,12 @@ class CreateDefaultClientSupplierInput:
 
 
 class CreateDefaultCryptographicMaterialsManagerInput:
-    keyring: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring"
+    keyring: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring"
 
     def __init__(
         self,
         *,
-        keyring: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring",
+        keyring: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring",
     ):
         """Inputs for creating a Default Cryptographic Materials Manager.
 
@@ -3229,7 +3231,7 @@ class CreateDefaultCryptographicMaterialsManagerInput:
     ) -> "CreateDefaultCryptographicMaterialsManagerInput":
         """Creates a CreateDefaultCryptographicMaterialsManagerInput from a
         dictionary."""
-        from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references import (
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             Keyring,
         )
 
@@ -3257,20 +3259,20 @@ class CreateDefaultCryptographicMaterialsManagerInput:
 
 class CreateMultiKeyringInput:
     generator: Optional[
-        "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring"
+        "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring"
     ]
     child_keyrings: list[
-        "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring"
+        "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring"
     ]
 
     def __init__(
         self,
         *,
         child_keyrings: list[
-            "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring"
+            "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring"
         ],
         generator: Optional[
-            "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring"
+            "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring"
         ] = None,
     ):
         """Inputs for creating a Multi-Keyring.
@@ -3300,7 +3302,7 @@ class CreateMultiKeyringInput:
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateMultiKeyringInput":
         """Creates a CreateMultiKeyringInput from a dictionary."""
-        from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references import (
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             Keyring,
         )
 
@@ -3901,10 +3903,10 @@ class CreateRawRsaKeyringInput:
 
 class CreateRequiredEncryptionContextCMMInput:
     underlying_cmm: Optional[
-        "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsManager"
+        "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsManager"
     ]
     keyring: Optional[
-        "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring"
+        "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring"
     ]
     required_encryption_context_keys: list[str]
 
@@ -3913,10 +3915,10 @@ class CreateRequiredEncryptionContextCMMInput:
         *,
         required_encryption_context_keys: list[str],
         underlying_cmm: Optional[
-            "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsManager"
+            "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsManager"
         ] = None,
         keyring: Optional[
-            "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring"
+            "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring"
         ] = None,
     ):
         """Inputs for creating an Required Encryption Context Cryptographic
@@ -3962,10 +3964,10 @@ class CreateRequiredEncryptionContextCMMInput:
     def from_dict(d: Dict[str, Any]) -> "CreateRequiredEncryptionContextCMMInput":
         """Creates a CreateRequiredEncryptionContextCMMInput from a
         dictionary."""
-        from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references import (
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             CryptographicMaterialsManager,
         )
-        from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references import (
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             Keyring,
         )
 

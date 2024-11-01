@@ -3,7 +3,7 @@
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
 import _dafny
-from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes import (
+from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes import (
     DecryptionMaterials_DecryptionMaterials as DafnyDecryptionMaterials,
     EncryptionMaterials_EncryptionMaterials as DafnyEncryptionMaterials,
     Error,
@@ -18,8 +18,8 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     Error_InvalidEncryptionMaterials,
     Error_InvalidEncryptionMaterialsTransition,
 )
-import aws_cryptographic_material_providers.internaldafny.generated.module_
-import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy
+import aws_cryptographic_materialproviders.internaldafny.generated.module_
+import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy
 from typing import Any
 
 from .dafny_protocol import DafnyResponse
@@ -42,6 +42,12 @@ from .errors import (
     OpaqueError,
     ServiceError,
 )
+from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.deserialize import (
+    _deserialize_error as aws_cryptography_keystore_deserialize_error,
+)
+from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.config import (
+    Config,
+)
 from aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.shim import (
     _sdk_error_to_dafny_error as com_amazonaws_dynamodb_sdk_error_to_dafny_error,
 )
@@ -52,17 +58,12 @@ from aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.des
     _deserialize_error as aws_cryptography_primitives_deserialize_error,
 )
 
-from ..aws_cryptography_keystore.deserialize import (
-    _deserialize_error as aws_cryptography_keystore_deserialize_error,
-)
-from .config import Config
-
 
 def _deserialize_create_aws_kms_keyring(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
         input.value
     )
 
@@ -71,7 +72,7 @@ def _deserialize_create_aws_kms_discovery_keyring(input: DafnyResponse, config: 
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
         input.value
     )
 
@@ -80,7 +81,7 @@ def _deserialize_create_aws_kms_multi_keyring(input: DafnyResponse, config: Conf
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
         input.value
     )
 
@@ -91,7 +92,7 @@ def _deserialize_create_aws_kms_discovery_multi_keyring(
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
         input.value
     )
 
@@ -100,7 +101,7 @@ def _deserialize_create_aws_kms_mrk_keyring(input: DafnyResponse, config: Config
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
         input.value
     )
 
@@ -109,7 +110,7 @@ def _deserialize_create_aws_kms_mrk_multi_keyring(input: DafnyResponse, config: 
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
         input.value
     )
 
@@ -120,7 +121,7 @@ def _deserialize_create_aws_kms_mrk_discovery_keyring(
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
         input.value
     )
 
@@ -131,7 +132,7 @@ def _deserialize_create_aws_kms_mrk_discovery_multi_keyring(
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
         input.value
     )
 
@@ -142,7 +143,7 @@ def _deserialize_create_aws_kms_hierarchical_keyring(
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
         input.value
     )
 
@@ -151,7 +152,7 @@ def _deserialize_create_aws_kms_rsa_keyring(input: DafnyResponse, config: Config
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
         input.value
     )
 
@@ -160,7 +161,7 @@ def _deserialize_create_aws_kms_ecdh_keyring(input: DafnyResponse, config: Confi
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
         input.value
     )
 
@@ -169,7 +170,7 @@ def _deserialize_create_multi_keyring(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
         input.value
     )
 
@@ -178,7 +179,7 @@ def _deserialize_create_raw_aes_keyring(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
         input.value
     )
 
@@ -187,7 +188,7 @@ def _deserialize_create_raw_rsa_keyring(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
         input.value
     )
 
@@ -196,7 +197,7 @@ def _deserialize_create_raw_ecdh_keyring(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(
         input.value
     )
 
@@ -207,7 +208,7 @@ def _deserialize_create_default_cryptographic_materials_manager(
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateCryptographicMaterialsManagerOutput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateCryptographicMaterialsManagerOutput(
         input.value
     )
 
@@ -218,7 +219,7 @@ def _deserialize_create_required_encryption_context_cmm(
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateRequiredEncryptionContextCMMOutput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateRequiredEncryptionContextCMMOutput(
         input.value
     )
 
@@ -229,7 +230,7 @@ def _deserialize_create_cryptographic_materials_cache(
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateCryptographicMaterialsCacheOutput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateCryptographicMaterialsCacheOutput(
         input.value
     )
 
@@ -238,7 +239,7 @@ def _deserialize_create_default_client_supplier(input: DafnyResponse, config: Co
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateDefaultClientSupplierOutput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateDefaultClientSupplierOutput(
         input.value
     )
 
@@ -247,7 +248,7 @@ def _deserialize_initialize_encryption_materials(input: DafnyResponse, config: C
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptionMaterials(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptionMaterials(
         input.value
     )
 
@@ -256,7 +257,7 @@ def _deserialize_initialize_decryption_materials(input: DafnyResponse, config: C
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DecryptionMaterials(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DecryptionMaterials(
         input.value
     )
 
@@ -293,7 +294,7 @@ def _deserialize_get_algorithm_suite_info(input: DafnyResponse, config: Config):
 
     if input.IsFailure():
         return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteInfo(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteInfo(
         input.value
     )
 

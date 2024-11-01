@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
+import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models
 from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes import (
     HierarchicalKeyType_ActiveHierarchicalSymmetricBeacon,
     HierarchicalKeyType_ActiveHierarchicalSymmetricVersion,
@@ -14,8 +15,8 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     Storage_custom,
     Storage_ddb,
 )
-import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
-import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models
+import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
+import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models
 
 
 def aws_cryptography_keystore_EncryptedHierarchicalKey(dafny_input):
@@ -357,12 +358,12 @@ def smithy_api_Unit():
 
 def aws_cryptography_keystore_CreateKeyStoreInput(dafny_input):
     return (
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.CreateKeyStoreInput()
+        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.CreateKeyStoreInput()
     )
 
 
 def aws_cryptography_keystore_CreateKeyInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.CreateKeyInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.CreateKeyInput(
         branch_key_identifier=(
             (
                 b"".join(
@@ -389,7 +390,7 @@ def aws_cryptography_keystore_CreateKeyInput(dafny_input):
 
 
 def aws_cryptography_keystore_VersionKeyInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.VersionKeyInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.VersionKeyInput(
         branch_key_identifier=b"".join(
             ord(c).to_bytes(2, "big") for c in dafny_input.branchKeyIdentifier
         ).decode("utf-16-be"),
@@ -397,7 +398,7 @@ def aws_cryptography_keystore_VersionKeyInput(dafny_input):
 
 
 def aws_cryptography_keystore_GetActiveBranchKeyInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetActiveBranchKeyInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetActiveBranchKeyInput(
         branch_key_identifier=b"".join(
             ord(c).to_bytes(2, "big") for c in dafny_input.branchKeyIdentifier
         ).decode("utf-16-be"),
@@ -405,7 +406,7 @@ def aws_cryptography_keystore_GetActiveBranchKeyInput(dafny_input):
 
 
 def aws_cryptography_keystore_GetBranchKeyVersionInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetBranchKeyVersionInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetBranchKeyVersionInput(
         branch_key_identifier=b"".join(
             ord(c).to_bytes(2, "big") for c in dafny_input.branchKeyIdentifier
         ).decode("utf-16-be"),
@@ -416,7 +417,7 @@ def aws_cryptography_keystore_GetBranchKeyVersionInput(dafny_input):
 
 
 def aws_cryptography_keystore_GetBeaconKeyInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetBeaconKeyInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetBeaconKeyInput(
         branch_key_identifier=b"".join(
             ord(c).to_bytes(2, "big") for c in dafny_input.branchKeyIdentifier
         ).decode("utf-16-be"),
@@ -426,26 +427,26 @@ def aws_cryptography_keystore_GetBeaconKeyInput(dafny_input):
 def aws_cryptography_keystore_KMSConfiguration(dafny_input):
     # Convert KMSConfiguration
     if isinstance(dafny_input, KMSConfiguration_kmsKeyArn):
-        KMSConfiguration_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationKmsKeyArn(
+        KMSConfiguration_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationKmsKeyArn(
             b"".join(ord(c).to_bytes(2, "big") for c in dafny_input.kmsKeyArn).decode(
                 "utf-16-be"
             )
         )
     elif isinstance(dafny_input, KMSConfiguration_kmsMRKeyArn):
-        KMSConfiguration_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationKmsMRKeyArn(
+        KMSConfiguration_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationKmsMRKeyArn(
             b"".join(ord(c).to_bytes(2, "big") for c in dafny_input.kmsMRKeyArn).decode(
                 "utf-16-be"
             )
         )
     elif isinstance(dafny_input, KMSConfiguration_discovery):
-        KMSConfiguration_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationDiscovery(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_Discovery(
+        KMSConfiguration_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationDiscovery(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_Discovery(
                 dafny_input.discovery
             )
         )
     elif isinstance(dafny_input, KMSConfiguration_mrDiscovery):
-        KMSConfiguration_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationMrDiscovery(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_MRDiscovery(
+        KMSConfiguration_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationMrDiscovery(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_MRDiscovery(
                 dafny_input.mrDiscovery
             )
         )
@@ -457,12 +458,12 @@ def aws_cryptography_keystore_KMSConfiguration(dafny_input):
 
 def aws_cryptography_keystore_Discovery(dafny_input):
     return (
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.Discovery()
+        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.Discovery()
     )
 
 
 def aws_cryptography_keystore_MRDiscovery(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.MRDiscovery(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.MRDiscovery(
         region=b"".join(ord(c).to_bytes(2, "big") for c in dafny_input.region).decode(
             "utf-16-be"
         ),
@@ -470,7 +471,7 @@ def aws_cryptography_keystore_MRDiscovery(dafny_input):
 
 
 def aws_cryptography_keystore_GetKeyStoreInfoOutput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetKeyStoreInfoOutput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetKeyStoreInfoOutput(
         key_store_id=b"".join(
             ord(c).to_bytes(2, "big") for c in dafny_input.keyStoreId
         ).decode("utf-16-be"),
@@ -486,14 +487,14 @@ def aws_cryptography_keystore_GetKeyStoreInfoOutput(dafny_input):
             )
             for list_element in dafny_input.grantTokens
         ],
-        kms_configuration=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_KMSConfiguration(
+        kms_configuration=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_KMSConfiguration(
             dafny_input.kmsConfiguration
         ),
     )
 
 
 def aws_cryptography_keystore_CreateKeyStoreOutput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.CreateKeyStoreOutput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.CreateKeyStoreOutput(
         table_arn=b"".join(
             ord(c).to_bytes(2, "big") for c in dafny_input.tableArn
         ).decode("utf-16-be"),
@@ -501,7 +502,7 @@ def aws_cryptography_keystore_CreateKeyStoreOutput(dafny_input):
 
 
 def aws_cryptography_keystore_CreateKeyOutput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.CreateKeyOutput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.CreateKeyOutput(
         branch_key_identifier=b"".join(
             ord(c).to_bytes(2, "big") for c in dafny_input.branchKeyIdentifier
         ).decode("utf-16-be"),
@@ -510,12 +511,12 @@ def aws_cryptography_keystore_CreateKeyOutput(dafny_input):
 
 def aws_cryptography_keystore_VersionKeyOutput(dafny_input):
     return (
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.VersionKeyOutput()
+        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.VersionKeyOutput()
     )
 
 
 def aws_cryptography_keystore_BranchKeyMaterials(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.BranchKeyMaterials(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.BranchKeyMaterials(
         branch_key_identifier=b"".join(
             ord(c).to_bytes(2, "big") for c in dafny_input.branchKeyIdentifier
         ).decode("utf-16-be"),
@@ -529,23 +530,23 @@ def aws_cryptography_keystore_BranchKeyMaterials(dafny_input):
 
 
 def aws_cryptography_keystore_GetActiveBranchKeyOutput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetActiveBranchKeyOutput(
-        branch_key_materials=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_BranchKeyMaterials(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetActiveBranchKeyOutput(
+        branch_key_materials=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_BranchKeyMaterials(
             dafny_input.branchKeyMaterials
         ),
     )
 
 
 def aws_cryptography_keystore_GetBranchKeyVersionOutput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetBranchKeyVersionOutput(
-        branch_key_materials=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_BranchKeyMaterials(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetBranchKeyVersionOutput(
+        branch_key_materials=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_BranchKeyMaterials(
             dafny_input.branchKeyMaterials
         ),
     )
 
 
 def aws_cryptography_keystore_BeaconKeyMaterials(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.BeaconKeyMaterials(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.BeaconKeyMaterials(
         beacon_key_identifier=b"".join(
             ord(c).to_bytes(2, "big") for c in dafny_input.beaconKeyIdentifier
         ).decode("utf-16-be"),
@@ -574,8 +575,8 @@ def aws_cryptography_keystore_BeaconKeyMaterials(dafny_input):
 
 
 def aws_cryptography_keystore_GetBeaconKeyOutput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetBeaconKeyOutput(
-        beacon_key_materials=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_BeaconKeyMaterials(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetBeaconKeyOutput(
+        beacon_key_materials=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_BeaconKeyMaterials(
             dafny_input.beaconKeyMaterials
         ),
     )
@@ -680,7 +681,7 @@ def aws_cryptography_keystore_DdbClientReference(dafny_input):
 
 def aws_cryptography_keystore_KeyStoreConfig(dafny_input):
     # Deferred import of .config to avoid circular dependency
-    import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.config
+    import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.config
 
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.config.KeyStoreConfig(
         kms_configuration=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_KMSConfiguration(
@@ -739,7 +740,7 @@ def aws_cryptography_keystore_KeyStoreConfig(dafny_input):
         ),
         ddb_client=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_DdbClientReference(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_DdbClientReference(
                     dafny_input.ddbClient.UnwrapOr(None)
                 )
             )
@@ -748,7 +749,7 @@ def aws_cryptography_keystore_KeyStoreConfig(dafny_input):
         ),
         kms_client=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_KmsClientReference(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_KmsClientReference(
                     dafny_input.kmsClient.UnwrapOr(None)
                 )
             )

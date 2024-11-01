@@ -2,15 +2,13 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes import (
+from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreAdminTypes import (
+    ApplyMutationInput_ApplyMutationInput as DafnyApplyMutationInput,
     CreateKeyInput_CreateKeyInput as DafnyCreateKeyInput,
-    CreateKeyStoreInput_CreateKeyStoreInput as DafnyCreateKeyStoreInput,
-    GetActiveBranchKeyInput_GetActiveBranchKeyInput as DafnyGetActiveBranchKeyInput,
-    GetBeaconKeyInput_GetBeaconKeyInput as DafnyGetBeaconKeyInput,
-    GetBranchKeyVersionInput_GetBranchKeyVersionInput as DafnyGetBranchKeyVersionInput,
+    InitializeMutationInput_InitializeMutationInput as DafnyInitializeMutationInput,
     VersionKeyInput_VersionKeyInput as DafnyVersionKeyInput,
 )
-import aws_cryptographic_materialproviders.internaldafny.generated.module_
+import aws_cryptographic_material_providers.internaldafny.generated.module_
 
 
 import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
@@ -23,13 +21,10 @@ class DafnyRequest:
     # dafny_operation_input can take on any one of the types
     # of the input values passed to the Dafny implementation
     dafny_operation_input: Union[
-        DafnyGetActiveBranchKeyInput,
-        DafnyVersionKeyInput,
-        DafnyGetBranchKeyVersionInput,
-        DafnyGetBeaconKeyInput,
-        None,
+        DafnyApplyMutationInput,
         DafnyCreateKeyInput,
-        DafnyCreateKeyStoreInput,
+        DafnyVersionKeyInput,
+        DafnyInitializeMutationInput,
     ]
 
     def __init__(self, operation_name, dafny_operation_input):

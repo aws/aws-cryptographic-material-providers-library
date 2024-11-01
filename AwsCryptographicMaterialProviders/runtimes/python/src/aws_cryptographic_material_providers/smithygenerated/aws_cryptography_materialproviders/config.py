@@ -2,12 +2,12 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes import (
+from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes import (
     MaterialProvidersConfig_MaterialProvidersConfig as DafnyMaterialProvidersConfig,
 )
-import aws_cryptographic_material_providers.internaldafny.generated.module_
-import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy
-import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny
+import aws_cryptographic_materialproviders.internaldafny.generated.module_
+import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy
+import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny
 from dataclasses import dataclass
 from typing import Any, Callable, Dict, TypeAlias
 
@@ -79,7 +79,7 @@ class MaterialProvidersConfig(Config):
 def dafny_config_to_smithy_config(dafny_config) -> MaterialProvidersConfig:
     """Converts the provided Dafny shape for this localService's config into
     the corresponding Smithy-modelled shape."""
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_MaterialProvidersConfig(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_MaterialProvidersConfig(
         dafny_config
     )
 
@@ -87,6 +87,6 @@ def dafny_config_to_smithy_config(dafny_config) -> MaterialProvidersConfig:
 def smithy_config_to_dafny_config(smithy_config) -> DafnyMaterialProvidersConfig:
     """Converts the provided Smithy-modelled shape for this localService's
     config into the corresponding Dafny shape."""
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_MaterialProvidersConfig(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_MaterialProvidersConfig(
         smithy_config
     )

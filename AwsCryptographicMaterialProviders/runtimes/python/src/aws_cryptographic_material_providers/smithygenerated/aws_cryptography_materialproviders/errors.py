@@ -3,12 +3,12 @@
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
 import _dafny
-import aws_cryptographic_material_providers.internaldafny.generated
-import aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes
-from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors import (
+import aws_cryptographic_materialproviders.internaldafny.generated
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes
+from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors import (
     _smithy_error_to_dafny_error as aws_cryptography_keystore_smithy_error_to_dafny_error,
 )
-import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors
+import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.errors
 from aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.shim import (
     _sdk_error_to_dafny_error as com_amazonaws_dynamodb_sdk_error_to_dafny_error,
 )
@@ -702,106 +702,106 @@ def _smithy_error_to_dafny_error(e: ServiceError):
     Dafny error."""
     if isinstance(
         e,
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.AwsCryptographicMaterialProvidersException,
+        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.errors.AwsCryptographicMaterialProvidersException,
     ):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(
+        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(
             message=_dafny.Seq(e.message)
         )
 
     if isinstance(
         e,
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.EntryAlreadyExists,
+        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.errors.EntryAlreadyExists,
     ):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_EntryAlreadyExists(
+        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_EntryAlreadyExists(
             message=_dafny.Seq(e.message)
         )
 
     if isinstance(
         e,
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.EntryDoesNotExist,
+        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.errors.EntryDoesNotExist,
     ):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_EntryDoesNotExist(
+        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_EntryDoesNotExist(
             message=_dafny.Seq(e.message)
         )
 
     if isinstance(
         e,
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InvalidAlgorithmSuiteInfo,
+        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.errors.InvalidAlgorithmSuiteInfo,
     ):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidAlgorithmSuiteInfo(
+        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidAlgorithmSuiteInfo(
             message=_dafny.Seq(e.message)
         )
 
     if isinstance(
         e,
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InvalidAlgorithmSuiteInfoOnDecrypt,
+        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.errors.InvalidAlgorithmSuiteInfoOnDecrypt,
     ):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidAlgorithmSuiteInfoOnDecrypt(
+        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidAlgorithmSuiteInfoOnDecrypt(
             message=_dafny.Seq(e.message)
         )
 
     if isinstance(
         e,
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InvalidAlgorithmSuiteInfoOnEncrypt,
+        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.errors.InvalidAlgorithmSuiteInfoOnEncrypt,
     ):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidAlgorithmSuiteInfoOnEncrypt(
+        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidAlgorithmSuiteInfoOnEncrypt(
             message=_dafny.Seq(e.message)
         )
 
     if isinstance(
         e,
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InvalidDecryptionMaterials,
+        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.errors.InvalidDecryptionMaterials,
     ):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidDecryptionMaterials(
+        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidDecryptionMaterials(
             message=_dafny.Seq(e.message)
         )
 
     if isinstance(
         e,
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InvalidDecryptionMaterialsTransition,
+        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.errors.InvalidDecryptionMaterialsTransition,
     ):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidDecryptionMaterialsTransition(
+        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidDecryptionMaterialsTransition(
             message=_dafny.Seq(e.message)
         )
 
     if isinstance(
         e,
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InvalidEncryptionMaterials,
+        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.errors.InvalidEncryptionMaterials,
     ):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterials(
+        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterials(
             message=_dafny.Seq(e.message)
         )
 
     if isinstance(
         e,
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InvalidEncryptionMaterialsTransition,
+        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.errors.InvalidEncryptionMaterialsTransition,
     ):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterialsTransition(
+        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterialsTransition(
             message=_dafny.Seq(e.message)
         )
 
     if isinstance(e, AwsCryptographicPrimitives):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(
+        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(
             aws_cryptography_primitives_smithy_error_to_dafny_error(e.message)
         )
 
     if isinstance(e, ComAmazonawsDynamodb):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_ComAmazonawsDynamodb(
+        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_ComAmazonawsDynamodb(
             com_amazonaws_dynamodb_sdk_error_to_dafny_error(e.message)
         )
 
     if isinstance(e, ComAmazonawsKms):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_ComAmazonawsKms(
+        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_ComAmazonawsKms(
             com_amazonaws_kms_sdk_error_to_dafny_error(e.message)
         )
 
     if isinstance(e, KeyStore):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyKeyStore(
+        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyKeyStore(
             aws_cryptography_keystore_smithy_error_to_dafny_error(e.message)
         )
 
     if isinstance(e, CollectionOfErrors):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_CollectionOfErrors(
+        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_CollectionOfErrors(
             message=_dafny.Seq(e.message),
             list=_dafny.Seq(
                 _smithy_error_to_dafny_error(native_err) for native_err in e.list
@@ -809,11 +809,11 @@ def _smithy_error_to_dafny_error(e: ServiceError):
         )
 
     if isinstance(e, OpaqueError):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_Opaque(
+        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_Opaque(
             obj=e.obj
         )
 
     else:
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_Opaque(
+        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_Opaque(
             obj=e
         )

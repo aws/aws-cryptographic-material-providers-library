@@ -2,7 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes import (
+import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models
+from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes import (
     AesWrappingAlg_ALG__AES128__GCM__IV12__TAG16,
     AesWrappingAlg_ALG__AES192__GCM__IV12__TAG16,
     AesWrappingAlg_ALG__AES256__GCM__IV12__TAG16,
@@ -58,16 +59,16 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     SymmetricSignatureAlgorithm_HMAC,
     SymmetricSignatureAlgorithm_None,
 )
-import aws_cryptographic_material_providers.internaldafny.generated.module_
-import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
-import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy
-import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models
+import aws_cryptographic_materialproviders.internaldafny.generated.module_
+import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
+import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy
+import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models
 import aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk
 import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy
 
 
 def aws_cryptography_materialproviders_GetBranchKeyIdInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.GetBranchKeyIdInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetBranchKeyIdInput(
         encryption_context={
             bytes(key.Elements).decode("utf-8"): bytes(value.Elements).decode("utf-8")
             for (key, value) in dafny_input.encryptionContext.items
@@ -76,7 +77,7 @@ def aws_cryptography_materialproviders_GetBranchKeyIdInput(dafny_input):
 
 
 def aws_cryptography_materialproviders_GetBranchKeyIdOutput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.GetBranchKeyIdOutput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetBranchKeyIdOutput(
         branch_key_id=b"".join(
             ord(c).to_bytes(2, "big") for c in dafny_input.branchKeyId
         ).decode("utf-16-be"),
@@ -84,7 +85,7 @@ def aws_cryptography_materialproviders_GetBranchKeyIdOutput(dafny_input):
 
 
 def aws_cryptography_materialproviders_GetClientInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.GetClientInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetClientInput(
         region=b"".join(ord(c).to_bytes(2, "big") for c in dafny_input.region).decode(
             "utf-16-be"
         ),
@@ -96,7 +97,7 @@ def aws_cryptography_materialproviders_KmsClientReference(dafny_input):
 
 
 def aws_cryptography_materialproviders_GetClientOutput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsClientReference(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsClientReference(
         dafny_input
     )
 
@@ -104,26 +105,26 @@ def aws_cryptography_materialproviders_GetClientOutput(dafny_input):
 def aws_cryptography_materialproviders_Materials(dafny_input):
     # Convert Materials
     if isinstance(dafny_input, Materials_Encryption):
-        Materials_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.MaterialsEncryption(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptionMaterials(
+        Materials_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.MaterialsEncryption(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptionMaterials(
                 dafny_input.Encryption
             )
         )
     elif isinstance(dafny_input, Materials_Decryption):
-        Materials_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.MaterialsDecryption(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DecryptionMaterials(
+        Materials_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.MaterialsDecryption(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DecryptionMaterials(
                 dafny_input.Decryption
             )
         )
     elif isinstance(dafny_input, Materials_BranchKey):
-        Materials_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.MaterialsBranchKey(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_BranchKeyMaterials(
+        Materials_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.MaterialsBranchKey(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_BranchKeyMaterials(
                 dafny_input.BranchKey
             )
         )
     elif isinstance(dafny_input, Materials_BeaconKey):
-        Materials_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.MaterialsBeaconKey(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_BeaconKeyMaterials(
+        Materials_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.MaterialsBeaconKey(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_BeaconKeyMaterials(
                 dafny_input.BeaconKey
             )
         )
@@ -134,8 +135,8 @@ def aws_cryptography_materialproviders_Materials(dafny_input):
 
 
 def aws_cryptography_materialproviders_EncryptionMaterials(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.EncryptionMaterials(
-        algorithm_suite=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteInfo(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EncryptionMaterials(
+        algorithm_suite=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteInfo(
             dafny_input.algorithmSuite
         ),
         encryption_context={
@@ -143,7 +144,7 @@ def aws_cryptography_materialproviders_EncryptionMaterials(dafny_input):
             for (key, value) in dafny_input.encryptionContext.items
         },
         encrypted_data_keys=[
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptedDataKey(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptedDataKey(
                 list_element
             )
             for list_element in dafny_input.encryptedDataKeys
@@ -176,8 +177,8 @@ def aws_cryptography_materialproviders_EncryptionMaterials(dafny_input):
 
 
 def aws_cryptography_materialproviders_DecryptionMaterials(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.DecryptionMaterials(
-        algorithm_suite=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteInfo(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DecryptionMaterials(
+        algorithm_suite=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteInfo(
             dafny_input.algorithmSuite
         ),
         encryption_context={
@@ -207,35 +208,35 @@ def aws_cryptography_materialproviders_DecryptionMaterials(dafny_input):
 
 
 def aws_cryptography_materialproviders_AlgorithmSuiteInfo(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.AlgorithmSuiteInfo(
-        id=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteId(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.AlgorithmSuiteInfo(
+        id=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteId(
             dafny_input.id
         ),
         binary_id=bytes(dafny_input.binaryId),
         message_version=dafny_input.messageVersion,
-        encrypt=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_Encrypt(
+        encrypt=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_Encrypt(
             dafny_input.encrypt
         ),
-        kdf=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DerivationAlgorithm(
+        kdf=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DerivationAlgorithm(
             dafny_input.kdf
         ),
-        commitment=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DerivationAlgorithm(
+        commitment=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DerivationAlgorithm(
             dafny_input.commitment
         ),
-        signature=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_SignatureAlgorithm(
+        signature=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_SignatureAlgorithm(
             dafny_input.signature
         ),
-        symmetric_signature=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_SymmetricSignatureAlgorithm(
+        symmetric_signature=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_SymmetricSignatureAlgorithm(
             dafny_input.symmetricSignature
         ),
-        edk_wrapping=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EdkWrappingAlgorithm(
+        edk_wrapping=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EdkWrappingAlgorithm(
             dafny_input.edkWrapping
         ),
     )
 
 
 def aws_cryptography_materialproviders_EncryptedDataKey(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.EncryptedDataKey(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EncryptedDataKey(
         key_provider_id=bytes(dafny_input.keyProviderId.Elements).decode("utf-8"),
         key_provider_info=bytes(dafny_input.keyProviderInfo),
         ciphertext=bytes(dafny_input.ciphertext),
@@ -245,14 +246,14 @@ def aws_cryptography_materialproviders_EncryptedDataKey(dafny_input):
 def aws_cryptography_materialproviders_AlgorithmSuiteId(dafny_input):
     # Convert AlgorithmSuiteId
     if isinstance(dafny_input, AlgorithmSuiteId_ESDK):
-        AlgorithmSuiteId_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.AlgorithmSuiteIdESDK(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ESDKAlgorithmSuiteId(
+        AlgorithmSuiteId_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.AlgorithmSuiteIdESDK(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ESDKAlgorithmSuiteId(
                 dafny_input.ESDK
             )
         )
     elif isinstance(dafny_input, AlgorithmSuiteId_DBE):
-        AlgorithmSuiteId_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.AlgorithmSuiteIdDBE(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DBEAlgorithmSuiteId(
+        AlgorithmSuiteId_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.AlgorithmSuiteIdDBE(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DBEAlgorithmSuiteId(
                 dafny_input.DBE
             )
         )
@@ -265,7 +266,7 @@ def aws_cryptography_materialproviders_AlgorithmSuiteId(dafny_input):
 def aws_cryptography_materialproviders_Encrypt(dafny_input):
     # Convert Encrypt
     if isinstance(dafny_input, Encrypt_AES__GCM):
-        Encrypt_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.EncryptAES_GCM(
+        Encrypt_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EncryptAES_GCM(
             aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy.aws_cryptography_primitives_AES_GCM(
                 dafny_input.AES__GCM
             )
@@ -279,20 +280,20 @@ def aws_cryptography_materialproviders_Encrypt(dafny_input):
 def aws_cryptography_materialproviders_DerivationAlgorithm(dafny_input):
     # Convert DerivationAlgorithm
     if isinstance(dafny_input, DerivationAlgorithm_HKDF):
-        DerivationAlgorithm_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.DerivationAlgorithmHKDF(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_HKDF(
+        DerivationAlgorithm_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DerivationAlgorithmHKDF(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_HKDF(
                 dafny_input.HKDF
             )
         )
     elif isinstance(dafny_input, DerivationAlgorithm_IDENTITY):
-        DerivationAlgorithm_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.DerivationAlgorithmIDENTITY(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_IDENTITY(
+        DerivationAlgorithm_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DerivationAlgorithmIDENTITY(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_IDENTITY(
                 dafny_input.IDENTITY
             )
         )
     elif isinstance(dafny_input, DerivationAlgorithm_None):
-        DerivationAlgorithm_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.DerivationAlgorithmNone(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_None(
+        DerivationAlgorithm_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DerivationAlgorithmNone(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_None(
                 dafny_input.None_
             )
         )
@@ -305,14 +306,14 @@ def aws_cryptography_materialproviders_DerivationAlgorithm(dafny_input):
 def aws_cryptography_materialproviders_SignatureAlgorithm(dafny_input):
     # Convert SignatureAlgorithm
     if isinstance(dafny_input, SignatureAlgorithm_ECDSA):
-        SignatureAlgorithm_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.SignatureAlgorithmECDSA(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ECDSA(
+        SignatureAlgorithm_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.SignatureAlgorithmECDSA(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ECDSA(
                 dafny_input.ECDSA
             )
         )
     elif isinstance(dafny_input, SignatureAlgorithm_None):
-        SignatureAlgorithm_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.SignatureAlgorithmNone(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_None(
+        SignatureAlgorithm_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.SignatureAlgorithmNone(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_None(
                 dafny_input.None_
             )
         )
@@ -325,14 +326,14 @@ def aws_cryptography_materialproviders_SignatureAlgorithm(dafny_input):
 def aws_cryptography_materialproviders_SymmetricSignatureAlgorithm(dafny_input):
     # Convert SymmetricSignatureAlgorithm
     if isinstance(dafny_input, SymmetricSignatureAlgorithm_HMAC):
-        SymmetricSignatureAlgorithm_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.SymmetricSignatureAlgorithmHMAC(
+        SymmetricSignatureAlgorithm_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.SymmetricSignatureAlgorithmHMAC(
             aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy.aws_cryptography_primitives_DigestAlgorithm(
                 dafny_input.HMAC
             )
         )
     elif isinstance(dafny_input, SymmetricSignatureAlgorithm_None):
-        SymmetricSignatureAlgorithm_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.SymmetricSignatureAlgorithmNone(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_None(
+        SymmetricSignatureAlgorithm_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.SymmetricSignatureAlgorithmNone(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_None(
                 dafny_input.None_
             )
         )
@@ -345,14 +346,14 @@ def aws_cryptography_materialproviders_SymmetricSignatureAlgorithm(dafny_input):
 def aws_cryptography_materialproviders_EdkWrappingAlgorithm(dafny_input):
     # Convert EdkWrappingAlgorithm
     if isinstance(dafny_input, EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING):
-        EdkWrappingAlgorithm_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.EdkWrappingAlgorithmDIRECT_KEY_WRAPPING(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DIRECT_KEY_WRAPPING(
+        EdkWrappingAlgorithm_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EdkWrappingAlgorithmDIRECT_KEY_WRAPPING(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DIRECT_KEY_WRAPPING(
                 dafny_input.DIRECT__KEY__WRAPPING
             )
         )
     elif isinstance(dafny_input, EdkWrappingAlgorithm_IntermediateKeyWrapping):
-        EdkWrappingAlgorithm_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.EdkWrappingAlgorithmIntermediateKeyWrapping(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_IntermediateKeyWrapping(
+        EdkWrappingAlgorithm_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EdkWrappingAlgorithmIntermediateKeyWrapping(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_IntermediateKeyWrapping(
                 dafny_input.IntermediateKeyWrapping
             )
         )
@@ -444,7 +445,7 @@ def aws_cryptography_materialproviders_DBEAlgorithmSuiteId(dafny_input):
 
 
 def aws_cryptography_materialproviders_HKDF(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.HKDF(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.HKDF(
         hmac=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy.aws_cryptography_primitives_DigestAlgorithm(
             dafny_input.hmac
         ),
@@ -456,18 +457,18 @@ def aws_cryptography_materialproviders_HKDF(dafny_input):
 
 def aws_cryptography_materialproviders_IDENTITY(dafny_input):
     return (
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.IDENTITY()
+        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.IDENTITY()
     )
 
 
 def aws_cryptography_materialproviders_None(dafny_input):
     return (
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.None_()
+        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.None_()
     )
 
 
 def aws_cryptography_materialproviders_ECDSA(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.ECDSA(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.ECDSA(
         curve=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy.aws_cryptography_primitives_ECDSASignatureAlgorithm(
             dafny_input.curve
         ),
@@ -476,28 +477,28 @@ def aws_cryptography_materialproviders_ECDSA(dafny_input):
 
 def aws_cryptography_materialproviders_DIRECT_KEY_WRAPPING(dafny_input):
     return (
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.DIRECT_KEY_WRAPPING()
+        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DIRECT_KEY_WRAPPING()
     )
 
 
 def aws_cryptography_materialproviders_IntermediateKeyWrapping(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.IntermediateKeyWrapping(
-        key_encryption_key_kdf=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DerivationAlgorithm(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.IntermediateKeyWrapping(
+        key_encryption_key_kdf=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DerivationAlgorithm(
             dafny_input.keyEncryptionKeyKdf
         ),
-        mac_key_kdf=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DerivationAlgorithm(
+        mac_key_kdf=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DerivationAlgorithm(
             dafny_input.macKeyKdf
         ),
-        pdk_encrypt_algorithm=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_Encrypt(
+        pdk_encrypt_algorithm=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_Encrypt(
             dafny_input.pdkEncryptAlgorithm
         ),
     )
 
 
 def aws_cryptography_materialproviders_PutCacheEntryInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.PutCacheEntryInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.PutCacheEntryInput(
         identifier=bytes(dafny_input.identifier),
-        materials=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_Materials(
+        materials=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_Materials(
             dafny_input.materials
         ),
         creation_time=dafny_input.creationTime,
@@ -520,7 +521,7 @@ def smithy_api_Unit():
 
 
 def aws_cryptography_materialproviders_GetCacheEntryInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.GetCacheEntryInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetCacheEntryInput(
         identifier=bytes(dafny_input.identifier),
         bytes_used=(
             (dafny_input.bytesUsed.value) if (dafny_input.bytesUsed.is_Some) else None
@@ -529,8 +530,8 @@ def aws_cryptography_materialproviders_GetCacheEntryInput(dafny_input):
 
 
 def aws_cryptography_materialproviders_GetCacheEntryOutput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.GetCacheEntryOutput(
-        materials=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_Materials(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetCacheEntryOutput(
+        materials=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_Materials(
             dafny_input.materials
         ),
         creation_time=dafny_input.creationTime,
@@ -541,14 +542,14 @@ def aws_cryptography_materialproviders_GetCacheEntryOutput(dafny_input):
 
 
 def aws_cryptography_materialproviders_UpdateUsageMetadataInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.UpdateUsageMetadataInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.UpdateUsageMetadataInput(
         identifier=bytes(dafny_input.identifier),
         bytes_used=dafny_input.bytesUsed,
     )
 
 
 def aws_cryptography_materialproviders_DeleteCacheEntryInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.DeleteCacheEntryInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DeleteCacheEntryInput(
         identifier=bytes(dafny_input.identifier),
     )
 
@@ -556,14 +557,14 @@ def aws_cryptography_materialproviders_DeleteCacheEntryInput(dafny_input):
 def aws_cryptography_materialproviders_CommitmentPolicy(dafny_input):
     # Convert CommitmentPolicy
     if isinstance(dafny_input, CommitmentPolicy_ESDK):
-        CommitmentPolicy_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CommitmentPolicyESDK(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ESDKCommitmentPolicy(
+        CommitmentPolicy_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CommitmentPolicyESDK(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ESDKCommitmentPolicy(
                 dafny_input.ESDK
             )
         )
     elif isinstance(dafny_input, CommitmentPolicy_DBE):
-        CommitmentPolicy_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CommitmentPolicyDBE(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DBECommitmentPolicy(
+        CommitmentPolicy_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CommitmentPolicyDBE(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DBECommitmentPolicy(
                 dafny_input.DBE
             )
         )
@@ -598,17 +599,17 @@ def aws_cryptography_materialproviders_DBECommitmentPolicy(dafny_input):
 
 
 def aws_cryptography_materialproviders_GetEncryptionMaterialsInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.GetEncryptionMaterialsInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetEncryptionMaterialsInput(
         encryption_context={
             bytes(key.Elements).decode("utf-8"): bytes(value.Elements).decode("utf-8")
             for (key, value) in dafny_input.encryptionContext.items
         },
-        commitment_policy=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CommitmentPolicy(
+        commitment_policy=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CommitmentPolicy(
             dafny_input.commitmentPolicy
         ),
         algorithm_suite_id=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteId(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteId(
                     dafny_input.algorithmSuiteId.value
                 )
             )
@@ -634,23 +635,23 @@ def aws_cryptography_materialproviders_GetEncryptionMaterialsInput(dafny_input):
 
 
 def aws_cryptography_materialproviders_GetEncryptionMaterialsOutput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.GetEncryptionMaterialsOutput(
-        encryption_materials=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptionMaterials(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetEncryptionMaterialsOutput(
+        encryption_materials=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptionMaterials(
             dafny_input.encryptionMaterials
         ),
     )
 
 
 def aws_cryptography_materialproviders_DecryptMaterialsInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.DecryptMaterialsInput(
-        algorithm_suite_id=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteId(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DecryptMaterialsInput(
+        algorithm_suite_id=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteId(
             dafny_input.algorithmSuiteId
         ),
-        commitment_policy=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CommitmentPolicy(
+        commitment_policy=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CommitmentPolicy(
             dafny_input.commitmentPolicy
         ),
         encrypted_data_keys=[
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptedDataKey(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptedDataKey(
                 list_element
             )
             for list_element in dafny_input.encryptedDataKeys
@@ -678,36 +679,36 @@ def aws_cryptography_materialproviders_DecryptMaterialsInput(dafny_input):
 
 
 def aws_cryptography_materialproviders_DecryptMaterialsOutput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.DecryptMaterialsOutput(
-        decryption_materials=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DecryptionMaterials(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DecryptMaterialsOutput(
+        decryption_materials=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DecryptionMaterials(
             dafny_input.decryptionMaterials
         ),
     )
 
 
 def aws_cryptography_materialproviders_OnEncryptInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.OnEncryptInput(
-        materials=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptionMaterials(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnEncryptInput(
+        materials=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptionMaterials(
             dafny_input.materials
         ),
     )
 
 
 def aws_cryptography_materialproviders_OnEncryptOutput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.OnEncryptOutput(
-        materials=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptionMaterials(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnEncryptOutput(
+        materials=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptionMaterials(
             dafny_input.materials
         ),
     )
 
 
 def aws_cryptography_materialproviders_OnDecryptInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.OnDecryptInput(
-        materials=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DecryptionMaterials(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnDecryptInput(
+        materials=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DecryptionMaterials(
             dafny_input.materials
         ),
         encrypted_data_keys=[
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptedDataKey(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptedDataKey(
                 list_element
             )
             for list_element in dafny_input.encryptedDataKeys
@@ -716,21 +717,21 @@ def aws_cryptography_materialproviders_OnDecryptInput(dafny_input):
 
 
 def aws_cryptography_materialproviders_OnDecryptOutput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.OnDecryptOutput(
-        materials=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DecryptionMaterials(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnDecryptOutput(
+        materials=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DecryptionMaterials(
             dafny_input.materials
         ),
     )
 
 
 def aws_cryptography_materialproviders_CreateAwsKmsKeyringInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsKeyringInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsKeyringInput(
         kms_key_id=b"".join(
             ord(c).to_bytes(2, "big") for c in dafny_input.kmsKeyId
         ).decode("utf-16-be"),
         kms_client=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsClientReference(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsClientReference(
                     dafny_input.kmsClient
                 )
             )
@@ -753,7 +754,7 @@ def aws_cryptography_materialproviders_CreateAwsKmsKeyringInput(dafny_input):
 
 
 def aws_cryptography_materialproviders_DiscoveryFilter(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.DiscoveryFilter(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DiscoveryFilter(
         account_ids=[
             b"".join(ord(c).to_bytes(2, "big") for c in list_element).decode(
                 "utf-16-be"
@@ -767,10 +768,10 @@ def aws_cryptography_materialproviders_DiscoveryFilter(dafny_input):
 
 
 def aws_cryptography_materialproviders_CreateAwsKmsDiscoveryKeyringInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsDiscoveryKeyringInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsDiscoveryKeyringInput(
         kms_client=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsClientReference(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsClientReference(
                     dafny_input.kmsClient
                 )
             )
@@ -779,7 +780,7 @@ def aws_cryptography_materialproviders_CreateAwsKmsDiscoveryKeyringInput(dafny_i
         ),
         discovery_filter=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DiscoveryFilter(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DiscoveryFilter(
                     dafny_input.discoveryFilter.value
                 )
             )
@@ -806,7 +807,7 @@ def aws_cryptography_materialproviders_ClientSupplierReference(dafny_input):
         return dafny_input._native_impl
 
     else:
-        from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references import (
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             ClientSupplier,
         )
 
@@ -814,7 +815,7 @@ def aws_cryptography_materialproviders_ClientSupplierReference(dafny_input):
 
 
 def aws_cryptography_materialproviders_CreateAwsKmsMultiKeyringInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsMultiKeyringInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsMultiKeyringInput(
         generator=(
             (
                 b"".join(
@@ -838,7 +839,7 @@ def aws_cryptography_materialproviders_CreateAwsKmsMultiKeyringInput(dafny_input
         ),
         client_supplier=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ClientSupplierReference(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ClientSupplierReference(
                     dafny_input.clientSupplier.UnwrapOr(None)
                 )
             )
@@ -863,7 +864,7 @@ def aws_cryptography_materialproviders_CreateAwsKmsMultiKeyringInput(dafny_input
 def aws_cryptography_materialproviders_CreateAwsKmsDiscoveryMultiKeyringInput(
     dafny_input,
 ):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsDiscoveryMultiKeyringInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsDiscoveryMultiKeyringInput(
         regions=[
             b"".join(ord(c).to_bytes(2, "big") for c in list_element).decode(
                 "utf-16-be"
@@ -872,7 +873,7 @@ def aws_cryptography_materialproviders_CreateAwsKmsDiscoveryMultiKeyringInput(
         ],
         discovery_filter=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DiscoveryFilter(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DiscoveryFilter(
                     dafny_input.discoveryFilter.value
                 )
             )
@@ -881,7 +882,7 @@ def aws_cryptography_materialproviders_CreateAwsKmsDiscoveryMultiKeyringInput(
         ),
         client_supplier=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ClientSupplierReference(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ClientSupplierReference(
                     dafny_input.clientSupplier.UnwrapOr(None)
                 )
             )
@@ -904,13 +905,13 @@ def aws_cryptography_materialproviders_CreateAwsKmsDiscoveryMultiKeyringInput(
 
 
 def aws_cryptography_materialproviders_CreateAwsKmsMrkKeyringInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsMrkKeyringInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsMrkKeyringInput(
         kms_key_id=b"".join(
             ord(c).to_bytes(2, "big") for c in dafny_input.kmsKeyId
         ).decode("utf-16-be"),
         kms_client=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsClientReference(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsClientReference(
                     dafny_input.kmsClient
                 )
             )
@@ -933,7 +934,7 @@ def aws_cryptography_materialproviders_CreateAwsKmsMrkKeyringInput(dafny_input):
 
 
 def aws_cryptography_materialproviders_CreateAwsKmsMrkMultiKeyringInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsMrkMultiKeyringInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsMrkMultiKeyringInput(
         generator=(
             (
                 b"".join(
@@ -957,7 +958,7 @@ def aws_cryptography_materialproviders_CreateAwsKmsMrkMultiKeyringInput(dafny_in
         ),
         client_supplier=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ClientSupplierReference(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ClientSupplierReference(
                     dafny_input.clientSupplier.UnwrapOr(None)
                 )
             )
@@ -982,10 +983,10 @@ def aws_cryptography_materialproviders_CreateAwsKmsMrkMultiKeyringInput(dafny_in
 def aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryKeyringInput(
     dafny_input,
 ):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsMrkDiscoveryKeyringInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsMrkDiscoveryKeyringInput(
         kms_client=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsClientReference(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsClientReference(
                     dafny_input.kmsClient
                 )
             )
@@ -994,7 +995,7 @@ def aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryKeyringInput(
         ),
         discovery_filter=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DiscoveryFilter(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DiscoveryFilter(
                     dafny_input.discoveryFilter.value
                 )
             )
@@ -1022,7 +1023,7 @@ def aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryKeyringInput(
 def aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput(
     dafny_input,
 ):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsMrkDiscoveryMultiKeyringInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsMrkDiscoveryMultiKeyringInput(
         regions=[
             b"".join(ord(c).to_bytes(2, "big") for c in list_element).decode(
                 "utf-16-be"
@@ -1031,7 +1032,7 @@ def aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput
         ],
         discovery_filter=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DiscoveryFilter(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DiscoveryFilter(
                     dafny_input.discoveryFilter.value
                 )
             )
@@ -1040,7 +1041,7 @@ def aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput
         ),
         client_supplier=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ClientSupplierReference(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ClientSupplierReference(
                     dafny_input.clientSupplier.UnwrapOr(None)
                 )
             )
@@ -1067,7 +1068,7 @@ def aws_cryptography_materialproviders_BranchKeyIdSupplierReference(dafny_input)
         return dafny_input._native_impl
 
     else:
-        from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references import (
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             BranchKeyIdSupplier,
         )
 
@@ -1075,7 +1076,7 @@ def aws_cryptography_materialproviders_BranchKeyIdSupplierReference(dafny_input)
 
 
 def aws_cryptography_materialproviders_KeyStoreReference(dafny_input):
-    from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.client import (
+    from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.client import (
         KeyStore,
     )
 
@@ -1085,38 +1086,38 @@ def aws_cryptography_materialproviders_KeyStoreReference(dafny_input):
 def aws_cryptography_materialproviders_CacheType(dafny_input):
     # Convert CacheType
     if isinstance(dafny_input, CacheType_Default):
-        CacheType_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CacheTypeDefault(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DefaultCache(
+        CacheType_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CacheTypeDefault(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DefaultCache(
                 dafny_input.Default
             )
         )
     elif isinstance(dafny_input, CacheType_No):
-        CacheType_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CacheTypeNo(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_NoCache(
+        CacheType_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CacheTypeNo(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_NoCache(
                 dafny_input.No
             )
         )
     elif isinstance(dafny_input, CacheType_SingleThreaded):
-        CacheType_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CacheTypeSingleThreaded(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_SingleThreadedCache(
+        CacheType_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CacheTypeSingleThreaded(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_SingleThreadedCache(
                 dafny_input.SingleThreaded
             )
         )
     elif isinstance(dafny_input, CacheType_MultiThreaded):
-        CacheType_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CacheTypeMultiThreaded(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_MultiThreadedCache(
+        CacheType_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CacheTypeMultiThreaded(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_MultiThreadedCache(
                 dafny_input.MultiThreaded
             )
         )
     elif isinstance(dafny_input, CacheType_StormTracking):
-        CacheType_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CacheTypeStormTracking(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_StormTrackingCache(
+        CacheType_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CacheTypeStormTracking(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_StormTrackingCache(
                 dafny_input.StormTracking
             )
         )
     elif isinstance(dafny_input, CacheType_Shared):
-        CacheType_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CacheTypeShared(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CryptographicMaterialsCacheReference(
+        CacheType_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CacheTypeShared(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CryptographicMaterialsCacheReference(
                 dafny_input.Shared
             )
         )
@@ -1127,19 +1128,19 @@ def aws_cryptography_materialproviders_CacheType(dafny_input):
 
 
 def aws_cryptography_materialproviders_DefaultCache(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.DefaultCache(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DefaultCache(
         entry_capacity=dafny_input.entryCapacity,
     )
 
 
 def aws_cryptography_materialproviders_NoCache(dafny_input):
     return (
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.NoCache()
+        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.NoCache()
     )
 
 
 def aws_cryptography_materialproviders_SingleThreadedCache(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.SingleThreadedCache(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.SingleThreadedCache(
         entry_capacity=dafny_input.entryCapacity,
         entry_pruning_tail_size=(
             (dafny_input.entryPruningTailSize.value)
@@ -1150,7 +1151,7 @@ def aws_cryptography_materialproviders_SingleThreadedCache(dafny_input):
 
 
 def aws_cryptography_materialproviders_MultiThreadedCache(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.MultiThreadedCache(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.MultiThreadedCache(
         entry_capacity=dafny_input.entryCapacity,
         entry_pruning_tail_size=(
             (dafny_input.entryPruningTailSize.value)
@@ -1161,7 +1162,7 @@ def aws_cryptography_materialproviders_MultiThreadedCache(dafny_input):
 
 
 def aws_cryptography_materialproviders_StormTrackingCache(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.StormTrackingCache(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.StormTrackingCache(
         entry_capacity=dafny_input.entryCapacity,
         entry_pruning_tail_size=(
             (dafny_input.entryPruningTailSize.value)
@@ -1183,7 +1184,7 @@ def aws_cryptography_materialproviders_CryptographicMaterialsCacheReference(
         return dafny_input._native_impl
 
     else:
-        from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references import (
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             CryptographicMaterialsCache,
         )
 
@@ -1193,7 +1194,7 @@ def aws_cryptography_materialproviders_CryptographicMaterialsCacheReference(
 def aws_cryptography_materialproviders_CreateAwsKmsHierarchicalKeyringInput(
     dafny_input,
 ):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsHierarchicalKeyringInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsHierarchicalKeyringInput(
         branch_key_id=(
             (
                 b"".join(
@@ -1205,7 +1206,7 @@ def aws_cryptography_materialproviders_CreateAwsKmsHierarchicalKeyringInput(
         ),
         branch_key_id_supplier=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_BranchKeyIdSupplierReference(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_BranchKeyIdSupplierReference(
                     dafny_input.branchKeyIdSupplier.UnwrapOr(None)
                 )
             )
@@ -1214,7 +1215,7 @@ def aws_cryptography_materialproviders_CreateAwsKmsHierarchicalKeyringInput(
         ),
         key_store=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KeyStoreReference(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KeyStoreReference(
                     dafny_input.keyStore
                 )
             )
@@ -1224,7 +1225,7 @@ def aws_cryptography_materialproviders_CreateAwsKmsHierarchicalKeyringInput(
         ttl_seconds=dafny_input.ttlSeconds,
         cache=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CacheType(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CacheType(
                     dafny_input.cache.value
                 )
             )
@@ -1244,7 +1245,7 @@ def aws_cryptography_materialproviders_CreateAwsKmsHierarchicalKeyringInput(
 
 
 def aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsRsaKeyringInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsRsaKeyringInput(
         public_key=(
             (bytes(dafny_input.publicKey.value))
             if (dafny_input.publicKey.is_Some)
@@ -1258,7 +1259,7 @@ def aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(dafny_input):
         ),
         kms_client=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsClientReference(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsClientReference(
                     dafny_input.kmsClient.UnwrapOr(None)
                 )
             )
@@ -1283,16 +1284,16 @@ def aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(dafny_input):
 def aws_cryptography_materialproviders_KmsEcdhStaticConfigurations(dafny_input):
     # Convert KmsEcdhStaticConfigurations
     if isinstance(dafny_input, KmsEcdhStaticConfigurations_KmsPublicKeyDiscovery):
-        KmsEcdhStaticConfigurations_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsPublicKeyDiscoveryInput(
+        KmsEcdhStaticConfigurations_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsPublicKeyDiscoveryInput(
                 dafny_input.KmsPublicKeyDiscovery
             )
         )
     elif isinstance(
         dafny_input, KmsEcdhStaticConfigurations_KmsPrivateKeyToStaticPublicKey
     ):
-        KmsEcdhStaticConfigurations_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsPrivateKeyToStaticPublicKeyInput(
+        KmsEcdhStaticConfigurations_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsPrivateKeyToStaticPublicKeyInput(
                 dafny_input.KmsPrivateKeyToStaticPublicKey
             )
         )
@@ -1303,7 +1304,7 @@ def aws_cryptography_materialproviders_KmsEcdhStaticConfigurations(dafny_input):
 
 
 def aws_cryptography_materialproviders_KmsPublicKeyDiscoveryInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.KmsPublicKeyDiscoveryInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.KmsPublicKeyDiscoveryInput(
         recipient_kms_identifier=b"".join(
             ord(c).to_bytes(2, "big") for c in dafny_input.recipientKmsIdentifier
         ).decode("utf-16-be"),
@@ -1311,7 +1312,7 @@ def aws_cryptography_materialproviders_KmsPublicKeyDiscoveryInput(dafny_input):
 
 
 def aws_cryptography_materialproviders_KmsPrivateKeyToStaticPublicKeyInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.KmsPrivateKeyToStaticPublicKeyInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.KmsPrivateKeyToStaticPublicKeyInput(
         sender_kms_identifier=b"".join(
             ord(c).to_bytes(2, "big") for c in dafny_input.senderKmsIdentifier
         ).decode("utf-16-be"),
@@ -1325,8 +1326,8 @@ def aws_cryptography_materialproviders_KmsPrivateKeyToStaticPublicKeyInput(dafny
 
 
 def aws_cryptography_materialproviders_CreateAwsKmsEcdhKeyringInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsEcdhKeyringInput(
-        key_agreement_scheme=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsEcdhStaticConfigurations(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsEcdhKeyringInput(
+        key_agreement_scheme=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsEcdhStaticConfigurations(
             dafny_input.KeyAgreementScheme
         ),
         curve_spec=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy.aws_cryptography_primitives_ECDHCurveSpec(
@@ -1334,7 +1335,7 @@ def aws_cryptography_materialproviders_CreateAwsKmsEcdhKeyringInput(dafny_input)
         ),
         kms_client=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsClientReference(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsClientReference(
                     dafny_input.kmsClient
                 )
             )
@@ -1361,7 +1362,7 @@ def aws_cryptography_materialproviders_KeyringReference(dafny_input):
         return dafny_input._native_impl
 
     else:
-        from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references import (
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             Keyring,
         )
 
@@ -1369,10 +1370,10 @@ def aws_cryptography_materialproviders_KeyringReference(dafny_input):
 
 
 def aws_cryptography_materialproviders_CreateMultiKeyringInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateMultiKeyringInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateMultiKeyringInput(
         generator=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KeyringReference(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KeyringReference(
                     dafny_input.generator.UnwrapOr(None)
                 )
             )
@@ -1380,7 +1381,7 @@ def aws_cryptography_materialproviders_CreateMultiKeyringInput(dafny_input):
             else None
         ),
         child_keyrings=[
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KeyringReference(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KeyringReference(
                 list_element
             )
             for list_element in dafny_input.childKeyrings
@@ -1403,7 +1404,7 @@ def aws_cryptography_materialproviders_AesWrappingAlg(dafny_input):
 
 
 def aws_cryptography_materialproviders_CreateRawAesKeyringInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateRawAesKeyringInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateRawAesKeyringInput(
         key_namespace=b"".join(
             ord(c).to_bytes(2, "big") for c in dafny_input.keyNamespace
         ).decode("utf-16-be"),
@@ -1411,7 +1412,7 @@ def aws_cryptography_materialproviders_CreateRawAesKeyringInput(dafny_input):
             ord(c).to_bytes(2, "big") for c in dafny_input.keyName
         ).decode("utf-16-be"),
         wrapping_key=bytes(dafny_input.wrappingKey),
-        wrapping_alg=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AesWrappingAlg(
+        wrapping_alg=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AesWrappingAlg(
             dafny_input.wrappingAlg
         ),
     )
@@ -1438,14 +1439,14 @@ def aws_cryptography_materialproviders_PaddingScheme(dafny_input):
 
 
 def aws_cryptography_materialproviders_CreateRawRsaKeyringInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateRawRsaKeyringInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateRawRsaKeyringInput(
         key_namespace=b"".join(
             ord(c).to_bytes(2, "big") for c in dafny_input.keyNamespace
         ).decode("utf-16-be"),
         key_name=b"".join(
             ord(c).to_bytes(2, "big") for c in dafny_input.keyName
         ).decode("utf-16-be"),
-        padding_scheme=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_PaddingScheme(
+        padding_scheme=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_PaddingScheme(
             dafny_input.paddingScheme
         ),
         public_key=(
@@ -1464,24 +1465,24 @@ def aws_cryptography_materialproviders_CreateRawRsaKeyringInput(dafny_input):
 def aws_cryptography_materialproviders_RawEcdhStaticConfigurations(dafny_input):
     # Convert RawEcdhStaticConfigurations
     if isinstance(dafny_input, RawEcdhStaticConfigurations_PublicKeyDiscovery):
-        RawEcdhStaticConfigurations_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.RawEcdhStaticConfigurationsPublicKeyDiscovery(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_PublicKeyDiscoveryInput(
+        RawEcdhStaticConfigurations_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.RawEcdhStaticConfigurationsPublicKeyDiscovery(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_PublicKeyDiscoveryInput(
                 dafny_input.PublicKeyDiscovery
             )
         )
     elif isinstance(
         dafny_input, RawEcdhStaticConfigurations_RawPrivateKeyToStaticPublicKey
     ):
-        RawEcdhStaticConfigurations_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_RawPrivateKeyToStaticPublicKeyInput(
+        RawEcdhStaticConfigurations_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_RawPrivateKeyToStaticPublicKeyInput(
                 dafny_input.RawPrivateKeyToStaticPublicKey
             )
         )
     elif isinstance(
         dafny_input, RawEcdhStaticConfigurations_EphemeralPrivateKeyToStaticPublicKey
     ):
-        RawEcdhStaticConfigurations_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EphemeralPrivateKeyToStaticPublicKeyInput(
+        RawEcdhStaticConfigurations_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey(
+            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EphemeralPrivateKeyToStaticPublicKeyInput(
                 dafny_input.EphemeralPrivateKeyToStaticPublicKey
             )
         )
@@ -1492,13 +1493,13 @@ def aws_cryptography_materialproviders_RawEcdhStaticConfigurations(dafny_input):
 
 
 def aws_cryptography_materialproviders_PublicKeyDiscoveryInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.PublicKeyDiscoveryInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.PublicKeyDiscoveryInput(
         recipient_static_private_key=bytes(dafny_input.recipientStaticPrivateKey),
     )
 
 
 def aws_cryptography_materialproviders_RawPrivateKeyToStaticPublicKeyInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.RawPrivateKeyToStaticPublicKeyInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.RawPrivateKeyToStaticPublicKeyInput(
         sender_static_private_key=bytes(dafny_input.senderStaticPrivateKey),
         recipient_public_key=bytes(dafny_input.recipientPublicKey),
     )
@@ -1507,14 +1508,14 @@ def aws_cryptography_materialproviders_RawPrivateKeyToStaticPublicKeyInput(dafny
 def aws_cryptography_materialproviders_EphemeralPrivateKeyToStaticPublicKeyInput(
     dafny_input,
 ):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.EphemeralPrivateKeyToStaticPublicKeyInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EphemeralPrivateKeyToStaticPublicKeyInput(
         recipient_public_key=bytes(dafny_input.recipientPublicKey),
     )
 
 
 def aws_cryptography_materialproviders_CreateRawEcdhKeyringInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateRawEcdhKeyringInput(
-        key_agreement_scheme=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_RawEcdhStaticConfigurations(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateRawEcdhKeyringInput(
+        key_agreement_scheme=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_RawEcdhStaticConfigurations(
             dafny_input.KeyAgreementScheme
         ),
         curve_spec=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy.aws_cryptography_primitives_ECDHCurveSpec(
@@ -1526,10 +1527,10 @@ def aws_cryptography_materialproviders_CreateRawEcdhKeyringInput(dafny_input):
 def aws_cryptography_materialproviders_CreateDefaultCryptographicMaterialsManagerInput(
     dafny_input,
 ):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateDefaultCryptographicMaterialsManagerInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateDefaultCryptographicMaterialsManagerInput(
         keyring=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KeyringReference(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KeyringReference(
                     dafny_input.keyring
                 )
             )
@@ -1546,7 +1547,7 @@ def aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(
         return dafny_input._native_impl
 
     else:
-        from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references import (
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
             CryptographicMaterialsManager,
         )
 
@@ -1556,10 +1557,10 @@ def aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(
 def aws_cryptography_materialproviders_CreateRequiredEncryptionContextCMMInput(
     dafny_input,
 ):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateRequiredEncryptionContextCMMInput(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateRequiredEncryptionContextCMMInput(
         underlying_cmm=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(
                     dafny_input.underlyingCMM.UnwrapOr(None)
                 )
             )
@@ -1568,7 +1569,7 @@ def aws_cryptography_materialproviders_CreateRequiredEncryptionContextCMMInput(
         ),
         keyring=(
             (
-                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KeyringReference(
+                aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KeyringReference(
                     dafny_input.keyring.UnwrapOr(None)
                 )
             )
@@ -1585,8 +1586,8 @@ def aws_cryptography_materialproviders_CreateRequiredEncryptionContextCMMInput(
 def aws_cryptography_materialproviders_CreateCryptographicMaterialsCacheInput(
     dafny_input,
 ):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateCryptographicMaterialsCacheInput(
-        cache=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CacheType(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateCryptographicMaterialsCacheInput(
+        cache=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CacheType(
             dafny_input.cache
         ),
     )
@@ -1594,13 +1595,13 @@ def aws_cryptography_materialproviders_CreateCryptographicMaterialsCacheInput(
 
 def aws_cryptography_materialproviders_CreateDefaultClientSupplierInput(dafny_input):
     return (
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateDefaultClientSupplierInput()
+        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateDefaultClientSupplierInput()
     )
 
 
 def aws_cryptography_materialproviders_InitializeEncryptionMaterialsInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.InitializeEncryptionMaterialsInput(
-        algorithm_suite_id=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteId(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.InitializeEncryptionMaterialsInput(
+        algorithm_suite_id=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteId(
             dafny_input.algorithmSuiteId
         ),
         encryption_context={
@@ -1625,8 +1626,8 @@ def aws_cryptography_materialproviders_InitializeEncryptionMaterialsInput(dafny_
 
 
 def aws_cryptography_materialproviders_InitializeDecryptionMaterialsInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.InitializeDecryptionMaterialsInput(
-        algorithm_suite_id=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteId(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.InitializeDecryptionMaterialsInput(
+        algorithm_suite_id=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteId(
             dafny_input.algorithmSuiteId
         ),
         encryption_context={
@@ -1643,11 +1644,11 @@ def aws_cryptography_materialproviders_InitializeDecryptionMaterialsInput(dafny_
 def aws_cryptography_materialproviders_ValidEncryptionMaterialsTransitionInput(
     dafny_input,
 ):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.ValidEncryptionMaterialsTransitionInput(
-        start=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptionMaterials(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.ValidEncryptionMaterialsTransitionInput(
+        start=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptionMaterials(
             dafny_input.start
         ),
-        stop=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptionMaterials(
+        stop=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptionMaterials(
             dafny_input.stop
         ),
     )
@@ -1656,11 +1657,11 @@ def aws_cryptography_materialproviders_ValidEncryptionMaterialsTransitionInput(
 def aws_cryptography_materialproviders_ValidDecryptionMaterialsTransitionInput(
     dafny_input,
 ):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.ValidDecryptionMaterialsTransitionInput(
-        start=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DecryptionMaterials(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.ValidDecryptionMaterialsTransitionInput(
+        start=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DecryptionMaterials(
             dafny_input.start
         ),
-        stop=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DecryptionMaterials(
+        stop=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DecryptionMaterials(
             dafny_input.stop
         ),
     )
@@ -1673,11 +1674,11 @@ def aws_cryptography_materialproviders_GetAlgorithmSuiteInfoInput(dafny_input):
 def aws_cryptography_materialproviders_ValidateCommitmentPolicyOnEncryptInput(
     dafny_input,
 ):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.ValidateCommitmentPolicyOnEncryptInput(
-        algorithm=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteId(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.ValidateCommitmentPolicyOnEncryptInput(
+        algorithm=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteId(
             dafny_input.algorithm
         ),
-        commitment_policy=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CommitmentPolicy(
+        commitment_policy=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CommitmentPolicy(
             dafny_input.commitmentPolicy
         ),
     )
@@ -1686,18 +1687,18 @@ def aws_cryptography_materialproviders_ValidateCommitmentPolicyOnEncryptInput(
 def aws_cryptography_materialproviders_ValidateCommitmentPolicyOnDecryptInput(
     dafny_input,
 ):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.ValidateCommitmentPolicyOnDecryptInput(
-        algorithm=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteId(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.ValidateCommitmentPolicyOnDecryptInput(
+        algorithm=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteId(
             dafny_input.algorithm
         ),
-        commitment_policy=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CommitmentPolicy(
+        commitment_policy=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CommitmentPolicy(
             dafny_input.commitmentPolicy
         ),
     )
 
 
 def aws_cryptography_materialproviders_CreateKeyringOutput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KeyringReference(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KeyringReference(
         dafny_input
     )
 
@@ -1705,7 +1706,7 @@ def aws_cryptography_materialproviders_CreateKeyringOutput(dafny_input):
 def aws_cryptography_materialproviders_CreateCryptographicMaterialsManagerOutput(
     dafny_input,
 ):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(
         dafny_input
     )
 
@@ -1713,7 +1714,7 @@ def aws_cryptography_materialproviders_CreateCryptographicMaterialsManagerOutput
 def aws_cryptography_materialproviders_CreateRequiredEncryptionContextCMMOutput(
     dafny_input,
 ):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(
         dafny_input
     )
 
@@ -1721,21 +1722,21 @@ def aws_cryptography_materialproviders_CreateRequiredEncryptionContextCMMOutput(
 def aws_cryptography_materialproviders_CreateCryptographicMaterialsCacheOutput(
     dafny_input,
 ):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CryptographicMaterialsCacheReference(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CryptographicMaterialsCacheReference(
         dafny_input
     )
 
 
 def aws_cryptography_materialproviders_CreateDefaultClientSupplierOutput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ClientSupplierReference(
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ClientSupplierReference(
         dafny_input
     )
 
 
 def aws_cryptography_materialproviders_MaterialProvidersConfig(dafny_input):
     # Deferred import of .config to avoid circular dependency
-    import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.config
+    import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.config
 
     return (
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.config.MaterialProvidersConfig()
+        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.config.MaterialProvidersConfig()
     )

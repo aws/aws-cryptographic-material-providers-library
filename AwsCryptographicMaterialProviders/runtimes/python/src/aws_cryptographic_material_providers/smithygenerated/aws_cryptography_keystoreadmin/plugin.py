@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-from .config import Config, Plugin, smithy_config_to_dafny_config, KeyStoreConfig
+from .config import Config, Plugin, smithy_config_to_dafny_config, KeyStoreAdminConfig
 from smithy_python.interfaces.retries import RetryStrategy
 from smithy_python.exceptions import SmithyRetryException
 from .dafnyImplInterface import DafnyImplInterface
@@ -12,12 +12,12 @@ def set_config_impl(config: Config):
     """Set the Dafny-compiled implementation in the Smithy-Python client Config
     and load our custom NoRetriesStrategy."""
     config.dafnyImplInterface = DafnyImplInterface()
-    if isinstance(config, KeyStoreConfig):
-        from aws_cryptographic_materialproviders.internaldafny.generated.KeyStore import (
+    if isinstance(config, KeyStoreAdminConfig):
+        from aws_cryptographic_material_providers.internaldafny.generated.KeyStoreAdmin import (
             default__,
         )
 
-        config.dafnyImplInterface.impl = default__.KeyStore(
+        config.dafnyImplInterface.impl = default__.KeyStoreAdmin(
             smithy_config_to_dafny_config(config)
         ).value
     config.retry_strategy = NoRetriesStrategy()

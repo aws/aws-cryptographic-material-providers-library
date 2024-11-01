@@ -2,14 +2,14 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-from aws_cryptographic_materialproviders.internaldafny.generated.KeyStore import (
-    KeyStoreClient,
+from aws_cryptographic_material_providers.internaldafny.generated.KeyStoreAdmin import (
+    KeyStoreAdminClient,
 )
 from .dafny_protocol import DafnyRequest
 
 
 class DafnyImplInterface:
-    impl: KeyStoreClient | None = None
+    impl: KeyStoreAdminClient | None = None
 
     # operation_map cannot be created at dafnyImplInterface create time,
     # as the map's values reference values inside `self.impl`,
@@ -21,13 +21,10 @@ class DafnyImplInterface:
     def handle_request(self, input: DafnyRequest):
         if self.operation_map is None:
             self.operation_map = {
-                "GetKeyStoreInfo": self.impl.GetKeyStoreInfo,
-                "CreateKeyStore": self.impl.CreateKeyStore,
                 "CreateKey": self.impl.CreateKey,
                 "VersionKey": self.impl.VersionKey,
-                "GetActiveBranchKey": self.impl.GetActiveBranchKey,
-                "GetBranchKeyVersion": self.impl.GetBranchKeyVersion,
-                "GetBeaconKey": self.impl.GetBeaconKey,
+                "InitializeMutation": self.impl.InitializeMutation,
+                "ApplyMutation": self.impl.ApplyMutation,
             }
 
         # This logic is where a typical Smithy client would expect the "server" to be.
