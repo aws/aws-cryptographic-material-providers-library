@@ -18,11 +18,11 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
       ==> opaqueError?.Some? && opaqueError?.value == error.ComAmazonawsKms
   {
     match error {
-      case Opaque(obj, altMsg) => None
+      case Opaque(obj) => None
       case KeyManagementException(s) => None
       case ComAmazonawsKms(comAmazonawsKms: KMS.Types.Error) =>
         match comAmazonawsKms {
-          case Opaque(obj, altMsg) => Some(comAmazonawsKms)
+          case Opaque(obj) => Some(comAmazonawsKms)
           case _ => None
         }
     }
@@ -33,11 +33,11 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
   ): (errorMessage?: Option<string>)
   {
     match error {
-      case Opaque(obj, altMsg) => None
+      case Opaque(obj) => None
       case KeyManagementException(s) => Some(s)
       case ComAmazonawsKms(comAmazonawsKms: KMS.Types.Error) =>
         match comAmazonawsKms {
-          case Opaque(obj, altMsg) => None
+          case Opaque(obj) => None
           case _ => comAmazonawsKms.message
         }
     }

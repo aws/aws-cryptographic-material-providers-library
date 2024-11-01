@@ -119,7 +119,7 @@ _sed_index_file_add_extern:
 
 # Python
 
-PYTHON_MODULE_NAME=aws_cryptographic_materialproviders
+PYTHON_MODULE_NAME=aws_cryptographic_material_providers
 
 TRANSLATION_RECORD_PYTHON := \
     --translation-record ../StandardLibrary/runtimes/python/src/smithy_dafny_standard_library/internaldafny/generated/dafny_src-py.dtr \
@@ -131,21 +131,6 @@ PYTHON_DEPENDENCY_MODULE_NAMES := \
 	--dependency-library-name=aws.cryptography.primitives=aws_cryptography_primitives \
 	--dependency-library-name=com.amazonaws.kms=aws_cryptography_internal_kms \
 	--dependency-library-name=com.amazonaws.dynamodb=aws_cryptography_internal_dynamodb \
-	--dependency-library-name=aws.cryptography.materialProviders=aws_cryptographic_materialproviders \
-	--dependency-library-name=aws.cryptography.keyStore=aws_cryptographic_materialproviders \
-	--dependency-library-name=aws.cryptography.keyStoreadmin=aws_cryptographic_materialproviders \
-
-# _polymorph_dependencies:
-# 	@echo "No polymorphing of dependency"
-
-# transpile_dependencies_java:
-# 	@echo "No java transpile of dependency"
-
-# mvn_local_deploy_dependencies:
-# 	@echo "No mvn_local_deploy of dependency"
-
-# _transpile_test_all:
-# 	@echo "No _transpile_test_all of dependency"
-
-# _transpile_implementation_all:
-# 	@echo "No transpile_implementation_all of dependency"
+	--dependency-library-name=aws.cryptography.materialProviders=aws_cryptographic_material_providers \
+	--dependency-library-name=aws.cryptography.keyStore=aws_cryptographic_material_providers \
+	--dependency-library-name=aws.cryptography.keyStoreadmin=aws_cryptographic_material_providers \
