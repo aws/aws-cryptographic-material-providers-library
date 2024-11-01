@@ -786,11 +786,15 @@ module {:options "/functionSyntax:4" } Mutations {
 
     if (index.None?) {
       Flag := Types.ResumedWithoutIndex("");
+      var timestamp? := Time.GetCurrentTimeStamp();
+      var timestamp :- timestamp?
+      .MapFailure(e => Types.KeyStoreAdminException(
+                      message := "Could not generate a timestamp: " + e));
       var newIndex := KeyStoreTypes.MutationIndex(
         Identifier := commitment.Identifier,
         PageIndex := MutationIndexUtils.ExclusiveStartKeyToPageIndex(None),
         UUID := commitment.UUID,
-        CreateTime := commitment.CreateTime,
+        CreateTime := timestamp,
         CiphertextBlob := [0] // TODO-Mutations-GA System Key
       );
       // -= Write Mutation Index, conditioned on Mutation Commitment
