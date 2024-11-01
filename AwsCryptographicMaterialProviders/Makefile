@@ -119,7 +119,7 @@ _sed_index_file_add_extern:
 
 # Python
 
-PYTHON_MODULE_NAME=aws_cryptographic_materialproviders
+PYTHON_MODULE_NAME=aws_cryptographic_material_providers
 
 TRANSLATION_RECORD_PYTHON := \
     --translation-record ../StandardLibrary/runtimes/python/src/smithy_dafny_standard_library/internaldafny/generated/dafny_src-py.dtr \

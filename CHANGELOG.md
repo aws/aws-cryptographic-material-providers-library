@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.7.3](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.2...v1.7.3) (2024-10-31)
+
+This release is available in the following languages:
+
+- Python
+
+### Bug Fixes
+
+- python time externs should return integers ([#898](https://github.com/aws/aws-cryptographic-material-providers-library/issues/898)) ([56b9b67](https://github.com/aws/aws-cryptographic-material-providers-library/commit/56b9b6745eee5782bcec3f3e51f5b27a5ffe223e))
+
+## [1.7.2](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.1...v1.7.2) (2024-10-22)
+
+This release is available in the following languages:
+
+- Python
+
+### Bug Fixes
+
+- Move Java helper methods out of extern class ([#855](https://github.com/aws/aws-cryptographic-material-providers-library/issues/855)) ([61fddf8](https://github.com/aws/aws-cryptographic-material-providers-library/commit/61fddf8359749e9fd7f5c3151cfaf1c6c0bca747))
+- Smithy-Dafny update for separated classes and unions ([#806](https://github.com/aws/aws-cryptographic-material-providers-library/issues/806)) ([4b7cc5f](https://github.com/aws/aws-cryptographic-material-providers-library/commit/4b7cc5f368e6a878d5e003484e88a33a0f2bb6d3))
+- variable name collision fix for Go ([ceaec06](https://github.com/aws/aws-cryptographic-material-providers-library/commit/ceaec06cd4a670659e8329d879558081a2401e2d))
+
 # [1.7.1](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.0...v1.7.1) (2024-10-11)
 
 This release is available in the following languages:
