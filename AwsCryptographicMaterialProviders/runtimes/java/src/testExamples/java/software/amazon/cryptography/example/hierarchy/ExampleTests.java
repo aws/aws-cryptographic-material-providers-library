@@ -27,10 +27,19 @@ public class ExampleTests {
         Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
         Fixtures.POSTAL_HORN_KEY_ARN,
         branchKeyId,
-        SystemKey.builder().trustStorage(TrustStorage.builder().build()).build(), Fixtures.ddbClientWest2,
+        SystemKey
+          .builder()
+          .trustStorage(TrustStorage.builder().build())
+          .build(),
+        Fixtures.ddbClientWest2,
         Fixtures.kmsClientWest2
       );
-    System.out.println("\nMutated Branch Key: " + branchKeyId +  " to KMS ARN: " + Fixtures.POSTAL_HORN_KEY_ARN);
+    System.out.println(
+      "\nMutated Branch Key: " +
+      branchKeyId +
+      " to KMS ARN: " +
+      Fixtures.POSTAL_HORN_KEY_ARN
+    );
     branchKeyId =
       VersionKeyExample.VersionKey(
         Fixtures.TEST_KEYSTORE_NAME,
@@ -46,10 +55,19 @@ public class ExampleTests {
         Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
         Fixtures.KEYSTORE_KMS_ARN,
         branchKeyId,
-        SystemKey.builder().trustStorage(TrustStorage.builder().build()).build(), Fixtures.ddbClientWest2,
+        SystemKey
+          .builder()
+          .trustStorage(TrustStorage.builder().build())
+          .build(),
+        Fixtures.ddbClientWest2,
         Fixtures.kmsClientWest2
       );
-    System.out.println("\nMutated Branch Key with Resume: " + branchKeyId +  " to KMS ARN: " + Fixtures.KEYSTORE_KMS_ARN);
+    System.out.println(
+      "\nMutated Branch Key with Resume: " +
+      branchKeyId +
+      " to KMS ARN: " +
+      Fixtures.KEYSTORE_KMS_ARN
+    );
     KeyStorageInterface storage = StorageCheater.create(
       Fixtures.ddbClientWest2,
       Fixtures.TEST_KEYSTORE_NAME,

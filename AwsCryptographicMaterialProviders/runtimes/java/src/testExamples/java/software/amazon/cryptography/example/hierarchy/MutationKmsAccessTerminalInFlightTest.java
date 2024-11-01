@@ -47,7 +47,10 @@ public class MutationKmsAccessTerminalInFlightTest {
       Fixtures.TEST_KEYSTORE_NAME,
       Fixtures.TEST_LOGICAL_KEYSTORE_NAME
     );
-    SystemKey systemKey = SystemKey.builder().trustStorage(TrustStorage.builder().build()).build();
+    SystemKey systemKey = SystemKey
+      .builder()
+      .trustStorage(TrustStorage.builder().build())
+      .build();
     final String branchKeyId =
       testPrefix + java.util.UUID.randomUUID().toString();
     CreateKeyExample.CreateKey(
