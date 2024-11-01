@@ -73,6 +73,16 @@ public class CreateKeyStoreOutput {
           "Missing value for required field `tableArn`"
         );
       }
+      if (Objects.nonNull(this.tableArn()) && this.tableArn().length() < 1) {
+        throw new IllegalArgumentException(
+          "The size of `tableArn` must be greater than or equal to 1"
+        );
+      }
+      if (Objects.nonNull(this.tableArn()) && this.tableArn().length() > 1024) {
+        throw new IllegalArgumentException(
+          "The size of `tableArn` must be less than or equal to 1024"
+        );
+      }
       return new CreateKeyStoreOutput(this);
     }
   }
