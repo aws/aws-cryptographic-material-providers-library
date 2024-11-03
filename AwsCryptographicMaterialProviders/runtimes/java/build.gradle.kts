@@ -224,18 +224,21 @@ tasks.test {
     // This will show System.out.println statements
     testLogging.showStandardStreams = true
 
-    testLogging {
-        lifecycle {
-            events = mutableSetOf(org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED, org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED, org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED)
-            exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
-            showExceptions = true
-            showCauses = true
-            showStackTraces = true
-            showStandardStreams = true
-        }
-        info.events = lifecycle.events
-        info.exceptionFormat = lifecycle.exceptionFormat
-    }
+    // Disable Verbose test logging to make the LocalCMCTests less flaky.
+    // It is hard to log 300k messages to a terminal,
+    // particularly if 10 threads are concurrently writing to the terminal.
+//    testLogging {
+//        lifecycle {
+//            events = mutableSetOf(org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED, org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED, org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED)
+//            exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+//            showExceptions = true
+//            showCauses = true
+//            showStackTraces = true
+//            showStandardStreams = true
+//        }
+//        info.events = lifecycle.events
+//        info.exceptionFormat = lifecycle.exceptionFormat
+//    }
 
     // See https://github.com/gradle/kotlin-dsl/issues/836
     addTestListener(object : TestListener {
