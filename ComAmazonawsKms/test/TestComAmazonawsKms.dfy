@@ -116,11 +116,12 @@ module TestComAmazonawsKms {
   method {:test} BasicFailTests() {
     var client :- expect Kms.KMSClientForRegion(TEST_REGION);
     var ret := client.GenerateDataKeyWithoutPlaintext(failingInput);
-    expect ret.Failure?;
+    expect ret.Failure?, "Failing KMS Key returned successful GDKWP? How?";
     var err: Kms.Types.Error := ret.error;
-    expect err.Opaque?;
+    expect (err.Opaque? || err.OpaqueWithText?), "Failing KMS Key returned a non-opaque Error? How?";
     match err {
       case Opaque(obj) => expect true;
+		  case OpaqueWithText(obj, msg) => expect true;
       case _ => expect false, "Failing KMS Key MUST cause an OpaqueError that can later be unwrapped to a proper but generic KMS Exception.";
     }
   }
