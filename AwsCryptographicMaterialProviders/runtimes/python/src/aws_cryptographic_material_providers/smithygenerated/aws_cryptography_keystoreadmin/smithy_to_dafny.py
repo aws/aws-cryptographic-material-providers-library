@@ -471,60 +471,17 @@ def aws_cryptography_keystoreadmin_MutatedBranchKeyItem(native_input):
 
 
 def aws_cryptography_keystoreadmin_InitializeMutationFlag(native_input):
-    if isinstance(
-        native_input,
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.InitializeMutationFlagCreated,
-    ):
-        InitializeMutationFlag_union_value = InitializeMutationFlag_Created(
-            Seq(
-                "".join(
-                    [
-                        chr(int.from_bytes(pair, "big"))
-                        for pair in zip(
-                            *[iter(native_input.value.encode("utf-16-be"))] * 2
-                        )
-                    ]
-                )
-            )
-        )
-    elif isinstance(
-        native_input,
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.InitializeMutationFlagResumed,
-    ):
-        InitializeMutationFlag_union_value = InitializeMutationFlag_Resumed(
-            Seq(
-                "".join(
-                    [
-                        chr(int.from_bytes(pair, "big"))
-                        for pair in zip(
-                            *[iter(native_input.value.encode("utf-16-be"))] * 2
-                        )
-                    ]
-                )
-            )
-        )
-    elif isinstance(
-        native_input,
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.InitializeMutationFlagResumedWithoutIndex,
-    ):
-        InitializeMutationFlag_union_value = InitializeMutationFlag_ResumedWithoutIndex(
-            Seq(
-                "".join(
-                    [
-                        chr(int.from_bytes(pair, "big"))
-                        for pair in zip(
-                            *[iter(native_input.value.encode("utf-16-be"))] * 2
-                        )
-                    ]
-                )
-            )
-        )
-    else:
-        raise ValueError(
-            "No recognized union value in union type: " + str(native_input)
-        )
+    if native_input == "Created":
+        return InitializeMutationFlag_Created()
 
-    return InitializeMutationFlag_union_value
+    elif native_input == "Resumed":
+        return InitializeMutationFlag_Resumed()
+
+    elif native_input == "ResumedWithoutIndex":
+        return InitializeMutationFlag_ResumedWithoutIndex()
+
+    else:
+        raise ValueError(f"No recognized enum value in enum type: {native_input=}")
 
 
 def aws_cryptography_keystoreadmin_ApplyMutationOutput(native_input):

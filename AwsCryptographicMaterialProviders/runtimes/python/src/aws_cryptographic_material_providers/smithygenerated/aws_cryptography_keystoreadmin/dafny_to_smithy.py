@@ -14,6 +14,7 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     SystemKey_kmsAes,
     SystemKey_trustStorage,
 )
+import aws_cryptographic_material_providers.internaldafny.generated.module_
 import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
 import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy
 import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models
@@ -279,29 +280,17 @@ def aws_cryptography_keystoreadmin_MutatedBranchKeyItem(dafny_input):
 
 
 def aws_cryptography_keystoreadmin_InitializeMutationFlag(dafny_input):
-    # Convert InitializeMutationFlag
     if isinstance(dafny_input, InitializeMutationFlag_Created):
-        InitializeMutationFlag_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.InitializeMutationFlagCreated(
-            b"".join(ord(c).to_bytes(2, "big") for c in dafny_input.Created).decode(
-                "utf-16-be"
-            )
-        )
-    elif isinstance(dafny_input, InitializeMutationFlag_Resumed):
-        InitializeMutationFlag_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.InitializeMutationFlagResumed(
-            b"".join(ord(c).to_bytes(2, "big") for c in dafny_input.Resumed).decode(
-                "utf-16-be"
-            )
-        )
-    elif isinstance(dafny_input, InitializeMutationFlag_ResumedWithoutIndex):
-        InitializeMutationFlag_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.InitializeMutationFlagResumedWithoutIndex(
-            b"".join(
-                ord(c).to_bytes(2, "big") for c in dafny_input.ResumedWithoutIndex
-            ).decode("utf-16-be")
-        )
-    else:
-        raise ValueError("No recognized union value in union type: " + str(dafny_input))
+        return "Created"
 
-    return InitializeMutationFlag_union_value
+    elif isinstance(dafny_input, InitializeMutationFlag_Resumed):
+        return "Resumed"
+
+    elif isinstance(dafny_input, InitializeMutationFlag_ResumedWithoutIndex):
+        return "ResumedWithoutIndex"
+
+    else:
+        raise ValueError(f"No recognized enum value in enum type: {dafny_input=}")
 
 
 def aws_cryptography_keystoreadmin_InitializeMutationOutput(dafny_input):

@@ -1221,138 +1221,29 @@ class InitializeMutationInput:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
-class InitializeMutationFlagCreated:
-    """This is a new mutation."""
+class InitializeMutationFlag:
+    CREATED = "Created"
 
-    def __init__(self, value: str):
-        self.value = value
+    RESUMED = "Resumed"
 
-    def as_dict(self) -> Dict[str, Any]:
-        return {"Created": self.value}
+    RESUMED_WITHOUT_INDEX = "ResumedWithoutIndex"
 
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "InitializeMutationFlagCreated":
-        if len(d) != 1:
-            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-
-        return InitializeMutationFlagCreated(d["Created"])
-
-    def __repr__(self) -> str:
-        return f"InitializeMutationFlagCreated(value=repr(self.value))"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, InitializeMutationFlagCreated):
-            return False
-        return self.value == other.value
-
-
-class InitializeMutationFlagResumed:
-    """A matching mutation already existed."""
-
-    def __init__(self, value: str):
-        self.value = value
-
-    def as_dict(self) -> Dict[str, Any]:
-        return {"Resumed": self.value}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "InitializeMutationFlagResumed":
-        if len(d) != 1:
-            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-
-        return InitializeMutationFlagResumed(d["Resumed"])
-
-    def __repr__(self) -> str:
-        return f"InitializeMutationFlagResumed(value=repr(self.value))"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, InitializeMutationFlagResumed):
-            return False
-        return self.value == other.value
-
-
-class InitializeMutationFlagResumedWithoutIndex:
-    """A matching mutation already existed, but no Page Index was found."""
-
-    def __init__(self, value: str):
-        self.value = value
-
-    def as_dict(self) -> Dict[str, Any]:
-        return {"ResumedWithoutIndex": self.value}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "InitializeMutationFlagResumedWithoutIndex":
-        if len(d) != 1:
-            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-
-        return InitializeMutationFlagResumedWithoutIndex(d["ResumedWithoutIndex"])
-
-    def __repr__(self) -> str:
-        return f"InitializeMutationFlagResumedWithoutIndex(value=repr(self.value))"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, InitializeMutationFlagResumedWithoutIndex):
-            return False
-        return self.value == other.value
-
-
-class InitializeMutationFlagUnknown:
-    """Represents an unknown variant.
-
-    If you receive this value, you will need to update your library to
-    receive the parsed value.
-
-    This value may not be deliberately sent.
-    """
-
-    def __init__(self, tag: str):
-        self.tag = tag
-
-    def as_dict(self) -> Dict[str, Any]:
-        return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "InitializeMutationFlagUnknown":
-        if len(d) != 1:
-            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return InitializeMutationFlagUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
-
-    def __repr__(self) -> str:
-        return f"InitializeMutationFlagUnknown(tag={self.tag})"
-
-
-InitializeMutationFlag = Union[
-    InitializeMutationFlagCreated,
-    InitializeMutationFlagResumed,
-    InitializeMutationFlagResumedWithoutIndex,
-    InitializeMutationFlagUnknown,
-]
-
-
-def _initialize_mutation_flag_from_dict(d: Dict[str, Any]) -> InitializeMutationFlag:
-    if "Created" in d:
-        return InitializeMutationFlagCreated.from_dict(d)
-
-    if "Resumed" in d:
-        return InitializeMutationFlagResumed.from_dict(d)
-
-    if "ResumedWithoutIndex" in d:
-        return InitializeMutationFlagResumedWithoutIndex.from_dict(d)
-
-    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+    # This set contains every possible value known at the time this was generated. New
+    # values may be added in the future.
+    values = frozenset({"Created", "Resumed", "ResumedWithoutIndex"})
 
 
 class InitializeMutationOutput:
     mutation_token: MutationToken
     mutated_branch_key_items: list[MutatedBranchKeyItem]
-    initialize_mutation_flag: InitializeMutationFlag
+    initialize_mutation_flag: str
 
     def __init__(
         self,
         *,
         mutation_token: MutationToken,
         mutated_branch_key_items: list[MutatedBranchKeyItem],
-        initialize_mutation_flag: InitializeMutationFlag,
+        initialize_mutation_flag: str,
     ):
         """
         :param mutation_token: Pass the Mutation Token to the Apply Mutation operation
@@ -1371,7 +1262,7 @@ class InitializeMutationOutput:
             "mutated_branch_key_items": _mutated_branch_key_items_as_dict(
                 self.mutated_branch_key_items
             ),
-            "initialize_mutation_flag": self.initialize_mutation_flag.as_dict(),
+            "initialize_mutation_flag": self.initialize_mutation_flag,
         }
 
     @staticmethod
@@ -1382,9 +1273,7 @@ class InitializeMutationOutput:
             "mutated_branch_key_items": _mutated_branch_key_items_from_dict(
                 d["mutated_branch_key_items"]
             ),
-            "initialize_mutation_flag": _initialize_mutation_flag_from_dict(
-                d["initialize_mutation_flag"]
-            ),
+            "initialize_mutation_flag": d["initialize_mutation_flag"],
         }
 
         return InitializeMutationOutput(**kwargs)
