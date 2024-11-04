@@ -4,6 +4,7 @@
 package software.amazon.cryptography.keystoreadmin;
 
 import dafny.DafnySequence;
+import java.lang.IllegalArgumentException;
 import java.lang.RuntimeException;
 import java.util.List;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error;
@@ -524,6 +525,24 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static InitializeMutationFlag InitializeMutationFlag(
+    software.amazon.cryptography.keystoreadmin.internaldafny.types.InitializeMutationFlag dafnyValue
+  ) {
+    if (dafnyValue.is_Created()) {
+      return InitializeMutationFlag.Created;
+    }
+    if (dafnyValue.is_Resumed()) {
+      return InitializeMutationFlag.Resumed;
+    }
+    if (dafnyValue.is_ResumedWithoutIndex()) {
+      return InitializeMutationFlag.ResumedWithoutIndex;
+    }
+    throw new IllegalArgumentException(
+      "No entry of software.amazon.cryptography.keystoreadmin.model.InitializeMutationFlag matches the input : " +
+      dafnyValue
+    );
+  }
+
   public static ApplyMutationResult ApplyMutationResult(
     software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationResult dafnyValue
   ) {
@@ -536,35 +555,6 @@ public class ToNative {
     if (dafnyValue.is_CompleteMutation()) {
       nativeBuilder.CompleteMutation(
         ToNative.MutationComplete(dafnyValue.dtor_CompleteMutation())
-      );
-    }
-    return nativeBuilder.build();
-  }
-
-  public static InitializeMutationFlag InitializeMutationFlag(
-    software.amazon.cryptography.keystoreadmin.internaldafny.types.InitializeMutationFlag dafnyValue
-  ) {
-    InitializeMutationFlag.Builder nativeBuilder =
-      InitializeMutationFlag.builder();
-    if (dafnyValue.is_Created()) {
-      nativeBuilder.Created(
-        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
-          dafnyValue.dtor_Created()
-        )
-      );
-    }
-    if (dafnyValue.is_Resumed()) {
-      nativeBuilder.Resumed(
-        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
-          dafnyValue.dtor_Resumed()
-        )
-      );
-    }
-    if (dafnyValue.is_ResumedWithoutIndex()) {
-      nativeBuilder.ResumedWithoutIndex(
-        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
-          dafnyValue.dtor_ResumedWithoutIndex()
-        )
       );
     }
     return nativeBuilder.build();

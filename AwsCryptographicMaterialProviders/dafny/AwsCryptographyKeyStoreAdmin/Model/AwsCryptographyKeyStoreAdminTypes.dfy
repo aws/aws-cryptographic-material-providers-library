@@ -48,9 +48,9 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     nameonly Terminal: Option<MutableBranchKeyProperities> := Option.None
   )
   datatype InitializeMutationFlag =
-    | Created(Created: string)
-    | Resumed(Resumed: string)
-    | ResumedWithoutIndex(ResumedWithoutIndex: string)
+    | Created
+    | Resumed
+    | ResumedWithoutIndex
   datatype InitializeMutationInput = | InitializeMutationInput (
     nameonly Identifier: string ,
     nameonly Mutations: Mutations ,

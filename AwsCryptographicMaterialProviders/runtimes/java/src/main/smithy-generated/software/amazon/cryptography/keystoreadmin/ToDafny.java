@@ -535,6 +535,33 @@ public class ToDafny {
     return new Error_UnexpectedStateException(message);
   }
 
+  public static InitializeMutationFlag InitializeMutationFlag(
+    software.amazon.cryptography.keystoreadmin.model.InitializeMutationFlag nativeValue
+  ) {
+    switch (nativeValue) {
+      case Created:
+        {
+          return InitializeMutationFlag.create_Created();
+        }
+      case Resumed:
+        {
+          return InitializeMutationFlag.create_Resumed();
+        }
+      case ResumedWithoutIndex:
+        {
+          return InitializeMutationFlag.create_ResumedWithoutIndex();
+        }
+      default:
+        {
+          throw new RuntimeException(
+            "Cannot convert " +
+            nativeValue +
+            " to software.amazon.cryptography.keystoreadmin.internaldafny.types.InitializeMutationFlag."
+          );
+        }
+    }
+  }
+
   public static ApplyMutationResult ApplyMutationResult(
     software.amazon.cryptography.keystoreadmin.model.ApplyMutationResult nativeValue
   ) {
@@ -552,37 +579,6 @@ public class ToDafny {
       "Cannot convert " +
       nativeValue +
       " to software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationResult."
-    );
-  }
-
-  public static InitializeMutationFlag InitializeMutationFlag(
-    software.amazon.cryptography.keystoreadmin.model.InitializeMutationFlag nativeValue
-  ) {
-    if (Objects.nonNull(nativeValue.Created())) {
-      return InitializeMutationFlag.create_Created(
-        software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-          nativeValue.Created()
-        )
-      );
-    }
-    if (Objects.nonNull(nativeValue.Resumed())) {
-      return InitializeMutationFlag.create_Resumed(
-        software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-          nativeValue.Resumed()
-        )
-      );
-    }
-    if (Objects.nonNull(nativeValue.ResumedWithoutIndex())) {
-      return InitializeMutationFlag.create_ResumedWithoutIndex(
-        software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-          nativeValue.ResumedWithoutIndex()
-        )
-      );
-    }
-    throw new IllegalArgumentException(
-      "Cannot convert " +
-      nativeValue +
-      " to software.amazon.cryptography.keystoreadmin.internaldafny.types.InitializeMutationFlag."
     );
   }
 

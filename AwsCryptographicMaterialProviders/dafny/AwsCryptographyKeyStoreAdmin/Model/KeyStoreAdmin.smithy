@@ -49,6 +49,7 @@ service KeyStoreAdmin {
     KeyStoreAdminException,
     MutationConflictException,
     MutationInvalidException,
+    aws.cryptography.keyStore#KeyStorageException
     aws.cryptography.keyStore#VersionRaceException
     MutationLockInvalidException
     UnexpectedStateException
@@ -278,14 +279,29 @@ structure MutationToken {
   CreateTime: String
 }
 
-union InitializeMutationFlag {
-  @documentation("This is a new mutation.")
-  Created: String
-  @documentation("A matching mutation already existed.")
-  Resumed: String
-  @documentation("A matching mutation already existed, but no Page Index was found.")
-  ResumedWithoutIndex: String
-}
+// union InitializeMutationFlag {
+//   @documentation("This is a new mutation.")
+//   Created: String
+//   @documentation("A matching mutation already existed.")
+//   Resumed: String
+//   @documentation("A matching mutation already existed, but no Page Index was found.")
+//   ResumedWithoutIndex: String
+// }
+
+@enum([
+  { // "This is a new mutation."
+    name: "Created",
+    value: "Created"
+  },
+  { // "A matching mutation already existed."
+    name: "Resumed",
+    value: "Resumed"
+  },
+  { // "A matching mutation already existed, but no Page Index was found."
+    name: "ResumedWithoutIndex",
+    value: "ResumedWithoutIndex"
+  }])
+string InitializeMutationFlag
 
 structure MutatedBranchKeyItem {
   @required
