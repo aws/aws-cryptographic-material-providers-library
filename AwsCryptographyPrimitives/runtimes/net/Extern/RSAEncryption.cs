@@ -99,7 +99,6 @@ namespace RSAEncryption
         // key and returns the AsymmetricKeyParameter for that public key, encoded using UTF-8
         private static AsymmetricKeyParameter GetPublicKeyFromByteSeq(ibyteseq key)
         {
-            AsymmetricKeyParameter keyParam;
             using (var stringReader = new StringReader(Encoding.UTF8.GetString(key.CloneAsArray())))
             {
                 return (AsymmetricKeyParameter)new PemReader(stringReader).ReadObject();
@@ -166,7 +165,7 @@ namespace RSAEncryption
             catch (Exception encryptEx)
             {
                 return Result<uint, _IError>
-                    .create_Failure(new Error_Opaque(encryptEx, Dafny.Sequence<char>.FromString(encryptEx.ToString())));
+                    .create_Failure(new Error_Opaque(encryptEx));
             }
         }
 
@@ -184,7 +183,7 @@ namespace RSAEncryption
             catch (Exception encryptEx)
             {
                 return Result<ibyteseq, _IError>
-                    .create_Failure(new Error_Opaque(encryptEx, Dafny.Sequence<char>.FromString(encryptEx.ToString())));
+                    .create_Failure(new Error_Opaque(encryptEx));
             }
         }
 
@@ -202,7 +201,7 @@ namespace RSAEncryption
             catch (Exception decryptEx)
             {
                 return Result<ibyteseq, _IError>
-                    .create_Failure(new Error_Opaque(decryptEx, Dafny.Sequence<char>.FromString(decryptEx.ToString())));
+                    .create_Failure(new Error_Opaque(decryptEx));
             }
         }
 

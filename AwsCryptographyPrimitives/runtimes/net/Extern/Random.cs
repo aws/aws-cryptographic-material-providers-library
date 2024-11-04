@@ -34,7 +34,7 @@ namespace ExternRandom
             catch (Exception e)
             {
                 return Wrappers_Compile.Result<ibyteseq, _IError>
-                    .create_Failure(new Error_Opaque(e, Dafny.Sequence<char>.FromString(e.ToString())));
+                    .create_Failure(new Error_Opaque(e));
             }
         }
     }

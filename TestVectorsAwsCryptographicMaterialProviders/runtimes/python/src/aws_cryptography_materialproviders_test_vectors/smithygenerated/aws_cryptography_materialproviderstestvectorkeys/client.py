@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references
+import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references
 from aws_cryptography_materialproviders_test_vectors.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes import (
     IKeyVectorsClient,
 )
@@ -73,7 +73,7 @@ class KeyVectors:
 
     def create_test_vector_keyring(
         self, input: TestVectorKeyringInput
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring":
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring":
         """Invokes the CreateTestVectorKeyring operation.
 
         :param input: The operation's input.
@@ -89,7 +89,7 @@ class KeyVectors:
 
     def create_wrapped_test_vector_keyring(
         self, input: TestVectorKeyringInput
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring":
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring":
         """Invokes the CreateWrappedTestVectorKeyring operation.
 
         :param input: The operation's input.
@@ -105,7 +105,7 @@ class KeyVectors:
 
     def create_wrapped_test_vector_cmm(
         self, input: TestVectorCmmInput
-    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsManager":
+    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsManager":
         """Invokes the CreateWrappedTestVectorCmm operation.
 
         :param input: The operation's input.

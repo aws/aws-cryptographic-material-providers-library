@@ -28,6 +28,8 @@ import software.amazon.awssdk.services.dynamodb.model.DeleteBackupRequest;
 import software.amazon.awssdk.services.dynamodb.model.DeleteBackupResponse;
 import software.amazon.awssdk.services.dynamodb.model.DeleteItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.DeleteItemResponse;
+import software.amazon.awssdk.services.dynamodb.model.DeleteResourcePolicyRequest;
+import software.amazon.awssdk.services.dynamodb.model.DeleteResourcePolicyResponse;
 import software.amazon.awssdk.services.dynamodb.model.DeleteTableRequest;
 import software.amazon.awssdk.services.dynamodb.model.DeleteTableResponse;
 import software.amazon.awssdk.services.dynamodb.model.DescribeBackupRequest;
@@ -70,6 +72,8 @@ import software.amazon.awssdk.services.dynamodb.model.ExportTableToPointInTimeRe
 import software.amazon.awssdk.services.dynamodb.model.ExportTableToPointInTimeResponse;
 import software.amazon.awssdk.services.dynamodb.model.GetItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
+import software.amazon.awssdk.services.dynamodb.model.GetResourcePolicyRequest;
+import software.amazon.awssdk.services.dynamodb.model.GetResourcePolicyResponse;
 import software.amazon.awssdk.services.dynamodb.model.GlobalTableAlreadyExistsException;
 import software.amazon.awssdk.services.dynamodb.model.GlobalTableNotFoundException;
 import software.amazon.awssdk.services.dynamodb.model.IdempotentParameterMismatchException;
@@ -98,9 +102,12 @@ import software.amazon.awssdk.services.dynamodb.model.ListTablesResponse;
 import software.amazon.awssdk.services.dynamodb.model.ListTagsOfResourceRequest;
 import software.amazon.awssdk.services.dynamodb.model.ListTagsOfResourceResponse;
 import software.amazon.awssdk.services.dynamodb.model.PointInTimeRecoveryUnavailableException;
+import software.amazon.awssdk.services.dynamodb.model.PolicyNotFoundException;
 import software.amazon.awssdk.services.dynamodb.model.ProvisionedThroughputExceededException;
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.PutItemResponse;
+import software.amazon.awssdk.services.dynamodb.model.PutResourcePolicyRequest;
+import software.amazon.awssdk.services.dynamodb.model.PutResourcePolicyResponse;
 import software.amazon.awssdk.services.dynamodb.model.QueryRequest;
 import software.amazon.awssdk.services.dynamodb.model.QueryResponse;
 import software.amazon.awssdk.services.dynamodb.model.ReplicaAlreadyExistsException;
@@ -136,6 +143,8 @@ import software.amazon.awssdk.services.dynamodb.model.UpdateGlobalTableSettingsR
 import software.amazon.awssdk.services.dynamodb.model.UpdateGlobalTableSettingsResponse;
 import software.amazon.awssdk.services.dynamodb.model.UpdateItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.UpdateItemResponse;
+import software.amazon.awssdk.services.dynamodb.model.UpdateKinesisStreamingDestinationRequest;
+import software.amazon.awssdk.services.dynamodb.model.UpdateKinesisStreamingDestinationResponse;
 import software.amazon.awssdk.services.dynamodb.model.UpdateTableReplicaAutoScalingRequest;
 import software.amazon.awssdk.services.dynamodb.model.UpdateTableReplicaAutoScalingResponse;
 import software.amazon.awssdk.services.dynamodb.model.UpdateTableRequest;
@@ -158,6 +167,8 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Delete
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.DeleteBackupOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.DeleteItemInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.DeleteItemOutput;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.DeleteResourcePolicyInput;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.DeleteResourcePolicyOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.DeleteTableInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.DeleteTableOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.DescribeBackupInput;
@@ -199,6 +210,8 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Export
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.ExportTableToPointInTimeOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.GetItemInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.GetItemOutput;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.GetResourcePolicyInput;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.GetResourcePolicyOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.IDynamoDBClient;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.ImportTableInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.ImportTableOutput;
@@ -218,6 +231,8 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.ListTa
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.ListTagsOfResourceOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.PutItemInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.PutItemOutput;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.PutResourcePolicyInput;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.PutResourcePolicyOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.QueryInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.QueryOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.RestoreTableFromBackupInput;
@@ -242,6 +257,8 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Update
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.UpdateGlobalTableSettingsOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.UpdateItemInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.UpdateItemOutput;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.UpdateKinesisStreamingDestinationInput;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.UpdateKinesisStreamingDestinationOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.UpdateTableInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.UpdateTableOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.UpdateTableReplicaAutoScalingInput;
@@ -698,6 +715,69 @@ public class Shim implements IDynamoDBClient {
     } catch (Exception ex) {
       return Result.create_Failure(
         DeleteItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    }
+  }
+
+  @Override
+  public Result<DeleteResourcePolicyOutput, Error> DeleteResourcePolicy(
+    DeleteResourcePolicyInput input
+  ) {
+    DeleteResourcePolicyRequest converted = ToNative.DeleteResourcePolicyInput(
+      input
+    );
+    try {
+      DeleteResourcePolicyResponse result = _impl.deleteResourcePolicy(
+        converted
+      );
+      DeleteResourcePolicyOutput dafnyResponse =
+        ToDafny.DeleteResourcePolicyOutput(result);
+      return Result.create_Success(
+        DeleteResourcePolicyOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
+    } catch (InternalServerErrorException ex) {
+      return Result.create_Failure(
+        DeleteResourcePolicyOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (LimitExceededException ex) {
+      return Result.create_Failure(
+        DeleteResourcePolicyOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (PolicyNotFoundException ex) {
+      return Result.create_Failure(
+        DeleteResourcePolicyOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (ResourceInUseException ex) {
+      return Result.create_Failure(
+        DeleteResourcePolicyOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (ResourceNotFoundException ex) {
+      return Result.create_Failure(
+        DeleteResourcePolicyOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (DynamoDbException ex) {
+      return Result.create_Failure(
+        DeleteResourcePolicyOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (Exception ex) {
+      return Result.create_Failure(
+        DeleteResourcePolicyOutput._typeDescriptor(),
         Error._typeDescriptor(),
         ToDafny.Error(ex)
       );
@@ -1677,6 +1757,54 @@ public class Shim implements IDynamoDBClient {
   }
 
   @Override
+  public Result<GetResourcePolicyOutput, Error> GetResourcePolicy(
+    GetResourcePolicyInput input
+  ) {
+    GetResourcePolicyRequest converted = ToNative.GetResourcePolicyInput(input);
+    try {
+      GetResourcePolicyResponse result = _impl.getResourcePolicy(converted);
+      GetResourcePolicyOutput dafnyResponse = ToDafny.GetResourcePolicyOutput(
+        result
+      );
+      return Result.create_Success(
+        GetResourcePolicyOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
+    } catch (InternalServerErrorException ex) {
+      return Result.create_Failure(
+        GetResourcePolicyOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (PolicyNotFoundException ex) {
+      return Result.create_Failure(
+        GetResourcePolicyOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (ResourceNotFoundException ex) {
+      return Result.create_Failure(
+        GetResourcePolicyOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (DynamoDbException ex) {
+      return Result.create_Failure(
+        GetResourcePolicyOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (Exception ex) {
+      return Result.create_Failure(
+        GetResourcePolicyOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    }
+  }
+
+  @Override
   public Result<ImportTableOutput, Error> ImportTable(ImportTableInput input) {
     ImportTableRequest converted = ToNative.ImportTableInput(input);
     try {
@@ -2040,6 +2168,66 @@ public class Shim implements IDynamoDBClient {
     } catch (Exception ex) {
       return Result.create_Failure(
         PutItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    }
+  }
+
+  @Override
+  public Result<PutResourcePolicyOutput, Error> PutResourcePolicy(
+    PutResourcePolicyInput input
+  ) {
+    PutResourcePolicyRequest converted = ToNative.PutResourcePolicyInput(input);
+    try {
+      PutResourcePolicyResponse result = _impl.putResourcePolicy(converted);
+      PutResourcePolicyOutput dafnyResponse = ToDafny.PutResourcePolicyOutput(
+        result
+      );
+      return Result.create_Success(
+        PutResourcePolicyOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
+    } catch (InternalServerErrorException ex) {
+      return Result.create_Failure(
+        PutResourcePolicyOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (LimitExceededException ex) {
+      return Result.create_Failure(
+        PutResourcePolicyOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (PolicyNotFoundException ex) {
+      return Result.create_Failure(
+        PutResourcePolicyOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (ResourceInUseException ex) {
+      return Result.create_Failure(
+        PutResourcePolicyOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (ResourceNotFoundException ex) {
+      return Result.create_Failure(
+        PutResourcePolicyOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (DynamoDbException ex) {
+      return Result.create_Failure(
+        PutResourcePolicyOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (Exception ex) {
+      return Result.create_Failure(
+        PutResourcePolicyOutput._typeDescriptor(),
         Error._typeDescriptor(),
         ToDafny.Error(ex)
       );
@@ -2804,6 +2992,64 @@ public class Shim implements IDynamoDBClient {
     } catch (Exception ex) {
       return Result.create_Failure(
         UpdateItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    }
+  }
+
+  @Override
+  public Result<
+    UpdateKinesisStreamingDestinationOutput,
+    Error
+  > UpdateKinesisStreamingDestination(
+    UpdateKinesisStreamingDestinationInput input
+  ) {
+    UpdateKinesisStreamingDestinationRequest converted =
+      ToNative.UpdateKinesisStreamingDestinationInput(input);
+    try {
+      UpdateKinesisStreamingDestinationResponse result =
+        _impl.updateKinesisStreamingDestination(converted);
+      UpdateKinesisStreamingDestinationOutput dafnyResponse =
+        ToDafny.UpdateKinesisStreamingDestinationOutput(result);
+      return Result.create_Success(
+        UpdateKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
+    } catch (InternalServerErrorException ex) {
+      return Result.create_Failure(
+        UpdateKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (LimitExceededException ex) {
+      return Result.create_Failure(
+        UpdateKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (ResourceInUseException ex) {
+      return Result.create_Failure(
+        UpdateKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (ResourceNotFoundException ex) {
+      return Result.create_Failure(
+        UpdateKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (DynamoDbException ex) {
+      return Result.create_Failure(
+        UpdateKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (Exception ex) {
+      return Result.create_Failure(
+        UpdateKinesisStreamingDestinationOutput._typeDescriptor(),
         Error._typeDescriptor(),
         ToDafny.Error(ex)
       );

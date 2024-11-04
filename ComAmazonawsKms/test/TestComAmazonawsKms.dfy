@@ -120,7 +120,7 @@ module TestComAmazonawsKms {
     var err: Kms.Types.Error := ret.error;
     expect err.Opaque?;
     match err {
-      case Opaque(obj, alt_text) => expect true;
+      case Opaque(obj) => expect true;
       case _ => expect false, "Failing KMS Key MUST cause an OpaqueError that can later be unwrapped to a proper but generic KMS Exception.";
     }
   }

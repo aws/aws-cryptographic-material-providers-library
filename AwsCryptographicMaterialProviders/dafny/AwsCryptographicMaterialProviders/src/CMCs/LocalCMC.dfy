@@ -12,6 +12,43 @@ module {:options "/functionSyntax:4" } LocalCMC {
   import Types = AwsCryptographyMaterialProvidersTypes
   import Seq
 
+  // This limits the visibility of the LocalCMC
+  // Doing this ensures that the smithy-dafny `axiom`
+  // added because the Types.ICryptographicMaterialsCache
+  // has the @aws.polymorph#mutableLocalState trait added in the smithy model
+  // can not leak and create unsoundness.
+  export
+    // This shows that LocalCMC extends Types.ICryptographicMaterialsCache
+    // as well as revealing the constructors spec.
+    reveals LocalCMC
+    provides
+      // These are dependent types that are needed
+      Types,
+      Wrappers,
+      DafnyLibraries,
+      CacheEntry,
+      UInt,
+
+      // These are the implementations of the trait
+      LocalCMC.GetCacheEntry',
+      LocalCMC.PutCacheEntry',
+      LocalCMC.DeleteCacheEntry',
+      LocalCMC.UpdateUsageMetadata',
+      LocalCMC.GetCacheEntryEnsuresPublicly,
+      LocalCMC.PutCacheEntryEnsuresPublicly,
+      LocalCMC.DeleteCacheEntryEnsuresPublicly,
+      LocalCMC.UpdateUsageMetadataEnsuresPublicly,
+      LocalCMC.ValidState,
+      LocalCMC.InternalValidState,
+      LocalCMC.GetCacheEntryWithTime,
+
+      // These are internal details
+      // that come from the constructor
+      // or the delete operation.
+      LocalCMC.InternalDeleteCacheEntry?,
+      LocalCMC.entryCapacity,
+      LocalCMC.entryPruningTailSize
+
   datatype Ref<T> =
     | Ptr(deref: T)
     | Null
@@ -278,15 +315,24 @@ module {:options "/functionSyntax:4" } LocalCMC {
   class LocalCMC extends Types.ICryptographicMaterialsCache {
 
     ghost predicate ValidState()
-      reads this`Modifies, Modifies - {History}
-      ensures ValidState() ==> History in Modifies
+      ensures ValidState() ==>
+                && History in Modifies
+                && this in Modifies
     {
       && History in Modifies
       && this in Modifies
-      && queue in Modifies
-      && cache in Modifies
-                  // I want to say that `queue.Items` is somehow in Modifies
-      && (forall i <- queue.Items :: i in Modifies)
+    }
+
+    ghost predicate InternalValidState()
+      reads this`InternalModifies, InternalModifies
+      ensures InternalValidState() ==> History !in InternalModifies
+    {
+      && History !in InternalModifies
+      && this in InternalModifies
+      && queue in InternalModifies
+      && cache in InternalModifies
+                  // I want to say that `queue.Items` is somehow in InternalModifies
+      && (forall i <- queue.Items :: i in InternalModifies)
       && Invariant()
     }
 
@@ -341,7 +387,9 @@ module {:options "/functionSyntax:4" } LocalCMC {
         && entryCapacity == entryCapacity'
         && entryPruningTailSize == entryPruningTailSize'
         && ValidState()
+        && InternalValidState()
         && fresh(this.Modifies)
+        && fresh(this.InternalModifies)
     {
       entryCapacity := entryCapacity';
       entryPruningTailSize := entryPruningTailSize';
@@ -350,7 +398,9 @@ module {:options "/functionSyntax:4" } LocalCMC {
 
       History := new Types.ICryptographicMaterialsCacheCallHistory();
 
-      Modifies := { History, queue, cache, this };
+      Modifies := { History, this };
+      InternalModifies := { queue, cache, this };
+
     }
 
     ghost predicate GetCacheEntryEnsuresPublicly(input: Types.GetCacheEntryInput, output: Result<Types.GetCacheEntryOutput, Types.Error>)
@@ -358,13 +408,13 @@ module {:options "/functionSyntax:4" } LocalCMC {
 
     method GetCacheEntry'(input: Types.GetCacheEntryInput)
       returns (output: Result<Types.GetCacheEntryOutput, Types.Error>)
-      requires ValidState()
-      modifies Modifies - {History}
-      decreases Modifies - {History}
-      ensures ValidState()
+      requires InternalValidState()
+      modifies InternalModifies
+      decreases InternalModifies
+      ensures InternalValidState()
       ensures GetCacheEntryEnsuresPublicly(input, output)
       ensures unchanged(History)
-      ensures Modifies <= old(Modifies)
+      ensures InternalModifies <= old(InternalModifies)
     {
       var now := Time.GetCurrent();
       output := GetCacheEntryWithTime(input, now);
@@ -372,13 +422,13 @@ module {:options "/functionSyntax:4" } LocalCMC {
 
     method GetCacheEntryWithTime(input: Types.GetCacheEntryInput, now : Types.PositiveLong)
       returns (output: Result<Types.GetCacheEntryOutput, Types.Error>)
-      requires ValidState()
-      modifies Modifies - {History}
-      decreases Modifies - {History}
-      ensures ValidState()
+      requires InternalValidState()
+      modifies InternalModifies
+      decreases InternalModifies
+      ensures InternalValidState()
       ensures GetCacheEntryEnsuresPublicly(input, output)
       ensures unchanged(History)
-      ensures Modifies <= old(Modifies)
+      ensures InternalModifies <= old(InternalModifies)
     {
       if cache.HasKey(input.identifier) {
         var entry := cache.Select(input.identifier);
@@ -424,13 +474,13 @@ module {:options "/functionSyntax:4" } LocalCMC {
 
     method {:vcs_split_on_every_assert} PutCacheEntry'(input: Types.PutCacheEntryInput)
       returns (output: Result<(), Types.Error>)
-      requires ValidState()
-      modifies Modifies - {History}
-      decreases Modifies - {History}
-      ensures ValidState()
+      requires InternalValidState()
+      modifies InternalModifies
+      decreases InternalModifies
+      ensures InternalValidState()
       ensures PutCacheEntryEnsuresPublicly(input, output)
       ensures unchanged(History)
-      ensures fresh(Modifies - old(Modifies))
+      ensures fresh(InternalModifies - old(InternalModifies))
     {
 
       if entryCapacity == 0 {
@@ -483,7 +533,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
       //# the local CMC MAY store more entries than the entry capacity.
       queue.pushCell(cell);
       cache.Put(input.identifier, cell);
-      Modifies := Modifies + {cell};
+      InternalModifies := InternalModifies + {cell};
 
       output := Success(());
 
@@ -501,23 +551,28 @@ module {:options "/functionSyntax:4" } LocalCMC {
     ghost predicate DeleteCacheEntryEnsuresPublicly(input: Types.DeleteCacheEntryInput, output: Result<(), Types.Error>)
     {true}
 
+    twostate predicate InternalDeleteCacheEntry?(input: Types.DeleteCacheEntryInput, new output: Result<(), Types.Error>)
+      requires InternalValidState()
+      reads InternalModifies
+    {
+      && input.identifier !in cache.Keys()
+      && (input.identifier in old(cache.Keys())
+          ==>
+            && (old(cache.Select(input.identifier)) !in queue.Items
+                && cache.Size() == old(cache.Size()) - 1
+                && old(cache.Keys()) - {input.identifier} == cache.Keys()))
+    }
+
     method {:vcs_split_on_every_assert} DeleteCacheEntry'(input: Types.DeleteCacheEntryInput)
       returns (output: Result<(), Types.Error>)
-      requires ValidState()
-      modifies Modifies - {History}
-      decreases Modifies - {History}
-      ensures ValidState()
+      requires InternalValidState()
+      modifies InternalModifies
+      decreases InternalModifies
+      ensures InternalValidState()
       ensures DeleteCacheEntryEnsuresPublicly(input, output)
       ensures unchanged(History)
-      ensures input.identifier !in cache.Keys()
-      ensures Modifies <= old(Modifies)
-      ensures
-        && input.identifier in old(cache.Keys())
-        ==>
-          // && output.Success?
-          && (old(cache.Select(input.identifier)) !in queue.Items
-              && cache.Size() == old(cache.Size()) - 1
-              && old(cache.Keys()) - {input.identifier} == cache.Keys())
+      ensures InternalModifies <= old(InternalModifies)
+      ensures InternalDeleteCacheEntry?(input, output)
     {
       if cache.HasKey(input.identifier) {
         assert input.identifier in cache.Keys();
@@ -548,7 +603,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
           assert cell !in cacheMultiset;
           assert cell !in queueMultiset;
         }
-        Modifies := Modifies - {cell};
+        InternalModifies := InternalModifies - {cell};
       }
 
       output := Success(());
@@ -559,11 +614,11 @@ module {:options "/functionSyntax:4" } LocalCMC {
 
     method UpdateUsageMetadata'(input: Types.UpdateUsageMetadataInput)
       returns (output: Result<(), Types.Error>)
-      requires ValidState()
-      modifies Modifies - {History}
-      decreases Modifies - {History}
-      ensures ValidState()
-      ensures Modifies <= old(Modifies)
+      requires InternalValidState()
+      modifies InternalModifies
+      decreases InternalModifies
+      ensures InternalValidState()
+      ensures InternalModifies <= old(InternalModifies)
     {
       if cache.HasKey(input.identifier) {
         var cell := cache.Select(input.identifier);
@@ -595,12 +650,12 @@ module {:options "/functionSyntax:4" } LocalCMC {
 
     method pruning(now : Types.PositiveLong)
       returns (output: Result<(), Types.Error>)
-      requires ValidState()
-      modifies Modifies - {History}
-      ensures ValidState()
-      // ensures |cache| <= |old(cache)|
+      requires InternalValidState()
+      modifies InternalModifies
+      decreases InternalModifies
+      ensures InternalValidState()
       ensures unchanged(History)
-      ensures Modifies <= old(Modifies)
+      ensures InternalModifies <= old(InternalModifies)
     {
       //= aws-encryption-sdk-specification/framework/local-cryptographic-materials-cache.md#pruning
       //# To prune TTL-expired cache entries,
@@ -608,8 +663,8 @@ module {:options "/functionSyntax:4" } LocalCMC {
       //# among the `N` least recently used entries,
       //# where `N` is the [Entry Pruning Tail Size](#entry-pruning-tail-size).
       for i := 0 to entryPruningTailSize
-        invariant ValidState()
-        invariant Modifies <= old(Modifies)
+        invariant InternalValidState()
+        invariant InternalModifies <= old(InternalModifies)
       {
         if queue.tail.Ptr? {
           if queue.tail.deref.expiryTime < now {

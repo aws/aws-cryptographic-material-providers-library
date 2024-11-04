@@ -59,7 +59,7 @@ namespace Signature
             catch (Exception e)
             {
                 return Result<SignatureKeyPair, _IError>
-                    .create_Failure(new Error_Opaque(e, Dafny.Sequence<char>.FromString(e.ToString())));
+                    .create_Failure(new Error_Opaque(e));
             }
         }
 
@@ -137,7 +137,7 @@ namespace Signature
             catch (Exception e)
             {
                 return Result<bool, _IError>
-                    .create_Failure(new Error_Opaque(e, Dafny.Sequence<char>.FromString(e.ToString())));
+                    .create_Failure(new Error_Opaque(e));
             }
         }
 
@@ -186,7 +186,7 @@ namespace Signature
             catch (Exception e)
             {
                 return Result<ibyteseq, _IError>
-                    .create_Failure(new Error_Opaque(e, Dafny.Sequence<char>.FromString(e.ToString())));
+                    .create_Failure(new Error_Opaque(e));
             }
         }
 

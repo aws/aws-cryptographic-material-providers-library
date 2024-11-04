@@ -8,10 +8,10 @@ import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrapper
 # Extend generated class with our externs
 class default__(smithy_dafny_standard_library.internaldafny.generated.Time.default__):
     def CurrentRelativeTimeMilli():
-        return datetime.datetime.now(tz = pytz.UTC).timestamp() * 1000
+        return round(datetime.datetime.now(tz = pytz.UTC).timestamp() * 1000)
 
     def CurrentRelativeTime():
-        return datetime.datetime.now(tz = pytz.UTC).timestamp()
+        return round(datetime.datetime.now(tz = pytz.UTC).timestamp())
 
     def GetCurrentTimeStamp():
         try:

@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-import _dafny
 from aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes import (
     BatchExecuteStatementInput_BatchExecuteStatementInput as DafnyBatchExecuteStatementInput,
     BatchExecuteStatementOutput_BatchExecuteStatementOutput as DafnyBatchExecuteStatementOutput,
@@ -20,6 +19,8 @@ from aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDyna
     DeleteBackupOutput_DeleteBackupOutput as DafnyDeleteBackupOutput,
     DeleteItemInput_DeleteItemInput as DafnyDeleteItemInput,
     DeleteItemOutput_DeleteItemOutput as DafnyDeleteItemOutput,
+    DeleteResourcePolicyInput_DeleteResourcePolicyInput as DafnyDeleteResourcePolicyInput,
+    DeleteResourcePolicyOutput_DeleteResourcePolicyOutput as DafnyDeleteResourcePolicyOutput,
     DeleteTableInput_DeleteTableInput as DafnyDeleteTableInput,
     DeleteTableOutput_DeleteTableOutput as DafnyDeleteTableOutput,
     DescribeBackupInput_DescribeBackupInput as DafnyDescribeBackupInput,
@@ -60,6 +61,8 @@ from aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDyna
     ExportTableToPointInTimeOutput_ExportTableToPointInTimeOutput as DafnyExportTableToPointInTimeOutput,
     GetItemInput_GetItemInput as DafnyGetItemInput,
     GetItemOutput_GetItemOutput as DafnyGetItemOutput,
+    GetResourcePolicyInput_GetResourcePolicyInput as DafnyGetResourcePolicyInput,
+    GetResourcePolicyOutput_GetResourcePolicyOutput as DafnyGetResourcePolicyOutput,
     ImportTableInput_ImportTableInput as DafnyImportTableInput,
     ImportTableOutput_ImportTableOutput as DafnyImportTableOutput,
     ListBackupsInput_ListBackupsInput as DafnyListBackupsInput,
@@ -78,6 +81,8 @@ from aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDyna
     ListTagsOfResourceOutput_ListTagsOfResourceOutput as DafnyListTagsOfResourceOutput,
     PutItemInput_PutItemInput as DafnyPutItemInput,
     PutItemOutput_PutItemOutput as DafnyPutItemOutput,
+    PutResourcePolicyInput_PutResourcePolicyInput as DafnyPutResourcePolicyInput,
+    PutResourcePolicyOutput_PutResourcePolicyOutput as DafnyPutResourcePolicyOutput,
     QueryInput_QueryInput as DafnyQueryInput,
     QueryOutput_QueryOutput as DafnyQueryOutput,
     RestoreTableFromBackupInput_RestoreTableFromBackupInput as DafnyRestoreTableFromBackupInput,
@@ -102,6 +107,8 @@ from aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDyna
     UpdateGlobalTableSettingsOutput_UpdateGlobalTableSettingsOutput as DafnyUpdateGlobalTableSettingsOutput,
     UpdateItemInput_UpdateItemInput as DafnyUpdateItemInput,
     UpdateItemOutput_UpdateItemOutput as DafnyUpdateItemOutput,
+    UpdateKinesisStreamingDestinationInput_UpdateKinesisStreamingDestinationInput as DafnyUpdateKinesisStreamingDestinationInput,
+    UpdateKinesisStreamingDestinationOutput_UpdateKinesisStreamingDestinationOutput as DafnyUpdateKinesisStreamingDestinationOutput,
     UpdateTableInput_UpdateTableInput as DafnyUpdateTableInput,
     UpdateTableOutput_UpdateTableOutput as DafnyUpdateTableOutput,
     UpdateTableReplicaAutoScalingInput_UpdateTableReplicaAutoScalingInput as DafnyUpdateTableReplicaAutoScalingInput,
@@ -224,6 +231,11 @@ def _sdk_error_to_dafny_error(e: ClientError):
             e.response
         )
 
+    elif e.response["Error"]["Code"] == "PolicyNotFoundException":
+        return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_PolicyNotFoundException(
+            e.response
+        )
+
     elif e.response["Error"]["Code"] == "ProvisionedThroughputExceededException":
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputExceededException(
             e.response
@@ -285,15 +297,7 @@ def _sdk_error_to_dafny_error(e: ClientError):
         )
 
     return aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes.Error_Opaque(
-        obj=e,
-        alt__text=_dafny.Seq(
-            "".join(
-                [
-                    chr(int.from_bytes(pair, "big"))
-                    for pair in zip(*[iter(repr(e).encode("utf-16-be"))] * 2)
-                ]
-            )
-        ),
+        obj=e
     )
 
 
@@ -424,6 +428,23 @@ class DynamoDBClientShim:
 
         return Wrappers.Result_Success(
             aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DeleteItemOutput(
+                boto_response_dict
+            )
+        )
+
+    def DeleteResourcePolicy(
+        self, input: DafnyDeleteResourcePolicyInput
+    ) -> DafnyDeleteResourcePolicyOutput:
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DeleteResourcePolicyInput(
+            input
+        )
+        try:
+            boto_response_dict = self._impl.delete_resource_policy(**boto_request_dict)
+        except ClientError as e:
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
+
+        return Wrappers.Result_Success(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DeleteResourcePolicyOutput(
                 boto_response_dict
             )
         )
@@ -778,6 +799,23 @@ class DynamoDBClientShim:
             )
         )
 
+    def GetResourcePolicy(
+        self, input: DafnyGetResourcePolicyInput
+    ) -> DafnyGetResourcePolicyOutput:
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_GetResourcePolicyInput(
+            input
+        )
+        try:
+            boto_response_dict = self._impl.get_resource_policy(**boto_request_dict)
+        except ClientError as e:
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
+
+        return Wrappers.Result_Success(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GetResourcePolicyOutput(
+                boto_response_dict
+            )
+        )
+
     def ImportTable(self, input: DafnyImportTableInput) -> DafnyImportTableOutput:
         boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ImportTableInput(
             input
@@ -917,6 +955,23 @@ class DynamoDBClientShim:
 
         return Wrappers.Result_Success(
             aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_PutItemOutput(
+                boto_response_dict
+            )
+        )
+
+    def PutResourcePolicy(
+        self, input: DafnyPutResourcePolicyInput
+    ) -> DafnyPutResourcePolicyOutput:
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_PutResourcePolicyInput(
+            input
+        )
+        try:
+            boto_response_dict = self._impl.put_resource_policy(**boto_request_dict)
+        except ClientError as e:
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
+
+        return Wrappers.Result_Success(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_PutResourcePolicyOutput(
                 boto_response_dict
             )
         )
@@ -1130,6 +1185,25 @@ class DynamoDBClientShim:
 
         return Wrappers.Result_Success(
             aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateItemOutput(
+                boto_response_dict
+            )
+        )
+
+    def UpdateKinesisStreamingDestination(
+        self, input: DafnyUpdateKinesisStreamingDestinationInput
+    ) -> DafnyUpdateKinesisStreamingDestinationOutput:
+        boto_request_dict = aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_UpdateKinesisStreamingDestinationInput(
+            input
+        )
+        try:
+            boto_response_dict = self._impl.update_kinesis_streaming_destination(
+                **boto_request_dict
+            )
+        except ClientError as e:
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
+
+        return Wrappers.Result_Success(
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateKinesisStreamingDestinationOutput(
                 boto_response_dict
             )
         )

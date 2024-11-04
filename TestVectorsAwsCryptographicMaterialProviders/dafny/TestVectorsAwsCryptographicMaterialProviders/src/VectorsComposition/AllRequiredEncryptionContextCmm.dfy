@@ -39,6 +39,7 @@ module {:options "-functionSyntax:4"} AllRequiredEncryptionContextCmm {
            s <- AllDefaultCmm.SubSets(
                   encryptionContext,
                   SortedSets.ComputeSetToOrderedSequence2(encryptionContext.Keys, (a, b) => a < b))
+           | |s| != 0
            :: s.Keys,
       reproducedEncryptionContext
       <- set
@@ -52,8 +53,18 @@ module {:options "-functionSyntax:4"} AllRequiredEncryptionContextCmm {
           name := "Success testing requiredEncryptionContextKeys/reproducedEncryptionContext",
           commitmentPolicy := AllAlgorithmSuites.GetCompatibleCommitmentPolicy(AllDefaultCmm.StaticAlgorithmSuite),
           algorithmSuite := AllDefaultCmm.StaticAlgorithmSuite,
-          encryptDescription := AllDefaultCmm.RawAesKeyring,
-          decryptDescription := AllDefaultCmm.RawAesKeyring,
+          encryptDescription := KeyVectorsTypes.RequiredEncryptionContext(
+            KeyVectorsTypes.RequiredEncryptionContextCMM(
+              underlying := AllDefaultCmm.RawAesKeyring,
+              requiredEncryptionContextKeys := SortedSets.ComputeSetToSequence(requiredEncryptionContextKeys)
+            )
+          ),
+          decryptDescription := KeyVectorsTypes.RequiredEncryptionContext(
+            KeyVectorsTypes.RequiredEncryptionContextCMM(
+              underlying := AllDefaultCmm.RawAesKeyring,
+              requiredEncryptionContextKeys := SortedSets.ComputeSetToSequence(requiredEncryptionContextKeys)
+            )
+          ),
           encryptionContext := encryptionContext,
           requiredEncryptionContextKeys := Some(SortedSets.ComputeSetToSequence(requiredEncryptionContextKeys)),
           reproducedEncryptionContext := Some(reproducedEncryptionContext)
@@ -67,6 +78,7 @@ module {:options "-functionSyntax:4"} AllRequiredEncryptionContextCmm {
            s <- AllDefaultCmm.SubSets(
                   encryptionContext,
                   SortedSets.ComputeSetToOrderedSequence2(encryptionContext.Keys, (a, b) => a < b))
+           | |s| != 0
            :: s.Keys,
       incorrectEncryptionContext
       <- set
@@ -87,8 +99,18 @@ module {:options "-functionSyntax:4"} AllRequiredEncryptionContextCmm {
           decryptErrorDescription := "The reproducedEncryptionContext is not correct",
           commitmentPolicy := AllAlgorithmSuites.GetCompatibleCommitmentPolicy(AllDefaultCmm.StaticAlgorithmSuite),
           algorithmSuite := AllDefaultCmm.StaticAlgorithmSuite,
-          encryptDescription := AllDefaultCmm.RawAesKeyring,
-          decryptDescription := AllDefaultCmm.RawAesKeyring,
+          encryptDescription := KeyVectorsTypes.RequiredEncryptionContext(
+            KeyVectorsTypes.RequiredEncryptionContextCMM(
+              underlying := AllDefaultCmm.RawAesKeyring,
+              requiredEncryptionContextKeys := SortedSets.ComputeSetToSequence(requiredEncryptionContextKeys)
+            )
+          ),
+          decryptDescription := KeyVectorsTypes.RequiredEncryptionContext(
+            KeyVectorsTypes.RequiredEncryptionContextCMM(
+              underlying := AllDefaultCmm.RawAesKeyring,
+              requiredEncryptionContextKeys := SortedSets.ComputeSetToSequence(requiredEncryptionContextKeys)
+            )
+          ),
           encryptionContext := encryptionContext,
           requiredEncryptionContextKeys := Some(SortedSets.ComputeSetToSequence(requiredEncryptionContextKeys)),
           reproducedEncryptionContext := Some(reproducedEncryptionContext)

@@ -494,7 +494,7 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
             Dafny.Sequence<char>.FromString(collectionOfErrors.Message)
           );
         default:
-          return new software.amazon.cryptography.materialproviders.internaldafny.types.Error_Opaque(error, Dafny.Sequence<char>.FromString(error.ToString()));
+          return new software.amazon.cryptography.materialproviders.internaldafny.types.Error_Opaque(error);
 
       }
     }
