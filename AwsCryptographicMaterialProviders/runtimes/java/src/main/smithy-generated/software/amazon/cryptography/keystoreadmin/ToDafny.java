@@ -582,6 +582,37 @@ public class ToDafny {
     );
   }
 
+  public static InitializeMutationFlag InitializeMutationFlag(
+    software.amazon.cryptography.keystoreadmin.model.InitializeMutationFlag nativeValue
+  ) {
+    if (Objects.nonNull(nativeValue.Created())) {
+      return InitializeMutationFlag.create_Created(
+        software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+          nativeValue.Created()
+        )
+      );
+    }
+    if (Objects.nonNull(nativeValue.Resumed())) {
+      return InitializeMutationFlag.create_Resumed(
+        software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+          nativeValue.Resumed()
+        )
+      );
+    }
+    if (Objects.nonNull(nativeValue.ResumedWithoutIndex())) {
+      return InitializeMutationFlag.create_ResumedWithoutIndex(
+        software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+          nativeValue.ResumedWithoutIndex()
+        )
+      );
+    }
+    throw new IllegalArgumentException(
+      "Cannot convert " +
+      nativeValue +
+      " to software.amazon.cryptography.keystoreadmin.internaldafny.types.InitializeMutationFlag."
+    );
+  }
+
   public static KeyManagementStrategy KeyManagementStrategy(
     software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy nativeValue
   ) {
