@@ -115,22 +115,6 @@ class default__:
         pass
 
     @staticmethod
-    def getEntry(cmc, input):
-        res: Wrappers.Result = None
-        out0_: Wrappers.Result
-        out0_ = (cmc).GetCacheEntry(input)
-        res = out0_
-        return res
-
-    @staticmethod
-    def putEntry(cmc, input):
-        res: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
-        out0_: Wrappers.Result
-        out0_ = (cmc).PutCacheEntry(input)
-        res = out0_
-        return res
-
-    @staticmethod
     def cacheEntryWithinLimits(creationTime, now, ttlSeconds):
         return ((now) - (creationTime)) <= (ttlSeconds)
 
@@ -231,12 +215,12 @@ class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, AwsCryptographyMate
     def  __init__(self):
         self._keyStore: AwsCryptographyKeyStoreTypes.IKeyStoreClient = None
         self._cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient = None
+        self._cache: AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCache = None
         self._branchKeyIdSupplier: Wrappers.Option = Wrappers.Option.default()()
         self._branchKeyId: Wrappers.Option = Wrappers.Option.default()()
         self._ttlSeconds: int = None
         self._partitionIdBytes: _dafny.Seq = _dafny.Seq({})
         self._logicalKeyStoreNameBytes: _dafny.Seq = _dafny.Seq({})
-        self._cache: AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCache = None
         pass
 
     def __dafnystr__(self) -> str:
@@ -499,7 +483,7 @@ class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, AwsCryptographyMate
         d_0_getCacheInput_ = AwsCryptographyMaterialProvidersTypes.GetCacheEntryInput_GetCacheEntryInput(cacheId, Wrappers.Option_None())
         d_1_getCacheOutput_: Wrappers.Result
         out0_: Wrappers.Result
-        out0_ = default__.getEntry((self).cache, d_0_getCacheInput_)
+        out0_ = ((self).cache).GetCacheEntry(d_0_getCacheInput_)
         d_1_getCacheOutput_ = out0_
         if ((d_1_getCacheOutput_).is_Failure) and (not(((d_1_getCacheOutput_).error).is_EntryDoesNotExist)):
             material = Wrappers.Result_Failure((d_1_getCacheOutput_).error)
@@ -538,7 +522,7 @@ class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, AwsCryptographyMate
             d_10_putCacheEntryInput_ = AwsCryptographyMaterialProvidersTypes.PutCacheEntryInput_PutCacheEntryInput(cacheId, AwsCryptographyMaterialProvidersTypes.Materials_BranchKey(d_7_branchKeyMaterials_), d_8_now_, ((self).ttlSeconds) + (d_8_now_), Wrappers.Option_None(), Wrappers.Option_None())
             d_11_putResult_: Wrappers.Result
             out4_: Wrappers.Result
-            out4_ = default__.putEntry((self).cache, d_10_putCacheEntryInput_)
+            out4_ = ((self).cache).PutCacheEntry(d_10_putCacheEntryInput_)
             d_11_putResult_ = out4_
             if ((d_11_putResult_).is_Failure) and (not(((d_11_putResult_).error).is_EntryAlreadyExists)):
                 material = Wrappers.Result_Failure((d_11_putResult_).error)
@@ -562,6 +546,9 @@ class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, AwsCryptographyMate
     def cryptoPrimitives(self):
         return self._cryptoPrimitives
     @property
+    def cache(self):
+        return self._cache
+    @property
     def branchKeyIdSupplier(self):
         return self._branchKeyIdSupplier
     @property
@@ -576,9 +563,6 @@ class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, AwsCryptographyMate
     @property
     def logicalKeyStoreNameBytes(self):
         return self._logicalKeyStoreNameBytes
-    @property
-    def cache(self):
-        return self._cache
 
 class OnDecryptHierarchyEncryptedDataKeyFilter(Actions.DeterministicActionWithResult, Actions.DeterministicAction):
     def  __init__(self):
@@ -814,7 +798,7 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
         d_0_getCacheInput_ = AwsCryptographyMaterialProvidersTypes.GetCacheEntryInput_GetCacheEntryInput(cacheId, Wrappers.Option_None())
         d_1_getCacheOutput_: Wrappers.Result
         out0_: Wrappers.Result
-        out0_ = default__.getEntry((self).cache, d_0_getCacheInput_)
+        out0_ = ((self).cache).GetCacheEntry(d_0_getCacheInput_)
         d_1_getCacheOutput_ = out0_
         if ((d_1_getCacheOutput_).is_Failure) and (not(((d_1_getCacheOutput_).error).is_EntryDoesNotExist)):
             material = Wrappers.Result_Failure((d_1_getCacheOutput_).error)
@@ -853,7 +837,7 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
             d_10_putCacheEntryInput_ = AwsCryptographyMaterialProvidersTypes.PutCacheEntryInput_PutCacheEntryInput(cacheId, AwsCryptographyMaterialProvidersTypes.Materials_BranchKey(d_7_branchKeyMaterials_), d_8_now_, ((self).ttlSeconds) + (d_8_now_), Wrappers.Option_None(), Wrappers.Option_None())
             d_11_putResult_: Wrappers.Result
             out4_: Wrappers.Result
-            out4_ = default__.putEntry((self).cache, d_10_putCacheEntryInput_)
+            out4_ = ((self).cache).PutCacheEntry(d_10_putCacheEntryInput_)
             d_11_putResult_ = out4_
             if ((d_11_putResult_).is_Failure) and (not(((d_11_putResult_).error).is_EntryAlreadyExists)):
                 material = Wrappers.Result_Failure((d_11_putResult_).error)

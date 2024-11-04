@@ -222,7 +222,7 @@ class default__:
                 compr_3_: _dafny.Map
                 for compr_3_ in (AllDefaultCmm.default__.SubSets(d_0_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_0_encryptionContext_).keys, lambda2_))).Elements:
                     d_5_s_: _dafny.Map = compr_3_
-                    if (d_5_s_) in (AllDefaultCmm.default__.SubSets(d_0_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_0_encryptionContext_).keys, lambda3_))):
+                    if ((d_5_s_) in (AllDefaultCmm.default__.SubSets(d_0_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_0_encryptionContext_).keys, lambda3_)))) and ((len(d_5_s_)) != (0)):
                         coll2_ = coll2_.union(_dafny.Set([(d_5_s_).keys]))
                 return _dafny.Set(coll2_)
             def iife4_():
@@ -255,7 +255,7 @@ class default__:
                         compr_2_: _dafny.Map
                         for compr_2_ in (AllDefaultCmm.default__.SubSets(d_0_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_0_encryptionContext_).keys, lambda0_))).Elements:
                             d_3_s_: _dafny.Map = compr_2_
-                            if (d_3_s_) in (AllDefaultCmm.default__.SubSets(d_0_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_0_encryptionContext_).keys, lambda1_))):
+                            if ((d_3_s_) in (AllDefaultCmm.default__.SubSets(d_0_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_0_encryptionContext_).keys, lambda1_)))) and ((len(d_3_s_)) != (0)):
                                 coll1_ = coll1_.union(_dafny.Set([(d_3_s_).keys]))
                         return _dafny.Set(coll1_)
                     compr_1_: _dafny.Set
@@ -284,7 +284,7 @@ class default__:
                                 d_9_reproducedEncryptionContext_: _dafny.Map = compr_4_
                                 if (d_9_reproducedEncryptionContext_) in (iife4_()
                                 ):
-                                    coll0_ = coll0_.union(_dafny.Set([TestVectors.EncryptTestVector_PositiveEncryptKeyringVector(_dafny.Seq("Success testing requiredEncryptionContextKeys/reproducedEncryptionContext"), Wrappers.Option_None(), d_0_encryptionContext_, AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(AllDefaultCmm.default__.StaticAlgorithmSuite), AllDefaultCmm.default__.StaticAlgorithmSuite, Wrappers.Option_None(), Wrappers.Option_Some(SortedSets.default__.SetToSequence(d_4_requiredEncryptionContextKeys_)), AllDefaultCmm.default__.RawAesKeyring, AllDefaultCmm.default__.RawAesKeyring, Wrappers.Option_Some(d_9_reproducedEncryptionContext_))]))
+                                    coll0_ = coll0_.union(_dafny.Set([TestVectors.EncryptTestVector_PositiveEncryptKeyringVector(_dafny.Seq("Success testing requiredEncryptionContextKeys/reproducedEncryptionContext"), Wrappers.Option_None(), d_0_encryptionContext_, AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(AllDefaultCmm.default__.StaticAlgorithmSuite), AllDefaultCmm.default__.StaticAlgorithmSuite, Wrappers.Option_None(), Wrappers.Option_Some(SortedSets.default__.SetToSequence(d_4_requiredEncryptionContextKeys_)), AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_RequiredEncryptionContext(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RequiredEncryptionContextCMM_RequiredEncryptionContextCMM(AllDefaultCmm.default__.RawAesKeyring, SortedSets.default__.SetToSequence(d_4_requiredEncryptionContextKeys_))), AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_RequiredEncryptionContext(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RequiredEncryptionContextCMM_RequiredEncryptionContextCMM(AllDefaultCmm.default__.RawAesKeyring, SortedSets.default__.SetToSequence(d_4_requiredEncryptionContextKeys_))), Wrappers.Option_Some(d_9_reproducedEncryptionContext_))]))
             return _dafny.Set(coll0_)
         return iife0_()
         
@@ -302,7 +302,7 @@ class default__:
                 compr_3_: _dafny.Map
                 for compr_3_ in (AllDefaultCmm.default__.SubSets(d_0_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_0_encryptionContext_).keys, lambda2_))).Elements:
                     d_5_s_: _dafny.Map = compr_3_
-                    if (d_5_s_) in (AllDefaultCmm.default__.SubSets(d_0_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_0_encryptionContext_).keys, lambda3_))):
+                    if ((d_5_s_) in (AllDefaultCmm.default__.SubSets(d_0_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_0_encryptionContext_).keys, lambda3_)))) and ((len(d_5_s_)) != (0)):
                         coll2_ = coll2_.union(_dafny.Set([(d_5_s_).keys]))
                 return _dafny.Set(coll2_)
             def iife4_():
@@ -349,7 +349,7 @@ class default__:
                         compr_2_: _dafny.Map
                         for compr_2_ in (AllDefaultCmm.default__.SubSets(d_0_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_0_encryptionContext_).keys, lambda0_))).Elements:
                             d_3_s_: _dafny.Map = compr_2_
-                            if (d_3_s_) in (AllDefaultCmm.default__.SubSets(d_0_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_0_encryptionContext_).keys, lambda1_))):
+                            if ((d_3_s_) in (AllDefaultCmm.default__.SubSets(d_0_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_0_encryptionContext_).keys, lambda1_)))) and ((len(d_3_s_)) != (0)):
                                 coll1_ = coll1_.union(_dafny.Set([(d_3_s_).keys]))
                         return _dafny.Set(coll1_)
                     compr_1_: _dafny.Set
@@ -398,7 +398,7 @@ class default__:
                                         d_14_reproducedEncryptionContext_: _dafny.Map = compr_7_
                                         if (d_14_reproducedEncryptionContext_) in (iife6_()
                                         ):
-                                            coll0_ = coll0_.union(_dafny.Set([TestVectors.EncryptTestVector_PositiveEncryptNegativeDecryptKeyringVector(_dafny.Seq("Failure of reproducedEncryptionContext"), Wrappers.Option_None(), d_0_encryptionContext_, AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(AllDefaultCmm.default__.StaticAlgorithmSuite), AllDefaultCmm.default__.StaticAlgorithmSuite, Wrappers.Option_None(), Wrappers.Option_Some(SortedSets.default__.SetToSequence(d_4_requiredEncryptionContextKeys_)), _dafny.Seq("The reproducedEncryptionContext is not correct"), AllDefaultCmm.default__.RawAesKeyring, AllDefaultCmm.default__.RawAesKeyring, Wrappers.Option_Some(d_14_reproducedEncryptionContext_))]))
+                                            coll0_ = coll0_.union(_dafny.Set([TestVectors.EncryptTestVector_PositiveEncryptNegativeDecryptKeyringVector(_dafny.Seq("Failure of reproducedEncryptionContext"), Wrappers.Option_None(), d_0_encryptionContext_, AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(AllDefaultCmm.default__.StaticAlgorithmSuite), AllDefaultCmm.default__.StaticAlgorithmSuite, Wrappers.Option_None(), Wrappers.Option_Some(SortedSets.default__.SetToSequence(d_4_requiredEncryptionContextKeys_)), _dafny.Seq("The reproducedEncryptionContext is not correct"), AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_RequiredEncryptionContext(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RequiredEncryptionContextCMM_RequiredEncryptionContextCMM(AllDefaultCmm.default__.RawAesKeyring, SortedSets.default__.SetToSequence(d_4_requiredEncryptionContextKeys_))), AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_RequiredEncryptionContext(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RequiredEncryptionContextCMM_RequiredEncryptionContextCMM(AllDefaultCmm.default__.RawAesKeyring, SortedSets.default__.SetToSequence(d_4_requiredEncryptionContextKeys_))), Wrappers.Option_Some(d_14_reproducedEncryptionContext_))]))
             return _dafny.Set(coll0_)
         return iife0_()
         

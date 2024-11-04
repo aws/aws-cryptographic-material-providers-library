@@ -5017,11 +5017,11 @@ class Error_XksProxyVpcEndpointServiceNotFoundException(Error, NamedTuple('XksPr
     def __hash__(self) -> int:
         return super().__hash__()
 
-class Error_Opaque(Error, NamedTuple('Opaque', [('obj', Any), ('alt__text', Any)])):
+class Error_Opaque(Error, NamedTuple('Opaque', [('obj', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.Error.Opaque({_dafny.string_of(self.obj)}, {_dafny.string_of(self.alt__text)})'
+        return f'ComAmazonawsKmsTypes.Error.Opaque({_dafny.string_of(self.obj)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, Error_Opaque) and self.obj == __o.obj and self.alt__text == __o.alt__text
+        return isinstance(__o, Error_Opaque) and self.obj == __o.obj
     def __hash__(self) -> int:
         return super().__hash__()
 
