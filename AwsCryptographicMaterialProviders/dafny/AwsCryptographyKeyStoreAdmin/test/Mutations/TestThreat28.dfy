@@ -83,7 +83,8 @@ module {:options "/functionSyntax:4" } TestThreat28 {
       Identifier := testId,
       Mutations := mutationsRequest,
       Strategy := Some(strategy),
-      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
+      SystemKey := Some(Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage())),
+      DoNotVersion := Some(false));
     var initializeOutput :- expect underTest.InitializeMutation(initInput);
     var initializeToken := initializeOutput.MutationToken;
 
@@ -95,7 +96,7 @@ module {:options "/functionSyntax:4" } TestThreat28 {
       MutationToken := initializeToken,
       PageSize := Some(1), //Some(24),
       Strategy := Some(strategy),
-      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
+      SystemKey := Some(Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage())));
     // var applyOutput :- expect underTest.ApplyMutation(testInput);
     var applyOutput? := underTest.ApplyMutation(testInput);
     if (applyOutput?.Failure?) {
@@ -114,7 +115,7 @@ module {:options "/functionSyntax:4" } TestThreat28 {
       MutationToken := applyToken,
       PageSize := Some(1),
       Strategy := Some(strategy),
-      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
+      SystemKey := Some(Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage())));
     applyOutput? := underTest.ApplyMutation(testInput);
     if (applyOutput?.Failure?) {
       print applyOutput?;
@@ -131,7 +132,7 @@ module {:options "/functionSyntax:4" } TestThreat28 {
       MutationToken := applyToken,
       PageSize := Some(1),
       Strategy := Some(strategy),
-      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
+      SystemKey := Some(Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage())));
     applyOutput? := underTest.ApplyMutation(testInput);
     if (applyOutput?.Failure?) {
       print applyOutput?;

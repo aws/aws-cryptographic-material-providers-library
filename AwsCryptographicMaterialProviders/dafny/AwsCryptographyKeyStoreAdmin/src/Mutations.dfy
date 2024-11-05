@@ -404,7 +404,7 @@ module {:options "/functionSyntax:4" } Mutations {
       UUID := Some(mutationCommitmentUUID),
       CreateTime := timestamp);
 
-    var Flag: Types.InitializeMutationFlag := Types.Created("");
+    var Flag: Types.InitializeMutationFlag := Types.Created();
 
     return Success(Types.InitializeMutationOutput(
                      MutationToken := Token,
@@ -788,10 +788,10 @@ module {:options "/functionSyntax:4" } Mutations {
     var mutatedBranchKeyItems := [
       Types.MutatedBranchKeyItem(ItemType := "Mutation Commitment: " + commitment.UUID, Description := "Matched Input")
     ];
-    var Flag: Types.InitializeMutationFlag := Types.Resumed("");
+    var Flag: Types.InitializeMutationFlag := Types.Resumed();
 
     if (index.None?) {
-      Flag := Types.ResumedWithoutIndex("");
+      Flag := Types.ResumedWithoutIndex();
       var timestamp? := Time.GetCurrentTimeStamp();
       var timestamp :- timestamp?
       .MapFailure(e => Types.KeyStoreAdminException(
