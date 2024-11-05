@@ -47,14 +47,23 @@ module {:options "/functionSyntax:4" } Mutations {
     | forall i <- s :: !i.itemNeither?
     witness *
 
+  datatype InternalInitializeMutationInput = | InternalInitializeMutationInput (
+    nameonly Identifier: string ,
+    nameonly Mutations: Types.Mutations ,
+    nameonly SystemKey: Types.SystemKey ,
+    nameonly DoNotVersion: bool,
+    nameonly logicalKeyStoreName: string,
+    nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
+    nameonly storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
+  )
+
   // Ensures:
   // Branch Key ID is set
   // Mutations List is valid
   // logicalKeyStoreName is valid
   function {:vcs_split_on_every_assert} ValidateInitializeMutationInput(
-    input: Types.InitializeMutationInput,
-    logicalKeyStoreName: string
-  ): (output: Result<Types.InitializeMutationInput, Types.Error>)
+    input: InternalInitializeMutationInput
+  ): (output: Result<InternalInitializeMutationInput, Types.Error>)
     ensures
       output.Success?
       ==>
@@ -64,8 +73,24 @@ module {:options "/functionSyntax:4" } Mutations {
       && input.Mutations.TerminalKmsArn.Some?
       ==>
         && KmsArn.ValidKmsArn?(input.Mutations.TerminalKmsArn.value)
-
+    ensures
+      && output.Success?
+      ==>
+        input.DoNotVersion == false
+    ensures
+      && output.Success?
+      ==>
+        input.SystemKey.trustStorage?
   {
+    :- Need(
+         input.DoNotVersion == false,
+         Types.UnsupportedFeatureException(message := "At this time, DoNotVersion MUST be false.")
+       );
+    :- Need(
+         input.SystemKey.trustStorage?,
+         Types.UnsupportedFeatureException(message := "At this time, SystemKey MUST be TrustStorage.")
+       );
+
     :- Need(|input.Identifier| > 0,
             Types.KeyStoreAdminException(message := "Branch Key Identifier cannot be empty!"));
     var terminalEC := input.Mutations.TerminalEncryptionContext.UnwrapOr(map[]);
@@ -104,35 +129,33 @@ module {:options "/functionSyntax:4" } Mutations {
   }
 
   method {:vcs_split_on_every_assert} InitializeMutation(
-    input: Types.InitializeMutationInput,
-    logicalKeyStoreName: string,
-    keyManagerStrategy: KmsUtils.keyManagerStrat,
-    storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
+    input: InternalInitializeMutationInput
   )
     returns (output: Result<Types.InitializeMutationOutput, Types.Error>)
-    requires ValidateInitializeMutationInput(input, logicalKeyStoreName).Success?
+    requires ValidateInitializeMutationInput(input).Success?
     requires StateStrucs.ValidMutations?(input.Mutations) // may not need this
-    requires storage.ValidState() &&
-             match keyManagerStrategy
+    requires input.storage.ValidState() &&
+             match input.keyManagerStrategy
              case reEncrypt(km) => km.kmsClient.ValidState() && AwsKmsUtils.GetValidGrantTokens(Some(km.grantTokens)).Success?
              case decryptEncrypt(kmD, kmE) =>
                && kmD.kmsClient.ValidState() && kmE.kmsClient.ValidState()
                && AwsKmsUtils.GetValidGrantTokens(Some(kmD.grantTokens)).Success?
                && AwsKmsUtils.GetValidGrantTokens(Some(kmE.grantTokens)).Success?
-    ensures storage.ValidState() &&
-            match keyManagerStrategy
+    ensures input.storage.ValidState() &&
+            match input.keyManagerStrategy
             case reEncrypt(km) => km.kmsClient.ValidState()
             case decryptEncrypt(kmD, kmE) => kmD.kmsClient.ValidState() && kmE.kmsClient.ValidState()
     modifies
-      storage.Modifies,
-            match keyManagerStrategy
+      input.storage.Modifies,
+            match input.keyManagerStrategy
             case reEncrypt(km) => km.kmsClient.Modifies
             case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
-    requires keyManagerStrategy.reEncrypt?
+    requires input.keyManagerStrategy.reEncrypt?
   {
-    var keyManager := keyManagerStrategy.reEncrypt;
+    var keyManager := input.keyManagerStrategy.reEncrypt;
     var resumeMutation? := false;
-
+    var storage := input.storage;
+    var logicalKeyStoreName := input.logicalKeyStoreName;
     // Fetch Active Branch Key & Beacon Key & Mutation Lock
     var readItems? := storage.GetItemsForInitializeMutation(
       Types.AwsCryptographyKeyStoreTypes.GetItemsForInitializeMutationInput(Identifier := input.Identifier));
@@ -183,7 +206,7 @@ module {:options "/functionSyntax:4" } Mutations {
     var activeItem := readItems.ActiveItem;
 
     :- Need(
-      || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+      || input.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
            && readItems.ActiveItem.Identifier == input.Identifier
            && Structure.ActiveHierarchicalSymmetricKey?(readItems.ActiveItem)
@@ -195,7 +218,7 @@ module {:options "/functionSyntax:4" } Mutations {
     );
 
     :- Need(
-      || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+      || input.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
            && readItems.BeaconItem.Identifier == input.Identifier
            && Structure.ActiveHierarchicalSymmetricBeaconKey?(readItems.BeaconItem)
@@ -282,7 +305,7 @@ module {:options "/functionSyntax:4" } Mutations {
     // --= Validate Active Branch Key
     var verifyActive? := VerifyEncryptedHierarchicalKey(
       item := activeItem,
-      keyManagerStrategy := keyManagerStrategy
+      keyManagerStrategy :=input.keyManagerStrategy
     );
     if (verifyActive?.Fail?) {
       return Failure(
@@ -350,7 +373,7 @@ module {:options "/functionSyntax:4" } Mutations {
       originalKmsArn := MutationToApply.Terminal.kmsArn,
       terminalKmsArn := MutationToApply.Terminal.kmsArn,
       terminalEncryptionContext := ActiveEncryptionContext,
-      keyManagerStrategy := keyManagerStrategy
+      keyManagerStrategy := input.keyManagerStrategy
     );
 
     // -= Mutate Beacon Key
@@ -370,7 +393,7 @@ module {:options "/functionSyntax:4" } Mutations {
       originalKmsArn := MutationToApply.Original.kmsArn,
       terminalKmsArn := MutationToApply.Terminal.kmsArn,
       terminalEncryptionContext := BeaconEncryptionContext,
-      keyManagerStrategy := keyManagerStrategy
+      keyManagerStrategy := input.keyManagerStrategy
     );
 
     // -= Create Mutation Commitment
@@ -764,7 +787,7 @@ module {:options "/functionSyntax:4" } Mutations {
 
   // Note: Assumes the System Key has already verified
   function CommitmentAndInputMatch(
-    nameonly input: Types.InitializeMutationInput,
+    nameonly input: InternalInitializeMutationInput,
     nameonly commitment: KeyStoreTypes.MutationCommitment
   ): (output: Result<bool, Types.Error>)
   {
