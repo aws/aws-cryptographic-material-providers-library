@@ -56,8 +56,14 @@ module {:options "/functionSyntax:4" } Mutations {
     logicalKeyStoreName: string
   ): (output: Result<Types.InitializeMutationInput, Types.Error>)
     ensures
-      output.Success?
-      ==> (StateStrucs.ValidMutations?(input.Mutations) && input.Mutations.TerminalKmsArn.Some? ==> KmsArn.ValidKmsArn?(input.Mutations.TerminalKmsArn.value))
+      && output.Success?
+      ==>
+        && StateStrucs.ValidMutations?(input.Mutations)
+    ensures
+      && output.Success?
+      && input.Mutations.TerminalKmsArn.Some?
+      ==>
+        && KmsArn.ValidKmsArn?(input.Mutations.TerminalKmsArn.value)
 
   {
     :- Need(|input.Identifier| > 0,
