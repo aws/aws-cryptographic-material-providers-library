@@ -22,7 +22,7 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     nameonly MutationToken: MutationToken ,
     nameonly PageSize: Option<int32> := Option.None ,
     nameonly Strategy: Option<KeyManagementStrategy> := Option.None ,
-    nameonly SystemKey: SystemKey
+    nameonly SystemKey: Option<SystemKey> := Option.None
   )
   datatype ApplyMutationOutput = | ApplyMutationOutput (
     nameonly MutationResult: ApplyMutationResult ,
@@ -44,18 +44,18 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     nameonly Identifier: string
   )
   datatype DescribeMutationOutput = | DescribeMutationOutput (
-    nameonly Original: Option<MutableBranchKeyProperities> := Option.None ,
-    nameonly Terminal: Option<MutableBranchKeyProperities> := Option.None
+    nameonly MutationInFlight: MutationInFlight
   )
   datatype InitializeMutationFlag =
-    | Created(Created: string)
-    | Resumed(Resumed: string)
-    | ResumedWithoutIndex(ResumedWithoutIndex: string)
+    | Created
+    | Resumed
+    | ResumedWithoutIndex
   datatype InitializeMutationInput = | InitializeMutationInput (
     nameonly Identifier: string ,
     nameonly Mutations: Mutations ,
     nameonly Strategy: Option<KeyManagementStrategy> := Option.None ,
-    nameonly SystemKey: SystemKey
+    nameonly SystemKey: Option<SystemKey> := Option.None ,
+    nameonly DoNotVersion: Option<bool> := Option.None
   )
   datatype InitializeMutationOutput = | InitializeMutationOutput (
     nameonly MutationToken: MutationToken ,
@@ -204,6 +204,21 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   datatype MutationComplete = | MutationComplete (
 
                               )
+  datatype MutationDescription = | MutationDescription (
+    nameonly MutationDetails: MutationDetails ,
+    nameonly MutationToken: MutationToken
+  )
+  datatype MutationDetails = | MutationDetails (
+    nameonly Original: MutableBranchKeyProperities ,
+    nameonly Terminal: MutableBranchKeyProperities ,
+    nameonly Input: Mutations ,
+    nameonly SystemKey: string ,
+    nameonly CreateTime: string ,
+    nameonly UUID: string
+  )
+  datatype MutationInFlight =
+    | Yes(Yes: MutationDescription)
+    | No(No: string)
   datatype Mutations = | Mutations (
     nameonly TerminalKmsArn: Option<string> := Option.None ,
     nameonly TerminalEncryptionContext: Option<AwsCryptographyKeyStoreTypes.EncryptionContextString> := Option.None
@@ -241,9 +256,6 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     | MutationInvalidException (
         nameonly message: string
       )
-    | MutationLockInvalidException (
-        nameonly message: string
-      )
     | MutationToException (
         nameonly message: string
       )
@@ -251,6 +263,9 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
         nameonly message: string
       )
     | UnexpectedStateException (
+        nameonly message: string
+      )
+    | UnsupportedFeatureException (
         nameonly message: string
       )
       // Any dependent models are listed here

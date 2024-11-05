@@ -22,7 +22,7 @@ class MutationToken:
         """
         :param identifier: The identifier for the Branch Key being mutated.
         :param create_time: ISO 8601 time when the mutation was initialized.
-        :param uuid: UUID of the Mutation Lock.
+        :param uuid: UUID of the Mutation.
         """
         self.identifier = identifier
         self.create_time = create_time
@@ -307,7 +307,8 @@ class KmsAes:
 
 
 class TrustStorage:
-    """The Storage is trusted enough for non-cryptographic items."""
+    """The Storage is trusted enough for items of a non-cryptographic material
+    nature, even if those items can effect the cryptographic materials."""
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the TrustStorage to a dictionary."""
@@ -328,8 +329,8 @@ class TrustStorage:
 
 
 class SystemKeyKmsAes:
-    """Include all attributes of an item as Encryption Context in a KMS Encrypt
-    or Decrypt call, effectively signing the attributes."""
+    """A KMS AES Symmetric Key is used to sign (via Encryption Context) or
+    encrypt the item."""
 
     def __init__(self, value: KmsAes):
         self.value = value
@@ -354,7 +355,11 @@ class SystemKeyKmsAes:
 
 
 class SystemKeyTrustStorage:
-    """The Storage is trusted enough for non-cryptographic items."""
+    """The Storage is trusted enough for items of a non-cryptographic material
+    nature,
+
+    even if those items can effect the cryptographic materials.
+    """
 
     def __init__(self, value: TrustStorage):
         self.value = value
@@ -403,7 +408,8 @@ class SystemKeyUnknown:
         return f"SystemKeyUnknown(tag={self.tag})"
 
 
-# Key Store Admin protects any non-cryptographic items stored with this Key.
+# Key Store Admin protects any non-cryptographic items stored with this Key. As of
+# v1.8.0, TrustStorage is the default behavior.
 SystemKey = Union[SystemKeyKmsAes, SystemKeyTrustStorage, SystemKeyUnknown]
 
 
@@ -421,41 +427,38 @@ class ApplyMutationInput:
     mutation_token: MutationToken
     page_size: Optional[int]
     strategy: Optional[KeyManagementStrategy]
-    system_key: SystemKey
+    system_key: Optional[SystemKey]
 
     def __init__(
         self,
         *,
         mutation_token: MutationToken,
-        system_key: SystemKey,
         page_size: Optional[int] = None,
         strategy: Optional[KeyManagementStrategy] = None,
+        system_key: Optional[SystemKey] = None,
     ):
         """
-        :param system_key: Key Store Admin protects any non-cryptographic
-        items stored
-        with this Key.
         :param page_size: For Default DynamoDB Table Storage, the maximum page size is
         99.
           At most, Apply Mutation will mutate pageSize Items.
           Note that, at least
         for Storage:DynamoDBTable,
-          an additional "item" is consumed by the Mutation
-        Lock verification.
-          Thus, if the pageSize is 24, 25 requests will be sent in
-        the Transact Write Request.
+          two additional "item" are consumed by the Mutation
+        Commitment and Mutation Index verification.
+          Thus, if the pageSize is 24, 26
+        requests will be sent in the Transact Write Request.
         :param strategy: Optional. Defaults to reEncrypt with a default KMS Client.
+        :param system_key: Optional. Defaults to TrustStorage. See System Key.
         """
         self.mutation_token = mutation_token
-        self.system_key = system_key
         self.page_size = page_size
         self.strategy = strategy
+        self.system_key = system_key
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the ApplyMutationInput to a dictionary."""
         d: Dict[str, Any] = {
             "mutation_token": self.mutation_token.as_dict(),
-            "system_key": self.system_key.as_dict(),
         }
 
         if self.page_size is not None:
@@ -464,6 +467,9 @@ class ApplyMutationInput:
         if self.strategy is not None:
             d["strategy"] = self.strategy.as_dict()
 
+        if self.system_key is not None:
+            d["system_key"] = self.system_key.as_dict()
+
         return d
 
     @staticmethod
@@ -471,7 +477,6 @@ class ApplyMutationInput:
         """Creates a ApplyMutationInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "mutation_token": MutationToken.from_dict(d["mutation_token"]),
-            "system_key": _system_key_from_dict(d["system_key"]),
         }
 
         if "page_size" in d:
@@ -479,6 +484,9 @@ class ApplyMutationInput:
 
         if "strategy" in d:
             kwargs["strategy"] = (_key_management_strategy_from_dict(d["strategy"]),)
+
+        if "system_key" in d:
+            kwargs["system_key"] = (_system_key_from_dict(d["system_key"]),)
 
         return ApplyMutationInput(**kwargs)
 
@@ -522,9 +530,9 @@ class MutatedBranchKeyItem:
     ):
         """
         :param item_type: The item type changed. i.e: branch:version:<uuid> or
-        MUTATION_LOCK:<uuid>
+        branch:MUTATION_COMMITMENT.
         :param description: Brief description of what occurred. i.e: Mutation Applied,
-        New Active Created, Mutation Lock Created, Mutation Lock Removed.
+        New Active Created, Mutation Commitment Created, Mutation Commitment Removed.
         """
         self.item_type = item_type
         self.description = description
@@ -616,7 +624,7 @@ class ApplyMutationResultContinueMutation:
 
 
 class ApplyMutationResultCompleteMutation:
-    """All items have been mutated; the Mutation Lock has been removed.
+    """All items have been mutated.
 
     The mutation is complete.
     """
@@ -928,132 +936,6 @@ class DescribeMutationInput:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
-class MutableBranchKeyProperities:
-    kms_arn: str
-    custom_encryption_context: dict[str, str]
-
-    def __init__(
-        self,
-        *,
-        kms_arn: str,
-        custom_encryption_context: dict[str, str],
-    ):
-        """Define the Mutatable Properities of a Branch Key. As of v1.8.0, the
-        Mutable.
-
-        Properities are:
-        - The KmsArn protecting the Branch Key
-        - The custom encryption
-        context of a Branch Key
-
-        :param kms_arn: The KmsArn protecting the Branch Key.
-        :param custom_encryption_context: The custom Encryption Context authenicated
-        with this Branch Key.
-        """
-        self.kms_arn = kms_arn
-        self.custom_encryption_context = custom_encryption_context
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the MutableBranchKeyProperities to a dictionary."""
-        return {
-            "kms_arn": self.kms_arn,
-            "custom_encryption_context": self.custom_encryption_context,
-        }
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "MutableBranchKeyProperities":
-        """Creates a MutableBranchKeyProperities from a dictionary."""
-        kwargs: Dict[str, Any] = {
-            "kms_arn": d["kms_arn"],
-            "custom_encryption_context": d["custom_encryption_context"],
-        }
-
-        return MutableBranchKeyProperities(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "MutableBranchKeyProperities("
-        if self.kms_arn is not None:
-            result += f"kms_arn={repr(self.kms_arn)}, "
-
-        if self.custom_encryption_context is not None:
-            result += (
-                f"custom_encryption_context={repr(self.custom_encryption_context)}"
-            )
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, MutableBranchKeyProperities):
-            return False
-        attributes: list[str] = [
-            "kms_arn",
-            "custom_encryption_context",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
-
-class DescribeMutationOutput:
-    original: Optional[MutableBranchKeyProperities]
-    terminal: Optional[MutableBranchKeyProperities]
-
-    def __init__(
-        self,
-        *,
-        original: Optional[MutableBranchKeyProperities] = None,
-        terminal: Optional[MutableBranchKeyProperities] = None,
-    ):
-        """
-        :param original: The original properities of the Branch Key.
-        :param terminal: The terminal properities of the Branch Key.
-        """
-        self.original = original
-        self.terminal = terminal
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the DescribeMutationOutput to a dictionary."""
-        d: Dict[str, Any] = {}
-
-        if self.original is not None:
-            d["original"] = self.original.as_dict()
-
-        if self.terminal is not None:
-            d["terminal"] = self.terminal.as_dict()
-
-        return d
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DescribeMutationOutput":
-        """Creates a DescribeMutationOutput from a dictionary."""
-        kwargs: Dict[str, Any] = {}
-
-        if "original" in d:
-            kwargs["original"] = MutableBranchKeyProperities.from_dict(d["original"])
-
-        if "terminal" in d:
-            kwargs["terminal"] = MutableBranchKeyProperities.from_dict(d["terminal"])
-
-        return DescribeMutationOutput(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "DescribeMutationOutput("
-        if self.original is not None:
-            result += f"original={repr(self.original)}, "
-
-        if self.terminal is not None:
-            result += f"terminal={repr(self.terminal)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, DescribeMutationOutput):
-            return False
-        attributes: list[str] = [
-            "original",
-            "terminal",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
-
 class Mutations:
     terminal_kms_arn: Optional[str]
     terminal_encryption_context: Optional[dict[str, str]]
@@ -1138,165 +1020,267 @@ class Mutations:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
-class InitializeMutationInput:
-    identifier: str
-    mutations: Mutations
-    strategy: Optional[KeyManagementStrategy]
-    system_key: SystemKey
+class MutableBranchKeyProperities:
+    kms_arn: str
+    custom_encryption_context: dict[str, str]
 
     def __init__(
         self,
         *,
-        identifier: str,
-        mutations: Mutations,
-        system_key: SystemKey,
-        strategy: Optional[KeyManagementStrategy] = None,
+        kms_arn: str,
+        custom_encryption_context: dict[str, str],
     ):
+        """Define the Mutatable Properities of a Branch Key. As of v1.8.0, the
+        Mutable.
+
+        Properities are:
+        - The KmsArn protecting the Branch Key
+        - The custom encryption
+        context of a Branch Key
+
+        :param kms_arn: The KmsArn protecting the Branch Key.
+        :param custom_encryption_context: The custom Encryption Context authenicated
+        with this Branch Key.
         """
-        :param identifier: The identifier for the Branch Key to be mutated.
-        :param mutations: Describes the Mutation that will be applied to all Items of
-        the Branch Key.
-        :param system_key: Key Store Admin protects any non-cryptographic
-        items stored
-        with this Key.
-        :param strategy: Optional. Defaults to reEncrypt with a default KMS Client.
-        """
-        self.identifier = identifier
-        self.mutations = mutations
-        self.system_key = system_key
-        self.strategy = strategy
+        self.kms_arn = kms_arn
+        self.custom_encryption_context = custom_encryption_context
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the InitializeMutationInput to a dictionary."""
-        d: Dict[str, Any] = {
-            "identifier": self.identifier,
-            "mutations": self.mutations.as_dict(),
-            "system_key": self.system_key.as_dict(),
+        """Converts the MutableBranchKeyProperities to a dictionary."""
+        return {
+            "kms_arn": self.kms_arn,
+            "custom_encryption_context": self.custom_encryption_context,
         }
-
-        if self.strategy is not None:
-            d["strategy"] = self.strategy.as_dict()
-
-        return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "InitializeMutationInput":
-        """Creates a InitializeMutationInput from a dictionary."""
+    def from_dict(d: Dict[str, Any]) -> "MutableBranchKeyProperities":
+        """Creates a MutableBranchKeyProperities from a dictionary."""
         kwargs: Dict[str, Any] = {
-            "identifier": d["identifier"],
-            "mutations": Mutations.from_dict(d["mutations"]),
-            "system_key": _system_key_from_dict(d["system_key"]),
+            "kms_arn": d["kms_arn"],
+            "custom_encryption_context": d["custom_encryption_context"],
         }
 
-        if "strategy" in d:
-            kwargs["strategy"] = (_key_management_strategy_from_dict(d["strategy"]),)
-
-        return InitializeMutationInput(**kwargs)
+        return MutableBranchKeyProperities(**kwargs)
 
     def __repr__(self) -> str:
-        result = "InitializeMutationInput("
-        if self.identifier is not None:
-            result += f"identifier={repr(self.identifier)}, "
+        result = "MutableBranchKeyProperities("
+        if self.kms_arn is not None:
+            result += f"kms_arn={repr(self.kms_arn)}, "
 
-        if self.mutations is not None:
-            result += f"mutations={repr(self.mutations)}, "
-
-        if self.strategy is not None:
-            result += f"strategy={repr(self.strategy)}, "
-
-        if self.system_key is not None:
-            result += f"system_key={repr(self.system_key)}"
+        if self.custom_encryption_context is not None:
+            result += (
+                f"custom_encryption_context={repr(self.custom_encryption_context)}"
+            )
 
         return result + ")"
 
     def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, InitializeMutationInput):
+        if not isinstance(other, MutableBranchKeyProperities):
             return False
         attributes: list[str] = [
-            "identifier",
-            "mutations",
-            "strategy",
-            "system_key",
+            "kms_arn",
+            "custom_encryption_context",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
-class InitializeMutationFlagCreated:
-    """This is a new mutation."""
+class MutationDetails:
+    original: MutableBranchKeyProperities
+    terminal: MutableBranchKeyProperities
+    input: Mutations
+    system_key: str
+    create_time: str
+    uuid: str
 
-    def __init__(self, value: str):
+    def __init__(
+        self,
+        *,
+        original: MutableBranchKeyProperities,
+        terminal: MutableBranchKeyProperities,
+        input: Mutations,
+        system_key: str,
+        create_time: str,
+        uuid: str,
+    ):
+        """
+        :param original: The original properities of the Branch Key.
+        :param terminal: The terminal properities of the Branch Key.
+        :param input: The input for this mutation.
+        :param system_key: String descprition of the System Key.
+        :param create_time: ISO 8601 time when the mutation was initialized.
+        :param uuid: UUID of the Mutation.
+        """
+        self.original = original
+        self.terminal = terminal
+        self.input = input
+        self.system_key = system_key
+        self.create_time = create_time
+        self.uuid = uuid
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the MutationDetails to a dictionary."""
+        return {
+            "original": self.original.as_dict(),
+            "terminal": self.terminal.as_dict(),
+            "input": self.input.as_dict(),
+            "system_key": self.system_key,
+            "create_time": self.create_time,
+            "uuid": self.uuid,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "MutationDetails":
+        """Creates a MutationDetails from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "original": MutableBranchKeyProperities.from_dict(d["original"]),
+            "terminal": MutableBranchKeyProperities.from_dict(d["terminal"]),
+            "input": Mutations.from_dict(d["input"]),
+            "system_key": d["system_key"],
+            "create_time": d["create_time"],
+            "uuid": d["uuid"],
+        }
+
+        return MutationDetails(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "MutationDetails("
+        if self.original is not None:
+            result += f"original={repr(self.original)}, "
+
+        if self.terminal is not None:
+            result += f"terminal={repr(self.terminal)}, "
+
+        if self.input is not None:
+            result += f"input={repr(self.input)}, "
+
+        if self.system_key is not None:
+            result += f"system_key={repr(self.system_key)}, "
+
+        if self.create_time is not None:
+            result += f"create_time={repr(self.create_time)}, "
+
+        if self.uuid is not None:
+            result += f"uuid={repr(self.uuid)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, MutationDetails):
+            return False
+        attributes: list[str] = [
+            "original",
+            "terminal",
+            "input",
+            "system_key",
+            "create_time",
+            "uuid",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class MutationDescription:
+    mutation_details: MutationDetails
+    mutation_token: MutationToken
+
+    def __init__(
+        self,
+        *,
+        mutation_details: MutationDetails,
+        mutation_token: MutationToken,
+    ):
+        """
+        :param mutation_details: Detailed description of the Mutation for this Branch
+        Key.
+        :param mutation_token: This token can be passed to Apply Mutation to continue
+        the Mutation.
+        """
+        self.mutation_details = mutation_details
+        self.mutation_token = mutation_token
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the MutationDescription to a dictionary."""
+        return {
+            "mutation_details": self.mutation_details.as_dict(),
+            "mutation_token": self.mutation_token.as_dict(),
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "MutationDescription":
+        """Creates a MutationDescription from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "mutation_details": MutationDetails.from_dict(d["mutation_details"]),
+            "mutation_token": MutationToken.from_dict(d["mutation_token"]),
+        }
+
+        return MutationDescription(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "MutationDescription("
+        if self.mutation_details is not None:
+            result += f"mutation_details={repr(self.mutation_details)}, "
+
+        if self.mutation_token is not None:
+            result += f"mutation_token={repr(self.mutation_token)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, MutationDescription):
+            return False
+        attributes: list[str] = [
+            "mutation_details",
+            "mutation_token",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class MutationInFlightYes:
+    def __init__(self, value: MutationDescription):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
-        return {"Created": self.value}
+        return {"Yes": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "InitializeMutationFlagCreated":
+    def from_dict(d: Dict[str, Any]) -> "MutationInFlightYes":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
-        return InitializeMutationFlagCreated(d["Created"])
+        return MutationInFlightYes(MutationDescription.from_dict(d["Yes"]))
 
     def __repr__(self) -> str:
-        return f"InitializeMutationFlagCreated(value=repr(self.value))"
+        return f"MutationInFlightYes(value=repr(self.value))"
 
     def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, InitializeMutationFlagCreated):
+        if not isinstance(other, MutationInFlightYes):
             return False
         return self.value == other.value
 
 
-class InitializeMutationFlagResumed:
-    """A matching mutation already existed."""
-
+class MutationInFlightNo:
     def __init__(self, value: str):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
-        return {"Resumed": self.value}
+        return {"No": self.value}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "InitializeMutationFlagResumed":
+    def from_dict(d: Dict[str, Any]) -> "MutationInFlightNo":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
-        return InitializeMutationFlagResumed(d["Resumed"])
+        return MutationInFlightNo(d["No"])
 
     def __repr__(self) -> str:
-        return f"InitializeMutationFlagResumed(value=repr(self.value))"
+        return f"MutationInFlightNo(value=repr(self.value))"
 
     def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, InitializeMutationFlagResumed):
+        if not isinstance(other, MutationInFlightNo):
             return False
         return self.value == other.value
 
 
-class InitializeMutationFlagResumedWithoutIndex:
-    """A matching mutation already existed, but no Page Index was found."""
-
-    def __init__(self, value: str):
-        self.value = value
-
-    def as_dict(self) -> Dict[str, Any]:
-        return {"ResumedWithoutIndex": self.value}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "InitializeMutationFlagResumedWithoutIndex":
-        if len(d) != 1:
-            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-
-        return InitializeMutationFlagResumedWithoutIndex(d["ResumedWithoutIndex"])
-
-    def __repr__(self) -> str:
-        return f"InitializeMutationFlagResumedWithoutIndex(value=repr(self.value))"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, InitializeMutationFlagResumedWithoutIndex):
-            return False
-        return self.value == other.value
-
-
-class InitializeMutationFlagUnknown:
+class MutationInFlightUnknown:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to
@@ -1312,47 +1296,200 @@ class InitializeMutationFlagUnknown:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "InitializeMutationFlagUnknown":
+    def from_dict(d: Dict[str, Any]) -> "MutationInFlightUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return InitializeMutationFlagUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return MutationInFlightUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"InitializeMutationFlagUnknown(tag={self.tag})"
+        return f"MutationInFlightUnknown(tag={self.tag})"
 
 
-InitializeMutationFlag = Union[
-    InitializeMutationFlagCreated,
-    InitializeMutationFlagResumed,
-    InitializeMutationFlagResumedWithoutIndex,
-    InitializeMutationFlagUnknown,
+# If a Mutation is In Flight for this Branch Key.
+MutationInFlight = Union[
+    MutationInFlightYes, MutationInFlightNo, MutationInFlightUnknown
 ]
 
 
-def _initialize_mutation_flag_from_dict(d: Dict[str, Any]) -> InitializeMutationFlag:
-    if "Created" in d:
-        return InitializeMutationFlagCreated.from_dict(d)
+def _mutation_in_flight_from_dict(d: Dict[str, Any]) -> MutationInFlight:
+    if "Yes" in d:
+        return MutationInFlightYes.from_dict(d)
 
-    if "Resumed" in d:
-        return InitializeMutationFlagResumed.from_dict(d)
-
-    if "ResumedWithoutIndex" in d:
-        return InitializeMutationFlagResumedWithoutIndex.from_dict(d)
+    if "No" in d:
+        return MutationInFlightNo.from_dict(d)
 
     raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+
+class DescribeMutationOutput:
+    mutation_in_flight: MutationInFlight
+
+    def __init__(
+        self,
+        *,
+        mutation_in_flight: MutationInFlight,
+    ):
+        """
+        :param mutation_in_flight: If a Mutation is In Flight for this Branch Key.
+        """
+        self.mutation_in_flight = mutation_in_flight
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the DescribeMutationOutput to a dictionary."""
+        return {
+            "mutation_in_flight": self.mutation_in_flight.as_dict(),
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "DescribeMutationOutput":
+        """Creates a DescribeMutationOutput from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "mutation_in_flight": _mutation_in_flight_from_dict(
+                d["mutation_in_flight"]
+            ),
+        }
+
+        return DescribeMutationOutput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "DescribeMutationOutput("
+        if self.mutation_in_flight is not None:
+            result += f"mutation_in_flight={repr(self.mutation_in_flight)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, DescribeMutationOutput):
+            return False
+        attributes: list[str] = [
+            "mutation_in_flight",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class InitializeMutationInput:
+    identifier: str
+    mutations: Mutations
+    strategy: Optional[KeyManagementStrategy]
+    system_key: Optional[SystemKey]
+    do_not_version: Optional[bool]
+
+    def __init__(
+        self,
+        *,
+        identifier: str,
+        mutations: Mutations,
+        strategy: Optional[KeyManagementStrategy] = None,
+        system_key: Optional[SystemKey] = None,
+        do_not_version: Optional[bool] = None,
+    ):
+        """
+        :param identifier: The identifier for the Branch Key to be mutated.
+        :param mutations: Describes the Mutation that will be applied to all Items of
+        the Branch Key.
+        :param strategy: Optional. Defaults to reEncrypt with a default KMS Client.
+        :param system_key: Optional. Defaults to TrustStorage. See System Key.
+        :param do_not_version: Optional. Defaults to False. As of v1.8.0, setting this
+        true throws an exception.
+        """
+        self.identifier = identifier
+        self.mutations = mutations
+        self.strategy = strategy
+        self.system_key = system_key
+        self.do_not_version = do_not_version
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the InitializeMutationInput to a dictionary."""
+        d: Dict[str, Any] = {
+            "identifier": self.identifier,
+            "mutations": self.mutations.as_dict(),
+        }
+
+        if self.strategy is not None:
+            d["strategy"] = self.strategy.as_dict()
+
+        if self.system_key is not None:
+            d["system_key"] = self.system_key.as_dict()
+
+        if self.do_not_version is not None:
+            d["do_not_version"] = self.do_not_version
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "InitializeMutationInput":
+        """Creates a InitializeMutationInput from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "identifier": d["identifier"],
+            "mutations": Mutations.from_dict(d["mutations"]),
+        }
+
+        if "strategy" in d:
+            kwargs["strategy"] = (_key_management_strategy_from_dict(d["strategy"]),)
+
+        if "system_key" in d:
+            kwargs["system_key"] = (_system_key_from_dict(d["system_key"]),)
+
+        if "do_not_version" in d:
+            kwargs["do_not_version"] = d["do_not_version"]
+
+        return InitializeMutationInput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "InitializeMutationInput("
+        if self.identifier is not None:
+            result += f"identifier={repr(self.identifier)}, "
+
+        if self.mutations is not None:
+            result += f"mutations={repr(self.mutations)}, "
+
+        if self.strategy is not None:
+            result += f"strategy={repr(self.strategy)}, "
+
+        if self.system_key is not None:
+            result += f"system_key={repr(self.system_key)}, "
+
+        if self.do_not_version is not None:
+            result += f"do_not_version={repr(self.do_not_version)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, InitializeMutationInput):
+            return False
+        attributes: list[str] = [
+            "identifier",
+            "mutations",
+            "strategy",
+            "system_key",
+            "do_not_version",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class InitializeMutationFlag:
+    CREATED = "Created"
+
+    RESUMED = "Resumed"
+
+    RESUMED_WITHOUT_INDEX = "ResumedWithoutIndex"
+
+    # This set contains every possible value known at the time this was generated. New
+    # values may be added in the future.
+    values = frozenset({"Created", "Resumed", "ResumedWithoutIndex"})
 
 
 class InitializeMutationOutput:
     mutation_token: MutationToken
     mutated_branch_key_items: list[MutatedBranchKeyItem]
-    initialize_mutation_flag: InitializeMutationFlag
+    initialize_mutation_flag: str
 
     def __init__(
         self,
         *,
         mutation_token: MutationToken,
         mutated_branch_key_items: list[MutatedBranchKeyItem],
-        initialize_mutation_flag: InitializeMutationFlag,
+        initialize_mutation_flag: str,
     ):
         """
         :param mutation_token: Pass the Mutation Token to the Apply Mutation operation
@@ -1371,7 +1508,7 @@ class InitializeMutationOutput:
             "mutated_branch_key_items": _mutated_branch_key_items_as_dict(
                 self.mutated_branch_key_items
             ),
-            "initialize_mutation_flag": self.initialize_mutation_flag.as_dict(),
+            "initialize_mutation_flag": self.initialize_mutation_flag,
         }
 
     @staticmethod
@@ -1382,9 +1519,7 @@ class InitializeMutationOutput:
             "mutated_branch_key_items": _mutated_branch_key_items_from_dict(
                 d["mutated_branch_key_items"]
             ),
-            "initialize_mutation_flag": _initialize_mutation_flag_from_dict(
-                d["initialize_mutation_flag"]
-            ),
+            "initialize_mutation_flag": d["initialize_mutation_flag"],
         }
 
         return InitializeMutationOutput(**kwargs)

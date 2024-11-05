@@ -8,19 +8,18 @@ import java.util.Objects;
 /**
  * Key Store Admin protects any non-cryptographic
  * items stored with this Key.
+ * As of v1.8.0, TrustStorage is the default behavior.
  */
 public class SystemKey {
 
   /**
-   * Include all attributes of an item as Encryption Context
-   * in a KMS Encrypt or Decrypt call,
-   * effectively signing the attributes.
+   * A KMS AES Symmetric Key is used to sign (via Encryption Context) or encrypt the item.
    */
   private final KmsAes kmsAes;
 
   /**
-   * The Storage is trusted enough
-   * for non-cryptographic items.
+   * The Storage is trusted enough for items of a non-cryptographic material nature,
+   *   even if those items can effect the cryptographic materials.
    */
   private final TrustStorage trustStorage;
 
@@ -30,17 +29,15 @@ public class SystemKey {
   }
 
   /**
-   * @return Include all attributes of an item as Encryption Context
-   * in a KMS Encrypt or Decrypt call,
-   * effectively signing the attributes.
+   * @return A KMS AES Symmetric Key is used to sign (via Encryption Context) or encrypt the item.
    */
   public KmsAes kmsAes() {
     return this.kmsAes;
   }
 
   /**
-   * @return The Storage is trusted enough
-   * for non-cryptographic items.
+   * @return The Storage is trusted enough for items of a non-cryptographic material nature,
+   *   even if those items can effect the cryptographic materials.
    */
   public TrustStorage trustStorage() {
     return this.trustStorage;
@@ -56,28 +53,24 @@ public class SystemKey {
 
   public interface Builder {
     /**
-     * @param kmsAes Include all attributes of an item as Encryption Context
-     * in a KMS Encrypt or Decrypt call,
-     * effectively signing the attributes.
+     * @param kmsAes A KMS AES Symmetric Key is used to sign (via Encryption Context) or encrypt the item.
      */
     Builder kmsAes(KmsAes kmsAes);
 
     /**
-     * @return Include all attributes of an item as Encryption Context
-     * in a KMS Encrypt or Decrypt call,
-     * effectively signing the attributes.
+     * @return A KMS AES Symmetric Key is used to sign (via Encryption Context) or encrypt the item.
      */
     KmsAes kmsAes();
 
     /**
-     * @param trustStorage The Storage is trusted enough
-     * for non-cryptographic items.
+     * @param trustStorage The Storage is trusted enough for items of a non-cryptographic material nature,
+     *   even if those items can effect the cryptographic materials.
      */
     Builder trustStorage(TrustStorage trustStorage);
 
     /**
-     * @return The Storage is trusted enough
-     * for non-cryptographic items.
+     * @return The Storage is trusted enough for items of a non-cryptographic material nature,
+     *   even if those items can effect the cryptographic materials.
      */
     TrustStorage trustStorage();
 

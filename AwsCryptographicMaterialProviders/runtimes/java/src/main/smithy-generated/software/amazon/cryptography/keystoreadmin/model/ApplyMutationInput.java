@@ -13,8 +13,8 @@ public class ApplyMutationInput {
    * For Default DynamoDB Table Storage, the maximum page size is 99.
    *   At most, Apply Mutation will mutate pageSize Items.
    *   Note that, at least for Storage:DynamoDBTable,
-   *   an additional "item" is consumed by the Mutation Lock verification.
-   *   Thus, if the pageSize is 24, 25 requests will be sent in the Transact Write Request.
+   *   two additional "item" are consumed by the Mutation Commitment and Mutation Index verification.
+   *   Thus, if the pageSize is 24, 26 requests will be sent in the Transact Write Request.
    */
   private final Integer PageSize;
 
@@ -24,8 +24,7 @@ public class ApplyMutationInput {
   private final KeyManagementStrategy Strategy;
 
   /**
-   * Key Store Admin protects any non-cryptographic
-   * items stored with this Key.
+   * Optional. Defaults to TrustStorage. See System Key.
    */
   private final SystemKey SystemKey;
 
@@ -44,8 +43,8 @@ public class ApplyMutationInput {
    * @return For Default DynamoDB Table Storage, the maximum page size is 99.
    *   At most, Apply Mutation will mutate pageSize Items.
    *   Note that, at least for Storage:DynamoDBTable,
-   *   an additional "item" is consumed by the Mutation Lock verification.
-   *   Thus, if the pageSize is 24, 25 requests will be sent in the Transact Write Request.
+   *   two additional "item" are consumed by the Mutation Commitment and Mutation Index verification.
+   *   Thus, if the pageSize is 24, 26 requests will be sent in the Transact Write Request.
    */
   public Integer PageSize() {
     return this.PageSize;
@@ -59,8 +58,7 @@ public class ApplyMutationInput {
   }
 
   /**
-   * @return Key Store Admin protects any non-cryptographic
-   * items stored with this Key.
+   * @return Optional. Defaults to TrustStorage. See System Key.
    */
   public SystemKey SystemKey() {
     return this.SystemKey;
@@ -83,8 +81,8 @@ public class ApplyMutationInput {
      * @param PageSize For Default DynamoDB Table Storage, the maximum page size is 99.
      *   At most, Apply Mutation will mutate pageSize Items.
      *   Note that, at least for Storage:DynamoDBTable,
-     *   an additional "item" is consumed by the Mutation Lock verification.
-     *   Thus, if the pageSize is 24, 25 requests will be sent in the Transact Write Request.
+     *   two additional "item" are consumed by the Mutation Commitment and Mutation Index verification.
+     *   Thus, if the pageSize is 24, 26 requests will be sent in the Transact Write Request.
      */
     Builder PageSize(Integer PageSize);
 
@@ -92,8 +90,8 @@ public class ApplyMutationInput {
      * @return For Default DynamoDB Table Storage, the maximum page size is 99.
      *   At most, Apply Mutation will mutate pageSize Items.
      *   Note that, at least for Storage:DynamoDBTable,
-     *   an additional "item" is consumed by the Mutation Lock verification.
-     *   Thus, if the pageSize is 24, 25 requests will be sent in the Transact Write Request.
+     *   two additional "item" are consumed by the Mutation Commitment and Mutation Index verification.
+     *   Thus, if the pageSize is 24, 26 requests will be sent in the Transact Write Request.
      */
     Integer PageSize();
 
@@ -108,14 +106,12 @@ public class ApplyMutationInput {
     KeyManagementStrategy Strategy();
 
     /**
-     * @param SystemKey Key Store Admin protects any non-cryptographic
-     * items stored with this Key.
+     * @param SystemKey Optional. Defaults to TrustStorage. See System Key.
      */
     Builder SystemKey(SystemKey SystemKey);
 
     /**
-     * @return Key Store Admin protects any non-cryptographic
-     * items stored with this Key.
+     * @return Optional. Defaults to TrustStorage. See System Key.
      */
     SystemKey SystemKey();
 
@@ -181,11 +177,6 @@ public class ApplyMutationInput {
       if (Objects.isNull(this.MutationToken())) {
         throw new IllegalArgumentException(
           "Missing value for required field `MutationToken`"
-        );
-      }
-      if (Objects.isNull(this.SystemKey())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `SystemKey`"
         );
       }
       return new ApplyMutationInput(this);

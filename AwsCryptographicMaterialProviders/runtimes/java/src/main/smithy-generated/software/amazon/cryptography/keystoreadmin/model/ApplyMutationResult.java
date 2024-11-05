@@ -13,7 +13,7 @@ public class ApplyMutationResult {
   private final MutationToken ContinueMutation;
 
   /**
-   * All items have been mutated; the Mutation Lock has been removed. The mutation is complete.
+   * All items have been mutated. The mutation is complete.
    */
   private final MutationComplete CompleteMutation;
 
@@ -30,7 +30,7 @@ public class ApplyMutationResult {
   }
 
   /**
-   * @return All items have been mutated; the Mutation Lock has been removed. The mutation is complete.
+   * @return All items have been mutated. The mutation is complete.
    */
   public MutationComplete CompleteMutation() {
     return this.CompleteMutation;
@@ -56,12 +56,12 @@ public class ApplyMutationResult {
     MutationToken ContinueMutation();
 
     /**
-     * @param CompleteMutation All items have been mutated; the Mutation Lock has been removed. The mutation is complete.
+     * @param CompleteMutation All items have been mutated. The mutation is complete.
      */
     Builder CompleteMutation(MutationComplete CompleteMutation);
 
     /**
-     * @return All items have been mutated; the Mutation Lock has been removed. The mutation is complete.
+     * @return All items have been mutated. The mutation is complete.
      */
     MutationComplete CompleteMutation();
 
