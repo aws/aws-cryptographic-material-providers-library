@@ -46,15 +46,17 @@ service KeyStoreAdmin {
     DescribeMutation
   ],
   errors: [
-    KeyStoreAdminException,
-    MutationConflictException,
-    MutationInvalidException,
+    KeyStoreAdminException
+    MutationConflictException
+    MutationInvalidException
+    aws.cryptography.keyStore#KeyStorageException
     aws.cryptography.keyStore#VersionRaceException
     MutationLockInvalidException
     UnexpectedStateException
     MutationFromException
     MutationToException
     MutationVerificationException
+    UnsupportedFeatureException
   ]
 }
 
@@ -120,9 +122,11 @@ structure KmsAes {
 for non-cryptographic items.")
 structure TrustStorage {}
 
+// TODO: verify version before release
 @documentation(
 "Key Store Admin protects any non-cryptographic
-items stored with this Key.")
+items stored with this Key.
+As of v1.8.0, TrustStorage is the default behavior.")
 union SystemKey {
   kmsAes: KmsAes
   trustStorage: TrustStorage
@@ -172,6 +176,10 @@ Additionally create a Beacon Key that is tied to this Branch Key.")
 operation CreateKey {
   input: CreateKeyInput,
   output: CreateKeyOutput
+  errors: [
+    aws.cryptography.keyStore#KeyStorageException
+    KeyStoreAdminException
+  ]
 }
 
 structure CreateKeyInput {
@@ -208,7 +216,11 @@ structure CreateKeyOutput {
 operation VersionKey {
   input: VersionKeyInput,
   output: VersionKeyOutput,
-  errors: [aws.cryptography.keyStore#VersionRaceException]
+  errors: [
+    aws.cryptography.keyStore#VersionRaceException
+    aws.cryptography.keyStore#KeyStorageException
+    KeyStoreAdminException    
+  ]
 }
 
 
@@ -243,9 +255,11 @@ operation InitializeMutation {
     MutationConflictException
     MutationInvalidException
     aws.cryptography.keyStore#VersionRaceException
+    aws.cryptography.keyStore#KeyStorageException
     MutationVerificationException
     MutationToException
     MutationFromException
+    UnsupportedFeatureException
   ]
 }
 
@@ -261,8 +275,11 @@ structure InitializeMutationInput {
   @documentation("Optional. Defaults to reEncrypt with a default KMS Client.")
   Strategy: KeyManagementStrategy
 
-  @required
+  @documentation("Optional. Defaults to TrustStorage. See System Key.")
   SystemKey: SystemKey
+
+  @documentation("Optional. Defaults to False. As of v1.8.0, setting this true throws an exception.")
+  DoNotVersion: Boolean
 }
 
 structure MutationToken {
@@ -278,14 +295,20 @@ structure MutationToken {
   CreateTime: String
 }
 
-union InitializeMutationFlag {
-  @documentation("This is a new mutation.")
-  Created: String
-  @documentation("A matching mutation already existed.")
-  Resumed: String
-  @documentation("A matching mutation already existed, but no Page Index was found.")
-  ResumedWithoutIndex: String
-}
+@enum([
+  { // "This is a new mutation."
+    name: "Created",
+    value: "Created"
+  },
+  { // "A matching mutation already existed."
+    name: "Resumed",
+    value: "Resumed"
+  },
+  { // "A matching mutation already existed, but no Page Index was found."
+    name: "ResumedWithoutIndex",
+    value: "ResumedWithoutIndex"
+  }])
+string InitializeMutationFlag
 
 structure MutatedBranchKeyItem {
   @required
@@ -343,11 +366,13 @@ operation ApplyMutation {
   input:  ApplyMutationInput
   output: ApplyMutationOutput
   errors: [
+    aws.cryptography.keyStore#KeyStorageException
     MutationLockInvalidException
     UnexpectedStateException
     MutationVerificationException
     MutationToException
     MutationFromException
+    KeyStoreAdminException
   ]
 }
 
@@ -366,7 +391,7 @@ structure ApplyMutationInput {
   @documentation("Optional. Defaults to reEncrypt with a default KMS Client.")
   Strategy: KeyManagementStrategy
 
-  @required
+  @documentation("Optional. Defaults to TrustStorage. See System Key.")
   SystemKey: SystemKey
 }
 
@@ -407,6 +432,11 @@ If one exists, return a description of the mutation.")
 operation DescribeMutation {
   input:  DescribeMutationInput
   output: DescribeMutationOutput
+  errors: [
+    KeyStoreAdminException
+    aws.cryptography.keyStore#KeyStorageException
+    UnsupportedFeatureException
+  ]
 }
 
 structure DescribeMutationInput {
@@ -415,12 +445,29 @@ structure DescribeMutationInput {
   Identifier: String
 }
 
-structure DescribeMutationOutput {
+structure MutationDescription {
+  @required
   @documentation("The original properities of the Branch Key.")
   Original: MutableBranchKeyProperities
-
+  @required
   @documentation("The terminal properities of the Branch Key.")
   Terminal: MutableBranchKeyProperities
+  @required
+  @documentation("The input for this mutation.")
+  Input: Mutations
+  @documentation("String descprition of the System Key.")
+  SystemKey: String
+}
+
+@documentation("If a Mutation is In Flight for this Branch Key.")
+union MutationInFlight {
+  Yes: MutationDescription
+  No: String
+}
+
+structure DescribeMutationOutput {
+  @required
+  MutationInFlight: MutationInFlight
 }
 
 // Errors
@@ -508,6 +555,13 @@ structure MutationToException {
 an item from original to terminal.
 Possibly, access to the terminal KMS Key was withdrawn.")
 structure MutationFromException {
+  @required
+  message: String,
+}
+
+@error("client")
+@documentation("This feature is not yet implemented.")
+structure UnsupportedFeatureException {
   @required
   message: String,
 }
