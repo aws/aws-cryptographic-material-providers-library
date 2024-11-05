@@ -433,11 +433,11 @@ class MutationCommitment:
         :param identifier: The Branch Key under Mutation.
         :param create_time: The create time as an ISO 8061 UTC string.
         :param uuid: A unique identifier for the Mutation.
-        :param original: A commitment of the Original Mutable Properities of the Branch
+        :param original: A commitment of the Original Mutable Properties of the Branch
         Key.
-        :param terminal: A commitment of the Terminal Mutable Properities of the Branch
+        :param terminal: A commitment of the Terminal Mutable Properties of the Branch
         Key.
-        :param input: Description of the input to Initizlize Mutation.
+        :param input: Description of the input to initialize a Mutation.
         """
         self.identifier = identifier
         self.create_time = create_time
@@ -1526,7 +1526,7 @@ class MutationIndex:
         page_index: bytes | bytearray,
         ciphertext_blob: bytes | bytearray,
     ):
-        """Information on an in-flight Mutation of a Branch Key.
+        """Information of an in-flight Mutation of a Branch Key.
 
         :param identifier: The Branch Key under Mutation.
         :param create_time: The create time as an ISO 8061 UTC string.
@@ -2212,14 +2212,14 @@ class QueryForVersionsInput:
         :param exclusive_start_key: Optional.
           If set, Query will start at this index
         and read forward.
-          Otherwise, Query will start at the indexes begining.
-          The
-        Default Storage is DDB;
-          see Amazon DynamoDB's defination of exclusiveStartKey
-        for details.
+          Otherwise, Query will start at the indexes beginning.
+
+        The Default Storage is DDB;
+          see Amazon DynamoDB's definition of
+        exclusiveStartKey for details.
           Note: While the Default Storage is DDB,
-          the Key Store
-        transforms the exclusiveStartKey into an opaque representation.
+          the
+        Key Store transforms the exclusiveStartKey into an opaque representation.
         """
         self.identifier = identifier
         self.page_size = page_size
@@ -2290,7 +2290,7 @@ class QueryForVersionsOutput:
           Next Query should resume from here.
           The Default Storage is DDB;
 
-        see Amazon DynamoDB's defination of exclusiveStartKey for details.
+        see Amazon DynamoDB's definition of exclusiveStartKey for details.
           Note: While
         the Default Storage is DDB,
           the Key Store transforms the exclusiveStartKey
@@ -2520,13 +2520,13 @@ class WriteAtomicMutationInput:
         :param active:
           The active representation of this branch key,
           generated with
-        the Mutation's terminal properities.
-          The plain-text cryptographic material
-        of the Active must be the same as the Version.
+        the Mutation's terminal properties.
+          The plain-text cryptographic material of
+        the Active must be the same as the Version.
         :param version:
           The decrypt representation of this branch key version,
 
-        generated with the Mutation's terminal properities.
+        generated with the Mutation's terminal properties.
           The plain-text
         cryptographic material of the `Version` must be the same as the `Active`.
         :param beacon:
@@ -2534,7 +2534,7 @@ class WriteAtomicMutationInput:
 
         The cryptographic material is identical to the existing beacon,
           but is now
-        authorized with the Mutation's terminal properities.
+        authorized with the Mutation's terminal properties.
         :param items: List of version (decrypt only) items of a Branch Key to overwrite
         conditionally.
         """
@@ -2631,13 +2631,13 @@ class WriteInitializeMutationInput:
         :param active:
           The active representation of this branch key,
           generated with
-        the Mutation's terminal properities.
-          The plain-text cryptographic material
-        of the Active must be the same as the Version.
+        the Mutation's terminal properties.
+          The plain-text cryptographic material of
+        the Active must be the same as the Version.
         :param version:
           The decrypt representation of this branch key version,
 
-        generated with the Mutation's terminal properities.
+        generated with the Mutation's terminal properties.
           The plain-text
         cryptographic material of the `Version` must be the same as the `Active`.
         :param beacon:
@@ -2645,14 +2645,14 @@ class WriteInitializeMutationInput:
 
         The cryptographic material is identical to the existing beacon,
           but is now
-        authorized with the Mutation's terminal properities.
+        authorized with the Mutation's terminal properties.
         :param mutation_commitment: Information on an in-flight Mutation of a Branch
         Key.
         This ensures:
         - only one Mutation affects a Branch Key at a time
         - all
         items of a Branch Key are mutated consistently
-        :param mutation_index: Information on an in-flight Mutation of a Branch Key.
+        :param mutation_index: Information of an in-flight Mutation of a Branch Key.
         """
         self.active = active
         self.version = version
@@ -2746,10 +2746,10 @@ class OverWriteMutationIndex:
         index: MutationIndex,
         old: MutationIndex,
     ):
-        """To avoid information loss, overwrites to any itme in the Key Store
+        """To avoid information loss, overwrites to any item in the Key Store
         are done conditioned on the old value.
 
-        :param index: Information on an in-flight Mutation of a Branch
+        :param index: Information of an in-flight Mutation of a Branch
             Key.
         :param old: The previous item. Used to construct an optimistic
             lock for the overwrite.
@@ -2817,7 +2817,7 @@ class WriteMutatedVersionsInput:
         - only one Mutation affects a Branch Key at a time
         - all
         items of a Branch Key are mutated consistently
-        :param mutation_index: To avoid information loss, overwrites to any itme in the
+        :param mutation_index: To avoid information loss, overwrites to any item in the
         Key Store
         are done conditioned on the old value.
         """
@@ -2913,7 +2913,7 @@ class WriteMutationIndexInput:
         - only one Mutation affects a Branch Key at a time
         - all
         items of a Branch Key are mutated consistently
-        :param mutation_index: Information on an in-flight Mutation of a Branch Key.
+        :param mutation_index: Information of an in-flight Mutation of a Branch Key.
         """
         self.mutation_commitment = mutation_commitment
         self.mutation_index = mutation_index

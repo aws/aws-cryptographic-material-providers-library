@@ -16,7 +16,7 @@ public class WriteMutationIndexInput {
   private final MutationCommitment MutationCommitment;
 
   /**
-   * Information on an in-flight Mutation of a Branch Key.
+   * Information of an in-flight Mutation of a Branch Key.
    */
   private final MutationIndex MutationIndex;
 
@@ -36,7 +36,7 @@ public class WriteMutationIndexInput {
   }
 
   /**
-   * @return Information on an in-flight Mutation of a Branch Key.
+   * @return Information of an in-flight Mutation of a Branch Key.
    */
   public MutationIndex MutationIndex() {
     return this.MutationIndex;
@@ -68,12 +68,12 @@ public class WriteMutationIndexInput {
     MutationCommitment MutationCommitment();
 
     /**
-     * @param MutationIndex Information on an in-flight Mutation of a Branch Key.
+     * @param MutationIndex Information of an in-flight Mutation of a Branch Key.
      */
     Builder MutationIndex(MutationIndex MutationIndex);
 
     /**
-     * @return Information on an in-flight Mutation of a Branch Key.
+     * @return Information of an in-flight Mutation of a Branch Key.
      */
     MutationIndex MutationIndex();
 

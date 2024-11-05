@@ -36,6 +36,20 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   function {:opaque} MutationLie(): set<object>
   {{}}
 
+  function method DefaultSystemKey(
+    input: Option<Types.SystemKey> := None
+  ): (output: Types.SystemKey)
+  {
+    if input.None? then Types.SystemKey.trustStorage(TrustStorage()) else input.value
+  }
+
+  function method DefaultInitializeMutationDoNotVersion(
+    input: Option<bool> := None
+  ): (output: bool)
+  {
+    if input.None? then false else input.value
+  }
+
   function ModifiesInternalConfig(config: InternalConfig) : set<object>
   {
     config.storage.Modifies + MutationLie()
@@ -161,7 +175,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
 
   function method LegacyConfig(
     keyManagerStrat: KmsUtils.keyManagerStrat,
-    kmsArn: Types.KmsAesIdentifier,
+    kmsArn: Types.KmsSymmetricKeyArn,
     config: InternalConfig
   ): (output: Result<KeyStoreOperations.Config, Error>)
     requires ValidInternalConfig?(config)
@@ -280,8 +294,18 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
     assume {:axiom} keyManagerStrat.reEncrypt.kmsClient.Modifies < MutationLie();
 
-    var _ :- Mutations.ValidateInitializeMutationInput(input, config.logicalKeyStoreName);
-    output := Mutations.InitializeMutation(input, config.logicalKeyStoreName, keyManagerStrat, config.storage);
+    var internalInput := Mutations.InternalInitializeMutationInput(
+      Identifier := input.Identifier,
+      Mutations := input.Mutations,
+      SystemKey := DefaultSystemKey(input.SystemKey),
+      DoNotVersion := DefaultInitializeMutationDoNotVersion(input.DoNotVersion),
+      logicalKeyStoreName := config.logicalKeyStoreName,
+      keyManagerStrategy := keyManagerStrat,
+      storage := config.storage
+    );
+
+    internalInput :- Mutations.ValidateInitializeMutationInput(internalInput);
+    output := Mutations.InitializeMutation(internalInput);
     return output;
   }
 

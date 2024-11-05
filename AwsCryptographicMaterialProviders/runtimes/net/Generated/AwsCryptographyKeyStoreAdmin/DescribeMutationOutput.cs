@@ -7,28 +7,19 @@ namespace AWS.Cryptography.KeyStoreAdmin
 {
   public class DescribeMutationOutput
   {
-    private AWS.Cryptography.KeyStoreAdmin.MutableBranchKeyProperities _original;
-    private AWS.Cryptography.KeyStoreAdmin.MutableBranchKeyProperities _terminal;
-    public AWS.Cryptography.KeyStoreAdmin.MutableBranchKeyProperities Original
+    private AWS.Cryptography.KeyStoreAdmin.MutationInFlight _mutationInFlight;
+    public AWS.Cryptography.KeyStoreAdmin.MutationInFlight MutationInFlight
     {
-      get { return this._original; }
-      set { this._original = value; }
+      get { return this._mutationInFlight; }
+      set { this._mutationInFlight = value; }
     }
-    public bool IsSetOriginal()
+    public bool IsSetMutationInFlight()
     {
-      return this._original != null;
-    }
-    public AWS.Cryptography.KeyStoreAdmin.MutableBranchKeyProperities Terminal
-    {
-      get { return this._terminal; }
-      set { this._terminal = value; }
-    }
-    public bool IsSetTerminal()
-    {
-      return this._terminal != null;
+      return this._mutationInFlight != null;
     }
     public void Validate()
     {
+      if (!IsSetMutationInFlight()) throw new System.ArgumentException("Missing value for required property 'MutationInFlight'");
 
     }
   }

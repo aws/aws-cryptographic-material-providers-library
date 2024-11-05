@@ -101,7 +101,7 @@ list OverWriteEncryptedHierarchicalKeys {
 }
 
 @documentation(
-"To avoid information loss, overwrites to any itme in the Key Store
+"To avoid information loss, overwrites to any item in the Key Store
 are done conditioned on the old value.")
 structure OverWriteMutationIndex {
   @required
@@ -130,22 +130,22 @@ structure MutationCommitment {
   UUID: String
 
   @required
-  @documentation("A commitment of the Original Mutable Properities of the Branch Key.")
+  @documentation("A commitment of the Original Mutable Properties of the Branch Key.")
   Original: Blob
 
   @required
-  @documentation("A commitment of the Terminal Mutable Properities of the Branch Key.")
+  @documentation("A commitment of the Terminal Mutable Properties of the Branch Key.")
   Terminal: Blob
 
   @required
-  @documentation("Description of the input to Initizlize Mutation.")
+  @documentation("Description of the input to initialize a Mutation.")
   Input: Blob 
 
   @required
   CiphertextBlob: Blob
 }
 
-@documentation("Information on an in-flight Mutation of a Branch Key.")
+@documentation("Information of an in-flight Mutation of a Branch Key.")
 structure MutationIndex {
   @required
   @documentation("The Branch Key under Mutation.")
@@ -256,9 +256,11 @@ operation GetKeyStorageInfo {
 }
 
 @documentation(
-"Gets the ACTIVE branch key and the beacon key,
-and looks for a Mutation Commitment & Index,
-returning them if found.")
+"Retrieves the items necessary to initialize a Mutation, 
+while checking for any in-flight Mutations.  
+These items are the ACTIVE branch key and the beacon key.
+If a Mutation is already in-flight for this Branch Key,
+the in-flight Mutation's Commitment and Index are also returned.")
 operation GetItemsForInitializeMutation {
   input: GetItemsForInitializeMutationInput
   output: GetItemsForInitializeMutationOutput
@@ -286,7 +288,7 @@ operation WriteInitializeMutation {
 @documentation(
 "Creates a Mutation Index, conditioned on the Mutation Commitment.
 Used in the edge case where the Commitment exists and Index does not.
-The Index may have been deleted to restart the mutation from the very begining.
+The Index may have been deleted to restart the mutation from the very beginning.
 ")
 operation WriteMutationIndex {
   input: WriteMutationIndexInput
@@ -329,9 +331,16 @@ operation QueryForVersions {
 in the terminal state of a Mutation,
 a page of version (decrypt only) items,
 conditioned on:
-- every version already exsisting
-- every version's enc has not changed
+- every version already existing
+- every version's cipher-text had not changed
 - the Mutation Commitment has not changed
+
+If the Mutation is complete,
+the Mutation Index and Mutation Commitment are deleted.
+Otherwise,
+the Mutation Index is updated,
+conditioned on it not having been changed since
+it was last read.
 ")
 operation WriteMutatedVersions {
   input: WriteMutatedVersionsInput
@@ -509,20 +518,20 @@ structure WriteInitializeMutationInput {
   @required
   @documentation("
   The active representation of this branch key,
-  generated with the Mutation's terminal properities.  
+  generated with the Mutation's terminal properties.
   The plain-text cryptographic material of the Active must be the same as the Version.")
   Active: OverWriteEncryptedHierarchicalKey,
   @required
   @documentation("
   The decrypt representation of this branch key version,
-  generated with the Mutation's terminal properities.  
+  generated with the Mutation's terminal properties.
   The plain-text cryptographic material of the `Version` must be the same as the `Active`.")
   Version: WriteInitializeMutationVersion,
   @required
   @documentation("
   The mutated HMAC key used to support searchable encryption.
   The cryptographic material is identical to the existing beacon,
-  but is now authorized with the Mutation's terminal properities.")
+  but is now authorized with the Mutation's terminal properties.")
   Beacon: OverWriteEncryptedHierarchicalKey,
   @required // Smithy will copy documentation traits from existing shapes
   MutationCommitment: MutationCommitment
@@ -543,20 +552,20 @@ structure WriteAtomicMutationInput {
   @required
   @documentation("
   The active representation of this branch key,
-  generated with the Mutation's terminal properities.  
+  generated with the Mutation's terminal properties.
   The plain-text cryptographic material of the Active must be the same as the Version.")
   Active: OverWriteEncryptedHierarchicalKey,
   @required
   @documentation("
   The decrypt representation of this branch key version,
-  generated with the Mutation's terminal properities.  
+  generated with the Mutation's terminal properties.
   The plain-text cryptographic material of the `Version` must be the same as the `Active`.")
   Version: WriteInitializeMutationVersion,
   @required
   @documentation("
   The mutated HMAC key used to support searchable encryption.
   The cryptographic material is identical to the existing beacon,
-  but is now authorized with the Mutation's terminal properities.")
+  but is now authorized with the Mutation's terminal properties.")
   Beacon: OverWriteEncryptedHierarchicalKey
   @documentation(
   "List of version (decrypt only) items of a Branch Key to overwrite conditionally.")
@@ -569,9 +578,9 @@ structure QueryForVersionsInput {
   @documentation(
   "Optional.
   If set, Query will start at this index and read forward.  
-  Otherwise, Query will start at the indexes begining.
+  Otherwise, Query will start at the indexes beginning.
   The Default Storage is DDB;
-  see Amazon DynamoDB's defination of exclusiveStartKey for details.
+  see Amazon DynamoDB's definition of exclusiveStartKey for details.
   Note: While the Default Storage is DDB,
   the Key Store transforms the exclusiveStartKey into an opaque representation.")
   ExclusiveStartKey: Blob
@@ -588,7 +597,7 @@ structure QueryForVersionsOutput {
   "If none-empty, Query did not finish searching storage.  
   Next Query should resume from here.
   The Default Storage is DDB;
-  see Amazon DynamoDB's defination of exclusiveStartKey for details.
+  see Amazon DynamoDB's definition of exclusiveStartKey for details.
   Note: While the Default Storage is DDB,
   the Key Store transforms the exclusiveStartKey into an opaque representation.")
   @required

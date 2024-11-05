@@ -11,7 +11,7 @@ public class WriteAtomicMutationInput {
   /**
    *
    *   The active representation of this branch key,
-   *   generated with the Mutation's terminal properities.
+   *   generated with the Mutation's terminal properties.
    *   The plain-text cryptographic material of the Active must be the same as the Version.
    */
   private final OverWriteEncryptedHierarchicalKey Active;
@@ -19,7 +19,7 @@ public class WriteAtomicMutationInput {
   /**
    *
    *   The decrypt representation of this branch key version,
-   *   generated with the Mutation's terminal properities.
+   *   generated with the Mutation's terminal properties.
    *   The plain-text cryptographic material of the `Version` must be the same as the `Active`.
    */
   private final WriteInitializeMutationVersion Version;
@@ -28,7 +28,7 @@ public class WriteAtomicMutationInput {
    *
    *   The mutated HMAC key used to support searchable encryption.
    *   The cryptographic material is identical to the existing beacon,
-   *   but is now authorized with the Mutation's terminal properities.
+   *   but is now authorized with the Mutation's terminal properties.
    */
   private final OverWriteEncryptedHierarchicalKey Beacon;
 
@@ -47,7 +47,7 @@ public class WriteAtomicMutationInput {
   /**
    * @return
    *   The active representation of this branch key,
-   *   generated with the Mutation's terminal properities.
+   *   generated with the Mutation's terminal properties.
    *   The plain-text cryptographic material of the Active must be the same as the Version.
    */
   public OverWriteEncryptedHierarchicalKey Active() {
@@ -57,7 +57,7 @@ public class WriteAtomicMutationInput {
   /**
    * @return
    *   The decrypt representation of this branch key version,
-   *   generated with the Mutation's terminal properities.
+   *   generated with the Mutation's terminal properties.
    *   The plain-text cryptographic material of the `Version` must be the same as the `Active`.
    */
   public WriteInitializeMutationVersion Version() {
@@ -68,7 +68,7 @@ public class WriteAtomicMutationInput {
    * @return
    *   The mutated HMAC key used to support searchable encryption.
    *   The cryptographic material is identical to the existing beacon,
-   *   but is now authorized with the Mutation's terminal properities.
+   *   but is now authorized with the Mutation's terminal properties.
    */
   public OverWriteEncryptedHierarchicalKey Beacon() {
     return this.Beacon;
@@ -93,7 +93,7 @@ public class WriteAtomicMutationInput {
     /**
      * @param Active
      *   The active representation of this branch key,
-     *   generated with the Mutation's terminal properities.
+     *   generated with the Mutation's terminal properties.
      *   The plain-text cryptographic material of the Active must be the same as the Version.
      */
     Builder Active(OverWriteEncryptedHierarchicalKey Active);
@@ -101,7 +101,7 @@ public class WriteAtomicMutationInput {
     /**
      * @return
      *   The active representation of this branch key,
-     *   generated with the Mutation's terminal properities.
+     *   generated with the Mutation's terminal properties.
      *   The plain-text cryptographic material of the Active must be the same as the Version.
      */
     OverWriteEncryptedHierarchicalKey Active();
@@ -109,7 +109,7 @@ public class WriteAtomicMutationInput {
     /**
      * @param Version
      *   The decrypt representation of this branch key version,
-     *   generated with the Mutation's terminal properities.
+     *   generated with the Mutation's terminal properties.
      *   The plain-text cryptographic material of the `Version` must be the same as the `Active`.
      */
     Builder Version(WriteInitializeMutationVersion Version);
@@ -117,7 +117,7 @@ public class WriteAtomicMutationInput {
     /**
      * @return
      *   The decrypt representation of this branch key version,
-     *   generated with the Mutation's terminal properities.
+     *   generated with the Mutation's terminal properties.
      *   The plain-text cryptographic material of the `Version` must be the same as the `Active`.
      */
     WriteInitializeMutationVersion Version();
@@ -126,7 +126,7 @@ public class WriteAtomicMutationInput {
      * @param Beacon
      *   The mutated HMAC key used to support searchable encryption.
      *   The cryptographic material is identical to the existing beacon,
-     *   but is now authorized with the Mutation's terminal properities.
+     *   but is now authorized with the Mutation's terminal properties.
      */
     Builder Beacon(OverWriteEncryptedHierarchicalKey Beacon);
 
@@ -134,7 +134,7 @@ public class WriteAtomicMutationInput {
      * @return
      *   The mutated HMAC key used to support searchable encryption.
      *   The cryptographic material is identical to the existing beacon,
-     *   but is now authorized with the Mutation's terminal properities.
+     *   but is now authorized with the Mutation's terminal properties.
      */
     OverWriteEncryptedHierarchicalKey Beacon();
 

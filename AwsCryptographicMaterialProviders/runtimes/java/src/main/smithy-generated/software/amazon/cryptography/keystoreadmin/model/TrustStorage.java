@@ -4,8 +4,8 @@
 package software.amazon.cryptography.keystoreadmin.model;
 
 /**
- * The Storage is trusted enough
- * for non-cryptographic items.
+ * The Storage is trusted enough for items of non-cryptographic material nature,
+ * even if those items can affect the cryptographic materials.
  */
 public class TrustStorage {
 

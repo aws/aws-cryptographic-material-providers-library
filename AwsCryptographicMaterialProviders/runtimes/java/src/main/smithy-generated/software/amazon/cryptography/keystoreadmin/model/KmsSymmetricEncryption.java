@@ -7,23 +7,24 @@ import java.util.Objects;
 import software.amazon.cryptography.keystore.model.AwsKms;
 
 /**
- * Include all attributes of an item as Encryption Context
+ * Items of non-cryptographic material nature are protected by KMS.
+ * This is done by including all attributes of an item as Encryption Context
  * in a KMS Encrypt or Decrypt call,
  * effectively signing the attributes.
  */
-public class KmsAes {
+public class KmsSymmetricEncryption {
 
-  private final KmsAesIdentifier KmsAesIdentifier;
+  private final KmsSymmetricKeyArn KmsArn;
 
   private final AwsKms AwsKms;
 
-  protected KmsAes(BuilderImpl builder) {
-    this.KmsAesIdentifier = builder.KmsAesIdentifier();
+  protected KmsSymmetricEncryption(BuilderImpl builder) {
+    this.KmsArn = builder.KmsArn();
     this.AwsKms = builder.AwsKms();
   }
 
-  public KmsAesIdentifier KmsAesIdentifier() {
-    return this.KmsAesIdentifier;
+  public KmsSymmetricKeyArn KmsArn() {
+    return this.KmsArn;
   }
 
   public AwsKms AwsKms() {
@@ -39,37 +40,37 @@ public class KmsAes {
   }
 
   public interface Builder {
-    Builder KmsAesIdentifier(KmsAesIdentifier KmsAesIdentifier);
+    Builder KmsArn(KmsSymmetricKeyArn KmsArn);
 
-    KmsAesIdentifier KmsAesIdentifier();
+    KmsSymmetricKeyArn KmsArn();
 
     Builder AwsKms(AwsKms AwsKms);
 
     AwsKms AwsKms();
 
-    KmsAes build();
+    KmsSymmetricEncryption build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected KmsAesIdentifier KmsAesIdentifier;
+    protected KmsSymmetricKeyArn KmsArn;
 
     protected AwsKms AwsKms;
 
     protected BuilderImpl() {}
 
-    protected BuilderImpl(KmsAes model) {
-      this.KmsAesIdentifier = model.KmsAesIdentifier();
+    protected BuilderImpl(KmsSymmetricEncryption model) {
+      this.KmsArn = model.KmsArn();
       this.AwsKms = model.AwsKms();
     }
 
-    public Builder KmsAesIdentifier(KmsAesIdentifier KmsAesIdentifier) {
-      this.KmsAesIdentifier = KmsAesIdentifier;
+    public Builder KmsArn(KmsSymmetricKeyArn KmsArn) {
+      this.KmsArn = KmsArn;
       return this;
     }
 
-    public KmsAesIdentifier KmsAesIdentifier() {
-      return this.KmsAesIdentifier;
+    public KmsSymmetricKeyArn KmsArn() {
+      return this.KmsArn;
     }
 
     public Builder AwsKms(AwsKms AwsKms) {
@@ -81,10 +82,10 @@ public class KmsAes {
       return this.AwsKms;
     }
 
-    public KmsAes build() {
-      if (Objects.isNull(this.KmsAesIdentifier())) {
+    public KmsSymmetricEncryption build() {
+      if (Objects.isNull(this.KmsArn())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `KmsAesIdentifier`"
+          "Missing value for required field `KmsArn`"
         );
       }
       if (Objects.isNull(this.AwsKms())) {
@@ -92,7 +93,7 @@ public class KmsAes {
           "Missing value for required field `AwsKms`"
         );
       }
-      return new KmsAes(this);
+      return new KmsSymmetricEncryption(this);
     }
   }
 }

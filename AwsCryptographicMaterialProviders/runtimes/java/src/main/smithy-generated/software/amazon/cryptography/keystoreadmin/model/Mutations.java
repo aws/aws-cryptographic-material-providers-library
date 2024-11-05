@@ -29,7 +29,7 @@ public class Mutations {
   /**
    * ReEncrypt all Items of the Branch Key
    *   to be authorized with this custom encryption context.
-   *   An empty Encyrption Context is not allowed.
+   *   An empty Encryption Context is not allowed.
    */
   private final Map<String, String> TerminalEncryptionContext;
 
@@ -52,7 +52,7 @@ public class Mutations {
   /**
    * @return ReEncrypt all Items of the Branch Key
    *   to be authorized with this custom encryption context.
-   *   An empty Encyrption Context is not allowed.
+   *   An empty Encryption Context is not allowed.
    */
   public Map<String, String> TerminalEncryptionContext() {
     return this.TerminalEncryptionContext;
@@ -88,7 +88,7 @@ public class Mutations {
     /**
      * @param TerminalEncryptionContext ReEncrypt all Items of the Branch Key
      *   to be authorized with this custom encryption context.
-     *   An empty Encyrption Context is not allowed.
+     *   An empty Encryption Context is not allowed.
      */
     Builder TerminalEncryptionContext(
       Map<String, String> TerminalEncryptionContext
@@ -97,7 +97,7 @@ public class Mutations {
     /**
      * @return ReEncrypt all Items of the Branch Key
      *   to be authorized with this custom encryption context.
-     *   An empty Encyrption Context is not allowed.
+     *   An empty Encryption Context is not allowed.
      */
     Map<String, String> TerminalEncryptionContext();
 
