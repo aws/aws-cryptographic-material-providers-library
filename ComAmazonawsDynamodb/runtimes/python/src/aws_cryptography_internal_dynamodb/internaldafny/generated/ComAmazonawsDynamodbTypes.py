@@ -127,7 +127,7 @@ class default__:
         return ((1) <= (len(x))) and ((len(x)) <= (255))
 
     @staticmethod
-    def IsValid__Double(x):
+    def IsValid__DoubleObject(x):
         return ((8) <= (len(x))) and ((len(x)) <= (8))
 
     @staticmethod
@@ -231,6 +231,10 @@ class default__:
         return ((1) <= (len(x))) and ((len(x)) <= (8192))
 
     @staticmethod
+    def IsValid__PolicyRevisionId(x):
+        return ((1) <= (len(x))) and ((len(x)) <= (255))
+
+    @staticmethod
     def IsValid__PositiveIntegerObject(x):
         return (1) <= (x)
 
@@ -295,6 +299,10 @@ class default__:
         return ((37) <= (len(x))) and ((len(x)) <= (1024))
 
     @staticmethod
+    def IsValid__TableArn(x):
+        return ((1) <= (len(x))) and ((len(x)) <= (1024))
+
+    @staticmethod
     def IsValid__TableName(x):
         return ((3) <= (len(x))) and ((len(x)) <= (255))
 
@@ -338,6 +346,39 @@ class DafnyCallEvent_DafnyCallEvent(DafnyCallEvent, NamedTuple('DafnyCallEvent',
         return f'ComAmazonawsDynamodbTypes.DafnyCallEvent.DafnyCallEvent({_dafny.string_of(self.input)}, {_dafny.string_of(self.output)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, DafnyCallEvent_DafnyCallEvent) and self.input == __o.input and self.output == __o.output
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class ApproximateCreationDateTimePrecision:
+    @_dafny.classproperty
+    def AllSingletonConstructors(cls):
+        return [ApproximateCreationDateTimePrecision_MILLISECOND(), ApproximateCreationDateTimePrecision_MICROSECOND()]
+    @classmethod
+    def default(cls, ):
+        return lambda: ApproximateCreationDateTimePrecision_MILLISECOND()
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_MILLISECOND(self) -> bool:
+        return isinstance(self, ApproximateCreationDateTimePrecision_MILLISECOND)
+    @property
+    def is_MICROSECOND(self) -> bool:
+        return isinstance(self, ApproximateCreationDateTimePrecision_MICROSECOND)
+
+class ApproximateCreationDateTimePrecision_MILLISECOND(ApproximateCreationDateTimePrecision, NamedTuple('MILLISECOND', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsDynamodbTypes.ApproximateCreationDateTimePrecision.MILLISECOND'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ApproximateCreationDateTimePrecision_MILLISECOND)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class ApproximateCreationDateTimePrecision_MICROSECOND(ApproximateCreationDateTimePrecision, NamedTuple('MICROSECOND', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsDynamodbTypes.ApproximateCreationDateTimePrecision.MICROSECOND'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ApproximateCreationDateTimePrecision_MICROSECOND)
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -1894,18 +1935,18 @@ class CreateBackupOutput_CreateBackupOutput(CreateBackupOutput, NamedTuple('Crea
 class CreateGlobalSecondaryIndexAction:
     @classmethod
     def default(cls, ):
-        return lambda: CreateGlobalSecondaryIndexAction_CreateGlobalSecondaryIndexAction(_dafny.Seq(""), _dafny.Seq({}), Projection.default()(), Wrappers.Option.default()())
+        return lambda: CreateGlobalSecondaryIndexAction_CreateGlobalSecondaryIndexAction(_dafny.Seq(""), _dafny.Seq({}), Projection.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_CreateGlobalSecondaryIndexAction(self) -> bool:
         return isinstance(self, CreateGlobalSecondaryIndexAction_CreateGlobalSecondaryIndexAction)
 
-class CreateGlobalSecondaryIndexAction_CreateGlobalSecondaryIndexAction(CreateGlobalSecondaryIndexAction, NamedTuple('CreateGlobalSecondaryIndexAction', [('IndexName', Any), ('KeySchema', Any), ('Projection', Any), ('ProvisionedThroughput', Any)])):
+class CreateGlobalSecondaryIndexAction_CreateGlobalSecondaryIndexAction(CreateGlobalSecondaryIndexAction, NamedTuple('CreateGlobalSecondaryIndexAction', [('IndexName', Any), ('KeySchema', Any), ('Projection', Any), ('ProvisionedThroughput', Any), ('OnDemandThroughput', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.CreateGlobalSecondaryIndexAction.CreateGlobalSecondaryIndexAction({_dafny.string_of(self.IndexName)}, {_dafny.string_of(self.KeySchema)}, {_dafny.string_of(self.Projection)}, {_dafny.string_of(self.ProvisionedThroughput)})'
+        return f'ComAmazonawsDynamodbTypes.CreateGlobalSecondaryIndexAction.CreateGlobalSecondaryIndexAction({_dafny.string_of(self.IndexName)}, {_dafny.string_of(self.KeySchema)}, {_dafny.string_of(self.Projection)}, {_dafny.string_of(self.ProvisionedThroughput)}, {_dafny.string_of(self.OnDemandThroughput)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, CreateGlobalSecondaryIndexAction_CreateGlobalSecondaryIndexAction) and self.IndexName == __o.IndexName and self.KeySchema == __o.KeySchema and self.Projection == __o.Projection and self.ProvisionedThroughput == __o.ProvisionedThroughput
+        return isinstance(__o, CreateGlobalSecondaryIndexAction_CreateGlobalSecondaryIndexAction) and self.IndexName == __o.IndexName and self.KeySchema == __o.KeySchema and self.Projection == __o.Projection and self.ProvisionedThroughput == __o.ProvisionedThroughput and self.OnDemandThroughput == __o.OnDemandThroughput
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -1970,18 +2011,18 @@ class CreateReplicaAction_CreateReplicaAction(CreateReplicaAction, NamedTuple('C
 class CreateReplicationGroupMemberAction:
     @classmethod
     def default(cls, ):
-        return lambda: CreateReplicationGroupMemberAction_CreateReplicationGroupMemberAction(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: CreateReplicationGroupMemberAction_CreateReplicationGroupMemberAction(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_CreateReplicationGroupMemberAction(self) -> bool:
         return isinstance(self, CreateReplicationGroupMemberAction_CreateReplicationGroupMemberAction)
 
-class CreateReplicationGroupMemberAction_CreateReplicationGroupMemberAction(CreateReplicationGroupMemberAction, NamedTuple('CreateReplicationGroupMemberAction', [('RegionName', Any), ('KMSMasterKeyId', Any), ('ProvisionedThroughputOverride', Any), ('GlobalSecondaryIndexes', Any), ('TableClassOverride', Any)])):
+class CreateReplicationGroupMemberAction_CreateReplicationGroupMemberAction(CreateReplicationGroupMemberAction, NamedTuple('CreateReplicationGroupMemberAction', [('RegionName', Any), ('KMSMasterKeyId', Any), ('ProvisionedThroughputOverride', Any), ('OnDemandThroughputOverride', Any), ('GlobalSecondaryIndexes', Any), ('TableClassOverride', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.CreateReplicationGroupMemberAction.CreateReplicationGroupMemberAction({_dafny.string_of(self.RegionName)}, {_dafny.string_of(self.KMSMasterKeyId)}, {_dafny.string_of(self.ProvisionedThroughputOverride)}, {_dafny.string_of(self.GlobalSecondaryIndexes)}, {_dafny.string_of(self.TableClassOverride)})'
+        return f'ComAmazonawsDynamodbTypes.CreateReplicationGroupMemberAction.CreateReplicationGroupMemberAction({_dafny.string_of(self.RegionName)}, {_dafny.string_of(self.KMSMasterKeyId)}, {_dafny.string_of(self.ProvisionedThroughputOverride)}, {_dafny.string_of(self.OnDemandThroughputOverride)}, {_dafny.string_of(self.GlobalSecondaryIndexes)}, {_dafny.string_of(self.TableClassOverride)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, CreateReplicationGroupMemberAction_CreateReplicationGroupMemberAction) and self.RegionName == __o.RegionName and self.KMSMasterKeyId == __o.KMSMasterKeyId and self.ProvisionedThroughputOverride == __o.ProvisionedThroughputOverride and self.GlobalSecondaryIndexes == __o.GlobalSecondaryIndexes and self.TableClassOverride == __o.TableClassOverride
+        return isinstance(__o, CreateReplicationGroupMemberAction_CreateReplicationGroupMemberAction) and self.RegionName == __o.RegionName and self.KMSMasterKeyId == __o.KMSMasterKeyId and self.ProvisionedThroughputOverride == __o.ProvisionedThroughputOverride and self.OnDemandThroughputOverride == __o.OnDemandThroughputOverride and self.GlobalSecondaryIndexes == __o.GlobalSecondaryIndexes and self.TableClassOverride == __o.TableClassOverride
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -1989,18 +2030,18 @@ class CreateReplicationGroupMemberAction_CreateReplicationGroupMemberAction(Crea
 class CreateTableInput:
     @classmethod
     def default(cls, ):
-        return lambda: CreateTableInput_CreateTableInput(_dafny.Seq({}), _dafny.Seq(""), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: CreateTableInput_CreateTableInput(_dafny.Seq({}), _dafny.Seq(""), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_CreateTableInput(self) -> bool:
         return isinstance(self, CreateTableInput_CreateTableInput)
 
-class CreateTableInput_CreateTableInput(CreateTableInput, NamedTuple('CreateTableInput', [('AttributeDefinitions', Any), ('TableName', Any), ('KeySchema', Any), ('LocalSecondaryIndexes', Any), ('GlobalSecondaryIndexes', Any), ('BillingMode', Any), ('ProvisionedThroughput', Any), ('StreamSpecification', Any), ('SSESpecification', Any), ('Tags', Any), ('TableClass', Any)])):
+class CreateTableInput_CreateTableInput(CreateTableInput, NamedTuple('CreateTableInput', [('AttributeDefinitions', Any), ('TableName', Any), ('KeySchema', Any), ('LocalSecondaryIndexes', Any), ('GlobalSecondaryIndexes', Any), ('BillingMode', Any), ('ProvisionedThroughput', Any), ('StreamSpecification', Any), ('SSESpecification', Any), ('Tags', Any), ('TableClass', Any), ('DeletionProtectionEnabled', Any), ('ResourcePolicy', Any), ('OnDemandThroughput', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.CreateTableInput.CreateTableInput({_dafny.string_of(self.AttributeDefinitions)}, {_dafny.string_of(self.TableName)}, {_dafny.string_of(self.KeySchema)}, {_dafny.string_of(self.LocalSecondaryIndexes)}, {_dafny.string_of(self.GlobalSecondaryIndexes)}, {_dafny.string_of(self.BillingMode)}, {_dafny.string_of(self.ProvisionedThroughput)}, {_dafny.string_of(self.StreamSpecification)}, {_dafny.string_of(self.SSESpecification)}, {_dafny.string_of(self.Tags)}, {_dafny.string_of(self.TableClass)})'
+        return f'ComAmazonawsDynamodbTypes.CreateTableInput.CreateTableInput({_dafny.string_of(self.AttributeDefinitions)}, {_dafny.string_of(self.TableName)}, {_dafny.string_of(self.KeySchema)}, {_dafny.string_of(self.LocalSecondaryIndexes)}, {_dafny.string_of(self.GlobalSecondaryIndexes)}, {_dafny.string_of(self.BillingMode)}, {_dafny.string_of(self.ProvisionedThroughput)}, {_dafny.string_of(self.StreamSpecification)}, {_dafny.string_of(self.SSESpecification)}, {_dafny.string_of(self.Tags)}, {_dafny.string_of(self.TableClass)}, {_dafny.string_of(self.DeletionProtectionEnabled)}, {_dafny.string_of(self.ResourcePolicy)}, {_dafny.string_of(self.OnDemandThroughput)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, CreateTableInput_CreateTableInput) and self.AttributeDefinitions == __o.AttributeDefinitions and self.TableName == __o.TableName and self.KeySchema == __o.KeySchema and self.LocalSecondaryIndexes == __o.LocalSecondaryIndexes and self.GlobalSecondaryIndexes == __o.GlobalSecondaryIndexes and self.BillingMode == __o.BillingMode and self.ProvisionedThroughput == __o.ProvisionedThroughput and self.StreamSpecification == __o.StreamSpecification and self.SSESpecification == __o.SSESpecification and self.Tags == __o.Tags and self.TableClass == __o.TableClass
+        return isinstance(__o, CreateTableInput_CreateTableInput) and self.AttributeDefinitions == __o.AttributeDefinitions and self.TableName == __o.TableName and self.KeySchema == __o.KeySchema and self.LocalSecondaryIndexes == __o.LocalSecondaryIndexes and self.GlobalSecondaryIndexes == __o.GlobalSecondaryIndexes and self.BillingMode == __o.BillingMode and self.ProvisionedThroughput == __o.ProvisionedThroughput and self.StreamSpecification == __o.StreamSpecification and self.SSESpecification == __o.SSESpecification and self.Tags == __o.Tags and self.TableClass == __o.TableClass and self.DeletionProtectionEnabled == __o.DeletionProtectionEnabled and self.ResourcePolicy == __o.ResourcePolicy and self.OnDemandThroughput == __o.OnDemandThroughput
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -2243,6 +2284,44 @@ class DeleteRequest_DeleteRequest(DeleteRequest, NamedTuple('DeleteRequest', [('
         return f'ComAmazonawsDynamodbTypes.DeleteRequest.DeleteRequest({_dafny.string_of(self.Key)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, DeleteRequest_DeleteRequest) and self.Key == __o.Key
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class DeleteResourcePolicyInput:
+    @classmethod
+    def default(cls, ):
+        return lambda: DeleteResourcePolicyInput_DeleteResourcePolicyInput(_dafny.Seq(""), Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_DeleteResourcePolicyInput(self) -> bool:
+        return isinstance(self, DeleteResourcePolicyInput_DeleteResourcePolicyInput)
+
+class DeleteResourcePolicyInput_DeleteResourcePolicyInput(DeleteResourcePolicyInput, NamedTuple('DeleteResourcePolicyInput', [('ResourceArn', Any), ('ExpectedRevisionId', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsDynamodbTypes.DeleteResourcePolicyInput.DeleteResourcePolicyInput({_dafny.string_of(self.ResourceArn)}, {_dafny.string_of(self.ExpectedRevisionId)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, DeleteResourcePolicyInput_DeleteResourcePolicyInput) and self.ResourceArn == __o.ResourceArn and self.ExpectedRevisionId == __o.ExpectedRevisionId
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class DeleteResourcePolicyOutput:
+    @classmethod
+    def default(cls, ):
+        return lambda: DeleteResourcePolicyOutput_DeleteResourcePolicyOutput(Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_DeleteResourcePolicyOutput(self) -> bool:
+        return isinstance(self, DeleteResourcePolicyOutput_DeleteResourcePolicyOutput)
+
+class DeleteResourcePolicyOutput_DeleteResourcePolicyOutput(DeleteResourcePolicyOutput, NamedTuple('DeleteResourcePolicyOutput', [('RevisionId', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsDynamodbTypes.DeleteResourcePolicyOutput.DeleteResourcePolicyOutput({_dafny.string_of(self.RevisionId)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, DeleteResourcePolicyOutput_DeleteResourcePolicyOutput) and self.RevisionId == __o.RevisionId
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -2788,7 +2867,7 @@ class DescribeTimeToLiveOutput_DescribeTimeToLiveOutput(DescribeTimeToLiveOutput
 class DestinationStatus:
     @_dafny.classproperty
     def AllSingletonConstructors(cls):
-        return [DestinationStatus_ENABLING(), DestinationStatus_ACTIVE(), DestinationStatus_DISABLING(), DestinationStatus_DISABLED(), DestinationStatus_ENABLE__FAILED()]
+        return [DestinationStatus_ENABLING(), DestinationStatus_ACTIVE(), DestinationStatus_DISABLING(), DestinationStatus_DISABLED(), DestinationStatus_ENABLE__FAILED(), DestinationStatus_UPDATING()]
     @classmethod
     def default(cls, ):
         return lambda: DestinationStatus_ENABLING()
@@ -2809,6 +2888,9 @@ class DestinationStatus:
     @property
     def is_ENABLE__FAILED(self) -> bool:
         return isinstance(self, DestinationStatus_ENABLE__FAILED)
+    @property
+    def is_UPDATING(self) -> bool:
+        return isinstance(self, DestinationStatus_UPDATING)
 
 class DestinationStatus_ENABLING(DestinationStatus, NamedTuple('ENABLING', [])):
     def __dafnystr__(self) -> str:
@@ -2850,22 +2932,30 @@ class DestinationStatus_ENABLE__FAILED(DestinationStatus, NamedTuple('ENABLE__FA
     def __hash__(self) -> int:
         return super().__hash__()
 
+class DestinationStatus_UPDATING(DestinationStatus, NamedTuple('UPDATING', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsDynamodbTypes.DestinationStatus.UPDATING'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, DestinationStatus_UPDATING)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
 
 class DisableKinesisStreamingDestinationInput:
     @classmethod
     def default(cls, ):
-        return lambda: DisableKinesisStreamingDestinationInput_DisableKinesisStreamingDestinationInput(_dafny.Seq(""), _dafny.Seq(""))
+        return lambda: DisableKinesisStreamingDestinationInput_DisableKinesisStreamingDestinationInput(_dafny.Seq(""), _dafny.Seq(""), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_DisableKinesisStreamingDestinationInput(self) -> bool:
         return isinstance(self, DisableKinesisStreamingDestinationInput_DisableKinesisStreamingDestinationInput)
 
-class DisableKinesisStreamingDestinationInput_DisableKinesisStreamingDestinationInput(DisableKinesisStreamingDestinationInput, NamedTuple('DisableKinesisStreamingDestinationInput', [('TableName', Any), ('StreamArn', Any)])):
+class DisableKinesisStreamingDestinationInput_DisableKinesisStreamingDestinationInput(DisableKinesisStreamingDestinationInput, NamedTuple('DisableKinesisStreamingDestinationInput', [('TableName', Any), ('StreamArn', Any), ('EnableKinesisStreamingConfiguration', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.DisableKinesisStreamingDestinationInput.DisableKinesisStreamingDestinationInput({_dafny.string_of(self.TableName)}, {_dafny.string_of(self.StreamArn)})'
+        return f'ComAmazonawsDynamodbTypes.DisableKinesisStreamingDestinationInput.DisableKinesisStreamingDestinationInput({_dafny.string_of(self.TableName)}, {_dafny.string_of(self.StreamArn)}, {_dafny.string_of(self.EnableKinesisStreamingConfiguration)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, DisableKinesisStreamingDestinationInput_DisableKinesisStreamingDestinationInput) and self.TableName == __o.TableName and self.StreamArn == __o.StreamArn
+        return isinstance(__o, DisableKinesisStreamingDestinationInput_DisableKinesisStreamingDestinationInput) and self.TableName == __o.TableName and self.StreamArn == __o.StreamArn and self.EnableKinesisStreamingConfiguration == __o.EnableKinesisStreamingConfiguration
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -2873,23 +2963,23 @@ class DisableKinesisStreamingDestinationInput_DisableKinesisStreamingDestination
 class DisableKinesisStreamingDestinationOutput:
     @classmethod
     def default(cls, ):
-        return lambda: DisableKinesisStreamingDestinationOutput_DisableKinesisStreamingDestinationOutput(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: DisableKinesisStreamingDestinationOutput_DisableKinesisStreamingDestinationOutput(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_DisableKinesisStreamingDestinationOutput(self) -> bool:
         return isinstance(self, DisableKinesisStreamingDestinationOutput_DisableKinesisStreamingDestinationOutput)
 
-class DisableKinesisStreamingDestinationOutput_DisableKinesisStreamingDestinationOutput(DisableKinesisStreamingDestinationOutput, NamedTuple('DisableKinesisStreamingDestinationOutput', [('TableName', Any), ('StreamArn', Any), ('DestinationStatus', Any)])):
+class DisableKinesisStreamingDestinationOutput_DisableKinesisStreamingDestinationOutput(DisableKinesisStreamingDestinationOutput, NamedTuple('DisableKinesisStreamingDestinationOutput', [('TableName', Any), ('StreamArn', Any), ('DestinationStatus', Any), ('EnableKinesisStreamingConfiguration', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.DisableKinesisStreamingDestinationOutput.DisableKinesisStreamingDestinationOutput({_dafny.string_of(self.TableName)}, {_dafny.string_of(self.StreamArn)}, {_dafny.string_of(self.DestinationStatus)})'
+        return f'ComAmazonawsDynamodbTypes.DisableKinesisStreamingDestinationOutput.DisableKinesisStreamingDestinationOutput({_dafny.string_of(self.TableName)}, {_dafny.string_of(self.StreamArn)}, {_dafny.string_of(self.DestinationStatus)}, {_dafny.string_of(self.EnableKinesisStreamingConfiguration)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, DisableKinesisStreamingDestinationOutput_DisableKinesisStreamingDestinationOutput) and self.TableName == __o.TableName and self.StreamArn == __o.StreamArn and self.DestinationStatus == __o.DestinationStatus
+        return isinstance(__o, DisableKinesisStreamingDestinationOutput_DisableKinesisStreamingDestinationOutput) and self.TableName == __o.TableName and self.StreamArn == __o.StreamArn and self.DestinationStatus == __o.DestinationStatus and self.EnableKinesisStreamingConfiguration == __o.EnableKinesisStreamingConfiguration
     def __hash__(self) -> int:
         return super().__hash__()
 
 
-class Double:
+class DoubleObject:
     def  __init__(self):
         pass
 
@@ -2898,7 +2988,7 @@ class Double:
         return _dafny.Seq({})
     def _Is(source__):
         d_18_x_: _dafny.Seq = source__
-        return default__.IsValid__Double(d_18_x_)
+        return default__.IsValid__DoubleObject(d_18_x_)
 
 class IDynamoDBClientCallHistory:
     def  __init__(self):
@@ -2931,6 +3021,9 @@ class IDynamoDBClient:
         pass
 
     def DeleteItem(self, input):
+        pass
+
+    def DeleteResourcePolicy(self, input):
         pass
 
     def DeleteTable(self, input):
@@ -2993,6 +3086,9 @@ class IDynamoDBClient:
     def GetItem(self, input):
         pass
 
+    def GetResourcePolicy(self, input):
+        pass
+
     def ImportTable(self, input):
         pass
 
@@ -3018,6 +3114,9 @@ class IDynamoDBClient:
         pass
 
     def PutItem(self, input):
+        pass
+
+    def PutResourcePolicy(self, input):
         pass
 
     def Query(self, input):
@@ -3059,6 +3158,9 @@ class IDynamoDBClient:
     def UpdateItem(self, input):
         pass
 
+    def UpdateKinesisStreamingDestination(self, input):
+        pass
+
     def UpdateTable(self, input):
         pass
 
@@ -3069,21 +3171,40 @@ class IDynamoDBClient:
         pass
 
 
+class EnableKinesisStreamingConfiguration:
+    @classmethod
+    def default(cls, ):
+        return lambda: EnableKinesisStreamingConfiguration_EnableKinesisStreamingConfiguration(Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_EnableKinesisStreamingConfiguration(self) -> bool:
+        return isinstance(self, EnableKinesisStreamingConfiguration_EnableKinesisStreamingConfiguration)
+
+class EnableKinesisStreamingConfiguration_EnableKinesisStreamingConfiguration(EnableKinesisStreamingConfiguration, NamedTuple('EnableKinesisStreamingConfiguration', [('ApproximateCreationDateTimePrecision', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsDynamodbTypes.EnableKinesisStreamingConfiguration.EnableKinesisStreamingConfiguration({_dafny.string_of(self.ApproximateCreationDateTimePrecision)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, EnableKinesisStreamingConfiguration_EnableKinesisStreamingConfiguration) and self.ApproximateCreationDateTimePrecision == __o.ApproximateCreationDateTimePrecision
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
 class EnableKinesisStreamingDestinationInput:
     @classmethod
     def default(cls, ):
-        return lambda: EnableKinesisStreamingDestinationInput_EnableKinesisStreamingDestinationInput(_dafny.Seq(""), _dafny.Seq(""))
+        return lambda: EnableKinesisStreamingDestinationInput_EnableKinesisStreamingDestinationInput(_dafny.Seq(""), _dafny.Seq(""), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_EnableKinesisStreamingDestinationInput(self) -> bool:
         return isinstance(self, EnableKinesisStreamingDestinationInput_EnableKinesisStreamingDestinationInput)
 
-class EnableKinesisStreamingDestinationInput_EnableKinesisStreamingDestinationInput(EnableKinesisStreamingDestinationInput, NamedTuple('EnableKinesisStreamingDestinationInput', [('TableName', Any), ('StreamArn', Any)])):
+class EnableKinesisStreamingDestinationInput_EnableKinesisStreamingDestinationInput(EnableKinesisStreamingDestinationInput, NamedTuple('EnableKinesisStreamingDestinationInput', [('TableName', Any), ('StreamArn', Any), ('EnableKinesisStreamingConfiguration', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.EnableKinesisStreamingDestinationInput.EnableKinesisStreamingDestinationInput({_dafny.string_of(self.TableName)}, {_dafny.string_of(self.StreamArn)})'
+        return f'ComAmazonawsDynamodbTypes.EnableKinesisStreamingDestinationInput.EnableKinesisStreamingDestinationInput({_dafny.string_of(self.TableName)}, {_dafny.string_of(self.StreamArn)}, {_dafny.string_of(self.EnableKinesisStreamingConfiguration)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, EnableKinesisStreamingDestinationInput_EnableKinesisStreamingDestinationInput) and self.TableName == __o.TableName and self.StreamArn == __o.StreamArn
+        return isinstance(__o, EnableKinesisStreamingDestinationInput_EnableKinesisStreamingDestinationInput) and self.TableName == __o.TableName and self.StreamArn == __o.StreamArn and self.EnableKinesisStreamingConfiguration == __o.EnableKinesisStreamingConfiguration
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -3091,18 +3212,18 @@ class EnableKinesisStreamingDestinationInput_EnableKinesisStreamingDestinationIn
 class EnableKinesisStreamingDestinationOutput:
     @classmethod
     def default(cls, ):
-        return lambda: EnableKinesisStreamingDestinationOutput_EnableKinesisStreamingDestinationOutput(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: EnableKinesisStreamingDestinationOutput_EnableKinesisStreamingDestinationOutput(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_EnableKinesisStreamingDestinationOutput(self) -> bool:
         return isinstance(self, EnableKinesisStreamingDestinationOutput_EnableKinesisStreamingDestinationOutput)
 
-class EnableKinesisStreamingDestinationOutput_EnableKinesisStreamingDestinationOutput(EnableKinesisStreamingDestinationOutput, NamedTuple('EnableKinesisStreamingDestinationOutput', [('TableName', Any), ('StreamArn', Any), ('DestinationStatus', Any)])):
+class EnableKinesisStreamingDestinationOutput_EnableKinesisStreamingDestinationOutput(EnableKinesisStreamingDestinationOutput, NamedTuple('EnableKinesisStreamingDestinationOutput', [('TableName', Any), ('StreamArn', Any), ('DestinationStatus', Any), ('EnableKinesisStreamingConfiguration', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.EnableKinesisStreamingDestinationOutput.EnableKinesisStreamingDestinationOutput({_dafny.string_of(self.TableName)}, {_dafny.string_of(self.StreamArn)}, {_dafny.string_of(self.DestinationStatus)})'
+        return f'ComAmazonawsDynamodbTypes.EnableKinesisStreamingDestinationOutput.EnableKinesisStreamingDestinationOutput({_dafny.string_of(self.TableName)}, {_dafny.string_of(self.StreamArn)}, {_dafny.string_of(self.DestinationStatus)}, {_dafny.string_of(self.EnableKinesisStreamingConfiguration)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, EnableKinesisStreamingDestinationOutput_EnableKinesisStreamingDestinationOutput) and self.TableName == __o.TableName and self.StreamArn == __o.StreamArn and self.DestinationStatus == __o.DestinationStatus
+        return isinstance(__o, EnableKinesisStreamingDestinationOutput_EnableKinesisStreamingDestinationOutput) and self.TableName == __o.TableName and self.StreamArn == __o.StreamArn and self.DestinationStatus == __o.DestinationStatus and self.EnableKinesisStreamingConfiguration == __o.EnableKinesisStreamingConfiguration
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -3248,18 +3369,18 @@ class ExportArn:
 class ExportDescription:
     @classmethod
     def default(cls, ):
-        return lambda: ExportDescription_ExportDescription(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: ExportDescription_ExportDescription(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_ExportDescription(self) -> bool:
         return isinstance(self, ExportDescription_ExportDescription)
 
-class ExportDescription_ExportDescription(ExportDescription, NamedTuple('ExportDescription', [('ExportArn', Any), ('ExportStatus', Any), ('StartTime', Any), ('EndTime', Any), ('ExportManifest', Any), ('TableArn', Any), ('TableId', Any), ('ExportTime', Any), ('ClientToken', Any), ('S3Bucket', Any), ('S3BucketOwner', Any), ('S3Prefix', Any), ('S3SseAlgorithm', Any), ('S3SseKmsKeyId', Any), ('FailureCode', Any), ('FailureMessage', Any), ('ExportFormat', Any), ('BilledSizeBytes', Any), ('ItemCount', Any)])):
+class ExportDescription_ExportDescription(ExportDescription, NamedTuple('ExportDescription', [('ExportArn', Any), ('ExportStatus', Any), ('StartTime', Any), ('EndTime', Any), ('ExportManifest', Any), ('TableArn', Any), ('TableId', Any), ('ExportTime', Any), ('ClientToken', Any), ('S3Bucket', Any), ('S3BucketOwner', Any), ('S3Prefix', Any), ('S3SseAlgorithm', Any), ('S3SseKmsKeyId', Any), ('FailureCode', Any), ('FailureMessage', Any), ('ExportFormat', Any), ('BilledSizeBytes', Any), ('ItemCount', Any), ('ExportType', Any), ('IncrementalExportSpecification', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.ExportDescription.ExportDescription({_dafny.string_of(self.ExportArn)}, {_dafny.string_of(self.ExportStatus)}, {_dafny.string_of(self.StartTime)}, {_dafny.string_of(self.EndTime)}, {_dafny.string_of(self.ExportManifest)}, {_dafny.string_of(self.TableArn)}, {_dafny.string_of(self.TableId)}, {_dafny.string_of(self.ExportTime)}, {_dafny.string_of(self.ClientToken)}, {_dafny.string_of(self.S3Bucket)}, {_dafny.string_of(self.S3BucketOwner)}, {_dafny.string_of(self.S3Prefix)}, {_dafny.string_of(self.S3SseAlgorithm)}, {_dafny.string_of(self.S3SseKmsKeyId)}, {_dafny.string_of(self.FailureCode)}, {_dafny.string_of(self.FailureMessage)}, {_dafny.string_of(self.ExportFormat)}, {_dafny.string_of(self.BilledSizeBytes)}, {_dafny.string_of(self.ItemCount)})'
+        return f'ComAmazonawsDynamodbTypes.ExportDescription.ExportDescription({_dafny.string_of(self.ExportArn)}, {_dafny.string_of(self.ExportStatus)}, {_dafny.string_of(self.StartTime)}, {_dafny.string_of(self.EndTime)}, {_dafny.string_of(self.ExportManifest)}, {_dafny.string_of(self.TableArn)}, {_dafny.string_of(self.TableId)}, {_dafny.string_of(self.ExportTime)}, {_dafny.string_of(self.ClientToken)}, {_dafny.string_of(self.S3Bucket)}, {_dafny.string_of(self.S3BucketOwner)}, {_dafny.string_of(self.S3Prefix)}, {_dafny.string_of(self.S3SseAlgorithm)}, {_dafny.string_of(self.S3SseKmsKeyId)}, {_dafny.string_of(self.FailureCode)}, {_dafny.string_of(self.FailureMessage)}, {_dafny.string_of(self.ExportFormat)}, {_dafny.string_of(self.BilledSizeBytes)}, {_dafny.string_of(self.ItemCount)}, {_dafny.string_of(self.ExportType)}, {_dafny.string_of(self.IncrementalExportSpecification)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, ExportDescription_ExportDescription) and self.ExportArn == __o.ExportArn and self.ExportStatus == __o.ExportStatus and self.StartTime == __o.StartTime and self.EndTime == __o.EndTime and self.ExportManifest == __o.ExportManifest and self.TableArn == __o.TableArn and self.TableId == __o.TableId and self.ExportTime == __o.ExportTime and self.ClientToken == __o.ClientToken and self.S3Bucket == __o.S3Bucket and self.S3BucketOwner == __o.S3BucketOwner and self.S3Prefix == __o.S3Prefix and self.S3SseAlgorithm == __o.S3SseAlgorithm and self.S3SseKmsKeyId == __o.S3SseKmsKeyId and self.FailureCode == __o.FailureCode and self.FailureMessage == __o.FailureMessage and self.ExportFormat == __o.ExportFormat and self.BilledSizeBytes == __o.BilledSizeBytes and self.ItemCount == __o.ItemCount
+        return isinstance(__o, ExportDescription_ExportDescription) and self.ExportArn == __o.ExportArn and self.ExportStatus == __o.ExportStatus and self.StartTime == __o.StartTime and self.EndTime == __o.EndTime and self.ExportManifest == __o.ExportManifest and self.TableArn == __o.TableArn and self.TableId == __o.TableId and self.ExportTime == __o.ExportTime and self.ClientToken == __o.ClientToken and self.S3Bucket == __o.S3Bucket and self.S3BucketOwner == __o.S3BucketOwner and self.S3Prefix == __o.S3Prefix and self.S3SseAlgorithm == __o.S3SseAlgorithm and self.S3SseKmsKeyId == __o.S3SseKmsKeyId and self.FailureCode == __o.FailureCode and self.FailureMessage == __o.FailureMessage and self.ExportFormat == __o.ExportFormat and self.BilledSizeBytes == __o.BilledSizeBytes and self.ItemCount == __o.ItemCount and self.ExportType == __o.ExportType and self.IncrementalExportSpecification == __o.IncrementalExportSpecification
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -3344,18 +3465,18 @@ class ExportStatus_FAILED(ExportStatus, NamedTuple('FAILED', [])):
 class ExportSummary:
     @classmethod
     def default(cls, ):
-        return lambda: ExportSummary_ExportSummary(Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: ExportSummary_ExportSummary(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_ExportSummary(self) -> bool:
         return isinstance(self, ExportSummary_ExportSummary)
 
-class ExportSummary_ExportSummary(ExportSummary, NamedTuple('ExportSummary', [('ExportArn', Any), ('ExportStatus', Any)])):
+class ExportSummary_ExportSummary(ExportSummary, NamedTuple('ExportSummary', [('ExportArn', Any), ('ExportStatus', Any), ('ExportType', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.ExportSummary.ExportSummary({_dafny.string_of(self.ExportArn)}, {_dafny.string_of(self.ExportStatus)})'
+        return f'ComAmazonawsDynamodbTypes.ExportSummary.ExportSummary({_dafny.string_of(self.ExportArn)}, {_dafny.string_of(self.ExportStatus)}, {_dafny.string_of(self.ExportType)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, ExportSummary_ExportSummary) and self.ExportArn == __o.ExportArn and self.ExportStatus == __o.ExportStatus
+        return isinstance(__o, ExportSummary_ExportSummary) and self.ExportArn == __o.ExportArn and self.ExportStatus == __o.ExportStatus and self.ExportType == __o.ExportType
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -3363,18 +3484,18 @@ class ExportSummary_ExportSummary(ExportSummary, NamedTuple('ExportSummary', [('
 class ExportTableToPointInTimeInput:
     @classmethod
     def default(cls, ):
-        return lambda: ExportTableToPointInTimeInput_ExportTableToPointInTimeInput(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: ExportTableToPointInTimeInput_ExportTableToPointInTimeInput(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_ExportTableToPointInTimeInput(self) -> bool:
         return isinstance(self, ExportTableToPointInTimeInput_ExportTableToPointInTimeInput)
 
-class ExportTableToPointInTimeInput_ExportTableToPointInTimeInput(ExportTableToPointInTimeInput, NamedTuple('ExportTableToPointInTimeInput', [('TableArn', Any), ('ExportTime', Any), ('ClientToken', Any), ('S3Bucket', Any), ('S3BucketOwner', Any), ('S3Prefix', Any), ('S3SseAlgorithm', Any), ('S3SseKmsKeyId', Any), ('ExportFormat', Any)])):
+class ExportTableToPointInTimeInput_ExportTableToPointInTimeInput(ExportTableToPointInTimeInput, NamedTuple('ExportTableToPointInTimeInput', [('TableArn', Any), ('ExportTime', Any), ('ClientToken', Any), ('S3Bucket', Any), ('S3BucketOwner', Any), ('S3Prefix', Any), ('S3SseAlgorithm', Any), ('S3SseKmsKeyId', Any), ('ExportFormat', Any), ('ExportType', Any), ('IncrementalExportSpecification', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.ExportTableToPointInTimeInput.ExportTableToPointInTimeInput({_dafny.string_of(self.TableArn)}, {_dafny.string_of(self.ExportTime)}, {_dafny.string_of(self.ClientToken)}, {_dafny.string_of(self.S3Bucket)}, {_dafny.string_of(self.S3BucketOwner)}, {_dafny.string_of(self.S3Prefix)}, {_dafny.string_of(self.S3SseAlgorithm)}, {_dafny.string_of(self.S3SseKmsKeyId)}, {_dafny.string_of(self.ExportFormat)})'
+        return f'ComAmazonawsDynamodbTypes.ExportTableToPointInTimeInput.ExportTableToPointInTimeInput({_dafny.string_of(self.TableArn)}, {_dafny.string_of(self.ExportTime)}, {_dafny.string_of(self.ClientToken)}, {_dafny.string_of(self.S3Bucket)}, {_dafny.string_of(self.S3BucketOwner)}, {_dafny.string_of(self.S3Prefix)}, {_dafny.string_of(self.S3SseAlgorithm)}, {_dafny.string_of(self.S3SseKmsKeyId)}, {_dafny.string_of(self.ExportFormat)}, {_dafny.string_of(self.ExportType)}, {_dafny.string_of(self.IncrementalExportSpecification)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, ExportTableToPointInTimeInput_ExportTableToPointInTimeInput) and self.TableArn == __o.TableArn and self.ExportTime == __o.ExportTime and self.ClientToken == __o.ClientToken and self.S3Bucket == __o.S3Bucket and self.S3BucketOwner == __o.S3BucketOwner and self.S3Prefix == __o.S3Prefix and self.S3SseAlgorithm == __o.S3SseAlgorithm and self.S3SseKmsKeyId == __o.S3SseKmsKeyId and self.ExportFormat == __o.ExportFormat
+        return isinstance(__o, ExportTableToPointInTimeInput_ExportTableToPointInTimeInput) and self.TableArn == __o.TableArn and self.ExportTime == __o.ExportTime and self.ClientToken == __o.ClientToken and self.S3Bucket == __o.S3Bucket and self.S3BucketOwner == __o.S3BucketOwner and self.S3Prefix == __o.S3Prefix and self.S3SseAlgorithm == __o.S3SseAlgorithm and self.S3SseKmsKeyId == __o.S3SseKmsKeyId and self.ExportFormat == __o.ExportFormat and self.ExportType == __o.ExportType and self.IncrementalExportSpecification == __o.IncrementalExportSpecification
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -3394,6 +3515,72 @@ class ExportTableToPointInTimeOutput_ExportTableToPointInTimeOutput(ExportTableT
         return f'ComAmazonawsDynamodbTypes.ExportTableToPointInTimeOutput.ExportTableToPointInTimeOutput({_dafny.string_of(self.ExportDescription)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, ExportTableToPointInTimeOutput_ExportTableToPointInTimeOutput) and self.ExportDescription == __o.ExportDescription
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class ExportType:
+    @_dafny.classproperty
+    def AllSingletonConstructors(cls):
+        return [ExportType_FULL__EXPORT(), ExportType_INCREMENTAL__EXPORT()]
+    @classmethod
+    def default(cls, ):
+        return lambda: ExportType_FULL__EXPORT()
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_FULL__EXPORT(self) -> bool:
+        return isinstance(self, ExportType_FULL__EXPORT)
+    @property
+    def is_INCREMENTAL__EXPORT(self) -> bool:
+        return isinstance(self, ExportType_INCREMENTAL__EXPORT)
+
+class ExportType_FULL__EXPORT(ExportType, NamedTuple('FULL__EXPORT', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsDynamodbTypes.ExportType.FULL_EXPORT'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ExportType_FULL__EXPORT)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class ExportType_INCREMENTAL__EXPORT(ExportType, NamedTuple('INCREMENTAL__EXPORT', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsDynamodbTypes.ExportType.INCREMENTAL_EXPORT'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ExportType_INCREMENTAL__EXPORT)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class ExportViewType:
+    @_dafny.classproperty
+    def AllSingletonConstructors(cls):
+        return [ExportViewType_NEW__IMAGE(), ExportViewType_NEW__AND__OLD__IMAGES()]
+    @classmethod
+    def default(cls, ):
+        return lambda: ExportViewType_NEW__IMAGE()
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_NEW__IMAGE(self) -> bool:
+        return isinstance(self, ExportViewType_NEW__IMAGE)
+    @property
+    def is_NEW__AND__OLD__IMAGES(self) -> bool:
+        return isinstance(self, ExportViewType_NEW__AND__OLD__IMAGES)
+
+class ExportViewType_NEW__IMAGE(ExportViewType, NamedTuple('NEW__IMAGE', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsDynamodbTypes.ExportViewType.NEW_IMAGE'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ExportViewType_NEW__IMAGE)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class ExportViewType_NEW__AND__OLD__IMAGES(ExportViewType, NamedTuple('NEW__AND__OLD__IMAGES', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsDynamodbTypes.ExportViewType.NEW_AND_OLD_IMAGES'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ExportViewType_NEW__AND__OLD__IMAGES)
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -3474,21 +3661,59 @@ class GetItemOutput_GetItemOutput(GetItemOutput, NamedTuple('GetItemOutput', [('
         return super().__hash__()
 
 
+class GetResourcePolicyInput:
+    @classmethod
+    def default(cls, ):
+        return lambda: GetResourcePolicyInput_GetResourcePolicyInput(_dafny.Seq(""))
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_GetResourcePolicyInput(self) -> bool:
+        return isinstance(self, GetResourcePolicyInput_GetResourcePolicyInput)
+
+class GetResourcePolicyInput_GetResourcePolicyInput(GetResourcePolicyInput, NamedTuple('GetResourcePolicyInput', [('ResourceArn', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsDynamodbTypes.GetResourcePolicyInput.GetResourcePolicyInput({_dafny.string_of(self.ResourceArn)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, GetResourcePolicyInput_GetResourcePolicyInput) and self.ResourceArn == __o.ResourceArn
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class GetResourcePolicyOutput:
+    @classmethod
+    def default(cls, ):
+        return lambda: GetResourcePolicyOutput_GetResourcePolicyOutput(Wrappers.Option.default()(), Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_GetResourcePolicyOutput(self) -> bool:
+        return isinstance(self, GetResourcePolicyOutput_GetResourcePolicyOutput)
+
+class GetResourcePolicyOutput_GetResourcePolicyOutput(GetResourcePolicyOutput, NamedTuple('GetResourcePolicyOutput', [('Policy', Any), ('RevisionId', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsDynamodbTypes.GetResourcePolicyOutput.GetResourcePolicyOutput({_dafny.string_of(self.Policy)}, {_dafny.string_of(self.RevisionId)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, GetResourcePolicyOutput_GetResourcePolicyOutput) and self.Policy == __o.Policy and self.RevisionId == __o.RevisionId
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
 class GlobalSecondaryIndex:
     @classmethod
     def default(cls, ):
-        return lambda: GlobalSecondaryIndex_GlobalSecondaryIndex(_dafny.Seq(""), _dafny.Seq({}), Projection.default()(), Wrappers.Option.default()())
+        return lambda: GlobalSecondaryIndex_GlobalSecondaryIndex(_dafny.Seq(""), _dafny.Seq({}), Projection.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_GlobalSecondaryIndex(self) -> bool:
         return isinstance(self, GlobalSecondaryIndex_GlobalSecondaryIndex)
 
-class GlobalSecondaryIndex_GlobalSecondaryIndex(GlobalSecondaryIndex, NamedTuple('GlobalSecondaryIndex', [('IndexName', Any), ('KeySchema', Any), ('Projection', Any), ('ProvisionedThroughput', Any)])):
+class GlobalSecondaryIndex_GlobalSecondaryIndex(GlobalSecondaryIndex, NamedTuple('GlobalSecondaryIndex', [('IndexName', Any), ('KeySchema', Any), ('Projection', Any), ('ProvisionedThroughput', Any), ('OnDemandThroughput', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.GlobalSecondaryIndex.GlobalSecondaryIndex({_dafny.string_of(self.IndexName)}, {_dafny.string_of(self.KeySchema)}, {_dafny.string_of(self.Projection)}, {_dafny.string_of(self.ProvisionedThroughput)})'
+        return f'ComAmazonawsDynamodbTypes.GlobalSecondaryIndex.GlobalSecondaryIndex({_dafny.string_of(self.IndexName)}, {_dafny.string_of(self.KeySchema)}, {_dafny.string_of(self.Projection)}, {_dafny.string_of(self.ProvisionedThroughput)}, {_dafny.string_of(self.OnDemandThroughput)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, GlobalSecondaryIndex_GlobalSecondaryIndex) and self.IndexName == __o.IndexName and self.KeySchema == __o.KeySchema and self.Projection == __o.Projection and self.ProvisionedThroughput == __o.ProvisionedThroughput
+        return isinstance(__o, GlobalSecondaryIndex_GlobalSecondaryIndex) and self.IndexName == __o.IndexName and self.KeySchema == __o.KeySchema and self.Projection == __o.Projection and self.ProvisionedThroughput == __o.ProvisionedThroughput and self.OnDemandThroughput == __o.OnDemandThroughput
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -3526,18 +3751,18 @@ class GlobalSecondaryIndexAutoScalingUpdateList:
 class GlobalSecondaryIndexDescription:
     @classmethod
     def default(cls, ):
-        return lambda: GlobalSecondaryIndexDescription_GlobalSecondaryIndexDescription(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: GlobalSecondaryIndexDescription_GlobalSecondaryIndexDescription(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_GlobalSecondaryIndexDescription(self) -> bool:
         return isinstance(self, GlobalSecondaryIndexDescription_GlobalSecondaryIndexDescription)
 
-class GlobalSecondaryIndexDescription_GlobalSecondaryIndexDescription(GlobalSecondaryIndexDescription, NamedTuple('GlobalSecondaryIndexDescription', [('IndexName', Any), ('KeySchema', Any), ('Projection', Any), ('IndexStatus', Any), ('Backfilling', Any), ('ProvisionedThroughput', Any), ('IndexSizeBytes', Any), ('ItemCount', Any), ('IndexArn', Any)])):
+class GlobalSecondaryIndexDescription_GlobalSecondaryIndexDescription(GlobalSecondaryIndexDescription, NamedTuple('GlobalSecondaryIndexDescription', [('IndexName', Any), ('KeySchema', Any), ('Projection', Any), ('IndexStatus', Any), ('Backfilling', Any), ('ProvisionedThroughput', Any), ('IndexSizeBytes', Any), ('ItemCount', Any), ('IndexArn', Any), ('OnDemandThroughput', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.GlobalSecondaryIndexDescription.GlobalSecondaryIndexDescription({_dafny.string_of(self.IndexName)}, {_dafny.string_of(self.KeySchema)}, {_dafny.string_of(self.Projection)}, {_dafny.string_of(self.IndexStatus)}, {_dafny.string_of(self.Backfilling)}, {_dafny.string_of(self.ProvisionedThroughput)}, {_dafny.string_of(self.IndexSizeBytes)}, {_dafny.string_of(self.ItemCount)}, {_dafny.string_of(self.IndexArn)})'
+        return f'ComAmazonawsDynamodbTypes.GlobalSecondaryIndexDescription.GlobalSecondaryIndexDescription({_dafny.string_of(self.IndexName)}, {_dafny.string_of(self.KeySchema)}, {_dafny.string_of(self.Projection)}, {_dafny.string_of(self.IndexStatus)}, {_dafny.string_of(self.Backfilling)}, {_dafny.string_of(self.ProvisionedThroughput)}, {_dafny.string_of(self.IndexSizeBytes)}, {_dafny.string_of(self.ItemCount)}, {_dafny.string_of(self.IndexArn)}, {_dafny.string_of(self.OnDemandThroughput)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, GlobalSecondaryIndexDescription_GlobalSecondaryIndexDescription) and self.IndexName == __o.IndexName and self.KeySchema == __o.KeySchema and self.Projection == __o.Projection and self.IndexStatus == __o.IndexStatus and self.Backfilling == __o.Backfilling and self.ProvisionedThroughput == __o.ProvisionedThroughput and self.IndexSizeBytes == __o.IndexSizeBytes and self.ItemCount == __o.ItemCount and self.IndexArn == __o.IndexArn
+        return isinstance(__o, GlobalSecondaryIndexDescription_GlobalSecondaryIndexDescription) and self.IndexName == __o.IndexName and self.KeySchema == __o.KeySchema and self.Projection == __o.Projection and self.IndexStatus == __o.IndexStatus and self.Backfilling == __o.Backfilling and self.ProvisionedThroughput == __o.ProvisionedThroughput and self.IndexSizeBytes == __o.IndexSizeBytes and self.ItemCount == __o.ItemCount and self.IndexArn == __o.IndexArn and self.OnDemandThroughput == __o.OnDemandThroughput
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -3545,18 +3770,18 @@ class GlobalSecondaryIndexDescription_GlobalSecondaryIndexDescription(GlobalSeco
 class GlobalSecondaryIndexInfo:
     @classmethod
     def default(cls, ):
-        return lambda: GlobalSecondaryIndexInfo_GlobalSecondaryIndexInfo(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: GlobalSecondaryIndexInfo_GlobalSecondaryIndexInfo(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_GlobalSecondaryIndexInfo(self) -> bool:
         return isinstance(self, GlobalSecondaryIndexInfo_GlobalSecondaryIndexInfo)
 
-class GlobalSecondaryIndexInfo_GlobalSecondaryIndexInfo(GlobalSecondaryIndexInfo, NamedTuple('GlobalSecondaryIndexInfo', [('IndexName', Any), ('KeySchema', Any), ('Projection', Any), ('ProvisionedThroughput', Any)])):
+class GlobalSecondaryIndexInfo_GlobalSecondaryIndexInfo(GlobalSecondaryIndexInfo, NamedTuple('GlobalSecondaryIndexInfo', [('IndexName', Any), ('KeySchema', Any), ('Projection', Any), ('ProvisionedThroughput', Any), ('OnDemandThroughput', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.GlobalSecondaryIndexInfo.GlobalSecondaryIndexInfo({_dafny.string_of(self.IndexName)}, {_dafny.string_of(self.KeySchema)}, {_dafny.string_of(self.Projection)}, {_dafny.string_of(self.ProvisionedThroughput)})'
+        return f'ComAmazonawsDynamodbTypes.GlobalSecondaryIndexInfo.GlobalSecondaryIndexInfo({_dafny.string_of(self.IndexName)}, {_dafny.string_of(self.KeySchema)}, {_dafny.string_of(self.Projection)}, {_dafny.string_of(self.ProvisionedThroughput)}, {_dafny.string_of(self.OnDemandThroughput)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, GlobalSecondaryIndexInfo_GlobalSecondaryIndexInfo) and self.IndexName == __o.IndexName and self.KeySchema == __o.KeySchema and self.Projection == __o.Projection and self.ProvisionedThroughput == __o.ProvisionedThroughput
+        return isinstance(__o, GlobalSecondaryIndexInfo_GlobalSecondaryIndexInfo) and self.IndexName == __o.IndexName and self.KeySchema == __o.KeySchema and self.Projection == __o.Projection and self.ProvisionedThroughput == __o.ProvisionedThroughput and self.OnDemandThroughput == __o.OnDemandThroughput
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -3876,6 +4101,25 @@ class ImportTableOutput_ImportTableOutput(ImportTableOutput, NamedTuple('ImportT
         return f'ComAmazonawsDynamodbTypes.ImportTableOutput.ImportTableOutput({_dafny.string_of(self.ImportTableDescription)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, ImportTableOutput_ImportTableOutput) and self.ImportTableDescription == __o.ImportTableDescription
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class IncrementalExportSpecification:
+    @classmethod
+    def default(cls, ):
+        return lambda: IncrementalExportSpecification_IncrementalExportSpecification(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_IncrementalExportSpecification(self) -> bool:
+        return isinstance(self, IncrementalExportSpecification_IncrementalExportSpecification)
+
+class IncrementalExportSpecification_IncrementalExportSpecification(IncrementalExportSpecification, NamedTuple('IncrementalExportSpecification', [('ExportFromTime', Any), ('ExportToTime', Any), ('ExportViewType', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsDynamodbTypes.IncrementalExportSpecification.IncrementalExportSpecification({_dafny.string_of(self.ExportFromTime)}, {_dafny.string_of(self.ExportToTime)}, {_dafny.string_of(self.ExportViewType)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, IncrementalExportSpecification_IncrementalExportSpecification) and self.ExportFromTime == __o.ExportFromTime and self.ExportToTime == __o.ExportToTime and self.ExportViewType == __o.ExportViewType
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -4233,18 +4477,18 @@ class KeyType_RANGE(KeyType, NamedTuple('RANGE', [])):
 class KinesisDataStreamDestination:
     @classmethod
     def default(cls, ):
-        return lambda: KinesisDataStreamDestination_KinesisDataStreamDestination(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: KinesisDataStreamDestination_KinesisDataStreamDestination(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_KinesisDataStreamDestination(self) -> bool:
         return isinstance(self, KinesisDataStreamDestination_KinesisDataStreamDestination)
 
-class KinesisDataStreamDestination_KinesisDataStreamDestination(KinesisDataStreamDestination, NamedTuple('KinesisDataStreamDestination', [('StreamArn', Any), ('DestinationStatus', Any), ('DestinationStatusDescription', Any)])):
+class KinesisDataStreamDestination_KinesisDataStreamDestination(KinesisDataStreamDestination, NamedTuple('KinesisDataStreamDestination', [('StreamArn', Any), ('DestinationStatus', Any), ('DestinationStatusDescription', Any), ('ApproximateCreationDateTimePrecision', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.KinesisDataStreamDestination.KinesisDataStreamDestination({_dafny.string_of(self.StreamArn)}, {_dafny.string_of(self.DestinationStatus)}, {_dafny.string_of(self.DestinationStatusDescription)})'
+        return f'ComAmazonawsDynamodbTypes.KinesisDataStreamDestination.KinesisDataStreamDestination({_dafny.string_of(self.StreamArn)}, {_dafny.string_of(self.DestinationStatus)}, {_dafny.string_of(self.DestinationStatusDescription)}, {_dafny.string_of(self.ApproximateCreationDateTimePrecision)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, KinesisDataStreamDestination_KinesisDataStreamDestination) and self.StreamArn == __o.StreamArn and self.DestinationStatus == __o.DestinationStatus and self.DestinationStatusDescription == __o.DestinationStatusDescription
+        return isinstance(__o, KinesisDataStreamDestination_KinesisDataStreamDestination) and self.StreamArn == __o.StreamArn and self.DestinationStatus == __o.DestinationStatus and self.DestinationStatusDescription == __o.DestinationStatusDescription and self.ApproximateCreationDateTimePrecision == __o.ApproximateCreationDateTimePrecision
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -4252,18 +4496,18 @@ class KinesisDataStreamDestination_KinesisDataStreamDestination(KinesisDataStrea
 class KinesisStreamingDestinationInput:
     @classmethod
     def default(cls, ):
-        return lambda: KinesisStreamingDestinationInput_KinesisStreamingDestinationInput(_dafny.Seq(""), _dafny.Seq(""))
+        return lambda: KinesisStreamingDestinationInput_KinesisStreamingDestinationInput(_dafny.Seq(""), _dafny.Seq(""), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_KinesisStreamingDestinationInput(self) -> bool:
         return isinstance(self, KinesisStreamingDestinationInput_KinesisStreamingDestinationInput)
 
-class KinesisStreamingDestinationInput_KinesisStreamingDestinationInput(KinesisStreamingDestinationInput, NamedTuple('KinesisStreamingDestinationInput', [('TableName', Any), ('StreamArn', Any)])):
+class KinesisStreamingDestinationInput_KinesisStreamingDestinationInput(KinesisStreamingDestinationInput, NamedTuple('KinesisStreamingDestinationInput', [('TableName', Any), ('StreamArn', Any), ('EnableKinesisStreamingConfiguration', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.KinesisStreamingDestinationInput.KinesisStreamingDestinationInput({_dafny.string_of(self.TableName)}, {_dafny.string_of(self.StreamArn)})'
+        return f'ComAmazonawsDynamodbTypes.KinesisStreamingDestinationInput.KinesisStreamingDestinationInput({_dafny.string_of(self.TableName)}, {_dafny.string_of(self.StreamArn)}, {_dafny.string_of(self.EnableKinesisStreamingConfiguration)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, KinesisStreamingDestinationInput_KinesisStreamingDestinationInput) and self.TableName == __o.TableName and self.StreamArn == __o.StreamArn
+        return isinstance(__o, KinesisStreamingDestinationInput_KinesisStreamingDestinationInput) and self.TableName == __o.TableName and self.StreamArn == __o.StreamArn and self.EnableKinesisStreamingConfiguration == __o.EnableKinesisStreamingConfiguration
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -4271,18 +4515,18 @@ class KinesisStreamingDestinationInput_KinesisStreamingDestinationInput(KinesisS
 class KinesisStreamingDestinationOutput:
     @classmethod
     def default(cls, ):
-        return lambda: KinesisStreamingDestinationOutput_KinesisStreamingDestinationOutput(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: KinesisStreamingDestinationOutput_KinesisStreamingDestinationOutput(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_KinesisStreamingDestinationOutput(self) -> bool:
         return isinstance(self, KinesisStreamingDestinationOutput_KinesisStreamingDestinationOutput)
 
-class KinesisStreamingDestinationOutput_KinesisStreamingDestinationOutput(KinesisStreamingDestinationOutput, NamedTuple('KinesisStreamingDestinationOutput', [('TableName', Any), ('StreamArn', Any), ('DestinationStatus', Any)])):
+class KinesisStreamingDestinationOutput_KinesisStreamingDestinationOutput(KinesisStreamingDestinationOutput, NamedTuple('KinesisStreamingDestinationOutput', [('TableName', Any), ('StreamArn', Any), ('DestinationStatus', Any), ('EnableKinesisStreamingConfiguration', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.KinesisStreamingDestinationOutput.KinesisStreamingDestinationOutput({_dafny.string_of(self.TableName)}, {_dafny.string_of(self.StreamArn)}, {_dafny.string_of(self.DestinationStatus)})'
+        return f'ComAmazonawsDynamodbTypes.KinesisStreamingDestinationOutput.KinesisStreamingDestinationOutput({_dafny.string_of(self.TableName)}, {_dafny.string_of(self.StreamArn)}, {_dafny.string_of(self.DestinationStatus)}, {_dafny.string_of(self.EnableKinesisStreamingConfiguration)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, KinesisStreamingDestinationOutput_KinesisStreamingDestinationOutput) and self.TableName == __o.TableName and self.StreamArn == __o.StreamArn and self.DestinationStatus == __o.DestinationStatus
+        return isinstance(__o, KinesisStreamingDestinationOutput_KinesisStreamingDestinationOutput) and self.TableName == __o.TableName and self.StreamArn == __o.StreamArn and self.DestinationStatus == __o.DestinationStatus and self.EnableKinesisStreamingConfiguration == __o.EnableKinesisStreamingConfiguration
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -4697,6 +4941,44 @@ class NonNegativeLongObject:
             return default__.IsValid__NonNegativeLongObject(d_20_x_)
         return False
 
+class OnDemandThroughput:
+    @classmethod
+    def default(cls, ):
+        return lambda: OnDemandThroughput_OnDemandThroughput(Wrappers.Option.default()(), Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_OnDemandThroughput(self) -> bool:
+        return isinstance(self, OnDemandThroughput_OnDemandThroughput)
+
+class OnDemandThroughput_OnDemandThroughput(OnDemandThroughput, NamedTuple('OnDemandThroughput', [('MaxReadRequestUnits', Any), ('MaxWriteRequestUnits', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsDynamodbTypes.OnDemandThroughput.OnDemandThroughput({_dafny.string_of(self.MaxReadRequestUnits)}, {_dafny.string_of(self.MaxWriteRequestUnits)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, OnDemandThroughput_OnDemandThroughput) and self.MaxReadRequestUnits == __o.MaxReadRequestUnits and self.MaxWriteRequestUnits == __o.MaxWriteRequestUnits
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class OnDemandThroughputOverride:
+    @classmethod
+    def default(cls, ):
+        return lambda: OnDemandThroughputOverride_OnDemandThroughputOverride(Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_OnDemandThroughputOverride(self) -> bool:
+        return isinstance(self, OnDemandThroughputOverride_OnDemandThroughputOverride)
+
+class OnDemandThroughputOverride_OnDemandThroughputOverride(OnDemandThroughputOverride, NamedTuple('OnDemandThroughputOverride', [('MaxReadRequestUnits', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsDynamodbTypes.OnDemandThroughputOverride.OnDemandThroughputOverride({_dafny.string_of(self.MaxReadRequestUnits)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, OnDemandThroughputOverride_OnDemandThroughputOverride) and self.MaxReadRequestUnits == __o.MaxReadRequestUnits
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
 class ParameterizedStatement:
     @classmethod
     def default(cls, ):
@@ -4831,6 +5113,17 @@ class PointInTimeRecoveryStatus_DISABLED(PointInTimeRecoveryStatus, NamedTuple('
         return super().__hash__()
 
 
+class PolicyRevisionId:
+    def  __init__(self):
+        pass
+
+    @staticmethod
+    def default():
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_25_x_: _dafny.Seq = source__
+        return default__.IsValid__PolicyRevisionId(d_25_x_)
+
 class PositiveIntegerObject:
     def  __init__(self):
         pass
@@ -4839,9 +5132,9 @@ class PositiveIntegerObject:
     def default():
         return int(0)
     def _Is(source__):
-        d_25_x_: int = source__
+        d_26_x_: int = source__
         if True:
-            return default__.IsValid__PositiveIntegerObject(d_25_x_)
+            return default__.IsValid__PositiveIntegerObject(d_26_x_)
         return False
 
 class PositiveLongObject:
@@ -4852,9 +5145,9 @@ class PositiveLongObject:
     def default():
         return int(0)
     def _Is(source__):
-        d_26_x_: int = source__
+        d_27_x_: int = source__
         if True:
-            return default__.IsValid__PositiveLongObject(d_26_x_)
+            return default__.IsValid__PositiveLongObject(d_27_x_)
         return False
 
 class PreparedStatementParameters:
@@ -4865,8 +5158,8 @@ class PreparedStatementParameters:
     def default():
         return _dafny.Seq({})
     def _Is(source__):
-        d_27_x_: _dafny.Seq = source__
-        return default__.IsValid__PreparedStatementParameters(d_27_x_)
+        d_28_x_: _dafny.Seq = source__
+        return default__.IsValid__PreparedStatementParameters(d_28_x_)
 
 class ProcessedItemCount:
     def  __init__(self):
@@ -4876,9 +5169,9 @@ class ProcessedItemCount:
     def default():
         return int(0)
     def _Is(source__):
-        d_28_x_: int = source__
+        d_29_x_: int = source__
         if True:
-            return default__.IsValid__ProcessedItemCount(d_28_x_)
+            return default__.IsValid__ProcessedItemCount(d_29_x_)
         return False
 
 class Projection:
@@ -5077,6 +5370,44 @@ class PutRequest_PutRequest(PutRequest, NamedTuple('PutRequest', [('Item', Any)]
         return super().__hash__()
 
 
+class PutResourcePolicyInput:
+    @classmethod
+    def default(cls, ):
+        return lambda: PutResourcePolicyInput_PutResourcePolicyInput(_dafny.Seq(""), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_PutResourcePolicyInput(self) -> bool:
+        return isinstance(self, PutResourcePolicyInput_PutResourcePolicyInput)
+
+class PutResourcePolicyInput_PutResourcePolicyInput(PutResourcePolicyInput, NamedTuple('PutResourcePolicyInput', [('ResourceArn', Any), ('Policy', Any), ('ExpectedRevisionId', Any), ('ConfirmRemoveSelfResourceAccess', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsDynamodbTypes.PutResourcePolicyInput.PutResourcePolicyInput({_dafny.string_of(self.ResourceArn)}, {_dafny.string_of(self.Policy)}, {_dafny.string_of(self.ExpectedRevisionId)}, {_dafny.string_of(self.ConfirmRemoveSelfResourceAccess)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, PutResourcePolicyInput_PutResourcePolicyInput) and self.ResourceArn == __o.ResourceArn and self.Policy == __o.Policy and self.ExpectedRevisionId == __o.ExpectedRevisionId and self.ConfirmRemoveSelfResourceAccess == __o.ConfirmRemoveSelfResourceAccess
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class PutResourcePolicyOutput:
+    @classmethod
+    def default(cls, ):
+        return lambda: PutResourcePolicyOutput_PutResourcePolicyOutput(Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_PutResourcePolicyOutput(self) -> bool:
+        return isinstance(self, PutResourcePolicyOutput_PutResourcePolicyOutput)
+
+class PutResourcePolicyOutput_PutResourcePolicyOutput(PutResourcePolicyOutput, NamedTuple('PutResourcePolicyOutput', [('RevisionId', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsDynamodbTypes.PutResourcePolicyOutput.PutResourcePolicyOutput({_dafny.string_of(self.RevisionId)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, PutResourcePolicyOutput_PutResourcePolicyOutput) and self.RevisionId == __o.RevisionId
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
 class QueryInput:
     @classmethod
     def default(cls, ):
@@ -5180,24 +5511,24 @@ class ReplicaAutoScalingUpdateList:
     def default():
         return _dafny.Seq({})
     def _Is(source__):
-        d_29_x_: _dafny.Seq = source__
-        return default__.IsValid__ReplicaAutoScalingUpdateList(d_29_x_)
+        d_30_x_: _dafny.Seq = source__
+        return default__.IsValid__ReplicaAutoScalingUpdateList(d_30_x_)
 
 class ReplicaDescription:
     @classmethod
     def default(cls, ):
-        return lambda: ReplicaDescription_ReplicaDescription(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: ReplicaDescription_ReplicaDescription(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_ReplicaDescription(self) -> bool:
         return isinstance(self, ReplicaDescription_ReplicaDescription)
 
-class ReplicaDescription_ReplicaDescription(ReplicaDescription, NamedTuple('ReplicaDescription', [('RegionName', Any), ('ReplicaStatus', Any), ('ReplicaStatusDescription', Any), ('ReplicaStatusPercentProgress', Any), ('KMSMasterKeyId', Any), ('ProvisionedThroughputOverride', Any), ('GlobalSecondaryIndexes', Any), ('ReplicaInaccessibleDateTime', Any), ('ReplicaTableClassSummary', Any)])):
+class ReplicaDescription_ReplicaDescription(ReplicaDescription, NamedTuple('ReplicaDescription', [('RegionName', Any), ('ReplicaStatus', Any), ('ReplicaStatusDescription', Any), ('ReplicaStatusPercentProgress', Any), ('KMSMasterKeyId', Any), ('ProvisionedThroughputOverride', Any), ('OnDemandThroughputOverride', Any), ('GlobalSecondaryIndexes', Any), ('ReplicaInaccessibleDateTime', Any), ('ReplicaTableClassSummary', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.ReplicaDescription.ReplicaDescription({_dafny.string_of(self.RegionName)}, {_dafny.string_of(self.ReplicaStatus)}, {_dafny.string_of(self.ReplicaStatusDescription)}, {_dafny.string_of(self.ReplicaStatusPercentProgress)}, {_dafny.string_of(self.KMSMasterKeyId)}, {_dafny.string_of(self.ProvisionedThroughputOverride)}, {_dafny.string_of(self.GlobalSecondaryIndexes)}, {_dafny.string_of(self.ReplicaInaccessibleDateTime)}, {_dafny.string_of(self.ReplicaTableClassSummary)})'
+        return f'ComAmazonawsDynamodbTypes.ReplicaDescription.ReplicaDescription({_dafny.string_of(self.RegionName)}, {_dafny.string_of(self.ReplicaStatus)}, {_dafny.string_of(self.ReplicaStatusDescription)}, {_dafny.string_of(self.ReplicaStatusPercentProgress)}, {_dafny.string_of(self.KMSMasterKeyId)}, {_dafny.string_of(self.ProvisionedThroughputOverride)}, {_dafny.string_of(self.OnDemandThroughputOverride)}, {_dafny.string_of(self.GlobalSecondaryIndexes)}, {_dafny.string_of(self.ReplicaInaccessibleDateTime)}, {_dafny.string_of(self.ReplicaTableClassSummary)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, ReplicaDescription_ReplicaDescription) and self.RegionName == __o.RegionName and self.ReplicaStatus == __o.ReplicaStatus and self.ReplicaStatusDescription == __o.ReplicaStatusDescription and self.ReplicaStatusPercentProgress == __o.ReplicaStatusPercentProgress and self.KMSMasterKeyId == __o.KMSMasterKeyId and self.ProvisionedThroughputOverride == __o.ProvisionedThroughputOverride and self.GlobalSecondaryIndexes == __o.GlobalSecondaryIndexes and self.ReplicaInaccessibleDateTime == __o.ReplicaInaccessibleDateTime and self.ReplicaTableClassSummary == __o.ReplicaTableClassSummary
+        return isinstance(__o, ReplicaDescription_ReplicaDescription) and self.RegionName == __o.RegionName and self.ReplicaStatus == __o.ReplicaStatus and self.ReplicaStatusDescription == __o.ReplicaStatusDescription and self.ReplicaStatusPercentProgress == __o.ReplicaStatusPercentProgress and self.KMSMasterKeyId == __o.KMSMasterKeyId and self.ProvisionedThroughputOverride == __o.ProvisionedThroughputOverride and self.OnDemandThroughputOverride == __o.OnDemandThroughputOverride and self.GlobalSecondaryIndexes == __o.GlobalSecondaryIndexes and self.ReplicaInaccessibleDateTime == __o.ReplicaInaccessibleDateTime and self.ReplicaTableClassSummary == __o.ReplicaTableClassSummary
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -5205,18 +5536,18 @@ class ReplicaDescription_ReplicaDescription(ReplicaDescription, NamedTuple('Repl
 class ReplicaGlobalSecondaryIndex:
     @classmethod
     def default(cls, ):
-        return lambda: ReplicaGlobalSecondaryIndex_ReplicaGlobalSecondaryIndex(_dafny.Seq(""), Wrappers.Option.default()())
+        return lambda: ReplicaGlobalSecondaryIndex_ReplicaGlobalSecondaryIndex(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_ReplicaGlobalSecondaryIndex(self) -> bool:
         return isinstance(self, ReplicaGlobalSecondaryIndex_ReplicaGlobalSecondaryIndex)
 
-class ReplicaGlobalSecondaryIndex_ReplicaGlobalSecondaryIndex(ReplicaGlobalSecondaryIndex, NamedTuple('ReplicaGlobalSecondaryIndex', [('IndexName', Any), ('ProvisionedThroughputOverride', Any)])):
+class ReplicaGlobalSecondaryIndex_ReplicaGlobalSecondaryIndex(ReplicaGlobalSecondaryIndex, NamedTuple('ReplicaGlobalSecondaryIndex', [('IndexName', Any), ('ProvisionedThroughputOverride', Any), ('OnDemandThroughputOverride', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.ReplicaGlobalSecondaryIndex.ReplicaGlobalSecondaryIndex({_dafny.string_of(self.IndexName)}, {_dafny.string_of(self.ProvisionedThroughputOverride)})'
+        return f'ComAmazonawsDynamodbTypes.ReplicaGlobalSecondaryIndex.ReplicaGlobalSecondaryIndex({_dafny.string_of(self.IndexName)}, {_dafny.string_of(self.ProvisionedThroughputOverride)}, {_dafny.string_of(self.OnDemandThroughputOverride)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, ReplicaGlobalSecondaryIndex_ReplicaGlobalSecondaryIndex) and self.IndexName == __o.IndexName and self.ProvisionedThroughputOverride == __o.ProvisionedThroughputOverride
+        return isinstance(__o, ReplicaGlobalSecondaryIndex_ReplicaGlobalSecondaryIndex) and self.IndexName == __o.IndexName and self.ProvisionedThroughputOverride == __o.ProvisionedThroughputOverride and self.OnDemandThroughputOverride == __o.OnDemandThroughputOverride
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -5262,18 +5593,18 @@ class ReplicaGlobalSecondaryIndexAutoScalingUpdate_ReplicaGlobalSecondaryIndexAu
 class ReplicaGlobalSecondaryIndexDescription:
     @classmethod
     def default(cls, ):
-        return lambda: ReplicaGlobalSecondaryIndexDescription_ReplicaGlobalSecondaryIndexDescription(Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: ReplicaGlobalSecondaryIndexDescription_ReplicaGlobalSecondaryIndexDescription(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_ReplicaGlobalSecondaryIndexDescription(self) -> bool:
         return isinstance(self, ReplicaGlobalSecondaryIndexDescription_ReplicaGlobalSecondaryIndexDescription)
 
-class ReplicaGlobalSecondaryIndexDescription_ReplicaGlobalSecondaryIndexDescription(ReplicaGlobalSecondaryIndexDescription, NamedTuple('ReplicaGlobalSecondaryIndexDescription', [('IndexName', Any), ('ProvisionedThroughputOverride', Any)])):
+class ReplicaGlobalSecondaryIndexDescription_ReplicaGlobalSecondaryIndexDescription(ReplicaGlobalSecondaryIndexDescription, NamedTuple('ReplicaGlobalSecondaryIndexDescription', [('IndexName', Any), ('ProvisionedThroughputOverride', Any), ('OnDemandThroughputOverride', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.ReplicaGlobalSecondaryIndexDescription.ReplicaGlobalSecondaryIndexDescription({_dafny.string_of(self.IndexName)}, {_dafny.string_of(self.ProvisionedThroughputOverride)})'
+        return f'ComAmazonawsDynamodbTypes.ReplicaGlobalSecondaryIndexDescription.ReplicaGlobalSecondaryIndexDescription({_dafny.string_of(self.IndexName)}, {_dafny.string_of(self.ProvisionedThroughputOverride)}, {_dafny.string_of(self.OnDemandThroughputOverride)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, ReplicaGlobalSecondaryIndexDescription_ReplicaGlobalSecondaryIndexDescription) and self.IndexName == __o.IndexName and self.ProvisionedThroughputOverride == __o.ProvisionedThroughputOverride
+        return isinstance(__o, ReplicaGlobalSecondaryIndexDescription_ReplicaGlobalSecondaryIndexDescription) and self.IndexName == __o.IndexName and self.ProvisionedThroughputOverride == __o.ProvisionedThroughputOverride and self.OnDemandThroughputOverride == __o.OnDemandThroughputOverride
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -5286,8 +5617,8 @@ class ReplicaGlobalSecondaryIndexList:
     def default():
         return _dafny.Seq({})
     def _Is(source__):
-        d_30_x_: _dafny.Seq = source__
-        return default__.IsValid__ReplicaGlobalSecondaryIndexList(d_30_x_)
+        d_31_x_: _dafny.Seq = source__
+        return default__.IsValid__ReplicaGlobalSecondaryIndexList(d_31_x_)
 
 class ReplicaGlobalSecondaryIndexSettingsDescription:
     @classmethod
@@ -5335,8 +5666,8 @@ class ReplicaGlobalSecondaryIndexSettingsUpdateList:
     def default():
         return _dafny.Seq({})
     def _Is(source__):
-        d_31_x_: _dafny.Seq = source__
-        return default__.IsValid__ReplicaGlobalSecondaryIndexSettingsUpdateList(d_31_x_)
+        d_32_x_: _dafny.Seq = source__
+        return default__.IsValid__ReplicaGlobalSecondaryIndexSettingsUpdateList(d_32_x_)
 
 class ReplicaSettingsDescription:
     @classmethod
@@ -5384,8 +5715,8 @@ class ReplicaSettingsUpdateList:
     def default():
         return _dafny.Seq({})
     def _Is(source__):
-        d_32_x_: _dafny.Seq = source__
-        return default__.IsValid__ReplicaSettingsUpdateList(d_32_x_)
+        d_33_x_: _dafny.Seq = source__
+        return default__.IsValid__ReplicaSettingsUpdateList(d_33_x_)
 
 class ReplicaStatus:
     @_dafny.classproperty
@@ -5502,8 +5833,8 @@ class ReplicationGroupUpdateList:
     def default():
         return _dafny.Seq({})
     def _Is(source__):
-        d_33_x_: _dafny.Seq = source__
-        return default__.IsValid__ReplicationGroupUpdateList(d_33_x_)
+        d_34_x_: _dafny.Seq = source__
+        return default__.IsValid__ReplicationGroupUpdateList(d_34_x_)
 
 class ReplicaUpdate:
     @classmethod
@@ -5532,8 +5863,8 @@ class ResourceArnString:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_34_x_: _dafny.Seq = source__
-        return default__.IsValid__ResourceArnString(d_34_x_)
+        d_35_x_: _dafny.Seq = source__
+        return default__.IsValid__ResourceArnString(d_35_x_)
 
 class RestoreSummary:
     @classmethod
@@ -5557,18 +5888,18 @@ class RestoreSummary_RestoreSummary(RestoreSummary, NamedTuple('RestoreSummary',
 class RestoreTableFromBackupInput:
     @classmethod
     def default(cls, ):
-        return lambda: RestoreTableFromBackupInput_RestoreTableFromBackupInput(_dafny.Seq(""), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: RestoreTableFromBackupInput_RestoreTableFromBackupInput(_dafny.Seq(""), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_RestoreTableFromBackupInput(self) -> bool:
         return isinstance(self, RestoreTableFromBackupInput_RestoreTableFromBackupInput)
 
-class RestoreTableFromBackupInput_RestoreTableFromBackupInput(RestoreTableFromBackupInput, NamedTuple('RestoreTableFromBackupInput', [('TargetTableName', Any), ('BackupArn', Any), ('BillingModeOverride', Any), ('GlobalSecondaryIndexOverride', Any), ('LocalSecondaryIndexOverride', Any), ('ProvisionedThroughputOverride', Any), ('SSESpecificationOverride', Any)])):
+class RestoreTableFromBackupInput_RestoreTableFromBackupInput(RestoreTableFromBackupInput, NamedTuple('RestoreTableFromBackupInput', [('TargetTableName', Any), ('BackupArn', Any), ('BillingModeOverride', Any), ('GlobalSecondaryIndexOverride', Any), ('LocalSecondaryIndexOverride', Any), ('ProvisionedThroughputOverride', Any), ('OnDemandThroughputOverride', Any), ('SSESpecificationOverride', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.RestoreTableFromBackupInput.RestoreTableFromBackupInput({_dafny.string_of(self.TargetTableName)}, {_dafny.string_of(self.BackupArn)}, {_dafny.string_of(self.BillingModeOverride)}, {_dafny.string_of(self.GlobalSecondaryIndexOverride)}, {_dafny.string_of(self.LocalSecondaryIndexOverride)}, {_dafny.string_of(self.ProvisionedThroughputOverride)}, {_dafny.string_of(self.SSESpecificationOverride)})'
+        return f'ComAmazonawsDynamodbTypes.RestoreTableFromBackupInput.RestoreTableFromBackupInput({_dafny.string_of(self.TargetTableName)}, {_dafny.string_of(self.BackupArn)}, {_dafny.string_of(self.BillingModeOverride)}, {_dafny.string_of(self.GlobalSecondaryIndexOverride)}, {_dafny.string_of(self.LocalSecondaryIndexOverride)}, {_dafny.string_of(self.ProvisionedThroughputOverride)}, {_dafny.string_of(self.OnDemandThroughputOverride)}, {_dafny.string_of(self.SSESpecificationOverride)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, RestoreTableFromBackupInput_RestoreTableFromBackupInput) and self.TargetTableName == __o.TargetTableName and self.BackupArn == __o.BackupArn and self.BillingModeOverride == __o.BillingModeOverride and self.GlobalSecondaryIndexOverride == __o.GlobalSecondaryIndexOverride and self.LocalSecondaryIndexOverride == __o.LocalSecondaryIndexOverride and self.ProvisionedThroughputOverride == __o.ProvisionedThroughputOverride and self.SSESpecificationOverride == __o.SSESpecificationOverride
+        return isinstance(__o, RestoreTableFromBackupInput_RestoreTableFromBackupInput) and self.TargetTableName == __o.TargetTableName and self.BackupArn == __o.BackupArn and self.BillingModeOverride == __o.BillingModeOverride and self.GlobalSecondaryIndexOverride == __o.GlobalSecondaryIndexOverride and self.LocalSecondaryIndexOverride == __o.LocalSecondaryIndexOverride and self.ProvisionedThroughputOverride == __o.ProvisionedThroughputOverride and self.OnDemandThroughputOverride == __o.OnDemandThroughputOverride and self.SSESpecificationOverride == __o.SSESpecificationOverride
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -5595,18 +5926,18 @@ class RestoreTableFromBackupOutput_RestoreTableFromBackupOutput(RestoreTableFrom
 class RestoreTableToPointInTimeInput:
     @classmethod
     def default(cls, ):
-        return lambda: RestoreTableToPointInTimeInput_RestoreTableToPointInTimeInput(Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: RestoreTableToPointInTimeInput_RestoreTableToPointInTimeInput(Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_RestoreTableToPointInTimeInput(self) -> bool:
         return isinstance(self, RestoreTableToPointInTimeInput_RestoreTableToPointInTimeInput)
 
-class RestoreTableToPointInTimeInput_RestoreTableToPointInTimeInput(RestoreTableToPointInTimeInput, NamedTuple('RestoreTableToPointInTimeInput', [('SourceTableArn', Any), ('SourceTableName', Any), ('TargetTableName', Any), ('UseLatestRestorableTime', Any), ('RestoreDateTime', Any), ('BillingModeOverride', Any), ('GlobalSecondaryIndexOverride', Any), ('LocalSecondaryIndexOverride', Any), ('ProvisionedThroughputOverride', Any), ('SSESpecificationOverride', Any)])):
+class RestoreTableToPointInTimeInput_RestoreTableToPointInTimeInput(RestoreTableToPointInTimeInput, NamedTuple('RestoreTableToPointInTimeInput', [('SourceTableArn', Any), ('SourceTableName', Any), ('TargetTableName', Any), ('UseLatestRestorableTime', Any), ('RestoreDateTime', Any), ('BillingModeOverride', Any), ('GlobalSecondaryIndexOverride', Any), ('LocalSecondaryIndexOverride', Any), ('ProvisionedThroughputOverride', Any), ('OnDemandThroughputOverride', Any), ('SSESpecificationOverride', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.RestoreTableToPointInTimeInput.RestoreTableToPointInTimeInput({_dafny.string_of(self.SourceTableArn)}, {_dafny.string_of(self.SourceTableName)}, {_dafny.string_of(self.TargetTableName)}, {_dafny.string_of(self.UseLatestRestorableTime)}, {_dafny.string_of(self.RestoreDateTime)}, {_dafny.string_of(self.BillingModeOverride)}, {_dafny.string_of(self.GlobalSecondaryIndexOverride)}, {_dafny.string_of(self.LocalSecondaryIndexOverride)}, {_dafny.string_of(self.ProvisionedThroughputOverride)}, {_dafny.string_of(self.SSESpecificationOverride)})'
+        return f'ComAmazonawsDynamodbTypes.RestoreTableToPointInTimeInput.RestoreTableToPointInTimeInput({_dafny.string_of(self.SourceTableArn)}, {_dafny.string_of(self.SourceTableName)}, {_dafny.string_of(self.TargetTableName)}, {_dafny.string_of(self.UseLatestRestorableTime)}, {_dafny.string_of(self.RestoreDateTime)}, {_dafny.string_of(self.BillingModeOverride)}, {_dafny.string_of(self.GlobalSecondaryIndexOverride)}, {_dafny.string_of(self.LocalSecondaryIndexOverride)}, {_dafny.string_of(self.ProvisionedThroughputOverride)}, {_dafny.string_of(self.OnDemandThroughputOverride)}, {_dafny.string_of(self.SSESpecificationOverride)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, RestoreTableToPointInTimeInput_RestoreTableToPointInTimeInput) and self.SourceTableArn == __o.SourceTableArn and self.SourceTableName == __o.SourceTableName and self.TargetTableName == __o.TargetTableName and self.UseLatestRestorableTime == __o.UseLatestRestorableTime and self.RestoreDateTime == __o.RestoreDateTime and self.BillingModeOverride == __o.BillingModeOverride and self.GlobalSecondaryIndexOverride == __o.GlobalSecondaryIndexOverride and self.LocalSecondaryIndexOverride == __o.LocalSecondaryIndexOverride and self.ProvisionedThroughputOverride == __o.ProvisionedThroughputOverride and self.SSESpecificationOverride == __o.SSESpecificationOverride
+        return isinstance(__o, RestoreTableToPointInTimeInput_RestoreTableToPointInTimeInput) and self.SourceTableArn == __o.SourceTableArn and self.SourceTableName == __o.SourceTableName and self.TargetTableName == __o.TargetTableName and self.UseLatestRestorableTime == __o.UseLatestRestorableTime and self.RestoreDateTime == __o.RestoreDateTime and self.BillingModeOverride == __o.BillingModeOverride and self.GlobalSecondaryIndexOverride == __o.GlobalSecondaryIndexOverride and self.LocalSecondaryIndexOverride == __o.LocalSecondaryIndexOverride and self.ProvisionedThroughputOverride == __o.ProvisionedThroughputOverride and self.OnDemandThroughputOverride == __o.OnDemandThroughputOverride and self.SSESpecificationOverride == __o.SSESpecificationOverride
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -5814,8 +6145,8 @@ class S3Bucket:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_35_x_: _dafny.Seq = source__
-        return default__.IsValid__S3Bucket(d_35_x_)
+        d_36_x_: _dafny.Seq = source__
+        return default__.IsValid__S3Bucket(d_36_x_)
 
 class S3BucketSource:
     @classmethod
@@ -5844,8 +6175,8 @@ class S3Prefix:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_36_x_: _dafny.Seq = source__
-        return default__.IsValid__S3Prefix(d_36_x_)
+        d_37_x_: _dafny.Seq = source__
+        return default__.IsValid__S3Prefix(d_37_x_)
 
 class S3SseAlgorithm:
     @_dafny.classproperty
@@ -5888,8 +6219,8 @@ class S3SseKmsKeyId:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_37_x_: _dafny.Seq = source__
-        return default__.IsValid__S3SseKmsKeyId(d_37_x_)
+        d_38_x_: _dafny.Seq = source__
+        return default__.IsValid__S3SseKmsKeyId(d_38_x_)
 
 class ScalarAttributeType:
     @_dafny.classproperty
@@ -5981,9 +6312,9 @@ class ScanSegment:
     def default():
         return int(0)
     def _Is(source__):
-        d_38_x_: int = source__
+        d_39_x_: int = source__
         if True:
-            return default__.IsValid__ScanSegment(d_38_x_)
+            return default__.IsValid__ScanSegment(d_39_x_)
         return False
 
 class ScanTotalSegments:
@@ -5994,9 +6325,9 @@ class ScanTotalSegments:
     def default():
         return int(0)
     def _Is(source__):
-        d_39_x_: int = source__
+        d_40_x_: int = source__
         if True:
-            return default__.IsValid__ScanTotalSegments(d_39_x_)
+            return default__.IsValid__ScanTotalSegments(d_40_x_)
         return False
 
 class Select:
@@ -6057,18 +6388,18 @@ class Select_COUNT(Select, NamedTuple('COUNT', [])):
 class SourceTableDetails:
     @classmethod
     def default(cls, ):
-        return lambda: SourceTableDetails_SourceTableDetails(_dafny.Seq(""), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq({}), _dafny.Seq(""), ProvisionedThroughput.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: SourceTableDetails_SourceTableDetails(_dafny.Seq(""), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq({}), _dafny.Seq(""), ProvisionedThroughput.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_SourceTableDetails(self) -> bool:
         return isinstance(self, SourceTableDetails_SourceTableDetails)
 
-class SourceTableDetails_SourceTableDetails(SourceTableDetails, NamedTuple('SourceTableDetails', [('TableName', Any), ('TableId', Any), ('TableArn', Any), ('TableSizeBytes', Any), ('KeySchema', Any), ('TableCreationDateTime', Any), ('ProvisionedThroughput', Any), ('ItemCount', Any), ('BillingMode', Any)])):
+class SourceTableDetails_SourceTableDetails(SourceTableDetails, NamedTuple('SourceTableDetails', [('TableName', Any), ('TableId', Any), ('TableArn', Any), ('TableSizeBytes', Any), ('KeySchema', Any), ('TableCreationDateTime', Any), ('ProvisionedThroughput', Any), ('OnDemandThroughput', Any), ('ItemCount', Any), ('BillingMode', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.SourceTableDetails.SourceTableDetails({_dafny.string_of(self.TableName)}, {_dafny.string_of(self.TableId)}, {_dafny.string_of(self.TableArn)}, {_dafny.string_of(self.TableSizeBytes)}, {_dafny.string_of(self.KeySchema)}, {_dafny.string_of(self.TableCreationDateTime)}, {_dafny.string_of(self.ProvisionedThroughput)}, {_dafny.string_of(self.ItemCount)}, {_dafny.string_of(self.BillingMode)})'
+        return f'ComAmazonawsDynamodbTypes.SourceTableDetails.SourceTableDetails({_dafny.string_of(self.TableName)}, {_dafny.string_of(self.TableId)}, {_dafny.string_of(self.TableArn)}, {_dafny.string_of(self.TableSizeBytes)}, {_dafny.string_of(self.KeySchema)}, {_dafny.string_of(self.TableCreationDateTime)}, {_dafny.string_of(self.ProvisionedThroughput)}, {_dafny.string_of(self.OnDemandThroughput)}, {_dafny.string_of(self.ItemCount)}, {_dafny.string_of(self.BillingMode)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, SourceTableDetails_SourceTableDetails) and self.TableName == __o.TableName and self.TableId == __o.TableId and self.TableArn == __o.TableArn and self.TableSizeBytes == __o.TableSizeBytes and self.KeySchema == __o.KeySchema and self.TableCreationDateTime == __o.TableCreationDateTime and self.ProvisionedThroughput == __o.ProvisionedThroughput and self.ItemCount == __o.ItemCount and self.BillingMode == __o.BillingMode
+        return isinstance(__o, SourceTableDetails_SourceTableDetails) and self.TableName == __o.TableName and self.TableId == __o.TableId and self.TableArn == __o.TableArn and self.TableSizeBytes == __o.TableSizeBytes and self.KeySchema == __o.KeySchema and self.TableCreationDateTime == __o.TableCreationDateTime and self.ProvisionedThroughput == __o.ProvisionedThroughput and self.OnDemandThroughput == __o.OnDemandThroughput and self.ItemCount == __o.ItemCount and self.BillingMode == __o.BillingMode
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -6237,8 +6568,8 @@ class StreamArn:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_40_x_: _dafny.Seq = source__
-        return default__.IsValid__StreamArn(d_40_x_)
+        d_41_x_: _dafny.Seq = source__
+        return default__.IsValid__StreamArn(d_41_x_)
 
 class StreamSpecification:
     @classmethod
@@ -6314,6 +6645,17 @@ class StreamViewType_KEYS__ONLY(StreamViewType, NamedTuple('KEYS__ONLY', [])):
         return super().__hash__()
 
 
+class TableArn:
+    def  __init__(self):
+        pass
+
+    @staticmethod
+    def default():
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_42_x_: _dafny.Seq = source__
+        return default__.IsValid__TableArn(d_42_x_)
+
 class TableAutoScalingDescription:
     @classmethod
     def default(cls, ):
@@ -6388,18 +6730,18 @@ class TableClassSummary_TableClassSummary(TableClassSummary, NamedTuple('TableCl
 class TableCreationParameters:
     @classmethod
     def default(cls, ):
-        return lambda: TableCreationParameters_TableCreationParameters(_dafny.Seq(""), _dafny.Seq({}), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: TableCreationParameters_TableCreationParameters(_dafny.Seq(""), _dafny.Seq({}), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_TableCreationParameters(self) -> bool:
         return isinstance(self, TableCreationParameters_TableCreationParameters)
 
-class TableCreationParameters_TableCreationParameters(TableCreationParameters, NamedTuple('TableCreationParameters', [('TableName', Any), ('AttributeDefinitions', Any), ('KeySchema', Any), ('BillingMode', Any), ('ProvisionedThroughput', Any), ('SSESpecification', Any), ('GlobalSecondaryIndexes', Any)])):
+class TableCreationParameters_TableCreationParameters(TableCreationParameters, NamedTuple('TableCreationParameters', [('TableName', Any), ('AttributeDefinitions', Any), ('KeySchema', Any), ('BillingMode', Any), ('ProvisionedThroughput', Any), ('OnDemandThroughput', Any), ('SSESpecification', Any), ('GlobalSecondaryIndexes', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.TableCreationParameters.TableCreationParameters({_dafny.string_of(self.TableName)}, {_dafny.string_of(self.AttributeDefinitions)}, {_dafny.string_of(self.KeySchema)}, {_dafny.string_of(self.BillingMode)}, {_dafny.string_of(self.ProvisionedThroughput)}, {_dafny.string_of(self.SSESpecification)}, {_dafny.string_of(self.GlobalSecondaryIndexes)})'
+        return f'ComAmazonawsDynamodbTypes.TableCreationParameters.TableCreationParameters({_dafny.string_of(self.TableName)}, {_dafny.string_of(self.AttributeDefinitions)}, {_dafny.string_of(self.KeySchema)}, {_dafny.string_of(self.BillingMode)}, {_dafny.string_of(self.ProvisionedThroughput)}, {_dafny.string_of(self.OnDemandThroughput)}, {_dafny.string_of(self.SSESpecification)}, {_dafny.string_of(self.GlobalSecondaryIndexes)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, TableCreationParameters_TableCreationParameters) and self.TableName == __o.TableName and self.AttributeDefinitions == __o.AttributeDefinitions and self.KeySchema == __o.KeySchema and self.BillingMode == __o.BillingMode and self.ProvisionedThroughput == __o.ProvisionedThroughput and self.SSESpecification == __o.SSESpecification and self.GlobalSecondaryIndexes == __o.GlobalSecondaryIndexes
+        return isinstance(__o, TableCreationParameters_TableCreationParameters) and self.TableName == __o.TableName and self.AttributeDefinitions == __o.AttributeDefinitions and self.KeySchema == __o.KeySchema and self.BillingMode == __o.BillingMode and self.ProvisionedThroughput == __o.ProvisionedThroughput and self.OnDemandThroughput == __o.OnDemandThroughput and self.SSESpecification == __o.SSESpecification and self.GlobalSecondaryIndexes == __o.GlobalSecondaryIndexes
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -6407,18 +6749,18 @@ class TableCreationParameters_TableCreationParameters(TableCreationParameters, N
 class TableDescription:
     @classmethod
     def default(cls, ):
-        return lambda: TableDescription_TableDescription(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: TableDescription_TableDescription(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_TableDescription(self) -> bool:
         return isinstance(self, TableDescription_TableDescription)
 
-class TableDescription_TableDescription(TableDescription, NamedTuple('TableDescription', [('AttributeDefinitions', Any), ('TableName', Any), ('KeySchema', Any), ('TableStatus', Any), ('CreationDateTime', Any), ('ProvisionedThroughput', Any), ('TableSizeBytes', Any), ('ItemCount', Any), ('TableArn', Any), ('TableId', Any), ('BillingModeSummary', Any), ('LocalSecondaryIndexes', Any), ('GlobalSecondaryIndexes', Any), ('StreamSpecification', Any), ('LatestStreamLabel', Any), ('LatestStreamArn', Any), ('GlobalTableVersion', Any), ('Replicas', Any), ('RestoreSummary', Any), ('SSEDescription', Any), ('ArchivalSummary', Any), ('TableClassSummary', Any)])):
+class TableDescription_TableDescription(TableDescription, NamedTuple('TableDescription', [('AttributeDefinitions', Any), ('TableName', Any), ('KeySchema', Any), ('TableStatus', Any), ('CreationDateTime', Any), ('ProvisionedThroughput', Any), ('TableSizeBytes', Any), ('ItemCount', Any), ('TableArn', Any), ('TableId', Any), ('BillingModeSummary', Any), ('LocalSecondaryIndexes', Any), ('GlobalSecondaryIndexes', Any), ('StreamSpecification', Any), ('LatestStreamLabel', Any), ('LatestStreamArn', Any), ('GlobalTableVersion', Any), ('Replicas', Any), ('RestoreSummary', Any), ('SSEDescription', Any), ('ArchivalSummary', Any), ('TableClassSummary', Any), ('DeletionProtectionEnabled', Any), ('OnDemandThroughput', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.TableDescription.TableDescription({_dafny.string_of(self.AttributeDefinitions)}, {_dafny.string_of(self.TableName)}, {_dafny.string_of(self.KeySchema)}, {_dafny.string_of(self.TableStatus)}, {_dafny.string_of(self.CreationDateTime)}, {_dafny.string_of(self.ProvisionedThroughput)}, {_dafny.string_of(self.TableSizeBytes)}, {_dafny.string_of(self.ItemCount)}, {_dafny.string_of(self.TableArn)}, {_dafny.string_of(self.TableId)}, {_dafny.string_of(self.BillingModeSummary)}, {_dafny.string_of(self.LocalSecondaryIndexes)}, {_dafny.string_of(self.GlobalSecondaryIndexes)}, {_dafny.string_of(self.StreamSpecification)}, {_dafny.string_of(self.LatestStreamLabel)}, {_dafny.string_of(self.LatestStreamArn)}, {_dafny.string_of(self.GlobalTableVersion)}, {_dafny.string_of(self.Replicas)}, {_dafny.string_of(self.RestoreSummary)}, {_dafny.string_of(self.SSEDescription)}, {_dafny.string_of(self.ArchivalSummary)}, {_dafny.string_of(self.TableClassSummary)})'
+        return f'ComAmazonawsDynamodbTypes.TableDescription.TableDescription({_dafny.string_of(self.AttributeDefinitions)}, {_dafny.string_of(self.TableName)}, {_dafny.string_of(self.KeySchema)}, {_dafny.string_of(self.TableStatus)}, {_dafny.string_of(self.CreationDateTime)}, {_dafny.string_of(self.ProvisionedThroughput)}, {_dafny.string_of(self.TableSizeBytes)}, {_dafny.string_of(self.ItemCount)}, {_dafny.string_of(self.TableArn)}, {_dafny.string_of(self.TableId)}, {_dafny.string_of(self.BillingModeSummary)}, {_dafny.string_of(self.LocalSecondaryIndexes)}, {_dafny.string_of(self.GlobalSecondaryIndexes)}, {_dafny.string_of(self.StreamSpecification)}, {_dafny.string_of(self.LatestStreamLabel)}, {_dafny.string_of(self.LatestStreamArn)}, {_dafny.string_of(self.GlobalTableVersion)}, {_dafny.string_of(self.Replicas)}, {_dafny.string_of(self.RestoreSummary)}, {_dafny.string_of(self.SSEDescription)}, {_dafny.string_of(self.ArchivalSummary)}, {_dafny.string_of(self.TableClassSummary)}, {_dafny.string_of(self.DeletionProtectionEnabled)}, {_dafny.string_of(self.OnDemandThroughput)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, TableDescription_TableDescription) and self.AttributeDefinitions == __o.AttributeDefinitions and self.TableName == __o.TableName and self.KeySchema == __o.KeySchema and self.TableStatus == __o.TableStatus and self.CreationDateTime == __o.CreationDateTime and self.ProvisionedThroughput == __o.ProvisionedThroughput and self.TableSizeBytes == __o.TableSizeBytes and self.ItemCount == __o.ItemCount and self.TableArn == __o.TableArn and self.TableId == __o.TableId and self.BillingModeSummary == __o.BillingModeSummary and self.LocalSecondaryIndexes == __o.LocalSecondaryIndexes and self.GlobalSecondaryIndexes == __o.GlobalSecondaryIndexes and self.StreamSpecification == __o.StreamSpecification and self.LatestStreamLabel == __o.LatestStreamLabel and self.LatestStreamArn == __o.LatestStreamArn and self.GlobalTableVersion == __o.GlobalTableVersion and self.Replicas == __o.Replicas and self.RestoreSummary == __o.RestoreSummary and self.SSEDescription == __o.SSEDescription and self.ArchivalSummary == __o.ArchivalSummary and self.TableClassSummary == __o.TableClassSummary
+        return isinstance(__o, TableDescription_TableDescription) and self.AttributeDefinitions == __o.AttributeDefinitions and self.TableName == __o.TableName and self.KeySchema == __o.KeySchema and self.TableStatus == __o.TableStatus and self.CreationDateTime == __o.CreationDateTime and self.ProvisionedThroughput == __o.ProvisionedThroughput and self.TableSizeBytes == __o.TableSizeBytes and self.ItemCount == __o.ItemCount and self.TableArn == __o.TableArn and self.TableId == __o.TableId and self.BillingModeSummary == __o.BillingModeSummary and self.LocalSecondaryIndexes == __o.LocalSecondaryIndexes and self.GlobalSecondaryIndexes == __o.GlobalSecondaryIndexes and self.StreamSpecification == __o.StreamSpecification and self.LatestStreamLabel == __o.LatestStreamLabel and self.LatestStreamArn == __o.LatestStreamArn and self.GlobalTableVersion == __o.GlobalTableVersion and self.Replicas == __o.Replicas and self.RestoreSummary == __o.RestoreSummary and self.SSEDescription == __o.SSEDescription and self.ArchivalSummary == __o.ArchivalSummary and self.TableClassSummary == __o.TableClassSummary and self.DeletionProtectionEnabled == __o.DeletionProtectionEnabled and self.OnDemandThroughput == __o.OnDemandThroughput
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -6431,8 +6773,8 @@ class TableName:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_41_x_: _dafny.Seq = source__
-        return default__.IsValid__TableName(d_41_x_)
+        d_43_x_: _dafny.Seq = source__
+        return default__.IsValid__TableName(d_43_x_)
 
 class TableStatus:
     @_dafny.classproperty
@@ -6549,8 +6891,8 @@ class TagKeyString:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_42_x_: _dafny.Seq = source__
-        return default__.IsValid__TagKeyString(d_42_x_)
+        d_44_x_: _dafny.Seq = source__
+        return default__.IsValid__TagKeyString(d_44_x_)
 
 class TagResourceInput:
     @classmethod
@@ -6579,8 +6921,8 @@ class TagValueString:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_43_x_: _dafny.Seq = source__
-        return default__.IsValid__TagValueString(d_43_x_)
+        d_45_x_: _dafny.Seq = source__
+        return default__.IsValid__TagValueString(d_45_x_)
 
 class TimeToLiveAttributeName:
     def  __init__(self):
@@ -6590,8 +6932,8 @@ class TimeToLiveAttributeName:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_44_x_: _dafny.Seq = source__
-        return default__.IsValid__TimeToLiveAttributeName(d_44_x_)
+        d_46_x_: _dafny.Seq = source__
+        return default__.IsValid__TimeToLiveAttributeName(d_46_x_)
 
 class TimeToLiveDescription:
     @classmethod
@@ -6713,8 +7055,8 @@ class TransactGetItemList:
     def default():
         return _dafny.Seq({})
     def _Is(source__):
-        d_45_x_: _dafny.Seq = source__
-        return default__.IsValid__TransactGetItemList(d_45_x_)
+        d_47_x_: _dafny.Seq = source__
+        return default__.IsValid__TransactGetItemList(d_47_x_)
 
 class TransactGetItemsInput:
     @classmethod
@@ -6781,8 +7123,8 @@ class TransactWriteItemList:
     def default():
         return _dafny.Seq({})
     def _Is(source__):
-        d_46_x_: _dafny.Seq = source__
-        return default__.IsValid__TransactWriteItemList(d_46_x_)
+        d_48_x_: _dafny.Seq = source__
+        return default__.IsValid__TransactWriteItemList(d_48_x_)
 
 class TransactWriteItemsInput:
     @classmethod
@@ -6939,18 +7281,18 @@ class UpdateContributorInsightsOutput_UpdateContributorInsightsOutput(UpdateCont
 class UpdateGlobalSecondaryIndexAction:
     @classmethod
     def default(cls, ):
-        return lambda: UpdateGlobalSecondaryIndexAction_UpdateGlobalSecondaryIndexAction(_dafny.Seq(""), ProvisionedThroughput.default()())
+        return lambda: UpdateGlobalSecondaryIndexAction_UpdateGlobalSecondaryIndexAction(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_UpdateGlobalSecondaryIndexAction(self) -> bool:
         return isinstance(self, UpdateGlobalSecondaryIndexAction_UpdateGlobalSecondaryIndexAction)
 
-class UpdateGlobalSecondaryIndexAction_UpdateGlobalSecondaryIndexAction(UpdateGlobalSecondaryIndexAction, NamedTuple('UpdateGlobalSecondaryIndexAction', [('IndexName', Any), ('ProvisionedThroughput', Any)])):
+class UpdateGlobalSecondaryIndexAction_UpdateGlobalSecondaryIndexAction(UpdateGlobalSecondaryIndexAction, NamedTuple('UpdateGlobalSecondaryIndexAction', [('IndexName', Any), ('ProvisionedThroughput', Any), ('OnDemandThroughput', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.UpdateGlobalSecondaryIndexAction.UpdateGlobalSecondaryIndexAction({_dafny.string_of(self.IndexName)}, {_dafny.string_of(self.ProvisionedThroughput)})'
+        return f'ComAmazonawsDynamodbTypes.UpdateGlobalSecondaryIndexAction.UpdateGlobalSecondaryIndexAction({_dafny.string_of(self.IndexName)}, {_dafny.string_of(self.ProvisionedThroughput)}, {_dafny.string_of(self.OnDemandThroughput)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, UpdateGlobalSecondaryIndexAction_UpdateGlobalSecondaryIndexAction) and self.IndexName == __o.IndexName and self.ProvisionedThroughput == __o.ProvisionedThroughput
+        return isinstance(__o, UpdateGlobalSecondaryIndexAction_UpdateGlobalSecondaryIndexAction) and self.IndexName == __o.IndexName and self.ProvisionedThroughput == __o.ProvisionedThroughput and self.OnDemandThroughput == __o.OnDemandThroughput
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -7069,21 +7411,78 @@ class UpdateItemOutput_UpdateItemOutput(UpdateItemOutput, NamedTuple('UpdateItem
         return super().__hash__()
 
 
+class UpdateKinesisStreamingConfiguration:
+    @classmethod
+    def default(cls, ):
+        return lambda: UpdateKinesisStreamingConfiguration_UpdateKinesisStreamingConfiguration(Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_UpdateKinesisStreamingConfiguration(self) -> bool:
+        return isinstance(self, UpdateKinesisStreamingConfiguration_UpdateKinesisStreamingConfiguration)
+
+class UpdateKinesisStreamingConfiguration_UpdateKinesisStreamingConfiguration(UpdateKinesisStreamingConfiguration, NamedTuple('UpdateKinesisStreamingConfiguration', [('ApproximateCreationDateTimePrecision', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsDynamodbTypes.UpdateKinesisStreamingConfiguration.UpdateKinesisStreamingConfiguration({_dafny.string_of(self.ApproximateCreationDateTimePrecision)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, UpdateKinesisStreamingConfiguration_UpdateKinesisStreamingConfiguration) and self.ApproximateCreationDateTimePrecision == __o.ApproximateCreationDateTimePrecision
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class UpdateKinesisStreamingDestinationInput:
+    @classmethod
+    def default(cls, ):
+        return lambda: UpdateKinesisStreamingDestinationInput_UpdateKinesisStreamingDestinationInput(_dafny.Seq(""), _dafny.Seq(""), Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_UpdateKinesisStreamingDestinationInput(self) -> bool:
+        return isinstance(self, UpdateKinesisStreamingDestinationInput_UpdateKinesisStreamingDestinationInput)
+
+class UpdateKinesisStreamingDestinationInput_UpdateKinesisStreamingDestinationInput(UpdateKinesisStreamingDestinationInput, NamedTuple('UpdateKinesisStreamingDestinationInput', [('TableName', Any), ('StreamArn', Any), ('UpdateKinesisStreamingConfiguration', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsDynamodbTypes.UpdateKinesisStreamingDestinationInput.UpdateKinesisStreamingDestinationInput({_dafny.string_of(self.TableName)}, {_dafny.string_of(self.StreamArn)}, {_dafny.string_of(self.UpdateKinesisStreamingConfiguration)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, UpdateKinesisStreamingDestinationInput_UpdateKinesisStreamingDestinationInput) and self.TableName == __o.TableName and self.StreamArn == __o.StreamArn and self.UpdateKinesisStreamingConfiguration == __o.UpdateKinesisStreamingConfiguration
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class UpdateKinesisStreamingDestinationOutput:
+    @classmethod
+    def default(cls, ):
+        return lambda: UpdateKinesisStreamingDestinationOutput_UpdateKinesisStreamingDestinationOutput(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_UpdateKinesisStreamingDestinationOutput(self) -> bool:
+        return isinstance(self, UpdateKinesisStreamingDestinationOutput_UpdateKinesisStreamingDestinationOutput)
+
+class UpdateKinesisStreamingDestinationOutput_UpdateKinesisStreamingDestinationOutput(UpdateKinesisStreamingDestinationOutput, NamedTuple('UpdateKinesisStreamingDestinationOutput', [('TableName', Any), ('StreamArn', Any), ('DestinationStatus', Any), ('UpdateKinesisStreamingConfiguration', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsDynamodbTypes.UpdateKinesisStreamingDestinationOutput.UpdateKinesisStreamingDestinationOutput({_dafny.string_of(self.TableName)}, {_dafny.string_of(self.StreamArn)}, {_dafny.string_of(self.DestinationStatus)}, {_dafny.string_of(self.UpdateKinesisStreamingConfiguration)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, UpdateKinesisStreamingDestinationOutput_UpdateKinesisStreamingDestinationOutput) and self.TableName == __o.TableName and self.StreamArn == __o.StreamArn and self.DestinationStatus == __o.DestinationStatus and self.UpdateKinesisStreamingConfiguration == __o.UpdateKinesisStreamingConfiguration
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
 class UpdateReplicationGroupMemberAction:
     @classmethod
     def default(cls, ):
-        return lambda: UpdateReplicationGroupMemberAction_UpdateReplicationGroupMemberAction(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: UpdateReplicationGroupMemberAction_UpdateReplicationGroupMemberAction(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_UpdateReplicationGroupMemberAction(self) -> bool:
         return isinstance(self, UpdateReplicationGroupMemberAction_UpdateReplicationGroupMemberAction)
 
-class UpdateReplicationGroupMemberAction_UpdateReplicationGroupMemberAction(UpdateReplicationGroupMemberAction, NamedTuple('UpdateReplicationGroupMemberAction', [('RegionName', Any), ('KMSMasterKeyId', Any), ('ProvisionedThroughputOverride', Any), ('GlobalSecondaryIndexes', Any), ('TableClassOverride', Any)])):
+class UpdateReplicationGroupMemberAction_UpdateReplicationGroupMemberAction(UpdateReplicationGroupMemberAction, NamedTuple('UpdateReplicationGroupMemberAction', [('RegionName', Any), ('KMSMasterKeyId', Any), ('ProvisionedThroughputOverride', Any), ('OnDemandThroughputOverride', Any), ('GlobalSecondaryIndexes', Any), ('TableClassOverride', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.UpdateReplicationGroupMemberAction.UpdateReplicationGroupMemberAction({_dafny.string_of(self.RegionName)}, {_dafny.string_of(self.KMSMasterKeyId)}, {_dafny.string_of(self.ProvisionedThroughputOverride)}, {_dafny.string_of(self.GlobalSecondaryIndexes)}, {_dafny.string_of(self.TableClassOverride)})'
+        return f'ComAmazonawsDynamodbTypes.UpdateReplicationGroupMemberAction.UpdateReplicationGroupMemberAction({_dafny.string_of(self.RegionName)}, {_dafny.string_of(self.KMSMasterKeyId)}, {_dafny.string_of(self.ProvisionedThroughputOverride)}, {_dafny.string_of(self.OnDemandThroughputOverride)}, {_dafny.string_of(self.GlobalSecondaryIndexes)}, {_dafny.string_of(self.TableClassOverride)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, UpdateReplicationGroupMemberAction_UpdateReplicationGroupMemberAction) and self.RegionName == __o.RegionName and self.KMSMasterKeyId == __o.KMSMasterKeyId and self.ProvisionedThroughputOverride == __o.ProvisionedThroughputOverride and self.GlobalSecondaryIndexes == __o.GlobalSecondaryIndexes and self.TableClassOverride == __o.TableClassOverride
+        return isinstance(__o, UpdateReplicationGroupMemberAction_UpdateReplicationGroupMemberAction) and self.RegionName == __o.RegionName and self.KMSMasterKeyId == __o.KMSMasterKeyId and self.ProvisionedThroughputOverride == __o.ProvisionedThroughputOverride and self.OnDemandThroughputOverride == __o.OnDemandThroughputOverride and self.GlobalSecondaryIndexes == __o.GlobalSecondaryIndexes and self.TableClassOverride == __o.TableClassOverride
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -7091,18 +7490,18 @@ class UpdateReplicationGroupMemberAction_UpdateReplicationGroupMemberAction(Upda
 class UpdateTableInput:
     @classmethod
     def default(cls, ):
-        return lambda: UpdateTableInput_UpdateTableInput(Wrappers.Option.default()(), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: UpdateTableInput_UpdateTableInput(Wrappers.Option.default()(), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_UpdateTableInput(self) -> bool:
         return isinstance(self, UpdateTableInput_UpdateTableInput)
 
-class UpdateTableInput_UpdateTableInput(UpdateTableInput, NamedTuple('UpdateTableInput', [('AttributeDefinitions', Any), ('TableName', Any), ('BillingMode', Any), ('ProvisionedThroughput', Any), ('GlobalSecondaryIndexUpdates', Any), ('StreamSpecification', Any), ('SSESpecification', Any), ('ReplicaUpdates', Any), ('TableClass', Any)])):
+class UpdateTableInput_UpdateTableInput(UpdateTableInput, NamedTuple('UpdateTableInput', [('AttributeDefinitions', Any), ('TableName', Any), ('BillingMode', Any), ('ProvisionedThroughput', Any), ('GlobalSecondaryIndexUpdates', Any), ('StreamSpecification', Any), ('SSESpecification', Any), ('ReplicaUpdates', Any), ('TableClass', Any), ('DeletionProtectionEnabled', Any), ('OnDemandThroughput', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.UpdateTableInput.UpdateTableInput({_dafny.string_of(self.AttributeDefinitions)}, {_dafny.string_of(self.TableName)}, {_dafny.string_of(self.BillingMode)}, {_dafny.string_of(self.ProvisionedThroughput)}, {_dafny.string_of(self.GlobalSecondaryIndexUpdates)}, {_dafny.string_of(self.StreamSpecification)}, {_dafny.string_of(self.SSESpecification)}, {_dafny.string_of(self.ReplicaUpdates)}, {_dafny.string_of(self.TableClass)})'
+        return f'ComAmazonawsDynamodbTypes.UpdateTableInput.UpdateTableInput({_dafny.string_of(self.AttributeDefinitions)}, {_dafny.string_of(self.TableName)}, {_dafny.string_of(self.BillingMode)}, {_dafny.string_of(self.ProvisionedThroughput)}, {_dafny.string_of(self.GlobalSecondaryIndexUpdates)}, {_dafny.string_of(self.StreamSpecification)}, {_dafny.string_of(self.SSESpecification)}, {_dafny.string_of(self.ReplicaUpdates)}, {_dafny.string_of(self.TableClass)}, {_dafny.string_of(self.DeletionProtectionEnabled)}, {_dafny.string_of(self.OnDemandThroughput)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, UpdateTableInput_UpdateTableInput) and self.AttributeDefinitions == __o.AttributeDefinitions and self.TableName == __o.TableName and self.BillingMode == __o.BillingMode and self.ProvisionedThroughput == __o.ProvisionedThroughput and self.GlobalSecondaryIndexUpdates == __o.GlobalSecondaryIndexUpdates and self.StreamSpecification == __o.StreamSpecification and self.SSESpecification == __o.SSESpecification and self.ReplicaUpdates == __o.ReplicaUpdates and self.TableClass == __o.TableClass
+        return isinstance(__o, UpdateTableInput_UpdateTableInput) and self.AttributeDefinitions == __o.AttributeDefinitions and self.TableName == __o.TableName and self.BillingMode == __o.BillingMode and self.ProvisionedThroughput == __o.ProvisionedThroughput and self.GlobalSecondaryIndexUpdates == __o.GlobalSecondaryIndexUpdates and self.StreamSpecification == __o.StreamSpecification and self.SSESpecification == __o.SSESpecification and self.ReplicaUpdates == __o.ReplicaUpdates and self.TableClass == __o.TableClass and self.DeletionProtectionEnabled == __o.DeletionProtectionEnabled and self.OnDemandThroughput == __o.OnDemandThroughput
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -7229,8 +7628,8 @@ class WriteRequests:
     def default():
         return _dafny.Seq({})
     def _Is(source__):
-        d_47_x_: _dafny.Seq = source__
-        return default__.IsValid__WriteRequests(d_47_x_)
+        d_49_x_: _dafny.Seq = source__
+        return default__.IsValid__WriteRequests(d_49_x_)
 
 class Error:
     @classmethod
@@ -7299,6 +7698,9 @@ class Error:
     def is_PointInTimeRecoveryUnavailableException(self) -> bool:
         return isinstance(self, Error_PointInTimeRecoveryUnavailableException)
     @property
+    def is_PolicyNotFoundException(self) -> bool:
+        return isinstance(self, Error_PolicyNotFoundException)
+    @property
     def is_ProvisionedThroughputExceededException(self) -> bool:
         return isinstance(self, Error_ProvisionedThroughputExceededException)
     @property
@@ -7354,11 +7756,11 @@ class Error_BackupNotFoundException(Error, NamedTuple('BackupNotFoundException',
     def __hash__(self) -> int:
         return super().__hash__()
 
-class Error_ConditionalCheckFailedException(Error, NamedTuple('ConditionalCheckFailedException', [('message', Any)])):
+class Error_ConditionalCheckFailedException(Error, NamedTuple('ConditionalCheckFailedException', [('message', Any), ('Item', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.Error.ConditionalCheckFailedException({_dafny.string_of(self.message)})'
+        return f'ComAmazonawsDynamodbTypes.Error.ConditionalCheckFailedException({_dafny.string_of(self.message)}, {_dafny.string_of(self.Item)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, Error_ConditionalCheckFailedException) and self.message == __o.message
+        return isinstance(__o, Error_ConditionalCheckFailedException) and self.message == __o.message and self.Item == __o.Item
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -7498,6 +7900,14 @@ class Error_PointInTimeRecoveryUnavailableException(Error, NamedTuple('PointInTi
     def __hash__(self) -> int:
         return super().__hash__()
 
+class Error_PolicyNotFoundException(Error, NamedTuple('PolicyNotFoundException', [('message', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsDynamodbTypes.Error.PolicyNotFoundException({_dafny.string_of(self.message)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, Error_PolicyNotFoundException) and self.message == __o.message
+    def __hash__(self) -> int:
+        return super().__hash__()
+
 class Error_ProvisionedThroughputExceededException(Error, NamedTuple('ProvisionedThroughputExceededException', [('message', Any)])):
     def __dafnystr__(self) -> str:
         return f'ComAmazonawsDynamodbTypes.Error.ProvisionedThroughputExceededException({_dafny.string_of(self.message)})'
@@ -7594,11 +8004,11 @@ class Error_TransactionInProgressException(Error, NamedTuple('TransactionInProgr
     def __hash__(self) -> int:
         return super().__hash__()
 
-class Error_Opaque(Error, NamedTuple('Opaque', [('obj', Any)])):
+class Error_Opaque(Error, NamedTuple('Opaque', [('obj', Any), ('alt__text', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.Error.Opaque({_dafny.string_of(self.obj)})'
+        return f'ComAmazonawsDynamodbTypes.Error.Opaque({_dafny.string_of(self.obj)}, {_dafny.string_of(self.alt__text)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, Error_Opaque) and self.obj == __o.obj
+        return isinstance(__o, Error_Opaque) and self.obj == __o.obj and self.alt__text == __o.alt__text
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -7611,5 +8021,5 @@ class OpaqueError:
     def default():
         return Error.default()()
     def _Is(source__):
-        d_48_e_: Error = source__
-        return (d_48_e_).is_Opaque
+        d_50_e_: Error = source__
+        return (d_50_e_).is_Opaque

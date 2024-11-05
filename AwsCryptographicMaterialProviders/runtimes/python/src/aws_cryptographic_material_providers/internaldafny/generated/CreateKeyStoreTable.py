@@ -101,13 +101,13 @@ class default__:
             if (d_1_error_).is_ResourceNotFoundException:
                 d_2_maybeCreateTableResponse_: Wrappers.Result
                 out1_: Wrappers.Result
-                out1_ = (ddbClient).CreateTable(ComAmazonawsDynamodbTypes.CreateTableInput_CreateTableInput(default__.ATTRIBUTE__DEFINITIONS, tableName, default__.KEY__SCHEMA, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_Some(ComAmazonawsDynamodbTypes.BillingMode_PAY__PER__REQUEST()), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None()))
+                out1_ = (ddbClient).CreateTable(ComAmazonawsDynamodbTypes.CreateTableInput_CreateTableInput(default__.ATTRIBUTE__DEFINITIONS, tableName, default__.KEY__SCHEMA, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_Some(ComAmazonawsDynamodbTypes.BillingMode_PAY__PER__REQUEST()), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None()))
                 d_2_maybeCreateTableResponse_ = out1_
                 if (d_2_maybeCreateTableResponse_).is_Failure:
                     res = Wrappers.Result_Failure(AwsCryptographyKeyStoreTypes.Error_ComAmazonawsDynamodb((d_2_maybeCreateTableResponse_).error))
                 elif True:
                     d_3_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-                    d_3_valueOrError0_ = Wrappers.default__.Need(((((d_2_maybeCreateTableResponse_).value).TableDescription).is_Some) and (default__.keyStoreHasExpectedConstruction_q((((d_2_maybeCreateTableResponse_).value).TableDescription).value)), default__.E(_dafny.Seq("Configured table name does not conform to expected Key Store construction.")))
+                    d_3_valueOrError0_ = Wrappers.default__.Need((((((d_2_maybeCreateTableResponse_).value).TableDescription).is_Some) and (default__.keyStoreHasExpectedConstruction_q((((d_2_maybeCreateTableResponse_).value).TableDescription).value))) and (ComAmazonawsDynamodbTypes.default__.IsValid__TableArn((((((d_2_maybeCreateTableResponse_).value).TableDescription).value).TableArn).value)), default__.E(_dafny.Seq("Configured table name does not conform to expected Key Store construction.")))
                     if (d_3_valueOrError0_).IsFailure():
                         res = (d_3_valueOrError0_).PropagateFailure()
                         return res
@@ -116,7 +116,7 @@ class default__:
                 res = Wrappers.Result_Failure(AwsCryptographyKeyStoreTypes.Error_ComAmazonawsDynamodb(d_1_error_))
         elif True:
             d_4_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-            d_4_valueOrError1_ = Wrappers.default__.Need(((((d_0_maybeDescribeTableResponse_).value).Table).is_Some) and (default__.keyStoreHasExpectedConstruction_q((((d_0_maybeDescribeTableResponse_).value).Table).value)), default__.E(_dafny.Seq("Configured table name does not conform to expected Key Store construction.")))
+            d_4_valueOrError1_ = Wrappers.default__.Need((((((d_0_maybeDescribeTableResponse_).value).Table).is_Some) and (default__.keyStoreHasExpectedConstruction_q((((d_0_maybeDescribeTableResponse_).value).Table).value))) and (ComAmazonawsDynamodbTypes.default__.IsValid__TableArn((((((d_0_maybeDescribeTableResponse_).value).Table).value).TableArn).value)), default__.E(_dafny.Seq("Configured table name does not conform to expected Key Store construction.")))
             if (d_4_valueOrError1_).IsFailure():
                 res = (d_4_valueOrError1_).PropagateFailure()
                 return res

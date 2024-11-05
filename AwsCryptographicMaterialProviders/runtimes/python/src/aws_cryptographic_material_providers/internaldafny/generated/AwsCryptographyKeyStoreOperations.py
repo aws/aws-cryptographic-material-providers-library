@@ -94,7 +94,7 @@ class default__:
 
     @staticmethod
     def CreateKeyStore(config, input):
-        output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.CreateKeyStoreOutput.default())()
+        output: Wrappers.Result = None
         d_0_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out0_: Wrappers.Result
         out0_ = CreateKeyStoreTable.default__.CreateKeyStoreTable((config).ddbTableName, (config).ddbClient)

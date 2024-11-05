@@ -237,7 +237,7 @@ class KeyStoreClient(AwsCryptographyKeyStoreTypes.IKeyStoreClient):
         return output
 
     def CreateKeyStore(self, input):
-        output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.CreateKeyStoreOutput.default())()
+        output: Wrappers.Result = None
         out0_: Wrappers.Result
         out0_ = AwsCryptographyKeyStoreOperations.default__.CreateKeyStore((self).config, input)
         output = out0_

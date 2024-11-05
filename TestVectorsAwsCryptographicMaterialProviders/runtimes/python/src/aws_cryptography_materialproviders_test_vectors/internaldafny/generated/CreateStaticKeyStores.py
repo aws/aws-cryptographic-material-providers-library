@@ -215,7 +215,7 @@ class StaticKeyStore(AwsCryptographyKeyStoreTypes.IKeyStoreClient):
         return output
 
     def CreateKeyStore(self, input):
-        output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.CreateKeyStoreOutput.default())()
+        output: Wrappers.Result = None
         output = Wrappers.Result_Failure(AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Not Supported")))
         return output
 
