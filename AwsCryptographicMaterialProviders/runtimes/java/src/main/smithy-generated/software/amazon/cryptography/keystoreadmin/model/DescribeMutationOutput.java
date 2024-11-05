@@ -3,35 +3,24 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.keystoreadmin.model;
 
+import java.util.Objects;
+
 public class DescribeMutationOutput {
 
   /**
-   * The original properities of the Branch Key.
+   * If a Mutation is In Flight for this Branch Key.
    */
-  private final MutableBranchKeyProperities Original;
-
-  /**
-   * The terminal properities of the Branch Key.
-   */
-  private final MutableBranchKeyProperities Terminal;
+  private final MutationInFlight MutationInFlight;
 
   protected DescribeMutationOutput(BuilderImpl builder) {
-    this.Original = builder.Original();
-    this.Terminal = builder.Terminal();
+    this.MutationInFlight = builder.MutationInFlight();
   }
 
   /**
-   * @return The original properities of the Branch Key.
+   * @return If a Mutation is In Flight for this Branch Key.
    */
-  public MutableBranchKeyProperities Original() {
-    return this.Original;
-  }
-
-  /**
-   * @return The terminal properities of the Branch Key.
-   */
-  public MutableBranchKeyProperities Terminal() {
-    return this.Terminal;
+  public MutationInFlight MutationInFlight() {
+    return this.MutationInFlight;
   }
 
   public Builder toBuilder() {
@@ -44,60 +33,43 @@ public class DescribeMutationOutput {
 
   public interface Builder {
     /**
-     * @param Original The original properities of the Branch Key.
+     * @param MutationInFlight If a Mutation is In Flight for this Branch Key.
      */
-    Builder Original(MutableBranchKeyProperities Original);
+    Builder MutationInFlight(MutationInFlight MutationInFlight);
 
     /**
-     * @return The original properities of the Branch Key.
+     * @return If a Mutation is In Flight for this Branch Key.
      */
-    MutableBranchKeyProperities Original();
-
-    /**
-     * @param Terminal The terminal properities of the Branch Key.
-     */
-    Builder Terminal(MutableBranchKeyProperities Terminal);
-
-    /**
-     * @return The terminal properities of the Branch Key.
-     */
-    MutableBranchKeyProperities Terminal();
+    MutationInFlight MutationInFlight();
 
     DescribeMutationOutput build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected MutableBranchKeyProperities Original;
-
-    protected MutableBranchKeyProperities Terminal;
+    protected MutationInFlight MutationInFlight;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(DescribeMutationOutput model) {
-      this.Original = model.Original();
-      this.Terminal = model.Terminal();
+      this.MutationInFlight = model.MutationInFlight();
     }
 
-    public Builder Original(MutableBranchKeyProperities Original) {
-      this.Original = Original;
+    public Builder MutationInFlight(MutationInFlight MutationInFlight) {
+      this.MutationInFlight = MutationInFlight;
       return this;
     }
 
-    public MutableBranchKeyProperities Original() {
-      return this.Original;
-    }
-
-    public Builder Terminal(MutableBranchKeyProperities Terminal) {
-      this.Terminal = Terminal;
-      return this;
-    }
-
-    public MutableBranchKeyProperities Terminal() {
-      return this.Terminal;
+    public MutationInFlight MutationInFlight() {
+      return this.MutationInFlight;
     }
 
     public DescribeMutationOutput build() {
+      if (Objects.isNull(this.MutationInFlight())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `MutationInFlight`"
+        );
+      }
       return new DescribeMutationOutput(this);
     }
   }

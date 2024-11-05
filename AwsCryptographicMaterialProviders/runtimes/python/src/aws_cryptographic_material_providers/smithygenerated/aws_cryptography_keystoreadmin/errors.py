@@ -43,6 +43,50 @@ class UnknownApiError(ApiError[Literal["Unknown"]]):
     code: Literal["Unknown"] = "Unknown"
 
 
+class KeyStoreAdminException(ApiError[Literal["KeyStoreAdminException"]]):
+    code: Literal["KeyStoreAdminException"] = "KeyStoreAdminException"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the KeyStoreAdminException to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KeyStoreAdminException":
+        """Creates a KeyStoreAdminException from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return KeyStoreAdminException(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "KeyStoreAdminException("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, KeyStoreAdminException):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
 class MutationFromException(ApiError[Literal["MutationFromException"]]):
     code: Literal["MutationFromException"] = "MutationFromException"
     message: str
@@ -297,8 +341,8 @@ class UnexpectedStateException(ApiError[Literal["UnexpectedStateException"]]):
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
-class KeyStoreAdminException(ApiError[Literal["KeyStoreAdminException"]]):
-    code: Literal["KeyStoreAdminException"] = "KeyStoreAdminException"
+class UnsupportedFeatureException(ApiError[Literal["UnsupportedFeatureException"]]):
+    code: Literal["UnsupportedFeatureException"] = "UnsupportedFeatureException"
     message: str
 
     def __init__(
@@ -306,33 +350,37 @@ class KeyStoreAdminException(ApiError[Literal["KeyStoreAdminException"]]):
         *,
         message: str,
     ):
+        """This feature is not yet implemented.
+
+        :param message: A message associated with the specific error.
+        """
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the KeyStoreAdminException to a dictionary."""
+        """Converts the UnsupportedFeatureException to a dictionary."""
         return {
             "message": self.message,
             "code": self.code,
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "KeyStoreAdminException":
-        """Creates a KeyStoreAdminException from a dictionary."""
+    def from_dict(d: Dict[str, Any]) -> "UnsupportedFeatureException":
+        """Creates a UnsupportedFeatureException from a dictionary."""
         kwargs: Dict[str, Any] = {
             "message": d["message"],
         }
 
-        return KeyStoreAdminException(**kwargs)
+        return UnsupportedFeatureException(**kwargs)
 
     def __repr__(self) -> str:
-        result = "KeyStoreAdminException("
+        result = "UnsupportedFeatureException("
         if self.message is not None:
             result += f"message={repr(self.message)}"
 
         return result + ")"
 
     def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, KeyStoreAdminException):
+        if not isinstance(other, UnsupportedFeatureException):
             return False
         attributes: list[str] = [
             "message",
@@ -476,6 +524,11 @@ class MutationVerificationException(ApiError[Literal["MutationVerificationExcept
 
 class UnexpectedStateException(ApiError[Literal["UnexpectedStateException"]]):
     code: Literal["UnexpectedStateException"] = "UnexpectedStateException"
+    message: str
+
+
+class UnsupportedFeatureException(ApiError[Literal["UnsupportedFeatureException"]]):
+    code: Literal["UnsupportedFeatureException"] = "UnsupportedFeatureException"
     message: str
 
 
@@ -656,6 +709,14 @@ def _smithy_error_to_dafny_error(e: ServiceError):
         aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.errors.UnexpectedStateException,
     ):
         return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreAdminTypes.Error_UnexpectedStateException(
+            message=_dafny.Seq(e.message)
+        )
+
+    if isinstance(
+        e,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.errors.UnsupportedFeatureException,
+    ):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreAdminTypes.Error_UnsupportedFeatureException(
             message=_dafny.Seq(e.message)
         )
 

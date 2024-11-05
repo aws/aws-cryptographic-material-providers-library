@@ -24,8 +24,7 @@ public class ApplyMutationInput {
   private final KeyManagementStrategy Strategy;
 
   /**
-   * Key Store Admin protects any non-cryptographic
-   * items stored with this Key.
+   * Optional. Defaults to TrustStorage. See System Key.
    */
   private final SystemKey SystemKey;
 
@@ -59,8 +58,7 @@ public class ApplyMutationInput {
   }
 
   /**
-   * @return Key Store Admin protects any non-cryptographic
-   * items stored with this Key.
+   * @return Optional. Defaults to TrustStorage. See System Key.
    */
   public SystemKey SystemKey() {
     return this.SystemKey;
@@ -108,14 +106,12 @@ public class ApplyMutationInput {
     KeyManagementStrategy Strategy();
 
     /**
-     * @param SystemKey Key Store Admin protects any non-cryptographic
-     * items stored with this Key.
+     * @param SystemKey Optional. Defaults to TrustStorage. See System Key.
      */
     Builder SystemKey(SystemKey SystemKey);
 
     /**
-     * @return Key Store Admin protects any non-cryptographic
-     * items stored with this Key.
+     * @return Optional. Defaults to TrustStorage. See System Key.
      */
     SystemKey SystemKey();
 
@@ -181,11 +177,6 @@ public class ApplyMutationInput {
       if (Objects.isNull(this.MutationToken())) {
         throw new IllegalArgumentException(
           "Missing value for required field `MutationToken`"
-        );
-      }
-      if (Objects.isNull(this.SystemKey())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `SystemKey`"
         );
       }
       return new ApplyMutationInput(this);

@@ -8,6 +8,7 @@ import java.util.Objects;
 /**
  * Key Store Admin protects any non-cryptographic
  * items stored with this Key.
+ * As of v1.8.0, TrustStorage is the default behavior.
  */
 public class SystemKey {
 

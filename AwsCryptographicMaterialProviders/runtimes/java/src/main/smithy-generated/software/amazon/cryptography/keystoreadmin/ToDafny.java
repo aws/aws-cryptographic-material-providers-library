@@ -7,6 +7,7 @@ import Wrappers_Compile.Option;
 import dafny.DafnyMap;
 import dafny.DafnySequence;
 import dafny.TypeDescriptor;
+import java.lang.Boolean;
 import java.lang.Byte;
 import java.lang.Character;
 import java.lang.IllegalArgumentException;
@@ -32,6 +33,7 @@ import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_Muta
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationToException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationVerificationException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_UnexpectedStateException;
+import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_UnsupportedFeatureException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.IKeyStoreAdminClient;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.InitializeMutationFlag;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.InitializeMutationInput;
@@ -43,6 +45,8 @@ import software.amazon.cryptography.keystoreadmin.internaldafny.types.KmsAesIden
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.MutableBranchKeyProperities;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.MutatedBranchKeyItem;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.MutationComplete;
+import software.amazon.cryptography.keystoreadmin.internaldafny.types.MutationDescription;
+import software.amazon.cryptography.keystoreadmin.internaldafny.types.MutationInFlight;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.MutationToken;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Mutations;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.SystemKey;
@@ -59,6 +63,7 @@ import software.amazon.cryptography.keystoreadmin.model.MutationToException;
 import software.amazon.cryptography.keystoreadmin.model.MutationVerificationException;
 import software.amazon.cryptography.keystoreadmin.model.OpaqueError;
 import software.amazon.cryptography.keystoreadmin.model.UnexpectedStateException;
+import software.amazon.cryptography.keystoreadmin.model.UnsupportedFeatureException;
 
 public class ToDafny {
 
@@ -86,6 +91,9 @@ public class ToDafny {
     }
     if (nativeValue instanceof UnexpectedStateException) {
       return ToDafny.Error((UnexpectedStateException) nativeValue);
+    }
+    if (nativeValue instanceof UnsupportedFeatureException) {
+      return ToDafny.Error((UnsupportedFeatureException) nativeValue);
     }
     if (nativeValue instanceof OpaqueError) {
       return ToDafny.Error((OpaqueError) nativeValue);
@@ -132,8 +140,14 @@ public class ToDafny {
           ToDafny.KeyManagementStrategy(nativeValue.Strategy())
         )
         : Option.create_None(KeyManagementStrategy._typeDescriptor());
-    SystemKey systemKey;
-    systemKey = ToDafny.SystemKey(nativeValue.SystemKey());
+    Option<SystemKey> systemKey;
+    systemKey =
+      Objects.nonNull(nativeValue.SystemKey())
+        ? Option.create_Some(
+          SystemKey._typeDescriptor(),
+          ToDafny.SystemKey(nativeValue.SystemKey())
+        )
+        : Option.create_None(SystemKey._typeDescriptor());
     return new ApplyMutationInput(mutationToken, pageSize, strategy, systemKey);
   }
 
@@ -225,23 +239,9 @@ public class ToDafny {
   public static DescribeMutationOutput DescribeMutationOutput(
     software.amazon.cryptography.keystoreadmin.model.DescribeMutationOutput nativeValue
   ) {
-    Option<MutableBranchKeyProperities> original;
-    original =
-      Objects.nonNull(nativeValue.Original())
-        ? Option.create_Some(
-          MutableBranchKeyProperities._typeDescriptor(),
-          ToDafny.MutableBranchKeyProperities(nativeValue.Original())
-        )
-        : Option.create_None(MutableBranchKeyProperities._typeDescriptor());
-    Option<MutableBranchKeyProperities> terminal;
-    terminal =
-      Objects.nonNull(nativeValue.Terminal())
-        ? Option.create_Some(
-          MutableBranchKeyProperities._typeDescriptor(),
-          ToDafny.MutableBranchKeyProperities(nativeValue.Terminal())
-        )
-        : Option.create_None(MutableBranchKeyProperities._typeDescriptor());
-    return new DescribeMutationOutput(original, terminal);
+    MutationInFlight mutationInFlight;
+    mutationInFlight = ToDafny.MutationInFlight(nativeValue.MutationInFlight());
+    return new DescribeMutationOutput(mutationInFlight);
   }
 
   public static InitializeMutationInput InitializeMutationInput(
@@ -262,13 +262,28 @@ public class ToDafny {
           ToDafny.KeyManagementStrategy(nativeValue.Strategy())
         )
         : Option.create_None(KeyManagementStrategy._typeDescriptor());
-    SystemKey systemKey;
-    systemKey = ToDafny.SystemKey(nativeValue.SystemKey());
+    Option<SystemKey> systemKey;
+    systemKey =
+      Objects.nonNull(nativeValue.SystemKey())
+        ? Option.create_Some(
+          SystemKey._typeDescriptor(),
+          ToDafny.SystemKey(nativeValue.SystemKey())
+        )
+        : Option.create_None(SystemKey._typeDescriptor());
+    Option<Boolean> doNotVersion;
+    doNotVersion =
+      Objects.nonNull(nativeValue.DoNotVersion())
+        ? Option.create_Some(
+          TypeDescriptor.BOOLEAN,
+          (nativeValue.DoNotVersion())
+        )
+        : Option.create_None(TypeDescriptor.BOOLEAN);
     return new InitializeMutationInput(
       identifier,
       mutations,
       strategy,
-      systemKey
+      systemKey,
+      doNotVersion
     );
   }
 
@@ -358,6 +373,30 @@ public class ToDafny {
     software.amazon.cryptography.keystoreadmin.model.MutationComplete nativeValue
   ) {
     return new MutationComplete();
+  }
+
+  public static MutationDescription MutationDescription(
+    software.amazon.cryptography.keystoreadmin.model.MutationDescription nativeValue
+  ) {
+    MutableBranchKeyProperities original;
+    original = ToDafny.MutableBranchKeyProperities(nativeValue.Original());
+    MutableBranchKeyProperities terminal;
+    terminal = ToDafny.MutableBranchKeyProperities(nativeValue.Terminal());
+    Mutations input;
+    input = ToDafny.Mutations(nativeValue.Input());
+    Option<DafnySequence<? extends Character>> systemKey;
+    systemKey =
+      Objects.nonNull(nativeValue.SystemKey())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.SystemKey()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
+    return new MutationDescription(original, terminal, input, systemKey);
   }
 
   public static Mutations Mutations(
@@ -535,6 +574,42 @@ public class ToDafny {
     return new Error_UnexpectedStateException(message);
   }
 
+  public static Error Error(UnsupportedFeatureException nativeValue) {
+    DafnySequence<? extends Character> message;
+    message =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.message()
+      );
+    return new Error_UnsupportedFeatureException(message);
+  }
+
+  public static InitializeMutationFlag InitializeMutationFlag(
+    software.amazon.cryptography.keystoreadmin.model.InitializeMutationFlag nativeValue
+  ) {
+    switch (nativeValue) {
+      case Created:
+        {
+          return InitializeMutationFlag.create_Created();
+        }
+      case Resumed:
+        {
+          return InitializeMutationFlag.create_Resumed();
+        }
+      case ResumedWithoutIndex:
+        {
+          return InitializeMutationFlag.create_ResumedWithoutIndex();
+        }
+      default:
+        {
+          throw new RuntimeException(
+            "Cannot convert " +
+            nativeValue +
+            " to software.amazon.cryptography.keystoreadmin.internaldafny.types.InitializeMutationFlag."
+          );
+        }
+    }
+  }
+
   public static ApplyMutationResult ApplyMutationResult(
     software.amazon.cryptography.keystoreadmin.model.ApplyMutationResult nativeValue
   ) {
@@ -552,37 +627,6 @@ public class ToDafny {
       "Cannot convert " +
       nativeValue +
       " to software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationResult."
-    );
-  }
-
-  public static InitializeMutationFlag InitializeMutationFlag(
-    software.amazon.cryptography.keystoreadmin.model.InitializeMutationFlag nativeValue
-  ) {
-    if (Objects.nonNull(nativeValue.Created())) {
-      return InitializeMutationFlag.create_Created(
-        software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-          nativeValue.Created()
-        )
-      );
-    }
-    if (Objects.nonNull(nativeValue.Resumed())) {
-      return InitializeMutationFlag.create_Resumed(
-        software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-          nativeValue.Resumed()
-        )
-      );
-    }
-    if (Objects.nonNull(nativeValue.ResumedWithoutIndex())) {
-      return InitializeMutationFlag.create_ResumedWithoutIndex(
-        software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-          nativeValue.ResumedWithoutIndex()
-        )
-      );
-    }
-    throw new IllegalArgumentException(
-      "Cannot convert " +
-      nativeValue +
-      " to software.amazon.cryptography.keystoreadmin.internaldafny.types.InitializeMutationFlag."
     );
   }
 
@@ -624,6 +668,28 @@ public class ToDafny {
       "Cannot convert " +
       nativeValue +
       " to software.amazon.cryptography.keystoreadmin.internaldafny.types.KmsAesIdentifier."
+    );
+  }
+
+  public static MutationInFlight MutationInFlight(
+    software.amazon.cryptography.keystoreadmin.model.MutationInFlight nativeValue
+  ) {
+    if (Objects.nonNull(nativeValue.Yes())) {
+      return MutationInFlight.create_Yes(
+        ToDafny.MutationDescription(nativeValue.Yes())
+      );
+    }
+    if (Objects.nonNull(nativeValue.No())) {
+      return MutationInFlight.create_No(
+        software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+          nativeValue.No()
+        )
+      );
+    }
+    throw new IllegalArgumentException(
+      "Cannot convert " +
+      nativeValue +
+      " to software.amazon.cryptography.keystoreadmin.internaldafny.types.MutationInFlight."
     );
   }
 

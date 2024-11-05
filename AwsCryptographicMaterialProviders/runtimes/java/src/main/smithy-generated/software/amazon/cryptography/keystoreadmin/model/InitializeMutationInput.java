@@ -23,16 +23,21 @@ public class InitializeMutationInput {
   private final KeyManagementStrategy Strategy;
 
   /**
-   * Key Store Admin protects any non-cryptographic
-   * items stored with this Key.
+   * Optional. Defaults to TrustStorage. See System Key.
    */
   private final SystemKey SystemKey;
+
+  /**
+   * Optional. Defaults to False. As of v1.8.0, setting this true throws an exception.
+   */
+  private final Boolean DoNotVersion;
 
   protected InitializeMutationInput(BuilderImpl builder) {
     this.Identifier = builder.Identifier();
     this.Mutations = builder.Mutations();
     this.Strategy = builder.Strategy();
     this.SystemKey = builder.SystemKey();
+    this.DoNotVersion = builder.DoNotVersion();
   }
 
   /**
@@ -57,11 +62,17 @@ public class InitializeMutationInput {
   }
 
   /**
-   * @return Key Store Admin protects any non-cryptographic
-   * items stored with this Key.
+   * @return Optional. Defaults to TrustStorage. See System Key.
    */
   public SystemKey SystemKey() {
     return this.SystemKey;
+  }
+
+  /**
+   * @return Optional. Defaults to False. As of v1.8.0, setting this true throws an exception.
+   */
+  public Boolean DoNotVersion() {
+    return this.DoNotVersion;
   }
 
   public Builder toBuilder() {
@@ -104,16 +115,24 @@ public class InitializeMutationInput {
     KeyManagementStrategy Strategy();
 
     /**
-     * @param SystemKey Key Store Admin protects any non-cryptographic
-     * items stored with this Key.
+     * @param SystemKey Optional. Defaults to TrustStorage. See System Key.
      */
     Builder SystemKey(SystemKey SystemKey);
 
     /**
-     * @return Key Store Admin protects any non-cryptographic
-     * items stored with this Key.
+     * @return Optional. Defaults to TrustStorage. See System Key.
      */
     SystemKey SystemKey();
+
+    /**
+     * @param DoNotVersion Optional. Defaults to False. As of v1.8.0, setting this true throws an exception.
+     */
+    Builder DoNotVersion(Boolean DoNotVersion);
+
+    /**
+     * @return Optional. Defaults to False. As of v1.8.0, setting this true throws an exception.
+     */
+    Boolean DoNotVersion();
 
     InitializeMutationInput build();
   }
@@ -128,6 +147,8 @@ public class InitializeMutationInput {
 
     protected SystemKey SystemKey;
 
+    protected Boolean DoNotVersion;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(InitializeMutationInput model) {
@@ -135,6 +156,7 @@ public class InitializeMutationInput {
       this.Mutations = model.Mutations();
       this.Strategy = model.Strategy();
       this.SystemKey = model.SystemKey();
+      this.DoNotVersion = model.DoNotVersion();
     }
 
     public Builder Identifier(String Identifier) {
@@ -173,6 +195,15 @@ public class InitializeMutationInput {
       return this.SystemKey;
     }
 
+    public Builder DoNotVersion(Boolean DoNotVersion) {
+      this.DoNotVersion = DoNotVersion;
+      return this;
+    }
+
+    public Boolean DoNotVersion() {
+      return this.DoNotVersion;
+    }
+
     public InitializeMutationInput build() {
       if (Objects.isNull(this.Identifier())) {
         throw new IllegalArgumentException(
@@ -182,11 +213,6 @@ public class InitializeMutationInput {
       if (Objects.isNull(this.Mutations())) {
         throw new IllegalArgumentException(
           "Missing value for required field `Mutations`"
-        );
-      }
-      if (Objects.isNull(this.SystemKey())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `SystemKey`"
         );
       }
       return new InitializeMutationInput(this);

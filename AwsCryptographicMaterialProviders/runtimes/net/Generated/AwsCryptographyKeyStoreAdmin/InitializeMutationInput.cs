@@ -11,6 +11,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
     private AWS.Cryptography.KeyStoreAdmin.Mutations _mutations;
     private AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy _strategy;
     private AWS.Cryptography.KeyStoreAdmin.SystemKey _systemKey;
+    private bool? _doNotVersion;
     public string Identifier
     {
       get { return this._identifier; }
@@ -47,11 +48,19 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       return this._systemKey != null;
     }
+    public bool DoNotVersion
+    {
+      get { return this._doNotVersion.GetValueOrDefault(); }
+      set { this._doNotVersion = value; }
+    }
+    public bool IsSetDoNotVersion()
+    {
+      return this._doNotVersion.HasValue;
+    }
     public void Validate()
     {
       if (!IsSetIdentifier()) throw new System.ArgumentException("Missing value for required property 'Identifier'");
       if (!IsSetMutations()) throw new System.ArgumentException("Missing value for required property 'Mutations'");
-      if (!IsSetSystemKey()) throw new System.ArgumentException("Missing value for required property 'SystemKey'");
 
     }
   }
