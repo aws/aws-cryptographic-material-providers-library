@@ -158,9 +158,11 @@ public final class KeyStorageInterface implements IKeyStorageInterface {
   }
 
   /**
-   * Gets the ACTIVE branch key and the beacon key,
-   * and looks for a Mutation Commitment & Index,
-   * returning them if found.
+   * Retrieves the items necessary to initialize a Mutation,
+   * while checking for any in-flight Mutations.
+   * These items are the ACTIVE branch key and the beacon key.
+   * If a Mutation is already in-flight for this Branch Key,
+   * the in-flight Mutation's Commitment and Index are also returned.
    *
    */
   public GetItemsForInitializeMutationOutput GetItemsForInitializeMutation(
@@ -289,9 +291,16 @@ public final class KeyStorageInterface implements IKeyStorageInterface {
    * in the terminal state of a Mutation,
    * a page of version (decrypt only) items,
    * conditioned on:
-   * - every version already exsisting
-   * - every version's enc has not changed
+   * - every version already existing
+   * - every version's cipher-text had not changed
    * - the Mutation Commitment has not changed
+   *
+   * If the Mutation is complete,
+   * the Mutation Index and Mutation Commitment are deleted.
+   * Otherwise,
+   * the Mutation Index is updated,
+   * conditioned on it not having been changed since
+   * it was last read.
    *
    *
    */
@@ -313,7 +322,7 @@ public final class KeyStorageInterface implements IKeyStorageInterface {
   /**
    * Creates a Mutation Index, conditioned on the Mutation Commitment.
    * Used in the edge case where the Commitment exists and Index does not.
-   * The Index may have been deleted to restart the mutation from the very begining.
+   * The Index may have been deleted to restart the mutation from the very beginning.
    *
    *
    */

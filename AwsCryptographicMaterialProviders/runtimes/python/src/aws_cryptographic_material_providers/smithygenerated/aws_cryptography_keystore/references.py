@@ -169,8 +169,13 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
         self,
         param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetItemsForInitializeMutationInput",
     ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetItemsForInitializeMutationOutput":
-        """Gets the ACTIVE branch key and the beacon key, and looks for a
-        Mutation Commitment & Index, returning them if found."""
+        """Retrieves the items necessary to initialize a Mutation, while
+        checking for any in-flight Mutations.
+
+        These items are the ACTIVE branch key and the beacon key. If a
+        Mutation is already in-flight for this Branch Key, the in-flight
+        Mutation's Commitment and Index are also returned.
+        """
         raise NotImplementedError
 
     @abc.abstractmethod
@@ -225,10 +230,20 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
         version (decrypt only) items,
 
         conditioned on:
-        - every version already exsisting
+        - every version already existing
         - every
-        version's enc has not changed
-        - the Mutation Commitment has not changed
+        version's cipher-text had not changed
+        - the Mutation Commitment has not
+        changed
+
+        If the Mutation is complete,
+        the Mutation Index and Mutation Commitment
+        are deleted.
+        Otherwise,
+        the Mutation Index is updated,
+        conditioned on it not
+        having been changed since
+        it was last read.
         """
         raise NotImplementedError
 
@@ -261,7 +276,7 @@ class IKeyStorageInterface(metaclass=abc.ABCMeta):
 
         Used in the edge case where the Commitment exists and Index does
         not. The Index may have been deleted to restart the mutation
-        from the very begining.
+        from the very beginning.
         """
         raise NotImplementedError
 
@@ -744,8 +759,13 @@ class KeyStorageInterface(IKeyStorageInterface):
         self,
         param: "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetItemsForInitializeMutationInput",
     ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.GetItemsForInitializeMutationOutput":
-        """Gets the ACTIVE branch key and the beacon key, and looks for a
-        Mutation Commitment & Index, returning them if found."""
+        """Retrieves the items necessary to initialize a Mutation, while
+        checking for any in-flight Mutations.
+
+        These items are the ACTIVE branch key and the beacon key. If a
+        Mutation is already in-flight for this Branch Key, the in-flight
+        Mutation's Commitment and Index are also returned.
+        """
         dafny_output = self._impl.GetItemsForInitializeMutation(
             aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_GetItemsForInitializeMutationInput(
                 param
@@ -856,10 +876,20 @@ class KeyStorageInterface(IKeyStorageInterface):
         version (decrypt only) items,
 
         conditioned on:
-        - every version already exsisting
+        - every version already existing
         - every
-        version's enc has not changed
-        - the Mutation Commitment has not changed
+        version's cipher-text had not changed
+        - the Mutation Commitment has not
+        changed
+
+        If the Mutation is complete,
+        the Mutation Index and Mutation Commitment
+        are deleted.
+        Otherwise,
+        the Mutation Index is updated,
+        conditioned on it not
+        having been changed since
+        it was last read.
         """
         dafny_output = self._impl.WriteMutatedVersions(
             aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteMutatedVersionsInput(
@@ -934,7 +964,7 @@ class KeyStorageInterface(IKeyStorageInterface):
 
         Used in the edge case where the Commitment exists and Index does
         not. The Index may have been deleted to restart the mutation
-        from the very begining.
+        from the very beginning.
         """
         dafny_output = self._impl.WriteMutationIndex(
             aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_WriteMutationIndexInput(

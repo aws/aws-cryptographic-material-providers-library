@@ -13,7 +13,7 @@ import software.amazon.cryptography.keystore.model.AwsKms;
 public class KeyManagementStrategy {
 
   /**
-   * Key Store Items are authenicated and re-wrapped via KMS ReEncrypt,
+   * Key Store Items are authenticated and re-wrapped via KMS ReEncrypt,
    *   executed with the provided Grant Tokens and KMS Client.
    *   This is one request to Key Management, as compared to two.
    *   But only one set of credentials can be used.
@@ -25,7 +25,7 @@ public class KeyManagementStrategy {
   }
 
   /**
-   * @return Key Store Items are authenicated and re-wrapped via KMS ReEncrypt,
+   * @return Key Store Items are authenticated and re-wrapped via KMS ReEncrypt,
    *   executed with the provided Grant Tokens and KMS Client.
    *   This is one request to Key Management, as compared to two.
    *   But only one set of credentials can be used.
@@ -44,7 +44,7 @@ public class KeyManagementStrategy {
 
   public interface Builder {
     /**
-     * @param AwsKmsReEncrypt Key Store Items are authenicated and re-wrapped via KMS ReEncrypt,
+     * @param AwsKmsReEncrypt Key Store Items are authenticated and re-wrapped via KMS ReEncrypt,
      *   executed with the provided Grant Tokens and KMS Client.
      *   This is one request to Key Management, as compared to two.
      *   But only one set of credentials can be used.
@@ -52,7 +52,7 @@ public class KeyManagementStrategy {
     Builder AwsKmsReEncrypt(AwsKms AwsKmsReEncrypt);
 
     /**
-     * @return Key Store Items are authenicated and re-wrapped via KMS ReEncrypt,
+     * @return Key Store Items are authenticated and re-wrapped via KMS ReEncrypt,
      *   executed with the provided Grant Tokens and KMS Client.
      *   This is one request to Key Management, as compared to two.
      *   But only one set of credentials can be used.

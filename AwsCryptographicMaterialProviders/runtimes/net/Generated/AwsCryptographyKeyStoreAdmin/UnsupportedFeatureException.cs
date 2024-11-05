@@ -5,9 +5,9 @@ using System;
 using AWS.Cryptography.KeyStoreAdmin;
 namespace AWS.Cryptography.KeyStoreAdmin
 {
-  public class MutationLockInvalidException : Exception
+  public class UnsupportedFeatureException : Exception
   {
-    public MutationLockInvalidException(string message) : base(message) { }
+    public UnsupportedFeatureException(string message) : base(message) { }
     public string getMessage() { return this.Message; }
   }
 }

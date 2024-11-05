@@ -48,7 +48,7 @@ public class KeyStoreAdmin {
   }
 
   /**
-   * Applies the Mutation to a page of Branch Key Items. If all Items have been mutated, removes the Mutation Lock.
+   * Applies the Mutation to a page of Branch Key Items. If all Items have been mutated, removes the Mutation Commitment and Index.
    *
    */
   public ApplyMutationOutput ApplyMutation(ApplyMutationInput input) {
@@ -105,10 +105,9 @@ public class KeyStoreAdmin {
    * Starts a Mutation to all Items of a Branch Key ID.
    * Versions the Branch Key ID, such that the new version only has existed in the final state.
    * Mutates the Beacon Key.
-   * Establishes the Mutation Lock; Simultaneous conflicting Mutations are prevented by the Mutation Lock.
-   * Mutations MUST be completed via subsequent invocations of the Apply Mutation Operation, first invoked with the Mutation Token returned in InitializeMutationOutput.
-   * Uses 1 read of 3 items and 1 write of 4 items.
-   * By default, Key Management will be called 5 times; 2 x GenerateDataKeyWithoutPlaintext, 3 x ReEncrypt.
+   * Establishes the Mutation Commitment; Simultaneous conflicting Mutations are prevented by the Mutation Commitment.
+   * Mutations MUST be completed via subsequent invocations of the Apply Mutation Operation,
+   * first invoked with the Mutation Token returned in InitializeMutationOutput.
    *
    */
   public InitializeMutationOutput InitializeMutation(
@@ -128,7 +127,7 @@ public class KeyStoreAdmin {
 
   /**
    * Create a new ACTIVE version of an existing Branch Key,
-   *    along with a complementing Version (DECRYT_ONLY) in the Key Store.
+   *    along with a complementing Version (DECRYPT_ONLY) in the Key Store.
    *    This generates a fresh AES-256 key which all future encrypts will use
    *    for the Key Derivation Function,
    *    until VersionKey is executed again.

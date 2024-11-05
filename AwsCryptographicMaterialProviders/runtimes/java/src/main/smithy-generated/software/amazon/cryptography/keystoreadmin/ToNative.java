@@ -4,6 +4,7 @@
 package software.amazon.cryptography.keystoreadmin;
 
 import dafny.DafnySequence;
+import java.lang.IllegalArgumentException;
 import java.lang.RuntimeException;
 import java.util.List;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error;
@@ -12,11 +13,11 @@ import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_KeyS
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationConflictException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationFromException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationInvalidException;
-import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationLockInvalidException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationToException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationVerificationException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_Opaque;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_UnexpectedStateException;
+import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_UnsupportedFeatureException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.IKeyStoreAdminClient;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationOutput;
@@ -32,15 +33,17 @@ import software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
 import software.amazon.cryptography.keystoreadmin.model.KeyStoreAdminConfig;
 import software.amazon.cryptography.keystoreadmin.model.KeyStoreAdminException;
-import software.amazon.cryptography.keystoreadmin.model.KmsAes;
-import software.amazon.cryptography.keystoreadmin.model.KmsAesIdentifier;
-import software.amazon.cryptography.keystoreadmin.model.MutableBranchKeyProperities;
+import software.amazon.cryptography.keystoreadmin.model.KmsSymmetricEncryption;
+import software.amazon.cryptography.keystoreadmin.model.KmsSymmetricKeyArn;
+import software.amazon.cryptography.keystoreadmin.model.MutableBranchKeyProperties;
 import software.amazon.cryptography.keystoreadmin.model.MutatedBranchKeyItem;
 import software.amazon.cryptography.keystoreadmin.model.MutationComplete;
 import software.amazon.cryptography.keystoreadmin.model.MutationConflictException;
+import software.amazon.cryptography.keystoreadmin.model.MutationDescription;
+import software.amazon.cryptography.keystoreadmin.model.MutationDetails;
 import software.amazon.cryptography.keystoreadmin.model.MutationFromException;
+import software.amazon.cryptography.keystoreadmin.model.MutationInFlight;
 import software.amazon.cryptography.keystoreadmin.model.MutationInvalidException;
-import software.amazon.cryptography.keystoreadmin.model.MutationLockInvalidException;
 import software.amazon.cryptography.keystoreadmin.model.MutationToException;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
 import software.amazon.cryptography.keystoreadmin.model.MutationVerificationException;
@@ -49,6 +52,7 @@ import software.amazon.cryptography.keystoreadmin.model.OpaqueError;
 import software.amazon.cryptography.keystoreadmin.model.SystemKey;
 import software.amazon.cryptography.keystoreadmin.model.TrustStorage;
 import software.amazon.cryptography.keystoreadmin.model.UnexpectedStateException;
+import software.amazon.cryptography.keystoreadmin.model.UnsupportedFeatureException;
 import software.amazon.cryptography.keystoreadmin.model.VersionKeyInput;
 import software.amazon.cryptography.keystoreadmin.model.VersionKeyOutput;
 
@@ -128,19 +132,6 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
-  public static MutationLockInvalidException Error(
-    Error_MutationLockInvalidException dafnyValue
-  ) {
-    MutationLockInvalidException.Builder nativeBuilder =
-      MutationLockInvalidException.builder();
-    nativeBuilder.message(
-      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
-        dafnyValue.dtor_message()
-      )
-    );
-    return nativeBuilder.build();
-  }
-
   public static MutationToException Error(
     Error_MutationToException dafnyValue
   ) {
@@ -179,6 +170,19 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static UnsupportedFeatureException Error(
+    Error_UnsupportedFeatureException dafnyValue
+  ) {
+    UnsupportedFeatureException.Builder nativeBuilder =
+      UnsupportedFeatureException.builder();
+    nativeBuilder.message(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_message()
+      )
+    );
+    return nativeBuilder.build();
+  }
+
   public static RuntimeException Error(Error dafnyValue) {
     if (dafnyValue.is_KeyStoreAdminException()) {
       return ToNative.Error((Error_KeyStoreAdminException) dafnyValue);
@@ -192,9 +196,6 @@ public class ToNative {
     if (dafnyValue.is_MutationInvalidException()) {
       return ToNative.Error((Error_MutationInvalidException) dafnyValue);
     }
-    if (dafnyValue.is_MutationLockInvalidException()) {
-      return ToNative.Error((Error_MutationLockInvalidException) dafnyValue);
-    }
     if (dafnyValue.is_MutationToException()) {
       return ToNative.Error((Error_MutationToException) dafnyValue);
     }
@@ -203,6 +204,9 @@ public class ToNative {
     }
     if (dafnyValue.is_UnexpectedStateException()) {
       return ToNative.Error((Error_UnexpectedStateException) dafnyValue);
+    }
+    if (dafnyValue.is_UnsupportedFeatureException()) {
+      return ToNative.Error((Error_UnsupportedFeatureException) dafnyValue);
     }
     if (dafnyValue.is_Opaque()) {
       return ToNative.Error((Error_Opaque) dafnyValue);
@@ -245,7 +249,11 @@ public class ToNative {
         ToNative.KeyManagementStrategy(dafnyValue.dtor_Strategy().dtor_value())
       );
     }
-    nativeBuilder.SystemKey(ToNative.SystemKey(dafnyValue.dtor_SystemKey()));
+    if (dafnyValue.dtor_SystemKey().is_Some()) {
+      nativeBuilder.SystemKey(
+        ToNative.SystemKey(dafnyValue.dtor_SystemKey().dtor_value())
+      );
+    }
     return nativeBuilder.build();
   }
 
@@ -280,7 +288,7 @@ public class ToNative {
         )
       );
     }
-    nativeBuilder.KmsArn(ToNative.KmsAesIdentifier(dafnyValue.dtor_KmsArn()));
+    nativeBuilder.KmsArn(ToNative.KmsSymmetricKeyArn(dafnyValue.dtor_KmsArn()));
     if (dafnyValue.dtor_Strategy().is_Some()) {
       nativeBuilder.Strategy(
         ToNative.KeyManagementStrategy(dafnyValue.dtor_Strategy().dtor_value())
@@ -319,20 +327,9 @@ public class ToNative {
   ) {
     DescribeMutationOutput.Builder nativeBuilder =
       DescribeMutationOutput.builder();
-    if (dafnyValue.dtor_Original().is_Some()) {
-      nativeBuilder.Original(
-        ToNative.MutableBranchKeyProperities(
-          dafnyValue.dtor_Original().dtor_value()
-        )
-      );
-    }
-    if (dafnyValue.dtor_Terminal().is_Some()) {
-      nativeBuilder.Terminal(
-        ToNative.MutableBranchKeyProperities(
-          dafnyValue.dtor_Terminal().dtor_value()
-        )
-      );
-    }
+    nativeBuilder.MutationInFlight(
+      ToNative.MutationInFlight(dafnyValue.dtor_MutationInFlight())
+    );
     return nativeBuilder.build();
   }
 
@@ -352,7 +349,14 @@ public class ToNative {
         ToNative.KeyManagementStrategy(dafnyValue.dtor_Strategy().dtor_value())
       );
     }
-    nativeBuilder.SystemKey(ToNative.SystemKey(dafnyValue.dtor_SystemKey()));
+    if (dafnyValue.dtor_SystemKey().is_Some()) {
+      nativeBuilder.SystemKey(
+        ToNative.SystemKey(dafnyValue.dtor_SystemKey().dtor_value())
+      );
+    }
+    if (dafnyValue.dtor_DoNotVersion().is_Some()) {
+      nativeBuilder.DoNotVersion((dafnyValue.dtor_DoNotVersion().dtor_value()));
+    }
     return nativeBuilder.build();
   }
 
@@ -390,13 +394,12 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
-  public static KmsAes KmsAes(
-    software.amazon.cryptography.keystoreadmin.internaldafny.types.KmsAes dafnyValue
+  public static KmsSymmetricEncryption KmsSymmetricEncryption(
+    software.amazon.cryptography.keystoreadmin.internaldafny.types.KmsSymmetricEncryption dafnyValue
   ) {
-    KmsAes.Builder nativeBuilder = KmsAes.builder();
-    nativeBuilder.KmsAesIdentifier(
-      ToNative.KmsAesIdentifier(dafnyValue.dtor_KmsAesIdentifier())
-    );
+    KmsSymmetricEncryption.Builder nativeBuilder =
+      KmsSymmetricEncryption.builder();
+    nativeBuilder.KmsArn(ToNative.KmsSymmetricKeyArn(dafnyValue.dtor_KmsArn()));
     nativeBuilder.AwsKms(
       software.amazon.cryptography.keystore.ToNative.AwsKms(
         dafnyValue.dtor_AwsKms()
@@ -405,11 +408,11 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
-  public static MutableBranchKeyProperities MutableBranchKeyProperities(
-    software.amazon.cryptography.keystoreadmin.internaldafny.types.MutableBranchKeyProperities dafnyValue
+  public static MutableBranchKeyProperties MutableBranchKeyProperties(
+    software.amazon.cryptography.keystoreadmin.internaldafny.types.MutableBranchKeyProperties dafnyValue
   ) {
-    MutableBranchKeyProperities.Builder nativeBuilder =
-      MutableBranchKeyProperities.builder();
+    MutableBranchKeyProperties.Builder nativeBuilder =
+      MutableBranchKeyProperties.builder();
     nativeBuilder.KmsArn(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
         dafnyValue.dtor_KmsArn()
@@ -447,6 +450,48 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static MutationDescription MutationDescription(
+    software.amazon.cryptography.keystoreadmin.internaldafny.types.MutationDescription dafnyValue
+  ) {
+    MutationDescription.Builder nativeBuilder = MutationDescription.builder();
+    nativeBuilder.MutationDetails(
+      ToNative.MutationDetails(dafnyValue.dtor_MutationDetails())
+    );
+    nativeBuilder.MutationToken(
+      ToNative.MutationToken(dafnyValue.dtor_MutationToken())
+    );
+    return nativeBuilder.build();
+  }
+
+  public static MutationDetails MutationDetails(
+    software.amazon.cryptography.keystoreadmin.internaldafny.types.MutationDetails dafnyValue
+  ) {
+    MutationDetails.Builder nativeBuilder = MutationDetails.builder();
+    nativeBuilder.Original(
+      ToNative.MutableBranchKeyProperties(dafnyValue.dtor_Original())
+    );
+    nativeBuilder.Terminal(
+      ToNative.MutableBranchKeyProperties(dafnyValue.dtor_Terminal())
+    );
+    nativeBuilder.Input(ToNative.Mutations(dafnyValue.dtor_Input()));
+    nativeBuilder.SystemKey(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_SystemKey()
+      )
+    );
+    nativeBuilder.CreateTime(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_CreateTime()
+      )
+    );
+    nativeBuilder.UUID(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_UUID()
+      )
+    );
+    return nativeBuilder.build();
+  }
+
   public static Mutations Mutations(
     software.amazon.cryptography.keystoreadmin.internaldafny.types.Mutations dafnyValue
   ) {
@@ -477,13 +522,11 @@ public class ToNative {
         dafnyValue.dtor_Identifier()
       )
     );
-    if (dafnyValue.dtor_UUID().is_Some()) {
-      nativeBuilder.UUID(
-        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
-          dafnyValue.dtor_UUID().dtor_value()
-        )
-      );
-    }
+    nativeBuilder.UUID(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_UUID()
+      )
+    );
     nativeBuilder.CreateTime(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
         dafnyValue.dtor_CreateTime()
@@ -508,7 +551,7 @@ public class ToNative {
         dafnyValue.dtor_Identifier()
       )
     );
-    nativeBuilder.KmsArn(ToNative.KmsAesIdentifier(dafnyValue.dtor_KmsArn()));
+    nativeBuilder.KmsArn(ToNative.KmsSymmetricKeyArn(dafnyValue.dtor_KmsArn()));
     if (dafnyValue.dtor_Strategy().is_Some()) {
       nativeBuilder.Strategy(
         ToNative.KeyManagementStrategy(dafnyValue.dtor_Strategy().dtor_value())
@@ -524,6 +567,24 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static InitializeMutationFlag InitializeMutationFlag(
+    software.amazon.cryptography.keystoreadmin.internaldafny.types.InitializeMutationFlag dafnyValue
+  ) {
+    if (dafnyValue.is_Created()) {
+      return InitializeMutationFlag.Created;
+    }
+    if (dafnyValue.is_Resumed()) {
+      return InitializeMutationFlag.Resumed;
+    }
+    if (dafnyValue.is_ResumedWithoutIndex()) {
+      return InitializeMutationFlag.ResumedWithoutIndex;
+    }
+    throw new IllegalArgumentException(
+      "No entry of software.amazon.cryptography.keystoreadmin.model.InitializeMutationFlag matches the input : " +
+      dafnyValue
+    );
+  }
+
   public static ApplyMutationResult ApplyMutationResult(
     software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationResult dafnyValue
   ) {
@@ -536,35 +597,6 @@ public class ToNative {
     if (dafnyValue.is_CompleteMutation()) {
       nativeBuilder.CompleteMutation(
         ToNative.MutationComplete(dafnyValue.dtor_CompleteMutation())
-      );
-    }
-    return nativeBuilder.build();
-  }
-
-  public static InitializeMutationFlag InitializeMutationFlag(
-    software.amazon.cryptography.keystoreadmin.internaldafny.types.InitializeMutationFlag dafnyValue
-  ) {
-    InitializeMutationFlag.Builder nativeBuilder =
-      InitializeMutationFlag.builder();
-    if (dafnyValue.is_Created()) {
-      nativeBuilder.Created(
-        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
-          dafnyValue.dtor_Created()
-        )
-      );
-    }
-    if (dafnyValue.is_Resumed()) {
-      nativeBuilder.Resumed(
-        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
-          dafnyValue.dtor_Resumed()
-        )
-      );
-    }
-    if (dafnyValue.is_ResumedWithoutIndex()) {
-      nativeBuilder.ResumedWithoutIndex(
-        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
-          dafnyValue.dtor_ResumedWithoutIndex()
-        )
       );
     }
     return nativeBuilder.build();
@@ -585,10 +617,10 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
-  public static KmsAesIdentifier KmsAesIdentifier(
-    software.amazon.cryptography.keystoreadmin.internaldafny.types.KmsAesIdentifier dafnyValue
+  public static KmsSymmetricKeyArn KmsSymmetricKeyArn(
+    software.amazon.cryptography.keystoreadmin.internaldafny.types.KmsSymmetricKeyArn dafnyValue
   ) {
-    KmsAesIdentifier.Builder nativeBuilder = KmsAesIdentifier.builder();
+    KmsSymmetricKeyArn.Builder nativeBuilder = KmsSymmetricKeyArn.builder();
     if (dafnyValue.is_KmsKeyArn()) {
       nativeBuilder.KmsKeyArn(
         software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
@@ -606,12 +638,33 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static MutationInFlight MutationInFlight(
+    software.amazon.cryptography.keystoreadmin.internaldafny.types.MutationInFlight dafnyValue
+  ) {
+    MutationInFlight.Builder nativeBuilder = MutationInFlight.builder();
+    if (dafnyValue.is_Yes()) {
+      nativeBuilder.Yes(ToNative.MutationDescription(dafnyValue.dtor_Yes()));
+    }
+    if (dafnyValue.is_No()) {
+      nativeBuilder.No(
+        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+          dafnyValue.dtor_No()
+        )
+      );
+    }
+    return nativeBuilder.build();
+  }
+
   public static SystemKey SystemKey(
     software.amazon.cryptography.keystoreadmin.internaldafny.types.SystemKey dafnyValue
   ) {
     SystemKey.Builder nativeBuilder = SystemKey.builder();
-    if (dafnyValue.is_kmsAes()) {
-      nativeBuilder.kmsAes(ToNative.KmsAes(dafnyValue.dtor_kmsAes()));
+    if (dafnyValue.is_kmsSymmetricEncryption()) {
+      nativeBuilder.kmsSymmetricEncryption(
+        ToNative.KmsSymmetricEncryption(
+          dafnyValue.dtor_kmsSymmetricEncryption()
+        )
+      );
     }
     if (dafnyValue.is_trustStorage()) {
       nativeBuilder.trustStorage(

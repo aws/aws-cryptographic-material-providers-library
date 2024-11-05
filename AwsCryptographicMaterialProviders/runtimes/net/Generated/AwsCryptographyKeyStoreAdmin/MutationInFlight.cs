@@ -5,32 +5,32 @@ using System;
 using AWS.Cryptography.KeyStoreAdmin;
 namespace AWS.Cryptography.KeyStoreAdmin
 {
-  public class KmsAesIdentifier
+  public class MutationInFlight
   {
-    private string _kmsKeyArn;
-    private string _kmsMRKeyArn;
-    public string KmsKeyArn
+    private AWS.Cryptography.KeyStoreAdmin.MutationDescription _yes;
+    private string _no;
+    public AWS.Cryptography.KeyStoreAdmin.MutationDescription Yes
     {
-      get { return this._kmsKeyArn; }
-      set { this._kmsKeyArn = value; }
+      get { return this._yes; }
+      set { this._yes = value; }
     }
-    public bool IsSetKmsKeyArn()
+    public bool IsSetYes()
     {
-      return this._kmsKeyArn != null;
+      return this._yes != null;
     }
-    public string KmsMRKeyArn
+    public string No
     {
-      get { return this._kmsMRKeyArn; }
-      set { this._kmsMRKeyArn = value; }
+      get { return this._no; }
+      set { this._no = value; }
     }
-    public bool IsSetKmsMRKeyArn()
+    public bool IsSetNo()
     {
-      return this._kmsMRKeyArn != null;
+      return this._no != null;
     }
     public void Validate()
     {
-      var numberOfPropertiesSet = Convert.ToUInt16(IsSetKmsKeyArn()) +
-      Convert.ToUInt16(IsSetKmsMRKeyArn());
+      var numberOfPropertiesSet = Convert.ToUInt16(IsSetYes()) +
+      Convert.ToUInt16(IsSetNo());
       if (numberOfPropertiesSet == 0) throw new System.ArgumentException("No union value set");
 
       if (numberOfPropertiesSet > 1) throw new System.ArgumentException("Multiple union values set");

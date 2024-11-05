@@ -7,6 +7,7 @@ include "MutationValidation.dfy"
 include "MutationErrorRefinement.dfy"
 include "KmsUtils.dfy"
 include "MutationIndexUtils.dfy"
+include "MutationsConstants.dfy"
 
 module {:options "/functionSyntax:4" } Mutations {
   import opened StandardLibrary
@@ -33,6 +34,7 @@ module {:options "/functionSyntax:4" } Mutations {
   import MutationErrorRefinement
   import KmsUtils
   import MutationIndexUtils
+  import M_ErrorMessages = MutationsConstants.ErrorMessages
 
   const DEFAULT_APPLY_PAGE_SIZE := 3 as StandardLibrary.UInt.int32
 
@@ -47,14 +49,23 @@ module {:options "/functionSyntax:4" } Mutations {
     | forall i <- s :: !i.itemNeither?
     witness *
 
+  datatype InternalInitializeMutationInput = | InternalInitializeMutationInput (
+    nameonly Identifier: string ,
+    nameonly Mutations: Types.Mutations ,
+    nameonly SystemKey: Types.SystemKey ,
+    nameonly DoNotVersion: bool,
+    nameonly logicalKeyStoreName: string,
+    nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
+    nameonly storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
+  )
+
   // Ensures:
   // Branch Key ID is set
   // Mutations List is valid
   // logicalKeyStoreName is valid
   function {:vcs_split_on_every_assert} ValidateInitializeMutationInput(
-    input: Types.InitializeMutationInput,
-    logicalKeyStoreName: string
-  ): (output: Result<Types.InitializeMutationInput, Types.Error>)
+    input: InternalInitializeMutationInput
+  ): (output: Result<InternalInitializeMutationInput, Types.Error>)
     ensures
       output.Success?
       ==>
@@ -64,8 +75,23 @@ module {:options "/functionSyntax:4" } Mutations {
       && input.Mutations.TerminalKmsArn.Some?
       ==>
         && KmsArn.ValidKmsArn?(input.Mutations.TerminalKmsArn.value)
-
+    ensures
+      && output.Success?
+      ==>
+        input.DoNotVersion == false
+    ensures
+      && output.Success?
+      ==>
+        input.SystemKey.trustStorage?
   {
+    :- Need(
+         input.DoNotVersion == false,
+         Types.UnsupportedFeatureException(message := "At this time, DoNotVersion MUST be false.")
+       );
+    :- Need(
+         input.SystemKey.trustStorage?,
+         Types.UnsupportedFeatureException(message := "At this time, SystemKey MUST be TrustStorage.")
+       );
     :- Need(|input.Identifier| > 0,
             Types.KeyStoreAdminException(message := "Branch Key Identifier cannot be empty!"));
     var terminalEC := input.Mutations.TerminalEncryptionContext.UnwrapOr(map[]);
@@ -104,37 +130,33 @@ module {:options "/functionSyntax:4" } Mutations {
   }
 
   method {:vcs_split_on_every_assert} InitializeMutation(
-    input: Types.InitializeMutationInput,
-    logicalKeyStoreName: string,
-    keyManagerStrategy: KmsUtils.keyManagerStrat,
-    storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
+    input: InternalInitializeMutationInput
   )
     returns (output: Result<Types.InitializeMutationOutput, Types.Error>)
-    requires ValidateInitializeMutationInput(input, logicalKeyStoreName).Success?
+    requires ValidateInitializeMutationInput(input).Success?
     requires StateStrucs.ValidMutations?(input.Mutations) // may not need this
-    requires storage.ValidState() &&
-             match keyManagerStrategy
+    requires input.storage.ValidState() &&
+             match input.keyManagerStrategy
              case reEncrypt(km) => km.kmsClient.ValidState() && AwsKmsUtils.GetValidGrantTokens(Some(km.grantTokens)).Success?
              case decryptEncrypt(kmD, kmE) =>
                && kmD.kmsClient.ValidState() && kmE.kmsClient.ValidState()
                && AwsKmsUtils.GetValidGrantTokens(Some(kmD.grantTokens)).Success?
                && AwsKmsUtils.GetValidGrantTokens(Some(kmE.grantTokens)).Success?
-    ensures storage.ValidState() &&
-            match keyManagerStrategy
+    ensures input.storage.ValidState() &&
+            match input.keyManagerStrategy
             case reEncrypt(km) => km.kmsClient.ValidState()
             case decryptEncrypt(kmD, kmE) => kmD.kmsClient.ValidState() && kmE.kmsClient.ValidState()
     modifies
-      storage.Modifies,
-            match keyManagerStrategy
+      input.storage.Modifies,
+            match input.keyManagerStrategy
             case reEncrypt(km) => km.kmsClient.Modifies
             case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
-    requires keyManagerStrategy.reEncrypt?
+    requires input.keyManagerStrategy.reEncrypt?
   {
-    var keyManager := keyManagerStrategy.reEncrypt;
     var resumeMutation? := false;
 
     // Fetch Active Branch Key & Beacon Key & Mutation Lock
-    var readItems? := storage.GetItemsForInitializeMutation(
+    var readItems? := input.storage.GetItemsForInitializeMutation(
       Types.AwsCryptographyKeyStoreTypes.GetItemsForInitializeMutationInput(Identifier := input.Identifier));
     var readItems :- readItems?
     .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
@@ -155,14 +177,14 @@ module {:options "/functionSyntax:4" } Mutations {
 
     if (readItems.MutationCommitment.Some?) {
       resumeMutation? :- CommitmentAndInputMatch(
-        input := input,
+        internalInput := input,
         commitment := readItems.MutationCommitment.value);
       if (resumeMutation?) {
         output := ResumeMutation(
           commitment := readItems.MutationCommitment.value,
           index := readItems.MutationIndex,
-          logicalKeyStoreName := logicalKeyStoreName,
-          storage := storage);
+          logicalKeyStoreName := input.logicalKeyStoreName,
+          storage := input.storage);
         return output;
       }
       return Failure(
@@ -183,11 +205,11 @@ module {:options "/functionSyntax:4" } Mutations {
     var activeItem := readItems.ActiveItem;
 
     :- Need(
-      || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+      || input.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
            && readItems.ActiveItem.Identifier == input.Identifier
            && Structure.ActiveHierarchicalSymmetricKey?(readItems.ActiveItem)
-           && readItems.ActiveItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+           && readItems.ActiveItem.EncryptionContext[Structure.TABLE_FIELD] == input.logicalKeyStoreName
            && KmsArn.ValidKmsArn?(activeItem.KmsArn)
          ),
       Types.KeyStoreAdminException(
@@ -195,11 +217,11 @@ module {:options "/functionSyntax:4" } Mutations {
     );
 
     :- Need(
-      || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+      || input.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
            && readItems.BeaconItem.Identifier == input.Identifier
            && Structure.ActiveHierarchicalSymmetricBeaconKey?(readItems.BeaconItem)
-           && readItems.BeaconItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+           && readItems.BeaconItem.EncryptionContext[Structure.TABLE_FIELD] == input.logicalKeyStoreName
            && KmsArn.ValidKmsArn?(readItems.BeaconItem.KmsArn)
          ),
       Types.KeyStoreAdminException(
@@ -282,7 +304,7 @@ module {:options "/functionSyntax:4" } Mutations {
     // --= Validate Active Branch Key
     var verifyActive? := VerifyEncryptedHierarchicalKey(
       item := activeItem,
-      keyManagerStrategy := keyManagerStrategy
+      keyManagerStrategy := input.keyManagerStrategy
     );
     if (verifyActive?.Fail?) {
       return Failure(
@@ -323,7 +345,7 @@ module {:options "/functionSyntax:4" } Mutations {
       input.Identifier,
       newVersion,
       timestamp,
-      logicalKeyStoreName,
+      input.logicalKeyStoreName,
       MutationToApply.Terminal.kmsArn,
       MutationToApply.Terminal.customEncryptionContext
     );
@@ -334,8 +356,8 @@ module {:options "/functionSyntax:4" } Mutations {
     var wrappedDecryptOnlyBranchKey? := KMSKeystoreOperations.GenerateKey(
       encryptionContext := decryptOnlyEncryptionContext,
       kmsConfiguration := KeyStoreTypes.kmsKeyArn(MutationToApply.Terminal.kmsArn),
-      grantTokens := keyManager.grantTokens,
-      kmsClient := keyManager.kmsClient
+      grantTokens := input.keyManagerStrategy.reEncrypt.grantTokens,
+      kmsClient := input.keyManagerStrategy.reEncrypt.kmsClient
     );
     var wrappedDecryptOnlyBranchKey :- wrappedDecryptOnlyBranchKey?
     .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
@@ -350,7 +372,7 @@ module {:options "/functionSyntax:4" } Mutations {
       originalKmsArn := MutationToApply.Terminal.kmsArn,
       terminalKmsArn := MutationToApply.Terminal.kmsArn,
       terminalEncryptionContext := ActiveEncryptionContext,
-      keyManagerStrategy := keyManagerStrategy
+      keyManagerStrategy := input.keyManagerStrategy
     );
 
     // -= Mutate Beacon Key
@@ -370,7 +392,7 @@ module {:options "/functionSyntax:4" } Mutations {
       originalKmsArn := MutationToApply.Original.kmsArn,
       terminalKmsArn := MutationToApply.Terminal.kmsArn,
       terminalEncryptionContext := BeaconEncryptionContext,
-      keyManagerStrategy := keyManagerStrategy
+      keyManagerStrategy := input.keyManagerStrategy
     );
 
     // -= Create Mutation Commitment
@@ -379,7 +401,7 @@ module {:options "/functionSyntax:4" } Mutations {
     var MutationIndex :- StateStrucs.SerializeMutationIndex(MutationToApply, None);
 
     // -= Write Mutation Commitment, new branch key version, mutated beacon key
-    var throwAway2? := storage.WriteInitializeMutation(
+    var throwAway2? := input.storage.WriteInitializeMutation(
       KeyStoreTypes.WriteInitializeMutationInput(
         Active := KeyStoreTypes.OverWriteEncryptedHierarchicalKey(Item:=newActive, Old:=activeItem),
         Version := KeyStoreTypes.WriteInitializeMutationVersion.rotate(rotate:=newDecryptOnly),
@@ -401,10 +423,10 @@ module {:options "/functionSyntax:4" } Mutations {
 
     var Token := Types.MutationToken(
       Identifier := input.Identifier,
-      UUID := Some(mutationCommitmentUUID),
+      UUID := mutationCommitmentUUID,
       CreateTime := timestamp);
 
-    var Flag: Types.InitializeMutationFlag := Types.Created("");
+    var Flag: Types.InitializeMutationFlag := Types.Created();
 
     return Success(Types.InitializeMutationOutput(
                      MutationToken := Token,
@@ -499,16 +521,39 @@ module {:options "/functionSyntax:4" } Mutations {
         message := "No Mutation is in-flight for this Branch Key ID " + input.MutationToken.Identifier + " ."
       ));
     :- Need(
+      input.MutationToken.UUID == fetchMutation.MutationCommitment.value.UUID,
+      Types.MutationInvalidException(
+        message := "The Token and the Mutation Commitment read from storage disagree."
+        + " This indicates that the Token is for a different Mutation than the one in-flight."
+        + " A possible cause is this token is from an earlier Mutation that already finished?"
+        + " Branch Key ID: " + input.MutationToken.Identifier + ";"
+        + " Mutation Commitment UUID: " + fetchMutation.MutationCommitment.value.UUID + ";"
+        + " Token UUID: " + input.MutationToken.UUID + ";"
+      ));
+    :- Need(
       fetchMutation.MutationIndex.Some?,
       Types.MutationInvalidException(
-        message := "No Mutation Index exsists this in-flight mutation of this Branch Key ID " + input.MutationToken.Identifier + " ."
+        message := "No Mutation Index exsists for this in-flight mutation of Branch Key ID " + input.MutationToken.Identifier + " ."
       ));
     var Commitment := fetchMutation.MutationCommitment.value;
     var Index := fetchMutation.MutationIndex.value;
     :- Need(
-      Commitment.Identifier == Index.Identifier && Commitment.UUID == Index.UUID,
+      // If custom storage is really bad
+      Commitment.Identifier == Index.Identifier,
       Types.MutationInvalidException(
-        message := "Information about this mutation retrieved from Storage is malformed. Branch Key ID " + input.MutationToken.Identifier+ " ."
+        message := "The Mutation Index read from storage and the Mutation Commitment are for different Branch Key IDs."
+        + " The Storage implementation is wrong, or something terrible has happened to storage."
+        + " Token Branch Key ID: " + input.MutationToken.Identifier + ";"
+        + " Mutation Commitment Branch Key ID: " + Commitment.Identifier + ";"
+        + " Mutation Index Branch Key ID: " + Index.Identifier + ";"
+      ));
+    :- Need(
+      Commitment.UUID == Index.UUID,
+      Types.MutationInvalidException(
+        message := "The Mutation Index read from storage and the Mutation Commitment are for different Mutations."
+        + " Branch Key ID: " + input.MutationToken.Identifier + ";"
+        + " Mutation Commitment UUID: " + Commitment.UUID + ";"
+        + " Mutation Index UUID: " + Index.UUID + ";"
       ));
     var CommitmentAndIndex := StateStrucs.CommitmentAndIndex(
       Commitment := Commitment,
@@ -641,7 +686,7 @@ module {:options "/functionSyntax:4" } Mutations {
 
     var Token := Types.MutationToken(
       Identifier := MutationToApply.Identifier,
-      UUID := Some(MutationToApply.UUID),
+      UUID := MutationToApply.UUID,
       CreateTime := MutationToApply.CreateTime);
 
     output := Success(
@@ -764,12 +809,12 @@ module {:options "/functionSyntax:4" } Mutations {
 
   // Note: Assumes the System Key has already verified
   function CommitmentAndInputMatch(
-    nameonly input: Types.InitializeMutationInput,
+    nameonly internalInput: InternalInitializeMutationInput,
     nameonly commitment: KeyStoreTypes.MutationCommitment
   ): (output: Result<bool, Types.Error>)
   {
     var readMutations :- StateStrucs.DeserializeMutationInput(commitment);
-    var givenMutations := input.Mutations;
+    var givenMutations := internalInput.Mutations;
     Success(readMutations == givenMutations)
   }
 
@@ -784,14 +829,18 @@ module {:options "/functionSyntax:4" } Mutations {
     requires storage.ValidState()
     ensures storage.ValidState()
     modifies storage.Modifies
+    ensures
+      output.Success? && index.Some?
+      ==>
+        index.value.UUID == commitment.UUID
   {
     var mutatedBranchKeyItems := [
       Types.MutatedBranchKeyItem(ItemType := "Mutation Commitment: " + commitment.UUID, Description := "Matched Input")
     ];
-    var Flag: Types.InitializeMutationFlag := Types.Resumed("");
+    var Flag: Types.InitializeMutationFlag := Types.Resumed();
 
     if (index.None?) {
-      Flag := Types.ResumedWithoutIndex("");
+      Flag := Types.ResumedWithoutIndex();
       var timestamp? := Time.GetCurrentTimeStamp();
       var timestamp :- timestamp?
       .MapFailure(e => Types.KeyStoreAdminException(
@@ -814,11 +863,21 @@ module {:options "/functionSyntax:4" } Mutations {
       var _ :- throwAway2?.MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
       mutatedBranchKeyItems := mutatedBranchKeyItems
       + [Types.MutatedBranchKeyItem(ItemType := "Mutation Index: " + commitment.UUID, Description := "Created")];
+    } else {
+      :- Need(
+        index.value.UUID == commitment.UUID,
+        Types.MutationInvalidException(
+          message := M_ErrorMessages.COMMITMENT_INDEX_UUID_DISAGREE
+          + " Branch Key ID: " + commitment.Identifier + ";"
+          + " Mutation Commitment UUID: " + commitment.UUID + ";"
+          + " Mutation Index UUID: " + index.value.UUID + ";")
+      );
+      assert index.value.UUID == commitment.UUID;
     }
 
     var Token := Types.MutationToken(
       Identifier := commitment.Identifier,
-      UUID := Some(commitment.UUID),
+      UUID := commitment.UUID,
       CreateTime := commitment.CreateTime);
 
     return Success(Types.InitializeMutationOutput(
@@ -827,11 +886,4 @@ module {:options "/functionSyntax:4" } Mutations {
                      InitializeMutationFlag := Flag));
 
   }
-
-  // return Failure(Types.KeyStoreAdminException(message := "Implement me"));
-  //   Types.MutatedBranchKeyItem(ItemType := "Mutation Index: " + mutationCommitmentUUID, Description := "Created"),
-  //   Types.MutatedBranchKeyItem(ItemType := "Active: " + newVersion, Description := "Created"),
-  //   Types.MutatedBranchKeyItem(ItemType := "Decrypt Only: " + newVersion, Description := "Created"),
-  //   Types.MutatedBranchKeyItem(ItemType := "Beacon", Description := "Mutated")
-  // ];
 }

@@ -5,10 +5,6 @@ package software.amazon.cryptography.keystoreadmin.model;
 
 import java.util.Objects;
 
-/**
- * Branch Key Authorization failed while Initializing the Mutation.
- * No Mutation Lock was created; no items were changed.
- */
 public class MutationInvalidException extends RuntimeException {
 
   protected MutationInvalidException(BuilderImpl builder) {

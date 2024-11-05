@@ -19,15 +19,19 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     InitializeMutationOutput_InitializeMutationOutput as DafnyInitializeMutationOutput,
     KeyManagementStrategy_AwsKmsReEncrypt,
     KeyStoreAdminConfig_KeyStoreAdminConfig as DafnyKeyStoreAdminConfig,
-    KmsAesIdentifier_KmsKeyArn,
-    KmsAesIdentifier_KmsMRKeyArn,
-    KmsAes_KmsAes as DafnyKmsAes,
-    MutableBranchKeyProperities_MutableBranchKeyProperities as DafnyMutableBranchKeyProperities,
+    KmsSymmetricEncryption_KmsSymmetricEncryption as DafnyKmsSymmetricEncryption,
+    KmsSymmetricKeyArn_KmsKeyArn,
+    KmsSymmetricKeyArn_KmsMRKeyArn,
+    MutableBranchKeyProperties_MutableBranchKeyProperties as DafnyMutableBranchKeyProperties,
     MutatedBranchKeyItem_MutatedBranchKeyItem as DafnyMutatedBranchKeyItem,
     MutationComplete_MutationComplete as DafnyMutationComplete,
+    MutationDescription_MutationDescription as DafnyMutationDescription,
+    MutationDetails_MutationDetails as DafnyMutationDetails,
+    MutationInFlight_No,
+    MutationInFlight_Yes,
     MutationToken_MutationToken as DafnyMutationToken,
     Mutations_Mutations as DafnyMutations,
-    SystemKey_kmsAes,
+    SystemKey_kmsSymmetricEncryption,
     SystemKey_trustStorage,
     TrustStorage_TrustStorage as DafnyTrustStorage,
     VersionKeyInput_VersionKeyInput as DafnyVersionKeyInput,
@@ -78,7 +82,7 @@ def aws_cryptography_keystoreadmin_CreateKeyInput(native_input):
             if (native_input.encryption_context is not None)
             else (Option_None())
         ),
-        KmsArn=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_KmsAesIdentifier(
+        KmsArn=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_KmsSymmetricKeyArn(
             native_input.kms_arn
         ),
         Strategy=(
@@ -95,12 +99,12 @@ def aws_cryptography_keystoreadmin_CreateKeyInput(native_input):
     )
 
 
-def aws_cryptography_keystoreadmin_KmsAesIdentifier(native_input):
+def aws_cryptography_keystoreadmin_KmsSymmetricKeyArn(native_input):
     if isinstance(
         native_input,
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.KmsAesIdentifierKmsKeyArn,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.KmsSymmetricKeyArnKmsKeyArn,
     ):
-        KmsAesIdentifier_union_value = KmsAesIdentifier_KmsKeyArn(
+        KmsSymmetricKeyArn_union_value = KmsSymmetricKeyArn_KmsKeyArn(
             Seq(
                 "".join(
                     [
@@ -114,9 +118,9 @@ def aws_cryptography_keystoreadmin_KmsAesIdentifier(native_input):
         )
     elif isinstance(
         native_input,
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.KmsAesIdentifierKmsMRKeyArn,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.KmsSymmetricKeyArnKmsMRKeyArn,
     ):
-        KmsAesIdentifier_union_value = KmsAesIdentifier_KmsMRKeyArn(
+        KmsSymmetricKeyArn_union_value = KmsSymmetricKeyArn_KmsMRKeyArn(
             Seq(
                 "".join(
                     [
@@ -133,7 +137,7 @@ def aws_cryptography_keystoreadmin_KmsAesIdentifier(native_input):
             "No recognized union value in union type: " + str(native_input)
         )
 
-    return KmsAesIdentifier_union_value
+    return KmsSymmetricKeyArn_union_value
 
 
 def aws_cryptography_keystoreadmin_KeyManagementStrategy(native_input):
@@ -166,7 +170,7 @@ def aws_cryptography_keystoreadmin_VersionKeyInput(native_input):
                 ]
             )
         ),
-        KmsArn=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_KmsAesIdentifier(
+        KmsArn=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_KmsSymmetricKeyArn(
             native_input.kms_arn
         ),
         Strategy=(
@@ -209,8 +213,21 @@ def aws_cryptography_keystoreadmin_InitializeMutationInput(native_input):
             if (native_input.strategy is not None)
             else (Option_None())
         ),
-        SystemKey=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_SystemKey(
-            native_input.system_key
+        SystemKey=(
+            (
+                Option_Some(
+                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_SystemKey(
+                        native_input.system_key
+                    )
+                )
+            )
+            if (native_input.system_key is not None)
+            else (Option_None())
+        ),
+        DoNotVersion=(
+            (Option_Some(native_input.do_not_version))
+            if (native_input.do_not_version is not None)
+            else (Option_None())
         ),
     )
 
@@ -283,10 +300,10 @@ def aws_cryptography_keystoreadmin_Mutations(native_input):
 def aws_cryptography_keystoreadmin_SystemKey(native_input):
     if isinstance(
         native_input,
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.SystemKeyKmsAes,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.SystemKeyKmsSymmetricEncryption,
     ):
-        SystemKey_union_value = SystemKey_kmsAes(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_KmsAes(
+        SystemKey_union_value = SystemKey_kmsSymmetricEncryption(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_KmsSymmetricEncryption(
                 native_input.value
             )
         )
@@ -307,10 +324,10 @@ def aws_cryptography_keystoreadmin_SystemKey(native_input):
     return SystemKey_union_value
 
 
-def aws_cryptography_keystoreadmin_KmsAes(native_input):
-    return DafnyKmsAes(
-        KmsAesIdentifier=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_KmsAesIdentifier(
-            native_input.kms_aes_identifier
+def aws_cryptography_keystoreadmin_KmsSymmetricEncryption(native_input):
+    return DafnyKmsSymmetricEncryption(
+        KmsArn=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_KmsSymmetricKeyArn(
+            native_input.kms_arn
         ),
         AwsKms=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_AwsKms(
             native_input.aws_kms
@@ -343,8 +360,16 @@ def aws_cryptography_keystoreadmin_ApplyMutationInput(native_input):
             if (native_input.strategy is not None)
             else (Option_None())
         ),
-        SystemKey=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_SystemKey(
-            native_input.system_key
+        SystemKey=(
+            (
+                Option_Some(
+                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_SystemKey(
+                        native_input.system_key
+                    )
+                )
+            )
+            if (native_input.system_key is not None)
+            else (Option_None())
         ),
     )
 
@@ -361,23 +386,13 @@ def aws_cryptography_keystoreadmin_MutationToken(native_input):
                 ]
             )
         ),
-        UUID=(
-            (
-                Option_Some(
-                    Seq(
-                        "".join(
-                            [
-                                chr(int.from_bytes(pair, "big"))
-                                for pair in zip(
-                                    *[iter(native_input.uuid.encode("utf-16-be"))] * 2
-                                )
-                            ]
-                        )
-                    )
-                )
+        UUID=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(*[iter(native_input.uuid.encode("utf-16-be"))] * 2)
+                ]
             )
-            if (native_input.uuid is not None)
-            else (Option_None())
         ),
         CreateTime=Seq(
             "".join(
@@ -471,60 +486,17 @@ def aws_cryptography_keystoreadmin_MutatedBranchKeyItem(native_input):
 
 
 def aws_cryptography_keystoreadmin_InitializeMutationFlag(native_input):
-    if isinstance(
-        native_input,
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.InitializeMutationFlagCreated,
-    ):
-        InitializeMutationFlag_union_value = InitializeMutationFlag_Created(
-            Seq(
-                "".join(
-                    [
-                        chr(int.from_bytes(pair, "big"))
-                        for pair in zip(
-                            *[iter(native_input.value.encode("utf-16-be"))] * 2
-                        )
-                    ]
-                )
-            )
-        )
-    elif isinstance(
-        native_input,
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.InitializeMutationFlagResumed,
-    ):
-        InitializeMutationFlag_union_value = InitializeMutationFlag_Resumed(
-            Seq(
-                "".join(
-                    [
-                        chr(int.from_bytes(pair, "big"))
-                        for pair in zip(
-                            *[iter(native_input.value.encode("utf-16-be"))] * 2
-                        )
-                    ]
-                )
-            )
-        )
-    elif isinstance(
-        native_input,
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.InitializeMutationFlagResumedWithoutIndex,
-    ):
-        InitializeMutationFlag_union_value = InitializeMutationFlag_ResumedWithoutIndex(
-            Seq(
-                "".join(
-                    [
-                        chr(int.from_bytes(pair, "big"))
-                        for pair in zip(
-                            *[iter(native_input.value.encode("utf-16-be"))] * 2
-                        )
-                    ]
-                )
-            )
-        )
-    else:
-        raise ValueError(
-            "No recognized union value in union type: " + str(native_input)
-        )
+    if native_input == "Created":
+        return InitializeMutationFlag_Created()
 
-    return InitializeMutationFlag_union_value
+    elif native_input == "Resumed":
+        return InitializeMutationFlag_Resumed()
+
+    elif native_input == "ResumedWithoutIndex":
+        return InitializeMutationFlag_ResumedWithoutIndex()
+
+    else:
+        raise ValueError(f"No recognized enum value in enum type: {native_input=}")
 
 
 def aws_cryptography_keystoreadmin_ApplyMutationOutput(native_input):
@@ -576,33 +548,101 @@ def aws_cryptography_keystoreadmin_MutationComplete(native_input):
 
 def aws_cryptography_keystoreadmin_DescribeMutationOutput(native_input):
     return DafnyDescribeMutationOutput(
-        Original=(
-            (
-                Option_Some(
-                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_MutableBranchKeyProperities(
-                        native_input.original
-                    )
-                )
-            )
-            if (native_input.original is not None)
-            else (Option_None())
-        ),
-        Terminal=(
-            (
-                Option_Some(
-                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_MutableBranchKeyProperities(
-                        native_input.terminal
-                    )
-                )
-            )
-            if (native_input.terminal is not None)
-            else (Option_None())
+        MutationInFlight=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_MutationInFlight(
+            native_input.mutation_in_flight
         ),
     )
 
 
-def aws_cryptography_keystoreadmin_MutableBranchKeyProperities(native_input):
-    return DafnyMutableBranchKeyProperities(
+def aws_cryptography_keystoreadmin_MutationInFlight(native_input):
+    if isinstance(
+        native_input,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.MutationInFlightYes,
+    ):
+        MutationInFlight_union_value = MutationInFlight_Yes(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_MutationDescription(
+                native_input.value
+            )
+        )
+    elif isinstance(
+        native_input,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.MutationInFlightNo,
+    ):
+        MutationInFlight_union_value = MutationInFlight_No(
+            Seq(
+                "".join(
+                    [
+                        chr(int.from_bytes(pair, "big"))
+                        for pair in zip(
+                            *[iter(native_input.value.encode("utf-16-be"))] * 2
+                        )
+                    ]
+                )
+            )
+        )
+    else:
+        raise ValueError(
+            "No recognized union value in union type: " + str(native_input)
+        )
+
+    return MutationInFlight_union_value
+
+
+def aws_cryptography_keystoreadmin_MutationDescription(native_input):
+    return DafnyMutationDescription(
+        MutationDetails=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_MutationDetails(
+            native_input.mutation_details
+        ),
+        MutationToken=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_MutationToken(
+            native_input.mutation_token
+        ),
+    )
+
+
+def aws_cryptography_keystoreadmin_MutationDetails(native_input):
+    return DafnyMutationDetails(
+        Original=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_MutableBranchKeyProperties(
+            native_input.original
+        ),
+        Terminal=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_MutableBranchKeyProperties(
+            native_input.terminal
+        ),
+        Input=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_Mutations(
+            native_input.input
+        ),
+        SystemKey=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.system_key.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        CreateTime=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.create_time.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        UUID=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(*[iter(native_input.uuid.encode("utf-16-be"))] * 2)
+                ]
+            )
+        ),
+    )
+
+
+def aws_cryptography_keystoreadmin_MutableBranchKeyProperties(native_input):
+    return DafnyMutableBranchKeyProperties(
         KmsArn=Seq(
             "".join(
                 [

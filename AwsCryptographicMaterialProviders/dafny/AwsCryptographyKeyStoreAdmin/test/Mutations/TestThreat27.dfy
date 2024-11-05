@@ -84,7 +84,8 @@ module {:options "/functionSyntax:4" } TestThreat27 {
       Identifier := testId,
       Mutations := mutationsRequest,
       Strategy := Some(strategy),
-      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
+      SystemKey := Some(Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage())),
+      DoNotVersion := Some(false));
     var initializeOutput :- expect underTest.InitializeMutation(testInput);
 
     print "\nTestThreat27 :: TestHappyCase :: Initialized Mutation: " + activeOne + "\n";

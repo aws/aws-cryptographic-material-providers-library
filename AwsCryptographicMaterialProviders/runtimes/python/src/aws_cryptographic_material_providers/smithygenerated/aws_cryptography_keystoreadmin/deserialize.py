@@ -12,10 +12,10 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     Error_MutationConflictException,
     Error_MutationFromException,
     Error_MutationInvalidException,
-    Error_MutationLockInvalidException,
     Error_MutationToException,
     Error_MutationVerificationException,
     Error_UnexpectedStateException,
+    Error_UnsupportedFeatureException,
     InitializeMutationOutput_InitializeMutationOutput as DafnyInitializeMutationOutput,
     VersionKeyOutput_VersionKeyOutput as DafnyVersionKeyOutput,
 )
@@ -33,12 +33,12 @@ from .errors import (
     MutationConflictException,
     MutationFromException,
     MutationInvalidException,
-    MutationLockInvalidException,
     MutationToException,
     MutationVerificationException,
     OpaqueError,
     ServiceError,
     UnexpectedStateException,
+    UnsupportedFeatureException,
 )
 from aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.shim import (
     _sdk_error_to_dafny_error as com_amazonaws_dynamodb_sdk_error_to_dafny_error,
@@ -114,14 +114,14 @@ def _deserialize_error(error: Error) -> ServiceError:
         return MutationFromException(message=_dafny.string_of(error.message))
     elif error.is_MutationInvalidException:
         return MutationInvalidException(message=_dafny.string_of(error.message))
-    elif error.is_MutationLockInvalidException:
-        return MutationLockInvalidException(message=_dafny.string_of(error.message))
     elif error.is_MutationToException:
         return MutationToException(message=_dafny.string_of(error.message))
     elif error.is_MutationVerificationException:
         return MutationVerificationException(message=_dafny.string_of(error.message))
     elif error.is_UnexpectedStateException:
         return UnexpectedStateException(message=_dafny.string_of(error.message))
+    elif error.is_UnsupportedFeatureException:
+        return UnsupportedFeatureException(message=_dafny.string_of(error.message))
     elif error.is_AwsCryptographyKeyStore:
         return KeyStore(
             aws_cryptography_keystore_deserialize_error(error.AwsCryptographyKeyStore)

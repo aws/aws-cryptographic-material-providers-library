@@ -30,17 +30,17 @@ public class MutationCommitment {
   private final String UUID;
 
   /**
-   * A commitment of the Original Mutable Properities of the Branch Key.
+   * A commitment of the Original Mutable Properties of the Branch Key.
    */
   private final ByteBuffer Original;
 
   /**
-   * A commitment of the Terminal Mutable Properities of the Branch Key.
+   * A commitment of the Terminal Mutable Properties of the Branch Key.
    */
   private final ByteBuffer Terminal;
 
   /**
-   * Description of the input to Initizlize Mutation.
+   * Description of the input to initialize a Mutation.
    */
   private final ByteBuffer Input;
 
@@ -78,21 +78,21 @@ public class MutationCommitment {
   }
 
   /**
-   * @return A commitment of the Original Mutable Properities of the Branch Key.
+   * @return A commitment of the Original Mutable Properties of the Branch Key.
    */
   public ByteBuffer Original() {
     return this.Original;
   }
 
   /**
-   * @return A commitment of the Terminal Mutable Properities of the Branch Key.
+   * @return A commitment of the Terminal Mutable Properties of the Branch Key.
    */
   public ByteBuffer Terminal() {
     return this.Terminal;
   }
 
   /**
-   * @return Description of the input to Initizlize Mutation.
+   * @return Description of the input to initialize a Mutation.
    */
   public ByteBuffer Input() {
     return this.Input;
@@ -142,32 +142,32 @@ public class MutationCommitment {
     String UUID();
 
     /**
-     * @param Original A commitment of the Original Mutable Properities of the Branch Key.
+     * @param Original A commitment of the Original Mutable Properties of the Branch Key.
      */
     Builder Original(ByteBuffer Original);
 
     /**
-     * @return A commitment of the Original Mutable Properities of the Branch Key.
+     * @return A commitment of the Original Mutable Properties of the Branch Key.
      */
     ByteBuffer Original();
 
     /**
-     * @param Terminal A commitment of the Terminal Mutable Properities of the Branch Key.
+     * @param Terminal A commitment of the Terminal Mutable Properties of the Branch Key.
      */
     Builder Terminal(ByteBuffer Terminal);
 
     /**
-     * @return A commitment of the Terminal Mutable Properities of the Branch Key.
+     * @return A commitment of the Terminal Mutable Properties of the Branch Key.
      */
     ByteBuffer Terminal();
 
     /**
-     * @param Input Description of the input to Initizlize Mutation.
+     * @param Input Description of the input to initialize a Mutation.
      */
     Builder Input(ByteBuffer Input);
 
     /**
-     * @return Description of the input to Initizlize Mutation.
+     * @return Description of the input to initialize a Mutation.
      */
     ByteBuffer Input();
 

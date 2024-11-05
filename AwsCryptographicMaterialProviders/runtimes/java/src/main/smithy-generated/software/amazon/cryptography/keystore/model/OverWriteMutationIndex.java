@@ -6,13 +6,13 @@ package software.amazon.cryptography.keystore.model;
 import java.util.Objects;
 
 /**
- * To avoid information loss, overwrites to any itme in the Key Store
+ * To avoid information loss, overwrites to any item in the Key Store
  * are done conditioned on the old value.
  */
 public class OverWriteMutationIndex {
 
   /**
-   * Information on an in-flight Mutation of a Branch Key.
+   * Information of an in-flight Mutation of a Branch Key.
    */
   private final MutationIndex Index;
 
@@ -27,7 +27,7 @@ public class OverWriteMutationIndex {
   }
 
   /**
-   * @return Information on an in-flight Mutation of a Branch Key.
+   * @return Information of an in-flight Mutation of a Branch Key.
    */
   public MutationIndex Index() {
     return this.Index;
@@ -50,12 +50,12 @@ public class OverWriteMutationIndex {
 
   public interface Builder {
     /**
-     * @param Index Information on an in-flight Mutation of a Branch Key.
+     * @param Index Information of an in-flight Mutation of a Branch Key.
      */
     Builder Index(MutationIndex Index);
 
     /**
-     * @return Information on an in-flight Mutation of a Branch Key.
+     * @return Information of an in-flight Mutation of a Branch Key.
      */
     MutationIndex Index();
 

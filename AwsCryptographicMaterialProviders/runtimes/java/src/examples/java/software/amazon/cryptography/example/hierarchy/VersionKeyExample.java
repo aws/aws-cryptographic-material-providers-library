@@ -5,7 +5,7 @@ package software.amazon.cryptography.example.hierarchy;
 import javax.annotation.Nullable;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
-import software.amazon.cryptography.keystoreadmin.model.KmsAesIdentifier;
+import software.amazon.cryptography.keystoreadmin.model.KmsSymmetricKeyArn;
 import software.amazon.cryptography.keystoreadmin.model.VersionKeyInput;
 
 /*
@@ -63,7 +63,7 @@ public class VersionKeyExample {
         // This is the KMS ARN that will be used to protect the Branch Key.
         // It is a required argument.
         // This ARN MUST match the ARN that protects the Branch Key.
-        .KmsArn(KmsAesIdentifier.builder().KmsKeyArn(kmsKeyArn).build())
+        .KmsArn(KmsSymmetricKeyArn.builder().KmsKeyArn(kmsKeyArn).build())
         // This the Identifier for the Branch Key that is being rotated/versioned.
         .Identifier(branchKeyId)
         .build()

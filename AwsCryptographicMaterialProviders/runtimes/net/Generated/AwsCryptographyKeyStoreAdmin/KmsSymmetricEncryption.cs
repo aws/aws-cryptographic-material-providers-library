@@ -5,11 +5,11 @@ using System;
 using AWS.Cryptography.KeyStoreAdmin;
 namespace AWS.Cryptography.KeyStoreAdmin
 {
-  public class MutableBranchKeyProperities
+  public class KmsSymmetricEncryption
   {
-    private string _kmsArn;
-    private System.Collections.Generic.Dictionary<string, string> _customEncryptionContext;
-    public string KmsArn
+    private AWS.Cryptography.KeyStoreAdmin.KmsSymmetricKeyArn _kmsArn;
+    private AWS.Cryptography.KeyStore.AwsKms _awsKms;
+    public AWS.Cryptography.KeyStoreAdmin.KmsSymmetricKeyArn KmsArn
     {
       get { return this._kmsArn; }
       set { this._kmsArn = value; }
@@ -18,19 +18,19 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       return this._kmsArn != null;
     }
-    public System.Collections.Generic.Dictionary<string, string> CustomEncryptionContext
+    public AWS.Cryptography.KeyStore.AwsKms AwsKms
     {
-      get { return this._customEncryptionContext; }
-      set { this._customEncryptionContext = value; }
+      get { return this._awsKms; }
+      set { this._awsKms = value; }
     }
-    public bool IsSetCustomEncryptionContext()
+    public bool IsSetAwsKms()
     {
-      return this._customEncryptionContext != null;
+      return this._awsKms != null;
     }
     public void Validate()
     {
       if (!IsSetKmsArn()) throw new System.ArgumentException("Missing value for required property 'KmsArn'");
-      if (!IsSetCustomEncryptionContext()) throw new System.ArgumentException("Missing value for required property 'CustomEncryptionContext'");
+      if (!IsSetAwsKms()) throw new System.ArgumentException("Missing value for required property 'AwsKms'");
 
     }
   }
