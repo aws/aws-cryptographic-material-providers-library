@@ -560,35 +560,6 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
-  public static InitializeMutationFlag InitializeMutationFlag(
-    software.amazon.cryptography.keystoreadmin.internaldafny.types.InitializeMutationFlag dafnyValue
-  ) {
-    InitializeMutationFlag.Builder nativeBuilder =
-      InitializeMutationFlag.builder();
-    if (dafnyValue.is_Created()) {
-      nativeBuilder.Created(
-        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
-          dafnyValue.dtor_Created()
-        )
-      );
-    }
-    if (dafnyValue.is_Resumed()) {
-      nativeBuilder.Resumed(
-        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
-          dafnyValue.dtor_Resumed()
-        )
-      );
-    }
-    if (dafnyValue.is_ResumedWithoutIndex()) {
-      nativeBuilder.ResumedWithoutIndex(
-        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
-          dafnyValue.dtor_ResumedWithoutIndex()
-        )
-      );
-    }
-    return nativeBuilder.build();
-  }
-
   public static KeyManagementStrategy KeyManagementStrategy(
     software.amazon.cryptography.keystoreadmin.internaldafny.types.KeyManagementStrategy dafnyValue
   ) {
