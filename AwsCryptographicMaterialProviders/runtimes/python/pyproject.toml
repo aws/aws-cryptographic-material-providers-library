@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aws-cryptographic-material-providers"
-version = "1.8.0"
+version = "1.7.4"
 description = "AWS Cryptographic Material Providers Library for Python"
 authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
 packages = [
@@ -13,10 +13,10 @@ readme = "README.rst"
 
 [tool.poetry.dependencies]
 python = "^3.11.0"
-aws-cryptography-internal-standard-library = "1.8.0"
-aws-cryptography-internal-kms = "1.8.0"
-aws-cryptography-internal-dynamodb = "1.8.0"
-aws-cryptography-internal-primitives = "1.8.0"
+aws-cryptography-internal-standard-library = "1.7.4"
+aws-cryptography-internal-kms = "1.7.4"
+aws-cryptography-internal-dynamodb = "1.7.4"
+aws-cryptography-internal-primitives = "1.7.4"
 
 # Package testing
 

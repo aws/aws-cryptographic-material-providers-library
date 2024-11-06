@@ -1,29 +1,14 @@
 # Changelog
 
-# [1.8.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.3...v1.8.0) (2024-11-06)
+# [1.7.4](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.3...v1.7.4) (2024-11-06)
 
+This release is available in the following languages:
+
+- Python
 
 ### Bug Fixes
 
-* CI ([831aeea](https://github.com/aws/aws-cryptographic-material-providers-library/commit/831aeea05adbdb839241b47f6c0ce3a7deb92e33))
-* Dafny verification ([1f4d8d7](https://github.com/aws/aws-cryptographic-material-providers-library/commit/1f4d8d7048ef140816aab6e4a3a744f8ec0cf4dc))
-* DDBv2 Model backwards compatbility with DBESDK 3.7 ([8a318a4](https://github.com/aws/aws-cryptographic-material-providers-library/commit/8a318a4fc42aeec675321a837c927dad355ad25d))
-* empty commit ([ffa34a5](https://github.com/aws/aws-cryptographic-material-providers-library/commit/ffa34a5e1a73b85e982b8564700c92214788233d))
-* formatting ([38aa3c3](https://github.com/aws/aws-cryptographic-material-providers-library/commit/38aa3c36abc1e877354f7d89f740e5c15301a04a))
-* Net Dafny Patch 2 file ([0d4f0f5](https://github.com/aws/aws-cryptographic-material-providers-library/commit/0d4f0f5ef3facdce1830731a8ef424ea9cb46eb0))
-* Net Dafny Patch file ([e77879b](https://github.com/aws/aws-cryptographic-material-providers-library/commit/e77879bfca0a95c652083171c9551062ac7cd01f))
-* Net Patch ([bf0a495](https://github.com/aws/aws-cryptographic-material-providers-library/commit/bf0a4954754522e55cb3bcb0c10d8525123486c5))
-* Polymorph Python ([18f0d48](https://github.com/aws/aws-cryptographic-material-providers-library/commit/18f0d481ef6500718328dbbb90e525ce934f04ad))
-* PR comments ([381e743](https://github.com/aws/aws-cryptographic-material-providers-library/commit/381e74322a0c9837f847b360b912b4e1235baab0))
-* python formating ([bb29950](https://github.com/aws/aws-cryptographic-material-providers-library/commit/bb29950e3b70ab23d9b79f8ec3f71ba968cb8e20))
 * **Python:** Support Python 3.13 ([#953](https://github.com/aws/aws-cryptographic-material-providers-library/issues/953)) ([000baed](https://github.com/aws/aws-cryptographic-material-providers-library/commit/000baedfab341670952449837541c88ea5cf1dba))
-
-
-### Features
-
-* ddbv2 net patch ([a36f799](https://github.com/aws/aws-cryptographic-material-providers-library/commit/a36f7997ea26befba0ce6090314d17d44d7596f5))
-* ddbv2 re-polymorph ([1357f42](https://github.com/aws/aws-cryptographic-material-providers-library/commit/1357f42dfd8f24dcefdc07e248911d54bec26f2a))
-* ddbv2 upgrade ([1584fbc](https://github.com/aws/aws-cryptographic-material-providers-library/commit/1584fbce54c69aaaace6935f5949e13d07613d3f))
 
 ## [1.7.3](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.2...v1.7.3) (2024-10-31)
 
