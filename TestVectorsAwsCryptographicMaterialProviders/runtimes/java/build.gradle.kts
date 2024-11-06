@@ -59,7 +59,7 @@ repositories {
             url = caUrl!!
             credentials {
                 username = "aws"
-                password = caPassword!!
+                password = caPassword!
             }
         }
     }
