@@ -25,7 +25,7 @@ func NewClient(clientConfig awscryptographyprimitivessmithygeneratedtypes.Crypto
 	return client, nil
 }
 
-func (client *Client) GenerateRandomBytes(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.GenerateRandomBytesInput) (*awscryptographyprimitivessmithygeneratedtypes.GenerateRandomBytesOutput, error) {
+func (client *Client) GenerateRandomBytes(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.GenerateRandomBytesInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographyprimitivessmithygeneratedtypes.OpaqueError{
@@ -40,12 +40,12 @@ func (client *Client) GenerateRandomBytes(ctx context.Context, params awscryptog
 		err := dafny_response.Dtor_error().(AwsCryptographyPrimitivesTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = GenerateRandomBytesOutput_FromDafny(dafny_response.Extract().(AwsCryptographyPrimitivesTypes.GenerateRandomBytesOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) Digest(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.DigestInput) (*awscryptographyprimitivessmithygeneratedtypes.DigestOutput, error) {
+func (client *Client) Digest(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.DigestInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographyprimitivessmithygeneratedtypes.OpaqueError{
@@ -60,12 +60,12 @@ func (client *Client) Digest(ctx context.Context, params awscryptographyprimitiv
 		err := dafny_response.Dtor_error().(AwsCryptographyPrimitivesTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = DigestOutput_FromDafny(dafny_response.Extract().(AwsCryptographyPrimitivesTypes.DigestOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) HMac(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.HMacInput) (*awscryptographyprimitivessmithygeneratedtypes.HMacOutput, error) {
+func (client *Client) HMac(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.HMacInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographyprimitivessmithygeneratedtypes.OpaqueError{
@@ -80,12 +80,12 @@ func (client *Client) HMac(ctx context.Context, params awscryptographyprimitives
 		err := dafny_response.Dtor_error().(AwsCryptographyPrimitivesTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = HMacOutput_FromDafny(dafny_response.Extract().(AwsCryptographyPrimitivesTypes.HMacOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) HkdfExtract(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.HkdfExtractInput) (*awscryptographyprimitivessmithygeneratedtypes.HkdfExtractOutput, error) {
+func (client *Client) HkdfExtract(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.HkdfExtractInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographyprimitivessmithygeneratedtypes.OpaqueError{
@@ -100,12 +100,12 @@ func (client *Client) HkdfExtract(ctx context.Context, params awscryptographypri
 		err := dafny_response.Dtor_error().(AwsCryptographyPrimitivesTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = HkdfExtractOutput_FromDafny(dafny_response.Extract().(AwsCryptographyPrimitivesTypes.HkdfExtractOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) HkdfExpand(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.HkdfExpandInput) (*awscryptographyprimitivessmithygeneratedtypes.HkdfExpandOutput, error) {
+func (client *Client) HkdfExpand(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.HkdfExpandInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographyprimitivessmithygeneratedtypes.OpaqueError{
@@ -120,12 +120,12 @@ func (client *Client) HkdfExpand(ctx context.Context, params awscryptographyprim
 		err := dafny_response.Dtor_error().(AwsCryptographyPrimitivesTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = HkdfExpandOutput_FromDafny(dafny_response.Extract().(AwsCryptographyPrimitivesTypes.HkdfExpandOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) Hkdf(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.HkdfInput) (*awscryptographyprimitivessmithygeneratedtypes.HkdfOutput, error) {
+func (client *Client) Hkdf(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.HkdfInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographyprimitivessmithygeneratedtypes.OpaqueError{
@@ -140,12 +140,12 @@ func (client *Client) Hkdf(ctx context.Context, params awscryptographyprimitives
 		err := dafny_response.Dtor_error().(AwsCryptographyPrimitivesTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = HkdfOutput_FromDafny(dafny_response.Extract().(AwsCryptographyPrimitivesTypes.HkdfOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) KdfCounterMode(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.KdfCtrInput) (*awscryptographyprimitivessmithygeneratedtypes.KdfCtrOutput, error) {
+func (client *Client) KdfCounterMode(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.KdfCtrInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographyprimitivessmithygeneratedtypes.OpaqueError{
@@ -160,12 +160,12 @@ func (client *Client) KdfCounterMode(ctx context.Context, params awscryptography
 		err := dafny_response.Dtor_error().(AwsCryptographyPrimitivesTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = KdfCtrOutput_FromDafny(dafny_response.Extract().(AwsCryptographyPrimitivesTypes.KdfCtrOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) AesKdfCounterMode(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.AesKdfCtrInput) (*awscryptographyprimitivessmithygeneratedtypes.AesKdfCtrOutput, error) {
+func (client *Client) AesKdfCounterMode(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.AesKdfCtrInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographyprimitivessmithygeneratedtypes.OpaqueError{
@@ -180,8 +180,8 @@ func (client *Client) AesKdfCounterMode(ctx context.Context, params awscryptogra
 		err := dafny_response.Dtor_error().(AwsCryptographyPrimitivesTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = AesKdfCtrOutput_FromDafny(dafny_response.Extract().(AwsCryptographyPrimitivesTypes.AesKdfCtrOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
@@ -205,7 +205,7 @@ func (client *Client) AESEncrypt(ctx context.Context, params awscryptographyprim
 
 }
 
-func (client *Client) AESDecrypt(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.AESDecryptInput) (*awscryptographyprimitivessmithygeneratedtypes.AESDecryptOutput, error) {
+func (client *Client) AESDecrypt(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.AESDecryptInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographyprimitivessmithygeneratedtypes.OpaqueError{
@@ -220,8 +220,8 @@ func (client *Client) AESDecrypt(ctx context.Context, params awscryptographyprim
 		err := dafny_response.Dtor_error().(AwsCryptographyPrimitivesTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = AESDecryptOutput_FromDafny(dafny_response.Extract().(AwsCryptographyPrimitivesTypes.AESDecryptOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
@@ -265,7 +265,7 @@ func (client *Client) GetRSAKeyModulusLength(ctx context.Context, params awscryp
 
 }
 
-func (client *Client) RSADecrypt(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.RSADecryptInput) (*awscryptographyprimitivessmithygeneratedtypes.RSADecryptOutput, error) {
+func (client *Client) RSADecrypt(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.RSADecryptInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographyprimitivessmithygeneratedtypes.OpaqueError{
@@ -280,12 +280,12 @@ func (client *Client) RSADecrypt(ctx context.Context, params awscryptographyprim
 		err := dafny_response.Dtor_error().(AwsCryptographyPrimitivesTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = RSADecryptOutput_FromDafny(dafny_response.Extract().(AwsCryptographyPrimitivesTypes.RSADecryptOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) RSAEncrypt(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.RSAEncryptInput) (*awscryptographyprimitivessmithygeneratedtypes.RSAEncryptOutput, error) {
+func (client *Client) RSAEncrypt(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.RSAEncryptInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographyprimitivessmithygeneratedtypes.OpaqueError{
@@ -300,8 +300,8 @@ func (client *Client) RSAEncrypt(ctx context.Context, params awscryptographyprim
 		err := dafny_response.Dtor_error().(AwsCryptographyPrimitivesTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = RSAEncryptOutput_FromDafny(dafny_response.Extract().(AwsCryptographyPrimitivesTypes.RSAEncryptOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
@@ -325,7 +325,7 @@ func (client *Client) GenerateECDSASignatureKey(ctx context.Context, params awsc
 
 }
 
-func (client *Client) ECDSASign(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.ECDSASignInput) (*awscryptographyprimitivessmithygeneratedtypes.ECDSASignOutput, error) {
+func (client *Client) ECDSASign(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.ECDSASignInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographyprimitivessmithygeneratedtypes.OpaqueError{
@@ -340,12 +340,12 @@ func (client *Client) ECDSASign(ctx context.Context, params awscryptographyprimi
 		err := dafny_response.Dtor_error().(AwsCryptographyPrimitivesTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = ECDSASignOutput_FromDafny(dafny_response.Extract().(AwsCryptographyPrimitivesTypes.ECDSASignOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) ECDSAVerify(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.ECDSAVerifyInput) (*awscryptographyprimitivessmithygeneratedtypes.ECDSAVerifyOutput, error) {
+func (client *Client) ECDSAVerify(ctx context.Context, params awscryptographyprimitivessmithygeneratedtypes.ECDSAVerifyInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographyprimitivessmithygeneratedtypes.OpaqueError{
@@ -360,8 +360,8 @@ func (client *Client) ECDSAVerify(ctx context.Context, params awscryptographypri
 		err := dafny_response.Dtor_error().(AwsCryptographyPrimitivesTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = ECDSAVerifyOutput_FromDafny(dafny_response.Extract().(AwsCryptographyPrimitivesTypes.ECDSAVerifyOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 

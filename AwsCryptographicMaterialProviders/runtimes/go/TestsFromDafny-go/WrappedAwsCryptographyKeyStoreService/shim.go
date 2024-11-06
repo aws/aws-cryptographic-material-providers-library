@@ -7,7 +7,6 @@ import (
 
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/AwsCryptographyKeyStoreTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/awscryptographykeystoresmithygenerated"
-	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
 )
 
@@ -20,7 +19,7 @@ func (_static *CompanionStruct_Default___) WrappedKeyStore(inputConfig AwsCrypto
 	var nativeConfig = awscryptographykeystoresmithygenerated.KeyStoreConfig_FromDafny(inputConfig)
 	var nativeClient, nativeError = awscryptographykeystoresmithygenerated.NewClient(nativeConfig)
 	if nativeError != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyKeyStoreTypes.Companion_Error_.Create_Opaque_(nativeError, dafny.SeqOfChars([]dafny.Char(nativeError.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyKeyStoreTypes.Companion_Error_.Create_Opaque_(nativeError))
 	}
 	return Wrappers.Companion_Result_.Create_Success_(&Shim{client: nativeClient})
 }

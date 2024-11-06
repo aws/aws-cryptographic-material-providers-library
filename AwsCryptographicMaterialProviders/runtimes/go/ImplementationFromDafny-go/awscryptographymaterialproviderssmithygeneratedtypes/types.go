@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"unicode/utf8"
 
-	"github.com/aws/aws-cryptographic-material-providers-library/kms/comamazonawskmssmithygenerated"
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/awscryptographykeystoresmithygenerated"
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/awscryptographykeystoresmithygeneratedtypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/primitives/awscryptographyprimitivessmithygeneratedtypes"
+	"github.com/aws/aws-sdk-go-v2/service/kms"
 )
 
 type HKDF struct {
@@ -88,8 +88,21 @@ func (input IntermediateKeyWrapping) Validate() error {
 	return nil
 }
 
-func (input IntermediateKeyWrapping) aws_cryptography_materialProviders_IntermediateKeyWrapping_macKeyKdf_Validate() error {
-	switch unionType := input.MacKeyKdf.(type) {
+func (input IntermediateKeyWrapping) aws_cryptography_materialProviders_IntermediateKeyWrapping_pdkEncryptAlgorithm_Validate() error {
+	switch unionType := input.PdkEncryptAlgorithm.(type) {
+	case *awscryptographyprimitivessmithygeneratedtypes.EncryptMemberAES_GCM:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+func (input IntermediateKeyWrapping) aws_cryptography_materialProviders_IntermediateKeyWrapping_keyEncryptionKeyKdf_Validate() error {
+	switch unionType := input.KeyEncryptionKeyKdf.(type) {
 	case *DerivationAlgorithmMemberHKDF:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
@@ -109,21 +122,8 @@ func (input IntermediateKeyWrapping) aws_cryptography_materialProviders_Intermed
 
 	return nil
 }
-func (input IntermediateKeyWrapping) aws_cryptography_materialProviders_IntermediateKeyWrapping_pdkEncryptAlgorithm_Validate() error {
-	switch unionType := input.PdkEncryptAlgorithm.(type) {
-	case *EncryptMemberAES_GCM:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
-	}
-
-	return nil
-}
-func (input IntermediateKeyWrapping) aws_cryptography_materialProviders_IntermediateKeyWrapping_keyEncryptionKeyKdf_Validate() error {
-	switch unionType := input.KeyEncryptionKeyKdf.(type) {
+func (input IntermediateKeyWrapping) aws_cryptography_materialProviders_IntermediateKeyWrapping_macKeyKdf_Validate() error {
+	switch unionType := input.MacKeyKdf.(type) {
 	case *DerivationAlgorithmMemberHKDF:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
@@ -199,72 +199,13 @@ func (input AlgorithmSuiteInfo) Validate() error {
 	return nil
 }
 
-func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_Validate() error {
-	switch unionType := input.Encrypt.(type) {
-	case *EncryptMemberAES_GCM:
+func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_Validate() error {
+	switch unionType := input.Signature.(type) {
+	case *SignatureAlgorithmMemberECDSA:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
-	}
-
-	return nil
-}
-func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_edkWrapping_Validate() error {
-	switch unionType := input.EdkWrapping.(type) {
-	case *EdkWrappingAlgorithmMemberDIRECT_KEY_WRAPPING:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	case *EdkWrappingAlgorithmMemberIntermediateKeyWrapping:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
-	}
-
-	return nil
-}
-func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_Validate() error {
-	switch unionType := input.SymmetricSignature.(type) {
-	case *SymmetricSignatureAlgorithmMemberHMAC:
-	case *SymmetricSignatureAlgorithmMemberNone:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
-	}
-
-	return nil
-}
-func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_Validate() error {
-	switch unionType := input.Id.(type) {
-	case *AlgorithmSuiteIdMemberESDK:
-	case *AlgorithmSuiteIdMemberDBE:
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
-	}
-
-	return nil
-}
-func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_Validate() error {
-	switch unionType := input.Kdf.(type) {
-	case *DerivationAlgorithmMemberHKDF:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	case *DerivationAlgorithmMemberIDENTITY:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	case *DerivationAlgorithmMemberNone:
+	case *SignatureAlgorithmMemberNone:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -296,13 +237,72 @@ func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuit
 
 	return nil
 }
-func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_Validate() error {
-	switch unionType := input.Signature.(type) {
-	case *SignatureAlgorithmMemberECDSA:
+func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_Validate() error {
+	switch unionType := input.SymmetricSignature.(type) {
+	case *awscryptographyprimitivessmithygeneratedtypes.SymmetricSignatureAlgorithmMemberHMAC:
+	case *SymmetricSignatureAlgorithmMemberNone:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
-	case *SignatureAlgorithmMemberNone:
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_Validate() error {
+	switch unionType := input.Id.(type) {
+	case *AlgorithmSuiteIdMemberESDK:
+	case *AlgorithmSuiteIdMemberDBE:
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_Validate() error {
+	switch unionType := input.Encrypt.(type) {
+	case *awscryptographyprimitivessmithygeneratedtypes.EncryptMemberAES_GCM:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_edkWrapping_Validate() error {
+	switch unionType := input.EdkWrapping.(type) {
+	case *EdkWrappingAlgorithmMemberDIRECT_KEY_WRAPPING:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	case *EdkWrappingAlgorithmMemberIntermediateKeyWrapping:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_Validate() error {
+	switch unionType := input.Kdf.(type) {
+	case *DerivationAlgorithmMemberHKDF:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	case *DerivationAlgorithmMemberIDENTITY:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	case *DerivationAlgorithmMemberNone:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -332,7 +332,7 @@ func (input KmsClientReference) Validate() error {
 }
 
 type GetClientOutput struct {
-	Client *comamazonawskmssmithygenerated.Client
+	Client kms.Client
 }
 
 func (input GetClientOutput) Validate() error {
@@ -352,7 +352,7 @@ func (input DiscoveryFilter) Validate() error {
 }
 
 type CreateAwsKmsDiscoveryKeyringInput struct {
-	KmsClient *comamazonawskmssmithygenerated.Client
+	KmsClient kms.Client
 
 	DiscoveryFilter *DiscoveryFilter
 
@@ -437,7 +437,7 @@ type CreateAwsKmsEcdhKeyringInput struct {
 
 	KeyAgreementScheme KmsEcdhStaticConfigurations
 
-	KmsClient *comamazonawskmssmithygenerated.Client
+	KmsClient kms.Client
 
 	GrantTokens []string
 }
@@ -651,7 +651,7 @@ func (input CreateAwsKmsHierarchicalKeyringInput) aws_cryptography_materialProvi
 }
 
 type CreateAwsKmsKeyringInput struct {
-	KmsClient *comamazonawskmssmithygenerated.Client
+	KmsClient kms.Client
 
 	KmsKeyId string
 
@@ -664,7 +664,7 @@ func (input CreateAwsKmsKeyringInput) Validate() error {
 }
 
 type CreateAwsKmsMrkDiscoveryKeyringInput struct {
-	KmsClient *comamazonawskmssmithygenerated.Client
+	KmsClient kms.Client
 
 	Region string
 
@@ -700,7 +700,7 @@ func (input CreateAwsKmsMrkDiscoveryMultiKeyringInput) Validate() error {
 }
 
 type CreateAwsKmsMrkKeyringInput struct {
-	KmsClient *comamazonawskmssmithygenerated.Client
+	KmsClient kms.Client
 
 	KmsKeyId string
 
@@ -749,7 +749,7 @@ type CreateAwsKmsRsaKeyringInput struct {
 
 	GrantTokens []string
 
-	KmsClient *comamazonawskmssmithygenerated.Client
+	KmsClient kms.Client
 
 	PublicKey []byte
 }
@@ -1045,26 +1045,6 @@ func (input DecryptMaterialsInput) Validate() error {
 	return nil
 }
 
-func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMaterialsInput_encryptedDataKeys_Validate() error {
-	for _, item := range input.EncryptedDataKeys {
-		if item.Validate() != nil {
-			return item.Validate()
-		}
-	}
-
-	return nil
-}
-func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMaterialsInput_algorithmSuiteId_Validate() error {
-	switch unionType := input.AlgorithmSuiteId.(type) {
-	case *AlgorithmSuiteIdMemberESDK:
-	case *AlgorithmSuiteIdMemberDBE:
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
-	}
-
-	return nil
-}
 func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMaterialsInput_reproducedEncryptionContext_Validate() error {
 	for key, value := range input.ReproducedEncryptionContext {
 		if !utf8.ValidString(key) {
@@ -1072,6 +1052,26 @@ func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMat
 		}
 		if !utf8.ValidString(value) {
 			return fmt.Errorf("Invalid UTF bytes %s ", value)
+		}
+	}
+
+	return nil
+}
+func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMaterialsInput_commitmentPolicy_Validate() error {
+	switch unionType := input.CommitmentPolicy.(type) {
+	case *CommitmentPolicyMemberESDK:
+	case *CommitmentPolicyMemberDBE:
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMaterialsInput_encryptedDataKeys_Validate() error {
+	for _, item := range input.EncryptedDataKeys {
+		if item.Validate() != nil {
+			return item.Validate()
 		}
 	}
 
@@ -1089,10 +1089,10 @@ func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMat
 
 	return nil
 }
-func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMaterialsInput_commitmentPolicy_Validate() error {
-	switch unionType := input.CommitmentPolicy.(type) {
-	case *CommitmentPolicyMemberESDK:
-	case *CommitmentPolicyMemberDBE:
+func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMaterialsInput_algorithmSuiteId_Validate() error {
+	switch unionType := input.AlgorithmSuiteId.(type) {
+	case *AlgorithmSuiteIdMemberESDK:
+	case *AlgorithmSuiteIdMemberDBE:
 	// Default case should not be reached.
 	default:
 		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
@@ -1129,6 +1129,15 @@ func (input DecryptionMaterials) Validate() error {
 	return nil
 }
 
+func (input DecryptionMaterials) aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_Validate() error {
+	for _, item := range input.RequiredEncryptionContextKeys {
+		if !utf8.ValidString(item) {
+			return fmt.Errorf("Invalid UTF bytes %s ", item)
+		}
+	}
+
+	return nil
+}
 func (input DecryptionMaterials) aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
@@ -1136,15 +1145,6 @@ func (input DecryptionMaterials) aws_cryptography_materialProviders_DecryptionMa
 		}
 		if !utf8.ValidString(value) {
 			return fmt.Errorf("Invalid UTF bytes %s ", value)
-		}
-	}
-
-	return nil
-}
-func (input DecryptionMaterials) aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_Validate() error {
-	for _, item := range input.RequiredEncryptionContextKeys {
-		if !utf8.ValidString(item) {
-			return fmt.Errorf("Invalid UTF bytes %s ", item)
 		}
 	}
 
@@ -1192,17 +1192,6 @@ func (input GetEncryptionMaterialsInput) Validate() error {
 	return nil
 }
 
-func (input GetEncryptionMaterialsInput) aws_cryptography_materialProviders_GetEncryptionMaterialsInput_commitmentPolicy_Validate() error {
-	switch unionType := input.CommitmentPolicy.(type) {
-	case *CommitmentPolicyMemberESDK:
-	case *CommitmentPolicyMemberDBE:
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
-	}
-
-	return nil
-}
 func (input GetEncryptionMaterialsInput) aws_cryptography_materialProviders_GetEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate() error {
 	for _, item := range input.RequiredEncryptionContextKeys {
 		if !utf8.ValidString(item) {
@@ -1220,6 +1209,17 @@ func (input GetEncryptionMaterialsInput) aws_cryptography_materialProviders_GetE
 		if !utf8.ValidString(value) {
 			return fmt.Errorf("Invalid UTF bytes %s ", value)
 		}
+	}
+
+	return nil
+}
+func (input GetEncryptionMaterialsInput) aws_cryptography_materialProviders_GetEncryptionMaterialsInput_commitmentPolicy_Validate() error {
+	switch unionType := input.CommitmentPolicy.(type) {
+	case *CommitmentPolicyMemberESDK:
+	case *CommitmentPolicyMemberDBE:
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
 	}
 
 	return nil
@@ -1269,10 +1269,13 @@ func (input EncryptionMaterials) Validate() error {
 	return nil
 }
 
-func (input EncryptionMaterials) aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_Validate() error {
-	for _, item := range input.RequiredEncryptionContextKeys {
-		if !utf8.ValidString(item) {
-			return fmt.Errorf("Invalid UTF bytes %s ", item)
+func (input EncryptionMaterials) aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_Validate() error {
+	for key, value := range input.EncryptionContext {
+		if !utf8.ValidString(key) {
+			return fmt.Errorf("Invalid UTF bytes %s ", key)
+		}
+		if !utf8.ValidString(value) {
+			return fmt.Errorf("Invalid UTF bytes %s ", value)
 		}
 	}
 
@@ -1287,13 +1290,10 @@ func (input EncryptionMaterials) aws_cryptography_materialProviders_EncryptionMa
 
 	return nil
 }
-func (input EncryptionMaterials) aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_Validate() error {
-	for key, value := range input.EncryptionContext {
-		if !utf8.ValidString(key) {
-			return fmt.Errorf("Invalid UTF bytes %s ", key)
-		}
-		if !utf8.ValidString(value) {
-			return fmt.Errorf("Invalid UTF bytes %s ", value)
+func (input EncryptionMaterials) aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_Validate() error {
+	for _, item := range input.RequiredEncryptionContextKeys {
+		if !utf8.ValidString(item) {
+			return fmt.Errorf("Invalid UTF bytes %s ", item)
 		}
 	}
 
@@ -1343,15 +1343,6 @@ func (input InitializeDecryptionMaterialsInput) Validate() error {
 	return nil
 }
 
-func (input InitializeDecryptionMaterialsInput) aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_requiredEncryptionContextKeys_Validate() error {
-	for _, item := range input.RequiredEncryptionContextKeys {
-		if !utf8.ValidString(item) {
-			return fmt.Errorf("Invalid UTF bytes %s ", item)
-		}
-	}
-
-	return nil
-}
 func (input InitializeDecryptionMaterialsInput) aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_algorithmSuiteId_Validate() error {
 	switch unionType := input.AlgorithmSuiteId.(type) {
 	case *AlgorithmSuiteIdMemberESDK:
@@ -1370,6 +1361,15 @@ func (input InitializeDecryptionMaterialsInput) aws_cryptography_materialProvide
 		}
 		if !utf8.ValidString(value) {
 			return fmt.Errorf("Invalid UTF bytes %s ", value)
+		}
+	}
+
+	return nil
+}
+func (input InitializeDecryptionMaterialsInput) aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_requiredEncryptionContextKeys_Validate() error {
+	for _, item := range input.RequiredEncryptionContextKeys {
+		if !utf8.ValidString(item) {
+			return fmt.Errorf("Invalid UTF bytes %s ", item)
 		}
 	}
 
@@ -1402,6 +1402,17 @@ func (input InitializeEncryptionMaterialsInput) Validate() error {
 	return nil
 }
 
+func (input InitializeEncryptionMaterialsInput) aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_algorithmSuiteId_Validate() error {
+	switch unionType := input.AlgorithmSuiteId.(type) {
+	case *AlgorithmSuiteIdMemberESDK:
+	case *AlgorithmSuiteIdMemberDBE:
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
 func (input InitializeEncryptionMaterialsInput) aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
@@ -1419,17 +1430,6 @@ func (input InitializeEncryptionMaterialsInput) aws_cryptography_materialProvide
 		if !utf8.ValidString(item) {
 			return fmt.Errorf("Invalid UTF bytes %s ", item)
 		}
-	}
-
-	return nil
-}
-func (input InitializeEncryptionMaterialsInput) aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_algorithmSuiteId_Validate() error {
-	switch unionType := input.AlgorithmSuiteId.(type) {
-	case *AlgorithmSuiteIdMemberESDK:
-	case *AlgorithmSuiteIdMemberDBE:
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
 	}
 
 	return nil
@@ -1620,6 +1620,42 @@ func (input MaterialProvidersConfig) Validate() error {
 	return nil
 }
 
+// EdkWrappingAlgorithmMemberDIRECT_KEY_WRAPPING
+// EdkWrappingAlgorithmMemberIntermediateKeyWrapping
+type EdkWrappingAlgorithm interface {
+	isEdkWrappingAlgorithm()
+}
+
+type EdkWrappingAlgorithmMemberDIRECT_KEY_WRAPPING struct {
+	Value DIRECT_KEY_WRAPPING
+}
+
+func (*EdkWrappingAlgorithmMemberDIRECT_KEY_WRAPPING) isEdkWrappingAlgorithm() {}
+
+type EdkWrappingAlgorithmMemberIntermediateKeyWrapping struct {
+	Value IntermediateKeyWrapping
+}
+
+func (*EdkWrappingAlgorithmMemberIntermediateKeyWrapping) isEdkWrappingAlgorithm() {}
+
+// AlgorithmSuiteIdMemberDBE
+// AlgorithmSuiteIdMemberESDK
+type AlgorithmSuiteId interface {
+	isAlgorithmSuiteId()
+}
+
+type AlgorithmSuiteIdMemberDBE struct {
+	Value DBEAlgorithmSuiteId
+}
+
+func (*AlgorithmSuiteIdMemberDBE) isAlgorithmSuiteId() {}
+
+type AlgorithmSuiteIdMemberESDK struct {
+	Value ESDKAlgorithmSuiteId
+}
+
+func (*AlgorithmSuiteIdMemberESDK) isAlgorithmSuiteId() {}
+
 // CommitmentPolicyMemberDBE
 // CommitmentPolicyMemberESDK
 type CommitmentPolicy interface {
@@ -1638,23 +1674,23 @@ type CommitmentPolicyMemberESDK struct {
 
 func (*CommitmentPolicyMemberESDK) isCommitmentPolicy() {}
 
-// EdkWrappingAlgorithmMemberDIRECT_KEY_WRAPPING
-// EdkWrappingAlgorithmMemberIntermediateKeyWrapping
-type EdkWrappingAlgorithm interface {
-	isEdkWrappingAlgorithm()
+// SymmetricSignatureAlgorithmMemberHMAC
+// SymmetricSignatureAlgorithmMemberNone
+type SymmetricSignatureAlgorithm interface {
+	isSymmetricSignatureAlgorithm()
 }
 
-type EdkWrappingAlgorithmMemberDIRECT_KEY_WRAPPING struct {
-	Value DIRECT_KEY_WRAPPING
+type SymmetricSignatureAlgorithmMemberHMAC struct {
+	Value DigestAlgorithm
 }
 
-func (*EdkWrappingAlgorithmMemberDIRECT_KEY_WRAPPING) isEdkWrappingAlgorithm() {}
+func (*SymmetricSignatureAlgorithmMemberHMAC) isSymmetricSignatureAlgorithm() {}
 
-type EdkWrappingAlgorithmMemberIntermediateKeyWrapping struct {
-	Value IntermediateKeyWrapping
+type SymmetricSignatureAlgorithmMemberNone struct {
+	Value None
 }
 
-func (*EdkWrappingAlgorithmMemberIntermediateKeyWrapping) isEdkWrappingAlgorithm() {}
+func (*SymmetricSignatureAlgorithmMemberNone) isSymmetricSignatureAlgorithm() {}
 
 // DerivationAlgorithmMemberHKDF
 // DerivationAlgorithmMemberIDENTITY
@@ -1680,35 +1716,6 @@ type DerivationAlgorithmMemberNone struct {
 }
 
 func (*DerivationAlgorithmMemberNone) isDerivationAlgorithm() {}
-
-// EncryptMemberAES_GCM
-type Encrypt interface {
-	isEncrypt()
-}
-
-type EncryptMemberAES_GCM struct {
-	Value awscryptographyprimitivessmithygeneratedtypes.AES_GCM
-}
-
-func (*EncryptMemberAES_GCM) isEncrypt() {}
-
-// SymmetricSignatureAlgorithmMemberHMAC
-// SymmetricSignatureAlgorithmMemberNone
-type SymmetricSignatureAlgorithm interface {
-	isSymmetricSignatureAlgorithm()
-}
-
-type SymmetricSignatureAlgorithmMemberHMAC struct {
-	Value DigestAlgorithm
-}
-
-func (*SymmetricSignatureAlgorithmMemberHMAC) isSymmetricSignatureAlgorithm() {}
-
-type SymmetricSignatureAlgorithmMemberNone struct {
-	Value None
-}
-
-func (*SymmetricSignatureAlgorithmMemberNone) isSymmetricSignatureAlgorithm() {}
 
 // RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey
 // RawEcdhStaticConfigurationsMemberPublicKeyDiscovery
@@ -1737,6 +1744,17 @@ type RawEcdhStaticConfigurationsMemberRawPrivateKeyToStaticPublicKey struct {
 func (*RawEcdhStaticConfigurationsMemberRawPrivateKeyToStaticPublicKey) isRawEcdhStaticConfigurations() {
 }
 
+// KeyAgreementSchemeMemberStaticConfiguration
+type KeyAgreementScheme interface {
+	isKeyAgreementScheme()
+}
+
+type KeyAgreementSchemeMemberStaticConfiguration struct {
+	Value StaticConfigurations
+}
+
+func (*KeyAgreementSchemeMemberStaticConfiguration) isKeyAgreementScheme() {}
+
 // KmsEcdhStaticConfigurationsMemberKmsPrivateKeyToStaticPublicKey
 // KmsEcdhStaticConfigurationsMemberKmsPublicKeyDiscovery
 type KmsEcdhStaticConfigurations interface {
@@ -1755,24 +1773,6 @@ type KmsEcdhStaticConfigurationsMemberKmsPublicKeyDiscovery struct {
 }
 
 func (*KmsEcdhStaticConfigurationsMemberKmsPublicKeyDiscovery) isKmsEcdhStaticConfigurations() {}
-
-// SignatureAlgorithmMemberECDSA
-// SignatureAlgorithmMemberNone
-type SignatureAlgorithm interface {
-	isSignatureAlgorithm()
-}
-
-type SignatureAlgorithmMemberECDSA struct {
-	Value ECDSA
-}
-
-func (*SignatureAlgorithmMemberECDSA) isSignatureAlgorithm() {}
-
-type SignatureAlgorithmMemberNone struct {
-	Value None
-}
-
-func (*SignatureAlgorithmMemberNone) isSignatureAlgorithm() {}
 
 // CacheTypeMemberDefault
 // CacheTypeMemberMultiThreaded
@@ -1820,53 +1820,6 @@ type CacheTypeMemberStormTracking struct {
 
 func (*CacheTypeMemberStormTracking) isCacheType() {}
 
-// KeyAgreementSchemeMemberStaticConfiguration
-type KeyAgreementScheme interface {
-	isKeyAgreementScheme()
-}
-
-type KeyAgreementSchemeMemberStaticConfiguration struct {
-	Value StaticConfigurations
-}
-
-func (*KeyAgreementSchemeMemberStaticConfiguration) isKeyAgreementScheme() {}
-
-// StaticConfigurationsMemberAWS_KMS_ECDH
-// StaticConfigurationsMemberRAW_ECDH
-type StaticConfigurations interface {
-	isStaticConfigurations()
-}
-
-type StaticConfigurationsMemberAWS_KMS_ECDH struct {
-	Value KmsEcdhStaticConfigurations
-}
-
-func (*StaticConfigurationsMemberAWS_KMS_ECDH) isStaticConfigurations() {}
-
-type StaticConfigurationsMemberRAW_ECDH struct {
-	Value RawEcdhStaticConfigurations
-}
-
-func (*StaticConfigurationsMemberRAW_ECDH) isStaticConfigurations() {}
-
-// AlgorithmSuiteIdMemberDBE
-// AlgorithmSuiteIdMemberESDK
-type AlgorithmSuiteId interface {
-	isAlgorithmSuiteId()
-}
-
-type AlgorithmSuiteIdMemberDBE struct {
-	Value DBEAlgorithmSuiteId
-}
-
-func (*AlgorithmSuiteIdMemberDBE) isAlgorithmSuiteId() {}
-
-type AlgorithmSuiteIdMemberESDK struct {
-	Value ESDKAlgorithmSuiteId
-}
-
-func (*AlgorithmSuiteIdMemberESDK) isAlgorithmSuiteId() {}
-
 // MaterialsMemberBeaconKey
 // MaterialsMemberBranchKey
 // MaterialsMemberDecryption
@@ -1899,6 +1852,53 @@ type MaterialsMemberEncryption struct {
 
 func (*MaterialsMemberEncryption) isMaterials() {}
 
+// EncryptMemberAES_GCM
+type Encrypt interface {
+	isEncrypt()
+}
+
+type EncryptMemberAES_GCM struct {
+	Value awscryptographyprimitivessmithygeneratedtypes.AES_GCM
+}
+
+func (*EncryptMemberAES_GCM) isEncrypt() {}
+
+// StaticConfigurationsMemberAWS_KMS_ECDH
+// StaticConfigurationsMemberRAW_ECDH
+type StaticConfigurations interface {
+	isStaticConfigurations()
+}
+
+type StaticConfigurationsMemberAWS_KMS_ECDH struct {
+	Value KmsEcdhStaticConfigurations
+}
+
+func (*StaticConfigurationsMemberAWS_KMS_ECDH) isStaticConfigurations() {}
+
+type StaticConfigurationsMemberRAW_ECDH struct {
+	Value RawEcdhStaticConfigurations
+}
+
+func (*StaticConfigurationsMemberRAW_ECDH) isStaticConfigurations() {}
+
+// SignatureAlgorithmMemberECDSA
+// SignatureAlgorithmMemberNone
+type SignatureAlgorithm interface {
+	isSignatureAlgorithm()
+}
+
+type SignatureAlgorithmMemberECDSA struct {
+	Value ECDSA
+}
+
+func (*SignatureAlgorithmMemberECDSA) isSignatureAlgorithm() {}
+
+type SignatureAlgorithmMemberNone struct {
+	Value None
+}
+
+func (*SignatureAlgorithmMemberNone) isSignatureAlgorithm() {}
+
 type AwsCryptographicMaterialProvidersBaseException interface {
 	// This is a dummy method to allow type assertion since Go empty interfaces
 	// aren't useful for type assertion checks. No concrete class is expected to implement
@@ -1906,14 +1906,8 @@ type AwsCryptographicMaterialProvidersBaseException interface {
 	interfaceBindingMethod()
 }
 
-type ICryptographicMaterialsCache interface {
-	PutCacheEntry(PutCacheEntryInput) (*Unit, error)
-
-	GetCacheEntry(GetCacheEntryInput) (*GetCacheEntryOutput, error)
-
-	UpdateUsageMetadata(UpdateUsageMetadataInput) (*Unit, error)
-
-	DeleteCacheEntry(DeleteCacheEntryInput) (*Unit, error)
+type IBranchKeyIdSupplier interface {
+	GetBranchKeyId(GetBranchKeyIdInput) (*GetBranchKeyIdOutput, error)
 }
 
 type IClientSupplier interface {
@@ -1926,8 +1920,14 @@ type IKeyring interface {
 	OnDecrypt(OnDecryptInput) (*OnDecryptOutput, error)
 }
 
-type IBranchKeyIdSupplier interface {
-	GetBranchKeyId(GetBranchKeyIdInput) (*GetBranchKeyIdOutput, error)
+type ICryptographicMaterialsCache interface {
+	PutCacheEntry(PutCacheEntryInput) (*Unit, error)
+
+	GetCacheEntry(GetCacheEntryInput) (*GetCacheEntryOutput, error)
+
+	UpdateUsageMetadata(UpdateUsageMetadataInput) (*Unit, error)
+
+	DeleteCacheEntry(DeleteCacheEntryInput) (*Unit, error)
 }
 
 type ICryptographicMaterialsManager interface {
@@ -1984,11 +1984,11 @@ func (input PutCacheEntryInput) aws_cryptography_materialProviders_PutCacheEntry
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
-	case *MaterialsMemberBranchKey:
+	case *awscryptographykeystoresmithygeneratedtypes.MaterialsMemberBranchKey:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
-	case *MaterialsMemberBeaconKey:
+	case *awscryptographykeystoresmithygeneratedtypes.MaterialsMemberBeaconKey:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -2101,11 +2101,11 @@ func (input GetCacheEntryOutput) aws_cryptography_materialProviders_GetCacheEntr
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
-	case *MaterialsMemberBranchKey:
+	case *awscryptographykeystoresmithygeneratedtypes.MaterialsMemberBranchKey:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
-	case *MaterialsMemberBeaconKey:
+	case *awscryptographykeystoresmithygeneratedtypes.MaterialsMemberBeaconKey:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}

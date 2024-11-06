@@ -202,7 +202,7 @@ func (_static *CompanionStruct_Default___) CreateKeyStoreTable(tableName _dafny.
 			} else {
 				var _3_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 				_ = _3_valueOrError0
-				_3_valueOrError0 = m_Wrappers.Companion_Default___.Need(((((_2_maybeCreateTableResponse).Dtor_value().(m_ComAmazonawsDynamodbTypes.CreateTableOutput)).Dtor_TableDescription()).Is_Some()) && (Companion_Default___.KeyStoreHasExpectedConstruction_q((((_2_maybeCreateTableResponse).Dtor_value().(m_ComAmazonawsDynamodbTypes.CreateTableOutput)).Dtor_TableDescription()).Dtor_value().(m_ComAmazonawsDynamodbTypes.TableDescription))), Companion_Default___.E(_dafny.SeqOfString("Configured table name does not conform to expected Key Store construction.")))
+				_3_valueOrError0 = m_Wrappers.Companion_Default___.Need((((((_2_maybeCreateTableResponse).Dtor_value().(m_ComAmazonawsDynamodbTypes.CreateTableOutput)).Dtor_TableDescription()).Is_Some()) && (Companion_Default___.KeyStoreHasExpectedConstruction_q((((_2_maybeCreateTableResponse).Dtor_value().(m_ComAmazonawsDynamodbTypes.CreateTableOutput)).Dtor_TableDescription()).Dtor_value().(m_ComAmazonawsDynamodbTypes.TableDescription)))) && (m_ComAmazonawsDynamodbTypes.Companion_Default___.IsValid__TableArn((((((_2_maybeCreateTableResponse).Dtor_value().(m_ComAmazonawsDynamodbTypes.CreateTableOutput)).Dtor_TableDescription()).Dtor_value().(m_ComAmazonawsDynamodbTypes.TableDescription)).Dtor_TableArn()).Dtor_value().(_dafny.Sequence))), Companion_Default___.E(_dafny.SeqOfString("Configured table name does not conform to expected Key Store construction.")))
 				if (_3_valueOrError0).IsFailure() {
 					res = (_3_valueOrError0).PropagateFailure()
 					return res
@@ -215,7 +215,7 @@ func (_static *CompanionStruct_Default___) CreateKeyStoreTable(tableName _dafny.
 	} else {
 		var _4_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 		_ = _4_valueOrError1
-		_4_valueOrError1 = m_Wrappers.Companion_Default___.Need(((((_0_maybeDescribeTableResponse).Dtor_value().(m_ComAmazonawsDynamodbTypes.DescribeTableOutput)).Dtor_Table()).Is_Some()) && (Companion_Default___.KeyStoreHasExpectedConstruction_q((((_0_maybeDescribeTableResponse).Dtor_value().(m_ComAmazonawsDynamodbTypes.DescribeTableOutput)).Dtor_Table()).Dtor_value().(m_ComAmazonawsDynamodbTypes.TableDescription))), Companion_Default___.E(_dafny.SeqOfString("Configured table name does not conform to expected Key Store construction.")))
+		_4_valueOrError1 = m_Wrappers.Companion_Default___.Need((((((_0_maybeDescribeTableResponse).Dtor_value().(m_ComAmazonawsDynamodbTypes.DescribeTableOutput)).Dtor_Table()).Is_Some()) && (Companion_Default___.KeyStoreHasExpectedConstruction_q((((_0_maybeDescribeTableResponse).Dtor_value().(m_ComAmazonawsDynamodbTypes.DescribeTableOutput)).Dtor_Table()).Dtor_value().(m_ComAmazonawsDynamodbTypes.TableDescription)))) && (m_ComAmazonawsDynamodbTypes.Companion_Default___.IsValid__TableArn((((((_0_maybeDescribeTableResponse).Dtor_value().(m_ComAmazonawsDynamodbTypes.DescribeTableOutput)).Dtor_Table()).Dtor_value().(m_ComAmazonawsDynamodbTypes.TableDescription)).Dtor_TableArn()).Dtor_value().(_dafny.Sequence))), Companion_Default___.E(_dafny.SeqOfString("Configured table name does not conform to expected Key Store construction.")))
 		if (_4_valueOrError1).IsFailure() {
 			res = (_4_valueOrError1).PropagateFailure()
 			return res

@@ -21,24 +21,8 @@ func (this *CryptographicMaterialsCache) PutCacheEntry(params awscryptographymat
 
 	if dafny_response.Is_Failure() {
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
-		if err.Is_CustomKeyStoreHasCMKsException() {
-			return comamazonawskmssmithygenerated.CustomKeyStoreHasCMKsException_FromDafny(err)
-		}
-
-		if err.Is_TagException() {
-			return comamazonawskmssmithygenerated.TagException_FromDafny(err)
-		}
-
-		if err.Is_ImportConflictException() {
-			return comamazonawsdynamodbsmithygenerated.ImportConflictException_FromDafny(err)
-		}
-
-		if err.Is_TransactionConflictException() {
-			return comamazonawsdynamodbsmithygenerated.TransactionConflictException_FromDafny(err)
-		}
-
-		if err.Is_CloudHsmClusterNotFoundException() {
-			return comamazonawskmssmithygenerated.CloudHsmClusterNotFoundException_FromDafny(err)
+		if err.Is_XksKeyInvalidConfigurationException() {
+			return comamazonawskmssmithygenerated.XksKeyInvalidConfigurationException_FromDafny(err)
 		}
 
 		if err.Is_TransactionInProgressException() {
@@ -49,284 +33,68 @@ func (this *CryptographicMaterialsCache) PutCacheEntry(params awscryptographymat
 			return comamazonawskmssmithygenerated.InvalidGrantTokenException_FromDafny(err)
 		}
 
-		if err.Is_InvalidEncryptionMaterialsTransition() {
-			return InvalidEncryptionMaterialsTransition_FromDafny(err)
-		}
-
-		if err.Is_XksProxyVpcEndpointServiceInvalidConfigurationException() {
-			return comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceInvalidConfigurationException_FromDafny(err)
-		}
-
-		if err.Is_InvalidExportTimeException() {
-			return comamazonawsdynamodbsmithygenerated.InvalidExportTimeException_FromDafny(err)
-		}
-
-		if err.Is_XksKeyNotFoundException() {
-			return comamazonawskmssmithygenerated.XksKeyNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_XksProxyUriUnreachableException() {
-			return comamazonawskmssmithygenerated.XksProxyUriUnreachableException_FromDafny(err)
-		}
-
-		if err.Is_DryRunOperationException() {
-			return comamazonawskmssmithygenerated.DryRunOperationException_FromDafny(err)
-		}
-
-		if err.Is_KeyUnavailableException() {
-			return comamazonawskmssmithygenerated.KeyUnavailableException_FromDafny(err)
-		}
-
-		if err.Is_BackupInUseException() {
-			return comamazonawsdynamodbsmithygenerated.BackupInUseException_FromDafny(err)
-		}
-
-		if err.Is_IncorrectKeyMaterialException() {
-			return comamazonawskmssmithygenerated.IncorrectKeyMaterialException_FromDafny(err)
-		}
-
-		if err.Is_XksKeyInvalidConfigurationException() {
-			return comamazonawskmssmithygenerated.XksKeyInvalidConfigurationException_FromDafny(err)
+		if err.Is_GlobalTableAlreadyExistsException() {
+			return comamazonawsdynamodbsmithygenerated.GlobalTableAlreadyExistsException_FromDafny(err)
 		}
 
 		if err.Is_KMSInvalidMacException() {
 			return comamazonawskmssmithygenerated.KMSInvalidMacException_FromDafny(err)
 		}
 
-		if err.Is_InvalidGrantIdException() {
-			return comamazonawskmssmithygenerated.InvalidGrantIdException_FromDafny(err)
+		if err.Is_DryRunOperationException() {
+			return comamazonawskmssmithygenerated.DryRunOperationException_FromDafny(err)
 		}
 
-		if err.Is_GlobalTableAlreadyExistsException() {
-			return comamazonawsdynamodbsmithygenerated.GlobalTableAlreadyExistsException_FromDafny(err)
-		}
-
-		if err.Is_BackupNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.BackupNotFoundException_FromDafny(err)
+		if err.Is_XksProxyUriUnreachableException() {
+			return comamazonawskmssmithygenerated.XksProxyUriUnreachableException_FromDafny(err)
 		}
 
 		if err.Is_InternalServerError() {
 			return comamazonawsdynamodbsmithygenerated.InternalServerError_FromDafny(err)
 		}
 
-		if err.Is_DuplicateItemException() {
-			return comamazonawsdynamodbsmithygenerated.DuplicateItemException_FromDafny(err)
-		}
-
-		if err.Is_InvalidArnException() {
-			return comamazonawskmssmithygenerated.InvalidArnException_FromDafny(err)
-		}
-
-		if err.Is_NotFoundException() {
-			return comamazonawskmssmithygenerated.NotFoundException_FromDafny(err)
-		}
-
-		if err.Is_CustomKeyStoreNotFoundException() {
-			return comamazonawskmssmithygenerated.CustomKeyStoreNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_ExportConflictException() {
-			return comamazonawsdynamodbsmithygenerated.ExportConflictException_FromDafny(err)
-		}
-
-		if err.Is_TransactionCanceledException() {
-			return comamazonawsdynamodbsmithygenerated.TransactionCanceledException_FromDafny(err)
-		}
-
-		if err.Is_AlreadyExistsException() {
-			return comamazonawskmssmithygenerated.AlreadyExistsException_FromDafny(err)
+		if err.Is_InvalidEncryptionMaterialsTransition() {
+			return InvalidEncryptionMaterialsTransition_FromDafny(err)
 		}
 
 		if err.Is_ConditionalCheckFailedException() {
 			return comamazonawsdynamodbsmithygenerated.ConditionalCheckFailedException_FromDafny(err)
 		}
 
-		if err.Is_InvalidAliasNameException() {
-			return comamazonawskmssmithygenerated.InvalidAliasNameException_FromDafny(err)
+		if err.Is_InvalidEndpointException() {
+			return comamazonawsdynamodbsmithygenerated.InvalidEndpointException_FromDafny(err)
 		}
 
-		if err.Is_XksProxyUriInUseException() {
-			return comamazonawskmssmithygenerated.XksProxyUriInUseException_FromDafny(err)
+		if err.Is_ImportConflictException() {
+			return comamazonawsdynamodbsmithygenerated.ImportConflictException_FromDafny(err)
 		}
 
-		if err.Is_CloudHsmClusterInvalidConfigurationException() {
-			return comamazonawskmssmithygenerated.CloudHsmClusterInvalidConfigurationException_FromDafny(err)
+		if err.Is_ReplicaAlreadyExistsException() {
+			return comamazonawsdynamodbsmithygenerated.ReplicaAlreadyExistsException_FromDafny(err)
 		}
 
-		if err.Is_XksProxyUriEndpointInUseException() {
-			return comamazonawskmssmithygenerated.XksProxyUriEndpointInUseException_FromDafny(err)
+		if err.Is_XksKeyNotFoundException() {
+			return comamazonawskmssmithygenerated.XksKeyNotFoundException_FromDafny(err)
 		}
 
-		if err.Is_XksProxyVpcEndpointServiceInUseException() {
-			return comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceInUseException_FromDafny(err)
+		if err.Is_CustomKeyStoreHasCMKsException() {
+			return comamazonawskmssmithygenerated.CustomKeyStoreHasCMKsException_FromDafny(err)
 		}
 
-		if err.Is_AwsCryptographicPrimitivesError() {
-			return awscryptographyprimitivessmithygenerated.AwsCryptographicPrimitivesError_FromDafny(err)
+		if err.Is_XksProxyVpcEndpointServiceInvalidConfigurationException() {
+			return comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceInvalidConfigurationException_FromDafny(err)
 		}
 
-		if err.Is_TableAlreadyExistsException() {
-			return comamazonawsdynamodbsmithygenerated.TableAlreadyExistsException_FromDafny(err)
-		}
-
-		if err.Is_XksProxyIncorrectAuthenticationCredentialException() {
-			return comamazonawskmssmithygenerated.XksProxyIncorrectAuthenticationCredentialException_FromDafny(err)
-		}
-
-		if err.Is_TableNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.TableNotFoundException_FromDafny(err)
+		if err.Is_PolicyNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.PolicyNotFoundException_FromDafny(err)
 		}
 
 		if err.Is_XksProxyInvalidConfigurationException() {
 			return comamazonawskmssmithygenerated.XksProxyInvalidConfigurationException_FromDafny(err)
 		}
 
-		if err.Is_DisabledException() {
-			return comamazonawskmssmithygenerated.DisabledException_FromDafny(err)
-		}
-
-		if err.Is_IndexNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.IndexNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_InvalidEndpointException() {
-			return comamazonawsdynamodbsmithygenerated.InvalidEndpointException_FromDafny(err)
-		}
-
-		if err.Is_RequestLimitExceeded() {
-			return comamazonawsdynamodbsmithygenerated.RequestLimitExceeded_FromDafny(err)
-		}
-
-		if err.Is_InvalidRestoreTimeException() {
-			return comamazonawsdynamodbsmithygenerated.InvalidRestoreTimeException_FromDafny(err)
-		}
-
-		if err.Is_InvalidEncryptionMaterials() {
-			return InvalidEncryptionMaterials_FromDafny(err)
-		}
-
-		if err.Is_ExportNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.ExportNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_InvalidImportTokenException() {
-			return comamazonawskmssmithygenerated.InvalidImportTokenException_FromDafny(err)
-		}
-
-		if err.Is_XksProxyVpcEndpointServiceNotFoundException() {
-			return comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_IdempotentParameterMismatchException() {
-			return comamazonawsdynamodbsmithygenerated.IdempotentParameterMismatchException_FromDafny(err)
-		}
-
-		if err.Is_InvalidAlgorithmSuiteInfoOnEncrypt() {
-			return InvalidAlgorithmSuiteInfoOnEncrypt_FromDafny(err)
-		}
-
-		if err.Is_MalformedPolicyDocumentException() {
-			return comamazonawskmssmithygenerated.MalformedPolicyDocumentException_FromDafny(err)
-		}
-
-		if err.Is_DependencyTimeoutException() {
-			return comamazonawskmssmithygenerated.DependencyTimeoutException_FromDafny(err)
-		}
-
-		if err.Is_CloudHsmClusterNotRelatedException() {
-			return comamazonawskmssmithygenerated.CloudHsmClusterNotRelatedException_FromDafny(err)
-		}
-
-		if err.Is_InvalidCiphertextException() {
-			return comamazonawskmssmithygenerated.InvalidCiphertextException_FromDafny(err)
-		}
-
-		if err.Is_UnsupportedOperationException() {
-			return comamazonawskmssmithygenerated.UnsupportedOperationException_FromDafny(err)
-		}
-
-		if err.Is_TableInUseException() {
-			return comamazonawsdynamodbsmithygenerated.TableInUseException_FromDafny(err)
-		}
-
-		if err.Is_PointInTimeRecoveryUnavailableException() {
-			return comamazonawsdynamodbsmithygenerated.PointInTimeRecoveryUnavailableException_FromDafny(err)
-		}
-
-		if err.Is_InvalidAlgorithmSuiteInfoOnDecrypt() {
-			return InvalidAlgorithmSuiteInfoOnDecrypt_FromDafny(err)
-		}
-
-		if err.Is_ReplicaNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.ReplicaNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_LimitExceededException() {
-			return comamazonawsdynamodbsmithygenerated.LimitExceededException_FromDafny(err)
-		}
-
-		if err.Is_ExpiredImportTokenException() {
-			return comamazonawskmssmithygenerated.ExpiredImportTokenException_FromDafny(err)
-		}
-
-		if err.Is_KMSInternalException() {
-			return comamazonawskmssmithygenerated.KMSInternalException_FromDafny(err)
-		}
-
-		if err.Is_IncorrectTrustAnchorException() {
-			return comamazonawskmssmithygenerated.IncorrectTrustAnchorException_FromDafny(err)
-		}
-
-		if err.Is_ConflictException() {
-			return comamazonawskmssmithygenerated.ConflictException_FromDafny(err)
-		}
-
-		if err.Is_ProvisionedThroughputExceededException() {
-			return comamazonawsdynamodbsmithygenerated.ProvisionedThroughputExceededException_FromDafny(err)
-		}
-
-		if err.Is_InvalidMarkerException() {
-			return comamazonawskmssmithygenerated.InvalidMarkerException_FromDafny(err)
-		}
-
-		if err.Is_LimitExceededException() {
-			return comamazonawskmssmithygenerated.LimitExceededException_FromDafny(err)
-		}
-
-		if err.Is_AwsCryptographicMaterialProvidersException() {
-			return AwsCryptographicMaterialProvidersException_FromDafny(err)
-		}
-
-		if err.Is_ImportNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.ImportNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_KeyStoreException() {
-			return awscryptographykeystoresmithygenerated.KeyStoreException_FromDafny(err)
-		}
-
-		if err.Is_CloudHsmClusterInUseException() {
-			return comamazonawskmssmithygenerated.CloudHsmClusterInUseException_FromDafny(err)
-		}
-
-		if err.Is_InvalidKeyUsageException() {
-			return comamazonawskmssmithygenerated.InvalidKeyUsageException_FromDafny(err)
-		}
-
-		if err.Is_InvalidDecryptionMaterials() {
-			return InvalidDecryptionMaterials_FromDafny(err)
-		}
-
-		if err.Is_ResourceNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.ResourceNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_InvalidDecryptionMaterialsTransition() {
-			return InvalidDecryptionMaterialsTransition_FromDafny(err)
-		}
-
-		if err.Is_EntryDoesNotExist() {
-			return EntryDoesNotExist_FromDafny(err)
+		if err.Is_ResourceInUseException() {
+			return comamazonawsdynamodbsmithygenerated.ResourceInUseException_FromDafny(err)
 		}
 
 		if err.Is_EntryAlreadyExists() {
@@ -337,60 +105,292 @@ func (this *CryptographicMaterialsCache) PutCacheEntry(params awscryptographymat
 			return comamazonawskmssmithygenerated.CustomKeyStoreNameInUseException_FromDafny(err)
 		}
 
-		if err.Is_PolicyNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.PolicyNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_GlobalTableNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.GlobalTableNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_ReplicaAlreadyExistsException() {
-			return comamazonawsdynamodbsmithygenerated.ReplicaAlreadyExistsException_FromDafny(err)
-		}
-
-		if err.Is_IncorrectKeyException() {
-			return comamazonawskmssmithygenerated.IncorrectKeyException_FromDafny(err)
-		}
-
-		if err.Is_KMSInvalidSignatureException() {
-			return comamazonawskmssmithygenerated.KMSInvalidSignatureException_FromDafny(err)
-		}
-
-		if err.Is_XksProxyInvalidResponseException() {
-			return comamazonawskmssmithygenerated.XksProxyInvalidResponseException_FromDafny(err)
-		}
-
-		if err.Is_CustomKeyStoreInvalidStateException() {
-			return comamazonawskmssmithygenerated.CustomKeyStoreInvalidStateException_FromDafny(err)
+		if err.Is_KMSInvalidStateException() {
+			return comamazonawskmssmithygenerated.KMSInvalidStateException_FromDafny(err)
 		}
 
 		if err.Is_ContinuousBackupsUnavailableException() {
 			return comamazonawsdynamodbsmithygenerated.ContinuousBackupsUnavailableException_FromDafny(err)
 		}
 
-		if err.Is_ResourceInUseException() {
-			return comamazonawsdynamodbsmithygenerated.ResourceInUseException_FromDafny(err)
+		if err.Is_CustomKeyStoreInvalidStateException() {
+			return comamazonawskmssmithygenerated.CustomKeyStoreInvalidStateException_FromDafny(err)
 		}
 
-		if err.Is_CloudHsmClusterNotActiveException() {
-			return comamazonawskmssmithygenerated.CloudHsmClusterNotActiveException_FromDafny(err)
+		if err.Is_IncorrectKeyException() {
+			return comamazonawskmssmithygenerated.IncorrectKeyException_FromDafny(err)
 		}
 
-		if err.Is_KMSInvalidStateException() {
-			return comamazonawskmssmithygenerated.KMSInvalidStateException_FromDafny(err)
+		if err.Is_DuplicateItemException() {
+			return comamazonawsdynamodbsmithygenerated.DuplicateItemException_FromDafny(err)
+		}
+
+		if err.Is_ItemCollectionSizeLimitExceededException() {
+			return comamazonawsdynamodbsmithygenerated.ItemCollectionSizeLimitExceededException_FromDafny(err)
 		}
 
 		if err.Is_InvalidAlgorithmSuiteInfo() {
 			return InvalidAlgorithmSuiteInfo_FromDafny(err)
 		}
 
+		if err.Is_AwsCryptographicMaterialProvidersException() {
+			return AwsCryptographicMaterialProvidersException_FromDafny(err)
+		}
+
 		if err.Is_XksKeyAlreadyInUseException() {
 			return comamazonawskmssmithygenerated.XksKeyAlreadyInUseException_FromDafny(err)
 		}
 
-		if err.Is_ItemCollectionSizeLimitExceededException() {
-			return comamazonawsdynamodbsmithygenerated.ItemCollectionSizeLimitExceededException_FromDafny(err)
+		if err.Is_TableInUseException() {
+			return comamazonawsdynamodbsmithygenerated.TableInUseException_FromDafny(err)
+		}
+
+		if err.Is_XksProxyInvalidResponseException() {
+			return comamazonawskmssmithygenerated.XksProxyInvalidResponseException_FromDafny(err)
+		}
+
+		if err.Is_IncorrectKeyMaterialException() {
+			return comamazonawskmssmithygenerated.IncorrectKeyMaterialException_FromDafny(err)
+		}
+
+		if err.Is_CloudHsmClusterNotRelatedException() {
+			return comamazonawskmssmithygenerated.CloudHsmClusterNotRelatedException_FromDafny(err)
+		}
+
+		if err.Is_InvalidDecryptionMaterialsTransition() {
+			return InvalidDecryptionMaterialsTransition_FromDafny(err)
+		}
+
+		if err.Is_TransactionConflictException() {
+			return comamazonawsdynamodbsmithygenerated.TransactionConflictException_FromDafny(err)
+		}
+
+		if err.Is_CloudHsmClusterNotFoundException() {
+			return comamazonawskmssmithygenerated.CloudHsmClusterNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_EntryDoesNotExist() {
+			return EntryDoesNotExist_FromDafny(err)
+		}
+
+		if err.Is_XksProxyVpcEndpointServiceNotFoundException() {
+			return comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_CloudHsmClusterInUseException() {
+			return comamazonawskmssmithygenerated.CloudHsmClusterInUseException_FromDafny(err)
+		}
+
+		if err.Is_InvalidKeyUsageException() {
+			return comamazonawskmssmithygenerated.InvalidKeyUsageException_FromDafny(err)
+		}
+
+		if err.Is_TagException() {
+			return comamazonawskmssmithygenerated.TagException_FromDafny(err)
+		}
+
+		if err.Is_InvalidDecryptionMaterials() {
+			return InvalidDecryptionMaterials_FromDafny(err)
+		}
+
+		if err.Is_GlobalTableNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.GlobalTableNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_InvalidCiphertextException() {
+			return comamazonawskmssmithygenerated.InvalidCiphertextException_FromDafny(err)
+		}
+
+		if err.Is_InvalidRestoreTimeException() {
+			return comamazonawsdynamodbsmithygenerated.InvalidRestoreTimeException_FromDafny(err)
+		}
+
+		if err.Is_UnsupportedOperationException() {
+			return comamazonawskmssmithygenerated.UnsupportedOperationException_FromDafny(err)
+		}
+
+		if err.Is_CloudHsmClusterNotActiveException() {
+			return comamazonawskmssmithygenerated.CloudHsmClusterNotActiveException_FromDafny(err)
+		}
+
+		if err.Is_MalformedPolicyDocumentException() {
+			return comamazonawskmssmithygenerated.MalformedPolicyDocumentException_FromDafny(err)
+		}
+
+		if err.Is_InvalidImportTokenException() {
+			return comamazonawskmssmithygenerated.InvalidImportTokenException_FromDafny(err)
+		}
+
+		if err.Is_LimitExceededException() {
+			return comamazonawsdynamodbsmithygenerated.LimitExceededException_FromDafny(err)
+		}
+
+		if err.Is_ImportNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.ImportNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_KeyStoreException() {
+			return awscryptographykeystoresmithygenerated.KeyStoreException_FromDafny(err)
+		}
+
+		if err.Is_ProvisionedThroughputExceededException() {
+			return comamazonawsdynamodbsmithygenerated.ProvisionedThroughputExceededException_FromDafny(err)
+		}
+
+		if err.Is_InvalidEncryptionMaterials() {
+			return InvalidEncryptionMaterials_FromDafny(err)
+		}
+
+		if err.Is_IncorrectTrustAnchorException() {
+			return comamazonawskmssmithygenerated.IncorrectTrustAnchorException_FromDafny(err)
+		}
+
+		if err.Is_InvalidAlgorithmSuiteInfoOnEncrypt() {
+			return InvalidAlgorithmSuiteInfoOnEncrypt_FromDafny(err)
+		}
+
+		if err.Is_AlreadyExistsException() {
+			return comamazonawskmssmithygenerated.AlreadyExistsException_FromDafny(err)
+		}
+
+		if err.Is_IdempotentParameterMismatchException() {
+			return comamazonawsdynamodbsmithygenerated.IdempotentParameterMismatchException_FromDafny(err)
+		}
+
+		if err.Is_KMSInvalidSignatureException() {
+			return comamazonawskmssmithygenerated.KMSInvalidSignatureException_FromDafny(err)
+		}
+
+		if err.Is_PointInTimeRecoveryUnavailableException() {
+			return comamazonawsdynamodbsmithygenerated.PointInTimeRecoveryUnavailableException_FromDafny(err)
+		}
+
+		if err.Is_InvalidAlgorithmSuiteInfoOnDecrypt() {
+			return InvalidAlgorithmSuiteInfoOnDecrypt_FromDafny(err)
+		}
+
+		if err.Is_TableNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.TableNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_XksProxyUriEndpointInUseException() {
+			return comamazonawskmssmithygenerated.XksProxyUriEndpointInUseException_FromDafny(err)
+		}
+
+		if err.Is_AwsCryptographicPrimitivesError() {
+			return awscryptographyprimitivessmithygenerated.AwsCryptographicPrimitivesError_FromDafny(err)
+		}
+
+		if err.Is_ExportNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.ExportNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_BackupInUseException() {
+			return comamazonawsdynamodbsmithygenerated.BackupInUseException_FromDafny(err)
+		}
+
+		if err.Is_ResourceNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.ResourceNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_KMSInternalException() {
+			return comamazonawskmssmithygenerated.KMSInternalException_FromDafny(err)
+		}
+
+		if err.Is_RequestLimitExceeded() {
+			return comamazonawsdynamodbsmithygenerated.RequestLimitExceeded_FromDafny(err)
+		}
+
+		if err.Is_NotFoundException() {
+			return comamazonawskmssmithygenerated.NotFoundException_FromDafny(err)
+		}
+
+		if err.Is_IndexNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.IndexNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_CustomKeyStoreNotFoundException() {
+			return comamazonawskmssmithygenerated.CustomKeyStoreNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_BackupNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.BackupNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_LimitExceededException() {
+			return comamazonawskmssmithygenerated.LimitExceededException_FromDafny(err)
+		}
+
+		if err.Is_CloudHsmClusterInvalidConfigurationException() {
+			return comamazonawskmssmithygenerated.CloudHsmClusterInvalidConfigurationException_FromDafny(err)
+		}
+
+		if err.Is_DependencyTimeoutException() {
+			return comamazonawskmssmithygenerated.DependencyTimeoutException_FromDafny(err)
+		}
+
+		if err.Is_XksProxyVpcEndpointServiceInUseException() {
+			return comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceInUseException_FromDafny(err)
+		}
+
+		if err.Is_InvalidGrantIdException() {
+			return comamazonawskmssmithygenerated.InvalidGrantIdException_FromDafny(err)
+		}
+
+		if err.Is_InvalidMarkerException() {
+			return comamazonawskmssmithygenerated.InvalidMarkerException_FromDafny(err)
+		}
+
+		if err.Is_TableAlreadyExistsException() {
+			return comamazonawsdynamodbsmithygenerated.TableAlreadyExistsException_FromDafny(err)
+		}
+
+		if err.Is_ExportConflictException() {
+			return comamazonawsdynamodbsmithygenerated.ExportConflictException_FromDafny(err)
+		}
+
+		if err.Is_TransactionCanceledException() {
+			return comamazonawsdynamodbsmithygenerated.TransactionCanceledException_FromDafny(err)
+		}
+
+		if err.Is_ConflictException() {
+			return comamazonawskmssmithygenerated.ConflictException_FromDafny(err)
+		}
+
+		if err.Is_XksProxyUriInUseException() {
+			return comamazonawskmssmithygenerated.XksProxyUriInUseException_FromDafny(err)
+		}
+
+		if err.Is_InvalidAliasNameException() {
+			return comamazonawskmssmithygenerated.InvalidAliasNameException_FromDafny(err)
+		}
+
+		if err.Is_DisabledException() {
+			return comamazonawskmssmithygenerated.DisabledException_FromDafny(err)
+		}
+
+		if err.Is_InvalidArnException() {
+			return comamazonawskmssmithygenerated.InvalidArnException_FromDafny(err)
+		}
+
+		if err.Is_ExpiredImportTokenException() {
+			return comamazonawskmssmithygenerated.ExpiredImportTokenException_FromDafny(err)
+		}
+
+		if err.Is_XksProxyIncorrectAuthenticationCredentialException() {
+			return comamazonawskmssmithygenerated.XksProxyIncorrectAuthenticationCredentialException_FromDafny(err)
+		}
+
+		if err.Is_KeyUnavailableException() {
+			return comamazonawskmssmithygenerated.KeyUnavailableException_FromDafny(err)
+		}
+
+		if err.Is_ReplicaNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.ReplicaNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_InvalidExportTimeException() {
+			return comamazonawsdynamodbsmithygenerated.InvalidExportTimeException_FromDafny(err)
 		}
 
 		if err.Is_CollectionOfErrors() {
@@ -409,24 +409,8 @@ func (this *CryptographicMaterialsCache) GetCacheEntry(params awscryptographymat
 
 	if dafny_response.Is_Failure() {
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
-		if err.Is_CustomKeyStoreHasCMKsException() {
-			return nil, comamazonawskmssmithygenerated.CustomKeyStoreHasCMKsException_FromDafny(err)
-		}
-
-		if err.Is_TagException() {
-			return nil, comamazonawskmssmithygenerated.TagException_FromDafny(err)
-		}
-
-		if err.Is_ImportConflictException() {
-			return nil, comamazonawsdynamodbsmithygenerated.ImportConflictException_FromDafny(err)
-		}
-
-		if err.Is_TransactionConflictException() {
-			return nil, comamazonawsdynamodbsmithygenerated.TransactionConflictException_FromDafny(err)
-		}
-
-		if err.Is_CloudHsmClusterNotFoundException() {
-			return nil, comamazonawskmssmithygenerated.CloudHsmClusterNotFoundException_FromDafny(err)
+		if err.Is_XksKeyInvalidConfigurationException() {
+			return nil, comamazonawskmssmithygenerated.XksKeyInvalidConfigurationException_FromDafny(err)
 		}
 
 		if err.Is_TransactionInProgressException() {
@@ -437,284 +421,68 @@ func (this *CryptographicMaterialsCache) GetCacheEntry(params awscryptographymat
 			return nil, comamazonawskmssmithygenerated.InvalidGrantTokenException_FromDafny(err)
 		}
 
-		if err.Is_InvalidEncryptionMaterialsTransition() {
-			return nil, InvalidEncryptionMaterialsTransition_FromDafny(err)
-		}
-
-		if err.Is_XksProxyVpcEndpointServiceInvalidConfigurationException() {
-			return nil, comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceInvalidConfigurationException_FromDafny(err)
-		}
-
-		if err.Is_InvalidExportTimeException() {
-			return nil, comamazonawsdynamodbsmithygenerated.InvalidExportTimeException_FromDafny(err)
-		}
-
-		if err.Is_XksKeyNotFoundException() {
-			return nil, comamazonawskmssmithygenerated.XksKeyNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_XksProxyUriUnreachableException() {
-			return nil, comamazonawskmssmithygenerated.XksProxyUriUnreachableException_FromDafny(err)
-		}
-
-		if err.Is_DryRunOperationException() {
-			return nil, comamazonawskmssmithygenerated.DryRunOperationException_FromDafny(err)
-		}
-
-		if err.Is_KeyUnavailableException() {
-			return nil, comamazonawskmssmithygenerated.KeyUnavailableException_FromDafny(err)
-		}
-
-		if err.Is_BackupInUseException() {
-			return nil, comamazonawsdynamodbsmithygenerated.BackupInUseException_FromDafny(err)
-		}
-
-		if err.Is_IncorrectKeyMaterialException() {
-			return nil, comamazonawskmssmithygenerated.IncorrectKeyMaterialException_FromDafny(err)
-		}
-
-		if err.Is_XksKeyInvalidConfigurationException() {
-			return nil, comamazonawskmssmithygenerated.XksKeyInvalidConfigurationException_FromDafny(err)
+		if err.Is_GlobalTableAlreadyExistsException() {
+			return nil, comamazonawsdynamodbsmithygenerated.GlobalTableAlreadyExistsException_FromDafny(err)
 		}
 
 		if err.Is_KMSInvalidMacException() {
 			return nil, comamazonawskmssmithygenerated.KMSInvalidMacException_FromDafny(err)
 		}
 
-		if err.Is_InvalidGrantIdException() {
-			return nil, comamazonawskmssmithygenerated.InvalidGrantIdException_FromDafny(err)
+		if err.Is_DryRunOperationException() {
+			return nil, comamazonawskmssmithygenerated.DryRunOperationException_FromDafny(err)
 		}
 
-		if err.Is_GlobalTableAlreadyExistsException() {
-			return nil, comamazonawsdynamodbsmithygenerated.GlobalTableAlreadyExistsException_FromDafny(err)
-		}
-
-		if err.Is_BackupNotFoundException() {
-			return nil, comamazonawsdynamodbsmithygenerated.BackupNotFoundException_FromDafny(err)
+		if err.Is_XksProxyUriUnreachableException() {
+			return nil, comamazonawskmssmithygenerated.XksProxyUriUnreachableException_FromDafny(err)
 		}
 
 		if err.Is_InternalServerError() {
 			return nil, comamazonawsdynamodbsmithygenerated.InternalServerError_FromDafny(err)
 		}
 
-		if err.Is_DuplicateItemException() {
-			return nil, comamazonawsdynamodbsmithygenerated.DuplicateItemException_FromDafny(err)
-		}
-
-		if err.Is_InvalidArnException() {
-			return nil, comamazonawskmssmithygenerated.InvalidArnException_FromDafny(err)
-		}
-
-		if err.Is_NotFoundException() {
-			return nil, comamazonawskmssmithygenerated.NotFoundException_FromDafny(err)
-		}
-
-		if err.Is_CustomKeyStoreNotFoundException() {
-			return nil, comamazonawskmssmithygenerated.CustomKeyStoreNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_ExportConflictException() {
-			return nil, comamazonawsdynamodbsmithygenerated.ExportConflictException_FromDafny(err)
-		}
-
-		if err.Is_TransactionCanceledException() {
-			return nil, comamazonawsdynamodbsmithygenerated.TransactionCanceledException_FromDafny(err)
-		}
-
-		if err.Is_AlreadyExistsException() {
-			return nil, comamazonawskmssmithygenerated.AlreadyExistsException_FromDafny(err)
+		if err.Is_InvalidEncryptionMaterialsTransition() {
+			return nil, InvalidEncryptionMaterialsTransition_FromDafny(err)
 		}
 
 		if err.Is_ConditionalCheckFailedException() {
 			return nil, comamazonawsdynamodbsmithygenerated.ConditionalCheckFailedException_FromDafny(err)
 		}
 
-		if err.Is_InvalidAliasNameException() {
-			return nil, comamazonawskmssmithygenerated.InvalidAliasNameException_FromDafny(err)
+		if err.Is_InvalidEndpointException() {
+			return nil, comamazonawsdynamodbsmithygenerated.InvalidEndpointException_FromDafny(err)
 		}
 
-		if err.Is_XksProxyUriInUseException() {
-			return nil, comamazonawskmssmithygenerated.XksProxyUriInUseException_FromDafny(err)
+		if err.Is_ImportConflictException() {
+			return nil, comamazonawsdynamodbsmithygenerated.ImportConflictException_FromDafny(err)
 		}
 
-		if err.Is_CloudHsmClusterInvalidConfigurationException() {
-			return nil, comamazonawskmssmithygenerated.CloudHsmClusterInvalidConfigurationException_FromDafny(err)
+		if err.Is_ReplicaAlreadyExistsException() {
+			return nil, comamazonawsdynamodbsmithygenerated.ReplicaAlreadyExistsException_FromDafny(err)
 		}
 
-		if err.Is_XksProxyUriEndpointInUseException() {
-			return nil, comamazonawskmssmithygenerated.XksProxyUriEndpointInUseException_FromDafny(err)
+		if err.Is_XksKeyNotFoundException() {
+			return nil, comamazonawskmssmithygenerated.XksKeyNotFoundException_FromDafny(err)
 		}
 
-		if err.Is_XksProxyVpcEndpointServiceInUseException() {
-			return nil, comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceInUseException_FromDafny(err)
+		if err.Is_CustomKeyStoreHasCMKsException() {
+			return nil, comamazonawskmssmithygenerated.CustomKeyStoreHasCMKsException_FromDafny(err)
 		}
 
-		if err.Is_AwsCryptographicPrimitivesError() {
-			return nil, awscryptographyprimitivessmithygenerated.AwsCryptographicPrimitivesError_FromDafny(err)
+		if err.Is_XksProxyVpcEndpointServiceInvalidConfigurationException() {
+			return nil, comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceInvalidConfigurationException_FromDafny(err)
 		}
 
-		if err.Is_TableAlreadyExistsException() {
-			return nil, comamazonawsdynamodbsmithygenerated.TableAlreadyExistsException_FromDafny(err)
-		}
-
-		if err.Is_XksProxyIncorrectAuthenticationCredentialException() {
-			return nil, comamazonawskmssmithygenerated.XksProxyIncorrectAuthenticationCredentialException_FromDafny(err)
-		}
-
-		if err.Is_TableNotFoundException() {
-			return nil, comamazonawsdynamodbsmithygenerated.TableNotFoundException_FromDafny(err)
+		if err.Is_PolicyNotFoundException() {
+			return nil, comamazonawsdynamodbsmithygenerated.PolicyNotFoundException_FromDafny(err)
 		}
 
 		if err.Is_XksProxyInvalidConfigurationException() {
 			return nil, comamazonawskmssmithygenerated.XksProxyInvalidConfigurationException_FromDafny(err)
 		}
 
-		if err.Is_DisabledException() {
-			return nil, comamazonawskmssmithygenerated.DisabledException_FromDafny(err)
-		}
-
-		if err.Is_IndexNotFoundException() {
-			return nil, comamazonawsdynamodbsmithygenerated.IndexNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_InvalidEndpointException() {
-			return nil, comamazonawsdynamodbsmithygenerated.InvalidEndpointException_FromDafny(err)
-		}
-
-		if err.Is_RequestLimitExceeded() {
-			return nil, comamazonawsdynamodbsmithygenerated.RequestLimitExceeded_FromDafny(err)
-		}
-
-		if err.Is_InvalidRestoreTimeException() {
-			return nil, comamazonawsdynamodbsmithygenerated.InvalidRestoreTimeException_FromDafny(err)
-		}
-
-		if err.Is_InvalidEncryptionMaterials() {
-			return nil, InvalidEncryptionMaterials_FromDafny(err)
-		}
-
-		if err.Is_ExportNotFoundException() {
-			return nil, comamazonawsdynamodbsmithygenerated.ExportNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_InvalidImportTokenException() {
-			return nil, comamazonawskmssmithygenerated.InvalidImportTokenException_FromDafny(err)
-		}
-
-		if err.Is_XksProxyVpcEndpointServiceNotFoundException() {
-			return nil, comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_IdempotentParameterMismatchException() {
-			return nil, comamazonawsdynamodbsmithygenerated.IdempotentParameterMismatchException_FromDafny(err)
-		}
-
-		if err.Is_InvalidAlgorithmSuiteInfoOnEncrypt() {
-			return nil, InvalidAlgorithmSuiteInfoOnEncrypt_FromDafny(err)
-		}
-
-		if err.Is_MalformedPolicyDocumentException() {
-			return nil, comamazonawskmssmithygenerated.MalformedPolicyDocumentException_FromDafny(err)
-		}
-
-		if err.Is_DependencyTimeoutException() {
-			return nil, comamazonawskmssmithygenerated.DependencyTimeoutException_FromDafny(err)
-		}
-
-		if err.Is_CloudHsmClusterNotRelatedException() {
-			return nil, comamazonawskmssmithygenerated.CloudHsmClusterNotRelatedException_FromDafny(err)
-		}
-
-		if err.Is_InvalidCiphertextException() {
-			return nil, comamazonawskmssmithygenerated.InvalidCiphertextException_FromDafny(err)
-		}
-
-		if err.Is_UnsupportedOperationException() {
-			return nil, comamazonawskmssmithygenerated.UnsupportedOperationException_FromDafny(err)
-		}
-
-		if err.Is_TableInUseException() {
-			return nil, comamazonawsdynamodbsmithygenerated.TableInUseException_FromDafny(err)
-		}
-
-		if err.Is_PointInTimeRecoveryUnavailableException() {
-			return nil, comamazonawsdynamodbsmithygenerated.PointInTimeRecoveryUnavailableException_FromDafny(err)
-		}
-
-		if err.Is_InvalidAlgorithmSuiteInfoOnDecrypt() {
-			return nil, InvalidAlgorithmSuiteInfoOnDecrypt_FromDafny(err)
-		}
-
-		if err.Is_ReplicaNotFoundException() {
-			return nil, comamazonawsdynamodbsmithygenerated.ReplicaNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_LimitExceededException() {
-			return nil, comamazonawsdynamodbsmithygenerated.LimitExceededException_FromDafny(err)
-		}
-
-		if err.Is_ExpiredImportTokenException() {
-			return nil, comamazonawskmssmithygenerated.ExpiredImportTokenException_FromDafny(err)
-		}
-
-		if err.Is_KMSInternalException() {
-			return nil, comamazonawskmssmithygenerated.KMSInternalException_FromDafny(err)
-		}
-
-		if err.Is_IncorrectTrustAnchorException() {
-			return nil, comamazonawskmssmithygenerated.IncorrectTrustAnchorException_FromDafny(err)
-		}
-
-		if err.Is_ConflictException() {
-			return nil, comamazonawskmssmithygenerated.ConflictException_FromDafny(err)
-		}
-
-		if err.Is_ProvisionedThroughputExceededException() {
-			return nil, comamazonawsdynamodbsmithygenerated.ProvisionedThroughputExceededException_FromDafny(err)
-		}
-
-		if err.Is_InvalidMarkerException() {
-			return nil, comamazonawskmssmithygenerated.InvalidMarkerException_FromDafny(err)
-		}
-
-		if err.Is_LimitExceededException() {
-			return nil, comamazonawskmssmithygenerated.LimitExceededException_FromDafny(err)
-		}
-
-		if err.Is_AwsCryptographicMaterialProvidersException() {
-			return nil, AwsCryptographicMaterialProvidersException_FromDafny(err)
-		}
-
-		if err.Is_ImportNotFoundException() {
-			return nil, comamazonawsdynamodbsmithygenerated.ImportNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_KeyStoreException() {
-			return nil, awscryptographykeystoresmithygenerated.KeyStoreException_FromDafny(err)
-		}
-
-		if err.Is_CloudHsmClusterInUseException() {
-			return nil, comamazonawskmssmithygenerated.CloudHsmClusterInUseException_FromDafny(err)
-		}
-
-		if err.Is_InvalidKeyUsageException() {
-			return nil, comamazonawskmssmithygenerated.InvalidKeyUsageException_FromDafny(err)
-		}
-
-		if err.Is_InvalidDecryptionMaterials() {
-			return nil, InvalidDecryptionMaterials_FromDafny(err)
-		}
-
-		if err.Is_ResourceNotFoundException() {
-			return nil, comamazonawsdynamodbsmithygenerated.ResourceNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_InvalidDecryptionMaterialsTransition() {
-			return nil, InvalidDecryptionMaterialsTransition_FromDafny(err)
-		}
-
-		if err.Is_EntryDoesNotExist() {
-			return nil, EntryDoesNotExist_FromDafny(err)
+		if err.Is_ResourceInUseException() {
+			return nil, comamazonawsdynamodbsmithygenerated.ResourceInUseException_FromDafny(err)
 		}
 
 		if err.Is_EntryAlreadyExists() {
@@ -725,60 +493,292 @@ func (this *CryptographicMaterialsCache) GetCacheEntry(params awscryptographymat
 			return nil, comamazonawskmssmithygenerated.CustomKeyStoreNameInUseException_FromDafny(err)
 		}
 
-		if err.Is_PolicyNotFoundException() {
-			return nil, comamazonawsdynamodbsmithygenerated.PolicyNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_GlobalTableNotFoundException() {
-			return nil, comamazonawsdynamodbsmithygenerated.GlobalTableNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_ReplicaAlreadyExistsException() {
-			return nil, comamazonawsdynamodbsmithygenerated.ReplicaAlreadyExistsException_FromDafny(err)
-		}
-
-		if err.Is_IncorrectKeyException() {
-			return nil, comamazonawskmssmithygenerated.IncorrectKeyException_FromDafny(err)
-		}
-
-		if err.Is_KMSInvalidSignatureException() {
-			return nil, comamazonawskmssmithygenerated.KMSInvalidSignatureException_FromDafny(err)
-		}
-
-		if err.Is_XksProxyInvalidResponseException() {
-			return nil, comamazonawskmssmithygenerated.XksProxyInvalidResponseException_FromDafny(err)
-		}
-
-		if err.Is_CustomKeyStoreInvalidStateException() {
-			return nil, comamazonawskmssmithygenerated.CustomKeyStoreInvalidStateException_FromDafny(err)
+		if err.Is_KMSInvalidStateException() {
+			return nil, comamazonawskmssmithygenerated.KMSInvalidStateException_FromDafny(err)
 		}
 
 		if err.Is_ContinuousBackupsUnavailableException() {
 			return nil, comamazonawsdynamodbsmithygenerated.ContinuousBackupsUnavailableException_FromDafny(err)
 		}
 
-		if err.Is_ResourceInUseException() {
-			return nil, comamazonawsdynamodbsmithygenerated.ResourceInUseException_FromDafny(err)
+		if err.Is_CustomKeyStoreInvalidStateException() {
+			return nil, comamazonawskmssmithygenerated.CustomKeyStoreInvalidStateException_FromDafny(err)
 		}
 
-		if err.Is_CloudHsmClusterNotActiveException() {
-			return nil, comamazonawskmssmithygenerated.CloudHsmClusterNotActiveException_FromDafny(err)
+		if err.Is_IncorrectKeyException() {
+			return nil, comamazonawskmssmithygenerated.IncorrectKeyException_FromDafny(err)
 		}
 
-		if err.Is_KMSInvalidStateException() {
-			return nil, comamazonawskmssmithygenerated.KMSInvalidStateException_FromDafny(err)
+		if err.Is_DuplicateItemException() {
+			return nil, comamazonawsdynamodbsmithygenerated.DuplicateItemException_FromDafny(err)
+		}
+
+		if err.Is_ItemCollectionSizeLimitExceededException() {
+			return nil, comamazonawsdynamodbsmithygenerated.ItemCollectionSizeLimitExceededException_FromDafny(err)
 		}
 
 		if err.Is_InvalidAlgorithmSuiteInfo() {
 			return nil, InvalidAlgorithmSuiteInfo_FromDafny(err)
 		}
 
+		if err.Is_AwsCryptographicMaterialProvidersException() {
+			return nil, AwsCryptographicMaterialProvidersException_FromDafny(err)
+		}
+
 		if err.Is_XksKeyAlreadyInUseException() {
 			return nil, comamazonawskmssmithygenerated.XksKeyAlreadyInUseException_FromDafny(err)
 		}
 
-		if err.Is_ItemCollectionSizeLimitExceededException() {
-			return nil, comamazonawsdynamodbsmithygenerated.ItemCollectionSizeLimitExceededException_FromDafny(err)
+		if err.Is_TableInUseException() {
+			return nil, comamazonawsdynamodbsmithygenerated.TableInUseException_FromDafny(err)
+		}
+
+		if err.Is_XksProxyInvalidResponseException() {
+			return nil, comamazonawskmssmithygenerated.XksProxyInvalidResponseException_FromDafny(err)
+		}
+
+		if err.Is_IncorrectKeyMaterialException() {
+			return nil, comamazonawskmssmithygenerated.IncorrectKeyMaterialException_FromDafny(err)
+		}
+
+		if err.Is_CloudHsmClusterNotRelatedException() {
+			return nil, comamazonawskmssmithygenerated.CloudHsmClusterNotRelatedException_FromDafny(err)
+		}
+
+		if err.Is_InvalidDecryptionMaterialsTransition() {
+			return nil, InvalidDecryptionMaterialsTransition_FromDafny(err)
+		}
+
+		if err.Is_TransactionConflictException() {
+			return nil, comamazonawsdynamodbsmithygenerated.TransactionConflictException_FromDafny(err)
+		}
+
+		if err.Is_CloudHsmClusterNotFoundException() {
+			return nil, comamazonawskmssmithygenerated.CloudHsmClusterNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_EntryDoesNotExist() {
+			return nil, EntryDoesNotExist_FromDafny(err)
+		}
+
+		if err.Is_XksProxyVpcEndpointServiceNotFoundException() {
+			return nil, comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_CloudHsmClusterInUseException() {
+			return nil, comamazonawskmssmithygenerated.CloudHsmClusterInUseException_FromDafny(err)
+		}
+
+		if err.Is_InvalidKeyUsageException() {
+			return nil, comamazonawskmssmithygenerated.InvalidKeyUsageException_FromDafny(err)
+		}
+
+		if err.Is_TagException() {
+			return nil, comamazonawskmssmithygenerated.TagException_FromDafny(err)
+		}
+
+		if err.Is_InvalidDecryptionMaterials() {
+			return nil, InvalidDecryptionMaterials_FromDafny(err)
+		}
+
+		if err.Is_GlobalTableNotFoundException() {
+			return nil, comamazonawsdynamodbsmithygenerated.GlobalTableNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_InvalidCiphertextException() {
+			return nil, comamazonawskmssmithygenerated.InvalidCiphertextException_FromDafny(err)
+		}
+
+		if err.Is_InvalidRestoreTimeException() {
+			return nil, comamazonawsdynamodbsmithygenerated.InvalidRestoreTimeException_FromDafny(err)
+		}
+
+		if err.Is_UnsupportedOperationException() {
+			return nil, comamazonawskmssmithygenerated.UnsupportedOperationException_FromDafny(err)
+		}
+
+		if err.Is_CloudHsmClusterNotActiveException() {
+			return nil, comamazonawskmssmithygenerated.CloudHsmClusterNotActiveException_FromDafny(err)
+		}
+
+		if err.Is_MalformedPolicyDocumentException() {
+			return nil, comamazonawskmssmithygenerated.MalformedPolicyDocumentException_FromDafny(err)
+		}
+
+		if err.Is_InvalidImportTokenException() {
+			return nil, comamazonawskmssmithygenerated.InvalidImportTokenException_FromDafny(err)
+		}
+
+		if err.Is_LimitExceededException() {
+			return nil, comamazonawsdynamodbsmithygenerated.LimitExceededException_FromDafny(err)
+		}
+
+		if err.Is_ImportNotFoundException() {
+			return nil, comamazonawsdynamodbsmithygenerated.ImportNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_KeyStoreException() {
+			return nil, awscryptographykeystoresmithygenerated.KeyStoreException_FromDafny(err)
+		}
+
+		if err.Is_ProvisionedThroughputExceededException() {
+			return nil, comamazonawsdynamodbsmithygenerated.ProvisionedThroughputExceededException_FromDafny(err)
+		}
+
+		if err.Is_InvalidEncryptionMaterials() {
+			return nil, InvalidEncryptionMaterials_FromDafny(err)
+		}
+
+		if err.Is_IncorrectTrustAnchorException() {
+			return nil, comamazonawskmssmithygenerated.IncorrectTrustAnchorException_FromDafny(err)
+		}
+
+		if err.Is_InvalidAlgorithmSuiteInfoOnEncrypt() {
+			return nil, InvalidAlgorithmSuiteInfoOnEncrypt_FromDafny(err)
+		}
+
+		if err.Is_AlreadyExistsException() {
+			return nil, comamazonawskmssmithygenerated.AlreadyExistsException_FromDafny(err)
+		}
+
+		if err.Is_IdempotentParameterMismatchException() {
+			return nil, comamazonawsdynamodbsmithygenerated.IdempotentParameterMismatchException_FromDafny(err)
+		}
+
+		if err.Is_KMSInvalidSignatureException() {
+			return nil, comamazonawskmssmithygenerated.KMSInvalidSignatureException_FromDafny(err)
+		}
+
+		if err.Is_PointInTimeRecoveryUnavailableException() {
+			return nil, comamazonawsdynamodbsmithygenerated.PointInTimeRecoveryUnavailableException_FromDafny(err)
+		}
+
+		if err.Is_InvalidAlgorithmSuiteInfoOnDecrypt() {
+			return nil, InvalidAlgorithmSuiteInfoOnDecrypt_FromDafny(err)
+		}
+
+		if err.Is_TableNotFoundException() {
+			return nil, comamazonawsdynamodbsmithygenerated.TableNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_XksProxyUriEndpointInUseException() {
+			return nil, comamazonawskmssmithygenerated.XksProxyUriEndpointInUseException_FromDafny(err)
+		}
+
+		if err.Is_AwsCryptographicPrimitivesError() {
+			return nil, awscryptographyprimitivessmithygenerated.AwsCryptographicPrimitivesError_FromDafny(err)
+		}
+
+		if err.Is_ExportNotFoundException() {
+			return nil, comamazonawsdynamodbsmithygenerated.ExportNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_BackupInUseException() {
+			return nil, comamazonawsdynamodbsmithygenerated.BackupInUseException_FromDafny(err)
+		}
+
+		if err.Is_ResourceNotFoundException() {
+			return nil, comamazonawsdynamodbsmithygenerated.ResourceNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_KMSInternalException() {
+			return nil, comamazonawskmssmithygenerated.KMSInternalException_FromDafny(err)
+		}
+
+		if err.Is_RequestLimitExceeded() {
+			return nil, comamazonawsdynamodbsmithygenerated.RequestLimitExceeded_FromDafny(err)
+		}
+
+		if err.Is_NotFoundException() {
+			return nil, comamazonawskmssmithygenerated.NotFoundException_FromDafny(err)
+		}
+
+		if err.Is_IndexNotFoundException() {
+			return nil, comamazonawsdynamodbsmithygenerated.IndexNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_CustomKeyStoreNotFoundException() {
+			return nil, comamazonawskmssmithygenerated.CustomKeyStoreNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_BackupNotFoundException() {
+			return nil, comamazonawsdynamodbsmithygenerated.BackupNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_LimitExceededException() {
+			return nil, comamazonawskmssmithygenerated.LimitExceededException_FromDafny(err)
+		}
+
+		if err.Is_CloudHsmClusterInvalidConfigurationException() {
+			return nil, comamazonawskmssmithygenerated.CloudHsmClusterInvalidConfigurationException_FromDafny(err)
+		}
+
+		if err.Is_DependencyTimeoutException() {
+			return nil, comamazonawskmssmithygenerated.DependencyTimeoutException_FromDafny(err)
+		}
+
+		if err.Is_XksProxyVpcEndpointServiceInUseException() {
+			return nil, comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceInUseException_FromDafny(err)
+		}
+
+		if err.Is_InvalidGrantIdException() {
+			return nil, comamazonawskmssmithygenerated.InvalidGrantIdException_FromDafny(err)
+		}
+
+		if err.Is_InvalidMarkerException() {
+			return nil, comamazonawskmssmithygenerated.InvalidMarkerException_FromDafny(err)
+		}
+
+		if err.Is_TableAlreadyExistsException() {
+			return nil, comamazonawsdynamodbsmithygenerated.TableAlreadyExistsException_FromDafny(err)
+		}
+
+		if err.Is_ExportConflictException() {
+			return nil, comamazonawsdynamodbsmithygenerated.ExportConflictException_FromDafny(err)
+		}
+
+		if err.Is_TransactionCanceledException() {
+			return nil, comamazonawsdynamodbsmithygenerated.TransactionCanceledException_FromDafny(err)
+		}
+
+		if err.Is_ConflictException() {
+			return nil, comamazonawskmssmithygenerated.ConflictException_FromDafny(err)
+		}
+
+		if err.Is_XksProxyUriInUseException() {
+			return nil, comamazonawskmssmithygenerated.XksProxyUriInUseException_FromDafny(err)
+		}
+
+		if err.Is_InvalidAliasNameException() {
+			return nil, comamazonawskmssmithygenerated.InvalidAliasNameException_FromDafny(err)
+		}
+
+		if err.Is_DisabledException() {
+			return nil, comamazonawskmssmithygenerated.DisabledException_FromDafny(err)
+		}
+
+		if err.Is_InvalidArnException() {
+			return nil, comamazonawskmssmithygenerated.InvalidArnException_FromDafny(err)
+		}
+
+		if err.Is_ExpiredImportTokenException() {
+			return nil, comamazonawskmssmithygenerated.ExpiredImportTokenException_FromDafny(err)
+		}
+
+		if err.Is_XksProxyIncorrectAuthenticationCredentialException() {
+			return nil, comamazonawskmssmithygenerated.XksProxyIncorrectAuthenticationCredentialException_FromDafny(err)
+		}
+
+		if err.Is_KeyUnavailableException() {
+			return nil, comamazonawskmssmithygenerated.KeyUnavailableException_FromDafny(err)
+		}
+
+		if err.Is_ReplicaNotFoundException() {
+			return nil, comamazonawsdynamodbsmithygenerated.ReplicaNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_InvalidExportTimeException() {
+			return nil, comamazonawsdynamodbsmithygenerated.InvalidExportTimeException_FromDafny(err)
 		}
 
 		if err.Is_CollectionOfErrors() {
@@ -799,24 +799,8 @@ func (this *CryptographicMaterialsCache) UpdateUsageMetadata(params awscryptogra
 
 	if dafny_response.Is_Failure() {
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
-		if err.Is_CustomKeyStoreHasCMKsException() {
-			return comamazonawskmssmithygenerated.CustomKeyStoreHasCMKsException_FromDafny(err)
-		}
-
-		if err.Is_TagException() {
-			return comamazonawskmssmithygenerated.TagException_FromDafny(err)
-		}
-
-		if err.Is_ImportConflictException() {
-			return comamazonawsdynamodbsmithygenerated.ImportConflictException_FromDafny(err)
-		}
-
-		if err.Is_TransactionConflictException() {
-			return comamazonawsdynamodbsmithygenerated.TransactionConflictException_FromDafny(err)
-		}
-
-		if err.Is_CloudHsmClusterNotFoundException() {
-			return comamazonawskmssmithygenerated.CloudHsmClusterNotFoundException_FromDafny(err)
+		if err.Is_XksKeyInvalidConfigurationException() {
+			return comamazonawskmssmithygenerated.XksKeyInvalidConfigurationException_FromDafny(err)
 		}
 
 		if err.Is_TransactionInProgressException() {
@@ -827,284 +811,68 @@ func (this *CryptographicMaterialsCache) UpdateUsageMetadata(params awscryptogra
 			return comamazonawskmssmithygenerated.InvalidGrantTokenException_FromDafny(err)
 		}
 
-		if err.Is_InvalidEncryptionMaterialsTransition() {
-			return InvalidEncryptionMaterialsTransition_FromDafny(err)
-		}
-
-		if err.Is_XksProxyVpcEndpointServiceInvalidConfigurationException() {
-			return comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceInvalidConfigurationException_FromDafny(err)
-		}
-
-		if err.Is_InvalidExportTimeException() {
-			return comamazonawsdynamodbsmithygenerated.InvalidExportTimeException_FromDafny(err)
-		}
-
-		if err.Is_XksKeyNotFoundException() {
-			return comamazonawskmssmithygenerated.XksKeyNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_XksProxyUriUnreachableException() {
-			return comamazonawskmssmithygenerated.XksProxyUriUnreachableException_FromDafny(err)
-		}
-
-		if err.Is_DryRunOperationException() {
-			return comamazonawskmssmithygenerated.DryRunOperationException_FromDafny(err)
-		}
-
-		if err.Is_KeyUnavailableException() {
-			return comamazonawskmssmithygenerated.KeyUnavailableException_FromDafny(err)
-		}
-
-		if err.Is_BackupInUseException() {
-			return comamazonawsdynamodbsmithygenerated.BackupInUseException_FromDafny(err)
-		}
-
-		if err.Is_IncorrectKeyMaterialException() {
-			return comamazonawskmssmithygenerated.IncorrectKeyMaterialException_FromDafny(err)
-		}
-
-		if err.Is_XksKeyInvalidConfigurationException() {
-			return comamazonawskmssmithygenerated.XksKeyInvalidConfigurationException_FromDafny(err)
+		if err.Is_GlobalTableAlreadyExistsException() {
+			return comamazonawsdynamodbsmithygenerated.GlobalTableAlreadyExistsException_FromDafny(err)
 		}
 
 		if err.Is_KMSInvalidMacException() {
 			return comamazonawskmssmithygenerated.KMSInvalidMacException_FromDafny(err)
 		}
 
-		if err.Is_InvalidGrantIdException() {
-			return comamazonawskmssmithygenerated.InvalidGrantIdException_FromDafny(err)
+		if err.Is_DryRunOperationException() {
+			return comamazonawskmssmithygenerated.DryRunOperationException_FromDafny(err)
 		}
 
-		if err.Is_GlobalTableAlreadyExistsException() {
-			return comamazonawsdynamodbsmithygenerated.GlobalTableAlreadyExistsException_FromDafny(err)
-		}
-
-		if err.Is_BackupNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.BackupNotFoundException_FromDafny(err)
+		if err.Is_XksProxyUriUnreachableException() {
+			return comamazonawskmssmithygenerated.XksProxyUriUnreachableException_FromDafny(err)
 		}
 
 		if err.Is_InternalServerError() {
 			return comamazonawsdynamodbsmithygenerated.InternalServerError_FromDafny(err)
 		}
 
-		if err.Is_DuplicateItemException() {
-			return comamazonawsdynamodbsmithygenerated.DuplicateItemException_FromDafny(err)
-		}
-
-		if err.Is_InvalidArnException() {
-			return comamazonawskmssmithygenerated.InvalidArnException_FromDafny(err)
-		}
-
-		if err.Is_NotFoundException() {
-			return comamazonawskmssmithygenerated.NotFoundException_FromDafny(err)
-		}
-
-		if err.Is_CustomKeyStoreNotFoundException() {
-			return comamazonawskmssmithygenerated.CustomKeyStoreNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_ExportConflictException() {
-			return comamazonawsdynamodbsmithygenerated.ExportConflictException_FromDafny(err)
-		}
-
-		if err.Is_TransactionCanceledException() {
-			return comamazonawsdynamodbsmithygenerated.TransactionCanceledException_FromDafny(err)
-		}
-
-		if err.Is_AlreadyExistsException() {
-			return comamazonawskmssmithygenerated.AlreadyExistsException_FromDafny(err)
+		if err.Is_InvalidEncryptionMaterialsTransition() {
+			return InvalidEncryptionMaterialsTransition_FromDafny(err)
 		}
 
 		if err.Is_ConditionalCheckFailedException() {
 			return comamazonawsdynamodbsmithygenerated.ConditionalCheckFailedException_FromDafny(err)
 		}
 
-		if err.Is_InvalidAliasNameException() {
-			return comamazonawskmssmithygenerated.InvalidAliasNameException_FromDafny(err)
+		if err.Is_InvalidEndpointException() {
+			return comamazonawsdynamodbsmithygenerated.InvalidEndpointException_FromDafny(err)
 		}
 
-		if err.Is_XksProxyUriInUseException() {
-			return comamazonawskmssmithygenerated.XksProxyUriInUseException_FromDafny(err)
+		if err.Is_ImportConflictException() {
+			return comamazonawsdynamodbsmithygenerated.ImportConflictException_FromDafny(err)
 		}
 
-		if err.Is_CloudHsmClusterInvalidConfigurationException() {
-			return comamazonawskmssmithygenerated.CloudHsmClusterInvalidConfigurationException_FromDafny(err)
+		if err.Is_ReplicaAlreadyExistsException() {
+			return comamazonawsdynamodbsmithygenerated.ReplicaAlreadyExistsException_FromDafny(err)
 		}
 
-		if err.Is_XksProxyUriEndpointInUseException() {
-			return comamazonawskmssmithygenerated.XksProxyUriEndpointInUseException_FromDafny(err)
+		if err.Is_XksKeyNotFoundException() {
+			return comamazonawskmssmithygenerated.XksKeyNotFoundException_FromDafny(err)
 		}
 
-		if err.Is_XksProxyVpcEndpointServiceInUseException() {
-			return comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceInUseException_FromDafny(err)
+		if err.Is_CustomKeyStoreHasCMKsException() {
+			return comamazonawskmssmithygenerated.CustomKeyStoreHasCMKsException_FromDafny(err)
 		}
 
-		if err.Is_AwsCryptographicPrimitivesError() {
-			return awscryptographyprimitivessmithygenerated.AwsCryptographicPrimitivesError_FromDafny(err)
+		if err.Is_XksProxyVpcEndpointServiceInvalidConfigurationException() {
+			return comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceInvalidConfigurationException_FromDafny(err)
 		}
 
-		if err.Is_TableAlreadyExistsException() {
-			return comamazonawsdynamodbsmithygenerated.TableAlreadyExistsException_FromDafny(err)
-		}
-
-		if err.Is_XksProxyIncorrectAuthenticationCredentialException() {
-			return comamazonawskmssmithygenerated.XksProxyIncorrectAuthenticationCredentialException_FromDafny(err)
-		}
-
-		if err.Is_TableNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.TableNotFoundException_FromDafny(err)
+		if err.Is_PolicyNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.PolicyNotFoundException_FromDafny(err)
 		}
 
 		if err.Is_XksProxyInvalidConfigurationException() {
 			return comamazonawskmssmithygenerated.XksProxyInvalidConfigurationException_FromDafny(err)
 		}
 
-		if err.Is_DisabledException() {
-			return comamazonawskmssmithygenerated.DisabledException_FromDafny(err)
-		}
-
-		if err.Is_IndexNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.IndexNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_InvalidEndpointException() {
-			return comamazonawsdynamodbsmithygenerated.InvalidEndpointException_FromDafny(err)
-		}
-
-		if err.Is_RequestLimitExceeded() {
-			return comamazonawsdynamodbsmithygenerated.RequestLimitExceeded_FromDafny(err)
-		}
-
-		if err.Is_InvalidRestoreTimeException() {
-			return comamazonawsdynamodbsmithygenerated.InvalidRestoreTimeException_FromDafny(err)
-		}
-
-		if err.Is_InvalidEncryptionMaterials() {
-			return InvalidEncryptionMaterials_FromDafny(err)
-		}
-
-		if err.Is_ExportNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.ExportNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_InvalidImportTokenException() {
-			return comamazonawskmssmithygenerated.InvalidImportTokenException_FromDafny(err)
-		}
-
-		if err.Is_XksProxyVpcEndpointServiceNotFoundException() {
-			return comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_IdempotentParameterMismatchException() {
-			return comamazonawsdynamodbsmithygenerated.IdempotentParameterMismatchException_FromDafny(err)
-		}
-
-		if err.Is_InvalidAlgorithmSuiteInfoOnEncrypt() {
-			return InvalidAlgorithmSuiteInfoOnEncrypt_FromDafny(err)
-		}
-
-		if err.Is_MalformedPolicyDocumentException() {
-			return comamazonawskmssmithygenerated.MalformedPolicyDocumentException_FromDafny(err)
-		}
-
-		if err.Is_DependencyTimeoutException() {
-			return comamazonawskmssmithygenerated.DependencyTimeoutException_FromDafny(err)
-		}
-
-		if err.Is_CloudHsmClusterNotRelatedException() {
-			return comamazonawskmssmithygenerated.CloudHsmClusterNotRelatedException_FromDafny(err)
-		}
-
-		if err.Is_InvalidCiphertextException() {
-			return comamazonawskmssmithygenerated.InvalidCiphertextException_FromDafny(err)
-		}
-
-		if err.Is_UnsupportedOperationException() {
-			return comamazonawskmssmithygenerated.UnsupportedOperationException_FromDafny(err)
-		}
-
-		if err.Is_TableInUseException() {
-			return comamazonawsdynamodbsmithygenerated.TableInUseException_FromDafny(err)
-		}
-
-		if err.Is_PointInTimeRecoveryUnavailableException() {
-			return comamazonawsdynamodbsmithygenerated.PointInTimeRecoveryUnavailableException_FromDafny(err)
-		}
-
-		if err.Is_InvalidAlgorithmSuiteInfoOnDecrypt() {
-			return InvalidAlgorithmSuiteInfoOnDecrypt_FromDafny(err)
-		}
-
-		if err.Is_ReplicaNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.ReplicaNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_LimitExceededException() {
-			return comamazonawsdynamodbsmithygenerated.LimitExceededException_FromDafny(err)
-		}
-
-		if err.Is_ExpiredImportTokenException() {
-			return comamazonawskmssmithygenerated.ExpiredImportTokenException_FromDafny(err)
-		}
-
-		if err.Is_KMSInternalException() {
-			return comamazonawskmssmithygenerated.KMSInternalException_FromDafny(err)
-		}
-
-		if err.Is_IncorrectTrustAnchorException() {
-			return comamazonawskmssmithygenerated.IncorrectTrustAnchorException_FromDafny(err)
-		}
-
-		if err.Is_ConflictException() {
-			return comamazonawskmssmithygenerated.ConflictException_FromDafny(err)
-		}
-
-		if err.Is_ProvisionedThroughputExceededException() {
-			return comamazonawsdynamodbsmithygenerated.ProvisionedThroughputExceededException_FromDafny(err)
-		}
-
-		if err.Is_InvalidMarkerException() {
-			return comamazonawskmssmithygenerated.InvalidMarkerException_FromDafny(err)
-		}
-
-		if err.Is_LimitExceededException() {
-			return comamazonawskmssmithygenerated.LimitExceededException_FromDafny(err)
-		}
-
-		if err.Is_AwsCryptographicMaterialProvidersException() {
-			return AwsCryptographicMaterialProvidersException_FromDafny(err)
-		}
-
-		if err.Is_ImportNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.ImportNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_KeyStoreException() {
-			return awscryptographykeystoresmithygenerated.KeyStoreException_FromDafny(err)
-		}
-
-		if err.Is_CloudHsmClusterInUseException() {
-			return comamazonawskmssmithygenerated.CloudHsmClusterInUseException_FromDafny(err)
-		}
-
-		if err.Is_InvalidKeyUsageException() {
-			return comamazonawskmssmithygenerated.InvalidKeyUsageException_FromDafny(err)
-		}
-
-		if err.Is_InvalidDecryptionMaterials() {
-			return InvalidDecryptionMaterials_FromDafny(err)
-		}
-
-		if err.Is_ResourceNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.ResourceNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_InvalidDecryptionMaterialsTransition() {
-			return InvalidDecryptionMaterialsTransition_FromDafny(err)
-		}
-
-		if err.Is_EntryDoesNotExist() {
-			return EntryDoesNotExist_FromDafny(err)
+		if err.Is_ResourceInUseException() {
+			return comamazonawsdynamodbsmithygenerated.ResourceInUseException_FromDafny(err)
 		}
 
 		if err.Is_EntryAlreadyExists() {
@@ -1115,60 +883,292 @@ func (this *CryptographicMaterialsCache) UpdateUsageMetadata(params awscryptogra
 			return comamazonawskmssmithygenerated.CustomKeyStoreNameInUseException_FromDafny(err)
 		}
 
-		if err.Is_PolicyNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.PolicyNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_GlobalTableNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.GlobalTableNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_ReplicaAlreadyExistsException() {
-			return comamazonawsdynamodbsmithygenerated.ReplicaAlreadyExistsException_FromDafny(err)
-		}
-
-		if err.Is_IncorrectKeyException() {
-			return comamazonawskmssmithygenerated.IncorrectKeyException_FromDafny(err)
-		}
-
-		if err.Is_KMSInvalidSignatureException() {
-			return comamazonawskmssmithygenerated.KMSInvalidSignatureException_FromDafny(err)
-		}
-
-		if err.Is_XksProxyInvalidResponseException() {
-			return comamazonawskmssmithygenerated.XksProxyInvalidResponseException_FromDafny(err)
-		}
-
-		if err.Is_CustomKeyStoreInvalidStateException() {
-			return comamazonawskmssmithygenerated.CustomKeyStoreInvalidStateException_FromDafny(err)
+		if err.Is_KMSInvalidStateException() {
+			return comamazonawskmssmithygenerated.KMSInvalidStateException_FromDafny(err)
 		}
 
 		if err.Is_ContinuousBackupsUnavailableException() {
 			return comamazonawsdynamodbsmithygenerated.ContinuousBackupsUnavailableException_FromDafny(err)
 		}
 
-		if err.Is_ResourceInUseException() {
-			return comamazonawsdynamodbsmithygenerated.ResourceInUseException_FromDafny(err)
+		if err.Is_CustomKeyStoreInvalidStateException() {
+			return comamazonawskmssmithygenerated.CustomKeyStoreInvalidStateException_FromDafny(err)
 		}
 
-		if err.Is_CloudHsmClusterNotActiveException() {
-			return comamazonawskmssmithygenerated.CloudHsmClusterNotActiveException_FromDafny(err)
+		if err.Is_IncorrectKeyException() {
+			return comamazonawskmssmithygenerated.IncorrectKeyException_FromDafny(err)
 		}
 
-		if err.Is_KMSInvalidStateException() {
-			return comamazonawskmssmithygenerated.KMSInvalidStateException_FromDafny(err)
+		if err.Is_DuplicateItemException() {
+			return comamazonawsdynamodbsmithygenerated.DuplicateItemException_FromDafny(err)
+		}
+
+		if err.Is_ItemCollectionSizeLimitExceededException() {
+			return comamazonawsdynamodbsmithygenerated.ItemCollectionSizeLimitExceededException_FromDafny(err)
 		}
 
 		if err.Is_InvalidAlgorithmSuiteInfo() {
 			return InvalidAlgorithmSuiteInfo_FromDafny(err)
 		}
 
+		if err.Is_AwsCryptographicMaterialProvidersException() {
+			return AwsCryptographicMaterialProvidersException_FromDafny(err)
+		}
+
 		if err.Is_XksKeyAlreadyInUseException() {
 			return comamazonawskmssmithygenerated.XksKeyAlreadyInUseException_FromDafny(err)
 		}
 
-		if err.Is_ItemCollectionSizeLimitExceededException() {
-			return comamazonawsdynamodbsmithygenerated.ItemCollectionSizeLimitExceededException_FromDafny(err)
+		if err.Is_TableInUseException() {
+			return comamazonawsdynamodbsmithygenerated.TableInUseException_FromDafny(err)
+		}
+
+		if err.Is_XksProxyInvalidResponseException() {
+			return comamazonawskmssmithygenerated.XksProxyInvalidResponseException_FromDafny(err)
+		}
+
+		if err.Is_IncorrectKeyMaterialException() {
+			return comamazonawskmssmithygenerated.IncorrectKeyMaterialException_FromDafny(err)
+		}
+
+		if err.Is_CloudHsmClusterNotRelatedException() {
+			return comamazonawskmssmithygenerated.CloudHsmClusterNotRelatedException_FromDafny(err)
+		}
+
+		if err.Is_InvalidDecryptionMaterialsTransition() {
+			return InvalidDecryptionMaterialsTransition_FromDafny(err)
+		}
+
+		if err.Is_TransactionConflictException() {
+			return comamazonawsdynamodbsmithygenerated.TransactionConflictException_FromDafny(err)
+		}
+
+		if err.Is_CloudHsmClusterNotFoundException() {
+			return comamazonawskmssmithygenerated.CloudHsmClusterNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_EntryDoesNotExist() {
+			return EntryDoesNotExist_FromDafny(err)
+		}
+
+		if err.Is_XksProxyVpcEndpointServiceNotFoundException() {
+			return comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_CloudHsmClusterInUseException() {
+			return comamazonawskmssmithygenerated.CloudHsmClusterInUseException_FromDafny(err)
+		}
+
+		if err.Is_InvalidKeyUsageException() {
+			return comamazonawskmssmithygenerated.InvalidKeyUsageException_FromDafny(err)
+		}
+
+		if err.Is_TagException() {
+			return comamazonawskmssmithygenerated.TagException_FromDafny(err)
+		}
+
+		if err.Is_InvalidDecryptionMaterials() {
+			return InvalidDecryptionMaterials_FromDafny(err)
+		}
+
+		if err.Is_GlobalTableNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.GlobalTableNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_InvalidCiphertextException() {
+			return comamazonawskmssmithygenerated.InvalidCiphertextException_FromDafny(err)
+		}
+
+		if err.Is_InvalidRestoreTimeException() {
+			return comamazonawsdynamodbsmithygenerated.InvalidRestoreTimeException_FromDafny(err)
+		}
+
+		if err.Is_UnsupportedOperationException() {
+			return comamazonawskmssmithygenerated.UnsupportedOperationException_FromDafny(err)
+		}
+
+		if err.Is_CloudHsmClusterNotActiveException() {
+			return comamazonawskmssmithygenerated.CloudHsmClusterNotActiveException_FromDafny(err)
+		}
+
+		if err.Is_MalformedPolicyDocumentException() {
+			return comamazonawskmssmithygenerated.MalformedPolicyDocumentException_FromDafny(err)
+		}
+
+		if err.Is_InvalidImportTokenException() {
+			return comamazonawskmssmithygenerated.InvalidImportTokenException_FromDafny(err)
+		}
+
+		if err.Is_LimitExceededException() {
+			return comamazonawsdynamodbsmithygenerated.LimitExceededException_FromDafny(err)
+		}
+
+		if err.Is_ImportNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.ImportNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_KeyStoreException() {
+			return awscryptographykeystoresmithygenerated.KeyStoreException_FromDafny(err)
+		}
+
+		if err.Is_ProvisionedThroughputExceededException() {
+			return comamazonawsdynamodbsmithygenerated.ProvisionedThroughputExceededException_FromDafny(err)
+		}
+
+		if err.Is_InvalidEncryptionMaterials() {
+			return InvalidEncryptionMaterials_FromDafny(err)
+		}
+
+		if err.Is_IncorrectTrustAnchorException() {
+			return comamazonawskmssmithygenerated.IncorrectTrustAnchorException_FromDafny(err)
+		}
+
+		if err.Is_InvalidAlgorithmSuiteInfoOnEncrypt() {
+			return InvalidAlgorithmSuiteInfoOnEncrypt_FromDafny(err)
+		}
+
+		if err.Is_AlreadyExistsException() {
+			return comamazonawskmssmithygenerated.AlreadyExistsException_FromDafny(err)
+		}
+
+		if err.Is_IdempotentParameterMismatchException() {
+			return comamazonawsdynamodbsmithygenerated.IdempotentParameterMismatchException_FromDafny(err)
+		}
+
+		if err.Is_KMSInvalidSignatureException() {
+			return comamazonawskmssmithygenerated.KMSInvalidSignatureException_FromDafny(err)
+		}
+
+		if err.Is_PointInTimeRecoveryUnavailableException() {
+			return comamazonawsdynamodbsmithygenerated.PointInTimeRecoveryUnavailableException_FromDafny(err)
+		}
+
+		if err.Is_InvalidAlgorithmSuiteInfoOnDecrypt() {
+			return InvalidAlgorithmSuiteInfoOnDecrypt_FromDafny(err)
+		}
+
+		if err.Is_TableNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.TableNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_XksProxyUriEndpointInUseException() {
+			return comamazonawskmssmithygenerated.XksProxyUriEndpointInUseException_FromDafny(err)
+		}
+
+		if err.Is_AwsCryptographicPrimitivesError() {
+			return awscryptographyprimitivessmithygenerated.AwsCryptographicPrimitivesError_FromDafny(err)
+		}
+
+		if err.Is_ExportNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.ExportNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_BackupInUseException() {
+			return comamazonawsdynamodbsmithygenerated.BackupInUseException_FromDafny(err)
+		}
+
+		if err.Is_ResourceNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.ResourceNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_KMSInternalException() {
+			return comamazonawskmssmithygenerated.KMSInternalException_FromDafny(err)
+		}
+
+		if err.Is_RequestLimitExceeded() {
+			return comamazonawsdynamodbsmithygenerated.RequestLimitExceeded_FromDafny(err)
+		}
+
+		if err.Is_NotFoundException() {
+			return comamazonawskmssmithygenerated.NotFoundException_FromDafny(err)
+		}
+
+		if err.Is_IndexNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.IndexNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_CustomKeyStoreNotFoundException() {
+			return comamazonawskmssmithygenerated.CustomKeyStoreNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_BackupNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.BackupNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_LimitExceededException() {
+			return comamazonawskmssmithygenerated.LimitExceededException_FromDafny(err)
+		}
+
+		if err.Is_CloudHsmClusterInvalidConfigurationException() {
+			return comamazonawskmssmithygenerated.CloudHsmClusterInvalidConfigurationException_FromDafny(err)
+		}
+
+		if err.Is_DependencyTimeoutException() {
+			return comamazonawskmssmithygenerated.DependencyTimeoutException_FromDafny(err)
+		}
+
+		if err.Is_XksProxyVpcEndpointServiceInUseException() {
+			return comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceInUseException_FromDafny(err)
+		}
+
+		if err.Is_InvalidGrantIdException() {
+			return comamazonawskmssmithygenerated.InvalidGrantIdException_FromDafny(err)
+		}
+
+		if err.Is_InvalidMarkerException() {
+			return comamazonawskmssmithygenerated.InvalidMarkerException_FromDafny(err)
+		}
+
+		if err.Is_TableAlreadyExistsException() {
+			return comamazonawsdynamodbsmithygenerated.TableAlreadyExistsException_FromDafny(err)
+		}
+
+		if err.Is_ExportConflictException() {
+			return comamazonawsdynamodbsmithygenerated.ExportConflictException_FromDafny(err)
+		}
+
+		if err.Is_TransactionCanceledException() {
+			return comamazonawsdynamodbsmithygenerated.TransactionCanceledException_FromDafny(err)
+		}
+
+		if err.Is_ConflictException() {
+			return comamazonawskmssmithygenerated.ConflictException_FromDafny(err)
+		}
+
+		if err.Is_XksProxyUriInUseException() {
+			return comamazonawskmssmithygenerated.XksProxyUriInUseException_FromDafny(err)
+		}
+
+		if err.Is_InvalidAliasNameException() {
+			return comamazonawskmssmithygenerated.InvalidAliasNameException_FromDafny(err)
+		}
+
+		if err.Is_DisabledException() {
+			return comamazonawskmssmithygenerated.DisabledException_FromDafny(err)
+		}
+
+		if err.Is_InvalidArnException() {
+			return comamazonawskmssmithygenerated.InvalidArnException_FromDafny(err)
+		}
+
+		if err.Is_ExpiredImportTokenException() {
+			return comamazonawskmssmithygenerated.ExpiredImportTokenException_FromDafny(err)
+		}
+
+		if err.Is_XksProxyIncorrectAuthenticationCredentialException() {
+			return comamazonawskmssmithygenerated.XksProxyIncorrectAuthenticationCredentialException_FromDafny(err)
+		}
+
+		if err.Is_KeyUnavailableException() {
+			return comamazonawskmssmithygenerated.KeyUnavailableException_FromDafny(err)
+		}
+
+		if err.Is_ReplicaNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.ReplicaNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_InvalidExportTimeException() {
+			return comamazonawsdynamodbsmithygenerated.InvalidExportTimeException_FromDafny(err)
 		}
 
 		if err.Is_CollectionOfErrors() {
@@ -1187,24 +1187,8 @@ func (this *CryptographicMaterialsCache) DeleteCacheEntry(params awscryptography
 
 	if dafny_response.Is_Failure() {
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
-		if err.Is_CustomKeyStoreHasCMKsException() {
-			return comamazonawskmssmithygenerated.CustomKeyStoreHasCMKsException_FromDafny(err)
-		}
-
-		if err.Is_TagException() {
-			return comamazonawskmssmithygenerated.TagException_FromDafny(err)
-		}
-
-		if err.Is_ImportConflictException() {
-			return comamazonawsdynamodbsmithygenerated.ImportConflictException_FromDafny(err)
-		}
-
-		if err.Is_TransactionConflictException() {
-			return comamazonawsdynamodbsmithygenerated.TransactionConflictException_FromDafny(err)
-		}
-
-		if err.Is_CloudHsmClusterNotFoundException() {
-			return comamazonawskmssmithygenerated.CloudHsmClusterNotFoundException_FromDafny(err)
+		if err.Is_XksKeyInvalidConfigurationException() {
+			return comamazonawskmssmithygenerated.XksKeyInvalidConfigurationException_FromDafny(err)
 		}
 
 		if err.Is_TransactionInProgressException() {
@@ -1215,284 +1199,68 @@ func (this *CryptographicMaterialsCache) DeleteCacheEntry(params awscryptography
 			return comamazonawskmssmithygenerated.InvalidGrantTokenException_FromDafny(err)
 		}
 
-		if err.Is_InvalidEncryptionMaterialsTransition() {
-			return InvalidEncryptionMaterialsTransition_FromDafny(err)
-		}
-
-		if err.Is_XksProxyVpcEndpointServiceInvalidConfigurationException() {
-			return comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceInvalidConfigurationException_FromDafny(err)
-		}
-
-		if err.Is_InvalidExportTimeException() {
-			return comamazonawsdynamodbsmithygenerated.InvalidExportTimeException_FromDafny(err)
-		}
-
-		if err.Is_XksKeyNotFoundException() {
-			return comamazonawskmssmithygenerated.XksKeyNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_XksProxyUriUnreachableException() {
-			return comamazonawskmssmithygenerated.XksProxyUriUnreachableException_FromDafny(err)
-		}
-
-		if err.Is_DryRunOperationException() {
-			return comamazonawskmssmithygenerated.DryRunOperationException_FromDafny(err)
-		}
-
-		if err.Is_KeyUnavailableException() {
-			return comamazonawskmssmithygenerated.KeyUnavailableException_FromDafny(err)
-		}
-
-		if err.Is_BackupInUseException() {
-			return comamazonawsdynamodbsmithygenerated.BackupInUseException_FromDafny(err)
-		}
-
-		if err.Is_IncorrectKeyMaterialException() {
-			return comamazonawskmssmithygenerated.IncorrectKeyMaterialException_FromDafny(err)
-		}
-
-		if err.Is_XksKeyInvalidConfigurationException() {
-			return comamazonawskmssmithygenerated.XksKeyInvalidConfigurationException_FromDafny(err)
+		if err.Is_GlobalTableAlreadyExistsException() {
+			return comamazonawsdynamodbsmithygenerated.GlobalTableAlreadyExistsException_FromDafny(err)
 		}
 
 		if err.Is_KMSInvalidMacException() {
 			return comamazonawskmssmithygenerated.KMSInvalidMacException_FromDafny(err)
 		}
 
-		if err.Is_InvalidGrantIdException() {
-			return comamazonawskmssmithygenerated.InvalidGrantIdException_FromDafny(err)
+		if err.Is_DryRunOperationException() {
+			return comamazonawskmssmithygenerated.DryRunOperationException_FromDafny(err)
 		}
 
-		if err.Is_GlobalTableAlreadyExistsException() {
-			return comamazonawsdynamodbsmithygenerated.GlobalTableAlreadyExistsException_FromDafny(err)
-		}
-
-		if err.Is_BackupNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.BackupNotFoundException_FromDafny(err)
+		if err.Is_XksProxyUriUnreachableException() {
+			return comamazonawskmssmithygenerated.XksProxyUriUnreachableException_FromDafny(err)
 		}
 
 		if err.Is_InternalServerError() {
 			return comamazonawsdynamodbsmithygenerated.InternalServerError_FromDafny(err)
 		}
 
-		if err.Is_DuplicateItemException() {
-			return comamazonawsdynamodbsmithygenerated.DuplicateItemException_FromDafny(err)
-		}
-
-		if err.Is_InvalidArnException() {
-			return comamazonawskmssmithygenerated.InvalidArnException_FromDafny(err)
-		}
-
-		if err.Is_NotFoundException() {
-			return comamazonawskmssmithygenerated.NotFoundException_FromDafny(err)
-		}
-
-		if err.Is_CustomKeyStoreNotFoundException() {
-			return comamazonawskmssmithygenerated.CustomKeyStoreNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_ExportConflictException() {
-			return comamazonawsdynamodbsmithygenerated.ExportConflictException_FromDafny(err)
-		}
-
-		if err.Is_TransactionCanceledException() {
-			return comamazonawsdynamodbsmithygenerated.TransactionCanceledException_FromDafny(err)
-		}
-
-		if err.Is_AlreadyExistsException() {
-			return comamazonawskmssmithygenerated.AlreadyExistsException_FromDafny(err)
+		if err.Is_InvalidEncryptionMaterialsTransition() {
+			return InvalidEncryptionMaterialsTransition_FromDafny(err)
 		}
 
 		if err.Is_ConditionalCheckFailedException() {
 			return comamazonawsdynamodbsmithygenerated.ConditionalCheckFailedException_FromDafny(err)
 		}
 
-		if err.Is_InvalidAliasNameException() {
-			return comamazonawskmssmithygenerated.InvalidAliasNameException_FromDafny(err)
+		if err.Is_InvalidEndpointException() {
+			return comamazonawsdynamodbsmithygenerated.InvalidEndpointException_FromDafny(err)
 		}
 
-		if err.Is_XksProxyUriInUseException() {
-			return comamazonawskmssmithygenerated.XksProxyUriInUseException_FromDafny(err)
+		if err.Is_ImportConflictException() {
+			return comamazonawsdynamodbsmithygenerated.ImportConflictException_FromDafny(err)
 		}
 
-		if err.Is_CloudHsmClusterInvalidConfigurationException() {
-			return comamazonawskmssmithygenerated.CloudHsmClusterInvalidConfigurationException_FromDafny(err)
+		if err.Is_ReplicaAlreadyExistsException() {
+			return comamazonawsdynamodbsmithygenerated.ReplicaAlreadyExistsException_FromDafny(err)
 		}
 
-		if err.Is_XksProxyUriEndpointInUseException() {
-			return comamazonawskmssmithygenerated.XksProxyUriEndpointInUseException_FromDafny(err)
+		if err.Is_XksKeyNotFoundException() {
+			return comamazonawskmssmithygenerated.XksKeyNotFoundException_FromDafny(err)
 		}
 
-		if err.Is_XksProxyVpcEndpointServiceInUseException() {
-			return comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceInUseException_FromDafny(err)
+		if err.Is_CustomKeyStoreHasCMKsException() {
+			return comamazonawskmssmithygenerated.CustomKeyStoreHasCMKsException_FromDafny(err)
 		}
 
-		if err.Is_AwsCryptographicPrimitivesError() {
-			return awscryptographyprimitivessmithygenerated.AwsCryptographicPrimitivesError_FromDafny(err)
+		if err.Is_XksProxyVpcEndpointServiceInvalidConfigurationException() {
+			return comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceInvalidConfigurationException_FromDafny(err)
 		}
 
-		if err.Is_TableAlreadyExistsException() {
-			return comamazonawsdynamodbsmithygenerated.TableAlreadyExistsException_FromDafny(err)
-		}
-
-		if err.Is_XksProxyIncorrectAuthenticationCredentialException() {
-			return comamazonawskmssmithygenerated.XksProxyIncorrectAuthenticationCredentialException_FromDafny(err)
-		}
-
-		if err.Is_TableNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.TableNotFoundException_FromDafny(err)
+		if err.Is_PolicyNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.PolicyNotFoundException_FromDafny(err)
 		}
 
 		if err.Is_XksProxyInvalidConfigurationException() {
 			return comamazonawskmssmithygenerated.XksProxyInvalidConfigurationException_FromDafny(err)
 		}
 
-		if err.Is_DisabledException() {
-			return comamazonawskmssmithygenerated.DisabledException_FromDafny(err)
-		}
-
-		if err.Is_IndexNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.IndexNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_InvalidEndpointException() {
-			return comamazonawsdynamodbsmithygenerated.InvalidEndpointException_FromDafny(err)
-		}
-
-		if err.Is_RequestLimitExceeded() {
-			return comamazonawsdynamodbsmithygenerated.RequestLimitExceeded_FromDafny(err)
-		}
-
-		if err.Is_InvalidRestoreTimeException() {
-			return comamazonawsdynamodbsmithygenerated.InvalidRestoreTimeException_FromDafny(err)
-		}
-
-		if err.Is_InvalidEncryptionMaterials() {
-			return InvalidEncryptionMaterials_FromDafny(err)
-		}
-
-		if err.Is_ExportNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.ExportNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_InvalidImportTokenException() {
-			return comamazonawskmssmithygenerated.InvalidImportTokenException_FromDafny(err)
-		}
-
-		if err.Is_XksProxyVpcEndpointServiceNotFoundException() {
-			return comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_IdempotentParameterMismatchException() {
-			return comamazonawsdynamodbsmithygenerated.IdempotentParameterMismatchException_FromDafny(err)
-		}
-
-		if err.Is_InvalidAlgorithmSuiteInfoOnEncrypt() {
-			return InvalidAlgorithmSuiteInfoOnEncrypt_FromDafny(err)
-		}
-
-		if err.Is_MalformedPolicyDocumentException() {
-			return comamazonawskmssmithygenerated.MalformedPolicyDocumentException_FromDafny(err)
-		}
-
-		if err.Is_DependencyTimeoutException() {
-			return comamazonawskmssmithygenerated.DependencyTimeoutException_FromDafny(err)
-		}
-
-		if err.Is_CloudHsmClusterNotRelatedException() {
-			return comamazonawskmssmithygenerated.CloudHsmClusterNotRelatedException_FromDafny(err)
-		}
-
-		if err.Is_InvalidCiphertextException() {
-			return comamazonawskmssmithygenerated.InvalidCiphertextException_FromDafny(err)
-		}
-
-		if err.Is_UnsupportedOperationException() {
-			return comamazonawskmssmithygenerated.UnsupportedOperationException_FromDafny(err)
-		}
-
-		if err.Is_TableInUseException() {
-			return comamazonawsdynamodbsmithygenerated.TableInUseException_FromDafny(err)
-		}
-
-		if err.Is_PointInTimeRecoveryUnavailableException() {
-			return comamazonawsdynamodbsmithygenerated.PointInTimeRecoveryUnavailableException_FromDafny(err)
-		}
-
-		if err.Is_InvalidAlgorithmSuiteInfoOnDecrypt() {
-			return InvalidAlgorithmSuiteInfoOnDecrypt_FromDafny(err)
-		}
-
-		if err.Is_ReplicaNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.ReplicaNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_LimitExceededException() {
-			return comamazonawsdynamodbsmithygenerated.LimitExceededException_FromDafny(err)
-		}
-
-		if err.Is_ExpiredImportTokenException() {
-			return comamazonawskmssmithygenerated.ExpiredImportTokenException_FromDafny(err)
-		}
-
-		if err.Is_KMSInternalException() {
-			return comamazonawskmssmithygenerated.KMSInternalException_FromDafny(err)
-		}
-
-		if err.Is_IncorrectTrustAnchorException() {
-			return comamazonawskmssmithygenerated.IncorrectTrustAnchorException_FromDafny(err)
-		}
-
-		if err.Is_ConflictException() {
-			return comamazonawskmssmithygenerated.ConflictException_FromDafny(err)
-		}
-
-		if err.Is_ProvisionedThroughputExceededException() {
-			return comamazonawsdynamodbsmithygenerated.ProvisionedThroughputExceededException_FromDafny(err)
-		}
-
-		if err.Is_InvalidMarkerException() {
-			return comamazonawskmssmithygenerated.InvalidMarkerException_FromDafny(err)
-		}
-
-		if err.Is_LimitExceededException() {
-			return comamazonawskmssmithygenerated.LimitExceededException_FromDafny(err)
-		}
-
-		if err.Is_AwsCryptographicMaterialProvidersException() {
-			return AwsCryptographicMaterialProvidersException_FromDafny(err)
-		}
-
-		if err.Is_ImportNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.ImportNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_KeyStoreException() {
-			return awscryptographykeystoresmithygenerated.KeyStoreException_FromDafny(err)
-		}
-
-		if err.Is_CloudHsmClusterInUseException() {
-			return comamazonawskmssmithygenerated.CloudHsmClusterInUseException_FromDafny(err)
-		}
-
-		if err.Is_InvalidKeyUsageException() {
-			return comamazonawskmssmithygenerated.InvalidKeyUsageException_FromDafny(err)
-		}
-
-		if err.Is_InvalidDecryptionMaterials() {
-			return InvalidDecryptionMaterials_FromDafny(err)
-		}
-
-		if err.Is_ResourceNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.ResourceNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_InvalidDecryptionMaterialsTransition() {
-			return InvalidDecryptionMaterialsTransition_FromDafny(err)
-		}
-
-		if err.Is_EntryDoesNotExist() {
-			return EntryDoesNotExist_FromDafny(err)
+		if err.Is_ResourceInUseException() {
+			return comamazonawsdynamodbsmithygenerated.ResourceInUseException_FromDafny(err)
 		}
 
 		if err.Is_EntryAlreadyExists() {
@@ -1503,60 +1271,292 @@ func (this *CryptographicMaterialsCache) DeleteCacheEntry(params awscryptography
 			return comamazonawskmssmithygenerated.CustomKeyStoreNameInUseException_FromDafny(err)
 		}
 
-		if err.Is_PolicyNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.PolicyNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_GlobalTableNotFoundException() {
-			return comamazonawsdynamodbsmithygenerated.GlobalTableNotFoundException_FromDafny(err)
-		}
-
-		if err.Is_ReplicaAlreadyExistsException() {
-			return comamazonawsdynamodbsmithygenerated.ReplicaAlreadyExistsException_FromDafny(err)
-		}
-
-		if err.Is_IncorrectKeyException() {
-			return comamazonawskmssmithygenerated.IncorrectKeyException_FromDafny(err)
-		}
-
-		if err.Is_KMSInvalidSignatureException() {
-			return comamazonawskmssmithygenerated.KMSInvalidSignatureException_FromDafny(err)
-		}
-
-		if err.Is_XksProxyInvalidResponseException() {
-			return comamazonawskmssmithygenerated.XksProxyInvalidResponseException_FromDafny(err)
-		}
-
-		if err.Is_CustomKeyStoreInvalidStateException() {
-			return comamazonawskmssmithygenerated.CustomKeyStoreInvalidStateException_FromDafny(err)
+		if err.Is_KMSInvalidStateException() {
+			return comamazonawskmssmithygenerated.KMSInvalidStateException_FromDafny(err)
 		}
 
 		if err.Is_ContinuousBackupsUnavailableException() {
 			return comamazonawsdynamodbsmithygenerated.ContinuousBackupsUnavailableException_FromDafny(err)
 		}
 
-		if err.Is_ResourceInUseException() {
-			return comamazonawsdynamodbsmithygenerated.ResourceInUseException_FromDafny(err)
+		if err.Is_CustomKeyStoreInvalidStateException() {
+			return comamazonawskmssmithygenerated.CustomKeyStoreInvalidStateException_FromDafny(err)
 		}
 
-		if err.Is_CloudHsmClusterNotActiveException() {
-			return comamazonawskmssmithygenerated.CloudHsmClusterNotActiveException_FromDafny(err)
+		if err.Is_IncorrectKeyException() {
+			return comamazonawskmssmithygenerated.IncorrectKeyException_FromDafny(err)
 		}
 
-		if err.Is_KMSInvalidStateException() {
-			return comamazonawskmssmithygenerated.KMSInvalidStateException_FromDafny(err)
+		if err.Is_DuplicateItemException() {
+			return comamazonawsdynamodbsmithygenerated.DuplicateItemException_FromDafny(err)
+		}
+
+		if err.Is_ItemCollectionSizeLimitExceededException() {
+			return comamazonawsdynamodbsmithygenerated.ItemCollectionSizeLimitExceededException_FromDafny(err)
 		}
 
 		if err.Is_InvalidAlgorithmSuiteInfo() {
 			return InvalidAlgorithmSuiteInfo_FromDafny(err)
 		}
 
+		if err.Is_AwsCryptographicMaterialProvidersException() {
+			return AwsCryptographicMaterialProvidersException_FromDafny(err)
+		}
+
 		if err.Is_XksKeyAlreadyInUseException() {
 			return comamazonawskmssmithygenerated.XksKeyAlreadyInUseException_FromDafny(err)
 		}
 
-		if err.Is_ItemCollectionSizeLimitExceededException() {
-			return comamazonawsdynamodbsmithygenerated.ItemCollectionSizeLimitExceededException_FromDafny(err)
+		if err.Is_TableInUseException() {
+			return comamazonawsdynamodbsmithygenerated.TableInUseException_FromDafny(err)
+		}
+
+		if err.Is_XksProxyInvalidResponseException() {
+			return comamazonawskmssmithygenerated.XksProxyInvalidResponseException_FromDafny(err)
+		}
+
+		if err.Is_IncorrectKeyMaterialException() {
+			return comamazonawskmssmithygenerated.IncorrectKeyMaterialException_FromDafny(err)
+		}
+
+		if err.Is_CloudHsmClusterNotRelatedException() {
+			return comamazonawskmssmithygenerated.CloudHsmClusterNotRelatedException_FromDafny(err)
+		}
+
+		if err.Is_InvalidDecryptionMaterialsTransition() {
+			return InvalidDecryptionMaterialsTransition_FromDafny(err)
+		}
+
+		if err.Is_TransactionConflictException() {
+			return comamazonawsdynamodbsmithygenerated.TransactionConflictException_FromDafny(err)
+		}
+
+		if err.Is_CloudHsmClusterNotFoundException() {
+			return comamazonawskmssmithygenerated.CloudHsmClusterNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_EntryDoesNotExist() {
+			return EntryDoesNotExist_FromDafny(err)
+		}
+
+		if err.Is_XksProxyVpcEndpointServiceNotFoundException() {
+			return comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_CloudHsmClusterInUseException() {
+			return comamazonawskmssmithygenerated.CloudHsmClusterInUseException_FromDafny(err)
+		}
+
+		if err.Is_InvalidKeyUsageException() {
+			return comamazonawskmssmithygenerated.InvalidKeyUsageException_FromDafny(err)
+		}
+
+		if err.Is_TagException() {
+			return comamazonawskmssmithygenerated.TagException_FromDafny(err)
+		}
+
+		if err.Is_InvalidDecryptionMaterials() {
+			return InvalidDecryptionMaterials_FromDafny(err)
+		}
+
+		if err.Is_GlobalTableNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.GlobalTableNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_InvalidCiphertextException() {
+			return comamazonawskmssmithygenerated.InvalidCiphertextException_FromDafny(err)
+		}
+
+		if err.Is_InvalidRestoreTimeException() {
+			return comamazonawsdynamodbsmithygenerated.InvalidRestoreTimeException_FromDafny(err)
+		}
+
+		if err.Is_UnsupportedOperationException() {
+			return comamazonawskmssmithygenerated.UnsupportedOperationException_FromDafny(err)
+		}
+
+		if err.Is_CloudHsmClusterNotActiveException() {
+			return comamazonawskmssmithygenerated.CloudHsmClusterNotActiveException_FromDafny(err)
+		}
+
+		if err.Is_MalformedPolicyDocumentException() {
+			return comamazonawskmssmithygenerated.MalformedPolicyDocumentException_FromDafny(err)
+		}
+
+		if err.Is_InvalidImportTokenException() {
+			return comamazonawskmssmithygenerated.InvalidImportTokenException_FromDafny(err)
+		}
+
+		if err.Is_LimitExceededException() {
+			return comamazonawsdynamodbsmithygenerated.LimitExceededException_FromDafny(err)
+		}
+
+		if err.Is_ImportNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.ImportNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_KeyStoreException() {
+			return awscryptographykeystoresmithygenerated.KeyStoreException_FromDafny(err)
+		}
+
+		if err.Is_ProvisionedThroughputExceededException() {
+			return comamazonawsdynamodbsmithygenerated.ProvisionedThroughputExceededException_FromDafny(err)
+		}
+
+		if err.Is_InvalidEncryptionMaterials() {
+			return InvalidEncryptionMaterials_FromDafny(err)
+		}
+
+		if err.Is_IncorrectTrustAnchorException() {
+			return comamazonawskmssmithygenerated.IncorrectTrustAnchorException_FromDafny(err)
+		}
+
+		if err.Is_InvalidAlgorithmSuiteInfoOnEncrypt() {
+			return InvalidAlgorithmSuiteInfoOnEncrypt_FromDafny(err)
+		}
+
+		if err.Is_AlreadyExistsException() {
+			return comamazonawskmssmithygenerated.AlreadyExistsException_FromDafny(err)
+		}
+
+		if err.Is_IdempotentParameterMismatchException() {
+			return comamazonawsdynamodbsmithygenerated.IdempotentParameterMismatchException_FromDafny(err)
+		}
+
+		if err.Is_KMSInvalidSignatureException() {
+			return comamazonawskmssmithygenerated.KMSInvalidSignatureException_FromDafny(err)
+		}
+
+		if err.Is_PointInTimeRecoveryUnavailableException() {
+			return comamazonawsdynamodbsmithygenerated.PointInTimeRecoveryUnavailableException_FromDafny(err)
+		}
+
+		if err.Is_InvalidAlgorithmSuiteInfoOnDecrypt() {
+			return InvalidAlgorithmSuiteInfoOnDecrypt_FromDafny(err)
+		}
+
+		if err.Is_TableNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.TableNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_XksProxyUriEndpointInUseException() {
+			return comamazonawskmssmithygenerated.XksProxyUriEndpointInUseException_FromDafny(err)
+		}
+
+		if err.Is_AwsCryptographicPrimitivesError() {
+			return awscryptographyprimitivessmithygenerated.AwsCryptographicPrimitivesError_FromDafny(err)
+		}
+
+		if err.Is_ExportNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.ExportNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_BackupInUseException() {
+			return comamazonawsdynamodbsmithygenerated.BackupInUseException_FromDafny(err)
+		}
+
+		if err.Is_ResourceNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.ResourceNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_KMSInternalException() {
+			return comamazonawskmssmithygenerated.KMSInternalException_FromDafny(err)
+		}
+
+		if err.Is_RequestLimitExceeded() {
+			return comamazonawsdynamodbsmithygenerated.RequestLimitExceeded_FromDafny(err)
+		}
+
+		if err.Is_NotFoundException() {
+			return comamazonawskmssmithygenerated.NotFoundException_FromDafny(err)
+		}
+
+		if err.Is_IndexNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.IndexNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_CustomKeyStoreNotFoundException() {
+			return comamazonawskmssmithygenerated.CustomKeyStoreNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_BackupNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.BackupNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_LimitExceededException() {
+			return comamazonawskmssmithygenerated.LimitExceededException_FromDafny(err)
+		}
+
+		if err.Is_CloudHsmClusterInvalidConfigurationException() {
+			return comamazonawskmssmithygenerated.CloudHsmClusterInvalidConfigurationException_FromDafny(err)
+		}
+
+		if err.Is_DependencyTimeoutException() {
+			return comamazonawskmssmithygenerated.DependencyTimeoutException_FromDafny(err)
+		}
+
+		if err.Is_XksProxyVpcEndpointServiceInUseException() {
+			return comamazonawskmssmithygenerated.XksProxyVpcEndpointServiceInUseException_FromDafny(err)
+		}
+
+		if err.Is_InvalidGrantIdException() {
+			return comamazonawskmssmithygenerated.InvalidGrantIdException_FromDafny(err)
+		}
+
+		if err.Is_InvalidMarkerException() {
+			return comamazonawskmssmithygenerated.InvalidMarkerException_FromDafny(err)
+		}
+
+		if err.Is_TableAlreadyExistsException() {
+			return comamazonawsdynamodbsmithygenerated.TableAlreadyExistsException_FromDafny(err)
+		}
+
+		if err.Is_ExportConflictException() {
+			return comamazonawsdynamodbsmithygenerated.ExportConflictException_FromDafny(err)
+		}
+
+		if err.Is_TransactionCanceledException() {
+			return comamazonawsdynamodbsmithygenerated.TransactionCanceledException_FromDafny(err)
+		}
+
+		if err.Is_ConflictException() {
+			return comamazonawskmssmithygenerated.ConflictException_FromDafny(err)
+		}
+
+		if err.Is_XksProxyUriInUseException() {
+			return comamazonawskmssmithygenerated.XksProxyUriInUseException_FromDafny(err)
+		}
+
+		if err.Is_InvalidAliasNameException() {
+			return comamazonawskmssmithygenerated.InvalidAliasNameException_FromDafny(err)
+		}
+
+		if err.Is_DisabledException() {
+			return comamazonawskmssmithygenerated.DisabledException_FromDafny(err)
+		}
+
+		if err.Is_InvalidArnException() {
+			return comamazonawskmssmithygenerated.InvalidArnException_FromDafny(err)
+		}
+
+		if err.Is_ExpiredImportTokenException() {
+			return comamazonawskmssmithygenerated.ExpiredImportTokenException_FromDafny(err)
+		}
+
+		if err.Is_XksProxyIncorrectAuthenticationCredentialException() {
+			return comamazonawskmssmithygenerated.XksProxyIncorrectAuthenticationCredentialException_FromDafny(err)
+		}
+
+		if err.Is_KeyUnavailableException() {
+			return comamazonawskmssmithygenerated.KeyUnavailableException_FromDafny(err)
+		}
+
+		if err.Is_ReplicaNotFoundException() {
+			return comamazonawsdynamodbsmithygenerated.ReplicaNotFoundException_FromDafny(err)
+		}
+
+		if err.Is_InvalidExportTimeException() {
+			return comamazonawsdynamodbsmithygenerated.InvalidExportTimeException_FromDafny(err)
 		}
 
 		if err.Is_CollectionOfErrors() {

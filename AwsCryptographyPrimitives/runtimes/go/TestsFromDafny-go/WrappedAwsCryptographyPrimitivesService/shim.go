@@ -7,7 +7,6 @@ import (
 
 	"github.com/aws/aws-cryptographic-material-providers-library/primitives/AwsCryptographyPrimitivesTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/primitives/awscryptographyprimitivessmithygenerated"
-	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
 )
 
@@ -20,7 +19,7 @@ func (_static *CompanionStruct_Default___) WrappedAtomicPrimitives(inputConfig A
 	var nativeConfig = awscryptographyprimitivessmithygenerated.CryptoConfig_FromDafny(inputConfig)
 	var nativeClient, nativeError = awscryptographyprimitivessmithygenerated.NewClient(nativeConfig)
 	if nativeError != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_Opaque_(nativeError, dafny.SeqOfChars([]dafny.Char(nativeError.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_Opaque_(nativeError))
 	}
 	return Wrappers.Companion_Result_.Create_Success_(&Shim{client: nativeClient})
 }
@@ -31,7 +30,7 @@ func (shim *Shim) GenerateRandomBytes(input AwsCryptographyPrimitivesTypes.Gener
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographyprimitivessmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographyprimitivessmithygenerated.GenerateRandomBytesOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) Digest(input AwsCryptographyPrimitivesTypes.DigestInput) Wrappers.Result {
@@ -40,7 +39,7 @@ func (shim *Shim) Digest(input AwsCryptographyPrimitivesTypes.DigestInput) Wrapp
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographyprimitivessmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographyprimitivessmithygenerated.DigestOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) HMac(input AwsCryptographyPrimitivesTypes.HMacInput) Wrappers.Result {
@@ -49,7 +48,7 @@ func (shim *Shim) HMac(input AwsCryptographyPrimitivesTypes.HMacInput) Wrappers.
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographyprimitivessmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographyprimitivessmithygenerated.HMacOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) HkdfExtract(input AwsCryptographyPrimitivesTypes.HkdfExtractInput) Wrappers.Result {
@@ -58,7 +57,7 @@ func (shim *Shim) HkdfExtract(input AwsCryptographyPrimitivesTypes.HkdfExtractIn
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographyprimitivessmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographyprimitivessmithygenerated.HkdfExtractOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) HkdfExpand(input AwsCryptographyPrimitivesTypes.HkdfExpandInput) Wrappers.Result {
@@ -67,7 +66,7 @@ func (shim *Shim) HkdfExpand(input AwsCryptographyPrimitivesTypes.HkdfExpandInpu
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographyprimitivessmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographyprimitivessmithygenerated.HkdfExpandOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) Hkdf(input AwsCryptographyPrimitivesTypes.HkdfInput) Wrappers.Result {
@@ -76,7 +75,7 @@ func (shim *Shim) Hkdf(input AwsCryptographyPrimitivesTypes.HkdfInput) Wrappers.
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographyprimitivessmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographyprimitivessmithygenerated.HkdfOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) KdfCounterMode(input AwsCryptographyPrimitivesTypes.KdfCtrInput) Wrappers.Result {
@@ -85,7 +84,7 @@ func (shim *Shim) KdfCounterMode(input AwsCryptographyPrimitivesTypes.KdfCtrInpu
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographyprimitivessmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographyprimitivessmithygenerated.KdfCtrOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) AesKdfCounterMode(input AwsCryptographyPrimitivesTypes.AesKdfCtrInput) Wrappers.Result {
@@ -94,7 +93,7 @@ func (shim *Shim) AesKdfCounterMode(input AwsCryptographyPrimitivesTypes.AesKdfC
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographyprimitivessmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographyprimitivessmithygenerated.AesKdfCtrOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) AESEncrypt(input AwsCryptographyPrimitivesTypes.AESEncryptInput) Wrappers.Result {
@@ -112,7 +111,7 @@ func (shim *Shim) AESDecrypt(input AwsCryptographyPrimitivesTypes.AESDecryptInpu
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographyprimitivessmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographyprimitivessmithygenerated.AESDecryptOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) GenerateRSAKeyPair(input AwsCryptographyPrimitivesTypes.GenerateRSAKeyPairInput) Wrappers.Result {
@@ -139,7 +138,7 @@ func (shim *Shim) RSADecrypt(input AwsCryptographyPrimitivesTypes.RSADecryptInpu
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographyprimitivessmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographyprimitivessmithygenerated.RSADecryptOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) RSAEncrypt(input AwsCryptographyPrimitivesTypes.RSAEncryptInput) Wrappers.Result {
@@ -148,7 +147,7 @@ func (shim *Shim) RSAEncrypt(input AwsCryptographyPrimitivesTypes.RSAEncryptInpu
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographyprimitivessmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographyprimitivessmithygenerated.RSAEncryptOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) GenerateECDSASignatureKey(input AwsCryptographyPrimitivesTypes.GenerateECDSASignatureKeyInput) Wrappers.Result {
@@ -166,7 +165,7 @@ func (shim *Shim) ECDSASign(input AwsCryptographyPrimitivesTypes.ECDSASignInput)
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographyprimitivessmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographyprimitivessmithygenerated.ECDSASignOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) ECDSAVerify(input AwsCryptographyPrimitivesTypes.ECDSAVerifyInput) Wrappers.Result {
@@ -175,7 +174,7 @@ func (shim *Shim) ECDSAVerify(input AwsCryptographyPrimitivesTypes.ECDSAVerifyIn
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographyprimitivessmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographyprimitivessmithygenerated.ECDSAVerifyOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) GenerateECCKeyPair(input AwsCryptographyPrimitivesTypes.GenerateECCKeyPairInput) Wrappers.Result {

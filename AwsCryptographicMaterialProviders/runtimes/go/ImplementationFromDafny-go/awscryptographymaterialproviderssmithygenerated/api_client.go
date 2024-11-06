@@ -8,6 +8,7 @@ import (
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/AwsCryptographyMaterialProvidersTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/MaterialProviders"
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/awscryptographymaterialproviderssmithygeneratedtypes"
+	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 )
 
 type Client struct {
@@ -25,7 +26,7 @@ func NewClient(clientConfig awscryptographymaterialproviderssmithygeneratedtypes
 	return client, nil
 }
 
-func (client *Client) CreateAwsKmsKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsKeyringInput) (*awscryptographymaterialproviderssmithygeneratedtypes.CreateKeyringOutput, error) {
+func (client *Client) CreateAwsKmsKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsKeyringInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographymaterialproviderssmithygeneratedtypes.OpaqueError{
@@ -40,12 +41,12 @@ func (client *Client) CreateAwsKmsKeyring(ctx context.Context, params awscryptog
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = CreateKeyringOutput_FromDafny(dafny_response.Extract().(AwsCryptographyMaterialProvidersTypes.CreateKeyringOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) CreateAwsKmsDiscoveryKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsDiscoveryKeyringInput) (*awscryptographymaterialproviderssmithygeneratedtypes.CreateKeyringOutput, error) {
+func (client *Client) CreateAwsKmsDiscoveryKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsDiscoveryKeyringInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographymaterialproviderssmithygeneratedtypes.OpaqueError{
@@ -60,12 +61,12 @@ func (client *Client) CreateAwsKmsDiscoveryKeyring(ctx context.Context, params a
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = CreateKeyringOutput_FromDafny(dafny_response.Extract().(AwsCryptographyMaterialProvidersTypes.CreateKeyringOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) CreateAwsKmsMultiKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMultiKeyringInput) (*awscryptographymaterialproviderssmithygeneratedtypes.CreateKeyringOutput, error) {
+func (client *Client) CreateAwsKmsMultiKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMultiKeyringInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographymaterialproviderssmithygeneratedtypes.OpaqueError{
@@ -80,12 +81,12 @@ func (client *Client) CreateAwsKmsMultiKeyring(ctx context.Context, params awscr
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = CreateKeyringOutput_FromDafny(dafny_response.Extract().(AwsCryptographyMaterialProvidersTypes.CreateKeyringOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) CreateAwsKmsDiscoveryMultiKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsDiscoveryMultiKeyringInput) (*awscryptographymaterialproviderssmithygeneratedtypes.CreateKeyringOutput, error) {
+func (client *Client) CreateAwsKmsDiscoveryMultiKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsDiscoveryMultiKeyringInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographymaterialproviderssmithygeneratedtypes.OpaqueError{
@@ -100,12 +101,12 @@ func (client *Client) CreateAwsKmsDiscoveryMultiKeyring(ctx context.Context, par
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = CreateKeyringOutput_FromDafny(dafny_response.Extract().(AwsCryptographyMaterialProvidersTypes.CreateKeyringOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) CreateAwsKmsMrkKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMrkKeyringInput) (*awscryptographymaterialproviderssmithygeneratedtypes.CreateKeyringOutput, error) {
+func (client *Client) CreateAwsKmsMrkKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMrkKeyringInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographymaterialproviderssmithygeneratedtypes.OpaqueError{
@@ -120,12 +121,12 @@ func (client *Client) CreateAwsKmsMrkKeyring(ctx context.Context, params awscryp
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = CreateKeyringOutput_FromDafny(dafny_response.Extract().(AwsCryptographyMaterialProvidersTypes.CreateKeyringOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) CreateAwsKmsMrkMultiKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMrkMultiKeyringInput) (*awscryptographymaterialproviderssmithygeneratedtypes.CreateKeyringOutput, error) {
+func (client *Client) CreateAwsKmsMrkMultiKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMrkMultiKeyringInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographymaterialproviderssmithygeneratedtypes.OpaqueError{
@@ -140,12 +141,12 @@ func (client *Client) CreateAwsKmsMrkMultiKeyring(ctx context.Context, params aw
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = CreateKeyringOutput_FromDafny(dafny_response.Extract().(AwsCryptographyMaterialProvidersTypes.CreateKeyringOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) CreateAwsKmsMrkDiscoveryKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMrkDiscoveryKeyringInput) (*awscryptographymaterialproviderssmithygeneratedtypes.CreateKeyringOutput, error) {
+func (client *Client) CreateAwsKmsMrkDiscoveryKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMrkDiscoveryKeyringInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographymaterialproviderssmithygeneratedtypes.OpaqueError{
@@ -160,12 +161,12 @@ func (client *Client) CreateAwsKmsMrkDiscoveryKeyring(ctx context.Context, param
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = CreateKeyringOutput_FromDafny(dafny_response.Extract().(AwsCryptographyMaterialProvidersTypes.CreateKeyringOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) CreateAwsKmsMrkDiscoveryMultiKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMrkDiscoveryMultiKeyringInput) (*awscryptographymaterialproviderssmithygeneratedtypes.CreateKeyringOutput, error) {
+func (client *Client) CreateAwsKmsMrkDiscoveryMultiKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMrkDiscoveryMultiKeyringInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographymaterialproviderssmithygeneratedtypes.OpaqueError{
@@ -180,12 +181,12 @@ func (client *Client) CreateAwsKmsMrkDiscoveryMultiKeyring(ctx context.Context, 
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = CreateKeyringOutput_FromDafny(dafny_response.Extract().(AwsCryptographyMaterialProvidersTypes.CreateKeyringOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) CreateAwsKmsHierarchicalKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsHierarchicalKeyringInput) (*awscryptographymaterialproviderssmithygeneratedtypes.CreateKeyringOutput, error) {
+func (client *Client) CreateAwsKmsHierarchicalKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsHierarchicalKeyringInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographymaterialproviderssmithygeneratedtypes.OpaqueError{
@@ -200,12 +201,12 @@ func (client *Client) CreateAwsKmsHierarchicalKeyring(ctx context.Context, param
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = CreateKeyringOutput_FromDafny(dafny_response.Extract().(AwsCryptographyMaterialProvidersTypes.CreateKeyringOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) CreateAwsKmsRsaKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsRsaKeyringInput) (*awscryptographymaterialproviderssmithygeneratedtypes.CreateKeyringOutput, error) {
+func (client *Client) CreateAwsKmsRsaKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsRsaKeyringInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographymaterialproviderssmithygeneratedtypes.OpaqueError{
@@ -220,12 +221,12 @@ func (client *Client) CreateAwsKmsRsaKeyring(ctx context.Context, params awscryp
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = CreateKeyringOutput_FromDafny(dafny_response.Extract().(AwsCryptographyMaterialProvidersTypes.CreateKeyringOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) CreateAwsKmsEcdhKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsEcdhKeyringInput) (*awscryptographymaterialproviderssmithygeneratedtypes.CreateKeyringOutput, error) {
+func (client *Client) CreateAwsKmsEcdhKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsEcdhKeyringInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographymaterialproviderssmithygeneratedtypes.OpaqueError{
@@ -240,12 +241,12 @@ func (client *Client) CreateAwsKmsEcdhKeyring(ctx context.Context, params awscry
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = CreateKeyringOutput_FromDafny(dafny_response.Extract().(AwsCryptographyMaterialProvidersTypes.CreateKeyringOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) CreateMultiKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateMultiKeyringInput) (*awscryptographymaterialproviderssmithygeneratedtypes.CreateKeyringOutput, error) {
+func (client *Client) CreateMultiKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateMultiKeyringInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographymaterialproviderssmithygeneratedtypes.OpaqueError{
@@ -260,12 +261,12 @@ func (client *Client) CreateMultiKeyring(ctx context.Context, params awscryptogr
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = CreateKeyringOutput_FromDafny(dafny_response.Extract().(AwsCryptographyMaterialProvidersTypes.CreateKeyringOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) CreateRawAesKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateRawAesKeyringInput) (*awscryptographymaterialproviderssmithygeneratedtypes.CreateKeyringOutput, error) {
+func (client *Client) CreateRawAesKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateRawAesKeyringInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographymaterialproviderssmithygeneratedtypes.OpaqueError{
@@ -280,12 +281,12 @@ func (client *Client) CreateRawAesKeyring(ctx context.Context, params awscryptog
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = CreateKeyringOutput_FromDafny(dafny_response.Extract().(AwsCryptographyMaterialProvidersTypes.CreateKeyringOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) CreateRawRsaKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateRawRsaKeyringInput) (*awscryptographymaterialproviderssmithygeneratedtypes.CreateKeyringOutput, error) {
+func (client *Client) CreateRawRsaKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateRawRsaKeyringInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographymaterialproviderssmithygeneratedtypes.OpaqueError{
@@ -300,12 +301,12 @@ func (client *Client) CreateRawRsaKeyring(ctx context.Context, params awscryptog
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = CreateKeyringOutput_FromDafny(dafny_response.Extract().(AwsCryptographyMaterialProvidersTypes.CreateKeyringOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) CreateRawEcdhKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateRawEcdhKeyringInput) (*awscryptographymaterialproviderssmithygeneratedtypes.CreateKeyringOutput, error) {
+func (client *Client) CreateRawEcdhKeyring(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateRawEcdhKeyringInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographymaterialproviderssmithygeneratedtypes.OpaqueError{
@@ -320,12 +321,12 @@ func (client *Client) CreateRawEcdhKeyring(ctx context.Context, params awscrypto
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = CreateKeyringOutput_FromDafny(dafny_response.Extract().(AwsCryptographyMaterialProvidersTypes.CreateKeyringOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) CreateDefaultCryptographicMaterialsManager(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateDefaultCryptographicMaterialsManagerInput) (*awscryptographymaterialproviderssmithygeneratedtypes.CreateCryptographicMaterialsManagerOutput, error) {
+func (client *Client) CreateDefaultCryptographicMaterialsManager(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateDefaultCryptographicMaterialsManagerInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographymaterialproviderssmithygeneratedtypes.OpaqueError{
@@ -340,12 +341,12 @@ func (client *Client) CreateDefaultCryptographicMaterialsManager(ctx context.Con
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = CreateCryptographicMaterialsManagerOutput_FromDafny(dafny_response.Extract().(AwsCryptographyMaterialProvidersTypes.CreateCryptographicMaterialsManagerOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) CreateRequiredEncryptionContextCMM(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateRequiredEncryptionContextCMMInput) (*awscryptographymaterialproviderssmithygeneratedtypes.CreateRequiredEncryptionContextCMMOutput, error) {
+func (client *Client) CreateRequiredEncryptionContextCMM(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateRequiredEncryptionContextCMMInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographymaterialproviderssmithygeneratedtypes.OpaqueError{
@@ -360,12 +361,12 @@ func (client *Client) CreateRequiredEncryptionContextCMM(ctx context.Context, pa
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = CreateRequiredEncryptionContextCMMOutput_FromDafny(dafny_response.Extract().(AwsCryptographyMaterialProvidersTypes.CreateRequiredEncryptionContextCMMOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) CreateCryptographicMaterialsCache(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateCryptographicMaterialsCacheInput) (*awscryptographymaterialproviderssmithygeneratedtypes.CreateCryptographicMaterialsCacheOutput, error) {
+func (client *Client) CreateCryptographicMaterialsCache(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateCryptographicMaterialsCacheInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographymaterialproviderssmithygeneratedtypes.OpaqueError{
@@ -380,12 +381,12 @@ func (client *Client) CreateCryptographicMaterialsCache(ctx context.Context, par
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = CreateCryptographicMaterialsCacheOutput_FromDafny(dafny_response.Extract().(AwsCryptographyMaterialProvidersTypes.CreateCryptographicMaterialsCacheOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
-func (client *Client) CreateDefaultClientSupplier(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateDefaultClientSupplierInput) (*awscryptographymaterialproviderssmithygeneratedtypes.CreateDefaultClientSupplierOutput, error) {
+func (client *Client) CreateDefaultClientSupplier(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.CreateDefaultClientSupplierInput) (interface{}, error) {
 	err := params.Validate()
 	if err != nil {
 		opaqueErr := awscryptographymaterialproviderssmithygeneratedtypes.OpaqueError{
@@ -400,8 +401,8 @@ func (client *Client) CreateDefaultClientSupplier(ctx context.Context, params aw
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = CreateDefaultClientSupplierOutput_FromDafny(dafny_response.Extract().(AwsCryptographyMaterialProvidersTypes.CreateDefaultClientSupplierOutput))
-	return &native_response, nil
+	var native_response = dafny_response.Extract()
+	return native_response, nil
 
 }
 
@@ -525,7 +526,7 @@ func (client *Client) GetAlgorithmSuiteInfo(ctx context.Context, params awscrypt
 		}
 		return nil, opaqueErr
 	}
-	var dafny_request AwsCryptographyMaterialProvidersTypes.GetAlgorithmSuiteInfoInput = GetAlgorithmSuiteInfoInput_ToDafny(params)
+	var dafny_request dafny.Sequence = GetAlgorithmSuiteInfoInput_ToDafny(params)
 	var dafny_response = client.DafnyClient.GetAlgorithmSuiteInfo(dafny_request)
 
 	if dafny_response.Is_Failure() {

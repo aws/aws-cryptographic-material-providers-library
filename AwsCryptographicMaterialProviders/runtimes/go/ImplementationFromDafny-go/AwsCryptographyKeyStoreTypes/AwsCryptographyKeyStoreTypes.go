@@ -119,6 +119,46 @@ var _ m_Actions.Dummy__
 
 type Dummy__ struct{}
 
+// Definition of class Default__
+type Default__ struct {
+	dummy byte
+}
+
+func New_Default___() *Default__ {
+	_this := Default__{}
+
+	return &_this
+}
+
+type CompanionStruct_Default___ struct {
+}
+
+var Companion_Default___ = CompanionStruct_Default___{}
+
+func (_this *Default__) Equals(other *Default__) bool {
+	return _this == other
+}
+
+func (_this *Default__) EqualsGeneric(x interface{}) bool {
+	other, ok := x.(*Default__)
+	return ok && _this.Equals(other)
+}
+
+func (*Default__) String() string {
+	return "AwsCryptographyKeyStoreTypes.Default__"
+}
+func (_this *Default__) ParentTraits_() []*_dafny.TraitID {
+	return [](*_dafny.TraitID){}
+}
+
+var _ _dafny.TraitOffspring = &Default__{}
+
+func (_static *CompanionStruct_Default___) IsDummySubsetType(x _dafny.Int) bool {
+	return (x).Sign() == 1
+}
+
+// End of class Default__
+
 // Definition of datatype DafnyCallEvent
 type DafnyCallEvent struct {
 	Data_DafnyCallEvent_
@@ -2426,14 +2466,13 @@ func (_this Error) Is_CollectionOfErrors() bool {
 }
 
 type Error_Opaque struct {
-	Obj       interface{}
-	Alt__text _dafny.Sequence
+	Obj interface{}
 }
 
 func (Error_Opaque) isError() {}
 
-func (CompanionStruct_Error_) Create_Opaque_(Obj interface{}, Alt__text _dafny.Sequence) Error {
-	return Error{Error_Opaque{Obj, Alt__text}}
+func (CompanionStruct_Error_) Create_Opaque_(Obj interface{}) Error {
+	return Error{Error_Opaque{Obj}}
 }
 
 func (_this Error) Is_Opaque() bool {
@@ -2470,10 +2509,6 @@ func (_this Error) Dtor_obj() interface{} {
 	return _this.Get_().(Error_Opaque).Obj
 }
 
-func (_this Error) Dtor_alt__text() _dafny.Sequence {
-	return _this.Get_().(Error_Opaque).Alt__text
-}
-
 func (_this Error) String() string {
 	switch data := _this.Get_().(type) {
 	case nil:
@@ -2496,7 +2531,7 @@ func (_this Error) String() string {
 		}
 	case Error_Opaque:
 		{
-			return "AwsCryptographyKeyStoreTypes.Error.Opaque" + "(" + _dafny.String(data.Obj) + ", " + _dafny.String(data.Alt__text) + ")"
+			return "AwsCryptographyKeyStoreTypes.Error.Opaque" + "(" + _dafny.String(data.Obj) + ")"
 		}
 	default:
 		{
@@ -2530,7 +2565,7 @@ func (_this Error) Equals(other Error) bool {
 	case Error_Opaque:
 		{
 			data2, ok := other.Get_().(Error_Opaque)
-			return ok && _dafny.AreEqual(data1.Obj, data2.Obj) && data1.Alt__text.Equals(data2.Alt__text)
+			return ok && _dafny.AreEqual(data1.Obj, data2.Obj)
 		}
 	default:
 		{
@@ -2605,4 +2640,48 @@ func (_this *CompanionStruct_OpaqueError_) Is_(__source Error) bool {
 	var _0_e Error = (__source)
 	_ = _0_e
 	return (_0_e).Is_Opaque()
+}
+
+// Definition of class DummySubsetType
+type DummySubsetType struct {
+}
+
+func New_DummySubsetType_() *DummySubsetType {
+	_this := DummySubsetType{}
+
+	return &_this
+}
+
+type CompanionStruct_DummySubsetType_ struct {
+}
+
+var Companion_DummySubsetType_ = CompanionStruct_DummySubsetType_{}
+
+func (*DummySubsetType) String() string {
+	return "AwsCryptographyKeyStoreTypes.DummySubsetType"
+}
+func (_this *CompanionStruct_DummySubsetType_) Witness() _dafny.Int {
+	return _dafny.One
+}
+
+// End of class DummySubsetType
+
+func Type_DummySubsetType_() _dafny.TypeDescriptor {
+	return type_DummySubsetType_{}
+}
+
+type type_DummySubsetType_ struct {
+}
+
+func (_this type_DummySubsetType_) Default() interface{} {
+	return Companion_DummySubsetType_.Witness()
+}
+
+func (_this type_DummySubsetType_) String() string {
+	return "AwsCryptographyKeyStoreTypes.DummySubsetType"
+}
+func (_this *CompanionStruct_DummySubsetType_) Is_(__source _dafny.Int) bool {
+	var _1_x _dafny.Int = (__source)
+	_ = _1_x
+	return Companion_Default___.IsDummySubsetType(_1_x)
 }

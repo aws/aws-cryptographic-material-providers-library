@@ -3,12 +3,12 @@
 package comamazonawskmssmithygenerated
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/aws/aws-cryptographic-material-providers-library/kms/ComAmazonawsKmsTypes"
 	"github.com/aws/aws-sdk-go-v2/service/kms"
 	"github.com/aws/aws-sdk-go-v2/service/kms/types"
+	"github.com/aws/smithy-go"
 	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 )
 
@@ -1196,211 +1196,11 @@ func VerifyMacOutput_FromDafny(dafnyOutput ComAmazonawsKmsTypes.VerifyMacRespons
 
 }
 
-func CustomKeyStoreHasCMKsException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CustomKeyStoreHasCMKsException {
-	return func() types.CustomKeyStoreHasCMKsException {
-
-		return types.CustomKeyStoreHasCMKsException{
-			Message: com_amazonaws_kms_CustomKeyStoreHasCMKsException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func InvalidImportTokenException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidImportTokenException {
-	return func() types.InvalidImportTokenException {
-
-		return types.InvalidImportTokenException{
-			Message: com_amazonaws_kms_InvalidImportTokenException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func TagException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.TagException {
-	return func() types.TagException {
-
-		return types.TagException{
-			Message: com_amazonaws_kms_TagException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func XksProxyVpcEndpointServiceNotFoundException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyVpcEndpointServiceNotFoundException {
-	return func() types.XksProxyVpcEndpointServiceNotFoundException {
-
-		return types.XksProxyVpcEndpointServiceNotFoundException{
-			Message: com_amazonaws_kms_XksProxyVpcEndpointServiceNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func MalformedPolicyDocumentException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.MalformedPolicyDocumentException {
-	return func() types.MalformedPolicyDocumentException {
-
-		return types.MalformedPolicyDocumentException{
-			Message: com_amazonaws_kms_MalformedPolicyDocumentException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func CloudHsmClusterNotRelatedException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CloudHsmClusterNotRelatedException {
-	return func() types.CloudHsmClusterNotRelatedException {
-
-		return types.CloudHsmClusterNotRelatedException{
-			Message: com_amazonaws_kms_CloudHsmClusterNotRelatedException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func DependencyTimeoutException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.DependencyTimeoutException {
-	return func() types.DependencyTimeoutException {
-
-		return types.DependencyTimeoutException{
-			Message: com_amazonaws_kms_DependencyTimeoutException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func CloudHsmClusterNotFoundException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CloudHsmClusterNotFoundException {
-	return func() types.CloudHsmClusterNotFoundException {
-
-		return types.CloudHsmClusterNotFoundException{
-			Message: com_amazonaws_kms_CloudHsmClusterNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
 func InvalidCiphertextException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidCiphertextException {
 	return func() types.InvalidCiphertextException {
 
 		return types.InvalidCiphertextException{
 			Message: com_amazonaws_kms_InvalidCiphertextException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func UnsupportedOperationException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.UnsupportedOperationException {
-	return func() types.UnsupportedOperationException {
-
-		return types.UnsupportedOperationException{
-			Message: com_amazonaws_kms_UnsupportedOperationException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func InvalidGrantTokenException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidGrantTokenException {
-	return func() types.InvalidGrantTokenException {
-
-		return types.InvalidGrantTokenException{
-			Message: com_amazonaws_kms_InvalidGrantTokenException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func XksProxyVpcEndpointServiceInvalidConfigurationException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyVpcEndpointServiceInvalidConfigurationException {
-	return func() types.XksProxyVpcEndpointServiceInvalidConfigurationException {
-
-		return types.XksProxyVpcEndpointServiceInvalidConfigurationException{
-			Message: com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func XksKeyNotFoundException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksKeyNotFoundException {
-	return func() types.XksKeyNotFoundException {
-
-		return types.XksKeyNotFoundException{
-			Message: com_amazonaws_kms_XksKeyNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func XksProxyUriUnreachableException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyUriUnreachableException {
-	return func() types.XksProxyUriUnreachableException {
-
-		return types.XksProxyUriUnreachableException{
-			Message: com_amazonaws_kms_XksProxyUriUnreachableException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func DryRunOperationException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.DryRunOperationException {
-	return func() types.DryRunOperationException {
-
-		return types.DryRunOperationException{
-			Message: com_amazonaws_kms_DryRunOperationException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func KeyUnavailableException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.KeyUnavailableException {
-	return func() types.KeyUnavailableException {
-
-		return types.KeyUnavailableException{
-			Message: com_amazonaws_kms_KeyUnavailableException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func ExpiredImportTokenException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.ExpiredImportTokenException {
-	return func() types.ExpiredImportTokenException {
-
-		return types.ExpiredImportTokenException{
-			Message: com_amazonaws_kms_ExpiredImportTokenException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func KMSInternalException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.KMSInternalException {
-	return func() types.KMSInternalException {
-
-		return types.KMSInternalException{
-			Message: com_amazonaws_kms_KMSInternalException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func IncorrectTrustAnchorException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.IncorrectTrustAnchorException {
-	return func() types.IncorrectTrustAnchorException {
-
-		return types.IncorrectTrustAnchorException{
-			Message: com_amazonaws_kms_IncorrectTrustAnchorException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func ConflictException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.ConflictException {
-	return func() types.ConflictException {
-
-		return types.ConflictException{
-			Message: com_amazonaws_kms_ConflictException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func IncorrectKeyMaterialException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.IncorrectKeyMaterialException {
-	return func() types.IncorrectKeyMaterialException {
-
-		return types.IncorrectKeyMaterialException{
-			Message: com_amazonaws_kms_IncorrectKeyMaterialException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
@@ -1416,11 +1216,281 @@ func XksKeyInvalidConfigurationException_FromDafny(dafnyOutput ComAmazonawsKmsTy
 
 }
 
+func UnsupportedOperationException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.UnsupportedOperationException {
+	return func() types.UnsupportedOperationException {
+
+		return types.UnsupportedOperationException{
+			Message: com_amazonaws_kms_UnsupportedOperationException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func CloudHsmClusterNotActiveException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CloudHsmClusterNotActiveException {
+	return func() types.CloudHsmClusterNotActiveException {
+
+		return types.CloudHsmClusterNotActiveException{
+			Message: com_amazonaws_kms_CloudHsmClusterNotActiveException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func InvalidGrantTokenException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidGrantTokenException {
+	return func() types.InvalidGrantTokenException {
+
+		return types.InvalidGrantTokenException{
+			Message: com_amazonaws_kms_InvalidGrantTokenException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
 func KMSInvalidMacException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.KMSInvalidMacException {
 	return func() types.KMSInvalidMacException {
 
 		return types.KMSInvalidMacException{
 			Message: com_amazonaws_kms_KMSInvalidMacException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func MalformedPolicyDocumentException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.MalformedPolicyDocumentException {
+	return func() types.MalformedPolicyDocumentException {
+
+		return types.MalformedPolicyDocumentException{
+			Message: com_amazonaws_kms_MalformedPolicyDocumentException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func InvalidImportTokenException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidImportTokenException {
+	return func() types.InvalidImportTokenException {
+
+		return types.InvalidImportTokenException{
+			Message: com_amazonaws_kms_InvalidImportTokenException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func DryRunOperationException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.DryRunOperationException {
+	return func() types.DryRunOperationException {
+
+		return types.DryRunOperationException{
+			Message: com_amazonaws_kms_DryRunOperationException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func XksProxyUriUnreachableException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyUriUnreachableException {
+	return func() types.XksProxyUriUnreachableException {
+
+		return types.XksProxyUriUnreachableException{
+			Message: com_amazonaws_kms_XksProxyUriUnreachableException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func IncorrectTrustAnchorException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.IncorrectTrustAnchorException {
+	return func() types.IncorrectTrustAnchorException {
+
+		return types.IncorrectTrustAnchorException{
+			Message: com_amazonaws_kms_IncorrectTrustAnchorException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func AlreadyExistsException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.AlreadyExistsException {
+	return func() types.AlreadyExistsException {
+
+		return types.AlreadyExistsException{
+			Message: com_amazonaws_kms_AlreadyExistsException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func XksKeyNotFoundException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksKeyNotFoundException {
+	return func() types.XksKeyNotFoundException {
+
+		return types.XksKeyNotFoundException{
+			Message: com_amazonaws_kms_XksKeyNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func KMSInvalidSignatureException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.KMSInvalidSignatureException {
+	return func() types.KMSInvalidSignatureException {
+
+		return types.KMSInvalidSignatureException{
+			Message: com_amazonaws_kms_KMSInvalidSignatureException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func CustomKeyStoreHasCMKsException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CustomKeyStoreHasCMKsException {
+	return func() types.CustomKeyStoreHasCMKsException {
+
+		return types.CustomKeyStoreHasCMKsException{
+			Message: com_amazonaws_kms_CustomKeyStoreHasCMKsException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func XksProxyVpcEndpointServiceInvalidConfigurationException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyVpcEndpointServiceInvalidConfigurationException {
+	return func() types.XksProxyVpcEndpointServiceInvalidConfigurationException {
+
+		return types.XksProxyVpcEndpointServiceInvalidConfigurationException{
+			Message: com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func XksProxyInvalidConfigurationException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyInvalidConfigurationException {
+	return func() types.XksProxyInvalidConfigurationException {
+
+		return types.XksProxyInvalidConfigurationException{
+			Message: com_amazonaws_kms_XksProxyInvalidConfigurationException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func XksProxyUriEndpointInUseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyUriEndpointInUseException {
+	return func() types.XksProxyUriEndpointInUseException {
+
+		return types.XksProxyUriEndpointInUseException{
+			Message: com_amazonaws_kms_XksProxyUriEndpointInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func CustomKeyStoreNameInUseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CustomKeyStoreNameInUseException {
+	return func() types.CustomKeyStoreNameInUseException {
+
+		return types.CustomKeyStoreNameInUseException{
+			Message: com_amazonaws_kms_CustomKeyStoreNameInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func KMSInvalidStateException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.KMSInvalidStateException {
+	return func() types.KMSInvalidStateException {
+
+		return types.KMSInvalidStateException{
+			Message: com_amazonaws_kms_KMSInvalidStateException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func KMSInternalException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.KMSInternalException {
+	return func() types.KMSInternalException {
+
+		return types.KMSInternalException{
+			Message: com_amazonaws_kms_KMSInternalException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func CustomKeyStoreInvalidStateException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CustomKeyStoreInvalidStateException {
+	return func() types.CustomKeyStoreInvalidStateException {
+
+		return types.CustomKeyStoreInvalidStateException{
+			Message: com_amazonaws_kms_CustomKeyStoreInvalidStateException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func NotFoundException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.NotFoundException {
+	return func() types.NotFoundException {
+
+		return types.NotFoundException{
+			Message: com_amazonaws_kms_NotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func CustomKeyStoreNotFoundException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CustomKeyStoreNotFoundException {
+	return func() types.CustomKeyStoreNotFoundException {
+
+		return types.CustomKeyStoreNotFoundException{
+			Message: com_amazonaws_kms_CustomKeyStoreNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func IncorrectKeyException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.IncorrectKeyException {
+	return func() types.IncorrectKeyException {
+
+		return types.IncorrectKeyException{
+			Message: com_amazonaws_kms_IncorrectKeyException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func LimitExceededException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.LimitExceededException {
+	return func() types.LimitExceededException {
+
+		return types.LimitExceededException{
+			Message: com_amazonaws_kms_LimitExceededException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func XksKeyAlreadyInUseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksKeyAlreadyInUseException {
+	return func() types.XksKeyAlreadyInUseException {
+
+		return types.XksKeyAlreadyInUseException{
+			Message: com_amazonaws_kms_XksKeyAlreadyInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func XksProxyVpcEndpointServiceInUseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyVpcEndpointServiceInUseException {
+	return func() types.XksProxyVpcEndpointServiceInUseException {
+
+		return types.XksProxyVpcEndpointServiceInUseException{
+			Message: com_amazonaws_kms_XksProxyVpcEndpointServiceInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func CloudHsmClusterInvalidConfigurationException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CloudHsmClusterInvalidConfigurationException {
+	return func() types.CloudHsmClusterInvalidConfigurationException {
+
+		return types.CloudHsmClusterInvalidConfigurationException{
+			Message: com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func DependencyTimeoutException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.DependencyTimeoutException {
+	return func() types.DependencyTimeoutException {
+
+		return types.DependencyTimeoutException{
+			Message: com_amazonaws_kms_DependencyTimeoutException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
@@ -1446,71 +1516,41 @@ func InvalidGrantIdException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) t
 
 }
 
-func LimitExceededException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.LimitExceededException {
-	return func() types.LimitExceededException {
+func XksProxyInvalidResponseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyInvalidResponseException {
+	return func() types.XksProxyInvalidResponseException {
 
-		return types.LimitExceededException{
-			Message: com_amazonaws_kms_LimitExceededException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.XksProxyInvalidResponseException{
+			Message: com_amazonaws_kms_XksProxyInvalidResponseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
 }
 
-func InvalidArnException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidArnException {
-	return func() types.InvalidArnException {
+func ConflictException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.ConflictException {
+	return func() types.ConflictException {
 
-		return types.InvalidArnException{
-			Message: com_amazonaws_kms_InvalidArnException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.ConflictException{
+			Message: com_amazonaws_kms_ConflictException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
 }
 
-func CloudHsmClusterInUseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CloudHsmClusterInUseException {
-	return func() types.CloudHsmClusterInUseException {
+func IncorrectKeyMaterialException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.IncorrectKeyMaterialException {
+	return func() types.IncorrectKeyMaterialException {
 
-		return types.CloudHsmClusterInUseException{
-			Message: com_amazonaws_kms_CloudHsmClusterInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.IncorrectKeyMaterialException{
+			Message: com_amazonaws_kms_IncorrectKeyMaterialException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
 }
 
-func NotFoundException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.NotFoundException {
-	return func() types.NotFoundException {
+func CloudHsmClusterNotRelatedException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CloudHsmClusterNotRelatedException {
+	return func() types.CloudHsmClusterNotRelatedException {
 
-		return types.NotFoundException{
-			Message: com_amazonaws_kms_NotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func InvalidKeyUsageException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidKeyUsageException {
-	return func() types.InvalidKeyUsageException {
-
-		return types.InvalidKeyUsageException{
-			Message: com_amazonaws_kms_InvalidKeyUsageException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func CustomKeyStoreNotFoundException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CustomKeyStoreNotFoundException {
-	return func() types.CustomKeyStoreNotFoundException {
-
-		return types.CustomKeyStoreNotFoundException{
-			Message: com_amazonaws_kms_CustomKeyStoreNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func AlreadyExistsException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.AlreadyExistsException {
-	return func() types.AlreadyExistsException {
-
-		return types.AlreadyExistsException{
-			Message: com_amazonaws_kms_AlreadyExistsException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.CloudHsmClusterNotRelatedException{
+			Message: com_amazonaws_kms_CloudHsmClusterNotRelatedException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
@@ -1536,61 +1576,11 @@ func XksProxyUriInUseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error)
 
 }
 
-func CloudHsmClusterInvalidConfigurationException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CloudHsmClusterInvalidConfigurationException {
-	return func() types.CloudHsmClusterInvalidConfigurationException {
+func CloudHsmClusterNotFoundException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CloudHsmClusterNotFoundException {
+	return func() types.CloudHsmClusterNotFoundException {
 
-		return types.CloudHsmClusterInvalidConfigurationException{
-			Message: com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func XksProxyUriEndpointInUseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyUriEndpointInUseException {
-	return func() types.XksProxyUriEndpointInUseException {
-
-		return types.XksProxyUriEndpointInUseException{
-			Message: com_amazonaws_kms_XksProxyUriEndpointInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func XksProxyVpcEndpointServiceInUseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyVpcEndpointServiceInUseException {
-	return func() types.XksProxyVpcEndpointServiceInUseException {
-
-		return types.XksProxyVpcEndpointServiceInUseException{
-			Message: com_amazonaws_kms_XksProxyVpcEndpointServiceInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func CustomKeyStoreNameInUseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CustomKeyStoreNameInUseException {
-	return func() types.CustomKeyStoreNameInUseException {
-
-		return types.CustomKeyStoreNameInUseException{
-			Message: com_amazonaws_kms_CustomKeyStoreNameInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func XksProxyIncorrectAuthenticationCredentialException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyIncorrectAuthenticationCredentialException {
-	return func() types.XksProxyIncorrectAuthenticationCredentialException {
-
-		return types.XksProxyIncorrectAuthenticationCredentialException{
-			Message: com_amazonaws_kms_XksProxyIncorrectAuthenticationCredentialException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func XksProxyInvalidConfigurationException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyInvalidConfigurationException {
-	return func() types.XksProxyInvalidConfigurationException {
-
-		return types.XksProxyInvalidConfigurationException{
-			Message: com_amazonaws_kms_XksProxyInvalidConfigurationException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.CloudHsmClusterNotFoundException{
+			Message: com_amazonaws_kms_CloudHsmClusterNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
@@ -1606,184 +1596,102 @@ func DisabledException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.D
 
 }
 
-func IncorrectKeyException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.IncorrectKeyException {
-	return func() types.IncorrectKeyException {
+func CloudHsmClusterInUseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CloudHsmClusterInUseException {
+	return func() types.CloudHsmClusterInUseException {
 
-		return types.IncorrectKeyException{
-			Message: com_amazonaws_kms_IncorrectKeyException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.CloudHsmClusterInUseException{
+			Message: com_amazonaws_kms_CloudHsmClusterInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
 }
 
-func KMSInvalidSignatureException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.KMSInvalidSignatureException {
-	return func() types.KMSInvalidSignatureException {
+func XksProxyVpcEndpointServiceNotFoundException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyVpcEndpointServiceNotFoundException {
+	return func() types.XksProxyVpcEndpointServiceNotFoundException {
 
-		return types.KMSInvalidSignatureException{
-			Message: com_amazonaws_kms_KMSInvalidSignatureException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.XksProxyVpcEndpointServiceNotFoundException{
+			Message: com_amazonaws_kms_XksProxyVpcEndpointServiceNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
 }
 
-func XksProxyInvalidResponseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyInvalidResponseException {
-	return func() types.XksProxyInvalidResponseException {
+func InvalidArnException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidArnException {
+	return func() types.InvalidArnException {
 
-		return types.XksProxyInvalidResponseException{
-			Message: com_amazonaws_kms_XksProxyInvalidResponseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.InvalidArnException{
+			Message: com_amazonaws_kms_InvalidArnException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
 }
 
-func CustomKeyStoreInvalidStateException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CustomKeyStoreInvalidStateException {
-	return func() types.CustomKeyStoreInvalidStateException {
+func InvalidKeyUsageException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidKeyUsageException {
+	return func() types.InvalidKeyUsageException {
 
-		return types.CustomKeyStoreInvalidStateException{
-			Message: com_amazonaws_kms_CustomKeyStoreInvalidStateException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.InvalidKeyUsageException{
+			Message: com_amazonaws_kms_InvalidKeyUsageException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
 }
 
-func CloudHsmClusterNotActiveException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CloudHsmClusterNotActiveException {
-	return func() types.CloudHsmClusterNotActiveException {
+func TagException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.TagException {
+	return func() types.TagException {
 
-		return types.CloudHsmClusterNotActiveException{
-			Message: com_amazonaws_kms_CloudHsmClusterNotActiveException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.TagException{
+			Message: com_amazonaws_kms_TagException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
 }
 
-func KMSInvalidStateException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.KMSInvalidStateException {
-	return func() types.KMSInvalidStateException {
+func ExpiredImportTokenException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.ExpiredImportTokenException {
+	return func() types.ExpiredImportTokenException {
 
-		return types.KMSInvalidStateException{
-			Message: com_amazonaws_kms_KMSInvalidStateException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.ExpiredImportTokenException{
+			Message: com_amazonaws_kms_ExpiredImportTokenException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
 }
 
-func XksKeyAlreadyInUseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksKeyAlreadyInUseException {
-	return func() types.XksKeyAlreadyInUseException {
+func XksProxyIncorrectAuthenticationCredentialException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyIncorrectAuthenticationCredentialException {
+	return func() types.XksProxyIncorrectAuthenticationCredentialException {
 
-		return types.XksKeyAlreadyInUseException{
-			Message: com_amazonaws_kms_XksKeyAlreadyInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.XksProxyIncorrectAuthenticationCredentialException{
+			Message: com_amazonaws_kms_XksProxyIncorrectAuthenticationCredentialException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func KeyUnavailableException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.KeyUnavailableException {
+	return func() types.KeyUnavailableException {
+
+		return types.KeyUnavailableException{
+			Message: com_amazonaws_kms_KeyUnavailableException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
 }
 
 func OpaqueError_Output_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) error {
-	return fmt.Errorf(fmt.Sprintf("%v", dafnyOutput.Dtor_obj()))
+	responseSmithyOp, ok := dafnyOutput.Dtor_obj().(*smithy.OperationError)
+	if ok {
+		return responseSmithyOp
+	}
+	responseGenericErr, ok := dafnyOutput.Dtor_obj().(error)
+	if ok {
+		return responseGenericErr
+	}
+	panic("Invalid Error")
 }
 
 func Error_FromDafny(err ComAmazonawsKmsTypes.Error) error {
 	// Service Errors
-	if err.Is_CustomKeyStoreHasCMKsException() {
-		e := CustomKeyStoreHasCMKsException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_InvalidImportTokenException() {
-		e := InvalidImportTokenException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_TagException() {
-		e := TagException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_XksProxyVpcEndpointServiceNotFoundException() {
-		e := XksProxyVpcEndpointServiceNotFoundException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_MalformedPolicyDocumentException() {
-		e := MalformedPolicyDocumentException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_CloudHsmClusterNotRelatedException() {
-		e := CloudHsmClusterNotRelatedException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_DependencyTimeoutException() {
-		e := DependencyTimeoutException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_CloudHsmClusterNotFoundException() {
-		e := CloudHsmClusterNotFoundException_FromDafny(err)
-		return &e
-	}
-
 	if err.Is_InvalidCiphertextException() {
 		e := InvalidCiphertextException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_UnsupportedOperationException() {
-		e := UnsupportedOperationException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_InvalidGrantTokenException() {
-		e := InvalidGrantTokenException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_XksProxyVpcEndpointServiceInvalidConfigurationException() {
-		e := XksProxyVpcEndpointServiceInvalidConfigurationException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_XksKeyNotFoundException() {
-		e := XksKeyNotFoundException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_XksProxyUriUnreachableException() {
-		e := XksProxyUriUnreachableException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_DryRunOperationException() {
-		e := DryRunOperationException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_KeyUnavailableException() {
-		e := KeyUnavailableException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_ExpiredImportTokenException() {
-		e := ExpiredImportTokenException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_KMSInternalException() {
-		e := KMSInternalException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_IncorrectTrustAnchorException() {
-		e := IncorrectTrustAnchorException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_ConflictException() {
-		e := ConflictException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_IncorrectKeyMaterialException() {
-		e := IncorrectKeyMaterialException_FromDafny(err)
 		return &e
 	}
 
@@ -1792,8 +1700,143 @@ func Error_FromDafny(err ComAmazonawsKmsTypes.Error) error {
 		return &e
 	}
 
+	if err.Is_UnsupportedOperationException() {
+		e := UnsupportedOperationException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_CloudHsmClusterNotActiveException() {
+		e := CloudHsmClusterNotActiveException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_InvalidGrantTokenException() {
+		e := InvalidGrantTokenException_FromDafny(err)
+		return &e
+	}
+
 	if err.Is_KMSInvalidMacException() {
 		e := KMSInvalidMacException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_MalformedPolicyDocumentException() {
+		e := MalformedPolicyDocumentException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_InvalidImportTokenException() {
+		e := InvalidImportTokenException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_DryRunOperationException() {
+		e := DryRunOperationException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_XksProxyUriUnreachableException() {
+		e := XksProxyUriUnreachableException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_IncorrectTrustAnchorException() {
+		e := IncorrectTrustAnchorException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_AlreadyExistsException() {
+		e := AlreadyExistsException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_XksKeyNotFoundException() {
+		e := XksKeyNotFoundException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_KMSInvalidSignatureException() {
+		e := KMSInvalidSignatureException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_CustomKeyStoreHasCMKsException() {
+		e := CustomKeyStoreHasCMKsException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_XksProxyVpcEndpointServiceInvalidConfigurationException() {
+		e := XksProxyVpcEndpointServiceInvalidConfigurationException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_XksProxyInvalidConfigurationException() {
+		e := XksProxyInvalidConfigurationException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_XksProxyUriEndpointInUseException() {
+		e := XksProxyUriEndpointInUseException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_CustomKeyStoreNameInUseException() {
+		e := CustomKeyStoreNameInUseException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_KMSInvalidStateException() {
+		e := KMSInvalidStateException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_KMSInternalException() {
+		e := KMSInternalException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_CustomKeyStoreInvalidStateException() {
+		e := CustomKeyStoreInvalidStateException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_NotFoundException() {
+		e := NotFoundException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_CustomKeyStoreNotFoundException() {
+		e := CustomKeyStoreNotFoundException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_IncorrectKeyException() {
+		e := IncorrectKeyException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_LimitExceededException() {
+		e := LimitExceededException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_XksKeyAlreadyInUseException() {
+		e := XksKeyAlreadyInUseException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_XksProxyVpcEndpointServiceInUseException() {
+		e := XksProxyVpcEndpointServiceInUseException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_CloudHsmClusterInvalidConfigurationException() {
+		e := CloudHsmClusterInvalidConfigurationException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_DependencyTimeoutException() {
+		e := DependencyTimeoutException_FromDafny(err)
 		return &e
 	}
 
@@ -1807,38 +1850,23 @@ func Error_FromDafny(err ComAmazonawsKmsTypes.Error) error {
 		return &e
 	}
 
-	if err.Is_LimitExceededException() {
-		e := LimitExceededException_FromDafny(err)
+	if err.Is_XksProxyInvalidResponseException() {
+		e := XksProxyInvalidResponseException_FromDafny(err)
 		return &e
 	}
 
-	if err.Is_InvalidArnException() {
-		e := InvalidArnException_FromDafny(err)
+	if err.Is_ConflictException() {
+		e := ConflictException_FromDafny(err)
 		return &e
 	}
 
-	if err.Is_CloudHsmClusterInUseException() {
-		e := CloudHsmClusterInUseException_FromDafny(err)
+	if err.Is_IncorrectKeyMaterialException() {
+		e := IncorrectKeyMaterialException_FromDafny(err)
 		return &e
 	}
 
-	if err.Is_NotFoundException() {
-		e := NotFoundException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_InvalidKeyUsageException() {
-		e := InvalidKeyUsageException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_CustomKeyStoreNotFoundException() {
-		e := CustomKeyStoreNotFoundException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_AlreadyExistsException() {
-		e := AlreadyExistsException_FromDafny(err)
+	if err.Is_CloudHsmClusterNotRelatedException() {
+		e := CloudHsmClusterNotRelatedException_FromDafny(err)
 		return &e
 	}
 
@@ -1852,33 +1880,8 @@ func Error_FromDafny(err ComAmazonawsKmsTypes.Error) error {
 		return &e
 	}
 
-	if err.Is_CloudHsmClusterInvalidConfigurationException() {
-		e := CloudHsmClusterInvalidConfigurationException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_XksProxyUriEndpointInUseException() {
-		e := XksProxyUriEndpointInUseException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_XksProxyVpcEndpointServiceInUseException() {
-		e := XksProxyVpcEndpointServiceInUseException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_CustomKeyStoreNameInUseException() {
-		e := CustomKeyStoreNameInUseException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_XksProxyIncorrectAuthenticationCredentialException() {
-		e := XksProxyIncorrectAuthenticationCredentialException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_XksProxyInvalidConfigurationException() {
-		e := XksProxyInvalidConfigurationException_FromDafny(err)
+	if err.Is_CloudHsmClusterNotFoundException() {
+		e := CloudHsmClusterNotFoundException_FromDafny(err)
 		return &e
 	}
 
@@ -1887,45 +1890,50 @@ func Error_FromDafny(err ComAmazonawsKmsTypes.Error) error {
 		return &e
 	}
 
-	if err.Is_IncorrectKeyException() {
-		e := IncorrectKeyException_FromDafny(err)
+	if err.Is_CloudHsmClusterInUseException() {
+		e := CloudHsmClusterInUseException_FromDafny(err)
 		return &e
 	}
 
-	if err.Is_KMSInvalidSignatureException() {
-		e := KMSInvalidSignatureException_FromDafny(err)
+	if err.Is_XksProxyVpcEndpointServiceNotFoundException() {
+		e := XksProxyVpcEndpointServiceNotFoundException_FromDafny(err)
 		return &e
 	}
 
-	if err.Is_XksProxyInvalidResponseException() {
-		e := XksProxyInvalidResponseException_FromDafny(err)
+	if err.Is_InvalidArnException() {
+		e := InvalidArnException_FromDafny(err)
 		return &e
 	}
 
-	if err.Is_CustomKeyStoreInvalidStateException() {
-		e := CustomKeyStoreInvalidStateException_FromDafny(err)
+	if err.Is_InvalidKeyUsageException() {
+		e := InvalidKeyUsageException_FromDafny(err)
 		return &e
 	}
 
-	if err.Is_CloudHsmClusterNotActiveException() {
-		e := CloudHsmClusterNotActiveException_FromDafny(err)
+	if err.Is_TagException() {
+		e := TagException_FromDafny(err)
 		return &e
 	}
 
-	if err.Is_KMSInvalidStateException() {
-		e := KMSInvalidStateException_FromDafny(err)
+	if err.Is_ExpiredImportTokenException() {
+		e := ExpiredImportTokenException_FromDafny(err)
 		return &e
 	}
 
-	if err.Is_XksKeyAlreadyInUseException() {
-		e := XksKeyAlreadyInUseException_FromDafny(err)
+	if err.Is_XksProxyIncorrectAuthenticationCredentialException() {
+		e := XksProxyIncorrectAuthenticationCredentialException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_KeyUnavailableException() {
+		e := KeyUnavailableException_FromDafny(err)
 		return &e
 	}
 
 	return OpaqueError_Output_FromDafny(err)
 }
 
-func com_amazonaws_kms_GrantListEntry_GranteePrincipal_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -1941,38 +1949,33 @@ func com_amazonaws_kms_GrantListEntry_GranteePrincipal_FromDafny(input interface
 		}
 	}()
 }
-func com_amazonaws_kms_KeyAgreementAlgorithmSpecList_member_FromDafny(input interface{}) types.KeyAgreementAlgorithmSpec {
-	return func() types.KeyAgreementAlgorithmSpec {
-		var u types.KeyAgreementAlgorithmSpec
-
-		inputEnum := input
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyAgreementAlgorithmSpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.KeyAgreementAlgorithmSpec).Equals(inputEnum.(ComAmazonawsKmsTypes.KeyAgreementAlgorithmSpec)) {
-					break
-				}
-			}
+func com_amazonaws_kms_VerifyMacOutput_MacValid_FromDafny(input interface{}) bool {
+	return func() bool {
+		var b bool
+		if input == nil {
+			return b
 		}
-		return u.Values()[index]
+		b = input.(bool)
+		return b
 	}()
 }
-func com_amazonaws_kms_KeyMetadata_DeletionDate_FromDafny(input interface{}) *time.Time {
-	return nil
-}
-func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextInput_DryRun_FromDafny(input interface{}) *bool {
-	return func() *bool {
-		var b bool
+func com_amazonaws_kms_DescribeCustomKeyStoresInput_CustomKeyStoreName_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
 		if input == nil {
 			return nil
 		}
-		b = input.(bool)
-		return &b
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
 	}()
 }
-func com_amazonaws_kms_RevokeGrantInput_GrantId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_CreateGrantInput_KeyId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 
@@ -1986,21 +1989,7 @@ func com_amazonaws_kms_RevokeGrantInput_GrantId_FromDafny(input interface{}) *st
 		}
 	}()
 }
-func com_amazonaws_kms_GenerateDataKeyInput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_XksProxyInvalidResponseException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_XksKeyInvalidConfigurationException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -2016,530 +2005,7 @@ func com_amazonaws_kms_XksProxyInvalidResponseException_message_FromDafny(input 
 		}
 	}()
 }
-func com_amazonaws_kms_DecryptOutput_CiphertextForRecipient_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_TagResourceInput_Tags_FromDafny(input interface{}) []types.Tag {
-	return func() []types.Tag {
-		var fieldValue []types.Tag
-
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_TagList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_CreateCustomKeyStoreInput_XksProxyVpcEndpointServiceName_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_SignInput_SigningAlgorithm_FromDafny(input interface{}) types.SigningAlgorithmSpec {
-	return func() types.SigningAlgorithmSpec {
-		var u types.SigningAlgorithmSpec
-
-		inputEnum := input
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_SigningAlgorithmSpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.SigningAlgorithmSpec).Equals(inputEnum.(ComAmazonawsKmsTypes.SigningAlgorithmSpec)) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_GenerateMacOutput_MacAlgorithm_FromDafny(input interface{}) types.MacAlgorithmSpec {
-	return func() types.MacAlgorithmSpec {
-		var u types.MacAlgorithmSpec
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.MacAlgorithmSpec)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_MacAlgorithmSpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.MacAlgorithmSpec).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_UpdateCustomKeyStoreInput_XksProxyVpcEndpointServiceName_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_RevokeGrantInput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_EncryptInput_GrantTokens_FromDafny(input interface{}) []string {
-	return func() []string {
-		var fieldValue []string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_RotationsList_member_FromDafny(input interface{}) types.RotationsListEntry {
-	return func() types.RotationsListEntry {
-
-		return types.RotationsListEntry{
-			KeyId:        com_amazonaws_kms_RotationsListEntry_KeyId_FromDafny(input.(ComAmazonawsKmsTypes.RotationsListEntry).Dtor_KeyId().UnwrapOr(nil)),
-			RotationDate: com_amazonaws_kms_RotationsListEntry_RotationDate_FromDafny(input.(ComAmazonawsKmsTypes.RotationsListEntry).Dtor_RotationDate().UnwrapOr(nil)),
-			RotationType: com_amazonaws_kms_RotationsListEntry_RotationType_FromDafny(input.(ComAmazonawsKmsTypes.RotationsListEntry).Dtor_RotationType().UnwrapOr(nil)),
-		}
-	}()
-}
-func com_amazonaws_kms_GetPublicKeyOutput_PublicKey_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_VerifyInput_GrantTokens_FromDafny(input interface{}) []string {
-	return func() []string {
-		var fieldValue []string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_CreateKeyInput_Tags_FromDafny(input interface{}) []types.Tag {
-	return func() []types.Tag {
-		var fieldValue []types.Tag
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_TagList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_RotationsListEntry_RotationType_FromDafny(input interface{}) types.RotationType {
-	return func() types.RotationType {
-		var u types.RotationType
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.RotationType)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_RotationType_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.RotationType).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_CancelKeyDeletionOutput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GetPublicKeyOutput_KeyUsage_FromDafny(input interface{}) types.KeyUsageType {
-	return func() types.KeyUsageType {
-		var u types.KeyUsageType
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.KeyUsageType)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyUsageType_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.KeyUsageType).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_XksKeyNotFoundException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_KeyMetadata_KeyManager_FromDafny(input interface{}) types.KeyManagerType {
-	return func() types.KeyManagerType {
-		var u types.KeyManagerType
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.KeyManagerType)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyManagerType_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.KeyManagerType).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_ReEncryptInput_SourceEncryptionContext_FromDafny(input interface{}) map[string]string {
-	return func() map[string]string {
-		var m map[string]string = make(map[string]string)
-		if input == nil {
-			return nil
-		}
-
-		for i := dafny.Iterate(input.(dafny.Map).Items()); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			m[com_amazonaws_kms_EncryptionContextType_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = com_amazonaws_kms_EncryptionContextType_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
-		}
-		return m
-	}()
-}
-func com_amazonaws_kms_ReEncryptInput_DryRun_FromDafny(input interface{}) *bool {
-	return func() *bool {
-		var b bool
-		if input == nil {
-			return nil
-		}
-		b = input.(bool)
-		return &b
-	}()
-}
-func com_amazonaws_kms_CreateGrantInput_RetiringPrincipal_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CustomKeyStoresListEntry_XksProxyConfiguration_FromDafny(input interface{}) *types.XksProxyConfigurationType {
-	return func() *types.XksProxyConfigurationType {
-		if input == nil {
-			return nil
-		}
-		return &types.XksProxyConfigurationType{
-			Connectivity:           com_amazonaws_kms_XksProxyConfigurationType_Connectivity_FromDafny(input.(ComAmazonawsKmsTypes.XksProxyConfigurationType).Dtor_Connectivity().UnwrapOr(nil)),
-			AccessKeyId:            com_amazonaws_kms_XksProxyConfigurationType_AccessKeyId_FromDafny(input.(ComAmazonawsKmsTypes.XksProxyConfigurationType).Dtor_AccessKeyId().UnwrapOr(nil)),
-			UriEndpoint:            com_amazonaws_kms_XksProxyConfigurationType_UriEndpoint_FromDafny(input.(ComAmazonawsKmsTypes.XksProxyConfigurationType).Dtor_UriEndpoint().UnwrapOr(nil)),
-			UriPath:                com_amazonaws_kms_XksProxyConfigurationType_UriPath_FromDafny(input.(ComAmazonawsKmsTypes.XksProxyConfigurationType).Dtor_UriPath().UnwrapOr(nil)),
-			VpcEndpointServiceName: com_amazonaws_kms_XksProxyConfigurationType_VpcEndpointServiceName_FromDafny(input.(ComAmazonawsKmsTypes.XksProxyConfigurationType).Dtor_VpcEndpointServiceName().UnwrapOr(nil)),
-		}
-	}()
-}
-func com_amazonaws_kms_RetireGrantInput_DryRun_FromDafny(input interface{}) *bool {
-	return func() *bool {
-		var b bool
-		if input == nil {
-			return nil
-		}
-		b = input.(bool)
-		return &b
-	}()
-}
-func com_amazonaws_kms_GetKeyPolicyInput_PolicyName_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_AlreadyExistsException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_SignInput_DryRun_FromDafny(input interface{}) *bool {
-	return func() *bool {
-		var b bool
-		if input == nil {
-			return nil
-		}
-		b = input.(bool)
-		return &b
-	}()
-}
-func com_amazonaws_kms_CreateCustomKeyStoreInput_CustomKeyStoreType_FromDafny(input interface{}) types.CustomKeyStoreType {
-	return func() types.CustomKeyStoreType {
-		var u types.CustomKeyStoreType
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.CustomKeyStoreType)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_CustomKeyStoreType_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.CustomKeyStoreType).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_KeyList_member_FromDafny(input interface{}) types.KeyListEntry {
-	return func() types.KeyListEntry {
-
-		return types.KeyListEntry{
-			KeyId:  com_amazonaws_kms_KeyListEntry_KeyId_FromDafny(input.(ComAmazonawsKmsTypes.KeyListEntry).Dtor_KeyId().UnwrapOr(nil)),
-			KeyArn: com_amazonaws_kms_KeyListEntry_KeyArn_FromDafny(input.(ComAmazonawsKmsTypes.KeyListEntry).Dtor_KeyArn().UnwrapOr(nil)),
-		}
-	}()
-}
-func com_amazonaws_kms_GenerateMacInput_DryRun_FromDafny(input interface{}) *bool {
-	return func() *bool {
-		var b bool
-		if input == nil {
-			return nil
-		}
-		b = input.(bool)
-		return &b
-	}()
-}
-func com_amazonaws_kms_UpdateCustomKeyStoreInput_KeyStorePassword_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_DeriveSharedSecretInput_Recipient_FromDafny(input interface{}) *types.RecipientInfo {
-	return func() *types.RecipientInfo {
-		if input == nil {
-			return nil
-		}
-		return &types.RecipientInfo{
-			KeyEncryptionAlgorithm: com_amazonaws_kms_RecipientInfo_KeyEncryptionAlgorithm_FromDafny(input.(ComAmazonawsKmsTypes.RecipientInfo).Dtor_KeyEncryptionAlgorithm().UnwrapOr(nil)),
-			AttestationDocument:    com_amazonaws_kms_RecipientInfo_AttestationDocument_FromDafny(input.(ComAmazonawsKmsTypes.RecipientInfo).Dtor_AttestationDocument().UnwrapOr(nil)),
-		}
-	}()
-}
-func com_amazonaws_kms_PolicyNameList_member_FromDafny(input interface{}) string {
-	return func() string {
-		var s string
-
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_TagKeyList_member_FromDafny(input interface{}) string {
-	return func() string {
-		var s string
-
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CreateAliasInput_TargetKeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_KeyMetadata_KeyUsage_FromDafny(input interface{}) types.KeyUsageType {
-	return func() types.KeyUsageType {
-		var u types.KeyUsageType
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.KeyUsageType)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyUsageType_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.KeyUsageType).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyWithoutPlaintextOutput_KeyId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_KeyListEntry_KeyId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -2569,35 +2035,40 @@ func com_amazonaws_kms_VerifyInput_KeyId_FromDafny(input interface{}) *string {
 		}
 	}()
 }
-func com_amazonaws_kms_CreateAliasInput_AliasName_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
+func com_amazonaws_kms_GrantConstraints_EncryptionContextEquals_FromDafny(input interface{}) map[string]string {
+	return func() map[string]string {
+		var m map[string]string = make(map[string]string)
+		if input == nil {
+			return nil
+		}
 
-		for i := dafny.Iterate(input); ; {
+		for i := dafny.Iterate(input.(dafny.Map).Items()); ; {
 			val, ok := i()
 			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
+				break
 			}
+			m[com_amazonaws_kms_EncryptionContextType_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = com_amazonaws_kms_EncryptionContextType_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
 		}
+		return m
 	}()
 }
-func com_amazonaws_kms_CreateGrantInput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
+func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextInput_GrantTokens_FromDafny(input interface{}) []string {
+	return func() []string {
+		var fieldValue []string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
 			val, ok := i()
 			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
+				break
 			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
 		}
+		return fieldValue
 	}()
 }
-func com_amazonaws_kms_CloudHsmClusterNotFoundException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_KeyMetadata_AWSAccountId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -2613,7 +2084,7 @@ func com_amazonaws_kms_CloudHsmClusterNotFoundException_message_FromDafny(input 
 		}
 	}()
 }
-func com_amazonaws_kms_UpdatePrimaryRegionInput_PrimaryRegion_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_ConnectCustomKeyStoreInput_CustomKeyStoreId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 
@@ -2627,17 +2098,17 @@ func com_amazonaws_kms_UpdatePrimaryRegionInput_PrimaryRegion_FromDafny(input in
 		}
 	}()
 }
-func com_amazonaws_kms_VerifyMacOutput_MacValid_FromDafny(input interface{}) bool {
-	return func() bool {
+func com_amazonaws_kms_DeriveSharedSecretInput_DryRun_FromDafny(input interface{}) *bool {
+	return func() *bool {
 		var b bool
 		if input == nil {
-			return b
+			return nil
 		}
 		b = input.(bool)
-		return b
+		return &b
 	}()
 }
-func com_amazonaws_kms_GetPublicKeyInput_KeyId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_XksProxyAuthenticationCredentialType_RawSecretAccessKey_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 
@@ -2651,7 +2122,60 @@ func com_amazonaws_kms_GetPublicKeyInput_KeyId_FromDafny(input interface{}) *str
 		}
 	}()
 }
-func com_amazonaws_kms_CreateGrantOutput_GrantId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_GetPublicKeyOutput_EncryptionAlgorithms_FromDafny(input interface{}) []types.EncryptionAlgorithmSpec {
+	return func() []types.EncryptionAlgorithmSpec {
+		var fieldValue []types.EncryptionAlgorithmSpec
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_EncryptionAlgorithmSpecList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_ReEncryptInput_CiphertextBlob_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GetParametersForImportInput_WrappingKeySpec_FromDafny(input interface{}) types.WrappingKeySpec {
+	return func() types.WrappingKeySpec {
+		var u types.WrappingKeySpec
+
+		inputEnum := input.(ComAmazonawsKmsTypes.WrappingKeySpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_WrappingKeySpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.WrappingKeySpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_RotationsListEntry_RotationDate_FromDafny(input interface{}) *time.Time {
+	return nil
+}
+func com_amazonaws_kms_ConflictException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -2667,7 +2191,127 @@ func com_amazonaws_kms_CreateGrantOutput_GrantId_FromDafny(input interface{}) *s
 		}
 	}()
 }
-func com_amazonaws_kms_DescribeCustomKeyStoresInput_CustomKeyStoreName_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_SignOutput_SigningAlgorithm_FromDafny(input interface{}) types.SigningAlgorithmSpec {
+	return func() types.SigningAlgorithmSpec {
+		var u types.SigningAlgorithmSpec
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.SigningAlgorithmSpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_SigningAlgorithmSpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.SigningAlgorithmSpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_KeyMetadata_KeyUsage_FromDafny(input interface{}) types.KeyUsageType {
+	return func() types.KeyUsageType {
+		var u types.KeyUsageType
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.KeyUsageType)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyUsageType_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.KeyUsageType).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyOutput_CiphertextBlob_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GetKeyPolicyInput_PolicyName_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CreateAliasInput_TargetKeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ListKeysOutput_Keys_FromDafny(input interface{}) []types.KeyListEntry {
+	return func() []types.KeyListEntry {
+		var fieldValue []types.KeyListEntry
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_KeyList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_ReEncryptInput_GrantTokens_FromDafny(input interface{}) []string {
+	return func() []string {
+		var fieldValue []string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_XksProxyConfigurationType_VpcEndpointServiceName_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -2699,29 +2343,11 @@ func com_amazonaws_kms_DecryptOutput_Plaintext_FromDafny(input interface{}) []by
 		}
 	}()
 }
-func com_amazonaws_kms_SignInput_GrantTokens_FromDafny(input interface{}) []string {
-	return func() []string {
-		var fieldValue []string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_GetKeyPolicyOutput_Policy_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_GenerateDataKeyWithoutPlaintextInput_KeyId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+
+		for i := dafny.Iterate(input); ; {
 			val, ok := i()
 			if !ok {
 				return &[]string{s}[0]
@@ -2731,29 +2357,13 @@ func com_amazonaws_kms_GetKeyPolicyOutput_Policy_FromDafny(input interface{}) *s
 		}
 	}()
 }
-func com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextOutput_PrivateKeyCiphertextBlob_FromDafny(input interface{}) []byte {
+func com_amazonaws_kms_VerifyInput_Message_FromDafny(input interface{}) []byte {
 	return func() []byte {
 		var b []byte
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+		for i := dafny.Iterate(input); ; {
 			val, ok := i()
 			if !ok {
 				return b
@@ -2761,65 +2371,6 @@ func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextOutput_PrivateKeyCiphe
 				b = append(b, val.(byte))
 			}
 		}
-	}()
-}
-func com_amazonaws_kms_CreateKeyInput_KeySpec_FromDafny(input interface{}) types.KeySpec {
-	return func() types.KeySpec {
-		var u types.KeySpec
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.KeySpec)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeySpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.KeySpec).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_GrantConstraints_EncryptionContextEquals_FromDafny(input interface{}) map[string]string {
-	return func() map[string]string {
-		var m map[string]string = make(map[string]string)
-		if input == nil {
-			return nil
-		}
-
-		for i := dafny.Iterate(input.(dafny.Map).Items()); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			m[com_amazonaws_kms_EncryptionContextType_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = com_amazonaws_kms_EncryptionContextType_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
-		}
-		return m
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextOutput_KeyPairSpec_FromDafny(input interface{}) types.DataKeyPairSpec {
-	return func() types.DataKeyPairSpec {
-		var u types.DataKeyPairSpec
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.DataKeyPairSpec)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_DataKeyPairSpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.DataKeyPairSpec).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
 	}()
 }
 func com_amazonaws_kms_CloudHsmClusterNotActiveException_message_FromDafny(input interface{}) *string {
@@ -2834,237 +2385,6 @@ func com_amazonaws_kms_CloudHsmClusterNotActiveException_message_FromDafny(input
 				return &[]string{s}[0]
 			} else {
 				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ListGrantsOutput_Grants_FromDafny(input interface{}) []types.GrantListEntry {
-	return func() []types.GrantListEntry {
-		var fieldValue []types.GrantListEntry
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_GrantList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_MultiRegionKeyList_member_FromDafny(input interface{}) types.MultiRegionKey {
-	return func() types.MultiRegionKey {
-
-		return types.MultiRegionKey{
-			Arn:    com_amazonaws_kms_MultiRegionKey_Arn_FromDafny(input.(ComAmazonawsKmsTypes.MultiRegionKey).Dtor_Arn().UnwrapOr(nil)),
-			Region: com_amazonaws_kms_MultiRegionKey_Region_FromDafny(input.(ComAmazonawsKmsTypes.MultiRegionKey).Dtor_Region().UnwrapOr(nil)),
-		}
-	}()
-}
-func com_amazonaws_kms_GetParametersForImportInput_WrappingKeySpec_FromDafny(input interface{}) types.WrappingKeySpec {
-	return func() types.WrappingKeySpec {
-		var u types.WrappingKeySpec
-
-		inputEnum := input
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_WrappingKeySpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.WrappingKeySpec).Equals(inputEnum.(ComAmazonawsKmsTypes.WrappingKeySpec)) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_KeyMetadata_MacAlgorithms_FromDafny(input interface{}) []types.MacAlgorithmSpec {
-	return func() []types.MacAlgorithmSpec {
-		var fieldValue []types.MacAlgorithmSpec
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_MacAlgorithmSpecList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyInput_GrantTokens_FromDafny(input interface{}) []string {
-	return func() []string {
-		var fieldValue []string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_CustomKeyStoresListEntry_ConnectionErrorCode_FromDafny(input interface{}) types.ConnectionErrorCodeType {
-	return func() types.ConnectionErrorCodeType {
-		var u types.ConnectionErrorCodeType
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.ConnectionErrorCodeType)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_ConnectionErrorCodeType_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.ConnectionErrorCodeType).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_ListKeysOutput_NextMarker_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_DescribeKeyInput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GetKeyRotationStatusOutput_NextRotationDate_FromDafny(input interface{}) *time.Time {
-	return nil
-}
-func com_amazonaws_kms_PutKeyPolicyInput_Policy_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_VerifyMacOutput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CreateCustomKeyStoreInput_XksProxyUriEndpoint_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CreateGrantInput_DryRun_FromDafny(input interface{}) *bool {
-	return func() *bool {
-		var b bool
-		if input == nil {
-			return nil
-		}
-		b = input.(bool)
-		return &b
-	}()
-}
-func com_amazonaws_kms_DecryptInput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_DeleteAliasInput_AliasName_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyPairOutput_CiphertextForRecipient_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
 			}
 		}
 	}()
@@ -3085,7 +2405,7 @@ func com_amazonaws_kms_InvalidMarkerException_message_FromDafny(input interface{
 		}
 	}()
 }
-func com_amazonaws_kms_GenerateDataKeyWithoutPlaintextInput_KeyId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_DeleteCustomKeyStoreInput_CustomKeyStoreId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 
@@ -3099,23 +2419,7 @@ func com_amazonaws_kms_GenerateDataKeyWithoutPlaintextInput_KeyId_FromDafny(inpu
 		}
 	}()
 }
-func com_amazonaws_kms_ReEncryptInput_GrantTokens_FromDafny(input interface{}) []string {
-	return func() []string {
-		var fieldValue []string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_VerifyInput_DryRun_FromDafny(input interface{}) *bool {
+func com_amazonaws_kms_ReEncryptInput_DryRun_FromDafny(input interface{}) *bool {
 	return func() *bool {
 		var b bool
 		if input == nil {
@@ -3125,20 +2429,25 @@ func com_amazonaws_kms_VerifyInput_DryRun_FromDafny(input interface{}) *bool {
 		return &b
 	}()
 }
-func com_amazonaws_kms_UpdateCustomKeyStoreInput_XksProxyUriEndpoint_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
+func com_amazonaws_kms_KeyMetadata_KeyManager_FromDafny(input interface{}) types.KeyManagerType {
+	return func() types.KeyManagerType {
+		var u types.KeyManagerType
 		if input == nil {
-			return nil
+			return u
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
+
+		inputEnum := input.(ComAmazonawsKmsTypes.KeyManagerType)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyManagerType_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.KeyManagerType).Equals(inputEnum) {
+					break
+				}
 			}
 		}
+		return u.Values()[index]
 	}()
 }
 func com_amazonaws_kms_EncryptInput_KeyId_FromDafny(input interface{}) *string {
@@ -3155,7 +2464,280 @@ func com_amazonaws_kms_EncryptInput_KeyId_FromDafny(input interface{}) *string {
 		}
 	}()
 }
-func com_amazonaws_kms_EncryptInput_DryRun_FromDafny(input interface{}) *bool {
+func com_amazonaws_kms_UpdateCustomKeyStoreInput_KeyStorePassword_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_TagKeyList_member_FromDafny(input interface{}) string {
+	return func() string {
+		var s string
+
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return []string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateMacInput_GrantTokens_FromDafny(input interface{}) []string {
+	return func() []string {
+		var fieldValue []string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_DecryptOutput_EncryptionAlgorithm_FromDafny(input interface{}) types.EncryptionAlgorithmSpec {
+	return func() types.EncryptionAlgorithmSpec {
+		var u types.EncryptionAlgorithmSpec
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_KeyList_member_FromDafny(input interface{}) types.KeyListEntry {
+	return func() types.KeyListEntry {
+
+		return types.KeyListEntry{
+			KeyId:  com_amazonaws_kms_KeyListEntry_KeyId_FromDafny(input.(ComAmazonawsKmsTypes.KeyListEntry).Dtor_KeyId().UnwrapOr(nil)),
+			KeyArn: com_amazonaws_kms_KeyListEntry_KeyArn_FromDafny(input.(ComAmazonawsKmsTypes.KeyListEntry).Dtor_KeyArn().UnwrapOr(nil)),
+		}
+	}()
+}
+func com_amazonaws_kms_CreateKeyInput_KeySpec_FromDafny(input interface{}) types.KeySpec {
+	return func() types.KeySpec {
+		var u types.KeySpec
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.KeySpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeySpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.KeySpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_MultiRegionKey_Arn_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_XksProxyConfigurationType_AccessKeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_MultiRegionKeyList_member_FromDafny(input interface{}) types.MultiRegionKey {
+	return func() types.MultiRegionKey {
+
+		return types.MultiRegionKey{
+			Arn:    com_amazonaws_kms_MultiRegionKey_Arn_FromDafny(input.(ComAmazonawsKmsTypes.MultiRegionKey).Dtor_Arn().UnwrapOr(nil)),
+			Region: com_amazonaws_kms_MultiRegionKey_Region_FromDafny(input.(ComAmazonawsKmsTypes.MultiRegionKey).Dtor_Region().UnwrapOr(nil)),
+		}
+	}()
+}
+func com_amazonaws_kms_ListGrantsOutput_Grants_FromDafny(input interface{}) []types.GrantListEntry {
+	return func() []types.GrantListEntry {
+		var fieldValue []types.GrantListEntry
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_GrantList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyPairOutput_CiphertextForRecipient_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_DescribeCustomKeyStoresOutput_CustomKeyStores_FromDafny(input interface{}) []types.CustomKeyStoresListEntry {
+	return func() []types.CustomKeyStoresListEntry {
+		var fieldValue []types.CustomKeyStoresListEntry
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_CustomKeyStoresList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_ReEncryptOutput_DestinationEncryptionAlgorithm_FromDafny(input interface{}) types.EncryptionAlgorithmSpec {
+	return func() types.EncryptionAlgorithmSpec {
+		var u types.EncryptionAlgorithmSpec
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_TagResourceInput_Tags_FromDafny(input interface{}) []types.Tag {
+	return func() []types.Tag {
+		var fieldValue []types.Tag
+
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_TagList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_CreateCustomKeyStoreInput_CustomKeyStoreType_FromDafny(input interface{}) types.CustomKeyStoreType {
+	return func() types.CustomKeyStoreType {
+		var u types.CustomKeyStoreType
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.CustomKeyStoreType)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_CustomKeyStoreType_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.CustomKeyStoreType).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_KeyMetadata_Origin_FromDafny(input interface{}) types.OriginType {
+	return func() types.OriginType {
+		var u types.OriginType
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.OriginType)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_OriginType_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.OriginType).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_ListKeyPoliciesInput_Limit_FromDafny(input interface{}) *int32 {
+	return func() *int32 {
+		var i int32
+		if input == nil {
+			return nil
+		}
+		i = input.(int32)
+		return &i
+	}()
+}
+func com_amazonaws_kms_GenerateMacInput_DryRun_FromDafny(input interface{}) *bool {
 	return func() *bool {
 		var b bool
 		if input == nil {
@@ -3165,24 +2747,230 @@ func com_amazonaws_kms_EncryptInput_DryRun_FromDafny(input interface{}) *bool {
 		return &b
 	}()
 }
-func com_amazonaws_kms_CreateGrantInput_Constraints_FromDafny(input interface{}) *types.GrantConstraints {
-	return func() *types.GrantConstraints {
+func com_amazonaws_kms_XksProxyInvalidResponseException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
 		if input == nil {
 			return nil
 		}
-		return &types.GrantConstraints{
-			EncryptionContextSubset: com_amazonaws_kms_GrantConstraints_EncryptionContextSubset_FromDafny(input.(ComAmazonawsKmsTypes.GrantConstraints).Dtor_EncryptionContextSubset().UnwrapOr(nil)),
-			EncryptionContextEquals: com_amazonaws_kms_GrantConstraints_EncryptionContextEquals_FromDafny(input.(ComAmazonawsKmsTypes.GrantConstraints).Dtor_EncryptionContextEquals().UnwrapOr(nil)),
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
 		}
 	}()
 }
-func com_amazonaws_kms_SignOutput_SigningAlgorithm_FromDafny(input interface{}) types.SigningAlgorithmSpec {
-	return func() types.SigningAlgorithmSpec {
-		var u types.SigningAlgorithmSpec
-		//TODO: What to do if nil
+func com_amazonaws_kms_SignInput_GrantTokens_FromDafny(input interface{}) []string {
+	return func() []string {
+		var fieldValue []string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_CloudHsmClusterNotFoundException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_PolicyNameList_member_FromDafny(input interface{}) string {
+	return func() string {
+		var s string
+
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return []string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateRandomInput_NumberOfBytes_FromDafny(input interface{}) *int32 {
+	return func() *int32 {
+		var i int32
+		if input == nil {
+			return nil
+		}
+		i = input.(int32)
+		return &i
+	}()
+}
+func com_amazonaws_kms_KeyMetadata_CloudHsmClusterId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GetPublicKeyInput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GetPublicKeyOutput_KeyUsage_FromDafny(input interface{}) types.KeyUsageType {
+	return func() types.KeyUsageType {
+		var u types.KeyUsageType
 		if input == nil {
 			return u
 		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.KeyUsageType)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyUsageType_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.KeyUsageType).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_RotationsListEntry_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CreateGrantInput_GrantTokens_FromDafny(input interface{}) []string {
+	return func() []string {
+		var fieldValue []string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_ScheduleKeyDeletionInput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateMacOutput_MacAlgorithm_FromDafny(input interface{}) types.MacAlgorithmSpec {
+	return func() types.MacAlgorithmSpec {
+		var u types.MacAlgorithmSpec
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.MacAlgorithmSpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_MacAlgorithmSpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.MacAlgorithmSpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_RetireGrantInput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextInput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_SignInput_SigningAlgorithm_FromDafny(input interface{}) types.SigningAlgorithmSpec {
+	return func() types.SigningAlgorithmSpec {
+		var u types.SigningAlgorithmSpec
+
 		inputEnum := input.(ComAmazonawsKmsTypes.SigningAlgorithmSpec)
 		index := -1
 		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_SigningAlgorithmSpec_{}.AllSingletonConstructors()); ; {
@@ -3197,166 +2985,7 @@ func com_amazonaws_kms_SignOutput_SigningAlgorithm_FromDafny(input interface{}) 
 		return u.Values()[index]
 	}()
 }
-func com_amazonaws_kms_VerifyInput_SigningAlgorithm_FromDafny(input interface{}) types.SigningAlgorithmSpec {
-	return func() types.SigningAlgorithmSpec {
-		var u types.SigningAlgorithmSpec
-
-		inputEnum := input
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_SigningAlgorithmSpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.SigningAlgorithmSpec).Equals(inputEnum.(ComAmazonawsKmsTypes.SigningAlgorithmSpec)) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_DeriveSharedSecretInput_PublicKey_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_MultiRegionKey_Region_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ReEncryptInput_CiphertextBlob_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CreateCustomKeyStoreInput_CustomKeyStoreName_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_VerifyOutput_SignatureValid_FromDafny(input interface{}) bool {
-	return func() bool {
-		var b bool
-		if input == nil {
-			return b
-		}
-		b = input.(bool)
-		return b
-	}()
-}
-func com_amazonaws_kms_XksProxyAuthenticationCredentialType_RawSecretAccessKey_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CreateKeyInput_CustomerMasterKeySpec_FromDafny(input interface{}) types.CustomerMasterKeySpec {
-	return func() types.CustomerMasterKeySpec {
-		var u types.CustomerMasterKeySpec
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.CustomerMasterKeySpec)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_CustomerMasterKeySpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.CustomerMasterKeySpec).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_DeriveSharedSecretInput_KeyAgreementAlgorithm_FromDafny(input interface{}) types.KeyAgreementAlgorithmSpec {
-	return func() types.KeyAgreementAlgorithmSpec {
-		var u types.KeyAgreementAlgorithmSpec
-
-		inputEnum := input
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyAgreementAlgorithmSpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.KeyAgreementAlgorithmSpec).Equals(inputEnum.(ComAmazonawsKmsTypes.KeyAgreementAlgorithmSpec)) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_RetireGrantInput_GrantId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ListResourceTagsInput_Limit_FromDafny(input interface{}) *int32 {
+func com_amazonaws_kms_KeyMetadata_PendingDeletionWindowInDays_FromDafny(input interface{}) *int32 {
 	return func() *int32 {
 		var i int32
 		if input == nil {
@@ -3366,7 +2995,78 @@ func com_amazonaws_kms_ListResourceTagsInput_Limit_FromDafny(input interface{}) 
 		return &i
 	}()
 }
-func com_amazonaws_kms_GenerateRandomInput_CustomKeyStoreId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_GenerateDataKeyPairInput_KeyPairSpec_FromDafny(input interface{}) types.DataKeyPairSpec {
+	return func() types.DataKeyPairSpec {
+		var u types.DataKeyPairSpec
+
+		inputEnum := input.(ComAmazonawsKmsTypes.DataKeyPairSpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_DataKeyPairSpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.DataKeyPairSpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_RecipientInfo_KeyEncryptionAlgorithm_FromDafny(input interface{}) types.KeyEncryptionMechanism {
+	return func() types.KeyEncryptionMechanism {
+		var u types.KeyEncryptionMechanism
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.KeyEncryptionMechanism)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyEncryptionMechanism_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.KeyEncryptionMechanism).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_SigningAlgorithmSpecList_member_FromDafny(input interface{}) types.SigningAlgorithmSpec {
+	return func() types.SigningAlgorithmSpec {
+		var u types.SigningAlgorithmSpec
+
+		inputEnum := input.(ComAmazonawsKmsTypes.SigningAlgorithmSpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_SigningAlgorithmSpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.SigningAlgorithmSpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_RevokeGrantInput_GrantId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ReEncryptInput_SourceKeyId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -3382,23 +3082,106 @@ func com_amazonaws_kms_GenerateRandomInput_CustomKeyStoreId_FromDafny(input inte
 		}
 	}()
 }
-func com_amazonaws_kms_GenerateDataKeyPairOutput_PrivateKeyPlaintext_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
+func com_amazonaws_kms_VerifyInput_GrantTokens_FromDafny(input interface{}) []string {
+	return func() []string {
+		var fieldValue []string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_ListAliasesInput_Marker_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
 		if input == nil {
 			return nil
 		}
 		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
 			val, ok := i()
 			if !ok {
-				return b
+				return &[]string{s}[0]
 			} else {
-				b = append(b, val.(byte))
+				s = s + string(val.(dafny.Char))
 			}
 		}
 	}()
 }
-func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextInput_EncryptionContext_FromDafny(input interface{}) map[string]string {
+func com_amazonaws_kms_CreateCustomKeyStoreInput_XksProxyVpcEndpointServiceName_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ListKeyPoliciesInput_Marker_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_AliasListEntry_LastUpdatedDate_FromDafny(input interface{}) *time.Time {
+	return nil
+}
+func com_amazonaws_kms_XksProxyUriInUseException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CreateGrantInput_RetiringPrincipal_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ReEncryptInput_SourceEncryptionContext_FromDafny(input interface{}) map[string]string {
 	return func() map[string]string {
 		var m map[string]string = make(map[string]string)
 		if input == nil {
@@ -3415,7 +3198,23 @@ func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextInput_EncryptionContex
 		return m
 	}()
 }
-func com_amazonaws_kms_CreateKeyInput_CustomKeyStoreId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_EncryptInput_GrantTokens_FromDafny(input interface{}) []string {
+	return func() []string {
+		var fieldValue []string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -3431,17 +3230,160 @@ func com_amazonaws_kms_CreateKeyInput_CustomKeyStoreId_FromDafny(input interface
 		}
 	}()
 }
-func com_amazonaws_kms_EncryptionAlgorithmSpecList_member_FromDafny(input interface{}) types.EncryptionAlgorithmSpec {
+func com_amazonaws_kms_CreateKeyInput_MultiRegion_FromDafny(input interface{}) *bool {
+	return func() *bool {
+		var b bool
+		if input == nil {
+			return nil
+		}
+		b = input.(bool)
+		return &b
+	}()
+}
+func com_amazonaws_kms_CreateKeyInput_Tags_FromDafny(input interface{}) []types.Tag {
+	return func() []types.Tag {
+		var fieldValue []types.Tag
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_TagList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_InvalidImportTokenException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateMacInput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_UnsupportedOperationException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyWithoutPlaintextInput_DryRun_FromDafny(input interface{}) *bool {
+	return func() *bool {
+		var b bool
+		if input == nil {
+			return nil
+		}
+		b = input.(bool)
+		return &b
+	}()
+}
+func com_amazonaws_kms_CreateCustomKeyStoreInput_KeyStorePassword_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateMacOutput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CreateKeyInput_BypassPolicyLockoutSafetyCheck_FromDafny(input interface{}) bool {
+	return func() bool {
+		var b bool
+		if input == nil {
+			return b
+		}
+		b = input.(bool)
+		return b
+	}()
+}
+func com_amazonaws_kms_GrantListEntry_Operations_FromDafny(input interface{}) []types.GrantOperation {
+	return func() []types.GrantOperation {
+		var fieldValue []types.GrantOperation
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_GrantOperationList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_EncryptOutput_EncryptionAlgorithm_FromDafny(input interface{}) types.EncryptionAlgorithmSpec {
 	return func() types.EncryptionAlgorithmSpec {
 		var u types.EncryptionAlgorithmSpec
+		if input == nil {
+			return u
+		}
 
-		inputEnum := input
+		inputEnum := input.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec)
 		index := -1
 		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()); ; {
 			enum, ok := allEnums()
 			if ok {
 				index++
-				if enum.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec).Equals(inputEnum.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec)) {
+				if enum.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec).Equals(inputEnum) {
 					break
 				}
 			}
@@ -3449,36 +3391,34 @@ func com_amazonaws_kms_EncryptionAlgorithmSpecList_member_FromDafny(input interf
 		return u.Values()[index]
 	}()
 }
-func com_amazonaws_kms_EncryptOutput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
+func com_amazonaws_kms_EncryptionContextType_value_FromDafny(input interface{}) string {
+	return func() string {
 		var s string
-		if input == nil {
-			return nil
-		}
+
 		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
 			val, ok := i()
 			if !ok {
-				return &[]string{s}[0]
+				return []string{s}[0]
 			} else {
 				s = s + string(val.(dafny.Char))
 			}
 		}
 	}()
 }
-func com_amazonaws_kms_ImportKeyMaterialInput_ExpirationModel_FromDafny(input interface{}) types.ExpirationModelType {
-	return func() types.ExpirationModelType {
-		var u types.ExpirationModelType
-		//TODO: What to do if nil
+func com_amazonaws_kms_GenerateDataKeyWithoutPlaintextInput_KeySpec_FromDafny(input interface{}) types.DataKeySpec {
+	return func() types.DataKeySpec {
+		var u types.DataKeySpec
 		if input == nil {
 			return u
 		}
-		inputEnum := input.(ComAmazonawsKmsTypes.ExpirationModelType)
+
+		inputEnum := input.(ComAmazonawsKmsTypes.DataKeySpec)
 		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_ExpirationModelType_{}.AllSingletonConstructors()); ; {
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_DataKeySpec_{}.AllSingletonConstructors()); ; {
 			enum, ok := allEnums()
 			if ok {
 				index++
-				if enum.(ComAmazonawsKmsTypes.ExpirationModelType).Equals(inputEnum) {
+				if enum.(ComAmazonawsKmsTypes.DataKeySpec).Equals(inputEnum) {
 					break
 				}
 			}
@@ -3486,7 +3426,70 @@ func com_amazonaws_kms_ImportKeyMaterialInput_ExpirationModel_FromDafny(input in
 		return u.Values()[index]
 	}()
 }
-func com_amazonaws_kms_KeyMetadata_AWSAccountId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_RotationsList_member_FromDafny(input interface{}) types.RotationsListEntry {
+	return func() types.RotationsListEntry {
+
+		return types.RotationsListEntry{
+			KeyId:        com_amazonaws_kms_RotationsListEntry_KeyId_FromDafny(input.(ComAmazonawsKmsTypes.RotationsListEntry).Dtor_KeyId().UnwrapOr(nil)),
+			RotationDate: com_amazonaws_kms_RotationsListEntry_RotationDate_FromDafny(input.(ComAmazonawsKmsTypes.RotationsListEntry).Dtor_RotationDate().UnwrapOr(nil)),
+			RotationType: com_amazonaws_kms_RotationsListEntry_RotationType_FromDafny(input.(ComAmazonawsKmsTypes.RotationsListEntry).Dtor_RotationType().UnwrapOr(nil)),
+		}
+	}()
+}
+func com_amazonaws_kms_DisableKeyInput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_KeyAgreementAlgorithmSpecList_member_FromDafny(input interface{}) types.KeyAgreementAlgorithmSpec {
+	return func() types.KeyAgreementAlgorithmSpec {
+		var u types.KeyAgreementAlgorithmSpec
+
+		inputEnum := input.(ComAmazonawsKmsTypes.KeyAgreementAlgorithmSpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyAgreementAlgorithmSpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.KeyAgreementAlgorithmSpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_ReEncryptInput_SourceEncryptionAlgorithm_FromDafny(input interface{}) types.EncryptionAlgorithmSpec {
+	return func() types.EncryptionAlgorithmSpec {
+		var u types.EncryptionAlgorithmSpec
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_CustomKeyStoresListEntry_CloudHsmClusterId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -3502,13 +3505,44 @@ func com_amazonaws_kms_KeyMetadata_AWSAccountId_FromDafny(input interface{}) *st
 		}
 	}()
 }
-func com_amazonaws_kms_GetKeyRotationStatusOutput_OnDemandRotationStartDate_FromDafny(input interface{}) *time.Time {
-	return nil
+func com_amazonaws_kms_GenerateDataKeyInput_KeySpec_FromDafny(input interface{}) types.DataKeySpec {
+	return func() types.DataKeySpec {
+		var u types.DataKeySpec
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.DataKeySpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_DataKeySpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.DataKeySpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
 }
-func com_amazonaws_kms_ScheduleKeyDeletionOutput_DeletionDate_FromDafny(input interface{}) *time.Time {
-	return nil
+func com_amazonaws_kms_KeyMetadata_KeyAgreementAlgorithms_FromDafny(input interface{}) []types.KeyAgreementAlgorithmSpec {
+	return func() []types.KeyAgreementAlgorithmSpec {
+		var fieldValue []types.KeyAgreementAlgorithmSpec
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_KeyAgreementAlgorithmSpecList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
 }
-func com_amazonaws_kms_ConflictException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_AliasListEntry_AliasName_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -3524,7 +3558,65 @@ func com_amazonaws_kms_ConflictException_message_FromDafny(input interface{}) *s
 		}
 	}()
 }
-func com_amazonaws_kms_ListAliasesInput_Limit_FromDafny(input interface{}) *int32 {
+func com_amazonaws_kms_VerifyMacInput_DryRun_FromDafny(input interface{}) *bool {
+	return func() *bool {
+		var b bool
+		if input == nil {
+			return nil
+		}
+		b = input.(bool)
+		return &b
+	}()
+}
+func com_amazonaws_kms_DecryptInput_EncryptionAlgorithm_FromDafny(input interface{}) types.EncryptionAlgorithmSpec {
+	return func() types.EncryptionAlgorithmSpec {
+		var u types.EncryptionAlgorithmSpec
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyOutput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CreateGrantInput_Constraints_FromDafny(input interface{}) *types.GrantConstraints {
+	return func() *types.GrantConstraints {
+		if input == nil {
+			return nil
+		}
+		return &types.GrantConstraints{
+			EncryptionContextSubset: com_amazonaws_kms_GrantConstraints_EncryptionContextSubset_FromDafny(input.(ComAmazonawsKmsTypes.GrantConstraints).Dtor_EncryptionContextSubset().UnwrapOr(nil)),
+			EncryptionContextEquals: com_amazonaws_kms_GrantConstraints_EncryptionContextEquals_FromDafny(input.(ComAmazonawsKmsTypes.GrantConstraints).Dtor_EncryptionContextEquals().UnwrapOr(nil)),
+		}
+	}()
+}
+func com_amazonaws_kms_EnableKeyRotationInput_RotationPeriodInDays_FromDafny(input interface{}) *int32 {
 	return func() *int32 {
 		var i int32
 		if input == nil {
@@ -3534,55 +3626,7 @@ func com_amazonaws_kms_ListAliasesInput_Limit_FromDafny(input interface{}) *int3
 		return &i
 	}()
 }
-func com_amazonaws_kms_MultiRegionConfiguration_ReplicaKeys_FromDafny(input interface{}) []types.MultiRegionKey {
-	return func() []types.MultiRegionKey {
-		var fieldValue []types.MultiRegionKey
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_MultiRegionKeyList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyWithoutPlaintextInput_GrantTokens_FromDafny(input interface{}) []string {
-	return func() []string {
-		var fieldValue []string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_VerifyMacInput_GrantTokens_FromDafny(input interface{}) []string {
-	return func() []string {
-		var fieldValue []string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_TagException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_UpdateCustomKeyStoreInput_NewCustomKeyStoreName_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -3598,41 +3642,23 @@ func com_amazonaws_kms_TagException_message_FromDafny(input interface{}) *string
 		}
 	}()
 }
-func com_amazonaws_kms_EnableKeyInput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
+func com_amazonaws_kms_VerifyInput_DryRun_FromDafny(input interface{}) *bool {
+	return func() *bool {
+		var b bool
+		if input == nil {
+			return nil
 		}
+		b = input.(bool)
+		return &b
 	}()
 }
-func com_amazonaws_kms_ListGrantsInput_GranteePrincipal_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_ListGrantsInput_GrantId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
 			return nil
 		}
 		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_SignInput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
 			val, ok := i()
 			if !ok {
 				return &[]string{s}[0]
@@ -3656,58 +3682,7 @@ func com_amazonaws_kms_TagResourceInput_KeyId_FromDafny(input interface{}) *stri
 		}
 	}()
 }
-func com_amazonaws_kms_VerifyMacOutput_MacAlgorithm_FromDafny(input interface{}) types.MacAlgorithmSpec {
-	return func() types.MacAlgorithmSpec {
-		var u types.MacAlgorithmSpec
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.MacAlgorithmSpec)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_MacAlgorithmSpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.MacAlgorithmSpec).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_GetPublicKeyOutput_KeyAgreementAlgorithms_FromDafny(input interface{}) []types.KeyAgreementAlgorithmSpec {
-	return func() []types.KeyAgreementAlgorithmSpec {
-		var fieldValue []types.KeyAgreementAlgorithmSpec
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_KeyAgreementAlgorithmSpecList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_Tag_TagKey_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_XksProxyVpcEndpointServiceInUseException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_CreateCustomKeyStoreOutput_CustomKeyStoreId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -3723,7 +3698,160 @@ func com_amazonaws_kms_XksProxyVpcEndpointServiceInUseException_message_FromDafn
 		}
 	}()
 }
-func com_amazonaws_kms_SignInput_Message_FromDafny(input interface{}) []byte {
+func com_amazonaws_kms_GenerateDataKeyPairOutput_PrivateKeyCiphertextBlob_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_EnableKeyRotationInput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateMacInput_MacAlgorithm_FromDafny(input interface{}) types.MacAlgorithmSpec {
+	return func() types.MacAlgorithmSpec {
+		var u types.MacAlgorithmSpec
+
+		inputEnum := input.(ComAmazonawsKmsTypes.MacAlgorithmSpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_MacAlgorithmSpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.MacAlgorithmSpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_CreateKeyInput_CustomerMasterKeySpec_FromDafny(input interface{}) types.CustomerMasterKeySpec {
+	return func() types.CustomerMasterKeySpec {
+		var u types.CustomerMasterKeySpec
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.CustomerMasterKeySpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_CustomerMasterKeySpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.CustomerMasterKeySpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_ListAliasesOutput_Aliases_FromDafny(input interface{}) []types.AliasListEntry {
+	return func() []types.AliasListEntry {
+		var fieldValue []types.AliasListEntry
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_AliasList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_ScheduleKeyDeletionOutput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_DeriveSharedSecretOutput_KeyAgreementAlgorithm_FromDafny(input interface{}) types.KeyAgreementAlgorithmSpec {
+	return func() types.KeyAgreementAlgorithmSpec {
+		var u types.KeyAgreementAlgorithmSpec
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.KeyAgreementAlgorithmSpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyAgreementAlgorithmSpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.KeyAgreementAlgorithmSpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_ReEncryptInput_DestinationEncryptionContext_FromDafny(input interface{}) map[string]string {
+	return func() map[string]string {
+		var m map[string]string = make(map[string]string)
+		if input == nil {
+			return nil
+		}
+
+		for i := dafny.Iterate(input.(dafny.Map).Items()); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			m[com_amazonaws_kms_EncryptionContextType_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = com_amazonaws_kms_EncryptionContextType_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
+		}
+		return m
+	}()
+}
+func com_amazonaws_kms_DeriveSharedSecretInput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_DeriveSharedSecretInput_PublicKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
 		var b []byte
 		if input == nil {
@@ -3739,53 +3867,7 @@ func com_amazonaws_kms_SignInput_Message_FromDafny(input interface{}) []byte {
 		}
 	}()
 }
-func com_amazonaws_kms_ListKeyPoliciesInput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ListAliasesInput_Marker_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_InvalidArnException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GetPublicKeyOutput_SigningAlgorithms_FromDafny(input interface{}) []types.SigningAlgorithmSpec {
+func com_amazonaws_kms_KeyMetadata_SigningAlgorithms_FromDafny(input interface{}) []types.SigningAlgorithmSpec {
 	return func() []types.SigningAlgorithmSpec {
 		var fieldValue []types.SigningAlgorithmSpec
 		if input == nil {
@@ -3801,79 +3883,17 @@ func com_amazonaws_kms_GetPublicKeyOutput_SigningAlgorithms_FromDafny(input inte
 		return fieldValue
 	}()
 }
-func com_amazonaws_kms_RetireGrantInput_GrantToken_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ListResourceTagsInput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
+func com_amazonaws_kms_MacAlgorithmSpecList_member_FromDafny(input interface{}) types.MacAlgorithmSpec {
+	return func() types.MacAlgorithmSpec {
+		var u types.MacAlgorithmSpec
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_KeyMetadata_Arn_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ListResourceTagsInput_Marker_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GetParametersForImportInput_WrappingAlgorithm_FromDafny(input interface{}) types.AlgorithmSpec {
-	return func() types.AlgorithmSpec {
-		var u types.AlgorithmSpec
-
-		inputEnum := input
+		inputEnum := input.(ComAmazonawsKmsTypes.MacAlgorithmSpec)
 		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_AlgorithmSpec_{}.AllSingletonConstructors()); ; {
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_MacAlgorithmSpec_{}.AllSingletonConstructors()); ; {
 			enum, ok := allEnums()
 			if ok {
 				index++
-				if enum.(ComAmazonawsKmsTypes.AlgorithmSpec).Equals(inputEnum.(ComAmazonawsKmsTypes.AlgorithmSpec)) {
+				if enum.(ComAmazonawsKmsTypes.MacAlgorithmSpec).Equals(inputEnum) {
 					break
 				}
 			}
@@ -3881,7 +3901,7 @@ func com_amazonaws_kms_GetParametersForImportInput_WrappingAlgorithm_FromDafny(i
 		return u.Values()[index]
 	}()
 }
-func com_amazonaws_kms_DryRunOperationException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_NotFoundException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -3897,7 +3917,28 @@ func com_amazonaws_kms_DryRunOperationException_message_FromDafny(input interfac
 		}
 	}()
 }
-func com_amazonaws_kms_ScheduleKeyDeletionInput_KeyId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_ImportKeyMaterialInput_ExpirationModel_FromDafny(input interface{}) types.ExpirationModelType {
+	return func() types.ExpirationModelType {
+		var u types.ExpirationModelType
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.ExpirationModelType)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_ExpirationModelType_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.ExpirationModelType).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_ListKeyRotationsInput_KeyId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 
@@ -3911,7 +3952,7 @@ func com_amazonaws_kms_ScheduleKeyDeletionInput_KeyId_FromDafny(input interface{
 		}
 	}()
 }
-func com_amazonaws_kms_DeleteImportedKeyMaterialInput_KeyId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_XksProxyAuthenticationCredentialType_AccessKeyId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 
@@ -3925,7 +3966,7 @@ func com_amazonaws_kms_DeleteImportedKeyMaterialInput_KeyId_FromDafny(input inte
 		}
 	}()
 }
-func com_amazonaws_kms_KeyMetadata_CloudHsmClusterId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_ReEncryptOutput_KeyId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -3941,7 +3982,25 @@ func com_amazonaws_kms_KeyMetadata_CloudHsmClusterId_FromDafny(input interface{}
 		}
 	}()
 }
-func com_amazonaws_kms_CustomKeyStoresListEntry_TrustAnchorCertificate_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_VerifyInput_SigningAlgorithm_FromDafny(input interface{}) types.SigningAlgorithmSpec {
+	return func() types.SigningAlgorithmSpec {
+		var u types.SigningAlgorithmSpec
+
+		inputEnum := input.(ComAmazonawsKmsTypes.SigningAlgorithmSpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_SigningAlgorithmSpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.SigningAlgorithmSpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_DeriveSharedSecretOutput_KeyId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -3957,7 +4016,91 @@ func com_amazonaws_kms_CustomKeyStoresListEntry_TrustAnchorCertificate_FromDafny
 		}
 	}()
 }
-func com_amazonaws_kms_ReEncryptInput_SourceKeyId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_ScheduleKeyDeletionOutput_DeletionDate_FromDafny(input interface{}) *time.Time {
+	return nil
+}
+func com_amazonaws_kms_KeyMetadata_MultiRegionConfiguration_FromDafny(input interface{}) *types.MultiRegionConfiguration {
+	return func() *types.MultiRegionConfiguration {
+		if input == nil {
+			return nil
+		}
+		return &types.MultiRegionConfiguration{
+			MultiRegionKeyType: com_amazonaws_kms_MultiRegionConfiguration_MultiRegionKeyType_FromDafny(input.(ComAmazonawsKmsTypes.MultiRegionConfiguration).Dtor_MultiRegionKeyType().UnwrapOr(nil)),
+			PrimaryKey:         com_amazonaws_kms_MultiRegionConfiguration_PrimaryKey_FromDafny(input.(ComAmazonawsKmsTypes.MultiRegionConfiguration).Dtor_PrimaryKey().UnwrapOr(nil)),
+			ReplicaKeys:        com_amazonaws_kms_MultiRegionConfiguration_ReplicaKeys_FromDafny(input.(ComAmazonawsKmsTypes.MultiRegionConfiguration).Dtor_ReplicaKeys().UnwrapOr(nil)),
+		}
+	}()
+}
+func com_amazonaws_kms_AliasList_member_FromDafny(input interface{}) types.AliasListEntry {
+	return func() types.AliasListEntry {
+
+		return types.AliasListEntry{
+			AliasName:       com_amazonaws_kms_AliasListEntry_AliasName_FromDafny(input.(ComAmazonawsKmsTypes.AliasListEntry).Dtor_AliasName().UnwrapOr(nil)),
+			AliasArn:        com_amazonaws_kms_AliasListEntry_AliasArn_FromDafny(input.(ComAmazonawsKmsTypes.AliasListEntry).Dtor_AliasArn().UnwrapOr(nil)),
+			TargetKeyId:     com_amazonaws_kms_AliasListEntry_TargetKeyId_FromDafny(input.(ComAmazonawsKmsTypes.AliasListEntry).Dtor_TargetKeyId().UnwrapOr(nil)),
+			CreationDate:    com_amazonaws_kms_AliasListEntry_CreationDate_FromDafny(input.(ComAmazonawsKmsTypes.AliasListEntry).Dtor_CreationDate().UnwrapOr(nil)),
+			LastUpdatedDate: com_amazonaws_kms_AliasListEntry_LastUpdatedDate_FromDafny(input.(ComAmazonawsKmsTypes.AliasListEntry).Dtor_LastUpdatedDate().UnwrapOr(nil)),
+		}
+	}()
+}
+func com_amazonaws_kms_DeleteAliasInput_AliasName_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyInput_GrantTokens_FromDafny(input interface{}) []string {
+	return func() []string {
+		var fieldValue []string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_GenerateMacOutput_Mac_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_DecryptInput_Recipient_FromDafny(input interface{}) *types.RecipientInfo {
+	return func() *types.RecipientInfo {
+		if input == nil {
+			return nil
+		}
+		return &types.RecipientInfo{
+			KeyEncryptionAlgorithm: com_amazonaws_kms_RecipientInfo_KeyEncryptionAlgorithm_FromDafny(input.(ComAmazonawsKmsTypes.RecipientInfo).Dtor_KeyEncryptionAlgorithm().UnwrapOr(nil)),
+			AttestationDocument:    com_amazonaws_kms_RecipientInfo_AttestationDocument_FromDafny(input.(ComAmazonawsKmsTypes.RecipientInfo).Dtor_AttestationDocument().UnwrapOr(nil)),
+		}
+	}()
+}
+func com_amazonaws_kms_ReplicateKeyInput_Policy_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -3987,83 +4130,7 @@ func com_amazonaws_kms_RotateKeyOnDemandInput_KeyId_FromDafny(input interface{})
 		}
 	}()
 }
-func com_amazonaws_kms_EncryptOutput_EncryptionAlgorithm_FromDafny(input interface{}) types.EncryptionAlgorithmSpec {
-	return func() types.EncryptionAlgorithmSpec {
-		var u types.EncryptionAlgorithmSpec
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyWithoutPlaintextInput_KeySpec_FromDafny(input interface{}) types.DataKeySpec {
-	return func() types.DataKeySpec {
-		var u types.DataKeySpec
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.DataKeySpec)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_DataKeySpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.DataKeySpec).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_DescribeCustomKeyStoresInput_Marker_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyPairInput_KeyPairSpec_FromDafny(input interface{}) types.DataKeyPairSpec {
-	return func() types.DataKeyPairSpec {
-		var u types.DataKeyPairSpec
-
-		inputEnum := input
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_DataKeyPairSpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.DataKeyPairSpec).Equals(inputEnum.(ComAmazonawsKmsTypes.DataKeyPairSpec)) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyPairInput_KeyId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_UpdateCustomKeyStoreInput_CustomKeyStoreId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 
@@ -4077,23 +4144,7 @@ func com_amazonaws_kms_GenerateDataKeyPairInput_KeyId_FromDafny(input interface{
 		}
 	}()
 }
-func com_amazonaws_kms_GetParametersForImportOutput_PublicKey_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_DecryptOutput_KeyId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_CreateCustomKeyStoreInput_CloudHsmClusterId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -4109,7 +4160,21 @@ func com_amazonaws_kms_DecryptOutput_KeyId_FromDafny(input interface{}) *string 
 		}
 	}()
 }
-func com_amazonaws_kms_ReplicateKeyOutput_ReplicaPolicy_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_UpdatePrimaryRegionInput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_InvalidCiphertextException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -4125,38 +4190,34 @@ func com_amazonaws_kms_ReplicateKeyOutput_ReplicaPolicy_FromDafny(input interfac
 		}
 	}()
 }
-func com_amazonaws_kms_GenerateRandomInput_NumberOfBytes_FromDafny(input interface{}) *int32 {
-	return func() *int32 {
-		var i int32
+func com_amazonaws_kms_KeyMetadata_XksKeyConfiguration_FromDafny(input interface{}) *types.XksKeyConfigurationType {
+	return func() *types.XksKeyConfigurationType {
 		if input == nil {
 			return nil
 		}
-		i = input.(int32)
-		return &i
+		return &types.XksKeyConfigurationType{
+			Id: com_amazonaws_kms_XksKeyConfigurationType_Id_FromDafny(input.(ComAmazonawsKmsTypes.XksKeyConfigurationType).Dtor_Id().UnwrapOr(nil)),
+		}
 	}()
 }
-func com_amazonaws_kms_KeyMetadata_ExpirationModel_FromDafny(input interface{}) types.ExpirationModelType {
-	return func() types.ExpirationModelType {
-		var u types.ExpirationModelType
-		//TODO: What to do if nil
+func com_amazonaws_kms_GenerateDataKeyPairInput_EncryptionContext_FromDafny(input interface{}) map[string]string {
+	return func() map[string]string {
+		var m map[string]string = make(map[string]string)
 		if input == nil {
-			return u
+			return nil
 		}
-		inputEnum := input.(ComAmazonawsKmsTypes.ExpirationModelType)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_ExpirationModelType_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.ExpirationModelType).Equals(inputEnum) {
-					break
-				}
+
+		for i := dafny.Iterate(input.(dafny.Map).Items()); ; {
+			val, ok := i()
+			if !ok {
+				break
 			}
+			m[com_amazonaws_kms_EncryptionContextType_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = com_amazonaws_kms_EncryptionContextType_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
 		}
-		return u.Values()[index]
+		return m
 	}()
 }
-func com_amazonaws_kms_ListKeyRotationsInput_Marker_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_KMSInvalidSignatureException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -4172,7 +4233,26 @@ func com_amazonaws_kms_ListKeyRotationsInput_Marker_FromDafny(input interface{})
 		}
 	}()
 }
-func com_amazonaws_kms_XksProxyConfigurationType_UriEndpoint_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_EncryptionContextType_key_FromDafny(input interface{}) string {
+	return func() string {
+		var s string
+		if input == nil {
+			return s
+		}
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return []string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GrantListEntry_CreationDate_FromDafny(input interface{}) *time.Time {
+	return nil
+}
+func com_amazonaws_kms_AliasListEntry_AliasArn_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -4204,14 +4284,67 @@ func com_amazonaws_kms_ListKeysInput_Marker_FromDafny(input interface{}) *string
 		}
 	}()
 }
-func com_amazonaws_kms_RevokeGrantInput_DryRun_FromDafny(input interface{}) *bool {
-	return func() *bool {
-		var b bool
+func com_amazonaws_kms_CustomKeyStoreInvalidStateException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
 		if input == nil {
 			return nil
 		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ListKeyRotationsInput_Marker_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_KeyMetadata_KeyState_FromDafny(input interface{}) types.KeyState {
+	return func() types.KeyState {
+		var u types.KeyState
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.KeyState)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyState_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.KeyState).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_PutKeyPolicyInput_BypassPolicyLockoutSafetyCheck_FromDafny(input interface{}) bool {
+	return func() bool {
+		var b bool
+		if input == nil {
+			return b
+		}
 		b = input.(bool)
-		return &b
+		return b
 	}()
 }
 func com_amazonaws_kms_UntagResourceInput_KeyId_FromDafny(input interface{}) *string {
@@ -4224,22 +4357,6 @@ func com_amazonaws_kms_UntagResourceInput_KeyId_FromDafny(input interface{}) *st
 				return &[]string{s}[0]
 			} else {
 				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_VerifyInput_Message_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
 			}
 		}
 	}()
@@ -4260,37 +4377,28 @@ func com_amazonaws_kms_GenerateDataKeyPairOutput_KeyId_FromDafny(input interface
 		}
 	}()
 }
-func com_amazonaws_kms_KeyMetadata_MultiRegion_FromDafny(input interface{}) *bool {
-	return func() *bool {
-		var b bool
+func com_amazonaws_kms_VerifyInput_MessageType_FromDafny(input interface{}) types.MessageType {
+	return func() types.MessageType {
+		var u types.MessageType
 		if input == nil {
-			return nil
+			return u
 		}
-		b = input.(bool)
-		return &b
+
+		inputEnum := input.(ComAmazonawsKmsTypes.MessageType)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_MessageType_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.MessageType).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
 	}()
 }
-func com_amazonaws_kms_ListGrantsInput_Limit_FromDafny(input interface{}) *int32 {
-	return func() *int32 {
-		var i int32
-		if input == nil {
-			return nil
-		}
-		i = input.(int32)
-		return &i
-	}()
-}
-func com_amazonaws_kms_ListKeyPoliciesInput_Limit_FromDafny(input interface{}) *int32 {
-	return func() *int32 {
-		var i int32
-		if input == nil {
-			return nil
-		}
-		i = input.(int32)
-		return &i
-	}()
-}
-func com_amazonaws_kms_InvalidGrantIdException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_ReplicateKeyInput_Description_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -4306,23 +4414,23 @@ func com_amazonaws_kms_InvalidGrantIdException_message_FromDafny(input interface
 		}
 	}()
 }
-func com_amazonaws_kms_ReEncryptOutput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
+func com_amazonaws_kms_RecipientInfo_AttestationDocument_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
 		if input == nil {
 			return nil
 		}
 		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
 			val, ok := i()
 			if !ok {
-				return &[]string{s}[0]
+				return b
 			} else {
-				s = s + string(val.(dafny.Char))
+				b = append(b, val.(byte))
 			}
 		}
 	}()
 }
-func com_amazonaws_kms_VerifyMacInput_KeyId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_DeleteImportedKeyMaterialInput_KeyId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 
@@ -4336,7 +4444,7 @@ func com_amazonaws_kms_VerifyMacInput_KeyId_FromDafny(input interface{}) *string
 		}
 	}()
 }
-func com_amazonaws_kms_CreateCustomKeyStoreInput_TrustAnchorCertificate_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_KeyMetadata_CustomKeyStoreId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -4352,57 +4460,19 @@ func com_amazonaws_kms_CreateCustomKeyStoreInput_TrustAnchorCertificate_FromDafn
 		}
 	}()
 }
-func com_amazonaws_kms_GrantListEntry_Constraints_FromDafny(input interface{}) *types.GrantConstraints {
-	return func() *types.GrantConstraints {
+func com_amazonaws_kms_GenerateDataKeyPairInput_DryRun_FromDafny(input interface{}) *bool {
+	return func() *bool {
+		var b bool
 		if input == nil {
 			return nil
 		}
-		return &types.GrantConstraints{
-			EncryptionContextSubset: com_amazonaws_kms_GrantConstraints_EncryptionContextSubset_FromDafny(input.(ComAmazonawsKmsTypes.GrantConstraints).Dtor_EncryptionContextSubset().UnwrapOr(nil)),
-			EncryptionContextEquals: com_amazonaws_kms_GrantConstraints_EncryptionContextEquals_FromDafny(input.(ComAmazonawsKmsTypes.GrantConstraints).Dtor_EncryptionContextEquals().UnwrapOr(nil)),
-		}
+		b = input.(bool)
+		return &b
 	}()
 }
-func com_amazonaws_kms_MalformedPolicyDocumentException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_DecryptOutput_EncryptionAlgorithm_FromDafny(input interface{}) types.EncryptionAlgorithmSpec {
-	return func() types.EncryptionAlgorithmSpec {
-		var u types.EncryptionAlgorithmSpec
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_KeyMetadata_SigningAlgorithms_FromDafny(input interface{}) []types.SigningAlgorithmSpec {
-	return func() []types.SigningAlgorithmSpec {
-		var fieldValue []types.SigningAlgorithmSpec
+func com_amazonaws_kms_DeriveSharedSecretInput_GrantTokens_FromDafny(input interface{}) []string {
+	return func() []string {
+		var fieldValue []string
 		if input == nil {
 			return nil
 		}
@@ -4411,38 +4481,223 @@ func com_amazonaws_kms_KeyMetadata_SigningAlgorithms_FromDafny(input interface{}
 			if !ok {
 				break
 			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_SigningAlgorithmSpecList_member_FromDafny(val))
+			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
 		}
 		return fieldValue
 	}()
 }
-func com_amazonaws_kms_EncryptInput_EncryptionContext_FromDafny(input interface{}) map[string]string {
-	return func() map[string]string {
-		var m map[string]string = make(map[string]string)
+func com_amazonaws_kms_Tag_TagKey_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_KeyMetadata_CustomerMasterKeySpec_FromDafny(input interface{}) types.CustomerMasterKeySpec {
+	return func() types.CustomerMasterKeySpec {
+		var u types.CustomerMasterKeySpec
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.CustomerMasterKeySpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_CustomerMasterKeySpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.CustomerMasterKeySpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_RotateKeyOnDemandOutput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
 		if input == nil {
 			return nil
 		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_KeyMetadata_Arn_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ListKeyRotationsOutput_Truncated_FromDafny(input interface{}) bool {
+	return func() bool {
+		var b bool
+		if input == nil {
+			return b
+		}
+		b = input.(bool)
+		return b
+	}()
+}
+func com_amazonaws_kms_GrantListEntry_GranteePrincipal_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CustomKeyStoreHasCMKsException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyInput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
 
-		for i := dafny.Iterate(input.(dafny.Map).Items()); ; {
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_KeyMetadata_EncryptionAlgorithms_FromDafny(input interface{}) []types.EncryptionAlgorithmSpec {
+	return func() []types.EncryptionAlgorithmSpec {
+		var fieldValue []types.EncryptionAlgorithmSpec
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
 			val, ok := i()
 			if !ok {
 				break
 			}
-			m[com_amazonaws_kms_EncryptionContextType_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = com_amazonaws_kms_EncryptionContextType_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
+			fieldValue = append(fieldValue, com_amazonaws_kms_EncryptionAlgorithmSpecList_member_FromDafny(val))
 		}
-		return m
+		return fieldValue
 	}()
 }
-func com_amazonaws_kms_TagList_member_FromDafny(input interface{}) types.Tag {
-	return func() types.Tag {
+func com_amazonaws_kms_ListResourceTagsInput_Limit_FromDafny(input interface{}) *int32 {
+	return func() *int32 {
+		var i int32
+		if input == nil {
+			return nil
+		}
+		i = input.(int32)
+		return &i
+	}()
+}
+func com_amazonaws_kms_UpdateCustomKeyStoreInput_XksProxyVpcEndpointServiceName_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyPairInput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
 
-		return types.Tag{
-			TagKey:   com_amazonaws_kms_Tag_TagKey_FromDafny(input.(ComAmazonawsKmsTypes.Tag).Dtor_TagKey()),
-			TagValue: com_amazonaws_kms_Tag_TagValue_FromDafny(input.(ComAmazonawsKmsTypes.Tag).Dtor_TagValue()),
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
 		}
 	}()
 }
-func com_amazonaws_kms_CreateKeyOutput_KeyMetadata_FromDafny(input interface{}) *types.KeyMetadata {
+func com_amazonaws_kms_LimitExceededException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_VerifyOutput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_DescribeKeyOutput_KeyMetadata_FromDafny(input interface{}) *types.KeyMetadata {
 	return func() *types.KeyMetadata {
 		if input == nil {
 			return nil
@@ -4476,52 +4731,20 @@ func com_amazonaws_kms_CreateKeyOutput_KeyMetadata_FromDafny(input interface{}) 
 		}
 	}()
 }
-func com_amazonaws_kms_CustomKeyStoreInvalidStateException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ListGrantsInput_GrantId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_KeyMetadata_KeyState_FromDafny(input interface{}) types.KeyState {
-	return func() types.KeyState {
-		var u types.KeyState
-		//TODO: What to do if nil
+func com_amazonaws_kms_RotationsListEntry_RotationType_FromDafny(input interface{}) types.RotationType {
+	return func() types.RotationType {
+		var u types.RotationType
 		if input == nil {
 			return u
 		}
-		inputEnum := input.(ComAmazonawsKmsTypes.KeyState)
+
+		inputEnum := input.(ComAmazonawsKmsTypes.RotationType)
 		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyState_{}.AllSingletonConstructors()); ; {
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_RotationType_{}.AllSingletonConstructors()); ; {
 			enum, ok := allEnums()
 			if ok {
 				index++
-				if enum.(ComAmazonawsKmsTypes.KeyState).Equals(inputEnum) {
+				if enum.(ComAmazonawsKmsTypes.RotationType).Equals(inputEnum) {
 					break
 				}
 			}
@@ -4529,7 +4752,7 @@ func com_amazonaws_kms_KeyMetadata_KeyState_FromDafny(input interface{}) types.K
 		return u.Values()[index]
 	}()
 }
-func com_amazonaws_kms_CreateCustomKeyStoreInput_CloudHsmClusterId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_DisabledException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -4545,23 +4768,7 @@ func com_amazonaws_kms_CreateCustomKeyStoreInput_CloudHsmClusterId_FromDafny(inp
 		}
 	}()
 }
-func com_amazonaws_kms_InvalidAliasNameException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ConnectCustomKeyStoreInput_CustomKeyStoreId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_ListResourceTagsInput_KeyId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 
@@ -4575,20 +4782,312 @@ func com_amazonaws_kms_ConnectCustomKeyStoreInput_CustomKeyStoreId_FromDafny(inp
 		}
 	}()
 }
-func com_amazonaws_kms_GenerateDataKeyPairOutput_KeyPairSpec_FromDafny(input interface{}) types.DataKeyPairSpec {
-	return func() types.DataKeyPairSpec {
-		var u types.DataKeyPairSpec
-		//TODO: What to do if nil
+func com_amazonaws_kms_DecryptOutput_CiphertextForRecipient_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GetPublicKeyOutput_PublicKey_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ScheduleKeyDeletionOutput_PendingWindowInDays_FromDafny(input interface{}) *int32 {
+	return func() *int32 {
+		var i int32
+		if input == nil {
+			return nil
+		}
+		i = input.(int32)
+		return &i
+	}()
+}
+func com_amazonaws_kms_GetKeyRotationStatusOutput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyWithoutPlaintextInput_GrantTokens_FromDafny(input interface{}) []string {
+	return func() []string {
+		var fieldValue []string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_XksProxyVpcEndpointServiceNotFoundException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_VerifyOutput_SignatureValid_FromDafny(input interface{}) bool {
+	return func() bool {
+		var b bool
+		if input == nil {
+			return b
+		}
+		b = input.(bool)
+		return b
+	}()
+}
+func com_amazonaws_kms_GrantListEntry_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GetKeyRotationStatusOutput_KeyRotationEnabled_FromDafny(input interface{}) bool {
+	return func() bool {
+		var b bool
+		if input == nil {
+			return b
+		}
+		b = input.(bool)
+		return b
+	}()
+}
+func com_amazonaws_kms_ReplicateKeyInput_ReplicaRegion_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_UntagResourceInput_TagKeys_FromDafny(input interface{}) []string {
+	return func() []string {
+		var fieldValue []string
+
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_TagKeyList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_CloudHsmClusterInUseException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ListGrantsOutput_Truncated_FromDafny(input interface{}) bool {
+	return func() bool {
+		var b bool
+		if input == nil {
+			return b
+		}
+		b = input.(bool)
+		return b
+	}()
+}
+func com_amazonaws_kms_ListAliasesInput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_DescribeCustomKeyStoresInput_Limit_FromDafny(input interface{}) *int32 {
+	return func() *int32 {
+		var i int32
+		if input == nil {
+			return nil
+		}
+		i = input.(int32)
+		return &i
+	}()
+}
+func com_amazonaws_kms_UpdateKeyDescriptionInput_Description_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ListAliasesInput_Limit_FromDafny(input interface{}) *int32 {
+	return func() *int32 {
+		var i int32
+		if input == nil {
+			return nil
+		}
+		i = input.(int32)
+		return &i
+	}()
+}
+func com_amazonaws_kms_XksProxyUriUnreachableException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CreateKeyInput_CustomKeyStoreId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_TagException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ImportKeyMaterialInput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_DeriveSharedSecretOutput_KeyOrigin_FromDafny(input interface{}) types.OriginType {
+	return func() types.OriginType {
+		var u types.OriginType
 		if input == nil {
 			return u
 		}
-		inputEnum := input.(ComAmazonawsKmsTypes.DataKeyPairSpec)
+
+		inputEnum := input.(ComAmazonawsKmsTypes.OriginType)
 		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_DataKeyPairSpec_{}.AllSingletonConstructors()); ; {
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_OriginType_{}.AllSingletonConstructors()); ; {
 			enum, ok := allEnums()
 			if ok {
 				index++
-				if enum.(ComAmazonawsKmsTypes.DataKeyPairSpec).Equals(inputEnum) {
+				if enum.(ComAmazonawsKmsTypes.OriginType).Equals(inputEnum) {
 					break
 				}
 			}
@@ -4596,7 +5095,176 @@ func com_amazonaws_kms_GenerateDataKeyPairOutput_KeyPairSpec_FromDafny(input int
 		return u.Values()[index]
 	}()
 }
-func com_amazonaws_kms_ListGrantsInput_KeyId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_EncryptInput_EncryptionAlgorithm_FromDafny(input interface{}) types.EncryptionAlgorithmSpec {
+	return func() types.EncryptionAlgorithmSpec {
+		var u types.EncryptionAlgorithmSpec
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_UpdateCustomKeyStoreInput_XksProxyAuthenticationCredential_FromDafny(input interface{}) *types.XksProxyAuthenticationCredentialType {
+	return func() *types.XksProxyAuthenticationCredentialType {
+		if input == nil {
+			return nil
+		}
+		return &types.XksProxyAuthenticationCredentialType{
+			AccessKeyId:        com_amazonaws_kms_XksProxyAuthenticationCredentialType_AccessKeyId_FromDafny(input.(ComAmazonawsKmsTypes.XksProxyAuthenticationCredentialType).Dtor_AccessKeyId()),
+			RawSecretAccessKey: com_amazonaws_kms_XksProxyAuthenticationCredentialType_RawSecretAccessKey_FromDafny(input.(ComAmazonawsKmsTypes.XksProxyAuthenticationCredentialType).Dtor_RawSecretAccessKey()),
+		}
+	}()
+}
+func com_amazonaws_kms_KMSInvalidMacException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CreateCustomKeyStoreInput_XksProxyAuthenticationCredential_FromDafny(input interface{}) *types.XksProxyAuthenticationCredentialType {
+	return func() *types.XksProxyAuthenticationCredentialType {
+		if input == nil {
+			return nil
+		}
+		return &types.XksProxyAuthenticationCredentialType{
+			AccessKeyId:        com_amazonaws_kms_XksProxyAuthenticationCredentialType_AccessKeyId_FromDafny(input.(ComAmazonawsKmsTypes.XksProxyAuthenticationCredentialType).Dtor_AccessKeyId()),
+			RawSecretAccessKey: com_amazonaws_kms_XksProxyAuthenticationCredentialType_RawSecretAccessKey_FromDafny(input.(ComAmazonawsKmsTypes.XksProxyAuthenticationCredentialType).Dtor_RawSecretAccessKey()),
+		}
+	}()
+}
+func com_amazonaws_kms_EncryptOutput_CiphertextBlob_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GetPublicKeyOutput_KeySpec_FromDafny(input interface{}) types.KeySpec {
+	return func() types.KeySpec {
+		var u types.KeySpec
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.KeySpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeySpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.KeySpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_DecryptInput_DryRun_FromDafny(input interface{}) *bool {
+	return func() *bool {
+		var b bool
+		if input == nil {
+			return nil
+		}
+		b = input.(bool)
+		return &b
+	}()
+}
+func com_amazonaws_kms_DisableKeyRotationInput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyInput_EncryptionContext_FromDafny(input interface{}) map[string]string {
+	return func() map[string]string {
+		var m map[string]string = make(map[string]string)
+		if input == nil {
+			return nil
+		}
+
+		for i := dafny.Iterate(input.(dafny.Map).Items()); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			m[com_amazonaws_kms_EncryptionContextType_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = com_amazonaws_kms_EncryptionContextType_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
+		}
+		return m
+	}()
+}
+func com_amazonaws_kms_GenerateRandomOutput_Plaintext_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GetParametersForImportOutput_ImportToken_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GetKeyRotationStatusInput_KeyId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 
@@ -4620,7 +5288,44 @@ func com_amazonaws_kms_GenerateDataKeyWithoutPlaintextInput_NumberOfBytes_FromDa
 		return &i
 	}()
 }
-func com_amazonaws_kms_GetParametersForImportOutput_ImportToken_FromDafny(input interface{}) []byte {
+func com_amazonaws_kms_ScheduleKeyDeletionOutput_KeyState_FromDafny(input interface{}) types.KeyState {
+	return func() types.KeyState {
+		var u types.KeyState
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.KeyState)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyState_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.KeyState).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_ListKeyPoliciesOutput_NextMarker_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyOutput_CiphertextForRecipient_FromDafny(input interface{}) []byte {
 	return func() []byte {
 		var b []byte
 		if input == nil {
@@ -4636,22 +5341,66 @@ func com_amazonaws_kms_GetParametersForImportOutput_ImportToken_FromDafny(input 
 		}
 	}()
 }
-func com_amazonaws_kms_MacAlgorithmSpecList_member_FromDafny(input interface{}) types.MacAlgorithmSpec {
-	return func() types.MacAlgorithmSpec {
-		var u types.MacAlgorithmSpec
-
-		inputEnum := input
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_MacAlgorithmSpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.MacAlgorithmSpec).Equals(inputEnum.(ComAmazonawsKmsTypes.MacAlgorithmSpec)) {
-					break
-				}
+func com_amazonaws_kms_DecryptInput_CiphertextBlob_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
 			}
 		}
-		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyPairInput_GrantTokens_FromDafny(input interface{}) []string {
+	return func() []string {
+		var fieldValue []string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_KeyUnavailableException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CreateGrantInput_GranteePrincipal_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
 	}()
 }
 func com_amazonaws_kms_ReEncryptOutput_CiphertextBlob_FromDafny(input interface{}) []byte {
@@ -4670,95 +5419,36 @@ func com_amazonaws_kms_ReEncryptOutput_CiphertextBlob_FromDafny(input interface{
 		}
 	}()
 }
-func com_amazonaws_kms_GenerateDataKeyOutput_CiphertextBlob_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
+func com_amazonaws_kms_ReplicateKeyInput_BypassPolicyLockoutSafetyCheck_FromDafny(input interface{}) bool {
+	return func() bool {
+		var b bool
+		if input == nil {
+			return b
+		}
+		b = input.(bool)
+		return b
+	}()
+}
+func com_amazonaws_kms_MalformedPolicyDocumentException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
 		if input == nil {
 			return nil
 		}
 		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
 			val, ok := i()
 			if !ok {
-				return b
+				return &[]string{s}[0]
 			} else {
-				b = append(b, val.(byte))
+				s = s + string(val.(dafny.Char))
 			}
 		}
 	}()
 }
-func com_amazonaws_kms_VerifyMacInput_Message_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_RotationsListEntry_RotationDate_FromDafny(input interface{}) *time.Time {
+func com_amazonaws_kms_GetParametersForImportOutput_ParametersValidTo_FromDafny(input interface{}) *time.Time {
 	return nil
 }
-func com_amazonaws_kms_XksKeyInvalidConfigurationException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyInput_KeySpec_FromDafny(input interface{}) types.DataKeySpec {
-	return func() types.DataKeySpec {
-		var u types.DataKeySpec
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.DataKeySpec)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_DataKeySpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.DataKeySpec).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_CreateGrantInput_Name_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_EnableKeyRotationInput_KeyId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_UpdateKeyDescriptionInput_KeyId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 
@@ -4772,23 +5462,43 @@ func com_amazonaws_kms_EnableKeyRotationInput_KeyId_FromDafny(input interface{})
 		}
 	}()
 }
-func com_amazonaws_kms_GetPublicKeyOutput_EncryptionAlgorithms_FromDafny(input interface{}) []types.EncryptionAlgorithmSpec {
-	return func() []types.EncryptionAlgorithmSpec {
-		var fieldValue []types.EncryptionAlgorithmSpec
+func com_amazonaws_kms_ScheduleKeyDeletionInput_PendingWindowInDays_FromDafny(input interface{}) *int32 {
+	return func() *int32 {
+		var i int32
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_EncryptionAlgorithmSpecList_member_FromDafny(val))
-		}
-		return fieldValue
+		i = input.(int32)
+		return &i
 	}()
 }
-func com_amazonaws_kms_KMSInvalidMacException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_GetKeyRotationStatusOutput_RotationPeriodInDays_FromDafny(input interface{}) *int32 {
+	return func() *int32 {
+		var i int32
+		if input == nil {
+			return nil
+		}
+		i = input.(int32)
+		return &i
+	}()
+}
+func com_amazonaws_kms_XksKeyConfigurationType_Id_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ListKeyRotationsOutput_NextMarker_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -4820,48 +5530,17 @@ func com_amazonaws_kms_DependencyTimeoutException_message_FromDafny(input interf
 		}
 	}()
 }
-func com_amazonaws_kms_ImportKeyMaterialInput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
+func com_amazonaws_kms_GrantOperationList_member_FromDafny(input interface{}) types.GrantOperation {
+	return func() types.GrantOperation {
+		var u types.GrantOperation
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_DisableKeyRotationInput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CustomKeyStoresListEntry_ConnectionState_FromDafny(input interface{}) types.ConnectionStateType {
-	return func() types.ConnectionStateType {
-		var u types.ConnectionStateType
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.ConnectionStateType)
+		inputEnum := input.(ComAmazonawsKmsTypes.GrantOperation)
 		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_ConnectionStateType_{}.AllSingletonConstructors()); ; {
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_GrantOperation_{}.AllSingletonConstructors()); ; {
 			enum, ok := allEnums()
 			if ok {
 				index++
-				if enum.(ComAmazonawsKmsTypes.ConnectionStateType).Equals(inputEnum) {
+				if enum.(ComAmazonawsKmsTypes.GrantOperation).Equals(inputEnum) {
 					break
 				}
 			}
@@ -4869,7 +5548,396 @@ func com_amazonaws_kms_CustomKeyStoresListEntry_ConnectionState_FromDafny(input 
 		return u.Values()[index]
 	}()
 }
-func com_amazonaws_kms_ReEncryptInput_DestinationEncryptionContext_FromDafny(input interface{}) map[string]string {
+func com_amazonaws_kms_UpdateCustomKeyStoreInput_XksProxyUriPath_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_KeyMetadata_Enabled_FromDafny(input interface{}) bool {
+	return func() bool {
+		var b bool
+		if input == nil {
+			return b
+		}
+		b = input.(bool)
+		return b
+	}()
+}
+func com_amazonaws_kms_KMSInternalException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ReplicateKeyInput_Tags_FromDafny(input interface{}) []types.Tag {
+	return func() []types.Tag {
+		var fieldValue []types.Tag
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_TagList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_VerifyInput_Signature_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ListResourceTagsOutput_Truncated_FromDafny(input interface{}) bool {
+	return func() bool {
+		var b bool
+		if input == nil {
+			return b
+		}
+		b = input.(bool)
+		return b
+	}()
+}
+func com_amazonaws_kms_ReEncryptInput_DestinationEncryptionAlgorithm_FromDafny(input interface{}) types.EncryptionAlgorithmSpec {
+	return func() types.EncryptionAlgorithmSpec {
+		var u types.EncryptionAlgorithmSpec
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_ReplicateKeyOutput_ReplicaTags_FromDafny(input interface{}) []types.Tag {
+	return func() []types.Tag {
+		var fieldValue []types.Tag
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_TagList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_CreateGrantOutput_GrantToken_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ListKeyPoliciesOutput_PolicyNames_FromDafny(input interface{}) []string {
+	return func() []string {
+		var fieldValue []string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_PolicyNameList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_IncorrectKeyException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_XksProxyConfigurationType_Connectivity_FromDafny(input interface{}) types.XksProxyConnectivityType {
+	return func() types.XksProxyConnectivityType {
+		var u types.XksProxyConnectivityType
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.XksProxyConnectivityType)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_XksProxyConnectivityType_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.XksProxyConnectivityType).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_CreateKeyInput_Policy_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_IncorrectKeyMaterialException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_DescribeCustomKeyStoresOutput_Truncated_FromDafny(input interface{}) bool {
+	return func() bool {
+		var b bool
+		if input == nil {
+			return b
+		}
+		b = input.(bool)
+		return b
+	}()
+}
+func com_amazonaws_kms_UpdateAliasInput_AliasName_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GrantListEntry_IssuingAccount_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CreateCustomKeyStoreInput_XksProxyConnectivity_FromDafny(input interface{}) types.XksProxyConnectivityType {
+	return func() types.XksProxyConnectivityType {
+		var u types.XksProxyConnectivityType
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.XksProxyConnectivityType)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_XksProxyConnectivityType_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.XksProxyConnectivityType).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_CustomKeyStoreNameInUseException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GrantList_member_FromDafny(input interface{}) types.GrantListEntry {
+	return func() types.GrantListEntry {
+
+		return types.GrantListEntry{
+			KeyId:             com_amazonaws_kms_GrantListEntry_KeyId_FromDafny(input.(ComAmazonawsKmsTypes.GrantListEntry).Dtor_KeyId().UnwrapOr(nil)),
+			GrantId:           com_amazonaws_kms_GrantListEntry_GrantId_FromDafny(input.(ComAmazonawsKmsTypes.GrantListEntry).Dtor_GrantId().UnwrapOr(nil)),
+			Name:              com_amazonaws_kms_GrantListEntry_Name_FromDafny(input.(ComAmazonawsKmsTypes.GrantListEntry).Dtor_Name().UnwrapOr(nil)),
+			CreationDate:      com_amazonaws_kms_GrantListEntry_CreationDate_FromDafny(input.(ComAmazonawsKmsTypes.GrantListEntry).Dtor_CreationDate().UnwrapOr(nil)),
+			GranteePrincipal:  com_amazonaws_kms_GrantListEntry_GranteePrincipal_FromDafny(input.(ComAmazonawsKmsTypes.GrantListEntry).Dtor_GranteePrincipal().UnwrapOr(nil)),
+			RetiringPrincipal: com_amazonaws_kms_GrantListEntry_RetiringPrincipal_FromDafny(input.(ComAmazonawsKmsTypes.GrantListEntry).Dtor_RetiringPrincipal().UnwrapOr(nil)),
+			IssuingAccount:    com_amazonaws_kms_GrantListEntry_IssuingAccount_FromDafny(input.(ComAmazonawsKmsTypes.GrantListEntry).Dtor_IssuingAccount().UnwrapOr(nil)),
+			Operations:        com_amazonaws_kms_GrantListEntry_Operations_FromDafny(input.(ComAmazonawsKmsTypes.GrantListEntry).Dtor_Operations().UnwrapOr(nil)),
+			Constraints:       com_amazonaws_kms_GrantListEntry_Constraints_FromDafny(input.(ComAmazonawsKmsTypes.GrantListEntry).Dtor_Constraints().UnwrapOr(nil)),
+		}
+	}()
+}
+func com_amazonaws_kms_VerifyMacInput_Mac_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_KeyListEntry_KeyArn_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_DescribeCustomKeyStoresOutput_NextMarker_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CreateKeyInput_XksKeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ListKeysOutput_Truncated_FromDafny(input interface{}) bool {
+	return func() bool {
+		var b bool
+		if input == nil {
+			return b
+		}
+		b = input.(bool)
+		return b
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyWithoutPlaintextInput_EncryptionContext_FromDafny(input interface{}) map[string]string {
 	return func() map[string]string {
 		var m map[string]string = make(map[string]string)
 		if input == nil {
@@ -4886,17 +5954,7 @@ func com_amazonaws_kms_ReEncryptInput_DestinationEncryptionContext_FromDafny(inp
 		return m
 	}()
 }
-func com_amazonaws_kms_CreateKeyInput_BypassPolicyLockoutSafetyCheck_FromDafny(input interface{}) bool {
-	return func() bool {
-		var b bool
-		if input == nil {
-			return b
-		}
-		b = input.(bool)
-		return b
-	}()
-}
-func com_amazonaws_kms_KeyListEntry_KeyId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_ListResourceTagsOutput_NextMarker_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -4912,30 +5970,36 @@ func com_amazonaws_kms_KeyListEntry_KeyId_FromDafny(input interface{}) *string {
 		}
 	}()
 }
-func com_amazonaws_kms_ListKeyPoliciesOutput_Truncated_FromDafny(input interface{}) bool {
-	return func() bool {
-		var b bool
+func com_amazonaws_kms_EncryptInput_Plaintext_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
 		if input == nil {
-			return b
+			return nil
 		}
-		b = input.(bool)
-		return b
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
 	}()
 }
-func com_amazonaws_kms_ReEncryptInput_SourceEncryptionAlgorithm_FromDafny(input interface{}) types.EncryptionAlgorithmSpec {
-	return func() types.EncryptionAlgorithmSpec {
-		var u types.EncryptionAlgorithmSpec
-		//TODO: What to do if nil
+func com_amazonaws_kms_CustomKeyStoresListEntry_CustomKeyStoreType_FromDafny(input interface{}) types.CustomKeyStoreType {
+	return func() types.CustomKeyStoreType {
+		var u types.CustomKeyStoreType
 		if input == nil {
 			return u
 		}
-		inputEnum := input.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec)
+
+		inputEnum := input.(ComAmazonawsKmsTypes.CustomKeyStoreType)
 		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()); ; {
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_CustomKeyStoreType_{}.AllSingletonConstructors()); ; {
 			enum, ok := allEnums()
 			if ok {
 				index++
-				if enum.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec).Equals(inputEnum) {
+				if enum.(ComAmazonawsKmsTypes.CustomKeyStoreType).Equals(inputEnum) {
 					break
 				}
 			}
@@ -4943,30 +6007,23 @@ func com_amazonaws_kms_ReEncryptInput_SourceEncryptionAlgorithm_FromDafny(input 
 		return u.Values()[index]
 	}()
 }
-func com_amazonaws_kms_DecryptInput_EncryptionAlgorithm_FromDafny(input interface{}) types.EncryptionAlgorithmSpec {
-	return func() types.EncryptionAlgorithmSpec {
-		var u types.EncryptionAlgorithmSpec
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec).Equals(inputEnum) {
-					break
-				}
+func com_amazonaws_kms_CancelKeyDeletionInput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
 			}
 		}
-		return u.Values()[index]
 	}()
 }
-func com_amazonaws_kms_KeyMetadata_KeyAgreementAlgorithms_FromDafny(input interface{}) []types.KeyAgreementAlgorithmSpec {
-	return func() []types.KeyAgreementAlgorithmSpec {
-		var fieldValue []types.KeyAgreementAlgorithmSpec
+func com_amazonaws_kms_DecryptInput_GrantTokens_FromDafny(input interface{}) []string {
+	return func() []string {
+		var fieldValue []string
 		if input == nil {
 			return nil
 		}
@@ -4975,148 +6032,241 @@ func com_amazonaws_kms_KeyMetadata_KeyAgreementAlgorithms_FromDafny(input interf
 			if !ok {
 				break
 			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_KeyAgreementAlgorithmSpecList_member_FromDafny(val))
+			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
 		}
 		return fieldValue
 	}()
 }
-func com_amazonaws_kms_GenerateRandomOutput_CiphertextForRecipient_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyPairOutput_PublicKey_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
+func com_amazonaws_kms_CustomKeyStoresList_member_FromDafny(input interface{}) types.CustomKeyStoresListEntry {
+	return func() types.CustomKeyStoresListEntry {
+
+		return types.CustomKeyStoresListEntry{
+			CustomKeyStoreId:       com_amazonaws_kms_CustomKeyStoresListEntry_CustomKeyStoreId_FromDafny(input.(ComAmazonawsKmsTypes.CustomKeyStoresListEntry).Dtor_CustomKeyStoreId().UnwrapOr(nil)),
+			CustomKeyStoreName:     com_amazonaws_kms_CustomKeyStoresListEntry_CustomKeyStoreName_FromDafny(input.(ComAmazonawsKmsTypes.CustomKeyStoresListEntry).Dtor_CustomKeyStoreName().UnwrapOr(nil)),
+			CloudHsmClusterId:      com_amazonaws_kms_CustomKeyStoresListEntry_CloudHsmClusterId_FromDafny(input.(ComAmazonawsKmsTypes.CustomKeyStoresListEntry).Dtor_CloudHsmClusterId().UnwrapOr(nil)),
+			TrustAnchorCertificate: com_amazonaws_kms_CustomKeyStoresListEntry_TrustAnchorCertificate_FromDafny(input.(ComAmazonawsKmsTypes.CustomKeyStoresListEntry).Dtor_TrustAnchorCertificate().UnwrapOr(nil)),
+			ConnectionState:        com_amazonaws_kms_CustomKeyStoresListEntry_ConnectionState_FromDafny(input.(ComAmazonawsKmsTypes.CustomKeyStoresListEntry).Dtor_ConnectionState().UnwrapOr(nil)),
+			ConnectionErrorCode:    com_amazonaws_kms_CustomKeyStoresListEntry_ConnectionErrorCode_FromDafny(input.(ComAmazonawsKmsTypes.CustomKeyStoresListEntry).Dtor_ConnectionErrorCode().UnwrapOr(nil)),
+			CreationDate:           com_amazonaws_kms_CustomKeyStoresListEntry_CreationDate_FromDafny(input.(ComAmazonawsKmsTypes.CustomKeyStoresListEntry).Dtor_CreationDate().UnwrapOr(nil)),
+			CustomKeyStoreType:     com_amazonaws_kms_CustomKeyStoresListEntry_CustomKeyStoreType_FromDafny(input.(ComAmazonawsKmsTypes.CustomKeyStoresListEntry).Dtor_CustomKeyStoreType().UnwrapOr(nil)),
+			XksProxyConfiguration:  com_amazonaws_kms_CustomKeyStoresListEntry_XksProxyConfiguration_FromDafny(input.(ComAmazonawsKmsTypes.CustomKeyStoresListEntry).Dtor_XksProxyConfiguration().UnwrapOr(nil)),
 		}
 	}()
 }
-func com_amazonaws_kms_VerifyMacInput_DryRun_FromDafny(input interface{}) *bool {
-	return func() *bool {
-		var b bool
-		if input == nil {
-			return nil
-		}
-		b = input.(bool)
-		return &b
-	}()
-}
-func com_amazonaws_kms_CustomKeyStoresListEntry_CloudHsmClusterId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_DisconnectCustomKeyStoreInput_CustomKeyStoreId_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GetPublicKeyOutput_CustomerMasterKeySpec_FromDafny(input interface{}) types.CustomerMasterKeySpec {
-	return func() types.CustomerMasterKeySpec {
-		var u types.CustomerMasterKeySpec
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.CustomerMasterKeySpec)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_CustomerMasterKeySpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.CustomerMasterKeySpec).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_CustomKeyStoresListEntry_CreationDate_FromDafny(input interface{}) *time.Time {
-	return nil
-}
-func com_amazonaws_kms_SignInput_MessageType_FromDafny(input interface{}) types.MessageType {
-	return func() types.MessageType {
-		var u types.MessageType
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.MessageType)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_MessageType_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.MessageType).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_UpdateCustomKeyStoreInput_CloudHsmClusterId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CreateKeyInput_MultiRegion_FromDafny(input interface{}) *bool {
-	return func() *bool {
-		var b bool
-		if input == nil {
-			return nil
-		}
-		b = input.(bool)
-		return &b
-	}()
-}
-func com_amazonaws_kms_EncryptionContextType_value_FromDafny(input interface{}) string {
-	return func() string {
 		var s string
 
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ReEncryptInput_DestinationKeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_KeyMetadata_ExpirationModel_FromDafny(input interface{}) types.ExpirationModelType {
+	return func() types.ExpirationModelType {
+		var u types.ExpirationModelType
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.ExpirationModelType)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_ExpirationModelType_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.ExpirationModelType).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_KeyMetadata_MultiRegion_FromDafny(input interface{}) *bool {
+	return func() *bool {
+		var b bool
+		if input == nil {
+			return nil
+		}
+		b = input.(bool)
+		return &b
+	}()
+}
+func com_amazonaws_kms_DeriveSharedSecretOutput_SharedSecret_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
 		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
 			val, ok := i()
 			if !ok {
-				return []string{s}[0]
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GetParametersForImportInput_WrappingAlgorithm_FromDafny(input interface{}) types.AlgorithmSpec {
+	return func() types.AlgorithmSpec {
+		var u types.AlgorithmSpec
+
+		inputEnum := input.(ComAmazonawsKmsTypes.AlgorithmSpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_AlgorithmSpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.AlgorithmSpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_ReplicateKeyInput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ImportKeyMaterialInput_ImportToken_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CustomKeyStoresListEntry_CustomKeyStoreId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_MultiRegionConfiguration_PrimaryKey_FromDafny(input interface{}) *types.MultiRegionKey {
+	return func() *types.MultiRegionKey {
+		if input == nil {
+			return nil
+		}
+		return &types.MultiRegionKey{
+			Arn:    com_amazonaws_kms_MultiRegionKey_Arn_FromDafny(input.(ComAmazonawsKmsTypes.MultiRegionKey).Dtor_Arn().UnwrapOr(nil)),
+			Region: com_amazonaws_kms_MultiRegionKey_Region_FromDafny(input.(ComAmazonawsKmsTypes.MultiRegionKey).Dtor_Region().UnwrapOr(nil)),
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyInput_DryRun_FromDafny(input interface{}) *bool {
+	return func() *bool {
+		var b bool
+		if input == nil {
+			return nil
+		}
+		b = input.(bool)
+		return &b
+	}()
+}
+func com_amazonaws_kms_XksProxyVpcEndpointServiceInUseException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextInput_KeyPairSpec_FromDafny(input interface{}) types.DataKeyPairSpec {
+	return func() types.DataKeyPairSpec {
+		var u types.DataKeyPairSpec
+
+		inputEnum := input.(ComAmazonawsKmsTypes.DataKeyPairSpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_DataKeyPairSpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.DataKeyPairSpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyInput_NumberOfBytes_FromDafny(input interface{}) *int32 {
+	return func() *int32 {
+		var i int32
+		if input == nil {
+			return nil
+		}
+		i = input.(int32)
+		return &i
+	}()
+}
+func com_amazonaws_kms_ExpiredImportTokenException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
 			} else {
 				s = s + string(val.(dafny.Char))
 			}
@@ -5139,25 +6289,101 @@ func com_amazonaws_kms_ListAliasesOutput_NextMarker_FromDafny(input interface{})
 		}
 	}()
 }
-func com_amazonaws_kms_EncryptInput_EncryptionAlgorithm_FromDafny(input interface{}) types.EncryptionAlgorithmSpec {
-	return func() types.EncryptionAlgorithmSpec {
-		var u types.EncryptionAlgorithmSpec
-		//TODO: What to do if nil
+func com_amazonaws_kms_CustomKeyStoresListEntry_CreationDate_FromDafny(input interface{}) *time.Time {
+	return nil
+}
+func com_amazonaws_kms_CloudHsmClusterNotRelatedException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_UpdateCustomKeyStoreInput_CloudHsmClusterId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CreateKeyInput_Origin_FromDafny(input interface{}) types.OriginType {
+	return func() types.OriginType {
+		var u types.OriginType
 		if input == nil {
 			return u
 		}
-		inputEnum := input.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec)
+
+		inputEnum := input.(ComAmazonawsKmsTypes.OriginType)
 		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()); ; {
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_OriginType_{}.AllSingletonConstructors()); ; {
 			enum, ok := allEnums()
 			if ok {
 				index++
-				if enum.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec).Equals(inputEnum) {
+				if enum.(ComAmazonawsKmsTypes.OriginType).Equals(inputEnum) {
 					break
 				}
 			}
 		}
 		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_ListKeysInput_Limit_FromDafny(input interface{}) *int32 {
+	return func() *int32 {
+		var i int32
+		if input == nil {
+			return nil
+		}
+		i = input.(int32)
+		return &i
+	}()
+}
+func com_amazonaws_kms_KeyMetadata_KeySpec_FromDafny(input interface{}) types.KeySpec {
+	return func() types.KeySpec {
+		var u types.KeySpec
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.KeySpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeySpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.KeySpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_ListKeyPoliciesOutput_Truncated_FromDafny(input interface{}) bool {
+	return func() bool {
+		var b bool
+		if input == nil {
+			return b
+		}
+		b = input.(bool)
+		return b
 	}()
 }
 func com_amazonaws_kms_GetParametersForImportOutput_KeyId_FromDafny(input interface{}) *string {
@@ -5176,20 +6402,20 @@ func com_amazonaws_kms_GetParametersForImportOutput_KeyId_FromDafny(input interf
 		}
 	}()
 }
-func com_amazonaws_kms_RecipientInfo_KeyEncryptionAlgorithm_FromDafny(input interface{}) types.KeyEncryptionMechanism {
-	return func() types.KeyEncryptionMechanism {
-		var u types.KeyEncryptionMechanism
-		//TODO: What to do if nil
+func com_amazonaws_kms_GetPublicKeyOutput_CustomerMasterKeySpec_FromDafny(input interface{}) types.CustomerMasterKeySpec {
+	return func() types.CustomerMasterKeySpec {
+		var u types.CustomerMasterKeySpec
 		if input == nil {
 			return u
 		}
-		inputEnum := input.(ComAmazonawsKmsTypes.KeyEncryptionMechanism)
+
+		inputEnum := input.(ComAmazonawsKmsTypes.CustomerMasterKeySpec)
 		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyEncryptionMechanism_{}.AllSingletonConstructors()); ; {
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_CustomerMasterKeySpec_{}.AllSingletonConstructors()); ; {
 			enum, ok := allEnums()
 			if ok {
 				index++
-				if enum.(ComAmazonawsKmsTypes.KeyEncryptionMechanism).Equals(inputEnum) {
+				if enum.(ComAmazonawsKmsTypes.CustomerMasterKeySpec).Equals(inputEnum) {
 					break
 				}
 			}
@@ -5197,23 +6423,7 @@ func com_amazonaws_kms_RecipientInfo_KeyEncryptionAlgorithm_FromDafny(input inte
 		return u.Values()[index]
 	}()
 }
-func com_amazonaws_kms_UnsupportedOperationException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_KeyMetadata_PendingDeletionWindowInDays_FromDafny(input interface{}) *int32 {
+func com_amazonaws_kms_ListKeyRotationsInput_Limit_FromDafny(input interface{}) *int32 {
 	return func() *int32 {
 		var i int32
 		if input == nil {
@@ -5223,20 +6433,25 @@ func com_amazonaws_kms_KeyMetadata_PendingDeletionWindowInDays_FromDafny(input i
 		return &i
 	}()
 }
-func com_amazonaws_kms_GetPublicKeyInput_GrantTokens_FromDafny(input interface{}) []string {
-	return func() []string {
-		var fieldValue []string
+func com_amazonaws_kms_SignInput_MessageType_FromDafny(input interface{}) types.MessageType {
+	return func() types.MessageType {
+		var u types.MessageType
 		if input == nil {
-			return nil
+			return u
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
+
+		inputEnum := input.(ComAmazonawsKmsTypes.MessageType)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_MessageType_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.MessageType).Equals(inputEnum) {
+					break
+				}
 			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
 		}
-		return fieldValue
+		return u.Values()[index]
 	}()
 }
 func com_amazonaws_kms_GrantConstraints_EncryptionContextSubset_FromDafny(input interface{}) map[string]string {
@@ -5256,7 +6471,201 @@ func com_amazonaws_kms_GrantConstraints_EncryptionContextSubset_FromDafny(input 
 		return m
 	}()
 }
+func com_amazonaws_kms_GenerateDataKeyOutput_Plaintext_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_VerifyOutput_SigningAlgorithm_FromDafny(input interface{}) types.SigningAlgorithmSpec {
+	return func() types.SigningAlgorithmSpec {
+		var u types.SigningAlgorithmSpec
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.SigningAlgorithmSpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_SigningAlgorithmSpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.SigningAlgorithmSpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_AliasListEntry_CreationDate_FromDafny(input interface{}) *time.Time {
+	return nil
+}
 func com_amazonaws_kms_GrantListEntry_GrantId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_XksKeyAlreadyInUseException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyPairOutput_KeyPairSpec_FromDafny(input interface{}) types.DataKeyPairSpec {
+	return func() types.DataKeyPairSpec {
+		var u types.DataKeyPairSpec
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.DataKeyPairSpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_DataKeyPairSpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.DataKeyPairSpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_KMSInvalidStateException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ImportKeyMaterialInput_EncryptedKeyMaterial_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_UpdateCustomKeyStoreInput_XksProxyConnectivity_FromDafny(input interface{}) types.XksProxyConnectivityType {
+	return func() types.XksProxyConnectivityType {
+		var u types.XksProxyConnectivityType
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.XksProxyConnectivityType)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_XksProxyConnectivityType_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.XksProxyConnectivityType).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_GetPublicKeyOutput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateMacInput_Message_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateRandomOutput_CiphertextForRecipient_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_InvalidKeyUsageException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -5306,7 +6715,7 @@ func com_amazonaws_kms_ReplicateKeyOutput_ReplicaKeyMetadata_FromDafny(input int
 		}
 	}()
 }
-func com_amazonaws_kms_CustomKeyStoreNotFoundException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_DecryptInput_KeyId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -5322,58 +6731,7 @@ func com_amazonaws_kms_CustomKeyStoreNotFoundException_message_FromDafny(input i
 		}
 	}()
 }
-func com_amazonaws_kms_UpdateKeyDescriptionInput_Description_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_EncryptInput_Plaintext_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_KeyMetadata_CustomerMasterKeySpec_FromDafny(input interface{}) types.CustomerMasterKeySpec {
-	return func() types.CustomerMasterKeySpec {
-		var u types.CustomerMasterKeySpec
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.CustomerMasterKeySpec)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_CustomerMasterKeySpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.CustomerMasterKeySpec).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_KeyMetadata_Description_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_ListGrantsInput_GranteePrincipal_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -5389,44 +6747,7 @@ func com_amazonaws_kms_KeyMetadata_Description_FromDafny(input interface{}) *str
 		}
 	}()
 }
-func com_amazonaws_kms_CloudHsmClusterInUseException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_MultiRegionConfiguration_MultiRegionKeyType_FromDafny(input interface{}) types.MultiRegionKeyType {
-	return func() types.MultiRegionKeyType {
-		var u types.MultiRegionKeyType
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.MultiRegionKeyType)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_MultiRegionKeyType_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.MultiRegionKeyType).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyInput_NumberOfBytes_FromDafny(input interface{}) *int32 {
+func com_amazonaws_kms_ListGrantsInput_Limit_FromDafny(input interface{}) *int32 {
 	return func() *int32 {
 		var i int32
 		if input == nil {
@@ -5436,175 +6757,7 @@ func com_amazonaws_kms_GenerateDataKeyInput_NumberOfBytes_FromDafny(input interf
 		return &i
 	}()
 }
-func com_amazonaws_kms_VerifyInput_Signature_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_KMSInternalException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_InvalidGrantTokenException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CreateKeyInput_Origin_FromDafny(input interface{}) types.OriginType {
-	return func() types.OriginType {
-		var u types.OriginType
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.OriginType)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_OriginType_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.OriginType).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_IncorrectTrustAnchorException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_IncorrectKeyMaterialException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_DisconnectCustomKeyStoreInput_CustomKeyStoreId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_XksProxyConfigurationType_Connectivity_FromDafny(input interface{}) types.XksProxyConnectivityType {
-	return func() types.XksProxyConnectivityType {
-		var u types.XksProxyConnectivityType
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.XksProxyConnectivityType)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_XksProxyConnectivityType_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.XksProxyConnectivityType).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_LimitExceededException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_DescribeCustomKeyStoresInput_CustomKeyStoreId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyPairInput_DryRun_FromDafny(input interface{}) *bool {
+func com_amazonaws_kms_CreateGrantInput_DryRun_FromDafny(input interface{}) *bool {
 	return func() *bool {
 		var b bool
 		if input == nil {
@@ -5614,7 +6767,7 @@ func com_amazonaws_kms_GenerateDataKeyPairInput_DryRun_FromDafny(input interface
 		return &b
 	}()
 }
-func com_amazonaws_kms_ReplicateKeyInput_Description_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_CreateKeyInput_Description_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -5630,96 +6783,33 @@ func com_amazonaws_kms_ReplicateKeyInput_Description_FromDafny(input interface{}
 		}
 	}()
 }
-func com_amazonaws_kms_CreateGrantInput_Operations_FromDafny(input interface{}) []types.GrantOperation {
-	return func() []types.GrantOperation {
-		var fieldValue []types.GrantOperation
+func com_amazonaws_kms_XksProxyInvalidConfigurationException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_VerifyMacInput_MacAlgorithm_FromDafny(input interface{}) types.MacAlgorithmSpec {
+	return func() types.MacAlgorithmSpec {
+		var u types.MacAlgorithmSpec
 
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_GrantOperationList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_XksKeyConfigurationType_Id_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ReplicateKeyInput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_DisabledException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ImportKeyMaterialInput_ImportToken_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CustomKeyStoresListEntry_CustomKeyStoreType_FromDafny(input interface{}) types.CustomKeyStoreType {
-	return func() types.CustomKeyStoreType {
-		var u types.CustomKeyStoreType
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.CustomKeyStoreType)
+		inputEnum := input.(ComAmazonawsKmsTypes.MacAlgorithmSpec)
 		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_CustomKeyStoreType_{}.AllSingletonConstructors()); ; {
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_MacAlgorithmSpec_{}.AllSingletonConstructors()); ; {
 			enum, ok := allEnums()
 			if ok {
 				index++
-				if enum.(ComAmazonawsKmsTypes.CustomKeyStoreType).Equals(inputEnum) {
+				if enum.(ComAmazonawsKmsTypes.MacAlgorithmSpec).Equals(inputEnum) {
 					break
 				}
 			}
@@ -5727,17 +6817,28 @@ func com_amazonaws_kms_CustomKeyStoresListEntry_CustomKeyStoreType_FromDafny(inp
 		return u.Values()[index]
 	}()
 }
-func com_amazonaws_kms_ListKeyRotationsOutput_Truncated_FromDafny(input interface{}) bool {
-	return func() bool {
-		var b bool
+func com_amazonaws_kms_CustomKeyStoresListEntry_ConnectionErrorCode_FromDafny(input interface{}) types.ConnectionErrorCodeType {
+	return func() types.ConnectionErrorCodeType {
+		var u types.ConnectionErrorCodeType
 		if input == nil {
-			return b
+			return u
 		}
-		b = input.(bool)
-		return b
+
+		inputEnum := input.(ComAmazonawsKmsTypes.ConnectionErrorCodeType)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_ConnectionErrorCodeType_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.ConnectionErrorCodeType).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
 	}()
 }
-func com_amazonaws_kms_GrantListEntry_KeyId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_XksProxyConfigurationType_UriPath_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -5753,51 +6854,7 @@ func com_amazonaws_kms_GrantListEntry_KeyId_FromDafny(input interface{}) *string
 		}
 	}()
 }
-func com_amazonaws_kms_ScheduleKeyDeletionInput_PendingWindowInDays_FromDafny(input interface{}) *int32 {
-	return func() *int32 {
-		var i int32
-		if input == nil {
-			return nil
-		}
-		i = input.(int32)
-		return &i
-	}()
-}
-func com_amazonaws_kms_ReEncryptInput_DestinationKeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_KeyMetadata_CreationDate_FromDafny(input interface{}) *time.Time {
-	return nil
-}
-func com_amazonaws_kms_DecryptInput_EncryptionContext_FromDafny(input interface{}) map[string]string {
-	return func() map[string]string {
-		var m map[string]string = make(map[string]string)
-		if input == nil {
-			return nil
-		}
-
-		for i := dafny.Iterate(input.(dafny.Map).Items()); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			m[com_amazonaws_kms_EncryptionContextType_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = com_amazonaws_kms_EncryptionContextType_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
-		}
-		return m
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyPairInput_GrantTokens_FromDafny(input interface{}) []string {
+func com_amazonaws_kms_GetPublicKeyInput_GrantTokens_FromDafny(input interface{}) []string {
 	return func() []string {
 		var fieldValue []string
 		if input == nil {
@@ -5813,7 +6870,7 @@ func com_amazonaws_kms_GenerateDataKeyPairInput_GrantTokens_FromDafny(input inte
 		return fieldValue
 	}()
 }
-func com_amazonaws_kms_GrantListEntry_IssuingAccount_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_PutKeyPolicyInput_PolicyName_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -5829,23 +6886,88 @@ func com_amazonaws_kms_GrantListEntry_IssuingAccount_FromDafny(input interface{}
 		}
 	}()
 }
-func com_amazonaws_kms_GrantList_member_FromDafny(input interface{}) types.GrantListEntry {
-	return func() types.GrantListEntry {
+func com_amazonaws_kms_CustomKeyStoresListEntry_CustomKeyStoreName_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_InvalidAliasNameException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ListAliasesOutput_Truncated_FromDafny(input interface{}) bool {
+	return func() bool {
+		var b bool
+		if input == nil {
+			return b
+		}
+		b = input.(bool)
+		return b
+	}()
+}
+func com_amazonaws_kms_DeriveSharedSecretInput_KeyAgreementAlgorithm_FromDafny(input interface{}) types.KeyAgreementAlgorithmSpec {
+	return func() types.KeyAgreementAlgorithmSpec {
+		var u types.KeyAgreementAlgorithmSpec
 
-		return types.GrantListEntry{
-			KeyId:             com_amazonaws_kms_GrantListEntry_KeyId_FromDafny(input.(ComAmazonawsKmsTypes.GrantListEntry).Dtor_KeyId().UnwrapOr(nil)),
-			GrantId:           com_amazonaws_kms_GrantListEntry_GrantId_FromDafny(input.(ComAmazonawsKmsTypes.GrantListEntry).Dtor_GrantId().UnwrapOr(nil)),
-			Name:              com_amazonaws_kms_GrantListEntry_Name_FromDafny(input.(ComAmazonawsKmsTypes.GrantListEntry).Dtor_Name().UnwrapOr(nil)),
-			CreationDate:      com_amazonaws_kms_GrantListEntry_CreationDate_FromDafny(input.(ComAmazonawsKmsTypes.GrantListEntry).Dtor_CreationDate().UnwrapOr(nil)),
-			GranteePrincipal:  com_amazonaws_kms_GrantListEntry_GranteePrincipal_FromDafny(input.(ComAmazonawsKmsTypes.GrantListEntry).Dtor_GranteePrincipal().UnwrapOr(nil)),
-			RetiringPrincipal: com_amazonaws_kms_GrantListEntry_RetiringPrincipal_FromDafny(input.(ComAmazonawsKmsTypes.GrantListEntry).Dtor_RetiringPrincipal().UnwrapOr(nil)),
-			IssuingAccount:    com_amazonaws_kms_GrantListEntry_IssuingAccount_FromDafny(input.(ComAmazonawsKmsTypes.GrantListEntry).Dtor_IssuingAccount().UnwrapOr(nil)),
-			Operations:        com_amazonaws_kms_GrantListEntry_Operations_FromDafny(input.(ComAmazonawsKmsTypes.GrantListEntry).Dtor_Operations().UnwrapOr(nil)),
-			Constraints:       com_amazonaws_kms_GrantListEntry_Constraints_FromDafny(input.(ComAmazonawsKmsTypes.GrantListEntry).Dtor_Constraints().UnwrapOr(nil)),
+		inputEnum := input.(ComAmazonawsKmsTypes.KeyAgreementAlgorithmSpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyAgreementAlgorithmSpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.KeyAgreementAlgorithmSpec).Equals(inputEnum) {
+					break
+				}
+			}
 		}
+		return u.Values()[index]
 	}()
 }
-func com_amazonaws_kms_KeyUnavailableException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_CreateKeyInput_KeyUsage_FromDafny(input interface{}) types.KeyUsageType {
+	return func() types.KeyUsageType {
+		var u types.KeyUsageType
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.KeyUsageType)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyUsageType_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.KeyUsageType).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_XksProxyUriEndpointInUseException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -5861,27 +6983,28 @@ func com_amazonaws_kms_KeyUnavailableException_message_FromDafny(input interface
 		}
 	}()
 }
-func com_amazonaws_kms_PutKeyPolicyInput_BypassPolicyLockoutSafetyCheck_FromDafny(input interface{}) bool {
-	return func() bool {
-		var b bool
+func com_amazonaws_kms_CustomKeyStoresListEntry_ConnectionState_FromDafny(input interface{}) types.ConnectionStateType {
+	return func() types.ConnectionStateType {
+		var u types.ConnectionStateType
 		if input == nil {
-			return b
+			return u
 		}
-		b = input.(bool)
-		return b
+
+		inputEnum := input.(ComAmazonawsKmsTypes.ConnectionStateType)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_ConnectionStateType_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.ConnectionStateType).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
 	}()
 }
-func com_amazonaws_kms_ReplicateKeyInput_BypassPolicyLockoutSafetyCheck_FromDafny(input interface{}) bool {
-	return func() bool {
-		var b bool
-		if input == nil {
-			return b
-		}
-		b = input.(bool)
-		return b
-	}()
-}
-func com_amazonaws_kms_UpdatePrimaryRegionInput_KeyId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_CreateCustomKeyStoreInput_CustomKeyStoreName_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 
@@ -5895,7 +7018,176 @@ func com_amazonaws_kms_UpdatePrimaryRegionInput_KeyId_FromDafny(input interface{
 		}
 	}()
 }
-func com_amazonaws_kms_InvalidCiphertextException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_ImportKeyMaterialInput_ValidTo_FromDafny(input interface{}) *time.Time {
+	return nil
+}
+func com_amazonaws_kms_VerifyMacOutput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_InvalidGrantIdException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextOutput_PublicKey_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyPairOutput_PublicKey_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ListGrantsInput_Marker_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_RevokeGrantInput_DryRun_FromDafny(input interface{}) *bool {
+	return func() *bool {
+		var b bool
+		if input == nil {
+			return nil
+		}
+		b = input.(bool)
+		return &b
+	}()
+}
+func com_amazonaws_kms_UpdateAliasInput_TargetKeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_Tag_TagValue_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextOutput_PrivateKeyCiphertextBlob_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_UpdateCustomKeyStoreInput_XksProxyUriEndpoint_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CreateCustomKeyStoreInput_TrustAnchorCertificate_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyWithoutPlaintextOutput_KeyId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -5927,19 +7219,25 @@ func com_amazonaws_kms_GrantListEntry_RetiringPrincipal_FromDafny(input interfac
 		}
 	}()
 }
-func com_amazonaws_kms_DescribeCustomKeyStoresOutput_Truncated_FromDafny(input interface{}) bool {
-	return func() bool {
-		var b bool
+func com_amazonaws_kms_SignOutput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
 		if input == nil {
-			return b
+			return nil
 		}
-		b = input.(bool)
-		return b
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
 	}()
 }
-func com_amazonaws_kms_ReplicateKeyOutput_ReplicaTags_FromDafny(input interface{}) []types.Tag {
-	return func() []types.Tag {
-		var fieldValue []types.Tag
+func com_amazonaws_kms_GetPublicKeyOutput_SigningAlgorithms_FromDafny(input interface{}) []types.SigningAlgorithmSpec {
+	return func() []types.SigningAlgorithmSpec {
+		var fieldValue []types.SigningAlgorithmSpec
 		if input == nil {
 			return nil
 		}
@@ -5948,427 +7246,12 @@ func com_amazonaws_kms_ReplicateKeyOutput_ReplicaTags_FromDafny(input interface{
 			if !ok {
 				break
 			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_TagList_member_FromDafny(val))
+			fieldValue = append(fieldValue, com_amazonaws_kms_SigningAlgorithmSpecList_member_FromDafny(val))
 		}
 		return fieldValue
 	}()
 }
-func com_amazonaws_kms_CreateKeyInput_XksKeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CancelKeyDeletionInput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_DeriveSharedSecretOutput_KeyOrigin_FromDafny(input interface{}) types.OriginType {
-	return func() types.OriginType {
-		var u types.OriginType
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.OriginType)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_OriginType_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.OriginType).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_ListResourceTagsOutput_Truncated_FromDafny(input interface{}) bool {
-	return func() bool {
-		var b bool
-		if input == nil {
-			return b
-		}
-		b = input.(bool)
-		return b
-	}()
-}
-func com_amazonaws_kms_Tag_TagValue_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_UpdateKeyDescriptionInput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_EncryptOutput_CiphertextBlob_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CreateGrantOutput_GrantToken_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_PutKeyPolicyInput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GrantTokenList_member_FromDafny(input interface{}) string {
-	return func() string {
-		var s string
-
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GenerateMacOutput_Mac_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_DecryptInput_DryRun_FromDafny(input interface{}) *bool {
-	return func() *bool {
-		var b bool
-		if input == nil {
-			return nil
-		}
-		b = input.(bool)
-		return &b
-	}()
-}
-func com_amazonaws_kms_KeyMetadata_MultiRegionConfiguration_FromDafny(input interface{}) *types.MultiRegionConfiguration {
-	return func() *types.MultiRegionConfiguration {
-		if input == nil {
-			return nil
-		}
-		return &types.MultiRegionConfiguration{
-			MultiRegionKeyType: com_amazonaws_kms_MultiRegionConfiguration_MultiRegionKeyType_FromDafny(input.(ComAmazonawsKmsTypes.MultiRegionConfiguration).Dtor_MultiRegionKeyType().UnwrapOr(nil)),
-			PrimaryKey:         com_amazonaws_kms_MultiRegionConfiguration_PrimaryKey_FromDafny(input.(ComAmazonawsKmsTypes.MultiRegionConfiguration).Dtor_PrimaryKey().UnwrapOr(nil)),
-			ReplicaKeys:        com_amazonaws_kms_MultiRegionConfiguration_ReplicaKeys_FromDafny(input.(ComAmazonawsKmsTypes.MultiRegionConfiguration).Dtor_ReplicaKeys().UnwrapOr(nil)),
-		}
-	}()
-}
-func com_amazonaws_kms_ReEncryptInput_DestinationEncryptionAlgorithm_FromDafny(input interface{}) types.EncryptionAlgorithmSpec {
-	return func() types.EncryptionAlgorithmSpec {
-		var u types.EncryptionAlgorithmSpec
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_XksProxyInvalidConfigurationException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GetKeyPolicyInput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GetKeyPolicyOutput_PolicyName_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GetPublicKeyOutput_KeySpec_FromDafny(input interface{}) types.KeySpec {
-	return func() types.KeySpec {
-		var u types.KeySpec
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.KeySpec)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeySpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.KeySpec).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_CreateCustomKeyStoreInput_XksProxyConnectivity_FromDafny(input interface{}) types.XksProxyConnectivityType {
-	return func() types.XksProxyConnectivityType {
-		var u types.XksProxyConnectivityType
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.XksProxyConnectivityType)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_XksProxyConnectivityType_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.XksProxyConnectivityType).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_CreateKeyInput_KeyUsage_FromDafny(input interface{}) types.KeyUsageType {
-	return func() types.KeyUsageType {
-		var u types.KeyUsageType
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.KeyUsageType)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyUsageType_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.KeyUsageType).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyOutput_CiphertextForRecipient_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ReEncryptOutput_SourceEncryptionAlgorithm_FromDafny(input interface{}) types.EncryptionAlgorithmSpec {
-	return func() types.EncryptionAlgorithmSpec {
-		var u types.EncryptionAlgorithmSpec
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextOutput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyOutput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ImportKeyMaterialInput_ValidTo_FromDafny(input interface{}) *time.Time {
-	return nil
-}
-func com_amazonaws_kms_KeyMetadata_XksKeyConfiguration_FromDafny(input interface{}) *types.XksKeyConfigurationType {
-	return func() *types.XksKeyConfigurationType {
-		if input == nil {
-			return nil
-		}
-		return &types.XksKeyConfigurationType{
-			Id: com_amazonaws_kms_XksKeyConfigurationType_Id_FromDafny(input.(ComAmazonawsKmsTypes.XksKeyConfigurationType).Dtor_Id().UnwrapOr(nil)),
-		}
-	}()
-}
-func com_amazonaws_kms_ListKeyRotationsOutput_NextMarker_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_DecryptInput_Recipient_FromDafny(input interface{}) *types.RecipientInfo {
+func com_amazonaws_kms_GenerateRandomInput_Recipient_FromDafny(input interface{}) *types.RecipientInfo {
 	return func() *types.RecipientInfo {
 		if input == nil {
 			return nil
@@ -6379,61 +7262,54 @@ func com_amazonaws_kms_DecryptInput_Recipient_FromDafny(input interface{}) *type
 		}
 	}()
 }
-func com_amazonaws_kms_UntagResourceInput_TagKeys_FromDafny(input interface{}) []string {
-	return func() []string {
-		var fieldValue []string
-
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_TagKeyList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_GetKeyRotationStatusOutput_KeyRotationEnabled_FromDafny(input interface{}) bool {
-	return func() bool {
-		var b bool
-		if input == nil {
-			return b
-		}
-		b = input.(bool)
-		return b
-	}()
-}
-func com_amazonaws_kms_GenerateRandomOutput_Plaintext_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
+func com_amazonaws_kms_GrantListEntry_Name_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
 		if input == nil {
 			return nil
 		}
 		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
 			val, ok := i()
 			if !ok {
-				return b
+				return &[]string{s}[0]
 			} else {
-				b = append(b, val.(byte))
+				s = s + string(val.(dafny.Char))
 			}
 		}
 	}()
 }
-func com_amazonaws_kms_DeriveSharedSecretOutput_CiphertextForRecipient_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
+func com_amazonaws_kms_DeriveSharedSecretInput_Recipient_FromDafny(input interface{}) *types.RecipientInfo {
+	return func() *types.RecipientInfo {
+		if input == nil {
+			return nil
+		}
+		return &types.RecipientInfo{
+			KeyEncryptionAlgorithm: com_amazonaws_kms_RecipientInfo_KeyEncryptionAlgorithm_FromDafny(input.(ComAmazonawsKmsTypes.RecipientInfo).Dtor_KeyEncryptionAlgorithm().UnwrapOr(nil)),
+			AttestationDocument:    com_amazonaws_kms_RecipientInfo_AttestationDocument_FromDafny(input.(ComAmazonawsKmsTypes.RecipientInfo).Dtor_AttestationDocument().UnwrapOr(nil)),
+		}
+	}()
+}
+func com_amazonaws_kms_GetKeyRotationStatusOutput_NextRotationDate_FromDafny(input interface{}) *time.Time {
+	return nil
+}
+func com_amazonaws_kms_DescribeCustomKeyStoresInput_Marker_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
 		if input == nil {
 			return nil
 		}
 		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
 			val, ok := i()
 			if !ok {
-				return b
+				return &[]string{s}[0]
 			} else {
-				b = append(b, val.(byte))
+				s = s + string(val.(dafny.Char))
 			}
 		}
 	}()
+}
+func com_amazonaws_kms_KeyMetadata_ValidTo_FromDafny(input interface{}) *time.Time {
+	return nil
 }
 func com_amazonaws_kms_ListGrantsOutput_NextMarker_FromDafny(input interface{}) *string {
 	return func() *string {
@@ -6451,67 +7327,21 @@ func com_amazonaws_kms_ListGrantsOutput_NextMarker_FromDafny(input interface{}) 
 		}
 	}()
 }
-func com_amazonaws_kms_KeyMetadata_Enabled_FromDafny(input interface{}) bool {
-	return func() bool {
-		var b bool
-		if input == nil {
-			return b
-		}
-		b = input.(bool)
-		return b
-	}()
-}
-func com_amazonaws_kms_XksProxyUriEndpointInUseException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_ListKeyPoliciesInput_KeyId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_DeriveSharedSecretOutput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_VerifyMacInput_MacAlgorithm_FromDafny(input interface{}) types.MacAlgorithmSpec {
-	return func() types.MacAlgorithmSpec {
-		var u types.MacAlgorithmSpec
 
-		inputEnum := input
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_MacAlgorithmSpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.MacAlgorithmSpec).Equals(inputEnum.(ComAmazonawsKmsTypes.MacAlgorithmSpec)) {
-					break
-				}
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
 			}
 		}
-		return u.Values()[index]
 	}()
 }
-func com_amazonaws_kms_CustomKeyStoresListEntry_CustomKeyStoreName_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_AlreadyExistsException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -6527,7 +7357,7 @@ func com_amazonaws_kms_CustomKeyStoresListEntry_CustomKeyStoreName_FromDafny(inp
 		}
 	}()
 }
-func com_amazonaws_kms_GenerateDataKeyInput_Recipient_FromDafny(input interface{}) *types.RecipientInfo {
+func com_amazonaws_kms_GenerateDataKeyPairInput_Recipient_FromDafny(input interface{}) *types.RecipientInfo {
 	return func() *types.RecipientInfo {
 		if input == nil {
 			return nil
@@ -6538,7 +7368,122 @@ func com_amazonaws_kms_GenerateDataKeyInput_Recipient_FromDafny(input interface{
 		}
 	}()
 }
-func com_amazonaws_kms_GetKeyRotationStatusInput_KeyId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_CreateGrantOutput_GrantId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextOutput_KeyPairSpec_FromDafny(input interface{}) types.DataKeyPairSpec {
+	return func() types.DataKeyPairSpec {
+		var u types.DataKeyPairSpec
+		if input == nil {
+			return u
+		}
+
+		inputEnum := input.(ComAmazonawsKmsTypes.DataKeyPairSpec)
+		index := -1
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_DataKeyPairSpec_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(ComAmazonawsKmsTypes.DataKeyPairSpec).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+		return u.Values()[index]
+	}()
+}
+func com_amazonaws_kms_DryRunOperationException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_DecryptInput_EncryptionContext_FromDafny(input interface{}) map[string]string {
+	return func() map[string]string {
+		var m map[string]string = make(map[string]string)
+		if input == nil {
+			return nil
+		}
+
+		for i := dafny.Iterate(input.(dafny.Map).Items()); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			m[com_amazonaws_kms_EncryptionContextType_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = com_amazonaws_kms_EncryptionContextType_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
+		}
+		return m
+	}()
+}
+func com_amazonaws_kms_SignInput_DryRun_FromDafny(input interface{}) *bool {
+	return func() *bool {
+		var b bool
+		if input == nil {
+			return nil
+		}
+		b = input.(bool)
+		return &b
+	}()
+}
+func com_amazonaws_kms_KeyMetadata_CreationDate_FromDafny(input interface{}) *time.Time {
+	return nil
+}
+func com_amazonaws_kms_CreateGrantInput_Name_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GetKeyPolicyOutput_Policy_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GetParametersForImportInput_KeyId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 
@@ -6552,13 +7497,45 @@ func com_amazonaws_kms_GetKeyRotationStatusInput_KeyId_FromDafny(input interface
 		}
 	}()
 }
-func com_amazonaws_kms_GenerateDataKeyWithoutPlaintextOutput_CiphertextBlob_FromDafny(input interface{}) []byte {
+func com_amazonaws_kms_XksProxyConfigurationType_UriEndpoint_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ListResourceTagsInput_Marker_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_VerifyMacInput_Message_FromDafny(input interface{}) []byte {
 	return func() []byte {
 		var b []byte
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+		for i := dafny.Iterate(input); ; {
 			val, ok := i()
 			if !ok {
 				return b
@@ -6568,17 +7545,7 @@ func com_amazonaws_kms_GenerateDataKeyWithoutPlaintextOutput_CiphertextBlob_From
 		}
 	}()
 }
-func com_amazonaws_kms_ScheduleKeyDeletionOutput_PendingWindowInDays_FromDafny(input interface{}) *int32 {
-	return func() *int32 {
-		var i int32
-		if input == nil {
-			return nil
-		}
-		i = input.(int32)
-		return &i
-	}()
-}
-func com_amazonaws_kms_KeyMetadata_KeyId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_VerifyMacInput_KeyId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 
@@ -6592,13 +7559,22 @@ func com_amazonaws_kms_KeyMetadata_KeyId_FromDafny(input interface{}) *string {
 		}
 	}()
 }
-func com_amazonaws_kms_AliasListEntry_TargetKeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
+func com_amazonaws_kms_GrantListEntry_Constraints_FromDafny(input interface{}) *types.GrantConstraints {
+	return func() *types.GrantConstraints {
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+		return &types.GrantConstraints{
+			EncryptionContextSubset: com_amazonaws_kms_GrantConstraints_EncryptionContextSubset_FromDafny(input.(ComAmazonawsKmsTypes.GrantConstraints).Dtor_EncryptionContextSubset().UnwrapOr(nil)),
+			EncryptionContextEquals: com_amazonaws_kms_GrantConstraints_EncryptionContextEquals_FromDafny(input.(ComAmazonawsKmsTypes.GrantConstraints).Dtor_EncryptionContextEquals().UnwrapOr(nil)),
+		}
+	}()
+}
+func com_amazonaws_kms_ListGrantsInput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
 			val, ok := i()
 			if !ok {
 				return &[]string{s}[0]
@@ -6608,89 +7584,9 @@ func com_amazonaws_kms_AliasListEntry_TargetKeyId_FromDafny(input interface{}) *
 		}
 	}()
 }
-func com_amazonaws_kms_XksProxyVpcEndpointServiceNotFoundException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CustomKeyStoreHasCMKsException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_RecipientInfo_AttestationDocument_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GetKeyRotationStatusOutput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CreateCustomKeyStoreInput_XksProxyUriPath_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ListResourceTagsOutput_Tags_FromDafny(input interface{}) []types.Tag {
-	return func() []types.Tag {
-		var fieldValue []types.Tag
+func com_amazonaws_kms_ListKeyRotationsOutput_Rotations_FromDafny(input interface{}) []types.RotationsListEntry {
+	return func() []types.RotationsListEntry {
+		var fieldValue []types.RotationsListEntry
 		if input == nil {
 			return nil
 		}
@@ -6699,12 +7595,38 @@ func com_amazonaws_kms_ListResourceTagsOutput_Tags_FromDafny(input interface{}) 
 			if !ok {
 				break
 			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_TagList_member_FromDafny(val))
+			fieldValue = append(fieldValue, com_amazonaws_kms_RotationsList_member_FromDafny(val))
 		}
 		return fieldValue
 	}()
 }
-func com_amazonaws_kms_ReplicateKeyInput_ReplicaRegion_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_TagList_member_FromDafny(input interface{}) types.Tag {
+	return func() types.Tag {
+
+		return types.Tag{
+			TagKey:   com_amazonaws_kms_Tag_TagKey_FromDafny(input.(ComAmazonawsKmsTypes.Tag).Dtor_TagKey()),
+			TagValue: com_amazonaws_kms_Tag_TagValue_FromDafny(input.(ComAmazonawsKmsTypes.Tag).Dtor_TagValue()),
+		}
+	}()
+}
+func com_amazonaws_kms_EncryptInput_EncryptionContext_FromDafny(input interface{}) map[string]string {
+	return func() map[string]string {
+		var m map[string]string = make(map[string]string)
+		if input == nil {
+			return nil
+		}
+
+		for i := dafny.Iterate(input.(dafny.Map).Items()); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			m[com_amazonaws_kms_EncryptionContextType_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = com_amazonaws_kms_EncryptionContextType_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
+		}
+		return m
+	}()
+}
+func com_amazonaws_kms_UpdatePrimaryRegionInput_PrimaryRegion_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 
@@ -6718,186 +7640,18 @@ func com_amazonaws_kms_ReplicateKeyInput_ReplicaRegion_FromDafny(input interface
 		}
 	}()
 }
-func com_amazonaws_kms_GenerateDataKeyPairOutput_PrivateKeyCiphertextBlob_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
+func com_amazonaws_kms_CustomKeyStoresListEntry_XksProxyConfiguration_FromDafny(input interface{}) *types.XksProxyConfigurationType {
+	return func() *types.XksProxyConfigurationType {
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
+		return &types.XksProxyConfigurationType{
+			Connectivity:           com_amazonaws_kms_XksProxyConfigurationType_Connectivity_FromDafny(input.(ComAmazonawsKmsTypes.XksProxyConfigurationType).Dtor_Connectivity().UnwrapOr(nil)),
+			AccessKeyId:            com_amazonaws_kms_XksProxyConfigurationType_AccessKeyId_FromDafny(input.(ComAmazonawsKmsTypes.XksProxyConfigurationType).Dtor_AccessKeyId().UnwrapOr(nil)),
+			UriEndpoint:            com_amazonaws_kms_XksProxyConfigurationType_UriEndpoint_FromDafny(input.(ComAmazonawsKmsTypes.XksProxyConfigurationType).Dtor_UriEndpoint().UnwrapOr(nil)),
+			UriPath:                com_amazonaws_kms_XksProxyConfigurationType_UriPath_FromDafny(input.(ComAmazonawsKmsTypes.XksProxyConfigurationType).Dtor_UriPath().UnwrapOr(nil)),
+			VpcEndpointServiceName: com_amazonaws_kms_XksProxyConfigurationType_VpcEndpointServiceName_FromDafny(input.(ComAmazonawsKmsTypes.XksProxyConfigurationType).Dtor_VpcEndpointServiceName().UnwrapOr(nil)),
 		}
-	}()
-}
-func com_amazonaws_kms_ScheduleKeyDeletionOutput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_DescribeCustomKeyStoresInput_Limit_FromDafny(input interface{}) *int32 {
-	return func() *int32 {
-		var i int32
-		if input == nil {
-			return nil
-		}
-		i = input.(int32)
-		return &i
-	}()
-}
-func com_amazonaws_kms_SigningAlgorithmSpecList_member_FromDafny(input interface{}) types.SigningAlgorithmSpec {
-	return func() types.SigningAlgorithmSpec {
-		var u types.SigningAlgorithmSpec
-
-		inputEnum := input
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_SigningAlgorithmSpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.SigningAlgorithmSpec).Equals(inputEnum.(ComAmazonawsKmsTypes.SigningAlgorithmSpec)) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_ListGrantsOutput_Truncated_FromDafny(input interface{}) bool {
-	return func() bool {
-		var b bool
-		if input == nil {
-			return b
-		}
-		b = input.(bool)
-		return b
-	}()
-}
-func com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ListAliasesInput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ListKeyPoliciesInput_Marker_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_XksProxyIncorrectAuthenticationCredentialException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ReEncryptOutput_SourceKeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextInput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextInput_KeyPairSpec_FromDafny(input interface{}) types.DataKeyPairSpec {
-	return func() types.DataKeyPairSpec {
-		var u types.DataKeyPairSpec
-
-		inputEnum := input
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_DataKeyPairSpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.DataKeyPairSpec).Equals(inputEnum.(ComAmazonawsKmsTypes.DataKeyPairSpec)) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
 	}()
 }
 func com_amazonaws_kms_DescribeKeyInput_GrantTokens_FromDafny(input interface{}) []string {
@@ -6916,18 +7670,81 @@ func com_amazonaws_kms_DescribeKeyInput_GrantTokens_FromDafny(input interface{})
 		return fieldValue
 	}()
 }
-func com_amazonaws_kms_MultiRegionConfiguration_PrimaryKey_FromDafny(input interface{}) *types.MultiRegionKey {
-	return func() *types.MultiRegionKey {
+func com_amazonaws_kms_RetireGrantInput_DryRun_FromDafny(input interface{}) *bool {
+	return func() *bool {
+		var b bool
 		if input == nil {
 			return nil
 		}
-		return &types.MultiRegionKey{
-			Arn:    com_amazonaws_kms_MultiRegionKey_Arn_FromDafny(input.(ComAmazonawsKmsTypes.MultiRegionKey).Dtor_Arn().UnwrapOr(nil)),
-			Region: com_amazonaws_kms_MultiRegionKey_Region_FromDafny(input.(ComAmazonawsKmsTypes.MultiRegionKey).Dtor_Region().UnwrapOr(nil)),
+		b = input.(bool)
+		return &b
+	}()
+}
+func com_amazonaws_kms_SignOutput_Signature_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
 	}()
 }
-func com_amazonaws_kms_DescribeKeyOutput_KeyMetadata_FromDafny(input interface{}) *types.KeyMetadata {
+func com_amazonaws_kms_XksKeyNotFoundException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CustomKeyStoresListEntry_TrustAnchorCertificate_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_KeyMetadata_Description_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CreateKeyOutput_KeyMetadata_FromDafny(input interface{}) *types.KeyMetadata {
 	return func() *types.KeyMetadata {
 		if input == nil {
 			return nil
@@ -6961,271 +7778,10 @@ func com_amazonaws_kms_DescribeKeyOutput_KeyMetadata_FromDafny(input interface{}
 		}
 	}()
 }
-func com_amazonaws_kms_XksProxyUriUnreachableException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_DescribeCustomKeyStoresOutput_NextMarker_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ListKeysOutput_Truncated_FromDafny(input interface{}) bool {
-	return func() bool {
-		var b bool
-		if input == nil {
-			return b
-		}
-		b = input.(bool)
-		return b
-	}()
-}
-func com_amazonaws_kms_ReplicateKeyInput_Policy_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_SignOutput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ExpiredImportTokenException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyInput_DryRun_FromDafny(input interface{}) *bool {
-	return func() *bool {
-		var b bool
-		if input == nil {
-			return nil
-		}
-		b = input.(bool)
-		return &b
-	}()
-}
-func com_amazonaws_kms_KeyMetadata_ValidTo_FromDafny(input interface{}) *time.Time {
+func com_amazonaws_kms_KeyMetadata_DeletionDate_FromDafny(input interface{}) *time.Time {
 	return nil
 }
-func com_amazonaws_kms_SignOutput_Signature_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_UpdateCustomKeyStoreInput_CustomKeyStoreId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_RetireGrantInput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_DescribeCustomKeyStoresOutput_CustomKeyStores_FromDafny(input interface{}) []types.CustomKeyStoresListEntry {
-	return func() []types.CustomKeyStoresListEntry {
-		var fieldValue []types.CustomKeyStoresListEntry
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_CustomKeyStoresList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_VerifyOutput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_AliasListEntry_LastUpdatedDate_FromDafny(input interface{}) *time.Time {
-	return nil
-}
-func com_amazonaws_kms_ListKeyRotationsOutput_Rotations_FromDafny(input interface{}) []types.RotationsListEntry {
-	return func() []types.RotationsListEntry {
-		var fieldValue []types.RotationsListEntry
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_RotationsList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_DeriveSharedSecretOutput_SharedSecret_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ReEncryptOutput_DestinationEncryptionAlgorithm_FromDafny(input interface{}) types.EncryptionAlgorithmSpec {
-	return func() types.EncryptionAlgorithmSpec {
-		var u types.EncryptionAlgorithmSpec
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_PutKeyPolicyInput_PolicyName_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GenerateRandomInput_Recipient_FromDafny(input interface{}) *types.RecipientInfo {
-	return func() *types.RecipientInfo {
-		if input == nil {
-			return nil
-		}
-		return &types.RecipientInfo{
-			KeyEncryptionAlgorithm: com_amazonaws_kms_RecipientInfo_KeyEncryptionAlgorithm_FromDafny(input.(ComAmazonawsKmsTypes.RecipientInfo).Dtor_KeyEncryptionAlgorithm().UnwrapOr(nil)),
-			AttestationDocument:    com_amazonaws_kms_RecipientInfo_AttestationDocument_FromDafny(input.(ComAmazonawsKmsTypes.RecipientInfo).Dtor_AttestationDocument().UnwrapOr(nil)),
-		}
-	}()
-}
-func com_amazonaws_kms_ReplicateKeyInput_Tags_FromDafny(input interface{}) []types.Tag {
+func com_amazonaws_kms_ListResourceTagsOutput_Tags_FromDafny(input interface{}) []types.Tag {
 	return func() []types.Tag {
 		var fieldValue []types.Tag
 		if input == nil {
@@ -7241,7 +7797,7 @@ func com_amazonaws_kms_ReplicateKeyInput_Tags_FromDafny(input interface{}) []typ
 		return fieldValue
 	}()
 }
-func com_amazonaws_kms_CustomKeyStoreNameInUseException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_ReEncryptOutput_SourceKeyId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -7257,68 +7813,17 @@ func com_amazonaws_kms_CustomKeyStoreNameInUseException_message_FromDafny(input 
 		}
 	}()
 }
-func com_amazonaws_kms_KeyMetadata_EncryptionAlgorithms_FromDafny(input interface{}) []types.EncryptionAlgorithmSpec {
-	return func() []types.EncryptionAlgorithmSpec {
-		var fieldValue []types.EncryptionAlgorithmSpec
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_EncryptionAlgorithmSpecList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_XksProxyConfigurationType_UriPath_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_AliasListEntry_AliasArn_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_VerifyInput_MessageType_FromDafny(input interface{}) types.MessageType {
-	return func() types.MessageType {
-		var u types.MessageType
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.MessageType)
+func com_amazonaws_kms_EncryptionAlgorithmSpecList_member_FromDafny(input interface{}) types.EncryptionAlgorithmSpec {
+	return func() types.EncryptionAlgorithmSpec {
+		var u types.EncryptionAlgorithmSpec
+
+		inputEnum := input.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec)
 		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_MessageType_{}.AllSingletonConstructors()); ; {
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()); ; {
 			enum, ok := allEnums()
 			if ok {
 				index++
-				if enum.(ComAmazonawsKmsTypes.MessageType).Equals(inputEnum) {
+				if enum.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec).Equals(inputEnum) {
 					break
 				}
 			}
@@ -7326,158 +7831,13 @@ func com_amazonaws_kms_VerifyInput_MessageType_FromDafny(input interface{}) type
 		return u.Values()[index]
 	}()
 }
-func com_amazonaws_kms_KeyMetadata_Origin_FromDafny(input interface{}) types.OriginType {
-	return func() types.OriginType {
-		var u types.OriginType
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.OriginType)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_OriginType_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.OriginType).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_XksProxyAuthenticationCredentialType_AccessKeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GrantOperationList_member_FromDafny(input interface{}) types.GrantOperation {
-	return func() types.GrantOperation {
-		var u types.GrantOperation
-
-		inputEnum := input
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_GrantOperation_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.GrantOperation).Equals(inputEnum.(ComAmazonawsKmsTypes.GrantOperation)) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_GetParametersForImportOutput_ParametersValidTo_FromDafny(input interface{}) *time.Time {
-	return nil
-}
-func com_amazonaws_kms_XksProxyConfigurationType_AccessKeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GetKeyRotationStatusOutput_RotationPeriodInDays_FromDafny(input interface{}) *int32 {
-	return func() *int32 {
-		var i int32
-		if input == nil {
-			return nil
-		}
-		i = input.(int32)
-		return &i
-	}()
-}
-func com_amazonaws_kms_RotateKeyOnDemandOutput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_UpdateAliasInput_AliasName_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyPairInput_EncryptionContext_FromDafny(input interface{}) map[string]string {
-	return func() map[string]string {
-		var m map[string]string = make(map[string]string)
-		if input == nil {
-			return nil
-		}
-
-		for i := dafny.Iterate(input.(dafny.Map).Items()); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			m[com_amazonaws_kms_EncryptionContextType_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = com_amazonaws_kms_EncryptionContextType_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
-		}
-		return m
-	}()
-}
-func com_amazonaws_kms_KeyListEntry_KeyArn_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_VerifyMacInput_Mac_FromDafny(input interface{}) []byte {
+func com_amazonaws_kms_GenerateDataKeyPairOutput_PrivateKeyPlaintext_FromDafny(input interface{}) []byte {
 	return func() []byte {
 		var b []byte
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input); ; {
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
 			val, ok := i()
 			if !ok {
 				return b
@@ -7487,7 +7847,49 @@ func com_amazonaws_kms_VerifyMacInput_Mac_FromDafny(input interface{}) []byte {
 		}
 	}()
 }
-func com_amazonaws_kms_GetParametersForImportInput_KeyId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_InvalidArnException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextInput_DryRun_FromDafny(input interface{}) *bool {
+	return func() *bool {
+		var b bool
+		if input == nil {
+			return nil
+		}
+		b = input.(bool)
+		return &b
+	}()
+}
+func com_amazonaws_kms_DescribeCustomKeyStoresInput_CustomKeyStoreId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CreateAliasInput_AliasName_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 
@@ -7501,7 +7903,7 @@ func com_amazonaws_kms_GetParametersForImportInput_KeyId_FromDafny(input interfa
 		}
 	}()
 }
-func com_amazonaws_kms_CreateKeyInput_Policy_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_CustomKeyStoreNotFoundException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -7517,7 +7919,141 @@ func com_amazonaws_kms_CreateKeyInput_Policy_FromDafny(input interface{}) *strin
 		}
 	}()
 }
-func com_amazonaws_kms_DecryptInput_GrantTokens_FromDafny(input interface{}) []string {
+func com_amazonaws_kms_DecryptOutput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyWithoutPlaintextOutput_CiphertextBlob_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_InvalidGrantTokenException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CancelKeyDeletionOutput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CreateGrantInput_Operations_FromDafny(input interface{}) []types.GrantOperation {
+	return func() []types.GrantOperation {
+		var fieldValue []types.GrantOperation
+
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_GrantOperationList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_DeriveSharedSecretOutput_CiphertextForRecipient_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_RevokeGrantInput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_XksProxyIncorrectAuthenticationCredentialException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_EncryptInput_DryRun_FromDafny(input interface{}) *bool {
+	return func() *bool {
+		var b bool
+		if input == nil {
+			return nil
+		}
+		b = input.(bool)
+		return &b
+	}()
+}
+func com_amazonaws_kms_VerifyMacInput_GrantTokens_FromDafny(input interface{}) []string {
 	return func() []string {
 		var fieldValue []string
 		if input == nil {
@@ -7533,7 +8069,21 @@ func com_amazonaws_kms_DecryptInput_GrantTokens_FromDafny(input interface{}) []s
 		return fieldValue
 	}()
 }
-func com_amazonaws_kms_KMSInvalidSignatureException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_KeyMetadata_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ReplicateKeyOutput_ReplicaPolicy_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -7549,7 +8099,21 @@ func com_amazonaws_kms_KMSInvalidSignatureException_message_FromDafny(input inte
 		}
 	}()
 }
-func com_amazonaws_kms_KeyMetadata_CustomKeyStoreId_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_SignInput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_MultiRegionKey_Region_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -7565,39 +8129,7 @@ func com_amazonaws_kms_KeyMetadata_CustomKeyStoreId_FromDafny(input interface{})
 		}
 	}()
 }
-func com_amazonaws_kms_ListKeyPoliciesOutput_PolicyNames_FromDafny(input interface{}) []string {
-	return func() []string {
-		var fieldValue []string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_PolicyNameList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_DeriveSharedSecretInput_GrantTokens_FromDafny(input interface{}) []string {
-	return func() []string {
-		var fieldValue []string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_IncorrectKeyException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_IncorrectTrustAnchorException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -7613,7 +8145,85 @@ func com_amazonaws_kms_IncorrectKeyException_message_FromDafny(input interface{}
 		}
 	}()
 }
-func com_amazonaws_kms_GenerateDataKeyPairInput_Recipient_FromDafny(input interface{}) *types.RecipientInfo {
+func com_amazonaws_kms_GetKeyPolicyOutput_PolicyName_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_PutKeyPolicyInput_Policy_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GetParametersForImportOutput_PublicKey_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ListKeysOutput_NextMarker_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_EncryptOutput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyInput_Recipient_FromDafny(input interface{}) *types.RecipientInfo {
 	return func() *types.RecipientInfo {
 		if input == nil {
 			return nil
@@ -7624,342 +8234,11 @@ func com_amazonaws_kms_GenerateDataKeyPairInput_Recipient_FromDafny(input interf
 		}
 	}()
 }
-func com_amazonaws_kms_GrantListEntry_Name_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_UpdateCustomKeyStoreInput_XksProxyUriPath_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_UpdateAliasInput_TargetKeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ListAliasesOutput_Truncated_FromDafny(input interface{}) bool {
-	return func() bool {
-		var b bool
-		if input == nil {
-			return b
-		}
-		b = input.(bool)
-		return b
-	}()
-}
-func com_amazonaws_kms_DeriveSharedSecretInput_DryRun_FromDafny(input interface{}) *bool {
-	return func() *bool {
-		var b bool
-		if input == nil {
-			return nil
-		}
-		b = input.(bool)
-		return &b
-	}()
-}
-func com_amazonaws_kms_GenerateMacInput_Message_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ListKeysOutput_Keys_FromDafny(input interface{}) []types.KeyListEntry {
-	return func() []types.KeyListEntry {
-		var fieldValue []types.KeyListEntry
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_KeyList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_ListGrantsInput_Marker_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_DeriveSharedSecretInput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextInput_GrantTokens_FromDafny(input interface{}) []string {
-	return func() []string {
-		var fieldValue []string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextOutput_PublicKey_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_UpdateCustomKeyStoreInput_XksProxyConnectivity_FromDafny(input interface{}) types.XksProxyConnectivityType {
-	return func() types.XksProxyConnectivityType {
-		var u types.XksProxyConnectivityType
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.XksProxyConnectivityType)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_XksProxyConnectivityType_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.XksProxyConnectivityType).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_XksProxyConfigurationType_VpcEndpointServiceName_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ScheduleKeyDeletionOutput_KeyState_FromDafny(input interface{}) types.KeyState {
-	return func() types.KeyState {
-		var u types.KeyState
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.KeyState)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyState_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.KeyState).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_UpdateCustomKeyStoreInput_XksProxyAuthenticationCredential_FromDafny(input interface{}) *types.XksProxyAuthenticationCredentialType {
-	return func() *types.XksProxyAuthenticationCredentialType {
-		if input == nil {
-			return nil
-		}
-		return &types.XksProxyAuthenticationCredentialType{
-			AccessKeyId:        com_amazonaws_kms_XksProxyAuthenticationCredentialType_AccessKeyId_FromDafny(input.(ComAmazonawsKmsTypes.XksProxyAuthenticationCredentialType).Dtor_AccessKeyId()),
-			RawSecretAccessKey: com_amazonaws_kms_XksProxyAuthenticationCredentialType_RawSecretAccessKey_FromDafny(input.(ComAmazonawsKmsTypes.XksProxyAuthenticationCredentialType).Dtor_RawSecretAccessKey()),
-		}
-	}()
-}
-func com_amazonaws_kms_DecryptInput_CiphertextBlob_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_EnableKeyRotationInput_RotationPeriodInDays_FromDafny(input interface{}) *int32 {
-	return func() *int32 {
-		var i int32
-		if input == nil {
-			return nil
-		}
-		i = input.(int32)
-		return &i
-	}()
-}
-func com_amazonaws_kms_UpdateCustomKeyStoreInput_NewCustomKeyStoreName_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_AliasList_member_FromDafny(input interface{}) types.AliasListEntry {
-	return func() types.AliasListEntry {
-
-		return types.AliasListEntry{
-			AliasName:       com_amazonaws_kms_AliasListEntry_AliasName_FromDafny(input.(ComAmazonawsKmsTypes.AliasListEntry).Dtor_AliasName().UnwrapOr(nil)),
-			AliasArn:        com_amazonaws_kms_AliasListEntry_AliasArn_FromDafny(input.(ComAmazonawsKmsTypes.AliasListEntry).Dtor_AliasArn().UnwrapOr(nil)),
-			TargetKeyId:     com_amazonaws_kms_AliasListEntry_TargetKeyId_FromDafny(input.(ComAmazonawsKmsTypes.AliasListEntry).Dtor_TargetKeyId().UnwrapOr(nil)),
-			CreationDate:    com_amazonaws_kms_AliasListEntry_CreationDate_FromDafny(input.(ComAmazonawsKmsTypes.AliasListEntry).Dtor_CreationDate().UnwrapOr(nil)),
-			LastUpdatedDate: com_amazonaws_kms_AliasListEntry_LastUpdatedDate_FromDafny(input.(ComAmazonawsKmsTypes.AliasListEntry).Dtor_LastUpdatedDate().UnwrapOr(nil)),
-		}
-	}()
-}
-func com_amazonaws_kms_GenerateMacInput_GrantTokens_FromDafny(input interface{}) []string {
-	return func() []string {
-		var fieldValue []string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_GrantListEntry_Operations_FromDafny(input interface{}) []types.GrantOperation {
-	return func() []types.GrantOperation {
-		var fieldValue []types.GrantOperation
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_GrantOperationList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_DeleteCustomKeyStoreInput_CustomKeyStoreId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_EncryptionContextType_key_FromDafny(input interface{}) string {
+func com_amazonaws_kms_GrantTokenList_member_FromDafny(input interface{}) string {
 	return func() string {
 		var s string
-		if input == nil {
-			return s
-		}
-		for i := dafny.Iterate(input); ; {
+
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
 			val, ok := i()
 			if !ok {
 				return []string{s}[0]
@@ -7969,10 +8248,7 @@ func com_amazonaws_kms_EncryptionContextType_key_FromDafny(input interface{}) st
 		}
 	}()
 }
-func com_amazonaws_kms_GrantListEntry_CreationDate_FromDafny(input interface{}) *time.Time {
-	return nil
-}
-func com_amazonaws_kms_MultiRegionKey_Arn_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_RetireGrantInput_GrantId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -7988,33 +8264,36 @@ func com_amazonaws_kms_MultiRegionKey_Arn_FromDafny(input interface{}) *string {
 		}
 	}()
 }
-func com_amazonaws_kms_CreateKeyInput_Description_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
+func com_amazonaws_kms_SignInput_Message_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		var b []byte
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+		for i := dafny.Iterate(input); ; {
 			val, ok := i()
 			if !ok {
-				return &[]string{s}[0]
+				return b
 			} else {
-				s = s + string(val.(dafny.Char))
+				b = append(b, val.(byte))
 			}
 		}
 	}()
 }
-func com_amazonaws_kms_GenerateMacInput_MacAlgorithm_FromDafny(input interface{}) types.MacAlgorithmSpec {
+func com_amazonaws_kms_VerifyMacOutput_MacAlgorithm_FromDafny(input interface{}) types.MacAlgorithmSpec {
 	return func() types.MacAlgorithmSpec {
 		var u types.MacAlgorithmSpec
+		if input == nil {
+			return u
+		}
 
-		inputEnum := input
+		inputEnum := input.(ComAmazonawsKmsTypes.MacAlgorithmSpec)
 		index := -1
 		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_MacAlgorithmSpec_{}.AllSingletonConstructors()); ; {
 			enum, ok := allEnums()
 			if ok {
 				index++
-				if enum.(ComAmazonawsKmsTypes.MacAlgorithmSpec).Equals(inputEnum.(ComAmazonawsKmsTypes.MacAlgorithmSpec)) {
+				if enum.(ComAmazonawsKmsTypes.MacAlgorithmSpec).Equals(inputEnum) {
 					break
 				}
 			}
@@ -8022,44 +8301,7 @@ func com_amazonaws_kms_GenerateMacInput_MacAlgorithm_FromDafny(input interface{}
 		return u.Values()[index]
 	}()
 }
-func com_amazonaws_kms_DeriveSharedSecretOutput_KeyAgreementAlgorithm_FromDafny(input interface{}) types.KeyAgreementAlgorithmSpec {
-	return func() types.KeyAgreementAlgorithmSpec {
-		var u types.KeyAgreementAlgorithmSpec
-		//TODO: What to do if nil
-		if input == nil {
-			return u
-		}
-		inputEnum := input.(ComAmazonawsKmsTypes.KeyAgreementAlgorithmSpec)
-		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyAgreementAlgorithmSpec_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(ComAmazonawsKmsTypes.KeyAgreementAlgorithmSpec).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-		return u.Values()[index]
-	}()
-}
-func com_amazonaws_kms_ListAliasesOutput_Aliases_FromDafny(input interface{}) []types.AliasListEntry {
-	return func() []types.AliasListEntry {
-		var fieldValue []types.AliasListEntry
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_AliasList_member_FromDafny(val))
-		}
-		return fieldValue
-	}()
-}
-func com_amazonaws_kms_NotFoundException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_CreateCustomKeyStoreInput_XksProxyUriPath_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -8075,113 +8317,160 @@ func com_amazonaws_kms_NotFoundException_message_FromDafny(input interface{}) *s
 		}
 	}()
 }
-func com_amazonaws_kms_AliasListEntry_CreationDate_FromDafny(input interface{}) *time.Time {
+func com_amazonaws_kms_GetPublicKeyOutput_KeyAgreementAlgorithms_FromDafny(input interface{}) []types.KeyAgreementAlgorithmSpec {
+	return func() []types.KeyAgreementAlgorithmSpec {
+		var fieldValue []types.KeyAgreementAlgorithmSpec
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_KeyAgreementAlgorithmSpecList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_CreateCustomKeyStoreInput_XksProxyUriEndpoint_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_PutKeyPolicyInput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GetKeyPolicyInput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_EnableKeyInput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextOutput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextInput_EncryptionContext_FromDafny(input interface{}) map[string]string {
+	return func() map[string]string {
+		var m map[string]string = make(map[string]string)
+		if input == nil {
+			return nil
+		}
+
+		for i := dafny.Iterate(input.(dafny.Map).Items()); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			m[com_amazonaws_kms_EncryptionContextType_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = com_amazonaws_kms_EncryptionContextType_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
+		}
+		return m
+	}()
+}
+func com_amazonaws_kms_DescribeKeyInput_KeyId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_MultiRegionConfiguration_ReplicaKeys_FromDafny(input interface{}) []types.MultiRegionKey {
+	return func() []types.MultiRegionKey {
+		var fieldValue []types.MultiRegionKey
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			}
+			fieldValue = append(fieldValue, com_amazonaws_kms_MultiRegionKeyList_member_FromDafny(val))
+		}
+		return fieldValue
+	}()
+}
+func com_amazonaws_kms_GetKeyRotationStatusOutput_OnDemandRotationStartDate_FromDafny(input interface{}) *time.Time {
 	return nil
 }
-func com_amazonaws_kms_XksProxyUriInUseException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_InvalidKeyUsageException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ListKeyRotationsInput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CreateGrantInput_GranteePrincipal_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ListKeyPoliciesOutput_NextMarker_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_DisableKeyInput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_KeyMetadata_KeySpec_FromDafny(input interface{}) types.KeySpec {
-	return func() types.KeySpec {
-		var u types.KeySpec
-		//TODO: What to do if nil
+func com_amazonaws_kms_MultiRegionConfiguration_MultiRegionKeyType_FromDafny(input interface{}) types.MultiRegionKeyType {
+	return func() types.MultiRegionKeyType {
+		var u types.MultiRegionKeyType
 		if input == nil {
 			return u
 		}
-		inputEnum := input.(ComAmazonawsKmsTypes.KeySpec)
+
+		inputEnum := input.(ComAmazonawsKmsTypes.MultiRegionKeyType)
 		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeySpec_{}.AllSingletonConstructors()); ; {
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_MultiRegionKeyType_{}.AllSingletonConstructors()); ; {
 			enum, ok := allEnums()
 			if ok {
 				index++
-				if enum.(ComAmazonawsKmsTypes.KeySpec).Equals(inputEnum) {
+				if enum.(ComAmazonawsKmsTypes.MultiRegionKeyType).Equals(inputEnum) {
 					break
 				}
 			}
@@ -8189,7 +8478,7 @@ func com_amazonaws_kms_KeyMetadata_KeySpec_FromDafny(input interface{}) types.Ke
 		return u.Values()[index]
 	}()
 }
-func com_amazonaws_kms_AliasListEntry_AliasName_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_AliasListEntry_TargetKeyId_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -8205,78 +8494,9 @@ func com_amazonaws_kms_AliasListEntry_AliasName_FromDafny(input interface{}) *st
 		}
 	}()
 }
-func com_amazonaws_kms_CreateCustomKeyStoreInput_KeyStorePassword_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CustomKeyStoresList_member_FromDafny(input interface{}) types.CustomKeyStoresListEntry {
-	return func() types.CustomKeyStoresListEntry {
-
-		return types.CustomKeyStoresListEntry{
-			CustomKeyStoreId:       com_amazonaws_kms_CustomKeyStoresListEntry_CustomKeyStoreId_FromDafny(input.(ComAmazonawsKmsTypes.CustomKeyStoresListEntry).Dtor_CustomKeyStoreId().UnwrapOr(nil)),
-			CustomKeyStoreName:     com_amazonaws_kms_CustomKeyStoresListEntry_CustomKeyStoreName_FromDafny(input.(ComAmazonawsKmsTypes.CustomKeyStoresListEntry).Dtor_CustomKeyStoreName().UnwrapOr(nil)),
-			CloudHsmClusterId:      com_amazonaws_kms_CustomKeyStoresListEntry_CloudHsmClusterId_FromDafny(input.(ComAmazonawsKmsTypes.CustomKeyStoresListEntry).Dtor_CloudHsmClusterId().UnwrapOr(nil)),
-			TrustAnchorCertificate: com_amazonaws_kms_CustomKeyStoresListEntry_TrustAnchorCertificate_FromDafny(input.(ComAmazonawsKmsTypes.CustomKeyStoresListEntry).Dtor_TrustAnchorCertificate().UnwrapOr(nil)),
-			ConnectionState:        com_amazonaws_kms_CustomKeyStoresListEntry_ConnectionState_FromDafny(input.(ComAmazonawsKmsTypes.CustomKeyStoresListEntry).Dtor_ConnectionState().UnwrapOr(nil)),
-			ConnectionErrorCode:    com_amazonaws_kms_CustomKeyStoresListEntry_ConnectionErrorCode_FromDafny(input.(ComAmazonawsKmsTypes.CustomKeyStoresListEntry).Dtor_ConnectionErrorCode().UnwrapOr(nil)),
-			CreationDate:           com_amazonaws_kms_CustomKeyStoresListEntry_CreationDate_FromDafny(input.(ComAmazonawsKmsTypes.CustomKeyStoresListEntry).Dtor_CreationDate().UnwrapOr(nil)),
-			CustomKeyStoreType:     com_amazonaws_kms_CustomKeyStoresListEntry_CustomKeyStoreType_FromDafny(input.(ComAmazonawsKmsTypes.CustomKeyStoresListEntry).Dtor_CustomKeyStoreType().UnwrapOr(nil)),
-			XksProxyConfiguration:  com_amazonaws_kms_CustomKeyStoresListEntry_XksProxyConfiguration_FromDafny(input.(ComAmazonawsKmsTypes.CustomKeyStoresListEntry).Dtor_XksProxyConfiguration().UnwrapOr(nil)),
-		}
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyWithoutPlaintextInput_DryRun_FromDafny(input interface{}) *bool {
-	return func() *bool {
-		var b bool
-		if input == nil {
-			return nil
-		}
-		b = input.(bool)
-		return &b
-	}()
-}
-func com_amazonaws_kms_CustomKeyStoresListEntry_CustomKeyStoreId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CreateCustomKeyStoreInput_XksProxyAuthenticationCredential_FromDafny(input interface{}) *types.XksProxyAuthenticationCredentialType {
-	return func() *types.XksProxyAuthenticationCredentialType {
-		if input == nil {
-			return nil
-		}
-		return &types.XksProxyAuthenticationCredentialType{
-			AccessKeyId:        com_amazonaws_kms_XksProxyAuthenticationCredentialType_AccessKeyId_FromDafny(input.(ComAmazonawsKmsTypes.XksProxyAuthenticationCredentialType).Dtor_AccessKeyId()),
-			RawSecretAccessKey: com_amazonaws_kms_XksProxyAuthenticationCredentialType_RawSecretAccessKey_FromDafny(input.(ComAmazonawsKmsTypes.XksProxyAuthenticationCredentialType).Dtor_RawSecretAccessKey()),
-		}
-	}()
-}
-func com_amazonaws_kms_CreateGrantInput_GrantTokens_FromDafny(input interface{}) []string {
-	return func() []string {
-		var fieldValue []string
+func com_amazonaws_kms_KeyMetadata_MacAlgorithms_FromDafny(input interface{}) []types.MacAlgorithmSpec {
+	return func() []types.MacAlgorithmSpec {
+		var fieldValue []types.MacAlgorithmSpec
 		if input == nil {
 			return nil
 		}
@@ -8285,253 +8505,25 @@ func com_amazonaws_kms_CreateGrantInput_GrantTokens_FromDafny(input interface{})
 			if !ok {
 				break
 			}
-			fieldValue = append(fieldValue, com_amazonaws_kms_GrantTokenList_member_FromDafny(val))
+			fieldValue = append(fieldValue, com_amazonaws_kms_MacAlgorithmSpecList_member_FromDafny(val))
 		}
 		return fieldValue
 	}()
 }
-func com_amazonaws_kms_GenerateMacInput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_RotationsListEntry_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CloudHsmClusterNotRelatedException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GetPublicKeyOutput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CreateCustomKeyStoreOutput_CustomKeyStoreId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyInput_EncryptionContext_FromDafny(input interface{}) map[string]string {
-	return func() map[string]string {
-		var m map[string]string = make(map[string]string)
-		if input == nil {
-			return nil
-		}
-
-		for i := dafny.Iterate(input.(dafny.Map).Items()); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			m[com_amazonaws_kms_EncryptionContextType_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = com_amazonaws_kms_EncryptionContextType_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
-		}
-		return m
-	}()
-}
-func com_amazonaws_kms_XksKeyAlreadyInUseException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_KMSInvalidStateException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ImportKeyMaterialInput_EncryptedKeyMaterial_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ListKeyRotationsInput_Limit_FromDafny(input interface{}) *int32 {
-	return func() *int32 {
-		var i int32
-		if input == nil {
-			return nil
-		}
-		i = input.(int32)
-		return &i
-	}()
-}
-func com_amazonaws_kms_GenerateMacOutput_KeyId_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_GenerateDataKeyWithoutPlaintextInput_EncryptionContext_FromDafny(input interface{}) map[string]string {
-	return func() map[string]string {
-		var m map[string]string = make(map[string]string)
-		if input == nil {
-			return nil
-		}
-
-		for i := dafny.Iterate(input.(dafny.Map).Items()); ; {
-			val, ok := i()
-			if !ok {
-				break
-			}
-			m[com_amazonaws_kms_EncryptionContextType_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = com_amazonaws_kms_EncryptionContextType_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
-		}
-		return m
-	}()
-}
-func com_amazonaws_kms_ListKeysInput_Limit_FromDafny(input interface{}) *int32 {
-	return func() *int32 {
-		var i int32
-		if input == nil {
-			return nil
-		}
-		i = input.(int32)
-		return &i
-	}()
-}
-func com_amazonaws_kms_ListResourceTagsOutput_NextMarker_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_InvalidImportTokenException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_VerifyOutput_SigningAlgorithm_FromDafny(input interface{}) types.SigningAlgorithmSpec {
-	return func() types.SigningAlgorithmSpec {
-		var u types.SigningAlgorithmSpec
-		//TODO: What to do if nil
+func com_amazonaws_kms_ReEncryptOutput_SourceEncryptionAlgorithm_FromDafny(input interface{}) types.EncryptionAlgorithmSpec {
+	return func() types.EncryptionAlgorithmSpec {
+		var u types.EncryptionAlgorithmSpec
 		if input == nil {
 			return u
 		}
-		inputEnum := input.(ComAmazonawsKmsTypes.SigningAlgorithmSpec)
+
+		inputEnum := input.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec)
 		index := -1
-		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_SigningAlgorithmSpec_{}.AllSingletonConstructors()); ; {
+		for allEnums := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()); ; {
 			enum, ok := allEnums()
 			if ok {
 				index++
-				if enum.(ComAmazonawsKmsTypes.SigningAlgorithmSpec).Equals(inputEnum) {
+				if enum.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec).Equals(inputEnum) {
 					break
 				}
 			}
@@ -8539,18 +8531,34 @@ func com_amazonaws_kms_VerifyOutput_SigningAlgorithm_FromDafny(input interface{}
 		return u.Values()[index]
 	}()
 }
-func com_amazonaws_kms_GenerateDataKeyOutput_Plaintext_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
+func com_amazonaws_kms_RetireGrantInput_GrantToken_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
 		if input == nil {
 			return nil
 		}
 		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
 			val, ok := i()
 			if !ok {
-				return b
+				return &[]string{s}[0]
 			} else {
-				b = append(b, val.(byte))
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_GenerateRandomInput_CustomKeyStoreId_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
 			}
 		}
 	}()

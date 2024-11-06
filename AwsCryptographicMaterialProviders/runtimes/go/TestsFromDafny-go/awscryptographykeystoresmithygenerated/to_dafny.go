@@ -5,10 +5,13 @@ package awscryptographykeystoresmithygenerated
 import (
 	"unicode/utf8"
 
+	"github.com/aws/aws-cryptographic-material-providers-library/dynamodb/DynamoDBwrapped"
 	"github.com/aws/aws-cryptographic-material-providers-library/dynamodb/comamazonawsdynamodbsmithygenerated"
+	"github.com/aws/aws-cryptographic-material-providers-library/kms/KMSwrapped"
 	"github.com/aws/aws-cryptographic-material-providers-library/kms/comamazonawskmssmithygenerated"
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/AwsCryptographyKeyStoreTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/awscryptographykeystoresmithygeneratedtypes"
+	"github.com/aws/smithy-go"
 	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
 )
@@ -146,7 +149,7 @@ func CollectionOfErrors_Input_ToDafny(nativeInput awscryptographykeystoresmithyg
 	return AwsCryptographyKeyStoreTypes.Companion_Error_.Create_CollectionOfErrors_(dafny.SeqOf(e...), dafny.SeqOfChars([]dafny.Char(nativeInput.Message)...))
 }
 func OpaqueError_Input_ToDafny(nativeInput awscryptographykeystoresmithygeneratedtypes.OpaqueError) AwsCryptographyKeyStoreTypes.Error {
-	return AwsCryptographyKeyStoreTypes.Companion_Error_.Create_Opaque_(nativeInput.ErrObject, dafny.SeqOfChars([]dafny.Char(nativeInput.Error())...))
+	return AwsCryptographyKeyStoreTypes.Companion_Error_.Create_Opaque_(nativeInput.ErrObject)
 }
 
 func Error_ToDafny(err error) AwsCryptographyKeyStoreTypes.Error {
@@ -156,11 +159,27 @@ func Error_ToDafny(err error) AwsCryptographyKeyStoreTypes.Error {
 		return KeyStoreException_ToDafny(err.(awscryptographykeystoresmithygeneratedtypes.KeyStoreException))
 
 	//DependentErrors
-	case comamazonawsdynamodbsmithygeneratedtypes.DynamoDB_20120810BaseException:
-		return AwsCryptographyKeyStoreTypes.Companion_Error_.Create_DynamoDB_20120810_(comamazonawsdynamodbsmithygenerated.Error_ToDafny(err))
+	case *smithy.OperationError:
+		if err.(*smithy.OperationError).Service() == "DynamoDB" {
+			DynamoDBError := comamazonawsdynamodbsmithygenerated.Error_ToDafny(err)
+			return AwsCryptographyKeyStoreTypes.Companion_Error_.Create_ComAmazonawsDynamodb_(DynamoDBError)
+		}
+		if err.(*smithy.OperationError).Service() == "KMS" {
+			KMSError := comamazonawskmssmithygenerated.Error_ToDafny(err)
+			return AwsCryptographyKeyStoreTypes.Companion_Error_.Create_ComAmazonawsKms_(KMSError)
+		}
+		return AwsCryptographyKeyStoreTypes.Companion_Error_.Create_Opaque_(err)
 
-	case comamazonawskmssmithygeneratedtypes.TrentServiceBaseException:
-		return AwsCryptographyKeyStoreTypes.Companion_Error_.Create_TrentService_(comamazonawskmssmithygenerated.Error_ToDafny(err))
+	case smithy.APIError:
+		DynamoDBError := comamazonawsdynamodbsmithygenerated.Error_ToDafny(err)
+		if !DynamoDBError.Is_Opaque() {
+			return AwsCryptographyKeyStoreTypes.Companion_Error_.Create_ComAmazonawsDynamodb_(DynamoDBError)
+		}
+		KMSError := comamazonawskmssmithygenerated.Error_ToDafny(err)
+		if !KMSError.Is_Opaque() {
+			return AwsCryptographyKeyStoreTypes.Companion_Error_.Create_ComAmazonawsKms_(KMSError)
+		}
+		return AwsCryptographyKeyStoreTypes.Companion_Error_.Create_Opaque_(err)
 
 	//Unmodelled Errors
 	case awscryptographykeystoresmithygeneratedtypes.CollectionOfErrors:
@@ -179,145 +198,66 @@ func KeyStoreConfig_ToDafny(nativeInput awscryptographykeystoresmithygeneratedty
 	return func() AwsCryptographyKeyStoreTypes.KeyStoreConfig {
 
 		return AwsCryptographyKeyStoreTypes.Companion_KeyStoreConfig_.Create_KeyStoreConfig_(aws_cryptography_keyStore_KeyStoreConfig_ddbTableName_ToDafny(nativeInput.DdbTableName), aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_ToDafny(nativeInput.KmsConfiguration), aws_cryptography_keyStore_KeyStoreConfig_logicalKeyStoreName_ToDafny(nativeInput.LogicalKeyStoreName), aws_cryptography_keyStore_KeyStoreConfig_id_ToDafny(nativeInput.Id), aws_cryptography_keyStore_KeyStoreConfig_grantTokens_ToDafny(nativeInput.GrantTokens), func() Wrappers.Option {
-			if nativeInput.DdbClient == nil {
+			if (&DynamoDBwrapped.Shim{Client: &nativeInput.DdbClient}) == nil {
 				return Wrappers.Companion_Option_.Create_None_()
 			}
-			return Wrappers.Companion_Option_.Create_Some_(nativeInput.DdbClient)
+			return Wrappers.Companion_Option_.Create_Some_(&DynamoDBwrapped.Shim{Client: &nativeInput.DdbClient})
 		}(), func() Wrappers.Option {
-			if nativeInput.KmsClient == nil {
+			if (&KMSwrapped.Shim{Client: &nativeInput.KmsClient}) == nil {
 				return Wrappers.Companion_Option_.Create_None_()
 			}
-			return Wrappers.Companion_Option_.Create_Some_(nativeInput.KmsClient)
+			return Wrappers.Companion_Option_.Create_Some_(&KMSwrapped.Shim{Client: &nativeInput.KmsClient})
 		}())
 	}()
 
 }
 
-func aws_cryptography_keyStore_KMSConfiguration_kmsMRKeyArn_ToDafny(input string) Wrappers.Option {
-	return func() Wrappers.Option {
+func aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_ToDafny(input awscryptographykeystoresmithygeneratedtypes.KMSConfiguration) AwsCryptographyKeyStoreTypes.KMSConfiguration {
+	return func() AwsCryptographyKeyStoreTypes.KMSConfiguration {
+		switch input.(type) {
+		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberKmsKeyArn:
+			var companion = AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}
+			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_kmsKeyArn_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberKmsKeyArn).Value)
+			return companion.Create_KmsKeyArn_(inputToConversion.UnwrapOr(nil).(dafny.Sequence))
+		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberKmsMRKeyArn:
+			var companion = AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}
+			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_kmsMRKeyArn_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberKmsMRKeyArn).Value)
+			return companion.Create_KmsMRKeyArn_(inputToConversion.UnwrapOr(nil).(dafny.Sequence))
+		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberDiscovery:
+			var companion = AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}
+			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_discovery_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberDiscovery).Value)
+			return companion.Create_Discovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyKeyStoreTypes.Discovery))
+		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberMrDiscovery:
+			var companion = AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}
+			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_mrDiscovery_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberMrDiscovery).Value)
+			return companion.Create_MrDiscovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyKeyStoreTypes.MRDiscovery))
 
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(input)...))
+		default:
+			panic("Unhandled union type")
+		}
 	}()
 }
 
-func aws_cryptography_keyStore_KMSConfiguration_mrDiscovery_ToDafny(input awscryptographykeystoresmithygeneratedtypes.MRDiscovery) Wrappers.Option {
-	return func() Wrappers.Option {
+func aws_cryptography_keyStore_KeyStoreException_message_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
 
-		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyKeyStoreTypes.Companion_MRDiscovery_.Create_MRDiscovery_(aws_cryptography_keyStore_MRDiscovery_region_ToDafny(input.Region)))
+		return dafny.SeqOfChars([]dafny.Char(input)...)
 	}()
 }
 
-func aws_cryptography_keyStore_KeyStoreConfig_grantTokens_ToDafny(input []string) Wrappers.Option {
+func aws_cryptography_keyStore_KeyStoreConfig_id_ToDafny(input *string) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		var fieldValue []interface{} = make([]interface{}, 0)
-		for _, val := range input {
-			element := aws_cryptography_keyStore_GrantTokenList_member_ToDafny(val)
-			fieldValue = append(fieldValue, element)
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(fieldValue...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
 	}()
 }
 
-func aws_cryptography_keyStore_GrantTokenList_member_ToDafny(input string) dafny.Sequence {
+func aws_cryptography_keyStore_GetBranchKeyVersionInput_branchKeyIdentifier_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
 		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_keyStore_BranchKeyMaterials_branchKeyIdentifier_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_keyStore_VersionKeyInput_branchKeyIdentifier_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_keyStore_BranchKeyMaterials_branchKey_ToDafny(input []byte) dafny.Sequence {
-	return func() dafny.Sequence {
-		var v []interface{}
-		if input == nil {
-			return nil
-		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqOf(v...)
-	}()
-}
-
-func aws_cryptography_keyStore_HmacKeyMap_value_ToDafny(input []byte) dafny.Sequence {
-	return func() dafny.Sequence {
-		var v []interface{}
-		if input == nil {
-			return nil
-		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqOf(v...)
-	}()
-}
-
-func aws_cryptography_keyStore_KeyStoreConfig_ddbTableName_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_keyStore_GetKeyStoreInfoOutput_logicalKeyStoreName_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_keyStore_BeaconKeyMaterials_hmacKeys_ToDafny(input map[string][]byte) Wrappers.Option {
-	return func() Wrappers.Option {
-		fieldValue := dafny.NewMapBuilder()
-		for key, val := range input {
-			fieldValue.Add(aws_cryptography_keyStore_HmacKeyMap_key_ToDafny(key), aws_cryptography_keyStore_HmacKeyMap_value_ToDafny(val))
-		}
-		return Wrappers.Companion_Option_.Create_Some_(fieldValue.ToMap())
-	}()
-}
-
-func aws_cryptography_keyStore_GetBranchKeyVersionOutput_branchKeyMaterials_ToDafny(input awscryptographykeystoresmithygeneratedtypes.BranchKeyMaterials) AwsCryptographyKeyStoreTypes.BranchKeyMaterials {
-	return func() AwsCryptographyKeyStoreTypes.BranchKeyMaterials {
-
-		return AwsCryptographyKeyStoreTypes.Companion_BranchKeyMaterials_.Create_BranchKeyMaterials_(aws_cryptography_keyStore_BranchKeyMaterials_branchKeyIdentifier_ToDafny(input.BranchKeyIdentifier), aws_cryptography_keyStore_BranchKeyMaterials_branchKeyVersion_ToDafny(input.BranchKeyVersion), aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_ToDafny(input.EncryptionContext), aws_cryptography_keyStore_BranchKeyMaterials_branchKey_ToDafny(input.BranchKey))
-	}()
-}
-
-func aws_cryptography_keyStore_GetKeyStoreInfoOutput_keyStoreId_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_keyStore_BranchKeyMaterials_branchKeyVersion_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOf(func() []interface{} {
-			utf8.ValidString(input)
-			b := []byte(input)
-			f := make([]interface{}, len(b))
-			for i, v := range b {
-				f[i] = v
-			}
-			return f
-		}()...)
 	}()
 }
 
@@ -354,14 +294,231 @@ func aws_cryptography_keyStore_CreateKeyInput_branchKeyIdentifier_ToDafny(input 
 	}()
 }
 
-func aws_cryptography_keyStore_KeyStoreException_message_ToDafny(input string) dafny.Sequence {
+func aws_cryptography_keyStore_EncryptionContext_key_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOf(func() []interface{} {
+			utf8.ValidString(input)
+			b := []byte(input)
+			f := make([]interface{}, len(b))
+			for i, v := range b {
+				f[i] = v
+			}
+			return f
+		}()...)
+	}()
+}
+
+func aws_cryptography_keyStore_GetBeaconKeyInput_branchKeyIdentifier_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
 		return dafny.SeqOfChars([]dafny.Char(input)...)
 	}()
 }
 
+func aws_cryptography_keyStore_CreateKeyStoreOutput_tableArn_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_keyStore_GetActiveBranchKeyInput_branchKeyIdentifier_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_ToDafny(input map[string]string) dafny.Map {
+	return func() dafny.Map {
+		fieldValue := dafny.NewMapBuilder()
+		for key, val := range input {
+			fieldValue.Add(aws_cryptography_keyStore_EncryptionContext_key_ToDafny(key), aws_cryptography_keyStore_EncryptionContext_value_ToDafny(val))
+		}
+		return fieldValue.ToMap()
+	}()
+}
+
+func aws_cryptography_keyStore_MRDiscovery_region_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_keyStore_GetActiveBranchKeyOutput_branchKeyMaterials_ToDafny(input awscryptographykeystoresmithygeneratedtypes.BranchKeyMaterials) AwsCryptographyKeyStoreTypes.BranchKeyMaterials {
+	return func() AwsCryptographyKeyStoreTypes.BranchKeyMaterials {
+
+		return AwsCryptographyKeyStoreTypes.Companion_BranchKeyMaterials_.Create_BranchKeyMaterials_(aws_cryptography_keyStore_BranchKeyMaterials_branchKeyIdentifier_ToDafny(input.BranchKeyIdentifier), aws_cryptography_keyStore_BranchKeyMaterials_branchKeyVersion_ToDafny(input.BranchKeyVersion), aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_ToDafny(input.EncryptionContext), aws_cryptography_keyStore_BranchKeyMaterials_branchKey_ToDafny(input.BranchKey))
+	}()
+}
+
+func aws_cryptography_keyStore_GetKeyStoreInfoOutput_grantTokens_ToDafny(input []string) dafny.Sequence {
+	return func() dafny.Sequence {
+		if input == nil {
+			return nil
+		}
+		var fieldValue []interface{} = make([]interface{}, 0)
+		for _, val := range input {
+			element := aws_cryptography_keyStore_GrantTokenList_member_ToDafny(val)
+			fieldValue = append(fieldValue, element)
+		}
+		return dafny.SeqOf(fieldValue...)
+	}()
+}
+
+func aws_cryptography_keyStore_BeaconKeyMaterials_beaconKey_ToDafny(input []byte) Wrappers.Option {
+	return func() Wrappers.Option {
+		var v []interface{}
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		for _, e := range input {
+			v = append(v, e)
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+	}()
+}
+
+func aws_cryptography_keyStore_KMSConfiguration_kmsMRKeyArn_ToDafny(input string) Wrappers.Option {
+	return func() Wrappers.Option {
+
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(input)...))
+	}()
+}
+
+func aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_ToDafny(input map[string]string) dafny.Map {
+	return func() dafny.Map {
+		fieldValue := dafny.NewMapBuilder()
+		for key, val := range input {
+			fieldValue.Add(aws_cryptography_keyStore_EncryptionContext_key_ToDafny(key), aws_cryptography_keyStore_EncryptionContext_value_ToDafny(val))
+		}
+		return fieldValue.ToMap()
+	}()
+}
+
 func aws_cryptography_keyStore_KeyStoreConfig_logicalKeyStoreName_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_keyStore_BranchKeyMaterials_branchKey_ToDafny(input []byte) dafny.Sequence {
+	return func() dafny.Sequence {
+		var v []interface{}
+		if input == nil {
+			return nil
+		}
+		for _, e := range input {
+			v = append(v, e)
+		}
+		return dafny.SeqOf(v...)
+	}()
+}
+
+func aws_cryptography_keyStore_KeyStoreConfig_ddbTableName_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_keyStore_GrantTokenList_member_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_keyStore_BranchKeyMaterials_branchKeyIdentifier_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_keyStore_BeaconKeyMaterials_beaconKeyIdentifier_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_keyStore_HmacKeyMap_key_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_keyStore_GetKeyStoreInfoOutput_keyStoreName_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_keyStore_GetKeyStoreInfoOutput_keyStoreId_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_keyStore_EncryptionContext_value_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOf(func() []interface{} {
+			utf8.ValidString(input)
+			b := []byte(input)
+			f := make([]interface{}, len(b))
+			for i, v := range b {
+				f[i] = v
+			}
+			return f
+		}()...)
+	}()
+}
+
+func aws_cryptography_keyStore_KMSConfiguration_kmsKeyArn_ToDafny(input string) Wrappers.Option {
+	return func() Wrappers.Option {
+
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(input)...))
+	}()
+}
+
+func aws_cryptography_keyStore_KMSConfiguration_mrDiscovery_ToDafny(input awscryptographykeystoresmithygeneratedtypes.MRDiscovery) Wrappers.Option {
+	return func() Wrappers.Option {
+
+		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyKeyStoreTypes.Companion_MRDiscovery_.Create_MRDiscovery_(aws_cryptography_keyStore_MRDiscovery_region_ToDafny(input.Region)))
+	}()
+}
+
+func aws_cryptography_keyStore_BranchKeyMaterials_branchKeyVersion_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOf(func() []interface{} {
+			utf8.ValidString(input)
+			b := []byte(input)
+			f := make([]interface{}, len(b))
+			for i, v := range b {
+				f[i] = v
+			}
+			return f
+		}()...)
+	}()
+}
+
+func aws_cryptography_keyStore_GetBeaconKeyOutput_beaconKeyMaterials_ToDafny(input awscryptographykeystoresmithygeneratedtypes.BeaconKeyMaterials) AwsCryptographyKeyStoreTypes.BeaconKeyMaterials {
+	return func() AwsCryptographyKeyStoreTypes.BeaconKeyMaterials {
+
+		return AwsCryptographyKeyStoreTypes.Companion_BeaconKeyMaterials_.Create_BeaconKeyMaterials_(aws_cryptography_keyStore_BeaconKeyMaterials_beaconKeyIdentifier_ToDafny(input.BeaconKeyIdentifier), aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_ToDafny(input.EncryptionContext), aws_cryptography_keyStore_BeaconKeyMaterials_beaconKey_ToDafny(input.BeaconKey), aws_cryptography_keyStore_BeaconKeyMaterials_hmacKeys_ToDafny(input.HmacKeys))
+	}()
+}
+
+func aws_cryptography_keyStore_GetKeyStoreInfoOutput_logicalKeyStoreName_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
 		return dafny.SeqOfChars([]dafny.Char(input)...)
@@ -394,51 +551,33 @@ func aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_ToDafny(input aws
 	}()
 }
 
-func aws_cryptography_keyStore_BeaconKeyMaterials_beaconKey_ToDafny(input []byte) Wrappers.Option {
-	return func() Wrappers.Option {
+func aws_cryptography_keyStore_HmacKeyMap_value_ToDafny(input []byte) dafny.Sequence {
+	return func() dafny.Sequence {
 		var v []interface{}
 		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
+			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return dafny.SeqOf(v...)
 	}()
 }
 
-func aws_cryptography_keyStore_KeyStoreConfig_id_ToDafny(input *string) Wrappers.Option {
+func aws_cryptography_keyStore_VersionKeyInput_branchKeyIdentifier_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_keyStore_BeaconKeyMaterials_hmacKeys_ToDafny(input map[string][]byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
+		fieldValue := dafny.NewMapBuilder()
+		for key, val := range input {
+			fieldValue.Add(aws_cryptography_keyStore_HmacKeyMap_key_ToDafny(key), aws_cryptography_keyStore_HmacKeyMap_value_ToDafny(val))
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_ToDafny(input awscryptographykeystoresmithygeneratedtypes.KMSConfiguration) AwsCryptographyKeyStoreTypes.KMSConfiguration {
-	return func() AwsCryptographyKeyStoreTypes.KMSConfiguration {
-		switch input.(type) {
-		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberKmsKeyArn:
-			var companion = AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}
-			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_kmsKeyArn_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberKmsKeyArn).Value)
-			return companion.Create_KmsKeyArn_(inputToConversion.UnwrapOr(nil).(dafny.Sequence))
-		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberKmsMRKeyArn:
-			var companion = AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}
-			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_kmsMRKeyArn_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberKmsMRKeyArn).Value)
-			return companion.Create_KmsMRKeyArn_(inputToConversion.UnwrapOr(nil).(dafny.Sequence))
-		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberDiscovery:
-			var companion = AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}
-			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_discovery_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberDiscovery).Value)
-			return companion.Create_Discovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyKeyStoreTypes.Discovery))
-		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberMrDiscovery:
-			var companion = AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}
-			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_mrDiscovery_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberMrDiscovery).Value)
-			return companion.Create_MrDiscovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyKeyStoreTypes.MRDiscovery))
-
-		default:
-			panic("Unhandled union type")
-		}
+		return Wrappers.Companion_Option_.Create_Some_(fieldValue.ToMap())
 	}()
 }
 
@@ -449,143 +588,23 @@ func aws_cryptography_keyStore_CreateKeyOutput_branchKeyIdentifier_ToDafny(input
 	}()
 }
 
-func aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_ToDafny(input map[string]string) dafny.Map {
-	return func() dafny.Map {
-		fieldValue := dafny.NewMapBuilder()
-		for key, val := range input {
-			fieldValue.Add(aws_cryptography_keyStore_EncryptionContext_key_ToDafny(key), aws_cryptography_keyStore_EncryptionContext_value_ToDafny(val))
-		}
-		return fieldValue.ToMap()
-	}()
-}
-
-func aws_cryptography_keyStore_GetBeaconKeyOutput_beaconKeyMaterials_ToDafny(input awscryptographykeystoresmithygeneratedtypes.BeaconKeyMaterials) AwsCryptographyKeyStoreTypes.BeaconKeyMaterials {
-	return func() AwsCryptographyKeyStoreTypes.BeaconKeyMaterials {
-
-		return AwsCryptographyKeyStoreTypes.Companion_BeaconKeyMaterials_.Create_BeaconKeyMaterials_(aws_cryptography_keyStore_BeaconKeyMaterials_beaconKeyIdentifier_ToDafny(input.BeaconKeyIdentifier), aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_ToDafny(input.EncryptionContext), aws_cryptography_keyStore_BeaconKeyMaterials_beaconKey_ToDafny(input.BeaconKey), aws_cryptography_keyStore_BeaconKeyMaterials_hmacKeys_ToDafny(input.HmacKeys))
-	}()
-}
-
-func aws_cryptography_keyStore_HmacKeyMap_key_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_ToDafny(input map[string]string) dafny.Map {
-	return func() dafny.Map {
-		fieldValue := dafny.NewMapBuilder()
-		for key, val := range input {
-			fieldValue.Add(aws_cryptography_keyStore_EncryptionContext_key_ToDafny(key), aws_cryptography_keyStore_EncryptionContext_value_ToDafny(val))
-		}
-		return fieldValue.ToMap()
-	}()
-}
-
-func aws_cryptography_keyStore_GetKeyStoreInfoOutput_grantTokens_ToDafny(input []string) dafny.Sequence {
-	return func() dafny.Sequence {
+func aws_cryptography_keyStore_KeyStoreConfig_grantTokens_ToDafny(input []string) Wrappers.Option {
+	return func() Wrappers.Option {
 		if input == nil {
-			return nil
+			return Wrappers.Companion_Option_.Create_None_()
 		}
 		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := aws_cryptography_keyStore_GrantTokenList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
 		}
-		return dafny.SeqOf(fieldValue...)
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(fieldValue...))
 	}()
 }
 
-func aws_cryptography_keyStore_BeaconKeyMaterials_beaconKeyIdentifier_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_keyStore_GetKeyStoreInfoOutput_keyStoreName_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_keyStore_GetActiveBranchKeyInput_branchKeyIdentifier_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_keyStore_MRDiscovery_region_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_keyStore_KMSConfiguration_kmsKeyArn_ToDafny(input string) Wrappers.Option {
-	return func() Wrappers.Option {
-
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(input)...))
-	}()
-}
-
-func aws_cryptography_keyStore_EncryptionContext_value_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOf(func() []interface{} {
-			utf8.ValidString(input)
-			b := []byte(input)
-			f := make([]interface{}, len(b))
-			for i, v := range b {
-				f[i] = v
-			}
-			return f
-		}()...)
-	}()
-}
-
-func aws_cryptography_keyStore_CreateKeyStoreOutput_tableArn_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_keyStore_GetActiveBranchKeyOutput_branchKeyMaterials_ToDafny(input awscryptographykeystoresmithygeneratedtypes.BranchKeyMaterials) AwsCryptographyKeyStoreTypes.BranchKeyMaterials {
+func aws_cryptography_keyStore_GetBranchKeyVersionOutput_branchKeyMaterials_ToDafny(input awscryptographykeystoresmithygeneratedtypes.BranchKeyMaterials) AwsCryptographyKeyStoreTypes.BranchKeyMaterials {
 	return func() AwsCryptographyKeyStoreTypes.BranchKeyMaterials {
 
 		return AwsCryptographyKeyStoreTypes.Companion_BranchKeyMaterials_.Create_BranchKeyMaterials_(aws_cryptography_keyStore_BranchKeyMaterials_branchKeyIdentifier_ToDafny(input.BranchKeyIdentifier), aws_cryptography_keyStore_BranchKeyMaterials_branchKeyVersion_ToDafny(input.BranchKeyVersion), aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_ToDafny(input.EncryptionContext), aws_cryptography_keyStore_BranchKeyMaterials_branchKey_ToDafny(input.BranchKey))
-	}()
-}
-
-func aws_cryptography_keyStore_GetBeaconKeyInput_branchKeyIdentifier_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_keyStore_EncryptionContext_key_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOf(func() []interface{} {
-			utf8.ValidString(input)
-			b := []byte(input)
-			f := make([]interface{}, len(b))
-			for i, v := range b {
-				f[i] = v
-			}
-			return f
-		}()...)
-	}()
-}
-
-func aws_cryptography_keyStore_GetBranchKeyVersionInput_branchKeyIdentifier_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
 	}()
 }

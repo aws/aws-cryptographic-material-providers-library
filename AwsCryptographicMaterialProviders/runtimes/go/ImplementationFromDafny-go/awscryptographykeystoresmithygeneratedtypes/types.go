@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"unicode/utf8"
 
-	"github.com/aws/aws-cryptographic-material-providers-library/dynamodb/comamazonawsdynamodbsmithygenerated"
-	"github.com/aws/aws-cryptographic-material-providers-library/kms/comamazonawskmssmithygenerated"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
+	"github.com/aws/aws-sdk-go-v2/service/kms"
 )
 
 type BeaconKeyMaterials struct {
@@ -250,14 +250,14 @@ func (input GetKeyStoreInfoOutput) Validate() error {
 
 func (input GetKeyStoreInfoOutput) aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_Validate() error {
 	switch unionType := input.KmsConfiguration.(type) {
-	case *KMSConfigurationMemberKmsKeyArn:
+	case *kmstypes.KMSConfigurationMemberKmsKeyArn:
 		if len(unionType.Value) < 1 {
 			return fmt.Errorf("KeyIdType has a minimum length of 1 but has the length of %d.", len(unionType.Value))
 		}
 		if len(unionType.Value) > 2048 {
 			return fmt.Errorf("KeyIdType has a maximum length of 2048 but has the length of %d.", len(unionType.Value))
 		}
-	case *KMSConfigurationMemberKmsMRKeyArn:
+	case *kmstypes.KMSConfigurationMemberKmsMRKeyArn:
 		if len(unionType.Value) < 1 {
 			return fmt.Errorf("KeyIdType has a minimum length of 1 but has the length of %d.", len(unionType.Value))
 		}
@@ -304,13 +304,13 @@ type KeyStoreConfig struct {
 
 	LogicalKeyStoreName string
 
-	DdbClient *comamazonawsdynamodbsmithygenerated.Client
+	DdbClient dynamodb.Client
 
 	GrantTokens []string
 
 	Id *string
 
-	KmsClient *comamazonawskmssmithygenerated.Client
+	KmsClient kms.Client
 }
 
 func (input KeyStoreConfig) Validate() error {
@@ -329,14 +329,14 @@ func (input KeyStoreConfig) Validate() error {
 
 func (input KeyStoreConfig) aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate() error {
 	switch unionType := input.KmsConfiguration.(type) {
-	case *KMSConfigurationMemberKmsKeyArn:
+	case *kmstypes.KMSConfigurationMemberKmsKeyArn:
 		if len(unionType.Value) < 1 {
 			return fmt.Errorf("KeyIdType has a minimum length of 1 but has the length of %d.", len(unionType.Value))
 		}
 		if len(unionType.Value) > 2048 {
 			return fmt.Errorf("KeyIdType has a maximum length of 2048 but has the length of %d.", len(unionType.Value))
 		}
-	case *KMSConfigurationMemberKmsMRKeyArn:
+	case *kmstypes.KMSConfigurationMemberKmsMRKeyArn:
 		if len(unionType.Value) < 1 {
 			return fmt.Errorf("KeyIdType has a minimum length of 1 but has the length of %d.", len(unionType.Value))
 		}

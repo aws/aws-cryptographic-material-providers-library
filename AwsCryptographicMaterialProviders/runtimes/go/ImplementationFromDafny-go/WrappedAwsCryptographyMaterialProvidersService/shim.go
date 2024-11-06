@@ -20,7 +20,7 @@ func (_static *CompanionStruct_Default___) WrappedMaterialProviders(inputConfig 
 	var nativeConfig = awscryptographymaterialproviderssmithygenerated.MaterialProvidersConfig_FromDafny(inputConfig)
 	var nativeClient, nativeError = awscryptographymaterialproviderssmithygenerated.NewClient(nativeConfig)
 	if nativeError != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_Opaque_(nativeError, dafny.SeqOfChars([]dafny.Char(nativeError.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_Opaque_(nativeError))
 	}
 	return Wrappers.Companion_Result_.Create_Success_(&Shim{client: nativeClient})
 }
@@ -31,7 +31,7 @@ func (shim *Shim) CreateAwsKmsKeyring(input AwsCryptographyMaterialProvidersType
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographymaterialproviderssmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographymaterialproviderssmithygenerated.CreateKeyringOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) CreateAwsKmsDiscoveryKeyring(input AwsCryptographyMaterialProvidersTypes.CreateAwsKmsDiscoveryKeyringInput) Wrappers.Result {
@@ -40,7 +40,7 @@ func (shim *Shim) CreateAwsKmsDiscoveryKeyring(input AwsCryptographyMaterialProv
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographymaterialproviderssmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographymaterialproviderssmithygenerated.CreateKeyringOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) CreateAwsKmsMultiKeyring(input AwsCryptographyMaterialProvidersTypes.CreateAwsKmsMultiKeyringInput) Wrappers.Result {
@@ -49,7 +49,7 @@ func (shim *Shim) CreateAwsKmsMultiKeyring(input AwsCryptographyMaterialProvider
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographymaterialproviderssmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographymaterialproviderssmithygenerated.CreateKeyringOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) CreateAwsKmsDiscoveryMultiKeyring(input AwsCryptographyMaterialProvidersTypes.CreateAwsKmsDiscoveryMultiKeyringInput) Wrappers.Result {
@@ -58,7 +58,7 @@ func (shim *Shim) CreateAwsKmsDiscoveryMultiKeyring(input AwsCryptographyMateria
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographymaterialproviderssmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographymaterialproviderssmithygenerated.CreateKeyringOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) CreateAwsKmsMrkKeyring(input AwsCryptographyMaterialProvidersTypes.CreateAwsKmsMrkKeyringInput) Wrappers.Result {
@@ -67,7 +67,7 @@ func (shim *Shim) CreateAwsKmsMrkKeyring(input AwsCryptographyMaterialProvidersT
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographymaterialproviderssmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographymaterialproviderssmithygenerated.CreateKeyringOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) CreateAwsKmsMrkMultiKeyring(input AwsCryptographyMaterialProvidersTypes.CreateAwsKmsMrkMultiKeyringInput) Wrappers.Result {
@@ -76,7 +76,7 @@ func (shim *Shim) CreateAwsKmsMrkMultiKeyring(input AwsCryptographyMaterialProvi
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographymaterialproviderssmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographymaterialproviderssmithygenerated.CreateKeyringOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) CreateAwsKmsMrkDiscoveryKeyring(input AwsCryptographyMaterialProvidersTypes.CreateAwsKmsMrkDiscoveryKeyringInput) Wrappers.Result {
@@ -85,7 +85,7 @@ func (shim *Shim) CreateAwsKmsMrkDiscoveryKeyring(input AwsCryptographyMaterialP
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographymaterialproviderssmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographymaterialproviderssmithygenerated.CreateKeyringOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) CreateAwsKmsMrkDiscoveryMultiKeyring(input AwsCryptographyMaterialProvidersTypes.CreateAwsKmsMrkDiscoveryMultiKeyringInput) Wrappers.Result {
@@ -94,7 +94,7 @@ func (shim *Shim) CreateAwsKmsMrkDiscoveryMultiKeyring(input AwsCryptographyMate
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographymaterialproviderssmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographymaterialproviderssmithygenerated.CreateKeyringOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) CreateAwsKmsHierarchicalKeyring(input AwsCryptographyMaterialProvidersTypes.CreateAwsKmsHierarchicalKeyringInput) Wrappers.Result {
@@ -103,7 +103,7 @@ func (shim *Shim) CreateAwsKmsHierarchicalKeyring(input AwsCryptographyMaterialP
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographymaterialproviderssmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographymaterialproviderssmithygenerated.CreateKeyringOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) CreateAwsKmsRsaKeyring(input AwsCryptographyMaterialProvidersTypes.CreateAwsKmsRsaKeyringInput) Wrappers.Result {
@@ -112,7 +112,7 @@ func (shim *Shim) CreateAwsKmsRsaKeyring(input AwsCryptographyMaterialProvidersT
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographymaterialproviderssmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographymaterialproviderssmithygenerated.CreateKeyringOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) CreateAwsKmsEcdhKeyring(input AwsCryptographyMaterialProvidersTypes.CreateAwsKmsEcdhKeyringInput) Wrappers.Result {
@@ -121,7 +121,7 @@ func (shim *Shim) CreateAwsKmsEcdhKeyring(input AwsCryptographyMaterialProviders
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographymaterialproviderssmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographymaterialproviderssmithygenerated.CreateKeyringOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) CreateMultiKeyring(input AwsCryptographyMaterialProvidersTypes.CreateMultiKeyringInput) Wrappers.Result {
@@ -130,7 +130,7 @@ func (shim *Shim) CreateMultiKeyring(input AwsCryptographyMaterialProvidersTypes
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographymaterialproviderssmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographymaterialproviderssmithygenerated.CreateKeyringOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) CreateRawAesKeyring(input AwsCryptographyMaterialProvidersTypes.CreateRawAesKeyringInput) Wrappers.Result {
@@ -139,7 +139,7 @@ func (shim *Shim) CreateRawAesKeyring(input AwsCryptographyMaterialProvidersType
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographymaterialproviderssmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographymaterialproviderssmithygenerated.CreateKeyringOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) CreateRawRsaKeyring(input AwsCryptographyMaterialProvidersTypes.CreateRawRsaKeyringInput) Wrappers.Result {
@@ -148,7 +148,7 @@ func (shim *Shim) CreateRawRsaKeyring(input AwsCryptographyMaterialProvidersType
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographymaterialproviderssmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographymaterialproviderssmithygenerated.CreateKeyringOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) CreateRawEcdhKeyring(input AwsCryptographyMaterialProvidersTypes.CreateRawEcdhKeyringInput) Wrappers.Result {
@@ -157,7 +157,7 @@ func (shim *Shim) CreateRawEcdhKeyring(input AwsCryptographyMaterialProvidersTyp
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographymaterialproviderssmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographymaterialproviderssmithygenerated.CreateKeyringOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) CreateDefaultCryptographicMaterialsManager(input AwsCryptographyMaterialProvidersTypes.CreateDefaultCryptographicMaterialsManagerInput) Wrappers.Result {
@@ -166,7 +166,7 @@ func (shim *Shim) CreateDefaultCryptographicMaterialsManager(input AwsCryptograp
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographymaterialproviderssmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographymaterialproviderssmithygenerated.CreateCryptographicMaterialsManagerOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) CreateRequiredEncryptionContextCMM(input AwsCryptographyMaterialProvidersTypes.CreateRequiredEncryptionContextCMMInput) Wrappers.Result {
@@ -175,7 +175,7 @@ func (shim *Shim) CreateRequiredEncryptionContextCMM(input AwsCryptographyMateri
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographymaterialproviderssmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographymaterialproviderssmithygenerated.CreateRequiredEncryptionContextCMMOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) CreateCryptographicMaterialsCache(input AwsCryptographyMaterialProvidersTypes.CreateCryptographicMaterialsCacheInput) Wrappers.Result {
@@ -184,7 +184,7 @@ func (shim *Shim) CreateCryptographicMaterialsCache(input AwsCryptographyMateria
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographymaterialproviderssmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographymaterialproviderssmithygenerated.CreateCryptographicMaterialsCacheOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) CreateDefaultClientSupplier(input AwsCryptographyMaterialProvidersTypes.CreateDefaultClientSupplierInput) Wrappers.Result {
@@ -193,7 +193,7 @@ func (shim *Shim) CreateDefaultClientSupplier(input AwsCryptographyMaterialProvi
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographymaterialproviderssmithygenerated.Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(awscryptographymaterialproviderssmithygenerated.CreateDefaultClientSupplierOutput_ToDafny(*native_response))
+	return Wrappers.Companion_Result_.Create_Success_((native_response))
 }
 
 func (shim *Shim) InitializeEncryptionMaterials(input AwsCryptographyMaterialProvidersTypes.InitializeEncryptionMaterialsInput) Wrappers.Result {
@@ -250,7 +250,7 @@ func (shim *Shim) DecryptionMaterialsWithPlaintextDataKey(input AwsCryptographyM
 	return Wrappers.Companion_Result_.Create_Success_(dafny.TupleOf())
 }
 
-func (shim *Shim) GetAlgorithmSuiteInfo(input AwsCryptographyMaterialProvidersTypes.GetAlgorithmSuiteInfoInput) Wrappers.Result {
+func (shim *Shim) GetAlgorithmSuiteInfo(input dafny.Sequence) Wrappers.Result {
 	var native_request = awscryptographymaterialproviderssmithygenerated.GetAlgorithmSuiteInfoInput_FromDafny(input)
 	var native_response, native_error = shim.client.GetAlgorithmSuiteInfo(context.Background(), native_request)
 	if native_error != nil {
