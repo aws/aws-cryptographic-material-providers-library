@@ -213,12 +213,11 @@ namespace Com.Amazonaws.Dynamodb
         }
         public static Amazon.DynamoDBv2.Model.ConditionalCheckFailedException FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S31_ConditionalCheckFailedException(software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ConditionalCheckFailedException value)
         {
-            var conditionalCheckFailedException = new Amazon.DynamoDBv2.Model.ConditionalCheckFailedException(
-                FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S31_ConditionalCheckFailedException__M7_message(
-                    value._message));
-            conditionalCheckFailedException.Item =
-                FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S31_ConditionalCheckFailedException__M4_Item(value._Item);
-            return conditionalCheckFailedException;
+            return new Amazon.DynamoDBv2.Model.ConditionalCheckFailedException(
+            FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S31_ConditionalCheckFailedException__M7_message(value._message)
+            ,
+            FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S31_ConditionalCheckFailedException__M4_Item(value._Item)
+            );
         }
         public static software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ConditionalCheckFailedException ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S31_ConditionalCheckFailedException(Amazon.DynamoDBv2.Model.ConditionalCheckFailedException value)
         {
@@ -5840,7 +5839,7 @@ namespace Com.Amazonaws.Dynamodb
         public static System.DateTime FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S18_LastUpdateDateTime(Dafny.ISequence<char> value)
         {
             string timestampString = new string(value.Elements);
-            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }.ToString(), System.Globalization.CultureInfo.InvariantCulture);
+            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }, System.Globalization.CultureInfo.InvariantCulture);
 
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S18_LastUpdateDateTime(System.DateTime value)
@@ -6144,7 +6143,7 @@ namespace Com.Amazonaws.Dynamodb
         public static System.DateTime FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S10_ExportTime(Dafny.ISequence<char> value)
         {
             string timestampString = new string(value.Elements);
-            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }.ToString(), System.Globalization.CultureInfo.InvariantCulture);
+            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }, System.Globalization.CultureInfo.InvariantCulture);
 
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S10_ExportTime(System.DateTime value)
@@ -6350,7 +6349,7 @@ namespace Com.Amazonaws.Dynamodb
         public static System.DateTime FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S19_TimeRangeLowerBound(Dafny.ISequence<char> value)
         {
             string timestampString = new string(value.Elements);
-            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }.ToString(), System.Globalization.CultureInfo.InvariantCulture);
+            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }, System.Globalization.CultureInfo.InvariantCulture);
 
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S19_TimeRangeLowerBound(System.DateTime value)
@@ -6362,7 +6361,7 @@ namespace Com.Amazonaws.Dynamodb
         public static System.DateTime FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S19_TimeRangeUpperBound(Dafny.ISequence<char> value)
         {
             string timestampString = new string(value.Elements);
-            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }.ToString(), System.Globalization.CultureInfo.InvariantCulture);
+            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }, System.Globalization.CultureInfo.InvariantCulture);
 
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S19_TimeRangeUpperBound(System.DateTime value)
@@ -6580,7 +6579,7 @@ namespace Com.Amazonaws.Dynamodb
         public static System.DateTime FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S4_Date(Dafny.ISequence<char> value)
         {
             string timestampString = new string(value.Elements);
-            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }.ToString(), System.Globalization.CultureInfo.InvariantCulture);
+            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }, System.Globalization.CultureInfo.InvariantCulture);
 
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S4_Date(System.DateTime value)
@@ -8463,7 +8462,7 @@ namespace Com.Amazonaws.Dynamodb
         public static System.DateTime FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S22_BackupCreationDateTime(Dafny.ISequence<char> value)
         {
             string timestampString = new string(value.Elements);
-            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }.ToString(), System.Globalization.CultureInfo.InvariantCulture);
+            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }, System.Globalization.CultureInfo.InvariantCulture);
 
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S22_BackupCreationDateTime(System.DateTime value)
@@ -8967,7 +8966,7 @@ namespace Com.Amazonaws.Dynamodb
         public static System.DateTime FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S15_ExportStartTime(Dafny.ISequence<char> value)
         {
             string timestampString = new string(value.Elements);
-            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }.ToString(), System.Globalization.CultureInfo.InvariantCulture);
+            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }, System.Globalization.CultureInfo.InvariantCulture);
 
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S15_ExportStartTime(System.DateTime value)
@@ -8979,7 +8978,7 @@ namespace Com.Amazonaws.Dynamodb
         public static System.DateTime FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S13_ExportEndTime(Dafny.ISequence<char> value)
         {
             string timestampString = new string(value.Elements);
-            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }.ToString(), System.Globalization.CultureInfo.InvariantCulture);
+            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }, System.Globalization.CultureInfo.InvariantCulture);
 
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S13_ExportEndTime(System.DateTime value)
@@ -9090,7 +9089,7 @@ namespace Com.Amazonaws.Dynamodb
         public static System.DateTime FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S15_ImportStartTime(Dafny.ISequence<char> value)
         {
             string timestampString = new string(value.Elements);
-            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }.ToString(), System.Globalization.CultureInfo.InvariantCulture);
+            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }, System.Globalization.CultureInfo.InvariantCulture);
 
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S15_ImportStartTime(System.DateTime value)
@@ -9102,7 +9101,7 @@ namespace Com.Amazonaws.Dynamodb
         public static System.DateTime FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S13_ImportEndTime(Dafny.ISequence<char> value)
         {
             string timestampString = new string(value.Elements);
-            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }.ToString(), System.Globalization.CultureInfo.InvariantCulture);
+            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }, System.Globalization.CultureInfo.InvariantCulture);
 
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S13_ImportEndTime(System.DateTime value)
@@ -9211,7 +9210,7 @@ namespace Com.Amazonaws.Dynamodb
         public static System.DateTime FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S14_ExportFromTime(Dafny.ISequence<char> value)
         {
             string timestampString = new string(value.Elements);
-            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }.ToString(), System.Globalization.CultureInfo.InvariantCulture);
+            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }, System.Globalization.CultureInfo.InvariantCulture);
 
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S14_ExportFromTime(System.DateTime value)
@@ -9223,7 +9222,7 @@ namespace Com.Amazonaws.Dynamodb
         public static System.DateTime FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S12_ExportToTime(Dafny.ISequence<char> value)
         {
             string timestampString = new string(value.Elements);
-            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }.ToString(), System.Globalization.CultureInfo.InvariantCulture);
+            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }, System.Globalization.CultureInfo.InvariantCulture);
 
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S12_ExportToTime(System.DateTime value)
@@ -11060,7 +11059,7 @@ namespace Com.Amazonaws.Dynamodb
         public static System.DateTime FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S21_TableCreationDateTime(Dafny.ISequence<char> value)
         {
             string timestampString = new string(value.Elements);
-            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }.ToString(), System.Globalization.CultureInfo.InvariantCulture);
+            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }, System.Globalization.CultureInfo.InvariantCulture);
 
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S21_TableCreationDateTime(System.DateTime value)
@@ -13135,7 +13134,7 @@ namespace Com.Amazonaws.Dynamodb
                     return FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S28_TransactionConflictException(dafnyVal);
                 case software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_TransactionInProgressException dafnyVal:
                     return FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S30_TransactionInProgressException(dafnyVal);
-                case software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_Opaque dafnyVal:
+                case software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_OpaqueWithText dafnyVal:
                     return new SystemException(dafnyVal._obj.ToString());
                 default:
                     // The switch MUST be complete for _IError, so `value` MUST NOT be an _IError. (How did you get here?)
@@ -13244,7 +13243,7 @@ namespace Com.Amazonaws.Dynamodb
                     return TypeConversion.ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S30_TransactionInProgressException(e);
 
                 default:
-                    return new software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_Opaque(value);
+                    return new software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_OpaqueWithText(value, Dafny.Sequence<char>.FromString(value.ToString()));
 
             }
         }
