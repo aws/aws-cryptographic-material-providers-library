@@ -13,7 +13,7 @@ include = ["**/internaldafny/generated/*.py"]
 [tool.poetry.dependencies]
 python = "^3.11.0"
 boto3 = "^1.35.42"
-aws-cryptography-internal-standard-library = "1.7.4"
+aws-cryptography-internal-standard-library = {path = "../../../StandardLibrary/runtimes/python"}
 
 # Package testing
 
