@@ -218,7 +218,7 @@ structure VersionKeyInput {
   Identifier: String
 
   @required
-  @documentation("Multi-Region or Single Region AWS KMS Key used to protect the Branch Key, but not aliases!")
+  @documentation("Multi-Region or Single Region AWS KMS Key ARN used to protect the Branch Key, but not aliases!")
   KmsArn: KmsAesIdentifier
 
   Strategy: KeyManagementStrategy
