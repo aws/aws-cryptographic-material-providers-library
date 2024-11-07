@@ -19,6 +19,8 @@ module TestStrings {
     expect actual == Some(10), "'Dog.' is in 'Koda is a Dog.' at index 10, but HasSubString does not think so";
     actual := String.HasSubString("Koda is a Dog.", ".");
     expect actual == Some(13), "'.' is in 'Koda is a Dog.' at index 13, but HasSubString does not think so";
+    actual := String.HasSubString("Koda is a Dog.", "");
+    expect actual == Some(0), "The empty string is in 'Koda is a Dog.' at index 0, but HasSubString does not think so";
   }
 
   method {:test} TestHasSubStringNegative()

@@ -63,39 +63,28 @@ module StandardLibrary.String {
               && o.value <= |haystack| - |needle| && haystack[o.value..(o.value + |needle|)] == needle
               && (forall i | 0 <= i < o.value :: haystack[i..][..|needle|] != needle)
 
-    // ensures o.None? && |needle| <= |haystack| && |haystack| <= INT64_MAX_LIMIT ==>
-    //   (forall i | 0 <= i < (|haystack|-|needle|) :: haystack[i..][..|needle|] != needle)
+    ensures |haystack| < |needle| || |haystack| > INT64_MAX_LIMIT ==> o.None?
+
+    ensures o.None? && |needle| <= |haystack| && |haystack| <= INT64_MAX_LIMIT ==>
+              (forall i | 0 <= i <= (|haystack|-|needle|) :: haystack[i..][..|needle|] != needle)
   {
     if |haystack| < |needle| {
       return Wrappers.None;
     }
-    if |haystack| > INT64_MAX_LIMIT || |needle| > INT64_MAX_LIMIT {
+    if |haystack| > INT64_MAX_LIMIT {
       return Wrappers.None;
     }
 
-    var index: uint64 := 0;
     var size : uint64 := |needle| as uint64;
-    var limit: uint64 := |haystack| as uint64 - |needle| as uint64;
+    var limit: uint64 := |haystack| as uint64 - size + 1;
 
-    while index <= limit
-      invariant index <= limit ==> (forall i | 0 <= i < index :: haystack[i..][..size] != needle)
+    for index := 0 to limit
+      invariant forall i | 0 <= i < index :: haystack[i..][..size] != needle
     {
-      var subSeq: bool := SequenceEqual(
-        seq1 := haystack,
-        seq2 := needle,
-        start1 := index,
-        start2 := 0,
-        size := size);
-      if (subSeq) {
+      if SequenceEqual(seq1 := haystack, seq2 := needle, start1 := index, start2 := 0, size := size) {
         return Wrappers.Some(index as nat);
-      } else if index == limit {
-        return Wrappers.None;
-      } else {
-        index := index + 1;
       }
     }
-    // unreachable, but Dafny doesn't know that
-    // this is the only path for which the `ensures o.None?` clause can't be proven
     return Wrappers.None;
   }
 }
