@@ -574,7 +574,7 @@ module DefaultKeyStorageInterface {
     }
 
 
-    method {vcs_split_on_every_assert} GetMutation' ( input: Types.GetMutationInput )
+    method {:vcs_split_on_every_assert} GetMutation' ( input: Types.GetMutationInput )
       returns (output: Result<Types.GetMutationOutput, Types.Error>)
       requires ValidState()
       modifies Modifies - {History}
