@@ -835,10 +835,10 @@ func aws_cryptography_primitives_GetRSAKeyModulusLengthOutput_length_ToDafny(inp
 	}()
 }
 
-func aws_cryptography_primitives_AESDecryptInput_encAlg_ToDafny(input awscryptographyprimitivessmithygeneratedtypes.AES_GCM) AwsCryptographyPrimitivesTypes.AES_GCM {
-	return func() AwsCryptographyPrimitivesTypes.AES_GCM {
+func aws_cryptography_primitives_AESDecryptInput_encAlg_ToDafny(input awscryptographyprimitivessmithygeneratedtypes.AES_GCM) AwsCryptographyPrimitivesTypes.AES__GCM {
+	return func() AwsCryptographyPrimitivesTypes.AES__GCM {
 
-		return AwsCryptographyPrimitivesTypes.Companion_AES_GCM_.Create_AES_GCM_(aws_cryptography_primitives_AES_GCM_keyLength_ToDafny(input.KeyLength), aws_cryptography_primitives_AES_GCM_tagLength_ToDafny(input.TagLength), aws_cryptography_primitives_AES_GCM_ivLength_ToDafny(input.IvLength))
+		return AwsCryptographyPrimitivesTypes.Companion_AES__GCM_.Create_AES__GCM_(aws_cryptography_primitives_AES_GCM_keyLength_ToDafny(input.KeyLength), aws_cryptography_primitives_AES_GCM_tagLength_ToDafny(input.TagLength), aws_cryptography_primitives_AES_GCM_ivLength_ToDafny(input.IvLength))
 	}()
 }
 
@@ -1493,10 +1493,10 @@ func aws_cryptography_primitives_GenerateECCKeyPairInput_eccCurve_ToDafny(input 
 	}()
 }
 
-func aws_cryptography_primitives_AESEncryptInput_encAlg_ToDafny(input awscryptographyprimitivessmithygeneratedtypes.AES_GCM) AwsCryptographyPrimitivesTypes.AES_GCM {
-	return func() AwsCryptographyPrimitivesTypes.AES_GCM {
+func aws_cryptography_primitives_AESEncryptInput_encAlg_ToDafny(input awscryptographyprimitivessmithygeneratedtypes.AES_GCM) AwsCryptographyPrimitivesTypes.AES__GCM {
+	return func() AwsCryptographyPrimitivesTypes.AES__GCM {
 
-		return AwsCryptographyPrimitivesTypes.Companion_AES_GCM_.Create_AES_GCM_(aws_cryptography_primitives_AES_GCM_keyLength_ToDafny(input.KeyLength), aws_cryptography_primitives_AES_GCM_tagLength_ToDafny(input.TagLength), aws_cryptography_primitives_AES_GCM_ivLength_ToDafny(input.IvLength))
+		return AwsCryptographyPrimitivesTypes.Companion_AES__GCM_.Create_AES__GCM_(aws_cryptography_primitives_AES_GCM_keyLength_ToDafny(input.KeyLength), aws_cryptography_primitives_AES_GCM_tagLength_ToDafny(input.TagLength), aws_cryptography_primitives_AES_GCM_ivLength_ToDafny(input.IvLength))
 	}()
 }
 
