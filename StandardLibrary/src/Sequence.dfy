@@ -12,7 +12,7 @@ module StandardLibrary.Sequence {
     requires start2 + size <= |seq2|
     ensures ret ==> seq1[start1..start1 + size] == seq2[start2..start2 + size]
   {
-    if |seq1| > INT64_MAX_LIMIT || |seq2| > UINT64_MAX_LIMIT then
+    if |seq1| > UINT64_MAX_LIMIT || |seq2| > UINT64_MAX_LIMIT then
       // This line of code will never be executed, but is included for correctness
       seq1[start1..start1 + size] == seq2[start2..start2 + size]
     else
