@@ -27,5 +27,7 @@ module TestStrings {
     expect actual == None, "'Robbie is a Dog.' does not contain Koda";
     actual := String.HasSubString("\t", " ");
     expect actual == None, "A tab is not a space";
+    actual := String.HasSubString("large", "larger");
+    expect actual == None, "Needle larger than haystack";
   }
 }

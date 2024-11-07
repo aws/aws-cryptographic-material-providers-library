@@ -1,12 +1,12 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 include "../../libraries/src/Wrappers.dfy"
-include "../../StandardLibrary/src/Sequence.dfy"
+include "Sequence.dfy"
 
 module StandardLibrary.String {
   import Wrappers
-    // import StandardLibrary.Sequence
-  import Sequence
+  import opened UInt
+  import opened Sequence
   export provides Int2String, Base10Int2String, HasSubString, Wrappers
 
   const Base10: seq<char> := ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
@@ -54,29 +54,37 @@ module StandardLibrary.String {
     Int2String(n, Base10)
   }
 
-  /* Returns the index of a substraing or None, if the substring is not in the string */
-  method HasSubString(xs: string, ss: string)
+
+  /* Returns the index of a substring or None, if the substring is not in the string */
+  method HasSubString(haystack: string, needle: string)
     returns (o: Wrappers.Option<nat>)
-    requires |ss| <= |xs|
+    // requires |ss| <= |haystack|
     ensures o.Some? ==>
-              o.value <= |xs| - |ss| && xs[o.value..(o.value + |ss|)] == ss
-    // TODO: ensures o.None? ==> no such index exists
+              o.value <= |haystack| - |needle| && haystack[o.value..(o.value + |needle|)] == needle
+    // TO DO: ensures o.Some? ==> no lower index exists
+    // TO DO: ensures o.None? ==> no such index exists
   {
-    var index: nat := 0;
-    var size: nat := |ss|;
-    var limit: nat := |xs| - |ss|;
+    if |haystack| < |needle| {
+      return Wrappers.None;
+    }
+    if |haystack| > INT64_MAX_LIMIT || |needle| > INT64_MAX_LIMIT {
+      return Wrappers.None;
+    }
+
+    var index: uint64 := 0;
+    var size : uint64 := |needle| as uint64;
+    var limit: uint64 := |haystack| as uint64 - |needle| as uint64;
     var subSeq: bool := false;
     while index <= limit
-      decreases limit - index
     {
-      subSeq := Sequence.SequenceEqual(
-        seq1 := xs,
-        seq2 := ss,
+      subSeq := SequenceEqual(
+        seq1 := haystack,
+        seq2 := needle,
         start1 := index,
         start2 := 0,
         size := size);
       if (subSeq) {
-        return Wrappers.Some(index);
+        return Wrappers.Some(index as nat);
       } else {
         index := index + 1;
       }
