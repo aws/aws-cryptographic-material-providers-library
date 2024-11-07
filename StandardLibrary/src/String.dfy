@@ -7,7 +7,7 @@ module StandardLibrary.String {
   import Wrappers
   import opened UInt
   import opened Sequence
-  export provides Int2String, Base10Int2String, HasSubString, Wrappers
+  export provides Int2String, Base10Int2String, HasSubString, Wrappers, UInt
 
   const Base10: seq<char> := ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
@@ -58,11 +58,13 @@ module StandardLibrary.String {
   /* Returns the index of a substring or None, if the substring is not in the string */
   method HasSubString(haystack: string, needle: string)
     returns (o: Wrappers.Option<nat>)
-    // requires |ss| <= |haystack|
+
     ensures o.Some? ==>
-              o.value <= |haystack| - |needle| && haystack[o.value..(o.value + |needle|)] == needle
-    // TO DO: ensures o.Some? ==> no lower index exists
-    // TO DO: ensures o.None? ==> no such index exists
+              && o.value <= |haystack| - |needle| && haystack[o.value..(o.value + |needle|)] == needle
+              && (forall i | 0 <= i < o.value :: haystack[i..][..|needle|] != needle)
+
+    // ensures o.None? && |needle| <= |haystack| && |haystack| <= INT64_MAX_LIMIT ==>
+    //   (forall i | 0 <= i < (|haystack|-|needle|) :: haystack[i..][..|needle|] != needle)
   {
     if |haystack| < |needle| {
       return Wrappers.None;
@@ -74,10 +76,11 @@ module StandardLibrary.String {
     var index: uint64 := 0;
     var size : uint64 := |needle| as uint64;
     var limit: uint64 := |haystack| as uint64 - |needle| as uint64;
-    var subSeq: bool := false;
+
     while index <= limit
+      invariant index <= limit ==> (forall i | 0 <= i < index :: haystack[i..][..size] != needle)
     {
-      subSeq := SequenceEqual(
+      var subSeq: bool := SequenceEqual(
         seq1 := haystack,
         seq2 := needle,
         start1 := index,
@@ -85,10 +88,14 @@ module StandardLibrary.String {
         size := size);
       if (subSeq) {
         return Wrappers.Some(index as nat);
+      } else if index == limit {
+        return Wrappers.None;
       } else {
         index := index + 1;
       }
     }
+    // unreachable, but Dafny doesn't know that
+    // this is the only path for which the `ensures o.None?` clause can't be proven
     return Wrappers.None;
   }
 }
