@@ -1676,7 +1676,13 @@ func com_amazonaws_kms_ReplicateKeyRequest_KeyId_ToDafny(input *string) dafny.Se
 }
 
 func com_amazonaws_kms_RotationsListEntry_RotationDate_ToDafny(input *time.Time) Wrappers.Option {
-	return Wrappers.Companion_Option_.Create_None_()
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+	}()
 }
 
 func com_amazonaws_kms_ConflictException_message_ToDafny(input *string) Wrappers.Option {
@@ -2258,7 +2264,13 @@ func com_amazonaws_kms_UpdateCustomKeyStoreRequest_XksProxyVpcEndpointServiceNam
 }
 
 func com_amazonaws_kms_AliasListEntry_LastUpdatedDate_ToDafny(input *time.Time) Wrappers.Option {
-	return Wrappers.Companion_Option_.Create_None_()
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+	}()
 }
 
 func com_amazonaws_kms_RevokeGrantRequest_DryRun_ToDafny(input *bool) Wrappers.Option {
@@ -2852,7 +2864,13 @@ func com_amazonaws_kms_SignRequest_MessageType_ToDafny(input types.MessageType) 
 }
 
 func com_amazonaws_kms_ImportKeyMaterialRequest_ValidTo_ToDafny(input *time.Time) Wrappers.Option {
-	return Wrappers.Companion_Option_.Create_None_()
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+	}()
 }
 
 func com_amazonaws_kms_EncryptResponse_EncryptionAlgorithm_ToDafny(input types.EncryptionAlgorithmSpec) Wrappers.Option {
@@ -2904,7 +2922,13 @@ func com_amazonaws_kms_VerifyMacRequest_KeyId_ToDafny(input *string) dafny.Seque
 }
 
 func com_amazonaws_kms_GetKeyRotationStatusResponse_OnDemandRotationStartDate_ToDafny(input *time.Time) Wrappers.Option {
-	return Wrappers.Companion_Option_.Create_None_()
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+	}()
 }
 
 func com_amazonaws_kms_ReEncryptResponse_KeyId_ToDafny(input *string) Wrappers.Option {
@@ -3007,7 +3031,13 @@ func com_amazonaws_kms_EncryptionContextType_key_ToDafny(input string) dafny.Seq
 }
 
 func com_amazonaws_kms_GrantListEntry_CreationDate_ToDafny(input *time.Time) Wrappers.Option {
-	return Wrappers.Companion_Option_.Create_None_()
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+	}()
 }
 
 func com_amazonaws_kms_CreateGrantResponse_GrantToken_ToDafny(input *string) Wrappers.Option {
@@ -3179,7 +3209,13 @@ func com_amazonaws_kms_ReplicateKeyResponse_ReplicaPolicy_ToDafny(input *string)
 }
 
 func com_amazonaws_kms_GetKeyRotationStatusResponse_NextRotationDate_ToDafny(input *time.Time) Wrappers.Option {
-	return Wrappers.Companion_Option_.Create_None_()
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+	}()
 }
 
 func com_amazonaws_kms_RecipientInfo_AttestationDocument_ToDafny(input []byte) Wrappers.Option {
@@ -4719,7 +4755,13 @@ func com_amazonaws_kms_UpdateCustomKeyStoreRequest_XksProxyAuthenticationCredent
 }
 
 func com_amazonaws_kms_CustomKeyStoresListEntry_CreationDate_ToDafny(input *time.Time) Wrappers.Option {
-	return Wrappers.Companion_Option_.Create_None_()
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+	}()
 }
 
 func com_amazonaws_kms_RevokeGrantRequest_GrantId_ToDafny(input *string) dafny.Sequence {
@@ -4891,7 +4933,13 @@ func com_amazonaws_kms_GenerateDataKeyWithoutPlaintextRequest_DryRun_ToDafny(inp
 }
 
 func com_amazonaws_kms_AliasListEntry_CreationDate_ToDafny(input *time.Time) Wrappers.Option {
-	return Wrappers.Companion_Option_.Create_None_()
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+	}()
 }
 
 func com_amazonaws_kms_GrantListEntry_GrantId_ToDafny(input *string) Wrappers.Option {
@@ -4984,7 +5032,13 @@ func com_amazonaws_kms_GenerateRandomRequest_CustomKeyStoreId_ToDafny(input *str
 }
 
 func com_amazonaws_kms_GetParametersForImportResponse_ParametersValidTo_ToDafny(input *time.Time) Wrappers.Option {
-	return Wrappers.Companion_Option_.Create_None_()
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+	}()
 }
 
 func com_amazonaws_kms_EncryptResponse_KeyId_ToDafny(input *string) Wrappers.Option {
@@ -5100,7 +5154,13 @@ func com_amazonaws_kms_XksProxyConfigurationType_UriPath_ToDafny(input *string) 
 }
 
 func com_amazonaws_kms_ScheduleKeyDeletionResponse_DeletionDate_ToDafny(input *time.Time) Wrappers.Option {
-	return Wrappers.Companion_Option_.Create_None_()
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+	}()
 }
 
 func com_amazonaws_kms_CreateGrantRequest_KeyId_ToDafny(input *string) dafny.Sequence {
@@ -5384,7 +5444,13 @@ func com_amazonaws_kms_CreateCustomKeyStoreRequest_CustomKeyStoreName_ToDafny(in
 }
 
 func com_amazonaws_kms_KeyMetadata_ValidTo_ToDafny(input *time.Time) Wrappers.Option {
-	return Wrappers.Companion_Option_.Create_None_()
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+	}()
 }
 
 func com_amazonaws_kms_DescribeCustomKeyStoresResponse_Truncated_ToDafny(input bool) Wrappers.Option {
@@ -5543,7 +5609,13 @@ func com_amazonaws_kms_DecryptRequest_EncryptionContext_ToDafny(input map[string
 }
 
 func com_amazonaws_kms_KeyMetadata_CreationDate_ToDafny(input *time.Time) Wrappers.Option {
-	return Wrappers.Companion_Option_.Create_None_()
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+	}()
 }
 
 func com_amazonaws_kms_ScheduleKeyDeletionResponse_KeyId_ToDafny(input *string) Wrappers.Option {
@@ -5748,7 +5820,13 @@ func com_amazonaws_kms_ListGrantsResponse_NextMarker_ToDafny(input *string) Wrap
 }
 
 func com_amazonaws_kms_KeyMetadata_DeletionDate_ToDafny(input *time.Time) Wrappers.Option {
-	return Wrappers.Companion_Option_.Create_None_()
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+	}()
 }
 
 func com_amazonaws_kms_ListKeyRotationsRequest_KeyId_ToDafny(input *string) dafny.Sequence {

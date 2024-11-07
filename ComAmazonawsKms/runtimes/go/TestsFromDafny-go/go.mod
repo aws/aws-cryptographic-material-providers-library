@@ -9,6 +9,7 @@ require github.com/dafny-lang/DafnyStandardLibGo v0.0.0
 require (
 	github.com/aws/aws-cryptographic-material-providers-library/kms v0.0.0
 	github.com/aws/aws-sdk-go-v2/service/kms v1.36.0
+	github.com/aws/smithy-go v1.21.0
 	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.8.0
 )
 
@@ -25,7 +26,6 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sso v1.23.0 // indirect
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.27.0 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.31.0 // indirect
-	github.com/aws/smithy-go v1.21.0 // indirect
 )
 
 replace github.com/dafny-lang/DafnyStandardLibGo => ../../../../StandardLibrary/runtimes/go/ImplementationFromDafny-go/

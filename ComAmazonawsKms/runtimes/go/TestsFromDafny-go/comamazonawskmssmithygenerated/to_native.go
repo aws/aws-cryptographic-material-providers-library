@@ -2173,7 +2173,29 @@ func com_amazonaws_kms_GetParametersForImportInput_WrappingKeySpec_FromDafny(inp
 	}()
 }
 func com_amazonaws_kms_RotationsListEntry_RotationDate_FromDafny(input interface{}) *time.Time {
-	return nil
+	return func() *time.Time {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+		if len(s) == 0 {
+			panic("timestamp string is empty")
+		} else {
+			t, err := time.Parse("2006-01-02T15:04:05.999999Z", s)
+			if err != nil {
+				panic(err)
+			}
+			return &t
+		}
+	}()
 }
 func com_amazonaws_kms_ConflictException_message_FromDafny(input interface{}) *string {
 	return func() *string {
@@ -3147,7 +3169,29 @@ func com_amazonaws_kms_ListKeyPoliciesInput_Marker_FromDafny(input interface{}) 
 	}()
 }
 func com_amazonaws_kms_AliasListEntry_LastUpdatedDate_FromDafny(input interface{}) *time.Time {
-	return nil
+	return func() *time.Time {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+		if len(s) == 0 {
+			panic("timestamp string is empty")
+		} else {
+			t, err := time.Parse("2006-01-02T15:04:05.999999Z", s)
+			if err != nil {
+				panic(err)
+			}
+			return &t
+		}
+	}()
 }
 func com_amazonaws_kms_XksProxyUriInUseException_message_FromDafny(input interface{}) *string {
 	return func() *string {
@@ -4017,7 +4061,29 @@ func com_amazonaws_kms_DeriveSharedSecretOutput_KeyId_FromDafny(input interface{
 	}()
 }
 func com_amazonaws_kms_ScheduleKeyDeletionOutput_DeletionDate_FromDafny(input interface{}) *time.Time {
-	return nil
+	return func() *time.Time {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+		if len(s) == 0 {
+			panic("timestamp string is empty")
+		} else {
+			t, err := time.Parse("2006-01-02T15:04:05.999999Z", s)
+			if err != nil {
+				panic(err)
+			}
+			return &t
+		}
+	}()
 }
 func com_amazonaws_kms_KeyMetadata_MultiRegionConfiguration_FromDafny(input interface{}) *types.MultiRegionConfiguration {
 	return func() *types.MultiRegionConfiguration {
@@ -4250,7 +4316,29 @@ func com_amazonaws_kms_EncryptionContextType_key_FromDafny(input interface{}) st
 	}()
 }
 func com_amazonaws_kms_GrantListEntry_CreationDate_FromDafny(input interface{}) *time.Time {
-	return nil
+	return func() *time.Time {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+		if len(s) == 0 {
+			panic("timestamp string is empty")
+		} else {
+			t, err := time.Parse("2006-01-02T15:04:05.999999Z", s)
+			if err != nil {
+				panic(err)
+			}
+			return &t
+		}
+	}()
 }
 func com_amazonaws_kms_AliasListEntry_AliasArn_FromDafny(input interface{}) *string {
 	return func() *string {
@@ -5446,7 +5534,29 @@ func com_amazonaws_kms_MalformedPolicyDocumentException_message_FromDafny(input 
 	}()
 }
 func com_amazonaws_kms_GetParametersForImportOutput_ParametersValidTo_FromDafny(input interface{}) *time.Time {
-	return nil
+	return func() *time.Time {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+		if len(s) == 0 {
+			panic("timestamp string is empty")
+		} else {
+			t, err := time.Parse("2006-01-02T15:04:05.999999Z", s)
+			if err != nil {
+				panic(err)
+			}
+			return &t
+		}
+	}()
 }
 func com_amazonaws_kms_UpdateKeyDescriptionInput_KeyId_FromDafny(input interface{}) *string {
 	return func() *string {
@@ -6290,7 +6400,29 @@ func com_amazonaws_kms_ListAliasesOutput_NextMarker_FromDafny(input interface{})
 	}()
 }
 func com_amazonaws_kms_CustomKeyStoresListEntry_CreationDate_FromDafny(input interface{}) *time.Time {
-	return nil
+	return func() *time.Time {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+		if len(s) == 0 {
+			panic("timestamp string is empty")
+		} else {
+			t, err := time.Parse("2006-01-02T15:04:05.999999Z", s)
+			if err != nil {
+				panic(err)
+			}
+			return &t
+		}
+	}()
 }
 func com_amazonaws_kms_CloudHsmClusterNotRelatedException_message_FromDafny(input interface{}) *string {
 	return func() *string {
@@ -6509,7 +6641,29 @@ func com_amazonaws_kms_VerifyOutput_SigningAlgorithm_FromDafny(input interface{}
 	}()
 }
 func com_amazonaws_kms_AliasListEntry_CreationDate_FromDafny(input interface{}) *time.Time {
-	return nil
+	return func() *time.Time {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+		if len(s) == 0 {
+			panic("timestamp string is empty")
+		} else {
+			t, err := time.Parse("2006-01-02T15:04:05.999999Z", s)
+			if err != nil {
+				panic(err)
+			}
+			return &t
+		}
+	}()
 }
 func com_amazonaws_kms_GrantListEntry_GrantId_FromDafny(input interface{}) *string {
 	return func() *string {
@@ -7019,7 +7173,29 @@ func com_amazonaws_kms_CreateCustomKeyStoreInput_CustomKeyStoreName_FromDafny(in
 	}()
 }
 func com_amazonaws_kms_ImportKeyMaterialInput_ValidTo_FromDafny(input interface{}) *time.Time {
-	return nil
+	return func() *time.Time {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+		if len(s) == 0 {
+			panic("timestamp string is empty")
+		} else {
+			t, err := time.Parse("2006-01-02T15:04:05.999999Z", s)
+			if err != nil {
+				panic(err)
+			}
+			return &t
+		}
+	}()
 }
 func com_amazonaws_kms_VerifyMacOutput_KeyId_FromDafny(input interface{}) *string {
 	return func() *string {
@@ -7290,7 +7466,29 @@ func com_amazonaws_kms_DeriveSharedSecretInput_Recipient_FromDafny(input interfa
 	}()
 }
 func com_amazonaws_kms_GetKeyRotationStatusOutput_NextRotationDate_FromDafny(input interface{}) *time.Time {
-	return nil
+	return func() *time.Time {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+		if len(s) == 0 {
+			panic("timestamp string is empty")
+		} else {
+			t, err := time.Parse("2006-01-02T15:04:05.999999Z", s)
+			if err != nil {
+				panic(err)
+			}
+			return &t
+		}
+	}()
 }
 func com_amazonaws_kms_DescribeCustomKeyStoresInput_Marker_FromDafny(input interface{}) *string {
 	return func() *string {
@@ -7309,7 +7507,29 @@ func com_amazonaws_kms_DescribeCustomKeyStoresInput_Marker_FromDafny(input inter
 	}()
 }
 func com_amazonaws_kms_KeyMetadata_ValidTo_FromDafny(input interface{}) *time.Time {
-	return nil
+	return func() *time.Time {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+		if len(s) == 0 {
+			panic("timestamp string is empty")
+		} else {
+			t, err := time.Parse("2006-01-02T15:04:05.999999Z", s)
+			if err != nil {
+				panic(err)
+			}
+			return &t
+		}
+	}()
 }
 func com_amazonaws_kms_ListGrantsOutput_NextMarker_FromDafny(input interface{}) *string {
 	return func() *string {
@@ -7449,7 +7669,29 @@ func com_amazonaws_kms_SignInput_DryRun_FromDafny(input interface{}) *bool {
 	}()
 }
 func com_amazonaws_kms_KeyMetadata_CreationDate_FromDafny(input interface{}) *time.Time {
-	return nil
+	return func() *time.Time {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+		if len(s) == 0 {
+			panic("timestamp string is empty")
+		} else {
+			t, err := time.Parse("2006-01-02T15:04:05.999999Z", s)
+			if err != nil {
+				panic(err)
+			}
+			return &t
+		}
+	}()
 }
 func com_amazonaws_kms_CreateGrantInput_Name_FromDafny(input interface{}) *string {
 	return func() *string {
@@ -7779,7 +8021,29 @@ func com_amazonaws_kms_CreateKeyOutput_KeyMetadata_FromDafny(input interface{}) 
 	}()
 }
 func com_amazonaws_kms_KeyMetadata_DeletionDate_FromDafny(input interface{}) *time.Time {
-	return nil
+	return func() *time.Time {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+		if len(s) == 0 {
+			panic("timestamp string is empty")
+		} else {
+			t, err := time.Parse("2006-01-02T15:04:05.999999Z", s)
+			if err != nil {
+				panic(err)
+			}
+			return &t
+		}
+	}()
 }
 func com_amazonaws_kms_ListResourceTagsOutput_Tags_FromDafny(input interface{}) []types.Tag {
 	return func() []types.Tag {
@@ -8455,7 +8719,29 @@ func com_amazonaws_kms_MultiRegionConfiguration_ReplicaKeys_FromDafny(input inte
 	}()
 }
 func com_amazonaws_kms_GetKeyRotationStatusOutput_OnDemandRotationStartDate_FromDafny(input interface{}) *time.Time {
-	return nil
+	return func() *time.Time {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				break
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+		if len(s) == 0 {
+			panic("timestamp string is empty")
+		} else {
+			t, err := time.Parse("2006-01-02T15:04:05.999999Z", s)
+			if err != nil {
+				panic(err)
+			}
+			return &t
+		}
+	}()
 }
 func com_amazonaws_kms_MultiRegionConfiguration_MultiRegionKeyType_FromDafny(input interface{}) types.MultiRegionKeyType {
 	return func() types.MultiRegionKeyType {
