@@ -138,14 +138,14 @@ structure MutationCommitment {
   Terminal: Blob
 
   @required
-  @documentation("Description of the input to initialize a Mutation.")
+  @documentation("Description of the input to Initizlize Mutation.")
   Input: Blob 
 
   @required
   CiphertextBlob: Blob
 }
 
-@documentation("Information of an in-flight Mutation of a Branch Key.")
+@documentation("Information on an in-flight Mutation of a Branch Key.")
 structure MutationIndex {
   @required
   @documentation("The Branch Key under Mutation.")
@@ -330,7 +330,7 @@ in the terminal state of a Mutation,
 a page of version (decrypt only) items,
 conditioned on:
 - every version already exsisting
-- every version's cipher-text had not changed
+- every version's enc has not changed
 - the Mutation Commitment has not changed
 ")
 operation WriteMutatedVersions {
