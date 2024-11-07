@@ -49,17 +49,11 @@ module DefaultKeyStorageInterface {
   // in the case statement to evaluate a literal.
   const MUTATION_COMMITMENT_TYPE := "branch:MUTATION_COMMITMENT" // Structure.MUTATION_COMMITMENT_TYPE
   const MUTATION_INDEX_TYPE := "branch:MUTATION_INDEX" // Structure.MUTATION_INDEX_TYPE
-  // const BRANCH_KEY_ACTIVE_TYPE := "branch:ACTIVE" // Structure.BRANCH_KEY_ACTIVE_TYPE
-  // const BEACON_KEY_TYPE_VALUE :=  "beacon:ACTIVE" // Structure.BEACON_KEY_TYPE_VALUE
-  // const VERSION_TYPE_PREFIX := "branch:version:" // Structure.BRANCH_KEY_TYPE_PREFIX
 
   lemma TypesAreCorrect()
     ensures
       && MUTATION_COMMITMENT_TYPE == Structure.MUTATION_COMMITMENT_TYPE
       && MUTATION_INDEX_TYPE == Structure.MUTATION_INDEX_TYPE
-    // && BRANCH_KEY_ACTIVE_TYPE == Structure.BRANCH_KEY_ACTIVE_TYPE
-    // && BEACON_KEY_TYPE_VALUE == Structure.BEACON_KEY_TYPE_VALUE
-    // && VERSION_TYPE_PREFIX == Structure.BRANCH_KEY_TYPE_PREFIX
   {}
 
   class {:termination false} DynamoDBKeyStorageInterface
@@ -560,12 +554,12 @@ module DefaultKeyStorageInterface {
         return Failure(
             Types.KeyStorageException(
               message :=
-                "DDB request to Write Mutated Versions was failed by DDB with TransactionCanceledException. "
+                "DDB request to Write Mutated Versions failed with DynamoDB's TransactionCanceledException. "
                 + "This MAY be caused by a race between hosts mutating the same Branch Key ID. "
                 + "The Mutation has NOT completed. "
                 + "Table Name: "+ ddbTableName
                 + "\tBranch Key ID: " + input.MutationCommitment.Identifier
-                + "\tDDB Exception Message: \n" + ddbResponse?.error.Message.UnwrapOr("")));
+                + "\tDynamoDB Exception Message: \n" + ddbResponse?.error.Message.UnwrapOr("")));
       }
       var ddbResponse :- ddbResponse?
       .MapFailure(
@@ -580,7 +574,7 @@ module DefaultKeyStorageInterface {
     }
 
 
-    method GetMutation' ( input: Types.GetMutationInput )
+    method {vcs_split_on_every_assert} GetMutation' ( input: Types.GetMutationInput )
       returns (output: Result<Types.GetMutationOutput, Types.Error>)
       requires ValidState()
       modifies Modifies - {History}
