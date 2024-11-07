@@ -542,8 +542,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     );
     var overWrite := Types.OverWriteEncryptedHierarchicalKey(
       Item := active,
-      Old := oldActiveItem
-    );
+      Old := oldActiveItem);
 
     var _ :- storage.WriteNewEncryptedBranchKeyVersion(
       Types.WriteNewEncryptedBranchKeyVersionInput(
