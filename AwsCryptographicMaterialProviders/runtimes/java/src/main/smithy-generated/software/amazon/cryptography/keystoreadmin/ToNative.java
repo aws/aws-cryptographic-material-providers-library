@@ -16,6 +16,7 @@ import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_Muta
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationToException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_MutationVerificationException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_Opaque;
+import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_OpaqueWithText;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_UnexpectedStateException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_UnsupportedFeatureException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.IKeyStoreAdminClient;
@@ -49,6 +50,7 @@ import software.amazon.cryptography.keystoreadmin.model.MutationToken;
 import software.amazon.cryptography.keystoreadmin.model.MutationVerificationException;
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
 import software.amazon.cryptography.keystoreadmin.model.OpaqueError;
+import software.amazon.cryptography.keystoreadmin.model.OpaqueWithTextError;
 import software.amazon.cryptography.keystoreadmin.model.SystemKey;
 import software.amazon.cryptography.keystoreadmin.model.TrustStorage;
 import software.amazon.cryptography.keystoreadmin.model.UnexpectedStateException;
@@ -61,6 +63,17 @@ public class ToNative {
   public static OpaqueError Error(Error_Opaque dafnyValue) {
     OpaqueError.Builder nativeBuilder = OpaqueError.builder();
     nativeBuilder.obj(dafnyValue.dtor_obj());
+    return nativeBuilder.build();
+  }
+
+  public static OpaqueWithTextError Error(Error_OpaqueWithText dafnyValue) {
+    OpaqueWithTextError.Builder nativeBuilder = OpaqueWithTextError.builder();
+    nativeBuilder.obj(dafnyValue.dtor_obj());
+    nativeBuilder.objMessage(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_objMessage()
+      )
+    );
     return nativeBuilder.build();
   }
 
@@ -210,6 +223,9 @@ public class ToNative {
     }
     if (dafnyValue.is_Opaque()) {
       return ToNative.Error((Error_Opaque) dafnyValue);
+    }
+    if (dafnyValue.is_OpaqueWithText()) {
+      return ToNative.Error((Error_OpaqueWithText) dafnyValue);
     }
     if (dafnyValue.is_CollectionOfErrors()) {
       return ToNative.Error((Error_CollectionOfErrors) dafnyValue);

@@ -101,6 +101,8 @@ def _deserialize_describe_mutation(input: DafnyResponse, config: Config):
 def _deserialize_error(error: Error) -> ServiceError:
     if error.is_Opaque:
         return OpaqueError(obj=error.obj)
+    elif error.is_OpaqueWithText:
+        return OpaqueErrorWithText(obj=error.obj, obj_message=error.objMessage)
     elif error.is_CollectionOfErrors:
         return CollectionOfErrors(
             message=_dafny.string_of(error.message),
