@@ -62,7 +62,7 @@ jobs:
       - name: Setup Dafny
         uses: dafny-lang/setup-dafny-action@v1.7.0
         with:
-          dafny-version: ${{ inputs.dafny }}
+          dafny-version: 4.9.0
 
       - name: Setup Java 17 for codegen
         uses: actions/setup-java@v3
