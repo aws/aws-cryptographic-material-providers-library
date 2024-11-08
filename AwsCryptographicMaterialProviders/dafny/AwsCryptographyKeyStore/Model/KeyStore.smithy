@@ -13,6 +13,7 @@ use aws.polymorph#dafnyUtf8Bytes
 use aws.polymorph#javadoc
 
 use com.amazonaws.dynamodb#TableName
+use com.amazonaws.kms#AliasListEntry
 use com.amazonaws.dynamodb#TableArn
 use com.amazonaws.dynamodb#DynamoDB_20120810
 

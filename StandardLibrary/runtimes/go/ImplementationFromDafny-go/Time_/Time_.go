@@ -1,0 +1,134 @@
+// Package _Time
+// Dafny module _Time compiled into Go
+
+package _Time
+
+import (
+	os "os"
+
+	m__System "github.com/dafny-lang/DafnyRuntimeGo/v4/System_"
+	_dafny "github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
+	m_BoundedInts "github.com/dafny-lang/DafnyStandardLibGo/BoundedInts"
+	m_DivInternals "github.com/dafny-lang/DafnyStandardLibGo/DivInternals"
+	m_DivInternalsNonlinear "github.com/dafny-lang/DafnyStandardLibGo/DivInternalsNonlinear"
+	m_DivMod "github.com/dafny-lang/DafnyStandardLibGo/DivMod"
+	m_FileIO "github.com/dafny-lang/DafnyStandardLibGo/FileIO"
+	m_Functions "github.com/dafny-lang/DafnyStandardLibGo/Functions"
+	m_GeneralInternals "github.com/dafny-lang/DafnyStandardLibGo/GeneralInternals"
+	m_Logarithm "github.com/dafny-lang/DafnyStandardLibGo/Logarithm"
+	m__Math "github.com/dafny-lang/DafnyStandardLibGo/Math_"
+	m_ModInternals "github.com/dafny-lang/DafnyStandardLibGo/ModInternals"
+	m_ModInternalsNonlinear "github.com/dafny-lang/DafnyStandardLibGo/ModInternalsNonlinear"
+	m_Mul "github.com/dafny-lang/DafnyStandardLibGo/Mul"
+	m_MulInternals "github.com/dafny-lang/DafnyStandardLibGo/MulInternals"
+	m_MulInternalsNonlinear "github.com/dafny-lang/DafnyStandardLibGo/MulInternalsNonlinear"
+	m_Power "github.com/dafny-lang/DafnyStandardLibGo/Power"
+	m_Relations "github.com/dafny-lang/DafnyStandardLibGo/Relations"
+	m_Seq "github.com/dafny-lang/DafnyStandardLibGo/Seq"
+	m_Seq_MergeSort "github.com/dafny-lang/DafnyStandardLibGo/Seq_MergeSort"
+	m_StandardLibrary "github.com/dafny-lang/DafnyStandardLibGo/StandardLibrary"
+	m_StandardLibraryInterop "github.com/dafny-lang/DafnyStandardLibGo/StandardLibraryInterop"
+	m_StandardLibrary_String "github.com/dafny-lang/DafnyStandardLibGo/StandardLibrary_String"
+	m_StandardLibrary_UInt "github.com/dafny-lang/DafnyStandardLibGo/StandardLibrary_UInt"
+	m_UnicodeStrings "github.com/dafny-lang/DafnyStandardLibGo/UnicodeStrings"
+	m__Unicode "github.com/dafny-lang/DafnyStandardLibGo/Unicode_"
+	m_Utf16EncodingForm "github.com/dafny-lang/DafnyStandardLibGo/Utf16EncodingForm"
+	m_Utf8EncodingForm "github.com/dafny-lang/DafnyStandardLibGo/Utf8EncodingForm"
+	m_Wrappers "github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
+)
+
+var _ = os.Args
+var _ _dafny.Dummy__
+var _ m__System.Dummy__
+var _ m_Wrappers.Dummy__
+var _ m_Relations.Dummy__
+var _ m_Seq_MergeSort.Dummy__
+var _ m__Math.Dummy__
+var _ m_Seq.Dummy__
+var _ m_BoundedInts.Dummy__
+var _ m__Unicode.Dummy__
+var _ m_Functions.Dummy__
+var _ m_Utf8EncodingForm.Dummy__
+var _ m_Utf16EncodingForm.Dummy__
+var _ m_UnicodeStrings.Dummy__
+var _ m_FileIO.Dummy__
+var _ m_GeneralInternals.Dummy__
+var _ m_MulInternalsNonlinear.Dummy__
+var _ m_MulInternals.Dummy__
+var _ m_Mul.Dummy__
+var _ m_ModInternalsNonlinear.Dummy__
+var _ m_DivInternalsNonlinear.Dummy__
+var _ m_ModInternals.Dummy__
+var _ m_DivInternals.Dummy__
+var _ m_DivMod.Dummy__
+var _ m_Power.Dummy__
+var _ m_Logarithm.Dummy__
+var _ m_StandardLibraryInterop.Dummy__
+var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_String.Dummy__
+var _ m_StandardLibrary.Dummy__
+
+type Dummy__ struct{}
+
+// Definition of class Default__
+type Default__ struct {
+	dummy byte
+}
+
+func New_Default___() *Default__ {
+	_this := Default__{}
+
+	return &_this
+}
+
+type CompanionStruct_Default___ struct {
+}
+
+var Companion_Default___ = CompanionStruct_Default___{}
+
+func (_this *Default__) Equals(other *Default__) bool {
+	return _this == other
+}
+
+func (_this *Default__) EqualsGeneric(x interface{}) bool {
+	other, ok := x.(*Default__)
+	return ok && _this.Equals(other)
+}
+
+func (*Default__) String() string {
+	return "_Time.Default__"
+}
+func (_this *Default__) ParentTraits_() []*_dafny.TraitID {
+	return [](*_dafny.TraitID){}
+}
+
+var _ _dafny.TraitOffspring = &Default__{}
+
+func (_static *CompanionStruct_Default___) FormatMilli(diff _dafny.Int) _dafny.Sequence {
+	var _0_whole _dafny.Sequence = m_StandardLibrary_String.Companion_Default___.Base10Int2String((diff).DivBy(_dafny.IntOfInt64(1000)))
+	_ = _0_whole
+	var _1_frac _dafny.Sequence = m_StandardLibrary_String.Companion_Default___.Base10Int2String((diff).Modulo(_dafny.IntOfInt64(1000)))
+	_ = _1_frac
+	if (_dafny.IntOfUint32((_1_frac).Cardinality())).Cmp(_dafny.One) == 0 {
+		return _dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(_0_whole, _dafny.SeqOfString(".00")), _1_frac)
+	} else if (_dafny.IntOfUint32((_1_frac).Cardinality())).Cmp(_dafny.IntOfInt64(2)) == 0 {
+		return _dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(_0_whole, _dafny.SeqOfString(".0")), _1_frac)
+	} else {
+		return _dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(_0_whole, _dafny.SeqOfString(".")), _1_frac)
+	}
+}
+func (_static *CompanionStruct_Default___) FormatMilliDiff(start int64, end int64) _dafny.Sequence {
+	if (start) <= (end) {
+		return Companion_Default___.FormatMilli((_dafny.IntOfInt64(end)).Minus(_dafny.IntOfInt64(start)))
+	} else {
+		return _dafny.Companion_Sequence_.Concatenate(_dafny.SeqOfString("-"), Companion_Default___.FormatMilli((_dafny.IntOfInt64(start)).Minus(_dafny.IntOfInt64(end))))
+	}
+}
+func (_static *CompanionStruct_Default___) CreateGetCurrentTimeStampSuccess(value _dafny.Sequence) m_Wrappers.Result {
+	return m_Wrappers.Companion_Result_.Create_Success_(value)
+}
+func (_static *CompanionStruct_Default___) CreateGetCurrentTimeStampFailure(error_ _dafny.Sequence) m_Wrappers.Result {
+	return m_Wrappers.Companion_Result_.Create_Failure_(error_)
+}
+
+// End of class Default__

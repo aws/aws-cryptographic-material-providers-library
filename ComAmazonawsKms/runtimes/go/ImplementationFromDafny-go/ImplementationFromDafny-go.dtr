@@ -1,0 +1,14 @@
+file_format_version = "1.0"
+dafny_version = "4.8.1.0"
+[options_by_module.ComAmazonawsKmsTypes]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/kms"
+legacy-module-names = false
+[options_by_module.AbstractComAmazonawsKmsService]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/kms"
+legacy-module-names = false
+[options_by_module.AbstractComAmazonawsKmsOperations]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/kms"
+legacy-module-names = false
+[options_by_module."Com.Amazonaws.Kms"]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/kms"
+legacy-module-names = false

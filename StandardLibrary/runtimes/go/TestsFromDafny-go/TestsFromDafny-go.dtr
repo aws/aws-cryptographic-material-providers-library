@@ -1,0 +1,32 @@
+file_format_version = "1.0"
+dafny_version = "4.8.1.0"
+[options_by_module.GetOptTest]
+go-module-name = "github.com/dafny-lang/DafnyStandardLibGo/test"
+legacy-module-names = false
+[options_by_module.TestComputeSetToOrderedSequenceCharLess]
+go-module-name = "github.com/dafny-lang/DafnyStandardLibGo/test"
+legacy-module-names = false
+[options_by_module.Sets]
+go-module-name = "github.com/dafny-lang/DafnyStandardLibGo/test"
+legacy-module-names = false
+[options_by_module.TestHexStrings]
+go-module-name = "github.com/dafny-lang/DafnyStandardLibGo/test"
+legacy-module-names = false
+[options_by_module.TestTime]
+go-module-name = "github.com/dafny-lang/DafnyStandardLibGo/test"
+legacy-module-names = false
+[options_by_module.TestUTF8]
+go-module-name = "github.com/dafny-lang/DafnyStandardLibGo/test"
+legacy-module-names = false
+[options_by_module.TestComputeSetToOrderedSequenceUInt8Less]
+go-module-name = "github.com/dafny-lang/DafnyStandardLibGo/test"
+legacy-module-names = false
+[options_by_module.TestUUID]
+go-module-name = "github.com/dafny-lang/DafnyStandardLibGo/test"
+legacy-module-names = false
+[options_by_module.FloatCompareTest]
+go-module-name = "github.com/dafny-lang/DafnyStandardLibGo/test"
+legacy-module-names = false
+[options_by_module.TestCallMany]
+go-module-name = "github.com/dafny-lang/DafnyStandardLibGo/test"
+legacy-module-names = false

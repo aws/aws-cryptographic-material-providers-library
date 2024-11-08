@@ -1,0 +1,14 @@
+file_format_version = "1.0"
+dafny_version = "4.8.1.0"
+[options_by_module.ComAmazonawsDynamodbTypes]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/dynamodb"
+legacy-module-names = false
+[options_by_module.AbstractComAmazonawsDynamodbService]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/dynamodb"
+legacy-module-names = false
+[options_by_module.AbstractComAmazonawsDynamodbOperations]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/dynamodb"
+legacy-module-names = false
+[options_by_module."Com.Amazonaws.Dynamodb"]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/dynamodb"
+legacy-module-names = false

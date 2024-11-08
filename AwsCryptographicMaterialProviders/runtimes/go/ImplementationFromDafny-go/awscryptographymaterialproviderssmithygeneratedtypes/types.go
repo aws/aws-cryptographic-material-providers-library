@@ -4,6 +4,7 @@ package awscryptographymaterialproviderssmithygeneratedtypes
 
 import (
 	"fmt"
+	kmstypes "github.com/aws/aws-sdk-go-v2/service/kms/types"
 	"unicode/utf8"
 
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/awscryptographykeystoresmithygenerated"
@@ -13,7 +14,7 @@ import (
 )
 
 type HKDF struct {
-	Hmac DigestAlgorithm
+	Hmac awscryptographyprimitivessmithygeneratedtypes.DigestAlgorithm
 
 	InputKeyLength int32
 
@@ -90,7 +91,7 @@ func (input IntermediateKeyWrapping) Validate() error {
 
 func (input IntermediateKeyWrapping) aws_cryptography_materialProviders_IntermediateKeyWrapping_pdkEncryptAlgorithm_Validate() error {
 	switch unionType := input.PdkEncryptAlgorithm.(type) {
-	case *awscryptographyprimitivessmithygeneratedtypes.EncryptMemberAES_GCM:
+	case *EncryptMemberAES_GCM:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -145,7 +146,7 @@ func (input IntermediateKeyWrapping) aws_cryptography_materialProviders_Intermed
 }
 
 type ECDSA struct {
-	Curve ECDSASignatureAlgorithm
+	Curve awscryptographyprimitivessmithygeneratedtypes.ECDSASignatureAlgorithm
 }
 
 func (input ECDSA) Validate() error {
@@ -239,7 +240,7 @@ func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuit
 }
 func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_Validate() error {
 	switch unionType := input.SymmetricSignature.(type) {
-	case *awscryptographyprimitivessmithygeneratedtypes.SymmetricSignatureAlgorithmMemberHMAC:
+	case *SymmetricSignatureAlgorithmMemberHMAC:
 	case *SymmetricSignatureAlgorithmMemberNone:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
@@ -264,7 +265,7 @@ func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuit
 }
 func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_Validate() error {
 	switch unionType := input.Encrypt.(type) {
-	case *awscryptographyprimitivessmithygeneratedtypes.EncryptMemberAES_GCM:
+	case *EncryptMemberAES_GCM:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -332,7 +333,7 @@ func (input KmsClientReference) Validate() error {
 }
 
 type GetClientOutput struct {
-	Client kms.Client
+	Client *kms.Client
 }
 
 func (input GetClientOutput) Validate() error {
@@ -352,7 +353,7 @@ func (input DiscoveryFilter) Validate() error {
 }
 
 type CreateAwsKmsDiscoveryKeyringInput struct {
-	KmsClient kms.Client
+	KmsClient *kms.Client
 
 	DiscoveryFilter *DiscoveryFilter
 
@@ -433,11 +434,11 @@ func (input KmsPublicKeyDiscoveryInput) Validate() error {
 }
 
 type CreateAwsKmsEcdhKeyringInput struct {
-	CurveSpec ECDHCurveSpec
+	CurveSpec awscryptographyprimitivessmithygeneratedtypes.ECDHCurveSpec
 
 	KeyAgreementScheme KmsEcdhStaticConfigurations
 
-	KmsClient kms.Client
+	KmsClient *kms.Client
 
 	GrantTokens []string
 }
@@ -651,7 +652,7 @@ func (input CreateAwsKmsHierarchicalKeyringInput) aws_cryptography_materialProvi
 }
 
 type CreateAwsKmsKeyringInput struct {
-	KmsClient kms.Client
+	KmsClient *kms.Client
 
 	KmsKeyId string
 
@@ -664,7 +665,7 @@ func (input CreateAwsKmsKeyringInput) Validate() error {
 }
 
 type CreateAwsKmsMrkDiscoveryKeyringInput struct {
-	KmsClient kms.Client
+	KmsClient *kms.Client
 
 	Region string
 
@@ -700,7 +701,7 @@ func (input CreateAwsKmsMrkDiscoveryMultiKeyringInput) Validate() error {
 }
 
 type CreateAwsKmsMrkKeyringInput struct {
-	KmsClient kms.Client
+	KmsClient *kms.Client
 
 	KmsKeyId string
 
@@ -743,13 +744,13 @@ func (input CreateAwsKmsMultiKeyringInput) Validate() error {
 }
 
 type CreateAwsKmsRsaKeyringInput struct {
-	EncryptionAlgorithm EncryptionAlgorithmSpec
+	EncryptionAlgorithm kmstypes.EncryptionAlgorithmSpec
 
 	KmsKeyId string
 
 	GrantTokens []string
 
-	KmsClient kms.Client
+	KmsClient *kms.Client
 
 	PublicKey []byte
 }
@@ -855,7 +856,7 @@ func (input CreateDefaultCryptographicMaterialsManagerInput) Validate() error {
 }
 
 type CreateMultiKeyringInput struct {
-	ChildKeyrings []KeyringReference
+	ChildKeyrings []IKeyring
 
 	Generator IKeyring
 }
@@ -910,7 +911,7 @@ func (input RawPrivateKeyToStaticPublicKeyInput) Validate() error {
 }
 
 type CreateRawEcdhKeyringInput struct {
-	CurveSpec ECDHCurveSpec
+	CurveSpec awscryptographyprimitivessmithygeneratedtypes.ECDHCurveSpec
 
 	KeyAgreementScheme RawEcdhStaticConfigurations
 }
@@ -1681,7 +1682,7 @@ type SymmetricSignatureAlgorithm interface {
 }
 
 type SymmetricSignatureAlgorithmMemberHMAC struct {
-	Value DigestAlgorithm
+	Value awscryptographyprimitivessmithygeneratedtypes.DigestAlgorithm
 }
 
 func (*SymmetricSignatureAlgorithmMemberHMAC) isSymmetricSignatureAlgorithm() {}
@@ -1921,13 +1922,13 @@ type IKeyring interface {
 }
 
 type ICryptographicMaterialsCache interface {
-	PutCacheEntry(PutCacheEntryInput) (*Unit, error)
+	PutCacheEntry(PutCacheEntryInput) error
 
 	GetCacheEntry(GetCacheEntryInput) (*GetCacheEntryOutput, error)
 
-	UpdateUsageMetadata(UpdateUsageMetadataInput) (*Unit, error)
+	UpdateUsageMetadata(UpdateUsageMetadataInput) error
 
-	DeleteCacheEntry(DeleteCacheEntryInput) (*Unit, error)
+	DeleteCacheEntry(DeleteCacheEntryInput) error
 }
 
 type ICryptographicMaterialsManager interface {
@@ -1984,11 +1985,11 @@ func (input PutCacheEntryInput) aws_cryptography_materialProviders_PutCacheEntry
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
-	case *awscryptographykeystoresmithygeneratedtypes.MaterialsMemberBranchKey:
+	case *MaterialsMemberBranchKey:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
-	case *awscryptographykeystoresmithygeneratedtypes.MaterialsMemberBeaconKey:
+	case *MaterialsMemberBeaconKey:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -2101,11 +2102,11 @@ func (input GetCacheEntryOutput) aws_cryptography_materialProviders_GetCacheEntr
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
-	case *awscryptographykeystoresmithygeneratedtypes.MaterialsMemberBranchKey:
+	case *MaterialsMemberBranchKey:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
-	case *awscryptographykeystoresmithygeneratedtypes.MaterialsMemberBeaconKey:
+	case *MaterialsMemberBeaconKey:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -2115,6 +2116,14 @@ func (input GetCacheEntryOutput) aws_cryptography_materialProviders_GetCacheEntr
 	}
 
 	return nil
+}
+
+type EntryAlreadyExists struct {
+	Message string
+}
+
+type EntryDoesNotExist struct {
+	Message string
 }
 
 type DeleteCacheEntryInput struct {

@@ -332,7 +332,7 @@ func (input KmsClientReference) Validate() error {
 }
 
 type GetClientOutput struct {
-	Client kms.Client
+	Client *kms.Client
 }
 
 func (input GetClientOutput) Validate() error {
@@ -352,7 +352,7 @@ func (input DiscoveryFilter) Validate() error {
 }
 
 type CreateAwsKmsDiscoveryKeyringInput struct {
-	KmsClient kms.Client
+	KmsClient *kms.Client
 
 	DiscoveryFilter *DiscoveryFilter
 
@@ -437,7 +437,7 @@ type CreateAwsKmsEcdhKeyringInput struct {
 
 	KeyAgreementScheme KmsEcdhStaticConfigurations
 
-	KmsClient kms.Client
+	KmsClient *kms.Client
 
 	GrantTokens []string
 }
@@ -651,7 +651,7 @@ func (input CreateAwsKmsHierarchicalKeyringInput) aws_cryptography_materialProvi
 }
 
 type CreateAwsKmsKeyringInput struct {
-	KmsClient kms.Client
+	KmsClient *kms.Client
 
 	KmsKeyId string
 
@@ -664,7 +664,7 @@ func (input CreateAwsKmsKeyringInput) Validate() error {
 }
 
 type CreateAwsKmsMrkDiscoveryKeyringInput struct {
-	KmsClient kms.Client
+	KmsClient *kms.Client
 
 	Region string
 
@@ -700,7 +700,7 @@ func (input CreateAwsKmsMrkDiscoveryMultiKeyringInput) Validate() error {
 }
 
 type CreateAwsKmsMrkKeyringInput struct {
-	KmsClient kms.Client
+	KmsClient *kms.Client
 
 	KmsKeyId string
 
@@ -749,7 +749,7 @@ type CreateAwsKmsRsaKeyringInput struct {
 
 	GrantTokens []string
 
-	KmsClient kms.Client
+	KmsClient *kms.Client
 
 	PublicKey []byte
 }
@@ -1921,13 +1921,13 @@ type IKeyring interface {
 }
 
 type ICryptographicMaterialsCache interface {
-	PutCacheEntry(PutCacheEntryInput) (*Unit, error)
+	PutCacheEntry(PutCacheEntryInput) error
 
 	GetCacheEntry(GetCacheEntryInput) (*GetCacheEntryOutput, error)
 
-	UpdateUsageMetadata(UpdateUsageMetadataInput) (*Unit, error)
+	UpdateUsageMetadata(UpdateUsageMetadataInput) error
 
-	DeleteCacheEntry(DeleteCacheEntryInput) (*Unit, error)
+	DeleteCacheEntry(DeleteCacheEntryInput) error
 }
 
 type ICryptographicMaterialsManager interface {

@@ -1,0 +1,47 @@
+file_format_version = "1.0"
+dafny_version = "4.8.1.0"
+[options_by_module.TestKDF]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/primitives/test"
+legacy-module-names = false
+[options_by_module.TestKDFK_TestVectors]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/primitives/test"
+legacy-module-names = false
+[options_by_module.TestAwsCryptographyPrimitivesHMacDigest]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/primitives/test"
+legacy-module-names = false
+[options_by_module.TestECDH]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/primitives/test"
+legacy-module-names = false
+[options_by_module.TestAwsCryptographyPrimitivesHKDF]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/primitives/test"
+legacy-module-names = false
+[options_by_module.TestAwsCryptographyPrimitivesGenerateRandomBytes]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/primitives/test"
+legacy-module-names = false
+[options_by_module.TestAwsCryptographyPrimitivesDigest]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/primitives/test"
+legacy-module-names = false
+[options_by_module.ConstantTime]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/primitives/test"
+legacy-module-names = false
+[options_by_module.ConstantTimeTest]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/primitives/test"
+legacy-module-names = false
+[options_by_module.TestAwsCryptographyPrimitivesAesKdfCtr]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/primitives/test"
+legacy-module-names = false
+[options_by_module.TestSignature]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/primitives/test"
+legacy-module-names = false
+[options_by_module.TestHKDF_Rfc5869TestVectors]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/primitives/test"
+legacy-module-names = false
+[options_by_module.TestAwsCryptographyPrimitivesRSA]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/primitives/test"
+legacy-module-names = false
+[options_by_module.TestAwsCryptographyPrimitivesHMAC]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/primitives/test"
+legacy-module-names = false
+[options_by_module.TestAwsCryptographyPrimitivesAES]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/primitives/test"
+legacy-module-names = false
