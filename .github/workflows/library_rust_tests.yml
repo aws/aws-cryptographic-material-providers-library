@@ -1,5 +1,5 @@
-# This workflow performs tests in .NET.
-name: Library net tests
+# This workflow performs tests in Rust
+name: Library Rust tests
 
 on:
   workflow_call:
@@ -15,7 +15,7 @@ on:
         type: boolean
 
 jobs:
-  testDotNet:
+  testDotRust:
     strategy:
       fail-fast: false
       matrix:
@@ -46,7 +46,7 @@ jobs:
         with:
           aws-region: us-west-2
           role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
-          role-session-name: NetTests
+          role-session-name: RustTests
 
       - uses: actions/checkout@v4
       # The specification submodule is private so we don't have access, but we don't need
