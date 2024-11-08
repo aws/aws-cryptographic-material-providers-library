@@ -1,6 +1,12 @@
 # This workflow performs tests in Rust
 name: Library Rust tests
 
+#            AwsCryptographyPrimitives,
+#            ComAmazonawsKms,
+#            ComAmazonawsDynamodb,
+#            AwsCryptographicMaterialProviders,
+#            TestVectorsAwsCryptographicMaterialProviders,
+
 on:
   workflow_call:
     inputs:
@@ -22,11 +28,6 @@ jobs:
         library:
           [
             StandardLibrary,
-#            AwsCryptographyPrimitives,
-#            ComAmazonawsKms,
-#            ComAmazonawsDynamodb,
-#            AwsCryptographicMaterialProviders,
-#            TestVectorsAwsCryptographicMaterialProviders,
           ]
         os: [windows-latest, ubuntu-latest, macos-13]
     runs-on: ${{ matrix.os }}
