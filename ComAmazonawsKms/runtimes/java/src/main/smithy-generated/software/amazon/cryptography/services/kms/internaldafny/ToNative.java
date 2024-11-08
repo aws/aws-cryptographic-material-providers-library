@@ -190,6 +190,7 @@ import software.amazon.awssdk.services.kms.model.XksProxyUriUnreachableException
 import software.amazon.awssdk.services.kms.model.XksProxyVpcEndpointServiceInUseException;
 import software.amazon.awssdk.services.kms.model.XksProxyVpcEndpointServiceInvalidConfigurationException;
 import software.amazon.awssdk.services.kms.model.XksProxyVpcEndpointServiceNotFoundException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_AlreadyExistsException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_CloudHsmClusterInUseException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_CloudHsmClusterInvalidConfigurationException;
@@ -4542,10 +4543,30 @@ public class ToNative {
     return builder.build();
   }
 
-  // BEGIN MANUAL EDIT
-  public static RuntimeException Error(
-    software.amazon.cryptography.services.kms.internaldafny.types.Error dafnyValue
-  ) {
+  public static KmsClient TrentService(IKMSClient dafnyValue) {
+    return ((Shim) dafnyValue).impl();
+  }
+
+  public static RuntimeException Error(Error_Opaque dafnyValue) {
+    // While the first two cases are logically identical,
+    // there is a semantic distinction.
+    // An un-modeled Service Error is different from a Java Heap Exhaustion error.
+    // In the future, Smithy-Dafny MAY allow for this distinction.
+    // Which would allow Dafny developers to treat the two differently.
+    if (dafnyValue.dtor_obj() instanceof KmsException) {
+      return (KmsException) dafnyValue.dtor_obj();
+    } else if (dafnyValue.dtor_obj() instanceof Exception) {
+      return (RuntimeException) dafnyValue.dtor_obj();
+    }
+    return new IllegalStateException(
+      String.format(
+        "Unknown error thrown while calling AWS Key Management Service. %s",
+        dafnyValue
+      )
+    );
+  }
+
+  public static RuntimeException Error(Error dafnyValue) {
     if (dafnyValue.is_AlreadyExistsException()) {
       return ToNative.Error((Error_AlreadyExistsException) dafnyValue);
     }
@@ -4727,29 +4748,8 @@ public class ToNative {
     }
     // TODO This should indicate a codegen bug; every error Should have been taken care of.
     return new IllegalStateException(
-      String.format("Unknown error thrown while calling KMS. %s", dafnyValue)
-    );
-  }
-
-  // END MANUAL EDIT
-  public static KmsClient TrentService(IKMSClient dafnyValue) {
-    return ((Shim) dafnyValue).impl();
-  }
-
-  public static RuntimeException Error(Error_Opaque dafnyValue) {
-    // While the first two cases are logically identical,
-    // there is a semantic distinction.
-    // An un-modeled Service Error is different from a Java Heap Exhaustion error.
-    // In the future, Smithy-Dafny MAY allow for this distinction.
-    // Which would allow Dafny developers to treat the two differently.
-    if (dafnyValue.dtor_obj() instanceof KmsException) {
-      return (KmsException) dafnyValue.dtor_obj();
-    } else if (dafnyValue.dtor_obj() instanceof Exception) {
-      return (RuntimeException) dafnyValue.dtor_obj();
-    }
-    return new IllegalStateException(
       String.format(
-        "Unknown error thrown while calling AWS Key Management Service. %s",
+        "Unknown error thrown while calling service. %s",
         dafnyValue
       )
     );
