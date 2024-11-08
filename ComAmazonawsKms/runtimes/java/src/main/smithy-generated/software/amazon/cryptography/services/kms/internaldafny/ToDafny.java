@@ -4645,9 +4645,7 @@ public class ToDafny {
         {
           return AlgorithmSpec.create_RSA__AES__KEY__WRAP__SHA__256();
         }
-      // BEGIN MANUAL EDIT
       case SM2_PKE:
-        // END MANUAL EDIT
         {
           return AlgorithmSpec.create_SM2PKE();
         }
@@ -5454,9 +5452,7 @@ public class ToDafny {
         {
           return SigningAlgorithmSpec.create_ECDSA__SHA__512();
         }
-      // BEGIN MANUAL EDIT
       case SM2_DSA:
-        // END MANUAL EDIT
         {
           return SigningAlgorithmSpec.create_SM2DSA();
         }
