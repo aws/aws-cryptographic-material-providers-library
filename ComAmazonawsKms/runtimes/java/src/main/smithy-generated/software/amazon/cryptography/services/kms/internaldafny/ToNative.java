@@ -226,6 +226,7 @@ import software.amazon.cryptography.services.kms.internaldafny.types.Error_Limit
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_MalformedPolicyDocumentException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_NotFoundException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_OpaqueWithText;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_TagException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_UnsupportedOperationException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksKeyAlreadyInUseException;
@@ -4566,6 +4567,25 @@ public class ToNative {
     );
   }
 
+  public static RuntimeException Error(Error_OpaqueWithText dafnyValue) {
+    // While the first two cases are logically identical,
+    // there is a semantic distinction.
+    // An un-modeled Service Error is different from a Java Heap Exhaustion error.
+    // In the future, Smithy-Dafny MAY allow for this distinction.
+    // Which would allow Dafny developers to treat the two differently.
+    if (dafnyValue.dtor_obj() instanceof KmsException) {
+      return (KmsException) dafnyValue.dtor_obj();
+    } else if (dafnyValue.dtor_obj() instanceof Exception) {
+      return (RuntimeException) dafnyValue.dtor_obj();
+    }
+    return new IllegalStateException(
+      String.format(
+        "Unknown error thrown while calling AWS Key Management Service. %s",
+        dafnyValue
+      )
+    );
+  }
+
   public static RuntimeException Error(Error dafnyValue) {
     if (dafnyValue.is_AlreadyExistsException()) {
       return ToNative.Error((Error_AlreadyExistsException) dafnyValue);
@@ -4745,6 +4765,9 @@ public class ToNative {
     }
     if (dafnyValue.is_Opaque()) {
       return ToNative.Error((Error_Opaque) dafnyValue);
+    }
+    if (dafnyValue.is_OpaqueWithText()) {
+      return ToNative.Error((Error_OpaqueWithText) dafnyValue);
     }
     // TODO This should indicate a codegen bug; every error Should have been taken care of.
     return new IllegalStateException(
