@@ -1,0 +1,83 @@
+# This workflow performs tests in .NET.
+name: Library net tests
+
+on:
+  workflow_call:
+    inputs:
+      dafny:
+        description: "The Dafny version to run"
+        required: true
+        type: string
+      regenerate-code:
+        description: "Regenerate code using smithy-dafny"
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  testDotNet:
+    strategy:
+      fail-fast: false
+      matrix:
+        library:
+          [
+            StandardLibrary,
+#            AwsCryptographyPrimitives,
+#            ComAmazonawsKms,
+#            ComAmazonawsDynamodb,
+#            AwsCryptographicMaterialProviders,
+#            TestVectorsAwsCryptographicMaterialProviders,
+          ]
+        os: [windows-latest, ubuntu-latest, macos-13]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-west-2
+          role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
+          role-session-name: NetTests
+
+      - uses: actions/checkout@v4
+      # The specification submodule is private so we don't have access, but we don't need
+      # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
+      - run: git submodule update --init libraries
+      - run: git submodule update --init smithy-dafny
+
+      - name: Set up Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: "1.80.0"
+          rustflags: ""
+          components: rustfmt
+
+      - name: Setup Dafny
+        uses: dafny-lang/setup-dafny-action@v1.7.0
+        with:
+          dafny-version: ${{ inputs.dafny }}
+
+      - name: Polymorph Rust
+        working-directory: ./${{ matrix.library }}
+        run: make polymorph_rust
+
+      - name: Compile ${{ matrix.library }} implementation
+        working-directory: ./${{ matrix.library }}
+        run: |
+          # This works because `node` is installed by default on GHA runners
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make transpile_rust CORES=$CORES
+
+      - name: Test ${{ matrix.library }} Rust
+        working-directory: ./${{ matrix.library }}
+        shell: bash
+        run: make test_rust

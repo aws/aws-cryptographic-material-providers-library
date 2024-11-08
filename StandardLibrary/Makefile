@@ -3,6 +3,8 @@
 
 CORES=2
 
+TRANSPILE_TESTS_IN_RUST=1
+
 include ../SharedMakefileV2.mk
 
 MAX_RESOURCE_COUNT=500000000
@@ -20,3 +22,9 @@ transpile_dependencies: STD_LIBRARY=
 # Python
 
 PYTHON_MODULE_NAME=smithy_dafny_standard_library
+
+RUST_OTHER_FILES := \
+        runtimes/rust/src/concurrent_call.rs \
+        runtimes/rust/src/sets.rs \
+        runtimes/rust/src/time.rs \
+        runtimes/rust/src/uuid.rs
