@@ -10,7 +10,7 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.utils.StringUtils;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.CreateKeyInput;
-import software.amazon.cryptography.keystoreadmin.model.KMSIdentifier;
+import software.amazon.cryptography.keystoreadmin.model.KmsAesIdentifier;
 
 /*
   The Hierarchical Keyring Example relies on the existence of a
@@ -71,7 +71,7 @@ public class CreateKeyExample {
           .builder()
           // This is the KMS ARN that will be used to protect the Branch Key.
           // It is a required argument.
-          .KmsArn(KMSIdentifier.builder().KmsKeyArn(kmsKeyArn).build())
+          .KmsArn(KmsAesIdentifier.builder().KmsKeyArn(kmsKeyArn).build())
           // If you need to specify the Identifier for a Branch Key, you may.
           // This is an optional argument.
           .Identifier(branchKeyId)

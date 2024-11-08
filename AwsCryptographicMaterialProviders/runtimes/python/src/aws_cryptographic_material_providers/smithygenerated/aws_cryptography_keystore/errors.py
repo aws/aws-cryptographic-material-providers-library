@@ -133,8 +133,12 @@ class KeyStorageException(ApiError[Literal["KeyStorageException"]]):
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
-class MutationLockConditionFailed(ApiError[Literal["MutationLockConditionFailed"]]):
-    code: Literal["MutationLockConditionFailed"] = "MutationLockConditionFailed"
+class MutationCommitmentConditionFailed(
+    ApiError[Literal["MutationCommitmentConditionFailed"]]
+):
+    code: Literal["MutationCommitmentConditionFailed"] = (
+        "MutationCommitmentConditionFailed"
+    )
     message: str
 
     def __init__(
@@ -149,30 +153,30 @@ class MutationLockConditionFailed(ApiError[Literal["MutationLockConditionFailed"
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the MutationLockConditionFailed to a dictionary."""
+        """Converts the MutationCommitmentConditionFailed to a dictionary."""
         return {
             "message": self.message,
             "code": self.code,
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "MutationLockConditionFailed":
-        """Creates a MutationLockConditionFailed from a dictionary."""
+    def from_dict(d: Dict[str, Any]) -> "MutationCommitmentConditionFailed":
+        """Creates a MutationCommitmentConditionFailed from a dictionary."""
         kwargs: Dict[str, Any] = {
             "message": d["message"],
         }
 
-        return MutationLockConditionFailed(**kwargs)
+        return MutationCommitmentConditionFailed(**kwargs)
 
     def __repr__(self) -> str:
-        result = "MutationLockConditionFailed("
+        result = "MutationCommitmentConditionFailed("
         if self.message is not None:
             result += f"message={repr(self.message)}"
 
         return result + ")"
 
     def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, MutationLockConditionFailed):
+        if not isinstance(other, MutationCommitmentConditionFailed):
             return False
         attributes: list[str] = [
             "message",
@@ -441,8 +445,12 @@ class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
     message: str
 
 
-class MutationLockConditionFailed(ApiError[Literal["MutationLockConditionFailed"]]):
-    code: Literal["MutationLockConditionFailed"] = "MutationLockConditionFailed"
+class MutationCommitmentConditionFailed(
+    ApiError[Literal["MutationCommitmentConditionFailed"]]
+):
+    code: Literal["MutationCommitmentConditionFailed"] = (
+        "MutationCommitmentConditionFailed"
+    )
     message: str
 
 
@@ -607,9 +615,9 @@ def _smithy_error_to_dafny_error(e: ServiceError):
 
     if isinstance(
         e,
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.MutationLockConditionFailed,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.MutationCommitmentConditionFailed,
     ):
-        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_MutationLockConditionFailed(
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_MutationCommitmentConditionFailed(
             message=_dafny.Seq(e.message)
         )
 

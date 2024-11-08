@@ -21,7 +21,8 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   datatype ApplyMutationInput = | ApplyMutationInput (
     nameonly MutationToken: MutationToken ,
     nameonly PageSize: Option<int32> := Option.None ,
-    nameonly Strategy: Option<KeyManagementStrategy> := Option.None
+    nameonly Strategy: Option<KeyManagementStrategy> := Option.None ,
+    nameonly SystemKey: SystemKey
   )
   datatype ApplyMutationOutput = | ApplyMutationOutput (
     nameonly MutationResult: ApplyMutationResult ,
@@ -33,20 +34,33 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   datatype CreateKeyInput = | CreateKeyInput (
     nameonly Identifier: Option<string> := Option.None ,
     nameonly EncryptionContext: Option<AwsCryptographyKeyStoreTypes.EncryptionContext> := Option.None ,
-    nameonly KmsArn: KMSIdentifier ,
+    nameonly KmsArn: KmsAesIdentifier ,
     nameonly Strategy: Option<KeyManagementStrategy> := Option.None
   )
   datatype CreateKeyOutput = | CreateKeyOutput (
     nameonly Identifier: string
   )
+  datatype DescribeMutationInput = | DescribeMutationInput (
+    nameonly Identifier: string
+  )
+  datatype DescribeMutationOutput = | DescribeMutationOutput (
+    nameonly Original: Option<MutableBranchKeyProperities> := Option.None ,
+    nameonly Terminal: Option<MutableBranchKeyProperities> := Option.None
+  )
+  datatype InitializeMutationFlag =
+    | Created(Created: string)
+    | Resumed(Resumed: string)
+    | ResumedWithoutIndex(ResumedWithoutIndex: string)
   datatype InitializeMutationInput = | InitializeMutationInput (
     nameonly Identifier: string ,
     nameonly Mutations: Mutations ,
-    nameonly Strategy: Option<KeyManagementStrategy> := Option.None
+    nameonly Strategy: Option<KeyManagementStrategy> := Option.None ,
+    nameonly SystemKey: SystemKey
   )
   datatype InitializeMutationOutput = | InitializeMutationOutput (
     nameonly MutationToken: MutationToken ,
-    nameonly MutatedBranchKeyItems: MutatedBranchKeyItems
+    nameonly MutatedBranchKeyItems: MutatedBranchKeyItems ,
+    nameonly InitializeMutationFlag: InitializeMutationFlag
   )
   datatype KeyManagementStrategy =
     | AwsKmsReEncrypt(AwsKmsReEncrypt: AwsCryptographyKeyStoreTypes.AwsKms)
@@ -56,11 +70,13 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
       VersionKey := [];
       InitializeMutation := [];
       ApplyMutation := [];
+      DescribeMutation := [];
     }
     ghost var CreateKey: seq<DafnyCallEvent<CreateKeyInput, Result<CreateKeyOutput, Error>>>
     ghost var VersionKey: seq<DafnyCallEvent<VersionKeyInput, Result<VersionKeyOutput, Error>>>
     ghost var InitializeMutation: seq<DafnyCallEvent<InitializeMutationInput, Result<InitializeMutationOutput, Error>>>
     ghost var ApplyMutation: seq<DafnyCallEvent<ApplyMutationInput, Result<ApplyMutationOutput, Error>>>
+    ghost var DescribeMutation: seq<DafnyCallEvent<DescribeMutationInput, Result<DescribeMutationOutput, Error>>>
   }
   trait {:termination false} IKeyStoreAdminClient
   {
@@ -149,14 +165,37 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
       ensures ApplyMutationEnsuresPublicly(input, output)
       ensures History.ApplyMutation == old(History.ApplyMutation) + [DafnyCallEvent(input, output)]
 
+    predicate DescribeMutationEnsuresPublicly(input: DescribeMutationInput , output: Result<DescribeMutationOutput, Error>)
+    // The public method to be called by library consumers
+    method DescribeMutation ( input: DescribeMutationInput )
+      returns (output: Result<DescribeMutationOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`DescribeMutation
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures DescribeMutationEnsuresPublicly(input, output)
+      ensures History.DescribeMutation == old(History.DescribeMutation) + [DafnyCallEvent(input, output)]
+
   }
   datatype KeyStoreAdminConfig = | KeyStoreAdminConfig (
     nameonly logicalKeyStoreName: string ,
     nameonly storage: AwsCryptographyKeyStoreTypes.Storage
   )
-  datatype KMSIdentifier =
+  datatype KmsAes = | KmsAes (
+    nameonly KmsAesIdentifier: KmsAesIdentifier ,
+    nameonly AwsKms: AwsCryptographyKeyStoreTypes.AwsKms
+  )
+  datatype KmsAesIdentifier =
     | KmsKeyArn(KmsKeyArn: string)
     | KmsMRKeyArn(KmsMRKeyArn: string)
+  datatype MutableBranchKeyProperities = | MutableBranchKeyProperities (
+    nameonly KmsArn: string ,
+    nameonly CustomEncryptionContext: AwsCryptographyKeyStoreTypes.EncryptionContextString
+  )
   datatype MutatedBranchKeyItem = | MutatedBranchKeyItem (
     nameonly ItemType: string ,
     nameonly Description: string
@@ -171,15 +210,18 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   )
   datatype MutationToken = | MutationToken (
     nameonly Identifier: string ,
-    nameonly Original: seq<uint8> ,
-    nameonly Terminal: seq<uint8> ,
-    nameonly ExclusiveStartKey: Option<seq<uint8>> := Option.None ,
     nameonly UUID: Option<string> := Option.None ,
     nameonly CreateTime: string
   )
+  datatype SystemKey =
+    | kmsAes(kmsAes: KmsAes)
+    | trustStorage(trustStorage: TrustStorage)
+  datatype TrustStorage = | TrustStorage (
+
+                          )
   datatype VersionKeyInput = | VersionKeyInput (
     nameonly Identifier: string ,
-    nameonly KmsArn: KMSIdentifier ,
+    nameonly KmsArn: KmsAesIdentifier ,
     nameonly Strategy: Option<KeyManagementStrategy> := Option.None
   )
   datatype VersionKeyOutput = | VersionKeyOutput (
@@ -387,6 +429,26 @@ abstract module AbstractAwsCryptographyKeyStoreAdminService
       History.ApplyMutation := History.ApplyMutation + [DafnyCallEvent(input, output)];
     }
 
+    predicate DescribeMutationEnsuresPublicly(input: DescribeMutationInput , output: Result<DescribeMutationOutput, Error>)
+    {Operations.DescribeMutationEnsuresPublicly(input, output)}
+    // The public method to be called by library consumers
+    method DescribeMutation ( input: DescribeMutationInput )
+      returns (output: Result<DescribeMutationOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`DescribeMutation
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures DescribeMutationEnsuresPublicly(input, output)
+      ensures History.DescribeMutation == old(History.DescribeMutation) + [DafnyCallEvent(input, output)]
+    {
+      output := Operations.DescribeMutation(config, input);
+      History.DescribeMutation := History.DescribeMutation + [DafnyCallEvent(input, output)];
+    }
+
   }
 }
 abstract module AbstractAwsCryptographyKeyStoreAdminOperations {
@@ -459,4 +521,20 @@ abstract module AbstractAwsCryptographyKeyStoreAdminOperations {
     ensures
       && ValidInternalConfig?(config)
     ensures ApplyMutationEnsuresPublicly(input, output)
+
+
+  predicate DescribeMutationEnsuresPublicly(input: DescribeMutationInput , output: Result<DescribeMutationOutput, Error>)
+  // The private method to be refined by the library developer
+
+
+  method DescribeMutation ( config: InternalConfig , input: DescribeMutationInput )
+    returns (output: Result<DescribeMutationOutput, Error>)
+    requires
+      && ValidInternalConfig?(config)
+    modifies ModifiesInternalConfig(config)
+    // Dafny will skip type parameters when generating a default decreases clause.
+    decreases ModifiesInternalConfig(config)
+    ensures
+      && ValidInternalConfig?(config)
+    ensures DescribeMutationEnsuresPublicly(input, output)
 }

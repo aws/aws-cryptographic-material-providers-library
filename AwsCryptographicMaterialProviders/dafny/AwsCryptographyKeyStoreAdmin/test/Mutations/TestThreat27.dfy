@@ -10,7 +10,6 @@ include "../AdminFixtures.dfy"
 // Tests for T-27 & T-18
 //  1. if there is a mutation lock, the Active Version has already been updated.
 //  2.  you are able to successfully version b-keys while an M-Lock exists
-//  3. if there is a mutation lock, Initialize Mutation cannot start
 // This Test will:
 // - Create a Branch Key and Version it 0 times
 // - Look up the current Active Version as A1
@@ -84,7 +83,8 @@ module {:options "/functionSyntax:4" } TestThreat27 {
     var testInput := Types.InitializeMutationInput(
       Identifier := testId,
       Mutations := mutationsRequest,
-      Strategy := Some(strategy));
+      Strategy := Some(strategy),
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
     var initializeOutput :- expect underTest.InitializeMutation(testInput);
 
     print "\nTestThreat27 :: TestHappyCase :: Initialized Mutation: " + activeOne + "\n";
@@ -143,15 +143,12 @@ module {:options "/functionSyntax:4" } TestThreat27 {
     expect customEC in versionThree?.Item.EncryptionContext;
     expect timestamp == versionThree?.Item.EncryptionContext[customEC], "Version made DECRYPT_ONLY in wrong state!";
 
-    // Test that no new mutation can be started
-    var initializeFailed := underTest.InitializeMutation(testInput);
-    expect initializeFailed.Failure?, "InitializeMutation did not fail for an already exsisting lock!";
-
     print "\nTestThreat27 :: TestHappyCase :: All expects passed! Trying to clean up testId: " + testId + "\n";
 
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_ACTIVE_TYPE, ddbClient);
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BEACON_KEY_TYPE_VALUE, ddbClient);
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.MUTATION_LOCK_TYPE, ddbClient);
+    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.MUTATION_COMMITMENT_TYPE, ddbClient);
+    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.MUTATION_INDEX_TYPE, ddbClient);
     print "\nTestThreat27 :: TestHappyCase :: Delete Version for activeOne: " + activeOne + "\n";
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_TYPE_PREFIX + activeOne, ddbClient);
     print "\nTestThreat27 :: TestHappyCase :: Delete Version for activeTwo: " + activeTwo + "\n";

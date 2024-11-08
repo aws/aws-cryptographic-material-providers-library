@@ -6,6 +6,7 @@ include "../../../../libraries/src/Collections/Maps/Maps.dfy"
 include "../../../../libraries/src/JSON/API.dfy"
 include "../../../../libraries/src/JSON/Errors.dfy"
 include "../../../../libraries/src/JSON/Values.dfy"
+include "MutationIndexUtils.dfy"
 
 /** Mutation State Structures describe the Mutable Branch Key Properties that can be changed by Mutaiton. **/
 /** Methods here normialize these descriptions so they may be compared. **/
@@ -30,6 +31,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   import JSON = JSON.API
   import JSONErrors = JSON.Errors
   import JSONValues = JSON.Values
+  import MutationIndexUtils
 
   const MUTABLE_PROPERTY_COUNT: int := 2
   const MUTABLE_PROPERTY_COUNT_str := "2"
@@ -64,9 +66,30 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     Original: MutableProperties,
     Terminal: MutableProperties,
     CreateTime: string,
-    ExclusiveStartKey: Option<seq<uint8>> := Option.None ,
-    UUID: Option<string> := Option.None
+    ExclusiveStartKey: MutationIndexUtils.ExclusiveStartKey := Option.None,
+    UUID: string,
+    Input: Types.Mutations,
+    CommitmentCiphertext: seq<uint8>,
+    IndexCiphertext: seq<uint8>
   )
+
+  /** The Commitment & Index are persisted to the storage by Initialize. **/
+  /** The Commitment & Index are read by Apply. **/
+  /** The Index is updated by Apply. **/
+  /** Both are deleted when the Mutation is completed by Apply. **/
+  datatype CommitmentAndIndex = CommitmentAndIndex(
+    Commitment: KeyStoreTypes.MutationCommitment,
+    Index: KeyStoreTypes.MutationIndex
+  )
+  {
+    /** The Commitment & Index MUST always have the same Identifier & UUID. **/
+    /** They MAY NOT have the same CreateTime. **/
+    ghost predicate ValidState()
+    {
+      && Commitment.Identifier == Index.Identifier
+      && Commitment.UUID == Index.UUID
+    }
+  }
 
   predicate MutationToApply?(MutationToApply: MutationToApply)
   {
@@ -139,10 +162,63 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     // Note: no Extract method
   }
 
+  function InputMutationsToJson(
+    Mutations: Types.Mutations
+  ): (output: JSONValues.JSON)
+  {
+    var ec: JSONValues.JSON :=
+      if Mutations.TerminalEncryptionContext.Some?
+      then EncryptionContextStringToJSON(Mutations.TerminalEncryptionContext.value)
+      else JSONValues.Null;
+    var kms: JSONValues.JSON :=
+      if Mutations.TerminalKmsArn.Some?
+      then JSONValues.JSON.String(Mutations.TerminalKmsArn.value)
+      else JSONValues.Null;
+    var inputJson
+      := JSONValues.Object([(AWS_CRYPTO_EC, ec), (KMS_FIELD, kms)]);
+    inputJson
+  }
 
-  function SerializeMutableBranchKeyProperties(
+  function InputMutationsFromJson(
+    MutationsJson: JSONValues.JSON
+  ): (output: Types.Mutations)
+    requires MutationsJson.Object? && |MutationsJson.obj| == 2
+    requires MutationsJson.obj[0].1.Object? ==>
+               (var EncryptionContext := MutationsJson.obj[0].1;
+                && (forall p <- EncryptionContext.obj :: p.1.String?)
+                && (|set p <- EncryptionContext.obj :: p.0| == |EncryptionContext.obj|))
+  {
+    var ec: Option<KeyStoreTypes.EncryptionContextString> :=
+      if MutationsJson.obj[0].1.Object?
+      then Some(JSONToEncryptionContextString(MutationsJson.obj[0].1))
+      else None;
+    var kms: Option<string> :=
+      if MutationsJson.obj[1].1.String?
+      then Some(MutationsJson.obj[1].1.str)
+      else None;
+    var input
+      := Types.Mutations(
+           TerminalKmsArn := kms,
+           TerminalEncryptionContext := ec);
+    input
+  }
+
+  function DeserializeMutationInput(
+    commitment: KeyStoreTypes.MutationCommitment
+  ): (output: Result<Types.Mutations, Types.Error>)
+  {
+    var InputJson :- JSON.Deserialize(commitment.Input).MapFailure(
+                       (e: JSONErrors.DeserializationError)
+                       => Types.KeyStoreAdminException(
+                           message := "Could not JSON Deserialize: Input. " + e.ToString()));
+    :- MutationsInputJson?(InputJson);
+    var input := InputMutationsFromJson(InputJson);
+    Success(input)
+  }
+
+  function SerializeMutationCommitment(
     MutationToApply: MutationToApply
-  ): (output: Result<Types.MutationToken, Types.Error>)
+  ): (output: Result<KeyStoreTypes.MutationCommitment, Types.Error>)
     requires MutationToApply?(MutationToApply)
   {
     var OriginalJson
@@ -158,6 +234,8 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
              (KMS_FIELD, JSONValues.JSON.String(MutationToApply.Terminal.kmsArn))
            ]);
 
+    var InputJson := InputMutationsToJson(MutationToApply.Input);
+
     var originalBytes :- JSON.Serialize(OriginalJson).MapFailure(
                            (e: JSONErrors.SerializationError)
                            => Types.KeyStoreAdminException(
@@ -166,39 +244,66 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
                            (e: JSONErrors.SerializationError)
                            => Types.KeyStoreAdminException(
                                message := "Could not JSON Serialize state: terminal properties. " + e.ToString()));
-    Success(
-      Types.MutationToken(
-        Identifier := MutationToApply.Identifier,
-        Original := originalBytes,
-        Terminal := terminalBytes,
-        ExclusiveStartKey := MutationToApply.ExclusiveStartKey,
-        UUID := MutationToApply.UUID,
-        CreateTime := MutationToApply.CreateTime
-      ))
+    var inputBytes :- JSON.Serialize(InputJson).MapFailure(
+                        (e: JSONErrors.SerializationError)
+                        => Types.KeyStoreAdminException(
+                            message := "Could not JSON Serialize Input. " + e.ToString()));
+    var commitment := KeyStoreTypes.MutationCommitment(
+                        Identifier := MutationToApply.Identifier,
+                        Original := originalBytes,
+                        Terminal := terminalBytes,
+                        UUID := MutationToApply.UUID,
+                        CreateTime := MutationToApply.CreateTime,
+                        CiphertextBlob := MutationToApply.CommitmentCiphertext,
+                        Input := inputBytes
+                      );
+    Success(commitment)
   }
 
-  function DeserializeMutationToken(
-    Token: Types.MutationToken
-  )
-    : (output: Result<MutationToApply, Types.Error>)
+  function SerializeMutationIndex(
+    MutationToApply: MutationToApply,
+    ExclusiveStartKey: MutationIndexUtils.ExclusiveStartKey
+  ): (output: Result<KeyStoreTypes.MutationIndex, Types.Error>)
+    requires MutationToApply?(MutationToApply)
+  {
+    var index := KeyStoreTypes.MutationIndex(
+                   Identifier := MutationToApply.Identifier,
+                   PageIndex := MutationIndexUtils.ExclusiveStartKeyToPageIndex(ExclusiveStartKey),
+                   UUID := MutationToApply.UUID,
+                   CreateTime := MutationToApply.CreateTime,
+                   CiphertextBlob := MutationToApply.IndexCiphertext // TODO-Mutations-GA
+                 );
+    Success(index)
+  }
+
+  function DeserializeMutation(
+    commitmentAndIndex: CommitmentAndIndex
+  ): (output: Result<MutationToApply, Types.Error>)
     ensures output.Success? ==> MutationToApply?(output.value)
   {
-    var OriginalJson :- JSON.Deserialize(Token.Original).MapFailure(
+    var commitment := commitmentAndIndex.Commitment;
+    var index := commitmentAndIndex.Index;
+    var OriginalJson :- JSON.Deserialize(commitment.Original).MapFailure(
                           (e: JSONErrors.DeserializationError)
                           => Types.KeyStoreAdminException(
-                              message := "Could not JSON Deserialize state: original properties. " + e.ToString()));
+                              message := "Could not JSON Deserialize: original properties. " + e.ToString()));
 
-    var TerminalJson :- JSON.Deserialize(Token.Terminal).MapFailure(
+    var TerminalJson :- JSON.Deserialize(commitment.Terminal).MapFailure(
                           (e: JSONErrors.DeserializationError)
                           => Types.KeyStoreAdminException(
-                              message := "Could not JSON Deserialize state: terminal properties. " + e.ToString()));
+                              message := "Could not JSON Deserialize: terminal properties. " + e.ToString()));
+    var InputJson :- JSON.Deserialize(commitment.Input).MapFailure(
+                       (e: JSONErrors.DeserializationError)
+                       => Types.KeyStoreAdminException(
+                           message := "Could not JSON Deserialize: Input. " + e.ToString()));
 
     :- MutablePropertiesJson?(OriginalJson);
     :- MutablePropertiesJson?(TerminalJson);
+    :- MutationsInputJson?(InputJson);
 
     Success(
       MutationToApply(
-        Identifier := Token.Identifier,
+        Identifier := commitment.Identifier,
         Original := MutableProperties(
           kmsArn := OriginalJson.obj[1].1.str,
           customEncryptionContext := JSONToEncryptionContextString(OriginalJson.obj[0].1)
@@ -207,9 +312,12 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
           kmsArn := TerminalJson.obj[1].1.str,
           customEncryptionContext := JSONToEncryptionContextString(TerminalJson.obj[0].1)
         ),
-        ExclusiveStartKey := Token.ExclusiveStartKey,
-        UUID := Token.UUID,
-        CreateTime := Token.CreateTime
+        UUID := commitment.UUID,
+        CreateTime := commitment.CreateTime,
+        ExclusiveStartKey := MutationIndexUtils.PageIndexToExclusiveStartKey(index.PageIndex),
+        CommitmentCiphertext := commitment.CiphertextBlob,
+        IndexCiphertext := index.CiphertextBlob,
+        Input := InputMutationsFromJson(InputJson)
       ))
   }
 
@@ -266,6 +374,75 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
            )
        );
 
+    Outcome.Pass
+  }
+
+  function MutationsInputJson?(
+    DeserializedMutations: JSONValues.JSON
+  ): (output: Outcome<Types.Error>)
+  {
+    :- NeedOutcome(
+         DeserializedMutations.Object? && |DeserializedMutations.obj| == 2,
+         () => Types.KeyStoreAdminException( message := ERROR_PRFX + "There MUST not be more than two objects.")
+       );
+    :- NeedOutcome(
+         DeserializedMutations.obj[0].0 == AWS_CRYPTO_EC,
+         () => Types.KeyStoreAdminException( message := ERROR_PRFX + "First Key MUST be Encryption Context.")
+       );
+    :- NeedOutcome(
+         DeserializedMutations.obj[1].0 == KMS_FIELD,
+         () => Types.KeyStoreAdminException( message := ERROR_PRFX + "Second Key MUST be KMS ARN.")
+       );
+    :- NeedOutcome(
+         DeserializedMutations.obj[0].1.Object? || DeserializedMutations.obj[0].1.Null?,
+         () => Types.KeyStoreAdminException(
+             message := ERROR_PRFX + "Value for `" + AWS_CRYPTO_EC + "` MUST be an object or Null.")
+       );
+    :- NeedOutcome(
+         DeserializedMutations.obj[1].1.String? || DeserializedMutations.obj[1].1.Null?,
+         () => Types.KeyStoreAdminException(
+             message := ERROR_PRFX + "Value for `" + KMS_FIELD + "` MUST be a string or Null.")
+       );
+
+    // For the input, I do not think we care if the KMS ARN is valid
+    // :- NeedOutcome(
+    //      KmsArn.ValidKmsArn?(DeserializedMutations.obj[1].1.str),
+    //      () => Types.KeyStoreAdminException( message := ERROR_PRFX + "KMS ARN that has been deserialized is invalid.")
+    //    );
+    NullableEncryptionContextJson?(DeserializedMutations.obj[0].1)
+  }
+
+  function NullableEncryptionContextJson?(
+    NullableEncryptionContext: JSONValues.JSON
+  ): (output: Outcome<Types.Error>)
+    requires NullableEncryptionContext.Object? || NullableEncryptionContext.Null?
+  {
+    if NullableEncryptionContext.Null?
+    then Outcome.Pass
+    else EncryptionContextJson?(NullableEncryptionContext)
+  }
+
+  function EncryptionContextJson?(
+    EncryptionContextJson: JSONValues.JSON
+  ): (output: Outcome<Types.Error>)
+    requires EncryptionContextJson.Object?
+  {
+    :- NeedOutcome(
+         forall p <- EncryptionContextJson.obj :: p.1.String?,
+         () => Types.KeyStoreAdminException( message := ERROR_PRFX + "Member of Encryption Context cannot be deserialized.")
+       );
+
+    var EncryptionContextKeys := set p <- EncryptionContextJson.obj :: p.0;
+    :- NeedOutcome(
+         |EncryptionContextKeys| == |EncryptionContextJson.obj|,
+         () => Types.KeyStoreAdminException(
+             message := ERROR_PRFX + "Size of Encryption Context keys is not equal to size of Encryption Context values. ")
+       );
+    :- NeedOutcome(
+         Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! EncryptionContextKeys,
+         () => Types.KeyStoreAdminException(
+             message := "Invalid Mutation Token: MUST NOT model Item specific fields!")
+       );
     Outcome.Pass
   }
 

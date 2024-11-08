@@ -18,7 +18,7 @@ import software.amazon.cryptography.keystore.internaldafny.types.Error_Collectio
 import software.amazon.cryptography.keystore.internaldafny.types.Error_KeyManagementException;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStorageException;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStoreException;
-import software.amazon.cryptography.keystore.internaldafny.types.Error_MutationLockConditionFailed;
+import software.amazon.cryptography.keystore.internaldafny.types.Error_MutationCommitmentConditionFailed;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_NoLongerExistsConditionFailed;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_OldEncConditionFailed;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_Opaque;
@@ -30,13 +30,13 @@ import software.amazon.cryptography.keystore.model.AlreadyExistsConditionFailed;
 import software.amazon.cryptography.keystore.model.AwsKms;
 import software.amazon.cryptography.keystore.model.BeaconKeyMaterials;
 import software.amazon.cryptography.keystore.model.BranchKeyMaterials;
-import software.amazon.cryptography.keystore.model.ClobberMutationLockInput;
-import software.amazon.cryptography.keystore.model.ClobberMutationLockOutput;
 import software.amazon.cryptography.keystore.model.CollectionOfErrors;
 import software.amazon.cryptography.keystore.model.CreateKeyInput;
 import software.amazon.cryptography.keystore.model.CreateKeyOutput;
 import software.amazon.cryptography.keystore.model.CreateKeyStoreInput;
 import software.amazon.cryptography.keystore.model.CreateKeyStoreOutput;
+import software.amazon.cryptography.keystore.model.DeleteMutationInput;
+import software.amazon.cryptography.keystore.model.DeleteMutationOutput;
 import software.amazon.cryptography.keystore.model.Discovery;
 import software.amazon.cryptography.keystore.model.DynamoDBTable;
 import software.amazon.cryptography.keystore.model.EncryptedHierarchicalKey;
@@ -57,8 +57,8 @@ import software.amazon.cryptography.keystore.model.GetItemsForInitializeMutation
 import software.amazon.cryptography.keystore.model.GetKeyStorageInfoInput;
 import software.amazon.cryptography.keystore.model.GetKeyStorageInfoOutput;
 import software.amazon.cryptography.keystore.model.GetKeyStoreInfoOutput;
-import software.amazon.cryptography.keystore.model.GetMutationLockInput;
-import software.amazon.cryptography.keystore.model.GetMutationLockOutput;
+import software.amazon.cryptography.keystore.model.GetMutationInput;
+import software.amazon.cryptography.keystore.model.GetMutationOutput;
 import software.amazon.cryptography.keystore.model.HierarchicalKeyType;
 import software.amazon.cryptography.keystore.model.HierarchicalSymmetric;
 import software.amazon.cryptography.keystore.model.KMSConfiguration;
@@ -68,21 +68,29 @@ import software.amazon.cryptography.keystore.model.KeyStorageException;
 import software.amazon.cryptography.keystore.model.KeyStoreConfig;
 import software.amazon.cryptography.keystore.model.KeyStoreException;
 import software.amazon.cryptography.keystore.model.MRDiscovery;
-import software.amazon.cryptography.keystore.model.MutationLock;
-import software.amazon.cryptography.keystore.model.MutationLockConditionFailed;
+import software.amazon.cryptography.keystore.model.MutationCommitment;
+import software.amazon.cryptography.keystore.model.MutationCommitmentConditionFailed;
+import software.amazon.cryptography.keystore.model.MutationIndex;
 import software.amazon.cryptography.keystore.model.NoLongerExistsConditionFailed;
 import software.amazon.cryptography.keystore.model.OldEncConditionFailed;
 import software.amazon.cryptography.keystore.model.OpaqueError;
+import software.amazon.cryptography.keystore.model.OverWriteEncryptedHierarchicalKey;
+import software.amazon.cryptography.keystore.model.OverWriteMutationIndex;
 import software.amazon.cryptography.keystore.model.QueryForVersionsInput;
 import software.amazon.cryptography.keystore.model.QueryForVersionsOutput;
 import software.amazon.cryptography.keystore.model.Storage;
 import software.amazon.cryptography.keystore.model.VersionKeyInput;
 import software.amazon.cryptography.keystore.model.VersionKeyOutput;
 import software.amazon.cryptography.keystore.model.VersionRaceException;
+import software.amazon.cryptography.keystore.model.WriteAtomicMutationInput;
+import software.amazon.cryptography.keystore.model.WriteAtomicMutationOutput;
 import software.amazon.cryptography.keystore.model.WriteInitializeMutationInput;
 import software.amazon.cryptography.keystore.model.WriteInitializeMutationOutput;
+import software.amazon.cryptography.keystore.model.WriteInitializeMutationVersion;
 import software.amazon.cryptography.keystore.model.WriteMutatedVersionsInput;
 import software.amazon.cryptography.keystore.model.WriteMutatedVersionsOutput;
+import software.amazon.cryptography.keystore.model.WriteMutationIndexInput;
+import software.amazon.cryptography.keystore.model.WriteMutationIndexOutput;
 import software.amazon.cryptography.keystore.model.WriteNewEncryptedBranchKeyInput;
 import software.amazon.cryptography.keystore.model.WriteNewEncryptedBranchKeyOutput;
 import software.amazon.cryptography.keystore.model.WriteNewEncryptedBranchKeyVersionInput;
@@ -160,11 +168,11 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
-  public static MutationLockConditionFailed Error(
-    Error_MutationLockConditionFailed dafnyValue
+  public static MutationCommitmentConditionFailed Error(
+    Error_MutationCommitmentConditionFailed dafnyValue
   ) {
-    MutationLockConditionFailed.Builder nativeBuilder =
-      MutationLockConditionFailed.builder();
+    MutationCommitmentConditionFailed.Builder nativeBuilder =
+      MutationCommitmentConditionFailed.builder();
     nativeBuilder.message(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
         dafnyValue.dtor_message()
@@ -224,8 +232,10 @@ public class ToNative {
     if (dafnyValue.is_KeyStoreException()) {
       return ToNative.Error((Error_KeyStoreException) dafnyValue);
     }
-    if (dafnyValue.is_MutationLockConditionFailed()) {
-      return ToNative.Error((Error_MutationLockConditionFailed) dafnyValue);
+    if (dafnyValue.is_MutationCommitmentConditionFailed()) {
+      return ToNative.Error(
+        (Error_MutationCommitmentConditionFailed) dafnyValue
+      );
     }
     if (dafnyValue.is_NoLongerExistsConditionFailed()) {
       return ToNative.Error((Error_NoLongerExistsConditionFailed) dafnyValue);
@@ -349,25 +359,6 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
-  public static ClobberMutationLockInput ClobberMutationLockInput(
-    software.amazon.cryptography.keystore.internaldafny.types.ClobberMutationLockInput dafnyValue
-  ) {
-    ClobberMutationLockInput.Builder nativeBuilder =
-      ClobberMutationLockInput.builder();
-    nativeBuilder.MutationLock(
-      ToNative.MutationLock(dafnyValue.dtor_MutationLock())
-    );
-    return nativeBuilder.build();
-  }
-
-  public static ClobberMutationLockOutput ClobberMutationLockOutput(
-    software.amazon.cryptography.keystore.internaldafny.types.ClobberMutationLockOutput dafnyValue
-  ) {
-    ClobberMutationLockOutput.Builder nativeBuilder =
-      ClobberMutationLockOutput.builder();
-    return nativeBuilder.build();
-  }
-
   public static CreateKeyInput CreateKeyInput(
     software.amazon.cryptography.keystore.internaldafny.types.CreateKeyInput dafnyValue
   ) {
@@ -417,6 +408,23 @@ public class ToNative {
         dafnyValue.dtor_tableArn()
       )
     );
+    return nativeBuilder.build();
+  }
+
+  public static DeleteMutationInput DeleteMutationInput(
+    software.amazon.cryptography.keystore.internaldafny.types.DeleteMutationInput dafnyValue
+  ) {
+    DeleteMutationInput.Builder nativeBuilder = DeleteMutationInput.builder();
+    nativeBuilder.MutationCommitment(
+      ToNative.MutationCommitment(dafnyValue.dtor_MutationCommitment())
+    );
+    return nativeBuilder.build();
+  }
+
+  public static DeleteMutationOutput DeleteMutationOutput(
+    software.amazon.cryptography.keystore.internaldafny.types.DeleteMutationOutput dafnyValue
+  ) {
+    DeleteMutationOutput.Builder nativeBuilder = DeleteMutationOutput.builder();
     return nativeBuilder.build();
   }
 
@@ -654,9 +662,16 @@ public class ToNative {
     nativeBuilder.BeaconItem(
       ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_BeaconItem())
     );
-    if (dafnyValue.dtor_MutationLock().is_Some()) {
-      nativeBuilder.MutationLock(
-        ToNative.MutationLock(dafnyValue.dtor_MutationLock().dtor_value())
+    if (dafnyValue.dtor_MutationCommitment().is_Some()) {
+      nativeBuilder.MutationCommitment(
+        ToNative.MutationCommitment(
+          dafnyValue.dtor_MutationCommitment().dtor_value()
+        )
+      );
+    }
+    if (dafnyValue.dtor_MutationIndex().is_Some()) {
+      nativeBuilder.MutationIndex(
+        ToNative.MutationIndex(dafnyValue.dtor_MutationIndex().dtor_value())
       );
     }
     return nativeBuilder.build();
@@ -717,10 +732,10 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
-  public static GetMutationLockInput GetMutationLockInput(
-    software.amazon.cryptography.keystore.internaldafny.types.GetMutationLockInput dafnyValue
+  public static GetMutationInput GetMutationInput(
+    software.amazon.cryptography.keystore.internaldafny.types.GetMutationInput dafnyValue
   ) {
-    GetMutationLockInput.Builder nativeBuilder = GetMutationLockInput.builder();
+    GetMutationInput.Builder nativeBuilder = GetMutationInput.builder();
     nativeBuilder.Identifier(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
         dafnyValue.dtor_Identifier()
@@ -729,14 +744,20 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
-  public static GetMutationLockOutput GetMutationLockOutput(
-    software.amazon.cryptography.keystore.internaldafny.types.GetMutationLockOutput dafnyValue
+  public static GetMutationOutput GetMutationOutput(
+    software.amazon.cryptography.keystore.internaldafny.types.GetMutationOutput dafnyValue
   ) {
-    GetMutationLockOutput.Builder nativeBuilder =
-      GetMutationLockOutput.builder();
-    if (dafnyValue.dtor_MutationLock().is_Some()) {
-      nativeBuilder.MutationLock(
-        ToNative.MutationLock(dafnyValue.dtor_MutationLock().dtor_value())
+    GetMutationOutput.Builder nativeBuilder = GetMutationOutput.builder();
+    if (dafnyValue.dtor_MutationCommitment().is_Some()) {
+      nativeBuilder.MutationCommitment(
+        ToNative.MutationCommitment(
+          dafnyValue.dtor_MutationCommitment().dtor_value()
+        )
+      );
+    }
+    if (dafnyValue.dtor_MutationIndex().is_Some()) {
+      nativeBuilder.MutationIndex(
+        ToNative.MutationIndex(dafnyValue.dtor_MutationIndex().dtor_value())
       );
     }
     return nativeBuilder.build();
@@ -825,10 +846,10 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
-  public static MutationLock MutationLock(
-    software.amazon.cryptography.keystore.internaldafny.types.MutationLock dafnyValue
+  public static MutationCommitment MutationCommitment(
+    software.amazon.cryptography.keystore.internaldafny.types.MutationCommitment dafnyValue
   ) {
-    MutationLock.Builder nativeBuilder = MutationLock.builder();
+    MutationCommitment.Builder nativeBuilder = MutationCommitment.builder();
     nativeBuilder.Identifier(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
         dafnyValue.dtor_Identifier()
@@ -854,6 +875,70 @@ public class ToNative {
         dafnyValue.dtor_Terminal()
       )
     );
+    nativeBuilder.Input(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
+        dafnyValue.dtor_Input()
+      )
+    );
+    nativeBuilder.CiphertextBlob(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
+        dafnyValue.dtor_CiphertextBlob()
+      )
+    );
+    return nativeBuilder.build();
+  }
+
+  public static MutationIndex MutationIndex(
+    software.amazon.cryptography.keystore.internaldafny.types.MutationIndex dafnyValue
+  ) {
+    MutationIndex.Builder nativeBuilder = MutationIndex.builder();
+    nativeBuilder.Identifier(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_Identifier()
+      )
+    );
+    nativeBuilder.CreateTime(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_CreateTime()
+      )
+    );
+    nativeBuilder.UUID(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_UUID()
+      )
+    );
+    nativeBuilder.PageIndex(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
+        dafnyValue.dtor_PageIndex()
+      )
+    );
+    nativeBuilder.CiphertextBlob(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
+        dafnyValue.dtor_CiphertextBlob()
+      )
+    );
+    return nativeBuilder.build();
+  }
+
+  public static OverWriteEncryptedHierarchicalKey OverWriteEncryptedHierarchicalKey(
+    software.amazon.cryptography.keystore.internaldafny.types.OverWriteEncryptedHierarchicalKey dafnyValue
+  ) {
+    OverWriteEncryptedHierarchicalKey.Builder nativeBuilder =
+      OverWriteEncryptedHierarchicalKey.builder();
+    nativeBuilder.Item(
+      ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_Item())
+    );
+    nativeBuilder.Old(ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_Old()));
+    return nativeBuilder.build();
+  }
+
+  public static OverWriteMutationIndex OverWriteMutationIndex(
+    software.amazon.cryptography.keystore.internaldafny.types.OverWriteMutationIndex dafnyValue
+  ) {
+    OverWriteMutationIndex.Builder nativeBuilder =
+      OverWriteMutationIndex.builder();
+    nativeBuilder.Index(ToNative.MutationIndex(dafnyValue.dtor_Index()));
+    nativeBuilder.Old(ToNative.MutationIndex(dafnyValue.dtor_Old()));
     return nativeBuilder.build();
   }
 
@@ -913,25 +998,53 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static WriteAtomicMutationInput WriteAtomicMutationInput(
+    software.amazon.cryptography.keystore.internaldafny.types.WriteAtomicMutationInput dafnyValue
+  ) {
+    WriteAtomicMutationInput.Builder nativeBuilder =
+      WriteAtomicMutationInput.builder();
+    nativeBuilder.Active(
+      ToNative.OverWriteEncryptedHierarchicalKey(dafnyValue.dtor_Active())
+    );
+    nativeBuilder.Version(
+      ToNative.WriteInitializeMutationVersion(dafnyValue.dtor_Version())
+    );
+    nativeBuilder.Beacon(
+      ToNative.OverWriteEncryptedHierarchicalKey(dafnyValue.dtor_Beacon())
+    );
+    nativeBuilder.Items(
+      ToNative.OverWriteEncryptedHierarchicalKeys(dafnyValue.dtor_Items())
+    );
+    return nativeBuilder.build();
+  }
+
+  public static WriteAtomicMutationOutput WriteAtomicMutationOutput(
+    software.amazon.cryptography.keystore.internaldafny.types.WriteAtomicMutationOutput dafnyValue
+  ) {
+    WriteAtomicMutationOutput.Builder nativeBuilder =
+      WriteAtomicMutationOutput.builder();
+    return nativeBuilder.build();
+  }
+
   public static WriteInitializeMutationInput WriteInitializeMutationInput(
     software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationInput dafnyValue
   ) {
     WriteInitializeMutationInput.Builder nativeBuilder =
       WriteInitializeMutationInput.builder();
     nativeBuilder.Active(
-      ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_Active())
-    );
-    nativeBuilder.OldActive(
-      ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_OldActive())
+      ToNative.OverWriteEncryptedHierarchicalKey(dafnyValue.dtor_Active())
     );
     nativeBuilder.Version(
-      ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_Version())
+      ToNative.WriteInitializeMutationVersion(dafnyValue.dtor_Version())
     );
     nativeBuilder.Beacon(
-      ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_Beacon())
+      ToNative.OverWriteEncryptedHierarchicalKey(dafnyValue.dtor_Beacon())
     );
-    nativeBuilder.MutationLock(
-      ToNative.MutationLock(dafnyValue.dtor_MutationLock())
+    nativeBuilder.MutationCommitment(
+      ToNative.MutationCommitment(dafnyValue.dtor_MutationCommitment())
+    );
+    nativeBuilder.MutationIndex(
+      ToNative.MutationIndex(dafnyValue.dtor_MutationIndex())
     );
     return nativeBuilder.build();
   }
@@ -950,24 +1063,15 @@ public class ToNative {
     WriteMutatedVersionsInput.Builder nativeBuilder =
       WriteMutatedVersionsInput.builder();
     nativeBuilder.Items(
-      ToNative.EncryptedHierarchicalKeys(dafnyValue.dtor_Items())
+      ToNative.OverWriteEncryptedHierarchicalKeys(dafnyValue.dtor_Items())
     );
-    nativeBuilder.Identifier(
-      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
-        dafnyValue.dtor_Identifier()
-      )
+    nativeBuilder.MutationCommitment(
+      ToNative.MutationCommitment(dafnyValue.dtor_MutationCommitment())
     );
-    nativeBuilder.Original(
-      software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
-        dafnyValue.dtor_Original()
-      )
+    nativeBuilder.MutationIndex(
+      ToNative.OverWriteMutationIndex(dafnyValue.dtor_MutationIndex())
     );
-    nativeBuilder.Terminal(
-      software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
-        dafnyValue.dtor_Terminal()
-      )
-    );
-    nativeBuilder.CompleteMutation((dafnyValue.dtor_CompleteMutation()));
+    nativeBuilder.EndMutation((dafnyValue.dtor_EndMutation()));
     return nativeBuilder.build();
   }
 
@@ -976,6 +1080,28 @@ public class ToNative {
   ) {
     WriteMutatedVersionsOutput.Builder nativeBuilder =
       WriteMutatedVersionsOutput.builder();
+    return nativeBuilder.build();
+  }
+
+  public static WriteMutationIndexInput WriteMutationIndexInput(
+    software.amazon.cryptography.keystore.internaldafny.types.WriteMutationIndexInput dafnyValue
+  ) {
+    WriteMutationIndexInput.Builder nativeBuilder =
+      WriteMutationIndexInput.builder();
+    nativeBuilder.MutationCommitment(
+      ToNative.MutationCommitment(dafnyValue.dtor_MutationCommitment())
+    );
+    nativeBuilder.MutationIndex(
+      ToNative.MutationIndex(dafnyValue.dtor_MutationIndex())
+    );
+    return nativeBuilder.build();
+  }
+
+  public static WriteMutationIndexOutput WriteMutationIndexOutput(
+    software.amazon.cryptography.keystore.internaldafny.types.WriteMutationIndexOutput dafnyValue
+  ) {
+    WriteMutationIndexOutput.Builder nativeBuilder =
+      WriteMutationIndexOutput.builder();
     return nativeBuilder.build();
   }
 
@@ -1010,13 +1136,10 @@ public class ToNative {
     WriteNewEncryptedBranchKeyVersionInput.Builder nativeBuilder =
       WriteNewEncryptedBranchKeyVersionInput.builder();
     nativeBuilder.Active(
-      ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_Active())
+      ToNative.OverWriteEncryptedHierarchicalKey(dafnyValue.dtor_Active())
     );
     nativeBuilder.Version(
       ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_Version())
-    );
-    nativeBuilder.OldActive(
-      ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_OldActive())
     );
     return nativeBuilder.build();
   }
@@ -1111,6 +1234,24 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static WriteInitializeMutationVersion WriteInitializeMutationVersion(
+    software.amazon.cryptography.keystore.internaldafny.types.WriteInitializeMutationVersion dafnyValue
+  ) {
+    WriteInitializeMutationVersion.Builder nativeBuilder =
+      WriteInitializeMutationVersion.builder();
+    if (dafnyValue.is_rotate()) {
+      nativeBuilder.rotate(
+        ToNative.EncryptedHierarchicalKey(dafnyValue.dtor_rotate())
+      );
+    }
+    if (dafnyValue.is_mutate()) {
+      nativeBuilder.mutate(
+        ToNative.OverWriteEncryptedHierarchicalKey(dafnyValue.dtor_mutate())
+      );
+    }
+    return nativeBuilder.build();
+  }
+
   public static List<EncryptedHierarchicalKey> EncryptedHierarchicalKeys(
     DafnySequence<
       ? extends software.amazon.cryptography.keystore.internaldafny.types.EncryptedHierarchicalKey
@@ -1128,6 +1269,19 @@ public class ToNative {
     return software.amazon.smithy.dafny.conversion.ToNative.Aggregate.GenericToList(
       dafnyValue,
       software.amazon.smithy.dafny.conversion.ToNative.Simple::String
+    );
+  }
+
+  public static List<
+    OverWriteEncryptedHierarchicalKey
+  > OverWriteEncryptedHierarchicalKeys(
+    DafnySequence<
+      ? extends software.amazon.cryptography.keystore.internaldafny.types.OverWriteEncryptedHierarchicalKey
+    > dafnyValue
+  ) {
+    return software.amazon.smithy.dafny.conversion.ToNative.Aggregate.GenericToList(
+      dafnyValue,
+      software.amazon.cryptography.keystore.ToNative::OverWriteEncryptedHierarchicalKey
     );
   }
 

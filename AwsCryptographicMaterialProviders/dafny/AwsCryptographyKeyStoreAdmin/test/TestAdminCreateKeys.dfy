@@ -34,7 +34,7 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
     var input := Types.CreateKeyInput(
       Identifier := None,
       EncryptionContext := None,
-      KmsArn := Types.KMSIdentifier.KmsKeyArn(keyArn),
+      KmsArn := Types.KmsAesIdentifier.KmsKeyArn(keyArn),
       Strategy := Some(strategy)
     );
     var identifier? :- expect underTest.CreateKey(input);
