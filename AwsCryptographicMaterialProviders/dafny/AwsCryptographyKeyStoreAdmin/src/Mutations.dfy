@@ -789,7 +789,13 @@ module {:options "/functionSyntax:4" } Mutations {
       grantTokens := keyManagerStrategy.reEncrypt.grantTokens,
       kmsClient := keyManagerStrategy.reEncrypt.kmsClient
     );
-
+    if (wrappedKey?.Failure? && !item.Type.ActiveHierarchicalSymmetricVersion?) {
+      var error := MutationErrorRefinement.MutateExceptionParse(
+        item,
+        wrappedKey?.error,
+        terminalKmsArn);
+      return Failure(error);
+    }
     var wrappedKey :- wrappedKey?
     .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
 
