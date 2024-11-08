@@ -5,6 +5,8 @@
 import _dafny
 from _dafny import Map, Seq
 from aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes import (
+    ApproximateCreationDateTimePrecision_MICROSECOND,
+    ApproximateCreationDateTimePrecision_MILLISECOND,
     ArchivalSummary_ArchivalSummary as DafnyArchivalSummary,
     AttributeAction_ADD,
     AttributeAction_DELETE,
@@ -112,6 +114,8 @@ from aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDyna
     DeleteReplicaAction_DeleteReplicaAction as DafnyDeleteReplicaAction,
     DeleteReplicationGroupMemberAction_DeleteReplicationGroupMemberAction as DafnyDeleteReplicationGroupMemberAction,
     DeleteRequest_DeleteRequest as DafnyDeleteRequest,
+    DeleteResourcePolicyInput_DeleteResourcePolicyInput as DafnyDeleteResourcePolicyInput,
+    DeleteResourcePolicyOutput_DeleteResourcePolicyOutput as DafnyDeleteResourcePolicyOutput,
     DeleteTableInput_DeleteTableInput as DafnyDeleteTableInput,
     DeleteTableOutput_DeleteTableOutput as DafnyDeleteTableOutput,
     Delete_Delete as DafnyDelete,
@@ -146,8 +150,10 @@ from aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDyna
     DestinationStatus_DISABLING,
     DestinationStatus_ENABLE__FAILED,
     DestinationStatus_ENABLING,
+    DestinationStatus_UPDATING,
     DisableKinesisStreamingDestinationInput_DisableKinesisStreamingDestinationInput as DafnyDisableKinesisStreamingDestinationInput,
     DisableKinesisStreamingDestinationOutput_DisableKinesisStreamingDestinationOutput as DafnyDisableKinesisStreamingDestinationOutput,
+    EnableKinesisStreamingConfiguration_EnableKinesisStreamingConfiguration as DafnyEnableKinesisStreamingConfiguration,
     EnableKinesisStreamingDestinationInput_EnableKinesisStreamingDestinationInput as DafnyEnableKinesisStreamingDestinationInput,
     EnableKinesisStreamingDestinationOutput_EnableKinesisStreamingDestinationOutput as DafnyEnableKinesisStreamingDestinationOutput,
     Endpoint_Endpoint as DafnyEndpoint,
@@ -171,6 +177,7 @@ from aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDyna
     Error_ItemCollectionSizeLimitExceededException,
     Error_LimitExceededException,
     Error_PointInTimeRecoveryUnavailableException,
+    Error_PolicyNotFoundException,
     Error_ProvisionedThroughputExceededException,
     Error_ReplicaAlreadyExistsException,
     Error_ReplicaNotFoundException,
@@ -197,9 +204,15 @@ from aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDyna
     ExportSummary_ExportSummary as DafnyExportSummary,
     ExportTableToPointInTimeInput_ExportTableToPointInTimeInput as DafnyExportTableToPointInTimeInput,
     ExportTableToPointInTimeOutput_ExportTableToPointInTimeOutput as DafnyExportTableToPointInTimeOutput,
+    ExportType_FULL__EXPORT,
+    ExportType_INCREMENTAL__EXPORT,
+    ExportViewType_NEW__AND__OLD__IMAGES,
+    ExportViewType_NEW__IMAGE,
     FailureException_FailureException as DafnyFailureException,
     GetItemInput_GetItemInput as DafnyGetItemInput,
     GetItemOutput_GetItemOutput as DafnyGetItemOutput,
+    GetResourcePolicyInput_GetResourcePolicyInput as DafnyGetResourcePolicyInput,
+    GetResourcePolicyOutput_GetResourcePolicyOutput as DafnyGetResourcePolicyOutput,
     Get_Get as DafnyGet,
     GlobalSecondaryIndexAutoScalingUpdate_GlobalSecondaryIndexAutoScalingUpdate as DafnyGlobalSecondaryIndexAutoScalingUpdate,
     GlobalSecondaryIndexDescription_GlobalSecondaryIndexDescription as DafnyGlobalSecondaryIndexDescription,
@@ -222,6 +235,7 @@ from aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDyna
     ImportTableDescription_ImportTableDescription as DafnyImportTableDescription,
     ImportTableInput_ImportTableInput as DafnyImportTableInput,
     ImportTableOutput_ImportTableOutput as DafnyImportTableOutput,
+    IncrementalExportSpecification_IncrementalExportSpecification as DafnyIncrementalExportSpecification,
     IndexStatus_ACTIVE,
     IndexStatus_CREATING,
     IndexStatus_DELETING,
@@ -257,6 +271,8 @@ from aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDyna
     LocalSecondaryIndexDescription_LocalSecondaryIndexDescription as DafnyLocalSecondaryIndexDescription,
     LocalSecondaryIndexInfo_LocalSecondaryIndexInfo as DafnyLocalSecondaryIndexInfo,
     LocalSecondaryIndex_LocalSecondaryIndex as DafnyLocalSecondaryIndex,
+    OnDemandThroughputOverride_OnDemandThroughputOverride as DafnyOnDemandThroughputOverride,
+    OnDemandThroughput_OnDemandThroughput as DafnyOnDemandThroughput,
     ParameterizedStatement_ParameterizedStatement as DafnyParameterizedStatement,
     PointInTimeRecoveryDescription_PointInTimeRecoveryDescription as DafnyPointInTimeRecoveryDescription,
     PointInTimeRecoverySpecification_PointInTimeRecoverySpecification as DafnyPointInTimeRecoverySpecification,
@@ -272,6 +288,8 @@ from aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDyna
     PutItemInput_PutItemInput as DafnyPutItemInput,
     PutItemOutput_PutItemOutput as DafnyPutItemOutput,
     PutRequest_PutRequest as DafnyPutRequest,
+    PutResourcePolicyInput_PutResourcePolicyInput as DafnyPutResourcePolicyInput,
+    PutResourcePolicyOutput_PutResourcePolicyOutput as DafnyPutResourcePolicyOutput,
     Put_Put as DafnyPut,
     QueryInput_QueryInput as DafnyQueryInput,
     QueryOutput_QueryOutput as DafnyQueryOutput,
@@ -380,6 +398,9 @@ from aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDyna
     UpdateGlobalTableSettingsOutput_UpdateGlobalTableSettingsOutput as DafnyUpdateGlobalTableSettingsOutput,
     UpdateItemInput_UpdateItemInput as DafnyUpdateItemInput,
     UpdateItemOutput_UpdateItemOutput as DafnyUpdateItemOutput,
+    UpdateKinesisStreamingConfiguration_UpdateKinesisStreamingConfiguration as DafnyUpdateKinesisStreamingConfiguration,
+    UpdateKinesisStreamingDestinationInput_UpdateKinesisStreamingDestinationInput as DafnyUpdateKinesisStreamingDestinationInput,
+    UpdateKinesisStreamingDestinationOutput_UpdateKinesisStreamingDestinationOutput as DafnyUpdateKinesisStreamingDestinationOutput,
     UpdateReplicationGroupMemberAction_UpdateReplicationGroupMemberAction as DafnyUpdateReplicationGroupMemberAction,
     UpdateTableInput_UpdateTableInput as DafnyUpdateTableInput,
     UpdateTableOutput_UpdateTableOutput as DafnyUpdateTableOutput,
@@ -443,7 +464,132 @@ def com_amazonaws_dynamodb_ConditionalCheckFailedException(native_input):
                 ]
             )
         ),
+        Item=Map(
+            {
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(*[iter(key.encode("utf-16-be"))] * 2)
+                        ]
+                    )
+                ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                    value
+                )
+                for (key, value) in native_input["Error"]["Item"].items()
+            }
+        ),
     )
+
+
+def com_amazonaws_dynamodb_AttributeValue(native_input):
+    if "S" in native_input.keys():
+        AttributeValue_union_value = AttributeValue_S(
+            Seq(
+                "".join(
+                    [
+                        chr(int.from_bytes(pair, "big"))
+                        for pair in zip(
+                            *[iter(native_input["S"].encode("utf-16-be"))] * 2
+                        )
+                    ]
+                )
+            )
+        )
+    elif "N" in native_input.keys():
+        AttributeValue_union_value = AttributeValue_N(
+            Seq(
+                "".join(
+                    [
+                        chr(int.from_bytes(pair, "big"))
+                        for pair in zip(
+                            *[iter(native_input["N"].encode("utf-16-be"))] * 2
+                        )
+                    ]
+                )
+            )
+        )
+    elif "B" in native_input.keys():
+        AttributeValue_union_value = AttributeValue_B(Seq(native_input["B"]))
+    elif "SS" in native_input.keys():
+        AttributeValue_union_value = AttributeValue_SS(
+            Seq(
+                [
+                    Seq(
+                        "".join(
+                            [
+                                chr(int.from_bytes(pair, "big"))
+                                for pair in zip(
+                                    *[iter(list_element.encode("utf-16-be"))] * 2
+                                )
+                            ]
+                        )
+                    )
+                    for list_element in native_input["SS"]
+                ]
+            )
+        )
+    elif "NS" in native_input.keys():
+        AttributeValue_union_value = AttributeValue_NS(
+            Seq(
+                [
+                    Seq(
+                        "".join(
+                            [
+                                chr(int.from_bytes(pair, "big"))
+                                for pair in zip(
+                                    *[iter(list_element.encode("utf-16-be"))] * 2
+                                )
+                            ]
+                        )
+                    )
+                    for list_element in native_input["NS"]
+                ]
+            )
+        )
+    elif "BS" in native_input.keys():
+        AttributeValue_union_value = AttributeValue_BS(
+            Seq([Seq(list_element) for list_element in native_input["BS"]])
+        )
+    elif "M" in native_input.keys():
+        AttributeValue_union_value = AttributeValue_M(
+            Map(
+                {
+                    Seq(
+                        "".join(
+                            [
+                                chr(int.from_bytes(pair, "big"))
+                                for pair in zip(*[iter(key.encode("utf-16-be"))] * 2)
+                            ]
+                        )
+                    ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        value
+                    )
+                    for (key, value) in native_input["M"].items()
+                }
+            )
+        )
+    elif "L" in native_input.keys():
+        AttributeValue_union_value = AttributeValue_L(
+            Seq(
+                [
+                    aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                        list_element
+                    )
+                    for list_element in native_input["L"]
+                ]
+            )
+        )
+    elif "NULL" in native_input.keys():
+        AttributeValue_union_value = AttributeValue_NULL(native_input["NULL"])
+    elif "BOOL" in native_input.keys():
+        AttributeValue_union_value = AttributeValue_BOOL(native_input["BOOL"])
+    else:
+        raise ValueError(
+            "No recognized union value in union type: " + str(native_input)
+        )
+
+    return AttributeValue_union_value
 
 
 def com_amazonaws_dynamodb_ContinuousBackupsUnavailableException(native_input):
@@ -718,6 +864,22 @@ def com_amazonaws_dynamodb_PointInTimeRecoveryUnavailableException(native_input)
     )
 
 
+def com_amazonaws_dynamodb_PolicyNotFoundException(native_input):
+    return Error_PolicyNotFoundException(
+        message=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Error"]["Message"].encode("utf-16-be"))]
+                        * 2
+                    )
+                ]
+            )
+        ),
+    )
+
+
 def com_amazonaws_dynamodb_ProvisionedThroughputExceededException(native_input):
     return Error_ProvisionedThroughputExceededException(
         message=Seq(
@@ -944,116 +1106,6 @@ def com_amazonaws_dynamodb_CancellationReason(native_input):
             else Option_None()
         ),
     )
-
-
-def com_amazonaws_dynamodb_AttributeValue(native_input):
-    if "S" in native_input.keys():
-        AttributeValue_union_value = AttributeValue_S(
-            Seq(
-                "".join(
-                    [
-                        chr(int.from_bytes(pair, "big"))
-                        for pair in zip(
-                            *[iter(native_input["S"].encode("utf-16-be"))] * 2
-                        )
-                    ]
-                )
-            )
-        )
-    elif "N" in native_input.keys():
-        AttributeValue_union_value = AttributeValue_N(
-            Seq(
-                "".join(
-                    [
-                        chr(int.from_bytes(pair, "big"))
-                        for pair in zip(
-                            *[iter(native_input["N"].encode("utf-16-be"))] * 2
-                        )
-                    ]
-                )
-            )
-        )
-    elif "B" in native_input.keys():
-        AttributeValue_union_value = AttributeValue_B(Seq(native_input["B"]))
-    elif "SS" in native_input.keys():
-        AttributeValue_union_value = AttributeValue_SS(
-            Seq(
-                [
-                    Seq(
-                        "".join(
-                            [
-                                chr(int.from_bytes(pair, "big"))
-                                for pair in zip(
-                                    *[iter(list_element.encode("utf-16-be"))] * 2
-                                )
-                            ]
-                        )
-                    )
-                    for list_element in native_input["SS"]
-                ]
-            )
-        )
-    elif "NS" in native_input.keys():
-        AttributeValue_union_value = AttributeValue_NS(
-            Seq(
-                [
-                    Seq(
-                        "".join(
-                            [
-                                chr(int.from_bytes(pair, "big"))
-                                for pair in zip(
-                                    *[iter(list_element.encode("utf-16-be"))] * 2
-                                )
-                            ]
-                        )
-                    )
-                    for list_element in native_input["NS"]
-                ]
-            )
-        )
-    elif "BS" in native_input.keys():
-        AttributeValue_union_value = AttributeValue_BS(
-            Seq([Seq(list_element) for list_element in native_input["BS"]])
-        )
-    elif "M" in native_input.keys():
-        AttributeValue_union_value = AttributeValue_M(
-            Map(
-                {
-                    Seq(
-                        "".join(
-                            [
-                                chr(int.from_bytes(pair, "big"))
-                                for pair in zip(*[iter(key.encode("utf-16-be"))] * 2)
-                            ]
-                        )
-                    ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
-                        value
-                    )
-                    for (key, value) in native_input["M"].items()
-                }
-            )
-        )
-    elif "L" in native_input.keys():
-        AttributeValue_union_value = AttributeValue_L(
-            Seq(
-                [
-                    aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
-                        list_element
-                    )
-                    for list_element in native_input["L"]
-                ]
-            )
-        )
-    elif "NULL" in native_input.keys():
-        AttributeValue_union_value = AttributeValue_NULL(native_input["NULL"])
-    elif "BOOL" in native_input.keys():
-        AttributeValue_union_value = AttributeValue_BOOL(native_input["BOOL"])
-    else:
-        raise ValueError(
-            "No recognized union value in union type: " + str(native_input)
-        )
-
-    return AttributeValue_union_value
 
 
 def com_amazonaws_dynamodb_TransactionConflictException(native_input):
@@ -2223,6 +2275,15 @@ def com_amazonaws_dynamodb_ReplicaDescription(native_input):
             if "ProvisionedThroughputOverride" in native_input.keys()
             else Option_None()
         ),
+        OnDemandThroughputOverride=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_OnDemandThroughputOverride(
+                    native_input["OnDemandThroughputOverride"]
+                )
+            )
+            if "OnDemandThroughputOverride" in native_input.keys()
+            else Option_None()
+        ),
         GlobalSecondaryIndexes=(
             Option_Some(
                 Seq(
@@ -2300,6 +2361,16 @@ def com_amazonaws_dynamodb_ProvisionedThroughputOverride(native_input):
     )
 
 
+def com_amazonaws_dynamodb_OnDemandThroughputOverride(native_input):
+    return DafnyOnDemandThroughputOverride(
+        MaxReadRequestUnits=(
+            Option_Some(native_input["MaxReadRequestUnits"])
+            if "MaxReadRequestUnits" in native_input.keys()
+            else Option_None()
+        ),
+    )
+
+
 def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription(native_input):
     return DafnyReplicaGlobalSecondaryIndexDescription(
         IndexName=(
@@ -2326,6 +2397,15 @@ def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription(native_input):
                 )
             )
             if "ProvisionedThroughputOverride" in native_input.keys()
+            else Option_None()
+        ),
+        OnDemandThroughputOverride=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_OnDemandThroughputOverride(
+                    native_input["OnDemandThroughputOverride"]
+                )
+            )
+            if "OnDemandThroughputOverride" in native_input.keys()
             else Option_None()
         ),
     )
@@ -2473,6 +2553,43 @@ def com_amazonaws_dynamodb_CreateTableInput(native_input):
                 )
             )
             if "TableClass" in native_input.keys()
+            else Option_None()
+        ),
+        DeletionProtectionEnabled=(
+            Option_Some(native_input["DeletionProtectionEnabled"])
+            if "DeletionProtectionEnabled" in native_input.keys()
+            else Option_None()
+        ),
+        ResourcePolicy=(
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["ResourcePolicy"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
+            if "ResourcePolicy" in native_input.keys()
+            else Option_None()
+        ),
+        OnDemandThroughput=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_OnDemandThroughput(
+                    native_input["OnDemandThroughput"]
+                )
+            )
+            if "OnDemandThroughput" in native_input.keys()
             else Option_None()
         ),
     )
@@ -2641,6 +2758,15 @@ def com_amazonaws_dynamodb_GlobalSecondaryIndex(native_input):
             if "ProvisionedThroughput" in native_input.keys()
             else Option_None()
         ),
+        OnDemandThroughput=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_OnDemandThroughput(
+                    native_input["OnDemandThroughput"]
+                )
+            )
+            if "OnDemandThroughput" in native_input.keys()
+            else Option_None()
+        ),
     )
 
 
@@ -2648,6 +2774,21 @@ def com_amazonaws_dynamodb_ProvisionedThroughput(native_input):
     return DafnyProvisionedThroughput(
         ReadCapacityUnits=native_input["ReadCapacityUnits"],
         WriteCapacityUnits=native_input["WriteCapacityUnits"],
+    )
+
+
+def com_amazonaws_dynamodb_OnDemandThroughput(native_input):
+    return DafnyOnDemandThroughput(
+        MaxReadRequestUnits=(
+            Option_Some(native_input["MaxReadRequestUnits"])
+            if "MaxReadRequestUnits" in native_input.keys()
+            else Option_None()
+        ),
+        MaxWriteRequestUnits=(
+            Option_Some(native_input["MaxWriteRequestUnits"])
+            if "MaxWriteRequestUnits" in native_input.keys()
+            else Option_None()
+        ),
     )
 
 
@@ -3059,6 +3200,20 @@ def com_amazonaws_dynamodb_TableDescription(native_input):
             if "TableClassSummary" in native_input.keys()
             else Option_None()
         ),
+        DeletionProtectionEnabled=(
+            Option_Some(native_input["DeletionProtectionEnabled"])
+            if "DeletionProtectionEnabled" in native_input.keys()
+            else Option_None()
+        ),
+        OnDemandThroughput=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_OnDemandThroughput(
+                    native_input["OnDemandThroughput"]
+                )
+            )
+            if "OnDemandThroughput" in native_input.keys()
+            else Option_None()
+        ),
     )
 
 
@@ -3297,6 +3452,15 @@ def com_amazonaws_dynamodb_GlobalSecondaryIndexDescription(native_input):
                 )
             )
             if "IndexArn" in native_input.keys()
+            else Option_None()
+        ),
+        OnDemandThroughput=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_OnDemandThroughput(
+                    native_input["OnDemandThroughput"]
+                )
+            )
+            if "OnDemandThroughput" in native_input.keys()
             else Option_None()
         ),
     )
@@ -3613,6 +3777,15 @@ def com_amazonaws_dynamodb_SourceTableDetails(native_input):
         ProvisionedThroughput=aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
             native_input["ProvisionedThroughput"]
         ),
+        OnDemandThroughput=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_OnDemandThroughput(
+                    native_input["OnDemandThroughput"]
+                )
+            )
+            if "OnDemandThroughput" in native_input.keys()
+            else Option_None()
+        ),
         ItemCount=(
             Option_Some(native_input["ItemCount"])
             if "ItemCount" in native_input.keys()
@@ -3784,6 +3957,15 @@ def com_amazonaws_dynamodb_GlobalSecondaryIndexInfo(native_input):
                 )
             )
             if "ProvisionedThroughput" in native_input.keys()
+            else Option_None()
+        ),
+        OnDemandThroughput=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_OnDemandThroughput(
+                    native_input["OnDemandThroughput"]
+                )
+            )
+            if "OnDemandThroughput" in native_input.keys()
             else Option_None()
         ),
     )
@@ -4150,6 +4332,66 @@ def com_amazonaws_dynamodb_DeleteItemOutput(native_input):
                 )
             )
             if "ItemCollectionMetrics" in native_input.keys()
+            else Option_None()
+        ),
+    )
+
+
+def com_amazonaws_dynamodb_DeleteResourcePolicyInput(native_input):
+    return DafnyDeleteResourcePolicyInput(
+        ResourceArn=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["ResourceArn"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        ExpectedRevisionId=(
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["ExpectedRevisionId"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
+            if "ExpectedRevisionId" in native_input.keys()
+            else Option_None()
+        ),
+    )
+
+
+def com_amazonaws_dynamodb_DeleteResourcePolicyOutput(native_input):
+    return DafnyDeleteResourcePolicyOutput(
+        RevisionId=(
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["RevisionId"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
+            if "RevisionId" in native_input.keys()
             else Option_None()
         ),
     )
@@ -4815,6 +5057,24 @@ def com_amazonaws_dynamodb_ExportDescription(native_input):
             if "ItemCount" in native_input.keys()
             else Option_None()
         ),
+        ExportType=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportType(
+                    native_input["ExportType"]
+                )
+            )
+            if "ExportType" in native_input.keys()
+            else Option_None()
+        ),
+        IncrementalExportSpecification=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_IncrementalExportSpecification(
+                    native_input["IncrementalExportSpecification"]
+                )
+            )
+            if "IncrementalExportSpecification" in native_input.keys()
+            else Option_None()
+        ),
     )
 
 
@@ -4846,6 +5106,50 @@ def com_amazonaws_dynamodb_ExportFormat(native_input):
         return ExportFormat_DYNAMODB__JSON()
     elif native_input == "ION":
         return ExportFormat_ION()
+    else:
+        raise ValueError("No recognized enum value in enum type: " + native_input)
+
+
+def com_amazonaws_dynamodb_ExportType(native_input):
+    # Convert ExportType
+    if native_input == "FULL_EXPORT":
+        return ExportType_FULL__EXPORT()
+    elif native_input == "INCREMENTAL_EXPORT":
+        return ExportType_INCREMENTAL__EXPORT()
+    else:
+        raise ValueError("No recognized enum value in enum type: " + native_input)
+
+
+def com_amazonaws_dynamodb_IncrementalExportSpecification(native_input):
+    return DafnyIncrementalExportSpecification(
+        ExportFromTime=(
+            Option_Some(_dafny.Seq(native_input["ExportFromTime"].isoformat()))
+            if "ExportFromTime" in native_input.keys()
+            else Option_None()
+        ),
+        ExportToTime=(
+            Option_Some(_dafny.Seq(native_input["ExportToTime"].isoformat()))
+            if "ExportToTime" in native_input.keys()
+            else Option_None()
+        ),
+        ExportViewType=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportViewType(
+                    native_input["ExportViewType"]
+                )
+            )
+            if "ExportViewType" in native_input.keys()
+            else Option_None()
+        ),
+    )
+
+
+def com_amazonaws_dynamodb_ExportViewType(native_input):
+    # Convert ExportViewType
+    if native_input == "NEW_IMAGE":
+        return ExportViewType_NEW__IMAGE()
+    elif native_input == "NEW_AND_OLD_IMAGES":
+        return ExportViewType_NEW__AND__OLD__IMAGES()
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
 
@@ -5584,6 +5888,15 @@ def com_amazonaws_dynamodb_TableCreationParameters(native_input):
             if "ProvisionedThroughput" in native_input.keys()
             else Option_None()
         ),
+        OnDemandThroughput=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_OnDemandThroughput(
+                    native_input["OnDemandThroughput"]
+                )
+            )
+            if "OnDemandThroughput" in native_input.keys()
+            else Option_None()
+        ),
         SSESpecification=(
             Option_Some(
                 aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSESpecification(
@@ -5757,6 +6070,15 @@ def com_amazonaws_dynamodb_KinesisDataStreamDestination(native_input):
             if "DestinationStatusDescription" in native_input.keys()
             else Option_None()
         ),
+        ApproximateCreationDateTimePrecision=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ApproximateCreationDateTimePrecision(
+                    native_input["ApproximateCreationDateTimePrecision"]
+                )
+            )
+            if "ApproximateCreationDateTimePrecision" in native_input.keys()
+            else Option_None()
+        ),
     )
 
 
@@ -5772,6 +6094,18 @@ def com_amazonaws_dynamodb_DestinationStatus(native_input):
         return DestinationStatus_DISABLED()
     elif native_input == "ENABLE_FAILED":
         return DestinationStatus_ENABLE__FAILED()
+    elif native_input == "UPDATING":
+        return DestinationStatus_UPDATING()
+    else:
+        raise ValueError("No recognized enum value in enum type: " + native_input)
+
+
+def com_amazonaws_dynamodb_ApproximateCreationDateTimePrecision(native_input):
+    # Convert ApproximateCreationDateTimePrecision
+    if native_input == "MILLISECOND":
+        return ApproximateCreationDateTimePrecision_MILLISECOND()
+    elif native_input == "MICROSECOND":
+        return ApproximateCreationDateTimePrecision_MICROSECOND()
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
 
@@ -6075,6 +6409,29 @@ def com_amazonaws_dynamodb_DisableKinesisStreamingDestinationInput(native_input)
                 ]
             )
         ),
+        EnableKinesisStreamingConfiguration=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_EnableKinesisStreamingConfiguration(
+                    native_input["EnableKinesisStreamingConfiguration"]
+                )
+            )
+            if "EnableKinesisStreamingConfiguration" in native_input.keys()
+            else Option_None()
+        ),
+    )
+
+
+def com_amazonaws_dynamodb_EnableKinesisStreamingConfiguration(native_input):
+    return DafnyEnableKinesisStreamingConfiguration(
+        ApproximateCreationDateTimePrecision=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ApproximateCreationDateTimePrecision(
+                    native_input["ApproximateCreationDateTimePrecision"]
+                )
+            )
+            if "ApproximateCreationDateTimePrecision" in native_input.keys()
+            else Option_None()
+        ),
     )
 
 
@@ -6123,6 +6480,15 @@ def com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput(native_input
             if "DestinationStatus" in native_input.keys()
             else Option_None()
         ),
+        EnableKinesisStreamingConfiguration=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_EnableKinesisStreamingConfiguration(
+                    native_input["EnableKinesisStreamingConfiguration"]
+                )
+            )
+            if "EnableKinesisStreamingConfiguration" in native_input.keys()
+            else Option_None()
+        ),
     )
 
 
@@ -6147,6 +6513,15 @@ def com_amazonaws_dynamodb_EnableKinesisStreamingDestinationInput(native_input):
                     )
                 ]
             )
+        ),
+        EnableKinesisStreamingConfiguration=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_EnableKinesisStreamingConfiguration(
+                    native_input["EnableKinesisStreamingConfiguration"]
+                )
+            )
+            if "EnableKinesisStreamingConfiguration" in native_input.keys()
+            else Option_None()
         ),
     )
 
@@ -6194,6 +6569,15 @@ def com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput(native_input)
                 )
             )
             if "DestinationStatus" in native_input.keys()
+            else Option_None()
+        ),
+        EnableKinesisStreamingConfiguration=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_EnableKinesisStreamingConfiguration(
+                    native_input["EnableKinesisStreamingConfiguration"]
+                )
+            )
+            if "EnableKinesisStreamingConfiguration" in native_input.keys()
             else Option_None()
         ),
     )
@@ -6606,6 +6990,24 @@ def com_amazonaws_dynamodb_ExportTableToPointInTimeInput(native_input):
             if "ExportFormat" in native_input.keys()
             else Option_None()
         ),
+        ExportType=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportType(
+                    native_input["ExportType"]
+                )
+            )
+            if "ExportType" in native_input.keys()
+            else Option_None()
+        ),
+        IncrementalExportSpecification=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_IncrementalExportSpecification(
+                    native_input["IncrementalExportSpecification"]
+                )
+            )
+            if "IncrementalExportSpecification" in native_input.keys()
+            else Option_None()
+        ),
     )
 
 
@@ -6775,6 +7177,59 @@ def com_amazonaws_dynamodb_GetItemOutput(native_input):
                 )
             )
             if "ConsumedCapacity" in native_input.keys()
+            else Option_None()
+        ),
+    )
+
+
+def com_amazonaws_dynamodb_GetResourcePolicyInput(native_input):
+    return DafnyGetResourcePolicyInput(
+        ResourceArn=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["ResourceArn"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+    )
+
+
+def com_amazonaws_dynamodb_GetResourcePolicyOutput(native_input):
+    return DafnyGetResourcePolicyOutput(
+        Policy=(
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["Policy"].encode("utf-16-be"))] * 2
+                            )
+                        ]
+                    )
+                )
+            )
+            if "Policy" in native_input.keys()
+            else Option_None()
+        ),
+        RevisionId=(
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["RevisionId"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
+            if "RevisionId" in native_input.keys()
             else Option_None()
         ),
     )
@@ -7318,6 +7773,15 @@ def com_amazonaws_dynamodb_ExportSummary(native_input):
                 )
             )
             if "ExportStatus" in native_input.keys()
+            else Option_None()
+        ),
+        ExportType=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportType(
+                    native_input["ExportType"]
+                )
+            )
+            if "ExportType" in native_input.keys()
             else Option_None()
         ),
     )
@@ -8001,6 +8465,81 @@ def com_amazonaws_dynamodb_PutItemOutput(native_input):
     )
 
 
+def com_amazonaws_dynamodb_PutResourcePolicyInput(native_input):
+    return DafnyPutResourcePolicyInput(
+        ResourceArn=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["ResourceArn"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        Policy=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["Policy"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        ExpectedRevisionId=(
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[
+                                    iter(
+                                        native_input["ExpectedRevisionId"].encode(
+                                            "utf-16-be"
+                                        )
+                                    )
+                                ]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
+            if "ExpectedRevisionId" in native_input.keys()
+            else Option_None()
+        ),
+        ConfirmRemoveSelfResourceAccess=(
+            Option_Some(native_input["ConfirmRemoveSelfResourceAccess"])
+            if "ConfirmRemoveSelfResourceAccess" in native_input.keys()
+            else Option_None()
+        ),
+    )
+
+
+def com_amazonaws_dynamodb_PutResourcePolicyOutput(native_input):
+    return DafnyPutResourcePolicyOutput(
+        RevisionId=(
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["RevisionId"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
+            if "RevisionId" in native_input.keys()
+            else Option_None()
+        ),
+    )
+
+
 def com_amazonaws_dynamodb_QueryInput(native_input):
     return DafnyQueryInput(
         TableName=Seq(
@@ -8470,6 +9009,15 @@ def com_amazonaws_dynamodb_RestoreTableFromBackupInput(native_input):
             if "ProvisionedThroughputOverride" in native_input.keys()
             else Option_None()
         ),
+        OnDemandThroughputOverride=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_OnDemandThroughput(
+                    native_input["OnDemandThroughputOverride"]
+                )
+            )
+            if "OnDemandThroughputOverride" in native_input.keys()
+            else Option_None()
+        ),
         SSESpecificationOverride=(
             Option_Some(
                 aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSESpecification(
@@ -8608,6 +9156,15 @@ def com_amazonaws_dynamodb_RestoreTableToPointInTimeInput(native_input):
                 )
             )
             if "ProvisionedThroughputOverride" in native_input.keys()
+            else Option_None()
+        ),
+        OnDemandThroughputOverride=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_OnDemandThroughput(
+                    native_input["OnDemandThroughputOverride"]
+                )
+            )
+            if "OnDemandThroughputOverride" in native_input.keys()
             else Option_None()
         ),
         SSESpecificationOverride=(
@@ -10636,6 +11193,111 @@ def com_amazonaws_dynamodb_UpdateItemOutput(native_input):
     )
 
 
+def com_amazonaws_dynamodb_UpdateKinesisStreamingDestinationInput(native_input):
+    return DafnyUpdateKinesisStreamingDestinationInput(
+        TableName=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["TableName"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        StreamArn=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input["StreamArn"].encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        UpdateKinesisStreamingConfiguration=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateKinesisStreamingConfiguration(
+                    native_input["UpdateKinesisStreamingConfiguration"]
+                )
+            )
+            if "UpdateKinesisStreamingConfiguration" in native_input.keys()
+            else Option_None()
+        ),
+    )
+
+
+def com_amazonaws_dynamodb_UpdateKinesisStreamingConfiguration(native_input):
+    return DafnyUpdateKinesisStreamingConfiguration(
+        ApproximateCreationDateTimePrecision=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ApproximateCreationDateTimePrecision(
+                    native_input["ApproximateCreationDateTimePrecision"]
+                )
+            )
+            if "ApproximateCreationDateTimePrecision" in native_input.keys()
+            else Option_None()
+        ),
+    )
+
+
+def com_amazonaws_dynamodb_UpdateKinesisStreamingDestinationOutput(native_input):
+    return DafnyUpdateKinesisStreamingDestinationOutput(
+        TableName=(
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["TableName"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
+            if "TableName" in native_input.keys()
+            else Option_None()
+        ),
+        StreamArn=(
+            Option_Some(
+                Seq(
+                    "".join(
+                        [
+                            chr(int.from_bytes(pair, "big"))
+                            for pair in zip(
+                                *[iter(native_input["StreamArn"].encode("utf-16-be"))]
+                                * 2
+                            )
+                        ]
+                    )
+                )
+            )
+            if "StreamArn" in native_input.keys()
+            else Option_None()
+        ),
+        DestinationStatus=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DestinationStatus(
+                    native_input["DestinationStatus"]
+                )
+            )
+            if "DestinationStatus" in native_input.keys()
+            else Option_None()
+        ),
+        UpdateKinesisStreamingConfiguration=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateKinesisStreamingConfiguration(
+                    native_input["UpdateKinesisStreamingConfiguration"]
+                )
+            )
+            if "UpdateKinesisStreamingConfiguration" in native_input.keys()
+            else Option_None()
+        ),
+    )
+
+
 def com_amazonaws_dynamodb_UpdateTableInput(native_input):
     return DafnyUpdateTableInput(
         AttributeDefinitions=(
@@ -10735,6 +11397,20 @@ def com_amazonaws_dynamodb_UpdateTableInput(native_input):
             if "TableClass" in native_input.keys()
             else Option_None()
         ),
+        DeletionProtectionEnabled=(
+            Option_Some(native_input["DeletionProtectionEnabled"])
+            if "DeletionProtectionEnabled" in native_input.keys()
+            else Option_None()
+        ),
+        OnDemandThroughput=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_OnDemandThroughput(
+                    native_input["OnDemandThroughput"]
+                )
+            )
+            if "OnDemandThroughput" in native_input.keys()
+            else Option_None()
+        ),
     )
 
 
@@ -10782,8 +11458,23 @@ def com_amazonaws_dynamodb_UpdateGlobalSecondaryIndexAction(native_input):
                 ]
             )
         ),
-        ProvisionedThroughput=aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
-            native_input["ProvisionedThroughput"]
+        ProvisionedThroughput=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
+                    native_input["ProvisionedThroughput"]
+                )
+            )
+            if "ProvisionedThroughput" in native_input.keys()
+            else Option_None()
+        ),
+        OnDemandThroughput=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_OnDemandThroughput(
+                    native_input["OnDemandThroughput"]
+                )
+            )
+            if "OnDemandThroughput" in native_input.keys()
+            else Option_None()
         ),
     )
 
@@ -10818,6 +11509,15 @@ def com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction(native_input):
                 )
             )
             if "ProvisionedThroughput" in native_input.keys()
+            else Option_None()
+        ),
+        OnDemandThroughput=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_OnDemandThroughput(
+                    native_input["OnDemandThroughput"]
+                )
+            )
+            if "OnDemandThroughput" in native_input.keys()
             else Option_None()
         ),
     )
@@ -10914,6 +11614,15 @@ def com_amazonaws_dynamodb_CreateReplicationGroupMemberAction(native_input):
             if "ProvisionedThroughputOverride" in native_input.keys()
             else Option_None()
         ),
+        OnDemandThroughputOverride=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_OnDemandThroughputOverride(
+                    native_input["OnDemandThroughputOverride"]
+                )
+            )
+            if "OnDemandThroughputOverride" in native_input.keys()
+            else Option_None()
+        ),
         GlobalSecondaryIndexes=(
             Option_Some(
                 Seq(
@@ -10984,6 +11693,15 @@ def com_amazonaws_dynamodb_UpdateReplicationGroupMemberAction(native_input):
             if "ProvisionedThroughputOverride" in native_input.keys()
             else Option_None()
         ),
+        OnDemandThroughputOverride=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_OnDemandThroughputOverride(
+                    native_input["OnDemandThroughputOverride"]
+                )
+            )
+            if "OnDemandThroughputOverride" in native_input.keys()
+            else Option_None()
+        ),
         GlobalSecondaryIndexes=(
             Option_Some(
                 Seq(
@@ -11044,6 +11762,15 @@ def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndex(native_input):
                 )
             )
             if "ProvisionedThroughputOverride" in native_input.keys()
+            else Option_None()
+        ),
+        OnDemandThroughputOverride=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_OnDemandThroughputOverride(
+                    native_input["OnDemandThroughputOverride"]
+                )
+            )
+            if "OnDemandThroughputOverride" in native_input.keys()
             else Option_None()
         ),
     )

@@ -13,7 +13,7 @@ jobs:
   getVersion:
     uses: ./.github/workflows/dafny_version.yaml
   java-release:
-    if: contains('["seebees","texastony","ShubhamChaturvedi7","lucasmcdonald3","josecorella","imabhichow","rishav-karanjit","antonf-amzn","justplaz","ajewellamz"]', github.actor)
+    if: contains('["seebees","texastony","ShubhamChaturvedi7","lucasmcdonald3","josecorella","imabhichow","rishav-karanjit","antonf-amzn","kessplas","RitvikKapila","ajewellamz"]', github.actor)
     needs: getVersion
     uses: ./.github/workflows/todo-java-release.yml
     with:

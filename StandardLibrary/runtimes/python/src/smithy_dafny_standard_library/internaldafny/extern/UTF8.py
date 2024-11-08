@@ -20,18 +20,9 @@ Since "\u2386" is in the BMP, Python internally represents it as '⎆':
 
 However, if a Unicode-escaped character is outside the BMP, Python internally represents it
 as a Unicode-escaped character using surrogate pairs.
-ex.
-"\uD808\uDC00" == '𒀀' --> ord('𒀀') == 73728 --> 73728 > 65535 --> outside BMP
-Since "\uD808\uDC00" is outside the BMP, Python internally represents it as "\uD808\uDC00":
-
-```
->>> s = "\uD808\uDC00"
->>> s
-'\ud808\udc00'
-```
 
 Dafny expects its strings to be UTF-16 code units.
-However, the `.decode()` method with 'surrogatepass' leaves '\ud808\udc00' as '𒀀',
+However, the `.decode()` method with 'surrogatepass' leaves surrogates pairs as their Unicode representations,
 which, if passed directly to Dafny, will be interpreted as a single UTF-32 code unit,
 instead of the desired two UTF-16 code units.
 
