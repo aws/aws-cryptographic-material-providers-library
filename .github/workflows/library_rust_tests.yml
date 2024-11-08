@@ -21,14 +21,11 @@ on:
         type: boolean
 
 jobs:
-  testDotRust:
+  testRust:
     strategy:
       fail-fast: false
       matrix:
-        library:
-          [
-            StandardLibrary,
-          ]
+        library: [StandardLibrary]
         os: [windows-latest, ubuntu-latest, macos-13]
     runs-on: ${{ matrix.os }}
     defaults:
@@ -53,7 +50,7 @@ jobs:
       # The specification submodule is private so we don't have access, but we don't need
       # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
       - run: git submodule update --init libraries
-      - run: git submodule update --init smithy-dafny
+      - run: git submodule update --init --recursive smithy-dafny
 
       - name: Set up Rust
         uses: actions-rust-lang/setup-rust-toolchain@v1
