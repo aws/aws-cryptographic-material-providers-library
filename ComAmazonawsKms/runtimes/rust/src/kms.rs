@@ -15,18 +15,14 @@ static DAFNY_TOKIO_RUNTIME: LazyLock<tokio::runtime::Runtime> = LazyLock::new(||
         .unwrap()
 });
 
-#[allow(non_snake_case)]
-impl crate::r#software::amazon::cryptography::services::dynamodb::internaldafny::_default {
-    pub fn DDBClientForRegion(region: &::dafny_runtime::Sequence<::dafny_runtime::DafnyCharUTF16>) -> ::std::rc::Rc<
-    crate::r#_Wrappers_Compile::Result<
-      ::dafny_runtime::Object<dyn crate::r#software::amazon::cryptography::services::dynamodb::internaldafny::types::IDynamoDBClient>,
-      ::std::rc::Rc<crate::r#software::amazon::cryptography::services::dynamodb::internaldafny::types::Error>
-      >
-    >{
+impl crate::r#software::amazon::cryptography::services::kms::internaldafny::_default {
+    #[allow(non_snake_case)]
+    pub fn KMSClientForRegion(region: &::dafny_runtime::Sequence<::dafny_runtime::DafnyCharUTF16>) -> ::std::rc::Rc<crate::r#_Wrappers_Compile::Result<::dafny_runtime::Object<dyn crate::software::amazon::cryptography::services::kms::internaldafny::types::IKMSClient>, ::std::rc::Rc<crate::software::amazon::cryptography::services::kms::internaldafny::types::Error>>>{
         let region =
             dafny_runtime::dafny_runtime_conversions::unicode_chars_false::dafny_string_to_string(
                 region,
             );
+
         let shared_config = match tokio::runtime::Handle::try_current() {
             Ok(curr) => tokio::task::block_in_place(|| {
                 curr.block_on(async {
@@ -37,11 +33,12 @@ impl crate::r#software::amazon::cryptography::services::dynamodb::internaldafny:
                 aws_config::BehaviorVersion::v2024_03_28(),
             )),
         };
+
         let shared_config = shared_config
             .to_builder()
             .region(Region::new(region))
             .build();
-        let inner = aws_sdk_dynamodb::Client::new(&shared_config);
+        let inner = aws_sdk_kms::Client::new(&shared_config);
         let client = crate::client::Client { inner };
         let dafny_client = ::dafny_runtime::upcast_object()(::dafny_runtime::object::new(client));
         std::rc::Rc::new(crate::r#_Wrappers_Compile::Result::Success {
@@ -49,12 +46,8 @@ impl crate::r#software::amazon::cryptography::services::dynamodb::internaldafny:
         })
     }
 
-  pub fn DynamoDBClient() -> ::std::rc::Rc<
-  crate::r#_Wrappers_Compile::Result<
-    ::dafny_runtime::Object<dyn crate::r#software::amazon::cryptography::services::dynamodb::internaldafny::types::IDynamoDBClient>,
-    ::std::rc::Rc<crate::r#software::amazon::cryptography::services::dynamodb::internaldafny::types::Error>
-    >
-    >{
+    #[allow(non_snake_case)]
+    pub fn KMSClient() -> ::std::rc::Rc<crate::r#_Wrappers_Compile::Result<::dafny_runtime::Object<dyn crate::software::amazon::cryptography::services::kms::internaldafny::types::IKMSClient>, ::std::rc::Rc<crate::software::amazon::cryptography::services::kms::internaldafny::types::Error>>>{
         let shared_config = match tokio::runtime::Handle::try_current() {
             Ok(curr) => tokio::task::block_in_place(|| {
                 curr.block_on(async {
@@ -65,11 +58,31 @@ impl crate::r#software::amazon::cryptography::services::dynamodb::internaldafny:
                 aws_config::BehaviorVersion::v2024_03_28(),
             )),
         };
-        let inner = aws_sdk_dynamodb::Client::new(&shared_config);
+
+        let inner = aws_sdk_kms::Client::new(&shared_config);
         let client = crate::client::Client { inner };
         let dafny_client = ::dafny_runtime::upcast_object()(::dafny_runtime::object::new(client));
         std::rc::Rc::new(crate::r#_Wrappers_Compile::Result::Success {
             value: dafny_client,
         })
+    }
+
+    #[allow(non_snake_case)]
+    pub fn RegionMatch(
+        kmsClient: &::dafny_runtime::Object<dyn crate::software::amazon::cryptography::services::kms::internaldafny::types::IKMSClient>,
+        region: &::dafny_runtime::Sequence<::dafny_runtime::DafnyCharUTF16>,
+    ) -> ::std::rc::Rc<crate::r#_Wrappers_Compile::Option<bool>> {
+        let region =
+            dafny_runtime::dafny_runtime_conversions::unicode_chars_false::dafny_string_to_string(
+                region,
+            );
+        let any = dafny_runtime::cast_any_object!(kmsClient);
+        let client =
+            dafny_runtime::cast_object!(any, crate::client::Client);
+        let flag = match client.as_ref().inner.config().region() {
+            Some(r) => r.as_ref() == region,
+            None => false,
+        };
+        ::std::rc::Rc::new(crate::r#_Wrappers_Compile::Option::Some { value: flag })
     }
 }
