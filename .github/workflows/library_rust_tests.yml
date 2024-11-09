@@ -1,8 +1,6 @@
 # This workflow performs tests in Rust
 name: Library Rust tests
 
-#            AwsCryptographyPrimitives,
-#            AwsCryptographicMaterialProviders,
 #            TestVectorsAwsCryptographicMaterialProviders,
 
 on:
@@ -23,7 +21,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        library: [StandardLibrary, ComAmazonawsDynamodb, ComAmazonawsKms]
+        library:
+          [
+            StandardLibrary,
+            ComAmazonawsDynamodb,
+            ComAmazonawsKms,
+            AwsCryptographyPrimitives,
+            AwsCryptographicMaterialProviders,
+          ]
         os: [windows-latest, ubuntu-latest, macos-13]
     runs-on: ${{ matrix.os }}
     defaults:

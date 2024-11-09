@@ -4,6 +4,8 @@
 CORES=2
 
 ENABLE_EXTERN_PROCESSING=1
+TRANSPILE_TESTS_IN_RUST=1
+
 
 include ../SharedMakefileV2.mk
 
@@ -13,8 +15,6 @@ PROJECT_SERVICES := \
 
 SERVICE_NAMESPACE_AwsCryptographicMaterialProviders=aws.cryptography.materialProviders
 SERVICE_NAMESPACE_AwsCryptographyKeyStore=aws.cryptography.keyStore
-
-TRANSPILE_TESTS_IN_RUST=1
 
 MAIN_SERVICE_FOR_RUST := AwsCryptographicMaterialProviders
 
