@@ -2,7 +2,6 @@
 name: Library Rust tests
 
 #            AwsCryptographyPrimitives,
-#            ComAmazonawsKms,
 #            AwsCryptographicMaterialProviders,
 #            TestVectorsAwsCryptographicMaterialProviders,
 
@@ -24,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        library: [StandardLibrary, ComAmazonawsDynamodb]
+        library: [StandardLibrary, ComAmazonawsDynamodb, ComAmazonawsKms]
         os: [windows-latest, ubuntu-latest, macos-13]
     runs-on: ${{ matrix.os }}
     defaults:
