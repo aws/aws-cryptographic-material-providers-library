@@ -8616,10 +8616,9 @@ public class ToNative {
     } else if (dafnyValue.dtor_obj() instanceof Throwable) {
       return new RuntimeException(
         String.format(
-          "Unknown error thrown while calling AWS. %s",
-          dafnyValue.dtor_obj()
-        ),
-        (Throwable) dafnyValue.dtor_obj()
+          "Unknown error thrown while calling Amazon DynamoDB. %s",
+          (Throwable) dafnyValue.dtor_obj()
+        )
       );
     }
     return new IllegalStateException(
@@ -8643,10 +8642,9 @@ public class ToNative {
     } else if (dafnyValue.dtor_obj() instanceof Throwable) {
       return new RuntimeException(
         String.format(
-          "Unknown error thrown while calling AWS. %s",
-          dafnyValue.dtor_obj()
-        ),
-        (Throwable) dafnyValue.dtor_obj()
+          "Unknown error thrown while calling Amazon DynamoDB. %s",
+          (Throwable) dafnyValue.dtor_obj()
+        )
       );
     }
     return new IllegalStateException(
