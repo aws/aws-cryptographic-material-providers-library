@@ -40,6 +40,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
     public void Validate()
     {
       if (!IsSetIdentifier()) throw new System.ArgumentException("Missing value for required property 'Identifier'");
+      if (!IsSetUUID()) throw new System.ArgumentException("Missing value for required property 'UUID'");
       if (!IsSetCreateTime()) throw new System.ArgumentException("Missing value for required property 'CreateTime'");
 
     }

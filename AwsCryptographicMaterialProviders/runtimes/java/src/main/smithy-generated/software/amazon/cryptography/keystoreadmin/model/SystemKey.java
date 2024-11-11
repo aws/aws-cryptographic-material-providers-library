@@ -8,39 +8,42 @@ import java.util.Objects;
 /**
  * Key Store Admin protects any non-cryptographic
  * items stored with this Key.
+ * As of v1.8.0, TrustStorage is the default behavior.
  */
 public class SystemKey {
 
   /**
-   * Include all attributes of an item as Encryption Context
-   * in a KMS Encrypt or Decrypt call,
-   * effectively signing the attributes.
+   * Items of non-cryptographic material nature are protected by KMS.
+   *   This is done by including all attributes of an item as Encryption Context
+   *   in a KMS Encrypt or Decrypt call,
+   *   effectively signing the attributes.
    */
-  private final KmsAes kmsAes;
+  private final KmsSymmetricEncryption kmsSymmetricEncryption;
 
   /**
-   * The Storage is trusted enough
-   * for non-cryptographic items.
+   * The Storage is trusted enough for items of non-cryptographic material nature,
+   *   even if those items can affect the cryptographic materials.
    */
   private final TrustStorage trustStorage;
 
   protected SystemKey(BuilderImpl builder) {
-    this.kmsAes = builder.kmsAes();
+    this.kmsSymmetricEncryption = builder.kmsSymmetricEncryption();
     this.trustStorage = builder.trustStorage();
   }
 
   /**
-   * @return Include all attributes of an item as Encryption Context
-   * in a KMS Encrypt or Decrypt call,
-   * effectively signing the attributes.
+   * @return Items of non-cryptographic material nature are protected by KMS.
+   *   This is done by including all attributes of an item as Encryption Context
+   *   in a KMS Encrypt or Decrypt call,
+   *   effectively signing the attributes.
    */
-  public KmsAes kmsAes() {
-    return this.kmsAes;
+  public KmsSymmetricEncryption kmsSymmetricEncryption() {
+    return this.kmsSymmetricEncryption;
   }
 
   /**
-   * @return The Storage is trusted enough
-   * for non-cryptographic items.
+   * @return The Storage is trusted enough for items of non-cryptographic material nature,
+   *   even if those items can affect the cryptographic materials.
    */
   public TrustStorage trustStorage() {
     return this.trustStorage;
@@ -56,28 +59,32 @@ public class SystemKey {
 
   public interface Builder {
     /**
-     * @param kmsAes Include all attributes of an item as Encryption Context
-     * in a KMS Encrypt or Decrypt call,
-     * effectively signing the attributes.
+     * @param kmsSymmetricEncryption Items of non-cryptographic material nature are protected by KMS.
+     *   This is done by including all attributes of an item as Encryption Context
+     *   in a KMS Encrypt or Decrypt call,
+     *   effectively signing the attributes.
      */
-    Builder kmsAes(KmsAes kmsAes);
+    Builder kmsSymmetricEncryption(
+      KmsSymmetricEncryption kmsSymmetricEncryption
+    );
 
     /**
-     * @return Include all attributes of an item as Encryption Context
-     * in a KMS Encrypt or Decrypt call,
-     * effectively signing the attributes.
+     * @return Items of non-cryptographic material nature are protected by KMS.
+     *   This is done by including all attributes of an item as Encryption Context
+     *   in a KMS Encrypt or Decrypt call,
+     *   effectively signing the attributes.
      */
-    KmsAes kmsAes();
+    KmsSymmetricEncryption kmsSymmetricEncryption();
 
     /**
-     * @param trustStorage The Storage is trusted enough
-     * for non-cryptographic items.
+     * @param trustStorage The Storage is trusted enough for items of non-cryptographic material nature,
+     *   even if those items can affect the cryptographic materials.
      */
     Builder trustStorage(TrustStorage trustStorage);
 
     /**
-     * @return The Storage is trusted enough
-     * for non-cryptographic items.
+     * @return The Storage is trusted enough for items of non-cryptographic material nature,
+     *   even if those items can affect the cryptographic materials.
      */
     TrustStorage trustStorage();
 
@@ -86,24 +93,26 @@ public class SystemKey {
 
   static class BuilderImpl implements Builder {
 
-    protected KmsAes kmsAes;
+    protected KmsSymmetricEncryption kmsSymmetricEncryption;
 
     protected TrustStorage trustStorage;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(SystemKey model) {
-      this.kmsAes = model.kmsAes();
+      this.kmsSymmetricEncryption = model.kmsSymmetricEncryption();
       this.trustStorage = model.trustStorage();
     }
 
-    public Builder kmsAes(KmsAes kmsAes) {
-      this.kmsAes = kmsAes;
+    public Builder kmsSymmetricEncryption(
+      KmsSymmetricEncryption kmsSymmetricEncryption
+    ) {
+      this.kmsSymmetricEncryption = kmsSymmetricEncryption;
       return this;
     }
 
-    public KmsAes kmsAes() {
-      return this.kmsAes;
+    public KmsSymmetricEncryption kmsSymmetricEncryption() {
+      return this.kmsSymmetricEncryption;
     }
 
     public Builder trustStorage(TrustStorage trustStorage) {
@@ -125,7 +134,7 @@ public class SystemKey {
     }
 
     private boolean onlyOneNonNull() {
-      Object[] allValues = { this.kmsAes, this.trustStorage };
+      Object[] allValues = { this.kmsSymmetricEncryption, this.trustStorage };
       boolean haveOneNonNull = false;
       for (Object o : allValues) {
         if (Objects.nonNull(o)) {

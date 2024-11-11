@@ -5,7 +5,7 @@ package software.amazon.cryptography.keystoreadmin.model;
 
 import java.util.Objects;
 
-public class KmsAesIdentifier {
+public class KmsSymmetricKeyArn {
 
   /**
    * Key Store is restricted to only this KMS Key ARN.
@@ -29,7 +29,7 @@ public class KmsAesIdentifier {
    */
   private final String KmsMRKeyArn;
 
-  protected KmsAesIdentifier(BuilderImpl builder) {
+  protected KmsSymmetricKeyArn(BuilderImpl builder) {
     this.KmsKeyArn = builder.KmsKeyArn();
     this.KmsMRKeyArn = builder.KmsMRKeyArn();
   }
@@ -113,7 +113,7 @@ public class KmsAesIdentifier {
      */
     String KmsMRKeyArn();
 
-    KmsAesIdentifier build();
+    KmsSymmetricKeyArn build();
   }
 
   static class BuilderImpl implements Builder {
@@ -124,7 +124,7 @@ public class KmsAesIdentifier {
 
     protected BuilderImpl() {}
 
-    protected BuilderImpl(KmsAesIdentifier model) {
+    protected BuilderImpl(KmsSymmetricKeyArn model) {
       this.KmsKeyArn = model.KmsKeyArn();
       this.KmsMRKeyArn = model.KmsMRKeyArn();
     }
@@ -147,13 +147,13 @@ public class KmsAesIdentifier {
       return this.KmsMRKeyArn;
     }
 
-    public KmsAesIdentifier build() {
+    public KmsSymmetricKeyArn build() {
       if (!onlyOneNonNull()) {
         throw new IllegalArgumentException(
-          "`KmsAesIdentifier` is a Union. A Union MUST have one and only one value set."
+          "`KmsSymmetricKeyArn` is a Union. A Union MUST have one and only one value set."
         );
       }
-      return new KmsAesIdentifier(this);
+      return new KmsSymmetricKeyArn(this);
     }
 
     private boolean onlyOneNonNull() {

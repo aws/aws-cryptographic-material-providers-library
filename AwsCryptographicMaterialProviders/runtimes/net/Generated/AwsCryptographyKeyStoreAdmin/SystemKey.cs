@@ -7,16 +7,16 @@ namespace AWS.Cryptography.KeyStoreAdmin
 {
   public class SystemKey
   {
-    private AWS.Cryptography.KeyStoreAdmin.KmsAes _kmsAes;
+    private AWS.Cryptography.KeyStoreAdmin.KmsSymmetricEncryption _kmsSymmetricEncryption;
     private AWS.Cryptography.KeyStoreAdmin.TrustStorage _trustStorage;
-    public AWS.Cryptography.KeyStoreAdmin.KmsAes KmsAes
+    public AWS.Cryptography.KeyStoreAdmin.KmsSymmetricEncryption KmsSymmetricEncryption
     {
-      get { return this._kmsAes; }
-      set { this._kmsAes = value; }
+      get { return this._kmsSymmetricEncryption; }
+      set { this._kmsSymmetricEncryption = value; }
     }
-    public bool IsSetKmsAes()
+    public bool IsSetKmsSymmetricEncryption()
     {
-      return this._kmsAes != null;
+      return this._kmsSymmetricEncryption != null;
     }
     public AWS.Cryptography.KeyStoreAdmin.TrustStorage TrustStorage
     {
@@ -29,7 +29,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
     }
     public void Validate()
     {
-      var numberOfPropertiesSet = Convert.ToUInt16(IsSetKmsAes()) +
+      var numberOfPropertiesSet = Convert.ToUInt16(IsSetKmsSymmetricEncryption()) +
       Convert.ToUInt16(IsSetTrustStorage());
       if (numberOfPropertiesSet == 0) throw new System.ArgumentException("No union value set");
 

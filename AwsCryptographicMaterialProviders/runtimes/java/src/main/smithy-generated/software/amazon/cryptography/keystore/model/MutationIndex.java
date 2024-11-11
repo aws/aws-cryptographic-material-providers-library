@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 /**
- * Information on an in-flight Mutation of a Branch Key.
+ * Information of an in-flight Mutation of a Branch Key.
  */
 public class MutationIndex {
 

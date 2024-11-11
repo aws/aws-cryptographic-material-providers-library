@@ -8,12 +8,12 @@ import java.util.Objects;
 public class MutatedBranchKeyItem {
 
   /**
-   * The item type changed. i.e: branch:version:<uuid> or MUTATION_LOCK:<uuid>
+   * The item type changed. i.e: branch:version:<uuid> or branch:MUTATION_COMMITMENT.
    */
   private final String ItemType;
 
   /**
-   * Brief description of what occurred. i.e: Mutation Applied, New Active Created, Mutation Lock Created, Mutation Lock Removed.
+   * Brief description of what occurred. i.e: Mutation Applied, New Active Created, Mutation Commitment Created, Mutation Commitment Removed.
    */
   private final String Description;
 
@@ -23,14 +23,14 @@ public class MutatedBranchKeyItem {
   }
 
   /**
-   * @return The item type changed. i.e: branch:version:<uuid> or MUTATION_LOCK:<uuid>
+   * @return The item type changed. i.e: branch:version:<uuid> or branch:MUTATION_COMMITMENT.
    */
   public String ItemType() {
     return this.ItemType;
   }
 
   /**
-   * @return Brief description of what occurred. i.e: Mutation Applied, New Active Created, Mutation Lock Created, Mutation Lock Removed.
+   * @return Brief description of what occurred. i.e: Mutation Applied, New Active Created, Mutation Commitment Created, Mutation Commitment Removed.
    */
   public String Description() {
     return this.Description;
@@ -46,22 +46,22 @@ public class MutatedBranchKeyItem {
 
   public interface Builder {
     /**
-     * @param ItemType The item type changed. i.e: branch:version:<uuid> or MUTATION_LOCK:<uuid>
+     * @param ItemType The item type changed. i.e: branch:version:<uuid> or branch:MUTATION_COMMITMENT.
      */
     Builder ItemType(String ItemType);
 
     /**
-     * @return The item type changed. i.e: branch:version:<uuid> or MUTATION_LOCK:<uuid>
+     * @return The item type changed. i.e: branch:version:<uuid> or branch:MUTATION_COMMITMENT.
      */
     String ItemType();
 
     /**
-     * @param Description Brief description of what occurred. i.e: Mutation Applied, New Active Created, Mutation Lock Created, Mutation Lock Removed.
+     * @param Description Brief description of what occurred. i.e: Mutation Applied, New Active Created, Mutation Commitment Created, Mutation Commitment Removed.
      */
     Builder Description(String Description);
 
     /**
-     * @return Brief description of what occurred. i.e: Mutation Applied, New Active Created, Mutation Lock Created, Mutation Lock Removed.
+     * @return Brief description of what occurred. i.e: Mutation Applied, New Active Created, Mutation Commitment Created, Mutation Commitment Removed.
      */
     String Description();
 

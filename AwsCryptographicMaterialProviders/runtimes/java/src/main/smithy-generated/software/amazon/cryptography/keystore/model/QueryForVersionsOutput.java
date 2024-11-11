@@ -13,7 +13,7 @@ public class QueryForVersionsOutput {
    * If none-empty, Query did not finish searching storage.
    *   Next Query should resume from here.
    *   The Default Storage is DDB;
-   *   see Amazon DynamoDB's defination of exclusiveStartKey for details.
+   *   see Amazon DynamoDB's definition of exclusiveStartKey for details.
    *   Note: While the Default Storage is DDB,
    *   the Key Store transforms the exclusiveStartKey into an opaque representation.
    */
@@ -33,7 +33,7 @@ public class QueryForVersionsOutput {
    * @return If none-empty, Query did not finish searching storage.
    *   Next Query should resume from here.
    *   The Default Storage is DDB;
-   *   see Amazon DynamoDB's defination of exclusiveStartKey for details.
+   *   see Amazon DynamoDB's definition of exclusiveStartKey for details.
    *   Note: While the Default Storage is DDB,
    *   the Key Store transforms the exclusiveStartKey into an opaque representation.
    */
@@ -61,7 +61,7 @@ public class QueryForVersionsOutput {
      * @param ExclusiveStartKey If none-empty, Query did not finish searching storage.
      *   Next Query should resume from here.
      *   The Default Storage is DDB;
-     *   see Amazon DynamoDB's defination of exclusiveStartKey for details.
+     *   see Amazon DynamoDB's definition of exclusiveStartKey for details.
      *   Note: While the Default Storage is DDB,
      *   the Key Store transforms the exclusiveStartKey into an opaque representation.
      */
@@ -71,7 +71,7 @@ public class QueryForVersionsOutput {
      * @return If none-empty, Query did not finish searching storage.
      *   Next Query should resume from here.
      *   The Default Storage is DDB;
-     *   see Amazon DynamoDB's defination of exclusiveStartKey for details.
+     *   see Amazon DynamoDB's definition of exclusiveStartKey for details.
      *   Note: While the Default Storage is DDB,
      *   the Key Store transforms the exclusiveStartKey into an opaque representation.
      */

@@ -23,7 +23,7 @@ public class CreateKeyInput {
    * Multi-Region or Single Region AWS KMS Key
    *   used to protect the Branch Key, but not aliases!
    */
-  private final KmsAesIdentifier KmsArn;
+  private final KmsSymmetricKeyArn KmsArn;
 
   /**
    * This configures which Key Management Operations will be used
@@ -57,7 +57,7 @@ public class CreateKeyInput {
    * @return Multi-Region or Single Region AWS KMS Key
    *   used to protect the Branch Key, but not aliases!
    */
-  public KmsAesIdentifier KmsArn() {
+  public KmsSymmetricKeyArn KmsArn() {
     return this.KmsArn;
   }
 
@@ -104,13 +104,13 @@ public class CreateKeyInput {
      * @param KmsArn Multi-Region or Single Region AWS KMS Key
      *   used to protect the Branch Key, but not aliases!
      */
-    Builder KmsArn(KmsAesIdentifier KmsArn);
+    Builder KmsArn(KmsSymmetricKeyArn KmsArn);
 
     /**
      * @return Multi-Region or Single Region AWS KMS Key
      *   used to protect the Branch Key, but not aliases!
      */
-    KmsAesIdentifier KmsArn();
+    KmsSymmetricKeyArn KmsArn();
 
     /**
      * @param Strategy This configures which Key Management Operations will be used
@@ -133,7 +133,7 @@ public class CreateKeyInput {
 
     protected Map<String, String> EncryptionContext;
 
-    protected KmsAesIdentifier KmsArn;
+    protected KmsSymmetricKeyArn KmsArn;
 
     protected KeyManagementStrategy Strategy;
 
@@ -164,12 +164,12 @@ public class CreateKeyInput {
       return this.EncryptionContext;
     }
 
-    public Builder KmsArn(KmsAesIdentifier KmsArn) {
+    public Builder KmsArn(KmsSymmetricKeyArn KmsArn) {
       this.KmsArn = KmsArn;
       return this;
     }
 
-    public KmsAesIdentifier KmsArn() {
+    public KmsSymmetricKeyArn KmsArn() {
       return this.KmsArn;
     }
 

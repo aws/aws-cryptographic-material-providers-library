@@ -5,9 +5,12 @@ package software.amazon.cryptography.keystoreadmin.model;
 
 import java.util.Objects;
 
-public class UnexpectedStateException extends RuntimeException {
+/**
+ * This feature is not yet implemented.
+ */
+public class UnsupportedFeatureException extends RuntimeException {
 
-  protected UnexpectedStateException(BuilderImpl builder) {
+  protected UnsupportedFeatureException(BuilderImpl builder) {
     super(messageFromBuilder(builder), builder.cause());
   }
 
@@ -64,7 +67,7 @@ public class UnexpectedStateException extends RuntimeException {
      */
     Throwable cause();
 
-    UnexpectedStateException build();
+    UnsupportedFeatureException build();
   }
 
   static class BuilderImpl implements Builder {
@@ -75,7 +78,7 @@ public class UnexpectedStateException extends RuntimeException {
 
     protected BuilderImpl() {}
 
-    protected BuilderImpl(UnexpectedStateException model) {
+    protected BuilderImpl(UnsupportedFeatureException model) {
       this.message = model.message();
       this.cause = model.cause();
     }
@@ -98,13 +101,13 @@ public class UnexpectedStateException extends RuntimeException {
       return this.cause;
     }
 
-    public UnexpectedStateException build() {
+    public UnsupportedFeatureException build() {
       if (Objects.isNull(this.message())) {
         throw new IllegalArgumentException(
           "Missing value for required field `message`"
         );
       }
-      return new UnexpectedStateException(this);
+      return new UnsupportedFeatureException(this);
     }
   }
 }

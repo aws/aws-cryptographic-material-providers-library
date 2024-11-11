@@ -39,6 +39,9 @@ module DefaultKeyStorageInterface {
     map[
       "#pk" := Structure.BRANCH_KEY_IDENTIFIER_FIELD,
       "#sk" := Structure.TYPE_FIELD]
+  // Ideally, MAX_PAGE would be Types.UInt.uint8, but the size of sequence is always an int
+  const DDB_MAX_MUTATION_WRITE_PAGE_SIZE: int := 98
+  const DDB_MAX_MUTATION_WRITE_PAGE_SIZE_str: string := "98"
 
   datatype ConditionExpression =
     | BRANCH_KEY_NOT_EXIST
@@ -49,17 +52,11 @@ module DefaultKeyStorageInterface {
   // in the case statement to evaluate a literal.
   const MUTATION_COMMITMENT_TYPE := "branch:MUTATION_COMMITMENT" // Structure.MUTATION_COMMITMENT_TYPE
   const MUTATION_INDEX_TYPE := "branch:MUTATION_INDEX" // Structure.MUTATION_INDEX_TYPE
-  // const BRANCH_KEY_ACTIVE_TYPE := "branch:ACTIVE" // Structure.BRANCH_KEY_ACTIVE_TYPE
-  // const BEACON_KEY_TYPE_VALUE :=  "beacon:ACTIVE" // Structure.BEACON_KEY_TYPE_VALUE
-  // const VERSION_TYPE_PREFIX := "branch:version:" // Structure.BRANCH_KEY_TYPE_PREFIX
 
   lemma TypesAreCorrect()
     ensures
       && MUTATION_COMMITMENT_TYPE == Structure.MUTATION_COMMITMENT_TYPE
       && MUTATION_INDEX_TYPE == Structure.MUTATION_INDEX_TYPE
-    // && BRANCH_KEY_ACTIVE_TYPE == Structure.BRANCH_KEY_ACTIVE_TYPE
-    // && BEACON_KEY_TYPE_VALUE == Structure.BEACON_KEY_TYPE_VALUE
-    // && VERSION_TYPE_PREFIX == Structure.BRANCH_KEY_TYPE_PREFIX
   {}
 
   class {:termination false} DynamoDBKeyStorageInterface
@@ -560,12 +557,12 @@ module DefaultKeyStorageInterface {
         return Failure(
             Types.KeyStorageException(
               message :=
-                "DDB request to Write Mutated Versions was failed by DDB with TransactionCanceledException. "
+                "DDB request to Write Mutated Versions failed with DynamoDB's TransactionCanceledException. "
                 + "This MAY be caused by a race between hosts mutating the same Branch Key ID. "
                 + "The Mutation has NOT completed. "
                 + "Table Name: "+ ddbTableName
                 + "\tBranch Key ID: " + input.MutationCommitment.Identifier
-                + "\tDDB Exception Message: \n" + ddbResponse?.error.Message.UnwrapOr("")));
+                + "\tDynamoDB Exception Message: \n" + ddbResponse?.error.Message.UnwrapOr("")));
       }
       var ddbResponse :- ddbResponse?
       .MapFailure(
@@ -580,7 +577,7 @@ module DefaultKeyStorageInterface {
     }
 
 
-    method GetMutation' ( input: Types.GetMutationInput )
+    method {:vcs_split_on_every_assert} GetMutation' ( input: Types.GetMutationInput )
       returns (output: Result<Types.GetMutationOutput, Types.Error>)
       requires ValidState()
       modifies Modifies - {History}
@@ -1260,23 +1257,23 @@ module DefaultKeyStorageInterface {
           ));
     }
 
-    /** Transaction OverWrite up to 99 Decryt Only Items, with a Global Condition on the M-Lock.*/
+    /** Transaction OverWrite up to 98 Decryt Only Items,
+       with a Global Condition on the M-Commitment.
+       The Mutation Index is also updated via an Optimistic Lock.
+       If the mutation is complete, the M-Commitment & M-Index are deleted.
+     */
     method WriteMutatedVersions' ( input: Types.WriteMutatedVersionsInput )
       returns (output: Result<Types.WriteMutatedVersionsOutput, Types.Error>)
-      requires
-        && ValidState()
+      requires && ValidState()
       modifies Modifies - {History}
-      // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History}
-      ensures
-        && ValidState()
+      ensures unchanged(History) && ValidState()
       ensures WriteMutatedVersionsEnsuresPublicly(input, output)
-      ensures unchanged(History)
     {
       /** Validate Input */
       :- Need(
-        |input.Items| < 98,
-        Types.KeyStorageException(message:="DynamoDB Encrypted Key Storage can only write page sizes less than 99."
+        |input.Items| < DDB_MAX_MUTATION_WRITE_PAGE_SIZE,
+        Types.KeyStorageException(message:="DynamoDB Encrypted Key Storage can only write page sizes less than " + DDB_MAX_MUTATION_WRITE_PAGE_SIZE_str + "."
         ));
       :- Need(
         0 < |input.MutationCommitment.Original|,
@@ -1607,13 +1604,18 @@ module DefaultKeyStorageInterface {
         "attribute_exists(#pk)"
         + " AND original = :original"
         + " AND terminal = :terminal"
-        + " AND " + Structure.ENC_FIELD + " = :encOld",
-      ExpressionAttributeNames := map["#pk" := Structure.BRANCH_KEY_IDENTIFIER_FIELD], // "#pk":="branch-key-id"
+        + " AND " + Structure.ENC_FIELD + " = :encOld"
+        + " AND #uuid = :" + Structure.M_UUID,
+      ExpressionAttributeNames := map[
+        "#pk" := Structure.BRANCH_KEY_IDENTIFIER_FIELD, // "#pk":="branch-key-id"
+        "#uuid" := Structure.M_UUID // "#uuid" := "uuid"
+      ],
       ExpressionAttributeValues :=
         map[
           ":original" := DDB.AttributeValue.B(mLock.Original),
           ":terminal" := DDB.AttributeValue.B(mLock.Terminal),
-          ":encOld" := DDB.AttributeValue.B(mLock.CiphertextBlob)
+          ":encOld" := DDB.AttributeValue.B(mLock.CiphertextBlob),
+          ":" + Structure.M_UUID := DDB.AttributeValue.S(mLock.UUID)
         ]
     )
   }
@@ -1649,12 +1651,17 @@ module DefaultKeyStorageInterface {
       ConditionExpression :=
         "attribute_exists(#pk)"
         + " AND " + Structure.M_PAGE_INDEX + " = :" + Structure.M_PAGE_INDEX + "Old"
-        + " AND " + Structure.ENC_FIELD + " = :" + Structure.ENC_FIELD + "Old",
-      ExpressionAttributeNames := map["#pk" := Structure.BRANCH_KEY_IDENTIFIER_FIELD], // "#pk":="branch-key-id"
+        + " AND " + Structure.ENC_FIELD + " = :" + Structure.ENC_FIELD + "Old"
+        + " AND #uuid = :" + Structure.M_UUID,
+      ExpressionAttributeNames := map[
+        "#pk" := Structure.BRANCH_KEY_IDENTIFIER_FIELD, // "#pk":="branch-key-id"
+        "#uuid" := Structure.M_UUID // "#uuid" := "uuid"
+      ],
       ExpressionAttributeValues :=
         map[
           ":" + Structure.M_PAGE_INDEX + "Old" := DDB.AttributeValue.B(oldIndex.PageIndex),
-          ":" + Structure.ENC_FIELD + "Old" := DDB.AttributeValue.B(oldIndex.CiphertextBlob)
+          ":" + Structure.ENC_FIELD + "Old" := DDB.AttributeValue.B(oldIndex.CiphertextBlob),
+          ":" + Structure.M_UUID := DDB.AttributeValue.S(oldIndex.UUID)
         ]
     )
   }

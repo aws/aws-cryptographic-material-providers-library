@@ -22,7 +22,7 @@ public class WriteMutatedVersionsInput {
   private final MutationCommitment MutationCommitment;
 
   /**
-   * To avoid information loss, overwrites to any itme in the Key Store
+   * To avoid information loss, overwrites to any item in the Key Store
    * are done conditioned on the old value.
    */
   private final OverWriteMutationIndex MutationIndex;
@@ -54,7 +54,7 @@ public class WriteMutatedVersionsInput {
   }
 
   /**
-   * @return To avoid information loss, overwrites to any itme in the Key Store
+   * @return To avoid information loss, overwrites to any item in the Key Store
    * are done conditioned on the old value.
    */
   public OverWriteMutationIndex MutationIndex() {
@@ -101,13 +101,13 @@ public class WriteMutatedVersionsInput {
     MutationCommitment MutationCommitment();
 
     /**
-     * @param MutationIndex To avoid information loss, overwrites to any itme in the Key Store
+     * @param MutationIndex To avoid information loss, overwrites to any item in the Key Store
      * are done conditioned on the old value.
      */
     Builder MutationIndex(OverWriteMutationIndex MutationIndex);
 
     /**
-     * @return To avoid information loss, overwrites to any itme in the Key Store
+     * @return To avoid information loss, overwrites to any item in the Key Store
      * are done conditioned on the old value.
      */
     OverWriteMutationIndex MutationIndex();

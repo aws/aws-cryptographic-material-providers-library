@@ -8,7 +8,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
   public class VersionKeyInput
   {
     private string _identifier;
-    private AWS.Cryptography.KeyStoreAdmin.KmsAesIdentifier _kmsArn;
+    private AWS.Cryptography.KeyStoreAdmin.KmsSymmetricKeyArn _kmsArn;
     private AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy _strategy;
     public string Identifier
     {
@@ -19,7 +19,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       return this._identifier != null;
     }
-    public AWS.Cryptography.KeyStoreAdmin.KmsAesIdentifier KmsArn
+    public AWS.Cryptography.KeyStoreAdmin.KmsSymmetricKeyArn KmsArn
     {
       get { return this._kmsArn; }
       set { this._kmsArn = value; }

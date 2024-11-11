@@ -73,10 +73,37 @@ public class MutationResumeExample {
       admin,
       1
     );
+    System.out.println(
+      "\nInitialized and Applied one page of Mutation for: " +
+      branchKeyId +
+      "\n"
+    );
     // Pretend the Mutation is halted for some reason.
     // We can Resume it by calling Initialize again.
     token = executeInitialize(branchKeyId, admin, initInput, "Resume Logs");
+    result = workPage(branchKeyId, systemKey, token, strategy, admin, 1);
+    System.out.println(
+      "\nInitialized vended a token and we applied one page of Mutation for: " +
+      branchKeyId +
+      "\n"
+    );
+    // If we want to restart the Mutation from the beginning, we delete the Index.
+    DdbHelper.deleteKeyStoreDdbItem(
+      branchKeyId,
+      "branch:MUTATION_INDEX",
+      logicalKeyStoreName,
+      dynamoDbClient
+    );
+    // But if we deleted the index, we do need to call Initialize again
+    token = executeInitialize(branchKeyId, admin, initInput, "Restart Logs");
+    System.out.println(
+      "\nDeletion of Index and subsequent call to Initialize reset the pageIndex: " +
+      branchKeyId +
+      "\n"
+    );
     try {
+      // But if we try to resume it/call initialize mutation via a different input,
+      // an exception is thrown
       HashMap<String, String> badTerminalEC = new HashMap<>();
       badTerminalEC.put("Robbie", "is a Cat.");
       Mutations badMutations = Mutations
@@ -93,19 +120,19 @@ public class MutationResumeExample {
         .build();
       executeInitialize(branchKeyId, admin, badInput, "Fail Resume Logs");
     } catch (MutationConflictException ex) {
+      System.out.println(
+        "\nCalling Initialize for a different input failed for: " +
+        branchKeyId +
+        "\n"
+      );
       System.out.println(ex.getMessage());
       mutationConflictThrown = true;
     }
-    result = workPage(branchKeyId, systemKey, token, strategy, admin, 1);
-    // If we want to restart the Mutation from the beginning, we delete the Index.
-    DdbHelper.deleteKeyStoreDdbItem(
-      branchKeyId,
-      "branch:MUTATION_INDEX",
-      logicalKeyStoreName,
-      dynamoDbClient
+    // OK. We have proven we can Resume, Restart,
+    // and correctly fail if the wrong input is given
+    System.out.println(
+      "\nGoing to complete the mutation for: " + branchKeyId + "\n"
     );
-    token = executeInitialize(branchKeyId, admin, initInput, "Restart Logs");
-
     workMutation(branchKeyId, systemKey, token, strategy, admin);
 
     System.out.println("Done with Mutation: " + branchKeyId);
@@ -185,11 +212,11 @@ public class MutationResumeExample {
     System.out.println(
       logPrefix +
       ": " +
-      " Flag: " +
+      "\nFlag: " +
       initOutput.InitializeMutationFlag().toString() +
-      " " +
+      "\nIdentifier: " +
       branchKeyId +
-      " items: \n" +
+      "\nitems: \n" +
       AdminProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
     );
     return token;

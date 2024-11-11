@@ -13,7 +13,7 @@ public class MutationToken {
   private final String Identifier;
 
   /**
-   * UUID of the Mutation Lock.
+   * UUID of the Mutation.
    */
   private final String UUID;
 
@@ -36,7 +36,7 @@ public class MutationToken {
   }
 
   /**
-   * @return UUID of the Mutation Lock.
+   * @return UUID of the Mutation.
    */
   public String UUID() {
     return this.UUID;
@@ -69,12 +69,12 @@ public class MutationToken {
     String Identifier();
 
     /**
-     * @param UUID UUID of the Mutation Lock.
+     * @param UUID UUID of the Mutation.
      */
     Builder UUID(String UUID);
 
     /**
-     * @return UUID of the Mutation Lock.
+     * @return UUID of the Mutation.
      */
     String UUID();
 
@@ -138,6 +138,11 @@ public class MutationToken {
       if (Objects.isNull(this.Identifier())) {
         throw new IllegalArgumentException(
           "Missing value for required field `Identifier`"
+        );
+      }
+      if (Objects.isNull(this.UUID())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `UUID`"
         );
       }
       if (Objects.isNull(this.CreateTime())) {

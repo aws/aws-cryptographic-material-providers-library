@@ -10,7 +10,7 @@ public class WriteInitializeMutationInput {
   /**
    *
    *   The active representation of this branch key,
-   *   generated with the Mutation's terminal properities.
+   *   generated with the Mutation's terminal properties.
    *   The plain-text cryptographic material of the Active must be the same as the Version.
    */
   private final OverWriteEncryptedHierarchicalKey Active;
@@ -18,7 +18,7 @@ public class WriteInitializeMutationInput {
   /**
    *
    *   The decrypt representation of this branch key version,
-   *   generated with the Mutation's terminal properities.
+   *   generated with the Mutation's terminal properties.
    *   The plain-text cryptographic material of the `Version` must be the same as the `Active`.
    */
   private final WriteInitializeMutationVersion Version;
@@ -27,7 +27,7 @@ public class WriteInitializeMutationInput {
    *
    *   The mutated HMAC key used to support searchable encryption.
    *   The cryptographic material is identical to the existing beacon,
-   *   but is now authorized with the Mutation's terminal properities.
+   *   but is now authorized with the Mutation's terminal properties.
    */
   private final OverWriteEncryptedHierarchicalKey Beacon;
 
@@ -40,7 +40,7 @@ public class WriteInitializeMutationInput {
   private final MutationCommitment MutationCommitment;
 
   /**
-   * Information on an in-flight Mutation of a Branch Key.
+   * Information of an in-flight Mutation of a Branch Key.
    */
   private final MutationIndex MutationIndex;
 
@@ -55,7 +55,7 @@ public class WriteInitializeMutationInput {
   /**
    * @return
    *   The active representation of this branch key,
-   *   generated with the Mutation's terminal properities.
+   *   generated with the Mutation's terminal properties.
    *   The plain-text cryptographic material of the Active must be the same as the Version.
    */
   public OverWriteEncryptedHierarchicalKey Active() {
@@ -65,7 +65,7 @@ public class WriteInitializeMutationInput {
   /**
    * @return
    *   The decrypt representation of this branch key version,
-   *   generated with the Mutation's terminal properities.
+   *   generated with the Mutation's terminal properties.
    *   The plain-text cryptographic material of the `Version` must be the same as the `Active`.
    */
   public WriteInitializeMutationVersion Version() {
@@ -76,7 +76,7 @@ public class WriteInitializeMutationInput {
    * @return
    *   The mutated HMAC key used to support searchable encryption.
    *   The cryptographic material is identical to the existing beacon,
-   *   but is now authorized with the Mutation's terminal properities.
+   *   but is now authorized with the Mutation's terminal properties.
    */
   public OverWriteEncryptedHierarchicalKey Beacon() {
     return this.Beacon;
@@ -93,7 +93,7 @@ public class WriteInitializeMutationInput {
   }
 
   /**
-   * @return Information on an in-flight Mutation of a Branch Key.
+   * @return Information of an in-flight Mutation of a Branch Key.
    */
   public MutationIndex MutationIndex() {
     return this.MutationIndex;
@@ -111,7 +111,7 @@ public class WriteInitializeMutationInput {
     /**
      * @param Active
      *   The active representation of this branch key,
-     *   generated with the Mutation's terminal properities.
+     *   generated with the Mutation's terminal properties.
      *   The plain-text cryptographic material of the Active must be the same as the Version.
      */
     Builder Active(OverWriteEncryptedHierarchicalKey Active);
@@ -119,7 +119,7 @@ public class WriteInitializeMutationInput {
     /**
      * @return
      *   The active representation of this branch key,
-     *   generated with the Mutation's terminal properities.
+     *   generated with the Mutation's terminal properties.
      *   The plain-text cryptographic material of the Active must be the same as the Version.
      */
     OverWriteEncryptedHierarchicalKey Active();
@@ -127,7 +127,7 @@ public class WriteInitializeMutationInput {
     /**
      * @param Version
      *   The decrypt representation of this branch key version,
-     *   generated with the Mutation's terminal properities.
+     *   generated with the Mutation's terminal properties.
      *   The plain-text cryptographic material of the `Version` must be the same as the `Active`.
      */
     Builder Version(WriteInitializeMutationVersion Version);
@@ -135,7 +135,7 @@ public class WriteInitializeMutationInput {
     /**
      * @return
      *   The decrypt representation of this branch key version,
-     *   generated with the Mutation's terminal properities.
+     *   generated with the Mutation's terminal properties.
      *   The plain-text cryptographic material of the `Version` must be the same as the `Active`.
      */
     WriteInitializeMutationVersion Version();
@@ -144,7 +144,7 @@ public class WriteInitializeMutationInput {
      * @param Beacon
      *   The mutated HMAC key used to support searchable encryption.
      *   The cryptographic material is identical to the existing beacon,
-     *   but is now authorized with the Mutation's terminal properities.
+     *   but is now authorized with the Mutation's terminal properties.
      */
     Builder Beacon(OverWriteEncryptedHierarchicalKey Beacon);
 
@@ -152,7 +152,7 @@ public class WriteInitializeMutationInput {
      * @return
      *   The mutated HMAC key used to support searchable encryption.
      *   The cryptographic material is identical to the existing beacon,
-     *   but is now authorized with the Mutation's terminal properities.
+     *   but is now authorized with the Mutation's terminal properties.
      */
     OverWriteEncryptedHierarchicalKey Beacon();
 
@@ -173,12 +173,12 @@ public class WriteInitializeMutationInput {
     MutationCommitment MutationCommitment();
 
     /**
-     * @param MutationIndex Information on an in-flight Mutation of a Branch Key.
+     * @param MutationIndex Information of an in-flight Mutation of a Branch Key.
      */
     Builder MutationIndex(MutationIndex MutationIndex);
 
     /**
-     * @return Information on an in-flight Mutation of a Branch Key.
+     * @return Information of an in-flight Mutation of a Branch Key.
      */
     MutationIndex MutationIndex();
 
