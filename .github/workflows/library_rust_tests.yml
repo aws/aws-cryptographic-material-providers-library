@@ -77,6 +77,11 @@ jobs:
       - name: Setup NASM for Windows (aws-lc-sys)
         uses: ilammy/setup-nasm@v1
 
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v2
+        with:
+          cmake-version: '3.31.x'
+
       - name: Install Smithy-Dafny codegen dependencies
         uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
 
