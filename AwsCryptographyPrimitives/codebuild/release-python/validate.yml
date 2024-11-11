@@ -20,6 +20,9 @@ phases:
       - export PATH="$PWD/dafny:$PATH"
       # Switch back to the main directory
       - cd aws-cryptographic-material-providers-library
+      # Check out tests for release commit
+      - git fetch --tags
+      - git checkout $COMMIT_ID
       # Install test dependencies
       - pyenv install --skip-existing 3.11
       - pyenv local 3.11
