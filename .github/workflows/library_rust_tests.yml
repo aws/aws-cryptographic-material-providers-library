@@ -79,16 +79,6 @@ jobs:
             sed -i 's|rustfmt --edition 2021 runtimes/rust/src/implementation_from_dafny.rs|#&|' smithy-dafny/SmithyDafnyMakefile.mk
           fi
 
-      # TODO: Remove this after the formatting in Rust starts working
-      - name: smithy-dafny Rust hacks
-        shell: bash
-        run: |
-          if [ "$RUNNER_OS" == "macOS" ]; then
-            sed -i '' 's^WrappedMaterialProvidersMain::_default::Main();^let args: Vec<String> = std::env::args().collect();let dafny_strings = args.iter().map(|x| dafny_runtime::dafny_runtime_conversions::unicode_chars_false::string_to_dafny_string(&x)).collect::<Vec<_>>();let dafny_args = dafny_runtime::Sequence::from_array_owned(dafny_strings);_WrappedMaterialProvidersMain_Compile::_default::Main(&dafny_args);^' runtimes/rust/src/implementation_from_dafny.rs
-          else
-            sed -i 's^WrappedMaterialProvidersMain::_default::Main();^let args: Vec<String> = std::env::args().collect();let dafny_strings = args.iter().map(|x| dafny_runtime::dafny_runtime_conversions::unicode_chars_false::string_to_dafny_string(&x)).collect::<Vec<_>>();let dafny_args = dafny_runtime::Sequence::from_array_owned(dafny_strings);_WrappedMaterialProvidersMain_Compile::_default::Main(&dafny_args);^' runtimes/rust/src/implementation_from_dafny.rs
-          fi
-
       - name: Setup Java 17 for codegen
         uses: actions/setup-java@v3
         with:
@@ -116,6 +106,17 @@ jobs:
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_rust CORES=$CORES
+
+      # Change `main` for the TestVectors to be the right thing
+      # TODO: Remove this after we generate main correctly
+      - name: implementation_from_dafny Rust hacks
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" == "macOS" ]; then
+            sed -i '' 's^WrappedMaterialProvidersMain::_default::Main();^let args: Vec<String> = std::env::args().collect();let dafny_strings = args.iter().map(|x| dafny_runtime::dafny_runtime_conversions::unicode_chars_false::string_to_dafny_string(&x)).collect::<Vec<_>>();let dafny_args = dafny_runtime::Sequence::from_array_owned(dafny_strings);_WrappedMaterialProvidersMain_Compile::_default::Main(&dafny_args);^' runtimes/rust/src/implementation_from_dafny.rs
+          else
+            sed -i 's^WrappedMaterialProvidersMain::_default::Main();^let args: Vec<String> = std::env::args().collect();let dafny_strings = args.iter().map(|x| dafny_runtime::dafny_runtime_conversions::unicode_chars_false::string_to_dafny_string(&x)).collect::<Vec<_>>();let dafny_args = dafny_runtime::Sequence::from_array_owned(dafny_strings);_WrappedMaterialProvidersMain_Compile::_default::Main(&dafny_args);^' runtimes/rust/src/implementation_from_dafny.rs
+          fi
 
       - name: Test ${{ matrix.library }} Rust
         working-directory: ./${{ matrix.library }}
