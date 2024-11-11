@@ -111,6 +111,7 @@ jobs:
       # TODO: Remove this after we generate main correctly
       - name: implementation_from_dafny Rust hacks
         shell: bash
+        working-directory: ./${{ matrix.library }}
         run: |
           if [ "$RUNNER_OS" == "macOS" ]; then
             sed -i '' 's^WrappedMaterialProvidersMain::_default::Main();^let args: Vec<String> = std::env::args().collect();let dafny_strings = args.iter().map(|x| dafny_runtime::dafny_runtime_conversions::unicode_chars_false::string_to_dafny_string(&x)).collect::<Vec<_>>();let dafny_args = dafny_runtime::Sequence::from_array_owned(dafny_strings);_WrappedMaterialProvidersMain_Compile::_default::Main(&dafny_args);^' runtimes/rust/src/implementation_from_dafny.rs
