@@ -37,6 +37,8 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    env:
+      AWS_LC_SYS_PREBUILT_NASM: 1
     steps:
       - name: Support longpaths on Git checkout
         run: |
@@ -56,7 +58,7 @@ jobs:
       - run: git submodule update --init --recursive smithy-dafny
 
       - name: Set up Rust
-        uses: actions-rust-lang/setup-rust-toolchain@v1.10.1
+        uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           components: rustfmt
 
