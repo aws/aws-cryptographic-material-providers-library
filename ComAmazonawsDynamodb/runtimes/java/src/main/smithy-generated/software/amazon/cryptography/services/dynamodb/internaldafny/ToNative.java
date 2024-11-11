@@ -375,6 +375,7 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ItemCollectionSizeLimitExceededException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_LimitExceededException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_Opaque;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_OpaqueWithText;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_PointInTimeRecoveryUnavailableException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_PolicyNotFoundException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ProvisionedThroughputExceededException;
@@ -8621,6 +8622,25 @@ public class ToNative {
     );
   }
 
+  public static RuntimeException Error(Error_OpaqueWithText dafnyValue) {
+    // While the first two cases are logically identical,
+    // there is a semantic distinction.
+    // An un-modeled Service Error is different from a Java Heap Exhaustion error.
+    // In the future, Smithy-Dafny MAY allow for this distinction.
+    // Which would allow Dafny developers to treat the two differently.
+    if (dafnyValue.dtor_obj() instanceof DynamoDbException) {
+      return (DynamoDbException) dafnyValue.dtor_obj();
+    } else if (dafnyValue.dtor_obj() instanceof Exception) {
+      return (RuntimeException) dafnyValue.dtor_obj();
+    }
+    return new IllegalStateException(
+      String.format(
+        "Unknown error thrown while calling Amazon DynamoDB. %s",
+        dafnyValue
+      )
+    );
+  }
+
   public static RuntimeException Error(Error dafnyValue) {
     if (dafnyValue.is_BackupInUseException()) {
       return ToNative.Error((Error_BackupInUseException) dafnyValue);
@@ -8732,6 +8752,9 @@ public class ToNative {
     }
     if (dafnyValue.is_Opaque()) {
       return ToNative.Error((Error_Opaque) dafnyValue);
+    }
+    if (dafnyValue.is_OpaqueWithText()) {
+      return ToNative.Error((Error_OpaqueWithText) dafnyValue);
     }
     // TODO This should indicate a codegen bug; every error Should have been taken care of.
     return new IllegalStateException(

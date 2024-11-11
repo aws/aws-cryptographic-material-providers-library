@@ -5727,7 +5727,10 @@ public class ToDafny {
     // An un-modeled Service Error is different from a Java Heap Exhaustion error.
     // In the future, Smithy-Dafny MAY allow for this distinction.
     // Which would allow Dafny developers to treat the two differently.
-    return Error.create_Opaque(nativeValue);
+    return Error.create_OpaqueWithText(
+      nativeValue,
+      dafny.DafnySequence.asString(nativeValue.getMessage())
+    );
   }
 
   public static Error Error(Exception nativeValue) {
@@ -5736,7 +5739,10 @@ public class ToDafny {
     // An un-modeled Service Error is different from a Java Heap Exhaustion error.
     // In the future, Smithy-Dafny MAY allow for this distinction.
     // Which would allow Dafny developers to treat the two differently.
-    return Error.create_Opaque(nativeValue);
+    return Error.create_OpaqueWithText(
+      nativeValue,
+      dafny.DafnySequence.asString(nativeValue.getMessage())
+    );
   }
 
   public static IKMSClient TrentService(KmsClient nativeValue) {
