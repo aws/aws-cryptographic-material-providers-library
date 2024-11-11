@@ -125,7 +125,10 @@ import software.amazon.cryptography.materialproviders.model.ValidateCommitmentPo
 
 public class ToNative {
 
-  public static OpaqueError Error(Error_Opaque dafnyValue) {
+  public static RuntimeException Error(Error_Opaque dafnyValue) {
+    if (dafnyValue.dtor_obj() instanceof RuntimeException) {
+      return (RuntimeException) dafnyValue.dtor_obj();
+    }
     OpaqueError.Builder nativeBuilder = OpaqueError.builder();
     nativeBuilder.obj(dafnyValue.dtor_obj());
     return nativeBuilder.build();
