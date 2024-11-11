@@ -4561,7 +4561,7 @@ public class ToNative {
     } else if (dafnyValue.dtor_obj() instanceof Throwable) {
       return new RuntimeException(
         String.format(
-          "Unknown error thrown while calling AWS Key Management Service. %s",
+          "Unknown error thrown while calling AWS. %s",
           dafnyValue.dtor_obj()
         ),
         (Throwable) dafnyValue.dtor_obj()
@@ -4588,7 +4588,7 @@ public class ToNative {
     } else if (dafnyValue.dtor_obj() instanceof Throwable) {
       return new RuntimeException(
         String.format(
-          "Unknown error thrown while calling AWS Key Management Service. %s",
+          "Unknown error thrown while calling AWS. %s",
           dafnyValue.dtor_obj()
         ),
         (Throwable) dafnyValue.dtor_obj()
