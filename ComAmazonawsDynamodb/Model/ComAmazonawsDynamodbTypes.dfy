@@ -2727,6 +2727,13 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
       // The Opaque error, used for native, extern, wrapped or unknown errors
     | Opaque(obj: object)
   type OpaqueError = e: Error | e.Opaque? witness *
+  // This dummy subset type is included to make sure Dafny
+  // always generates a _ExternBase___default.java class.
+  type DummySubsetType = x: int | IsDummySubsetType(x) witness 1
+  predicate method IsDummySubsetType(x: int) {
+    0 < x
+  }
+
 }
 abstract module AbstractComAmazonawsDynamodbService {
   import opened Wrappers
