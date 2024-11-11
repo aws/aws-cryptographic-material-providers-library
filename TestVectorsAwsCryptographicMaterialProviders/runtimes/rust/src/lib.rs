@@ -3,7 +3,8 @@
     non_upper_case_globals,
     unused,
     non_snake_case,
-    non_camel_case_types
+    non_camel_case_types,
+    unexpected_cfgs
 )]
 
 pub mod client;
