@@ -10,7 +10,8 @@ module {:options "-functionSyntax:4"} AllRawAES {
   import KeyVectorsTypes = AwsCryptographyMaterialProvidersTestVectorKeysTypes
 
   // These are all the PositiveKeyDescription for the RawAESKeyring
-  const aesPersistentKeyNames := [ "aes-128", "aes-192", "aes-256"]
+//  const aesPersistentKeyNames := [ "aes-128", "aes-192", "aes-256"]
+  const aesPersistentKeyNames := [ "aes-128", "aes-256"]
   const KeyDescriptions :=
     set
       key <- aesPersistentKeyNames

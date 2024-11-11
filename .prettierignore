@@ -6,6 +6,7 @@ libraries
 */runtimes/java/build/*
 */runtimes/net/obj/*
 */runtimes/net/bin/*
+*/runtimes/rust/target/*
 
 # Dafny generated java
 */runtimes/java/src/*/dafny-generated/*
