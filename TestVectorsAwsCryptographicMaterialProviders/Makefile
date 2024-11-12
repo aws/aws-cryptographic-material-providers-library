@@ -17,9 +17,9 @@ MAIN_SERVICE_FOR_RUST := TestVectorsAwsCryptographicMaterialProviders
 RUST_OTHER_FILES := \
 	runtimes/rust/src/aes_gcm.rs \
 	runtimes/rust/src/aes_kdf_ctr.rs \
-	runtimes/rust/src/ddb.rs \
 	runtimes/rust/src/concurrent_call.rs \
 	runtimes/rust/src/dafny_libraries.rs \
+	runtimes/rust/src/ddb.rs \
 	runtimes/rust/src/digest.rs \
 	runtimes/rust/src/ecdh.rs \
 	runtimes/rust/src/ecdsa.rs \
