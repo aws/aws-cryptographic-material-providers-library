@@ -79,7 +79,7 @@ class SynchronizedLocalCMC:
         try:
             val = self.wrapped.DeleteCacheEntry(input)
         finally:
-            self.lock.Unlock()
+            self.lock.Unlock() 
         return val
     
     def __str__(self):
