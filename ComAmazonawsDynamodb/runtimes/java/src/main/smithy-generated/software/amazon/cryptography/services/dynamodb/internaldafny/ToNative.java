@@ -8,10 +8,10 @@ import dafny.DafnySequence;
 import java.lang.Byte;
 import java.lang.Character;
 import java.lang.Double;
-import java.lang.Exception;
 import java.lang.IllegalStateException;
 import java.lang.RuntimeException;
 import java.lang.String;
+import java.lang.Throwable;
 import java.util.List;
 import java.util.Map;
 import software.amazon.awssdk.core.SdkBytes;
@@ -8611,8 +8611,15 @@ public class ToNative {
     // Which would allow Dafny developers to treat the two differently.
     if (dafnyValue.dtor_obj() instanceof DynamoDbException) {
       return (DynamoDbException) dafnyValue.dtor_obj();
-    } else if (dafnyValue.dtor_obj() instanceof Exception) {
+    } else if (dafnyValue.dtor_obj() instanceof RuntimeException) {
       return (RuntimeException) dafnyValue.dtor_obj();
+    } else if (dafnyValue.dtor_obj() instanceof Throwable) {
+      return new RuntimeException(
+        String.format(
+          "Unknown error thrown while calling Amazon DynamoDB. %s",
+          (Throwable) dafnyValue.dtor_obj()
+        )
+      );
     }
     return new IllegalStateException(
       String.format(
@@ -8630,8 +8637,15 @@ public class ToNative {
     // Which would allow Dafny developers to treat the two differently.
     if (dafnyValue.dtor_obj() instanceof DynamoDbException) {
       return (DynamoDbException) dafnyValue.dtor_obj();
-    } else if (dafnyValue.dtor_obj() instanceof Exception) {
+    } else if (dafnyValue.dtor_obj() instanceof RuntimeException) {
       return (RuntimeException) dafnyValue.dtor_obj();
+    } else if (dafnyValue.dtor_obj() instanceof Throwable) {
+      return new RuntimeException(
+        String.format(
+          "Unknown error thrown while calling Amazon DynamoDB. %s",
+          (Throwable) dafnyValue.dtor_obj()
+        )
+      );
     }
     return new IllegalStateException(
       String.format(
