@@ -8,6 +8,7 @@ import static software.amazon.cryptography.example.Fixtures.POSTAL_HORN_KEY_ARN;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import software.amazon.awssdk.regions.Region;
@@ -111,11 +112,11 @@ public class MutationKmsAccessTerminalInFlightTest {
       " items: \n" +
       AdminProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
     );
+
     boolean done = false;
     List<Exception> exceptions = new ArrayList<>();
     boolean isFromThrown = false;
     boolean isToThrown = false;
-    boolean verifyTerminalThrown = false;
     int limitLoop = 5;
 
     while (!done) {
@@ -153,20 +154,19 @@ public class MutationKmsAccessTerminalInFlightTest {
         | KeyStoreAdminException accessDenied
       ) {
         if (accessDenied instanceof MutationToException) {
-          boolean isTo =
-            ((MutationToException) accessDenied).getMessage()
-              .contains("while verifying a Version with terminal properities");
-          verifyTerminalThrown = verifyTerminalThrown || isTo;
+          isToThrown = true;
         }
-
+        if (accessDenied instanceof MutationFromException) {
+          isFromThrown = true;
+        }
         if (accessDenied instanceof KmsException) {
-          boolean isFrom = accessDenied.getMessage().contains("ReEncryptFrom");
-          isFromThrown = isFromThrown || isFrom;
-          boolean isTo = accessDenied.getMessage().contains("ReEncryptTo");
-          isToThrown = isToThrown || isTo;
-          Assert.assertTrue(
-            (isTo || isFrom),
-            "KMS Exception does not meet expectations. testId: " +
+          boolean kmsIsFrom = accessDenied
+            .getMessage()
+            .contains("ReEncryptFrom");
+          boolean kmsIsTo = accessDenied.getMessage().contains("ReEncryptTo");
+          Assert.assertFalse(
+            (kmsIsFrom || kmsIsTo),
+            "KMS Exception SHOULD have been cast to Mutation Exception. testId: " +
             branchKeyId +
             ". KMS Exception: " +
             accessDenied
@@ -205,14 +205,14 @@ public class MutationKmsAccessTerminalInFlightTest {
 
     // Clean Up
     Fixtures.cleanUpBranchKeyId(storage, branchKeyId);
-    // Assert.assertTrue(
-    //   (exceptions.size() == 2),
-    //   "More Exceptions thrown than expected. Exceptions: " + exceptions
-    // );
-    // Assert.assertTrue(
-    //   verifyTerminalThrown,
-    //   "Apply never verified the new decrypt."
-    // );
-    // Assert.assertTrue(isToThrown, "Apply never mutated the old decrypt.");
+    Assert.assertTrue(
+      (exceptions.size() == 2),
+      "Only two exceptions should have been thrown. Exceptions: " +
+      exceptions
+        .stream()
+        .map(Throwable::toString)
+        .collect(Collectors.joining("\n"))
+    );
+    Assert.assertTrue(isToThrown, "Apply never mutated the old decrypt.");
   }
 }
