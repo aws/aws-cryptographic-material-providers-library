@@ -1679,6 +1679,7 @@ module DefaultKeyStorageInterface {
     // that can hold either Opaque or DDB Error
     match e {
       case Opaque(obj) => Types.Opaque(obj) //https://github.com/smithy-lang/smithy-dafny/issues/450#issuecomment-2322149920
+      case OpaqueWithText(obj, objMessage) => Types.OpaqueWithText(obj, objMessage)
       case IdempotentParameterMismatchException(Message) => Types.KeyStorageException(
         message :=
           "DDB through an exception for " +  storageOperation + "'s " + ddbOperation + ". Table Name: "

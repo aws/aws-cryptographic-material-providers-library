@@ -8,6 +8,9 @@ import static software.amazon.cryptography.example.Fixtures.POSTAL_HORN_KEY_ARN;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import software.amazon.awssdk.regions.Region;
@@ -16,10 +19,7 @@ import software.amazon.awssdk.services.kms.model.KmsException;
 import software.amazon.cryptography.example.CredentialUtils;
 import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
-import software.amazon.cryptography.example.StorageCheater;
 import software.amazon.cryptography.keystore.KeyStorageInterface;
-import software.amazon.cryptography.keystore.model.QueryForVersionsInput;
-import software.amazon.cryptography.keystore.model.QueryForVersionsOutput;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationOutput;
@@ -40,19 +40,29 @@ public class MutationKmsAccessOriginalInFlightTest {
   static final String testPrefix =
     "mutation-kms-access-in-flight-original-test-";
 
+  static final Pattern matchBranchKeyType = Pattern.compile(
+    "(?<=Branch Key Type: )(.*)(?:;)"
+  );
+
   @Test
-  public void test() {
+  public void test() throws InterruptedException {
     SystemKey systemKey = SystemKey
       .builder()
       .trustStorage(TrustStorage.builder().build())
       .build();
-    KeyStorageInterface storage = StorageCheater.create(
+    KeyStorageInterface storage = StorageExample.create(
       Fixtures.ddbClientWest2,
       Fixtures.TEST_KEYSTORE_NAME,
       Fixtures.TEST_LOGICAL_KEYSTORE_NAME
     );
+    // KeyStorageInterface storage = StorageCheater.create(
+    //   Fixtures.ddbClientWest2,
+    //   Fixtures.TEST_KEYSTORE_NAME,
+    //   Fixtures.TEST_LOGICAL_KEYSTORE_NAME
+    // );
     final String branchKeyId =
       testPrefix + java.util.UUID.randomUUID().toString();
+
     CreateKeyExample.CreateKey(
       Fixtures.TEST_KEYSTORE_NAME,
       Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
@@ -82,7 +92,7 @@ public class MutationKmsAccessOriginalInFlightTest {
     KeyStoreAdmin admin = AdminProvider.admin(
       Fixtures.TEST_KEYSTORE_NAME,
       Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
-      Fixtures.ddbClientWest2
+      storage
     );
 
     System.out.println("BranchKey ID to mutate: " + branchKeyId);
@@ -119,6 +129,11 @@ public class MutationKmsAccessOriginalInFlightTest {
     int limitLoop = 5;
 
     while (!done) {
+      // System.out.println(
+      //   "Loop Count': " +
+      //   limitLoop +
+      //   " Sleeping 10 seconds\n");
+      // Thread.sleep(10000);
       try {
         limitLoop--;
         if (limitLoop == 0) done = true;
@@ -132,7 +147,7 @@ public class MutationKmsAccessOriginalInFlightTest {
         ApplyMutationOutput applyOutput = admin.ApplyMutation(applyInput);
         ApplyMutationResult result = applyOutput.MutationResult();
         System.out.println(
-          "ApplyLogs: " +
+          "\nApplyLogs: " +
           branchKeyId +
           " items: \n" +
           AdminProvider.mutatedItemsToString(
@@ -153,48 +168,39 @@ public class MutationKmsAccessOriginalInFlightTest {
         | KeyStoreAdminException accessDenied
       ) {
         if (accessDenied instanceof MutationToException) {
-          boolean isTo =
-            ((MutationToException) accessDenied).getMessage()
-              .contains("while verifying a Version with terminal properities");
-          verifyTerminalThrown = verifyTerminalThrown || isTo;
+          isToThrown = true;
         }
         if (accessDenied instanceof MutationFromException) {
-          boolean isFrom =
-            ((MutationFromException) accessDenied).getMessage()
-              .contains("while verifying a Version with terminal properities");
-          verifyTerminalThrown = verifyTerminalThrown || isFrom;
+          isFromThrown = true;
         }
         if (accessDenied instanceof KmsException) {
-          boolean isFrom = accessDenied.getMessage().contains("ReEncryptFrom");
-          isFromThrown = isFromThrown || isFrom;
-          boolean isTo = accessDenied.getMessage().contains("ReEncryptTo");
-          isToThrown = isToThrown || isTo;
-          Assert.assertTrue(
-            (isTo || isFrom),
-            "KMS Exception does not meet expectations. testId: " +
+          boolean kmsIsFrom = accessDenied
+            .getMessage()
+            .contains("ReEncryptFrom");
+          boolean kmsIsTo = accessDenied.getMessage().contains("ReEncryptTo");
+          Assert.assertFalse(
+            (kmsIsFrom || kmsIsTo),
+            "KMS Exception SHOULD have been cast to Mutation Exception. testId: " +
             branchKeyId +
             ". KMS Exception: " +
             accessDenied
           );
         }
-        exceptions.add(accessDenied);
-        // An exception was thrown, let's delete the item
-        QueryForVersionsOutput versions = storage.QueryForVersions(
-          QueryForVersionsInput
-            .builder()
-            .Identifier(branchKeyId)
-            .PageSize(1)
-            .build()
-        );
-        versions
-          .Items()
-          .forEach(item -> {
-            String typStr = item.EncryptionContext().get("type");
-            DdbHelper.deleteKeyStoreDdbItem(
-              item.Identifier(),
+        if (accessDenied.getMessage().contains("branch:version")) {
+          Matcher matcher = matchBranchKeyType.matcher(
+            accessDenied.getMessage()
+          );
+          if (matcher.find()) {
+            String typStr = matcher.group(1).trim();
+            // An exception was thrown, let's delete the item
+            DdbHelper.reallyDeleteKeyStoreDdbItem(
+              branchKeyId,
               typStr,
               Fixtures.TEST_KEYSTORE_NAME,
-              Fixtures.ddbClientWest2
+              3,
+              5000,
+              Fixtures.ddbClientWest2,
+              false
             );
             System.out.println(
               "\nItem: " +
@@ -204,7 +210,9 @@ public class MutationKmsAccessOriginalInFlightTest {
               ": " +
               accessDenied.getMessage()
             );
-          });
+          }
+        }
+        exceptions.add(accessDenied);
       }
     }
 
@@ -212,11 +220,18 @@ public class MutationKmsAccessOriginalInFlightTest {
     Fixtures.cleanUpBranchKeyId(storage, branchKeyId);
     Assert.assertTrue(
       (exceptions.size() == 1),
-      "Incorrect number of exceptions thrown than expected. Exceptions: " + exceptions
+      "Only 1 exceptions should have been thrown. But got " +
+      exceptions.size() +
+      ". Exceptions:\n" +
+      exceptions
+        .stream()
+        .map(Throwable::toString)
+        .collect(Collectors.joining("\n"))
     );
-    Assert.assertTrue(
-      isFromThrown,
-      "Apply never failed to read the old."
+    Assert.assertFalse(
+      isToThrown,
+      "MutationToException should never be thrown."
     );
+    Assert.assertTrue(isFromThrown, "MutationFromException MUST be thrown.");
   }
 }

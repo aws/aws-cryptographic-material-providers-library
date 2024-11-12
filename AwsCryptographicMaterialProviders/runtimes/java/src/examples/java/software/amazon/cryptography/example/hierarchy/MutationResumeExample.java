@@ -92,7 +92,8 @@ public class MutationResumeExample {
       branchKeyId,
       "branch:MUTATION_INDEX",
       logicalKeyStoreName,
-      dynamoDbClient
+      dynamoDbClient,
+      false
     );
     // But if we deleted the index, we do need to call Initialize again
     token = executeInitialize(branchKeyId, admin, initInput, "Restart Logs");
@@ -158,7 +159,7 @@ public class MutationResumeExample {
         token,
         strategy,
         admin,
-        98
+        1
       );
 
       if (result.ContinueMutation() != null) {
