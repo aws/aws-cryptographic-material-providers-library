@@ -8,6 +8,8 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
   import KeyStoreTypes = AwsCryptographyKeyStoreAdminTypes.AwsCryptographyKeyStoreTypes
   import KMSKeystoreOperations
   import KMS = Com.Amazonaws.Kms
+  import StandardLibrary.String
+  import Structure
 
   function ExtractKmsOpaque(
     error: KMSKeystoreOperations.KmsError
@@ -23,6 +25,7 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
       case ComAmazonawsKms(comAmazonawsKms: KMS.Types.Error) =>
         match comAmazonawsKms {
           case Opaque(obj) => Some(comAmazonawsKms)
+          case OpaqueWithText(obj, objMessage) => Some(comAmazonawsKms)
           case _ => None
         }
     }
@@ -38,93 +41,146 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
       case ComAmazonawsKms(comAmazonawsKms: KMS.Types.Error) =>
         match comAmazonawsKms {
           case Opaque(obj) => None
+          case OpaqueWithText(obj, objMessage) => Some(objMessage)
           case _ => comAmazonawsKms.message
         }
     }
   }
 
-  function DefaultKmsErrorMessage(
+  function ParsedErrorContext(
     nameonly localOperation: string,
     nameonly kmsOperation: string,
     nameonly identifier: string,
-    nameonly kmsArn: string,
-    nameonly while?: Option<string> := None,
+    nameonly itemType: string,
     nameonly errorMessage?: Option<string> := None
   ): (message: string)
   {
-    "KMS through an exception for "
-    + localOperation + "'s " + kmsOperation
-    + (if while?.Some? then " while " + while?.value else ".")
-    + " KMS ARN: " + kmsArn
-    + "\tBranch Key ID: " + identifier
+    "MPL Operation: " + localOperation + ";"
+    + " KMS Operation: "  + kmsOperation + ";"
+    + " Branch Key ID: " + identifier + ";"
+    + " Branch Key Type:  " + itemType + ";"
     + "\nKMS Message: " + errorMessage?.UnwrapOr("")
   }
 
-  function VerifyActiveException(
-    branchKeyItem: KeyStoreTypes.EncryptedHierarchicalKey,
-    error: KMSKeystoreOperations.KmsError
+  function CreateActiveException(
+    nameonly branchKeyItem: KeyStoreTypes.EncryptedHierarchicalKey,
+    nameonly error: KMSKeystoreOperations.KmsError,
+    nameonly localOperation: string := "InitializeMutation",
+    nameonly kmsOperation: string := "ReEncrypt"
   ): (output: Types.Error)
     requires branchKeyItem.Type.ActiveHierarchicalSymmetricVersion?
   {
-    var message := DefaultKmsErrorMessage(
-                     localOperation := "InitializeMutation",
-                     kmsOperation := "ReEncrypt",
-                     identifier := branchKeyItem.Identifier,
-                     kmsArn := branchKeyItem.KmsArn,
-                     while? := Some("verifying the Active Branch Key. Do you have permission for the original KMS ARN?"),
-                     errorMessage? := ExtractMessageFromKmsError(error));
+    //TODO Mutations-FF :: Decrypt/Encrypt Strategy will need to refactor this
+    var opaqueKmsError? := ExtractKmsOpaque(error);
+    var kmsErrorMessage? := ExtractMessageFromKmsError(error);
+    var errorContext := ParsedErrorContext(
+                          localOperation := localOperation,
+                          kmsOperation := kmsOperation,
+                          identifier := branchKeyItem.Identifier,
+                          itemType := Structure.BRANCH_KEY_ACTIVE_TYPE,
+                          errorMessage? := kmsErrorMessage?);
+    var message :=
+      "Key Management denied access while creating the new Active item."
+      + " Mutation is halted. Check access to KMS ARN: " + branchKeyItem.KmsArn  + " ."
+      + "\n" + errorContext;
+    Types.MutationToException(message := message)
+  }
+
+  function VerifyActiveException(
+    nameonly branchKeyItem: KeyStoreTypes.EncryptedHierarchicalKey,
+    nameonly error: KMSKeystoreOperations.KmsError,
+    nameonly localOperation: string := "InitializeMutation",
+    nameonly kmsOperation: string := "ReEncrypt"
+  ): (output: Types.Error)
+    requires branchKeyItem.Type.ActiveHierarchicalSymmetricVersion?
+  {
+    //TODO Mutations-FF :: Decrypt/Encrypt Strategy will need to refactor this
+    var opaqueKmsError? := ExtractKmsOpaque(error);
+    var kmsErrorMessage? := ExtractMessageFromKmsError(error);
+    var errorContext := ParsedErrorContext(
+                          localOperation := localOperation,
+                          kmsOperation := kmsOperation,
+                          identifier := branchKeyItem.Identifier,
+                          itemType := Structure.BRANCH_KEY_ACTIVE_TYPE,
+                          errorMessage? := kmsErrorMessage?);
+    var message :=
+      "Key Management denied access to the Active Branch Key."
+      + " Mutation is halted. Check access to KMS ARN: " + branchKeyItem.KmsArn  + " ."
+      + "\n" + errorContext;
     Types.MutationFromException(message := message)
   }
 
   function VerifyTerminalException(
     branchKeyItem: KeyStoreTypes.EncryptedHierarchicalKey,
-    error: KMSKeystoreOperations.KmsError
+    error: KMSKeystoreOperations.KmsError,
+    nameonly localOperation: string := "ApplyMutation",
+    nameonly kmsOperation: string := "ReEncrypt"
   ): (output: Types.Error)
     requires branchKeyItem.Type.HierarchicalSymmetricVersion?
   {
-    var message := DefaultKmsErrorMessage(
-                     localOperation := "ApplyMutation",
-                     kmsOperation := "ReEncrypt",
-                     identifier := branchKeyItem.Identifier,
-                     kmsArn := branchKeyItem.KmsArn,
-                     while? := Some("verifying a Version with terminal properities."
-                                    + " Do you have permission for the terminal KMS ARN?"
-                                    + " Version (Decrypt Only): " + branchKeyItem.Type.HierarchicalSymmetricVersion.Version),
-                     errorMessage? := ExtractMessageFromKmsError(error));
+    var opaqueKmsError? := ExtractKmsOpaque(error);
+    var kmsErrorMessage? := ExtractMessageFromKmsError(error);
+    var errorContext := ParsedErrorContext(
+                          localOperation := localOperation,
+                          kmsOperation := kmsOperation,
+                          identifier := branchKeyItem.Identifier,
+                          itemType := Structure.BRANCH_KEY_TYPE_PREFIX + branchKeyItem.Type.HierarchicalSymmetricVersion.Version,
+                          errorMessage? := kmsErrorMessage?);
+    var message :=
+      "Key Management denied access to an already mutated item."
+      + " Mutation is halted. Check access to KMS ARN: " + branchKeyItem.KmsArn  + " ."
+      + "\n" + errorContext;
     Types.MutationToException(message := message)
   }
 
-  // https://github.com/smithy-lang/smithy-dafny/issues/609
-  // TODO-Mutations-GA :: Once we can get a string from KMS Oapque,
-  // we can check it for ReEncryptTo or ReEncryptFrom.
-  // Than, this function can return
-  // MutationToException or MutationFromException
-  function MutateException(
-    branchKeyItem: KeyStoreTypes.EncryptedHierarchicalKey,
-    error: KMSKeystoreOperations.KmsError,
-    terminalKmsArn: string
-  ): (output: Types.Error)
-    requires branchKeyItem.Type.HierarchicalSymmetricVersion? || branchKeyItem.Type.ActiveHierarchicalSymmetricBeacon?
+  // It would be nice if this was a function instead of a method,
+  // but the nested if logic in a function is a PITA...
+  // TODO-Mutations-DoNotVersion :: ActiveHierarchicalSymmetricVersion will need to be handled
+  method MutateExceptionParse(
+    nameonly item: KeyStoreTypes.EncryptedHierarchicalKey,
+    nameonly error: KMSKeystoreOperations.KmsError,
+    nameonly terminalKmsArn: string,
+    nameonly localOperation: string := "ApplyMutation",
+    nameonly kmsOperation: string := "ReEncrypt"
+  )
+    returns (output: Types.Error)
+    requires item.Type.HierarchicalSymmetricVersion? || item.Type.ActiveHierarchicalSymmetricBeacon?
   {
-    var while? :=
-      if branchKeyItem.Type.HierarchicalSymmetricVersion?
-      then Some("mutating a Version."
-                + " Do you have permission for the original and terminal KMS ARN?"
-                + " Version (Decrypt Only): " + branchKeyItem.Type.HierarchicalSymmetricVersion.Version)
-      else Some("mutating the Beacon Key."
-                + " Do you have permission for the the original and terminal KMS ARN?");
-    // https://github.com/smithy-lang/smithy-dafny/issues/609
-    // If opaqueKmsError?.Some?, parse for ReEncryptTo or ReEncrytFrom
     var opaqueKmsError? := ExtractKmsOpaque(error);
-    var message := DefaultKmsErrorMessage(
-                     localOperation := "ApplyMutation",
-                     kmsOperation := "ReEncrypt",
-                     identifier := branchKeyItem.Identifier,
-                     kmsArn := "original: " + branchKeyItem.KmsArn + "\tterminal: " + terminalKmsArn,
-                     while? := while?,
-                     errorMessage? := ExtractMessageFromKmsError(error));
-    if opaqueKmsError?.Some?
-    then Types.ComAmazonawsKms(ComAmazonawsKms := opaqueKmsError?.value)
-    else Types.KeyStoreAdminException(message := message)
+    var kmsErrorMessage? := ExtractMessageFromKmsError(error);
+    var itemType := match item.Type {
+      // case ActiveHierarchicalSymmetricVersion(version) => Structure.BRANCH_KEY_ACTIVE_TYPE
+      case ActiveHierarchicalSymmetricBeacon(version) => Structure.BEACON_KEY_TYPE_VALUE
+      case HierarchicalSymmetricVersion(version) => Structure.BRANCH_KEY_TYPE_PREFIX + version.Version
+    };
+    var errorContext := ParsedErrorContext(
+      localOperation := localOperation,
+      kmsOperation := kmsOperation,
+      identifier := item.Identifier,
+      itemType := itemType,
+      errorMessage? := kmsErrorMessage?);
+    // if it is an opaque KMS Error, and there is a message, it is KMS.Types.OpaqueWithText
+    if (opaqueKmsError?.Some? && kmsErrorMessage?.Some?) {
+      var hasReEncryptFrom? := String.HasSubString(kmsErrorMessage?.value, "ReEncryptFrom");
+      var hasReEncryptTo? := String.HasSubString(kmsErrorMessage?.value, "ReEncryptTo");
+      if (hasReEncryptFrom?.Some?) {
+        return Types.MutationFromException(
+            message := "Key Management denied access based on the original properties."
+            + " Mutation is halted. Check access to KMS ARN: " + item.KmsArn + "."
+            + "\n" + errorContext
+          );
+      }
+      if (hasReEncryptTo?.Some?) {
+        return Types.MutationToException(
+            message := "Key Management denied access based on the terminal properties."
+            + " Mutation is halted. Check access to KMS ARN: " + terminalKmsArn  + "."
+            + "\n" + errorContext
+          );
+      }
+    }
+    return Types.KeyStoreAdminException(
+        message := "Key Management through an exception."
+        + " Mutation is halted. Check access to KMS."
+        + "\n" + errorContext);
   }
 }

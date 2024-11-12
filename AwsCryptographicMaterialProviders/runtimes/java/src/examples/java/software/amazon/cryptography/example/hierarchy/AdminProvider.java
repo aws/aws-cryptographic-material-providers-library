@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kms.KmsClient;
+import software.amazon.cryptography.keystore.KeyStorageInterface;
 import software.amazon.cryptography.keystore.model.AwsKms;
 import software.amazon.cryptography.keystore.model.DynamoDBTable;
 import software.amazon.cryptography.keystore.model.Storage;
@@ -33,6 +34,20 @@ public class AdminProvider {
       .builder()
       .logicalKeyStoreName(logicalKeyStoreName)
       .storage(storage)
+      .build();
+
+    return KeyStoreAdmin.builder().KeyStoreAdminConfig(config).build();
+  }
+
+  public static KeyStoreAdmin admin(
+    String keyStoreTableName,
+    String logicalKeyStoreName,
+    KeyStorageInterface storage
+  ) {
+    KeyStoreAdminConfig config = KeyStoreAdminConfig
+      .builder()
+      .logicalKeyStoreName(logicalKeyStoreName)
+      .storage(Storage.builder().custom(storage).build())
       .build();
 
     return KeyStoreAdmin.builder().KeyStoreAdminConfig(config).build();

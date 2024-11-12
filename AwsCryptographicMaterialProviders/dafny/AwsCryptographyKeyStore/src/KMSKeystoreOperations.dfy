@@ -301,7 +301,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
   )
-    returns (res: Result<KMS.ReEncryptResponse, Types.Error>)
+    returns (res: Result<KMS.ReEncryptResponse, KmsError>)
     requires
       && Structure.BranchKeyContext?(sourceEncryptionContext)
       && Structure.BranchKeyContext?(destinationEncryptionContext)
@@ -350,7 +350,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   {
     :- Need(
       KMS.IsValid_CiphertextType(ciphertext),
-      Types.KeyStoreException(
+      Types.KeyManagementException(
         message := "Invalid KMS ciphertext.")
     );
 
@@ -373,20 +373,20 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     :- Need(
       && reEncryptResponse.SourceKeyId.Some?
       && reEncryptResponse.SourceKeyId.value == sourceKmsArn,  //kmsKeyArn
-      Types.KeyStoreException(
+      Types.KeyManagementException(
         message := "Invalid response from KMS ReEncrypt:: Invalid Source Key Id")
     );
     :- Need(
       && reEncryptResponse.KeyId.Some?
       && reEncryptResponse.KeyId.value == destinationKmsArn, // kmsKeyArn,
-      Types.KeyStoreException(
+      Types.KeyManagementException(
         message := "Invalid response from KMS ReEncrypt:: Invalid Destination Key Id")
     );
 
     :- Need(
       && reEncryptResponse.CiphertextBlob.Some?
       && KMS.IsValid_CiphertextType(reEncryptResponse.CiphertextBlob.value),
-      Types.KeyStoreException(
+      Types.KeyManagementException(
         message := "Invalid response from AWS KMS ReEncrypt: Invalid ciphertext.")
     );
 
