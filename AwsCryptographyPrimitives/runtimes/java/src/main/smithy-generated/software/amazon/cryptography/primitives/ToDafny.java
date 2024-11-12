@@ -67,6 +67,7 @@ import software.amazon.cryptography.primitives.model.AES_GCM;
 import software.amazon.cryptography.primitives.model.AwsCryptographicPrimitivesError;
 import software.amazon.cryptography.primitives.model.CollectionOfErrors;
 import software.amazon.cryptography.primitives.model.OpaqueError;
+import software.amazon.cryptography.primitives.model.OpaqueWithTextError;
 
 public class ToDafny {
 
@@ -77,6 +78,9 @@ public class ToDafny {
     if (nativeValue instanceof OpaqueError) {
       return ToDafny.Error((OpaqueError) nativeValue);
     }
+    if (nativeValue instanceof OpaqueWithTextError) {
+      return ToDafny.Error((OpaqueWithTextError) nativeValue);
+    }
     if (nativeValue instanceof CollectionOfErrors) {
       return ToDafny.Error((CollectionOfErrors) nativeValue);
     }
@@ -85,6 +89,13 @@ public class ToDafny {
 
   public static Error Error(OpaqueError nativeValue) {
     return Error.create_Opaque(nativeValue.obj());
+  }
+
+  public static Error Error(OpaqueWithTextError nativeValue) {
+    return Error.create_OpaqueWithText(
+      nativeValue.obj(),
+      dafny.DafnySequence.asString(nativeValue.objMessage())
+    );
   }
 
   public static Error Error(CollectionOfErrors nativeValue) {
