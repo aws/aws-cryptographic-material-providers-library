@@ -304,13 +304,11 @@ module {:options "/functionSyntax:4" } Mutations {
     // --= Validate Active Branch Key
     var verifyActive? := VerifyEncryptedHierarchicalKey(
       item := activeItem,
-      keyManagerStrategy := input.keyManagerStrategy
+      keyManagerStrategy := input.keyManagerStrategy,
+      localOperation := "InitializeMutation"
     );
     if (verifyActive?.Fail?) {
-      return Failure(
-          MutationErrorRefinement.VerifyActiveException(
-            branchKeyItem := activeItem,
-            error := verifyActive?.error));
+      return Failure(verifyActive?.error);
     }
 
       // -= Assert Beacon Key is in Original
@@ -372,7 +370,8 @@ module {:options "/functionSyntax:4" } Mutations {
       originalKmsArn := MutationToApply.Terminal.kmsArn,
       terminalKmsArn := MutationToApply.Terminal.kmsArn,
       terminalEncryptionContext := ActiveEncryptionContext,
-      keyManagerStrategy := input.keyManagerStrategy
+      keyManagerStrategy := input.keyManagerStrategy,
+      localOperation := "InitializeMutation"
     );
 
     // -= Mutate Beacon Key
@@ -392,7 +391,8 @@ module {:options "/functionSyntax:4" } Mutations {
       originalKmsArn := MutationToApply.Original.kmsArn,
       terminalKmsArn := MutationToApply.Terminal.kmsArn,
       terminalEncryptionContext := BeaconEncryptionContext,
-      keyManagerStrategy := input.keyManagerStrategy
+      keyManagerStrategy := input.keyManagerStrategy,
+      localOperation := "InitializeMutation"
     );
 
     // -= Create Mutation Commitment
@@ -631,10 +631,7 @@ module {:options "/functionSyntax:4" } Mutations {
             keyManagerStrategy:= keyManagerStrategy
           );
           if (verify?.Fail?) {
-            return Failure(
-                MutationErrorRefinement.VerifyTerminalException(
-                  branchKeyItem := item,
-                  error := verify?.error));
+            return Failure(verify?.error);
           }
           logStatements := logStatements
           + [Types.MutatedBranchKeyItem(
@@ -730,14 +727,16 @@ module {:options "/functionSyntax:4" } Mutations {
 
   method VerifyEncryptedHierarchicalKey(
     nameonly item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
-    nameonly keyManagerStrategy: KmsUtils.keyManagerStrat
+    nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
+    nameonly localOperation: string := "ApplyMutation"
   )
-    returns (output: Outcome<KMSKeystoreOperations.KmsError>)
+    returns (output: Outcome<Types.Error>)
     requires keyManagerStrategy.reEncrypt?
 
     requires Structure.EncryptedHierarchicalKey?(item)
     requires KmsArn.ValidKmsArn?(item.KmsArn)
     requires keyManagerStrategy.ValidState()
+    requires item.Type.ActiveHierarchicalSymmetricVersion? || item.Type.HierarchicalSymmetricVersion?
     modifies
       match keyManagerStrategy
       case reEncrypt(km) => km.kmsClient.Modifies
@@ -752,11 +751,32 @@ module {:options "/functionSyntax:4" } Mutations {
       grantTokens := keyManagerStrategy.reEncrypt.grantTokens,
       kmsClient := keyManagerStrategy.reEncrypt.kmsClient
     );
-
-    output := if throwAway?.Success? then
-      Pass
-    else
-      Fail(throwAway?.error);
+    if (
+        && throwAway?.Failure?
+        && keyManagerStrategy.reEncrypt?
+        && item.Type.ActiveHierarchicalSymmetricVersion?
+      ) {
+      var error := MutationErrorRefinement.VerifyActiveException(
+        branchKeyItem := item,
+        error := throwAway?.error,
+        localOperation := localOperation,
+        kmsOperation := "ReEncrypt");
+      return Fail(error);
+    }
+    if (
+        && throwAway?.Failure?
+        && keyManagerStrategy.reEncrypt?
+        && item.Type.HierarchicalSymmetricVersion?
+      ) {
+      var error := MutationErrorRefinement.VerifyTerminalException(
+        branchKeyItem := item,
+        error := throwAway?.error,
+        localOperation := localOperation,
+        kmsOperation := "ReEncrypt");
+      return Fail(error);
+    }
+    assert throwAway?.Success?;
+    return Pass;
   }
 
   method {:isolate_assertions} ReEncryptHierarchicalKey(
@@ -764,7 +784,8 @@ module {:options "/functionSyntax:4" } Mutations {
     nameonly originalKmsArn: string,
     nameonly terminalKmsArn: string,
     nameonly terminalEncryptionContext: Structure.BranchKeyContext,
-    nameonly keyManagerStrategy: KmsUtils.keyManagerStrat
+    nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
+    nameonly localOperation: string := "ApplyMutation"
   )
     returns (output: Result<Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
     requires keyManagerStrategy.reEncrypt?
@@ -789,7 +810,26 @@ module {:options "/functionSyntax:4" } Mutations {
       grantTokens := keyManagerStrategy.reEncrypt.grantTokens,
       kmsClient := keyManagerStrategy.reEncrypt.kmsClient
     );
-
+    // We call this method to create the new Active from the new Decrypt Only
+    if (wrappedKey?.Failure? && item.Type.ActiveHierarchicalSymmetricVersion?) {
+      var error := MutationErrorRefinement.CreateActiveException(
+        branchKeyItem := item,
+        error := wrappedKey?.error,
+        localOperation := localOperation);
+      return Failure(error);
+    }
+    // We call this method to mutate decryptOnly and the Becon
+    if (
+        && wrappedKey?.Failure?
+        && (item.Type.HierarchicalSymmetricVersion? || item.Type.ActiveHierarchicalSymmetricBeacon?)) {
+      var error := MutationErrorRefinement.MutateExceptionParse(
+        item := item,
+        error := wrappedKey?.error,
+        terminalKmsArn := terminalKmsArn,
+        localOperation := localOperation);
+      return Failure(error);
+    }
+    // TODO-Mutations-DoNotVersion :: ActiveHierarchicalSymmetricVersion will need to be handled
     var wrappedKey :- wrappedKey?
     .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
 

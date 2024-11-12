@@ -8,6 +8,9 @@ import static software.amazon.cryptography.example.Fixtures.POSTAL_HORN_KEY_ARN;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import software.amazon.awssdk.regions.Region;
@@ -18,8 +21,6 @@ import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.StorageCheater;
 import software.amazon.cryptography.keystore.KeyStorageInterface;
-import software.amazon.cryptography.keystore.model.QueryForVersionsInput;
-import software.amazon.cryptography.keystore.model.QueryForVersionsOutput;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationOutput;
@@ -39,6 +40,10 @@ public class MutationKmsAccessTerminalInFlightTest {
 
   static final String testPrefix =
     "mutation-kms-access-in-flight-terminal-test-";
+
+  static final Pattern matchBranchKeyType = Pattern.compile(
+    "(?<=Branch Key Type: )(.*)(?:;)"
+  );
 
   @Test
   public void test() {
@@ -111,11 +116,11 @@ public class MutationKmsAccessTerminalInFlightTest {
       " items: \n" +
       AdminProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
     );
+
     boolean done = false;
     List<Exception> exceptions = new ArrayList<>();
     boolean isFromThrown = false;
     boolean isToThrown = false;
-    boolean verifyTerminalThrown = false;
     int limitLoop = 5;
 
     while (!done) {
@@ -153,43 +158,40 @@ public class MutationKmsAccessTerminalInFlightTest {
         | KeyStoreAdminException accessDenied
       ) {
         if (accessDenied instanceof MutationToException) {
-          boolean isTo =
-            ((MutationToException) accessDenied).getMessage()
-              .contains("while verifying a Version with terminal properities");
-          verifyTerminalThrown = verifyTerminalThrown || isTo;
+          isToThrown = true;
         }
-
+        if (accessDenied instanceof MutationFromException) {
+          isFromThrown = true;
+        }
         if (accessDenied instanceof KmsException) {
-          boolean isFrom = accessDenied.getMessage().contains("ReEncryptFrom");
-          isFromThrown = isFromThrown || isFrom;
-          boolean isTo = accessDenied.getMessage().contains("ReEncryptTo");
-          isToThrown = isToThrown || isTo;
-          Assert.assertTrue(
-            (isTo || isFrom),
-            "KMS Exception does not meet expectations. testId: " +
+          boolean kmsIsFrom = accessDenied
+            .getMessage()
+            .contains("ReEncryptFrom");
+          boolean kmsIsTo = accessDenied.getMessage().contains("ReEncryptTo");
+          Assert.assertFalse(
+            (kmsIsFrom || kmsIsTo),
+            "KMS Exception SHOULD have been cast to Mutation Exception. testId: " +
             branchKeyId +
             ". KMS Exception: " +
             accessDenied
           );
         }
-        exceptions.add(accessDenied);
         // An exception was thrown, let's delete the item
-        QueryForVersionsOutput versions = storage.QueryForVersions(
-          QueryForVersionsInput
-            .builder()
-            .Identifier(branchKeyId)
-            .PageSize(1)
-            .build()
-        );
-        versions
-          .Items()
-          .forEach(item -> {
-            String typStr = item.EncryptionContext().get("type");
-            DdbHelper.deleteKeyStoreDdbItem(
-              item.Identifier(),
+        if (accessDenied.getMessage().contains("branch:version")) {
+          Matcher matcher = matchBranchKeyType.matcher(
+            accessDenied.getMessage()
+          );
+          if (matcher.find()) {
+            String typStr = matcher.group(1).trim();
+            // An exception was thrown, let's delete the item
+            DdbHelper.reallyDeleteKeyStoreDdbItem(
+              branchKeyId,
               typStr,
               Fixtures.TEST_KEYSTORE_NAME,
-              Fixtures.ddbClientWest2
+              3,
+              5000,
+              Fixtures.ddbClientWest2,
+              false
             );
             System.out.println(
               "\nItem: " +
@@ -199,20 +201,28 @@ public class MutationKmsAccessTerminalInFlightTest {
               ": " +
               accessDenied.getMessage()
             );
-          });
+          }
+        }
+        exceptions.add(accessDenied);
       }
     }
 
     // Clean Up
     Fixtures.cleanUpBranchKeyId(storage, branchKeyId);
-    // Assert.assertTrue(
-    //   (exceptions.size() == 2),
-    //   "More Exceptions thrown than expected. Exceptions: " + exceptions
-    // );
-    // Assert.assertTrue(
-    //   verifyTerminalThrown,
-    //   "Apply never verified the new decrypt."
-    // );
-    // Assert.assertTrue(isToThrown, "Apply never mutated the old decrypt.");
+    Assert.assertTrue(
+      (exceptions.size() == 2),
+      "Only two exceptions should have been thrown. But got " +
+      exceptions.size() +
+      ". Exceptions:\n" +
+      exceptions
+        .stream()
+        .map(Throwable::toString)
+        .collect(Collectors.joining("\n"))
+    );
+    Assert.assertTrue(isToThrown, "MutationToException MUST be thrown.");
+    Assert.assertFalse(
+      isFromThrown,
+      "MutationFromException should never be thrown."
+    );
   }
 }
