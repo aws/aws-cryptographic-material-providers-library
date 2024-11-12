@@ -107,7 +107,8 @@ public class Fixtures {
           item.Identifier(),
           item.EncryptionContext().get("type"),
           physicalName,
-          ddbClientWest2
+          ddbClientWest2,
+          false
         )
       );
 
@@ -115,13 +116,15 @@ public class Fixtures {
       branchKeyId,
       "branch:ACTIVE",
       physicalName,
-      ddbClientWest2
+      ddbClientWest2,
+      false
     );
     DdbHelper.deleteKeyStoreDdbItem(
       branchKeyId,
       "beacon:ACTIVE",
       physicalName,
-      ddbClientWest2
+      ddbClientWest2,
+      false
     );
   }
 }
