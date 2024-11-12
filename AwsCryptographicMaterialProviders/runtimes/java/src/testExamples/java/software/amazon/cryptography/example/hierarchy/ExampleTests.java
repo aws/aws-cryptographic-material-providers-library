@@ -49,6 +49,14 @@ public class ExampleTests {
         branchKeyId,
         Fixtures.ddbClientWest2
       );
+    branchKeyId =
+      VersionKeyExample.VersionKey(
+        Fixtures.TEST_KEYSTORE_NAME,
+        Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
+        Fixtures.POSTAL_HORN_KEY_ARN,
+        branchKeyId,
+        Fixtures.ddbClientWest2
+      );
     System.out.println("\nVersioned Branch Key: " + branchKeyId + "\n");
     branchKeyId =
       MutationResumeExample.Resume2End(
