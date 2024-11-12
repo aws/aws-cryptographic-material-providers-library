@@ -56,7 +56,7 @@ SERVICE_DEPS_AwsCryptographyKeyStoreAdmin := \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStore \
 
 test_example_java:
-	$(GRADLEW) -p runtimes/java testExamples
+	$(GRADLEW) -p runtimes/java cleanTestExamples testExamples
 
 # Constants for languages that drop extern names (Python, Go)
 

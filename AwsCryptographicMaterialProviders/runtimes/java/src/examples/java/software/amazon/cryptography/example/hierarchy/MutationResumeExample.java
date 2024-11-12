@@ -158,7 +158,7 @@ public class MutationResumeExample {
         token,
         strategy,
         admin,
-        98
+        1
       );
 
       if (result.ContinueMutation() != null) {
