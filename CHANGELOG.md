@@ -1,5 +1,25 @@
 # Changelog
 
+# [1.7.4](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.3...v1.7.4) (2024-11-06)
+
+This release is available in the following languages:
+
+- Python
+
+### Bug Fixes
+
+- **Python:** Support Python 3.13 ([#953](https://github.com/aws/aws-cryptographic-material-providers-library/issues/953)) ([000baed](https://github.com/aws/aws-cryptographic-material-providers-library/commit/000baedfab341670952449837541c88ea5cf1dba))
+
+## [1.7.3](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.2...v1.7.3) (2024-10-31)
+
+This release is available in the following languages:
+
+- Python
+
+### Bug Fixes
+
+- python time externs should return integers ([#898](https://github.com/aws/aws-cryptographic-material-providers-library/issues/898)) ([56b9b67](https://github.com/aws/aws-cryptographic-material-providers-library/commit/56b9b6745eee5782bcec3f3e51f5b27a5ffe223e))
+
 ## [1.7.2](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.1...v1.7.2) (2024-10-22)
 
 This release is available in the following languages:

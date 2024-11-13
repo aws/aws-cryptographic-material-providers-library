@@ -27,6 +27,7 @@ import software.amazon.cryptography.materialproviders.internaldafny.types.Error_
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidEncryptionMaterials;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidEncryptionMaterialsTransition;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_Opaque;
+import software.amazon.cryptography.materialproviders.internaldafny.types.Error_OpaqueWithText;
 import software.amazon.cryptography.materialproviders.internaldafny.types.IAwsCryptographicMaterialProvidersClient;
 import software.amazon.cryptography.materialproviders.model.AesWrappingAlg;
 import software.amazon.cryptography.materialproviders.model.AlgorithmSuiteId;
@@ -107,6 +108,7 @@ import software.amazon.cryptography.materialproviders.model.OnDecryptOutput;
 import software.amazon.cryptography.materialproviders.model.OnEncryptInput;
 import software.amazon.cryptography.materialproviders.model.OnEncryptOutput;
 import software.amazon.cryptography.materialproviders.model.OpaqueError;
+import software.amazon.cryptography.materialproviders.model.OpaqueWithTextError;
 import software.amazon.cryptography.materialproviders.model.PaddingScheme;
 import software.amazon.cryptography.materialproviders.model.PublicKeyDiscoveryInput;
 import software.amazon.cryptography.materialproviders.model.PutCacheEntryInput;
@@ -128,6 +130,17 @@ public class ToNative {
   public static OpaqueError Error(Error_Opaque dafnyValue) {
     OpaqueError.Builder nativeBuilder = OpaqueError.builder();
     nativeBuilder.obj(dafnyValue.dtor_obj());
+    return nativeBuilder.build();
+  }
+
+  public static OpaqueWithTextError Error(Error_OpaqueWithText dafnyValue) {
+    OpaqueWithTextError.Builder nativeBuilder = OpaqueWithTextError.builder();
+    nativeBuilder.obj(dafnyValue.dtor_obj());
+    nativeBuilder.objMessage(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_objMessage()
+      )
+    );
     return nativeBuilder.build();
   }
 
@@ -314,6 +327,9 @@ public class ToNative {
     }
     if (dafnyValue.is_Opaque()) {
       return ToNative.Error((Error_Opaque) dafnyValue);
+    }
+    if (dafnyValue.is_OpaqueWithText()) {
+      return ToNative.Error((Error_OpaqueWithText) dafnyValue);
     }
     if (dafnyValue.is_CollectionOfErrors()) {
       return ToNative.Error((Error_CollectionOfErrors) dafnyValue);

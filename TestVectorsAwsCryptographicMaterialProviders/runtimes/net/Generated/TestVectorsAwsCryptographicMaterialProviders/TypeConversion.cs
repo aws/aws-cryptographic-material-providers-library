@@ -3898,6 +3898,8 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
               new string(dafnyVal.dtor_message.Elements));
         case software.amazon.cryptography.materialproviders.internaldafny.types.Error_Opaque dafnyVal:
           return new OpaqueError(dafnyVal._obj);
+        case software.amazon.cryptography.materialproviders.internaldafny.types.Error_OpaqueWithText dafnyVal:
+          return new OpaqueWithTextError(dafnyVal._obj, dafnyVal._obj.ToString());
         default:
           // The switch MUST be complete for _IError, so `value` MUST NOT be an _IError. (How did you get here?)
           return new OpaqueError();
@@ -3939,12 +3941,12 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
           );
         // OpaqueError is redundant, but listed for completeness.
         case OpaqueError exception:
-          return new software.amazon.cryptography.materialproviders.internaldafny.types.Error_Opaque(exception, Dafny.Sequence<char>.FromString(exception.ToString()));
+          return new software.amazon.cryptography.materialproviders.internaldafny.types.Error_Opaque(exception);
         case System.Exception exception:
-          return new software.amazon.cryptography.materialproviders.internaldafny.types.Error_Opaque(exception, Dafny.Sequence<char>.FromString(exception.ToString()));
+          return new software.amazon.cryptography.materialproviders.internaldafny.types.Error_Opaque(exception);
         default:
           // The switch MUST be complete for System.Exception, so `value` MUST NOT be an System.Exception. (How did you get here?)
-          return new software.amazon.cryptography.materialproviders.internaldafny.types.Error_Opaque(value, Dafny.Sequence<char>.FromString(value.ToString()));
+          return new software.amazon.cryptography.materialproviders.internaldafny.types.Error_Opaque(value);
       }
     }
   }

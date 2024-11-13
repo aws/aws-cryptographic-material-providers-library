@@ -40,6 +40,7 @@ import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafn
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.CollectionOfErrors;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.KeyVectorException;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.OpaqueError;
+import software.amazon.cryptography.materialproviderstestvectorkeys.model.OpaqueWithTextError;
 import software.amazon.cryptography.services.kms.internaldafny.types.EncryptionAlgorithmSpec;
 
 public class ToDafny {
@@ -51,27 +52,23 @@ public class ToDafny {
     if (nativeValue instanceof OpaqueError) {
       return ToDafny.Error((OpaqueError) nativeValue);
     }
+    if (nativeValue instanceof OpaqueWithTextError) {
+      return ToDafny.Error((OpaqueWithTextError) nativeValue);
+    }
     if (nativeValue instanceof CollectionOfErrors) {
       return ToDafny.Error((CollectionOfErrors) nativeValue);
     }
-    return Error.create_Opaque(
-      nativeValue,
-      dafny.DafnySequence.asString(
-        java.util.Objects.nonNull(nativeValue.getMessage())
-          ? nativeValue.getMessage()
-          : ""
-      )
-    );
+    return Error.create_Opaque(nativeValue);
   }
 
   public static Error Error(OpaqueError nativeValue) {
-    return Error.create_Opaque(
+    return Error.create_Opaque(nativeValue.obj());
+  }
+
+  public static Error Error(OpaqueWithTextError nativeValue) {
+    return Error.create_OpaqueWithText(
       nativeValue.obj(),
-      dafny.DafnySequence.asString(
-        java.util.Objects.nonNull(nativeValue.altText())
-          ? nativeValue.altText()
-          : ""
-      )
+      dafny.DafnySequence.asString(nativeValue.objMessage())
     );
   }
 
