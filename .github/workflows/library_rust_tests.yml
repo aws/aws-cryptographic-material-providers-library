@@ -1,7 +1,5 @@
-# This workflow performs tests in Rust
+# This workflow performs tests in Rust.
 name: Library Rust tests
-
-#            TestVectorsAwsCryptographicMaterialProviders,
 
 on:
   workflow_call:
@@ -36,32 +34,34 @@ jobs:
       id-token: write
       contents: read
     env:
-      DOTNET_CLI_TELEMETRY_OPTOUT: 1
-      DOTNET_NOLOGO: 1
       RUST_MIN_STACK: 104857600
     steps:
       - name: Support longpaths on Git checkout
         run: |
           git config --global core.longpaths true
+      - uses: actions/checkout@v3
+      - name: Init Submodules
+        shell: bash
+        run: |
+          git submodule update --init libraries
+          git submodule update --init --recursive smithy-dafny
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-region: us-west-2
           role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
           role-session-name: RustTests
 
-      - uses: actions/checkout@v4
-      # The specification submodule is private so we don't have access, but we don't need
-      # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
-      - run: git submodule update --init libraries
-      - run: git submodule update --init --recursive smithy-dafny
-
-      - name: Set up Rust
-        uses: actions-rust-lang/setup-rust-toolchain@v1
+      - name: Setup Rust Toolchain for GitHub CI
+        uses: actions-rust-lang/setup-rust-toolchain@v1.10.1
         with:
           components: rustfmt
+      # TODO - uncomment this after Rust formatter works
+      # - name: Rustfmt Check
+      #   uses: actions-rust-lang/rustfmt@v1
 
+      # TODO: Use setup-dafny-actions with correct version when Dafny releases 4.8.2
       - name: Setup Dafny
         uses: dafny-lang/setup-dafny-action@v1.7.0
         with:
@@ -86,38 +86,34 @@ jobs:
       - name: Setup NASM for Windows (aws-lc-sys)
         uses: ilammy/setup-nasm@v1
 
-      - name: Setup cmake
-        uses: jwlawson/actions-setup-cmake@v2
-        with:
-          cmake-version: "3.31.x"
-
       - name: Install Smithy-Dafny codegen dependencies
         uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
 
-      - name: Polymorph Rust
+      - name: Regenerate code using smithy-dafny
+        uses: ./.github/actions/polymorph_codegen
+        with:
+          dafny: ${{ env.DAFNY_VERSION }}
+          library: ${{ matrix.library }}
+          diff-generated-code: false
+          update-and-regenerate-mpl: true
+
+      # TODO: Remove this after checking in Rust polymorph code
+      - name: Run make polymorph_rust
+        shell: bash
         working-directory: ./${{ matrix.library }}
-        run: make polymorph_rust
+        run: |
+          make polymorph_rust
 
       - name: Compile ${{ matrix.library }} implementation
+        shell: bash
         working-directory: ./${{ matrix.library }}
         run: |
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
-          make transpile_rust CORES=$CORES
-
-      # Change `main` for the TestVectors to be the right thing
-      # TODO: Remove this after we generate main correctly
-      - name: implementation_from_dafny Rust hacks
-        shell: bash
-        working-directory: ./${{ matrix.library }}
-        run: |
-          if [ "$RUNNER_OS" == "macOS" ]; then
-            sed -i '' 's^WrappedMaterialProvidersMain::_default::Main();^let args: Vec<String> = std::env::args().collect();let dafny_strings = args.iter().map(|x| dafny_runtime::dafny_runtime_conversions::unicode_chars_false::string_to_dafny_string(\&x)).collect::<Vec<_>>();let dafny_args = dafny_runtime::Sequence::from_array_owned(dafny_strings);_WrappedMaterialProvidersMain_Compile::_default::Main(\&dafny_args);^' runtimes/rust/src/implementation_from_dafny.rs
-          else
-            sed -i 's^WrappedMaterialProvidersMain::_default::Main();^let args: Vec<String> = std::env::args().collect();let dafny_strings = args.iter().map(|x| dafny_runtime::dafny_runtime_conversions::unicode_chars_false::string_to_dafny_string(\&x)).collect::<Vec<_>>();let dafny_args = dafny_runtime::Sequence::from_array_owned(dafny_strings);_WrappedMaterialProvidersMain_Compile::_default::Main(\&dafny_args);^' runtimes/rust/src/implementation_from_dafny.rs
-          fi
+          make transpile_rust TRANSPILE_TESTS_IN_RUST=1 CORES=$CORES
 
       - name: Test ${{ matrix.library }} Rust
         working-directory: ./${{ matrix.library }}
         shell: bash
-        run: make test_rust
+        run: |
+          make test_rust
