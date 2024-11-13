@@ -3,6 +3,7 @@
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "Mutations.dfy"
 include "KmsUtils.dfy"
+include "DescribeMutation.dfy"
 
 module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKeyStoreAdminOperations {
   import opened AwsKmsUtils
@@ -12,6 +13,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   import KeyStoreTypes = KeyStoreOperations.Types
   import KMS = Com.Amazonaws.Kms
   import Mutations
+  import DM = DescribeMutation
   import KmsUtils
 
   datatype Config = Config(
@@ -340,6 +342,10 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   )
     returns (output: Result<DescribeMutationOutput, Error>)
   {
-    return Failure(Types.KeyStoreAdminException(message := "Implement me"));
+    var input := DM.InternalDescribeMutationInput(
+      Identifier := input.Identifier,
+      storage := config.storage);
+    output := DM.DescribeMutation(input);
+    return output;
   }
 }
