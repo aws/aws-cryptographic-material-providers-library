@@ -166,13 +166,13 @@ module {:options "/functionSyntax:4" } Mutations {
       return Failure(
           Types.MutationInvalidException(
             message := "Found a Mutation Index but no Mutation Commitment."
-            + " The Key Store's Storage has become corrupted."
+            + " The Key Store's Storage, for this Branch Key, has become corrupted."
             + " Recommend auditing the Branch Key's items for tampering."
             + " Recommend auditing access to the storage."
             + " To successfully start a new mutation, delete the Mutation Index."
             + " But know that the new mutation will fail if any corrupt items are encountered."
-            + " Branch Key ID: " + input.Identifier
-            + " \tMutation Index UUID: " + indexUUID));
+            + "\nBranch Key ID: " + input.Identifier + ";"
+            + " Mutation Index UUID: " + indexUUID));
     }
 
     if (readItems.MutationCommitment.Some?) {
