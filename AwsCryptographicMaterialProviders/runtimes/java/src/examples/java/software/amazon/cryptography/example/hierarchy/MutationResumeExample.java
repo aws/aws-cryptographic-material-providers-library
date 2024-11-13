@@ -201,7 +201,7 @@ public class MutationResumeExample {
     return result;
   }
 
-  private static MutationToken executeInitialize(
+  static MutationToken executeInitialize(
     String branchKeyId,
     KeyStoreAdmin admin,
     InitializeMutationInput initInput,
