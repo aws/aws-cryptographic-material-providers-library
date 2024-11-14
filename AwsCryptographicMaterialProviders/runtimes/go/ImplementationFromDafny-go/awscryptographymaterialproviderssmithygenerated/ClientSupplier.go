@@ -3,6 +3,7 @@
 package awscryptographymaterialproviderssmithygenerated
 
 import (
+	"github.com/aws/aws-cryptographic-material-providers-library/kms/ComAmazonawsKmsTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/AwsCryptographyMaterialProvidersTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/awscryptographymaterialproviderssmithygeneratedtypes"
 )
@@ -19,7 +20,7 @@ func (this *ClientSupplier) GetClient(params awscryptographymaterialproviderssmi
 		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
 		return nil, Error_FromDafny(err)
 	}
-	var native_response = GetClientOutput_FromDafny(dafny_response.Extract().(AwsCryptographyMaterialProvidersTypes.GetClientOutput))
+	var native_response = GetClientOutput_FromDafny(dafny_response.Extract().(ComAmazonawsKmsTypes.IKMSClient))
 	return &native_response, nil
 
 }

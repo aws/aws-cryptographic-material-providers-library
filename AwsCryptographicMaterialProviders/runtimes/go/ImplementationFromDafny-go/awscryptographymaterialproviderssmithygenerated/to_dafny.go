@@ -362,7 +362,7 @@ func GetClientInput_ToDafny(nativeInput awscryptographymaterialproviderssmithyge
 
 }
 
-func GetClientOutput_ToDafny(nativeOutput awscryptographymaterialproviderssmithygeneratedtypes.GetClientOutput) AwsCryptographyMaterialProvidersTypes.GetClientOutput {
+func GetClientOutput_ToDafny(nativeOutput awscryptographymaterialproviderssmithygeneratedtypes.GetClientOutput) ComAmazonawsKmsTypes.IKMSClient {
 
 	return &KMSwrapped.Shim{Client: nativeOutput.Client}
 

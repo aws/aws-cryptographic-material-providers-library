@@ -9,6 +9,7 @@ import (
 	"github.com/aws/aws-cryptographic-material-providers-library/kms/comamazonawskmssmithygenerated"
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/AwsCryptographyKeyStoreTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/AwsCryptographyMaterialProvidersTypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/mpl/KeyStore"
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/awscryptographykeystoresmithygenerated"
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/awscryptographykeystoresmithygeneratedtypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/awscryptographymaterialproviderssmithygeneratedtypes"
@@ -360,7 +361,7 @@ func GetClientInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.G
 
 }
 
-func GetClientOutput_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.GetClientOutput) awscryptographymaterialproviderssmithygeneratedtypes.GetClientOutput {
+func GetClientOutput_FromDafny(dafnyOutput ComAmazonawsKmsTypes.IKMSClient) awscryptographymaterialproviderssmithygeneratedtypes.GetClientOutput {
 
 	return awscryptographymaterialproviderssmithygeneratedtypes.GetClientOutput{Client: Aws_cryptography_materialProviders_GetClientOutput_client_FromDafny(dafnyOutput)}
 
@@ -2551,7 +2552,7 @@ func aws_cryptography_materialProviders_RawPrivateKeyToStaticPublicKeyInput_reci
 	}()
 }
 func aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_keyStore_FromDafny(input interface{}) *awscryptographykeystoresmithygenerated.Client {
-	return &awscryptographykeystoresmithygenerated.Client{input}
+	return &awscryptographykeystoresmithygenerated.Client{input.(*KeyStore.KeyStoreClient)}
 }
 func aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput_grantTokens_FromDafny(input interface{}) []string {
 	var fieldValue []string
