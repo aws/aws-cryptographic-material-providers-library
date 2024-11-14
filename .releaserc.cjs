@@ -174,7 +174,8 @@ module.exports = {
       "@semantic-release/exec",
       {
         prepareCmd:
-          "make -C TestVectorsAwsCryptographicMaterialProviders transpile_python",
+          "make -C TestVectorsAwsCryptographicMaterialProviders transpile_python \
+          && sh scripts/release/force_add_release_unignored_files.sh",
       },
     ],
     // Commit and push changes the changelog and versions bumps

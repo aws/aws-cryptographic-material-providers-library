@@ -8,8 +8,6 @@ test/**/Output/*
 /node_modules
 *.log
 
-*.dtr
-
 # Python docs build Artifacts
 build
 doc/build
@@ -25,3 +23,14 @@ specification_compliance_report.html
 /compliance
 /.smithy.lsp.log
 */**/Folder.DotSettings.user
+
+# Mostly ignored, but committed for release
+# START_RELEASE_IGNORED_FILES
+**/*py.dtr
+# Ignore everything in ImplementationFromDafny-go
+**/ImplementationFromDafny-go/**
+# Un-ignore files containing "smithygenerated"
+!**/ImplementationFromDafny-go/**/*smithygenerated*
+# Un-ignore files containing "extern"
+!**/ImplementationFromDafny-go/**/*extern*
+# END_RELEASE_IGNORED_FILES
