@@ -111,8 +111,8 @@ public class StormTrackingCMC
           Thread.sleep(wrapped.sleepMilli);
         } catch (Exception e) {
           return CreateGetCacheEntryFailure(
-            software.amazon.cryptography.materialproviders.internaldafny.types.Error.create_AwsCryptographicMaterialProvidersException(
-              dafny.DafnySequence.asString("Thread Interrupted")
+            software.amazon.cryptography.materialproviders.internaldafny.types.Error.create_Opaque(
+              e
             )
           );
         }
