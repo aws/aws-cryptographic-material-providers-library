@@ -109,7 +109,13 @@ public class StormTrackingCMC
       } else {
         try {
           Thread.sleep(wrapped.sleepMilli);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+          return CreateGetCacheEntryFailure(
+            software.amazon.cryptography.materialproviders.internaldafny.types.Error.create_AwsCryptographicMaterialProvidersException(
+              dafny.DafnySequence.asString("Thread Interrupted")
+            )
+          );
+        }
       }
     }
   }
