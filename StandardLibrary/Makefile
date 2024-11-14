@@ -14,8 +14,12 @@ LIBRARIES :=
 # So we empty the variable here
 # and check in the Makefile
 transpile_implementation: STD_LIBRARY=
+transpile_implementation: DAFNY_OTHER_FILES=stdlibs.doo
 transpile_test: STD_LIBRARY=
 transpile_dependencies: STD_LIBRARY=
+
+stdlibs:
+	dafny build -t:lib --output stdlibs DafnyStandardLibraries.toml
 
 # Python
 

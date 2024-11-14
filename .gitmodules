@@ -7,3 +7,6 @@
 [submodule "aws-encryption-sdk-specification"]
 	path = aws-encryption-sdk-specification
 	url = https://github.com/awslabs/aws-encryption-sdk-specification.git 
+[submodule "dafny"]
+	path = dafny
+	url = git@github.com:dafny-lang/dafny.git
