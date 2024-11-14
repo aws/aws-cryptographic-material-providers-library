@@ -8,6 +8,8 @@ test/**/Output/*
 /node_modules
 *.log
 
+*.dtr
+
 # Python docs build Artifacts
 build
 doc/build
