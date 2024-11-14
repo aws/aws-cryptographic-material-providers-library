@@ -104,6 +104,7 @@ jobs:
           make transpile_rust TRANSPILE_TESTS_IN_RUST=1 CORES=$CORES
 
       - name: Test ${{ matrix.library }} Rust
+        shell: bash
         working-directory: ./${{ matrix.library }}
         run: |
           make test_rust
