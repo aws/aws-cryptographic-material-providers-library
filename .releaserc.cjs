@@ -103,27 +103,6 @@ module.exports = {
       "semantic-release-replace-plugin",
       {
         replacements: [
-          // Update the version for all Gradle Java projects
-          // Does not update the dependencies
-          {
-            files: Object.keys(Runtimes.java),
-            from: 'version = ".*"',
-            to: 'version = "${nextRelease.version}"',
-            results: Object.keys(Runtimes.java).map(CheckResults),
-            countMatches: true,
-          },
-          // Now update the Gradle Java  dependencies
-          ...Object.entries(Runtimes.java).flatMap(([file, { dependencies }]) =>
-            dependencies.map((dependency) => ({
-              files: [file],
-              from: `implementation("${dependency}:.*")`,
-              to:
-                `implementation("${dependency}:` + '${nextRelease.version}" />',
-              results: [CheckResults(file)],
-              countMatches: true,
-            })),
-          ),
-
           // Update the version for all DotNet projects
           // Does not update the dependencies
           {
@@ -211,8 +190,8 @@ function CheckDependencyReplacementResults(file) {
     return {
       file,
       hasChanged: true,
-      numMatches: 4,
-      numReplacements: 4,
+      numMatches: 3,
+      numReplacements: 3,
     };
   } else if (file.includes("StandardLibrary")) {
     return {
