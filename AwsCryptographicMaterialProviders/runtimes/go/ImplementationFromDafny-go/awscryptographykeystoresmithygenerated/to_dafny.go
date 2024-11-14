@@ -198,15 +198,15 @@ func KeyStoreConfig_ToDafny(nativeInput awscryptographykeystoresmithygeneratedty
 	return func() AwsCryptographyKeyStoreTypes.KeyStoreConfig {
 
 		return AwsCryptographyKeyStoreTypes.Companion_KeyStoreConfig_.Create_KeyStoreConfig_(aws_cryptography_keyStore_KeyStoreConfig_ddbTableName_ToDafny(nativeInput.DdbTableName), aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_ToDafny(nativeInput.KmsConfiguration), aws_cryptography_keyStore_KeyStoreConfig_logicalKeyStoreName_ToDafny(nativeInput.LogicalKeyStoreName), aws_cryptography_keyStore_KeyStoreConfig_id_ToDafny(nativeInput.Id), aws_cryptography_keyStore_KeyStoreConfig_grantTokens_ToDafny(nativeInput.GrantTokens), func() Wrappers.Option {
-			if (&DynamoDBwrapped.Shim{Client: &nativeInput.DdbClient}) == nil {
+			if (nativeInput.DdbClient) == nil {
 				return Wrappers.Companion_Option_.Create_None_()
 			}
-			return Wrappers.Companion_Option_.Create_Some_(&DynamoDBwrapped.Shim{Client: &nativeInput.DdbClient})
+			return Wrappers.Companion_Option_.Create_Some_(&DynamoDBwrapped.Shim{Client: nativeInput.DdbClient})
 		}(), func() Wrappers.Option {
-			if (&KMSwrapped.Shim{Client: &nativeInput.KmsClient}) == nil {
+			if (nativeInput.KmsClient) == nil {
 				return Wrappers.Companion_Option_.Create_None_()
 			}
-			return Wrappers.Companion_Option_.Create_Some_(&KMSwrapped.Shim{Client: &nativeInput.KmsClient})
+			return Wrappers.Companion_Option_.Create_Some_(&KMSwrapped.Shim{Client: nativeInput.KmsClient})
 		}())
 	}()
 
@@ -215,22 +215,18 @@ func KeyStoreConfig_ToDafny(nativeInput awscryptographykeystoresmithygeneratedty
 func aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_ToDafny(input awscryptographykeystoresmithygeneratedtypes.KMSConfiguration) AwsCryptographyKeyStoreTypes.KMSConfiguration {
 	return func() AwsCryptographyKeyStoreTypes.KMSConfiguration {
 		switch input.(type) {
-		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberKmsKeyArn:
-			var companion = AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}
-			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_kmsKeyArn_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberKmsKeyArn).Value)
-			return companion.Create_KmsKeyArn_(inputToConversion.UnwrapOr(nil).(dafny.Sequence))
-		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberKmsMRKeyArn:
-			var companion = AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}
-			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_kmsMRKeyArn_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberKmsMRKeyArn).Value)
-			return companion.Create_KmsMRKeyArn_(inputToConversion.UnwrapOr(nil).(dafny.Sequence))
-		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberDiscovery:
-			var companion = AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}
-			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_discovery_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberDiscovery).Value)
-			return companion.Create_Discovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyKeyStoreTypes.Discovery))
-		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberMrDiscovery:
-			var companion = AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}
-			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_mrDiscovery_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberMrDiscovery).Value)
-			return companion.Create_MrDiscovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyKeyStoreTypes.MRDiscovery))
+		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberkmsKeyArn:
+			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_kmsKeyArn_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberkmsKeyArn).Value)
+			return AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}.Create_kmsKeyArn_(inputToConversion.UnwrapOr(nil).(dafny.Sequence))
+		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberkmsMRKeyArn:
+			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_kmsMRKeyArn_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberkmsMRKeyArn).Value)
+			return AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}.Create_kmsMRKeyArn_(inputToConversion.UnwrapOr(nil).(dafny.Sequence))
+		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberdiscovery:
+			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_discovery_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberdiscovery).Value)
+			return AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}.Create_discovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyKeyStoreTypes.Discovery))
+		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMembermrDiscovery:
+			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_mrDiscovery_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMembermrDiscovery).Value)
+			return AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}.Create_mrDiscovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyKeyStoreTypes.MRDiscovery))
 
 		default:
 			panic("Unhandled union type")
@@ -528,22 +524,18 @@ func aws_cryptography_keyStore_GetKeyStoreInfoOutput_logicalKeyStoreName_ToDafny
 func aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_ToDafny(input awscryptographykeystoresmithygeneratedtypes.KMSConfiguration) AwsCryptographyKeyStoreTypes.KMSConfiguration {
 	return func() AwsCryptographyKeyStoreTypes.KMSConfiguration {
 		switch input.(type) {
-		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberKmsKeyArn:
-			var companion = AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}
-			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_kmsKeyArn_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberKmsKeyArn).Value)
-			return companion.Create_KmsKeyArn_(inputToConversion.UnwrapOr(nil).(dafny.Sequence))
-		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberKmsMRKeyArn:
-			var companion = AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}
-			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_kmsMRKeyArn_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberKmsMRKeyArn).Value)
-			return companion.Create_KmsMRKeyArn_(inputToConversion.UnwrapOr(nil).(dafny.Sequence))
-		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberDiscovery:
-			var companion = AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}
-			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_discovery_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberDiscovery).Value)
-			return companion.Create_Discovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyKeyStoreTypes.Discovery))
-		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberMrDiscovery:
-			var companion = AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}
-			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_mrDiscovery_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberMrDiscovery).Value)
-			return companion.Create_MrDiscovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyKeyStoreTypes.MRDiscovery))
+		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberkmsKeyArn:
+			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_kmsKeyArn_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberkmsKeyArn).Value)
+			return AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}.Create_kmsKeyArn_(inputToConversion.UnwrapOr(nil).(dafny.Sequence))
+		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberkmsMRKeyArn:
+			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_kmsMRKeyArn_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberkmsMRKeyArn).Value)
+			return AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}.Create_kmsMRKeyArn_(inputToConversion.UnwrapOr(nil).(dafny.Sequence))
+		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberdiscovery:
+			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_discovery_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberdiscovery).Value)
+			return AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}.Create_discovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyKeyStoreTypes.Discovery))
+		case *awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMembermrDiscovery:
+			var inputToConversion = aws_cryptography_keyStore_KMSConfiguration_mrDiscovery_ToDafny(input.(*awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMembermrDiscovery).Value)
+			return AwsCryptographyKeyStoreTypes.CompanionStruct_KMSConfiguration_{}.Create_mrDiscovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyKeyStoreTypes.MRDiscovery))
 
 		default:
 			panic("Unhandled union type")

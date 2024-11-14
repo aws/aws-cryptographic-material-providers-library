@@ -250,25 +250,25 @@ func (input GetKeyStoreInfoOutput) Validate() error {
 
 func (input GetKeyStoreInfoOutput) aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_Validate() error {
 	switch unionType := input.KmsConfiguration.(type) {
-	case *kmstypes.KMSConfigurationMemberKmsKeyArn:
+	case *KMSConfigurationMemberkmsKeyArn:
 		if len(unionType.Value) < 1 {
 			return fmt.Errorf("KeyIdType has a minimum length of 1 but has the length of %d.", len(unionType.Value))
 		}
 		if len(unionType.Value) > 2048 {
 			return fmt.Errorf("KeyIdType has a maximum length of 2048 but has the length of %d.", len(unionType.Value))
 		}
-	case *kmstypes.KMSConfigurationMemberKmsMRKeyArn:
+	case *KMSConfigurationMemberkmsMRKeyArn:
 		if len(unionType.Value) < 1 {
 			return fmt.Errorf("KeyIdType has a minimum length of 1 but has the length of %d.", len(unionType.Value))
 		}
 		if len(unionType.Value) > 2048 {
 			return fmt.Errorf("KeyIdType has a maximum length of 2048 but has the length of %d.", len(unionType.Value))
 		}
-	case *KMSConfigurationMemberDiscovery:
+	case *KMSConfigurationMemberdiscovery:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
-	case *KMSConfigurationMemberMrDiscovery:
+	case *KMSConfigurationMembermrDiscovery:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -297,6 +297,22 @@ func (input VersionKeyOutput) Validate() error {
 	return nil
 }
 
+type DdbClientReference struct {
+}
+
+func (input DdbClientReference) Validate() error {
+
+	return nil
+}
+
+type KmsClientReference struct {
+}
+
+func (input KmsClientReference) Validate() error {
+
+	return nil
+}
+
 type KeyStoreConfig struct {
 	DdbTableName string
 
@@ -304,13 +320,13 @@ type KeyStoreConfig struct {
 
 	LogicalKeyStoreName string
 
-	DdbClient dynamodb.Client
+	DdbClient *dynamodb.Client
 
 	GrantTokens []string
 
 	Id *string
 
-	KmsClient kms.Client
+	KmsClient *kms.Client
 }
 
 func (input KeyStoreConfig) Validate() error {
@@ -329,25 +345,25 @@ func (input KeyStoreConfig) Validate() error {
 
 func (input KeyStoreConfig) aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate() error {
 	switch unionType := input.KmsConfiguration.(type) {
-	case *kmstypes.KMSConfigurationMemberKmsKeyArn:
+	case *KMSConfigurationMemberkmsKeyArn:
 		if len(unionType.Value) < 1 {
 			return fmt.Errorf("KeyIdType has a minimum length of 1 but has the length of %d.", len(unionType.Value))
 		}
 		if len(unionType.Value) > 2048 {
 			return fmt.Errorf("KeyIdType has a maximum length of 2048 but has the length of %d.", len(unionType.Value))
 		}
-	case *kmstypes.KMSConfigurationMemberKmsMRKeyArn:
+	case *KMSConfigurationMemberkmsMRKeyArn:
 		if len(unionType.Value) < 1 {
 			return fmt.Errorf("KeyIdType has a minimum length of 1 but has the length of %d.", len(unionType.Value))
 		}
 		if len(unionType.Value) > 2048 {
 			return fmt.Errorf("KeyIdType has a maximum length of 2048 but has the length of %d.", len(unionType.Value))
 		}
-	case *KMSConfigurationMemberDiscovery:
+	case *KMSConfigurationMemberdiscovery:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
-	case *KMSConfigurationMemberMrDiscovery:
+	case *KMSConfigurationMembermrDiscovery:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -359,37 +375,37 @@ func (input KeyStoreConfig) aws_cryptography_keyStore_KeyStoreConfig_kmsConfigur
 	return nil
 }
 
-// KMSConfigurationMemberDiscovery
-// KMSConfigurationMemberKmsKeyArn
-// KMSConfigurationMemberKmsMRKeyArn
-// KMSConfigurationMemberMrDiscovery
+// KMSConfigurationMemberdiscovery
+// KMSConfigurationMemberkmsKeyArn
+// KMSConfigurationMemberkmsMRKeyArn
+// KMSConfigurationMembermrDiscovery
 type KMSConfiguration interface {
 	isKMSConfiguration()
 }
 
-type KMSConfigurationMemberDiscovery struct {
+type KMSConfigurationMemberdiscovery struct {
 	Value Discovery
 }
 
-func (*KMSConfigurationMemberDiscovery) isKMSConfiguration() {}
+func (*KMSConfigurationMemberdiscovery) isKMSConfiguration() {}
 
-type KMSConfigurationMemberKmsKeyArn struct {
+type KMSConfigurationMemberkmsKeyArn struct {
 	Value string
 }
 
-func (*KMSConfigurationMemberKmsKeyArn) isKMSConfiguration() {}
+func (*KMSConfigurationMemberkmsKeyArn) isKMSConfiguration() {}
 
-type KMSConfigurationMemberKmsMRKeyArn struct {
+type KMSConfigurationMemberkmsMRKeyArn struct {
 	Value string
 }
 
-func (*KMSConfigurationMemberKmsMRKeyArn) isKMSConfiguration() {}
+func (*KMSConfigurationMemberkmsMRKeyArn) isKMSConfiguration() {}
 
-type KMSConfigurationMemberMrDiscovery struct {
+type KMSConfigurationMembermrDiscovery struct {
 	Value MRDiscovery
 }
 
-func (*KMSConfigurationMemberMrDiscovery) isKMSConfiguration() {}
+func (*KMSConfigurationMembermrDiscovery) isKMSConfiguration() {}
 
 type KeyStoreBaseException interface {
 	// This is a dummy method to allow type assertion since Go empty interfaces

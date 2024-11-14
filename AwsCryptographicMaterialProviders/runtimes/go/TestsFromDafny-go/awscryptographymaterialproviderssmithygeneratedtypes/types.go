@@ -10,10 +10,11 @@ import (
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/awscryptographykeystoresmithygeneratedtypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/primitives/awscryptographyprimitivessmithygeneratedtypes"
 	"github.com/aws/aws-sdk-go-v2/service/kms"
+	kmstypes "github.com/aws/aws-sdk-go-v2/service/kms/types"
 )
 
 type HKDF struct {
-	Hmac DigestAlgorithm
+	Hmac awscryptographyprimitivessmithygeneratedtypes.DigestAlgorithm
 
 	InputKeyLength int32
 
@@ -90,7 +91,7 @@ func (input IntermediateKeyWrapping) Validate() error {
 
 func (input IntermediateKeyWrapping) aws_cryptography_materialProviders_IntermediateKeyWrapping_pdkEncryptAlgorithm_Validate() error {
 	switch unionType := input.PdkEncryptAlgorithm.(type) {
-	case *awscryptographyprimitivessmithygeneratedtypes.EncryptMemberAES_GCM:
+	case *EncryptMemberAES_GCM:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -145,7 +146,7 @@ func (input IntermediateKeyWrapping) aws_cryptography_materialProviders_Intermed
 }
 
 type ECDSA struct {
-	Curve ECDSASignatureAlgorithm
+	Curve awscryptographyprimitivessmithygeneratedtypes.ECDSASignatureAlgorithm
 }
 
 func (input ECDSA) Validate() error {
@@ -239,7 +240,7 @@ func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuit
 }
 func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_Validate() error {
 	switch unionType := input.SymmetricSignature.(type) {
-	case *awscryptographyprimitivessmithygeneratedtypes.SymmetricSignatureAlgorithmMemberHMAC:
+	case *SymmetricSignatureAlgorithmMemberHMAC:
 	case *SymmetricSignatureAlgorithmMemberNone:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
@@ -264,7 +265,7 @@ func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuit
 }
 func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_Validate() error {
 	switch unionType := input.Encrypt.(type) {
-	case *awscryptographyprimitivessmithygeneratedtypes.EncryptMemberAES_GCM:
+	case *EncryptMemberAES_GCM:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -332,7 +333,7 @@ func (input KmsClientReference) Validate() error {
 }
 
 type GetClientOutput struct {
-	Client kms.Client
+	Client *kms.Client
 }
 
 func (input GetClientOutput) Validate() error {
@@ -352,7 +353,7 @@ func (input DiscoveryFilter) Validate() error {
 }
 
 type CreateAwsKmsDiscoveryKeyringInput struct {
-	KmsClient kms.Client
+	KmsClient *kms.Client
 
 	DiscoveryFilter *DiscoveryFilter
 
@@ -433,11 +434,11 @@ func (input KmsPublicKeyDiscoveryInput) Validate() error {
 }
 
 type CreateAwsKmsEcdhKeyringInput struct {
-	CurveSpec ECDHCurveSpec
+	CurveSpec awscryptographyprimitivessmithygeneratedtypes.ECDHCurveSpec
 
 	KeyAgreementScheme KmsEcdhStaticConfigurations
 
-	KmsClient kms.Client
+	KmsClient *kms.Client
 
 	GrantTokens []string
 }
@@ -651,7 +652,7 @@ func (input CreateAwsKmsHierarchicalKeyringInput) aws_cryptography_materialProvi
 }
 
 type CreateAwsKmsKeyringInput struct {
-	KmsClient kms.Client
+	KmsClient *kms.Client
 
 	KmsKeyId string
 
@@ -664,7 +665,7 @@ func (input CreateAwsKmsKeyringInput) Validate() error {
 }
 
 type CreateAwsKmsMrkDiscoveryKeyringInput struct {
-	KmsClient kms.Client
+	KmsClient *kms.Client
 
 	Region string
 
@@ -700,7 +701,7 @@ func (input CreateAwsKmsMrkDiscoveryMultiKeyringInput) Validate() error {
 }
 
 type CreateAwsKmsMrkKeyringInput struct {
-	KmsClient kms.Client
+	KmsClient *kms.Client
 
 	KmsKeyId string
 
@@ -743,13 +744,13 @@ func (input CreateAwsKmsMultiKeyringInput) Validate() error {
 }
 
 type CreateAwsKmsRsaKeyringInput struct {
-	EncryptionAlgorithm EncryptionAlgorithmSpec
+	EncryptionAlgorithm kmstypes.EncryptionAlgorithmSpec
 
 	KmsKeyId string
 
 	GrantTokens []string
 
-	KmsClient kms.Client
+	KmsClient *kms.Client
 
 	PublicKey []byte
 }
@@ -855,7 +856,7 @@ func (input CreateDefaultCryptographicMaterialsManagerInput) Validate() error {
 }
 
 type CreateMultiKeyringInput struct {
-	ChildKeyrings []KeyringReference
+	ChildKeyrings []IKeyring
 
 	Generator IKeyring
 }
@@ -910,7 +911,7 @@ func (input RawPrivateKeyToStaticPublicKeyInput) Validate() error {
 }
 
 type CreateRawEcdhKeyringInput struct {
-	CurveSpec ECDHCurveSpec
+	CurveSpec awscryptographyprimitivessmithygeneratedtypes.ECDHCurveSpec
 
 	KeyAgreementScheme RawEcdhStaticConfigurations
 }
@@ -1612,6 +1613,204 @@ func (input ValidEncryptionMaterialsTransitionInput) Validate() error {
 	return nil
 }
 
+type GetBranchKeyIdInput struct {
+	EncryptionContext map[string]string
+}
+
+func (input GetBranchKeyIdInput) Validate() error {
+	if input.aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_Validate() != nil {
+		return input.aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_Validate()
+	}
+
+	return nil
+}
+
+func (input GetBranchKeyIdInput) aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_Validate() error {
+	for key, value := range input.EncryptionContext {
+		if !utf8.ValidString(key) {
+			return fmt.Errorf("Invalid UTF bytes %s ", key)
+		}
+		if !utf8.ValidString(value) {
+			return fmt.Errorf("Invalid UTF bytes %s ", value)
+		}
+	}
+
+	return nil
+}
+
+type GetBranchKeyIdOutput struct {
+	BranchKeyId string
+}
+
+func (input GetBranchKeyIdOutput) Validate() error {
+
+	return nil
+}
+
+type DeleteCacheEntryInput struct {
+	Identifier []byte
+}
+
+func (input DeleteCacheEntryInput) Validate() error {
+
+	return nil
+}
+
+type GetCacheEntryInput struct {
+	Identifier []byte
+
+	BytesUsed *int64
+}
+
+func (input GetCacheEntryInput) Validate() error {
+
+	return nil
+}
+
+type GetCacheEntryOutput struct {
+	BytesUsed int32
+
+	CreationTime int64
+
+	ExpiryTime int64
+
+	Materials Materials
+
+	MessagesUsed int32
+}
+
+func (input GetCacheEntryOutput) Validate() error {
+	if input.BytesUsed < 0 {
+		return fmt.Errorf("PositiveInteger has a minimum of 0 but has the value of %d.", input.BytesUsed)
+	}
+	if input.CreationTime < 0 {
+		return fmt.Errorf("PositiveLong has a minimum of 0 but has the value of %d.", input.CreationTime)
+	}
+	if input.ExpiryTime < 0 {
+		return fmt.Errorf("PositiveLong has a minimum of 0 but has the value of %d.", input.ExpiryTime)
+	}
+	if input.aws_cryptography_materialProviders_GetCacheEntryOutput_materials_Validate() != nil {
+		return input.aws_cryptography_materialProviders_GetCacheEntryOutput_materials_Validate()
+	}
+	if input.MessagesUsed < 0 {
+		return fmt.Errorf("PositiveInteger has a minimum of 0 but has the value of %d.", input.MessagesUsed)
+	}
+
+	return nil
+}
+
+func (input GetCacheEntryOutput) aws_cryptography_materialProviders_GetCacheEntryOutput_materials_Validate() error {
+	switch unionType := input.Materials.(type) {
+	case *MaterialsMemberEncryption:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	case *MaterialsMemberDecryption:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	case *MaterialsMemberBranchKey:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	case *MaterialsMemberBeaconKey:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+
+type PutCacheEntryInput struct {
+	CreationTime int64
+
+	ExpiryTime int64
+
+	Identifier []byte
+
+	Materials Materials
+
+	BytesUsed *int32
+
+	MessagesUsed *int32
+}
+
+func (input PutCacheEntryInput) Validate() error {
+	if input.CreationTime < 0 {
+		return fmt.Errorf("PositiveLong has a minimum of 0 but has the value of %d.", input.CreationTime)
+	}
+	if input.ExpiryTime < 0 {
+		return fmt.Errorf("PositiveLong has a minimum of 0 but has the value of %d.", input.ExpiryTime)
+	}
+	if input.aws_cryptography_materialProviders_PutCacheEntryInput_materials_Validate() != nil {
+		return input.aws_cryptography_materialProviders_PutCacheEntryInput_materials_Validate()
+	}
+	if input.BytesUsed != nil {
+		if *input.BytesUsed < 0 {
+			return fmt.Errorf("PositiveInteger has a minimum of 0 but has the value of %d.", *input.BytesUsed)
+		}
+	}
+	if input.MessagesUsed != nil {
+		if *input.MessagesUsed < 0 {
+			return fmt.Errorf("PositiveInteger has a minimum of 0 but has the value of %d.", *input.MessagesUsed)
+		}
+	}
+
+	return nil
+}
+
+func (input PutCacheEntryInput) aws_cryptography_materialProviders_PutCacheEntryInput_materials_Validate() error {
+	switch unionType := input.Materials.(type) {
+	case *MaterialsMemberEncryption:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	case *MaterialsMemberDecryption:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	case *MaterialsMemberBranchKey:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	case *MaterialsMemberBeaconKey:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+
+type UpdateUsageMetadataInput struct {
+	BytesUsed int32
+
+	Identifier []byte
+}
+
+func (input UpdateUsageMetadataInput) Validate() error {
+	if input.BytesUsed < 0 {
+		return fmt.Errorf("PositiveInteger has a minimum of 0 but has the value of %d.", input.BytesUsed)
+	}
+
+	return nil
+}
+
+type DdbClientReference struct {
+}
+
+func (input DdbClientReference) Validate() error {
+
+	return nil
+}
+
 type MaterialProvidersConfig struct {
 }
 
@@ -1681,7 +1880,7 @@ type SymmetricSignatureAlgorithm interface {
 }
 
 type SymmetricSignatureAlgorithmMemberHMAC struct {
-	Value DigestAlgorithm
+	Value awscryptographyprimitivessmithygeneratedtypes.DigestAlgorithm
 }
 
 func (*SymmetricSignatureAlgorithmMemberHMAC) isSymmetricSignatureAlgorithm() {}
@@ -1921,207 +2120,17 @@ type IKeyring interface {
 }
 
 type ICryptographicMaterialsCache interface {
-	PutCacheEntry(PutCacheEntryInput) (*Unit, error)
+	PutCacheEntry(PutCacheEntryInput) error
 
 	GetCacheEntry(GetCacheEntryInput) (*GetCacheEntryOutput, error)
 
-	UpdateUsageMetadata(UpdateUsageMetadataInput) (*Unit, error)
+	UpdateUsageMetadata(UpdateUsageMetadataInput) error
 
-	DeleteCacheEntry(DeleteCacheEntryInput) (*Unit, error)
+	DeleteCacheEntry(DeleteCacheEntryInput) error
 }
 
 type ICryptographicMaterialsManager interface {
 	GetEncryptionMaterials(GetEncryptionMaterialsInput) (*GetEncryptionMaterialsOutput, error)
 
 	DecryptMaterials(DecryptMaterialsInput) (*DecryptMaterialsOutput, error)
-}
-
-type PutCacheEntryInput struct {
-	CreationTime int64
-
-	ExpiryTime int64
-
-	Identifier []byte
-
-	Materials Materials
-
-	BytesUsed *int32
-
-	MessagesUsed *int32
-}
-
-func (input PutCacheEntryInput) Validate() error {
-	if input.CreationTime < 0 {
-		return fmt.Errorf("PositiveLong has a minimum of 0 but has the value of %d.", input.CreationTime)
-	}
-	if input.ExpiryTime < 0 {
-		return fmt.Errorf("PositiveLong has a minimum of 0 but has the value of %d.", input.ExpiryTime)
-	}
-	if input.aws_cryptography_materialProviders_PutCacheEntryInput_materials_Validate() != nil {
-		return input.aws_cryptography_materialProviders_PutCacheEntryInput_materials_Validate()
-	}
-	if input.BytesUsed != nil {
-		if *input.BytesUsed < 0 {
-			return fmt.Errorf("PositiveInteger has a minimum of 0 but has the value of %d.", *input.BytesUsed)
-		}
-	}
-	if input.MessagesUsed != nil {
-		if *input.MessagesUsed < 0 {
-			return fmt.Errorf("PositiveInteger has a minimum of 0 but has the value of %d.", *input.MessagesUsed)
-		}
-	}
-
-	return nil
-}
-
-func (input PutCacheEntryInput) aws_cryptography_materialProviders_PutCacheEntryInput_materials_Validate() error {
-	switch unionType := input.Materials.(type) {
-	case *MaterialsMemberEncryption:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	case *MaterialsMemberDecryption:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	case *awscryptographykeystoresmithygeneratedtypes.MaterialsMemberBranchKey:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	case *awscryptographykeystoresmithygeneratedtypes.MaterialsMemberBeaconKey:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
-	}
-
-	return nil
-}
-
-type UpdateUsageMetadataInput struct {
-	BytesUsed int32
-
-	Identifier []byte
-}
-
-func (input UpdateUsageMetadataInput) Validate() error {
-	if input.BytesUsed < 0 {
-		return fmt.Errorf("PositiveInteger has a minimum of 0 but has the value of %d.", input.BytesUsed)
-	}
-
-	return nil
-}
-
-type GetBranchKeyIdInput struct {
-	EncryptionContext map[string]string
-}
-
-func (input GetBranchKeyIdInput) Validate() error {
-	if input.aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_Validate() != nil {
-		return input.aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_Validate()
-	}
-
-	return nil
-}
-
-func (input GetBranchKeyIdInput) aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_Validate() error {
-	for key, value := range input.EncryptionContext {
-		if !utf8.ValidString(key) {
-			return fmt.Errorf("Invalid UTF bytes %s ", key)
-		}
-		if !utf8.ValidString(value) {
-			return fmt.Errorf("Invalid UTF bytes %s ", value)
-		}
-	}
-
-	return nil
-}
-
-type GetBranchKeyIdOutput struct {
-	BranchKeyId string
-}
-
-func (input GetBranchKeyIdOutput) Validate() error {
-
-	return nil
-}
-
-type GetCacheEntryInput struct {
-	Identifier []byte
-
-	BytesUsed *int64
-}
-
-func (input GetCacheEntryInput) Validate() error {
-
-	return nil
-}
-
-type GetCacheEntryOutput struct {
-	BytesUsed int32
-
-	CreationTime int64
-
-	ExpiryTime int64
-
-	Materials Materials
-
-	MessagesUsed int32
-}
-
-func (input GetCacheEntryOutput) Validate() error {
-	if input.BytesUsed < 0 {
-		return fmt.Errorf("PositiveInteger has a minimum of 0 but has the value of %d.", input.BytesUsed)
-	}
-	if input.CreationTime < 0 {
-		return fmt.Errorf("PositiveLong has a minimum of 0 but has the value of %d.", input.CreationTime)
-	}
-	if input.ExpiryTime < 0 {
-		return fmt.Errorf("PositiveLong has a minimum of 0 but has the value of %d.", input.ExpiryTime)
-	}
-	if input.aws_cryptography_materialProviders_GetCacheEntryOutput_materials_Validate() != nil {
-		return input.aws_cryptography_materialProviders_GetCacheEntryOutput_materials_Validate()
-	}
-	if input.MessagesUsed < 0 {
-		return fmt.Errorf("PositiveInteger has a minimum of 0 but has the value of %d.", input.MessagesUsed)
-	}
-
-	return nil
-}
-
-func (input GetCacheEntryOutput) aws_cryptography_materialProviders_GetCacheEntryOutput_materials_Validate() error {
-	switch unionType := input.Materials.(type) {
-	case *MaterialsMemberEncryption:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	case *MaterialsMemberDecryption:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	case *awscryptographykeystoresmithygeneratedtypes.MaterialsMemberBranchKey:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	case *awscryptographykeystoresmithygeneratedtypes.MaterialsMemberBeaconKey:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
-	}
-
-	return nil
-}
-
-type DeleteCacheEntryInput struct {
-	Identifier []byte
-}
-
-func (input DeleteCacheEntryInput) Validate() error {
-
-	return nil
 }

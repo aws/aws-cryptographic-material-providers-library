@@ -3,7 +3,9 @@
 package awscryptographykeystoresmithygenerated
 
 import (
+	"github.com/aws/aws-cryptographic-material-providers-library/dynamodb/DynamoDBwrapped"
 	"github.com/aws/aws-cryptographic-material-providers-library/dynamodb/comamazonawsdynamodbsmithygenerated"
+	"github.com/aws/aws-cryptographic-material-providers-library/kms/KMSwrapped"
 	"github.com/aws/aws-cryptographic-material-providers-library/kms/comamazonawskmssmithygenerated"
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/AwsCryptographyKeyStoreTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/awscryptographykeystoresmithygeneratedtypes"
@@ -175,28 +177,28 @@ func KeyStoreConfig_FromDafny(dafnyOutput AwsCryptographyKeyStoreTypes.KeyStoreC
 func aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_FromDafny(input interface{}) awscryptographykeystoresmithygeneratedtypes.KMSConfiguration {
 	var union awscryptographykeystoresmithygeneratedtypes.KMSConfiguration
 
-	if (input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Is_KmsKeyArn() {
-		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Dtor_KmsKeyArn())
-		union = &awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberKmsKeyArn{
+	if (input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Is_kmsKeyArn() {
+		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Dtor_kmsKeyArn())
+		union = &awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberkmsKeyArn{
 			Value: (aws_cryptography_keyStore_KMSConfiguration_kmsKeyArn_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
-	if (input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Is_KmsMRKeyArn() {
-		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Dtor_KmsMRKeyArn())
-		union = &awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberKmsMRKeyArn{
+	if (input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Is_kmsMRKeyArn() {
+		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Dtor_kmsMRKeyArn())
+		union = &awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberkmsMRKeyArn{
 			Value: (aws_cryptography_keyStore_KMSConfiguration_kmsMRKeyArn_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
-	if (input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Is_Discovery() {
+	if (input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Is_discovery() {
 
-		union = &awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberDiscovery{
-			Value: (aws_cryptography_keyStore_KMSConfiguration_discovery_FromDafny((input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Dtor_Discovery())),
+		union = &awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberdiscovery{
+			Value: (aws_cryptography_keyStore_KMSConfiguration_discovery_FromDafny((input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Dtor_discovery())),
 		}
 	}
-	if (input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Is_MrDiscovery() {
+	if (input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Is_mrDiscovery() {
 
-		union = &awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberMrDiscovery{
-			Value: (aws_cryptography_keyStore_KMSConfiguration_mrDiscovery_FromDafny((input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Dtor_MrDiscovery())),
+		union = &awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMembermrDiscovery{
+			Value: (aws_cryptography_keyStore_KMSConfiguration_mrDiscovery_FromDafny((input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Dtor_mrDiscovery())),
 		}
 	}
 
@@ -233,12 +235,12 @@ func aws_cryptography_keyStore_KeyStoreConfig_id_FromDafny(input interface{}) *s
 	}()
 }
 func aws_cryptography_keyStore_KeyStoreConfig_kmsClient_FromDafny(input interface{}) *kms.Client {
-	return func() *comamazonawskmssmithygenerated.Client {
-		if input == nil {
-			return nil
-		}
-		return &comamazonawskmssmithygenerated.Client{input.(*TrentService.TrentServiceClient)}
-	}()
+	shim, ok := input.(*KMSwrapped.Shim)
+	if !ok {
+		panic("Not able to convert client to native")
+	}
+	return shim.Client
+
 }
 func aws_cryptography_keyStore_GetBranchKeyVersionInput_branchKeyIdentifier_FromDafny(input interface{}) string {
 	return func() string {
@@ -394,12 +396,12 @@ func aws_cryptography_keyStore_GetActiveBranchKeyOutput_branchKeyMaterials_FromD
 	}
 }
 func aws_cryptography_keyStore_KeyStoreConfig_ddbClient_FromDafny(input interface{}) *dynamodb.Client {
-	return func() *comamazonawsdynamodbsmithygenerated.Client {
-		if input == nil {
-			return nil
-		}
-		return &comamazonawsdynamodbsmithygenerated.Client{input.(*DynamoDB_20120810.DynamoDB_20120810Client)}
-	}()
+	shim, ok := input.(*DynamoDBwrapped.Shim)
+	if !ok {
+		panic("Not able to convert client to native")
+	}
+	return shim.Client
+
 }
 func aws_cryptography_keyStore_GetKeyStoreInfoOutput_grantTokens_FromDafny(input interface{}) []string {
 	var fieldValue []string
@@ -656,28 +658,28 @@ func aws_cryptography_keyStore_GetKeyStoreInfoOutput_logicalKeyStoreName_FromDaf
 func aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_FromDafny(input interface{}) awscryptographykeystoresmithygeneratedtypes.KMSConfiguration {
 	var union awscryptographykeystoresmithygeneratedtypes.KMSConfiguration
 
-	if (input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Is_KmsKeyArn() {
-		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Dtor_KmsKeyArn())
-		union = &awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberKmsKeyArn{
+	if (input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Is_kmsKeyArn() {
+		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Dtor_kmsKeyArn())
+		union = &awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberkmsKeyArn{
 			Value: (aws_cryptography_keyStore_KMSConfiguration_kmsKeyArn_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
-	if (input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Is_KmsMRKeyArn() {
-		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Dtor_KmsMRKeyArn())
-		union = &awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberKmsMRKeyArn{
+	if (input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Is_kmsMRKeyArn() {
+		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Dtor_kmsMRKeyArn())
+		union = &awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberkmsMRKeyArn{
 			Value: (aws_cryptography_keyStore_KMSConfiguration_kmsMRKeyArn_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
-	if (input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Is_Discovery() {
+	if (input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Is_discovery() {
 
-		union = &awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberDiscovery{
-			Value: (aws_cryptography_keyStore_KMSConfiguration_discovery_FromDafny((input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Dtor_Discovery())),
+		union = &awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberdiscovery{
+			Value: (aws_cryptography_keyStore_KMSConfiguration_discovery_FromDafny((input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Dtor_discovery())),
 		}
 	}
-	if (input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Is_MrDiscovery() {
+	if (input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Is_mrDiscovery() {
 
-		union = &awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMemberMrDiscovery{
-			Value: (aws_cryptography_keyStore_KMSConfiguration_mrDiscovery_FromDafny((input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Dtor_MrDiscovery())),
+		union = &awscryptographykeystoresmithygeneratedtypes.KMSConfigurationMembermrDiscovery{
+			Value: (aws_cryptography_keyStore_KMSConfiguration_mrDiscovery_FromDafny((input.(AwsCryptographyKeyStoreTypes.KMSConfiguration)).Dtor_mrDiscovery())),
 		}
 	}
 

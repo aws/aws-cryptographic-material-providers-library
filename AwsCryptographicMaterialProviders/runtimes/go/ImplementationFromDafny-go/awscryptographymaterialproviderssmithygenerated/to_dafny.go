@@ -27,7 +27,7 @@ func CreateAwsKmsKeyringInput_ToDafny(nativeInput awscryptographymaterialprovide
 
 	return func() AwsCryptographyMaterialProvidersTypes.CreateAwsKmsKeyringInput {
 
-		return AwsCryptographyMaterialProvidersTypes.Companion_CreateAwsKmsKeyringInput_.Create_CreateAwsKmsKeyringInput_(aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_kmsKeyId_ToDafny(nativeInput.KmsKeyId), &KMSwrapped.Shim{Client: &nativeInput.KmsClient}, aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_grantTokens_ToDafny(nativeInput.GrantTokens))
+		return AwsCryptographyMaterialProvidersTypes.Companion_CreateAwsKmsKeyringInput_.Create_CreateAwsKmsKeyringInput_(aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_kmsKeyId_ToDafny(nativeInput.KmsKeyId), &KMSwrapped.Shim{Client: nativeInput.KmsClient}, aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_grantTokens_ToDafny(nativeInput.GrantTokens))
 	}()
 
 }
@@ -36,7 +36,7 @@ func CreateAwsKmsDiscoveryKeyringInput_ToDafny(nativeInput awscryptographymateri
 
 	return func() AwsCryptographyMaterialProvidersTypes.CreateAwsKmsDiscoveryKeyringInput {
 
-		return AwsCryptographyMaterialProvidersTypes.Companion_CreateAwsKmsDiscoveryKeyringInput_.Create_CreateAwsKmsDiscoveryKeyringInput_(&KMSwrapped.Shim{Client: &nativeInput.KmsClient}, aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_discoveryFilter_ToDafny(nativeInput.DiscoveryFilter), aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_grantTokens_ToDafny(nativeInput.GrantTokens))
+		return AwsCryptographyMaterialProvidersTypes.Companion_CreateAwsKmsDiscoveryKeyringInput_.Create_CreateAwsKmsDiscoveryKeyringInput_(&KMSwrapped.Shim{Client: nativeInput.KmsClient}, aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_discoveryFilter_ToDafny(nativeInput.DiscoveryFilter), aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_grantTokens_ToDafny(nativeInput.GrantTokens))
 	}()
 
 }
@@ -73,7 +73,7 @@ func CreateAwsKmsMrkKeyringInput_ToDafny(nativeInput awscryptographymaterialprov
 
 	return func() AwsCryptographyMaterialProvidersTypes.CreateAwsKmsMrkKeyringInput {
 
-		return AwsCryptographyMaterialProvidersTypes.Companion_CreateAwsKmsMrkKeyringInput_.Create_CreateAwsKmsMrkKeyringInput_(aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_kmsKeyId_ToDafny(nativeInput.KmsKeyId), &KMSwrapped.Shim{Client: &nativeInput.KmsClient}, aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_grantTokens_ToDafny(nativeInput.GrantTokens))
+		return AwsCryptographyMaterialProvidersTypes.Companion_CreateAwsKmsMrkKeyringInput_.Create_CreateAwsKmsMrkKeyringInput_(aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_kmsKeyId_ToDafny(nativeInput.KmsKeyId), &KMSwrapped.Shim{Client: nativeInput.KmsClient}, aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_grantTokens_ToDafny(nativeInput.GrantTokens))
 	}()
 
 }
@@ -96,7 +96,7 @@ func CreateAwsKmsMrkDiscoveryKeyringInput_ToDafny(nativeInput awscryptographymat
 
 	return func() AwsCryptographyMaterialProvidersTypes.CreateAwsKmsMrkDiscoveryKeyringInput {
 
-		return AwsCryptographyMaterialProvidersTypes.Companion_CreateAwsKmsMrkDiscoveryKeyringInput_.Create_CreateAwsKmsMrkDiscoveryKeyringInput_(&KMSwrapped.Shim{Client: &nativeInput.KmsClient}, aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_discoveryFilter_ToDafny(nativeInput.DiscoveryFilter), aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_grantTokens_ToDafny(nativeInput.GrantTokens), aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_region_ToDafny(nativeInput.Region))
+		return AwsCryptographyMaterialProvidersTypes.Companion_CreateAwsKmsMrkDiscoveryKeyringInput_.Create_CreateAwsKmsMrkDiscoveryKeyringInput_(&KMSwrapped.Shim{Client: nativeInput.KmsClient}, aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_discoveryFilter_ToDafny(nativeInput.DiscoveryFilter), aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_grantTokens_ToDafny(nativeInput.GrantTokens), aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_region_ToDafny(nativeInput.Region))
 	}()
 
 }
@@ -124,7 +124,7 @@ func CreateAwsKmsHierarchicalKeyringInput_ToDafny(nativeInput awscryptographymat
 				return Wrappers.Companion_Option_.Create_None_()
 			}
 			return Wrappers.Companion_Option_.Create_Some_(BranchKeyIdSupplier_ToDafny(nativeInput.BranchKeyIdSupplier))
-		}(), nativeInput.KeyStore, aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_ttlSeconds_ToDafny(nativeInput.TtlSeconds), aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_ToDafny(nativeInput.Cache), aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_partitionId_ToDafny(nativeInput.PartitionId))
+		}(), nativeInput.KeyStore.DafnyClient, aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_ttlSeconds_ToDafny(nativeInput.TtlSeconds), aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_ToDafny(nativeInput.Cache), aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_partitionId_ToDafny(nativeInput.PartitionId))
 	}()
 
 }
@@ -134,10 +134,10 @@ func CreateAwsKmsRsaKeyringInput_ToDafny(nativeInput awscryptographymaterialprov
 	return func() AwsCryptographyMaterialProvidersTypes.CreateAwsKmsRsaKeyringInput {
 
 		return AwsCryptographyMaterialProvidersTypes.Companion_CreateAwsKmsRsaKeyringInput_.Create_CreateAwsKmsRsaKeyringInput_(aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_publicKey_ToDafny(nativeInput.PublicKey), aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_kmsKeyId_ToDafny(nativeInput.KmsKeyId), aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_encryptionAlgorithm_ToDafny(nativeInput.EncryptionAlgorithm), func() Wrappers.Option {
-			if (&KMSwrapped.Shim{Client: &nativeInput.KmsClient}) == nil {
+			if (nativeInput.KmsClient) == nil {
 				return Wrappers.Companion_Option_.Create_None_()
 			}
-			return Wrappers.Companion_Option_.Create_Some_(&KMSwrapped.Shim{Client: &nativeInput.KmsClient})
+			return Wrappers.Companion_Option_.Create_Some_(&KMSwrapped.Shim{Client: nativeInput.KmsClient})
 		}(), aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_grantTokens_ToDafny(nativeInput.GrantTokens))
 	}()
 
@@ -147,7 +147,7 @@ func CreateAwsKmsEcdhKeyringInput_ToDafny(nativeInput awscryptographymaterialpro
 
 	return func() AwsCryptographyMaterialProvidersTypes.CreateAwsKmsEcdhKeyringInput {
 
-		return AwsCryptographyMaterialProvidersTypes.Companion_CreateAwsKmsEcdhKeyringInput_.Create_CreateAwsKmsEcdhKeyringInput_(aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_KeyAgreementScheme_ToDafny(nativeInput.KeyAgreementScheme), aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_curveSpec_ToDafny(nativeInput.CurveSpec), &KMSwrapped.Shim{Client: &nativeInput.KmsClient}, aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_grantTokens_ToDafny(nativeInput.GrantTokens))
+		return AwsCryptographyMaterialProvidersTypes.Companion_CreateAwsKmsEcdhKeyringInput_.Create_CreateAwsKmsEcdhKeyringInput_(aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_KeyAgreementScheme_ToDafny(nativeInput.KeyAgreementScheme), aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_curveSpec_ToDafny(nativeInput.CurveSpec), &KMSwrapped.Shim{Client: nativeInput.KmsClient}, aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_grantTokens_ToDafny(nativeInput.GrantTokens))
 	}()
 
 }
@@ -295,7 +295,7 @@ func ValidDecryptionMaterialsTransitionInput_ToDafny(nativeInput awscryptography
 
 func GetAlgorithmSuiteInfoInput_ToDafny(nativeInput awscryptographymaterialproviderssmithygeneratedtypes.GetAlgorithmSuiteInfoInput) dafny.Sequence {
 
-	return aws_cryptography_materialProviders_GetAlgorithmSuiteInfoInput_binaryId_ToDafny(nativeInput.BinaryId)
+	return Aws_cryptography_materialProviders_GetAlgorithmSuiteInfoInput_binaryId_ToDafny(nativeInput.BinaryId)
 
 }
 
@@ -349,7 +349,7 @@ func BranchKeyIdSupplier_ToDafny(nativeResource awscryptographymaterialproviders
 	if ok {
 		return val.Impl
 	}
-	return BranchKeyIdSupplier{&NativeWrapper{Impl: nativeResource}}.Impl
+	return BranchKeyIdSupplier{&BranchKeyIdSupplierNativeWrapper{Impl: nativeResource}}.Impl
 
 }
 
@@ -364,7 +364,7 @@ func GetClientInput_ToDafny(nativeInput awscryptographymaterialproviderssmithyge
 
 func GetClientOutput_ToDafny(nativeOutput awscryptographymaterialproviderssmithygeneratedtypes.GetClientOutput) AwsCryptographyMaterialProvidersTypes.GetClientOutput {
 
-	return &KMSwrapped.Shim{Client: &nativeOutput.Client}
+	return &KMSwrapped.Shim{Client: nativeOutput.Client}
 
 }
 
@@ -373,7 +373,7 @@ func ClientSupplier_ToDafny(nativeResource awscryptographymaterialproviderssmith
 	if ok {
 		return val.Impl
 	}
-	return ClientSupplier{&NativeWrapper{Impl: nativeResource}}.Impl
+	return ClientSupplier{&ClientSupplierNativeWrapper{Impl: nativeResource}}.Impl
 
 }
 
@@ -400,7 +400,7 @@ func Keyring_ToDafny(nativeResource awscryptographymaterialproviderssmithygenera
 	if ok {
 		return val.Impl
 	}
-	return Keyring{&NativeWrapper{Impl: nativeResource}}.Impl
+	return Keyring{&KeyringNativeWrapper{Impl: nativeResource}}.Impl
 
 }
 
@@ -436,7 +436,7 @@ func CryptographicMaterialsCache_ToDafny(nativeResource awscryptographymaterialp
 	if ok {
 		return val.Impl
 	}
-	return CryptographicMaterialsCache{&NativeWrapper{Impl: nativeResource}}.Impl
+	return CryptographicMaterialsCache{&CryptographicMaterialsCacheNativeWrapper{Impl: nativeResource}}.Impl
 
 }
 
@@ -499,7 +499,7 @@ func CryptographicMaterialsManager_ToDafny(nativeResource awscryptographymateria
 	if ok {
 		return val.Impl
 	}
-	return CryptographicMaterialsManager{&NativeWrapper{Impl: nativeResource}}.Impl
+	return CryptographicMaterialsManager{&CryptographicMaterialsManagerNativeWrapper{Impl: nativeResource}}.Impl
 
 }
 
@@ -620,10 +620,10 @@ func Error_ToDafny(err error) AwsCryptographyMaterialProvidersTypes.Error {
 
 	//DependentErrors
 	case awscryptographyprimitivessmithygeneratedtypes.AwsCryptographicPrimitivesBaseException:
-		return AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicPrimitives_(awscryptographyprimitivessmithygenerated.Error_ToDafny(err))
+		return AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographyPrimitives_(awscryptographyprimitivessmithygenerated.Error_ToDafny(err))
 
 	case awscryptographykeystoresmithygeneratedtypes.KeyStoreBaseException:
-		return AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_KeyStore_(awscryptographykeystoresmithygenerated.Error_ToDafny(err))
+		return AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographyKeyStore_(awscryptographykeystoresmithygenerated.Error_ToDafny(err))
 
 	case *smithy.OperationError:
 		if err.(*smithy.OperationError).Service() == "DynamoDB" {
@@ -672,34 +672,28 @@ func aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cac
 	return func() Wrappers.Option {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberDefault:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}
 			var inputToConversion = aws_cryptography_materialProviders_CacheType_Default_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberDefault).Value)
-			return Wrappers.Companion_Option_.Create_Some_(companion.Create_Default_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DefaultCache)))
+			return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}.Create_Default_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DefaultCache)))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberNo:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}
 			var inputToConversion = aws_cryptography_materialProviders_CacheType_No_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberNo).Value)
-			return Wrappers.Companion_Option_.Create_Some_(companion.Create_No_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.NoCache)))
+			return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}.Create_No_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.NoCache)))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberSingleThreaded:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}
 			var inputToConversion = aws_cryptography_materialProviders_CacheType_SingleThreaded_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberSingleThreaded).Value)
-			return Wrappers.Companion_Option_.Create_Some_(companion.Create_SingleThreaded_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.SingleThreadedCache)))
+			return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}.Create_SingleThreaded_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.SingleThreadedCache)))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberMultiThreaded:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}
 			var inputToConversion = aws_cryptography_materialProviders_CacheType_MultiThreaded_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberMultiThreaded).Value)
-			return Wrappers.Companion_Option_.Create_Some_(companion.Create_MultiThreaded_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.MultiThreadedCache)))
+			return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}.Create_MultiThreaded_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.MultiThreadedCache)))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberStormTracking:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}
 			var inputToConversion = aws_cryptography_materialProviders_CacheType_StormTracking_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberStormTracking).Value)
-			return Wrappers.Companion_Option_.Create_Some_(companion.Create_StormTracking_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.StormTrackingCache)))
+			return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}.Create_StormTracking_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.StormTrackingCache)))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberShared:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}
 			var inputToConversion = func() Wrappers.Option {
 				if (input.(*awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberShared).Value) == nil {
 					return Wrappers.Companion_Option_.Create_None_()
 				}
 				return Wrappers.Companion_Option_.Create_Some_(CryptographicMaterialsCache_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberShared).Value))
 			}()
-			return Wrappers.Companion_Option_.Create_Some_(companion.Create_Shared_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCache)))
+			return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}.Create_Shared_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCache)))
 
 		default:
 			panic("Unhandled union type")
@@ -711,13 +705,11 @@ func aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_ToDafny(inp
 	return func() AwsCryptographyMaterialProvidersTypes.SignatureAlgorithm {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.SignatureAlgorithmMemberECDSA:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_SignatureAlgorithm_{}
 			var inputToConversion = aws_cryptography_materialProviders_SignatureAlgorithm_ECDSA_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.SignatureAlgorithmMemberECDSA).Value)
-			return companion.Create_ECDSA_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ECDSA))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_SignatureAlgorithm_{}.Create_ECDSA_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ECDSA))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.SignatureAlgorithmMemberNone:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_SignatureAlgorithm_{}
 			var inputToConversion = aws_cryptography_materialProviders_SignatureAlgorithm_None_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.SignatureAlgorithmMemberNone).Value)
-			return companion.Create_None_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.None))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_SignatureAlgorithm_{}.Create_None_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.None))
 
 		default:
 			panic("Unhandled union type")
@@ -861,7 +853,7 @@ func aws_cryptography_primitives_AES_GCM_keyLength_ToDafny(input int32) int32 {
 	}()
 }
 
-func aws_cryptography_materialProviders_GetAlgorithmSuiteInfoInput_binaryId_ToDafny(input []byte) dafny.Sequence {
+func Aws_cryptography_materialProviders_GetAlgorithmSuiteInfoInput_binaryId_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
 		var v []interface{}
 		if input == nil {
@@ -887,34 +879,28 @@ func aws_cryptography_materialProviders_CreateCryptographicMaterialsCacheInput_c
 	return func() AwsCryptographyMaterialProvidersTypes.CacheType {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberDefault:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}
 			var inputToConversion = aws_cryptography_materialProviders_CacheType_Default_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberDefault).Value)
-			return companion.Create_Default_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DefaultCache))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}.Create_Default_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DefaultCache))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberNo:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}
 			var inputToConversion = aws_cryptography_materialProviders_CacheType_No_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberNo).Value)
-			return companion.Create_No_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.NoCache))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}.Create_No_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.NoCache))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberSingleThreaded:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}
 			var inputToConversion = aws_cryptography_materialProviders_CacheType_SingleThreaded_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberSingleThreaded).Value)
-			return companion.Create_SingleThreaded_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.SingleThreadedCache))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}.Create_SingleThreaded_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.SingleThreadedCache))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberMultiThreaded:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}
 			var inputToConversion = aws_cryptography_materialProviders_CacheType_MultiThreaded_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberMultiThreaded).Value)
-			return companion.Create_MultiThreaded_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.MultiThreadedCache))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}.Create_MultiThreaded_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.MultiThreadedCache))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberStormTracking:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}
 			var inputToConversion = aws_cryptography_materialProviders_CacheType_StormTracking_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberStormTracking).Value)
-			return companion.Create_StormTracking_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.StormTrackingCache))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}.Create_StormTracking_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.StormTrackingCache))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberShared:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}
 			var inputToConversion = func() Wrappers.Option {
 				if (input.(*awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberShared).Value) == nil {
 					return Wrappers.Companion_Option_.Create_None_()
 				}
 				return Wrappers.Companion_Option_.Create_Some_(CryptographicMaterialsCache_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberShared).Value))
 			}()
-			return companion.Create_Shared_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCache))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_CacheType_{}.Create_Shared_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCache))
 
 		default:
 			panic("Unhandled union type")
@@ -933,9 +919,8 @@ func aws_cryptography_materialProviders_IntermediateKeyWrapping_pdkEncryptAlgori
 	return func() AwsCryptographyMaterialProvidersTypes.Encrypt {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.EncryptMemberAES_GCM:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_Encrypt_{}
 			var inputToConversion = aws_cryptography_materialProviders_Encrypt_AES_GCM_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.EncryptMemberAES_GCM).Value)
-			return companion.Create_AES_GCM_(inputToConversion.UnwrapOr(nil).(AwsCryptographyPrimitivesTypes.AES_GCM))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_Encrypt_{}.Create_AES__GCM_(inputToConversion.UnwrapOr(nil).(AwsCryptographyPrimitivesTypes.AES__GCM))
 
 		default:
 			panic("Unhandled union type")
@@ -963,17 +948,14 @@ func aws_cryptography_materialProviders_IntermediateKeyWrapping_macKeyKdf_ToDafn
 	return func() AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberHKDF:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}
 			var inputToConversion = aws_cryptography_materialProviders_DerivationAlgorithm_HKDF_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberHKDF).Value)
-			return companion.Create_HKDF_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.HKDF))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}.Create_HKDF_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.HKDF))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberIDENTITY:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}
 			var inputToConversion = aws_cryptography_materialProviders_DerivationAlgorithm_IDENTITY_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberIDENTITY).Value)
-			return companion.Create_IDENTITY_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.IDENTITY))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}.Create_IDENTITY_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.IDENTITY))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberNone:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}
 			var inputToConversion = aws_cryptography_materialProviders_DerivationAlgorithm_None_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberNone).Value)
-			return companion.Create_None_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.None))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}.Create_None_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.None))
 
 		default:
 			panic("Unhandled union type")
@@ -1074,13 +1056,11 @@ func aws_cryptography_materialProviders_DecryptMaterialsInput_algorithmSuiteId_T
 	return func() AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberESDK:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}
 			var inputToConversion = aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberESDK).Value)
-			return companion.Create_ESDK_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}.Create_ESDK_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberDBE:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}
 			var inputToConversion = aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberDBE).Value)
-			return companion.Create_DBE_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}.Create_DBE_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId))
 
 		default:
 			panic("Unhandled union type")
@@ -1171,13 +1151,11 @@ func aws_cryptography_materialProviders_GetEncryptionMaterialsInput_algorithmSui
 	return func() Wrappers.Option {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberESDK:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}
 			var inputToConversion = aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberESDK).Value)
-			return Wrappers.Companion_Option_.Create_Some_(companion.Create_ESDK_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId)))
+			return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}.Create_ESDK_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId)))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberDBE:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}
 			var inputToConversion = aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberDBE).Value)
-			return Wrappers.Companion_Option_.Create_Some_(companion.Create_DBE_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId)))
+			return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}.Create_DBE_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId)))
 
 		default:
 			panic("Unhandled union type")
@@ -1324,13 +1302,11 @@ func aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_To
 	return func() AwsCryptographyMaterialProvidersTypes.SymmetricSignatureAlgorithm {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.SymmetricSignatureAlgorithmMemberHMAC:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_SymmetricSignatureAlgorithm_{}
 			var inputToConversion = aws_cryptography_materialProviders_SymmetricSignatureAlgorithm_HMAC_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.SymmetricSignatureAlgorithmMemberHMAC).Value)
-			return companion.Create_HMAC_(inputToConversion.UnwrapOr(nil).(AwsCryptographyPrimitivesTypes.DigestAlgorithm))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_SymmetricSignatureAlgorithm_{}.Create_HMAC_(inputToConversion.UnwrapOr(nil).(AwsCryptographyPrimitivesTypes.DigestAlgorithm))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.SymmetricSignatureAlgorithmMemberNone:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_SymmetricSignatureAlgorithm_{}
 			var inputToConversion = aws_cryptography_materialProviders_SymmetricSignatureAlgorithm_None_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.SymmetricSignatureAlgorithmMemberNone).Value)
-			return companion.Create_None_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.None))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_SymmetricSignatureAlgorithm_{}.Create_None_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.None))
 
 		default:
 			panic("Unhandled union type")
@@ -1421,13 +1397,11 @@ func aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_ToDafny(input awsc
 	return func() AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberESDK:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}
 			var inputToConversion = aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberESDK).Value)
-			return companion.Create_ESDK_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}.Create_ESDK_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberDBE:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}
 			var inputToConversion = aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberDBE).Value)
-			return companion.Create_DBE_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}.Create_DBE_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId))
 
 		default:
 			panic("Unhandled union type")
@@ -1567,9 +1541,8 @@ func aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_ToDafny(input
 	return func() AwsCryptographyMaterialProvidersTypes.Encrypt {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.EncryptMemberAES_GCM:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_Encrypt_{}
 			var inputToConversion = aws_cryptography_materialProviders_Encrypt_AES_GCM_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.EncryptMemberAES_GCM).Value)
-			return companion.Create_AES_GCM_(inputToConversion.UnwrapOr(nil).(AwsCryptographyPrimitivesTypes.AES_GCM))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_Encrypt_{}.Create_AES__GCM_(inputToConversion.UnwrapOr(nil).(AwsCryptographyPrimitivesTypes.AES__GCM))
 
 		default:
 			panic("Unhandled union type")
@@ -1621,17 +1594,14 @@ func aws_cryptography_materialProviders_IntermediateKeyWrapping_keyEncryptionKey
 	return func() AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberHKDF:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}
 			var inputToConversion = aws_cryptography_materialProviders_DerivationAlgorithm_HKDF_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberHKDF).Value)
-			return companion.Create_HKDF_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.HKDF))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}.Create_HKDF_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.HKDF))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberIDENTITY:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}
 			var inputToConversion = aws_cryptography_materialProviders_DerivationAlgorithm_IDENTITY_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberIDENTITY).Value)
-			return companion.Create_IDENTITY_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.IDENTITY))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}.Create_IDENTITY_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.IDENTITY))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberNone:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}
 			var inputToConversion = aws_cryptography_materialProviders_DerivationAlgorithm_None_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberNone).Value)
-			return companion.Create_None_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.None))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}.Create_None_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.None))
 
 		default:
 			panic("Unhandled union type")
@@ -1664,13 +1634,11 @@ func aws_cryptography_materialProviders_GetEncryptionMaterialsInput_commitmentPo
 	return func() AwsCryptographyMaterialProvidersTypes.CommitmentPolicy {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberESDK:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_CommitmentPolicy_{}
 			var inputToConversion = aws_cryptography_materialProviders_CommitmentPolicy_ESDK_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberESDK).Value)
-			return companion.Create_ESDK_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ESDKCommitmentPolicy))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_CommitmentPolicy_{}.Create_ESDK_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ESDKCommitmentPolicy))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberDBE:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_CommitmentPolicy_{}
 			var inputToConversion = aws_cryptography_materialProviders_CommitmentPolicy_DBE_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberDBE).Value)
-			return companion.Create_DBE_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DBECommitmentPolicy))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_CommitmentPolicy_{}.Create_DBE_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DBECommitmentPolicy))
 
 		default:
 			panic("Unhandled union type")
@@ -1710,7 +1678,7 @@ func aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_ToDafny(input awsc
 func aws_cryptography_materialProviders_EdkWrappingAlgorithm_DIRECT_KEY_WRAPPING_ToDafny(input awscryptographymaterialproviderssmithygeneratedtypes.DIRECT_KEY_WRAPPING) Wrappers.Option {
 	return func() Wrappers.Option {
 
-		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTypes.Companion_DIRECT_KEY_WRAPPING_.Create_DIRECT_KEY_WRAPPING_())
+		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTypes.Companion_DIRECT__KEY__WRAPPING_.Create_DIRECT__KEY__WRAPPING_())
 	}()
 }
 
@@ -1788,13 +1756,11 @@ func aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_c
 	return func() AwsCryptographyMaterialProvidersTypes.CommitmentPolicy {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberESDK:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_CommitmentPolicy_{}
 			var inputToConversion = aws_cryptography_materialProviders_CommitmentPolicy_ESDK_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberESDK).Value)
-			return companion.Create_ESDK_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ESDKCommitmentPolicy))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_CommitmentPolicy_{}.Create_ESDK_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ESDKCommitmentPolicy))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberDBE:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_CommitmentPolicy_{}
 			var inputToConversion = aws_cryptography_materialProviders_CommitmentPolicy_DBE_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberDBE).Value)
-			return companion.Create_DBE_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DBECommitmentPolicy))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_CommitmentPolicy_{}.Create_DBE_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DBECommitmentPolicy))
 
 		default:
 			panic("Unhandled union type")
@@ -2141,13 +2107,11 @@ func aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_KeyAgreemen
 	return func() AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.KmsEcdhStaticConfigurationsMemberKmsPublicKeyDiscovery:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_KmsEcdhStaticConfigurations_{}
 			var inputToConversion = aws_cryptography_materialProviders_KmsEcdhStaticConfigurations_KmsPublicKeyDiscovery_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.KmsEcdhStaticConfigurationsMemberKmsPublicKeyDiscovery).Value)
-			return companion.Create_KmsPublicKeyDiscovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.KmsPublicKeyDiscoveryInput))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_KmsEcdhStaticConfigurations_{}.Create_KmsPublicKeyDiscovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.KmsPublicKeyDiscoveryInput))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.KmsEcdhStaticConfigurationsMemberKmsPrivateKeyToStaticPublicKey:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_KmsEcdhStaticConfigurations_{}
 			var inputToConversion = aws_cryptography_materialProviders_KmsEcdhStaticConfigurations_KmsPrivateKeyToStaticPublicKey_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.KmsEcdhStaticConfigurationsMemberKmsPrivateKeyToStaticPublicKey).Value)
-			return companion.Create_KmsPrivateKeyToStaticPublicKey_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.KmsPrivateKeyToStaticPublicKeyInput))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_KmsEcdhStaticConfigurations_{}.Create_KmsPrivateKeyToStaticPublicKey_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.KmsPrivateKeyToStaticPublicKeyInput))
 
 		default:
 			panic("Unhandled union type")
@@ -2159,21 +2123,17 @@ func aws_cryptography_materialProviders_GetCacheEntryOutput_materials_ToDafny(in
 	return func() AwsCryptographyMaterialProvidersTypes.Materials {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberEncryption:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_Materials_{}
 			var inputToConversion = aws_cryptography_materialProviders_Materials_Encryption_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberEncryption).Value)
-			return companion.Create_Encryption_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_Materials_{}.Create_Encryption_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberDecryption:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_Materials_{}
 			var inputToConversion = aws_cryptography_materialProviders_Materials_Decryption_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberDecryption).Value)
-			return companion.Create_Decryption_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_Materials_{}.Create_Decryption_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberBranchKey:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_Materials_{}
 			var inputToConversion = aws_cryptography_materialProviders_Materials_BranchKey_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberBranchKey).Value)
-			return companion.Create_BranchKey_(inputToConversion.UnwrapOr(nil).(AwsCryptographyKeyStoreTypes.BranchKeyMaterials))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_Materials_{}.Create_BranchKey_(inputToConversion.UnwrapOr(nil).(AwsCryptographyKeyStoreTypes.BranchKeyMaterials))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberBeaconKey:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_Materials_{}
 			var inputToConversion = aws_cryptography_materialProviders_Materials_BeaconKey_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberBeaconKey).Value)
-			return companion.Create_BeaconKey_(inputToConversion.UnwrapOr(nil).(AwsCryptographyKeyStoreTypes.BeaconKeyMaterials))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_Materials_{}.Create_BeaconKey_(inputToConversion.UnwrapOr(nil).(AwsCryptographyKeyStoreTypes.BeaconKeyMaterials))
 
 		default:
 			panic("Unhandled union type")
@@ -2225,13 +2185,11 @@ func aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_c
 	return func() AwsCryptographyMaterialProvidersTypes.CommitmentPolicy {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberESDK:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_CommitmentPolicy_{}
 			var inputToConversion = aws_cryptography_materialProviders_CommitmentPolicy_ESDK_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberESDK).Value)
-			return companion.Create_ESDK_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ESDKCommitmentPolicy))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_CommitmentPolicy_{}.Create_ESDK_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ESDKCommitmentPolicy))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberDBE:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_CommitmentPolicy_{}
 			var inputToConversion = aws_cryptography_materialProviders_CommitmentPolicy_DBE_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberDBE).Value)
-			return companion.Create_DBE_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DBECommitmentPolicy))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_CommitmentPolicy_{}.Create_DBE_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DBECommitmentPolicy))
 
 		default:
 			panic("Unhandled union type")
@@ -2357,13 +2315,11 @@ func aws_cryptography_materialProviders_DecryptMaterialsInput_commitmentPolicy_T
 	return func() AwsCryptographyMaterialProvidersTypes.CommitmentPolicy {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberESDK:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_CommitmentPolicy_{}
 			var inputToConversion = aws_cryptography_materialProviders_CommitmentPolicy_ESDK_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberESDK).Value)
-			return companion.Create_ESDK_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ESDKCommitmentPolicy))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_CommitmentPolicy_{}.Create_ESDK_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ESDKCommitmentPolicy))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberDBE:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_CommitmentPolicy_{}
 			var inputToConversion = aws_cryptography_materialProviders_CommitmentPolicy_DBE_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberDBE).Value)
-			return companion.Create_DBE_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DBECommitmentPolicy))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_CommitmentPolicy_{}.Create_DBE_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DBECommitmentPolicy))
 
 		default:
 			panic("Unhandled union type")
@@ -2417,17 +2373,14 @@ func aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_KeyAgreementSc
 	return func() AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurationsMemberPublicKeyDiscovery:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_RawEcdhStaticConfigurations_{}
 			var inputToConversion = aws_cryptography_materialProviders_RawEcdhStaticConfigurations_PublicKeyDiscovery_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurationsMemberPublicKeyDiscovery).Value)
-			return companion.Create_PublicKeyDiscovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.PublicKeyDiscoveryInput))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_RawEcdhStaticConfigurations_{}.Create_PublicKeyDiscovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.PublicKeyDiscoveryInput))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurationsMemberRawPrivateKeyToStaticPublicKey:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_RawEcdhStaticConfigurations_{}
 			var inputToConversion = aws_cryptography_materialProviders_RawEcdhStaticConfigurations_RawPrivateKeyToStaticPublicKey_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurationsMemberRawPrivateKeyToStaticPublicKey).Value)
-			return companion.Create_RawPrivateKeyToStaticPublicKey_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.RawPrivateKeyToStaticPublicKeyInput))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_RawEcdhStaticConfigurations_{}.Create_RawPrivateKeyToStaticPublicKey_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.RawPrivateKeyToStaticPublicKeyInput))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_RawEcdhStaticConfigurations_{}
 			var inputToConversion = aws_cryptography_materialProviders_RawEcdhStaticConfigurations_EphemeralPrivateKeyToStaticPublicKey_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey).Value)
-			return companion.Create_EphemeralPrivateKeyToStaticPublicKey_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.EphemeralPrivateKeyToStaticPublicKeyInput))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_RawEcdhStaticConfigurations_{}.Create_EphemeralPrivateKeyToStaticPublicKey_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.EphemeralPrivateKeyToStaticPublicKeyInput))
 
 		default:
 			panic("Unhandled union type")
@@ -2460,13 +2413,11 @@ func aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_algor
 	return func() AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberESDK:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}
 			var inputToConversion = aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberESDK).Value)
-			return companion.Create_ESDK_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}.Create_ESDK_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberDBE:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}
 			var inputToConversion = aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberDBE).Value)
-			return companion.Create_DBE_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}.Create_DBE_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId))
 
 		default:
 			panic("Unhandled union type")
@@ -2642,7 +2593,7 @@ func aws_cryptography_materialProviders_SingleThreadedCache_entryPruningTailSize
 func aws_cryptography_materialProviders_Encrypt_AES_GCM_ToDafny(input awscryptographyprimitivessmithygeneratedtypes.AES_GCM) Wrappers.Option {
 	return func() Wrappers.Option {
 
-		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyPrimitivesTypes.Companion_AES_GCM_.Create_AES_GCM_(aws_cryptography_primitives_AES_GCM_keyLength_ToDafny(input.KeyLength), aws_cryptography_primitives_AES_GCM_tagLength_ToDafny(input.TagLength), aws_cryptography_primitives_AES_GCM_ivLength_ToDafny(input.IvLength)))
+		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyPrimitivesTypes.Companion_AES__GCM_.Create_AES__GCM_(aws_cryptography_primitives_AES_GCM_keyLength_ToDafny(input.KeyLength), aws_cryptography_primitives_AES_GCM_tagLength_ToDafny(input.TagLength), aws_cryptography_primitives_AES_GCM_ivLength_ToDafny(input.IvLength)))
 	}()
 }
 
@@ -2664,17 +2615,14 @@ func aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_ToDafny(input aws
 	return func() AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberHKDF:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}
 			var inputToConversion = aws_cryptography_materialProviders_DerivationAlgorithm_HKDF_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberHKDF).Value)
-			return companion.Create_HKDF_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.HKDF))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}.Create_HKDF_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.HKDF))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberIDENTITY:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}
 			var inputToConversion = aws_cryptography_materialProviders_DerivationAlgorithm_IDENTITY_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberIDENTITY).Value)
-			return companion.Create_IDENTITY_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.IDENTITY))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}.Create_IDENTITY_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.IDENTITY))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberNone:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}
 			var inputToConversion = aws_cryptography_materialProviders_DerivationAlgorithm_None_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberNone).Value)
-			return companion.Create_None_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.None))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}.Create_None_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.None))
 
 		default:
 			panic("Unhandled union type")
@@ -2753,13 +2701,11 @@ func aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_a
 	return func() AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberESDK:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}
 			var inputToConversion = aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberESDK).Value)
-			return companion.Create_ESDK_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}.Create_ESDK_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberDBE:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}
 			var inputToConversion = aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberDBE).Value)
-			return companion.Create_DBE_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}.Create_DBE_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId))
 
 		default:
 			panic("Unhandled union type")
@@ -2826,21 +2772,17 @@ func aws_cryptography_materialProviders_PutCacheEntryInput_materials_ToDafny(inp
 	return func() AwsCryptographyMaterialProvidersTypes.Materials {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberEncryption:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_Materials_{}
 			var inputToConversion = aws_cryptography_materialProviders_Materials_Encryption_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberEncryption).Value)
-			return companion.Create_Encryption_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_Materials_{}.Create_Encryption_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberDecryption:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_Materials_{}
 			var inputToConversion = aws_cryptography_materialProviders_Materials_Decryption_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberDecryption).Value)
-			return companion.Create_Decryption_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_Materials_{}.Create_Decryption_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberBranchKey:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_Materials_{}
 			var inputToConversion = aws_cryptography_materialProviders_Materials_BranchKey_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberBranchKey).Value)
-			return companion.Create_BranchKey_(inputToConversion.UnwrapOr(nil).(AwsCryptographyKeyStoreTypes.BranchKeyMaterials))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_Materials_{}.Create_BranchKey_(inputToConversion.UnwrapOr(nil).(AwsCryptographyKeyStoreTypes.BranchKeyMaterials))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberBeaconKey:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_Materials_{}
 			var inputToConversion = aws_cryptography_materialProviders_Materials_BeaconKey_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberBeaconKey).Value)
-			return companion.Create_BeaconKey_(inputToConversion.UnwrapOr(nil).(AwsCryptographyKeyStoreTypes.BeaconKeyMaterials))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_Materials_{}.Create_BeaconKey_(inputToConversion.UnwrapOr(nil).(AwsCryptographyKeyStoreTypes.BeaconKeyMaterials))
 
 		default:
 			panic("Unhandled union type")
@@ -2914,13 +2856,11 @@ func aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_algor
 	return func() AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberESDK:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}
 			var inputToConversion = aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberESDK).Value)
-			return companion.Create_ESDK_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}.Create_ESDK_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberDBE:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}
 			var inputToConversion = aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberDBE).Value)
-			return companion.Create_DBE_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}.Create_DBE_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId))
 
 		default:
 			panic("Unhandled union type")
@@ -2969,13 +2909,11 @@ func aws_cryptography_materialProviders_AlgorithmSuiteInfo_edkWrapping_ToDafny(i
 	return func() AwsCryptographyMaterialProvidersTypes.EdkWrappingAlgorithm {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.EdkWrappingAlgorithmMemberDIRECT_KEY_WRAPPING:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_EdkWrappingAlgorithm_{}
 			var inputToConversion = aws_cryptography_materialProviders_EdkWrappingAlgorithm_DIRECT_KEY_WRAPPING_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.EdkWrappingAlgorithmMemberDIRECT_KEY_WRAPPING).Value)
-			return companion.Create_DIRECT_KEY_WRAPPING_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DIRECT_KEY_WRAPPING))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_EdkWrappingAlgorithm_{}.Create_DIRECT__KEY__WRAPPING_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DIRECT__KEY__WRAPPING))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.EdkWrappingAlgorithmMemberIntermediateKeyWrapping:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_EdkWrappingAlgorithm_{}
 			var inputToConversion = aws_cryptography_materialProviders_EdkWrappingAlgorithm_IntermediateKeyWrapping_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.EdkWrappingAlgorithmMemberIntermediateKeyWrapping).Value)
-			return companion.Create_IntermediateKeyWrapping_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.IntermediateKeyWrapping))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_EdkWrappingAlgorithm_{}.Create_IntermediateKeyWrapping_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.IntermediateKeyWrapping))
 
 		default:
 			panic("Unhandled union type")
@@ -2987,17 +2925,14 @@ func aws_cryptography_materialProviders_AlgorithmSuiteInfo_commitment_ToDafny(in
 	return func() AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberHKDF:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}
 			var inputToConversion = aws_cryptography_materialProviders_DerivationAlgorithm_HKDF_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberHKDF).Value)
-			return companion.Create_HKDF_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.HKDF))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}.Create_HKDF_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.HKDF))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberIDENTITY:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}
 			var inputToConversion = aws_cryptography_materialProviders_DerivationAlgorithm_IDENTITY_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberIDENTITY).Value)
-			return companion.Create_IDENTITY_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.IDENTITY))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}.Create_IDENTITY_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.IDENTITY))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberNone:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}
 			var inputToConversion = aws_cryptography_materialProviders_DerivationAlgorithm_None_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberNone).Value)
-			return companion.Create_None_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.None))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_DerivationAlgorithm_{}.Create_None_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.None))
 
 		default:
 			panic("Unhandled union type")
@@ -3047,7 +2982,7 @@ func aws_cryptography_materialProviders_DeleteCacheEntryInput_identifier_ToDafny
 	}()
 }
 
-func aws_cryptography_materialProviders_CreateMultiKeyringInput_childKeyrings_ToDafny(input []awscryptographymaterialproviderssmithygeneratedtypes.KeyringReference) dafny.Sequence {
+func aws_cryptography_materialProviders_CreateMultiKeyringInput_childKeyrings_ToDafny(input []awscryptographymaterialproviderssmithygeneratedtypes.IKeyring) dafny.Sequence {
 	return func() dafny.Sequence {
 		if input == nil {
 			return nil
@@ -3129,13 +3064,11 @@ func aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_a
 	return func() AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId {
 		switch input.(type) {
 		case *awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberESDK:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}
 			var inputToConversion = aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberESDK).Value)
-			return companion.Create_ESDK_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}.Create_ESDK_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId))
 		case *awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberDBE:
-			var companion = AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}
 			var inputToConversion = aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberDBE).Value)
-			return companion.Create_DBE_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId))
+			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_AlgorithmSuiteId_{}.Create_DBE_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId))
 
 		default:
 			panic("Unhandled union type")
