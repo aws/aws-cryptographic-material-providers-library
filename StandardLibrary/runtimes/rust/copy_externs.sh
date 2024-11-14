@@ -8,4 +8,3 @@ cp $SRC/concurrent_call.rs src
 cp $SRC/sets.rs src
 cp $SRC/time.rs src
 cp $SRC/uuid.rs src
-cp $SRC/standard_library_externs.rs src
