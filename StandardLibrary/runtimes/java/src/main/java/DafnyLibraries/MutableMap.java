@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.*;
 
-public class MutableMap<K, V>
-  implements DafnyLibraries.MutableMapTrait<K, V> {
+public class MutableMap<K, V> implements DafnyLibraries.MutableMapTrait<K, V> {
 
   private ConcurrentHashMap<K, V> m;
 
