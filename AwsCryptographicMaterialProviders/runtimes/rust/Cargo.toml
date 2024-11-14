@@ -5,11 +5,9 @@ edition = "2021"
 rust-version = "1.80.0"
 keywords = ["crypto", "cryptography", "security", "encryption", "client-side", "clientside"]
 license = "ISC AND (Apache-2.0 OR ISC)"
-description = "aws-esdk is a library for implementing client side encryption."
-homepage = "https://github.com/aws/aws-database-encryption-sdk-dynamodb/tree/main/releases/rust/db_esdk"
-repository = "https://github.com/aws/aws-database-encryption-sdk-dynamodb/tree/main/releases/rust/db_esdk"
+description = "aws-mpl-rs is a low level library for implementing client side encryption."
 authors = ["AWS-CryptoTools"]
-documentation = "https://docs.rs/crate/aws-esdk"
+documentation = "https://docs.rs/crate/aws-mpl-rs"
 readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
