@@ -3,8 +3,6 @@
 
 CORES=2
 
-TRANSPILE_TESTS_IN_RUST=1
-
 include ../SharedMakefileV2.mk
 
 MAX_RESOURCE_COUNT=500000000

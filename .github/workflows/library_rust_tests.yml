@@ -85,19 +85,11 @@ jobs:
           java-version: "17"
 
       - name: Setup NASM for Windows (aws-lc-sys)
+        if: matrix.os == 'windows-latest'
         uses: ilammy/setup-nasm@v1
 
       - name: Install Smithy-Dafny codegen dependencies
         uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
-
-      - name: Regenerate code using smithy-dafny if necessary
-        if: ${{ inputs.regenerate-code }}
-        uses: ./.github/actions/polymorph_codegen
-        with:
-          dafny: ${{ env.DAFNY_VERSION }}
-          library: ${{ matrix.library }}
-          diff-generated-code: false
-          update-and-regenerate-mpl: true
 
       - name: Run make polymorph_rust
         shell: bash
