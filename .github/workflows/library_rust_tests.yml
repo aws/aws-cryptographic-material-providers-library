@@ -105,6 +105,5 @@ jobs:
 
       - name: Test ${{ matrix.library }} Rust
         working-directory: ./${{ matrix.library }}
-        shell: bash
         run: |
           make test_rust

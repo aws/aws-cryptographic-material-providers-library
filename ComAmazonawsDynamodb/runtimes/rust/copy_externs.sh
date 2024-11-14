@@ -1,7 +1,6 @@
 #!/bin/bash -eu
 
 cd $( dirname ${BASH_SOURCE[0]} )
-cd src
 
 SRC=../../../AwsCryptographicMaterialProviders/runtimes/rust/src/
 
