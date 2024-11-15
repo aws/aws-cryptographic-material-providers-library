@@ -15,6 +15,8 @@ cd ../..
 while IFS= read -r line; do
     # Only proceed if the line is not empty
     if [[ -n "$line" ]]; then
-        git add -f --all "$line"
+        # If `git add` doesn't match any files, it errors.
+        # Swallow error. Release technician should detect issue.
+        git add -f --all "$line" 2>/dev/null || true
     fi
 done <<< "$gitignore_bypass_release_files"
