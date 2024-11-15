@@ -81,7 +81,7 @@ const Runtimes = {
  * @type {import('semantic-release').GlobalConfig}
  */
 module.exports = {
-  branches: ["test-dtr-artifacts"],
+  branches: ["test-dtr-artifacts2"],
   repositoryUrl:
     "git@github.com:lucasmcdonald3/aws-cryptographic-material-providers-library.git",
   plugins: [
@@ -174,7 +174,7 @@ module.exports = {
       "@semantic-release/exec",
       {
         prepareCmd: [
-          // "make -C TestVectorsAwsCryptographicMaterialProviders transpile_python",
+          "make -C TestVectorsAwsCryptographicMaterialProviders transpile_python",
           "sh scripts/release/git_add_gitignore_bypass_release_files.sh"
         ].join(" && ")
       },
