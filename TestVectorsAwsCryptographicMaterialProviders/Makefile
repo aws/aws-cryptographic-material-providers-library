@@ -11,6 +11,29 @@ PROJECT_SERVICES := \
 	KeyVectors \
 	TestVectorsAwsCryptographicMaterialProviders \
 
+MAIN_SERVICE_FOR_RUST := TestVectorsAwsCryptographicMaterialProviders
+
+RUST_OTHER_FILES := \
+	runtimes/rust/src/aes_gcm.rs \
+	runtimes/rust/src/aes_kdf_ctr.rs \
+	runtimes/rust/src/concurrent_call.rs \
+	runtimes/rust/src/dafny_libraries.rs \
+	runtimes/rust/src/ddb.rs \
+	runtimes/rust/src/digest.rs \
+	runtimes/rust/src/ecdh.rs \
+	runtimes/rust/src/ecdsa.rs \
+	runtimes/rust/src/hmac.rs \
+	runtimes/rust/src/kms.rs \
+	runtimes/rust/src/local_cmc.rs \
+	runtimes/rust/src/random.rs \
+	runtimes/rust/src/rsa.rs \
+	runtimes/rust/src/sets.rs \
+	runtimes/rust/src/software_externs.rs \
+	runtimes/rust/src/storm_tracker.rs \
+	runtimes/rust/src/time.rs \
+	runtimes/rust/src/test_vec_dir.rs \
+	runtimes/rust/src/uuid.rs
+
 SMITHY_MODEL_ROOT := $(PROJECT_ROOT)/AwsCryptographicMaterialProviders/dafny/AwsCryptographicMaterialProviders/Model
 OUTPUT_LOCAL_SERVICE_TestVectorsAwsCryptographicMaterialProviders := --local-service-test
 
