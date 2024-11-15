@@ -119,6 +119,7 @@ import software.amazon.cryptography.materialproviders.model.SingleThreadedCache;
 import software.amazon.cryptography.materialproviders.model.StaticConfigurations;
 import software.amazon.cryptography.materialproviders.model.StormTrackingCache;
 import software.amazon.cryptography.materialproviders.model.SymmetricSignatureAlgorithm;
+import software.amazon.cryptography.materialproviders.model.TimeUnits;
 import software.amazon.cryptography.materialproviders.model.UpdateUsageMetadataInput;
 import software.amazon.cryptography.materialproviders.model.ValidDecryptionMaterialsTransitionInput;
 import software.amazon.cryptography.materialproviders.model.ValidEncryptionMaterialsTransitionInput;
@@ -1448,6 +1449,11 @@ public class ToNative {
     nativeBuilder.fanOut((dafnyValue.dtor_fanOut()));
     nativeBuilder.inFlightTTL((dafnyValue.dtor_inFlightTTL()));
     nativeBuilder.sleepMilli((dafnyValue.dtor_sleepMilli()));
+    if (dafnyValue.dtor_timeUnits().is_Some()) {
+      nativeBuilder.timeUnits(
+        ToNative.TimeUnits(dafnyValue.dtor_timeUnits().dtor_value())
+      );
+    }
     return nativeBuilder.build();
   }
 
@@ -1650,6 +1656,21 @@ public class ToNative {
     }
     throw new IllegalArgumentException(
       "No entry of software.amazon.cryptography.materialproviders.model.PaddingScheme matches the input : " +
+      dafnyValue
+    );
+  }
+
+  public static TimeUnits TimeUnits(
+    software.amazon.cryptography.materialproviders.internaldafny.types.TimeUnits dafnyValue
+  ) {
+    if (dafnyValue.is_Seconds()) {
+      return TimeUnits.Seconds;
+    }
+    if (dafnyValue.is_Milliseconds()) {
+      return TimeUnits.Milliseconds;
+    }
+    throw new IllegalArgumentException(
+      "No entry of software.amazon.cryptography.materialproviders.model.TimeUnits matches the input : " +
       dafnyValue
     );
   }

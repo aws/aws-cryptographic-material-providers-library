@@ -37,11 +37,12 @@ module {:options "/functionSyntax:4" }  StormTracker {
     Types.StormTrackingCache(
       entryCapacity := 1000,
       entryPruningTailSize := Some(1),
-      gracePeriod := 10,
-      graceInterval := 1,
+      gracePeriod := 10 * 1000,
+      graceInterval := 1 * 1000,
       fanOut := 20,
-      inFlightTTL := 10,
-      sleepMilli := 20
+      inFlightTTL := 10 * 1000,
+      sleepMilli := 20,
+      timeUnits := Some(Types.Milliseconds)
     )
   }
 
@@ -53,8 +54,16 @@ module {:options "/functionSyntax:4" }  StormTracker {
   // = type=implication
   // # - The [Inflight TTL](#inflight-ttl) MUST be less than or equal to the [Grace Period](#grace-period).
 
+  // Update the spec.
+  // It was assuming that we are always in a happy place.
+  // However, if the cache is empty and the system is unable to populate the cache
+  // because the item is generally failing,
+  // then would result in the system backing up
+  // and both processing everything serially,
+  // but also waiting the maximum duration between attempts.
+
   // = aws-encryption-sdk-specification/framework/storm-tracking-cryptographic-materials-cache.md#consistency
-  // = type=implication
+  // = type=exception
   // # - The [Grace Interval](#grace-interval) MUST be less than or equal to the [Inflight TTL](#inflight-ttl).
 
   predicate ConsistentSettings(
@@ -62,7 +71,6 @@ module {:options "/functionSyntax:4" }  StormTracker {
   ) {
     && cache.graceInterval <= cache.gracePeriod
     && cache.inFlightTTL <= cache.gracePeriod
-    && cache.graceInterval <= cache.inFlightTTL
   }
 
   function N(n : Types.CountingNumber) : string {
@@ -110,7 +118,6 @@ module {:options "/functionSyntax:4" }  StormTracker {
       Fail(Types.AwsCryptographicMaterialProvidersException(message := BadCacheMsg(cache)))
   }
 
-
   class StormTracker {
 
     ghost predicate ValidState()
@@ -122,31 +129,59 @@ module {:options "/functionSyntax:4" }  StormTracker {
       && wrapped.ValidState()
     }
     var wrapped : LocalCMC.LocalCMC // the actual cache
-    var inFlight: MutableMap<seq<uint8>, Types.PositiveLong> // the time at which this key became in flight
-    var gracePeriod : Types.PositiveLong // seconds before expiration that we start putting things in flight
-    var graceInterval : Types.PositiveLong // minimum seconds before putting the same key in flight again
-    var fanOut : Types.PositiveLong // maximum keys in flight at one time
-    var inFlightTTL : Types.PositiveLong // maximum time before a key is no longer in flight
+    const inFlight: MutableMap<seq<uint8>, Types.PositiveLong> // the time at which this key became in flight
+    const gracePeriod : Types.PositiveLong // seconds before expiration that we start putting things in flight
+    const graceInterval : Types.PositiveLong // minimum seconds before putting the same key in flight again
+    const fanOut : Types.PositiveLong // maximum keys in flight at one time
+    const inFlightTTL : Types.PositiveLong // maximum time before a key is no longer in flight
     var lastPrune : Types.PositiveLong // timestamp of last call to PruneInFlight
-    var sleepMilli : Types.PositiveLong // how long to sleep, if we sleep
+    const sleepMilli : Types.PositiveLong // how long to sleep, if we sleep
 
     constructor(
-      cache: Types.StormTrackingCache
+      nameonly ghost cache: Types.StormTrackingCache,
+      nameonly entryCapacity: nat,
+      nameonly entryPruningTailSize: nat,
+      nameonly gracePeriod: Types.PositiveLong,
+      nameonly graceInterval: Types.PositiveLong,
+      nameonly fanOut: Types.PositiveLong,
+      nameonly inFlightTTL: Types.PositiveLong,
+      nameonly sleepMilli: Types.PositiveLong
     )
       requires ConsistentSettings(cache)
+      // By changing the constructor parameters to Types.PositiveLong
+      // the math between Seconds and Milliseconds will never be outside of our bounded int.
+      // However, this means that we need to rebuild the consistency between
+      // the storm cache options and the input variables needs work.
+      // This way the cache only ever needs to deal with milliseconds.
+      requires
+        && (if cache.timeUnits.Some? && cache.timeUnits.value.Milliseconds? then
+              && gracePeriod == cache.gracePeriod as Types.PositiveLong
+              && graceInterval == cache.graceInterval as Types.PositiveLong
+              && inFlightTTL == cache.inFlightTTL as Types.PositiveLong
+            else
+              && cache.timeUnits.UnwrapOr(Types.Seconds).Seconds?
+              && gracePeriod == cache.gracePeriod as Types.PositiveLong * 1000
+              && graceInterval == cache.graceInterval as Types.PositiveLong * 1000
+              && inFlightTTL == cache.inFlightTTL as Types.PositiveLong * 1000
+           )
+
+        && entryCapacity == cache.entryCapacity as nat
+        && entryPruningTailSize == cache.entryPruningTailSize.UnwrapOr(1) as nat
+        && fanOut == cache.fanOut as Types.PositiveLong
+        && sleepMilli == cache.sleepMilli as Types.PositiveLong
       ensures
         && this.ValidState()
         && fresh(this.wrapped)
         && fresh(this.wrapped.InternalModifies)
         && fresh(this.inFlight)
     {
-      this.wrapped := new LocalCMC.LocalCMC(cache.entryCapacity as nat, cache.entryPruningTailSize.UnwrapOr(1) as nat);
+      this.wrapped := new LocalCMC.LocalCMC(entryCapacity, entryPruningTailSize);
       this.inFlight := new MutableMap();
-      this.gracePeriod := cache.gracePeriod as Types.PositiveLong;
-      this.graceInterval := cache.graceInterval as Types.PositiveLong;
-      this.fanOut := cache.fanOut as Types.PositiveLong;
-      this.inFlightTTL := cache.inFlightTTL as Types.PositiveLong;
-      this.sleepMilli := cache.sleepMilli as Types.PositiveLong;
+      this.gracePeriod := gracePeriod;
+      this.graceInterval := graceInterval;
+      this.fanOut := fanOut;
+      this.inFlightTTL := inFlightTTL;
+      this.sleepMilli := sleepMilli;
       this.lastPrune := 0;
     }
 
@@ -215,7 +250,10 @@ module {:options "/functionSyntax:4" }  StormTracker {
 
       // We don't need to check more than once per second,
       // because we would have already removed everything that expired in that second.
-      if lastPrune == now {
+      // The units for the various values used to be seconds.
+      // Now that these units are all in milliseconds,
+      // it is not reasonable to prune every millisecond.
+      if now - 1000 < lastPrune {
         return;
       }
 
@@ -243,7 +281,18 @@ module {:options "/functionSyntax:4" }  StormTracker {
         return EmptyWait;
       } else if inFlight.HasKey(identifier) {
         var entry := inFlight.Select(identifier);
-        if AddLong(entry, graceInterval) > now {  // already returned an EmptyFetch for this interval
+        // We want to return EmptyWait as little as possible.
+        // We want to wait (return EmptyWait) for the smallest duration.
+        // We will only return EmptyWait if we are within *both* durations.
+        // This is because we are in an empty cache state,
+        // and want to give the system the maximum opportunity
+        // to populate the cache.
+        // This is most important if the entries are consistently failing.
+        // We do not want the system to back up waiting to try to fail.
+        if
+          && now < AddLong(entry, inFlightTTL)
+          && now < AddLong(entry, graceInterval)
+        {  // already returned an EmptyFetch for this interval
           return EmptyWait;
         }
       }
@@ -282,7 +331,7 @@ module {:options "/functionSyntax:4" }  StormTracker {
       ensures wrapped == old(wrapped)
       ensures wrapped.InternalModifies <= old(wrapped.InternalModifies)
     {
-      var now := Time.GetCurrent();
+      var now := Time.GetCurrentMilli();
       output := GetFromCacheWithTime(input, now);
     }
 

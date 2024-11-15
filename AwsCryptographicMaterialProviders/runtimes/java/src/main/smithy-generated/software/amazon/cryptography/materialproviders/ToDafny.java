@@ -108,6 +108,7 @@ import software.amazon.cryptography.materialproviders.internaldafny.types.Single
 import software.amazon.cryptography.materialproviders.internaldafny.types.StaticConfigurations;
 import software.amazon.cryptography.materialproviders.internaldafny.types.StormTrackingCache;
 import software.amazon.cryptography.materialproviders.internaldafny.types.SymmetricSignatureAlgorithm;
+import software.amazon.cryptography.materialproviders.internaldafny.types.TimeUnits;
 import software.amazon.cryptography.materialproviders.internaldafny.types.UpdateUsageMetadataInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.ValidDecryptionMaterialsTransitionInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.ValidEncryptionMaterialsTransitionInput;
@@ -1758,6 +1759,14 @@ public class ToDafny {
     inFlightTTL = (nativeValue.inFlightTTL());
     Integer sleepMilli;
     sleepMilli = (nativeValue.sleepMilli());
+    Option<TimeUnits> timeUnits;
+    timeUnits =
+      Objects.nonNull(nativeValue.timeUnits())
+        ? Option.create_Some(
+          TimeUnits._typeDescriptor(),
+          ToDafny.TimeUnits(nativeValue.timeUnits())
+        )
+        : Option.create_None(TimeUnits._typeDescriptor());
     return new StormTrackingCache(
       entryCapacity,
       entryPruningTailSize,
@@ -1765,7 +1774,8 @@ public class ToDafny {
       graceInterval,
       fanOut,
       inFlightTTL,
-      sleepMilli
+      sleepMilli,
+      timeUnits
     );
   }
 
@@ -2105,6 +2115,29 @@ public class ToDafny {
             "Cannot convert " +
             nativeValue +
             " to software.amazon.cryptography.materialproviders.internaldafny.types.PaddingScheme."
+          );
+        }
+    }
+  }
+
+  public static TimeUnits TimeUnits(
+    software.amazon.cryptography.materialproviders.model.TimeUnits nativeValue
+  ) {
+    switch (nativeValue) {
+      case Seconds:
+        {
+          return TimeUnits.create_Seconds();
+        }
+      case Milliseconds:
+        {
+          return TimeUnits.create_Milliseconds();
+        }
+      default:
+        {
+          throw new RuntimeException(
+            "Cannot convert " +
+            nativeValue +
+            " to software.amazon.cryptography.materialproviders.internaldafny.types.TimeUnits."
           );
         }
     }
