@@ -81,9 +81,9 @@ const Runtimes = {
  * @type {import('semantic-release').GlobalConfig}
  */
 module.exports = {
-  branches: ["test-dtr-artifacts2"],
+  branches: ["main"],
   repositoryUrl:
-    "git@github.com:lucasmcdonald3/aws-cryptographic-material-providers-library.git",
+    "git@github.com:aws/aws-cryptographic-material-providers-library.git",
   plugins: [
     // Check the commits since the last release
     "@semantic-release/commit-analyzer",
