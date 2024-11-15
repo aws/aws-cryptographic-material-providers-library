@@ -175,8 +175,8 @@ module.exports = {
       {
         prepareCmd: [
           "make -C TestVectorsAwsCryptographicMaterialProviders transpile_python",
-          "sh scripts/release/git_add_gitignore_bypass_release_files.sh"
-        ].join(" && ")
+          "sh scripts/release/git_add_gitignore_bypass_release_files.sh",
+        ].join(" && "),
       },
     ],
     // Commit and push changes the changelog and versions bumps
