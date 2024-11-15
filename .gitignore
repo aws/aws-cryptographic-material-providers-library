@@ -24,7 +24,9 @@ specification_compliance_report.html
 /.smithy.lsp.log
 */**/Folder.DotSettings.user
 
-# Mostly ignored, but committed for release
+# Ignored during development.
+# Force committed during release, then removed immediately after release.
+# Scripts at /scripts/release will run on all files between START_RELEASE_IGNORED_FILES and END_RELEASE_IGNORED_FILES.
 # START_RELEASE_IGNORED_FILES
 **/*py.dtr
 # Ignore everything in ImplementationFromDafny-go
