@@ -3,8 +3,10 @@ import aws_cryptographic_material_providers.internaldafny.generated.StormTrackin
 import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
 import aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes
 from . import Lock
+from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes import Error_Opaque
 
-class StormTrackingCMC:
+# Extend generated class
+class StormTrackingCMC(aws_cryptographic_material_providers.internaldafny.generated.StormTrackingCMC.default__):
 
     def __init__(self, wrapped):
         self.wrapped = wrapped
@@ -80,8 +82,12 @@ class StormTrackingCMC:
             else:
                 try:
                     time.sleep(self.wrapped.sleepMilli)
-                except:
-                    pass
+                except Exception as e:
+                    return Wrappers.Result_Failure(
+                        Error_Opaque(
+                            e
+                        )
+                    )
 
     def DeleteCacheEntry_k(self, input):
         self.lock.Lock__()
