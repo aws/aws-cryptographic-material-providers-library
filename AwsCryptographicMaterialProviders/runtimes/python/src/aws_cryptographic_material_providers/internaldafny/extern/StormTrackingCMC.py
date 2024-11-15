@@ -5,8 +5,7 @@ import aws_cryptographic_material_providers.internaldafny.generated.AwsCryptogra
 from . import Lock
 from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes import Error_Opaque
 
-# Extend generated class
-class StormTrackingCMC(aws_cryptographic_material_providers.internaldafny.generated.StormTrackingCMC.default__):
+class StormTrackingCMC:
 
     def __init__(self, wrapped):
         self.wrapped = wrapped
