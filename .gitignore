@@ -24,15 +24,19 @@ specification_compliance_report.html
 /.smithy.lsp.log
 */**/Folder.DotSettings.user
 
-# Ignored during development.
-# Force committed during release, then removed immediately after release.
+# These files are not tracked.
+# The release will force-commit these files, then the post-release commit will force-remove them.
 # Scripts at /scripts/release will run on all files between START_RELEASE_IGNORED_FILES and END_RELEASE_IGNORED_FILES.
 # START_RELEASE_IGNORED_FILES
 **/*py.dtr
-# Ignore everything in ImplementationFromDafny-go
+# Ignore everything in ImplementationFromDafny-go...
 **/ImplementationFromDafny-go/**
-# Un-ignore files containing "smithygenerated"
+# ... except for files containing "smithygenerated"...
 !**/ImplementationFromDafny-go/**/*smithygenerated*
-# Un-ignore files containing "extern"
+# ... except for files containing "extern" ...
 !**/ImplementationFromDafny-go/**/*extern*
+# ... except for go.mod ...
+!**/ImplementationFromDafny-go/**/go.mod
+# ... except for go.sum.
+!**/ImplementationFromDafny-go/**/go.sum
 # END_RELEASE_IGNORED_FILES

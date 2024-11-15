@@ -81,9 +81,9 @@ const Runtimes = {
  * @type {import('semantic-release').GlobalConfig}
  */
 module.exports = {
-  branches: ["main"],
+  branches: ["test-dtr-artifacts"],
   repositoryUrl:
-    "git@github.com:aws/aws-cryptographic-material-providers-library.git",
+    "git@github.com:lucasmcdonald3/aws-cryptographic-material-providers-library.git",
   plugins: [
     // Check the commits since the last release
     "@semantic-release/commit-analyzer",
@@ -173,15 +173,17 @@ module.exports = {
       // Re-transpile Python code to update .dtr files as part of the release commit
       "@semantic-release/exec",
       {
-        prepareCmd:
-          "make -C TestVectorsAwsCryptographicMaterialProviders transpile_python \
-          && sh scripts/release/git_add_gitignore_bypass_release_files.sh",
+        prepareCmd: [
+          // "make -C TestVectorsAwsCryptographicMaterialProviders transpile_python",
+          "sh scripts/release/git_add_gitignore_bypass_release_files.sh"
+        ].join(" && ")
       },
     ],
     // Commit and push changes the changelog and versions bumps
     [
       "@semantic-release/git",
       {
+        // TODO: Express Go artifacts
         assets: [
           "CHANGELOG.md",
           ...Object.values(Runtimes).flatMap((r) => Object.keys(r)),
