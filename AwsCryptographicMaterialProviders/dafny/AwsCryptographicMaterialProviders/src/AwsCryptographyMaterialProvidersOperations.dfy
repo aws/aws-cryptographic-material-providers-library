@@ -797,16 +797,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       case Default(c) =>
         var cache := StormTracker.DefaultStorm().(entryCapacity := c.entryCapacity);
         :- StormTracker.CheckSettings(cache);
-        var cmc := new StormTracker.StormTracker(
-          cache := cache,
-          entryCapacity := cache.entryCapacity as nat,
-          entryPruningTailSize := cache.entryPruningTailSize.UnwrapOr(1) as nat,
-          gracePeriod := cache.gracePeriod as Types.PositiveLong,
-          graceInterval := cache.graceInterval as Types.PositiveLong,
-          fanOut := cache.fanOut as Types.PositiveLong,
-          inFlightTTL := cache.inFlightTTL as Types.PositiveLong,
-          sleepMilli := cache.sleepMilli as Types.PositiveLong
-        );
+        var cmc := new StormTracker.StormTracker(cache);
         var synCmc := new StormTrackingCMC.StormTrackingCMC(cmc);
         return Success(synCmc);
       case No(_) =>
@@ -829,27 +820,8 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
         var cache := c.( entryPruningTailSize := OptionalCountingNumber(c.entryPruningTailSize));
         :- StormTracker.CheckSettings(cache);
 
-        var gracePeriod, graceInterval, inFlightTTL;
-        if cache.timeUnits.UnwrapOr(Types.Seconds).Seconds? {
-          gracePeriod := cache.gracePeriod as Types.PositiveLong * 1000;
-          graceInterval := cache.graceInterval as Types.PositiveLong * 1000;
-          inFlightTTL := cache.inFlightTTL as Types.PositiveLong * 1000;
-        } else {
-          gracePeriod := cache.gracePeriod as Types.PositiveLong;
-          graceInterval := cache.graceInterval as Types.PositiveLong;
-          inFlightTTL := cache.inFlightTTL as Types.PositiveLong;
-        }
 
-        var cmc := new StormTracker.StormTracker(
-          cache := cache,
-          entryCapacity := cache.entryCapacity as nat,
-          entryPruningTailSize := cache.entryPruningTailSize.UnwrapOr(1) as nat,
-          gracePeriod := gracePeriod,
-          graceInterval := graceInterval,
-          fanOut := cache.fanOut as Types.PositiveLong,
-          inFlightTTL := inFlightTTL,
-          sleepMilli := cache.sleepMilli as Types.PositiveLong
-        );
+        var cmc := new StormTracker.StormTracker(cache);
         var synCmc := new StormTrackingCMC.StormTrackingCMC(cmc);
         return Success(synCmc);
       case Shared(c) =>

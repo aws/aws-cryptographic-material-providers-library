@@ -129,7 +129,7 @@ module {:options "/functionSyntax:4" }  StormTracker {
       && wrapped.ValidState()
     }
     var wrapped : LocalCMC.LocalCMC // the actual cache
-    const inFlight: MutableMap<seq<uint8>, Types.PositiveLong> // the time at which this key became in flight
+    var inFlight: MutableMap<seq<uint8>, Types.PositiveLong> // the time at which this key became in flight
     const gracePeriod : Types.PositiveLong // seconds before expiration that we start putting things in flight
     const graceInterval : Types.PositiveLong // minimum seconds before putting the same key in flight again
     const fanOut : Types.PositiveLong // maximum keys in flight at one time
@@ -138,50 +138,33 @@ module {:options "/functionSyntax:4" }  StormTracker {
     const sleepMilli : Types.PositiveLong // how long to sleep, if we sleep
 
     constructor(
-      nameonly ghost cache: Types.StormTrackingCache,
-      nameonly entryCapacity: nat,
-      nameonly entryPruningTailSize: nat,
-      nameonly gracePeriod: Types.PositiveLong,
-      nameonly graceInterval: Types.PositiveLong,
-      nameonly fanOut: Types.PositiveLong,
-      nameonly inFlightTTL: Types.PositiveLong,
-      nameonly sleepMilli: Types.PositiveLong
+      cache: Types.StormTrackingCache
     )
       requires ConsistentSettings(cache)
-      // By changing the constructor parameters to Types.PositiveLong
-      // the math between Seconds and Milliseconds will never be outside of our bounded int.
-      // However, this means that we need to rebuild the consistency between
-      // the storm cache options and the input variables needs work.
-      // This way the cache only ever needs to deal with milliseconds.
-      requires
-        && (if cache.timeUnits.Some? && cache.timeUnits.value.Milliseconds? then
-              && gracePeriod == cache.gracePeriod as Types.PositiveLong
-              && graceInterval == cache.graceInterval as Types.PositiveLong
-              && inFlightTTL == cache.inFlightTTL as Types.PositiveLong
-            else
-              && cache.timeUnits.UnwrapOr(Types.Seconds).Seconds?
-              && gracePeriod == cache.gracePeriod as Types.PositiveLong * 1000
-              && graceInterval == cache.graceInterval as Types.PositiveLong * 1000
-              && inFlightTTL == cache.inFlightTTL as Types.PositiveLong * 1000
-           )
-
-        && entryCapacity == cache.entryCapacity as nat
-        && entryPruningTailSize == cache.entryPruningTailSize.UnwrapOr(1) as nat
-        && fanOut == cache.fanOut as Types.PositiveLong
-        && sleepMilli == cache.sleepMilli as Types.PositiveLong
       ensures
         && this.ValidState()
         && fresh(this.wrapped)
         && fresh(this.wrapped.InternalModifies)
         && fresh(this.inFlight)
     {
-      this.wrapped := new LocalCMC.LocalCMC(entryCapacity, entryPruningTailSize);
+      var gracePeriod, graceInterval, inFlightTTL;
+      if cache.timeUnits.UnwrapOr(Types.Seconds).Seconds? {
+        gracePeriod := cache.gracePeriod as Types.PositiveLong * 1000;
+        graceInterval := cache.graceInterval as Types.PositiveLong * 1000;
+        inFlightTTL := cache.inFlightTTL as Types.PositiveLong * 1000;
+      } else {
+        gracePeriod := cache.gracePeriod as Types.PositiveLong;
+        graceInterval := cache.graceInterval as Types.PositiveLong;
+        inFlightTTL := cache.inFlightTTL as Types.PositiveLong;
+      }
+
+      this.wrapped := new LocalCMC.LocalCMC(cache.entryCapacity as nat, cache.entryPruningTailSize.UnwrapOr(1) as nat);
       this.inFlight := new MutableMap();
       this.gracePeriod := gracePeriod;
       this.graceInterval := graceInterval;
-      this.fanOut := fanOut;
+      this.fanOut := cache.fanOut as Types.PositiveLong;
       this.inFlightTTL := inFlightTTL;
-      this.sleepMilli := sleepMilli;
+      this.sleepMilli := cache.sleepMilli as Types.PositiveLong;
       this.lastPrune := 0;
     }
 
