@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.7.5](https://github.com/lucasmcdonald3/aws-cryptographic-material-providers-library/compare/v1.7.4...v1.7.5) (2024-11-15)
+
+
+### Bug Fixes
+
+* **Python-Release:** Run validate tests from release commit ([41c0c94](https://github.com/lucasmcdonald3/aws-cryptographic-material-providers-library/commit/41c0c94aac165addcef6e75bc7bad5c1dffa16ac))
+* **Python:** CMCs release lock for unhandled runtime exceptions ([#979](https://github.com/lucasmcdonald3/aws-cryptographic-material-providers-library/issues/979)) ([1510b77](https://github.com/lucasmcdonald3/aws-cryptographic-material-providers-library/commit/1510b772550646b6e1f26df5b0e6e96b3e48a6e3))
+* return error on interrupted sleep ([#993](https://github.com/lucasmcdonald3/aws-cryptographic-material-providers-library/issues/993)) ([f49460a](https://github.com/lucasmcdonald3/aws-cryptographic-material-providers-library/commit/f49460a569ea03778db3d1856a54b7d9b53fb9e6))
+
 # [1.7.4](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.3...v1.7.4) (2024-11-06)
 
 This release is available in the following languages:
