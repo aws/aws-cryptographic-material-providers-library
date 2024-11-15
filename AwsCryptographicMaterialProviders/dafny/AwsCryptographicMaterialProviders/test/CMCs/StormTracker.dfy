@@ -112,7 +112,10 @@ module  {:options "/functionSyntax:4"} TestStormTracker {
     expect res.EmptyWait?;
     res :- expect st.GetFromCacheWithTime(MakeGet(four), 10003);
     expect res.EmptyWait?;
-    res :- expect st.GetFromCacheWithTime(MakeGet(four), 10005);
+    // Because the fanOut has been reached,
+    // and nothing has been put into the cache
+    // we need to prune
+    res :- expect st.GetFromCacheWithTime(MakeGet(four), 20005);
     expect res.EmptyFetch?;
   }
 
@@ -136,17 +139,21 @@ module  {:options "/functionSyntax:4"} TestStormTracker {
 
   method {:test} StormTrackerGracePeriod()
   {
-    var st := new StormTracker(DefaultStorm());
+    var config := DefaultStorm();
+    var expiryTime := 100100;
+    var beforeGracePeriod := expiryTime - config.gracePeriod as Types.PositiveLong - 1;
+    var insideGracePeriod := expiryTime - config.gracePeriod as Types.PositiveLong + 1;
+    var st := new StormTracker(config);
 
     var one := UTF8.EncodeAscii("one");
 
-    var res2 :- expect st.PutCacheEntry(MakePut(one, 10010));
+    var res2 :- expect st.PutCacheEntry(MakePut(one, expiryTime));
 
-    var res :- expect st.GetFromCacheWithTime(MakeGet(one), 9999);
+    var res :- expect st.GetFromCacheWithTime(MakeGet(one), beforeGracePeriod);
     expect res.Full?;
-    res :- expect st.GetFromCacheWithTime(MakeGet(one), 10000);
+    res :- expect st.GetFromCacheWithTime(MakeGet(one), insideGracePeriod);
     expect res.EmptyFetch?;
-    res :- expect st.GetFromCacheWithTime(MakeGet(one), 10000);
+    res :- expect st.GetFromCacheWithTime(MakeGet(one), insideGracePeriod);
     expect res.Full?;
   }
 }
