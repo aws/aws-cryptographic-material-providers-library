@@ -1,12 +1,15 @@
 #!/bin/bash
 
+# Echoes every uncommented line between $START_MARKER and $END_MARKER in .gitignore.
+
+# Run from this directory
 cd "$(dirname "$0")"
 
-# Define the markers
+# Define markers; only uncommented lines between these markers will be echoed
+# Multiple pairs of markers are OK
 START_MARKER="# START_RELEASE_IGNORED_FILES"
 END_MARKER="# END_RELEASE_IGNORED_FILES"
 
-# Initialize variables
 in_block=false
 
 # Read each line in the .gitignore file
