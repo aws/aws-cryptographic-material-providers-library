@@ -41,7 +41,8 @@ module  {:options "/functionSyntax:4"} TestStormTracker {
       identifier := data,
       materials := MakeMat(data),
       creationTime := 123456789,
-      expiryTime := expiryTime,
+      // The expiryTime is in seconds
+      expiryTime := expiryTime / 1000,
       messagesUsed := Option.None,
       bytesUsed := Option.None
     )
@@ -141,7 +142,11 @@ module  {:options "/functionSyntax:4"} TestStormTracker {
   {
     var config := DefaultStorm();
     var expiryTime := 100100;
-    var beforeGracePeriod := expiryTime - config.gracePeriod as Types.PositiveLong - 1;
+    // expiryTime stored in the LocalCMC is in seconds
+    // This means that if you only subtract 1,
+    // you will not be before the grace period.
+    // You need to subtract a seconds worth of milliseconds.
+    var beforeGracePeriod := expiryTime - config.gracePeriod as Types.PositiveLong - 1000;
     var insideGracePeriod := expiryTime - config.gracePeriod as Types.PositiveLong + 1;
     var st := new StormTracker(config);
 
