@@ -297,9 +297,9 @@ def _sdk_error_to_dafny_error(e: ClientError):
             e.response
         )
 
-    return aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes.Error_OpaqueWithText(
+    return aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes.Error_Opaque(
         obj=e,
-        objMessage=_dafny.Seq(
+        alt__text=_dafny.Seq(
             "".join(
                 [
                     chr(int.from_bytes(pair, "big"))

@@ -355,9 +355,9 @@ def _sdk_error_to_dafny_error(e: ClientError):
             e.response
         )
 
-    return aws_cryptography_internal_kms.internaldafny.generated.ComAmazonawsKmsTypes.Error_OpaqueWithText(
+    return aws_cryptography_internal_kms.internaldafny.generated.ComAmazonawsKmsTypes.Error_Opaque(
         obj=e,
-        objMessage=_dafny.Seq(
+        alt__text=_dafny.Seq(
             "".join(
                 [
                     chr(int.from_bytes(pair, "big"))
