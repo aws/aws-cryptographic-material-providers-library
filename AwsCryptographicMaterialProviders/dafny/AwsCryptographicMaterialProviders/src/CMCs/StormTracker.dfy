@@ -204,7 +204,10 @@ module {:options "/functionSyntax:4" }  StormTracker {
       var fanOutReached := FanOutReached(now);
       if fanOutReached {
         return Full(result);
-      } else if result.expiryTime <= now { // expired? should be impossible
+      } else if
+        // The LocalCMC that gave us back the result is using seconds
+        result.expiryTime <= now / 1000
+      { // expired? should be impossible
         output := CheckNewEntry(identifier, now);
       } else if now < result.expiryTime - gracePeriod { // lots of time left
         return Full(result);
@@ -293,7 +296,8 @@ module {:options "/functionSyntax:4" }  StormTracker {
       ensures wrapped == old(wrapped)
       ensures wrapped.InternalModifies <= old(wrapped.InternalModifies)
     {
-      var result := wrapped.GetCacheEntryWithTime(input, now);
+      // The wrapped CMC is a LocalCMC that uses Seconds.
+      var result := wrapped.GetCacheEntryWithTime(input, now / 1000);
       if result.Success? {
         var newResult := CheckInFlight(input.identifier, result.value, now);
         return Success(newResult);
