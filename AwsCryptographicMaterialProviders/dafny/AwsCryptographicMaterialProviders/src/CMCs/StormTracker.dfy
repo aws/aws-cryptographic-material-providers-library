@@ -195,6 +195,22 @@ module {:options "/functionSyntax:4" }  StormTracker {
         INT64_MAX_LIMIT as Types.PositiveLong
     }
 
+    lemma ExpiryTimeInSecondsCanBeConvertedToMilliseconds()
+      ensures INT64_MAX_LIMIT / 1000 == 0x20C49BA5E353F7
+    {}
+
+    predicate GracePeriod?(result: Types.GetCacheEntryOutput, now : Types.PositiveLong)
+      reads this`gracePeriod
+    {
+      // This is just showing where this constant comes from
+      // It is so that we know that we can convert
+      // the expiryTime from seconds to milliseconds
+      // This should get fixed sometime before July 29, 31252
+      ExpiryTimeInSecondsCanBeConvertedToMilliseconds();
+      && result.expiryTime < 0x20C49BA5E353F7  
+      && now < (result.expiryTime  * 1000) - gracePeriod
+    }
+
     // If entry is within `grace time` of expiration, then return EmptyFetch once per `grace interval`,
     // and return cached value otherwise
     method CheckInFlight(identifier: seq<uint8>, result: Types.GetCacheEntryOutput, now : Types.PositiveLong)
@@ -209,7 +225,7 @@ module {:options "/functionSyntax:4" }  StormTracker {
         result.expiryTime <= now / 1000
       { // expired? should be impossible
         output := CheckNewEntry(identifier, now);
-      } else if now < result.expiryTime - gracePeriod { // lots of time left
+      } else if GracePeriod?(result, now) { // lots of time left
         return Full(result);
       } else { // in grace time
         if inFlight.HasKey(identifier) {
