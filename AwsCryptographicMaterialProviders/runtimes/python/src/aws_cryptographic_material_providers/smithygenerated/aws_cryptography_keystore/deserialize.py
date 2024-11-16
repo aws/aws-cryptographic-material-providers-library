@@ -102,7 +102,9 @@ def _deserialize_get_beacon_key(input: DafnyResponse, config: Config):
 
 def _deserialize_error(error: Error) -> ServiceError:
     if error.is_Opaque:
-        return OpaqueError(obj=error.obj, alt_text=error.alt__text)
+        return OpaqueError(obj=error.obj)
+    elif error.is_OpaqueWithText:
+        return OpaqueErrorWithText(obj=error.obj, obj_message=error.objMessage)
     elif error.is_CollectionOfErrors:
         return CollectionOfErrors(
             message=_dafny.string_of(error.message),
@@ -117,4 +119,4 @@ def _deserialize_error(error: Error) -> ServiceError:
             message=_dafny.string_of(error.ComAmazonawsDynamodb.message)
         )
     else:
-        return OpaqueError(obj=error, alt_text=repr(error))
+        return OpaqueError(obj=error)
