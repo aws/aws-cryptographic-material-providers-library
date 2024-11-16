@@ -207,7 +207,7 @@ module {:options "/functionSyntax:4" }  StormTracker {
       // the expiryTime from seconds to milliseconds
       // This should get fixed sometime before July 29, 31252
       ExpiryTimeInSecondsCanBeConvertedToMilliseconds();
-      && result.expiryTime < 0x20C49BA5E353F7  
+      && result.expiryTime < 0x20C49BA5E353F7
       && now < (result.expiryTime  * 1000) - gracePeriod
     }
 
