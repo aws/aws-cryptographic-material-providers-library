@@ -16,6 +16,7 @@ module {:options "/functionSyntax:4" } AdminFixtures {
   import UTF8 = Fixtures.UTF8
   import DefaultKeyStorageInterface
   import Structure
+  import KmsUtils
 
   method DefaultAdmin(
     nameonly physicalName: string := Fixtures.branchKeyStoreName,
@@ -109,6 +110,25 @@ module {:options "/functionSyntax:4" } AdminFixtures {
       )
     );
     return Success(strategy);
+  }
+
+  method ProvideKMSTuple(
+    nameonly kmsClient?: Option<KMS.Types.IKMSClient> := None,
+    nameonly grantTokens?: Option<KMS.Types.GrantTokenList> := None
+  )
+    returns (output: Result<KmsUtils.KMSTuple, Types.Error>)
+    requires kmsClient?.Some? ==> kmsClient?.value.ValidState()
+    requires grantTokens?.Some? ==> KMS.Types.IsValid_GrantTokenList(grantTokens?.value)
+    ensures output.Success? ==> output.value.ValidState()
+    ensures output.Success? ==> fresh(output.value.kmsClient)
+    ensures output.Success? ==> fresh(output.value.kmsClient.Modifies)
+    ensures output.Success? ==> fresh(output.value.Modifies)
+    modifies (if kmsClient?.Some? then kmsClient?.value.Modifies else {})
+  {
+    var kmsClient :- expect Fixtures.ProvideKMSClient(kmsClient?);
+    assume {:axiom} fresh(kmsClient) && fresh(kmsClient.Modifies);
+    var grantTokens := if grantTokens?.Some? then grantTokens?.value else [];
+    output := Success(KmsUtils.KMSTuple(kmsClient, grantTokens));
   }
 
   datatype KmsDdbError =

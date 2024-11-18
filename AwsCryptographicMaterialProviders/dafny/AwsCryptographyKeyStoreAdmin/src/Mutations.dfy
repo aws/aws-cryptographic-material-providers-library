@@ -52,7 +52,7 @@ module {:options "/functionSyntax:4" } Mutations {
   datatype InternalInitializeMutationInput = | InternalInitializeMutationInput (
     nameonly Identifier: string ,
     nameonly Mutations: Types.Mutations ,
-    nameonly SystemKey: Types.SystemKey ,
+    nameonly SystemKey: KmsUtils.InternalSystemKey ,
     nameonly DoNotVersion: bool,
     nameonly logicalKeyStoreName: string,
     nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
@@ -97,18 +97,12 @@ module {:options "/functionSyntax:4" } Mutations {
       && output.Success?
       ==>
         input.DoNotVersion == false
-    ensures
-      && output.Success?
-      ==>
-        input.SystemKey.trustStorage?
+    requires input.SystemKey.ValidState()
+    ensures input.SystemKey.ValidState()
   {
     :- Need(
          input.DoNotVersion == false,
          Types.UnsupportedFeatureException(message := "At this time, DoNotVersion MUST be false.")
-       );
-    :- Need(
-         input.SystemKey.trustStorage?,
-         Types.UnsupportedFeatureException(message := "At this time, SystemKey MUST be TrustStorage.")
        );
     :- Need(|input.Identifier| > 0,
             Types.KeyStoreAdminException(message := "Branch Key Identifier cannot be empty!"));
@@ -160,15 +154,20 @@ module {:options "/functionSyntax:4" } Mutations {
                && kmD.kmsClient.ValidState() && kmE.kmsClient.ValidState()
                && AwsKmsUtils.GetValidGrantTokens(Some(kmD.grantTokens)).Success?
                && AwsKmsUtils.GetValidGrantTokens(Some(kmE.grantTokens)).Success?
-    ensures input.storage.ValidState() &&
-            match input.keyManagerStrategy
-            case reEncrypt(km) => km.kmsClient.ValidState()
-            case decryptEncrypt(kmD, kmE) => kmD.kmsClient.ValidState() && kmE.kmsClient.ValidState()
+    ensures
+      && input.storage.ValidState()
+      && match input.keyManagerStrategy {
+           case reEncrypt(km) => km.kmsClient.ValidState()
+           case decryptEncrypt(kmD, kmE) => kmD.kmsClient.ValidState() && kmE.kmsClient.ValidState()
+         }
+      && input.SystemKey.ValidState()
     modifies
       input.storage.Modifies,
-            match input.keyManagerStrategy
-            case reEncrypt(km) => km.kmsClient.Modifies
-            case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
+             match input.keyManagerStrategy {
+               case reEncrypt(km) => km.kmsClient.Modifies
+               case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
+             },
+             input.SystemKey.Modifies
   {
     var resumeMutation? := false;
 

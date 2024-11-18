@@ -165,6 +165,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
               && (config.storage.Modifies !! output.value.kmsClient.Modifies)
               && output.value.kmsClient.ValidState()
               && GetValidGrantTokens(Some(output.value.grantTokens)).Success?
+              && fresh(output.value.kmsClient) && fresh(output.value.kmsClient.Modifies)
   {
     var kmsClient? := ProvideKMSClient(kms.kmsClient);
     var kmsClient :- kmsClient?
@@ -177,6 +178,55 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     );
     assume {:axiom} config.storage.Modifies !! kmsClient.Modifies;
     output := Success(KmsUtils.KMSTuple(kmsClient, grantTokens.value));
+  }
+
+  method ResolveSystemKey(
+    systemKey: SystemKey,
+    config: InternalConfig
+  ) returns (output: Result<KmsUtils.InternalSystemKey, Error>)
+    requires ValidInternalConfig?(config)
+    // We do not know why these statements cannot be proven,
+    // but we do not have the time to address it
+    // It could be if we apply the MutableState trait from
+    // https://github.com/smithy-lang/smithy-dafny/pull/543
+    // that would allow us to address these issues.
+    // requires match systemKey
+    //          case kmsSymmetricEncryption(kmsSym) =>
+    //            if kmsSym.AwsKms.kmsClient.Some?
+    //            then kmsSym.AwsKms.kmsClient.value.ValidState()
+    //            else true
+    //          case trustStorage => true
+    // modifies match systemKey
+    //          case kmsSymmetricEncryption(kmsSym) =>
+    //            if kmsSym.AwsKms.kmsClient.Some?
+    //            then kmsSym.AwsKms.kmsClient.value.Modifies
+    //            else {}
+    //          case trustStorage => {}
+    ensures output.Success?
+            ==>
+              && (config.storage.Modifies !! output.value.Modifies)
+              && output.value.ValidState()
+              && fresh(output.value.Modifies)
+  {
+    if (systemKey.trustStorage?) {
+      return Success(KmsUtils.TrustStorage());
+    }
+    var kmsSym := systemKey.kmsSymmetricEncryption;
+    var tuple :- ResolveKmsInput(kmsSym.AwsKms, config);
+    var keyId := match kmsSym.KmsArn {
+      case KmsKeyArn(arn) => arn
+      case KmsMRKeyArn(arn) => arn
+    };
+    :- Need(
+      KMS.Types.IsValid_KeyIdType(keyId),
+      Types.KeyStoreAdminException(
+        message := "Invalid KMS Key ID passed to System Key arguement: " + keyId)
+    );
+    var internal := KmsUtils.KmsSymEnc(
+      Tuple := tuple,
+      KeyId := keyId);
+    assert internal.ValidState();
+    return Success(internal);
   }
 
   function method LegacyConfig(
@@ -304,10 +354,12 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       assume {:axiom} keyManagerStrat.encrypt.kmsClient.Modifies < MutationLie();
     }
 
+    var systemKey :- ResolveSystemKey(DefaultSystemKey(input.SystemKey), config);
+
     var internalInput := Mutations.InternalInitializeMutationInput(
       Identifier := input.Identifier,
       Mutations := input.Mutations,
-      SystemKey := DefaultSystemKey(input.SystemKey),
+      SystemKey := systemKey,
       DoNotVersion := DefaultInitializeMutationDoNotVersion(input.DoNotVersion),
       logicalKeyStoreName := config.logicalKeyStoreName,
       keyManagerStrategy := keyManagerStrat,
@@ -332,6 +384,8 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     );
     // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
     assume {:axiom} keyManagerStrat.reEncrypt.kmsClient.Modifies < MutationLie();
+
+    var systemKey :- ResolveSystemKey(DefaultSystemKey(input.SystemKey), config);
 
     var _ :- Mutations.ValidateApplyMutationInput(input, config.logicalKeyStoreName, config.storage);
     output := Mutations.ApplyMutation(input, config.logicalKeyStoreName, keyManagerStrat, config.storage);
