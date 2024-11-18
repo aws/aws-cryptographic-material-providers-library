@@ -97,13 +97,6 @@ module {:options "/functionSyntax:4" }  StormTracker {
                else
                  "";
 
-    var msg := msg +
-               if !(cache.graceInterval <= cache.inFlightTTL) then
-                 "graceInterval must not exceed inFlightTTL, yet configuration has graceInterval="
-                 + N(cache.graceInterval) + " and inFlightTTL=" + N(cache.inFlightTTL) + ". "
-               else
-                 "";
-
     msg
   }
 
@@ -121,12 +114,16 @@ module {:options "/functionSyntax:4" }  StormTracker {
   class StormTracker {
 
     ghost predicate ValidState()
-      reads this, wrapped, wrapped.InternalModifies
+      reads this, wrapped, wrapped.InternalModifies, inFlight
     {
       && this !in wrapped.InternalModifies
       && inFlight !in wrapped.InternalModifies
       && wrapped.InternalValidState()
       && wrapped.ValidState()
+      && 0 < fanOut
+      && inFlight.Size() <= fanOut as nat
+      && graceInterval <= gracePeriod
+      && inFlightTTL <= gracePeriod
     }
     var wrapped : LocalCMC.LocalCMC // the actual cache
     var inFlight: MutableMap<seq<uint8>, Types.PositiveLong> // the time at which this key became in flight
@@ -146,6 +143,9 @@ module {:options "/functionSyntax:4" }  StormTracker {
         && fresh(this.wrapped)
         && fresh(this.wrapped.InternalModifies)
         && fresh(this.inFlight)
+      ensures
+        && inFlight.Size() == 0
+        && lastPrune == 0
     {
       var gracePeriod, graceInterval, inFlightTTL;
       if cache.timeUnits.UnwrapOr(Types.Seconds).Seconds? {
@@ -168,23 +168,21 @@ module {:options "/functionSyntax:4" }  StormTracker {
       this.lastPrune := 0;
     }
 
-    function InFlightSize() : Types.PositiveLong
-      reads this, this.inFlight
-    {
-      var x := inFlight.Size();
-      assert x >= 0;
-      if x <= INT64_MAX_LIMIT then
-        x as Types.PositiveLong
-      else
-        INT64_MAX_LIMIT as Types.PositiveLong
-    }
-
     // return true if InFlight is full
     method FanOutReached(now : Types.PositiveLong) returns (res : bool)
       modifies this`lastPrune, inFlight
+      requires ValidState()
+      ensures ValidState()
+      ensures
+        && old(inFlight.Size()) < fanOut as nat
+      ==>
+        && !res
+        && inFlight.content() == old(inFlight.content())
+      ensures !res ==> inFlight.Size() < fanOut as nat
+      ensures res ==> inFlight.Size() == fanOut as nat
     {
       PruneInFlight(now);
-      return fanOut <= InFlightSize();
+      return fanOut <= inFlight.Size() as Types.PositiveLong;
     }
 
     function AddLong(x : Types.PositiveLong, y : Types.PositiveLong) : Types.PositiveLong
@@ -200,7 +198,17 @@ module {:options "/functionSyntax:4" }  StormTracker {
     {}
 
     predicate GracePeriod?(result: Types.GetCacheEntryOutput, now : Types.PositiveLong)
+      : (output: bool)
       reads this`gracePeriod
+      requires now / 1000 <= result.expiryTime
+      ensures
+        output ==>
+          && result.expiryTime < 0x20C49BA5E353F7
+             // The + 1 comes because (now / 1000) * 1000 <= now
+             // Consider (5001 / 1000) <= 5
+             // (5001 / 1000) == 5
+             // but 5 * 1000 < 5001
+          && (result.expiryTime  * 1000) - gracePeriod <= now < (result.expiryTime + 1) * 1000
     {
       // This is just showing where this constant comes from
       // It is so that we know that we can convert
@@ -208,7 +216,7 @@ module {:options "/functionSyntax:4" }  StormTracker {
       // This should get fixed sometime before July 29, 31252
       ExpiryTimeInSecondsCanBeConvertedToMilliseconds();
       && result.expiryTime < 0x20C49BA5E353F7
-      && now < (result.expiryTime  * 1000) - gracePeriod
+      && (result.expiryTime  * 1000) - gracePeriod <= now
     }
 
     // If entry is within `grace time` of expiration, then return EmptyFetch once per `grace interval`,
@@ -216,21 +224,73 @@ module {:options "/functionSyntax:4" }  StormTracker {
     method CheckInFlight(identifier: seq<uint8>, result: Types.GetCacheEntryOutput, now : Types.PositiveLong)
       returns (output: CacheState)
       modifies this`lastPrune, inFlight
+
+      // Do check an expired result
+      requires now / 1000 <= result.expiryTime
+
+      requires ValidState()
+      ensures ValidState()
+
+      // Only return what was passed in
+      ensures output.Full? ==> output.data == result
+
+      // Never return an expired entry
+      ensures output.Full? ==> now as nat < (result.expiryTime as nat + 1) * 1000
+
+      // EmptyFetch only happens in the grace period
+      ensures output.EmptyFetch? ==> GracePeriod?(result, now)
+
+      // Before the grace period
+      // ==> Full
+      ensures !GracePeriod?(result, now) ==> output.Full?
+
+      // EmptyFetch puts the identifier inFlight
+      ensures output.EmptyFetch? ==>
+                && inFlight.HasKey(identifier)
+                && inFlight.Select(identifier) == now
+
+      // In the grace period,
+      // if fanOut has space and the identifier is not inflight
+      // ==> EmptyFetch
+      ensures
+        && GracePeriod?(result, now)
+        && old(inFlight.Size()) < fanOut as nat
+        && !old(inFlight.HasKey(identifier))
+        ==> output.EmptyFetch?
+
+      // In the grace period,
+      // if fanOut has space and the identifier is inflight but has not exceed the graceInterval
+      // ==> Full
+      ensures
+        && GracePeriod?(result, now)
+        && old(inFlight.Size()) < fanOut as nat
+        && old(inFlight.HasKey(identifier))
+        && now < AddLong(old(inFlight.Select(identifier)), graceInterval)
+        ==> output.Full?
+
+      // In the grace period,
+      // if fanOut has space
+      // and the identifier is inflight and has been inflight for longer than the graceInterval
+      // ==> EmptyFetch
+      ensures
+        && GracePeriod?(result, now)
+        && old(inFlight.Size()) < fanOut as nat
+        && old(inFlight.HasKey(identifier))
+        && AddLong(old(inFlight.Select(identifier)), graceInterval) <= now
+        ==> output.EmptyFetch?
+
     {
       var fanOutReached := FanOutReached(now);
       if fanOutReached {
+        assert inFlight.Size() == fanOut as nat;
         return Full(result);
-      } else if
-        // The LocalCMC that gave us back the result is using seconds
-        result.expiryTime <= now / 1000
-      { // expired? should be impossible
-        output := CheckNewEntry(identifier, now);
-      } else if GracePeriod?(result, now) { // lots of time left
+      } else if !GracePeriod?(result, now) { // lots of time left
         return Full(result);
       } else { // in grace time
         if inFlight.HasKey(identifier) {
           var entry := inFlight.Select(identifier);
           if AddLong(entry, graceInterval) > now {  // already returned an EmptyFetch for this interval
+            
             return Full(result);
           }
         }
@@ -242,11 +302,18 @@ module {:options "/functionSyntax:4" }  StormTracker {
     // If InFlight is at maximum, see if any entries are too old
     method PruneInFlight(now : Types.PositiveLong)
       modifies this`lastPrune, inFlight
+      requires ValidState()
+      ensures ValidState()
+      ensures
+        old(inFlight.Size()) < fanOut as nat
+        ==>
+          && inFlight.content() == old(inFlight.content())
+          && inFlight.Size() < fanOut as nat
     {
       // Pruning is expensive, so only do it if we have to,
       // i.e. if without pruning, InFlight is full
       // with luck, we will never have to prune
-      if fanOut > InFlightSize() {
+      if inFlight.Size() as Types.PositiveLong < fanOut {
         return;
       }
 
@@ -260,10 +327,23 @@ module {:options "/functionSyntax:4" }  StormTracker {
       }
 
       lastPrune := now;
+      // This list SHOULD be represented by an `array`
+      // The mutable map gives fast access to a random value
+      // But an array can hold all the values in order
+      // Since we only add elements to this array
+      // in order of time,
+      // the order of elements will naturally be in order.
+      // With a little clever work
+      // we can iterate over the array backwards
+      // and ensure that the elements are in order
+      // of decreasing time.
+      // That is T[max] is the oldest
+      // and T[0] is the most recent.
       var keySet := inFlight.Keys();
       var keys := SortedSets.ComputeSetToSequence(keySet);
       for i := 0 to |keys|
         invariant forall k | i <= k < |keys| :: keys[k] in inFlight.Keys()
+        invariant ValidState()
       {
         reveal Seq.HasNoDuplicates();
         var v := inFlight.Select(keys[i]);
@@ -277,6 +357,47 @@ module {:options "/functionSyntax:4" }  StormTracker {
     method CheckNewEntry(identifier: seq<uint8>, now : Types.PositiveLong)
       returns (output: CacheState)
       modifies this`lastPrune, inFlight
+      requires ValidState()
+      ensures ValidState()
+
+      // Never return an entry
+      ensures !output.Full?
+
+      // EmptyFetch puts the identifier inFlight
+      ensures output.EmptyFetch? ==>
+                && inFlight.HasKey(identifier)
+                && inFlight.Select(identifier) == now
+
+      // If fanOut has space and the identifier is not inflight
+      // ==> EmptyFetch
+      ensures
+        && old(inFlight.Size()) < fanOut as nat
+        && !old(inFlight.HasKey(identifier))
+        ==> output.EmptyFetch?
+
+      // If fanOut has space and the identifier is inflight
+      // but has not exceed the graceInterval or the inFlightTTL
+      // ==> EmptyWait
+      ensures
+        && old(inFlight.Size()) < fanOut as nat
+        && old(inFlight.HasKey(identifier))
+        && now < AddLong(old(inFlight.Select(identifier)), graceInterval)
+        && now < AddLong(old(inFlight.Select(identifier)), inFlightTTL)
+        ==> output.EmptyWait?
+
+      // If fanOut has space and the identifier is inflight
+      // and has been inflight for longer
+      // than the the graceInterval or the inFlightTTL
+      // ==> EmptyFetch
+      ensures
+        && old(inFlight.Size()) < fanOut as nat
+        && old(inFlight.HasKey(identifier))
+        && (
+          || AddLong(old(inFlight.Select(identifier)), graceInterval) <= now
+          || AddLong(old(inFlight.Select(identifier)), inFlightTTL) <= now
+        )
+        ==> output.EmptyFetch?
+
     {
       var fanOutReached := FanOutReached(now);
       if fanOutReached {
