@@ -291,6 +291,17 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     return Success(reEncryptResponse);
   }
 
+  method DecryptEncryptKey(
+    ciphertext: seq<uint8>,
+    sourceEncryptionContext: Structure.BranchKeyContext,
+    destinationEncryptionContext: Structure.BranchKeyContext,
+    kmsConfiguration: Types.KMSConfiguration,
+    decryptGrantTokens: KMS.GrantTokenList,
+    decryptKmsClient: KMS.IKMSClient,
+    encryptGrantTokens: KMS.GrantTokenList,
+    encryptKmsClient: KMS.IKMSClient
+  )
+
   method MutateViaReEncrypt(
     ciphertext: seq<uint8>,
     sourceEncryptionContext: Structure.BranchKeyContext,
