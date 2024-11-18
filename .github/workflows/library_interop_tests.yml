@@ -225,8 +225,9 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
+      # Setup Java in Rust is needed for running polymorph
       - name: Setup Java 17
-        if: matrix.decrypting_language == 'java'
+        if: matrix.decrypting_language == 'java' || matrix.decrypting_language == 'rust'
         uses: actions/setup-java@v3
         with:
           distribution: "corretto"
