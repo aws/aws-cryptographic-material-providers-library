@@ -154,7 +154,7 @@ module  {:options "/functionSyntax:4"} TestStormTracker {
     expect res.EmptyFetch?;
   }
 
-    method {:test} FullStormTrackerGraceInterval()
+  method {:test} FullStormTrackerGraceInterval()
   {
     // The cache is full, we wait for the graceInterval
     // regardless of the inFlightTTL

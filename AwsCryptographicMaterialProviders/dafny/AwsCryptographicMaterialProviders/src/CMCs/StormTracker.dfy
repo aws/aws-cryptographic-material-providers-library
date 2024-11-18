@@ -175,9 +175,9 @@ module {:options "/functionSyntax:4" }  StormTracker {
       ensures ValidState()
       ensures
         && old(inFlight.Size()) < fanOut as nat
-      ==>
-        && !res
-        && inFlight.content() == old(inFlight.content())
+        ==>
+          && !res
+          && inFlight.content() == old(inFlight.content())
       ensures !res ==> inFlight.Size() < fanOut as nat
       ensures res ==> inFlight.Size() == fanOut as nat
     {
@@ -290,7 +290,7 @@ module {:options "/functionSyntax:4" }  StormTracker {
         if inFlight.HasKey(identifier) {
           var entry := inFlight.Select(identifier);
           if AddLong(entry, graceInterval) > now {  // already returned an EmptyFetch for this interval
-            
+
             return Full(result);
           }
         }
@@ -393,9 +393,9 @@ module {:options "/functionSyntax:4" }  StormTracker {
         && old(inFlight.Size()) < fanOut as nat
         && old(inFlight.HasKey(identifier))
         && (
-          || AddLong(old(inFlight.Select(identifier)), graceInterval) <= now
-          || AddLong(old(inFlight.Select(identifier)), inFlightTTL) <= now
-        )
+             || AddLong(old(inFlight.Select(identifier)), graceInterval) <= now
+             || AddLong(old(inFlight.Select(identifier)), inFlightTTL) <= now
+           )
         ==> output.EmptyFetch?
 
     {
