@@ -213,7 +213,10 @@ structure StormTrackingCache {
   @javadoc("The time unit for gracePeriod, graceInterval, and inFlightTTL.
   The default is seconds.
   If this is set to milliseconds, then these values will be treated as milliseconds.")
-  timeUnits: TimeUnits
+  timeUnits: TimeUnits,
+
+  @javadoc("The maximum number of milliseconds that the cache will wait if fanOut is exceeded.")
+  maxWaitMilli: CountingNumber,
 }
 
 @enum([

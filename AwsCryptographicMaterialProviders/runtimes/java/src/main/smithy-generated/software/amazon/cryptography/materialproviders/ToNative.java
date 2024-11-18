@@ -1454,6 +1454,9 @@ public class ToNative {
         ToNative.TimeUnits(dafnyValue.dtor_timeUnits().dtor_value())
       );
     }
+    if (dafnyValue.dtor_maxWaitMilli().is_Some()) {
+      nativeBuilder.maxWaitMilli((dafnyValue.dtor_maxWaitMilli().dtor_value()));
+    }
     return nativeBuilder.build();
   }
 
