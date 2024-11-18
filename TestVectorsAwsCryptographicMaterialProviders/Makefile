@@ -141,6 +141,10 @@ test_generate_vectors_python:
 	python3 -m tox -c runtimes/python --verbose -e cli -- encrypt-manifest --encrypt-manifest-output runtimes/python
 	cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/python
 
+test_generate_vectors_go:
+	go run ImplementationFromDafny.go encrypt-manifest --encrypt-manifest-output .
+	cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/go
+
 test_encrypt_vectors_java:
 	gradle -p runtimes/java run --args="encrypt --manifest-path . --decrypt-manifest-path ."
 
