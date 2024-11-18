@@ -178,8 +178,8 @@ module {:options "/functionSyntax:4" }  StormTracker {
         ==>
           && !res
           && inFlight.content() == old(inFlight.content())
-      ensures !res ==> inFlight.Size() < fanOut as nat
-      ensures res ==> inFlight.Size() == fanOut as nat
+      ensures !res <==> inFlight.Size() < fanOut as nat
+      ensures res <==> inFlight.Size() == fanOut as nat
     {
       PruneInFlight(now);
       return fanOut <= inFlight.Size() as Types.PositiveLong;
