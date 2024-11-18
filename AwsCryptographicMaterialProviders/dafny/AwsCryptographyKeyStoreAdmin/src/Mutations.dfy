@@ -151,7 +151,6 @@ module {:options "/functionSyntax:4" } Mutations {
             match input.keyManagerStrategy
             case reEncrypt(km) => km.kmsClient.Modifies
             case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
-    requires input.keyManagerStrategy.reEncrypt?
   {
     var resumeMutation? := false;
 
@@ -725,7 +724,7 @@ module {:options "/functionSyntax:4" } Mutations {
   }
 
 
-  method VerifyEncryptedHierarchicalKey(
+  method {:vcs_split_on_every_assert} VerifyEncryptedHierarchicalKey(
     nameonly item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
     nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
     nameonly localOperation: string := "ApplyMutation"
@@ -743,40 +742,44 @@ module {:options "/functionSyntax:4" } Mutations {
       case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
     ensures keyManagerStrategy.ValidState()
   {
-    var throwAway? := KMSKeystoreOperations.ReEncryptKey(
-      ciphertext := item.CiphertextBlob,
-      sourceEncryptionContext := item.EncryptionContext,
-      destinationEncryptionContext := item.EncryptionContext,
-      kmsConfiguration := KeyStoreTypes.kmsKeyArn(item.KmsArn),
-      grantTokens := keyManagerStrategy.reEncrypt.grantTokens,
-      kmsClient := keyManagerStrategy.reEncrypt.kmsClient
-    );
-    if (
-        && throwAway?.Failure?
-        && keyManagerStrategy.reEncrypt?
-        && item.Type.ActiveHierarchicalSymmetricVersion?
-      ) {
-      var error := MutationErrorRefinement.VerifyActiveException(
-        branchKeyItem := item,
-        error := throwAway?.error,
-        localOperation := localOperation,
-        kmsOperation := "ReEncrypt");
-      return Fail(error);
-    }
-    if (
-        && throwAway?.Failure?
-        && keyManagerStrategy.reEncrypt?
-        && item.Type.HierarchicalSymmetricVersion?
-      ) {
-      var error := MutationErrorRefinement.VerifyTerminalException(
-        branchKeyItem := item,
-        error := throwAway?.error,
-        localOperation := localOperation,
-        kmsOperation := "ReEncrypt");
-      return Fail(error);
-    }
-    assert throwAway?.Success?;
-    return Pass;
+    match keyManagerStrategy
+    case reEncrypt(kms) =>
+      var throwAway? := KMSKeystoreOperations.ReEncryptKey(
+        ciphertext := item.CiphertextBlob,
+        sourceEncryptionContext := item.EncryptionContext,
+        destinationEncryptionContext := item.EncryptionContext,
+        kmsConfiguration := KeyStoreTypes.kmsKeyArn(item.KmsArn),
+        grantTokens := keyManagerStrategy.reEncrypt.grantTokens,
+        kmsClient := keyManagerStrategy.reEncrypt.kmsClient
+      );
+      if (
+          && throwAway?.Failure?
+          && keyManagerStrategy.reEncrypt?
+          && item.Type.ActiveHierarchicalSymmetricVersion?
+        ) {
+        var error := MutationErrorRefinement.VerifyActiveException(
+          branchKeyItem := item,
+          error := throwAway?.error,
+          localOperation := localOperation,
+          kmsOperation := "ReEncrypt");
+        return Fail(error);
+      }
+      if (
+          && throwAway?.Failure?
+          && keyManagerStrategy.reEncrypt?
+          && item.Type.HierarchicalSymmetricVersion?
+        ) {
+        var error := MutationErrorRefinement.VerifyTerminalException(
+          branchKeyItem := item,
+          error := throwAway?.error,
+          localOperation := localOperation,
+          kmsOperation := "ReEncrypt");
+        return Fail(error);
+      }
+      assert throwAway?.Success?;
+      return Pass;
+    case decryptEncrypt(kmsD, kmsE) =>
+      return Fail(Types.KeyStoreAdminException(message := "whelp"));
   }
 
   method {:isolate_assertions} ReEncryptHierarchicalKey(
