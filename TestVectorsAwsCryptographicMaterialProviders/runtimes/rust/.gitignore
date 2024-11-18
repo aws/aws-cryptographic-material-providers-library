@@ -36,3 +36,5 @@ src/client.rs
 src/aes_kdf_ctr.rs
 src/aes_gcm.rs
 Cargo.lock
+
+/*.json
