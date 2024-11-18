@@ -8,5 +8,5 @@ import (
 
 func GetTestVectorExecutionDirectory() dafny.Sequence {
 	cwd, _ := os.Getwd()
-	return dafny.SeqOfChars([]dafny.Char(cwd + "/../")...)
+	return dafny.SeqOfChars([]dafny.Char(cwd)...)
 }
