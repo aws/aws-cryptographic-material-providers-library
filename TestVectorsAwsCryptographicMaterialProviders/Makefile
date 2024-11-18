@@ -95,6 +95,38 @@ WRAPPED_INDEX_FILE_PATH=dafny/TestVectorsAwsCryptographicMaterialProviders/src/L
 WRAPPED_INDEX_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.materialproviders.internaldafny.wrapped\" } WrappedMaterialProviders refines WrappedAbstractAwsCryptographyMaterialProvidersService"
 WRAPPED_INDEX_FILE_WITHOUT_EXTERN_STRING="module WrappedMaterialProviders refines WrappedAbstractAwsCryptographyMaterialProvidersService"
 
+# Rust SED Hacks
+IMPLEMENTATION_FROM_DAFNY_TV_RUST_FILE=runtimes/rust/src/implementation_from_dafny.rs
+IMPLEMENTATION_FROM_DAFNY_TV_RUST_MPL_MAIN="WrappedMaterialProvidersMain::_default::Main();"
+IMPLEMENTATION_FROM_DAFNY_TV_RUST_ESDK_MAIN= \
+	"let args: Vec<String> = std::env::args().collect();\
+	let dafny_strings = args.iter().map(|x| dafny_runtime::dafny_runtime_conversions::unicode_chars_false::string_to_dafny_string(\&x)).collect::<Vec<_>>();\
+	let dafny_args = dafny_runtime::Sequence::from_array_owned(dafny_strings);\
+	r\#_WrappedMaterialProvidersMain_Compile::_default::Main(\&dafny_args);"
+
+# TODO: Remove after wrapped client issue is fixed in Rust
+REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_PRIMITIVES=runtimes/rust/src/deps/aws_cryptography_primitives.rs
+REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_KEYSTORE=runtimes/rust/src/deps/aws_cryptography_keyStore.rs
+REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_FROM_1 = "\#\[cfg(feature = \"wrapped-client\")\]"
+REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_FROM_2 := 'pub mod wrapped;'
+REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_TO_1 := '\/\/ removed wrapped-client feature using sed;'
+REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_TO_2 := '\/\/ removed wrapped module using sed;'
+
+transpile_implementation_rust: _replace_main_method_name_rust
+
+# TODO: Remove after wrapped client issue is fixed in Rust
+_polymorph_rust: _remove_wrapped_client_rust
+
+_replace_main_method_name_rust:
+	$(MAKE) _sed_file SED_FILE_PATH=$(IMPLEMENTATION_FROM_DAFNY_TV_RUST_FILE) SED_BEFORE_STRING=$(IMPLEMENTATION_FROM_DAFNY_TV_RUST_MPL_MAIN) SED_AFTER_STRING=$(IMPLEMENTATION_FROM_DAFNY_TV_RUST_ESDK_MAIN)
+
+# TODO: Remove after wrapped client issue is fixed in Rust
+_remove_wrapped_client_rust:
+	$(MAKE) _sed_file SED_FILE_PATH=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_PRIMITIVES) SED_BEFORE_STRING=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_FROM_1) SED_AFTER_STRING=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_TO_1)
+	$(MAKE) _sed_file SED_FILE_PATH=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_PRIMITIVES) SED_BEFORE_STRING=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_FROM_2) SED_AFTER_STRING=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_TO_2)
+	$(MAKE) _sed_file SED_FILE_PATH=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_KEYSTORE) SED_BEFORE_STRING=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_FROM_1) SED_AFTER_STRING=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_TO_1)
+	$(MAKE) _sed_file SED_FILE_PATH=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_KEYSTORE) SED_BEFORE_STRING=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_FROM_2) SED_AFTER_STRING=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_TO_2)
+
 # Python
 
 # smithy.api namespace is a workaround for having a wrapped localService shim in a different Python package,
@@ -145,6 +177,12 @@ test_generate_vectors_python:
 	python3 -m tox -c runtimes/python --verbose -e cli -- encrypt-manifest --encrypt-manifest-output runtimes/python
 	cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/python
 
+test_generate_vectors_rust:
+	cd runtimes/rust && \
+	cargo run --bin test-vectors --features="wrapped-client" --release -- encrypt-manifest --encrypt-manifest-output . && \
+	cd ../../
+	cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/rust/
+
 test_encrypt_vectors_java:
 	gradle -p runtimes/java run --args="encrypt --manifest-path . --decrypt-manifest-path ."
 
@@ -158,6 +196,11 @@ test_encrypt_vectors_python:
 	rm -rf runtimes/python/.tox
 	python3 -m tox -c runtimes/python --verbose -e cli -- encrypt --manifest-path runtimes/python --decrypt-manifest-path runtimes/python
 
+test_encrypt_vectors_rust:
+	cd runtimes/rust && \
+	cargo run --bin test-vectors --features="wrapped-client" --release -- encrypt --manifest-path . --decrypt-manifest-path . && \
+	cd ../../
+
 test_decrypt_encrypt_vectors_java:
 	gradle -p runtimes/java run --args="decrypt --manifest-path ."
 
@@ -170,3 +213,8 @@ test_decrypt_encrypt_vectors_net:
 test_decrypt_encrypt_vectors_python:
 	rm -rf runtimes/python/.tox
 	python3 -m tox -c runtimes/python --verbose -e cli -- decrypt --manifest-path runtimes/python
+
+test_decrypt_encrypt_vectors_rust:
+	cd runtimes/rust && \
+	cargo run --bin test-vectors --features="wrapped-client" --release -- decrypt --manifest-path . && \
+	cd ../../
