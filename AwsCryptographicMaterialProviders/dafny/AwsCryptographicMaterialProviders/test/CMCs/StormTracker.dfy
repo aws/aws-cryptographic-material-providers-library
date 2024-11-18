@@ -251,6 +251,8 @@ module  {:options "/functionSyntax:4"} TestStormTracker {
     expect res.EmptyWait?;
     res :- expect st.GetFromCacheWithTime(MakeGet(one), 10002);
     expect res.EmptyFetch?;
+    res :- expect st.GetFromCacheWithTime(MakeGet(one), 10002);
+    expect res.EmptyWait?;
     res :- expect st.GetFromCacheWithTime(MakeGet(one), 10003);
     expect res.EmptyWait?;
 
@@ -264,6 +266,8 @@ module  {:options "/functionSyntax:4"} TestStormTracker {
     expect res.EmptyWait?;
     res :- expect st2.GetFromCacheWithTime(MakeGet(one), 10002);
     expect res.EmptyFetch?;
+    res :- expect st2.GetFromCacheWithTime(MakeGet(one), 10002);
+    expect res.EmptyWait?;
     res :- expect st2.GetFromCacheWithTime(MakeGet(one), 10003);
     expect res.EmptyWait?;
   }
