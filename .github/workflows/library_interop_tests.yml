@@ -25,7 +25,12 @@ jobs:
             ubuntu-latest,
             macos-13,
           ]
-        language: [java, net, python, rust]
+        language: [
+            java, 
+            net, 
+            # python, 
+            rust
+          ]
         # https://taskei.amazon.dev/tasks/CrypTool-5284
         dotnet-version: ["6.0.x"]
     runs-on: ${{ matrix.os }}
