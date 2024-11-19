@@ -350,20 +350,14 @@ module {:options "/functionSyntax:4" } Mutations {
     // TODO-Mutations-GA? :: If the KMS Call fails with access denied,
     // it indicates that the MPL Consumer does not have access to
     // GenerateDataKeyWithoutPlaintext on the terminal key.
-    var wrappedDecryptOnlyBranchKey? := KMSKeystoreOperations.GenerateKey(
-      encryptionContext := decryptOnlyEncryptionContext,
-      kmsConfiguration := KeyStoreTypes.kmsKeyArn(MutationToApply.Terminal.kmsArn),
-      grantTokens := input.keyManagerStrategy.reEncrypt.grantTokens,
-      kmsClient := input.keyManagerStrategy.reEncrypt.kmsClient
-    );
-    var wrappedDecryptOnlyBranchKey :- wrappedDecryptOnlyBranchKey?
-    .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
-    var newDecryptOnly := Structure.ConstructEncryptedHierarchicalKey(
+    var newDecryptOnly :- CreateNewTerminalDecryptOnlyBranchKey(
       decryptOnlyEncryptionContext,
-      wrappedDecryptOnlyBranchKey.CiphertextBlob.value
+      MutationToApply,
+      input.keyManagerStrategy
     );
-
+    
     var ActiveEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(newDecryptOnly.EncryptionContext);
+    
     var newActive :- ReEncryptHierarchicalKey(
       item := newDecryptOnly,
       originalKmsArn := MutationToApply.Terminal.kmsArn,
@@ -412,13 +406,7 @@ module {:options "/functionSyntax:4" } Mutations {
     // What Condition Check failed? Was the Key Versioned? Or did another M-Commitment get written?
     var _ :- throwAway2?.MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
 
-    var mutatedBranchKeyItems := [
-      Types.MutatedBranchKeyItem(ItemType := "Mutation Commitment: " + mutationCommitmentUUID, Description := "Created"),
-      Types.MutatedBranchKeyItem(ItemType := "Mutation Index: " + mutationCommitmentUUID, Description := "Created"),
-      Types.MutatedBranchKeyItem(ItemType := "Active: " + newVersion, Description := "Created"),
-      Types.MutatedBranchKeyItem(ItemType := "Decrypt Only: " + newVersion, Description := "Created"),
-      Types.MutatedBranchKeyItem(ItemType := "Beacon", Description := "Mutated")
-    ];
+    var mutatedBranchKeyItems := GetMutatedBranchKeyItems(mutationCommitmentUUID, newVersion);
 
     var Token := Types.MutationToken(
       Identifier := input.Identifier,
@@ -431,6 +419,73 @@ module {:options "/functionSyntax:4" } Mutations {
                      MutationToken := Token,
                      MutatedBranchKeyItems := mutatedBranchKeyItems,
                      InitializeMutationFlag := Flag));
+  }
+
+  function GetMutatedBranchKeyItems(mutationCommitmentUUID: seq<char>, newVersion: seq<char>)
+    : (output: seq<Types.MutatedBranchKeyItem>)
+  {
+    [Types.MutatedBranchKeyItem(ItemType := "Mutation Commitment: " + mutationCommitmentUUID, Description := "Created"),
+      Types.MutatedBranchKeyItem(ItemType := "Mutation Index: " + mutationCommitmentUUID, Description := "Created"),
+      Types.MutatedBranchKeyItem(ItemType := "Active: " + newVersion, Description := "Created"),
+      Types.MutatedBranchKeyItem(ItemType := "Decrypt Only: " + newVersion, Description := "Created"),
+      Types.MutatedBranchKeyItem(ItemType := "Beacon", Description := "Mutated")
+    ]
+  }
+
+  method {:vcs_split_on_every_assert} CreateNewTerminalDecryptOnlyBranchKey(
+    decryptOnlyEncryptionContext: Structure.BranchKeyContext,
+    mutationToApply: StateStrucs.MutationToApply,
+    keyManagerStrategy: KmsUtils.keyManagerStrat
+  ) 
+    returns (res: Result<KeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
+    requires KmsArn.ValidKmsArn?(mutationToApply.Terminal.kmsArn)
+    requires KMSKeystoreOperations.AttemptKmsOperation?(
+        KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn), decryptOnlyEncryptionContext
+    )
+    requires keyManagerStrategy.ValidState()
+    modifies 
+      match keyManagerStrategy
+      case reEncrypt(kms) => kms.kmsClient.Modifies
+      case decryptEncrypt(kmsD, kmsE) => kmsD.kmsClient.Modifies + kmsE.kmsClient.Modifies
+    ensures keyManagerStrategy.ValidState()
+    ensures res.Success? ==>
+      && Structure.BranchKeyContext?(res.value.EncryptionContext)
+      && Structure.EncryptedHierarchicalKey?(res.value)
+      && res.value.KmsArn == KMSKeystoreOperations.GetKeyId(KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn))
+      && Structure.BRANCH_KEY_TYPE_PREFIX < res.value.EncryptionContext[Structure.TYPE_FIELD]
+      && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in decryptOnlyEncryptionContext
+  {
+    var grantTokens: KMS.GrantTokenList;
+    var kmsClient: KMS.IKMSClient;
+    match keyManagerStrategy {
+      case reEncrypt(kms) =>
+        grantTokens := kms.grantTokens;
+        kmsClient := kms.kmsClient;
+      case decryptEncrypt(kmsD, kmsE) =>
+        grantTokens := kmsE.grantTokens;
+        kmsClient := kmsE.kmsClient;
+    }
+
+    var wrappedDecryptOnlyBranchKey? := KMSKeystoreOperations.GenerateKey(
+      encryptionContext := decryptOnlyEncryptionContext,
+      kmsConfiguration := KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn),
+      grantTokens := grantTokens,
+      kmsClient := kmsClient
+    );
+    var wrappedDecryptOnlyBranchKey :- wrappedDecryptOnlyBranchKey?
+    .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
+    
+    var newDecryptOnly := Structure.ConstructEncryptedHierarchicalKey(
+      decryptOnlyEncryptionContext,
+      wrappedDecryptOnlyBranchKey.CiphertextBlob.value
+    );
+
+    :- Need(
+      Structure.BRANCH_KEY_TYPE_PREFIX < newDecryptOnly.EncryptionContext[Structure.TYPE_FIELD],
+      Types.KeyStoreAdminException(message := "Invalid Branch Key prefix.") 
+    );
+
+    return Success(newDecryptOnly);
   }
 
   // Ensures:
@@ -730,7 +785,6 @@ module {:options "/functionSyntax:4" } Mutations {
     nameonly localOperation: string := "ApplyMutation"
   )
     returns (output: Outcome<Types.Error>)
-    requires keyManagerStrategy.reEncrypt?
 
     requires Structure.EncryptedHierarchicalKey?(item)
     requires KmsArn.ValidKmsArn?(item.KmsArn)
@@ -742,44 +796,72 @@ module {:options "/functionSyntax:4" } Mutations {
       case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
     ensures keyManagerStrategy.ValidState()
   {
-    match keyManagerStrategy
-    case reEncrypt(kms) =>
-      var throwAway? := KMSKeystoreOperations.ReEncryptKey(
-        ciphertext := item.CiphertextBlob,
-        sourceEncryptionContext := item.EncryptionContext,
-        destinationEncryptionContext := item.EncryptionContext,
-        kmsConfiguration := KeyStoreTypes.kmsKeyArn(item.KmsArn),
-        grantTokens := keyManagerStrategy.reEncrypt.grantTokens,
-        kmsClient := keyManagerStrategy.reEncrypt.kmsClient
-      );
-      if (
-          && throwAway?.Failure?
-          && keyManagerStrategy.reEncrypt?
-          && item.Type.ActiveHierarchicalSymmetricVersion?
-        ) {
-        var error := MutationErrorRefinement.VerifyActiveException(
-          branchKeyItem := item,
-          error := throwAway?.error,
-          localOperation := localOperation,
-          kmsOperation := "ReEncrypt");
-        return Fail(error);
-      }
-      if (
-          && throwAway?.Failure?
-          && keyManagerStrategy.reEncrypt?
-          && item.Type.HierarchicalSymmetricVersion?
-        ) {
-        var error := MutationErrorRefinement.VerifyTerminalException(
-          branchKeyItem := item,
-          error := throwAway?.error,
-          localOperation := localOperation,
-          kmsOperation := "ReEncrypt");
-        return Fail(error);
-      }
-      assert throwAway?.Success?;
-      return Pass;
-    case decryptEncrypt(kmsD, kmsE) =>
-      return Fail(Types.KeyStoreAdminException(message := "whelp"));
+    var kmsOperation: string;
+    var success?: bool := false;
+    var throwAwayError;
+
+    match keyManagerStrategy {
+      case reEncrypt(kms) => 
+        kmsOperation := "ReEncrypt";
+        var throwAway? := KMSKeystoreOperations.ReEncryptKey(
+          ciphertext := item.CiphertextBlob,
+          sourceEncryptionContext := item.EncryptionContext,
+          destinationEncryptionContext := item.EncryptionContext,
+          kmsConfiguration := KeyStoreTypes.kmsKeyArn(item.KmsArn),
+          grantTokens := kms.grantTokens,
+          kmsClient := kms.kmsClient
+        );
+        
+        if throwAway?.Success? {
+          success? := true;
+        } else {
+          throwAwayError := throwAway?.error;
+        }
+      
+      case decryptEncrypt(kmsD, kmsE) => 
+        kmsOperation := "Decrypt/Encrypt";
+        var throwAway? := KMSKeystoreOperations.VerifyViaDecryptEncryptKey(
+          ciphertext := item.CiphertextBlob,
+          sourceEncryptionContext := item.EncryptionContext,
+          destinationEncryptionContext := item.EncryptionContext,
+          kmsConfiguration := KeyStoreTypes.kmsKeyArn(item.KmsArn),
+          decryptGrantTokens := kmsD.grantTokens,
+          decryptKmsClient := kmsD.kmsClient
+        );
+        
+        if throwAway?.Success? {
+          success? := true;
+        } else {
+          throwAwayError := throwAway?.error;
+        }
+    }
+
+    if (
+      && !success? 
+      && item.Type.ActiveHierarchicalSymmetricVersion?
+    ) {
+      var error := MutationErrorRefinement.VerifyActiveException(
+        branchKeyItem := item,
+        error := throwAwayError,
+        localOperation := localOperation,
+        kmsOperation := kmsOperation);
+      return Fail(error);
+    }
+
+    if (
+      && !success? 
+      && item.Type.HierarchicalSymmetricVersion?
+    ) {
+      var error := MutationErrorRefinement.VerifyTerminalException(
+        branchKeyItem := item,
+        error := throwAwayError,
+        localOperation := localOperation,
+        kmsOperation := kmsOperation);
+      return Fail(error);
+    }
+
+    assert success?;
+    return Pass;
   }
 
   method {:isolate_assertions} ReEncryptHierarchicalKey(
@@ -791,7 +873,6 @@ module {:options "/functionSyntax:4" } Mutations {
     nameonly localOperation: string := "ApplyMutation"
   )
     returns (output: Result<Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
-    requires keyManagerStrategy.reEncrypt?
     requires Structure.EncryptedHierarchicalKey?(item)
     requires KMS.IsValid_KeyIdType(terminalKmsArn)
     requires KMSKeystoreOperations.AttemptReEncrypt?(item.EncryptionContext, terminalEncryptionContext)
@@ -804,14 +885,25 @@ module {:options "/functionSyntax:4" } Mutations {
       case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
     ensures keyManagerStrategy.ValidState()
   {
+    var grantTokens: KMS.GrantTokenList;
+    var kmsClient: KMS.IKMSClient;
+    match keyManagerStrategy {
+      case reEncrypt(kms) =>
+        grantTokens := kms.grantTokens;
+        kmsClient := kms.kmsClient;
+      case decryptEncrypt(kmsD, kmsE) =>
+        grantTokens := kmsE.grantTokens;
+        kmsClient := kmsE.kmsClient;
+    }
+
     var wrappedKey? := KMSKeystoreOperations.MutateViaReEncrypt(
       ciphertext := item.CiphertextBlob,
       sourceEncryptionContext := item.EncryptionContext,
       destinationEncryptionContext := terminalEncryptionContext,
       sourceKmsArn := originalKmsArn,
       destinationKmsArn := terminalKmsArn,
-      grantTokens := keyManagerStrategy.reEncrypt.grantTokens,
-      kmsClient := keyManagerStrategy.reEncrypt.kmsClient
+      grantTokens := grantTokens,
+      kmsClient := kmsClient
     );
     // We call this method to create the new Active from the new Decrypt Only
     if (wrappedKey?.Failure? && item.Type.ActiveHierarchicalSymmetricVersion?) {
