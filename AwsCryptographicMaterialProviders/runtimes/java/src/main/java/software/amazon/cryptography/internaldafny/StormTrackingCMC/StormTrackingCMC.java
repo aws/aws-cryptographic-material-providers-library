@@ -91,8 +91,6 @@ public class StormTrackingCMC
   > GetCacheEntry_k(
     software.amazon.cryptography.materialproviders.internaldafny.types.GetCacheEntryInput input
   ) {
-    final boolean hasMax = wrapped.maxWaitMilli().is_Some();
-    Long maxWait = Time.__default.CurrentRelativeTimeMilli() + (hasMax ? wrapped.maxWaitMilli().dtor_value() : 0);
     while (true) {
       Wrappers_Compile.Result<
         CacheState,
@@ -110,15 +108,7 @@ public class StormTrackingCMC
         );
       } else {
         try {
-          if (!hasMax || Time.__default.CurrentRelativeTimeMilli() <= maxWait) {
-            Thread.sleep(wrapped.sleepMilli);
-          } else {
-            return CreateGetCacheEntryFailure(
-              software.amazon.cryptography.materialproviders.internaldafny.types.Error.create_Opaque(
-                new RuntimeException("max wait exceeded.")
-              )
-            );
-          }
+          Thread.sleep(wrapped.sleepMilli);
         } catch (Exception e) {
           return CreateGetCacheEntryFailure(
             software.amazon.cryptography.materialproviders.internaldafny.types.Error.create_Opaque(

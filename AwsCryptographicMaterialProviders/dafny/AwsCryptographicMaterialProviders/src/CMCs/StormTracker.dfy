@@ -127,13 +127,12 @@ module {:options "/functionSyntax:4" }  StormTracker {
     }
     var wrapped : LocalCMC.LocalCMC // the actual cache
     var inFlight: MutableMap<seq<uint8>, Types.PositiveLong> // the time at which this key became in flight
-    var gracePeriod : Types.PositiveLong // milliseconds before expiration that we start putting things in flight
-    var graceInterval : Types.PositiveLong // minimum milliseconds before putting the same key in flight again
+    var gracePeriod : Types.PositiveLong // seconds before expiration that we start putting things in flight
+    var graceInterval : Types.PositiveLong // minimum seconds before putting the same key in flight again
     var fanOut : Types.PositiveLong // maximum keys in flight at one time
-    var inFlightTTL : Types.PositiveLong // maximum milliseconds before a key is no longer in flight
+    var inFlightTTL : Types.PositiveLong // maximum time before a key is no longer in flight
     var lastPrune : Types.PositiveLong // timestamp of last call to PruneInFlight
     var sleepMilli : Types.PositiveLong // how long to sleep, if we sleep
-    const maxWaitMilli: Option<Types.PositiveLong> // the maximum milliseconds to wait
 
     constructor(
       cache: Types.StormTrackingCache
@@ -167,10 +166,6 @@ module {:options "/functionSyntax:4" }  StormTracker {
       this.inFlightTTL := inFlightTTL;
       this.sleepMilli := cache.sleepMilli as Types.PositiveLong;
       this.lastPrune := 0;
-      this.maxWaitMilli := if cache.maxWaitMilli.Some? then
-        Some(cache.maxWaitMilli.value as Types.PositiveLong)
-      else
-        None;
     }
 
     // return true if InFlight is full

@@ -1624,8 +1624,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly fanOut: CountingNumber ,
     nameonly inFlightTTL: CountingNumber ,
     nameonly sleepMilli: CountingNumber ,
-    nameonly timeUnits: Option<TimeUnits> := Option.None ,
-    nameonly maxWaitMilli: Option<CountingNumber> := Option.None
+    nameonly timeUnits: Option<TimeUnits> := Option.None
   )
   datatype SymmetricSignatureAlgorithm =
     | HMAC(HMAC: AwsCryptographyPrimitivesTypes.DigestAlgorithm)

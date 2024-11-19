@@ -52,11 +52,6 @@ public class StormTrackingCache {
    */
   private final TimeUnits timeUnits;
 
-  /**
-   * The maximum number of milliseconds that the cache will wait if fanOut is exceeded.
-   */
-  private final int maxWaitMilli;
-
   protected StormTrackingCache(BuilderImpl builder) {
     this.entryCapacity = builder.entryCapacity();
     this.entryPruningTailSize = builder.entryPruningTailSize();
@@ -66,7 +61,6 @@ public class StormTrackingCache {
     this.inFlightTTL = builder.inFlightTTL();
     this.sleepMilli = builder.sleepMilli();
     this.timeUnits = builder.timeUnits();
-    this.maxWaitMilli = builder.maxWaitMilli();
   }
 
   /**
@@ -126,13 +120,6 @@ public class StormTrackingCache {
    */
   public TimeUnits timeUnits() {
     return this.timeUnits;
-  }
-
-  /**
-   * @return The maximum number of milliseconds that the cache will wait if fanOut is exceeded.
-   */
-  public int maxWaitMilli() {
-    return this.maxWaitMilli;
   }
 
   public Builder toBuilder() {
@@ -230,16 +217,6 @@ public class StormTrackingCache {
      */
     TimeUnits timeUnits();
 
-    /**
-     * @param maxWaitMilli The maximum number of milliseconds that the cache will wait if fanOut is exceeded.
-     */
-    Builder maxWaitMilli(int maxWaitMilli);
-
-    /**
-     * @return The maximum number of milliseconds that the cache will wait if fanOut is exceeded.
-     */
-    int maxWaitMilli();
-
     StormTrackingCache build();
   }
 
@@ -275,10 +252,6 @@ public class StormTrackingCache {
 
     protected TimeUnits timeUnits;
 
-    protected int maxWaitMilli;
-
-    private boolean _maxWaitMilliSet = false;
-
     protected BuilderImpl() {}
 
     protected BuilderImpl(StormTrackingCache model) {
@@ -297,8 +270,6 @@ public class StormTrackingCache {
       this.sleepMilli = model.sleepMilli();
       this._sleepMilliSet = true;
       this.timeUnits = model.timeUnits();
-      this.maxWaitMilli = model.maxWaitMilli();
-      this._maxWaitMilliSet = true;
     }
 
     public Builder entryCapacity(int entryCapacity) {
@@ -380,16 +351,6 @@ public class StormTrackingCache {
       return this.timeUnits;
     }
 
-    public Builder maxWaitMilli(int maxWaitMilli) {
-      this.maxWaitMilli = maxWaitMilli;
-      this._maxWaitMilliSet = true;
-      return this;
-    }
-
-    public int maxWaitMilli() {
-      return this.maxWaitMilli;
-    }
-
     public StormTrackingCache build() {
       if (!this._entryCapacitySet) {
         throw new IllegalArgumentException(
@@ -454,11 +415,6 @@ public class StormTrackingCache {
       if (this._sleepMilliSet && this.sleepMilli() < 1) {
         throw new IllegalArgumentException(
           "`sleepMilli` must be greater than or equal to 1"
-        );
-      }
-      if (this._maxWaitMilliSet && this.maxWaitMilli() < 1) {
-        throw new IllegalArgumentException(
-          "`maxWaitMilli` must be greater than or equal to 1"
         );
       }
       return new StormTrackingCache(this);

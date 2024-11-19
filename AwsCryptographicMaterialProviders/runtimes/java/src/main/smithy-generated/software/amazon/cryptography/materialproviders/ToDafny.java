@@ -1767,11 +1767,6 @@ public class ToDafny {
           ToDafny.TimeUnits(nativeValue.timeUnits())
         )
         : Option.create_None(TimeUnits._typeDescriptor());
-    Option<Integer> maxWaitMilli;
-    maxWaitMilli =
-      Objects.nonNull(nativeValue.maxWaitMilli())
-        ? Option.create_Some(TypeDescriptor.INT, (nativeValue.maxWaitMilli()))
-        : Option.create_None(TypeDescriptor.INT);
     return new StormTrackingCache(
       entryCapacity,
       entryPruningTailSize,
@@ -1780,8 +1775,7 @@ public class ToDafny {
       fanOut,
       inFlightTTL,
       sleepMilli,
-      timeUnits,
-      maxWaitMilli
+      timeUnits
     );
   }
 
