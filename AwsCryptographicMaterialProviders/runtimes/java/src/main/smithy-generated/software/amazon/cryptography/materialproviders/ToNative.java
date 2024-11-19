@@ -19,6 +19,7 @@ import software.amazon.cryptography.materialproviders.internaldafny.types.Error_
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_CollectionOfErrors;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_EntryAlreadyExists;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_EntryDoesNotExist;
+import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InFlightTTLExceeded;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidAlgorithmSuiteInfo;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidAlgorithmSuiteInfoOnDecrypt;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidAlgorithmSuiteInfoOnEncrypt;
@@ -84,6 +85,7 @@ import software.amazon.cryptography.materialproviders.model.GetEncryptionMateria
 import software.amazon.cryptography.materialproviders.model.GetEncryptionMaterialsOutput;
 import software.amazon.cryptography.materialproviders.model.HKDF;
 import software.amazon.cryptography.materialproviders.model.IDENTITY;
+import software.amazon.cryptography.materialproviders.model.InFlightTTLExceeded;
 import software.amazon.cryptography.materialproviders.model.InitializeDecryptionMaterialsInput;
 import software.amazon.cryptography.materialproviders.model.InitializeEncryptionMaterialsInput;
 import software.amazon.cryptography.materialproviders.model.IntermediateKeyWrapping;
@@ -194,6 +196,18 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static InFlightTTLExceeded Error(
+    Error_InFlightTTLExceeded dafnyValue
+  ) {
+    InFlightTTLExceeded.Builder nativeBuilder = InFlightTTLExceeded.builder();
+    nativeBuilder.message(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_message()
+      )
+    );
+    return nativeBuilder.build();
+  }
+
   public static InvalidAlgorithmSuiteInfo Error(
     Error_InvalidAlgorithmSuiteInfo dafnyValue
   ) {
@@ -296,6 +310,9 @@ public class ToNative {
     }
     if (dafnyValue.is_EntryDoesNotExist()) {
       return ToNative.Error((Error_EntryDoesNotExist) dafnyValue);
+    }
+    if (dafnyValue.is_InFlightTTLExceeded()) {
+      return ToNative.Error((Error_InFlightTTLExceeded) dafnyValue);
     }
     if (dafnyValue.is_InvalidAlgorithmSuiteInfo()) {
       return ToNative.Error((Error_InvalidAlgorithmSuiteInfo) dafnyValue);

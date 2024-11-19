@@ -126,6 +126,12 @@ structure EntryAlreadyExists {
   message: String,
 }
 
+@error("client")
+structure InFlightTTLExceeded {
+  @required
+  message: String,
+}
+
 // Materials Cache Constructors
 
 @positional

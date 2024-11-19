@@ -1665,6 +1665,9 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     | EntryDoesNotExist (
         nameonly message: string
       )
+    | InFlightTTLExceeded (
+        nameonly message: string
+      )
     | InvalidAlgorithmSuiteInfo (
         nameonly message: string
       )

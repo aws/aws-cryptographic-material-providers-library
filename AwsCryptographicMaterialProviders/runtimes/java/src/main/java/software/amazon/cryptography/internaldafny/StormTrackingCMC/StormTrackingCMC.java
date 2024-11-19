@@ -113,8 +113,8 @@ public class StormTrackingCMC
             Thread.sleep(wrapped.sleepMilli);
           } else {
             return CreateGetCacheEntryFailure(
-              software.amazon.cryptography.materialproviders.internaldafny.types.Error.create_EntryDoesNotExist(
-                dafny.DafnySequence.asString("Entry does not exist")
+              software.amazon.cryptography.materialproviders.internaldafny.types.Error.create_InFlightTTLExceeded(
+                dafny.DafnySequence.asString("Storm cache inFlightTTL exceeded.")
               )
             );
           }

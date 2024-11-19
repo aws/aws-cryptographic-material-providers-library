@@ -65,6 +65,7 @@ import software.amazon.cryptography.materialproviders.internaldafny.types.Error;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_EntryAlreadyExists;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_EntryDoesNotExist;
+import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InFlightTTLExceeded;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidAlgorithmSuiteInfo;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidAlgorithmSuiteInfoOnDecrypt;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidAlgorithmSuiteInfoOnEncrypt;
@@ -119,6 +120,7 @@ import software.amazon.cryptography.materialproviders.model.CollectionOfErrors;
 import software.amazon.cryptography.materialproviders.model.DIRECT_KEY_WRAPPING;
 import software.amazon.cryptography.materialproviders.model.EntryAlreadyExists;
 import software.amazon.cryptography.materialproviders.model.EntryDoesNotExist;
+import software.amazon.cryptography.materialproviders.model.InFlightTTLExceeded;
 import software.amazon.cryptography.materialproviders.model.InvalidAlgorithmSuiteInfo;
 import software.amazon.cryptography.materialproviders.model.InvalidAlgorithmSuiteInfoOnDecrypt;
 import software.amazon.cryptography.materialproviders.model.InvalidAlgorithmSuiteInfoOnEncrypt;
@@ -147,6 +149,9 @@ public class ToDafny {
     }
     if (nativeValue instanceof EntryDoesNotExist) {
       return ToDafny.Error((EntryDoesNotExist) nativeValue);
+    }
+    if (nativeValue instanceof InFlightTTLExceeded) {
+      return ToDafny.Error((InFlightTTLExceeded) nativeValue);
     }
     if (nativeValue instanceof InvalidAlgorithmSuiteInfo) {
       return ToDafny.Error((InvalidAlgorithmSuiteInfo) nativeValue);
@@ -1865,6 +1870,15 @@ public class ToDafny {
         nativeValue.message()
       );
     return new Error_EntryDoesNotExist(message);
+  }
+
+  public static Error Error(InFlightTTLExceeded nativeValue) {
+    DafnySequence<? extends Character> message;
+    message =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.message()
+      );
+    return new Error_InFlightTTLExceeded(message);
   }
 
   public static Error Error(InvalidAlgorithmSuiteInfo nativeValue) {
