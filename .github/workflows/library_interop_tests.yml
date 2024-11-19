@@ -26,10 +26,10 @@ jobs:
             macos-13,
           ]
         language: [
-            java, 
-            net, 
-            # python, 
-            rust
+            java,
+            net,
+            # python,
+            rust,
           ]
         # https://taskei.amazon.dev/tasks/CrypTool-5284
         dotnet-version: ["6.0.x"]
@@ -201,13 +201,13 @@ jobs:
             java,
             net,
             # python,
-            rust
+            rust,
           ]
         decrypting_language: [
             java,
             net,
             # python,
-            rust
+            rust,
           ]
         dotnet-version: ["6.0.x"]
     runs-on: ${{ matrix.os }}
