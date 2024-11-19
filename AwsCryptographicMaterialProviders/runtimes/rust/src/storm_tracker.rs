@@ -60,9 +60,9 @@ pub mod internal_StormTrackingCMC {
                         Full { data } => { return std::rc::Rc::new(crate::_Wrappers_Compile::Result::Success{value : data.clone()}); }
                         EmptyFetch {} => {
                             return std::rc::Rc::new(crate::_Wrappers_Compile::Result::Failure{error :
-                                std::rc::Rc::new(crate::software::amazon::cryptography::materialproviders::internaldafny::types::Error::EntryDoesNotExist { message:
+                                std::rc::Rc::new(crate::software::amazon::cryptography::materialproviders::internaldafny::types::Error::InFlightTTLExceeded { message:
                                     dafny_runtime::dafny_runtime_conversions::unicode_chars_false::string_to_dafny_string(
-                                        "Entry does not exist"
+                                        "Storm cache inFlightTTL exceeded"
                                     )
                                 },
                             )});
