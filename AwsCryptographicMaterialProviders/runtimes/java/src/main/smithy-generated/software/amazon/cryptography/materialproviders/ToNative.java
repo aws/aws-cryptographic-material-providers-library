@@ -19,6 +19,7 @@ import software.amazon.cryptography.materialproviders.internaldafny.types.Error_
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_CollectionOfErrors;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_EntryAlreadyExists;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_EntryDoesNotExist;
+import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InFlightTTLExceeded;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidAlgorithmSuiteInfo;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidAlgorithmSuiteInfoOnDecrypt;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidAlgorithmSuiteInfoOnEncrypt;
@@ -84,6 +85,7 @@ import software.amazon.cryptography.materialproviders.model.GetEncryptionMateria
 import software.amazon.cryptography.materialproviders.model.GetEncryptionMaterialsOutput;
 import software.amazon.cryptography.materialproviders.model.HKDF;
 import software.amazon.cryptography.materialproviders.model.IDENTITY;
+import software.amazon.cryptography.materialproviders.model.InFlightTTLExceeded;
 import software.amazon.cryptography.materialproviders.model.InitializeDecryptionMaterialsInput;
 import software.amazon.cryptography.materialproviders.model.InitializeEncryptionMaterialsInput;
 import software.amazon.cryptography.materialproviders.model.IntermediateKeyWrapping;
@@ -119,6 +121,7 @@ import software.amazon.cryptography.materialproviders.model.SingleThreadedCache;
 import software.amazon.cryptography.materialproviders.model.StaticConfigurations;
 import software.amazon.cryptography.materialproviders.model.StormTrackingCache;
 import software.amazon.cryptography.materialproviders.model.SymmetricSignatureAlgorithm;
+import software.amazon.cryptography.materialproviders.model.TimeUnits;
 import software.amazon.cryptography.materialproviders.model.UpdateUsageMetadataInput;
 import software.amazon.cryptography.materialproviders.model.ValidDecryptionMaterialsTransitionInput;
 import software.amazon.cryptography.materialproviders.model.ValidEncryptionMaterialsTransitionInput;
@@ -185,6 +188,18 @@ public class ToNative {
 
   public static EntryDoesNotExist Error(Error_EntryDoesNotExist dafnyValue) {
     EntryDoesNotExist.Builder nativeBuilder = EntryDoesNotExist.builder();
+    nativeBuilder.message(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_message()
+      )
+    );
+    return nativeBuilder.build();
+  }
+
+  public static InFlightTTLExceeded Error(
+    Error_InFlightTTLExceeded dafnyValue
+  ) {
+    InFlightTTLExceeded.Builder nativeBuilder = InFlightTTLExceeded.builder();
     nativeBuilder.message(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
         dafnyValue.dtor_message()
@@ -295,6 +310,9 @@ public class ToNative {
     }
     if (dafnyValue.is_EntryDoesNotExist()) {
       return ToNative.Error((Error_EntryDoesNotExist) dafnyValue);
+    }
+    if (dafnyValue.is_InFlightTTLExceeded()) {
+      return ToNative.Error((Error_InFlightTTLExceeded) dafnyValue);
     }
     if (dafnyValue.is_InvalidAlgorithmSuiteInfo()) {
       return ToNative.Error((Error_InvalidAlgorithmSuiteInfo) dafnyValue);
@@ -1448,6 +1466,11 @@ public class ToNative {
     nativeBuilder.fanOut((dafnyValue.dtor_fanOut()));
     nativeBuilder.inFlightTTL((dafnyValue.dtor_inFlightTTL()));
     nativeBuilder.sleepMilli((dafnyValue.dtor_sleepMilli()));
+    if (dafnyValue.dtor_timeUnits().is_Some()) {
+      nativeBuilder.timeUnits(
+        ToNative.TimeUnits(dafnyValue.dtor_timeUnits().dtor_value())
+      );
+    }
     return nativeBuilder.build();
   }
 
@@ -1650,6 +1673,21 @@ public class ToNative {
     }
     throw new IllegalArgumentException(
       "No entry of software.amazon.cryptography.materialproviders.model.PaddingScheme matches the input : " +
+      dafnyValue
+    );
+  }
+
+  public static TimeUnits TimeUnits(
+    software.amazon.cryptography.materialproviders.internaldafny.types.TimeUnits dafnyValue
+  ) {
+    if (dafnyValue.is_Seconds()) {
+      return TimeUnits.Seconds;
+    }
+    if (dafnyValue.is_Milliseconds()) {
+      return TimeUnits.Milliseconds;
+    }
+    throw new IllegalArgumentException(
+      "No entry of software.amazon.cryptography.materialproviders.model.TimeUnits matches the input : " +
       dafnyValue
     );
   }

@@ -805,6 +805,19 @@ namespace AWS.Cryptography.MaterialProviders
 
       return new software.amazon.cryptography.materialproviders.internaldafny.types.GetEncryptionMaterialsOutput(ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_GetEncryptionMaterialsOutput__M19_encryptionMaterials(value.EncryptionMaterials));
     }
+    public static AWS.Cryptography.MaterialProviders.InFlightTTLExceeded FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_InFlightTTLExceeded(software.amazon.cryptography.materialproviders.internaldafny.types.Error_InFlightTTLExceeded value)
+    {
+      return new AWS.Cryptography.MaterialProviders.InFlightTTLExceeded(
+      FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_InFlightTTLExceeded__M7_message(value._message)
+      );
+    }
+    public static software.amazon.cryptography.materialproviders.internaldafny.types.Error_InFlightTTLExceeded ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_InFlightTTLExceeded(AWS.Cryptography.MaterialProviders.InFlightTTLExceeded value)
+    {
+
+      return new software.amazon.cryptography.materialproviders.internaldafny.types.Error_InFlightTTLExceeded(
+      ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_InFlightTTLExceeded__M7_message(value.Message)
+      );
+    }
     public static AWS.Cryptography.MaterialProviders.InitializeDecryptionMaterialsInput FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S34_InitializeDecryptionMaterialsInput(software.amazon.cryptography.materialproviders.internaldafny.types._IInitializeDecryptionMaterialsInput value)
     {
       software.amazon.cryptography.materialproviders.internaldafny.types.InitializeDecryptionMaterialsInput concrete = (software.amazon.cryptography.materialproviders.internaldafny.types.InitializeDecryptionMaterialsInput)value; AWS.Cryptography.MaterialProviders.InitializeDecryptionMaterialsInput converted = new AWS.Cryptography.MaterialProviders.InitializeDecryptionMaterialsInput(); converted.AlgorithmSuiteId = (AWS.Cryptography.MaterialProviders.AlgorithmSuiteId)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S34_InitializeDecryptionMaterialsInput__M16_algorithmSuiteId(concrete._algorithmSuiteId);
@@ -1214,6 +1227,18 @@ namespace AWS.Cryptography.MaterialProviders
         return software.amazon.cryptography.materialproviders.internaldafny.types.SymmetricSignatureAlgorithm.create_None(ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S27_SymmetricSignatureAlgorithm__M4_None(value.None));
       }
       throw new System.ArgumentException("Invalid AWS.Cryptography.MaterialProviders.SymmetricSignatureAlgorithm state");
+    }
+    public static AWS.Cryptography.MaterialProviders.TimeUnits FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S9_TimeUnits(software.amazon.cryptography.materialproviders.internaldafny.types._ITimeUnits value)
+    {
+      if (value.is_Seconds) return AWS.Cryptography.MaterialProviders.TimeUnits.Seconds;
+      if (value.is_Milliseconds) return AWS.Cryptography.MaterialProviders.TimeUnits.Milliseconds;
+      throw new System.ArgumentException("Invalid AWS.Cryptography.MaterialProviders.TimeUnits value");
+    }
+    public static software.amazon.cryptography.materialproviders.internaldafny.types._ITimeUnits ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S9_TimeUnits(AWS.Cryptography.MaterialProviders.TimeUnits value)
+    {
+      if (AWS.Cryptography.MaterialProviders.TimeUnits.Seconds.Equals(value)) return software.amazon.cryptography.materialproviders.internaldafny.types.TimeUnits.create_Seconds();
+      if (AWS.Cryptography.MaterialProviders.TimeUnits.Milliseconds.Equals(value)) return software.amazon.cryptography.materialproviders.internaldafny.types.TimeUnits.create_Milliseconds();
+      throw new System.ArgumentException("Invalid AWS.Cryptography.MaterialProviders.TimeUnits value");
     }
     public static AWS.Cryptography.MaterialProviders.UpdateUsageMetadataInput FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S24_UpdateUsageMetadataInput(software.amazon.cryptography.materialproviders.internaldafny.types._IUpdateUsageMetadataInput value)
     {
@@ -2334,6 +2359,14 @@ namespace AWS.Cryptography.MaterialProviders
     {
       return ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_EncryptionMaterials(value);
     }
+    public static string FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_InFlightTTLExceeded__M7_message(Dafny.ISequence<char> value)
+    {
+      return FromDafny_N6_smithy__N3_api__S6_String(value);
+    }
+    public static Dafny.ISequence<char> ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_InFlightTTLExceeded__M7_message(string value)
+    {
+      return ToDafny_N6_smithy__N3_api__S6_String(value);
+    }
     public static AWS.Cryptography.MaterialProviders.AlgorithmSuiteId FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S34_InitializeDecryptionMaterialsInput__M16_algorithmSuiteId(software.amazon.cryptography.materialproviders.internaldafny.types._IAlgorithmSuiteId value)
     {
       return FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S16_AlgorithmSuiteId(value);
@@ -2829,13 +2862,15 @@ namespace AWS.Cryptography.MaterialProviders
       converted.GraceInterval = (int)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M13_graceInterval(concrete._graceInterval);
       converted.FanOut = (int)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M6_fanOut(concrete._fanOut);
       converted.InFlightTTL = (int)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M11_inFlightTTL(concrete._inFlightTTL);
-      converted.SleepMilli = (int)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M10_sleepMilli(concrete._sleepMilli); return converted;
+      converted.SleepMilli = (int)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M10_sleepMilli(concrete._sleepMilli);
+      if (concrete._timeUnits.is_Some) converted.TimeUnits = (AWS.Cryptography.MaterialProviders.TimeUnits)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M9_timeUnits(concrete._timeUnits); return converted;
     }
     public static software.amazon.cryptography.materialproviders.internaldafny.types._IStormTrackingCache ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache(AWS.Cryptography.MaterialProviders.StormTrackingCache value)
     {
       value.Validate();
       int? var_entryPruningTailSize = value.IsSetEntryPruningTailSize() ? value.EntryPruningTailSize : (int?)null;
-      return new software.amazon.cryptography.materialproviders.internaldafny.types.StormTrackingCache(ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M13_entryCapacity(value.EntryCapacity), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M20_entryPruningTailSize(var_entryPruningTailSize), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M11_gracePeriod(value.GracePeriod), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M13_graceInterval(value.GraceInterval), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M6_fanOut(value.FanOut), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M11_inFlightTTL(value.InFlightTTL), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M10_sleepMilli(value.SleepMilli));
+      AWS.Cryptography.MaterialProviders.TimeUnits var_timeUnits = value.IsSetTimeUnits() ? value.TimeUnits : (AWS.Cryptography.MaterialProviders.TimeUnits)null;
+      return new software.amazon.cryptography.materialproviders.internaldafny.types.StormTrackingCache(ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M13_entryCapacity(value.EntryCapacity), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M20_entryPruningTailSize(var_entryPruningTailSize), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M11_gracePeriod(value.GracePeriod), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M13_graceInterval(value.GraceInterval), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M6_fanOut(value.FanOut), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M11_inFlightTTL(value.InFlightTTL), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M10_sleepMilli(value.SleepMilli), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M9_timeUnits(var_timeUnits));
     }
     public static AWS.Cryptography.MaterialProviders.ICryptographicMaterialsCache FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CryptographicMaterialsCacheReference(software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsCache value)
     {
@@ -3385,6 +3420,14 @@ namespace AWS.Cryptography.MaterialProviders
     {
       return ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S14_CountingNumber(value);
     }
+    public static AWS.Cryptography.MaterialProviders.TimeUnits FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M9_timeUnits(Wrappers_Compile._IOption<software.amazon.cryptography.materialproviders.internaldafny.types._ITimeUnits> value)
+    {
+      return value.is_None ? (AWS.Cryptography.MaterialProviders.TimeUnits)null : FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S9_TimeUnits(value.Extract());
+    }
+    public static Wrappers_Compile._IOption<software.amazon.cryptography.materialproviders.internaldafny.types._ITimeUnits> ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M9_timeUnits(AWS.Cryptography.MaterialProviders.TimeUnits value)
+    {
+      return value == null ? Wrappers_Compile.Option<software.amazon.cryptography.materialproviders.internaldafny.types._ITimeUnits>.create_None() : Wrappers_Compile.Option<software.amazon.cryptography.materialproviders.internaldafny.types._ITimeUnits>.create_Some(ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S9_TimeUnits((AWS.Cryptography.MaterialProviders.TimeUnits)value));
+    }
     public static System.Collections.Generic.List<string> FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S15_DiscoveryFilter__M10_accountIds(Dafny.ISequence<Dafny.ISequence<char>> value)
     {
       return FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S13_AccountIdList(value);
@@ -3914,6 +3957,8 @@ namespace AWS.Cryptography.MaterialProviders
           return FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_EntryAlreadyExists(dafnyVal);
         case software.amazon.cryptography.materialproviders.internaldafny.types.Error_EntryDoesNotExist dafnyVal:
           return FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S17_EntryDoesNotExist(dafnyVal);
+        case software.amazon.cryptography.materialproviders.internaldafny.types.Error_InFlightTTLExceeded dafnyVal:
+          return FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_InFlightTTLExceeded(dafnyVal);
         case software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidAlgorithmSuiteInfo dafnyVal:
           return FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S25_InvalidAlgorithmSuiteInfo(dafnyVal);
         case software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidAlgorithmSuiteInfoOnDecrypt dafnyVal:
@@ -3953,6 +3998,8 @@ namespace AWS.Cryptography.MaterialProviders
           return ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_EntryAlreadyExists(exception);
         case AWS.Cryptography.MaterialProviders.EntryDoesNotExist exception:
           return ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S17_EntryDoesNotExist(exception);
+        case AWS.Cryptography.MaterialProviders.InFlightTTLExceeded exception:
+          return ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_InFlightTTLExceeded(exception);
         case AWS.Cryptography.MaterialProviders.InvalidAlgorithmSuiteInfo exception:
           return ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S25_InvalidAlgorithmSuiteInfo(exception);
         case AWS.Cryptography.MaterialProviders.InvalidAlgorithmSuiteInfoOnDecrypt exception:
