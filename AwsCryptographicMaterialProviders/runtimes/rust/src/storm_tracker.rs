@@ -51,6 +51,8 @@ pub mod internal_StormTrackingCMC {
     -> std::rc::Rc<crate::_Wrappers_Compile::Result<std::rc::Rc<crate::software::amazon::cryptography::materialproviders::internaldafny::types::GetCacheEntryOutput>, std::rc::Rc<crate::software::amazon::cryptography::materialproviders::internaldafny::types::Error>>>
     {
         let max_in_flight = crate::Time::_default::CurrentRelativeTimeMilli() + unsafe { *(*self.wrapped.lock().unwrap()).as_ref().inFlightTTL.get() };
+        let sleep_milli = crate::Time::_default::CurrentRelativeTimeMilli() + unsafe { *(*self.wrapped.lock().unwrap()).as_ref().sleepMilli.get() };
+        let sleep_time = Duration::from_millis(sleep_milli as u64);
         loop {
             let result = self.wrapped.lock().unwrap().as_mut().GetFromCache(input);
             match &*result {
@@ -69,7 +71,7 @@ pub mod internal_StormTrackingCMC {
                         }
                         EmptyWait {} => {
                             if (crate::Time::_default::CurrentRelativeTimeMilli() <= max_in_flight) {
-                                std::thread::sleep(Duration::from_micros(50)); 
+                                std::thread::sleep(sleep_time);
                             } else {
                                 return std::rc::Rc::new(crate::_Wrappers_Compile::Result::Failure{error :
                                     std::rc::Rc::new(crate::software::amazon::cryptography::materialproviders::internaldafny::types::Error::InFlightTTLExceeded { message:
