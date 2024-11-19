@@ -28,7 +28,7 @@ jobs:
         language: [
             java,
             net,
-            # python,
+            python,
             rust,
           ]
         # https://taskei.amazon.dev/tasks/CrypTool-5284
@@ -200,13 +200,13 @@ jobs:
         encrypting_language: [
             java,
             net,
-            # python,
+            python,
             rust,
           ]
         decrypting_language: [
             java,
             net,
-            # python,
+            python,
             rust,
           ]
         dotnet-version: ["6.0.x"]
