@@ -54,16 +54,8 @@ module {:options "/functionSyntax:4" }  StormTracker {
   // = type=implication
   // # - The [Inflight TTL](#inflight-ttl) MUST be less than or equal to the [Grace Period](#grace-period).
 
-  // Update the spec.
-  // It was assuming that we are always in a happy place.
-  // However, if the cache is empty and the system is unable to populate the cache
-  // because the item is generally failing,
-  // then would result in the system backing up
-  // and both processing everything serially,
-  // but also waiting the maximum duration between attempts.
-
   // = aws-encryption-sdk-specification/framework/storm-tracking-cryptographic-materials-cache.md#consistency
-  // = type=exception
+  // = type=implication
   // # - The [Grace Interval](#grace-interval) MUST be less than or equal to the [Inflight TTL](#inflight-ttl).
 
   predicate ConsistentSettings(
@@ -71,6 +63,7 @@ module {:options "/functionSyntax:4" }  StormTracker {
   ) {
     && cache.graceInterval <= cache.gracePeriod
     && cache.inFlightTTL <= cache.gracePeriod
+    && cache.graceInterval <= cache.inFlightTTL
   }
 
   function N(n : Types.CountingNumber) : string {
@@ -376,26 +369,22 @@ module {:options "/functionSyntax:4" }  StormTracker {
         ==> output.EmptyFetch?
 
       // If fanOut has space and the identifier is inflight
-      // but has not exceed the graceInterval or the inFlightTTL
+      // but has not exceed the graceInterval
       // ==> EmptyWait
       ensures
         && old(inFlight.Size()) < fanOut as nat
         && old(inFlight.HasKey(identifier))
         && now < AddLong(old(inFlight.Select(identifier)), graceInterval)
-        && now < AddLong(old(inFlight.Select(identifier)), inFlightTTL)
         ==> output.EmptyWait?
 
       // If fanOut has space and the identifier is inflight
       // and has been inflight for longer
-      // than the the graceInterval or the inFlightTTL
+      // than the the graceInterval
       // ==> EmptyFetch
       ensures
         && old(inFlight.Size()) < fanOut as nat
         && old(inFlight.HasKey(identifier))
-        && (
-             || AddLong(old(inFlight.Select(identifier)), graceInterval) <= now
-             || AddLong(old(inFlight.Select(identifier)), inFlightTTL) <= now
-           )
+        && AddLong(old(inFlight.Select(identifier)), graceInterval) <= now
         ==> output.EmptyFetch?
 
     {
@@ -406,16 +395,11 @@ module {:options "/functionSyntax:4" }  StormTracker {
         var entry := inFlight.Select(identifier);
         // We want to return EmptyWait as little as possible.
         // We want to wait (return EmptyWait) for the smallest duration.
-        // We will only return EmptyWait if we are within *both* durations.
-        // This is because we are in an empty cache state,
-        // and want to give the system the maximum opportunity
-        // to populate the cache.
         // This is most important if the entries are consistently failing.
         // We do not want the system to back up waiting to try to fail.
-        if
-          && now < AddLong(entry, inFlightTTL)
-          && now < AddLong(entry, graceInterval)
-        {  // already returned an EmptyFetch for this interval
+        // See the extern to observe how inFlightTTL
+        // is used with EmptyWait
+        if now < AddLong(entry, graceInterval) {  // already returned an EmptyFetch for this interval
           return EmptyWait;
         }
       }
