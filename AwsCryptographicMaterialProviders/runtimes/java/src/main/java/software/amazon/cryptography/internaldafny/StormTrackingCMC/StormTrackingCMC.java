@@ -91,6 +91,7 @@ public class StormTrackingCMC
   > GetCacheEntry_k(
     software.amazon.cryptography.materialproviders.internaldafny.types.GetCacheEntryInput input
   ) {
+    final Long maxInFlight = Time.__default.CurrentRelativeTimeMilli() + wrapped.inFlightTTL;
     while (true) {
       Wrappers_Compile.Result<
         CacheState,
@@ -108,7 +109,15 @@ public class StormTrackingCMC
         );
       } else {
         try {
-          Thread.sleep(wrapped.sleepMilli);
+          if (Time.__default.CurrentRelativeTimeMilli() <= maxInFlight) {
+            Thread.sleep(wrapped.sleepMilli);
+          } else {
+            return CreateGetCacheEntryFailure(
+              software.amazon.cryptography.materialproviders.internaldafny.types.Error.create_EntryDoesNotExist(
+                dafny.DafnySequence.asString("Entry does not exist")
+              )
+            );
+          }
         } catch (Exception e) {
           return CreateGetCacheEntryFailure(
             software.amazon.cryptography.materialproviders.internaldafny.types.Error.create_Opaque(
