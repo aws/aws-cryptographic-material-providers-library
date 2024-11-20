@@ -25,8 +25,8 @@ pub mod internal_StormTrackingCMC {
         }
     }
 
-    impl ::dafny_runtime::UpcastObject<dyn ::std::any::Any> for StormTrackingCMC {
-        ::dafny_runtime::UpcastObjectFn!(dyn ::std::any::Any);
+    impl ::dafny_runtime::UpcastObject<dyn::std::any::Any> for StormTrackingCMC {
+        ::dafny_runtime::UpcastObjectFn!(dyn::std::any::Any);
     }
 
     impl ::dafny_runtime::UpcastObject<dyn software::amazon::cryptography::materialproviders::internaldafny::types::ICryptographicMaterialsCache>
@@ -51,7 +51,7 @@ pub mod internal_StormTrackingCMC {
     -> std::rc::Rc<crate::_Wrappers_Compile::Result<std::rc::Rc<crate::software::amazon::cryptography::materialproviders::internaldafny::types::GetCacheEntryOutput>, std::rc::Rc<crate::software::amazon::cryptography::materialproviders::internaldafny::types::Error>>>
     {
         let max_in_flight = crate::Time::_default::CurrentRelativeTimeMilli() + unsafe { *(*self.wrapped.lock().unwrap()).as_ref().inFlightTTL.get() };
-        let sleep_milli = crate::Time::_default::CurrentRelativeTimeMilli() + unsafe { *(*self.wrapped.lock().unwrap()).as_ref().sleepMilli.get() };
+        let sleep_milli = unsafe { *(*self.wrapped.lock().unwrap()).as_ref().sleepMilli.get() };
         let sleep_time = Duration::from_millis(sleep_milli as u64);
         loop {
             let result = self.wrapped.lock().unwrap().as_mut().GetFromCache(input);
