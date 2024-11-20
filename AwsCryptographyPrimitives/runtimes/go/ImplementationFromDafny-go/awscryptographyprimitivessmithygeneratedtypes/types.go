@@ -678,6 +678,29 @@ func (input ValidatePublicKeyOutput) Validate() error {
 	return nil
 }
 
+type AES_CTR struct {
+	KeyLength int32
+
+	NonceLength int32
+}
+
+func (input AES_CTR) Validate() error {
+	if input.KeyLength < 1 {
+		return fmt.Errorf("SymmetricKeyLength has a minimum of 1 but has the value of %d.", input.KeyLength)
+	}
+	if input.KeyLength > 32 {
+		return fmt.Errorf("SymmetricKeyLength has a maximum of 32 but has the value of %d.", input.KeyLength)
+	}
+	if input.NonceLength < 0 {
+		return fmt.Errorf("Uint8Bits has a minimum of 0 but has the value of %d.", input.NonceLength)
+	}
+	if input.NonceLength > 255 {
+		return fmt.Errorf("Uint8Bits has a maximum of 255 but has the value of %d.", input.NonceLength)
+	}
+
+	return nil
+}
+
 type CryptoConfig struct {
 }
 
