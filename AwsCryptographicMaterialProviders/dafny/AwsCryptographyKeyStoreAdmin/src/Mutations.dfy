@@ -558,9 +558,8 @@ module {:options "/functionSyntax:4" } Mutations {
              match keyManagerStrategy
              case reEncrypt(km) => km.kmsClient.Modifies
              case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
-    requires keyManagerStrategy.reEncrypt?
   {
-    var keyManager := keyManagerStrategy.reEncrypt;
+    var keyManager := keyManagerStrategy;
 
     // -= Fetch Commitment and Index
     var fetchMutation? := storage.GetMutation(
@@ -568,6 +567,7 @@ module {:options "/functionSyntax:4" } Mutations {
         Identifier := input.MutationToken.Identifier));
     var fetchMutation: KeyStoreTypes.GetMutationOutput :- fetchMutation?
     .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
+
     // -= Validate Commitment and Index
     :- Need(
       fetchMutation.MutationCommitment.Some?,
@@ -591,24 +591,8 @@ module {:options "/functionSyntax:4" } Mutations {
       ));
     var Commitment := fetchMutation.MutationCommitment.value;
     var Index := fetchMutation.MutationIndex.value;
-    :- Need(
-      // If custom storage is really bad
-      Commitment.Identifier == Index.Identifier,
-      Types.MutationInvalidException(
-        message := "The Mutation Index read from storage and the Mutation Commitment are for different Branch Key IDs."
-        + " The Storage implementation is wrong, or something terrible has happened to storage."
-        + " Token Branch Key ID: " + input.MutationToken.Identifier + ";"
-        + " Mutation Commitment Branch Key ID: " + Commitment.Identifier + ";"
-        + " Mutation Index Branch Key ID: " + Index.Identifier + ";"
-      ));
-    :- Need(
-      Commitment.UUID == Index.UUID,
-      Types.MutationInvalidException(
-        message := "The Mutation Index read from storage and the Mutation Commitment are for different Mutations."
-        + " Branch Key ID: " + input.MutationToken.Identifier + ";"
-        + " Mutation Commitment UUID: " + Commitment.UUID + ";"
-        + " Mutation Index UUID: " + Index.UUID + ";"
-      ));
+    var _ :- ValidateCommitmentAndIndexStructures(input, fetchMutation, Commitment, Index);
+    
     var CommitmentAndIndex := StateStrucs.CommitmentAndIndex(
       Commitment := Commitment,
       Index := Index);
@@ -752,6 +736,37 @@ module {:options "/functionSyntax:4" } Mutations {
       ));
   }
 
+  function ValidateCommitmentAndIndexStructures(
+    input: Types.ApplyMutationInput,
+    fetchMutation: KeyStoreTypes.GetMutationOutput,
+    commitment: KeyStoreTypes.MutationCommitment,
+    index: KeyStoreTypes.MutationIndex
+  ): (output: Result<(), Types.Error>)
+    requires fetchMutation.MutationCommitment.Some?
+    ensures 
+      output.Success? ==>
+        && commitment.Identifier == index.Identifier
+        && commitment.UUID == index.UUID
+  {
+    if commitment.Identifier != index.Identifier then
+      Failure(Types.MutationInvalidException(
+        message := "The Token and the Mutation Commitment read from storage disagree."
+        + " This indicates that the Token is for a different Mutation than the one in-flight."
+        + " A possible cause is this token is from an earlier Mutation that already finished?"
+        + " Branch Key ID: " + input.MutationToken.Identifier + ";"
+        + " Mutation Commitment UUID: " + fetchMutation.MutationCommitment.value.UUID + ";"
+        + " Token UUID: " + input.MutationToken.UUID + ";"
+      ))
+    else if commitment.UUID != index.UUID then
+      Failure(Types.MutationInvalidException(
+        message := "The Mutation Index read from storage and the Mutation Commitment are for different Mutations."
+        + " Branch Key ID: " + input.MutationToken.Identifier + ";"
+        + " Mutation Commitment UUID: " + commitment.UUID + ";"
+        + " Mutation Index UUID: " + index.UUID + ";"
+      ))
+    else
+      Success(())
+  }
 
   function MatchItemToState(
     item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
