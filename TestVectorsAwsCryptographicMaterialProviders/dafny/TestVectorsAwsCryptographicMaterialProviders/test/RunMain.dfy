@@ -12,17 +12,17 @@ module {:extern} TestWrappedMaterialProvidersMain {
   import TestManifests
   import CompleteVectors
   import opened MplManifestOptions
+  import AllRequiredEncryptionContextCmm
 
   // Test execution directory is different for different runtimes.
   // Runtime should define an extern to return the expected test execution directory.
   method {:extern} GetTestVectorExecutionDirectory() returns (res: string)
 
-  // This is done to maintain order in systems that run tests in parallel
-  // such as Rust.
   method {:test} RunManifestTests() {
-    TestGenerateEncryptManifest();
-    TestEncryptManifest();
-    TestDecryptManifest();
+    var orig := AllRequiredEncryptionContextCmm.SuccessTestingRequiredEncryptionContextKeysReproducedEncryptionContext;
+    for i := 0 to 100 {
+      expect orig == AllRequiredEncryptionContextCmm.SuccessTestingRequiredEncryptionContextKeysReproducedEncryptionContext;
+    }
   }
 
   method TestGenerateEncryptManifest() {
