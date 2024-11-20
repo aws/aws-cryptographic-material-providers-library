@@ -302,6 +302,38 @@ module Fixtures {
       versionIndex := versionIndex + 1;
     }
   }
+  
+  method CreateHappyCaseId2(
+    nameonly id: string,
+    nameonly kmsId: string := keyArn,
+    nameonly physicalName: string := branchKeyStoreName,
+    nameonly logicalName: string := logicalKeyStoreName,
+    nameonly versionCount: nat := 3,
+    nameonly customEC: Types.EncryptionContext := map[UTF8.EncodeAscii("Koda") := UTF8.EncodeAscii("Is a dog.")]
+  )
+    requires DDB.Types.IsValid_TableName(physicalName)
+    requires KMS.Types.IsValid_KeyIdType(kmsId)
+    requires 0 <= versionCount <= 5
+    requires 0 < |customEC| // requires some EC
+  {
+    var keyStore :- expect DefaultKeyStore(kmsId:=kmsId, physicalName:=physicalName, logicalName:=logicalName);
+    assume {:axiom} fresh(keyStore) && fresh(keyStore.Modifies);
+    var input := Types.CreateKeyInput(
+      branchKeyIdentifier := Some(id),
+      encryptionContext := Some(customEC)
+    );
+    var branchKeyId :- expect keyStore.CreateKey(input);
+
+    // If you need a new version
+    var inputV := Types.VersionKeyInput(
+      branchKeyIdentifier := id
+    );
+    var versionIndex := 0;
+    while versionIndex < versionCount {
+      var _ :- expect keyStore.VersionKey(inputV);
+      versionIndex := versionIndex + 1;
+    }
+  }
 
   method GetItemFromDDB(
     nameonly id: string,

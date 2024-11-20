@@ -67,7 +67,7 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
     var uuid :- expect UUID.GenerateUUID();
     var testId := happyCaseId + "-" + uuid;
 
-    Fixtures.CreateHappyCaseId(id:=testId, versionCount:=1);
+    Fixtures.CreateHappyCaseId2(id:=testId, versionCount:=1);
 
     print testLogPrefix + " Created the test items with 2 versions! testId: " + testId + "\n";
 
