@@ -23,7 +23,7 @@ class Lock:
         self.lock.release()
 
 
-class MutableMap(smithy_dafny_standard_library.internaldafny.generated.DafnyLibraries.MutableMap):
+class MutableMap(smithy_dafny_standard_library.internaldafny.generated.DafnyLibraries.MutableMapTrait):
     def ctor__(self):
         pass
         

@@ -57,6 +57,8 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     SignatureAlgorithm_None,
     SymmetricSignatureAlgorithm_HMAC,
     SymmetricSignatureAlgorithm_None,
+    TimeUnits_Milliseconds,
+    TimeUnits_Seconds,
 )
 import aws_cryptographic_material_providers.internaldafny.generated.module_
 import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
@@ -1173,6 +1175,15 @@ def aws_cryptography_materialproviders_StormTrackingCache(dafny_input):
         fan_out=dafny_input.fanOut,
         in_flight_ttl=dafny_input.inFlightTTL,
         sleep_milli=dafny_input.sleepMilli,
+        time_units=(
+            (
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_TimeUnits(
+                    dafny_input.timeUnits.value
+                )
+            )
+            if (dafny_input.timeUnits.is_Some)
+            else None
+        ),
     )
 
 
@@ -1188,6 +1199,17 @@ def aws_cryptography_materialproviders_CryptographicMaterialsCacheReference(
         )
 
         return CryptographicMaterialsCache(_impl=dafny_input)
+
+
+def aws_cryptography_materialproviders_TimeUnits(dafny_input):
+    if isinstance(dafny_input, TimeUnits_Seconds):
+        return "Seconds"
+
+    elif isinstance(dafny_input, TimeUnits_Milliseconds):
+        return "Milliseconds"
+
+    else:
+        raise ValueError(f"No recognized enum value in enum type: {dafny_input=}")
 
 
 def aws_cryptography_materialproviders_CreateAwsKmsHierarchicalKeyringInput(

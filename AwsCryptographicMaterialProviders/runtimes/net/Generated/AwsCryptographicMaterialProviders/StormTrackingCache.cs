@@ -14,6 +14,7 @@ namespace AWS.Cryptography.MaterialProviders
     private int? _fanOut;
     private int? _inFlightTTL;
     private int? _sleepMilli;
+    private AWS.Cryptography.MaterialProviders.TimeUnits _timeUnits;
     public int EntryCapacity
     {
       get { return this._entryCapacity.GetValueOrDefault(); }
@@ -76,6 +77,15 @@ namespace AWS.Cryptography.MaterialProviders
     public bool IsSetSleepMilli()
     {
       return this._sleepMilli.HasValue;
+    }
+    public AWS.Cryptography.MaterialProviders.TimeUnits TimeUnits
+    {
+      get { return this._timeUnits; }
+      set { this._timeUnits = value; }
+    }
+    public bool IsSetTimeUnits()
+    {
+      return this._timeUnits != null;
     }
     public void Validate()
     {
