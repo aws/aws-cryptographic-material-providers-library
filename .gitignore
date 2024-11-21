@@ -28,13 +28,18 @@ specification_compliance_report.html
 # The release will force-commit these files, then the post-release commit will force-remove them.
 # Scripts at /scripts/release will run on all files between START_RELEASE_IGNORED_FILES and END_RELEASE_IGNORED_FILES.
 # START_RELEASE_IGNORED_FILES
+# Ignore Python .dtr files
 **/*py.dtr
+# Ignore everything in TestsFromDafny-go
+**/TestsFromDafny-go/**
 # Ignore everything in ImplementationFromDafny-go...
 **/ImplementationFromDafny-go/**
 # ... except for files containing "smithygenerated"...
 !**/ImplementationFromDafny-go/**/*smithygenerated*
 # ... except for files containing "extern" ...
 !**/ImplementationFromDafny-go/**/*extern*
+# ... except for files named "shim.go" ...
+!**/ImplementationFromDafny-go/**/shim.go
 # ... except for go.mod ...
 !**/ImplementationFromDafny-go/**/go.mod
 # ... except for go.sum.
