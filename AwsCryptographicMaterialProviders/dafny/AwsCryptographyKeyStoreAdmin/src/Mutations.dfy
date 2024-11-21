@@ -59,6 +59,22 @@ module {:options "/functionSyntax:4" } Mutations {
     nameonly storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
   )
 
+  predicate ValidateQueryOutResults?(
+    applyMutationInput: Types.ApplyMutationInput,
+    logicalKeyStoreName: string,
+    storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface,
+    queryItems: KeyStoreTypes.QueryForVersionsOutput
+  )
+  {
+    || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+    || (forall item <- queryItems.Items ::
+             && item.Identifier == applyMutationInput.MutationToken.Identifier
+             && Structure.DecryptOnlyHierarchicalSymmetricKey?(item)
+             && item.Type.HierarchicalSymmetricVersion?
+             && item.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+    )
+  }
+
   // Ensures:
   // Branch Key ID is set
   // Mutations List is valid
@@ -559,8 +575,6 @@ module {:options "/functionSyntax:4" } Mutations {
              case reEncrypt(km) => km.kmsClient.Modifies
              case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
   {
-    var keyManager := keyManagerStrategy;
-
     // -= Fetch Commitment and Index
     var fetchMutation? := storage.GetMutation(
       Types.AwsCryptographyKeyStoreTypes.GetMutationInput(
@@ -601,35 +615,7 @@ module {:options "/functionSyntax:4" } Mutations {
     var MutationToApply :- StateStrucs.DeserializeMutation(CommitmentAndIndex);
 
     // -= Query for page Size Branch Key Items
-    var queryOut? := storage.QueryForVersions(
-      Types.AwsCryptographyKeyStoreTypes.QueryForVersionsInput(
-        ExclusiveStartKey := MutationToApply.ExclusiveStartKey,
-        Identifier := MutationToApply.Identifier,
-        PageSize := input.PageSize.UnwrapOr(DEFAULT_APPLY_PAGE_SIZE)));
-
-    var queryOut :- queryOut?
-    .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
-
-    :- Need(
-      || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
-      || (
-           forall item <- queryOut.Items ::
-             && item.Identifier == input.MutationToken.Identifier
-             && Structure.DecryptOnlyHierarchicalSymmetricKey?(item)
-             && item.Type.HierarchicalSymmetricVersion?
-             && item.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
-         ),
-      // TODO-Mutations-FF: Replace this Need with something that can return an ID
-      Types.KeyStoreAdminException(
-        message := "Malformed Branch Key Item read from Storage.")
-    );
-
-      // TODO-Mutations-FF: Replace this Need with something that can return an ID
-    :- Need(
-      forall item <- queryOut.Items :: KmsArn.ValidKmsArn?(item.KmsArn),
-      Types.KeyStoreAdminException(
-        message := "Malformed Branch Key Item read from Storage.")
-    );
+    var queryOut :- QueryForVersionsAndValidate(input, logicalKeyStoreName, storage, MutationToApply);
 
     var queryOutItems := Seq.Map(
       item
@@ -766,6 +752,56 @@ module {:options "/functionSyntax:4" } Mutations {
       ))
     else
       Success(())
+  }
+
+  method QueryForVersionsAndValidate(
+    input: Types.ApplyMutationInput,
+    logicalKeyStoreName: string,
+    storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface,
+    mutationToApply: StateStrucs.MutationToApply
+  ) returns (output: Result<KeyStoreTypes.QueryForVersionsOutput, Types.Error>)
+    requires storage.ValidState()
+    modifies storage.Modifies
+    ensures storage.ValidState()
+    ensures output.Success? ==>
+      && |storage.History.QueryForVersions| == |old(storage.History.QueryForVersions)| + 1
+      && Seq.Last(storage.History.QueryForVersions).output.Success?
+      && var queryOutInput := Seq.Last(storage.History.QueryForVersions).input;
+      && KeyStoreTypes.QueryForVersionsInput(
+        ExclusiveStartKey := mutationToApply.ExclusiveStartKey,
+        Identifier := mutationToApply.Identifier,
+        PageSize := input.PageSize.UnwrapOr(DEFAULT_APPLY_PAGE_SIZE)
+      ) == queryOutInput
+    ensures output.Success? ==>
+      && Seq.Last(storage.History.QueryForVersions).output.Success?
+      && var queryOutOutput := Seq.Last(storage.History.QueryForVersions).output.value;
+      && ValidateQueryOutResults?(input, logicalKeyStoreName, storage, queryOutOutput) 
+      && forall item <- queryOutOutput.Items :: KmsArn.ValidKmsArn?(item.KmsArn)
+  {
+    var queryOut? := storage.QueryForVersions(
+      Types.AwsCryptographyKeyStoreTypes.QueryForVersionsInput(
+        ExclusiveStartKey := mutationToApply.ExclusiveStartKey,
+        Identifier := mutationToApply.Identifier,
+        PageSize := input.PageSize.UnwrapOr(DEFAULT_APPLY_PAGE_SIZE)));
+
+    var queryOut :- queryOut?
+    .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
+
+    :- Need(
+      ValidateQueryOutResults?(input, logicalKeyStoreName, storage, queryOut),
+      // TODO-Mutations-FF: Replace this Need with something that can return an ID
+      Types.KeyStoreAdminException(
+        message := "Malformed Branch Key Item read from Storage.")
+    );
+
+      // TODO-Mutations-FF: Replace this Need with something that can return an ID
+    :- Need(
+      forall item <- queryOut.Items :: KmsArn.ValidKmsArn?(item.KmsArn),
+      Types.KeyStoreAdminException(
+        message := "Malformed Branch Key Item read from Storage.")
+    );
+
+    return Success(queryOut);
   }
 
   function MatchItemToState(
