@@ -28,7 +28,7 @@ module {:extern "SortedSets"} SortedSets {
   method {:extern "SetToSequence"} ComputeSetToSequence<T(==, !new)>(
     s: set<T>
   )
-    : (res: seq<T>)
+    returns (res: seq<T>)
     ensures Seq.HasNoDuplicates(res)
     ensures forall k <- res :: k in s
     ensures forall k <- s :: k in res
