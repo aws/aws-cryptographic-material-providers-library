@@ -25,7 +25,7 @@ module {:extern "SortedSets"} SortedSets {
     ensures forall k <- s :: k in res
     ensures |res| == |s|
 
-  function method {:extern "SetToSequence"} ComputeSetToSequence<T(==, !new)>(
+  method {:extern "SetToSequence"} ComputeSetToSequence<T(==, !new)>(
     s: set<T>
   )
     : (res: seq<T>)
