@@ -20,7 +20,7 @@ jobs:
       - name: Validate Dafny Version Consistency
         run: |
           # Extract the version from pyproject.toml
-          dafny_runtime_python_version=$(grep -oP 'DafnyRuntimePython\s*=\s*"\K[^\"]+' a/b/pyproject.toml)
+          dafny_runtime_python_version=$(grep -oP 'DafnyRuntimePython\s*=\s*"\K[^\"]+' StandardLibrary/runtimes/python/pyproject.toml)
 
           # Extract the version from project.properties
           dafny_version=$(grep -oP 'dafnyVersion=\K[^\s]+' project.properties)
