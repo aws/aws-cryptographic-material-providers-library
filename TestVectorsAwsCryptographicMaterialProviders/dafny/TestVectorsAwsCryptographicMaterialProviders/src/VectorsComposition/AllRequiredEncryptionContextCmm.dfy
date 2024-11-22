@@ -56,17 +56,17 @@ module {:options "-functionSyntax:4"} AllRequiredEncryptionContextCmm {
           encryptDescription := KeyVectorsTypes.RequiredEncryptionContext(
             KeyVectorsTypes.RequiredEncryptionContextCMM(
               underlying := AllDefaultCmm.RawAesKeyring,
-              requiredEncryptionContextKeys := SortedSets.ComputeSetToSequence(requiredEncryptionContextKeys)
+              requiredEncryptionContextKeys := SortedSets.ComputeSetToOrderedSequence2(requiredEncryptionContextKeys, (a, b) => a < b)
             )
           ),
           decryptDescription := KeyVectorsTypes.RequiredEncryptionContext(
             KeyVectorsTypes.RequiredEncryptionContextCMM(
               underlying := AllDefaultCmm.RawAesKeyring,
-              requiredEncryptionContextKeys := SortedSets.ComputeSetToSequence(requiredEncryptionContextKeys)
+              requiredEncryptionContextKeys := SortedSets.ComputeSetToOrderedSequence2(requiredEncryptionContextKeys, (a, b) => a < b)
             )
           ),
           encryptionContext := encryptionContext,
-          requiredEncryptionContextKeys := Some(SortedSets.ComputeSetToSequence(requiredEncryptionContextKeys)),
+          requiredEncryptionContextKeys := Some(SortedSets.ComputeSetToOrderedSequence2(requiredEncryptionContextKeys, (a, b) => a < b)),
           reproducedEncryptionContext := Some(reproducedEncryptionContext)
         )
 
@@ -102,17 +102,17 @@ module {:options "-functionSyntax:4"} AllRequiredEncryptionContextCmm {
           encryptDescription := KeyVectorsTypes.RequiredEncryptionContext(
             KeyVectorsTypes.RequiredEncryptionContextCMM(
               underlying := AllDefaultCmm.RawAesKeyring,
-              requiredEncryptionContextKeys := SortedSets.ComputeSetToSequence(requiredEncryptionContextKeys)
+              requiredEncryptionContextKeys := SortedSets.ComputeSetToOrderedSequence2(requiredEncryptionContextKeys, (a, b) => a < b)
             )
           ),
           decryptDescription := KeyVectorsTypes.RequiredEncryptionContext(
             KeyVectorsTypes.RequiredEncryptionContextCMM(
               underlying := AllDefaultCmm.RawAesKeyring,
-              requiredEncryptionContextKeys := SortedSets.ComputeSetToSequence(requiredEncryptionContextKeys)
+              requiredEncryptionContextKeys := SortedSets.ComputeSetToOrderedSequence2(requiredEncryptionContextKeys, (a, b) => a < b)
             )
           ),
           encryptionContext := encryptionContext,
-          requiredEncryptionContextKeys := Some(SortedSets.ComputeSetToSequence(requiredEncryptionContextKeys)),
+          requiredEncryptionContextKeys := Some(SortedSets.ComputeSetToOrderedSequence2(requiredEncryptionContextKeys, (a, b) => a < b)),
           reproducedEncryptionContext := Some(reproducedEncryptionContext)
         )
   // These are only required encryption context vectors with static aes keyrings

@@ -70,7 +70,7 @@ pub mod internal_StormTrackingCMC {
                             )});
                         }
                         EmptyWait {} => {
-                            if (crate::Time::_default::CurrentRelativeTimeMilli() <= max_in_flight) {
+                            if crate::Time::_default::CurrentRelativeTimeMilli() <= max_in_flight {
                                 std::thread::sleep(sleep_time);
                             } else {
                                 return std::rc::Rc::new(crate::_Wrappers_Compile::Result::Failure{error :
