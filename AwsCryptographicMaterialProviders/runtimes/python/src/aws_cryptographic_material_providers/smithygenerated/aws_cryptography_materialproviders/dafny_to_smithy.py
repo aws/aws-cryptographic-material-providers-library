@@ -39,7 +39,6 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING,
     EdkWrappingAlgorithm_IntermediateKeyWrapping,
     Encrypt_AES__GCM,
-    KeyAgreementScheme_StaticConfiguration,
     KmsEcdhStaticConfigurations_KmsPrivateKeyToStaticPublicKey,
     KmsEcdhStaticConfigurations_KmsPublicKeyDiscovery,
     Materials_BeaconKey,
@@ -56,8 +55,6 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     RawEcdhStaticConfigurations_RawPrivateKeyToStaticPublicKey,
     SignatureAlgorithm_ECDSA,
     SignatureAlgorithm_None,
-    StaticConfigurations_AWS__KMS__ECDH,
-    StaticConfigurations_RAW__ECDH,
     SymmetricSignatureAlgorithm_HMAC,
     SymmetricSignatureAlgorithm_None,
     TimeUnits_Milliseconds,
@@ -728,148 +725,6 @@ def aws_cryptography_materialproviders_OnDecryptOutput(dafny_input):
     )
 
 
-def aws_cryptography_materialproviders_DdbClientReference(dafny_input):
-    return dafny_input._impl
-
-
-def aws_cryptography_materialproviders_StaticConfigurations(dafny_input):
-    # Convert StaticConfigurations
-    if isinstance(dafny_input, StaticConfigurations_AWS__KMS__ECDH):
-        StaticConfigurations_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.StaticConfigurationsAWS_KMS_ECDH(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsEcdhStaticConfigurations(
-                dafny_input.AWS__KMS__ECDH
-            )
-        )
-    elif isinstance(dafny_input, StaticConfigurations_RAW__ECDH):
-        StaticConfigurations_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.StaticConfigurationsRAW_ECDH(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_RawEcdhStaticConfigurations(
-                dafny_input.RAW__ECDH
-            )
-        )
-    else:
-        raise ValueError("No recognized union value in union type: " + str(dafny_input))
-
-    return StaticConfigurations_union_value
-
-
-def aws_cryptography_materialproviders_KmsPublicKeyDiscoveryInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.KmsPublicKeyDiscoveryInput(
-        recipient_kms_identifier=b"".join(
-            ord(c).to_bytes(2, "big") for c in dafny_input.recipientKmsIdentifier
-        ).decode("utf-16-be"),
-    )
-
-
-def aws_cryptography_materialproviders_KmsPrivateKeyToStaticPublicKeyInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.KmsPrivateKeyToStaticPublicKeyInput(
-        sender_kms_identifier=b"".join(
-            ord(c).to_bytes(2, "big") for c in dafny_input.senderKmsIdentifier
-        ).decode("utf-16-be"),
-        sender_public_key=(
-            (bytes(dafny_input.senderPublicKey.value))
-            if (dafny_input.senderPublicKey.is_Some)
-            else None
-        ),
-        recipient_public_key=bytes(dafny_input.recipientPublicKey),
-    )
-
-
-def aws_cryptography_materialproviders_KmsEcdhStaticConfigurations(dafny_input):
-    # Convert KmsEcdhStaticConfigurations
-    if isinstance(dafny_input, KmsEcdhStaticConfigurations_KmsPublicKeyDiscovery):
-        KmsEcdhStaticConfigurations_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsPublicKeyDiscoveryInput(
-                dafny_input.KmsPublicKeyDiscovery
-            )
-        )
-    elif isinstance(
-        dafny_input, KmsEcdhStaticConfigurations_KmsPrivateKeyToStaticPublicKey
-    ):
-        KmsEcdhStaticConfigurations_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsPrivateKeyToStaticPublicKeyInput(
-                dafny_input.KmsPrivateKeyToStaticPublicKey
-            )
-        )
-    else:
-        raise ValueError("No recognized union value in union type: " + str(dafny_input))
-
-    return KmsEcdhStaticConfigurations_union_value
-
-
-def aws_cryptography_materialproviders_PublicKeyDiscoveryInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.PublicKeyDiscoveryInput(
-        recipient_static_private_key=bytes(dafny_input.recipientStaticPrivateKey),
-    )
-
-
-def aws_cryptography_materialproviders_RawPrivateKeyToStaticPublicKeyInput(dafny_input):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.RawPrivateKeyToStaticPublicKeyInput(
-        sender_static_private_key=bytes(dafny_input.senderStaticPrivateKey),
-        recipient_public_key=bytes(dafny_input.recipientPublicKey),
-    )
-
-
-def aws_cryptography_materialproviders_EphemeralPrivateKeyToStaticPublicKeyInput(
-    dafny_input,
-):
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.EphemeralPrivateKeyToStaticPublicKeyInput(
-        recipient_public_key=bytes(dafny_input.recipientPublicKey),
-    )
-
-
-def aws_cryptography_materialproviders_RawEcdhStaticConfigurations(dafny_input):
-    # Convert RawEcdhStaticConfigurations
-    if isinstance(dafny_input, RawEcdhStaticConfigurations_PublicKeyDiscovery):
-        RawEcdhStaticConfigurations_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.RawEcdhStaticConfigurationsPublicKeyDiscovery(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_PublicKeyDiscoveryInput(
-                dafny_input.PublicKeyDiscovery
-            )
-        )
-    elif isinstance(
-        dafny_input, RawEcdhStaticConfigurations_RawPrivateKeyToStaticPublicKey
-    ):
-        RawEcdhStaticConfigurations_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_RawPrivateKeyToStaticPublicKeyInput(
-                dafny_input.RawPrivateKeyToStaticPublicKey
-            )
-        )
-    elif isinstance(
-        dafny_input, RawEcdhStaticConfigurations_EphemeralPrivateKeyToStaticPublicKey
-    ):
-        RawEcdhStaticConfigurations_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EphemeralPrivateKeyToStaticPublicKeyInput(
-                dafny_input.EphemeralPrivateKeyToStaticPublicKey
-            )
-        )
-    else:
-        raise ValueError("No recognized union value in union type: " + str(dafny_input))
-
-    return RawEcdhStaticConfigurations_union_value
-
-
-def aws_cryptography_materialproviders_KeyAgreementScheme(dafny_input):
-    # Convert KeyAgreementScheme
-    if isinstance(dafny_input, KeyAgreementScheme_StaticConfiguration):
-        KeyAgreementScheme_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.KeyAgreementSchemeStaticConfiguration(
-            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_StaticConfigurations(
-                dafny_input.StaticConfiguration
-            )
-        )
-    else:
-        raise ValueError("No recognized union value in union type: " + str(dafny_input))
-
-    return KeyAgreementScheme_union_value
-
-
-def aws_cryptography_materialproviders_MaterialProvidersConfig(dafny_input):
-    # Deferred import of .config to avoid circular dependency
-    import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.config
-
-    return (
-        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.config.MaterialProvidersConfig()
-    )
-
-
 def aws_cryptography_materialproviders_CreateAwsKmsKeyringInput(dafny_input):
     return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsKeyringInput(
         kms_key_id=b"".join(
@@ -1447,6 +1302,50 @@ def aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(dafny_input):
     )
 
 
+def aws_cryptography_materialproviders_KmsEcdhStaticConfigurations(dafny_input):
+    # Convert KmsEcdhStaticConfigurations
+    if isinstance(dafny_input, KmsEcdhStaticConfigurations_KmsPublicKeyDiscovery):
+        KmsEcdhStaticConfigurations_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsPublicKeyDiscoveryInput(
+                dafny_input.KmsPublicKeyDiscovery
+            )
+        )
+    elif isinstance(
+        dafny_input, KmsEcdhStaticConfigurations_KmsPrivateKeyToStaticPublicKey
+    ):
+        KmsEcdhStaticConfigurations_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsPrivateKeyToStaticPublicKeyInput(
+                dafny_input.KmsPrivateKeyToStaticPublicKey
+            )
+        )
+    else:
+        raise ValueError("No recognized union value in union type: " + str(dafny_input))
+
+    return KmsEcdhStaticConfigurations_union_value
+
+
+def aws_cryptography_materialproviders_KmsPublicKeyDiscoveryInput(dafny_input):
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.KmsPublicKeyDiscoveryInput(
+        recipient_kms_identifier=b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.recipientKmsIdentifier
+        ).decode("utf-16-be"),
+    )
+
+
+def aws_cryptography_materialproviders_KmsPrivateKeyToStaticPublicKeyInput(dafny_input):
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.KmsPrivateKeyToStaticPublicKeyInput(
+        sender_kms_identifier=b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.senderKmsIdentifier
+        ).decode("utf-16-be"),
+        sender_public_key=(
+            (bytes(dafny_input.senderPublicKey.value))
+            if (dafny_input.senderPublicKey.is_Some)
+            else None
+        ),
+        recipient_public_key=bytes(dafny_input.recipientPublicKey),
+    )
+
+
 def aws_cryptography_materialproviders_CreateAwsKmsEcdhKeyringInput(dafny_input):
     return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsEcdhKeyringInput(
         key_agreement_scheme=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KmsEcdhStaticConfigurations(
@@ -1581,6 +1480,57 @@ def aws_cryptography_materialproviders_CreateRawRsaKeyringInput(dafny_input):
             if (dafny_input.privateKey.is_Some)
             else None
         ),
+    )
+
+
+def aws_cryptography_materialproviders_RawEcdhStaticConfigurations(dafny_input):
+    # Convert RawEcdhStaticConfigurations
+    if isinstance(dafny_input, RawEcdhStaticConfigurations_PublicKeyDiscovery):
+        RawEcdhStaticConfigurations_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.RawEcdhStaticConfigurationsPublicKeyDiscovery(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_PublicKeyDiscoveryInput(
+                dafny_input.PublicKeyDiscovery
+            )
+        )
+    elif isinstance(
+        dafny_input, RawEcdhStaticConfigurations_RawPrivateKeyToStaticPublicKey
+    ):
+        RawEcdhStaticConfigurations_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_RawPrivateKeyToStaticPublicKeyInput(
+                dafny_input.RawPrivateKeyToStaticPublicKey
+            )
+        )
+    elif isinstance(
+        dafny_input, RawEcdhStaticConfigurations_EphemeralPrivateKeyToStaticPublicKey
+    ):
+        RawEcdhStaticConfigurations_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EphemeralPrivateKeyToStaticPublicKeyInput(
+                dafny_input.EphemeralPrivateKeyToStaticPublicKey
+            )
+        )
+    else:
+        raise ValueError("No recognized union value in union type: " + str(dafny_input))
+
+    return RawEcdhStaticConfigurations_union_value
+
+
+def aws_cryptography_materialproviders_PublicKeyDiscoveryInput(dafny_input):
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.PublicKeyDiscoveryInput(
+        recipient_static_private_key=bytes(dafny_input.recipientStaticPrivateKey),
+    )
+
+
+def aws_cryptography_materialproviders_RawPrivateKeyToStaticPublicKeyInput(dafny_input):
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.RawPrivateKeyToStaticPublicKeyInput(
+        sender_static_private_key=bytes(dafny_input.senderStaticPrivateKey),
+        recipient_public_key=bytes(dafny_input.recipientPublicKey),
+    )
+
+
+def aws_cryptography_materialproviders_EphemeralPrivateKeyToStaticPublicKeyInput(
+    dafny_input,
+):
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.EphemeralPrivateKeyToStaticPublicKeyInput(
+        recipient_public_key=bytes(dafny_input.recipientPublicKey),
     )
 
 
@@ -1801,4 +1751,50 @@ def aws_cryptography_materialproviders_CreateCryptographicMaterialsCacheOutput(
 def aws_cryptography_materialproviders_CreateDefaultClientSupplierOutput(dafny_input):
     return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ClientSupplierReference(
         dafny_input
+    )
+
+
+def aws_cryptography_materialproviders_DdbClientReference(dafny_input):
+    return dafny_input._impl
+
+
+def aws_cryptography_materialproviders_EntryAlreadyExists(dafny_input):
+    # Deferred import of .errors to avoid circular dependency
+    import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors
+
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.EntryAlreadyExists(
+        message=b"".join(ord(c).to_bytes(2, "big") for c in dafny_input.message).decode(
+            "utf-16-be"
+        ),
+    )
+
+
+def aws_cryptography_materialproviders_EntryDoesNotExist(dafny_input):
+    # Deferred import of .errors to avoid circular dependency
+    import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors
+
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.EntryDoesNotExist(
+        message=b"".join(ord(c).to_bytes(2, "big") for c in dafny_input.message).decode(
+            "utf-16-be"
+        ),
+    )
+
+
+def aws_cryptography_materialproviders_InFlightTTLExceeded(dafny_input):
+    # Deferred import of .errors to avoid circular dependency
+    import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors
+
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InFlightTTLExceeded(
+        message=b"".join(ord(c).to_bytes(2, "big") for c in dafny_input.message).decode(
+            "utf-16-be"
+        ),
+    )
+
+
+def aws_cryptography_materialproviders_MaterialProvidersConfig(dafny_input):
+    # Deferred import of .config to avoid circular dependency
+    import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.config
+
+    return (
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.config.MaterialProvidersConfig()
     )

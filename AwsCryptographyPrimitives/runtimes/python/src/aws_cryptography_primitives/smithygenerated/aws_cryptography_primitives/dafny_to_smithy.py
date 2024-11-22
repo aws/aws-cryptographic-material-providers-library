@@ -23,22 +23,6 @@ import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.d
 import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.models
 
 
-def aws_cryptography_primitives_AES_CTR(dafny_input):
-    return aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.models.AES_CTR(
-        key_length=dafny_input.keyLength,
-        nonce_length=dafny_input.nonceLength,
-    )
-
-
-def aws_cryptography_primitives_CryptoConfig(dafny_input):
-    # Deferred import of .config to avoid circular dependency
-    import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.config
-
-    return (
-        aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.config.CryptoConfig()
-    )
-
-
 def aws_cryptography_primitives_GenerateRandomBytesInput(dafny_input):
     return aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.models.GenerateRandomBytesInput(
         length=dafny_input.length,
@@ -514,4 +498,20 @@ def aws_cryptography_primitives_ParsePublicKeyOutput(dafny_input):
         public_key=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy.aws_cryptography_primitives_ECCPublicKey(
             dafny_input.publicKey
         ),
+    )
+
+
+def aws_cryptography_primitives_AES_CTR(dafny_input):
+    return aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.models.AES_CTR(
+        key_length=dafny_input.keyLength,
+        nonce_length=dafny_input.nonceLength,
+    )
+
+
+def aws_cryptography_primitives_CryptoConfig(dafny_input):
+    # Deferred import of .config to avoid circular dependency
+    import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.config
+
+    return (
+        aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.config.CryptoConfig()
     )
