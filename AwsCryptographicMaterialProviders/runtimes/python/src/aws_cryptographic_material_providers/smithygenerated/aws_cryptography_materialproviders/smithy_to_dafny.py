@@ -131,6 +131,10 @@ import aws_cryptographic_material_providers.internaldafny.generated.module_
 import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny
 import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models
 import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny
+from aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes import (
+    IDynamoDBClient,
+)
+import aws_cryptography_internal_dynamodb.internaldafny.generated.module_
 from aws_cryptography_internal_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     IKMSClient,
 )
@@ -2301,6 +2305,16 @@ def aws_cryptography_materialproviders_CreateDefaultClientSupplierOutput(native_
     return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_ClientSupplierReference(
         native_input
     )
+
+
+def aws_cryptography_materialproviders_DdbClientReference(native_input):
+    import aws_cryptography_internal_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb
+
+    client = aws_cryptography_internal_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb.default__.DynamoDBClient(
+        boto_client=native_input
+    )
+    client.value.impl = native_input
+    return client.value
 
 
 def aws_cryptography_materialproviders_StaticConfigurations(native_input):

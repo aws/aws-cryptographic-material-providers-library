@@ -1757,6 +1757,10 @@ def aws_cryptography_materialproviders_CreateDefaultClientSupplierOutput(dafny_i
     )
 
 
+def aws_cryptography_materialproviders_DdbClientReference(dafny_input):
+    return dafny_input._impl
+
+
 def aws_cryptography_materialproviders_StaticConfigurations(dafny_input):
     # Convert StaticConfigurations
     if isinstance(dafny_input, StaticConfigurations_AWS__KMS__ECDH):

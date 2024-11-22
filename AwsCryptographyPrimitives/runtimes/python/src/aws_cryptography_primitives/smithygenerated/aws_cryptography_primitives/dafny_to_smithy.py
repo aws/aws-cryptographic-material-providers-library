@@ -501,6 +501,13 @@ def aws_cryptography_primitives_ParsePublicKeyOutput(dafny_input):
     )
 
 
+def aws_cryptography_primitives_AES_CTR(dafny_input):
+    return aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.models.AES_CTR(
+        key_length=dafny_input.keyLength,
+        nonce_length=dafny_input.nonceLength,
+    )
+
+
 def aws_cryptography_primitives_CryptoConfig(dafny_input):
     # Deferred import of .config to avoid circular dependency
     import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.config
