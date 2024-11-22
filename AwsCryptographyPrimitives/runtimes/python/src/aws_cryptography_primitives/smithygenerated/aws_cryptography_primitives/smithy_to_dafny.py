@@ -7,6 +7,7 @@ from aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitiv
     AESDecryptInput_AESDecryptInput as DafnyAESDecryptInput,
     AESEncryptInput_AESEncryptInput as DafnyAESEncryptInput,
     AESEncryptOutput_AESEncryptOutput as DafnyAESEncryptOutput,
+    AES__CTR_AES__CTR as DafnyAES_CTR,
     AES__GCM_AES__GCM as DafnyAES_GCM,
     AesKdfCtrInput_AesKdfCtrInput as DafnyAesKdfCtrInput,
     CompressPublicKeyInput_CompressPublicKeyInput as DafnyCompressPublicKeyInput,
@@ -66,6 +67,17 @@ from smithy_dafny_standard_library.internaldafny.generated.Wrappers import (
     Option_None,
     Option_Some,
 )
+
+
+def aws_cryptography_primitives_AES_CTR(native_input):
+    return DafnyAES_CTR(
+        keyLength=native_input.key_length,
+        nonceLength=native_input.nonce_length,
+    )
+
+
+def aws_cryptography_primitives_CryptoConfig(native_input):
+    return DafnyCryptoConfig()
 
 
 def aws_cryptography_primitives_GenerateRandomBytesInput(native_input):
@@ -560,7 +572,3 @@ def aws_cryptography_primitives_ParsePublicKeyOutput(native_input):
             native_input.public_key
         ),
     )
-
-
-def aws_cryptography_primitives_CryptoConfig(native_input):
-    return DafnyCryptoConfig()
