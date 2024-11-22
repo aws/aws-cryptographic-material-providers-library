@@ -732,39 +732,6 @@ def aws_cryptography_materialproviders_DdbClientReference(dafny_input):
     return dafny_input._impl
 
 
-def aws_cryptography_materialproviders_EntryAlreadyExists(dafny_input):
-    # Deferred import of .errors to avoid circular dependency
-    import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors
-
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.EntryAlreadyExists(
-        message=b"".join(ord(c).to_bytes(2, "big") for c in dafny_input.message).decode(
-            "utf-16-be"
-        ),
-    )
-
-
-def aws_cryptography_materialproviders_EntryDoesNotExist(dafny_input):
-    # Deferred import of .errors to avoid circular dependency
-    import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors
-
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.EntryDoesNotExist(
-        message=b"".join(ord(c).to_bytes(2, "big") for c in dafny_input.message).decode(
-            "utf-16-be"
-        ),
-    )
-
-
-def aws_cryptography_materialproviders_InFlightTTLExceeded(dafny_input):
-    # Deferred import of .errors to avoid circular dependency
-    import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors
-
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InFlightTTLExceeded(
-        message=b"".join(ord(c).to_bytes(2, "big") for c in dafny_input.message).decode(
-            "utf-16-be"
-        ),
-    )
-
-
 def aws_cryptography_materialproviders_StaticConfigurations(dafny_input):
     # Convert StaticConfigurations
     if isinstance(dafny_input, StaticConfigurations_AWS__KMS__ECDH):

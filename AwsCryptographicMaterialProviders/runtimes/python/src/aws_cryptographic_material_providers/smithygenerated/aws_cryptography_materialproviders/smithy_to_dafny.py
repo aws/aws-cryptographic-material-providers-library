@@ -71,9 +71,6 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     EncryptedDataKey_EncryptedDataKey as DafnyEncryptedDataKey,
     EncryptionMaterials_EncryptionMaterials as DafnyEncryptionMaterials,
     EphemeralPrivateKeyToStaticPublicKeyInput_EphemeralPrivateKeyToStaticPublicKeyInput as DafnyEphemeralPrivateKeyToStaticPublicKeyInput,
-    Error_EntryAlreadyExists,
-    Error_EntryDoesNotExist,
-    Error_InFlightTTLExceeded,
     GetBranchKeyIdInput_GetBranchKeyIdInput as DafnyGetBranchKeyIdInput,
     GetBranchKeyIdOutput_GetBranchKeyIdOutput as DafnyGetBranchKeyIdOutput,
     GetCacheEntryInput_GetCacheEntryInput as DafnyGetCacheEntryInput,
@@ -903,51 +900,6 @@ def aws_cryptography_materialproviders_DdbClientReference(native_input):
     )
     client.value.impl = native_input
     return client.value
-
-
-def aws_cryptography_materialproviders_EntryAlreadyExists(native_input):
-    return DafnyEntryAlreadyExists(
-        message=Seq(
-            "".join(
-                [
-                    chr(int.from_bytes(pair, "big"))
-                    for pair in zip(
-                        *[iter(native_input.message.encode("utf-16-be"))] * 2
-                    )
-                ]
-            )
-        ),
-    )
-
-
-def aws_cryptography_materialproviders_EntryDoesNotExist(native_input):
-    return DafnyEntryDoesNotExist(
-        message=Seq(
-            "".join(
-                [
-                    chr(int.from_bytes(pair, "big"))
-                    for pair in zip(
-                        *[iter(native_input.message.encode("utf-16-be"))] * 2
-                    )
-                ]
-            )
-        ),
-    )
-
-
-def aws_cryptography_materialproviders_InFlightTTLExceeded(native_input):
-    return DafnyInFlightTTLExceeded(
-        message=Seq(
-            "".join(
-                [
-                    chr(int.from_bytes(pair, "big"))
-                    for pair in zip(
-                        *[iter(native_input.message.encode("utf-16-be"))] * 2
-                    )
-                ]
-            )
-        ),
-    )
 
 
 def aws_cryptography_materialproviders_KmsEcdhStaticConfigurations(native_input):
