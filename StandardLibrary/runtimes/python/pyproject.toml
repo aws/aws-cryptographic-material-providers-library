@@ -18,7 +18,7 @@ include = [
 python = "^3.11.0"
 pytz = "^2023.3.post1"
 # TODO: Longer-term, write something to pull this in from the project's project.properties file
-DafnyRuntimePython = "4.8.1.post1"
+DafnyRuntimePython = "4.9.0"
 
 # Package testing
 
