@@ -71,9 +71,6 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     EncryptedDataKey_EncryptedDataKey as DafnyEncryptedDataKey,
     EncryptionMaterials_EncryptionMaterials as DafnyEncryptionMaterials,
     EphemeralPrivateKeyToStaticPublicKeyInput_EphemeralPrivateKeyToStaticPublicKeyInput as DafnyEphemeralPrivateKeyToStaticPublicKeyInput,
-    Error_EntryAlreadyExists,
-    Error_EntryDoesNotExist,
-    Error_InFlightTTLExceeded,
     GetBranchKeyIdInput_GetBranchKeyIdInput as DafnyGetBranchKeyIdInput,
     GetBranchKeyIdOutput_GetBranchKeyIdOutput as DafnyGetBranchKeyIdOutput,
     GetCacheEntryInput_GetCacheEntryInput as DafnyGetCacheEntryInput,
@@ -86,6 +83,7 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     InitializeDecryptionMaterialsInput_InitializeDecryptionMaterialsInput as DafnyInitializeDecryptionMaterialsInput,
     InitializeEncryptionMaterialsInput_InitializeEncryptionMaterialsInput as DafnyInitializeEncryptionMaterialsInput,
     IntermediateKeyWrapping_IntermediateKeyWrapping as DafnyIntermediateKeyWrapping,
+    KeyAgreementScheme_StaticConfiguration,
     KmsEcdhStaticConfigurations_KmsPrivateKeyToStaticPublicKey,
     KmsEcdhStaticConfigurations_KmsPublicKeyDiscovery,
     KmsPrivateKeyToStaticPublicKeyInput_KmsPrivateKeyToStaticPublicKeyInput as DafnyKmsPrivateKeyToStaticPublicKeyInput,
@@ -116,6 +114,8 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     SignatureAlgorithm_ECDSA,
     SignatureAlgorithm_None,
     SingleThreadedCache_SingleThreadedCache as DafnySingleThreadedCache,
+    StaticConfigurations_AWS__KMS__ECDH,
+    StaticConfigurations_RAW__ECDH,
     StormTrackingCache_StormTrackingCache as DafnyStormTrackingCache,
     SymmetricSignatureAlgorithm_HMAC,
     SymmetricSignatureAlgorithm_None,
@@ -131,10 +131,6 @@ import aws_cryptographic_material_providers.internaldafny.generated.module_
 import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny
 import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models
 import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny
-from aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes import (
-    IDynamoDBClient,
-)
-import aws_cryptography_internal_dynamodb.internaldafny.generated.module_
 from aws_cryptography_internal_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     IKMSClient,
 )
@@ -2307,59 +2303,49 @@ def aws_cryptography_materialproviders_CreateDefaultClientSupplierOutput(native_
     )
 
 
-def aws_cryptography_materialproviders_DdbClientReference(native_input):
-    import aws_cryptography_internal_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb
-
-    client = aws_cryptography_internal_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb.default__.DynamoDBClient(
-        boto_client=native_input
-    )
-    client.value.impl = native_input
-    return client.value
-
-
-def aws_cryptography_materialproviders_EntryAlreadyExists(native_input):
-    return DafnyEntryAlreadyExists(
-        message=Seq(
-            "".join(
-                [
-                    chr(int.from_bytes(pair, "big"))
-                    for pair in zip(
-                        *[iter(native_input.message.encode("utf-16-be"))] * 2
-                    )
-                ]
+def aws_cryptography_materialproviders_StaticConfigurations(native_input):
+    if isinstance(
+        native_input,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.StaticConfigurationsAWS_KMS_ECDH,
+    ):
+        StaticConfigurations_union_value = StaticConfigurations_AWS__KMS__ECDH(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_KmsEcdhStaticConfigurations(
+                native_input.value
             )
-        ),
-    )
-
-
-def aws_cryptography_materialproviders_EntryDoesNotExist(native_input):
-    return DafnyEntryDoesNotExist(
-        message=Seq(
-            "".join(
-                [
-                    chr(int.from_bytes(pair, "big"))
-                    for pair in zip(
-                        *[iter(native_input.message.encode("utf-16-be"))] * 2
-                    )
-                ]
+        )
+    elif isinstance(
+        native_input,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.StaticConfigurationsRAW_ECDH,
+    ):
+        StaticConfigurations_union_value = StaticConfigurations_RAW__ECDH(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_RawEcdhStaticConfigurations(
+                native_input.value
             )
-        ),
-    )
+        )
+    else:
+        raise ValueError(
+            "No recognized union value in union type: " + str(native_input)
+        )
+
+    return StaticConfigurations_union_value
 
 
-def aws_cryptography_materialproviders_InFlightTTLExceeded(native_input):
-    return DafnyInFlightTTLExceeded(
-        message=Seq(
-            "".join(
-                [
-                    chr(int.from_bytes(pair, "big"))
-                    for pair in zip(
-                        *[iter(native_input.message.encode("utf-16-be"))] * 2
-                    )
-                ]
+def aws_cryptography_materialproviders_KeyAgreementScheme(native_input):
+    if isinstance(
+        native_input,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.models.KeyAgreementSchemeStaticConfiguration,
+    ):
+        KeyAgreementScheme_union_value = KeyAgreementScheme_StaticConfiguration(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_StaticConfigurations(
+                native_input.value
             )
-        ),
-    )
+        )
+    else:
+        raise ValueError(
+            "No recognized union value in union type: " + str(native_input)
+        )
+
+    return KeyAgreementScheme_union_value
 
 
 def aws_cryptography_materialproviders_MaterialProvidersConfig(native_input):
