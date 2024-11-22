@@ -6,9 +6,6 @@ rust-version = "1.80.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[features]
-wrapped-client = []
-
 [dependencies]
 aws-config = "1.5.8"
 aws-lc-rs = "1.10.0"
@@ -26,7 +23,7 @@ tokio = {version = "1.41.0", features = ["full"] }
 uuid = { version = "1.11.0", features = ["v4"] }
 
 [dev-dependencies]
-aws-mpl-test-vectors = { path = ".", features = ["wrapped-client"] }
+aws-mpl-test-vectors = { path = "." }
 
 [[bin]]
 name = "test-vectors"
