@@ -139,9 +139,9 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
         :- Need(
           && kmsDecryptEncrypt.decrypt.Some?
           && kmsDecryptEncrypt.encrypt.Some?,
-          Types.KeyStoreAdminException(message := 
-          "MUST supply KMS clients to both decrypt and encrypt fields in AwsKmsDecryptEncrypt strategy."
-        ));
+          Types.KeyStoreAdminException(message :=
+                                         "MUST supply KMS clients to both decrypt and encrypt fields in AwsKmsDecryptEncrypt strategy."
+          ));
         var decrypt :- ResolveKmsInput(kmsDecryptEncrypt.decrypt.value, config);
         var encrypt :- ResolveKmsInput(kmsDecryptEncrypt.encrypt.value, config);
         return Success(KmsUtils.keyManagerStrat.decryptEncrypt(decrypt, encrypt));
@@ -302,6 +302,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     if keyManagerStrat.decryptEncrypt? {
       assume {:axiom} keyManagerStrat.decrypt.kmsClient.Modifies < MutationLie();
       assume {:axiom} keyManagerStrat.encrypt.kmsClient.Modifies < MutationLie();
+      assume {:axiom} keyManagerStrat.decrypt.kmsClient.Modifies !! keyManagerStrat.encrypt.kmsClient.Modifies;
     }
 
     var internalInput := Mutations.InternalInitializeMutationInput(

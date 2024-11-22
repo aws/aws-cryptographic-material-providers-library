@@ -72,11 +72,11 @@ module {:options "/functionSyntax:4" } AdminFixtures {
       ));
     return Success(strategy);
   }
-  
+
   method DecryptEncrypKeyManagerStrategy(
     nameonly decryptKmsClient?: Option<KMS.Types.IKMSClient> := None,
     nameonly encryptKmsClient?: Option<KMS.Types.IKMSClient> := None
-  ) 
+  )
     returns (output: Result<Types.KeyManagementStrategy, Types.Error>)
     requires decryptKmsClient?.Some? ==> decryptKmsClient?.value.ValidState()
     requires encryptKmsClient?.Some? ==> encryptKmsClient?.value.ValidState()
@@ -99,13 +99,13 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     var strategy := Types.KeyManagementStrategy.AwsKmsDecryptEncrypt(
       Types.AwsKmsDecryptEncrypt.AwsKmsDecryptEncrypt(
         decrypt := Some(KeyStoreTypes.AwsKms(
-          grantTokens := None,
-          kmsClient := Some(decryptKmsClient)
-        )), 
+                          grantTokens := None,
+                          kmsClient := Some(decryptKmsClient)
+                        )),
         encrypt := Some(KeyStoreTypes.AwsKms(
-          grantTokens := None,
-          kmsClient := Some(encryptKmsClient)
-        ))
+                          grantTokens := None,
+                          kmsClient := Some(encryptKmsClient)
+                        ))
       )
     );
     return Success(strategy);

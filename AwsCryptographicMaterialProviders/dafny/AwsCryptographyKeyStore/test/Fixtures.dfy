@@ -302,7 +302,7 @@ module Fixtures {
       versionIndex := versionIndex + 1;
     }
   }
-  
+
   method CreateHappyCaseId2(
     nameonly id: string,
     nameonly kmsId: string := keyArn,
