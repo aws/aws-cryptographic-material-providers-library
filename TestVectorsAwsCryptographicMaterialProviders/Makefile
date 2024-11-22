@@ -104,28 +104,10 @@ IMPLEMENTATION_FROM_DAFNY_TV_RUST_ESDK_MAIN= \
 	let dafny_args = dafny_runtime::Sequence::from_array_owned(dafny_strings);\
 	r\#_WrappedMaterialProvidersMain_Compile::_default::Main(\&dafny_args);"
 
-# TODO: Remove after wrapped client issue is fixed in Rust
-REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_PRIMITIVES=runtimes/rust/src/deps/aws_cryptography_primitives.rs
-REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_KEYSTORE=runtimes/rust/src/deps/aws_cryptography_keyStore.rs
-REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_FROM_1 = "\#\[cfg(feature = \"wrapped-client\")\]"
-REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_FROM_2 := 'pub mod wrapped;'
-REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_TO_1 := '\/\/ removed wrapped-client feature using sed;'
-REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_TO_2 := '\/\/ removed wrapped module using sed;'
-
 transpile_implementation_rust: _replace_main_method_name_rust
-
-# TODO: Remove after wrapped client issue is fixed in Rust
-_polymorph_rust: _remove_wrapped_client_rust
 
 _replace_main_method_name_rust:
 	$(MAKE) _sed_file SED_FILE_PATH=$(IMPLEMENTATION_FROM_DAFNY_TV_RUST_FILE) SED_BEFORE_STRING=$(IMPLEMENTATION_FROM_DAFNY_TV_RUST_MPL_MAIN) SED_AFTER_STRING=$(IMPLEMENTATION_FROM_DAFNY_TV_RUST_ESDK_MAIN)
-
-# TODO: Remove after wrapped client issue is fixed in Rust
-_remove_wrapped_client_rust:
-	$(MAKE) _sed_file SED_FILE_PATH=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_PRIMITIVES) SED_BEFORE_STRING=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_FROM_1) SED_AFTER_STRING=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_TO_1)
-	$(MAKE) _sed_file SED_FILE_PATH=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_PRIMITIVES) SED_BEFORE_STRING=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_FROM_2) SED_AFTER_STRING=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_TO_2)
-	$(MAKE) _sed_file SED_FILE_PATH=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_KEYSTORE) SED_BEFORE_STRING=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_FROM_1) SED_AFTER_STRING=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_TO_1)
-	$(MAKE) _sed_file SED_FILE_PATH=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_KEYSTORE) SED_BEFORE_STRING=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_FROM_2) SED_AFTER_STRING=$(REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_TO_2)
 
 # Python
 
@@ -179,7 +161,7 @@ test_generate_vectors_python:
 
 test_generate_vectors_rust:
 	cd runtimes/rust && \
-	cargo run --bin test-vectors --features="wrapped-client" --release -- encrypt-manifest --encrypt-manifest-output . && \
+	cargo run --bin test-vectors --release -- encrypt-manifest --encrypt-manifest-output . && \
 	cd ../../
 	cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/rust/
 
@@ -198,7 +180,7 @@ test_encrypt_vectors_python:
 
 test_encrypt_vectors_rust:
 	cd runtimes/rust && \
-	cargo run --bin test-vectors --features="wrapped-client" --release -- encrypt --manifest-path . --decrypt-manifest-path . && \
+	cargo run --bin test-vectors --release -- encrypt --manifest-path . --decrypt-manifest-path . && \
 	cd ../../
 
 test_decrypt_encrypt_vectors_java:
@@ -216,5 +198,5 @@ test_decrypt_encrypt_vectors_python:
 
 test_decrypt_encrypt_vectors_rust:
 	cd runtimes/rust && \
-	cargo run --bin test-vectors --features="wrapped-client" --release -- decrypt --manifest-path . && \
+	cargo run --bin test-vectors --release -- decrypt --manifest-path . && \
 	cd ../../
