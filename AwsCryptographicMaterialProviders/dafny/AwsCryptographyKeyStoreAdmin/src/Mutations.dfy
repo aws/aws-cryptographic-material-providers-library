@@ -60,6 +60,16 @@ module {:options "/functionSyntax:4" } Mutations {
     nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
     nameonly storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
   )
+  {
+    ghost predicate ValidState()
+    {
+      && SystemKey.ValidState()
+      && keyManagerStrategy.ValidState()
+      && storage.ValidState()
+      && SystemKey.Modifies !! keyManagerStrategy.Modifies !! storage.Modifies
+    }
+    ghost const Modifies := SystemKey.Modifies + keyManagerStrategy.Modifies + storage.Modifies
+  }
 
   predicate ValidateQueryOutResults?(
     applyMutationInput: Types.ApplyMutationInput,
