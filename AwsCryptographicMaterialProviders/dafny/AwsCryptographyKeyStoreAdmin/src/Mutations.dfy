@@ -60,6 +60,16 @@ module {:options "/functionSyntax:4" } Mutations {
     nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
     nameonly storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
   )
+  {
+    ghost predicate ValidState()
+    {
+      && SystemKey.ValidState()
+      && keyManagerStrategy.ValidState()
+      && storage.ValidState()
+      && SystemKey.Modifies !! keyManagerStrategy.Modifies !! storage.Modifies
+    }
+    ghost const Modifies := SystemKey.Modifies + keyManagerStrategy.Modifies + storage.Modifies
+  }
 
   predicate ValidateQueryOutResults?(
     applyMutationInput: Types.ApplyMutationInput,
@@ -99,8 +109,8 @@ module {:options "/functionSyntax:4" } Mutations {
       && output.Success?
       ==>
         input.DoNotVersion == false
-    requires input.SystemKey.ValidState()
-    ensures input.SystemKey.ValidState()
+    requires input.ValidState()
+    ensures input.ValidState()
   {
     :- Need(
          input.DoNotVersion == false,
@@ -149,30 +159,30 @@ module {:options "/functionSyntax:4" } Mutations {
     returns (output: Result<Types.InitializeMutationOutput, Types.Error>)
     requires ValidateInitializeMutationInput(input).Success?
     requires StateStrucs.ValidMutations?(input.Mutations) // may not need this
-    requires
-      && input.storage.ValidState()
-      && match input.keyManagerStrategy {
-           case reEncrypt(km) => km.kmsClient.ValidState() && AwsKmsUtils.GetValidGrantTokens(Some(km.grantTokens)).Success?
-           case decryptEncrypt(kmD, kmE) =>
-             && kmD.kmsClient.ValidState() && kmE.kmsClient.ValidState()
-             && AwsKmsUtils.GetValidGrantTokens(Some(kmD.grantTokens)).Success?
-             && AwsKmsUtils.GetValidGrantTokens(Some(kmE.grantTokens)).Success?
-         }
-      && input.SystemKey.ValidState()
-    ensures
-      && input.storage.ValidState()
-      && match input.keyManagerStrategy {
-           case reEncrypt(km) => km.kmsClient.ValidState()
-           case decryptEncrypt(kmD, kmE) => kmD.kmsClient.ValidState() && kmE.kmsClient.ValidState()
-         }
-      && input.SystemKey.ValidState()
-    modifies
-      input.storage.Modifies,
-             match input.keyManagerStrategy {
-               case reEncrypt(km) => km.kmsClient.Modifies
-               case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
-             },
-             input.SystemKey.Modifies
+    requires input.ValidState()
+    // && input.storage.ValidState()
+    // && match input.keyManagerStrategy {
+    //      case reEncrypt(km) => km.kmsClient.ValidState() && AwsKmsUtils.GetValidGrantTokens(Some(km.grantTokens)).Success?
+    //      case decryptEncrypt(kmD, kmE) =>
+    //        && kmD.kmsClient.ValidState() && kmE.kmsClient.ValidState()
+    //        && AwsKmsUtils.GetValidGrantTokens(Some(kmD.grantTokens)).Success?
+    //        && AwsKmsUtils.GetValidGrantTokens(Some(kmE.grantTokens)).Success?
+    //    }
+    // && input.SystemKey.ValidState()
+    ensures input.ValidState()
+    // && input.storage.ValidState()
+    // && match input.keyManagerStrategy {
+    //      case reEncrypt(km) => km.kmsClient.ValidState()
+    //      case decryptEncrypt(kmD, kmE) => kmD.kmsClient.ValidState() && kmE.kmsClient.ValidState()
+    //    }
+    // && input.SystemKey.ValidState()
+    modifies input.Modifies
+    // input.storage.Modifies,
+    //        match input.keyManagerStrategy {
+    //          case reEncrypt(km) => km.kmsClient.Modifies
+    //          case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
+    //        },
+    //        input.SystemKey.Modifies
   {
     var resumeMutation? := false;
 

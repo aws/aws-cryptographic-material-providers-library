@@ -30,6 +30,7 @@ module {:options "/functionSyntax:4" } KmsUtils {
       case decryptEncrypt(kmD, kmE) =>
         && kmD.ValidState()
         && kmE.ValidState()
+        && kmE.Modifies !! kmD.Modifies
     }
     ghost const Modifies := match this
       case reEncrypt(km) => km.Modifies
