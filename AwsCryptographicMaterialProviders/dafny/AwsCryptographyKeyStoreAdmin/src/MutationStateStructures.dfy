@@ -13,6 +13,7 @@ include "MutationIndexUtils.dfy"
 module {:options "/functionSyntax:4" } MutationStateStructures {
   import opened StandardLibrary
   import opened StandardLibrary.UInt
+  import opened StandardLibrary.NeedError
   import opened Wrappers
   import opened Seq
   import UTF8
@@ -137,29 +138,6 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   ): (output: Result<JSONValues.JSON, Types.Error>)
   {
     Success(JSONValues.JSON.String(kmsArn))
-  }
-
-  function NeedOutcome<E>(
-    condition: bool,
-    error: () --> E)
-    : (result: Outcome2<E>)
-    requires !condition ==> error.requires()
-  {
-    if condition then Outcome2.Pass else Outcome2.Fail(error())
-  }
-
-  datatype Outcome2<E> = Pass | Fail(error: E)
-  {
-    predicate IsFailure() {
-      Fail?
-    }
-    // Note: PropagateFailure returns a Result, not an Outcome.
-    function PropagateFailure(): Outcome<E>
-      requires Fail?
-    {
-      Outcome.Fail(this.error)
-    }
-    // Note: no Extract method
   }
 
   function InputMutationsToJson(

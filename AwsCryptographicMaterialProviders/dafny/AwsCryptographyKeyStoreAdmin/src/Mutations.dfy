@@ -8,6 +8,7 @@ include "MutationErrorRefinement.dfy"
 include "KmsUtils.dfy"
 include "MutationIndexUtils.dfy"
 include "MutationsConstants.dfy"
+include "SystemKey/Handler.dfy"
 
 module {:options "/functionSyntax:4" } Mutations {
   import opened StandardLibrary
@@ -35,6 +36,7 @@ module {:options "/functionSyntax:4" } Mutations {
   import KmsUtils
   import MutationIndexUtils
   import M_ErrorMessages = MutationsConstants.ErrorMessages
+  import SystemKeyHandler = SystemKey.Handler
 
   const DEFAULT_APPLY_PAGE_SIZE := 3 as StandardLibrary.UInt.int32
 
@@ -68,13 +70,13 @@ module {:options "/functionSyntax:4" } Mutations {
   {
     || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
     || (
-          forall item <- queryItems.Items ::
-              && item.Identifier == applyMutationInput.MutationToken.Identifier
-              && Structure.DecryptOnlyHierarchicalSymmetricKey?(item)
-              && item.Type.HierarchicalSymmetricVersion?
-              && item.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
-              && KmsArn.ValidKmsArn?(item.KmsArn)
-        )
+         forall item <- queryItems.Items ::
+           && item.Identifier == applyMutationInput.MutationToken.Identifier
+           && Structure.DecryptOnlyHierarchicalSymmetricKey?(item)
+           && item.Type.HierarchicalSymmetricVersion?
+           && item.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+           && KmsArn.ValidKmsArn?(item.KmsArn)
+       )
   }
 
   // Ensures:
@@ -147,13 +149,16 @@ module {:options "/functionSyntax:4" } Mutations {
     returns (output: Result<Types.InitializeMutationOutput, Types.Error>)
     requires ValidateInitializeMutationInput(input).Success?
     requires StateStrucs.ValidMutations?(input.Mutations) // may not need this
-    requires input.storage.ValidState() &&
-             match input.keyManagerStrategy
-             case reEncrypt(km) => km.kmsClient.ValidState() && AwsKmsUtils.GetValidGrantTokens(Some(km.grantTokens)).Success?
-             case decryptEncrypt(kmD, kmE) =>
-               && kmD.kmsClient.ValidState() && kmE.kmsClient.ValidState()
-               && AwsKmsUtils.GetValidGrantTokens(Some(kmD.grantTokens)).Success?
-               && AwsKmsUtils.GetValidGrantTokens(Some(kmE.grantTokens)).Success?
+    requires
+      && input.storage.ValidState()
+      && match input.keyManagerStrategy {
+           case reEncrypt(km) => km.kmsClient.ValidState() && AwsKmsUtils.GetValidGrantTokens(Some(km.grantTokens)).Success?
+           case decryptEncrypt(kmD, kmE) =>
+             && kmD.kmsClient.ValidState() && kmE.kmsClient.ValidState()
+             && AwsKmsUtils.GetValidGrantTokens(Some(kmD.grantTokens)).Success?
+             && AwsKmsUtils.GetValidGrantTokens(Some(kmE.grantTokens)).Success?
+         }
+      && input.SystemKey.ValidState()
     ensures
       && input.storage.ValidState()
       && match input.keyManagerStrategy {
@@ -196,11 +201,13 @@ module {:options "/functionSyntax:4" } Mutations {
         internalInput := input,
         commitment := readItems.MutationCommitment.value);
       if (resumeMutation?) {
+        // TODO-SystemKey :: ResumeMutation will validate SystemKey
         output := ResumeMutation(
           commitment := readItems.MutationCommitment.value,
           index := readItems.MutationIndex,
           logicalKeyStoreName := input.logicalKeyStoreName,
-          storage := input.storage);
+          storage := input.storage);//,
+        // systemKey := input.SystemKey);
         return output;
       }
       return Failure(
@@ -372,9 +379,9 @@ module {:options "/functionSyntax:4" } Mutations {
       MutationToApply,
       input.keyManagerStrategy
     );
-    
+
     var ActiveEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(newDecryptOnly.EncryptionContext);
-    
+
     var newActive :- ReEncryptHierarchicalKey(
       item := newDecryptOnly,
       originalKmsArn := MutationToApply.Terminal.kmsArn,
@@ -405,10 +412,13 @@ module {:options "/functionSyntax:4" } Mutations {
       localOperation := "InitializeMutation"
     );
 
-    // -= Create Mutation Commitment
+    // -= Create Mutation Commitment & Mutation Index
     var MutationCommitment :- StateStrucs.SerializeMutationCommitment(MutationToApply);
-    // TODO-Mutations-GA :: If resuming a mutation, we will need to serialize the read pageIndex
     var MutationIndex :- StateStrucs.SerializeMutationIndex(MutationToApply, None);
+
+    // -= Apply System Key to Commitment & Mutation Index
+    var SignedMutationCommitment :- SystemKeyHandler.SignCommitment(MutationCommitment, input.SystemKey);
+    // var SignedMutationIndex :- SystemKeyHandler.SignIndex(MutationIndex, input.SystemKey);
 
     // -= Write Mutation Commitment, new branch key version, mutated beacon key
     var throwAway2? := input.storage.WriteInitializeMutation(
@@ -416,7 +426,7 @@ module {:options "/functionSyntax:4" } Mutations {
         Active := KeyStoreTypes.OverWriteEncryptedHierarchicalKey(Item:=newActive, Old:=activeItem),
         Version := KeyStoreTypes.WriteInitializeMutationVersion.rotate(rotate:=newDecryptOnly),
         Beacon := KeyStoreTypes.OverWriteEncryptedHierarchicalKey(Item:=newBeaconKey, Old:=readItems.BeaconItem),
-        MutationCommitment := MutationCommitment,
+        MutationCommitment := SignedMutationCommitment,
         MutationIndex := MutationIndex
       ));
     // TODO-Mutations-FF :: Ideally, we would diagnosis the Storage Failure.
@@ -442,10 +452,10 @@ module {:options "/functionSyntax:4" } Mutations {
     : (output: seq<Types.MutatedBranchKeyItem>)
   {
     [Types.MutatedBranchKeyItem(ItemType := "Mutation Commitment: " + mutationCommitmentUUID, Description := "Created"),
-      Types.MutatedBranchKeyItem(ItemType := "Mutation Index: " + mutationCommitmentUUID, Description := "Created"),
-      Types.MutatedBranchKeyItem(ItemType := "Active: " + newVersion, Description := "Created"),
-      Types.MutatedBranchKeyItem(ItemType := "Decrypt Only: " + newVersion, Description := "Created"),
-      Types.MutatedBranchKeyItem(ItemType := "Beacon", Description := "Mutated")
+     Types.MutatedBranchKeyItem(ItemType := "Mutation Index: " + mutationCommitmentUUID, Description := "Created"),
+     Types.MutatedBranchKeyItem(ItemType := "Active: " + newVersion, Description := "Created"),
+     Types.MutatedBranchKeyItem(ItemType := "Decrypt Only: " + newVersion, Description := "Created"),
+     Types.MutatedBranchKeyItem(ItemType := "Beacon", Description := "Mutated")
     ]
   }
 
@@ -453,24 +463,24 @@ module {:options "/functionSyntax:4" } Mutations {
     decryptOnlyEncryptionContext: Structure.BranchKeyContext,
     mutationToApply: StateStrucs.MutationToApply,
     keyManagerStrategy: KmsUtils.keyManagerStrat
-  ) 
+  )
     returns (res: Result<KeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
     requires KmsArn.ValidKmsArn?(mutationToApply.Terminal.kmsArn)
     requires KMSKeystoreOperations.AttemptKmsOperation?(
-        KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn), decryptOnlyEncryptionContext
-    )
+               KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn), decryptOnlyEncryptionContext
+             )
     requires keyManagerStrategy.ValidState()
-    modifies 
+    modifies
       match keyManagerStrategy
       case reEncrypt(kms) => kms.kmsClient.Modifies
       case decryptEncrypt(kmsD, kmsE) => kmsD.kmsClient.Modifies + kmsE.kmsClient.Modifies
     ensures keyManagerStrategy.ValidState()
     ensures res.Success? ==>
-      && Structure.BranchKeyContext?(res.value.EncryptionContext)
-      && Structure.EncryptedHierarchicalKey?(res.value)
-      && res.value.KmsArn == KMSKeystoreOperations.GetKeyId(KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn))
-      && Structure.BRANCH_KEY_TYPE_PREFIX < res.value.EncryptionContext[Structure.TYPE_FIELD]
-      && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in decryptOnlyEncryptionContext
+              && Structure.BranchKeyContext?(res.value.EncryptionContext)
+              && Structure.EncryptedHierarchicalKey?(res.value)
+              && res.value.KmsArn == KMSKeystoreOperations.GetKeyId(KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn))
+              && Structure.BRANCH_KEY_TYPE_PREFIX < res.value.EncryptionContext[Structure.TYPE_FIELD]
+              && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in decryptOnlyEncryptionContext
   {
     var grantTokens: KMS.GrantTokenList;
     var kmsClient: KMS.IKMSClient;
@@ -491,7 +501,7 @@ module {:options "/functionSyntax:4" } Mutations {
     );
     var wrappedDecryptOnlyBranchKey :- wrappedDecryptOnlyBranchKey?
     .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
-    
+
     var newDecryptOnly := Structure.ConstructEncryptedHierarchicalKey(
       decryptOnlyEncryptionContext,
       wrappedDecryptOnlyBranchKey.CiphertextBlob.value
@@ -499,7 +509,7 @@ module {:options "/functionSyntax:4" } Mutations {
 
     :- Need(
       Structure.BRANCH_KEY_TYPE_PREFIX < newDecryptOnly.EncryptionContext[Structure.TYPE_FIELD],
-      Types.KeyStoreAdminException(message := "Invalid Branch Key prefix.") 
+      Types.KeyStoreAdminException(message := "Invalid Branch Key prefix.")
     );
 
     return Success(newDecryptOnly);
@@ -583,7 +593,7 @@ module {:options "/functionSyntax:4" } Mutations {
     var fetchMutation: KeyStoreTypes.GetMutationOutput :- fetchMutation?
     .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
 
-    // -= Validate Commitment and Index
+      // -= Validate Commitment and Index
     :- Need(
       fetchMutation.MutationCommitment.Some?,
       Types.MutationInvalidException(
@@ -607,7 +617,7 @@ module {:options "/functionSyntax:4" } Mutations {
     var Commitment := fetchMutation.MutationCommitment.value;
     var Index := fetchMutation.MutationIndex.value;
     var _ :- ValidateCommitmentAndIndexStructures(input, fetchMutation, Commitment, Index);
-    
+
     var CommitmentAndIndex := StateStrucs.CommitmentAndIndex(
       Commitment := Commitment,
       Index := Index);
@@ -644,11 +654,11 @@ module {:options "/functionSyntax:4" } Mutations {
     var itemsToProcess: OriginalOrTerminal := queryOutItems;
 
     assert forall item <- itemsToProcess ::
-      && item.item is KeyStoreTypes.EncryptedHierarchicalKey
-      && Structure.EncryptedHierarchicalKey?(item.item)
-      && item.itemOriginal? ==> item.item.KmsArn == MutationToApply.Original.kmsArn
-      && item.item.Type.HierarchicalSymmetricVersion?;
-      // && MutationToApply.Original.kmsArn == item.item.KmsArn; 
+        && item.item is KeyStoreTypes.EncryptedHierarchicalKey
+        && Structure.EncryptedHierarchicalKey?(item.item)
+        && item.itemOriginal? ==> item.item.KmsArn == MutationToApply.Original.kmsArn
+                                  && item.item.Type.HierarchicalSymmetricVersion?;
+    // && MutationToApply.Original.kmsArn == item.item.KmsArn;
 
     // Process Branch Keys that need to be mutated
     var processedItems? :- ProcessBranchKeysInApplyMutation(itemsToProcess, keyManagerStrategy, MutationToApply);
@@ -657,7 +667,7 @@ module {:options "/functionSyntax:4" } Mutations {
 
     // Update Index
     var newIndex :- StateStrucs.SerializeMutationIndex(MutationToApply, Some(queryOut.ExclusiveStartKey));
-    
+
     var _ :- WriteMutations(
       storage,
       itemsEvaluated,
@@ -696,15 +706,15 @@ module {:options "/functionSyntax:4" } Mutations {
     modifies storage.Modifies
     ensures storage.ValidState()
     ensures output.Success? ==>
-      && |storage.History.WriteMutatedVersions| == |old(storage.History.WriteMutatedVersions)| + 1
-      && Seq.Last(storage.History.WriteMutatedVersions).output.Success?
-      && var input := Seq.Last(storage.History.WriteMutatedVersions).input;
-      && KeyStoreTypes.WriteMutatedVersionsInput(
-        Items := itemsEvaluated,
-        MutationCommitment := commitment,
-        MutationIndex := KeyStoreTypes.OverWriteMutationIndex(Index:=newIndex, Old:=oldIndex),
-        EndMutation := endMutationBool
-      ) == input 
+              && |storage.History.WriteMutatedVersions| == |old(storage.History.WriteMutatedVersions)| + 1
+              && Seq.Last(storage.History.WriteMutatedVersions).output.Success?
+              && var input := Seq.Last(storage.History.WriteMutatedVersions).input;
+              && KeyStoreTypes.WriteMutatedVersionsInput(
+                Items := itemsEvaluated,
+                MutationCommitment := commitment,
+                MutationIndex := KeyStoreTypes.OverWriteMutationIndex(Index:=newIndex, Old:=oldIndex),
+                EndMutation := endMutationBool
+              ) == input
   {
     // Add conditional check on Mutation Commitment & Mutation Token agreement to Write Request
     var writeReq := KeyStoreTypes.WriteMutatedVersionsInput(
@@ -728,27 +738,27 @@ module {:options "/functionSyntax:4" } Mutations {
     index: KeyStoreTypes.MutationIndex
   ): (output: Result<(), Types.Error>)
     requires fetchMutation.MutationCommitment.Some?
-    ensures 
+    ensures
       output.Success? ==>
         && commitment.Identifier == index.Identifier
         && commitment.UUID == index.UUID
   {
     if commitment.Identifier != index.Identifier then
       Failure(Types.MutationInvalidException(
-        message := "The Token and the Mutation Commitment read from storage disagree."
-        + " This indicates that the Token is for a different Mutation than the one in-flight."
-        + " A possible cause is this token is from an earlier Mutation that already finished?"
-        + " Branch Key ID: " + input.MutationToken.Identifier + ";"
-        + " Mutation Commitment UUID: " + fetchMutation.MutationCommitment.value.UUID + ";"
-        + " Token UUID: " + input.MutationToken.UUID + ";"
-      ))
+                message := "The Token and the Mutation Commitment read from storage disagree."
+                + " This indicates that the Token is for a different Mutation than the one in-flight."
+                + " A possible cause is this token is from an earlier Mutation that already finished?"
+                + " Branch Key ID: " + input.MutationToken.Identifier + ";"
+                + " Mutation Commitment UUID: " + fetchMutation.MutationCommitment.value.UUID + ";"
+                + " Token UUID: " + input.MutationToken.UUID + ";"
+              ))
     else if commitment.UUID != index.UUID then
       Failure(Types.MutationInvalidException(
-        message := "The Mutation Index read from storage and the Mutation Commitment are for different Mutations."
-        + " Branch Key ID: " + input.MutationToken.Identifier + ";"
-        + " Mutation Commitment UUID: " + commitment.UUID + ";"
-        + " Mutation Index UUID: " + index.UUID + ";"
-      ))
+                message := "The Mutation Index read from storage and the Mutation Commitment are for different Mutations."
+                + " Branch Key ID: " + input.MutationToken.Identifier + ";"
+                + " Mutation Commitment UUID: " + commitment.UUID + ";"
+                + " Mutation Index UUID: " + index.UUID + ";"
+              ))
     else
       Success(())
   }
@@ -763,21 +773,21 @@ module {:options "/functionSyntax:4" } Mutations {
     modifies storage.Modifies
     ensures storage.ValidState()
     ensures output.Success? ==>
-      && |storage.History.QueryForVersions| == |old(storage.History.QueryForVersions)| + 1
-      && Seq.Last(storage.History.QueryForVersions).output.Success?
-      && var queryOutInput := Seq.Last(storage.History.QueryForVersions).input;
-      && KeyStoreTypes.QueryForVersionsInput(
-        ExclusiveStartKey := mutationToApply.ExclusiveStartKey,
-        Identifier := mutationToApply.Identifier,
-        PageSize := input.PageSize.UnwrapOr(DEFAULT_APPLY_PAGE_SIZE)
-      ) == queryOutInput
+              && |storage.History.QueryForVersions| == |old(storage.History.QueryForVersions)| + 1
+              && Seq.Last(storage.History.QueryForVersions).output.Success?
+              && var queryOutInput := Seq.Last(storage.History.QueryForVersions).input;
+              && KeyStoreTypes.QueryForVersionsInput(
+                ExclusiveStartKey := mutationToApply.ExclusiveStartKey,
+                Identifier := mutationToApply.Identifier,
+                PageSize := input.PageSize.UnwrapOr(DEFAULT_APPLY_PAGE_SIZE)
+              ) == queryOutInput
     ensures output.Success? ==>
-      && Seq.Last(storage.History.QueryForVersions).output.Success?
-      && var queryOutOutput := Seq.Last(storage.History.QueryForVersions).output.value;
-      && output.value == queryOutOutput
-      && ValidateQueryOutResults?(input, logicalKeyStoreName, storage, output.value)
-      && forall item <- output.value.Items :: Structure.DecryptOnlyHierarchicalSymmetricKey?(item)
-      && forall item <- output.value.Items :: item.Type.HierarchicalSymmetricVersion?
+              && Seq.Last(storage.History.QueryForVersions).output.Success?
+              && var queryOutOutput := Seq.Last(storage.History.QueryForVersions).output.value;
+              && output.value == queryOutOutput
+              && ValidateQueryOutResults?(input, logicalKeyStoreName, storage, output.value)
+              && forall item <- output.value.Items :: Structure.DecryptOnlyHierarchicalSymmetricKey?(item)
+                                                      && forall item <- output.value.Items :: item.Type.HierarchicalSymmetricVersion?
   {
     var queryOut? := storage.QueryForVersions(
       Types.AwsCryptographyKeyStoreTypes.QueryForVersionsInput(
@@ -801,7 +811,7 @@ module {:options "/functionSyntax:4" } Mutations {
   method {:vcs_split_on_every_assert} ProcessBranchKeysInApplyMutation(
     items: OriginalOrTerminal,
     keyManagerStrategy: KmsUtils.keyManagerStrat,
-    mutationToApply: StateStrucs.MutationToApply 
+    mutationToApply: StateStrucs.MutationToApply
   ) returns (output: Result<(seq<KeyStoreTypes.OverWriteEncryptedHierarchicalKey>, seq<Types.MutatedBranchKeyItem>), Types.Error>)
     requires keyManagerStrategy.ValidState()
     modifies
@@ -867,9 +877,9 @@ module {:options "/functionSyntax:4" } Mutations {
   }
 
   lemma OriginalOrTerminalIsEncryptedHierarchicalKey?(items: OriginalOrTerminal)
-    ensures forall item <- items :: 
-      && (item.itemOriginal? || item.itemTerminal?)
-      && item.item is KeyStoreTypes.EncryptedHierarchicalKey
+    ensures forall item <- items ::
+              && (item.itemOriginal? || item.itemTerminal?)
+              && item.item is KeyStoreTypes.EncryptedHierarchicalKey
   {}
 
 
@@ -882,7 +892,7 @@ module {:options "/functionSyntax:4" } Mutations {
     requires StateStrucs.MutationToApply?(MutationToApply)
     ensures Structure.EncryptedHierarchicalKey?(output.item)
     ensures output.itemOriginal? ==>
-      && output.item.KmsArn == MutationToApply.Original.kmsArn
+              && output.item.KmsArn == MutationToApply.Original.kmsArn
     ensures output.item.Type.HierarchicalSymmetricVersion?
   {
     if item.EncryptionContext
@@ -926,7 +936,7 @@ module {:options "/functionSyntax:4" } Mutations {
     var throwAwayError;
 
     match keyManagerStrategy {
-      case reEncrypt(kms) => 
+      case reEncrypt(kms) =>
         kmsOperation := "ReEncrypt";
         var throwAway? := KMSKeystoreOperations.ReEncryptKey(
           ciphertext := item.CiphertextBlob,
@@ -936,14 +946,14 @@ module {:options "/functionSyntax:4" } Mutations {
           grantTokens := kms.grantTokens,
           kmsClient := kms.kmsClient
         );
-        
+
         if throwAway?.Success? {
           success? := true;
         } else {
           throwAwayError := throwAway?.error;
         }
-      
-      case decryptEncrypt(kmsD, kmsE) => 
+
+      case decryptEncrypt(kmsD, kmsE) =>
         kmsOperation := "Decrypt/Encrypt";
         var throwAway? := KMSKeystoreOperations.VerifyViaDecryptEncryptKey(
           ciphertext := item.CiphertextBlob,
@@ -953,7 +963,7 @@ module {:options "/functionSyntax:4" } Mutations {
           decryptGrantTokens := kmsD.grantTokens,
           decryptKmsClient := kmsD.kmsClient
         );
-        
+
         if throwAway?.Success? {
           success? := true;
         } else {
@@ -962,9 +972,9 @@ module {:options "/functionSyntax:4" } Mutations {
     }
 
     if (
-      && !success? 
-      && item.Type.ActiveHierarchicalSymmetricVersion?
-    ) {
+        && !success?
+        && item.Type.ActiveHierarchicalSymmetricVersion?
+      ) {
       var error := MutationErrorRefinement.VerifyActiveException(
         branchKeyItem := item,
         error := throwAwayError,
@@ -974,9 +984,9 @@ module {:options "/functionSyntax:4" } Mutations {
     }
 
     if (
-      && !success? 
-      && item.Type.HierarchicalSymmetricVersion?
-    ) {
+        && !success?
+        && item.Type.HierarchicalSymmetricVersion?
+      ) {
       var error := MutationErrorRefinement.VerifyTerminalException(
         branchKeyItem := item,
         error := throwAwayError,
