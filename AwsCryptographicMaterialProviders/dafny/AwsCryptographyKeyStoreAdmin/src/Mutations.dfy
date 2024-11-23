@@ -8,6 +8,7 @@ include "MutationErrorRefinement.dfy"
 include "KmsUtils.dfy"
 include "MutationIndexUtils.dfy"
 include "MutationsConstants.dfy"
+include "SystemKey/Handler.dfy"
 
 module {:options "/functionSyntax:4" } Mutations {
   import opened StandardLibrary
@@ -35,6 +36,7 @@ module {:options "/functionSyntax:4" } Mutations {
   import KmsUtils
   import MutationIndexUtils
   import M_ErrorMessages = MutationsConstants.ErrorMessages
+  import SystemKeyHandler = SystemKey.Handler
 
   const DEFAULT_APPLY_PAGE_SIZE := 3 as StandardLibrary.UInt.int32
 
@@ -149,14 +151,14 @@ module {:options "/functionSyntax:4" } Mutations {
     requires StateStrucs.ValidMutations?(input.Mutations) // may not need this
     requires
       && input.storage.ValidState()
+      && match input.keyManagerStrategy {
+           case reEncrypt(km) => km.kmsClient.ValidState() && AwsKmsUtils.GetValidGrantTokens(Some(km.grantTokens)).Success?
+           case decryptEncrypt(kmD, kmE) =>
+             && kmD.kmsClient.ValidState() && kmE.kmsClient.ValidState()
+             && AwsKmsUtils.GetValidGrantTokens(Some(kmD.grantTokens)).Success?
+             && AwsKmsUtils.GetValidGrantTokens(Some(kmE.grantTokens)).Success?
+         }
       && input.SystemKey.ValidState()
-      && input.keyManagerStrategy.ValidState() &&
-         match input.keyManagerStrategy
-         case reEncrypt(km) => km.kmsClient.ValidState() && AwsKmsUtils.GetValidGrantTokens(Some(km.grantTokens)).Success?
-         case decryptEncrypt(kmD, kmE) =>
-           && kmD.kmsClient.ValidState() && kmE.kmsClient.ValidState()
-           && AwsKmsUtils.GetValidGrantTokens(Some(kmD.grantTokens)).Success?
-           && AwsKmsUtils.GetValidGrantTokens(Some(kmE.grantTokens)).Success?
     ensures
       && input.storage.ValidState()
       && input.SystemKey.ValidState() &&
@@ -198,11 +200,13 @@ module {:options "/functionSyntax:4" } Mutations {
         internalInput := input,
         commitment := readItems.MutationCommitment.value);
       if (resumeMutation?) {
+        // TODO-SystemKey :: ResumeMutation will validate SystemKey
         output := ResumeMutation(
           commitment := readItems.MutationCommitment.value,
           index := readItems.MutationIndex,
           logicalKeyStoreName := input.logicalKeyStoreName,
-          storage := input.storage);
+          storage := input.storage);//,
+        // systemKey := input.SystemKey);
         return output;
       }
       return Failure(
@@ -407,10 +411,13 @@ module {:options "/functionSyntax:4" } Mutations {
       localOperation := "InitializeMutation"
     );
 
-    // -= Create Mutation Commitment
+    // -= Create Mutation Commitment & Mutation Index
     var MutationCommitment :- StateStrucs.SerializeMutationCommitment(MutationToApply);
-    // TODO-Mutations-GA :: If resuming a mutation, we will need to serialize the read pageIndex
     var MutationIndex :- StateStrucs.SerializeMutationIndex(MutationToApply, None);
+
+    // -= Apply System Key to Commitment & Mutation Index
+    var SignedMutationCommitment :- SystemKeyHandler.SignCommitment(MutationCommitment, input.SystemKey);
+    // var SignedMutationIndex :- SystemKeyHandler.SignIndex(MutationIndex, input.SystemKey);
 
     // -= Write Mutation Commitment, new branch key version, mutated beacon key
     var throwAway2? := input.storage.WriteInitializeMutation(
@@ -418,7 +425,7 @@ module {:options "/functionSyntax:4" } Mutations {
         Active := KeyStoreTypes.OverWriteEncryptedHierarchicalKey(Item:=newActive, Old:=activeItem),
         Version := KeyStoreTypes.WriteInitializeMutationVersion.rotate(rotate:=newDecryptOnly),
         Beacon := KeyStoreTypes.OverWriteEncryptedHierarchicalKey(Item:=newBeaconKey, Old:=readItems.BeaconItem),
-        MutationCommitment := MutationCommitment,
+        MutationCommitment := SignedMutationCommitment,
         MutationIndex := MutationIndex
       ));
     // TODO-Mutations-FF :: Ideally, we would diagnosis the Storage Failure.

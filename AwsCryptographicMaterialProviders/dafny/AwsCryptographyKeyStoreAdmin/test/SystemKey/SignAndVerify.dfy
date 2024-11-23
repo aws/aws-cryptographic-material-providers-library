@@ -6,19 +6,19 @@ include "../../../AwsCryptographyKeyStore/test/CleanupItems.dfy"
 include "../../../AwsCryptographyKeyStore/test/Fixtures.dfy"
 include "../../../AwsCryptographyKeyStore/Model/AwsCryptographyKeyStoreTypes.dfy"
 include "../AdminFixtures.dfy"
-include "../../src/SystemKey.dfy"
+include "../../src/SystemKey/ContentHandler.dfy"
 
-// Tests that the System Key can:
+// Tests that the SystemKey.ContentHandler can:
 // - Sign an arbitrary content
 // - Verify an arbitrary content
 // - Fail to verify tampered content
 
-module {:options "/functionSyntax:4" } SignAndVerify {
+module {:options "/functionSyntax:4" } TestContentHandler {
   import opened Wrappers
   import Fixtures
   import AdminFixtures
   import KMS = Com.Amazonaws.Kms
-  import SystemKey
+  import ContentHandler = SystemKey.ContentHandler
   import Structure
   import UTF8
 
@@ -32,16 +32,16 @@ module {:options "/functionSyntax:4" } SignAndVerify {
     ]
 
   const MutationCommitmentContent :=
-    SystemKey.Content(
+    ContentHandler.Content(
       ContentToSHA := MutationCommitmentContentToSHA,
-      PartionValue := "a-branch-key-id",
+      PartitionValue := "a-branch-key-id",
       SortValue := Structure.MUTATION_COMMITMENT_TYPE,
       UUIDValue := "a-uuid")
 
   const TamperedMutationCommitmentContent :=
-    SystemKey.Content(
+    ContentHandler.Content(
       ContentToSHA := MutationCommitmentContentToSHA,
-      PartionValue := "a-branch-key-id",
+      PartitionValue := "a-branch-key-id",
       SortValue := Structure.MUTATION_COMMITMENT_TYPE,
       UUIDValue := "b-uuid")
 
@@ -54,18 +54,17 @@ module {:options "/functionSyntax:4" } SignAndVerify {
   {}
 
   method ActualSign(
-    input: SystemKey.SignInput,
+    input: ContentHandler.SignInput,
     logPrefix: string
   )
-    returns (output: Result<KMS.Types.CiphertextType, SystemKey.SignError>)
+    returns (output: Result<KMS.Types.CiphertextType, ContentHandler.SignError>)
     requires input.ValidState()
     ensures input.ValidState()
     modifies input.KmsTuple.Modifies
     modifies input.Crypto.Modifies
   {
     assert input.ValidState();
-    // assume {:axiom} false; // Tony cannot figure out why the Modifies clause is violated
-    var output? := SystemKey.SignContent(input);
+    var output? := ContentHandler.SignContent(input);
     // These prints are helpful for debugging
     // print logPrefix + " Attempted to Sign was succesful? " + if output?.Success? then "Yes" else "No" + " .\n";
     // if (output?.Failure?) {
@@ -81,10 +80,10 @@ module {:options "/functionSyntax:4" } SignAndVerify {
   }
 
   method ActualVerify(
-    input: SystemKey.VerifyInput,
+    input: ContentHandler.VerifyInput,
     logPrefix: string
   )
-    returns (output: Result<bool, SystemKey.VerifyError>)
+    returns (output: Result<bool, ContentHandler.VerifyError>)
     requires input.ValidState()
     ensures input.ValidState()
     modifies input.KmsTuple.Modifies
@@ -92,7 +91,7 @@ module {:options "/functionSyntax:4" } SignAndVerify {
   {
     assert input.ValidState();
     // assume {:axiom} false; // Tony cannot figure out why the Modifies clause is violated
-    var output? := SystemKey.VerifyContent(input);
+    var output? := ContentHandler.VerifyContent(input);
     // These prints are helpful for debugging
     // print logPrefix + " Attempted to Verify was succesful? " + if output?.Success? then "Yes" else "No" + " .\n";
     // if (output?.Failure?) {
@@ -107,66 +106,66 @@ module {:options "/functionSyntax:4" } SignAndVerify {
     return output?;
   }
 
-  const SignCommitmentLogPrefix := "\nSignAndVerify :: SignCommitment "
+  const SignCommitmentLogPrefix := "\nTestContentHandler :: SignCommitment "
   method {:test} SignCommitment()
   {
-    print " running";
+    // print "running ";
     var kmsTuple :- expect AdminFixtures.ProvideKMSTuple();
     assert fresh(kmsTuple.Modifies);
-    var crypto :- expect SystemKey.ProvideCryptoClient();
+    var crypto :- expect ContentHandler.ProvideCryptoClient();
     assert fresh(crypto) && fresh(crypto.Modifies);
-    var input := SystemKey.SignInput(
+    var input := ContentHandler.SignInput(
       MaterialIdentifier := kmsId,
       Content := MutationCommitmentContent,
       KmsTuple := kmsTuple,
       Crypto := crypto);
     assert input.ValidState();
-    var output? := ActualSign(input, SignCommitmentLogPrefix); //SystemKey.SignContent(input);
+    var output? := ActualSign(input, SignCommitmentLogPrefix); //ContentHandler.SignContent(input);
     expect output?.Success?, "System Key failed to SignContent when it should have succeeded.";
-    print "SignAndVerify.SignCommitment: ";
+    // print "\nTestContentHandler.SignCommitment: ";
   }
 
-  const SignAndVerifyCommitmentLogPrefix := "\nSignAndVerify :: SignAndVerifyCommitment "
-  method {:test} SignAndVerifyCommitment()
+  const TestContentHandlerCommitmentLogPrefix := "\nTestContentHandler :: TestContentHandlerCommitment "
+  method {:test} TestContentHandlerCommitment()
   {
-    print " running";
+    // print "running ";
     var kmsTuple :- expect AdminFixtures.ProvideKMSTuple();
-    var crypto :- expect SystemKey.ProvideCryptoClient();
-    var signInput := SystemKey.SignInput(
+    var crypto :- expect ContentHandler.ProvideCryptoClient();
+    var signInput := ContentHandler.SignInput(
       MaterialIdentifier := kmsId,
       Content := MutationCommitmentContent,
       KmsTuple := kmsTuple,
       Crypto := crypto);
     assert signInput.ValidState();
-    var signOutput? := ActualSign(signInput, SignAndVerifyCommitmentLogPrefix); //SystemKey.SignContent(input);
+    var signOutput? := ActualSign(signInput, TestContentHandlerCommitmentLogPrefix); //ContentHandler.SignContent(input);
     expect signOutput?.Success?, "System Key failed to SignContent when it should have succeeded.";
-    var verifyInput := SystemKey.VerifyInput(
+    var verifyInput := ContentHandler.VerifyInput(
       MaterialIdentifier := kmsId,
       Content := MutationCommitmentContent,
       CiphertextBlob := signOutput?.value,
       KmsTuple := kmsTuple,
       Crypto := crypto);
-    var verifyOutput? := ActualVerify(verifyInput, SignAndVerifyCommitmentLogPrefix);
+    var verifyOutput? := ActualVerify(verifyInput, TestContentHandlerCommitmentLogPrefix);
     expect verifyOutput?.Success?, "System Key failed to VerifyContent when it should have succeeded.";
-    print "SignAndVerify.SignAndVerifyCommitment: ";
+    // print "\nTestContentHandler.TestContentHandlerCommitment: ";
   }
 
-  const SignAndFailVerifyCommitmentLogPrefix := "\nSignAndVerify :: SignAndFailVerifyCommitment "
+  const SignAndFailVerifyCommitmentLogPrefix := "\nTestContentHandler :: SignAndFailVerifyCommitment "
   method {:test} SignAndFailVerifyCommitment()
   {
-    print " running";
+    // print "running ";
     var kmsTuple :- expect AdminFixtures.ProvideKMSTuple();
-    var crypto :- expect SystemKey.ProvideCryptoClient();
-    var signInput := SystemKey.SignInput(
+    var crypto :- expect ContentHandler.ProvideCryptoClient();
+    var signInput := ContentHandler.SignInput(
       MaterialIdentifier := kmsId,
       Content := MutationCommitmentContent,
       KmsTuple := kmsTuple,
       Crypto := crypto);
     assert signInput.ValidState();
-    var signOutput? := ActualSign(signInput, SignAndFailVerifyCommitmentLogPrefix); //SystemKey.SignContent(input);
+    var signOutput? := ActualSign(signInput, SignAndFailVerifyCommitmentLogPrefix); //ContentHandler.SignContent(input);
     expect signOutput?.Success?, "System Key failed to SignContent when it should have succeeded.";
 
-    var verifyInput := SystemKey.VerifyInput(
+    var verifyInput := ContentHandler.VerifyInput(
       MaterialIdentifier := kmsId,
       Content := TamperedMutationCommitmentContent,
       CiphertextBlob := signOutput?.value,
@@ -174,7 +173,7 @@ module {:options "/functionSyntax:4" } SignAndVerify {
       Crypto := crypto);
     var verifyOutput? := ActualVerify(verifyInput, SignAndFailVerifyCommitmentLogPrefix);
     expect verifyOutput?.Failure?, "System Key should have failed to VerifyContent when it succeeded.";
-    print "SignAndVerify.SignAndFailVerifyCommitment: ";
+    // print "\nTestContentHandler.SignAndFailVerifyCommitment: ";
   }
 
 }

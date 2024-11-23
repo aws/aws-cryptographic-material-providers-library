@@ -1,12 +1,13 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
-include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
-include "KmsUtils.dfy"
-include "../../../dafny/AwsCryptographicMaterialProviders/src/CanonicalEncryptionContext.dfy"
-include "../../../dafny/AwsCryptographicMaterialProviders/src/Index.dfy"
-include "../../../dafny/AwsCryptographicMaterialProviders/src/Keyrings/AwsKms/AwsKmsUtils.dfy"
+include "../../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
+include "../KmsUtils.dfy"
+include "../../../../dafny/AwsCryptographicMaterialProviders/src/CanonicalEncryptionContext.dfy"
+include "../../../../dafny/AwsCryptographicMaterialProviders/src/Index.dfy"
+include "../../../../dafny/AwsCryptographicMaterialProviders/src/Keyrings/AwsKms/AwsKmsUtils.dfy"
 
-module {:options "/functionSyntax:4" } SystemKey {
+/* Internal methods for Signing and Verifying Arbitary Content */
+module {:options "/functionSyntax:4" } SystemKey.ContentHandler {
   import opened Wrappers
   import opened StandardLibrary.UInt
   import KMS = Com.Amazonaws.Kms
@@ -42,7 +43,7 @@ module {:options "/functionSyntax:4" } SystemKey {
 
   datatype Content = | Content(
     nameonly ContentToSHA: MPL.Types.EncryptionContext,
-    nameonly PartionValue: string,
+    nameonly PartitionValue: string,
     nameonly SortValue: string,
     nameonly UUIDValue: string
   )
@@ -50,7 +51,7 @@ module {:options "/functionSyntax:4" } SystemKey {
     ghost predicate ValidState()
     {
       && 0 < |ContentToSHA|
-      && 0 < |PartionValue|
+      && 0 < |PartitionValue|
       && 0 < |SortValue|
       && 0 < |UUIDValue|
     }
@@ -247,7 +248,7 @@ module {:options "/functionSyntax:4" } SystemKey {
     var rtn: KMS.Types.EncryptionContextType := ecResult.value
     + map[
       Structure.M_UUID := Content.UUIDValue,
-      Structure.BRANCH_KEY_IDENTIFIER_FIELD := Content.PartionValue,
+      Structure.BRANCH_KEY_IDENTIFIER_FIELD := Content.PartitionValue,
       Structure.TYPE_FIELD := Content.SortValue
     ];
     return Success(rtn);
