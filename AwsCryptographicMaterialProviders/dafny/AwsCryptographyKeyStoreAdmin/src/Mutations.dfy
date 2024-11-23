@@ -651,7 +651,6 @@ module {:options "/functionSyntax:4" } Mutations {
         && Structure.EncryptedHierarchicalKey?(item.item)
         && item.itemOriginal? ==> item.item.KmsArn == MutationToApply.Original.kmsArn
                                   && item.item.Type.HierarchicalSymmetricVersion?;
-    // && MutationToApply.Original.kmsArn == item.item.KmsArn;
 
     // Process Branch Keys that need to be mutated
     var processedItems? :- ProcessBranchKeysInApplyMutation(itemsToProcess, keyManagerStrategy, MutationToApply);
