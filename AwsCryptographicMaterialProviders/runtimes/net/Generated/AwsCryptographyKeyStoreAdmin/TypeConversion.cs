@@ -159,13 +159,22 @@ namespace AWS.Cryptography.KeyStoreAdmin
         converted.AwsKmsReEncrypt = FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_KeyManagementStrategy__M15_AwsKmsReEncrypt(concrete.dtor_AwsKmsReEncrypt);
         return converted;
       }
+      if (value.is_AwsKmsDecryptEncrypt)
+      {
+        converted.AwsKmsDecryptEncrypt = FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_KeyManagementStrategy__M20_AwsKmsDecryptEncrypt(concrete.dtor_AwsKmsDecryptEncrypt);
+        return converted;
+      }
       throw new System.ArgumentException("Invalid AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy state");
     }
     public static software.amazon.cryptography.keystoreadmin.internaldafny.types._IKeyManagementStrategy ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_KeyManagementStrategy(AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy value)
     {
       value.Validate(); if (value.IsSetAwsKmsReEncrypt())
       {
-        return software.amazon.cryptography.keystoreadmin.internaldafny.types.KeyManagementStrategy.create(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_KeyManagementStrategy__M15_AwsKmsReEncrypt(value.AwsKmsReEncrypt));
+        return software.amazon.cryptography.keystoreadmin.internaldafny.types.KeyManagementStrategy.create_AwsKmsReEncrypt(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_KeyManagementStrategy__M15_AwsKmsReEncrypt(value.AwsKmsReEncrypt));
+      }
+      if (value.IsSetAwsKmsDecryptEncrypt())
+      {
+        return software.amazon.cryptography.keystoreadmin.internaldafny.types.KeyManagementStrategy.create_AwsKmsDecryptEncrypt(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_KeyManagementStrategy__M20_AwsKmsDecryptEncrypt(value.AwsKmsDecryptEncrypt));
       }
       throw new System.ArgumentException("Invalid AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy state");
     }
@@ -579,6 +588,14 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S6_AwsKms(value);
     }
+    public static AWS.Cryptography.KeyStoreAdmin.AwsKmsDecryptEncrypt FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_KeyManagementStrategy__M20_AwsKmsDecryptEncrypt(software.amazon.cryptography.keystoreadmin.internaldafny.types._IAwsKmsDecryptEncrypt value)
+    {
+      return FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S20_AwsKmsDecryptEncrypt(value);
+    }
+    public static software.amazon.cryptography.keystoreadmin.internaldafny.types._IAwsKmsDecryptEncrypt ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_KeyManagementStrategy__M20_AwsKmsDecryptEncrypt(AWS.Cryptography.KeyStoreAdmin.AwsKmsDecryptEncrypt value)
+    {
+      return ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S20_AwsKmsDecryptEncrypt(value);
+    }
     public static string FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_KeyStoreAdminConfig__M19_logicalKeyStoreName(Dafny.ISequence<char> value)
     {
       return FromDafny_N6_smithy__N3_api__S6_String(value);
@@ -819,6 +836,18 @@ namespace AWS.Cryptography.KeyStoreAdmin
       Amazon.KeyManagementService.IAmazonKeyManagementService var_kmsClient = value.IsSetKmsClient() ? value.KmsClient : (Amazon.KeyManagementService.IAmazonKeyManagementService)null;
       return new software.amazon.cryptography.keystore.internaldafny.types.AwsKms(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S6_AwsKms__M11_grantTokens(var_grantTokens), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S6_AwsKms__M9_kmsClient(var_kmsClient));
     }
+    public static AWS.Cryptography.KeyStoreAdmin.AwsKmsDecryptEncrypt FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S20_AwsKmsDecryptEncrypt(software.amazon.cryptography.keystoreadmin.internaldafny.types._IAwsKmsDecryptEncrypt value)
+    {
+      software.amazon.cryptography.keystoreadmin.internaldafny.types.AwsKmsDecryptEncrypt concrete = (software.amazon.cryptography.keystoreadmin.internaldafny.types.AwsKmsDecryptEncrypt)value; AWS.Cryptography.KeyStoreAdmin.AwsKmsDecryptEncrypt converted = new AWS.Cryptography.KeyStoreAdmin.AwsKmsDecryptEncrypt(); if (concrete._decrypt.is_Some) converted.Decrypt = (AWS.Cryptography.KeyStore.AwsKms)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S20_AwsKmsDecryptEncrypt__M7_decrypt(concrete._decrypt);
+      if (concrete._encrypt.is_Some) converted.Encrypt = (AWS.Cryptography.KeyStore.AwsKms)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S20_AwsKmsDecryptEncrypt__M7_encrypt(concrete._encrypt); return converted;
+    }
+    public static software.amazon.cryptography.keystoreadmin.internaldafny.types._IAwsKmsDecryptEncrypt ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S20_AwsKmsDecryptEncrypt(AWS.Cryptography.KeyStoreAdmin.AwsKmsDecryptEncrypt value)
+    {
+      value.Validate();
+      AWS.Cryptography.KeyStore.AwsKms var_decrypt = value.IsSetDecrypt() ? value.Decrypt : (AWS.Cryptography.KeyStore.AwsKms)null;
+      AWS.Cryptography.KeyStore.AwsKms var_encrypt = value.IsSetEncrypt() ? value.Encrypt : (AWS.Cryptography.KeyStore.AwsKms)null;
+      return new software.amazon.cryptography.keystoreadmin.internaldafny.types.AwsKmsDecryptEncrypt(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S20_AwsKmsDecryptEncrypt__M7_decrypt(var_decrypt), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S20_AwsKmsDecryptEncrypt__M7_encrypt(var_encrypt));
+    }
     public static AWS.Cryptography.KeyStore.Storage FromDafny_N3_aws__N12_cryptography__N8_keyStore__S7_Storage(software.amazon.cryptography.keystore.internaldafny.types._IStorage value)
     {
       software.amazon.cryptography.keystore.internaldafny.types.Storage concrete = (software.amazon.cryptography.keystore.internaldafny.types.Storage)value;
@@ -957,6 +986,22 @@ namespace AWS.Cryptography.KeyStoreAdmin
     public static Wrappers_Compile._IOption<software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient> ToDafny_N3_aws__N12_cryptography__N8_keyStore__S6_AwsKms__M9_kmsClient(Amazon.KeyManagementService.IAmazonKeyManagementService value)
     {
       return value == null ? Wrappers_Compile.Option<software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient>.create_None() : Wrappers_Compile.Option<software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient>.create_Some(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S18_KmsClientReference((Amazon.KeyManagementService.IAmazonKeyManagementService)value));
+    }
+    public static AWS.Cryptography.KeyStore.AwsKms FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S20_AwsKmsDecryptEncrypt__M7_decrypt(Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IAwsKms> value)
+    {
+      return value.is_None ? (AWS.Cryptography.KeyStore.AwsKms)null : FromDafny_N3_aws__N12_cryptography__N8_keyStore__S6_AwsKms(value.Extract());
+    }
+    public static Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IAwsKms> ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S20_AwsKmsDecryptEncrypt__M7_decrypt(AWS.Cryptography.KeyStore.AwsKms value)
+    {
+      return value == null ? Wrappers_Compile.Option<software.amazon.cryptography.keystore.internaldafny.types._IAwsKms>.create_None() : Wrappers_Compile.Option<software.amazon.cryptography.keystore.internaldafny.types._IAwsKms>.create_Some(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S6_AwsKms((AWS.Cryptography.KeyStore.AwsKms)value));
+    }
+    public static AWS.Cryptography.KeyStore.AwsKms FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S20_AwsKmsDecryptEncrypt__M7_encrypt(Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IAwsKms> value)
+    {
+      return value.is_None ? (AWS.Cryptography.KeyStore.AwsKms)null : FromDafny_N3_aws__N12_cryptography__N8_keyStore__S6_AwsKms(value.Extract());
+    }
+    public static Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IAwsKms> ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S20_AwsKmsDecryptEncrypt__M7_encrypt(AWS.Cryptography.KeyStore.AwsKms value)
+    {
+      return value == null ? Wrappers_Compile.Option<software.amazon.cryptography.keystore.internaldafny.types._IAwsKms>.create_None() : Wrappers_Compile.Option<software.amazon.cryptography.keystore.internaldafny.types._IAwsKms>.create_Some(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S6_AwsKms((AWS.Cryptography.KeyStore.AwsKms)value));
     }
     public static AWS.Cryptography.KeyStore.DynamoDBTable FromDafny_N3_aws__N12_cryptography__N8_keyStore__S7_Storage__M3_ddb(software.amazon.cryptography.keystore.internaldafny.types._IDynamoDBTable value)
     {
