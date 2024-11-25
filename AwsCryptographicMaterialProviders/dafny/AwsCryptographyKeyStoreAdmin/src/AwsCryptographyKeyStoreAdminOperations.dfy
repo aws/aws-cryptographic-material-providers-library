@@ -410,8 +410,16 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     }
     assume {:axiom} keyManagerStrat.Modifies !! systemKey.Modifies;
 
-    var _ :- Mutations.ValidateApplyMutationInput(input, config.logicalKeyStoreName, config.storage);
-    output := Mutations.ApplyMutation(input, config.logicalKeyStoreName, keyManagerStrat, config.storage);
+    var internalInput := Mutations.InternalApplyMutationInput(
+      MutationToken := input.MutationToken,
+      PageSize := input.PageSize,
+      SystemKey := systemKey,
+      logicalKeyStoreName := config.logicalKeyStoreName,
+      keyManagerStrategy := keyManagerStrat,
+      storage := config.storage);
+
+    var _ :- Mutations.ValidateApplyMutationInput(internalInput); //, config.logicalKeyStoreName, config.storage);
+    output := Mutations.ApplyMutation(internalInput); //, config.logicalKeyStoreName, keyManagerStrat, config.storage, systemKey);
     return output;
   }
 

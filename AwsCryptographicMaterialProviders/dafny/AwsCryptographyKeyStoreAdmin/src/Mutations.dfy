@@ -72,19 +72,19 @@ module {:options "/functionSyntax:4" } Mutations {
   }
 
   predicate ValidateQueryOutResults?(
-    applyMutationInput: Types.ApplyMutationInput,
-    logicalKeyStoreName: string,
-    storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface,
+    input: InternalApplyMutationInput, //Types.ApplyMutationInput,
+    // logicalKeyStoreName: string,
+    // storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface,
     queryItems: KeyStoreTypes.QueryForVersionsOutput
   )
   {
-    || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+    || input.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
     || (
          forall item <- queryItems.Items ::
-           && item.Identifier == applyMutationInput.MutationToken.Identifier
+           && item.Identifier == input.MutationToken.Identifier
            && Structure.DecryptOnlyHierarchicalSymmetricKey?(item)
            && item.Type.HierarchicalSymmetricVersion?
-           && item.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+           && item.EncryptionContext[Structure.TABLE_FIELD] == input.logicalKeyStoreName
            && KmsArn.ValidKmsArn?(item.KmsArn)
        )
   }
@@ -537,28 +537,28 @@ module {:options "/functionSyntax:4" } Mutations {
   // Mutations Token is valid
   // logicalKeyStoreName is valid
   function ValidateApplyMutationInput(
-    input: Types.ApplyMutationInput,
-    logicalKeyStoreName: string,
-    storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
-  ): (output: Result<Types.ApplyMutationInput, Types.Error>)
+    input: InternalApplyMutationInput //Types.ApplyMutationInput,
+    // logicalKeyStoreName: string,
+    // storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
+  ): (output: Result<InternalApplyMutationInput, Types.Error>)
     ensures output.Success? ==>
-              && |logicalKeyStoreName| > 0
+              && |input.logicalKeyStoreName| > 0
               && ValidateMutationToken(input.MutationToken).Success?
               && input.PageSize.Some?
               ==>
                 0 < input.PageSize.value
                 && (
-                  && (storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+                  && (input.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
                       && input.PageSize.Some?)
                   ==>
                     input.PageSize.value <= 99)
   {
     var _ :- ValidateMutationToken(input.MutationToken);
-    :- Need(|logicalKeyStoreName| > 0,
+    :- Need(|input.logicalKeyStoreName| > 0,
             Types.KeyStoreAdminException(message := "LogicalKeyStoreName cannot be empty!"));
     :- Need(
          // If the Storage is DDB && a page Size was given
-         (storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface && input.PageSize.Some?)
+         (input.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface && input.PageSize.Some?)
          ==>
            // then the pageSize MUST be less than or equal to 99
            input.PageSize.value <= 99,
@@ -584,27 +584,54 @@ module {:options "/functionSyntax:4" } Mutations {
     Success(input)
   }
 
+  datatype InternalApplyMutationInput = | InternalApplyMutationInput (
+    nameonly MutationToken: Types.MutationToken ,
+    nameonly PageSize: Option<StandardLibrary.UInt.int32> ,
+    nameonly SystemKey: KmsUtils.InternalSystemKey ,
+    nameonly logicalKeyStoreName: string,
+    nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
+    nameonly storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
+  )
+  {
+    ghost predicate ValidState()
+    {
+      && SystemKey.ValidState()
+      && keyManagerStrategy.ValidState()
+      && storage.ValidState()
+      && SystemKey.Modifies !! keyManagerStrategy.Modifies !! storage.Modifies
+    }
+  }
+
   method {:vcs_split_on_every_assert} ApplyMutation(
-    input: Types.ApplyMutationInput,
-    logicalKeyStoreName: string,
-    keyManagerStrategy: KmsUtils.keyManagerStrat,
-    storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface
+    input: InternalApplyMutationInput //Types.ApplyMutationInput,
+    // logicalKeyStoreName: string,
+    // keyManagerStrategy: KmsUtils.keyManagerStrat,
+    // storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface,
+    // SystemKey: KmsUtils.InternalSystemKey
   )
     returns (output: Result<Types.ApplyMutationOutput, Types.Error>)
-    requires ValidateApplyMutationInput(input, logicalKeyStoreName, storage).Success?
-    requires
-      && storage.ValidState()
-      && keyManagerStrategy.ValidState()
-    ensures
-      && storage.ValidState()
-      && keyManagerStrategy.ValidState()
+    requires ValidateApplyMutationInput(input).Success? //, logicalKeyStoreName, storage).Success?
+    requires input.ValidState()
+    // && storage.ValidState()
+    // && keyManagerStrategy.ValidState()
+    // && SystemKey.ValidState()
+    ensures input.ValidState()
+    // && storage.ValidState()
+    // && keyManagerStrategy.ValidState()
+    // && SystemKey.ValidState()
     modifies
-      storage.Modifies,
-             match keyManagerStrategy
-             case reEncrypt(km) => km.kmsClient.Modifies
-             case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
+      input.storage.Modifies,
+            match input.keyManagerStrategy {
+              case reEncrypt(km) => km.kmsClient.Modifies
+              case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
+            },
+            input.SystemKey.Modifies
   {
     // -= Fetch Commitment and Index
+    var storage := input.storage;
+    var keyManagerStrategy := input.keyManagerStrategy;
+    var SystemKey := input.SystemKey;
+    // var logicalKeyStoreName := input.logicalKeyStoreName;
     var fetchMutation? := storage.GetMutation(
       Types.AwsCryptographyKeyStoreTypes.GetMutationInput(
         Identifier := input.MutationToken.Identifier));
@@ -634,8 +661,26 @@ module {:options "/functionSyntax:4" } Mutations {
       ));
     var Commitment := fetchMutation.MutationCommitment.value;
     var Index := fetchMutation.MutationIndex.value;
-    var _ :- ValidateCommitmentAndIndexStructures(input, fetchMutation, Commitment, Index);
+    var _ :- ValidateCommitmentAndIndexStructures(input.MutationToken, fetchMutation, Commitment, Index);
 
+    var commitmentIsVerified :- SystemKeyHandler.VerifyCommitment(Commitment, SystemKey);
+    :- Need(
+      commitmentIsVerified,
+      Types.MutationVerificationException(
+        message:=
+          "Mutation Commitment's failed the System Key's Signature Verification."
+          + " This suggests the Key Store's Storage has been tampered with by an un-authorized actor."
+          + " Mutation cannot continue. Audit Key Store's Storage's access."
+          + " The Mutation will need to be manually restarted."));
+    var indexIsVerified :- SystemKeyHandler.VerifyIndex(Index, SystemKey);
+    :- Need(
+      indexIsVerified,
+      Types.MutationVerificationException(
+        message:=
+          "Mutation Index's failed the System Key's Signature Verification."
+          + " This suggests the Key Store's Storage has been tampered with by an un-authorized actor."
+          + " Mutation cannot continue. Audit Key Store's Storage's access."
+          + " The Mutation will need to be manually restarted."));
     var CommitmentAndIndex := StateStrucs.CommitmentAndIndex(
       Commitment := Commitment,
       Index := Index);
@@ -644,7 +689,7 @@ module {:options "/functionSyntax:4" } Mutations {
     var MutationToApply :- StateStrucs.DeserializeMutation(CommitmentAndIndex);
 
     // -= Query for page Size Branch Key Items
-    var queryOut :- QueryForVersionsAndValidate(input, logicalKeyStoreName, storage, MutationToApply);
+    var queryOut :- QueryForVersionsAndValidate(input, MutationToApply);//logicalKeyStoreName, storage, MutationToApply);
 
     var queryOutItems := Seq.Map(
       item
@@ -684,14 +729,15 @@ module {:options "/functionSyntax:4" } Mutations {
 
     // Update Index
     var newIndex :- StateStrucs.SerializeMutationIndex(MutationToApply, Some(queryOut.ExclusiveStartKey));
+    var signedNewIndex :- SystemKeyHandler.SignIndex(newIndex, SystemKey);
 
     var _ :- WriteMutations(
       storage,
       itemsEvaluated,
       Commitment,
-      newIndex,
-      Index,
-      (|queryOut.ExclusiveStartKey| == 0)
+      newIndex := signedNewIndex,
+      oldIndex := Index,
+      endMutationBool := (|queryOut.ExclusiveStartKey| == 0)
     );
 
     var Token := Types.MutationToken(
@@ -715,9 +761,9 @@ module {:options "/functionSyntax:4" } Mutations {
     storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface,
     itemsEvaluated: seq<KeyStoreTypes.OverWriteEncryptedHierarchicalKey>,
     commitment: KeyStoreTypes.MutationCommitment,
-    newIndex: KeyStoreTypes.MutationIndex,
-    oldIndex: KeyStoreTypes.MutationIndex,
-    endMutationBool: bool
+    nameonly newIndex: KeyStoreTypes.MutationIndex,
+    nameonly oldIndex: KeyStoreTypes.MutationIndex,
+    nameonly endMutationBool: bool
   ) returns (output: Result<(), Types.Error>)
     requires storage.ValidState()
     modifies storage.Modifies
@@ -749,7 +795,7 @@ module {:options "/functionSyntax:4" } Mutations {
 
 
   function ValidateCommitmentAndIndexStructures(
-    input: Types.ApplyMutationInput,
+    token: Types.MutationToken,
     fetchMutation: KeyStoreTypes.GetMutationOutput,
     commitment: KeyStoreTypes.MutationCommitment,
     index: KeyStoreTypes.MutationIndex
@@ -765,14 +811,14 @@ module {:options "/functionSyntax:4" } Mutations {
                 message := "The Token and the Mutation Commitment read from storage disagree."
                 + " This indicates that the Token is for a different Mutation than the one in-flight."
                 + " A possible cause is this token is from an earlier Mutation that already finished?"
-                + " Branch Key ID: " + input.MutationToken.Identifier + ";"
+                + " Branch Key ID: " + token.Identifier + ";"
                 + " Mutation Commitment UUID: " + fetchMutation.MutationCommitment.value.UUID + ";"
-                + " Token UUID: " + input.MutationToken.UUID + ";"
+                + " Token UUID: " + token.UUID + ";"
               ))
     else if commitment.UUID != index.UUID then
       Failure(Types.MutationInvalidException(
                 message := "The Mutation Index read from storage and the Mutation Commitment are for different Mutations."
-                + " Branch Key ID: " + input.MutationToken.Identifier + ";"
+                + " Branch Key ID: " + token.Identifier + ";"
                 + " Mutation Commitment UUID: " + commitment.UUID + ";"
                 + " Mutation Index UUID: " + index.UUID + ";"
               ))
@@ -781,32 +827,32 @@ module {:options "/functionSyntax:4" } Mutations {
   }
 
   method QueryForVersionsAndValidate(
-    input: Types.ApplyMutationInput,
-    logicalKeyStoreName: string,
-    storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface,
+    input: InternalApplyMutationInput, //Types.ApplyMutationInput,
+    // logicalKeyStoreName: string,
+    // storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface,
     mutationToApply: StateStrucs.MutationToApply
   ) returns (output: Result<KeyStoreTypes.QueryForVersionsOutput, Types.Error>)
-    requires storage.ValidState()
-    modifies storage.Modifies
-    ensures storage.ValidState()
+    requires input.ValidState()//storage.ValidState()
+    modifies input.storage.Modifies
+    ensures input.ValidState()
     ensures output.Success? ==>
-              && |storage.History.QueryForVersions| == |old(storage.History.QueryForVersions)| + 1
-              && Seq.Last(storage.History.QueryForVersions).output.Success?
-              && var queryOutInput := Seq.Last(storage.History.QueryForVersions).input;
+              && |input.storage.History.QueryForVersions| == |old(input.storage.History.QueryForVersions)| + 1
+              && Seq.Last(input.storage.History.QueryForVersions).output.Success?
+              && var queryOutInput := Seq.Last(input.storage.History.QueryForVersions).input;
               && KeyStoreTypes.QueryForVersionsInput(
                 ExclusiveStartKey := mutationToApply.ExclusiveStartKey,
                 Identifier := mutationToApply.Identifier,
                 PageSize := input.PageSize.UnwrapOr(DEFAULT_APPLY_PAGE_SIZE)
               ) == queryOutInput
     ensures output.Success? ==>
-              && Seq.Last(storage.History.QueryForVersions).output.Success?
-              && var queryOutOutput := Seq.Last(storage.History.QueryForVersions).output.value;
+              && Seq.Last(input.storage.History.QueryForVersions).output.Success?
+              && var queryOutOutput := Seq.Last(input.storage.History.QueryForVersions).output.value;
               && output.value == queryOutOutput
-              && ValidateQueryOutResults?(input, logicalKeyStoreName, storage, output.value)
+              && ValidateQueryOutResults?(input, output.value)
               && forall item <- output.value.Items :: Structure.DecryptOnlyHierarchicalSymmetricKey?(item)
                                                       && forall item <- output.value.Items :: item.Type.HierarchicalSymmetricVersion?
   {
-    var queryOut? := storage.QueryForVersions(
+    var queryOut? := input.storage.QueryForVersions(
       Types.AwsCryptographyKeyStoreTypes.QueryForVersionsInput(
         ExclusiveStartKey := mutationToApply.ExclusiveStartKey,
         Identifier := mutationToApply.Identifier,
@@ -816,7 +862,7 @@ module {:options "/functionSyntax:4" } Mutations {
     .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
 
     :- Need(
-      ValidateQueryOutResults?(input, logicalKeyStoreName, storage, queryOut),
+      ValidateQueryOutResults?(input, queryOut),
       // TODO-Mutations-FF: Replace this Need with something that can return an ID
       Types.KeyStoreAdminException(
         message := "Malformed Branch Key Item read from Storage.")
