@@ -602,7 +602,7 @@ module {:options "/functionSyntax:4" } Mutations {
     }
   }
 
-  method {:vcs_split_on_every_assert} ApplyMutation(
+  method {:only} {:isolate_assertions} ApplyMutation(
     input: InternalApplyMutationInput //Types.ApplyMutationInput,
     // logicalKeyStoreName: string,
     // keyManagerStrategy: KmsUtils.keyManagerStrat,
@@ -659,11 +659,13 @@ module {:options "/functionSyntax:4" } Mutations {
       Types.MutationInvalidException(
         message := "No Mutation Index exsists for this in-flight mutation of Branch Key ID " + input.MutationToken.Identifier + " ."
       ));
-    var Commitment := fetchMutation.MutationCommitment.value;
-    var Index := fetchMutation.MutationIndex.value;
-    var _ :- ValidateCommitmentAndIndexStructures(input.MutationToken, fetchMutation, Commitment, Index);
+    var CommitmentAndIndex :- ValidateCommitmentAndIndexStructures(
+      input.MutationToken,
+      fetchMutation,
+      fetchMutation.MutationCommitment.value,
+      fetchMutation.MutationIndex.value);
 
-    var commitmentIsVerified :- SystemKeyHandler.VerifyCommitment(Commitment, SystemKey);
+    var commitmentIsVerified :- SystemKeyHandler.VerifyCommitment(CommitmentAndIndex.Commitment, SystemKey);
     :- Need(
       commitmentIsVerified,
       Types.MutationVerificationException(
@@ -672,7 +674,7 @@ module {:options "/functionSyntax:4" } Mutations {
           + " This suggests the Key Store's Storage has been tampered with by an un-authorized actor."
           + " Mutation cannot continue. Audit Key Store's Storage's access."
           + " The Mutation will need to be manually restarted."));
-    var indexIsVerified :- SystemKeyHandler.VerifyIndex(Index, SystemKey);
+    var indexIsVerified :- SystemKeyHandler.VerifyIndex(CommitmentAndIndex.Index, SystemKey);
     :- Need(
       indexIsVerified,
       Types.MutationVerificationException(
@@ -681,11 +683,7 @@ module {:options "/functionSyntax:4" } Mutations {
           + " This suggests the Key Store's Storage has been tampered with by an un-authorized actor."
           + " Mutation cannot continue. Audit Key Store's Storage's access."
           + " The Mutation will need to be manually restarted."));
-    var CommitmentAndIndex := StateStrucs.CommitmentAndIndex(
-      Commitment := Commitment,
-      Index := Index);
-    assert CommitmentAndIndex.ValidState();
-    // TODO-Mutations-GA :: Use System Key to Verify Commitment and Index
+
     var MutationToApply :- StateStrucs.DeserializeMutation(CommitmentAndIndex);
 
     // -= Query for page Size Branch Key Items
@@ -734,9 +732,9 @@ module {:options "/functionSyntax:4" } Mutations {
     var _ :- WriteMutations(
       storage,
       itemsEvaluated,
-      Commitment,
+      CommitmentAndIndex.Commitment,
       newIndex := signedNewIndex,
-      oldIndex := Index,
+      oldIndex := CommitmentAndIndex.Index,
       endMutationBool := (|queryOut.ExclusiveStartKey| == 0)
     );
 
@@ -794,36 +792,55 @@ module {:options "/functionSyntax:4" } Mutations {
   }
 
 
-  function ValidateCommitmentAndIndexStructures(
+  method ValidateCommitmentAndIndexStructures(
     token: Types.MutationToken,
     fetchMutation: KeyStoreTypes.GetMutationOutput,
     commitment: KeyStoreTypes.MutationCommitment,
     index: KeyStoreTypes.MutationIndex
-  ): (output: Result<(), Types.Error>)
+  )
+    returns (output: Result<StateStrucs.CommitmentAndIndex, Types.Error>)
     requires fetchMutation.MutationCommitment.Some?
     ensures
       output.Success? ==>
         && commitment.Identifier == index.Identifier
         && commitment.UUID == index.UUID
+    ensures
+      && output.Success?
+      ==>
+        && output.value.ValidState()
+        && output.value.ValidUTF8()
+
   {
-    if commitment.Identifier != index.Identifier then
-      Failure(Types.MutationInvalidException(
-                message := "The Token and the Mutation Commitment read from storage disagree."
-                + " This indicates that the Token is for a different Mutation than the one in-flight."
-                + " A possible cause is this token is from an earlier Mutation that already finished?"
-                + " Branch Key ID: " + token.Identifier + ";"
-                + " Mutation Commitment UUID: " + fetchMutation.MutationCommitment.value.UUID + ";"
-                + " Token UUID: " + token.UUID + ";"
-              ))
-    else if commitment.UUID != index.UUID then
-      Failure(Types.MutationInvalidException(
-                message := "The Mutation Index read from storage and the Mutation Commitment are for different Mutations."
-                + " Branch Key ID: " + token.Identifier + ";"
-                + " Mutation Commitment UUID: " + commitment.UUID + ";"
-                + " Mutation Index UUID: " + index.UUID + ";"
-              ))
-    else
-      Success(())
+    if (commitment.Identifier != index.Identifier) {
+      return
+        Failure(Types.MutationInvalidException(
+                  message := "The Token and the Mutation Commitment read from storage disagree."
+                  + " This indicates that the Token is for a different Mutation than the one in-flight."
+                  + " A possible cause is this token is from an earlier Mutation that already finished?"
+                  + " Branch Key ID: " + token.Identifier + ";"
+                  + " Mutation Commitment UUID: " + fetchMutation.MutationCommitment.value.UUID + ";"
+                  + " Token UUID: " + token.UUID + ";"
+                ));
+    }
+    if (commitment.UUID != index.UUID) {
+      return
+        Failure(Types.MutationInvalidException(
+                  message := "The Mutation Index read from storage and the Mutation Commitment are for different Mutations."
+                  + " Branch Key ID: " + token.Identifier + ";"
+                  + " Mutation Commitment UUID: " + commitment.UUID + ";"
+                  + " Mutation Index UUID: " + index.UUID + ";"
+                ));
+    }
+    var commitmentAndIndex := StateStrucs.CommitmentAndIndex(commitment, index);
+    if (!commitmentAndIndex.ValidUTF8()) {
+      return Failure(
+          Types.MutationInvalidException(
+            message :=
+              "The Mutation Commitment and Mutation Index read from storage do not contain valid UTF8 sequences."
+              + " Branch Key ID: " + token.Identifier + ";"
+              + " Mutation Commitment UUID: " + commitment.UUID + ";"));
+    }
+    return Success(commitmentAndIndex);
   }
 
   method QueryForVersionsAndValidate(

@@ -96,12 +96,23 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   {
     /** The Commitment & Index MUST always have the same Identifier & UUID. **/
     /** They MAY NOT have the same CreateTime. **/
-    ghost predicate ValidState()
+    predicate ValidState()
     {
       && Commitment.Identifier == Index.Identifier
       && 0 < |Commitment.Identifier|
       && Commitment.UUID == Index.UUID
       && 0 < |Commitment.UUID|
+    }
+    predicate ValidUTF8()
+    {
+      && UTF8.ValidUTF8Seq(Commitment.Original)
+      && UTF8.ValidUTF8Seq(Commitment.Terminal)
+      && UTF8.ValidUTF8Seq(Commitment.Input)
+      && UTF8.ValidUTF8Seq(Index.PageIndex)
+      && 0 < |Commitment.Identifier|
+      && 0 < |Index.Identifier|
+      && 0 < |Commitment.UUID|
+      && 0 < |Index.UUID|
     }
   }
 

@@ -40,41 +40,6 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
   // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=dHJ1c3RTdG9yYWdl&oenc=65001&oeol=CR
   const TRUST_STORAGE_UTF8_BYTES: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii("trustStorage") // [116,114,117,115,116,83,116,111,114,97,103,101]
 
-  lemma UTF8BytesAreValid()
-    ensures
-      && UTF8.IsASCIIString(Structure.KEY_CREATE_TIME)
-      && UTF8.EncodeAscii(Structure.KEY_CREATE_TIME) == CREATE_TIME_UTF8_BYTES
-      ==> UTF8.ValidUTF8Seq(CREATE_TIME_UTF8_BYTES)
-    ensures
-      && UTF8.IsASCIIString(Structure.M_ORIGINAL)
-      && UTF8.EncodeAscii(Structure.M_ORIGINAL) == ORIGINAL_UTF8_BYTES
-      ==> UTF8.ValidUTF8Seq(ORIGINAL_UTF8_BYTES)
-    ensures
-      && UTF8.IsASCIIString(Structure.M_TERMINAL)
-      && UTF8.EncodeAscii(Structure.M_TERMINAL) == TERMINAL_UTF8_BYTES
-      ==> UTF8.ValidUTF8Seq(TERMINAL_UTF8_BYTES)
-    ensures
-      && UTF8.IsASCIIString(Structure.M_INPUT)
-      && UTF8.EncodeAscii(Structure.M_INPUT) == INPUT_UTF8_BYTES
-      ==> UTF8.ValidUTF8Seq(INPUT_UTF8_BYTES)
-    ensures
-      && UTF8.IsASCIIString(Structure.M_PAGE_INDEX)
-      && UTF8.EncodeAscii(Structure.M_PAGE_INDEX) == PAGE_INDEX_UTF8_BYTES
-      ==> UTF8.ValidUTF8Seq(PAGE_INDEX_UTF8_BYTES)
-    ensures
-      && UTF8.IsASCIIString(Structure.MUTATION_COMMITMENT_TYPE)
-      && UTF8.EncodeAscii(Structure.MUTATION_COMMITMENT_TYPE) == COMMITMENT_TYPE_UTF8_BYTES
-      ==> UTF8.ValidUTF8Seq(COMMITMENT_TYPE_UTF8_BYTES)
-    ensures
-      && UTF8.IsASCIIString(Structure.MUTATION_INDEX_TYPE)
-      && UTF8.EncodeAscii(Structure.MUTATION_INDEX_TYPE) == INDEX_TYPE_UTF8_BYTES
-      ==> UTF8.ValidUTF8Seq(INDEX_TYPE_UTF8_BYTES)
-    ensures
-      && UTF8.IsASCIIString("trustStorage")
-      && UTF8.EncodeAscii("trustStorage") == TRUST_STORAGE_UTF8_BYTES
-      ==> UTF8.ValidUTF8Seq(TRUST_STORAGE_UTF8_BYTES)
-  {}
-
   function CommitmentWithSignature(
     MutationCommitment: KSTypes.MutationCommitment,
     Signature: seq<uint8>
