@@ -23,6 +23,7 @@ module {:options "/functionSyntax:4" } MutationIndexUtils {
   type PageIndex = UTF8.ValidUTF8Bytes
   type ExclusiveStartKey = Option<UTF8.ValidUTF8Bytes>
 
+  // TODO: Investigate if allocating constant is more efficient than ASCII Encode.
   // UTF-8 encoded "Not Started"
   // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Hex('0x%20with%20comma',0)&input=Tm90IFN0YXJ0ZWQ&oenc=65001&oeol=CR
   const NOT_STARTED_UTF8_BYTES: UTF8.ValidUTF8Bytes :=
