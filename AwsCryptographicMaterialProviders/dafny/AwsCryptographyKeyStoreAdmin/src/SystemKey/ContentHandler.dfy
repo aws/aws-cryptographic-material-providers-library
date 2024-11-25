@@ -172,12 +172,17 @@ module {:options "/functionSyntax:4" } SystemKey.ContentHandler {
       GrantTokens := Some(input.KmsTuple.grantTokens)
     );
     var kmsRes? := input.KmsTuple.kmsClient.Decrypt(kmsReq);
-    // TODO-Mutations-GA : better error message for failure
-    // Particularly, if the error is InvalidCiphertextException
-    // than the content has been tampered with
-    // and we should return  MutationVerificationException.
-    // Otherwise, it is some other KMS issue, and we return a KeyStoreAdminException
-    var kmsRes :- kmsRes?.MapFailure(e => Types.ComAmazonawsKms(e));
+    // var kmsRes? := kmsRes?; //.MapFailure(e => Types.ComAmazonawsKms(e));
+    if (kmsRes?.Failure?) {
+      if (kmsRes?.error.InvalidCiphertextException?) {
+        return Success(false);
+      } else {
+        // TODO-Mutations-GA : better error message for failure
+        // Otherwise, it is some other KMS issue, and we return a KeyStoreAdminException
+        return Failure(Types.ComAmazonawsKms(ComAmazonawsKms:=kmsRes?.error));
+      }
+    }
+    var kmsRes := kmsRes?.value;
     :- Need(
       kmsRes.Plaintext.Some?,
       // TODO-Mutations-GA : better error message for failure

@@ -162,8 +162,9 @@ module {:options "/functionSyntax:4" } TestContentHandler {
       KmsTuple := kmsTuple,
       Crypto := crypto);
     assert signInput.ValidState();
-    var signOutput? := ActualSign(signInput, SignAndFailVerifyCommitmentLogPrefix); //ContentHandler.SignContent(input);
+    var signOutput? := ActualSign(signInput, SignAndFailVerifyCommitmentLogPrefix);
     expect signOutput?.Success?, "System Key failed to SignContent when it should have succeeded.";
+
 
     var verifyInput := ContentHandler.VerifyInput(
       MaterialIdentifier := kmsId,
@@ -172,7 +173,8 @@ module {:options "/functionSyntax:4" } TestContentHandler {
       KmsTuple := kmsTuple,
       Crypto := crypto);
     var verifyOutput? := ActualVerify(verifyInput, SignAndFailVerifyCommitmentLogPrefix);
-    expect verifyOutput?.Failure?, "System Key should have failed to VerifyContent when it succeeded.";
+    expect verifyOutput?.Success, "System Key should have not errored on VerifyContent when it has been tampered.";
+    expect verifyOutput?.value == false, "System Key should have returned false on VerifyContent when it has been tampered.";
     // print "\nTestContentHandler.SignAndFailVerifyCommitment: ";
   }
 

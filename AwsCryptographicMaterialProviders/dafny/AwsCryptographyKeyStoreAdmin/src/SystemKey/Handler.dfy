@@ -39,6 +39,27 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
   const INDEX_TYPE_UTF8_BYTES: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii(Structure.MUTATION_INDEX_TYPE) //[98,114,97,110,99,104,58,77,85,84,65,84,73,79,78,95,73,78,68,69,88]
   // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=dHJ1c3RTdG9yYWdl&oenc=65001&oeol=CR
   const TRUST_STORAGE_UTF8_BYTES: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii("trustStorage") // [116,114,117,115,116,83,116,111,114,97,103,101]
+  const HIERARCHY_VERSION_UTF8_BYTES: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii(Structure.HIERARCHY_VERSION) // [116,114,117,115,116,83,116,111,114,97,103,101]
+  const HIERARCHY_VERSION_VALUE_UTF8_BYTES: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii(Structure.HIERARCHY_VERSION_VALUE)
+
+  // TODO : Move type *ToSHA along with other constants to SystemKey.Constants
+  type CommitmentContentToSHA =
+    m: MPL.Types.EncryptionContext
+    | m.Keys == {
+                  CREATE_TIME_UTF8_BYTES,
+                  ORIGINAL_UTF8_BYTES,
+                  TERMINAL_UTF8_BYTES,
+                  INPUT_UTF8_BYTES,
+                  HIERARCHY_VERSION_UTF8_BYTES
+                } witness *
+
+  type IndexContentToSHA =
+    m: MPL.Types.EncryptionContext
+    | m.Keys == {
+                  CREATE_TIME_UTF8_BYTES,
+                  HIERARCHY_VERSION_UTF8_BYTES,
+                  PAGE_INDEX_UTF8_BYTES
+                } witness *
 
   function CommitmentWithSignature(
     MutationCommitment: KSTypes.MutationCommitment,
@@ -68,6 +89,7 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
       CiphertextBlob := Signature)
   }
 
+  // TODO: Abstract and consolidate these 4 methods
   method SignCommitment(
     MutationCommitment: KSTypes.MutationCommitment,
     InternalSystemKey: KmsUtils.InternalSystemKey
@@ -110,11 +132,12 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
           + timeBytes?.error);
       return Failure(e);
     }
-    var contentToSHA: MPL.Types.EncryptionContext := map[
+    var contentToSHA: CommitmentContentToSHA := map[
       CREATE_TIME_UTF8_BYTES := timeBytes?.value,
       ORIGINAL_UTF8_BYTES := MutationCommitment.Original,
       TERMINAL_UTF8_BYTES := MutationCommitment.Terminal,
-      INPUT_UTF8_BYTES := MutationCommitment.Input
+      INPUT_UTF8_BYTES := MutationCommitment.Input,
+      HIERARCHY_VERSION_UTF8_BYTES := HIERARCHY_VERSION_VALUE_UTF8_BYTES
     ];
     var content := ContentHandler.Content(
       ContentToSHA := contentToSHA,
@@ -173,9 +196,10 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
           + timeBytes?.error);
       return Failure(e);
     }
-    var contentToSHA: MPL.Types.EncryptionContext := map[
+    var contentToSHA: IndexContentToSHA := map[
       CREATE_TIME_UTF8_BYTES := timeBytes?.value,
-      PAGE_INDEX_UTF8_BYTES := MutationIndex.PageIndex
+      PAGE_INDEX_UTF8_BYTES := MutationIndex.PageIndex,
+      HIERARCHY_VERSION_UTF8_BYTES := HIERARCHY_VERSION_VALUE_UTF8_BYTES
     ];
     var content := ContentHandler.Content(
       ContentToSHA := contentToSHA,
@@ -243,11 +267,12 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
           + timeBytes?.error);
       return Failure(e);
     }
-    var contentToSHA: MPL.Types.EncryptionContext := map[
+    var contentToSHA: CommitmentContentToSHA := map[
       CREATE_TIME_UTF8_BYTES := timeBytes?.value,
       ORIGINAL_UTF8_BYTES := MutationCommitment.Original,
       TERMINAL_UTF8_BYTES := MutationCommitment.Terminal,
-      INPUT_UTF8_BYTES := MutationCommitment.Input
+      INPUT_UTF8_BYTES := MutationCommitment.Input,
+      HIERARCHY_VERSION_UTF8_BYTES := HIERARCHY_VERSION_VALUE_UTF8_BYTES
     ];
     var content := ContentHandler.Content(
       ContentToSHA := contentToSHA,
@@ -316,9 +341,10 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
           + timeBytes?.error);
       return Failure(e);
     }
-    var contentToSHA: MPL.Types.EncryptionContext := map[
+    var contentToSHA: IndexContentToSHA := map[
       CREATE_TIME_UTF8_BYTES := timeBytes?.value,
-      PAGE_INDEX_UTF8_BYTES := MutationIndex.PageIndex
+      PAGE_INDEX_UTF8_BYTES := MutationIndex.PageIndex,
+      HIERARCHY_VERSION_UTF8_BYTES := HIERARCHY_VERSION_VALUE_UTF8_BYTES
     ];
     var content := ContentHandler.Content(
       ContentToSHA := contentToSHA,

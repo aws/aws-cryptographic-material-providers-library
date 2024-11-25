@@ -84,11 +84,7 @@ public class MutationsSystemKeyTrustExample {
           admin,
           1
         );
-    } catch (
-      KeyStoreAdminException
-      | MutationInvalidException
-      | MutationVerificationException ex
-    ) {
+    } catch (MutationVerificationException ex) {
       System.out.println(
         "Apply with wrong SystemKey failed with: \n" +
         ex.getClass().getSimpleName() +

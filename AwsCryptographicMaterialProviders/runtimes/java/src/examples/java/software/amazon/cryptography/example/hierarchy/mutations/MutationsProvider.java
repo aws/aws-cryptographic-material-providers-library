@@ -58,26 +58,23 @@ public class MutationsProvider {
     @Nullable List<String> systemKeyGrantTokens
   ) {
     //noinspection unchecked
+    final List<String> tempList = systemKeyGrantTokens == null
+      ? Collections.EMPTY_LIST
+      : systemKeyGrantTokens;
+    final KmsClient tempKms = systemKeyKmsClient == null
+      ? AdminProvider.kms(null)
+      : systemKeyKmsClient;
+    final AwsKms tempAws = AwsKms
+      .builder()
+      .kmsClient(tempKms)
+      .grantTokens(tempList)
+      .build();
     return SystemKey
       .builder()
       .kmsSymmetricEncryption(
         KmsSymmetricEncryption
           .builder()
-          .AwsKms(
-            AwsKms
-              .builder()
-              .kmsClient(
-                systemKeyKmsClient == null
-                  ? AdminProvider.kms(null)
-                  : systemKeyKmsClient
-              )
-              .grantTokens(
-                systemKeyGrantTokens == null
-                  ? Collections.EMPTY_LIST
-                  : systemKeyGrantTokens
-              )
-              .build()
-          )
+          .AwsKms(tempAws)
           .KmsArn(KmsSymmetricKeyArn.builder().KmsKeyArn(systemKeyArn).build())
           .build()
       )
