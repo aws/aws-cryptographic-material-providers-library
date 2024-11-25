@@ -73,6 +73,17 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     CommitmentCiphertext: seq<uint8>,
     IndexCiphertext: seq<uint8>
   )
+  {
+    ghost predicate ValidState()
+    {
+      && 0 < |Identifier|
+      && 0 < |UUID|
+      && KmsArn.ValidKmsArn?(Original.kmsArn)
+      && KmsArn.ValidKmsArn?(Terminal.kmsArn)
+      && (Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! Original.customEncryptionContext.Keys)
+      && (Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! Terminal.customEncryptionContext.Keys)
+    }
+  }
 
   /** The Commitment & Index are persisted to the storage by Initialize. **/
   /** The Commitment & Index are read by Apply. **/
@@ -88,17 +99,19 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     ghost predicate ValidState()
     {
       && Commitment.Identifier == Index.Identifier
+      && 0 < |Commitment.Identifier|
       && Commitment.UUID == Index.UUID
+      && 0 < |Commitment.UUID|
     }
   }
 
-  predicate MutationToApply?(MutationToApply: MutationToApply)
-  {
-    && KmsArn.ValidKmsArn?(MutationToApply.Original.kmsArn)
-    && KmsArn.ValidKmsArn?(MutationToApply.Terminal.kmsArn)
-    && (Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! MutationToApply.Original.customEncryptionContext.Keys)
-    && (Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! MutationToApply.Terminal.customEncryptionContext.Keys)
-  }
+  // predicate MutationToApply?(MutationToApply: MutationToApply)
+  // {
+  //   && KmsArn.ValidKmsArn?(MutationToApply.Original.kmsArn)
+  //   && KmsArn.ValidKmsArn?(MutationToApply.Terminal.kmsArn)
+  //   && (Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! MutationToApply.Original.customEncryptionContext.Keys)
+  //   && (Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! MutationToApply.Terminal.customEncryptionContext.Keys)
+  // }
 
   function EncryptionContextStringToJSON(
     encryptionContext: KeyStoreTypes.EncryptionContextString
@@ -194,10 +207,32 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     Success(input)
   }
 
+  function ValidateJSONSerialize(
+    jsonByteSeq: seq<uint8>
+  ): (output: Result<UTF8.ValidUTF8Bytes, string>)
+    ensures
+      output.Success?
+      ==>
+        && UTF8.ValidUTF8Seq(jsonByteSeq)
+        && output.value == jsonByteSeq
+  {
+    if UTF8.ValidUTF8Seq(jsonByteSeq)
+    then Success(jsonByteSeq)
+    else Failure("Failure to UTF8 Validate results of JSON Serialization.")
+  }
+
   function SerializeMutationCommitment(
     MutationToApply: MutationToApply
   ): (output: Result<KeyStoreTypes.MutationCommitment, Types.Error>)
-    requires MutationToApply?(MutationToApply)
+    requires MutationToApply.ValidState() //MutationToApply?(MutationToApply)
+    ensures
+      && output.Success?
+      ==>
+        && UTF8.ValidUTF8Seq(output.value.Original)
+        && UTF8.ValidUTF8Seq(output.value.Terminal)
+        && UTF8.ValidUTF8Seq(output.value.Input)
+        && 0 < |output.value.Identifier|
+        && 0 < |output.value.UUID|
   {
     var OriginalJson
       := JSONValues.Object(
@@ -217,23 +252,38 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     var originalBytes :- JSON.Serialize(OriginalJson).MapFailure(
                            (e: JSONErrors.SerializationError)
                            => Types.KeyStoreAdminException(
-                               message := "Could not JSON Serialize state: original properties. " + e.ToString()));
+                               message := "Could not JSON Serialize original properties. " + e.ToString()));
+    var validatedOriginalBytes: UTF8.ValidUTF8Bytes :- ValidateJSONSerialize(originalBytes)
+                                                       .MapFailure(
+                                                         (e: string) =>
+                                                           Types.KeyStoreAdminException(message := "Could not JSON Serialize original properties. " + e));
+
     var terminalBytes :- JSON.Serialize(TerminalJson).MapFailure(
                            (e: JSONErrors.SerializationError)
                            => Types.KeyStoreAdminException(
-                               message := "Could not JSON Serialize state: terminal properties. " + e.ToString()));
+                               message := "Could not JSON Serialize terminal properties. " + e.ToString()));
+    var validatedTerminalBytes: UTF8.ValidUTF8Bytes :- ValidateJSONSerialize(terminalBytes)
+                                                       .MapFailure(
+                                                         (e: string) =>
+                                                           Types.KeyStoreAdminException(message := "Could not JSON Serialize terminal properties. " + e));
+
     var inputBytes :- JSON.Serialize(InputJson).MapFailure(
                         (e: JSONErrors.SerializationError)
                         => Types.KeyStoreAdminException(
                             message := "Could not JSON Serialize Input. " + e.ToString()));
+    var validatedInputBytes: UTF8.ValidUTF8Bytes :- ValidateJSONSerialize(inputBytes)
+                                                    .MapFailure(
+                                                      (e: string) =>
+                                                        Types.KeyStoreAdminException(message := "Could not JSON Serialize Input. " + e));
+
     var commitment := KeyStoreTypes.MutationCommitment(
                         Identifier := MutationToApply.Identifier,
-                        Original := originalBytes,
-                        Terminal := terminalBytes,
+                        Original := validatedOriginalBytes, //originalBytes,
+                        Terminal := validatedTerminalBytes, //terminalBytes,
                         UUID := MutationToApply.UUID,
                         CreateTime := MutationToApply.CreateTime,
                         CiphertextBlob := MutationToApply.CommitmentCiphertext,
-                        Input := inputBytes
+                        Input := validatedInputBytes //inputBytes
                       );
     Success(commitment)
   }
@@ -242,7 +292,13 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     MutationToApply: MutationToApply,
     ExclusiveStartKey: MutationIndexUtils.ExclusiveStartKey
   ): (output: Result<KeyStoreTypes.MutationIndex, Types.Error>)
-    requires MutationToApply?(MutationToApply)
+    requires MutationToApply.ValidState() //MutationToApply?(MutationToApply)
+    ensures
+      && output.Success?
+      ==>
+        && UTF8.ValidUTF8Seq(output.value.PageIndex)
+        && 0 < |output.value.Identifier|
+        && 0 < |output.value.UUID|
   {
     var index := KeyStoreTypes.MutationIndex(
                    Identifier := MutationToApply.Identifier,
@@ -254,10 +310,11 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     Success(index)
   }
 
-  function DeserializeMutation(
+  function {:isolate_assertions} DeserializeMutation(
     commitmentAndIndex: CommitmentAndIndex
   ): (output: Result<MutationToApply, Types.Error>)
-    ensures output.Success? ==> MutationToApply?(output.value)
+    requires commitmentAndIndex.ValidState()
+    ensures output.Success? ==> output.value.ValidState()
   {
     var commitment := commitmentAndIndex.Commitment;
     var index := commitmentAndIndex.Index;

@@ -75,6 +75,34 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
       ==> UTF8.ValidUTF8Seq(TRUST_STORAGE_UTF8_BYTES)
   {}
 
+  function CommitmentWithSignature(
+    MutationCommitment: KSTypes.MutationCommitment,
+    Signature: seq<uint8>
+  ): (output: KSTypes.MutationCommitment)
+  {
+    KSTypes.MutationCommitment(
+      Identifier := MutationCommitment.Identifier,
+      CreateTime := MutationCommitment.CreateTime,
+      UUID := MutationCommitment.UUID,
+      Original := MutationCommitment.Original,
+      Terminal := MutationCommitment.Terminal,
+      Input := MutationCommitment.Input,
+      CiphertextBlob := Signature)
+  }
+
+  function IndexWithSignature(
+    MutationIndex: KSTypes.MutationIndex,
+    Signature: seq<uint8>
+  ): (output: KSTypes.MutationIndex)
+  {
+    KSTypes.MutationIndex(
+      Identifier := MutationIndex.Identifier,
+      CreateTime := MutationIndex.CreateTime,
+      UUID := MutationIndex.UUID,
+      PageIndex := MutationIndex.PageIndex,
+      CiphertextBlob := Signature)
+  }
+
   method SignCommitment(
     MutationCommitment: KSTypes.MutationCommitment,
     InternalSystemKey: KmsUtils.InternalSystemKey
@@ -90,13 +118,25 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
       && UTF8.ValidUTF8Seq(MutationCommitment.Input)
       && 0 < |MutationCommitment.UUID|
       && 0 < |MutationCommitment.Identifier|
-    // && 0 < |MutationCommitment.UUID|
+    ensures
+      && output.Success?
+      ==>
+        && UTF8.ValidUTF8Seq(output.value.Original)
+        && UTF8.ValidUTF8Seq(output.value.Terminal)
+        && UTF8.ValidUTF8Seq(output.value.Input)
+        && 0 < |output.value.UUID|
+        && 0 < |output.value.Identifier|
+        && 0 < |output.value.CiphertextBlob|
     // ensures output.Failure? ==> output.error.MutationVerificationException?
   {
     if (InternalSystemKey.TrustStorage?) {
       return Success(CommitmentWithSignature(MutationCommitment, TRUST_STORAGE_UTF8_BYTES));
     }
 
+    if (!InternalSystemKey.KmsSymEnc?) {
+      // This is impossible, but I want to make sure this logic is always sound
+      return Failure(Types.UnsupportedFeatureException(message:="Only TrustStorage and KMS Symmetric Encryption are supported."));
+    }
     var timeBytes? := UTF8.Encode(MutationCommitment.CreateTime);
     if (timeBytes?.Failure?) {
       var e := Types.MutationVerificationException(
@@ -111,25 +151,11 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
       TERMINAL_UTF8_BYTES := MutationCommitment.Terminal,
       INPUT_UTF8_BYTES := MutationCommitment.Input
     ];
-    assert forall item | item in contentToSHA.Items ::
-        && UTF8.ValidUTF8Seq(item.0) && UTF8.ValidUTF8Seq(item.1)
-    by {
-      assert
-        && UTF8.IsASCIIString(Structure.KEY_CREATE_TIME)
-        && UTF8.EncodeAscii(Structure.KEY_CREATE_TIME) == CREATE_TIME_UTF8_BYTES
-        && UTF8.IsASCIIString(Structure.M_ORIGINAL)
-        && UTF8.EncodeAscii(Structure.M_ORIGINAL) == ORIGINAL_UTF8_BYTES
-        && UTF8.IsASCIIString(Structure.M_TERMINAL)
-        && UTF8.EncodeAscii(Structure.M_TERMINAL) == TERMINAL_UTF8_BYTES
-        && UTF8.IsASCIIString(Structure.M_INPUT)
-        && UTF8.EncodeAscii(Structure.M_INPUT) == INPUT_UTF8_BYTES;
-    }
     var content := ContentHandler.Content(
       ContentToSHA := contentToSHA,
       PartitionValue := MutationCommitment.Identifier,
       SortValue := Structure.MUTATION_COMMITMENT_TYPE,
       UUIDValue := MutationCommitment.UUID);
-    assert content.ValidState();
 
     var crypto? := ContentHandler.ProvideCryptoClient();
     if (crypto?.Failure?) {
@@ -151,18 +177,202 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
     return Success(CommitmentWithSignature(MutationCommitment, signature));
   }
 
-  function CommitmentWithSignature(
-    MutationCommitment: KSTypes.MutationCommitment,
-    Signature: seq<uint8>
-  ): (output: KSTypes.MutationCommitment)
+  method SignIndex(
+    MutationIndex: KSTypes.MutationIndex,
+    InternalSystemKey: KmsUtils.InternalSystemKey
+  )
+    returns (output: Result<KSTypes.MutationIndex, Types.Error>)
+    requires InternalSystemKey.ValidState()
+    ensures InternalSystemKey.ValidState()
+    modifies InternalSystemKey.Modifies
+    // -= To be Signed, the binary fields must be the UTF8 bytes of their JSON rep
+    requires
+      && UTF8.ValidUTF8Seq(MutationIndex.PageIndex)
+      && 0 < |MutationIndex.UUID|
+      && 0 < |MutationIndex.Identifier|
+    // ensures output.Failure? ==> output.error.MutationVerificationException?
   {
-    KSTypes.MutationCommitment(
-      Identifier := MutationCommitment.Identifier,
-      CreateTime := MutationCommitment.CreateTime,
-      UUID := MutationCommitment.UUID,
-      Original := MutationCommitment.Original,
-      Terminal := MutationCommitment.Terminal,
-      Input := MutationCommitment.Input,
-      CiphertextBlob := Signature)
+    if (InternalSystemKey.TrustStorage?) {
+      return Success(IndexWithSignature(MutationIndex, TRUST_STORAGE_UTF8_BYTES));
+    }
+
+    if (!InternalSystemKey.KmsSymEnc?) {
+      // This is impossible, but I want to make sure this logic is always sound
+      return Failure(Types.UnsupportedFeatureException(message:="Only TrustStorage and KMS Symmetric Encryption are supported."));
+    }
+    var timeBytes? := UTF8.Encode(MutationIndex.CreateTime);
+    if (timeBytes?.Failure?) {
+      var e := Types.MutationVerificationException(
+        message:=
+          "Could not sign Mutation Index due to Serialization error: "
+          + timeBytes?.error);
+      return Failure(e);
+    }
+    var contentToSHA: MPL.Types.EncryptionContext := map[
+      CREATE_TIME_UTF8_BYTES := timeBytes?.value,
+      PAGE_INDEX_UTF8_BYTES := MutationIndex.PageIndex
+    ];
+    var content := ContentHandler.Content(
+      ContentToSHA := contentToSHA,
+      PartitionValue := MutationIndex.Identifier,
+      SortValue := Structure.MUTATION_INDEX_TYPE,
+      UUIDValue := MutationIndex.UUID);
+
+    var crypto? := ContentHandler.ProvideCryptoClient();
+    if (crypto?.Failure?) {
+      var e := Types.MutationVerificationException(
+        message :=
+          "Could not sign Mutation Index due to local Cryptography error: "
+          + AtomicPrimitives.ErrorUtils.MessageOrUnknown(crypto?.error));
+      return Failure(e);
+    }
+
+    var signInput := ContentHandler.SignInput(
+      MaterialIdentifier := InternalSystemKey.KeyId,
+      Content := content,
+      KmsTuple := InternalSystemKey.Tuple,
+      Crypto := crypto?.value);
+
+    var signature :- ContentHandler.SignContent(signInput);
+    return Success(IndexWithSignature(MutationIndex, signature));
   }
+
+  method VerifyCommitment(
+    MutationCommitment: KSTypes.MutationCommitment,
+    InternalSystemKey: KmsUtils.InternalSystemKey
+  )
+    returns (output: Result<bool, Types.Error>)
+    requires InternalSystemKey.ValidState()
+    ensures InternalSystemKey.ValidState()
+    modifies InternalSystemKey.Modifies
+    // -= To be Signed, the binary fields must be the UTF8 bytes of their JSON rep
+    // requires
+    //   && UTF8.ValidUTF8Seq(MutationCommitment.Original)
+    //   && UTF8.ValidUTF8Seq(MutationCommitment.Terminal)
+    //   && UTF8.ValidUTF8Seq(MutationCommitment.Input)
+    //   && 0 < |MutationCommitment.UUID|
+    //   && 0 < |MutationCommitment.Identifier|
+    // ensures
+    //   && output.Success?
+    //   ==>
+    //     && UTF8.ValidUTF8Seq(output.value.Original)
+    //     && UTF8.ValidUTF8Seq(output.value.Terminal)
+    //     && UTF8.ValidUTF8Seq(output.value.Input)
+    //     && 0 < |output.value.UUID|
+    //     && 0 < |output.value.Identifier|
+    //     && 0 < |output.value.CiphertextBlob|
+    // ensures output.Failure? ==> output.error.MutationVerificationException?
+  {
+    if (InternalSystemKey.TrustStorage? && MutationCommitment.CiphertextBlob == TRUST_STORAGE_UTF8_BYTES) {
+      return Success(true);
+    }
+
+    if (InternalSystemKey.KmsSymEnc?) {
+      print "\n WARNING :: DID NOT VALIDATE SIGNAUTRE of MUTATION.\n";
+      return Success(true);
+      // This is impossible, but I want to make sure this logic is always sound
+      // return Failure(Types.UnsupportedFeatureException(message:="Only TrustStorage is currently supported."));
+    }
+    // var timeBytes? := UTF8.Encode(MutationCommitment.CreateTime);
+    // if (timeBytes?.Failure?) {
+    //   var e := Types.MutationVerificationException(
+    //     message:=
+    //       "Could not sign Mutation Commitment due to Serialization error: "
+    //       + timeBytes?.error);
+    //   return Failure(e);
+    // }
+    // var contentToSHA: MPL.Types.EncryptionContext := map[
+    //   CREATE_TIME_UTF8_BYTES := timeBytes?.value,
+    //   ORIGINAL_UTF8_BYTES := MutationCommitment.Original,
+    //   TERMINAL_UTF8_BYTES := MutationCommitment.Terminal,
+    //   INPUT_UTF8_BYTES := MutationCommitment.Input
+    // ];
+    // var content := ContentHandler.Content(
+    //   ContentToSHA := contentToSHA,
+    //   PartitionValue := MutationCommitment.Identifier,
+    //   SortValue := Structure.MUTATION_COMMITMENT_TYPE,
+    //   UUIDValue := MutationCommitment.UUID);
+
+    // var crypto? := ContentHandler.ProvideCryptoClient();
+    // if (crypto?.Failure?) {
+    //   var e := Types.MutationVerificationException(
+    //     message :=
+    //       "Could not sign Mutation Commitment due to local Cryptography error: "
+    //       + AtomicPrimitives.ErrorUtils.MessageOrUnknown(crypto?.error));
+    //   return Failure(e);
+    // }
+
+    // var signInput := ContentHandler.SignInput(
+    //   MaterialIdentifier := InternalSystemKey.KeyId,
+    //   Content := content,
+    //   KmsTuple := InternalSystemKey.Tuple,
+    //   Crypto := crypto?.value);
+    // assert signInput.ValidState();
+
+    // var signature :- ContentHandler.SignContent(signInput);
+    // return Success(CommitmentWithSignature(MutationCommitment, signature));
+  }
+
+  method VerifyIndex(
+    MutationIndex: KSTypes.MutationIndex,
+    InternalSystemKey: KmsUtils.InternalSystemKey
+  )
+    returns (output: Result<bool, Types.Error>)
+    requires InternalSystemKey.ValidState()
+    ensures InternalSystemKey.ValidState()
+    modifies InternalSystemKey.Modifies
+    // -= To be Signed, the binary fields must be the UTF8 bytes of their JSON rep
+    // requires
+    //   && UTF8.ValidUTF8Seq(MutationIndex.PageIndex)
+    //   && 0 < |MutationIndex.UUID|
+    //   && 0 < |MutationIndex.Identifier|
+    // ensures output.Failure? ==> output.error.MutationVerificationException?
+  {
+    if (InternalSystemKey.TrustStorage? && MutationIndex.CiphertextBlob == TRUST_STORAGE_UTF8_BYTES) {
+      return Success(true);
+    }
+
+    if (InternalSystemKey.KmsSymEnc?) {
+      print "\n WARNING :: DID NOT VALIDATE SIGNAUTRE of MUTATION.\n";
+      return Success(true);
+      // This is impossible, but I want to make sure this logic is always sound
+      // return Failure(Types.UnsupportedFeatureException(message:="Only TrustStorage is currently supported."));
+    }
+    //   var timeBytes? := UTF8.Encode(MutationIndex.CreateTime);
+    //   if (timeBytes?.Failure?) {
+    //     var e := Types.MutationVerificationException(
+    //       message:=
+    //         "Could not sign Mutation Index due to Serialization error: "
+    //         + timeBytes?.error);
+    //     return Failure(e);
+    //   }
+    //   var contentToSHA: MPL.Types.EncryptionContext := map[
+    //     CREATE_TIME_UTF8_BYTES := timeBytes?.value,
+    //     PAGE_INDEX_UTF8_BYTES := MutationIndex.PageIndex
+    //   ];
+    //   var content := ContentHandler.Content(
+    //     ContentToSHA := contentToSHA,
+    //     PartitionValue := MutationIndex.Identifier,
+    //     SortValue := Structure.MUTATION_INDEX_TYPE,
+    //     UUIDValue := MutationIndex.UUID);
+
+    //   var crypto? := ContentHandler.ProvideCryptoClient();
+    //   if (crypto?.Failure?) {
+    //     var e := Types.MutationVerificationException(
+    //       message :=
+    //         "Could not sign Mutation Index due to local Cryptography error: "
+    //         + AtomicPrimitives.ErrorUtils.MessageOrUnknown(crypto?.error));
+    //     return Failure(e);
+    //   }
+
+    //   var signInput := ContentHandler.SignInput(
+    //     MaterialIdentifier := InternalSystemKey.KeyId,
+    //     Content := content,
+    //     KmsTuple := InternalSystemKey.Tuple,
+    //     Crypto := crypto?.value);
+
+    //   var signature :- ContentHandler.SignContent(signInput);
+    //   return Success(IndexWithSignature(MutationIndex, signature));
+  }
+
 }

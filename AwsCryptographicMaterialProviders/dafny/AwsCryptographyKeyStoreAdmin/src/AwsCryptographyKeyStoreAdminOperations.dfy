@@ -226,6 +226,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       Tuple := tuple,
       KeyId := keyId);
     assert internal.ValidState();
+    // assume {:axiom} config.storage.Modifies !! internal.Modifies;
     return Success(internal);
   }
 
@@ -336,6 +337,24 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     output := Success(Types.VersionKeyOutput());
   }
 
+  // predicate {:opaque} StorageSystemKeyKeyManagerStratAreInDependentLie(
+  //   storage: KeyStoreTypes.IKeyStorageInterface,
+  //   systemKey: KmsUtils.InternalSystemKey,
+  //   keyManagerStrat: KmsUtils.keyManagerStrat
+  // )
+  //   ensures
+  //     && storage.Modifies !! systemKey.Modifies
+  //     && storage.Modifies !! keyManagerStrat.Modifies
+  //     && systemKey.Modifies !! keyManagerStrat.Modifies
+  // {
+  //   assume {:axiom} systemKey.Modifies < MutationLie();
+  //   assume {:axiom} keyManagerStrat.Modifies < MutationLie();
+  //   assume {:axiom} systemKey.Modifies !! keyManagerStrat.Modifies;
+  //   assume {:axiom} storage.Modifies !! systemKey.Modifies;
+  //   assume {:axiom} storage.Modifies !! keyManagerStrat.Modifies;
+  //   true
+  // }
+
   predicate InitializeMutationEnsuresPublicly(input: InitializeMutationInput, output: Result<InitializeMutationOutput, Error>)
   {true}
 
@@ -343,8 +362,8 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     returns (output: Result<InitializeMutationOutput, Error>)
   {
     var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
+    var systemKey :- ResolveSystemKey(DefaultSystemKey(input.SystemKey), config);
     // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
-
     if keyManagerStrat.reEncrypt? {
       assume {:axiom} keyManagerStrat.reEncrypt.kmsClient.Modifies < MutationLie();
     }
@@ -354,8 +373,8 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       assume {:axiom} keyManagerStrat.encrypt.kmsClient.Modifies < MutationLie();
       assume {:axiom} keyManagerStrat.decrypt.kmsClient.Modifies !! keyManagerStrat.encrypt.kmsClient.Modifies;
     }
-
-    var systemKey :- ResolveSystemKey(DefaultSystemKey(input.SystemKey), config);
+    assume {:axiom} keyManagerStrat.Modifies !! systemKey.Modifies;
+    // assert StorageSystemKeyKeyManagerStratAreInDependentLie(config.storage, systemKey, keyManagerStrat);
 
     var internalInput := Mutations.InternalInitializeMutationInput(
       Identifier := input.Identifier,
@@ -379,18 +398,17 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     returns (output: Result<ApplyMutationOutput, Error>)
   {
     var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
+    var systemKey :- ResolveSystemKey(DefaultSystemKey(input.SystemKey), config);
     // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
     if keyManagerStrat.reEncrypt? {
       assume {:axiom} keyManagerStrat.reEncrypt.kmsClient.Modifies < MutationLie();
     }
-
     if keyManagerStrat.decryptEncrypt? {
       assume {:axiom} keyManagerStrat.decrypt.kmsClient.Modifies < MutationLie();
       assume {:axiom} keyManagerStrat.encrypt.kmsClient.Modifies < MutationLie();
       assume {:axiom} keyManagerStrat.decrypt.kmsClient.Modifies !! keyManagerStrat.encrypt.kmsClient.Modifies;
     }
-
-    var systemKey :- ResolveSystemKey(DefaultSystemKey(input.SystemKey), config);
+    assume {:axiom} keyManagerStrat.Modifies !! systemKey.Modifies;
 
     var _ :- Mutations.ValidateApplyMutationInput(input, config.logicalKeyStoreName, config.storage);
     output := Mutations.ApplyMutation(input, config.logicalKeyStoreName, keyManagerStrat, config.storage);

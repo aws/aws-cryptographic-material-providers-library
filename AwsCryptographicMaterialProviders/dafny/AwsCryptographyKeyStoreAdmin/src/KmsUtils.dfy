@@ -14,6 +14,7 @@ module {:options "/functionSyntax:4" } KmsUtils {
     ghost predicate ValidState()
     {
       && kmsClient.ValidState()
+      && kmsClient.Modifies == kmsClient.Modifies
       && KMS.Types.IsValid_GrantTokenList(grantTokens)
     }
     ghost const Modifies := kmsClient.Modifies
@@ -29,6 +30,8 @@ module {:options "/functionSyntax:4" } KmsUtils {
       case reEncrypt(km) =>
         && km.kmsClient.ValidState()
         && km.kmsClient.Modifies == km.kmsClient.Modifies
+        && km.ValidState()
+        && km.Modifies == km.Modifies
       case decryptEncrypt(kmD, kmE) =>
         && kmD.kmsClient.ValidState()
         && kmE.kmsClient.ValidState()
@@ -36,6 +39,11 @@ module {:options "/functionSyntax:4" } KmsUtils {
         && kmE.kmsClient.Modifies == kmE.kmsClient.Modifies
            // We will assume this is the case in order to make verification happy
         && kmE.kmsClient.Modifies !! kmD.kmsClient.Modifies
+        && kmD.ValidState()
+        && kmE.ValidState()
+        && kmD.Modifies == kmD.Modifies
+        && kmE.Modifies == kmE.Modifies
+        && kmD.Modifies !! kmE.Modifies
     }
     ghost const Modifies := match this
       case reEncrypt(km) => km.Modifies
@@ -57,6 +65,7 @@ module {:options "/functionSyntax:4" } KmsUtils {
       case KmsSymEnc(Tuple, KeyId) =>
         && Tuple.ValidState()
         && KMS.Types.IsValid_KeyIdType(KeyId)
+        && Tuple.Modifies == Tuple.Modifies
     }
     ghost const Modifies := match this
       case TrustStorage() => {}
