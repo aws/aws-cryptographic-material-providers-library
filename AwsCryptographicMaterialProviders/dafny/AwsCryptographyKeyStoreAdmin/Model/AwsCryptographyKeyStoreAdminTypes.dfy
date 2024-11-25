@@ -31,6 +31,10 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   datatype ApplyMutationResult =
     | ContinueMutation(ContinueMutation: MutationToken)
     | CompleteMutation(CompleteMutation: MutationComplete)
+  datatype AwsKmsDecryptEncrypt = | AwsKmsDecryptEncrypt (
+    nameonly decrypt: Option<AwsCryptographyKeyStoreTypes.AwsKms> := Option.None ,
+    nameonly encrypt: Option<AwsCryptographyKeyStoreTypes.AwsKms> := Option.None
+  )
   datatype CreateKeyInput = | CreateKeyInput (
     nameonly Identifier: Option<string> := Option.None ,
     nameonly EncryptionContext: Option<AwsCryptographyKeyStoreTypes.EncryptionContext> := Option.None ,
@@ -64,6 +68,7 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   )
   datatype KeyManagementStrategy =
     | AwsKmsReEncrypt(AwsKmsReEncrypt: AwsCryptographyKeyStoreTypes.AwsKms)
+    | AwsKmsDecryptEncrypt(AwsKmsDecryptEncrypt: AwsKmsDecryptEncrypt)
   class IKeyStoreAdminClientCallHistory {
     ghost constructor() {
       CreateKey := [];
