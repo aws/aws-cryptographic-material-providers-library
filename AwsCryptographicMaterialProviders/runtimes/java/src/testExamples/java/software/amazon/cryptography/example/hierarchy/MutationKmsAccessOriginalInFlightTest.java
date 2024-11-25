@@ -19,6 +19,7 @@ import software.amazon.awssdk.services.kms.model.KmsException;
 import software.amazon.cryptography.example.CredentialUtils;
 import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
+import software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider;
 import software.amazon.cryptography.keystore.KeyStorageInterface;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput;
@@ -90,7 +91,6 @@ public class MutationKmsAccessOriginalInFlightTest {
 
     KeyManagementStrategy strategyDenyMrk = AdminProvider.strategy(denyMrk);
     KeyStoreAdmin admin = AdminProvider.admin(
-      Fixtures.TEST_KEYSTORE_NAME,
       Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
       storage
     );
@@ -119,7 +119,7 @@ public class MutationKmsAccessOriginalInFlightTest {
       "InitLogs: " +
       branchKeyId +
       " items: \n" +
-      AdminProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
+      MutationsProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
     );
     boolean done = false;
     List<Exception> exceptions = new ArrayList<>();
@@ -150,7 +150,7 @@ public class MutationKmsAccessOriginalInFlightTest {
           "\nApplyLogs: " +
           branchKeyId +
           " items: \n" +
-          AdminProvider.mutatedItemsToString(
+          MutationsProvider.mutatedItemsToString(
             applyOutput.MutatedBranchKeyItems()
           )
         );

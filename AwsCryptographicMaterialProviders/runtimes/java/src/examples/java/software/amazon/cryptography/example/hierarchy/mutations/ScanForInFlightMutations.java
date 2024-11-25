@@ -1,4 +1,4 @@
-package software.amazon.cryptography.example.hierarchy;
+package software.amazon.cryptography.example.hierarchy.mutations;
 
 import java.util.ArrayList;
 import java.util.HashMap;

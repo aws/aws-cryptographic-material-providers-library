@@ -2,7 +2,8 @@ package software.amazon.cryptography.example.hierarchy;
 
 import org.testng.annotations.Test;
 import software.amazon.cryptography.example.Fixtures;
-import software.amazon.cryptography.example.hierarchy.ScanForInFlightMutations.PageResult;
+import software.amazon.cryptography.example.hierarchy.mutations.ScanForInFlightMutations;
+import software.amazon.cryptography.example.hierarchy.mutations.ScanForInFlightMutations.PageResult;
 
 public class ScanForInFlightMutationsTest {
 

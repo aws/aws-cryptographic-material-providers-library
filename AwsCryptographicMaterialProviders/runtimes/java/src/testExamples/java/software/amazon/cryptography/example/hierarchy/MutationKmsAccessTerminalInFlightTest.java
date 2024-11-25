@@ -20,6 +20,7 @@ import software.amazon.cryptography.example.CredentialUtils;
 import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.StorageCheater;
+import software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider;
 import software.amazon.cryptography.keystore.KeyStorageInterface;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput;
@@ -114,7 +115,7 @@ public class MutationKmsAccessTerminalInFlightTest {
       "InitLogs: " +
       branchKeyId +
       " items: \n" +
-      AdminProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
+      MutationsProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
     );
 
     boolean done = false;
@@ -140,7 +141,7 @@ public class MutationKmsAccessTerminalInFlightTest {
           "ApplyLogs: " +
           branchKeyId +
           " items: \n" +
-          AdminProvider.mutatedItemsToString(
+          MutationsProvider.mutatedItemsToString(
             applyOutput.MutatedBranchKeyItems()
           )
         );

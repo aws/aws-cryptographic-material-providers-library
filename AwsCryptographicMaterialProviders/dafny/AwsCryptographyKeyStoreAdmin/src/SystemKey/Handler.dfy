@@ -219,13 +219,14 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
       && 0 < |MutationCommitment.Identifier|
     // ensures output.Failure? ==> output.error.MutationVerificationException?
   {
-    if (InternalSystemKey.TrustStorage? && MutationCommitment.CiphertextBlob == TRUST_STORAGE_UTF8_BYTES) {
-      return Success(true);
+    if (InternalSystemKey.TrustStorage?) {
+      if (MutationCommitment.CiphertextBlob == TRUST_STORAGE_UTF8_BYTES) {
+        return Success(true);
+      }
+      return Success(false);
     }
 
     if (!InternalSystemKey.KmsSymEnc?) {
-      // print "\n WARNING :: DID NOT VALIDATE SIGNAUTRE of MUTATION.\n";
-      // return Success(true);
       // This is impossible, but I want to make sure this logic is always sound
       return Failure(Types.UnsupportedFeatureException(message:="Only TrustStorage and KMS Symmetric Encryption are supported."));
     }
@@ -289,8 +290,11 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
       && 0 < |MutationIndex.Identifier|
     // ensures output.Failure? ==> output.error.MutationVerificationException?
   {
-    if (InternalSystemKey.TrustStorage? && MutationIndex.CiphertextBlob == TRUST_STORAGE_UTF8_BYTES) {
-      return Success(true);
+    if (InternalSystemKey.TrustStorage?) {
+      if (MutationIndex.CiphertextBlob == TRUST_STORAGE_UTF8_BYTES) {
+        return Success(true);
+      }
+      return Success(false);
     }
 
     if (!InternalSystemKey.KmsSymEnc?) {

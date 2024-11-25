@@ -1185,7 +1185,11 @@ module {:options "/functionSyntax:4" } Mutations {
     :- Need(
       && 0 < |commitment.Identifier|,
       Types.KeyStoreAdminException(
-        message := "Mutation Commitment's Identifier cannot be empty."));
+      message := "Mutation Commitment's Identifier cannot be empty."));
+    :- Need(
+      && 0 < |commitment.UUID|,
+      Types.KeyStoreAdminException(
+        message := "Mutation Commitment's UUID cannot be empty."));
     var commitmentIsVerified :- SystemKeyHandler.VerifyCommitment(commitment, SystemKey);
     :- Need(
       commitmentIsVerified,
