@@ -51,7 +51,7 @@ module {:options "/functionSyntax:4" } TestThreat28 {
 
   method {:test} TestHappyCase()
   {
-    print " running";
+    // print " running";
 
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
@@ -65,7 +65,7 @@ module {:options "/functionSyntax:4" } TestThreat28 {
 
     Fixtures.CreateHappyCaseId(id:=testId, versionCount:=1);
 
-    print testLogPrefix + " Created the test items with 2 versions! testId: " + testId + "\n";
+    // print testLogPrefix + " Created the test items with 2 versions! testId: " + testId + "\n";
 
     var activeOneInput := KeyStoreTypes.GetEncryptedActiveBranchKeyInput(Identifier:=testId);
     var activeOne? :- expect storage.GetEncryptedActiveBranchKey(activeOneInput);
@@ -74,7 +74,7 @@ module {:options "/functionSyntax:4" } TestThreat28 {
     var activeOne := activeOne?.Item.Type.ActiveHierarchicalSymmetricVersion.Version;
     var robbieOne := activeOne?.Item.EncryptionContext[customEC];
 
-    print testLogPrefix + " Established ActiveOne: " + activeOne + "\n";
+    // print testLogPrefix + " Established ActiveOne: " + activeOne + "\n";
 
     var timestamp :- expect Time.GetCurrentTimeStamp();
     var newCustomEC: KeyStoreTypes.EncryptionContextString := map["Robbie" := timestamp];
@@ -88,7 +88,7 @@ module {:options "/functionSyntax:4" } TestThreat28 {
     var initializeOutput :- expect underTest.InitializeMutation(initInput);
     var initializeToken := initializeOutput.MutationToken;
 
-    print testLogPrefix + " Initialized Mutation. M-Lock UUID " + initializeToken.UUID + "\n";
+    // print testLogPrefix + " Initialized Mutation. M-Lock UUID " + initializeToken.UUID + "\n";
 
     var testInput := Types.ApplyMutationInput(
       MutationToken := initializeToken,
@@ -98,15 +98,15 @@ module {:options "/functionSyntax:4" } TestThreat28 {
     // var applyOutput :- expect underTest.ApplyMutation(testInput);
     var applyOutput? := underTest.ApplyMutation(testInput);
     if (applyOutput?.Failure?) {
-      print applyOutput?;
+      // print applyOutput?;
     }
     expect applyOutput?.Success?, "Apply 1 FAILED";
     var applyOutput := applyOutput?.value;
-    print testLogPrefix + " Applied Mutation w/ pageSize 1. testId: " + testId + "\n";
+    // print testLogPrefix + " Applied Mutation w/ pageSize 1. testId: " + testId + "\n";
     expect applyOutput.MutationResult.ContinueMutation?, "Apply Mutation output should continue!";
     var applyToken: Types.MutationToken := applyOutput.MutationResult.ContinueMutation;
 
-    print testLogPrefix + " Apply 1 output met expectations. testId: " + testId + "\n";
+    // print testLogPrefix + " Apply 1 output met expectations. testId: " + testId + "\n";
     // TODO: Assert log lines
 
     testInput := Types.ApplyMutationInput(
@@ -116,15 +116,15 @@ module {:options "/functionSyntax:4" } TestThreat28 {
       SystemKey := Some(Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage())));
     applyOutput? := underTest.ApplyMutation(testInput);
     if (applyOutput?.Failure?) {
-      print applyOutput?;
+      // print applyOutput?;
     }
     expect applyOutput?.Success?, "Apply 2 FAILED";
     applyOutput := applyOutput?.value;
 
-    // print testLogPrefix + " Applied 2 Mutation w/ pageSize 1. testId: " + testId + "\n";
+    // // print testLogPrefix + " Applied 2 Mutation w/ pageSize 1. testId: " + testId + "\n";
     expect applyOutput.MutationResult.ContinueMutation?, "Apply Mutation output should continue, based on the DDB Limit";
     applyToken := applyOutput.MutationResult.ContinueMutation;
-    print testLogPrefix + " Apply 2 output met expectations. testId: " + testId + "\n";
+    // print testLogPrefix + " Apply 2 output met expectations. testId: " + testId + "\n";
 
     testInput := Types.ApplyMutationInput(
       MutationToken := applyToken,
@@ -133,7 +133,7 @@ module {:options "/functionSyntax:4" } TestThreat28 {
       SystemKey := Some(Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage())));
     applyOutput? := underTest.ApplyMutation(testInput);
     if (applyOutput?.Failure?) {
-      print applyOutput?;
+      // print applyOutput?;
     }
     expect applyOutput?.Success?, "Apply 3 FAILED";
     applyOutput := applyOutput?.value;
@@ -148,7 +148,7 @@ module {:options "/functionSyntax:4" } TestThreat28 {
     expect
       |items| == 3,
       "Test expects there to be 3 Decrypt Only items! Found: " + String.Base10Int2String(|items|);
-    print testLogPrefix + " Read the 3 Decrypt Only items! testId: " + testId + "\n";
+    // print testLogPrefix + " Read the 3 Decrypt Only items! testId: " + testId + "\n";
 
     var itemIndex := 0;
     var inputV: KeyStoreTypes.GetBranchKeyVersionInput;
@@ -174,15 +174,15 @@ module {:options "/functionSyntax:4" } TestThreat28 {
 
       // This is a best effort
       var _ := CleanupItems.DeleteTypeWithFailure(testId, item.EncryptionContext["type"], ddbClient);
-      print testLogPrefix + " Validated Decrypt Only and tried to clean it up: " + item.EncryptionContext["type"] + "\n";
+      // print testLogPrefix + " Validated Decrypt Only and tried to clean it up: " + item.EncryptionContext["type"] + "\n";
       itemIndex := 1 + itemIndex;
     }
-    print testLogPrefix + " Validated and tried to delete the read \"mutated\" test items! testId: " + testId + "\n";
+    // print testLogPrefix + " Validated and tried to delete the read \"mutated\" test items! testId: " + testId + "\n";
 
     // Assert there is no M-Lock by running Initialize
     var initializeResult :=  underTest.InitializeMutation(initInput);
     expect initializeResult.Success?, "Apply 3 did not erase the Mutation Lock or Initialize Mutation is broken!";
-    print testLogPrefix + " Apply 3 output met expectations. testId: " + testId + "\n";
+    // print testLogPrefix + " Apply 3 output met expectations. testId: " + testId + "\n";
 
     var lastActiveInput := KeyStoreTypes.GetEncryptedActiveBranchKeyInput(Identifier:=testId);
     var lastActive? :- expect storage.GetEncryptedActiveBranchKey(lastActiveInput);
@@ -194,6 +194,6 @@ module {:options "/functionSyntax:4" } TestThreat28 {
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.MUTATION_COMMITMENT_TYPE, ddbClient);
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_TYPE_PREFIX + lastActive, ddbClient);
 
-    print "TestThreat28.TestHappyCase: ";
+    // print "TestThreat28.TestHappyCase: ";
   }
 }

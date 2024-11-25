@@ -51,7 +51,7 @@ module {:options "/functionSyntax:4" } TestThreat27 {
 
   method {:test} TestHappyCase()
   {
-    print " running";
+    // print " running";
 
     // expect false;
     var ddbClient :- expect Fixtures.ProvideDDBClient();
@@ -65,8 +65,7 @@ module {:options "/functionSyntax:4" } TestThreat27 {
     var testId := happyCaseId + "-" + uuid;
 
     Fixtures.CreateHappyCaseId(id:=testId, versionCount:=0);
-    print "\nTestThreat27 :: TestHappyCase :: Created the test items! testId: "
-          + testId  +  "\n";
+    // print "\nTestThreat27 :: TestHappyCase :: Created the test items! testId: " + testId  +  "\n";
     var activeOneInput := KeyStoreTypes.GetEncryptedActiveBranchKeyInput(Identifier:=testId);
     var activeOne? :- expect storage.GetEncryptedActiveBranchKey(activeOneInput);
     expect "version" in activeOne?.Item.EncryptionContext;
@@ -75,7 +74,7 @@ module {:options "/functionSyntax:4" } TestThreat27 {
     expect activeOne?.Item.Type.ActiveHierarchicalSymmetricVersion?;
     var activeOne := activeOne?.Item.Type.ActiveHierarchicalSymmetricVersion.Version;
     var robbieOne := activeOne?.Item.EncryptionContext["aws-crypto-ec:Robbie"];
-    print "\nTestThreat27 :: TestHappyCase :: Established ActiveOne: " + activeOne + "\n";
+    // print "\nTestThreat27 :: TestHappyCase :: Established ActiveOne: " + activeOne + "\n";
 
     var timestamp :- expect Time.GetCurrentTimeStamp();
     var newCustomEC: KeyStoreTypes.EncryptionContextString := map["Robbie" := timestamp];
@@ -88,7 +87,7 @@ module {:options "/functionSyntax:4" } TestThreat27 {
       DoNotVersion := Some(false));
     var initializeOutput :- expect underTest.InitializeMutation(testInput);
 
-    print "\nTestThreat27 :: TestHappyCase :: Initialized Mutation: " + activeOne + "\n";
+    // print "\nTestThreat27 :: TestHappyCase :: Initialized Mutation: " + activeOne + "\n";
 
     var activeTwoInput := KeyStoreTypes.GetEncryptedActiveBranchKeyInput(Identifier:=testId);
     var activeTwo? :- expect storage.GetEncryptedActiveBranchKey(activeTwoInput);
@@ -102,7 +101,7 @@ module {:options "/functionSyntax:4" } TestThreat27 {
     expect activeOne != activeTwo, "Initialize Mutation FAILED to Write New Active Branch Key";
     expect robbieTwo == timestamp, "Initialize Mutation FAILED to Mutate Custom EC";
 
-    print "\nTestThreat27 :: TestHappyCase :: Verified activeTwo was created in Terminal: " + activeTwo + "\n";
+    // print "\nTestThreat27 :: TestHappyCase :: Verified activeTwo was created in Terminal: " + activeTwo + "\n";
 
     var versionTwoInput := KeyStoreTypes.GetEncryptedBranchKeyVersionInput(Identifier:=testId, Version:=activeTwo);
     var versionTwo? :- expect storage.GetEncryptedBranchKeyVersion(versionTwoInput);
@@ -110,7 +109,7 @@ module {:options "/functionSyntax:4" } TestThreat27 {
     var versionTwo := versionTwo?.Item.EncryptionContext[Structure.TYPE_FIELD];
     expect customEC in versionTwo?.Item.EncryptionContext;
     expect timestamp == versionTwo?.Item.EncryptionContext[customEC], "Initialize Mutation Created Version in wrong state!";
-    print "\nTestThreat27 :: TestHappyCase :: Verified versionTwo was created in Terminal: " + versionTwo + "\n";
+    // print "\nTestThreat27 :: TestHappyCase :: Verified versionTwo was created in Terminal: " + versionTwo + "\n";
 
     // Validate Beacon Key
     var beaconPostMutInput := KeyStoreTypes.GetEncryptedBeaconKeyInput(Identifier:=testId);
@@ -119,14 +118,14 @@ module {:options "/functionSyntax:4" } TestThreat27 {
     var beaconPostMut := beaconPostMut?.Item.EncryptionContext[Structure.TYPE_FIELD];
     expect customEC in beaconPostMut?.Item.EncryptionContext;
     expect timestamp == beaconPostMut?.Item.EncryptionContext[customEC], "Initialize Mutation Mutated Beacon to wrong state!";
-    print "\nTestThreat27 :: TestHappyCase :: Verified Beacon was Mutated to Terminal: " + beaconPostMut + "\n";
+    // print "\nTestThreat27 :: TestHappyCase :: Verified Beacon was Mutated to Terminal: " + beaconPostMut + "\n";
 
     var inputV := KeyStoreTypes.VersionKeyInput(
       branchKeyIdentifier := testId
     );
     var _ :- expect keyStore.VersionKey(inputV);
 
-    print "\nTestThreat27 :: TestHappyCase :: Versioned ActiveTwo. testId: " + testId + "\n";
+    // print "\nTestThreat27 :: TestHappyCase :: Versioned ActiveTwo. testId: " + testId + "\n";
 
     var activeThreeInput := KeyStoreTypes.GetEncryptedActiveBranchKeyInput(Identifier:=testId);
     var activeThree? :- expect storage.GetEncryptedActiveBranchKey(activeThreeInput);
@@ -144,19 +143,19 @@ module {:options "/functionSyntax:4" } TestThreat27 {
     expect customEC in versionThree?.Item.EncryptionContext;
     expect timestamp == versionThree?.Item.EncryptionContext[customEC], "Version made DECRYPT_ONLY in wrong state!";
 
-    print "\nTestThreat27 :: TestHappyCase :: All expects passed! Trying to clean up testId: " + testId + "\n";
+    // print "\nTestThreat27 :: TestHappyCase :: All expects passed! Trying to clean up testId: " + testId + "\n";
 
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_ACTIVE_TYPE, ddbClient);
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BEACON_KEY_TYPE_VALUE, ddbClient);
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.MUTATION_COMMITMENT_TYPE, ddbClient);
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.MUTATION_INDEX_TYPE, ddbClient);
-    print "\nTestThreat27 :: TestHappyCase :: Delete Version for activeOne: " + activeOne + "\n";
+    // print "\nTestThreat27 :: TestHappyCase :: Delete Version for activeOne: " + activeOne + "\n";
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_TYPE_PREFIX + activeOne, ddbClient);
-    print "\nTestThreat27 :: TestHappyCase :: Delete Version for activeTwo: " + activeTwo + "\n";
+    // print "\nTestThreat27 :: TestHappyCase :: Delete Version for activeTwo: " + activeTwo + "\n";
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_TYPE_PREFIX + activeTwo, ddbClient);
-    print "\nTestThreat27 :: TestHappyCase :: Delete Version for activeThree: " + activeThree + "\n";
+    // print "\nTestThreat27 :: TestHappyCase :: Delete Version for activeThree: " + activeThree + "\n";
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_TYPE_PREFIX + activeThree, ddbClient);
 
-    print "TestThreat27.TestHappyCase: ";
+    // print "TestThreat27.TestHappyCase: ";
   }
 }

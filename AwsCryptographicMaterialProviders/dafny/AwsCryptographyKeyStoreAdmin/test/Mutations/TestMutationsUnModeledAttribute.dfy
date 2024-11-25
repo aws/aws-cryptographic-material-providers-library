@@ -42,7 +42,7 @@ module {:options "/functionSyntax:4" } TestMutationsUnModeledAttribute {
 
   method {:test} TestHappyCase()
   {
-    print " running";
+    // print " running";
 
     var ddbClient :- expect DDB.DynamoDBClient();
     var kmsClient :- expect KMS.KMSClient();
@@ -60,7 +60,7 @@ module {:options "/functionSyntax:4" } TestMutationsUnModeledAttribute {
     var originalEC := map[kodaBytes := isADogBytes];
     Fixtures.CreateHappyCaseId(id:=testId, versionCount:=0, customEC:=originalEC);
 
-    print testLogPrefix + " Created the legit test items with 1 versions! testId: " + testId + "\n";
+    // print testLogPrefix + " Created the legit test items with 1 versions! testId: " + testId + "\n";
     var unModeledAttri := AdminFixtures.KeyValue(key:="Robbie", value:="Is a dog.");
     var _ :- expect AdminFixtures.AddAttributeWithoutLibrary(
       id:=testId,
@@ -68,7 +68,7 @@ module {:options "/functionSyntax:4" } TestMutationsUnModeledAttribute {
       ddbClient? := Some(ddbClient),
       keyValue := unModeledAttri);
 
-    print testLogPrefix + " Violated all three. testId: " + testId + "\n";
+    // print testLogPrefix + " Violated all three. testId: " + testId + "\n";
 
     var timestamp :- expect Time.GetCurrentTimeStamp();
     var newCustomEC: KeyStoreTypes.EncryptionContextString := map["Koda" := timestamp];
@@ -82,7 +82,7 @@ module {:options "/functionSyntax:4" } TestMutationsUnModeledAttribute {
     var initializeOutput :- expect underTest.InitializeMutation(initInput);
     var initializeToken := initializeOutput.MutationToken;
 
-    print testLogPrefix + " Initialized Mutation. testId: " + testId + "\n";
+    // print testLogPrefix + " Initialized Mutation. testId: " + testId + "\n";
 
     var testInput := Types.ApplyMutationInput(
       MutationToken := initializeToken,
@@ -91,7 +91,7 @@ module {:options "/functionSyntax:4" } TestMutationsUnModeledAttribute {
       SystemKey := Some(Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage())));
     var applyOutput :- expect underTest.ApplyMutation(testInput);
 
-    print testLogPrefix + " Applied Mutation w/ pageSize 24. testId: " + testId + "\n";
+    // print testLogPrefix + " Applied Mutation w/ pageSize 24. testId: " + testId + "\n";
 
     expect applyOutput.MutationResult.CompleteMutation?, "Apply Mutation output should not continue!";
 
@@ -120,9 +120,7 @@ module {:options "/functionSyntax:4" } TestMutationsUnModeledAttribute {
 
       // This is a best effort
       var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_TYPE_PREFIX + versionUUID, ddbClient);
-      print testLogPrefix
-            + " Validated Decrypt Only and tried to clean it up: "
-            + Structure.BRANCH_KEY_TYPE_PREFIX + versionUUID + "\n";
+      // print testLogPrefix + " Validated Decrypt Only and tried to clean it up: " + Structure.BRANCH_KEY_TYPE_PREFIX + versionUUID + "\n";
       itemIndex := 1 + itemIndex;
     }
 
@@ -132,7 +130,7 @@ module {:options "/functionSyntax:4" } TestMutationsUnModeledAttribute {
     var lastActive := lastActive?.Item.Type.ActiveHierarchicalSymmetricVersion;
     var _ := itemExpectations(lastActive?.Item, timestamp, unModeledAttri);
     var _ :- expect keyStore.GetActiveBranchKey(KeyStoreTypes.GetActiveBranchKeyInput(branchKeyIdentifier := testId));
-    print testLogPrefix + " Active Validated with KMS/KeyStore: " + testId + "\n";
+    // print testLogPrefix + " Active Validated with KMS/KeyStore: " + testId + "\n";
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_ACTIVE_TYPE, ddbClient);
 
     var beaconInput := KeyStoreTypes.GetEncryptedBeaconKeyInput(Identifier:=testId);
@@ -140,7 +138,7 @@ module {:options "/functionSyntax:4" } TestMutationsUnModeledAttribute {
     expect beacon?.Item.Type.ActiveHierarchicalSymmetricBeacon?;
     var _ := itemExpectations(beacon?.Item, timestamp, unModeledAttri);
     var _ :- expect keyStore.GetBeaconKey(KeyStoreTypes.GetBeaconKeyInput(branchKeyIdentifier := testId));
-    print testLogPrefix + " Beacon Validated with KMS/KeyStore: " + testId + "\n";
+    // print testLogPrefix + " Beacon Validated with KMS/KeyStore: " + testId + "\n";
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BEACON_KEY_TYPE_VALUE, ddbClient);
   }
 
@@ -166,7 +164,3 @@ module {:options "/functionSyntax:4" } TestMutationsUnModeledAttribute {
     return true;
   }
 }
-
-// TestMutationsEncryptionContextAddValue :: TestHappyCase ::  Initialized Mutation. testId: test-mutations-encryption-context-add-value-2e2a4933-9a38-4bd7-9df4-5b6edf044646
-// FAILED
-        // dafny/AwsCryptographyKeyStoreAdmin/test/Mutations/TestEncryptionContextAddValue.dfy(96,23): Wrappers.Result.Failure(AwsCryptographyKeyStoreAdminTypes.Error.KeyStoreAdminException(WIP:test-mutations-encryption-context-add-value-2e2a4933-9a38-4bd7-9df4-5b6edf044646))

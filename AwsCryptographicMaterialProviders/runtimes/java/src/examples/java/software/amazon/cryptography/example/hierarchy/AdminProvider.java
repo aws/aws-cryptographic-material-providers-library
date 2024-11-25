@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 package software.amazon.cryptography.example.hierarchy;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kms.KmsClient;
@@ -14,25 +12,24 @@ import software.amazon.cryptography.keystore.model.Storage;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
 import software.amazon.cryptography.keystoreadmin.model.KeyStoreAdminConfig;
-import software.amazon.cryptography.keystoreadmin.model.MutatedBranchKeyItem;
 
 public class AdminProvider {
 
   public static KeyStoreAdmin admin(
-    String keyStoreTableName,
-    String logicalKeyStoreName,
+    String physicalName,
+    String logicalName,
     @Nullable DynamoDbClient dynamoDbClient
   ) {
     DynamoDBTable table = DynamoDBTable
       .builder()
       .ddbClient(dynamoDbClient)
-      .ddbTableName(keyStoreTableName)
+      .ddbTableName(physicalName)
       .build();
     Storage storage = Storage.builder().ddb(table).build();
 
     KeyStoreAdminConfig config = KeyStoreAdminConfig
       .builder()
-      .logicalKeyStoreName(logicalKeyStoreName)
+      .logicalKeyStoreName(logicalName)
       .storage(storage)
       .build();
 
@@ -40,13 +37,12 @@ public class AdminProvider {
   }
 
   public static KeyStoreAdmin admin(
-    String keyStoreTableName,
-    String logicalKeyStoreName,
+    String logicalName,
     KeyStorageInterface storage
   ) {
     KeyStoreAdminConfig config = KeyStoreAdminConfig
       .builder()
-      .logicalKeyStoreName(logicalKeyStoreName)
+      .logicalKeyStoreName(logicalName)
       .storage(Storage.builder().custom(storage).build())
       .build();
 
@@ -77,15 +73,5 @@ public class AdminProvider {
       kmsClient = KmsClient.create();
     }
     return kmsClient;
-  }
-
-  public static String mutatedItemsToString(
-    List<MutatedBranchKeyItem> mutatedItems
-  ) {
-    return mutatedItems
-      .stream()
-      .map(item -> String.format("%s : %s", item.ItemType(), item.Description())
-      )
-      .collect(Collectors.joining(",\n"));
   }
 }

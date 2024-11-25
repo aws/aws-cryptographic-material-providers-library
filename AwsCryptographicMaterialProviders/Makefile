@@ -15,6 +15,9 @@ SERVICE_NAMESPACE_AwsCryptographicMaterialProviders=aws.cryptography.materialPro
 SERVICE_NAMESPACE_AwsCryptographyKeyStore=aws.cryptography.keyStore
 SERVICE_NAMESPACE_AwsCryptographyKeyStoreAdmin=aws.cryptography.keyStoreAdmin
 
+# 90_000_000 or 9e7
+MAX_RESOURCE_COUNT=90000000
+
 MAIN_SERVICE_FOR_RUST := AwsCryptographicMaterialProviders
 
 RUST_OTHER_FILES := \
@@ -38,7 +41,6 @@ RUST_OTHER_FILES := \
 	runtimes/rust/src/time.rs \
 	runtimes/rust/src/uuid.rs
 
-MAX_RESOURCE_COUNT=90000000
 # Order is important
 # In java they MUST be built
 # in the order they depend on each other
