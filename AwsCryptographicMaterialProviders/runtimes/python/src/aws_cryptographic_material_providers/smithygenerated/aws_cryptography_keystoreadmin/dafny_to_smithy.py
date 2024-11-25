@@ -8,6 +8,7 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     InitializeMutationFlag_Created,
     InitializeMutationFlag_Resumed,
     InitializeMutationFlag_ResumedWithoutIndex,
+    KeyManagementStrategy_AwsKmsDecryptEncrypt,
     KeyManagementStrategy_AwsKmsReEncrypt,
     KmsSymmetricKeyArn_KmsKeyArn,
     KmsSymmetricKeyArn_KmsMRKeyArn,
@@ -50,10 +51,39 @@ def aws_cryptography_keystoreadmin_KeyManagementStrategy(dafny_input):
                 dafny_input.AwsKmsReEncrypt
             )
         )
+    elif isinstance(dafny_input, KeyManagementStrategy_AwsKmsDecryptEncrypt):
+        KeyManagementStrategy_union_value = aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.KeyManagementStrategyAwsKmsDecryptEncrypt(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_AwsKmsDecryptEncrypt(
+                dafny_input.AwsKmsDecryptEncrypt
+            )
+        )
     else:
         raise ValueError("No recognized union value in union type: " + str(dafny_input))
 
     return KeyManagementStrategy_union_value
+
+
+def aws_cryptography_keystoreadmin_AwsKmsDecryptEncrypt(dafny_input):
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.AwsKmsDecryptEncrypt(
+        decrypt=(
+            (
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_AwsKms(
+                    dafny_input.decrypt.value
+                )
+            )
+            if (dafny_input.decrypt.is_Some)
+            else None
+        ),
+        encrypt=(
+            (
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_AwsKms(
+                    dafny_input.encrypt.value
+                )
+            )
+            if (dafny_input.encrypt.is_Some)
+            else None
+        ),
+    )
 
 
 def aws_cryptography_keystoreadmin_CreateKeyInput(dafny_input):
