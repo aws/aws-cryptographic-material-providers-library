@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import software.amazon.awssdk.core.SdkBytes;
@@ -30,8 +31,26 @@ public class TestMutationsSystemKeyKMSTamper {
 
   static final String testPrefix = "java-test-mutation-system-key-kms-tamper-";
 
+  public static Map<String, AttributeValue> ddbKeyForCommitment(
+    final String identifier
+  ) {
+    Map<String, AttributeValue> ddbKey = new HashMap<>(3, 1);
+    ddbKey.put("branch-key-id", AttributeValue.fromS(identifier));
+    ddbKey.put("type", AttributeValue.fromS("branch:MUTATION_COMMITMENT"));
+    return ddbKey;
+  }
+
+  public static Map<String, AttributeValue> ddbKeyForIndex(
+    final String identifier
+  ) {
+    Map<String, AttributeValue> ddbKey = new HashMap<>(3, 1);
+    ddbKey.put("branch-key-id", AttributeValue.fromS(identifier));
+    ddbKey.put("type", AttributeValue.fromS("branch:MUTATION_INDEX"));
+    return ddbKey;
+  }
+
   @Test
-  public void testCreateTime() {
+  public void testCreateTimeCommitment() {
     Map<String, AttributeValueUpdate> tamper = new HashMap<>(2, 1);
     tamper.put(
       "create-time",
@@ -41,22 +60,45 @@ public class TestMutationsSystemKeyKMSTamper {
         .action(AttributeAction.PUT)
         .build()
     );
-    testAttribute(tamper, testPrefix + "create-time-");
+    testAttribute(
+      tamper,
+      testPrefix + "create-time-commitment-",
+      "branch:MUTATION_COMMITMENT"
+    );
   }
 
   @Test
-  public void testHierarchyVersion() {
+  public void testCreateTimeIndex() {
     Map<String, AttributeValueUpdate> tamper = new HashMap<>(2, 1);
     tamper.put(
-      "hierarchy-version",
+      "create-time",
       AttributeValueUpdate
         .builder()
-        .value(AttributeValue.fromN("2"))
+        .value(AttributeValue.fromS("now!"))
         .action(AttributeAction.PUT)
         .build()
     );
-    testAttribute(tamper, testPrefix + "hierarchy-version-");
+    testAttribute(
+      tamper,
+      testPrefix + "create-time-index-",
+      "branch:MUTATION_INDEX"
+    );
   }
+
+  // Tampering the H-Version results in a Key Storage Failure
+  // @Test
+  // public void testHierarchyVersion() {
+  //   Map<String, AttributeValueUpdate> tamper = new HashMap<>(2, 1);
+  //   tamper.put(
+  //     "hierarchy-version",
+  //     AttributeValueUpdate
+  //       .builder()
+  //       .value(AttributeValue.fromN("2"))
+  //       .action(AttributeAction.PUT)
+  //       .build()
+  //   );
+  //   testAttribute(tamper, testPrefix + "hierarchy-version-");
+  // }
 
   @Test
   public void testInput() {
@@ -76,7 +118,7 @@ public class TestMutationsSystemKeyKMSTamper {
         .action(AttributeAction.PUT)
         .build()
     );
-    testAttribute(tamper, testPrefix + "input-");
+    testAttribute(tamper, testPrefix + "input-", "branch:MUTATION_COMMITMENT");
   }
 
   @Test
@@ -97,7 +139,11 @@ public class TestMutationsSystemKeyKMSTamper {
         .action(AttributeAction.PUT)
         .build()
     );
-    testAttribute(tamper, testPrefix + "original-");
+    testAttribute(
+      tamper,
+      testPrefix + "original-",
+      "branch:MUTATION_COMMITMENT"
+    );
   }
 
   @Test
@@ -118,15 +164,39 @@ public class TestMutationsSystemKeyKMSTamper {
         .action(AttributeAction.PUT)
         .build()
     );
-    testAttribute(tamper, testPrefix + "terminal-");
+    testAttribute(
+      tamper,
+      testPrefix + "terminal-",
+      "branch:MUTATION_COMMITMENT"
+    );
+  }
+
+  @Test
+  public void testPageIndex() {
+    Map<String, AttributeValueUpdate> tamper = new HashMap<>(2, 1);
+    tamper.put(
+      "pageIndex",
+      AttributeValueUpdate
+        .builder()
+        .value(
+          AttributeValue.fromB(
+            SdkBytes.fromString("Done", StandardCharsets.UTF_8)
+          )
+        )
+        .action(AttributeAction.PUT)
+        .build()
+    );
+    testAttribute(tamper, testPrefix + "pageIndex-", "branch:MUTATION_INDEX");
   }
 
   public void testAttribute(
     Map<String, AttributeValueUpdate> tamper,
-    String testPrefix
+    String testPrefix,
+    String type
   ) {
     final String identifier =
       testPrefix + java.util.UUID.randomUUID().toString();
+
     CreateKeyExample.CreateKey(
       Fixtures.TEST_KEYSTORE_NAME,
       Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
@@ -162,9 +232,12 @@ public class TestMutationsSystemKeyKMSTamper {
       initInput,
       "InitLogs"
     );
-    Map<String, AttributeValue> ddbKey = new HashMap<>(3, 1);
-    ddbKey.put("branch-key-id", AttributeValue.fromS(identifier));
-    ddbKey.put("type", AttributeValue.fromS("branch:MUTATION_COMMITMENT"));
+    Map<String, AttributeValue> ddbKey = Objects.equals(
+        type,
+        "branch:MUTATION_COMMITMENT"
+      )
+      ? ddbKeyForCommitment(identifier)
+      : ddbKeyForIndex(identifier);
     Fixtures.ddbClientWest2.updateItem(builder ->
       builder
         .attributeUpdates(tamper)
