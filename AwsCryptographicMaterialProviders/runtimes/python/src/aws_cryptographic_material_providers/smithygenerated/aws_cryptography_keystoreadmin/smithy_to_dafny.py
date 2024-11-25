@@ -8,6 +8,7 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     ApplyMutationOutput_ApplyMutationOutput as DafnyApplyMutationOutput,
     ApplyMutationResult_CompleteMutation,
     ApplyMutationResult_ContinueMutation,
+    AwsKmsDecryptEncrypt_AwsKmsDecryptEncrypt as DafnyAwsKmsDecryptEncrypt,
     CreateKeyInput_CreateKeyInput as DafnyCreateKeyInput,
     CreateKeyOutput_CreateKeyOutput as DafnyCreateKeyOutput,
     DescribeMutationInput_DescribeMutationInput as DafnyDescribeMutationInput,
@@ -17,6 +18,7 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     InitializeMutationFlag_ResumedWithoutIndex,
     InitializeMutationInput_InitializeMutationInput as DafnyInitializeMutationInput,
     InitializeMutationOutput_InitializeMutationOutput as DafnyInitializeMutationOutput,
+    KeyManagementStrategy_AwsKmsDecryptEncrypt,
     KeyManagementStrategy_AwsKmsReEncrypt,
     KeyStoreAdminConfig_KeyStoreAdminConfig as DafnyKeyStoreAdminConfig,
     KmsSymmetricEncryption_KmsSymmetricEncryption as DafnyKmsSymmetricEncryption,
@@ -158,12 +160,48 @@ def aws_cryptography_keystoreadmin_KeyManagementStrategy(native_input):
                 native_input.value
             )
         )
+    elif isinstance(
+        native_input,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.KeyManagementStrategyAwsKmsDecryptEncrypt,
+    ):
+        KeyManagementStrategy_union_value = KeyManagementStrategy_AwsKmsDecryptEncrypt(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_AwsKmsDecryptEncrypt(
+                native_input.value
+            )
+        )
     else:
         raise ValueError(
             "No recognized union value in union type: " + str(native_input)
         )
 
     return KeyManagementStrategy_union_value
+
+
+def aws_cryptography_keystoreadmin_AwsKmsDecryptEncrypt(native_input):
+    return DafnyAwsKmsDecryptEncrypt(
+        decrypt=(
+            (
+                Option_Some(
+                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_AwsKms(
+                        native_input.decrypt
+                    )
+                )
+            )
+            if (native_input.decrypt is not None)
+            else (Option_None())
+        ),
+        encrypt=(
+            (
+                Option_Some(
+                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_AwsKms(
+                        native_input.encrypt
+                    )
+                )
+            )
+            if (native_input.encrypt is not None)
+            else (Option_None())
+        ),
+    )
 
 
 def aws_cryptography_keystoreadmin_VersionKeyInput(native_input):
