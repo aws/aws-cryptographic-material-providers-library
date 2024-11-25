@@ -641,7 +641,6 @@ module {:options "/functionSyntax:4" } Mutations {
       ));
     var CommitmentAndIndex :- ValidateCommitmentAndIndexStructures(
       input.MutationToken,
-      fetchMutation,
       fetchMutation.MutationCommitment.value,
       fetchMutation.MutationIndex.value);
 
@@ -705,7 +704,11 @@ module {:options "/functionSyntax:4" } Mutations {
     var itemsEvaluated := processedItems?.0;
     var logStatements := processedItems?.1;
 
-    // Update Index
+      // Update Index
+    :- Need(
+      UTF8.ValidUTF8Seq(queryOut.ExclusiveStartKey),
+      Types.KeyStoreAdminException(
+        message:="ExclusiveStartKey returned by Key Store's Storage is not valid UTF-8 Byte Sequence."));
     var newIndex :- StateStrucs.SerializeMutationIndex(MutationToApply, Some(queryOut.ExclusiveStartKey));
     var signedNewIndex :- SystemKeyHandler.SignIndex(newIndex, SystemKey);
 
@@ -774,16 +777,14 @@ module {:options "/functionSyntax:4" } Mutations {
 
   method ValidateCommitmentAndIndexStructures(
     token: Types.MutationToken,
-    fetchMutation: KeyStoreTypes.GetMutationOutput,
     commitment: KeyStoreTypes.MutationCommitment,
     index: KeyStoreTypes.MutationIndex
   )
     returns (output: Result<StateStrucs.CommitmentAndIndex, Types.Error>)
-    requires fetchMutation.MutationCommitment.Some?
     ensures
       output.Success? ==>
-        && commitment.Identifier == index.Identifier
-        && commitment.UUID == index.UUID
+        && commitment.Identifier == index.Identifier == token.Identifier
+        && commitment.UUID == index.UUID == token.UUID
     ensures
       && output.Success?
       ==>
@@ -791,18 +792,18 @@ module {:options "/functionSyntax:4" } Mutations {
         && output.value.ValidUTF8()
 
   {
-    if (commitment.Identifier != index.Identifier) {
+    if (commitment.Identifier != index.Identifier || token.Identifier != index.Identifier) {
       return
         Failure(Types.MutationInvalidException(
                   message := "The Token and the Mutation Commitment read from storage disagree."
                   + " This indicates that the Token is for a different Mutation than the one in-flight."
                   + " A possible cause is this token is from an earlier Mutation that already finished?"
                   + " Branch Key ID: " + token.Identifier + ";"
-                  + " Mutation Commitment UUID: " + fetchMutation.MutationCommitment.value.UUID + ";"
+                  + " Mutation Commitment UUID: " + commitment.UUID + ";"
                   + " Token UUID: " + token.UUID + ";"
                 ));
     }
-    if (commitment.UUID != index.UUID) {
+    if (commitment.UUID != index.UUID || token.UUID != index.UUID) {
       return
         Failure(Types.MutationInvalidException(
                   message := "The Mutation Index read from storage and the Mutation Commitment are for different Mutations."
@@ -1169,7 +1170,22 @@ module {:options "/functionSyntax:4" } Mutations {
       Types.MutatedBranchKeyItem(ItemType := "Mutation Commitment: " + commitment.UUID, Description := "Matched Input")
     ];
     var Flag: Types.InitializeMutationFlag := Types.Resumed();
-
+    :- Need(
+      && UTF8.ValidUTF8Seq(commitment.Original),
+      Types.KeyStoreAdminException(
+        message := "Mutation Commitment's Original is not a Valid UTF-8 Byte sequence."));
+    :- Need(
+      && UTF8.ValidUTF8Seq(commitment.Terminal),
+      Types.KeyStoreAdminException(
+        message := "Mutation Commitment's Terminal is not a Valid UTF-8 Byte sequence."));
+    :- Need(
+      && UTF8.ValidUTF8Seq(commitment.Input),
+      Types.KeyStoreAdminException(
+        message := "Mutation Commitment's Input is not a Valid UTF-8 Byte sequence."));
+    :- Need(
+      && 0 < |commitment.Identifier|,
+      Types.KeyStoreAdminException(
+        message := "Mutation Commitment's Identifier cannot be empty."));
     var commitmentIsVerified :- SystemKeyHandler.VerifyCommitment(commitment, SystemKey);
     :- Need(
       commitmentIsVerified,
@@ -1179,6 +1195,10 @@ module {:options "/functionSyntax:4" } Mutations {
           + " This suggests the Key Store's Storage has been tampered with by an un-authorized actor."
           + " Mutation cannot continue. Audit Key Store's Storage's access."
           + " The Mutation will need to be manually restarted."));
+    var Token := Types.MutationToken(
+      Identifier := commitment.Identifier,
+      UUID := commitment.UUID,
+      CreateTime := commitment.CreateTime);
 
     if (index.None?) {
       Flag := Types.ResumedWithoutIndex();
@@ -1206,16 +1226,11 @@ module {:options "/functionSyntax:4" } Mutations {
       mutatedBranchKeyItems := mutatedBranchKeyItems
       + [Types.MutatedBranchKeyItem(ItemType := "Mutation Index: " + commitment.UUID, Description := "Created")];
     } else {
-      :- Need(
-        index.value.UUID == commitment.UUID,
-        Types.MutationInvalidException(
-          message := M_ErrorMessages.COMMITMENT_INDEX_UUID_DISAGREE
-          + " Branch Key ID: " + commitment.Identifier + ";"
-          + " Mutation Commitment UUID: " + commitment.UUID + ";"
-          + " Mutation Index UUID: " + index.value.UUID + ";")
-      );
-      assert index.value.UUID == commitment.UUID;
-      var indexIsVerified :- SystemKeyHandler.VerifyIndex(index.value, SystemKey);
+      var commitmentAndIndex :- ValidateCommitmentAndIndexStructures(
+        Token,
+        commitment,
+        index.value);
+      var indexIsVerified :- SystemKeyHandler.VerifyIndex(commitmentAndIndex.Index, SystemKey);
       :- Need(
         indexIsVerified,
         Types.MutationVerificationException(
@@ -1225,11 +1240,6 @@ module {:options "/functionSyntax:4" } Mutations {
             + " Mutation cannot continue. Audit Key Store's Storage's access."
             + " The Mutation will need to be manually restarted."));
     }
-
-    var Token := Types.MutationToken(
-      Identifier := commitment.Identifier,
-      UUID := commitment.UUID,
-      CreateTime := commitment.CreateTime);
 
     return Success(Types.InitializeMutationOutput(
                      MutationToken := Token,
