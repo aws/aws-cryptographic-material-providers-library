@@ -1,6 +1,6 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
-package software.amazon.cryptography.example.hierarchy;
+package software.amazon.cryptography.example.hierarchy.mutations;
 
 import static software.amazon.cryptography.example.Fixtures.MRK_ARN_WEST;
 import static software.amazon.cryptography.example.Fixtures.POSTAL_HORN_KEY_ARN;
@@ -19,7 +19,9 @@ import software.amazon.awssdk.services.kms.model.KmsException;
 import software.amazon.cryptography.example.CredentialUtils;
 import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
-import software.amazon.cryptography.example.StorageCheater;
+import software.amazon.cryptography.example.hierarchy.AdminProvider;
+import software.amazon.cryptography.example.hierarchy.CreateKeyExample;
+import software.amazon.cryptography.example.hierarchy.StorageExample;
 import software.amazon.cryptography.keystore.KeyStorageInterface;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput;
@@ -36,36 +38,42 @@ import software.amazon.cryptography.keystoreadmin.model.Mutations;
 import software.amazon.cryptography.keystoreadmin.model.SystemKey;
 import software.amazon.cryptography.keystoreadmin.model.TrustStorage;
 
-public class MutationKmsAccessTerminalInFlightTest {
+public class MutationKmsAccessOriginalInFlightTest {
 
   static final String testPrefix =
-    "mutation-kms-access-in-flight-terminal-test-";
+    "mutation-kms-access-in-flight-original-test-";
 
   static final Pattern matchBranchKeyType = Pattern.compile(
     "(?<=Branch Key Type: )(.*)(?:;)"
   );
 
   @Test
-  public void test() {
-    KeyStorageInterface storage = StorageCheater.create(
-      Fixtures.ddbClientWest2,
-      Fixtures.TEST_KEYSTORE_NAME,
-      Fixtures.TEST_LOGICAL_KEYSTORE_NAME
-    );
+  public void test() throws InterruptedException {
     SystemKey systemKey = SystemKey
       .builder()
       .trustStorage(TrustStorage.builder().build())
       .build();
+    KeyStorageInterface storage = StorageExample.create(
+      Fixtures.ddbClientWest2,
+      Fixtures.TEST_KEYSTORE_NAME,
+      Fixtures.TEST_LOGICAL_KEYSTORE_NAME
+    );
+    // KeyStorageInterface storage = StorageCheater.create(
+    //   Fixtures.ddbClientWest2,
+    //   Fixtures.TEST_KEYSTORE_NAME,
+    //   Fixtures.TEST_LOGICAL_KEYSTORE_NAME
+    // );
     final String branchKeyId =
       testPrefix + java.util.UUID.randomUUID().toString();
+
     CreateKeyExample.CreateKey(
       Fixtures.TEST_KEYSTORE_NAME,
       Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
-      POSTAL_HORN_KEY_ARN,
+      MRK_ARN_WEST,
       branchKeyId,
       Fixtures.ddbClientWest2
     );
-    KeyManagementStrategy strategyWest2 = AdminProvider.strategy(
+    KeyManagementStrategy strategyAll = AdminProvider.strategy(
       Fixtures.kmsClientWest2
     );
     KmsClient denyMrk = KmsClient
@@ -85,26 +93,25 @@ public class MutationKmsAccessTerminalInFlightTest {
 
     KeyManagementStrategy strategyDenyMrk = AdminProvider.strategy(denyMrk);
     KeyStoreAdmin admin = AdminProvider.admin(
-      Fixtures.TEST_KEYSTORE_NAME,
       Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
-      Fixtures.ddbClientWest2
+      storage
     );
 
     System.out.println("BranchKey ID to mutate: " + branchKeyId);
-    HashMap<String, String> terminalEC = new HashMap<>(2, 1);
+    HashMap<String, String> terminalEC = new HashMap<>();
     terminalEC.put("Robbie", "is a dog.");
 
     Mutations mutations = Mutations
       .builder()
       .TerminalEncryptionContext(terminalEC)
-      .TerminalKmsArn(MRK_ARN_WEST)
+      .TerminalKmsArn(POSTAL_HORN_KEY_ARN)
       .build();
 
     InitializeMutationInput initInput = InitializeMutationInput
       .builder()
       .Mutations(mutations)
       .Identifier(branchKeyId)
-      .Strategy(strategyWest2)
+      .Strategy(strategyAll)
       .SystemKey(systemKey)
       .build();
 
@@ -114,16 +121,21 @@ public class MutationKmsAccessTerminalInFlightTest {
       "InitLogs: " +
       branchKeyId +
       " items: \n" +
-      AdminProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
+      MutationsProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
     );
-
     boolean done = false;
     List<Exception> exceptions = new ArrayList<>();
     boolean isFromThrown = false;
     boolean isToThrown = false;
+    boolean verifyTerminalThrown = false;
     int limitLoop = 5;
 
     while (!done) {
+      // System.out.println(
+      //   "Loop Count': " +
+      //   limitLoop +
+      //   " Sleeping 10 seconds\n");
+      // Thread.sleep(10000);
       try {
         limitLoop--;
         if (limitLoop == 0) done = true;
@@ -137,10 +149,10 @@ public class MutationKmsAccessTerminalInFlightTest {
         ApplyMutationOutput applyOutput = admin.ApplyMutation(applyInput);
         ApplyMutationResult result = applyOutput.MutationResult();
         System.out.println(
-          "ApplyLogs: " +
+          "\nApplyLogs: " +
           branchKeyId +
           " items: \n" +
-          AdminProvider.mutatedItemsToString(
+          MutationsProvider.mutatedItemsToString(
             applyOutput.MutatedBranchKeyItems()
           )
         );
@@ -176,7 +188,6 @@ public class MutationKmsAccessTerminalInFlightTest {
             accessDenied
           );
         }
-        // An exception was thrown, let's delete the item
         if (accessDenied.getMessage().contains("branch:version")) {
           Matcher matcher = matchBranchKeyType.matcher(
             accessDenied.getMessage()
@@ -210,8 +221,8 @@ public class MutationKmsAccessTerminalInFlightTest {
     // Clean Up
     Fixtures.cleanUpBranchKeyId(storage, branchKeyId);
     Assert.assertTrue(
-      (exceptions.size() == 2),
-      "Only two exceptions should have been thrown. But got " +
+      (exceptions.size() == 1),
+      "Only 1 exceptions should have been thrown. But got " +
       exceptions.size() +
       ". Exceptions:\n" +
       exceptions
@@ -219,10 +230,10 @@ public class MutationKmsAccessTerminalInFlightTest {
         .map(Throwable::toString)
         .collect(Collectors.joining("\n"))
     );
-    Assert.assertTrue(isToThrown, "MutationToException MUST be thrown.");
     Assert.assertFalse(
-      isFromThrown,
-      "MutationFromException should never be thrown."
+      isToThrown,
+      "MutationToException should never be thrown."
     );
+    Assert.assertTrue(isFromThrown, "MutationFromException MUST be thrown.");
   }
 }

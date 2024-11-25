@@ -1,30 +1,25 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
-package software.amazon.cryptography.example.hierarchy;
+package software.amazon.cryptography.example.hierarchy.mutations;
 
-import static software.amazon.cryptography.example.hierarchy.MutationResumeExample.executeInitialize;
+import static software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider.executeInitialize;
 
 import java.util.HashMap;
 import java.util.Objects;
 import javax.annotation.Nullable;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kms.KmsClient;
-import software.amazon.cryptography.example.DdbHelper;
+import software.amazon.cryptography.example.hierarchy.AdminProvider;
+import software.amazon.cryptography.example.hierarchy.CreateKeyExample;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
-import software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput;
-import software.amazon.cryptography.keystoreadmin.model.ApplyMutationOutput;
-import software.amazon.cryptography.keystoreadmin.model.ApplyMutationResult;
 import software.amazon.cryptography.keystoreadmin.model.DescribeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.DescribeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
-import software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
-import software.amazon.cryptography.keystoreadmin.model.MutationConflictException;
 import software.amazon.cryptography.keystoreadmin.model.MutationDescription;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
 import software.amazon.cryptography.keystoreadmin.model.SystemKey;
-import software.amazon.cryptography.keystoreadmin.model.TrustStorage;
 
 public class DescribeMutationExample {
 
