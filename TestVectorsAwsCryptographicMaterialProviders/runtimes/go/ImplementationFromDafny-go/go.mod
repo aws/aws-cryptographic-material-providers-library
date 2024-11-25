@@ -7,6 +7,7 @@ replace (
 	github.com/aws/aws-cryptographic-material-providers-library/kms v0.0.0 => ../../../../ComAmazonawsKms/runtimes/go/ImplementationFromDafny-go/
 	github.com/aws/aws-cryptographic-material-providers-library/mpl v0.0.0 => ../../../../AwsCryptographicMaterialProviders/runtimes/go/ImplementationFromDafny-go/
 	github.com/aws/aws-cryptographic-material-providers-library/primitives v0.0.0 => ../../../../AwsCryptographyPrimitives/runtimes/go/ImplementationFromDafny-go/
+	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.9.0 => /Users/rishavkj/Documents/Storage/Team-Repos/DafnyRuntimeGo/v4
 	github.com/dafny-lang/DafnyStandardLibGo => ../../../../StandardLibrary/runtimes/go/ImplementationFromDafny-go/
 )
 
@@ -15,6 +16,7 @@ require (
 	github.com/aws/aws-cryptographic-material-providers-library/kms v0.0.0
 	github.com/aws/aws-cryptographic-material-providers-library/mpl v0.0.0
 	github.com/aws/aws-cryptographic-material-providers-library/primitives v0.0.0
+	github.com/aws/aws-sdk-go-v2/service/kms v1.36.0
 	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.9.0
 	github.com/dafny-lang/DafnyStandardLibGo v0.0.0
 )
@@ -31,7 +33,6 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.11.5 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/endpoint-discovery v1.9.19 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.11.20 // indirect
-	github.com/aws/aws-sdk-go-v2/service/kms v1.36.0 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sso v1.23.1 // indirect
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.27.1 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.31.1 // indirect
