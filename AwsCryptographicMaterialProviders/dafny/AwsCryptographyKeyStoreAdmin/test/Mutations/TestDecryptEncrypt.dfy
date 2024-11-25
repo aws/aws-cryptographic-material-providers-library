@@ -51,7 +51,7 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
 
   method {:test} TestDecryptEncryptInitializeReEncryptApplyHappyCase()
   {
-    print " running";
+    // print " running";
 
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
@@ -69,7 +69,7 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
 
     Fixtures.CreateHappyCaseId(id:=testId, versionCount:=1, customEC := map[UTF8.EncodeAscii("Koda") := UTF8.EncodeAscii("Is a dog.")]);
 
-    print testLogPrefix + " Created the test items with 2 versions! testId: " + testId + "\n";
+    // print testLogPrefix + " Created the test items with 2 versions! testId: " + testId + "\n";
 
     var activeOneInput := KeyStoreTypes.GetEncryptedActiveBranchKeyInput(Identifier:=testId);
     var activeOne? :- expect storage.GetEncryptedActiveBranchKey(activeOneInput);
@@ -78,7 +78,7 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
     var activeOne := activeOne?.Item.Type.ActiveHierarchicalSymmetricVersion.Version;
     var kodaOne := activeOne?.Item.EncryptionContext[customEC];
 
-    print testLogPrefix + " Established ActiveOne: " + activeOne + "\n";
+    // print testLogPrefix + " Established ActiveOne: " + activeOne + "\n";
 
     var timestamp :- expect Time.GetCurrentTimeStamp();
     var newCustomEC: KeyStoreTypes.EncryptionContextString := map["Koda" := timestamp];
@@ -92,7 +92,7 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
     var initializeOutput :- expect underTest.InitializeMutation(initInput);
     var initializeToken := initializeOutput.MutationToken;
 
-    print testLogPrefix + " Initialized Mutation. M-Lock UUID " + initializeToken.UUID + "\n";
+    // print testLogPrefix + " Initialized Mutation. M-Lock UUID " + initializeToken.UUID + "\n";
 
     // We have initialized the mutation. Instead of continuing with the Decrypt/Encrypt Strategy we will
     // go to the ReEncrypt strategy bc as of today (11-20-2023) Decrypt/Encrypt Strategy is not supported for
@@ -106,15 +106,15 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
     // var applyOutput :- expect underTest.ApplyMutation(testInput);
     var applyOutput? := underTest.ApplyMutation(testInput);
     if (applyOutput?.Failure?) {
-      print applyOutput?;
+      // print applyOutput?;
     }
     expect applyOutput?.Success?, "Apply 1 FAILED";
     var applyOutput := applyOutput?.value;
-    print testLogPrefix + " Applied Mutation w/ pageSize 1. testId: " + testId + "\n";
+    // print testLogPrefix + " Applied Mutation w/ pageSize 1. testId: " + testId + "\n";
     expect applyOutput.MutationResult.ContinueMutation?, "Apply Mutation output should continue!";
     var applyToken: Types.MutationToken := applyOutput.MutationResult.ContinueMutation;
 
-    print testLogPrefix + " Apply 1 output met expectations. testId: " + testId + "\n";
+    // print testLogPrefix + " Apply 1 output met expectations. testId: " + testId + "\n";
     // TODO: Assert log lines
 
     testInput := Types.ApplyMutationInput(
@@ -124,15 +124,15 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
       SystemKey := Some(Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage())));
     applyOutput? := underTest.ApplyMutation(testInput);
     if (applyOutput?.Failure?) {
-      print applyOutput?;
+      // print applyOutput?;
     }
     expect applyOutput?.Success?, "Apply 2 FAILED";
     applyOutput := applyOutput?.value;
 
-    // print testLogPrefix + " Applied 2 Mutation w/ pageSize 1. testId: " + testId + "\n";
+    // // print testLogPrefix + " Applied 2 Mutation w/ pageSize 1. testId: " + testId + "\n";
     expect applyOutput.MutationResult.ContinueMutation?, "Apply Mutation output should continue, based on the DDB Limit";
     applyToken := applyOutput.MutationResult.ContinueMutation;
-    print testLogPrefix + " Apply 2 output met expectations. testId: " + testId + "\n";
+    // print testLogPrefix + " Apply 2 output met expectations. testId: " + testId + "\n";
 
     testInput := Types.ApplyMutationInput(
       MutationToken := applyToken,
@@ -141,7 +141,7 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
       SystemKey := Some(Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage())));
     applyOutput? := underTest.ApplyMutation(testInput);
     if (applyOutput?.Failure?) {
-      print applyOutput?;
+      // print applyOutput?;
     }
     expect applyOutput?.Success?, "Apply 3 FAILED";
     applyOutput := applyOutput?.value;
@@ -156,7 +156,7 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
     expect
       |items| == 3,
       "Test expects there to be 3 Decrypt Only items! Found: " + String.Base10Int2String(|items|);
-    print testLogPrefix + " Read the 3 Decrypt Only items! testId: " + testId + "\n";
+    // print testLogPrefix + " Read the 3 Decrypt Only items! testId: " + testId + "\n";
 
     var itemIndex := 0;
     var inputV: KeyStoreTypes.GetBranchKeyVersionInput;
@@ -182,15 +182,15 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
 
       // This is a best effort
       var _ := CleanupItems.DeleteTypeWithFailure(testId, item.EncryptionContext["type"], ddbClient);
-      print testLogPrefix + " Validated Decrypt Only and tried to clean it up: " + item.EncryptionContext["type"] + "\n";
+      // print testLogPrefix + " Validated Decrypt Only and tried to clean it up: " + item.EncryptionContext["type"] + "\n";
       itemIndex := 1 + itemIndex;
     }
-    print testLogPrefix + " Validated and tried to delete the read \"mutated\" test items! testId: " + testId + "\n";
+    // print testLogPrefix + " Validated and tried to delete the read \"mutated\" test items! testId: " + testId + "\n";
 
     // Assert there is no M-Lock by running Initialize
     var initializeResult :=  underTest.InitializeMutation(initInput);
     expect initializeResult.Success?, "Apply 3 did not erase the Mutation Lock or Initialize Mutation is broken!";
-    print testLogPrefix + " Apply 3 output met expectations. testId: " + testId + "\n";
+    // print testLogPrefix + " Apply 3 output met expectations. testId: " + testId + "\n";
 
     var lastActiveInput := KeyStoreTypes.GetEncryptedActiveBranchKeyInput(Identifier:=testId);
     var lastActive? :- expect storage.GetEncryptedActiveBranchKey(lastActiveInput);
@@ -202,12 +202,12 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.MUTATION_COMMITMENT_TYPE, ddbClient);
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_TYPE_PREFIX + lastActive, ddbClient);
 
-    print "TestDecryptEncryptStrat.TestDecryptEncryptInitializeReEncryptApplyHappyCase: ";
+    // print "TestDecryptEncryptStrat.TestDecryptEncryptInitializeReEncryptApplyHappyCase: ";
   }
 
   method {:test} TestDecryptEncryptRoundTripHappyCase()
   {
-    print " running";
+    // print " running";
 
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var decryptKmsClient :- expect Fixtures.ProvideKMSClient();
@@ -226,7 +226,7 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
 
     Fixtures.CreateHappyCaseId(id:=testId, versionCount:=1, customEC := map[UTF8.EncodeAscii("Koda") := UTF8.EncodeAscii("Is a dog.")]);
 
-    print testLogPrefix + " Created the test items with 2 versions! testId: " + testId + "\n";
+    // print testLogPrefix + " Created the test items with 2 versions! testId: " + testId + "\n";
 
     var activeOneInput := KeyStoreTypes.GetEncryptedActiveBranchKeyInput(Identifier:=testId);
     var activeOne? :- expect storage.GetEncryptedActiveBranchKey(activeOneInput);
@@ -235,7 +235,7 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
     var activeOne := activeOne?.Item.Type.ActiveHierarchicalSymmetricVersion.Version;
     var kodaOne := activeOne?.Item.EncryptionContext[customEC];
 
-    print testLogPrefix + " Established ActiveOne: " + activeOne + "\n";
+    // print testLogPrefix + " Established ActiveOne: " + activeOne + "\n";
 
     var timestamp :- expect Time.GetCurrentTimeStamp();
     var newCustomEC: KeyStoreTypes.EncryptionContextString := map["Koda" := timestamp];
@@ -249,7 +249,7 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
     var initializeOutput :- expect underTest.InitializeMutation(initInput);
     var initializeToken := initializeOutput.MutationToken;
 
-    print testLogPrefix + " Initialized Mutation. M-Lock UUID " + initializeToken.UUID + "\n";
+    // print testLogPrefix + " Initialized Mutation. M-Lock UUID " + initializeToken.UUID + "\n";
 
     // We have initialized the mutation. Instead of continuing with the Decrypt/Encrypt Strategy we will
     // go to the ReEncrypt strategy bc as of today (11-20-2023) Decrypt/Encrypt Strategy is not supported for
@@ -263,15 +263,15 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
     // var applyOutput :- expect underTest.ApplyMutation(testInput);
     var applyOutput? := underTest.ApplyMutation(testInput);
     if (applyOutput?.Failure?) {
-      print applyOutput?;
+      // print applyOutput?;
     }
     expect applyOutput?.Success?, "Apply 1 FAILED";
     var applyOutput := applyOutput?.value;
-    print testLogPrefix + " Applied Mutation w/ pageSize 1. testId: " + testId + "\n";
+    // print testLogPrefix + " Applied Mutation w/ pageSize 1. testId: " + testId + "\n";
     expect applyOutput.MutationResult.ContinueMutation?, "Apply Mutation output should continue!";
     var applyToken: Types.MutationToken := applyOutput.MutationResult.ContinueMutation;
 
-    print testLogPrefix + " Apply 1 output met expectations. testId: " + testId + "\n";
+    // print testLogPrefix + " Apply 1 output met expectations. testId: " + testId + "\n";
     // TODO: Assert log lines
 
     testInput := Types.ApplyMutationInput(
@@ -281,15 +281,15 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
       SystemKey := Some(Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage())));
     applyOutput? := underTest.ApplyMutation(testInput);
     if (applyOutput?.Failure?) {
-      print applyOutput?;
+      // print applyOutput?;
     }
     expect applyOutput?.Success?, "Apply 2 FAILED";
     applyOutput := applyOutput?.value;
 
-    // print testLogPrefix + " Applied 2 Mutation w/ pageSize 1. testId: " + testId + "\n";
+    // // print testLogPrefix + " Applied 2 Mutation w/ pageSize 1. testId: " + testId + "\n";
     expect applyOutput.MutationResult.ContinueMutation?, "Apply Mutation output should continue, based on the DDB Limit";
     applyToken := applyOutput.MutationResult.ContinueMutation;
-    print testLogPrefix + " Apply 2 output met expectations. testId: " + testId + "\n";
+    // print testLogPrefix + " Apply 2 output met expectations. testId: " + testId + "\n";
 
     testInput := Types.ApplyMutationInput(
       MutationToken := applyToken,
@@ -298,7 +298,7 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
       SystemKey := Some(Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage())));
     applyOutput? := underTest.ApplyMutation(testInput);
     if (applyOutput?.Failure?) {
-      print applyOutput?;
+      // print applyOutput?;
     }
     expect applyOutput?.Success?, "Apply 3 FAILED";
     applyOutput := applyOutput?.value;
@@ -313,7 +313,7 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
     expect
       |items| == 3,
       "Test expects there to be 3 Decrypt Only items! Found: " + String.Base10Int2String(|items|);
-    print testLogPrefix + " Read the 3 Decrypt Only items! testId: " + testId + "\n";
+    // print testLogPrefix + " Read the 3 Decrypt Only items! testId: " + testId + "\n";
 
     var itemIndex := 0;
     var inputV: KeyStoreTypes.GetBranchKeyVersionInput;
@@ -339,15 +339,15 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
 
       // This is a best effort
       var _ := CleanupItems.DeleteTypeWithFailure(testId, item.EncryptionContext["type"], ddbClient);
-      print testLogPrefix + " Validated Decrypt Only and tried to clean it up: " + item.EncryptionContext["type"] + "\n";
+      // print testLogPrefix + " Validated Decrypt Only and tried to clean it up: " + item.EncryptionContext["type"] + "\n";
       itemIndex := 1 + itemIndex;
     }
-    print testLogPrefix + " Validated and tried to delete the read \"mutated\" test items! testId: " + testId + "\n";
+    // print testLogPrefix + " Validated and tried to delete the read \"mutated\" test items! testId: " + testId + "\n";
 
     // Assert there is no M-Lock by running Initialize
     var initializeResult :=  underTest.InitializeMutation(initInput);
     expect initializeResult.Success?, "Apply 3 did not erase the Mutation Lock or Initialize Mutation is broken!";
-    print testLogPrefix + " Apply 3 output met expectations. testId: " + testId + "\n";
+    // print testLogPrefix + " Apply 3 output met expectations. testId: " + testId + "\n";
 
     var lastActiveInput := KeyStoreTypes.GetEncryptedActiveBranchKeyInput(Identifier:=testId);
     var lastActive? :- expect storage.GetEncryptedActiveBranchKey(lastActiveInput);
@@ -359,7 +359,7 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.MUTATION_COMMITMENT_TYPE, ddbClient);
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_TYPE_PREFIX + lastActive, ddbClient);
 
-    print "TestDecryptEncryptStrat.TestDecryptEncryptRoundTripHappyCase: \n";
+    // print "TestDecryptEncryptStrat.TestDecryptEncryptRoundTripHappyCase: \n";
 
   }
 }

@@ -39,7 +39,7 @@ module {:options "/functionSyntax:4" } TestKmsArnChanged {
 
   method {:test} {:vcs_split_on_every_assert} TestHappyCase()
   {
-    print " running";
+    // print " running";
 
     // expect false; // disable test till other investigation is done
     var ddbClient :- expect Fixtures.ProvideDDBClient();
@@ -59,7 +59,7 @@ module {:options "/functionSyntax:4" } TestKmsArnChanged {
 
     Fixtures.CreateHappyCaseId(id:=testId, versionCount:=1);
 
-    print testLogPrefix + " Created the test items with 2 versions! testId: " + testId + "\n";
+    // print testLogPrefix + " Created the test items with 2 versions! testId: " + testId + "\n";
 
     var timestamp :- expect Time.GetCurrentTimeStamp();
     var mutationsRequest := Types.Mutations(TerminalKmsArn := Some(Fixtures.postalHornKeyArn));
@@ -72,7 +72,7 @@ module {:options "/functionSyntax:4" } TestKmsArnChanged {
     var initializeOutput :- expect underTest.InitializeMutation(initInput);
     var initializeToken := initializeOutput.MutationToken;
 
-    print testLogPrefix + " Initialized Mutation. M-Lock UUID " + initializeToken.UUID + "\n";
+    // print testLogPrefix + " Initialized Mutation. M-Lock UUID " + initializeToken.UUID + "\n";
 
     var testInput := Types.ApplyMutationInput(
       MutationToken := initializeToken,
@@ -81,7 +81,7 @@ module {:options "/functionSyntax:4" } TestKmsArnChanged {
       SystemKey := Some(Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage())));
     var applyOutput :- expect underTest.ApplyMutation(testInput);
 
-    print testLogPrefix + " Applied Mutation w/ pageSize 24. testId: " + testId + "\n";
+    // print testLogPrefix + " Applied Mutation w/ pageSize 24. testId: " + testId + "\n";
     expect applyOutput.MutationResult.CompleteMutation?, "Apply Mutation output should not continue!";
 
     var versionQuery := KeyStoreTypes.QueryForVersionsInput(
@@ -93,7 +93,7 @@ module {:options "/functionSyntax:4" } TestKmsArnChanged {
     expect
       |items| == 3,
       "Test expects there to be 3 Decrypt Only items! Found: " + String.Base10Int2String(|items|);
-    print testLogPrefix + " Read the 3 Decrypt Only items! testId: " + testId + "\n";
+    // print testLogPrefix + " Read the 3 Decrypt Only items! testId: " + testId + "\n";
 
     var itemIndex := 0;
     var inputV: KeyStoreTypes.GetBranchKeyVersionInput;
@@ -116,18 +116,18 @@ module {:options "/functionSyntax:4" } TestKmsArnChanged {
 
       // This is a best effort
       var _ := CleanupItems.DeleteTypeWithFailure(testId, item.EncryptionContext["type"], ddbClient);
-      print testLogPrefix + " Validated Decrypt Only and tried to clean it up: " + item.EncryptionContext["type"] + "\n";
+      // print testLogPrefix + " Validated Decrypt Only and tried to clean it up: " + item.EncryptionContext["type"] + "\n";
       itemIndex := 1 + itemIndex;
     }
 
     var _ :- expect keyStoreTerminal.GetActiveBranchKey(KeyStoreTypes.GetActiveBranchKeyInput(branchKeyIdentifier := testId));
-    print testLogPrefix + " Active Validated with KMS/KeyStore: " + testId + "\n";
+    // print testLogPrefix + " Active Validated with KMS/KeyStore: " + testId + "\n";
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_ACTIVE_TYPE, ddbClient);
 
     var _ :- expect keyStoreTerminal.GetBeaconKey(KeyStoreTypes.GetBeaconKeyInput(branchKeyIdentifier := testId));
-    print testLogPrefix + " Beacon Validated with KMS/KeyStore: " + testId + "\n";
+    // print testLogPrefix + " Beacon Validated with KMS/KeyStore: " + testId + "\n";
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BEACON_KEY_TYPE_VALUE, ddbClient);
 
-    print "TestKmsArnChanged.TestHappyCase: ";
+    // print "TestKmsArnChanged.TestHappyCase: ";
   }
 }
