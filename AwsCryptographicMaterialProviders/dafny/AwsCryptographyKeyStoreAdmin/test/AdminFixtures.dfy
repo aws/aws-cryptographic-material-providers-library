@@ -73,6 +73,44 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     return Success(strategy);
   }
 
+  method DecryptEncrypKeyManagerStrategy(
+    nameonly decryptKmsClient?: Option<KMS.Types.IKMSClient> := None,
+    nameonly encryptKmsClient?: Option<KMS.Types.IKMSClient> := None
+  )
+    returns (output: Result<Types.KeyManagementStrategy, Types.Error>)
+    requires decryptKmsClient?.Some? ==> decryptKmsClient?.value.ValidState()
+    requires encryptKmsClient?.Some? ==> encryptKmsClient?.value.ValidState()
+    ensures output.Success? ==>
+              && output.value.AwsKmsDecryptEncrypt?
+              && output.value.AwsKmsDecryptEncrypt.decrypt.Some?
+              && output.value.AwsKmsDecryptEncrypt.encrypt.Some?
+              && output.value.AwsKmsDecryptEncrypt.decrypt.value.kmsClient.Some?
+              && output.value.AwsKmsDecryptEncrypt.decrypt.value.kmsClient.value.ValidState()
+              && output.value.AwsKmsDecryptEncrypt.encrypt.value.kmsClient.Some?
+              && output.value.AwsKmsDecryptEncrypt.encrypt.value.kmsClient.value.ValidState()
+    modifies (if decryptKmsClient?.Some? then decryptKmsClient?.value.Modifies else {})
+    modifies (if encryptKmsClient?.Some? then encryptKmsClient?.value.Modifies else {})
+  {
+    var decryptKmsClient :- expect Fixtures.ProvideKMSClient(decryptKmsClient?);
+    var encryptKmsClient :- expect Fixtures.ProvideKMSClient(encryptKmsClient?);
+    assume {:axiom} fresh(decryptKmsClient) && fresh(decryptKmsClient.Modifies);
+    assume {:axiom} fresh(encryptKmsClient) && fresh(encryptKmsClient.Modifies);
+
+    var strategy := Types.KeyManagementStrategy.AwsKmsDecryptEncrypt(
+      Types.AwsKmsDecryptEncrypt.AwsKmsDecryptEncrypt(
+        decrypt := Some(KeyStoreTypes.AwsKms(
+                          grantTokens := None,
+                          kmsClient := Some(decryptKmsClient)
+                        )),
+        encrypt := Some(KeyStoreTypes.AwsKms(
+                          grantTokens := None,
+                          kmsClient := Some(encryptKmsClient)
+                        ))
+      )
+    );
+    return Success(strategy);
+  }
+
   datatype KmsDdbError =
     | ComAmazonawsDynamodb(ComAmazonawsDynamodb: DDB.Types.Error)
     | ComAmazonawsKms(ComAmazonawsKms: KMS.Types.Error)

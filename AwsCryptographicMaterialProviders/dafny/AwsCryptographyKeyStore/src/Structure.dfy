@@ -665,7 +665,7 @@ module {:options "/functionSyntax:4" } Structure {
     ensures BRANCH_KEY_FIELD !in key.EncryptionContext
   {}
 
-  lemma EncryptionContextConstructorsAreCorrect(
+  lemma {:vcs_split_on_every_assert} EncryptionContextConstructorsAreCorrect(
     branchKeyId: string,
     branchKeyVersion: string,
     timestamp: string,
