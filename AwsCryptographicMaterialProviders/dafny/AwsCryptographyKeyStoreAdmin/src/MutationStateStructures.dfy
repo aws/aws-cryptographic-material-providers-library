@@ -347,16 +347,33 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     :- MutablePropertiesJson?(TerminalJson);
     :- MutationsInputJson?(InputJson);
 
+    :- Need(
+         UTF8.ValidUTF8Seq(index.PageIndex),
+         Types.KeyStoreAdminException(
+           message := "PageIndex (pageIndex) is not a Valid UTF-8 Byte sequence."));
+
+    var OriginalEC := JSONToEncryptionContextString(OriginalJson.obj[0].1);
+    :- Need(
+         Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! OriginalEC.Keys,
+         Types.KeyStoreAdminException(
+           message:="Original Properities contain illegal Encryption Context! There are some resereved Encryption Context Keys!"));
+
+    var TerminalEC := JSONToEncryptionContextString(TerminalJson.obj[0].1);
+    :- Need(
+         Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! TerminalEC.Keys,
+         Types.KeyStoreAdminException(
+           message:="Terminal Properities contain illegal Encryption Context! There are some resereved Encryption Context Keys!"));
+
     Success(
       MutationToApply(
         Identifier := commitment.Identifier,
         Original := MutableProperties(
           kmsArn := OriginalJson.obj[1].1.str,
-          customEncryptionContext := JSONToEncryptionContextString(OriginalJson.obj[0].1)
+          customEncryptionContext := OriginalEC
         ),
         Terminal := MutableProperties(
           kmsArn := TerminalJson.obj[1].1.str,
-          customEncryptionContext := JSONToEncryptionContextString(TerminalJson.obj[0].1)
+          customEncryptionContext := TerminalEC
         ),
         UUID := commitment.UUID,
         CreateTime := commitment.CreateTime,
