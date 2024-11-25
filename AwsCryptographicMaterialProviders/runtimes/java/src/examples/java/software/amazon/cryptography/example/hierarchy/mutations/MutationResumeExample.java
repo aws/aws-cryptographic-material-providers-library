@@ -1,18 +1,16 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
-package software.amazon.cryptography.example.hierarchy;
+package software.amazon.cryptography.example.hierarchy.mutations;
 
 import java.util.HashMap;
 import javax.annotation.Nullable;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.cryptography.example.DdbHelper;
+import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
-import software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput;
-import software.amazon.cryptography.keystoreadmin.model.ApplyMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationResult;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
-import software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
 import software.amazon.cryptography.keystoreadmin.model.MutationConflictException;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
@@ -23,8 +21,8 @@ import software.amazon.cryptography.keystoreadmin.model.TrustStorage;
 public class MutationResumeExample {
 
   public static String Resume2End(
-    String keyStoreTableName,
-    String logicalKeyStoreName,
+    String physicalName,
+    String logicalName,
     String kmsKeyArnTerminal,
     String branchKeyId,
     SystemKey systemKey,
@@ -36,8 +34,8 @@ public class MutationResumeExample {
     kmsClient = AdminProvider.kms(kmsClient);
     KeyManagementStrategy strategy = AdminProvider.strategy(kmsClient);
     KeyStoreAdmin admin = AdminProvider.admin(
-      keyStoreTableName,
-      logicalKeyStoreName,
+      physicalName,
+      logicalName,
       dynamoDbClient
     );
 
@@ -58,14 +56,14 @@ public class MutationResumeExample {
       .SystemKey(systemKey)
       .build();
 
-    MutationToken token = executeInitialize(
+    MutationToken token = MutationsProvider.executeInitialize(
       branchKeyId,
       admin,
       initInput,
       "InitLogs"
     );
     // Work the Mutation once
-    ApplyMutationResult result = workPage(
+    ApplyMutationResult result = MutationsProvider.workPage(
       branchKeyId,
       systemKey,
       token,
@@ -80,8 +78,22 @@ public class MutationResumeExample {
     );
     // Pretend the Mutation is halted for some reason.
     // We can Resume it by calling Initialize again.
-    token = executeInitialize(branchKeyId, admin, initInput, "Resume Logs");
-    result = workPage(branchKeyId, systemKey, token, strategy, admin, 1);
+    token =
+      MutationsProvider.executeInitialize(
+        branchKeyId,
+        admin,
+        initInput,
+        "Resume Logs"
+      );
+    result =
+      MutationsProvider.workPage(
+        branchKeyId,
+        systemKey,
+        token,
+        strategy,
+        admin,
+        1
+      );
     System.out.println(
       "\nInitialized vended a token and we applied one page of Mutation for: " +
       branchKeyId +
@@ -91,12 +103,18 @@ public class MutationResumeExample {
     DdbHelper.deleteKeyStoreDdbItem(
       branchKeyId,
       "branch:MUTATION_INDEX",
-      logicalKeyStoreName,
+      logicalName,
       dynamoDbClient,
       false
     );
     // But if we deleted the index, we do need to call Initialize again
-    token = executeInitialize(branchKeyId, admin, initInput, "Restart Logs");
+    token =
+      MutationsProvider.executeInitialize(
+        branchKeyId,
+        admin,
+        initInput,
+        "Restart Logs"
+      );
     System.out.println(
       "\nDeletion of Index and subsequent call to Initialize reset the pageIndex: " +
       branchKeyId +
@@ -119,7 +137,12 @@ public class MutationResumeExample {
         .Strategy(strategy)
         .SystemKey(systemKey)
         .build();
-      executeInitialize(branchKeyId, admin, badInput, "Fail Resume Logs");
+      MutationsProvider.executeInitialize(
+        branchKeyId,
+        admin,
+        badInput,
+        "Fail Resume Logs"
+      );
     } catch (MutationConflictException ex) {
       System.out.println(
         "\nCalling Initialize for a different input failed for: " +
@@ -134,93 +157,18 @@ public class MutationResumeExample {
     System.out.println(
       "\nGoing to complete the mutation for: " + branchKeyId + "\n"
     );
-    workMutation(branchKeyId, systemKey, token, strategy, admin);
+    MutationsProvider.workMutation(
+      branchKeyId,
+      systemKey,
+      token,
+      strategy,
+      admin
+    );
 
     System.out.println("Done with Mutation: " + branchKeyId);
 
     assert mutationConflictThrown;
     return branchKeyId;
-  }
-
-  public static void workMutation(
-    String branchKeyId,
-    SystemKey systemKey,
-    MutationToken token,
-    KeyManagementStrategy strategy,
-    KeyStoreAdmin admin
-  ) {
-    boolean done = false;
-    int limitLoop = 10;
-
-    while (!done) {
-      ApplyMutationResult result = workPage(
-        branchKeyId,
-        systemKey,
-        token,
-        strategy,
-        admin,
-        1
-      );
-
-      if (result.ContinueMutation() != null) {
-        token = result.ContinueMutation();
-      }
-      if (result.CompleteMutation() != null) {
-        done = true;
-      }
-      if (limitLoop == 0) {
-        done = true;
-      }
-      limitLoop--;
-    }
-  }
-
-  private static ApplyMutationResult workPage(
-    String branchKeyId,
-    SystemKey systemKey,
-    MutationToken token,
-    KeyManagementStrategy strategy,
-    KeyStoreAdmin admin,
-    Integer pageSize
-  ) {
-    ApplyMutationInput applyInput = ApplyMutationInput
-      .builder()
-      .MutationToken(token)
-      .PageSize(pageSize)
-      .Strategy(strategy)
-      .SystemKey(systemKey)
-      .build();
-    ApplyMutationOutput applyOutput = admin.ApplyMutation(applyInput);
-    ApplyMutationResult result = applyOutput.MutationResult();
-
-    System.out.println(
-      "ApplyLogs: " +
-      branchKeyId +
-      " items: \n" +
-      AdminProvider.mutatedItemsToString(applyOutput.MutatedBranchKeyItems())
-    );
-    return result;
-  }
-
-  static MutationToken executeInitialize(
-    String branchKeyId,
-    KeyStoreAdmin admin,
-    InitializeMutationInput initInput,
-    String logPrefix
-  ) {
-    InitializeMutationOutput initOutput = admin.InitializeMutation(initInput);
-    MutationToken token = initOutput.MutationToken();
-    System.out.println(
-      logPrefix +
-      ": " +
-      "\nFlag: " +
-      initOutput.InitializeMutationFlag().toString() +
-      "\nIdentifier: " +
-      branchKeyId +
-      "\nitems: \n" +
-      AdminProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
-    );
-    return token;
   }
 
   public static void main(final String[] args) {

@@ -37,7 +37,7 @@ module {:options "/functionSyntax:4" } TestInitMutActiveAndBeaconAreInSameState 
 
   method {:test} TestSadCase()
   {
-    print " running";
+    // print " running";
 
     var ddbClient :- expect Fixtures.ProvideDDBClient(None);
     var kmsClient :- expect Fixtures.ProvideKMSClient(None);
@@ -53,11 +53,11 @@ module {:options "/functionSyntax:4" } TestInitMutActiveAndBeaconAreInSameState 
     var originalEC := map[kodaBytes := isADogBytes];
     Fixtures.CreateHappyCaseId(id:=testId, versionCount:=1, customEC:=originalEC);
 
-    print testLogPrefix + " Created the legit test items with 2 versions! testId: " + testId + "\n";
+    // print testLogPrefix + " Created the legit test items with 2 versions! testId: " + testId + "\n";
 
     var _ :- expect AdminFixtures.AddAttributeWithoutLibrary(id := testId);
 
-    print testLogPrefix + " Violated the active and latest. testId: " + testId + "\n";
+    // print testLogPrefix + " Violated the active and latest. testId: " + testId + "\n";
 
     var timestamp :- expect Time.GetCurrentTimeStamp();
     var newCustomEC: KeyStoreTypes.EncryptionContextString := map["Koda" := timestamp];
@@ -76,7 +76,7 @@ module {:options "/functionSyntax:4" } TestInitMutActiveAndBeaconAreInSameState 
         expect true;
       case _ => expect false, "Initialize Mutation should fail with Unexpected State Exception if Active & Beacon are different!";
     }
-    print testLogPrefix + " Initialize Mutation met expectations. Cleaning up\n";
+    // print testLogPrefix + " Initialize Mutation met expectations. Cleaning up\n";
 
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BEACON_KEY_TYPE_VALUE, ddbClient);
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_ACTIVE_TYPE, ddbClient);
@@ -94,7 +94,7 @@ module {:options "/functionSyntax:4" } TestInitMutActiveAndBeaconAreInSameState 
       itemIndex := itemIndex + 1;
     }
 
-    print "TestInitMutActiveAndBeaconAreInSameState.TestSadCase: ";
+    // print "TestInitMutActiveAndBeaconAreInSameState.TestSadCase: ";
 
   }
 }

@@ -3,6 +3,7 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 include "../../../../StandardLibrary/src/Index.dfy"
 include "../../AwsCryptographyKeyStore/src/Index.dfy"
+include "../../../../AwsCryptographyPrimitives/src/Index.dfy"
 include "../../../../ComAmazonawsDynamodb/src/Index.dfy"
 include "../../../../ComAmazonawsKms/src/Index.dfy"
 module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types" } AwsCryptographyKeyStoreAdminTypes
@@ -11,6 +12,7 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   import opened StandardLibrary.UInt
   import opened UTF8
   import AwsCryptographyKeyStoreTypes
+  import AwsCryptographyPrimitivesTypes
   import ComAmazonawsDynamodbTypes
   import ComAmazonawsKmsTypes
     // Generic helpers for verification of mock/unit tests.
@@ -275,6 +277,7 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
       )
       // Any dependent models are listed here
     | AwsCryptographyKeyStore(AwsCryptographyKeyStore: AwsCryptographyKeyStoreTypes.Error)
+    | AwsCryptographyPrimitives(AwsCryptographyPrimitives: AwsCryptographyPrimitivesTypes.Error)
     | ComAmazonawsDynamodb(ComAmazonawsDynamodb: ComAmazonawsDynamodbTypes.Error)
     | ComAmazonawsKms(ComAmazonawsKms: ComAmazonawsKmsTypes.Error)
       // The Collection error is used to collect several errors together
