@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
+import _dafny
 from aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes import (
     BatchExecuteStatementInput_BatchExecuteStatementInput as DafnyBatchExecuteStatementInput,
     BatchExecuteStatementOutput_BatchExecuteStatementOutput as DafnyBatchExecuteStatementOutput,
@@ -296,8 +297,16 @@ def _sdk_error_to_dafny_error(e: ClientError):
             e.response
         )
 
-    return aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes.Error_Opaque(
-        obj=e
+    return aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes.Error_OpaqueWithText(
+        obj=e,
+        objMessage=_dafny.Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(*[iter(repr(e).encode("utf-16-be"))] * 2)
+                ]
+            )
+        ),
     )
 
 

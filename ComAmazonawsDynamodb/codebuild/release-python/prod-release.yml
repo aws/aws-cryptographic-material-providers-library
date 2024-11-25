@@ -52,12 +52,12 @@ phases:
 batch:
   fast-fail: true
   build-graph:
-    - identifier: release_to_staging
+    - identifier: release_to_prod
       env:
         image: aws/codebuild/standard:7.0
-    - identifier: validate_staging_release
+    - identifier: validate_prod_release
       depend-on:
-        - release_to_staging
+        - release_to_prod
       buildspec: ComAmazonawsDynamodb/codebuild/release-python/validate.yml
       env:
         variables:

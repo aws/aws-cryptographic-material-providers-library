@@ -8,10 +8,10 @@ import dafny.DafnySequence;
 import java.lang.Byte;
 import java.lang.Character;
 import java.lang.Double;
-import java.lang.Exception;
 import java.lang.IllegalStateException;
 import java.lang.RuntimeException;
 import java.lang.String;
+import java.lang.Throwable;
 import java.util.List;
 import java.util.Map;
 import software.amazon.awssdk.core.SdkBytes;
@@ -354,6 +354,7 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Disabl
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.DisableKinesisStreamingDestinationOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.EnableKinesisStreamingDestinationInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.EnableKinesisStreamingDestinationOutput;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_BackupInUseException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_BackupNotFoundException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ConditionalCheckFailedException;
@@ -368,11 +369,13 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ImportNotFoundException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_IndexNotFoundException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_InternalServerError;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_InvalidEndpointException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_InvalidExportTimeException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_InvalidRestoreTimeException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ItemCollectionSizeLimitExceededException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_LimitExceededException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_Opaque;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_OpaqueWithText;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_PointInTimeRecoveryUnavailableException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_PolicyNotFoundException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ProvisionedThroughputExceededException;
@@ -8596,10 +8599,63 @@ public class ToNative {
     return builder.build();
   }
 
-  // BEGIN MANUAL EDIT
-  public static RuntimeException Error(
-    software.amazon.cryptography.services.dynamodb.internaldafny.types.Error dafnyValue
-  ) {
+  public static DynamoDbClient DynamoDB_20120810(IDynamoDBClient dafnyValue) {
+    return ((Shim) dafnyValue).impl();
+  }
+
+  public static RuntimeException Error(Error_Opaque dafnyValue) {
+    // While the first two cases are logically identical,
+    // there is a semantic distinction.
+    // An un-modeled Service Error is different from a Java Heap Exhaustion error.
+    // In the future, Smithy-Dafny MAY allow for this distinction.
+    // Which would allow Dafny developers to treat the two differently.
+    if (dafnyValue.dtor_obj() instanceof DynamoDbException) {
+      return (DynamoDbException) dafnyValue.dtor_obj();
+    } else if (dafnyValue.dtor_obj() instanceof RuntimeException) {
+      return (RuntimeException) dafnyValue.dtor_obj();
+    } else if (dafnyValue.dtor_obj() instanceof Throwable) {
+      return new RuntimeException(
+        String.format(
+          "Unknown error thrown while calling Amazon DynamoDB. %s",
+          (Throwable) dafnyValue.dtor_obj()
+        )
+      );
+    }
+    return new IllegalStateException(
+      String.format(
+        "Unknown error thrown while calling Amazon DynamoDB. %s",
+        dafnyValue
+      )
+    );
+  }
+
+  public static RuntimeException Error(Error_OpaqueWithText dafnyValue) {
+    // While the first two cases are logically identical,
+    // there is a semantic distinction.
+    // An un-modeled Service Error is different from a Java Heap Exhaustion error.
+    // In the future, Smithy-Dafny MAY allow for this distinction.
+    // Which would allow Dafny developers to treat the two differently.
+    if (dafnyValue.dtor_obj() instanceof DynamoDbException) {
+      return (DynamoDbException) dafnyValue.dtor_obj();
+    } else if (dafnyValue.dtor_obj() instanceof RuntimeException) {
+      return (RuntimeException) dafnyValue.dtor_obj();
+    } else if (dafnyValue.dtor_obj() instanceof Throwable) {
+      return new RuntimeException(
+        String.format(
+          "Unknown error thrown while calling Amazon DynamoDB. %s",
+          (Throwable) dafnyValue.dtor_obj()
+        )
+      );
+    }
+    return new IllegalStateException(
+      String.format(
+        "Unknown error thrown while calling Amazon DynamoDB. %s",
+        dafnyValue
+      )
+    );
+  }
+
+  public static RuntimeException Error(Error dafnyValue) {
     if (dafnyValue.is_BackupInUseException()) {
       return ToNative.Error((Error_BackupInUseException) dafnyValue);
     }
@@ -8667,6 +8723,9 @@ public class ToNative {
         (Error_PointInTimeRecoveryUnavailableException) dafnyValue
       );
     }
+    if (dafnyValue.is_PolicyNotFoundException()) {
+      return ToNative.Error((Error_PolicyNotFoundException) dafnyValue);
+    }
     if (dafnyValue.is_ProvisionedThroughputExceededException()) {
       return ToNative.Error(
         (Error_ProvisionedThroughputExceededException) dafnyValue
@@ -8708,32 +8767,13 @@ public class ToNative {
     if (dafnyValue.is_Opaque()) {
       return ToNative.Error((Error_Opaque) dafnyValue);
     }
-    // TODO This should indicate a codegen bug
-    return new IllegalStateException(
-      String.format("Unknown error thrown while calling DDB. %s", dafnyValue)
-    );
-  }
-
-  // END MANUAL EDIT
-
-  public static DynamoDbClient DynamoDB_20120810(IDynamoDBClient dafnyValue) {
-    return ((Shim) dafnyValue).impl();
-  }
-
-  public static RuntimeException Error(Error_Opaque dafnyValue) {
-    // While the first two cases are logically identical,
-    // there is a semantic distinction.
-    // An un-modeled Service Error is different from a Java Heap Exhaustion error.
-    // In the future, Smithy-Dafny MAY allow for this distinction.
-    // Which would allow Dafny developers to treat the two differently.
-    if (dafnyValue.dtor_obj() instanceof DynamoDbException) {
-      return (DynamoDbException) dafnyValue.dtor_obj();
-    } else if (dafnyValue.dtor_obj() instanceof Exception) {
-      return (RuntimeException) dafnyValue.dtor_obj();
+    if (dafnyValue.is_OpaqueWithText()) {
+      return ToNative.Error((Error_OpaqueWithText) dafnyValue);
     }
+    // TODO This should indicate a codegen bug; every error Should have been taken care of.
     return new IllegalStateException(
       String.format(
-        "Unknown error thrown while calling Amazon DynamoDB. %s",
+        "Unknown error thrown while calling service. %s",
         dafnyValue
       )
     );
