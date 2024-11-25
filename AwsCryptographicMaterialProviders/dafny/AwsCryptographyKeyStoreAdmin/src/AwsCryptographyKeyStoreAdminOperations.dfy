@@ -135,12 +135,16 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       case AwsKmsReEncrypt(kms) =>
         var tuple :- ResolveKmsInput(kms, config);
         return Success(KmsUtils.keyManagerStrat.reEncrypt(tuple));
-        // TODO-Mutations-FF :
-        // case AwsKmsDecryptEncrypt(kmsDecryptEncrypt) =>
-        //   // var decrypt :- ResolveKmsInput(kmsDecryptEncrypt.decrypt, config);
-        //   // var encrypt :- ResolveKmsInput(kmsDecryptEncrypt.encrypt, config);
-        //   // return Success(KmsUtils.keyManagerStrat.decryptEncrypt(decrypt, encrypt));
-        //   return Failure(Types.KeyStoreAdminException(message :="BETA :: Only Re Encrypt is supported!!"));
+      case AwsKmsDecryptEncrypt(kmsDecryptEncrypt) =>
+        :- Need(
+          && kmsDecryptEncrypt.decrypt.Some?
+          && kmsDecryptEncrypt.encrypt.Some?,
+          Types.KeyStoreAdminException(message :=
+                                         "MUST supply KMS clients to both decrypt and encrypt fields in AwsKmsDecryptEncrypt strategy."
+          ));
+        var decrypt :- ResolveKmsInput(kmsDecryptEncrypt.decrypt.value, config);
+        var encrypt :- ResolveKmsInput(kmsDecryptEncrypt.encrypt.value, config);
+        return Success(KmsUtils.keyManagerStrat.decryptEncrypt(decrypt, encrypt));
     }
   }
 
@@ -289,12 +293,17 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     returns (output: Result<InitializeMutationOutput, Error>)
   {
     var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
-    :- Need(
-      keyManagerStrat.reEncrypt?,
-      Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time.")
-    );
     // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
-    assume {:axiom} keyManagerStrat.reEncrypt.kmsClient.Modifies < MutationLie();
+
+    if keyManagerStrat.reEncrypt? {
+      assume {:axiom} keyManagerStrat.reEncrypt.kmsClient.Modifies < MutationLie();
+    }
+
+    if keyManagerStrat.decryptEncrypt? {
+      assume {:axiom} keyManagerStrat.decrypt.kmsClient.Modifies < MutationLie();
+      assume {:axiom} keyManagerStrat.encrypt.kmsClient.Modifies < MutationLie();
+      assume {:axiom} keyManagerStrat.decrypt.kmsClient.Modifies !! keyManagerStrat.encrypt.kmsClient.Modifies;
+    }
 
     var internalInput := Mutations.InternalInitializeMutationInput(
       Identifier := input.Identifier,
@@ -318,12 +327,16 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     returns (output: Result<ApplyMutationOutput, Error>)
   {
     var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
-    :- Need(
-      keyManagerStrat.reEncrypt?,
-      Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time.")
-    );
     // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
-    assume {:axiom} keyManagerStrat.reEncrypt.kmsClient.Modifies < MutationLie();
+    if keyManagerStrat.reEncrypt? {
+      assume {:axiom} keyManagerStrat.reEncrypt.kmsClient.Modifies < MutationLie();
+    }
+
+    if keyManagerStrat.decryptEncrypt? {
+      assume {:axiom} keyManagerStrat.decrypt.kmsClient.Modifies < MutationLie();
+      assume {:axiom} keyManagerStrat.encrypt.kmsClient.Modifies < MutationLie();
+      assume {:axiom} keyManagerStrat.decrypt.kmsClient.Modifies !! keyManagerStrat.encrypt.kmsClient.Modifies;
+    }
 
     var _ :- Mutations.ValidateApplyMutationInput(input, config.logicalKeyStoreName, config.storage);
     output := Mutations.ApplyMutation(input, config.logicalKeyStoreName, keyManagerStrat, config.storage);
