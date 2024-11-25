@@ -291,6 +291,211 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     return Success(reEncryptResponse);
   }
 
+  method VerifyViaDecryptEncryptKey(
+    ciphertext: seq<uint8>,
+    sourceEncryptionContext: Structure.BranchKeyContext,
+    destinationEncryptionContext: Structure.BranchKeyContext,
+    kmsConfiguration: Types.KMSConfiguration,
+    decryptGrantTokens: KMS.GrantTokenList,
+    decryptKmsClient: KMS.IKMSClient
+  )
+    returns (res: Result<KMS.EncryptResponse, KmsError>)
+    requires
+      && Structure.BranchKeyContext?(sourceEncryptionContext)
+      && Structure.BranchKeyContext?(destinationEncryptionContext)
+    requires AttemptReEncrypt?(sourceEncryptionContext, destinationEncryptionContext)
+    requires AttemptKmsOperation?(kmsConfiguration, destinationEncryptionContext)
+    requires HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(GetKeyId(kmsConfiguration))
+    requires decryptKmsClient.ValidState()
+    modifies decryptKmsClient.Modifies
+    ensures  decryptKmsClient.ValidState()
+
+    ensures
+      res.Success?
+      ==>
+        // Proof for success when we decrypt
+        && KMS.IsValid_CiphertextType(ciphertext)
+        && |decryptKmsClient.History.Decrypt| == |old(decryptKmsClient.History.Decrypt)| + 1
+        && |decryptKmsClient.History.Encrypt| == |old(decryptKmsClient.History.Encrypt)| + 1
+        && var decryptInput := Seq.Last(decryptKmsClient.History.Decrypt).input;
+        && var decryptResponse := Seq.Last(decryptKmsClient.History.Decrypt).output;
+        && var kmsKeyArn := GetKeyId(kmsConfiguration);
+        && KMS.DecryptRequest(
+             CiphertextBlob := ciphertext,
+             EncryptionContext := Some(sourceEncryptionContext),
+             GrantTokens := Some(decryptGrantTokens),
+             KeyId := Some(kmsKeyArn)
+           ) == decryptInput
+        && var decryptResponse := Seq.Last(decryptKmsClient.History.Decrypt).output;
+        && decryptResponse.Success? && decryptResponse.value.Plaintext.Some?
+        && old(decryptKmsClient.History.Decrypt) < decryptKmsClient.History.Decrypt
+           // Proof for success when we encrypt
+        && var encryptInput := Seq.Last(decryptKmsClient.History.Encrypt).input;
+        && var encryptResponse := Seq.Last(decryptKmsClient.History.Encrypt).output;
+        && KMS.EncryptRequest(
+             KeyId := kmsKeyArn,
+             Plaintext := decryptResponse.value.Plaintext.value,
+             EncryptionContext := Some(destinationEncryptionContext),
+             GrantTokens := Some(decryptGrantTokens)
+           ) == encryptInput
+        && old(decryptKmsClient.History.Encrypt) < decryptKmsClient.History.Encrypt
+        && res.value.CiphertextBlob.Some?
+        && res.value.KeyId.Some?
+        && res.value.KeyId.value == kmsKeyArn
+        && KMS.IsValid_CiphertextType(res.value.CiphertextBlob.value)
+        && encryptResponse.Success?
+        && encryptResponse.value == res.value
+  {
+    :- Need(
+      KMS.IsValid_CiphertextType(ciphertext),
+      Types.KeyManagementException(
+        message := "Invalid KMS ciphertext.")
+    );
+
+    var kmsKeyArn := GetKeyId(kmsConfiguration);
+    var kmsDecryptRequest := KMS.DecryptRequest(
+      CiphertextBlob := ciphertext,
+      EncryptionContext := Some(sourceEncryptionContext),
+      GrantTokens := Some(decryptGrantTokens),
+      KeyId := Some(kmsKeyArn)
+    );
+
+    var decryptResponse? := decryptKmsClient.Decrypt(kmsDecryptRequest);
+    var decryptResponse :- decryptResponse?
+    .MapFailure(e => Types.ComAmazonawsKms(ComAmazonawsKms := e));
+
+    :- Need(
+      && decryptResponse.Plaintext.Some?
+      && decryptResponse.KeyId.Some?
+      && decryptResponse.KeyId.value == kmsKeyArn,
+      Types.KeyManagementException(
+        message := "Invalid response from AWS KMS Decrypt :: Invalid KMS Key Id"
+      ));
+
+    var kmsEncryptRequest := KMS.EncryptRequest(
+      KeyId := kmsKeyArn,
+      Plaintext := decryptResponse.Plaintext.value,
+      EncryptionContext := Some(destinationEncryptionContext),
+      GrantTokens := Some(decryptGrantTokens)
+    );
+
+    var encryptResponse? := decryptKmsClient.Encrypt(kmsEncryptRequest);
+    var encryptResponse :- encryptResponse?
+    .MapFailure(e => Types.ComAmazonawsKms(ComAmazonawsKms := e));
+
+    :- Need(
+      && encryptResponse.CiphertextBlob.Some?
+      && KMS.IsValid_CiphertextType(encryptResponse.CiphertextBlob.value)
+      && encryptResponse.KeyId.Some?
+      && encryptResponse.KeyId.value == kmsKeyArn,
+      Types.KeyManagementException(
+        message := "Invalid response from AWS KMS Encrypt :: Invalid KMS Key Id"
+      ));
+
+    return Success(encryptResponse);
+  }
+
+  method MutateViaDecryptEncrypt(
+    ciphertext: seq<uint8>,
+    sourceEncryptionContext: Structure.BranchKeyContext,
+    destinationEncryptionContext: Structure.BranchKeyContext,
+    sourceKmsArn: string,
+    destinationKmsArn: string,
+    decryptGrantTokens: KMS.GrantTokenList,
+    decryptKmsClient: KMS.IKMSClient,
+    encryptGrantTokens: KMS.GrantTokenList,
+    encryptKmsClient: KMS.IKMSClient
+  )
+    returns (res: Result<KMS.CiphertextType, KmsError>)
+    requires
+      && Structure.BranchKeyContext?(sourceEncryptionContext)
+      && Structure.BranchKeyContext?(destinationEncryptionContext)
+    requires AttemptReEncrypt?(sourceEncryptionContext, destinationEncryptionContext)
+    requires KmsArn.ValidKmsArn?(sourceKmsArn) && KmsArn.ValidKmsArn?(destinationKmsArn)
+    requires decryptKmsClient.Modifies !! encryptKmsClient.Modifies
+    requires decryptKmsClient.ValidState() && encryptKmsClient.ValidState()
+    modifies decryptKmsClient.Modifies + encryptKmsClient.Modifies
+    ensures  decryptKmsClient.ValidState() && encryptKmsClient.ValidState()
+    ensures
+      res.Success?
+      ==>
+        && KMS.IsValid_CiphertextType(ciphertext)
+        && |decryptKmsClient.History.Decrypt| == |old(decryptKmsClient.History.Decrypt)| + 1
+        && var decryptInput := Seq.Last(decryptKmsClient.History.Decrypt).input;
+        && var decryptOutput := Seq.Last(decryptKmsClient.History.Decrypt).output;
+        && KMS.DecryptRequest(
+             CiphertextBlob := ciphertext,
+             EncryptionContext := Some(sourceEncryptionContext),
+             GrantTokens := Some(decryptGrantTokens),
+             KeyId := Some(sourceKmsArn)
+           ) == decryptInput
+        && decryptOutput.Success? && decryptOutput.value.Plaintext.Some? && decryptOutput.value.KeyId.Some?
+        && decryptOutput.value.KeyId.value == sourceKmsArn
+        && |encryptKmsClient.History.Encrypt| == |old(encryptKmsClient.History.Encrypt)| + 1
+        && var encryptInput := Seq.Last(encryptKmsClient.History.Encrypt).input;
+        && var encryptResponse := Seq.Last(encryptKmsClient.History.Encrypt).output;
+        && KMS.EncryptRequest(
+             KeyId := destinationKmsArn,
+             Plaintext := decryptOutput.value.Plaintext.value,
+             EncryptionContext := Some(destinationEncryptionContext),
+             GrantTokens := Some(encryptGrantTokens)
+           ) == encryptInput
+        && old(encryptKmsClient.History.Encrypt) < encryptKmsClient.History.Encrypt
+        && encryptResponse.Success?
+        && encryptResponse.value.CiphertextBlob.Some?
+        && encryptResponse.value.KeyId.Some?
+        && encryptResponse.value.KeyId.value ==  destinationKmsArn // kmsKeyArn
+        && KMS.IsValid_CiphertextType(encryptResponse.value.CiphertextBlob.value)
+        && encryptResponse.value.CiphertextBlob.value == res.value
+  {
+    :- Need(
+      KMS.IsValid_CiphertextType(ciphertext),
+      Types.KeyManagementException(
+        message := "Invalid KMS ciphertext.")
+    );
+
+    var kmsDecryptRequest := KMS.DecryptRequest(
+      CiphertextBlob := ciphertext,
+      EncryptionContext := Some(sourceEncryptionContext),
+      GrantTokens := Some(decryptGrantTokens),
+      KeyId := Some(sourceKmsArn)
+    );
+
+    var decryptResponse? := decryptKmsClient.Decrypt(kmsDecryptRequest);
+    var decryptResponse :- decryptResponse?
+    .MapFailure(e => Types.ComAmazonawsKms(ComAmazonawsKms := e));
+
+    :- Need(
+      && decryptResponse.Plaintext.Some?
+      && decryptResponse.KeyId.Some?
+      && decryptResponse.KeyId.value == sourceKmsArn,
+      Types.KeyManagementException(
+        message := "Invalid response from AWS KMS Decrypt :: Invalid KMS Key Id"
+      ));
+
+    var kmsEncryptRequest := KMS.EncryptRequest(
+      KeyId := destinationKmsArn,
+      Plaintext := decryptResponse.Plaintext.value,
+      EncryptionContext := Some(destinationEncryptionContext),
+      GrantTokens := Some(encryptGrantTokens)
+    );
+
+    var encryptResponse? := encryptKmsClient.Encrypt(kmsEncryptRequest);
+    var encryptResponse :- encryptResponse?
+    .MapFailure(e => Types.ComAmazonawsKms(ComAmazonawsKms := e));
+
+    :- Need(
+      && encryptResponse.CiphertextBlob.Some?
+      && KMS.IsValid_CiphertextType(encryptResponse.CiphertextBlob.value)
+      && encryptResponse.KeyId.Some?
+      && encryptResponse.KeyId.value == destinationKmsArn,
+      Types.KeyManagementException(
+        message := "Invalid response from AWS KMS Encrypt :: Invalid KMS Key Id"
+      ));
+
+    return Success(encryptResponse.CiphertextBlob.value);
+  }
+
   method MutateViaReEncrypt(
     ciphertext: seq<uint8>,
     sourceEncryptionContext: Structure.BranchKeyContext,
@@ -300,7 +505,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
   )
-    returns (res: Result<KMS.ReEncryptResponse, KmsError>)
+    returns (res: Result<KMS.CiphertextType, KmsError>)
     requires
       && Structure.BranchKeyContext?(sourceEncryptionContext)
       && Structure.BranchKeyContext?(destinationEncryptionContext)
@@ -337,15 +542,15 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     ensures
       res.Success? ==>
         // && var kmsKeyArn := GetKeyId(kmsConfiguration);
-        && res.value.CiphertextBlob.Some?
-        && res.value.SourceKeyId.Some?
-        && res.value.KeyId.Some?
-        && res.value.SourceKeyId.value == sourceKmsArn //kmsKeyArn
-        && res.value.KeyId.value ==  destinationKmsArn // kmsKeyArn
-        && KMS.IsValid_CiphertextType(res.value.CiphertextBlob.value)
         && var kmsOperationOutput := Seq.Last(kmsClient.History.ReEncrypt).output;
         && kmsOperationOutput.Success?
-        && kmsOperationOutput.value == res.value
+        && kmsOperationOutput.value.CiphertextBlob.Some?
+        && kmsOperationOutput.value.SourceKeyId.Some?
+        && kmsOperationOutput.value.KeyId.Some?
+        && kmsOperationOutput.value.SourceKeyId.value == sourceKmsArn //kmsKeyArn
+        && kmsOperationOutput.value.KeyId.value ==  destinationKmsArn // kmsKeyArn
+        && KMS.IsValid_CiphertextType(kmsOperationOutput.value.CiphertextBlob.value)
+        && kmsOperationOutput.value.CiphertextBlob.value == res.value
   {
     :- Need(
       KMS.IsValid_CiphertextType(ciphertext),
@@ -389,7 +594,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
         message := "Invalid response from AWS KMS ReEncrypt: Invalid ciphertext.")
     );
 
-    return Success(reEncryptResponse);
+    return Success(reEncryptResponse.CiphertextBlob.value);
   }
 
   method DecryptKey(
