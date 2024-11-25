@@ -173,7 +173,7 @@ module {:options "/functionSyntax:4" } TestContentHandler {
       KmsTuple := kmsTuple,
       Crypto := crypto);
     var verifyOutput? := ActualVerify(verifyInput, SignAndFailVerifyCommitmentLogPrefix);
-    expect verifyOutput?.Success, "System Key should have not errored on VerifyContent when it has been tampered.";
+    expect verifyOutput?.Success?, "System Key should have not errored on VerifyContent when it has been tampered.";
     expect verifyOutput?.value == false, "System Key should have returned false on VerifyContent when it has been tampered.";
     // print "\nTestContentHandler.SignAndFailVerifyCommitment: ";
   }
