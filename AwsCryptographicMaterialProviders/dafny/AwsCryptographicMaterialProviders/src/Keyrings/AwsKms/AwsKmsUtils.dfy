@@ -27,13 +27,48 @@ module AwsKmsUtils {
       Pass
   }
 
+  // This allows us to refine the error
+  type StringifyError = e: Types.Error | e.AwsCryptographicMaterialProvidersException? witness *
+
+  predicate method StringifyResultIsErrorFree(
+    input: map<UTF8.ValidUTF8Bytes, Result<(string, string), StringifyError>>
+  ): (output: bool)
+  {
+    if exists r | r in input.Values :: r.Failure? then false else true
+  }
+
+  predicate method StringKeysAreUnique(
+    input: map<UTF8.ValidUTF8Bytes, Result<(string, string), StringifyError>>
+  ): (output: bool)
+    requires StringifyResultIsErrorFree(input)
+  {
+    forall k, k' | k in input && k' in input
+      :: k != k' ==> input[k].value.0 != input[k'].value.0
+  }
+
   function method StringifyEncryptionContext(utf8EncCtx: Types.EncryptionContext):
     (res: Result<KMS.EncryptionContextType, Types.Error>)
+    ensures |utf8EncCtx| == 0 ==> res.Success? && |res.value| == 0
+    // By ensuring a failure maps to AwsCryptographicMaterialProvidersException?, we can claim this returns a StringifyError
+    ensures res.Failure? ==> res.error.AwsCryptographicMaterialProvidersException?
+    ensures
+      && !StringifyResultIsErrorFree(
+        map utf8Key | utf8Key in utf8EncCtx.Keys :: utf8Key := StringifyEncryptionContextPair(utf8Key, utf8EncCtx[utf8Key])
+      )
+      ==>
+        res.Failure?
+    ensures
+      var stringifyResults :=
+        map utf8Key | utf8Key in utf8EncCtx.Keys :: utf8Key := StringifyEncryptionContextPair(utf8Key, utf8EncCtx[utf8Key]);
+      && StringifyResultIsErrorFree(stringifyResults)
+      && !StringKeysAreUnique(stringifyResults)
+      ==>
+        res.Failure?
   {
     MapIsSafeBecauseItIsInMemory(utf8EncCtx);
     if |utf8EncCtx| as uint64 == 0 then Success(map[])
     else
-      var stringifyResults: map<UTF8.ValidUTF8Bytes, Result<(string, string), Types.Error>> :=
+      var stringifyResults: map<UTF8.ValidUTF8Bytes, Result<(string, string), StringifyError>> :=
         map utf8Key | utf8Key in utf8EncCtx.Keys :: utf8Key := StringifyEncryptionContextPair(utf8Key, utf8EncCtx[utf8Key]);
       if exists r | r in stringifyResults.Values :: r.Failure?
       then Failure(
@@ -49,7 +84,7 @@ module AwsKmsUtils {
   }
 
   function method StringifyEncryptionContextPair(utf8Key: UTF8.ValidUTF8Bytes, utf8Value: UTF8.ValidUTF8Bytes):
-    (res: Result<(string, string), Types.Error>)
+    (res: Result<(string, string), StringifyError>)
     ensures (UTF8.Decode(utf8Key).Success? && UTF8.Decode(utf8Value).Success?) <==> res.Success?
   {
     var key :- UTF8
@@ -63,7 +98,7 @@ module AwsKmsUtils {
   }
 
   function method WrapStringToError(e: string)
-    :(ret: Types.Error)
+    :(ret: StringifyError)
   {
     Types.AwsCryptographicMaterialProvidersException( message := e )
   }

@@ -1,15 +1,13 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
-package software.amazon.cryptography.example.hierarchy;
+package software.amazon.cryptography.example.hierarchy.mutations;
 
 import java.util.HashMap;
 import javax.annotation.Nullable;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kms.KmsClient;
+import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
-import software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput;
-import software.amazon.cryptography.keystoreadmin.model.ApplyMutationOutput;
-import software.amazon.cryptography.keystoreadmin.model.ApplyMutationResult;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
@@ -61,9 +59,9 @@ public class MutationExample {
       "InitLogs: " +
       branchKeyId +
       " items: \n" +
-      AdminProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
+      MutationsProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
     );
-    MutationResumeExample.workMutation(
+    MutationsProvider.workMutation(
       branchKeyId,
       systemKey,
       token,
