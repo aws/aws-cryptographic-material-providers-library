@@ -1,4 +1,4 @@
-package software.amazon.cryptography.example.hierarchy;
+package software.amazon.cryptography.example.hierarchy.mutations;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +34,7 @@ public class ScanForInFlightMutations {
     EAV = new HashMap<>(2, 1);
     EAV.put(
       ":type",
-      AttributeValue.builder().s("branch:MUTATION_LOCK").build()
+      AttributeValue.builder().s("branch:MUTATION_COMMITMENT").build()
     );
   }
 

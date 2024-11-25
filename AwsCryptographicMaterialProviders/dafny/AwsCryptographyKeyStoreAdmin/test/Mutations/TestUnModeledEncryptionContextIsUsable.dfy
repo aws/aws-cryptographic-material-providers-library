@@ -41,7 +41,7 @@ module {:options "/functionSyntax:4" } TestUnModeledEncryptionContextIsUsable {
 
   method {:test} TestHappyCase()
   {
-    print " running";
+    // print " running";
 
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
@@ -57,11 +57,11 @@ module {:options "/functionSyntax:4" } TestUnModeledEncryptionContextIsUsable {
     var originalEC := map[kodaBytes := isADogBytes];
     Fixtures.CreateHappyCaseId(id:=testId, versionCount:=0, customEC:=originalEC);
 
-    print testLogPrefix + " Created the legit test items with 1 versions! testId: " + testId + "\n";
+    // print testLogPrefix + " Created the legit test items with 1 versions! testId: " + testId + "\n";
 
     var _ :- expect AdminFixtures.AddAttributeWithoutLibrary(id:=testId, alsoViolateBeacon? := true, ddbClient? := Some(ddbClient));
 
-    print testLogPrefix + " Violated all three. testId: " + testId + "\n";
+    // print testLogPrefix + " Violated all three. testId: " + testId + "\n";
 
     var versionQuery := KeyStoreTypes.QueryForVersionsInput(
       Identifier := testId,
@@ -81,7 +81,7 @@ module {:options "/functionSyntax:4" } TestUnModeledEncryptionContextIsUsable {
         "Query for Decrypt Only returned a non-Decrypt Only!";
 
       if ("Robbie" in item.EncryptionContext) {
-        print testLogPrefix + "Robbie in " + item.EncryptionContext["type"] + "\n";
+        // print testLogPrefix + "Robbie in " + item.EncryptionContext["type"] + "\n";
       }
       var versionUUID := item.Type.HierarchicalSymmetricVersion.Version;
       inputV := KeyStoreTypes.GetBranchKeyVersionInput(
@@ -92,7 +92,7 @@ module {:options "/functionSyntax:4" } TestUnModeledEncryptionContextIsUsable {
 
       // This is a best effort
       var _ := CleanupItems.DeleteTypeWithFailure(testId, item.EncryptionContext["type"], ddbClient);
-      print testLogPrefix + " Validated Decrypt Only and tried to clean it up: " + item.EncryptionContext["type"] + "\n";
+      // print testLogPrefix + " Validated Decrypt Only and tried to clean it up: " + item.EncryptionContext["type"] + "\n";
       itemIndex := 1 + itemIndex;
     }
 
@@ -102,7 +102,7 @@ module {:options "/functionSyntax:4" } TestUnModeledEncryptionContextIsUsable {
     var lastActive := lastActive?.Item.Type.ActiveHierarchicalSymmetricVersion;
 
     var _ :- expect keyStore.GetActiveBranchKey(KeyStoreTypes.GetActiveBranchKeyInput(branchKeyIdentifier := testId));
-    print testLogPrefix + " Active Validated with KMS/KeyStore: " + testId + "\n";
+    // print testLogPrefix + " Active Validated with KMS/KeyStore: " + testId + "\n";
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_ACTIVE_TYPE, ddbClient);
 
     var beaconInput := KeyStoreTypes.GetEncryptedBeaconKeyInput(Identifier:=testId);
@@ -110,7 +110,7 @@ module {:options "/functionSyntax:4" } TestUnModeledEncryptionContextIsUsable {
     expect beacon?.Item.Type.ActiveHierarchicalSymmetricBeacon?;
 
     var _ :- expect keyStore.GetBeaconKey(KeyStoreTypes.GetBeaconKeyInput(branchKeyIdentifier := testId));
-    print testLogPrefix + " Beacon Validated with KMS/KeyStore: " + testId + "\n";
+    // print testLogPrefix + " Beacon Validated with KMS/KeyStore: " + testId + "\n";
     var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BEACON_KEY_TYPE_VALUE, ddbClient);
   }
 }
