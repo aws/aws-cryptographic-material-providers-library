@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.concurrent.*;
 
 public class MutableMap<K, V>
-  extends DafnyLibraries._ExternBase_MutableMap<K, V> {
+  extends DafnyLibraries.MutableMapTrait<K, V> {
 
   private ConcurrentHashMap<K, V> m;
 
