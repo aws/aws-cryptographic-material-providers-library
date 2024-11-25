@@ -140,16 +140,14 @@ union SystemKey {
   trustStorage: TrustStorage
 }
 
-// TODO-Mutations-FF :
-// For GA of Mutations,  of Mutations, only ReEncrypt is allowed
-// structure AwsKmsDecryptEncrypt {
-//   @documentation("The KMS Client (and Grant Tokens) used to Decrypt Branch Key Store Items.")
-//   decrypt: aws.cryptography.keyStore#AwsKms
-//   @documentation(
-//     "The KMS Client (and Grant Tokens) used to Encrypt Branch Key Store Items
-//      and to Generate new Cryptographic Material.")
-//   encrypt: aws.cryptography.keyStore#AwsKms
-// }
+structure AwsKmsDecryptEncrypt {
+  @documentation("The KMS Client (and Grant Tokens) used to Decrypt Branch Key Store Items.")
+  decrypt: aws.cryptography.keyStore#AwsKms
+  @documentation(
+    "The KMS Client (and Grant Tokens) used to Encrypt Branch Key Store Items
+     and to Generate new Cryptographic Material.")
+  encrypt: aws.cryptography.keyStore#AwsKms
+}
 
 @documentation(
   "This configures which Key Management Operations will be used
@@ -160,20 +158,18 @@ union KeyManagementStrategy {
   executed with the provided Grant Tokens and KMS Client.
   This is one request to Key Management, as compared to two.
   But only one set of credentials can be used.")
-  AwsKmsReEncrypt: aws.cryptography.keyStore#AwsKms
-  // TODO-Mutations-FF :
-  // For GA of Mutations, only ReEncrypt is allowed
-  // @documentation(
-  //   "Key Store Items are authenticated and re-wrapped via a Decrypt and then Encrypt request.
-  //    This is two separate requests to Key Management, as compared to one. 
-  //    But the Decrypt requests will use the Decrypt KMS Client (and Grant Tokens),
-  //    while the Encrypt requests will use the Encrypt KMS Client (and Grant Tokens).
-  //    This option affords for different credentials to be utilized,
-  //    based on the operation.
-  //    When Generating new material,
-  //    KMS GenerateDataKeyWithoutPlaintext will be executed against
-  //    the Encrypt option.")
-  // AwsKmsDecryptEncrypt: AwsKmsDecryptEncrypt
+  AwsKmsReEncrypt: aws.cryptography.keyStore#AwsKms,
+  @documentation(
+    "Key Store Items are authenticated and re-wrapped via a Decrypt and then Encrypt request.
+     This is two separate requests to Key Management, as compared to one. 
+     But the Decrypt requests will use the Decrypt KMS Client (and Grant Tokens),
+     while the Encrypt requests will use the Encrypt KMS Client (and Grant Tokens).
+     This option affords for different credentials to be utilized,
+     based on the operation.
+     When Generating new material,
+     KMS GenerateDataKeyWithoutPlaintext will be executed against
+     the Encrypt option.")
+  AwsKmsDecryptEncrypt: AwsKmsDecryptEncrypt
 }
 
 

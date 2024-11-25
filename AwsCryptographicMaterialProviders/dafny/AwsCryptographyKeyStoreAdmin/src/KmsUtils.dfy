@@ -16,10 +16,16 @@ module {:options "/functionSyntax:4" } KmsUtils {
     ghost predicate ValidState()
     {
       match this
-      case reEncrypt(km) => km.kmsClient.ValidState()
+      case reEncrypt(km) =>
+        && km.kmsClient.ValidState()
+        && km.kmsClient.Modifies == km.kmsClient.Modifies
       case decryptEncrypt(kmD, kmE) =>
         && kmD.kmsClient.ValidState()
         && kmE.kmsClient.ValidState()
+        && kmD.kmsClient.Modifies == kmD.kmsClient.Modifies
+        && kmE.kmsClient.Modifies == kmE.kmsClient.Modifies
+           // We will assume this is the case in order to make verification happy
+        && kmE.kmsClient.Modifies !! kmD.kmsClient.Modifies
     }
   }
 }

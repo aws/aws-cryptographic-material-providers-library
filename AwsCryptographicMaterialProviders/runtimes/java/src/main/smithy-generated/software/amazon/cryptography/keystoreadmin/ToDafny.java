@@ -20,6 +20,7 @@ import software.amazon.cryptography.keystore.internaldafny.types.Storage;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationInput;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationOutput;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationResult;
+import software.amazon.cryptography.keystoreadmin.internaldafny.types.AwsKmsDecryptEncrypt;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.CreateKeyInput;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.CreateKeyOutput;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.DescribeMutationInput;
@@ -167,6 +168,32 @@ public class ToDafny {
     mutatedBranchKeyItems =
       ToDafny.MutatedBranchKeyItems(nativeValue.MutatedBranchKeyItems());
     return new ApplyMutationOutput(mutationResult, mutatedBranchKeyItems);
+  }
+
+  public static AwsKmsDecryptEncrypt AwsKmsDecryptEncrypt(
+    software.amazon.cryptography.keystoreadmin.model.AwsKmsDecryptEncrypt nativeValue
+  ) {
+    Option<AwsKms> decrypt;
+    decrypt =
+      Objects.nonNull(nativeValue.decrypt())
+        ? Option.create_Some(
+          AwsKms._typeDescriptor(),
+          software.amazon.cryptography.keystore.ToDafny.AwsKms(
+            nativeValue.decrypt()
+          )
+        )
+        : Option.create_None(AwsKms._typeDescriptor());
+    Option<AwsKms> encrypt;
+    encrypt =
+      Objects.nonNull(nativeValue.encrypt())
+        ? Option.create_Some(
+          AwsKms._typeDescriptor(),
+          software.amazon.cryptography.keystore.ToDafny.AwsKms(
+            nativeValue.encrypt()
+          )
+        )
+        : Option.create_None(AwsKms._typeDescriptor());
+    return new AwsKmsDecryptEncrypt(decrypt, encrypt);
   }
 
   public static CreateKeyInput CreateKeyInput(
@@ -645,10 +672,15 @@ public class ToDafny {
     software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy nativeValue
   ) {
     if (Objects.nonNull(nativeValue.AwsKmsReEncrypt())) {
-      return KeyManagementStrategy.create(
+      return KeyManagementStrategy.create_AwsKmsReEncrypt(
         software.amazon.cryptography.keystore.ToDafny.AwsKms(
           nativeValue.AwsKmsReEncrypt()
         )
+      );
+    }
+    if (Objects.nonNull(nativeValue.AwsKmsDecryptEncrypt())) {
+      return KeyManagementStrategy.create_AwsKmsDecryptEncrypt(
+        ToDafny.AwsKmsDecryptEncrypt(nativeValue.AwsKmsDecryptEncrypt())
       );
     }
     throw new IllegalArgumentException(
