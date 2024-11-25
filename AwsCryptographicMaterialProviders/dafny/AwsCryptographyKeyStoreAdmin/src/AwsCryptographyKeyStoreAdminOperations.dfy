@@ -226,7 +226,6 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       Tuple := tuple,
       KeyId := keyId);
     assert internal.ValidState();
-    // assume {:axiom} config.storage.Modifies !! internal.Modifies;
     return Success(internal);
   }
 
@@ -336,24 +335,6 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     .MapFailure(e => Types.AwsCryptographyKeyStore(e));
     output := Success(Types.VersionKeyOutput());
   }
-
-  // predicate {:opaque} StorageSystemKeyKeyManagerStratAreInDependentLie(
-  //   storage: KeyStoreTypes.IKeyStorageInterface,
-  //   systemKey: KmsUtils.InternalSystemKey,
-  //   keyManagerStrat: KmsUtils.keyManagerStrat
-  // )
-  //   ensures
-  //     && storage.Modifies !! systemKey.Modifies
-  //     && storage.Modifies !! keyManagerStrat.Modifies
-  //     && systemKey.Modifies !! keyManagerStrat.Modifies
-  // {
-  //   assume {:axiom} systemKey.Modifies < MutationLie();
-  //   assume {:axiom} keyManagerStrat.Modifies < MutationLie();
-  //   assume {:axiom} systemKey.Modifies !! keyManagerStrat.Modifies;
-  //   assume {:axiom} storage.Modifies !! systemKey.Modifies;
-  //   assume {:axiom} storage.Modifies !! keyManagerStrat.Modifies;
-  //   true
-  // }
 
   predicate InitializeMutationEnsuresPublicly(input: InitializeMutationInput, output: Result<InitializeMutationOutput, Error>)
   {true}

@@ -116,13 +116,6 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     }
   }
 
-  // predicate MutationToApply?(MutationToApply: MutationToApply)
-  // {
-  //   && KmsArn.ValidKmsArn?(MutationToApply.Original.kmsArn)
-  //   && KmsArn.ValidKmsArn?(MutationToApply.Terminal.kmsArn)
-  //   && (Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! MutationToApply.Original.customEncryptionContext.Keys)
-  //   && (Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! MutationToApply.Terminal.customEncryptionContext.Keys)
-  // }
 
   function EncryptionContextStringToJSON(
     encryptionContext: KeyStoreTypes.EncryptionContextString

@@ -68,13 +68,10 @@ module {:options "/functionSyntax:4" } Mutations {
       && storage.ValidState()
       && SystemKey.Modifies !! keyManagerStrategy.Modifies !! storage.Modifies
     }
-    // ghost const Modifies := SystemKey.Modifies + keyManagerStrategy.Modifies + storage.Modifies
   }
 
   predicate ValidateQueryOutResults?(
     input: InternalApplyMutationInput, //Types.ApplyMutationInput,
-    // logicalKeyStoreName: string,
-    // storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface,
     queryItems: KeyStoreTypes.QueryForVersionsOutput
   )
   {

@@ -58,7 +58,6 @@ module AwsKmsUtils {
     if |utf8EncCtx| == 0 then
       var kmsType: KMS.EncryptionContextType := map[];
       var rest3 := Success(kmsType);
-      assert rest3.Success?;
       rest3
 
     else
@@ -69,8 +68,6 @@ module AwsKmsUtils {
         var rest2 := Failure(
                        Types.AwsCryptographicMaterialProvidersException( message := "Encryption context contains invalid UTF8")
                      );
-        assert rest2.Failure?;
-        assert rest2.error.AwsCryptographicMaterialProvidersException?;
         rest2
 
       else
@@ -79,8 +76,6 @@ module AwsKmsUtils {
         if !stringKeysUnique then
           var rest1 := Failure(Types.AwsCryptographicMaterialProvidersException(
                                  message := "Encryption context keys are not unique"));  // this should never happen...
-          assert rest1.Failure?;
-          assert rest1.error.AwsCryptographicMaterialProvidersException?;
           rest1
 
         else

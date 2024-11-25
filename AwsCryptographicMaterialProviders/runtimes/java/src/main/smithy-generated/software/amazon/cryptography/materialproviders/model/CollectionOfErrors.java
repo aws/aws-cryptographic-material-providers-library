@@ -4,10 +4,6 @@
 package software.amazon.cryptography.materialproviders.model;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
-import software.amazon.awssdk.utils.CollectionUtils;
-import software.amazon.awssdk.utils.StringUtils;
 
 public class CollectionOfErrors extends RuntimeException {
 
@@ -138,11 +134,6 @@ public class CollectionOfErrors extends RuntimeException {
     }
 
     public CollectionOfErrors build() {
-      if (!CollectionUtils.isNullOrEmpty(this.list)) {
-        this.message = this.message + " String rep of Exceptions in list.\n" + this.list.stream()
-          .map(ex -> ex.getClass().getSimpleName() + ": " + ex.getMessage())
-          .collect(Collectors.joining("\n"));
-      }
       return new CollectionOfErrors(this);
     }
   }

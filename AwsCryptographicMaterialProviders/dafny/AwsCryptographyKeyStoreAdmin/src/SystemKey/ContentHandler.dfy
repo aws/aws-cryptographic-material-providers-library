@@ -21,6 +21,7 @@ module {:options "/functionSyntax:4" } SystemKey.ContentHandler {
   import AwsKmsUtils
   import Structure
 
+// TODO: refactor constants to follow pattern in Materials.dfy.
   // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=ZGlnZXN0&oenc=65001&oeol=CR
   const DIGEST_UTF8_BYTES: seq<uint8> := [100,105,103,101,115,116]
   // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=c2lnbg&oenc=65001&oeol=CR
@@ -113,6 +114,7 @@ module {:options "/functionSyntax:4" } SystemKey.ContentHandler {
     return Success(Crypto);
   }
 
+  // TODO-Mutations-FF : Add Pre/Post Conditions
   method SignContent(
     input: SignInput
   )
@@ -149,6 +151,7 @@ module {:options "/functionSyntax:4" } SystemKey.ContentHandler {
     return Success(kmsRes.CiphertextBlob.value);
   }
 
+  // TODO-Mutations-FF : Add Pre/Post Conditions
   method VerifyContent(
     input: VerifyInput
   )
@@ -223,7 +226,7 @@ module {:options "/functionSyntax:4" } SystemKey.ContentHandler {
       };
       return Failure(error);
     }
-    //=- 2. Base64 Encode
+    //=- 2. UTF8-Base64 Encode
     var encodeResult: Result<MPL.Types.Utf8Bytes, string> :=
       UTF8.Encode(Base64.Encode(digestResult.value));
     if (encodeResult.Failure?) {

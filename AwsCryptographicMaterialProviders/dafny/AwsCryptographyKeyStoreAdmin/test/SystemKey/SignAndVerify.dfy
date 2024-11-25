@@ -90,7 +90,6 @@ module {:options "/functionSyntax:4" } TestContentHandler {
     modifies input.Crypto.Modifies
   {
     assert input.ValidState();
-    // assume {:axiom} false; // Tony cannot figure out why the Modifies clause is violated
     var output? := ContentHandler.VerifyContent(input);
     // These prints are helpful for debugging
     // print logPrefix + " Attempted to Verify was succesful? " + if output?.Success? then "Yes" else "No" + " .\n";

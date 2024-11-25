@@ -47,7 +47,6 @@ module CanonicalEncryptionContext {
         Failure(pairsBytesResult.error)
       else
         // The final return should be the bytes of the pairs, prepended with the number of pairs
-        assert pairsBytesResult.Success?;
         var allBytes := UInt16ToSeq(|keys| as uint16) + Seq.Flatten(pairsBytesResult.value);
         Success(allBytes)
   }
