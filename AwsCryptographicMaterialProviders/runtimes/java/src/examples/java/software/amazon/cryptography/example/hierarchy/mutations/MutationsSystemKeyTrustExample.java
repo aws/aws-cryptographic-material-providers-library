@@ -23,6 +23,13 @@ public class MutationsSystemKeyTrustExample {
 
   public static String End2End(
     @Nonnull final String identifier,
+    @Nonnull final String terminalKmsArn
+  ) {
+    return End2End(identifier, terminalKmsArn, null, null, null);
+  }
+
+  public static String End2End(
+    @Nonnull final String identifier,
     @Nonnull final String terminalKmsArn,
     @Nullable KeyStoreAdmin admin,
     @Nullable Mutations mutations,
