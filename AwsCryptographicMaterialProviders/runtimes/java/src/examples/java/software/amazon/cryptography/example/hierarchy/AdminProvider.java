@@ -10,6 +10,7 @@ import software.amazon.cryptography.keystore.model.AwsKms;
 import software.amazon.cryptography.keystore.model.DynamoDBTable;
 import software.amazon.cryptography.keystore.model.Storage;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
+import software.amazon.cryptography.keystoreadmin.model.AwsKmsDecryptEncrypt;
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
 import software.amazon.cryptography.keystoreadmin.model.KeyStoreAdminConfig;
 
@@ -56,6 +57,21 @@ public class AdminProvider {
       .AwsKmsReEncrypt(AwsKms.builder().kmsClient(kmsClient).build())
       .build();
   }
+  public static KeyManagementStrategy decryptEncryptStrategy(
+    @Nullable KmsClient decryptKmsClient,
+    @Nullable KmsClient encryptKmsClient)
+  {
+    decryptKmsClient = kms(decryptKmsClient);
+    encryptKmsClient = kms(encryptKmsClient);
+
+    return KeyManagementStrategy
+      .builder()
+      .AwsKmsDecryptEncrypt(AwsKmsDecryptEncrypt.builder()
+        .decrypt(AwsKms.builder().kmsClient(decryptKmsClient).build())
+        .encrypt(AwsKms.builder().kmsClient(encryptKmsClient).build())
+        .build()
+      ).build();
+  }
 
   @SuppressWarnings("resource")
   public static DynamoDbClient dynamoDB(
@@ -74,4 +90,15 @@ public class AdminProvider {
     }
     return kmsClient;
   }
+
+  public static String mutatedItemsToString(
+    List<MutatedBranchKeyItem> mutatedItems
+  ) {
+    return mutatedItems
+      .stream()
+      .map(item -> String.format("%s : %s", item.ItemType(), item.Description())
+      )
+      .collect(Collectors.joining(",\n"));
+  }
+
 }
