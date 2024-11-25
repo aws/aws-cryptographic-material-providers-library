@@ -21,7 +21,7 @@ module {:options "/functionSyntax:4" } SystemKey.ContentHandler {
   import AwsKmsUtils
   import Structure
 
-// TODO: refactor constants to follow pattern in Materials.dfy.
+  // TODO: refactor constants to follow pattern in Materials.dfy.
   // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=ZGlnZXN0&oenc=65001&oeol=CR
   const DIGEST_UTF8_BYTES: seq<uint8> := [100,105,103,101,115,116]
   // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=c2lnbg&oenc=65001&oeol=CR
