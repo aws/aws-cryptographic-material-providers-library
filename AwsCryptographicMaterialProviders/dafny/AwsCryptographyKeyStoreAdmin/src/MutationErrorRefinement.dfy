@@ -1,6 +1,7 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
+include "KmsUtils.dfy"
 
 module {:options "/functionSyntax:4" } MutationErrorRefinement {
   import opened Wrappers
@@ -10,42 +11,7 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
   import KMS = Com.Amazonaws.Kms
   import StandardLibrary.String
   import Structure
-
-  function ExtractKmsOpaque(
-    error: KMSKeystoreOperations.KmsError
-  ): (opaqueError?: Option<KMS.Types.OpaqueError>)
-    ensures
-      && error.ComAmazonawsKms?
-      && error.ComAmazonawsKms.Opaque?
-      ==> opaqueError?.Some? && opaqueError?.value == error.ComAmazonawsKms
-  {
-    match error {
-      case Opaque(obj) => None
-      case KeyManagementException(s) => None
-      case ComAmazonawsKms(comAmazonawsKms: KMS.Types.Error) =>
-        match comAmazonawsKms {
-          case Opaque(obj) => Some(comAmazonawsKms)
-          case OpaqueWithText(obj, objMessage) => Some(comAmazonawsKms)
-          case _ => None
-        }
-    }
-  }
-
-  function ExtractMessageFromKmsError(
-    error: KMSKeystoreOperations.KmsError
-  ): (errorMessage?: Option<string>)
-  {
-    match error {
-      case Opaque(obj) => None
-      case KeyManagementException(s) => Some(s)
-      case ComAmazonawsKms(comAmazonawsKms: KMS.Types.Error) =>
-        match comAmazonawsKms {
-          case Opaque(obj) => None
-          case OpaqueWithText(obj, objMessage) => Some(objMessage)
-          case _ => comAmazonawsKms.message
-        }
-    }
-  }
+  import KmsUtils
 
   function ParsedErrorContext(
     nameonly localOperation: string,
@@ -71,8 +37,8 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
     requires branchKeyItem.Type.ActiveHierarchicalSymmetricVersion?
   {
     //TODO Mutations-FF :: Decrypt/Encrypt Strategy will need to refactor this
-    var opaqueKmsError? := ExtractKmsOpaque(error);
-    var kmsErrorMessage? := ExtractMessageFromKmsError(error);
+    var opaqueKmsError? := KmsUtils.ExtractKmsOpaque(error);
+    var kmsErrorMessage? := KmsUtils.ExtractMessageFromKmsError(error);
     var errorContext := ParsedErrorContext(
                           localOperation := localOperation,
                           kmsOperation := kmsOperation,
@@ -95,8 +61,8 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
     requires branchKeyItem.Type.ActiveHierarchicalSymmetricVersion?
   {
     //TODO Mutations-FF :: Decrypt/Encrypt Strategy will need to refactor this
-    var opaqueKmsError? := ExtractKmsOpaque(error);
-    var kmsErrorMessage? := ExtractMessageFromKmsError(error);
+    var opaqueKmsError? := KmsUtils.ExtractKmsOpaque(error);
+    var kmsErrorMessage? := KmsUtils.ExtractMessageFromKmsError(error);
     var errorContext := ParsedErrorContext(
                           localOperation := localOperation,
                           kmsOperation := kmsOperation,
@@ -118,8 +84,8 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
   ): (output: Types.Error)
     requires branchKeyItem.Type.HierarchicalSymmetricVersion?
   {
-    var opaqueKmsError? := ExtractKmsOpaque(error);
-    var kmsErrorMessage? := ExtractMessageFromKmsError(error);
+    var opaqueKmsError? := KmsUtils.ExtractKmsOpaque(error);
+    var kmsErrorMessage? := KmsUtils.ExtractMessageFromKmsError(error);
     var errorContext := ParsedErrorContext(
                           localOperation := localOperation,
                           kmsOperation := kmsOperation,
@@ -146,8 +112,8 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
     returns (output: Types.Error)
     requires item.Type.HierarchicalSymmetricVersion? || item.Type.ActiveHierarchicalSymmetricBeacon?
   {
-    var opaqueKmsError? := ExtractKmsOpaque(error);
-    var kmsErrorMessage? := ExtractMessageFromKmsError(error);
+    var opaqueKmsError? := KmsUtils.ExtractKmsOpaque(error);
+    var kmsErrorMessage? := KmsUtils.ExtractMessageFromKmsError(error);
     var itemType := match item.Type {
       // case ActiveHierarchicalSymmetricVersion(version) => Structure.BRANCH_KEY_ACTIVE_TYPE
       case ActiveHierarchicalSymmetricBeacon(version) => Structure.BEACON_KEY_TYPE_VALUE
