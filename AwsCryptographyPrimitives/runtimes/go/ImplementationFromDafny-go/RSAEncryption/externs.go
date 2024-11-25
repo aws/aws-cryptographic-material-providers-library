@@ -76,7 +76,7 @@ func (CompanionStruct_Default___) DecryptExtern(paddingMode AwsCryptographyPrimi
 func (CompanionStruct_Default___) EncryptExtern(paddingMode AwsCryptographyPrimitivesTypes.RSAPaddingMode, key dafny.Sequence, plainText dafny.Sequence) Wrappers.Result {
 	derPublicKey, rest := pem.Decode(dafny.ToByteArray(key))
 	if len(rest) > 0 {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char("Invalid PEM data: Found unexpected trailing data after PEM block")...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(fmt.Errorf("failed to decode PEM: invalid bytes:  %s", rest).Error())...)))
 	}
 
 	publicKey, err := x509.ParsePKIXPublicKey(derPublicKey.Bytes)
