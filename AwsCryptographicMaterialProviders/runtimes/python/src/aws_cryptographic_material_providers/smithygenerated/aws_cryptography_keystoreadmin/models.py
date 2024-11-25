@@ -71,6 +71,71 @@ class MutationToken:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
+class AwsKmsDecryptEncrypt:
+    decrypt: Optional[AwsKms]
+    encrypt: Optional[AwsKms]
+
+    def __init__(
+        self,
+        *,
+        decrypt: Optional[AwsKms] = None,
+        encrypt: Optional[AwsKms] = None,
+    ):
+        """
+        :param decrypt: The KMS Client (and Grant Tokens) used to Decrypt Branch Key
+        Store Items.
+        :param encrypt: The KMS Client (and Grant Tokens) used to Encrypt Branch Key
+        Store Items
+             and to Generate new Cryptographic Material.
+        """
+        self.decrypt = decrypt
+        self.encrypt = encrypt
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the AwsKmsDecryptEncrypt to a dictionary."""
+        d: Dict[str, Any] = {}
+
+        if self.decrypt is not None:
+            d["decrypt"] = self.decrypt.as_dict()
+
+        if self.encrypt is not None:
+            d["encrypt"] = self.encrypt.as_dict()
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "AwsKmsDecryptEncrypt":
+        """Creates a AwsKmsDecryptEncrypt from a dictionary."""
+        kwargs: Dict[str, Any] = {}
+
+        if "decrypt" in d:
+            kwargs["decrypt"] = AwsKms.from_dict(d["decrypt"])
+
+        if "encrypt" in d:
+            kwargs["encrypt"] = AwsKms.from_dict(d["encrypt"])
+
+        return AwsKmsDecryptEncrypt(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "AwsKmsDecryptEncrypt("
+        if self.decrypt is not None:
+            result += f"decrypt={repr(self.decrypt)}, "
+
+        if self.encrypt is not None:
+            result += f"encrypt={repr(self.encrypt)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, AwsKmsDecryptEncrypt):
+            return False
+        attributes: list[str] = [
+            "decrypt",
+            "encrypt",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
 class KeyManagementStrategyAwsKmsReEncrypt:
     """Key Store Items are authenticated and re-wrapped via KMS ReEncrypt,
     executed with the provided Grant Tokens and KMS Client.
@@ -103,6 +168,42 @@ class KeyManagementStrategyAwsKmsReEncrypt:
         return self.value == other.value
 
 
+class KeyManagementStrategyAwsKmsDecryptEncrypt:
+    """Key Store Items are authenticated and re-wrapped via a Decrypt and then
+    Encrypt request. This is two separate requests to Key Management, as
+    compared to one. But the Decrypt requests will use the Decrypt KMS Client
+    (and Grant Tokens), while the Encrypt requests will use the Encrypt KMS
+    Client (and Grant Tokens). This option affords for different credentials to
+    be utilized, based on the operation. When Generating new material,
+
+    KMS GenerateDataKeyWithoutPlaintext will be executed against the
+    Encrypt option.
+    """
+
+    def __init__(self, value: AwsKmsDecryptEncrypt):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"AwsKmsDecryptEncrypt": self.value.as_dict()}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KeyManagementStrategyAwsKmsDecryptEncrypt":
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return KeyManagementStrategyAwsKmsDecryptEncrypt(
+            AwsKmsDecryptEncrypt.from_dict(d["AwsKmsDecryptEncrypt"])
+        )
+
+    def __repr__(self) -> str:
+        return f"KeyManagementStrategyAwsKmsDecryptEncrypt(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, KeyManagementStrategyAwsKmsDecryptEncrypt):
+            return False
+        return self.value == other.value
+
+
 class KeyManagementStrategyUnknown:
     """Represents an unknown variant.
 
@@ -131,13 +232,18 @@ class KeyManagementStrategyUnknown:
 # This configures which Key Management Operations will be used    AND the Key
 # Management Clients (and Grant Tokens) used to invoke those Operations.
 KeyManagementStrategy = Union[
-    KeyManagementStrategyAwsKmsReEncrypt, KeyManagementStrategyUnknown
+    KeyManagementStrategyAwsKmsReEncrypt,
+    KeyManagementStrategyAwsKmsDecryptEncrypt,
+    KeyManagementStrategyUnknown,
 ]
 
 
 def _key_management_strategy_from_dict(d: Dict[str, Any]) -> KeyManagementStrategy:
     if "AwsKmsReEncrypt" in d:
         return KeyManagementStrategyAwsKmsReEncrypt.from_dict(d)
+
+    if "AwsKmsDecryptEncrypt" in d:
+        return KeyManagementStrategyAwsKmsDecryptEncrypt.from_dict(d)
 
     raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 

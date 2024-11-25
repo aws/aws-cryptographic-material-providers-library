@@ -23,6 +23,7 @@ import software.amazon.cryptography.keystoreadmin.internaldafny.types.IKeyStoreA
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationResult;
+import software.amazon.cryptography.keystoreadmin.model.AwsKmsDecryptEncrypt;
 import software.amazon.cryptography.keystoreadmin.model.CollectionOfErrors;
 import software.amazon.cryptography.keystoreadmin.model.CreateKeyInput;
 import software.amazon.cryptography.keystoreadmin.model.CreateKeyOutput;
@@ -283,6 +284,27 @@ public class ToNative {
     nativeBuilder.MutatedBranchKeyItems(
       ToNative.MutatedBranchKeyItems(dafnyValue.dtor_MutatedBranchKeyItems())
     );
+    return nativeBuilder.build();
+  }
+
+  public static AwsKmsDecryptEncrypt AwsKmsDecryptEncrypt(
+    software.amazon.cryptography.keystoreadmin.internaldafny.types.AwsKmsDecryptEncrypt dafnyValue
+  ) {
+    AwsKmsDecryptEncrypt.Builder nativeBuilder = AwsKmsDecryptEncrypt.builder();
+    if (dafnyValue.dtor_decrypt().is_Some()) {
+      nativeBuilder.decrypt(
+        software.amazon.cryptography.keystore.ToNative.AwsKms(
+          dafnyValue.dtor_decrypt().dtor_value()
+        )
+      );
+    }
+    if (dafnyValue.dtor_encrypt().is_Some()) {
+      nativeBuilder.encrypt(
+        software.amazon.cryptography.keystore.ToNative.AwsKms(
+          dafnyValue.dtor_encrypt().dtor_value()
+        )
+      );
+    }
     return nativeBuilder.build();
   }
 
@@ -628,6 +650,11 @@ public class ToNative {
         software.amazon.cryptography.keystore.ToNative.AwsKms(
           dafnyValue.dtor_AwsKmsReEncrypt()
         )
+      );
+    }
+    if (dafnyValue.is_AwsKmsDecryptEncrypt()) {
+      nativeBuilder.AwsKmsDecryptEncrypt(
+        ToNative.AwsKmsDecryptEncrypt(dafnyValue.dtor_AwsKmsDecryptEncrypt())
       );
     }
     return nativeBuilder.build();
