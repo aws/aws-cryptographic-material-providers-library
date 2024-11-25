@@ -39,7 +39,7 @@ module {:options "/functionSyntax:4" } TestSystemKey.TestInitializeMutation {
   const physicalName: string := Fixtures.branchKeyStoreName
   const logicalName: string := Fixtures.logicalKeyStoreName
 
-  const trustStorageHPrefix := "\nSystemKey.TestInitializeMutation :: TrustStorageHappyCase :: "
+  const trustStorageHPrefix := "\nTestSystemKey.TestInitializeMutation :: TrustStorageHappyCase :: "
   const trustStorageHCaseId := "dafny-system-key-test-initialize-mutation-trust-storage-happy-case"
   method {:test} TrustStorageHappyCase()
   {
@@ -80,19 +80,56 @@ module {:options "/functionSyntax:4" } TestSystemKey.TestInitializeMutation {
 
     var sadOutput := underTest.InitializeMutation(sadInput);
     // TODO Restore this last expectation.
-    // expect sadOutput.Failure?, "Should have failed to initialize.";
+    expect sadOutput.Failure?, "Should have failed to initialize.";
 
     var ddbClient :- expect Fixtures.ProvideDDBClient();
-    var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
-    var lastActiveInput := KeyStoreTypes.GetEncryptedActiveBranchKeyInput(Identifier:=testId);
-    var lastActive? :- expect storage.GetEncryptedActiveBranchKey(lastActiveInput);
-    expect lastActive?.Item.Type.ActiveHierarchicalSymmetricVersion?;
-    var lastActive := lastActive?.Item.Type.ActiveHierarchicalSymmetricVersion.Version;
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_ACTIVE_TYPE, ddbClient);
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BEACON_KEY_TYPE_VALUE, ddbClient);
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.MUTATION_COMMITMENT_TYPE, ddbClient);
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.MUTATION_INDEX_TYPE, ddbClient);
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_TYPE_PREFIX + lastActive, ddbClient);
+    var _ := CleanupItems.DeleteBranchKeyWithOneVersion(testId, ddbClient);
+  }
+
+  const kmsSymEncHPrefix := "\nTestSystemKey.TestInitializeMutation :: KmsSymEncHappyCase :: "
+  const kmsSymEncHCaseId := "dafny-system-key-test-initialize-mutation-kmsSymEnc-happy-case"
+  method {:test} KmsSymEncHappyCase()
+  {
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var underTest :- expect AdminFixtures.DefaultAdmin();
+    var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var kmSystemKey := Types.SystemKey.kmsSymmetricEncryption(
+      kmsSymmetricEncryption := Types.KmsSymmetricEncryption(
+        KmsArn := Types.KmsKeyArn(Fixtures.publicKeyArn),
+        AwsKms := KeyStoreTypes.AwsKms(
+          grantTokens := None,
+          kmsClient := Some(kmsClient))));
+    var uuid :- expect UUID.GenerateUUID();
+    var testId := trustStorageHCaseId + "-" + uuid;
+    Fixtures.CreateHappyCaseId(id:=testId);
+
+    var mutationsRequest := Types.Mutations(TerminalKmsArn := Some(Fixtures.postalHornKeyArn));
+    var initInput := Types.InitializeMutationInput(
+      Identifier := testId,
+      Mutations := mutationsRequest,
+      Strategy := Some(strategy),
+      SystemKey := Some(kmSystemKey),
+      DoNotVersion := Some(false));
+    var initializeOutput :- expect underTest.InitializeMutation(initInput);
+    var initializeToken := initializeOutput.MutationToken;
+
+    var initializeAgainOutput :- expect underTest.InitializeMutation(initInput);
+    expect initializeToken == initializeAgainOutput.MutationToken;
+
+    var trustSK := Some(Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
+    var sadInput := Types.InitializeMutationInput(
+      Identifier := testId,
+      Mutations := mutationsRequest,
+      Strategy := Some(strategy),
+      SystemKey := trustSK,
+      DoNotVersion := Some(false));
+
+    var sadOutput := underTest.InitializeMutation(sadInput);
+    // TODO Restore this last expectation.
+    expect sadOutput.Failure?, "Should have failed to initialize.";
+
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var _ := CleanupItems.DeleteBranchKeyWithOneVersion(testId, ddbClient);
   }
 
 }
