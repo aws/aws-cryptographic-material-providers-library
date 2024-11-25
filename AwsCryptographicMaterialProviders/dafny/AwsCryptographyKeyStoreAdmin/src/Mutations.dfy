@@ -602,7 +602,7 @@ module {:options "/functionSyntax:4" } Mutations {
     }
   }
 
-  method {:only} {:isolate_assertions} ApplyMutation(
+  method {:isolate_assertions} ApplyMutation(
     input: InternalApplyMutationInput //Types.ApplyMutationInput,
     // logicalKeyStoreName: string,
     // keyManagerStrategy: KmsUtils.keyManagerStrat,
