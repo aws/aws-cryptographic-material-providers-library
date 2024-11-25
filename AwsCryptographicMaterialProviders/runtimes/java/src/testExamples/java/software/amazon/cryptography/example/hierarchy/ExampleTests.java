@@ -5,6 +5,8 @@ package software.amazon.cryptography.example.hierarchy;
 import org.testng.annotations.Test;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.StorageCheater;
+import software.amazon.cryptography.example.hierarchy.mutations.MutationExample;
+import software.amazon.cryptography.example.hierarchy.mutations.MutationResumeExample;
 import software.amazon.cryptography.keystore.KeyStorageInterface;
 import software.amazon.cryptography.keystoreadmin.model.SystemKey;
 import software.amazon.cryptography.keystoreadmin.model.TrustStorage;

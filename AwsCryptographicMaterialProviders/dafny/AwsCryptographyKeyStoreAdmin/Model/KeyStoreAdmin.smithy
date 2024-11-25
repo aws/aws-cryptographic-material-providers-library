@@ -11,6 +11,7 @@ use aws.polymorph#localService
 
 use com.amazonaws.dynamodb#DynamoDB_20120810
 use com.amazonaws.kms#TrentService
+use aws.cryptography.primitives#AwsCryptographicPrimitives
 use aws.cryptography.keyStore#KeyStore
 
 use aws.cryptography.keyStore#EncryptionContext
@@ -26,11 +27,16 @@ structure KmsClientReference {}
 structure DdbClientReference {}
 @reference(service: KeyStore)
 structure KeyStoreReference {}
+@reference(service: KeyStore)
+structure KeyStoreReference {}
+@reference(service: AwsCryptographicPrimitives)
+structure PrimitivesReference {}
 
 @localService(
   sdkId: "KeyStoreAdmin",
   config: KeyStoreAdminConfig,
   dependencies: [
+    AwsCryptographicPrimitives,
     DynamoDB_20120810,
     TrentService,
     KeyStore

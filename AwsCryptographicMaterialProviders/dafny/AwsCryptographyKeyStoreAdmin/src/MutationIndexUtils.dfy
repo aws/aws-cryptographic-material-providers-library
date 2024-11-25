@@ -18,16 +18,30 @@ include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 
 module {:options "/functionSyntax:4" } MutationIndexUtils {
   import opened Wrappers
-  import opened StandardLibrary.UInt
   import UTF8
 
-  type PageIndex = seq<uint8>
-  type ExclusiveStartKey = Option<seq<uint8>>
+  type PageIndex = UTF8.ValidUTF8Bytes
+  type ExclusiveStartKey = Option<UTF8.ValidUTF8Bytes>
 
-  const NOT_STARTED_UTF8_BYTES: seq<uint8> := [78,111,116,32,83,116,97,114,116,101,100]
-  // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=Tm90IFN0YXJ0ZWQ&oenc=65001&oeol=CR
-  const DONE_UTF8_BYTES: seq<uint8> := [68,111,110,101]
-  // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=RG9uZQ&oenc=65001&oeol=CR
+  // TODO: Investigate if allocating constant is more efficient than ASCII Encode.
+  // UTF-8 encoded "Not Started"
+  // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Hex('0x%20with%20comma',0)&input=Tm90IFN0YXJ0ZWQ&oenc=65001&oeol=CR
+  const NOT_STARTED_UTF8_BYTES: UTF8.ValidUTF8Bytes :=
+    var s :=
+      [0x4e,0x6f,0x74,0x20,0x53,0x74,0x61,0x72,0x74,0x65,0x64];
+    assert UTF8.ValidUTF8Seq(s) by {
+      assert UTF8.EncodeAscii("Not Started") == s;
+    }
+    s
+
+  // UTF-8 encoded "Done"
+  // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Hex('0x%20with%20comma',0)&input=RG9uZQ&oenc=65001&oeol=CR
+  const DONE_UTF8_BYTES: UTF8.ValidUTF8Bytes :=
+    var s := [0x44,0x6f,0x6e,0x65];
+    assert UTF8.ValidUTF8Seq(s) by {
+      assert UTF8.EncodeAscii("Done") == s;
+    }
+    s
 
   function PageIndexToExclusiveStartKey(
     pageIndex: PageIndex
