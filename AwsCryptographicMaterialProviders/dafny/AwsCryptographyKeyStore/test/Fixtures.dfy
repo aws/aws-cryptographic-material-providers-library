@@ -139,6 +139,10 @@ module Fixtures {
     assert s == UTF8.EncodeAscii("storage-does-not-validate-enc-only-that-is-binary");
     s
 
+  const NOW_BYTES : UTF8.ValidUTF8Bytes :=
+    var s := [0x6e, 0x6f, 0x77];
+    assert s == UTF8.EncodeAscii("now");
+    s
 
   // This function is the lie we will tell ourselves
   // about what the mutation scope is.
@@ -308,6 +312,11 @@ module Fixtures {
   const Robbie : UTF8.ValidUTF8Bytes :=
     var s := [0x52, 0x6f, 0x62, 0x62, 0x69, 0x65];
     assert s == UTF8.EncodeAscii("Robbie");
+    s
+
+  const Koda : UTF8.ValidUTF8Bytes :=
+    var s := [0x4b, 0x6f, 0x64, 0x61];
+    assert s == UTF8.EncodeAscii("Koda");
     s
 
   const IsADog : UTF8.ValidUTF8Bytes :=
