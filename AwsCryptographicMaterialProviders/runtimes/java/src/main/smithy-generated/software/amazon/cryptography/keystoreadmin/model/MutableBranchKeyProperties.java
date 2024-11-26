@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  *
  * Define the Mutable Properties of a Branch Key.
- * As of v1.8.0, the Mutable Properties are:
+ * As of v1.9.0, the Mutable Properties are:
  * - The KmsArn protecting the Branch Key
  * - The custom encryption context of a Branch Key
  */

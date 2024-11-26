@@ -455,3 +455,21 @@ structure KeyManagementException {
   @required
   message: String
 }
+
+@error("client")
+@documentation("
+The cipher-text or additional authenticated data incorporated into the cipher-text,
+such as the encryption context, is corrupted, missing, or otherwise invalid.
+For Branch Keys,
+the Encryption Context is a combination of:
+- the custom encryption context
+- storage identifiers (partition key, sort key, logical name)
+- metadata that binds the Branch Key to encrypted data (version)
+
+If any of the above are modified without calling KMS,
+the Branch Key's cipher-text becomes invalid.
+")
+structure BranchKeyCiphertextException {
+  @required
+  message: String,
+}
