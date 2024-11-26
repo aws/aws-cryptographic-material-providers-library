@@ -6,6 +6,10 @@ package software.amazon.cryptography.keystoreadmin.model;
 /**
  * The Storage is trusted enough for items of non-cryptographic material nature,
  * even if those items can affect the cryptographic materials.
+ * Permissions to modify the data store are sufficient
+ * to influence the contents of mutations in flight
+ * without needing a KMS key permission,
+ * which would otherwise be needed to do the same.
  */
 public class TrustStorage {
 
