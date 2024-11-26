@@ -442,7 +442,11 @@ public class ToNative {
   ) {
     KmsSymmetricEncryption.Builder nativeBuilder =
       KmsSymmetricEncryption.builder();
-    nativeBuilder.KmsArn(ToNative.KmsSymmetricKeyArn(dafnyValue.dtor_KmsArn()));
+    nativeBuilder.KmsArn(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_KmsArn()
+      )
+    );
     nativeBuilder.AwsKms(
       software.amazon.cryptography.keystore.ToNative.AwsKms(
         dafnyValue.dtor_AwsKms()
