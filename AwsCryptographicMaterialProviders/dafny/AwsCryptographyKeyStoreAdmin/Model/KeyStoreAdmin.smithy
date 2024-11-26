@@ -27,8 +27,6 @@ structure KmsClientReference {}
 structure DdbClientReference {}
 @reference(service: KeyStore)
 structure KeyStoreReference {}
-@reference(service: KeyStore)
-structure KeyStoreReference {}
 @reference(service: AwsCryptographicPrimitives)
 structure PrimitivesReference {}
 
@@ -57,6 +55,9 @@ service KeyStoreAdmin {
     MutationInvalidException
     aws.cryptography.keyStore#KeyStorageException
     aws.cryptography.keyStore#VersionRaceException
+    aws.cryptography.keyStore#BranchKeyCiphertextException
+    aws.cryptography.keyStore#AlreadyExistsConditionFailed
+    aws.cryptography.keyStore#NoLongerExistsConditionFailed
     UnexpectedStateException
     MutationFromException
     MutationToException
@@ -112,40 +113,54 @@ union KmsSymmetricKeyArn {
 }
 
 @documentation(
-"Items of non-cryptographic material nature are protected by KMS.
+"Items of a non-cryptographic material nature are protected by KMS.
 This is done by including all attributes of an item as Encryption Context
 in a KMS Encrypt or Decrypt call,
-effectively signing the attributes.")
+effectively signing the attributes.
+As a best practice,
+this KMS Key should be distinct from those used to protect Branch Keys.")
 structure KmsSymmetricEncryption {
   @required
-  KmsArn: KmsSymmetricKeyArn
+  KmsArn: com.amazonaws.kms#KeyIdType
   @required
   AwsKms: aws.cryptography.keyStore#AwsKms
 }
 
 @documentation(
 "The Storage is trusted enough for items of non-cryptographic material nature,
-even if those items can affect the cryptographic materials.")
+even if those items can affect the cryptographic materials.
+Permissions to modify the data store are sufficient
+to influence the contents of mutations in flight
+without needing a KMS key permission,
+which would otherwise be needed to do the same.")
 structure TrustStorage {}
 
 // TODO: verify version before release
 @documentation(
 "Key Store Admin protects any non-cryptographic
 items stored with this Key.
-As of v1.8.0, TrustStorage is the default behavior.")
+As of v1.9.0, TrustStorage is the default behavior.")
 union SystemKey {
-  @documentation(
-  "Items of non-cryptographic material nature are protected by KMS.
-  This is done by including all attributes of an item as Encryption Context
-  in a KMS Encrypt or Decrypt call,
-  effectively signing the attributes.")
   kmsSymmetricEncryption: KmsSymmetricEncryption
-  @documentation(
-  "The Storage is trusted enough for items of non-cryptographic material nature,
-  even if those items can affect the cryptographic materials.")
   trustStorage: TrustStorage
 }
 
+@documentation("
+Key Store Items are authenticated and re-wrapped via a Decrypt and then Encrypt request.
+This is two separate requests to Key Management, as compared to one.
+This is primarily intended for Branch Key Mutations
+that need to use separate credentials to change
+the KMS Key that protects a Branch Key.
+
+Branch Key Items in the original state
+will be Decrypted by the Decrypt KMS Client,
+and then Encrypted to the terminal state
+via the Encrypt KMS Client.
+
+Generation of a new Branch Key Version
+is done via GenerateDataKeyWithoutPlaintext,
+and then Decrypt and Encrypt requests against the Encrypt Client.
+")
 structure AwsKmsDecryptEncrypt {
   @documentation("The KMS Client (and Grant Tokens) used to Decrypt Branch Key Store Items.")
   decrypt: aws.cryptography.keyStore#AwsKms
@@ -165,16 +180,7 @@ union KeyManagementStrategy {
   This is one request to Key Management, as compared to two.
   But only one set of credentials can be used.")
   AwsKmsReEncrypt: aws.cryptography.keyStore#AwsKms,
-  @documentation(
-    "Key Store Items are authenticated and re-wrapped via a Decrypt and then Encrypt request.
-     This is two separate requests to Key Management, as compared to one. 
-     But the Decrypt requests will use the Decrypt KMS Client (and Grant Tokens),
-     while the Encrypt requests will use the Encrypt KMS Client (and Grant Tokens).
-     This option affords for different credentials to be utilized,
-     based on the operation.
-     When Generating new material,
-     KMS GenerateDataKeyWithoutPlaintext will be executed against
-     the Encrypt option.")
+
   AwsKmsDecryptEncrypt: AwsKmsDecryptEncrypt
 }
 
@@ -189,6 +195,7 @@ operation CreateKey {
   errors: [
     UnsupportedFeatureException
     aws.cryptography.keyStore#KeyStorageException
+    aws.cryptography.keyStore#AlreadyExistsConditionFailed
     KeyStoreAdminException
   ]
 }
@@ -229,7 +236,9 @@ operation VersionKey {
   errors: [
     UnsupportedFeatureException
     aws.cryptography.keyStore#VersionRaceException
-    aws.cryptography.keyStore#KeyStorageException
+    aws.cryptography.keyStore#KeyStorageException    
+    aws.cryptography.keyStore#NoLongerExistsConditionFailed
+    aws.cryptography.keyStore#BranchKeyCiphertextException    
     KeyStoreAdminException    
   ]
 }
@@ -265,6 +274,7 @@ operation InitializeMutation {
     MutationInvalidException
     aws.cryptography.keyStore#VersionRaceException
     aws.cryptography.keyStore#KeyStorageException
+    aws.cryptography.keyStore#BranchKeyCiphertextException
     MutationVerificationException
     MutationToException
     MutationFromException
@@ -287,7 +297,7 @@ structure InitializeMutationInput {
   @documentation("Optional. Defaults to TrustStorage. See System Key.")
   SystemKey: SystemKey
 
-  @documentation("Optional. Defaults to False. As of v1.8.0, setting this true throws a UnsupportedFeatureException.")
+  @documentation("Optional. Defaults to False. As of v1.9.0, setting this true throws a UnsupportedFeatureException.")
   DoNotVersion: Boolean
 }
 
@@ -347,12 +357,12 @@ structure InitializeMutationOutput {
   InitializeMutationFlag: InitializeMutationFlag
 }
 
-// TODO: assert release is v1.8.0
+// TODO: assert release is v1.9.0
 @documentation("
 Define the Mutation in terms of the terminal, or end state,
 value for a particular Branch Key property.
 The original value will be REPLACED with this value.
-As of v1.8.0, a Mutation can either:
+As of v1.9.0, a Mutation can either:
 - replace the KmsArn protecting the Branch Key
 - replace the custom encryption context
 - replace both the KmsArn and the custom encryption context")
@@ -377,6 +387,7 @@ operation ApplyMutation {
   output: ApplyMutationOutput
   errors: [
     aws.cryptography.keyStore#KeyStorageException
+    aws.cryptography.keyStore#BranchKeyCiphertextException    
     MutationInvalidException
     UnexpectedStateException
     MutationVerificationException
@@ -424,7 +435,7 @@ structure ApplyMutationOutput {
 // TODO: verify version before release
 @documentation("
 Define the Mutable Properties of a Branch Key.
-As of v1.8.0, the Mutable Properties are:
+As of v1.9.0, the Mutable Properties are:
 - The KmsArn protecting the Branch Key
 - The custom encryption context of a Branch Key")
 structure MutableBranchKeyProperties {
