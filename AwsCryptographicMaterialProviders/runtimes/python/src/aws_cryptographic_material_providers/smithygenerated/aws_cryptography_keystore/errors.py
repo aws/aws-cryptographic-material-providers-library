@@ -377,6 +377,68 @@ class VersionRaceException(ApiError[Literal["VersionRaceException"]]):
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
+class BranchKeyCiphertextException(ApiError[Literal["BranchKeyCiphertextException"]]):
+    code: Literal["BranchKeyCiphertextException"] = "BranchKeyCiphertextException"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        """The cipher-text or additional authenticated data incorporated into
+        the cipher-text, such as the encryption context, is corrupted, missing,
+        or otherwise invalid. For Branch Keys,
+
+        the Encryption Context is a combination of:
+        - the
+        custom encryption context
+        - storage identifiers (partition key, sort key,
+        logical name)
+        - metadata that binds the Branch Key to encrypted data
+        (version)
+
+        If any of the above are modified without calling KMS,
+        the Branch
+        Key's cipher-text becomes invalid.
+
+        :param message: A message associated with the specific error.
+        """
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the BranchKeyCiphertextException to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "BranchKeyCiphertextException":
+        """Creates a BranchKeyCiphertextException from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return BranchKeyCiphertextException(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "BranchKeyCiphertextException("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, BranchKeyCiphertextException):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
 class KeyManagementException(ApiError[Literal["KeyManagementException"]]):
     code: Literal["KeyManagementException"] = "KeyManagementException"
     message: str
@@ -427,6 +489,11 @@ class KeyManagementException(ApiError[Literal["KeyManagementException"]]):
 
 class AlreadyExistsConditionFailed(ApiError[Literal["AlreadyExistsConditionFailed"]]):
     code: Literal["AlreadyExistsConditionFailed"] = "AlreadyExistsConditionFailed"
+    message: str
+
+
+class BranchKeyCiphertextException(ApiError[Literal["BranchKeyCiphertextException"]]):
+    code: Literal["BranchKeyCiphertextException"] = "BranchKeyCiphertextException"
     message: str
 
 
@@ -644,6 +711,14 @@ def _smithy_error_to_dafny_error(e: ServiceError):
         aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.AlreadyExistsConditionFailed,
     ):
         return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_AlreadyExistsConditionFailed(
+            message=_dafny.Seq(e.message)
+        )
+
+    if isinstance(
+        e,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.BranchKeyCiphertextException,
+    ):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_BranchKeyCiphertextException(
             message=_dafny.Seq(e.message)
         )
 

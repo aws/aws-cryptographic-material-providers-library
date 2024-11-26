@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import software.amazon.cryptography.keystore.internaldafny.types.Error;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_AlreadyExistsConditionFailed;
+import software.amazon.cryptography.keystore.internaldafny.types.Error_BranchKeyCiphertextException;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_CollectionOfErrors;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_KeyManagementException;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStorageException;
@@ -30,6 +31,7 @@ import software.amazon.cryptography.keystore.model.ActiveHierarchicalSymmetricBe
 import software.amazon.cryptography.keystore.model.AlreadyExistsConditionFailed;
 import software.amazon.cryptography.keystore.model.AwsKms;
 import software.amazon.cryptography.keystore.model.BeaconKeyMaterials;
+import software.amazon.cryptography.keystore.model.BranchKeyCiphertextException;
 import software.amazon.cryptography.keystore.model.BranchKeyMaterials;
 import software.amazon.cryptography.keystore.model.CollectionOfErrors;
 import software.amazon.cryptography.keystore.model.CreateKeyInput;
@@ -146,6 +148,19 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static BranchKeyCiphertextException Error(
+    Error_BranchKeyCiphertextException dafnyValue
+  ) {
+    BranchKeyCiphertextException.Builder nativeBuilder =
+      BranchKeyCiphertextException.builder();
+    nativeBuilder.message(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_message()
+      )
+    );
+    return nativeBuilder.build();
+  }
+
   public static KeyManagementException Error(
     Error_KeyManagementException dafnyValue
   ) {
@@ -235,6 +250,9 @@ public class ToNative {
   public static RuntimeException Error(Error dafnyValue) {
     if (dafnyValue.is_AlreadyExistsConditionFailed()) {
       return ToNative.Error((Error_AlreadyExistsConditionFailed) dafnyValue);
+    }
+    if (dafnyValue.is_BranchKeyCiphertextException()) {
+      return ToNative.Error((Error_BranchKeyCiphertextException) dafnyValue);
     }
     if (dafnyValue.is_KeyManagementException()) {
       return ToNative.Error((Error_KeyManagementException) dafnyValue);
