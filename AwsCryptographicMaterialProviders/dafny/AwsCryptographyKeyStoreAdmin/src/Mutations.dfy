@@ -1087,18 +1087,33 @@ module {:options "/functionSyntax:4" } Mutations {
           kmsClient := kms.kmsClient
         );
       case decryptEncrypt(kmsD, kmsE) =>
-        // assume {:axiom} kmsD.kmsClient.Modifies !! kmsE.kmsClient.Modifies;
-        wrappedKey? := KMSKeystoreOperations.MutateViaDecryptEncrypt(
-          ciphertext := item.CiphertextBlob,
-          sourceEncryptionContext := item.EncryptionContext,
-          destinationEncryptionContext := terminalEncryptionContext,
-          sourceKmsArn := originalKmsArn,
-          destinationKmsArn := terminalKmsArn,
-          decryptGrantTokens := kmsD.grantTokens,
-          decryptKmsClient := kmsD.kmsClient,
-          encryptGrantTokens := kmsE.grantTokens,
-          encryptKmsClient := kmsE.kmsClient
-        );
+        if (localOperation == "InitializeMutation") {
+          // When using the decrypt encrypt strategy, we created the new DecryptOnly with the encrypt client.
+          // If we want to reencrypt it for the new active we must do so with only the encrypt client. This means
+          // that the encrypt client will perform both the decrypt and encrypt operations. Otherwise we assume that
+          // the decrypt client has permissions to decrypt the kms key that we are moving to. This is a wrong assumption.
+          wrappedKey? := KMSKeystoreOperations.MutateViaDecryptEncryptOnInitializeMutation(
+            ciphertext := item.CiphertextBlob,
+            sourceEncryptionContext := item.EncryptionContext,
+            destinationEncryptionContext := terminalEncryptionContext,
+            sourceKmsArn := originalKmsArn,
+            destinationKmsArn := terminalKmsArn,
+            grantTokens := kmsE.grantTokens,
+            kmsClient := kmsE.kmsClient
+          );
+        } else {
+          wrappedKey? := KMSKeystoreOperations.MutateViaDecryptEncrypt(
+            ciphertext := item.CiphertextBlob,
+            sourceEncryptionContext := item.EncryptionContext,
+            destinationEncryptionContext := terminalEncryptionContext,
+            sourceKmsArn := originalKmsArn,
+            destinationKmsArn := terminalKmsArn,
+            decryptGrantTokens := kmsD.grantTokens,
+            decryptKmsClient := kmsD.kmsClient,
+            encryptGrantTokens := kmsE.grantTokens,
+            encryptKmsClient := kmsE.kmsClient
+          );
+        }
     }
 
     // We call this method to create the new Active from the new Decrypt Only
@@ -1127,6 +1142,7 @@ module {:options "/functionSyntax:4" } Mutations {
                         wrappedKey?.value
                       ));
   }
+
 
   lemma FilterIsEmpty?<T>(f: (T ~> bool), xs: seq<T>)
     requires forall i :: 0 <= i < |xs| ==> f.requires(xs[i])
