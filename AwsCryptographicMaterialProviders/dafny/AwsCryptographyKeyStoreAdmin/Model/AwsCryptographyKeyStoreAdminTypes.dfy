@@ -193,7 +193,7 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     nameonly storage: AwsCryptographyKeyStoreTypes.Storage
   )
   datatype KmsSymmetricEncryption = | KmsSymmetricEncryption (
-    nameonly KmsArn: KmsSymmetricKeyArn ,
+    nameonly KmsArn: ComAmazonawsKmsTypes.KeyIdType ,
     nameonly AwsKms: AwsCryptographyKeyStoreTypes.AwsKms
   )
   datatype KmsSymmetricKeyArn =

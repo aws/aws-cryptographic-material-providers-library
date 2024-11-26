@@ -10,7 +10,7 @@ import java.util.Map;
  * Define the Mutation in terms of the terminal, or end state,
  * value for a particular Branch Key property.
  * The original value will be REPLACED with this value.
- * As of v1.8.0, a Mutation can either:
+ * As of v1.9.0, a Mutation can either:
  * - replace the KmsArn protecting the Branch Key
  * - replace the custom encryption context
  * - replace both the KmsArn and the custom encryption context

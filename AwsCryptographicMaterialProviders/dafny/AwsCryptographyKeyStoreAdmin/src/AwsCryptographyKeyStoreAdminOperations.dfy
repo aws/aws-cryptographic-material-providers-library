@@ -213,18 +213,9 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     }
     var kmsSym := systemKey.kmsSymmetricEncryption;
     var tuple :- ResolveKmsInput(kmsSym.AwsKms, config);
-    var keyId := match kmsSym.KmsArn {
-      case KmsKeyArn(arn) => arn
-      case KmsMRKeyArn(arn) => arn
-    };
-    :- Need(
-      KMS.Types.IsValid_KeyIdType(keyId),
-      Types.KeyStoreAdminException(
-        message := "Invalid KMS Key ID passed to System Key arguement: " + keyId)
-    );
     var internal := KmsUtils.KmsSymEnc(
       Tuple := tuple,
-      KeyId := keyId);
+      KeyId := kmsSym.KmsArn);
     assert internal.ValidState();
     return Success(internal);
   }

@@ -66,7 +66,7 @@ module {:options "/functionSyntax:4" } TestSystemKey.TestInitializeMutation {
 
     var kmSystemKey := Types.SystemKey.kmsSymmetricEncryption(
       kmsSymmetricEncryption := Types.KmsSymmetricEncryption(
-        KmsArn := Types.KmsKeyArn(Fixtures.publicKeyArn),
+        KmsArn := Fixtures.publicKeyArn,
         AwsKms := KeyStoreTypes.AwsKms(
           grantTokens := None,
           kmsClient := Some(kmsClient))));
@@ -95,7 +95,7 @@ module {:options "/functionSyntax:4" } TestSystemKey.TestInitializeMutation {
     var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
     var kmSystemKey := Types.SystemKey.kmsSymmetricEncryption(
       kmsSymmetricEncryption := Types.KmsSymmetricEncryption(
-        KmsArn := Types.KmsKeyArn(Fixtures.publicKeyArn),
+        KmsArn := Fixtures.publicKeyArn,
         AwsKms := KeyStoreTypes.AwsKms(
           grantTokens := None,
           kmsClient := Some(kmsClient))));
