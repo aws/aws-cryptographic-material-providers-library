@@ -9,6 +9,16 @@ include ../SharedMakefileV2.mk
 PROJECT_SERVICES := \
 	ComAmazonawsKms \
 
+MAIN_SERVICE_FOR_RUST := ComAmazonawsKms
+
+RUST_OTHER_FILES := \
+        runtimes/rust/src/concurrent_call.rs \
+        runtimes/rust/src/dafny_libraries.rs \
+        runtimes/rust/src/kms.rs \
+        runtimes/rust/src/sets.rs \
+        runtimes/rust/src/time.rs \
+        runtimes/rust/src/uuid.rs
+
 SERVICE_NAMESPACE_ComAmazonawsKms=com.amazonaws.kms
 MAX_RESOURCE_COUNT=10000000
 AWS_SDK_CMD := --aws-sdk

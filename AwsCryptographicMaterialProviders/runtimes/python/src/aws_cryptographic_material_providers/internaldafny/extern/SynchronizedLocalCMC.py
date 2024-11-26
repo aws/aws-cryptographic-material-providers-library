@@ -12,56 +12,74 @@ class SynchronizedLocalCMC:
 
     def PutCacheEntry(self, input):
         self.lock.Lock__()
-        val = self.wrapped.PutCacheEntry(input)
-        self.lock.Unlock()
+        try:
+            val = self.wrapped.PutCacheEntry(input)
+        finally:
+            self.lock.Unlock()
         return val
     
     def UpdateUsageMetadata(self, input):
         self.lock.Lock__()
-        val = self.wrapped.UpdateUsageMetadata(input)
-        self.lock.Unlock()
+        try:
+            val = self.wrapped.UpdateUsageMetadata(input)
+        finally:
+            self.lock.Unlock()
         return val
     
     def GetCacheEntry(self, input):
         self.lock.Lock__()
-        val = self.wrapped.GetCacheEntry(input)
-        self.lock.Unlock()
+        try:
+            val = self.wrapped.GetCacheEntry(input)
+        finally:
+            self.lock.Unlock()
         return val
     
     def DeleteCacheEntry(self, input):
         self.lock.Lock__()
-        val = self.wrapped.DeleteCacheEntry(input)
-        self.lock.Unlock()
+        try:
+            val = self.wrapped.DeleteCacheEntry(input)
+        finally:
+            self.lock.Unlock()
         return val
     
     def PutCacheEntry_k(self, input):
         self.lock.Lock__()
-        val = self.wrapped.PutCacheEntry(input)
-        self.lock.Unlock()
+        try:
+            val = self.wrapped.PutCacheEntry(input)
+        finally:
+            self.lock.Unlock()
         return val
     
     def UpdateUsageMetadata_k(self, input):
         self.lock.Lock__()
-        val = self.wrapped.UpdateUsageMetadata(input)
-        self.lock.Unlock()
+        try:
+            val = self.wrapped.UpdateUsageMetadata(input)
+        finally:
+            self.lock.Unlock()
         return val
     
     def GetFromCacheInner(self, input):
         self.lock.Lock__()
-        val = self.wrapped.GetFromCache(input)
-        self.lock.Unlock()
+        try:
+            val = self.wrapped.GetFromCache(input)
+        finally:
+            self.lock.Unlock()
         return val
     
     def GetCacheEntry_k(self, input):
         self.lock.Lock__()
-        val = self.wrapped.GetCacheEntry(input)
-        self.lock.Unlock()
+        try:
+            val = self.wrapped.GetCacheEntry(input)
+        finally:
+            self.lock.Unlock()
         return val
 
     def DeleteCacheEntry_k(self, input):
         self.lock.Lock__()
-        val = self.wrapped.DeleteCacheEntry(input)
-        self.lock.Unlock()
+        try:
+            val = self.wrapped.DeleteCacheEntry(input)
+        finally:
+            self.lock.Unlock()
         return val
     
     def __str__(self):

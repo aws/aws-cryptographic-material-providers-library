@@ -1,8 +1,13 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
+include "../../libraries/src/Wrappers.dfy"
+include "Sequence.dfy"
 
 module StandardLibrary.String {
-  export provides Int2String, Base10Int2String
+  import Wrappers
+  import opened UInt
+  import opened Sequence
+  export provides Int2String, Base10Int2String, HasSubString, Wrappers, UInt
 
   const Base10: seq<char> := ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
@@ -47,5 +52,38 @@ module StandardLibrary.String {
   function method Base10Int2String(n: int) : string
   {
     Int2String(n, Base10)
+  }
+
+  /* Returns the index of a substring or None, if the substring is not in the string */
+  method HasSubString(haystack: string, needle: string)
+    returns (o: Wrappers.Option<nat>)
+
+    ensures o.Some? ==>
+              && o.value <= |haystack| - |needle| && haystack[o.value..(o.value + |needle|)] == needle
+              && (forall i | 0 <= i < o.value :: haystack[i..][..|needle|] != needle)
+
+    ensures |haystack| < |needle| || |haystack| > (UINT64_MAX_LIMIT-1) ==> o.None?
+
+    ensures o.None? && |needle| <= |haystack| && |haystack| <= (UINT64_MAX_LIMIT-1) ==>
+              (forall i | 0 <= i <= (|haystack|-|needle|) :: haystack[i..][..|needle|] != needle)
+  {
+    if |haystack| < |needle| {
+      return Wrappers.None;
+    }
+
+    // `-1` is needed because of how `limit` is calculated below
+    expect |haystack| <= (UINT64_MAX_LIMIT-1);
+
+    var size : uint64 := |needle| as uint64;
+    var limit: uint64 := |haystack| as uint64 - size + 1;
+
+    for index := 0 to limit
+      invariant forall i | 0 <= i < index :: haystack[i..][..size] != needle
+    {
+      if SequenceEqual(seq1 := haystack, seq2 := needle, start1 := index, start2 := 0, size := size) {
+        return Wrappers.Some(index as nat);
+      }
+    }
+    return Wrappers.None;
   }
 }

@@ -118,9 +118,9 @@ module TestComAmazonawsKms {
     var ret := client.GenerateDataKeyWithoutPlaintext(failingInput);
     expect ret.Failure?;
     var err: Kms.Types.Error := ret.error;
-    expect err.Opaque?;
+    expect err.OpaqueWithText?;
     match err {
-      case Opaque(obj) => expect true;
+      case OpaqueWithText(obj, objMessage) => expect true;
       case _ => expect false, "Failing KMS Key MUST cause an OpaqueError that can later be unwrapped to a proper but generic KMS Exception.";
     }
   }

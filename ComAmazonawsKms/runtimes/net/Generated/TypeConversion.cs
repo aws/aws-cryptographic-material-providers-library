@@ -6681,7 +6681,7 @@ namespace Com.Amazonaws.Kms
                     return FromDafny_N3_com__N9_amazonaws__N3_kms__S55_XksProxyVpcEndpointServiceInvalidConfigurationException(dafnyVal);
                 case software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyVpcEndpointServiceNotFoundException dafnyVal:
                     return FromDafny_N3_com__N9_amazonaws__N3_kms__S43_XksProxyVpcEndpointServiceNotFoundException(dafnyVal);
-                case software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque dafnyVal:
+                case software.amazon.cryptography.services.kms.internaldafny.types.Error_OpaqueWithText dafnyVal:
                     return new SystemException(dafnyVal._obj.ToString());
                 default:
                     // The switch MUST be complete for _IError, so `value` MUST NOT be an _IError. (How did you get here?)
@@ -6837,7 +6837,7 @@ namespace Com.Amazonaws.Kms
                     return TypeConversion.ToDafny_N3_com__N9_amazonaws__N3_kms__S43_XksProxyVpcEndpointServiceNotFoundException(e);
 
                 default:
-                    return new software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque(value);
+                    return new software.amazon.cryptography.services.kms.internaldafny.types.Error_OpaqueWithText(value, Dafny.Sequence<char>.FromString(value.ToString()));
 
             }
         }

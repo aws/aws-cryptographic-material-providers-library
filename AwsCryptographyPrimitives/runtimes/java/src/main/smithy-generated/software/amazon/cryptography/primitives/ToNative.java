@@ -15,6 +15,7 @@ import software.amazon.cryptography.primitives.internaldafny.types.Error;
 import software.amazon.cryptography.primitives.internaldafny.types.Error_AwsCryptographicPrimitivesError;
 import software.amazon.cryptography.primitives.internaldafny.types.Error_CollectionOfErrors;
 import software.amazon.cryptography.primitives.internaldafny.types.Error_Opaque;
+import software.amazon.cryptography.primitives.internaldafny.types.Error_OpaqueWithText;
 import software.amazon.cryptography.primitives.internaldafny.types.IAwsCryptographicPrimitivesClient;
 import software.amazon.cryptography.primitives.model.AESDecryptInput;
 import software.amazon.cryptography.primitives.model.AESEncryptInput;
@@ -56,6 +57,7 @@ import software.amazon.cryptography.primitives.model.HkdfExtractInput;
 import software.amazon.cryptography.primitives.model.HkdfInput;
 import software.amazon.cryptography.primitives.model.KdfCtrInput;
 import software.amazon.cryptography.primitives.model.OpaqueError;
+import software.amazon.cryptography.primitives.model.OpaqueWithTextError;
 import software.amazon.cryptography.primitives.model.ParsePublicKeyInput;
 import software.amazon.cryptography.primitives.model.ParsePublicKeyOutput;
 import software.amazon.cryptography.primitives.model.RSADecryptInput;
@@ -71,6 +73,17 @@ public class ToNative {
   public static OpaqueError Error(Error_Opaque dafnyValue) {
     OpaqueError.Builder nativeBuilder = OpaqueError.builder();
     nativeBuilder.obj(dafnyValue.dtor_obj());
+    return nativeBuilder.build();
+  }
+
+  public static OpaqueWithTextError Error(Error_OpaqueWithText dafnyValue) {
+    OpaqueWithTextError.Builder nativeBuilder = OpaqueWithTextError.builder();
+    nativeBuilder.obj(dafnyValue.dtor_obj());
+    nativeBuilder.objMessage(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_objMessage()
+      )
+    );
     return nativeBuilder.build();
   }
 
@@ -109,6 +122,9 @@ public class ToNative {
     }
     if (dafnyValue.is_Opaque()) {
       return ToNative.Error((Error_Opaque) dafnyValue);
+    }
+    if (dafnyValue.is_OpaqueWithText()) {
+      return ToNative.Error((Error_OpaqueWithText) dafnyValue);
     }
     if (dafnyValue.is_CollectionOfErrors()) {
       return ToNative.Error((Error_CollectionOfErrors) dafnyValue);

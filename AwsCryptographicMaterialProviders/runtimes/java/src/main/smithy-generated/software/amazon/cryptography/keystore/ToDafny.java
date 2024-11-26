@@ -41,6 +41,7 @@ import software.amazon.cryptography.keystore.internaldafny.types.VersionKeyOutpu
 import software.amazon.cryptography.keystore.model.CollectionOfErrors;
 import software.amazon.cryptography.keystore.model.KeyStoreException;
 import software.amazon.cryptography.keystore.model.OpaqueError;
+import software.amazon.cryptography.keystore.model.OpaqueWithTextError;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.IDynamoDBClient;
 import software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient;
 
@@ -53,6 +54,9 @@ public class ToDafny {
     if (nativeValue instanceof OpaqueError) {
       return ToDafny.Error((OpaqueError) nativeValue);
     }
+    if (nativeValue instanceof OpaqueWithTextError) {
+      return ToDafny.Error((OpaqueWithTextError) nativeValue);
+    }
     if (nativeValue instanceof CollectionOfErrors) {
       return ToDafny.Error((CollectionOfErrors) nativeValue);
     }
@@ -61,6 +65,13 @@ public class ToDafny {
 
   public static Error Error(OpaqueError nativeValue) {
     return Error.create_Opaque(nativeValue.obj());
+  }
+
+  public static Error Error(OpaqueWithTextError nativeValue) {
+    return Error.create_OpaqueWithText(
+      nativeValue.obj(),
+      dafny.DafnySequence.asString(nativeValue.objMessage())
+    );
   }
 
   public static Error Error(CollectionOfErrors nativeValue) {

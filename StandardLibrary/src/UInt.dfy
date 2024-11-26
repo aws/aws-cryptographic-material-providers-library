@@ -16,6 +16,7 @@ module StandardLibrary.UInt {
   const UINT64_LIMIT := BoundedInts.UINT64_MAX as int + 1
   const INT32_MAX_LIMIT := BoundedInts.INT32_MAX as int
   const INT64_MAX_LIMIT := BoundedInts.INT64_MAX as int
+  const UINT64_MAX_LIMIT := BoundedInts.UINT64_MAX as int
 
   predicate method UInt8Less(a: uint8, b: uint8) { a < b }
 

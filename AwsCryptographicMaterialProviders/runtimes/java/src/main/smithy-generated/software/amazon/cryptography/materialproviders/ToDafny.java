@@ -126,6 +126,7 @@ import software.amazon.cryptography.materialproviders.model.InvalidDecryptionMat
 import software.amazon.cryptography.materialproviders.model.InvalidEncryptionMaterials;
 import software.amazon.cryptography.materialproviders.model.InvalidEncryptionMaterialsTransition;
 import software.amazon.cryptography.materialproviders.model.OpaqueError;
+import software.amazon.cryptography.materialproviders.model.OpaqueWithTextError;
 import software.amazon.cryptography.primitives.internaldafny.types.DigestAlgorithm;
 import software.amazon.cryptography.primitives.internaldafny.types.ECDHCurveSpec;
 import software.amazon.cryptography.primitives.internaldafny.types.ECDSASignatureAlgorithm;
@@ -170,6 +171,9 @@ public class ToDafny {
     if (nativeValue instanceof OpaqueError) {
       return ToDafny.Error((OpaqueError) nativeValue);
     }
+    if (nativeValue instanceof OpaqueWithTextError) {
+      return ToDafny.Error((OpaqueWithTextError) nativeValue);
+    }
     if (nativeValue instanceof CollectionOfErrors) {
       return ToDafny.Error((CollectionOfErrors) nativeValue);
     }
@@ -178,6 +182,13 @@ public class ToDafny {
 
   public static Error Error(OpaqueError nativeValue) {
     return Error.create_Opaque(nativeValue.obj());
+  }
+
+  public static Error Error(OpaqueWithTextError nativeValue) {
+    return Error.create_OpaqueWithText(
+      nativeValue.obj(),
+      dafny.DafnySequence.asString(nativeValue.objMessage())
+    );
   }
 
   public static Error Error(CollectionOfErrors nativeValue) {
