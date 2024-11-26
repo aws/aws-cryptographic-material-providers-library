@@ -116,14 +116,12 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     }
   }
 
-
   function EncryptionContextStringToJSON(
     encryptionContext: KeyStoreTypes.EncryptionContextString
   ): (output: JSONValues.JSON)
 
   {
-    var keys := SortedSets.ComputeSetToSequence(encryptionContext.Keys);
-
+    var keys := SortedSets.ComputeSetToOrderedSequence2(encryptionContext.Keys, (a, b) => a < b);
     if |keys| == 0 then
       JSONValues.Object([])
     else
