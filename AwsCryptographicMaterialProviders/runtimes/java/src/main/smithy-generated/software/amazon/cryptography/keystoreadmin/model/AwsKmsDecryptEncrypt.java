@@ -5,6 +5,23 @@ package software.amazon.cryptography.keystoreadmin.model;
 
 import software.amazon.cryptography.keystore.model.AwsKms;
 
+/**
+ *
+ * Key Store Items are authenticated and re-wrapped via a Decrypt and then Encrypt request.
+ * This is two separate requests to Key Management, as compared to one.
+ * This is primarily intended for Branch Key Mutations
+ * that need to use separate credentials to change
+ * the KMS Key that protects a Branch Key.
+ *
+ * Branch Key Items in the original state
+ * will be Decrypted by the Decrypt KMS Client,
+ * and then Encrypted to the terminal state
+ * via the Encrypt KMS Client.
+ *
+ * Generation of a new Branch Key Version
+ * is done via GenerateDataKeyWithoutPlaintext,
+ * and then Decrypt and Encrypt requests against the Encrypt Client.
+ */
 public class AwsKmsDecryptEncrypt {
 
   /**

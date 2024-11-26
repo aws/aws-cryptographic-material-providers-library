@@ -921,6 +921,9 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     | AlreadyExistsConditionFailed (
         nameonly message: string
       )
+    | BranchKeyCiphertextException (
+        nameonly message: string
+      )
     | KeyManagementException (
         nameonly message: string
       )
