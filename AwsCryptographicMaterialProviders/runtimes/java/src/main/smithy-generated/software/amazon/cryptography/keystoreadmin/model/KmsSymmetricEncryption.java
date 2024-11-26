@@ -7,14 +7,16 @@ import java.util.Objects;
 import software.amazon.cryptography.keystore.model.AwsKms;
 
 /**
- * Items of non-cryptographic material nature are protected by KMS.
+ * Items of a non-cryptographic material nature are protected by KMS.
  * This is done by including all attributes of an item as Encryption Context
  * in a KMS Encrypt or Decrypt call,
  * effectively signing the attributes.
+ * As a best practice,
+ * this KMS Key should be distinct from those used to protect Branch Keys.
  */
 public class KmsSymmetricEncryption {
 
-  private final KmsSymmetricKeyArn KmsArn;
+  private final String KmsArn;
 
   private final AwsKms AwsKms;
 
@@ -23,7 +25,7 @@ public class KmsSymmetricEncryption {
     this.AwsKms = builder.AwsKms();
   }
 
-  public KmsSymmetricKeyArn KmsArn() {
+  public String KmsArn() {
     return this.KmsArn;
   }
 
@@ -40,9 +42,9 @@ public class KmsSymmetricEncryption {
   }
 
   public interface Builder {
-    Builder KmsArn(KmsSymmetricKeyArn KmsArn);
+    Builder KmsArn(String KmsArn);
 
-    KmsSymmetricKeyArn KmsArn();
+    String KmsArn();
 
     Builder AwsKms(AwsKms AwsKms);
 
@@ -53,7 +55,7 @@ public class KmsSymmetricEncryption {
 
   static class BuilderImpl implements Builder {
 
-    protected KmsSymmetricKeyArn KmsArn;
+    protected String KmsArn;
 
     protected AwsKms AwsKms;
 
@@ -64,12 +66,12 @@ public class KmsSymmetricEncryption {
       this.AwsKms = model.AwsKms();
     }
 
-    public Builder KmsArn(KmsSymmetricKeyArn KmsArn) {
+    public Builder KmsArn(String KmsArn) {
       this.KmsArn = KmsArn;
       return this;
     }
 
-    public KmsSymmetricKeyArn KmsArn() {
+    public String KmsArn() {
       return this.KmsArn;
     }
 
@@ -86,6 +88,16 @@ public class KmsSymmetricEncryption {
       if (Objects.isNull(this.KmsArn())) {
         throw new IllegalArgumentException(
           "Missing value for required field `KmsArn`"
+        );
+      }
+      if (Objects.nonNull(this.KmsArn()) && this.KmsArn().length() < 1) {
+        throw new IllegalArgumentException(
+          "The size of `KmsArn` must be greater than or equal to 1"
+        );
+      }
+      if (Objects.nonNull(this.KmsArn()) && this.KmsArn().length() > 2048) {
+        throw new IllegalArgumentException(
+          "The size of `KmsArn` must be less than or equal to 2048"
         );
       }
       if (Objects.isNull(this.AwsKms())) {

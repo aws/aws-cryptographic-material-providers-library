@@ -34,6 +34,7 @@ import software.amazon.cryptography.keystore.internaldafny.types.DynamoDBTable;
 import software.amazon.cryptography.keystore.internaldafny.types.EncryptedHierarchicalKey;
 import software.amazon.cryptography.keystore.internaldafny.types.Error;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_AlreadyExistsConditionFailed;
+import software.amazon.cryptography.keystore.internaldafny.types.Error_BranchKeyCiphertextException;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_KeyManagementException;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStorageException;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStoreException;
@@ -90,6 +91,7 @@ import software.amazon.cryptography.keystore.internaldafny.types.WriteNewEncrypt
 import software.amazon.cryptography.keystore.internaldafny.types.WriteNewEncryptedBranchKeyVersionInput;
 import software.amazon.cryptography.keystore.internaldafny.types.WriteNewEncryptedBranchKeyVersionOutput;
 import software.amazon.cryptography.keystore.model.AlreadyExistsConditionFailed;
+import software.amazon.cryptography.keystore.model.BranchKeyCiphertextException;
 import software.amazon.cryptography.keystore.model.CollectionOfErrors;
 import software.amazon.cryptography.keystore.model.KeyManagementException;
 import software.amazon.cryptography.keystore.model.KeyStorageException;
@@ -108,6 +110,9 @@ public class ToDafny {
   public static Error Error(RuntimeException nativeValue) {
     if (nativeValue instanceof AlreadyExistsConditionFailed) {
       return ToDafny.Error((AlreadyExistsConditionFailed) nativeValue);
+    }
+    if (nativeValue instanceof BranchKeyCiphertextException) {
+      return ToDafny.Error((BranchKeyCiphertextException) nativeValue);
     }
     if (nativeValue instanceof KeyManagementException) {
       return ToDafny.Error((KeyManagementException) nativeValue);
@@ -1127,6 +1132,15 @@ public class ToDafny {
         nativeValue.message()
       );
     return new Error_AlreadyExistsConditionFailed(message);
+  }
+
+  public static Error Error(BranchKeyCiphertextException nativeValue) {
+    DafnySequence<? extends Character> message;
+    message =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.message()
+      );
+    return new Error_BranchKeyCiphertextException(message);
   }
 
   public static Error Error(KeyManagementException nativeValue) {
