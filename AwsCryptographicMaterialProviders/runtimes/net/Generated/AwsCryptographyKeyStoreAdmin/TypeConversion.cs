@@ -888,7 +888,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
     }
     public static AWS.Cryptography.KeyStoreAdmin.KmsSymmetricEncryption FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S22_KmsSymmetricEncryption(software.amazon.cryptography.keystoreadmin.internaldafny.types._IKmsSymmetricEncryption value)
     {
-      software.amazon.cryptography.keystoreadmin.internaldafny.types.KmsSymmetricEncryption concrete = (software.amazon.cryptography.keystoreadmin.internaldafny.types.KmsSymmetricEncryption)value; AWS.Cryptography.KeyStoreAdmin.KmsSymmetricEncryption converted = new AWS.Cryptography.KeyStoreAdmin.KmsSymmetricEncryption(); converted.KmsArn = (AWS.Cryptography.KeyStoreAdmin.KmsSymmetricKeyArn)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S22_KmsSymmetricEncryption__M6_KmsArn(concrete._KmsArn);
+      software.amazon.cryptography.keystoreadmin.internaldafny.types.KmsSymmetricEncryption concrete = (software.amazon.cryptography.keystoreadmin.internaldafny.types.KmsSymmetricEncryption)value; AWS.Cryptography.KeyStoreAdmin.KmsSymmetricEncryption converted = new AWS.Cryptography.KeyStoreAdmin.KmsSymmetricEncryption(); converted.KmsArn = (string)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S22_KmsSymmetricEncryption__M6_KmsArn(concrete._KmsArn);
       converted.AwsKms = (AWS.Cryptography.KeyStore.AwsKms)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S22_KmsSymmetricEncryption__M6_AwsKms(concrete._AwsKms); return converted;
     }
     public static software.amazon.cryptography.keystoreadmin.internaldafny.types._IKmsSymmetricEncryption ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S22_KmsSymmetricEncryption(AWS.Cryptography.KeyStoreAdmin.KmsSymmetricEncryption value)
@@ -1035,13 +1035,13 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       return ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S13_MutationToken(value);
     }
-    public static AWS.Cryptography.KeyStoreAdmin.KmsSymmetricKeyArn FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S22_KmsSymmetricEncryption__M6_KmsArn(software.amazon.cryptography.keystoreadmin.internaldafny.types._IKmsSymmetricKeyArn value)
+    public static string FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S22_KmsSymmetricEncryption__M6_KmsArn(Dafny.ISequence<char> value)
     {
-      return FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S18_KmsSymmetricKeyArn(value);
+      return FromDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
     }
-    public static software.amazon.cryptography.keystoreadmin.internaldafny.types._IKmsSymmetricKeyArn ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S22_KmsSymmetricEncryption__M6_KmsArn(AWS.Cryptography.KeyStoreAdmin.KmsSymmetricKeyArn value)
+    public static Dafny.ISequence<char> ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S22_KmsSymmetricEncryption__M6_KmsArn(string value)
     {
-      return ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S18_KmsSymmetricKeyArn(value);
+      return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
     }
     public static AWS.Cryptography.KeyStore.AwsKms FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S22_KmsSymmetricEncryption__M6_AwsKms(software.amazon.cryptography.keystore.internaldafny.types._IAwsKms value)
     {
@@ -1139,6 +1139,14 @@ namespace AWS.Cryptography.KeyStoreAdmin
       value.Validate();
 
       return new software.amazon.cryptography.keystoreadmin.internaldafny.types.MutationDetails(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_MutationDetails__M8_Original(value.Original), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_MutationDetails__M8_Terminal(value.Terminal), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_MutationDetails__M5_Input(value.Input), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_MutationDetails__M9_SystemKey(value.SystemKey), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_MutationDetails__M10_CreateTime(value.CreateTime), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_MutationDetails__M4_UUID(value.UUID));
+    }
+    public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(Dafny.ISequence<char> value)
+    {
+      return new string(value.Elements);
+    }
+    public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(string value)
+    {
+      return Dafny.Sequence<char>.FromString(value);
     }
     public static string FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S20_MutatedBranchKeyItem__M8_ItemType(Dafny.ISequence<char> value)
     {

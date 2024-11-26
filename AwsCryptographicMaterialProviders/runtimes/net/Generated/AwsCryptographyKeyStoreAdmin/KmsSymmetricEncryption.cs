@@ -7,9 +7,9 @@ namespace AWS.Cryptography.KeyStoreAdmin
 {
   public class KmsSymmetricEncryption
   {
-    private AWS.Cryptography.KeyStoreAdmin.KmsSymmetricKeyArn _kmsArn;
+    private string _kmsArn;
     private AWS.Cryptography.KeyStore.AwsKms _awsKms;
-    public AWS.Cryptography.KeyStoreAdmin.KmsSymmetricKeyArn KmsArn
+    public string KmsArn
     {
       get { return this._kmsArn; }
       set { this._kmsArn = value; }

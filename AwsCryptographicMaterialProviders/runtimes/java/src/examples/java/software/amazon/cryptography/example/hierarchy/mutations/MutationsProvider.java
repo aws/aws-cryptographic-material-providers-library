@@ -75,7 +75,7 @@ public class MutationsProvider {
         KmsSymmetricEncryption
           .builder()
           .AwsKms(tempAws)
-          .KmsArn(KmsSymmetricKeyArn.builder().KmsKeyArn(systemKeyArn).build())
+          .KmsArn(systemKeyArn)
           .build()
       )
       .build();
