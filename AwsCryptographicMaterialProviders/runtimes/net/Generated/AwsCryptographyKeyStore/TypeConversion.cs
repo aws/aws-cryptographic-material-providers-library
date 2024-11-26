@@ -24,6 +24,19 @@ namespace AWS.Cryptography.KeyStore
       ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_AlreadyExistsConditionFailed__M7_message(value.Message)
       );
     }
+    public static AWS.Cryptography.KeyStore.BranchKeyCiphertextException FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_BranchKeyCiphertextException(software.amazon.cryptography.keystore.internaldafny.types.Error_BranchKeyCiphertextException value)
+    {
+      return new AWS.Cryptography.KeyStore.BranchKeyCiphertextException(
+      FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_BranchKeyCiphertextException__M7_message(value._message)
+      );
+    }
+    public static software.amazon.cryptography.keystore.internaldafny.types.Error_BranchKeyCiphertextException ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_BranchKeyCiphertextException(AWS.Cryptography.KeyStore.BranchKeyCiphertextException value)
+    {
+
+      return new software.amazon.cryptography.keystore.internaldafny.types.Error_BranchKeyCiphertextException(
+      ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_BranchKeyCiphertextException__M7_message(value.Message)
+      );
+    }
     public static AWS.Cryptography.KeyStore.CreateKeyInput FromDafny_N3_aws__N12_cryptography__N8_keyStore__S14_CreateKeyInput(software.amazon.cryptography.keystore.internaldafny.types._ICreateKeyInput value)
     {
       software.amazon.cryptography.keystore.internaldafny.types.CreateKeyInput concrete = (software.amazon.cryptography.keystore.internaldafny.types.CreateKeyInput)value; AWS.Cryptography.KeyStore.CreateKeyInput converted = new AWS.Cryptography.KeyStore.CreateKeyInput(); if (concrete._branchKeyIdentifier.is_Some) converted.BranchKeyIdentifier = (string)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S14_CreateKeyInput__M19_branchKeyIdentifier(concrete._branchKeyIdentifier);
@@ -739,6 +752,14 @@ namespace AWS.Cryptography.KeyStore
       return FromDafny_N6_smithy__N3_api__S6_String(value);
     }
     public static Dafny.ISequence<char> ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_AlreadyExistsConditionFailed__M7_message(string value)
+    {
+      return ToDafny_N6_smithy__N3_api__S6_String(value);
+    }
+    public static string FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_BranchKeyCiphertextException__M7_message(Dafny.ISequence<char> value)
+    {
+      return FromDafny_N6_smithy__N3_api__S6_String(value);
+    }
+    public static Dafny.ISequence<char> ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_BranchKeyCiphertextException__M7_message(string value)
     {
       return ToDafny_N6_smithy__N3_api__S6_String(value);
     }
@@ -2180,6 +2201,8 @@ namespace AWS.Cryptography.KeyStore
           );
         case software.amazon.cryptography.keystore.internaldafny.types.Error_AlreadyExistsConditionFailed dafnyVal:
           return FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_AlreadyExistsConditionFailed(dafnyVal);
+        case software.amazon.cryptography.keystore.internaldafny.types.Error_BranchKeyCiphertextException dafnyVal:
+          return FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_BranchKeyCiphertextException(dafnyVal);
         case software.amazon.cryptography.keystore.internaldafny.types.Error_KeyManagementException dafnyVal:
           return FromDafny_N3_aws__N12_cryptography__N8_keyStore__S22_KeyManagementException(dafnyVal);
         case software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStorageException dafnyVal:
@@ -2225,6 +2248,8 @@ namespace AWS.Cryptography.KeyStore
       {
         case AWS.Cryptography.KeyStore.AlreadyExistsConditionFailed exception:
           return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_AlreadyExistsConditionFailed(exception);
+        case AWS.Cryptography.KeyStore.BranchKeyCiphertextException exception:
+          return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_BranchKeyCiphertextException(exception);
         case AWS.Cryptography.KeyStore.KeyManagementException exception:
           return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S22_KeyManagementException(exception);
         case AWS.Cryptography.KeyStore.KeyStorageException exception:

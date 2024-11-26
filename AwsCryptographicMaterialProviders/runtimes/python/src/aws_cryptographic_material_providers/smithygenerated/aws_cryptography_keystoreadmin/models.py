@@ -81,12 +81,25 @@ class AwsKmsDecryptEncrypt:
         decrypt: Optional[AwsKms] = None,
         encrypt: Optional[AwsKms] = None,
     ):
-        """
-        :param decrypt: The KMS Client (and Grant Tokens) used to Decrypt Branch Key
-        Store Items.
-        :param encrypt: The KMS Client (and Grant Tokens) used to Encrypt Branch Key
-        Store Items
-             and to Generate new Cryptographic Material.
+        """Key Store Items are authenticated and re-wrapped via a Decrypt and
+        then Encrypt request. This is two separate requests to Key Management,
+        as compared to one. This is primarily intended for Branch Key Mutations
+        that need to use separate credentials to change the KMS Key that
+        protects a Branch Key.
+
+        Branch Key Items in the original state will be Decrypted by the
+        Decrypt KMS Client, and then Encrypted to the terminal state via
+        the Encrypt KMS Client.
+
+        Generation of a new Branch Key Version is done via
+        GenerateDataKeyWithoutPlaintext, and then Decrypt and Encrypt
+        requests against the Encrypt Client.
+
+        :param decrypt: The KMS Client (and Grant Tokens) used to
+            Decrypt Branch Key Store Items.
+        :param encrypt: The KMS Client (and Grant Tokens) used to
+            Encrypt Branch Key Store Items and to Generate new
+            Cryptographic Material.
         """
         self.decrypt = decrypt
         self.encrypt = encrypt
@@ -171,13 +184,17 @@ class KeyManagementStrategyAwsKmsReEncrypt:
 class KeyManagementStrategyAwsKmsDecryptEncrypt:
     """Key Store Items are authenticated and re-wrapped via a Decrypt and then
     Encrypt request. This is two separate requests to Key Management, as
-    compared to one. But the Decrypt requests will use the Decrypt KMS Client
-    (and Grant Tokens), while the Encrypt requests will use the Encrypt KMS
-    Client (and Grant Tokens). This option affords for different credentials to
-    be utilized, based on the operation. When Generating new material,
+    compared to one. This is primarily intended for Branch Key Mutations that
+    need to use separate credentials to change the KMS Key that protects a
+    Branch Key.
 
-    KMS GenerateDataKeyWithoutPlaintext will be executed against the
-    Encrypt option.
+    Branch Key Items in the original state will be Decrypted by the
+    Decrypt KMS Client, and then Encrypted to the terminal state via the
+    Encrypt KMS Client.
+
+    Generation of a new Branch Key Version is done via
+    GenerateDataKeyWithoutPlaintext, and then Decrypt and Encrypt
+    requests against the Encrypt Client.
     """
 
     def __init__(self, value: AwsKmsDecryptEncrypt):
@@ -248,135 +265,36 @@ def _key_management_strategy_from_dict(d: Dict[str, Any]) -> KeyManagementStrate
     raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
 
-class KmsSymmetricKeyArnKmsKeyArn:
-    """Key Store is restricted to only this KMS Key ARN.
-
-    If a different KMS Key ARN is encountered   when creating,
-    versioning, or getting a Branch Key or Beacon Key,   KMS is never
-    called and an exception is thrown.   While a Multi-Region Key (MKR)
-    may be provided,   the whole ARN, including the Region,   is
-    persisted in Branch Keys and   MUST strictly equal this value to be
-    considered valid.
-    """
-
-    def __init__(self, value: str):
-        self.value = value
-
-    def as_dict(self) -> Dict[str, Any]:
-        return {"KmsKeyArn": self.value}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "KmsSymmetricKeyArnKmsKeyArn":
-        if len(d) != 1:
-            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-
-        return KmsSymmetricKeyArnKmsKeyArn(d["KmsKeyArn"])
-
-    def __repr__(self) -> str:
-        return f"KmsSymmetricKeyArnKmsKeyArn(value=repr(self.value))"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, KmsSymmetricKeyArnKmsKeyArn):
-            return False
-        return self.value == other.value
-
-
-class KmsSymmetricKeyArnKmsMRKeyArn:
-    """If an MRK ARN is provided, and the persisted Branch Key holds an MRK
-    ARN,
-
-    then those two ARNs may differ in region,   although they must be
-    otherwise equal.   If either ARN is not an MRK ARN, then KmsMRKeyArn
-    behaves exactly as kmsKeyArn.
-    """
-
-    def __init__(self, value: str):
-        self.value = value
-
-    def as_dict(self) -> Dict[str, Any]:
-        return {"KmsMRKeyArn": self.value}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "KmsSymmetricKeyArnKmsMRKeyArn":
-        if len(d) != 1:
-            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-
-        return KmsSymmetricKeyArnKmsMRKeyArn(d["KmsMRKeyArn"])
-
-    def __repr__(self) -> str:
-        return f"KmsSymmetricKeyArnKmsMRKeyArn(value=repr(self.value))"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, KmsSymmetricKeyArnKmsMRKeyArn):
-            return False
-        return self.value == other.value
-
-
-class KmsSymmetricKeyArnUnknown:
-    """Represents an unknown variant.
-
-    If you receive this value, you will need to update your library to
-    receive the parsed value.
-
-    This value may not be deliberately sent.
-    """
-
-    def __init__(self, tag: str):
-        self.tag = tag
-
-    def as_dict(self) -> Dict[str, Any]:
-        return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "KmsSymmetricKeyArnUnknown":
-        if len(d) != 1:
-            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return KmsSymmetricKeyArnUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
-
-    def __repr__(self) -> str:
-        return f"KmsSymmetricKeyArnUnknown(tag={self.tag})"
-
-
-KmsSymmetricKeyArn = Union[
-    KmsSymmetricKeyArnKmsKeyArn,
-    KmsSymmetricKeyArnKmsMRKeyArn,
-    KmsSymmetricKeyArnUnknown,
-]
-
-
-def _kms_symmetric_key_arn_from_dict(d: Dict[str, Any]) -> KmsSymmetricKeyArn:
-    if "KmsKeyArn" in d:
-        return KmsSymmetricKeyArnKmsKeyArn.from_dict(d)
-
-    if "KmsMRKeyArn" in d:
-        return KmsSymmetricKeyArnKmsMRKeyArn.from_dict(d)
-
-    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-
-
 class KmsSymmetricEncryption:
-    kms_arn: KmsSymmetricKeyArn
+    kms_arn: str
     aws_kms: AwsKms
 
     def __init__(
         self,
         *,
-        kms_arn: KmsSymmetricKeyArn,
+        kms_arn: str,
         aws_kms: AwsKms,
     ):
-        """Items of non-cryptographic material nature are protected by KMS.
+        """Items of a non-cryptographic material nature are protected by KMS.
 
         This is done by including all attributes of an item as
         Encryption Context in a KMS Encrypt or Decrypt call, effectively
-        signing the attributes.
+        signing the attributes. As a best practice, this KMS Key should
+        be distinct from those used to protect Branch Keys.
         """
+        if (kms_arn is not None) and (len(kms_arn) < 1):
+            raise ValueError("The size of kms_arn must be greater than or equal to 1")
+
+        if (kms_arn is not None) and (len(kms_arn) > 2048):
+            raise ValueError("The size of kms_arn must be less than or equal to 2048")
+
         self.kms_arn = kms_arn
         self.aws_kms = aws_kms
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the KmsSymmetricEncryption to a dictionary."""
         return {
-            "kms_arn": self.kms_arn.as_dict(),
+            "kms_arn": self.kms_arn,
             "aws_kms": self.aws_kms.as_dict(),
         }
 
@@ -384,7 +302,7 @@ class KmsSymmetricEncryption:
     def from_dict(d: Dict[str, Any]) -> "KmsSymmetricEncryption":
         """Creates a KmsSymmetricEncryption from a dictionary."""
         kwargs: Dict[str, Any] = {
-            "kms_arn": _kms_symmetric_key_arn_from_dict(d["kms_arn"]),
+            "kms_arn": d["kms_arn"],
             "aws_kms": AwsKms.from_dict(d["aws_kms"]),
         }
 
@@ -412,7 +330,12 @@ class KmsSymmetricEncryption:
 
 class TrustStorage:
     """The Storage is trusted enough for items of non-cryptographic material
-    nature, even if those items can affect the cryptographic materials."""
+    nature, even if those items can affect the cryptographic materials.
+
+    Permissions to modify the data store are sufficient to influence the
+    contents of mutations in flight without needing a KMS key
+    permission, which would otherwise be needed to do the same.
+    """
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the TrustStorage to a dictionary."""
@@ -433,11 +356,12 @@ class TrustStorage:
 
 
 class SystemKeyKmsSymmetricEncryption:
-    """Items of non-cryptographic material nature are protected by KMS.
+    """Items of a non-cryptographic material nature are protected by KMS.
 
     This is done by including all attributes of an item as Encryption
-    Context   in a KMS Encrypt or Decrypt call,   effectively signing
-    the attributes.
+    Context in a KMS Encrypt or Decrypt call, effectively signing the
+    attributes. As a best practice, this KMS Key should be distinct from
+    those used to protect Branch Keys.
     """
 
     def __init__(self, value: KmsSymmetricEncryption):
@@ -466,9 +390,11 @@ class SystemKeyKmsSymmetricEncryption:
 
 class SystemKeyTrustStorage:
     """The Storage is trusted enough for items of non-cryptographic material
-    nature,
+    nature, even if those items can affect the cryptographic materials.
 
-    even if those items can affect the cryptographic materials.
+    Permissions to modify the data store are sufficient to influence the
+    contents of mutations in flight without needing a KMS key
+    permission, which would otherwise be needed to do the same.
     """
 
     def __init__(self, value: TrustStorage):
@@ -519,7 +445,7 @@ class SystemKeyUnknown:
 
 
 # Key Store Admin protects any non-cryptographic items stored with this Key. As of
-# v1.8.0, TrustStorage is the default behavior.
+# v1.9.0, TrustStorage is the default behavior.
 SystemKey = Union[
     SystemKeyKmsSymmetricEncryption, SystemKeyTrustStorage, SystemKeyUnknown
 ]
@@ -865,6 +791,112 @@ class ApplyMutationOutput:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
+class KmsSymmetricKeyArnKmsKeyArn:
+    """Key Store is restricted to only this KMS Key ARN.
+
+    If a different KMS Key ARN is encountered   when creating,
+    versioning, or getting a Branch Key or Beacon Key,   KMS is never
+    called and an exception is thrown.   While a Multi-Region Key (MKR)
+    may be provided,   the whole ARN, including the Region,   is
+    persisted in Branch Keys and   MUST strictly equal this value to be
+    considered valid.
+    """
+
+    def __init__(self, value: str):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"KmsKeyArn": self.value}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KmsSymmetricKeyArnKmsKeyArn":
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return KmsSymmetricKeyArnKmsKeyArn(d["KmsKeyArn"])
+
+    def __repr__(self) -> str:
+        return f"KmsSymmetricKeyArnKmsKeyArn(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, KmsSymmetricKeyArnKmsKeyArn):
+            return False
+        return self.value == other.value
+
+
+class KmsSymmetricKeyArnKmsMRKeyArn:
+    """If an MRK ARN is provided, and the persisted Branch Key holds an MRK
+    ARN,
+
+    then those two ARNs may differ in region,   although they must be
+    otherwise equal.   If either ARN is not an MRK ARN, then KmsMRKeyArn
+    behaves exactly as kmsKeyArn.
+    """
+
+    def __init__(self, value: str):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"KmsMRKeyArn": self.value}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KmsSymmetricKeyArnKmsMRKeyArn":
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return KmsSymmetricKeyArnKmsMRKeyArn(d["KmsMRKeyArn"])
+
+    def __repr__(self) -> str:
+        return f"KmsSymmetricKeyArnKmsMRKeyArn(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, KmsSymmetricKeyArnKmsMRKeyArn):
+            return False
+        return self.value == other.value
+
+
+class KmsSymmetricKeyArnUnknown:
+    """Represents an unknown variant.
+
+    If you receive this value, you will need to update your library to
+    receive the parsed value.
+
+    This value may not be deliberately sent.
+    """
+
+    def __init__(self, tag: str):
+        self.tag = tag
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KmsSymmetricKeyArnUnknown":
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+        return KmsSymmetricKeyArnUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
+
+    def __repr__(self) -> str:
+        return f"KmsSymmetricKeyArnUnknown(tag={self.tag})"
+
+
+KmsSymmetricKeyArn = Union[
+    KmsSymmetricKeyArnKmsKeyArn,
+    KmsSymmetricKeyArnKmsMRKeyArn,
+    KmsSymmetricKeyArnUnknown,
+]
+
+
+def _kms_symmetric_key_arn_from_dict(d: Dict[str, Any]) -> KmsSymmetricKeyArn:
+    if "KmsKeyArn" in d:
+        return KmsSymmetricKeyArnKmsKeyArn.from_dict(d)
+
+    if "KmsMRKeyArn" in d:
+        return KmsSymmetricKeyArnKmsMRKeyArn.from_dict(d)
+
+    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+
 class CreateKeyInput:
     identifier: Optional[str]
     encryption_context: Optional[dict[str, str]]
@@ -1062,7 +1094,7 @@ class Mutations:
         for a particular Branch Key property. The original value will be
         REPLACED with this value.
 
-        As of v1.8.0, a Mutation can either:
+        As of v1.9.0, a Mutation can either:
         - replace the KmsArn protecting the
         Branch Key
         - replace the custom encryption context
@@ -1142,7 +1174,7 @@ class MutableBranchKeyProperties:
         kms_arn: str,
         custom_encryption_context: dict[str, str],
     ):
-        """Define the Mutable Properties of a Branch Key. As of v1.8.0, the
+        """Define the Mutable Properties of a Branch Key. As of v1.9.0, the
         Mutable.
 
         Properties are:
@@ -1501,7 +1533,7 @@ class InitializeMutationInput:
         the Branch Key.
         :param strategy: Optional. Defaults to reEncrypt with a default KMS Client.
         :param system_key: Optional. Defaults to TrustStorage. See System Key.
-        :param do_not_version: Optional. Defaults to False. As of v1.8.0, setting this
+        :param do_not_version: Optional. Defaults to False. As of v1.9.0, setting this
         true throws a UnsupportedFeatureException.
         """
         self.identifier = identifier

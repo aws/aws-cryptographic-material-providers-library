@@ -197,8 +197,8 @@ def aws_cryptography_keystoreadmin_SystemKey(dafny_input):
 
 def aws_cryptography_keystoreadmin_KmsSymmetricEncryption(dafny_input):
     return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.KmsSymmetricEncryption(
-        kms_arn=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_KmsSymmetricKeyArn(
-            dafny_input.KmsArn
+        kms_arn=b"".join(ord(c).to_bytes(2, "big") for c in dafny_input.KmsArn).decode(
+            "utf-16-be"
         ),
         aws_kms=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_AwsKms(
             dafny_input.AwsKms
