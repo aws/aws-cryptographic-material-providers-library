@@ -8,6 +8,7 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     CreateKeyStoreOutput_CreateKeyStoreOutput as DafnyCreateKeyStoreOutput,
     Error,
     Error_AlreadyExistsConditionFailed,
+    Error_BranchKeyCiphertextException,
     Error_KeyManagementException,
     Error_KeyStorageException,
     Error_KeyStoreException,
@@ -28,6 +29,7 @@ from typing import Any
 from .dafny_protocol import DafnyResponse
 from .errors import (
     AlreadyExistsConditionFailed,
+    BranchKeyCiphertextException,
     CollectionOfErrors,
     ComAmazonawsDynamodb,
     ComAmazonawsKms,
@@ -126,6 +128,8 @@ def _deserialize_error(error: Error) -> ServiceError:
         )
     elif error.is_AlreadyExistsConditionFailed:
         return AlreadyExistsConditionFailed(message=_dafny.string_of(error.message))
+    elif error.is_BranchKeyCiphertextException:
+        return BranchKeyCiphertextException(message=_dafny.string_of(error.message))
     elif error.is_KeyManagementException:
         return KeyManagementException(message=_dafny.string_of(error.message))
     elif error.is_KeyStorageException:

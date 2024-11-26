@@ -28,7 +28,7 @@ public class InitializeMutationInput {
   private final SystemKey SystemKey;
 
   /**
-   * Optional. Defaults to False. As of v1.8.0, setting this true throws a UnsupportedFeatureException.
+   * Optional. Defaults to False. As of v1.9.0, setting this true throws a UnsupportedFeatureException.
    */
   private final Boolean DoNotVersion;
 
@@ -69,7 +69,7 @@ public class InitializeMutationInput {
   }
 
   /**
-   * @return Optional. Defaults to False. As of v1.8.0, setting this true throws a UnsupportedFeatureException.
+   * @return Optional. Defaults to False. As of v1.9.0, setting this true throws a UnsupportedFeatureException.
    */
   public Boolean DoNotVersion() {
     return this.DoNotVersion;
@@ -125,12 +125,12 @@ public class InitializeMutationInput {
     SystemKey SystemKey();
 
     /**
-     * @param DoNotVersion Optional. Defaults to False. As of v1.8.0, setting this true throws a UnsupportedFeatureException.
+     * @param DoNotVersion Optional. Defaults to False. As of v1.9.0, setting this true throws a UnsupportedFeatureException.
      */
     Builder DoNotVersion(Boolean DoNotVersion);
 
     /**
-     * @return Optional. Defaults to False. As of v1.8.0, setting this true throws a UnsupportedFeatureException.
+     * @return Optional. Defaults to False. As of v1.9.0, setting this true throws a UnsupportedFeatureException.
      */
     Boolean DoNotVersion();
 
