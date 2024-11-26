@@ -1087,21 +1087,19 @@ module {:options "/functionSyntax:4" } Mutations {
           kmsClient := kms.kmsClient
         );
       case decryptEncrypt(kmsD, kmsE) =>
-        // When using the decrypt encrypt strategy, we created the new DecryptOnly with the encrypt client.
-        // If we want to reencrypt it for the new active we must do so with only the encrypt client. This means
-        // that the encrypt client will perform both the decrypt and encrypt operations. Otherwise we assume that
-        // the decrypt client has permissions to decrypt the kms key that we are moving to. This is a wrong assumption.
         if (localOperation == "InitializeMutation") {
-          wrappedKey? := KMSKeystoreOperations.MutateViaDecryptEncrypt(
+          // When using the decrypt encrypt strategy, we created the new DecryptOnly with the encrypt client.
+          // If we want to reencrypt it for the new active we must do so with only the encrypt client. This means
+          // that the encrypt client will perform both the decrypt and encrypt operations. Otherwise we assume that
+          // the decrypt client has permissions to decrypt the kms key that we are moving to. This is a wrong assumption.
+          wrappedKey? := KMSKeystoreOperations.MutateViaDecryptEncryptOnInitializeMutation(
             ciphertext := item.CiphertextBlob,
             sourceEncryptionContext := item.EncryptionContext,
             destinationEncryptionContext := terminalEncryptionContext,
             sourceKmsArn := originalKmsArn,
             destinationKmsArn := terminalKmsArn,
-            decryptGrantTokens := kmsE.grantTokens,
-            decryptKmsClient := kmsE.kmsClient,
-            encryptGrantTokens := kmsE.grantTokens,
-            encryptKmsClient := kmsE.kmsClient
+            grantTokens := kmsE.grantTokens,
+            kmsClient := kmsE.kmsClient
           );
         } else {
           wrappedKey? := KMSKeystoreOperations.MutateViaDecryptEncrypt(
