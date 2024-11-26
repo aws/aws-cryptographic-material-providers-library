@@ -358,8 +358,11 @@ public class ToDafny {
   public static KmsSymmetricEncryption KmsSymmetricEncryption(
     software.amazon.cryptography.keystoreadmin.model.KmsSymmetricEncryption nativeValue
   ) {
-    KmsSymmetricKeyArn kmsArn;
-    kmsArn = ToDafny.KmsSymmetricKeyArn(nativeValue.KmsArn());
+    DafnySequence<? extends Character> kmsArn;
+    kmsArn =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.KmsArn()
+      );
     AwsKms awsKms;
     awsKms =
       software.amazon.cryptography.keystore.ToDafny.AwsKms(

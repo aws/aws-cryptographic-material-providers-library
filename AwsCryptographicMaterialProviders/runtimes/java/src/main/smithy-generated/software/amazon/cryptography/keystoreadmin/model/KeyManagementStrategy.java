@@ -21,15 +21,21 @@ public class KeyManagementStrategy {
   private final AwsKms AwsKmsReEncrypt;
 
   /**
+   *
    * Key Store Items are authenticated and re-wrapped via a Decrypt and then Encrypt request.
-   *      This is two separate requests to Key Management, as compared to one.
-   *      But the Decrypt requests will use the Decrypt KMS Client (and Grant Tokens),
-   *      while the Encrypt requests will use the Encrypt KMS Client (and Grant Tokens).
-   *      This option affords for different credentials to be utilized,
-   *      based on the operation.
-   *      When Generating new material,
-   *      KMS GenerateDataKeyWithoutPlaintext will be executed against
-   *      the Encrypt option.
+   * This is two separate requests to Key Management, as compared to one.
+   * This is primarily intended for Branch Key Mutations
+   * that need to use separate credentials to change
+   * the KMS Key that protects a Branch Key.
+   *
+   * Branch Key Items in the original state
+   * will be Decrypted by the Decrypt KMS Client,
+   * and then Encrypted to the terminal state
+   * via the Encrypt KMS Client.
+   *
+   * Generation of a new Branch Key Version
+   * is done via GenerateDataKeyWithoutPlaintext,
+   * and then Decrypt and Encrypt requests against the Encrypt Client.
    */
   private final AwsKmsDecryptEncrypt AwsKmsDecryptEncrypt;
 
@@ -49,15 +55,21 @@ public class KeyManagementStrategy {
   }
 
   /**
-   * @return Key Store Items are authenticated and re-wrapped via a Decrypt and then Encrypt request.
-   *      This is two separate requests to Key Management, as compared to one.
-   *      But the Decrypt requests will use the Decrypt KMS Client (and Grant Tokens),
-   *      while the Encrypt requests will use the Encrypt KMS Client (and Grant Tokens).
-   *      This option affords for different credentials to be utilized,
-   *      based on the operation.
-   *      When Generating new material,
-   *      KMS GenerateDataKeyWithoutPlaintext will be executed against
-   *      the Encrypt option.
+   * @return
+   * Key Store Items are authenticated and re-wrapped via a Decrypt and then Encrypt request.
+   * This is two separate requests to Key Management, as compared to one.
+   * This is primarily intended for Branch Key Mutations
+   * that need to use separate credentials to change
+   * the KMS Key that protects a Branch Key.
+   *
+   * Branch Key Items in the original state
+   * will be Decrypted by the Decrypt KMS Client,
+   * and then Encrypted to the terminal state
+   * via the Encrypt KMS Client.
+   *
+   * Generation of a new Branch Key Version
+   * is done via GenerateDataKeyWithoutPlaintext,
+   * and then Decrypt and Encrypt requests against the Encrypt Client.
    */
   public AwsKmsDecryptEncrypt AwsKmsDecryptEncrypt() {
     return this.AwsKmsDecryptEncrypt;
@@ -89,28 +101,40 @@ public class KeyManagementStrategy {
     AwsKms AwsKmsReEncrypt();
 
     /**
-     * @param AwsKmsDecryptEncrypt Key Store Items are authenticated and re-wrapped via a Decrypt and then Encrypt request.
-     *      This is two separate requests to Key Management, as compared to one.
-     *      But the Decrypt requests will use the Decrypt KMS Client (and Grant Tokens),
-     *      while the Encrypt requests will use the Encrypt KMS Client (and Grant Tokens).
-     *      This option affords for different credentials to be utilized,
-     *      based on the operation.
-     *      When Generating new material,
-     *      KMS GenerateDataKeyWithoutPlaintext will be executed against
-     *      the Encrypt option.
+     * @param AwsKmsDecryptEncrypt
+     * Key Store Items are authenticated and re-wrapped via a Decrypt and then Encrypt request.
+     * This is two separate requests to Key Management, as compared to one.
+     * This is primarily intended for Branch Key Mutations
+     * that need to use separate credentials to change
+     * the KMS Key that protects a Branch Key.
+     *
+     * Branch Key Items in the original state
+     * will be Decrypted by the Decrypt KMS Client,
+     * and then Encrypted to the terminal state
+     * via the Encrypt KMS Client.
+     *
+     * Generation of a new Branch Key Version
+     * is done via GenerateDataKeyWithoutPlaintext,
+     * and then Decrypt and Encrypt requests against the Encrypt Client.
      */
     Builder AwsKmsDecryptEncrypt(AwsKmsDecryptEncrypt AwsKmsDecryptEncrypt);
 
     /**
-     * @return Key Store Items are authenticated and re-wrapped via a Decrypt and then Encrypt request.
-     *      This is two separate requests to Key Management, as compared to one.
-     *      But the Decrypt requests will use the Decrypt KMS Client (and Grant Tokens),
-     *      while the Encrypt requests will use the Encrypt KMS Client (and Grant Tokens).
-     *      This option affords for different credentials to be utilized,
-     *      based on the operation.
-     *      When Generating new material,
-     *      KMS GenerateDataKeyWithoutPlaintext will be executed against
-     *      the Encrypt option.
+     * @return
+     * Key Store Items are authenticated and re-wrapped via a Decrypt and then Encrypt request.
+     * This is two separate requests to Key Management, as compared to one.
+     * This is primarily intended for Branch Key Mutations
+     * that need to use separate credentials to change
+     * the KMS Key that protects a Branch Key.
+     *
+     * Branch Key Items in the original state
+     * will be Decrypted by the Decrypt KMS Client,
+     * and then Encrypted to the terminal state
+     * via the Encrypt KMS Client.
+     *
+     * Generation of a new Branch Key Version
+     * is done via GenerateDataKeyWithoutPlaintext,
+     * and then Decrypt and Encrypt requests against the Encrypt Client.
      */
     AwsKmsDecryptEncrypt AwsKmsDecryptEncrypt();
 
