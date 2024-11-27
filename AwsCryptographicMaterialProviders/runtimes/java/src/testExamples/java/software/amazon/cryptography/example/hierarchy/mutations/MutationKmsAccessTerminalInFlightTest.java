@@ -210,7 +210,7 @@ public class MutationKmsAccessTerminalInFlightTest {
     }
 
     // Clean Up
-    Fixtures.cleanUpBranchKeyId(storage, branchKeyId);
+    Fixtures.cleanUpBranchKeyId(storage, branchKeyId, false);
     Assert.assertTrue(
       (exceptions.size() == 2),
       "Only two exceptions should have been thrown. But got " +
