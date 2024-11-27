@@ -33,7 +33,7 @@ func (CompanionStruct_Default___) GenerateKeyPairExtern(bits int32) (dafny.Seque
 func (CompanionStruct_Default___) GetRSAKeyModulusLengthExtern(publicKeyInput dafny.Sequence) Wrappers.Result {
 	derPublicKey, rest := pem.Decode(dafny.ToByteArray(publicKeyInput))
 	if len(rest) > 0 {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char("dfewqfew")...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(fmt.Errorf("failed to decode PEM: invalid bytes:  %s", rest).Error())...)))
 	}
 	publicKey, err := x509.ParsePKIXPublicKey(derPublicKey.Bytes)
 	if err != nil {
@@ -61,7 +61,7 @@ func (CompanionStruct_Default___) DecryptExtern(paddingMode AwsCryptographyPrimi
 		return Wrappers.Companion_Result_.Create_Success_(dafny.SeqOfBytes(encryptedBytes))
 	}
 
-	mode, err := getNativePaddingMode(paddingMode)
+	mode, err := getNativeHashAlgorithm(paddingMode)
 	if err != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
@@ -72,10 +72,11 @@ func (CompanionStruct_Default___) DecryptExtern(paddingMode AwsCryptographyPrimi
 	}
 	return Wrappers.Companion_Result_.Create_Success_(dafny.SeqOfBytes(res))
 }
+
 func (CompanionStruct_Default___) EncryptExtern(paddingMode AwsCryptographyPrimitivesTypes.RSAPaddingMode, key dafny.Sequence, plainText dafny.Sequence) Wrappers.Result {
 	derPublicKey, rest := pem.Decode(dafny.ToByteArray(key))
 	if len(rest) > 0 {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char("dfewqfew")...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(fmt.Errorf("failed to decode PEM: invalid bytes:  %s", rest).Error())...)))
 	}
 
 	publicKey, err := x509.ParsePKIXPublicKey(derPublicKey.Bytes)
@@ -90,30 +91,28 @@ func (CompanionStruct_Default___) EncryptExtern(paddingMode AwsCryptographyPrimi
 		return Wrappers.Companion_Result_.Create_Success_(dafny.SeqOfBytes(encryptedBytes))
 	}
 
-	hash1, err := getNativePaddingMode(paddingMode)
+	hash1, err := getNativeHashAlgorithm(paddingMode)
 	if err != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
-	encryptedBytes, err := rsa.EncryptOAEP(crypto.Hash(hash1).New(), rand.Reader, publicKey.(*rsa.PublicKey), dafny.ToByteArray(plainText), nil)
+	encryptedBytes, err := rsa.EncryptOAEP(hash1.New(), rand.Reader, publicKey.(*rsa.PublicKey), dafny.ToByteArray(plainText), nil)
 	if err != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 	return Wrappers.Companion_Result_.Create_Success_(dafny.SeqOfBytes(encryptedBytes))
 }
 
-func getNativePaddingMode(mode AwsCryptographyPrimitivesTypes.RSAPaddingMode) (x509.SignatureAlgorithm, error) {
+func getNativeHashAlgorithm(mode AwsCryptographyPrimitivesTypes.RSAPaddingMode) (crypto.Hash, error) {
 	switch mode {
-	case AwsCryptographyPrimitivesTypes.Companion_RSAPaddingMode_.Create_PKCS1_():
-		return x509.UnknownSignatureAlgorithm, nil
 	case AwsCryptographyPrimitivesTypes.Companion_RSAPaddingMode_.Create_OAEP__SHA1_():
-		return x509.SHA1WithRSA, nil
+		return crypto.SHA1, nil
 	case AwsCryptographyPrimitivesTypes.Companion_RSAPaddingMode_.Create_OAEP__SHA256_():
-		return x509.SHA256WithRSA, nil
+		return crypto.SHA256, nil
 	case AwsCryptographyPrimitivesTypes.Companion_RSAPaddingMode_.Create_OAEP__SHA384_():
-		return x509.SHA384WithRSA, nil
+		return crypto.SHA384, nil
 	case AwsCryptographyPrimitivesTypes.Companion_RSAPaddingMode_.Create_OAEP__SHA512_():
-		return x509.SHA512WithRSA, nil
+		return crypto.SHA512, nil
 	default:
-		return x509.UnknownSignatureAlgorithm, fmt.Errorf("unsupported padding mode")
+		return 0, fmt.Errorf("unsupported padding mode")
 	}
 }
