@@ -21,3 +21,12 @@ GO_MODULE_NAME="github.com/dafny-lang/DafnyStandardLibGo"
 
 # Python
 PYTHON_MODULE_NAME=smithy_dafny_standard_library
+
+RUST_OTHER_FILES := \
+        runtimes/rust/src/concurrent_call.rs \
+        runtimes/rust/src/sets.rs \
+        runtimes/rust/src/time.rs \
+	runtimes/rust/src/uuid.rs
+
+polymorph_rust:
+	@echo no polymorph needed for StandardLibrary
