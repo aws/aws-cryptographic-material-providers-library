@@ -161,9 +161,7 @@ public class MutationKmsAccessOriginalInFlightTestDecryptEncrypt {
           isFromThrown = true;
         }
         if (accessDenied instanceof KmsException) {
-          boolean kmsIsFrom = accessDenied
-            .getMessage()
-            .contains("Decrypt");
+          boolean kmsIsFrom = accessDenied.getMessage().contains("Decrypt");
           boolean kmsIsTo = accessDenied.getMessage().contains("Encrypt");
           Assert.assertFalse(
             (kmsIsFrom || kmsIsTo),

@@ -109,9 +109,9 @@ public class MutationKmsAccessTerminalInFlightTestDecryptEncrypt {
     MutationToken token = initOutput.MutationToken();
     System.out.println(
       "InitLogs: " +
-        branchKeyId +
-        " items: \n" +
-        MutationsProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
+      branchKeyId +
+      " items: \n" +
+      MutationsProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
     );
 
     boolean done = false;
@@ -135,11 +135,11 @@ public class MutationKmsAccessTerminalInFlightTestDecryptEncrypt {
         ApplyMutationResult result = applyOutput.MutationResult();
         System.out.println(
           "ApplyLogs: " +
-            branchKeyId +
-            " items: \n" +
-            MutationsProvider.mutatedItemsToString(
-              applyOutput.MutatedBranchKeyItems()
-            )
+          branchKeyId +
+          " items: \n" +
+          MutationsProvider.mutatedItemsToString(
+            applyOutput.MutatedBranchKeyItems()
+          )
         );
 
         if (result.ContinueMutation() != null) {
@@ -161,16 +161,14 @@ public class MutationKmsAccessTerminalInFlightTestDecryptEncrypt {
           isFromThrown = true;
         }
         if (accessDenied instanceof KmsException) {
-          boolean kmsIsFrom = accessDenied
-            .getMessage()
-            .contains("Decrypt");
+          boolean kmsIsFrom = accessDenied.getMessage().contains("Decrypt");
           boolean kmsIsTo = accessDenied.getMessage().contains("Encrypt");
           Assert.assertFalse(
             (kmsIsFrom || kmsIsTo),
             "KMS Exception SHOULD have been cast to Mutation Exception. testId: " +
-              branchKeyId +
-              ". KMS Exception: " +
-              accessDenied
+            branchKeyId +
+            ". KMS Exception: " +
+            accessDenied
           );
         }
         // An exception was thrown, let's delete the item
@@ -192,11 +190,11 @@ public class MutationKmsAccessTerminalInFlightTestDecryptEncrypt {
             );
             System.out.println(
               "\nItem: " +
-                typStr +
-                " \t" +
-                accessDenied.getClass().getSimpleName() +
-                ": " +
-                accessDenied.getMessage()
+              typStr +
+              " \t" +
+              accessDenied.getClass().getSimpleName() +
+              ": " +
+              accessDenied.getMessage()
             );
           }
         }
@@ -209,12 +207,12 @@ public class MutationKmsAccessTerminalInFlightTestDecryptEncrypt {
     Assert.assertTrue(
       (exceptions.size() == 2),
       "Only two exceptions should have been thrown. But got " +
-        exceptions.size() +
-        ". Exceptions:\n" +
-        exceptions
-          .stream()
-          .map(Throwable::toString)
-          .collect(Collectors.joining("\n"))
+      exceptions.size() +
+      ". Exceptions:\n" +
+      exceptions
+        .stream()
+        .map(Throwable::toString)
+        .collect(Collectors.joining("\n"))
     );
     Assert.assertTrue(isToThrown, "MutationToException MUST be thrown.");
     Assert.assertFalse(

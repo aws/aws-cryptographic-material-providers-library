@@ -138,8 +138,8 @@ module {:options "/functionSyntax:4" } DescribeMutation {
     if MutationCommitment.CiphertextBlob == SystemKeyHandler.TRUST_STORAGE_UTF8_BYTES
     then TRUST_STORAGE_str
     else
-    if KMS.Types.IsValid_CiphertextType(MutationCommitment.CiphertextBlob)
-    then KMS_SYM_ENC_str
-    else UNKOWN_str
+      if KMS.Types.IsValid_CiphertextType(MutationCommitment.CiphertextBlob)
+      then KMS_SYM_ENC_str
+      else UNKOWN_str
   }
 }
