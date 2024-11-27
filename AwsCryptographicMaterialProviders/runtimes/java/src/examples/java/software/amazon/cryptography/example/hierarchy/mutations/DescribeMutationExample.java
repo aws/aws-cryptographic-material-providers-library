@@ -9,6 +9,7 @@ import java.util.Objects;
 import javax.annotation.Nullable;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kms.KmsClient;
+import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.example.hierarchy.CreateKeyExample;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
@@ -141,5 +142,6 @@ public class DescribeMutationExample {
       .MutationToken();
     assert fromDescribe != null;
     assert Objects.equals(fromInit.UUID(), fromDescribe.UUID());
+    Fixtures.cleanUpBranchKeyId(null, branchKeyId, true);
   }
 }
