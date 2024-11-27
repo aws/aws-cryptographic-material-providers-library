@@ -125,8 +125,10 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
       identifier := item.Identifier,
       itemType := itemType,
       errorMessage? := kmsErrorMessage?);
+    var kmsWithMsg: bool := opaqueKmsError?.Some? && kmsErrorMessage?.Some?;
+    var knownKmsStrat: bool := (kmsOperation == "ReEncrypt" || kmsOperation == "Decrypt/Encrypt");
     // if it is an opaque KMS Error, and there is a message, it is KMS.Types.OpaqueWithText
-    if (opaqueKmsError?.Some? && kmsErrorMessage?.Some?) {
+    if (kmsWithMsg && knownKmsStrat) {
       match kmsOperation {
         case "ReEncrypt" =>
           var hasReEncryptFrom? := String.HasSubString(kmsErrorMessage?.value, "ReEncryptFrom");
@@ -156,17 +158,18 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
               );
           }
           if (hasEncrypt?.Some?) {
-            return Types.MutationFromException(
+            return Types.MutationToException(
                 message := "Key Management denied access based on the terminal properties."
-                + " Mutation is halted. Check encrypt access to KMS ARN: " + item.KmsArn + "."
+                + " Mutation is halted. Check encrypt access to KMS ARN: " + terminalKmsArn + "."
                 + "\n" + errorContext
               );
           }
         case _ =>
+          // This will never happen
           return Types.KeyStoreAdminException(
-            message := "Unknown KMS Operation used for Mutation operation: " + kmsOperation 
-            + ".\n" + errorContext
-          );
+              message := "Unknown KMS Operation used for Mutation operation: " + kmsOperation
+              + ".\n" + errorContext
+            );
       }
     }
     return Types.KeyStoreAdminException(

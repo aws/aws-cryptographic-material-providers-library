@@ -29,7 +29,10 @@ public class MutationExampleDecryptEncryptStrategy {
     decryptKmsClient = AdminProvider.kms(decryptKmsClient);
     encryptKmsClient = AdminProvider.kms(encryptKmsClient);
 
-    KeyManagementStrategy strategy = AdminProvider.decryptEncryptStrategy(decryptKmsClient, encryptKmsClient);
+    KeyManagementStrategy strategy = AdminProvider.decryptEncryptStrategy(
+      decryptKmsClient,
+      encryptKmsClient
+    );
     KeyStoreAdmin admin = AdminProvider.admin(
       keyStoreTableName,
       logicalKeyStoreName,
@@ -38,7 +41,7 @@ public class MutationExampleDecryptEncryptStrategy {
 
     System.out.println("BranchKey ID to mutate: " + branchKeyId);
     HashMap<String, String> terminalEC = new HashMap<>();
-    terminalEC.put("Robbie", "is a dog.");
+    terminalEC.put("Koda", "is a dog.");
     Mutations mutations = Mutations
       .builder()
       .TerminalEncryptionContext(terminalEC)
@@ -58,9 +61,9 @@ public class MutationExampleDecryptEncryptStrategy {
     MutationToken token = initOutput.MutationToken();
     System.out.println(
       "InitLogs: " +
-        branchKeyId +
-        " items: \n" +
-        MutationsProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
+      branchKeyId +
+      " items: \n" +
+      MutationsProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
     );
     MutationsProvider.workMutation(
       branchKeyId,
@@ -76,9 +79,9 @@ public class MutationExampleDecryptEncryptStrategy {
   }
 
   public static void main(final String[] args) {
-    if (args.length <= 1) {
+    if (args.length <= 3) {
       throw new IllegalArgumentException(
-        "To run this example, include the keyStoreTableName, logicalKeyStoreName, and kmsKeyTerminal in args"
+        "To run this example, include the keyStoreTableName, logicalKeyStoreName, kmsKeyTerminal, and branchKeyId in args"
       );
     }
     final String keyStoreTableName = args[0];
@@ -96,5 +99,4 @@ public class MutationExampleDecryptEncryptStrategy {
       null
     );
   }
-
 }

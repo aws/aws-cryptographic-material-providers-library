@@ -62,7 +62,8 @@ public class MutationKmsAccessOriginalInFlightTestDecryptEncrypt {
       Fixtures.ddbClientWest2
     );
     KeyManagementStrategy strategyAll = AdminProvider.decryptEncryptStrategy(
-      Fixtures.kmsClientWest2, Fixtures.kmsClientWest2
+      Fixtures.kmsClientWest2,
+      Fixtures.kmsClientWest2
     );
     KmsClient denyMrk = KmsClient
       .builder()
@@ -79,9 +80,8 @@ public class MutationKmsAccessOriginalInFlightTestDecryptEncrypt {
       .httpClient(Fixtures.httpClient)
       .build();
 
-    KeyManagementStrategy strategyDenyMrk = AdminProvider.decryptEncryptStrategy(
-      denyMrk, denyMrk
-    );
+    KeyManagementStrategy strategyDenyMrk =
+      AdminProvider.decryptEncryptStrategy(denyMrk, denyMrk);
     KeyStoreAdmin admin = AdminProvider.admin(
       Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
       storage
@@ -109,9 +109,9 @@ public class MutationKmsAccessOriginalInFlightTestDecryptEncrypt {
     MutationToken token = initOutput.MutationToken();
     System.out.println(
       "InitLogs: " +
-        branchKeyId +
-        " items: \n" +
-        MutationsProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
+      branchKeyId +
+      " items: \n" +
+      MutationsProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
     );
     boolean done = false;
     List<Exception> exceptions = new ArrayList<>();
@@ -135,11 +135,11 @@ public class MutationKmsAccessOriginalInFlightTestDecryptEncrypt {
         ApplyMutationResult result = applyOutput.MutationResult();
         System.out.println(
           "\nApplyLogs: " +
-            branchKeyId +
-            " items: \n" +
-            MutationsProvider.mutatedItemsToString(
-              applyOutput.MutatedBranchKeyItems()
-            )
+          branchKeyId +
+          " items: \n" +
+          MutationsProvider.mutatedItemsToString(
+            applyOutput.MutatedBranchKeyItems()
+          )
         );
 
         if (result.ContinueMutation() != null) {
@@ -163,14 +163,14 @@ public class MutationKmsAccessOriginalInFlightTestDecryptEncrypt {
         if (accessDenied instanceof KmsException) {
           boolean kmsIsFrom = accessDenied
             .getMessage()
-            .contains("ReEncryptFrom");
-          boolean kmsIsTo = accessDenied.getMessage().contains("ReEncryptTo");
+            .contains("Decrypt");
+          boolean kmsIsTo = accessDenied.getMessage().contains("Encrypt");
           Assert.assertFalse(
             (kmsIsFrom || kmsIsTo),
             "KMS Exception SHOULD have been cast to Mutation Exception. testId: " +
-              branchKeyId +
-              ". KMS Exception: " +
-              accessDenied
+            branchKeyId +
+            ". KMS Exception: " +
+            accessDenied
           );
         }
         if (accessDenied.getMessage().contains("branch:version")) {
@@ -191,11 +191,11 @@ public class MutationKmsAccessOriginalInFlightTestDecryptEncrypt {
             );
             System.out.println(
               "\nItem: " +
-                typStr +
-                " \t" +
-                accessDenied.getClass().getSimpleName() +
-                ": " +
-                accessDenied.getMessage()
+              typStr +
+              " \t" +
+              accessDenied.getClass().getSimpleName() +
+              ": " +
+              accessDenied.getMessage()
             );
           }
         }
@@ -208,12 +208,12 @@ public class MutationKmsAccessOriginalInFlightTestDecryptEncrypt {
     Assert.assertTrue(
       (exceptions.size() == 1),
       "Only 1 exceptions should have been thrown. But got " +
-        exceptions.size() +
-        ". Exceptions:\n" +
-        exceptions
-          .stream()
-          .map(Throwable::toString)
-          .collect(Collectors.joining("\n"))
+      exceptions.size() +
+      ". Exceptions:\n" +
+      exceptions
+        .stream()
+        .map(Throwable::toString)
+        .collect(Collectors.joining("\n"))
     );
     Assert.assertFalse(
       isToThrown,
@@ -221,6 +221,4 @@ public class MutationKmsAccessOriginalInFlightTestDecryptEncrypt {
     );
     Assert.assertTrue(isFromThrown, "MutationFromException MUST be thrown.");
   }
-
 }
-

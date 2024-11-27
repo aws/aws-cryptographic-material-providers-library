@@ -57,20 +57,24 @@ public class AdminProvider {
       .AwsKmsReEncrypt(AwsKms.builder().kmsClient(kmsClient).build())
       .build();
   }
+
   public static KeyManagementStrategy decryptEncryptStrategy(
     @Nullable KmsClient decryptKmsClient,
-    @Nullable KmsClient encryptKmsClient)
-  {
+    @Nullable KmsClient encryptKmsClient
+  ) {
     decryptKmsClient = kms(decryptKmsClient);
     encryptKmsClient = kms(encryptKmsClient);
 
     return KeyManagementStrategy
       .builder()
-      .AwsKmsDecryptEncrypt(AwsKmsDecryptEncrypt.builder()
-        .decrypt(AwsKms.builder().kmsClient(decryptKmsClient).build())
-        .encrypt(AwsKms.builder().kmsClient(encryptKmsClient).build())
-        .build()
-      ).build();
+      .AwsKmsDecryptEncrypt(
+        AwsKmsDecryptEncrypt
+          .builder()
+          .decrypt(AwsKms.builder().kmsClient(decryptKmsClient).build())
+          .encrypt(AwsKms.builder().kmsClient(encryptKmsClient).build())
+          .build()
+      )
+      .build();
   }
 
   @SuppressWarnings("resource")
@@ -90,5 +94,4 @@ public class AdminProvider {
     }
     return kmsClient;
   }
-
 }

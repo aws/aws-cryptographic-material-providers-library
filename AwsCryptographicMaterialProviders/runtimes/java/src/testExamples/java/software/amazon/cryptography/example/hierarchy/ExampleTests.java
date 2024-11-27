@@ -115,10 +115,10 @@ public class ExampleTests {
       );
     System.out.println(
       "\nMutated Branch Key: " +
-        branchKeyId +
-        " to KMS ARN: " +
-        Fixtures.POSTAL_HORN_KEY_ARN +
-        "\n"
+      branchKeyId +
+      " to KMS ARN: " +
+      Fixtures.POSTAL_HORN_KEY_ARN +
+      "\n"
     );
     branchKeyId =
       VersionKeyExample.VersionKey(
@@ -152,10 +152,10 @@ public class ExampleTests {
       );
     System.out.println(
       "\nMutated Branch Key with Resume: " +
-        branchKeyId +
-        " to KMS ARN: " +
-        Fixtures.KEYSTORE_KMS_ARN +
-        "\n"
+      branchKeyId +
+      " to KMS ARN: " +
+      Fixtures.KEYSTORE_KMS_ARN +
+      "\n"
     );
     KeyStorageInterface storage = StorageCheater.create(
       Fixtures.ddbClientWest2,
