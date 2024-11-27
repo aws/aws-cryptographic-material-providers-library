@@ -6,6 +6,7 @@ import java.util.HashMap;
 import javax.annotation.Nullable;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kms.KmsClient;
+import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
@@ -93,5 +94,6 @@ public class MutationExample {
       null,
       null
     );
+    Fixtures.cleanUpBranchKeyId(null, branchKeyId, true);
   }
 }
