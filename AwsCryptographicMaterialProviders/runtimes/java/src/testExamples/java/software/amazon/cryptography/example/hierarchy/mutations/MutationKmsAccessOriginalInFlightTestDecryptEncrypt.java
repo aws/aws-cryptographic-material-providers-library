@@ -202,7 +202,7 @@ public class MutationKmsAccessOriginalInFlightTestDecryptEncrypt {
     }
 
     // Clean Up
-    Fixtures.cleanUpBranchKeyId(storage, branchKeyId);
+    Fixtures.cleanUpBranchKeyId(storage, branchKeyId, false);
     Assert.assertTrue(
       (exceptions.size() == 1),
       "Only 1 exceptions should have been thrown. But got " +
