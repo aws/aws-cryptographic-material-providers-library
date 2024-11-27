@@ -79,7 +79,9 @@ public class MutationKmsAccessOriginalInFlightTestDecryptEncrypt {
       .httpClient(Fixtures.httpClient)
       .build();
 
-    KeyManagementStrategy strategyDenyMrk = AdminProvider.strategy(denyMrk);
+    KeyManagementStrategy strategyDenyMrk = AdminProvider.decryptEncryptStrategy(
+      denyMrk, denyMrk
+    );
     KeyStoreAdmin admin = AdminProvider.admin(
       Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
       storage
