@@ -87,17 +87,29 @@ public class Fixtures {
   }
 
   public static void cleanUpBranchKeyId(
-    KeyStorageInterface storage,
-    String branchKeyId
+    @Nullable KeyStorageInterface storage,
+    String branchKeyId,
+    boolean alsoMutation
   ) {
-    QueryForVersionsOutput versions = storage.QueryForVersions(
+    final KeyStorageInterface _storage;
+    if (storage == null) {
+      _storage =
+        StorageCheater.create(
+          Fixtures.ddbClientWest2,
+          Fixtures.TEST_KEYSTORE_NAME,
+          Fixtures.TEST_LOGICAL_KEYSTORE_NAME
+        );
+    } else {
+      _storage = storage;
+    }
+    QueryForVersionsOutput versions = _storage.QueryForVersions(
       QueryForVersionsInput
         .builder()
         .Identifier(branchKeyId)
         .PageSize(99)
         .build()
     );
-    String physicalName = storage
+    String physicalName = _storage
       .GetKeyStorageInfo(GetKeyStorageInfoInput.builder().build())
       .Name();
     versions
@@ -126,5 +138,21 @@ public class Fixtures {
       ddbClientWest2,
       false
     );
+    if (alsoMutation) {
+      DdbHelper.deleteKeyStoreDdbItem(
+        branchKeyId,
+        "branch:MUTATION_COMMITMENT",
+        physicalName,
+        ddbClientWest2,
+        false
+      );
+      DdbHelper.deleteKeyStoreDdbItem(
+        branchKeyId,
+        "beacon:MUTATION_INDEX",
+        physicalName,
+        ddbClientWest2,
+        false
+      );
+    }
   }
 }

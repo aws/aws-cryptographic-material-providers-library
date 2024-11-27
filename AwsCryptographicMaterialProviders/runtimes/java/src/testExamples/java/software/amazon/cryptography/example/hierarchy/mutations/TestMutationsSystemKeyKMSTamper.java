@@ -266,6 +266,6 @@ public class TestMutationsSystemKeyKMSTamper {
       "Tampering should have lead to a MutationVerificationException! testId: " +
       identifier
     );
-    Fixtures.cleanUpBranchKeyId(storage, identifier);
+    Fixtures.cleanUpBranchKeyId(storage, identifier, true);
   }
 }
