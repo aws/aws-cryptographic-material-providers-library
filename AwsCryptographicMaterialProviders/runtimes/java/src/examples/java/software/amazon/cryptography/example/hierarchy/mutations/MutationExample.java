@@ -94,6 +94,7 @@ public class MutationExample {
       null,
       null
     );
+    // We clean up our items to make sure the table doesn't grow indefinitely.
     Fixtures.cleanUpBranchKeyId(null, branchKeyId, true);
   }
 }

@@ -71,8 +71,8 @@ public class ExampleTests {
           .builder()
           .trustStorage(TrustStorage.builder().build())
           .build(),
-        Fixtures.ddbClientWest2,
-        Fixtures.kmsClientWest2
+        AdminProvider.strategy(Fixtures.kmsClientWest2),
+        Fixtures.ddbClientWest2
       );
     System.out.println(
       "\nMutated Branch Key with Resume: " +
@@ -147,8 +147,11 @@ public class ExampleTests {
           .builder()
           .trustStorage(TrustStorage.builder().build())
           .build(),
-        Fixtures.ddbClientWest2,
-        Fixtures.kmsClientWest2
+        AdminProvider.decryptEncryptStrategy(
+          Fixtures.kmsClientWest2,
+          Fixtures.kmsClientWest2
+        ),
+        Fixtures.ddbClientWest2
       );
     System.out.println(
       "\nMutated Branch Key with Resume: " +

@@ -4,7 +4,10 @@ import java.util.HashMap;
 import javax.annotation.Nullable;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kms.KmsClient;
+import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
+import software.amazon.cryptography.example.hierarchy.StorageExample;
+import software.amazon.cryptography.keystore.KeyStorageInterface;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput;
@@ -98,5 +101,15 @@ public class MutationExampleDecryptEncryptStrategy {
       null,
       null
     );
+
+    // We clean up our items to make sure the table doesn't grow indefinitely.
+    // We assume the DDB table is in us west 2. If not, replace with a client in the
+    // appropriate region.
+    KeyStorageInterface storage = StorageExample.create(
+      Fixtures.ddbClientWest2,
+      keyStoreTableName,
+      logicalKeyStoreName
+    );
+    Fixtures.cleanUpBranchKeyId(storage, branchKeyId);
   }
 }
