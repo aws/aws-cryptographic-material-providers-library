@@ -24,7 +24,7 @@ import software.amazon.cryptography.keystoreadmin.model.SystemKey;
 public class DescribeMutationExample {
 
   @Nullable
-  public static MutationToken Example(
+  public static DescribeMutationOutput Example(
     String keyStoreTableName,
     String logicalKeyStoreName,
     String branchKeyId,
@@ -54,7 +54,7 @@ public class DescribeMutationExample {
       System.out.println(
         "Description: " + description.MutationDetails().UUID()
       );
-      return description.MutationToken();
+      return output;
     }
     throw new RuntimeException("Key Store Admin returned nonsensical response");
   }
@@ -127,12 +127,18 @@ public class DescribeMutationExample {
       kmsClient
     );
 
-    MutationToken fromDescribe = Example(
+    DescribeMutationOutput describeRes = Example(
       keyStoreTableName,
       logicalKeyStoreName,
       branchKeyId,
       dynamoDbClient
     );
+    assert Objects.requireNonNull(describeRes).MutationInFlight().Yes() !=
+    null : "No mutation in flight for Branch Key ID: " + branchKeyId;
+    MutationToken fromDescribe = describeRes
+      .MutationInFlight()
+      .Yes()
+      .MutationToken();
     assert fromDescribe != null;
     assert Objects.equals(fromInit.UUID(), fromDescribe.UUID());
   }

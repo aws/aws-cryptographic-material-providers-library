@@ -88,7 +88,8 @@ public class Fixtures {
 
   public static void cleanUpBranchKeyId(
     KeyStorageInterface storage,
-    String branchKeyId
+    String branchKeyId,
+    boolean alsoMutation
   ) {
     QueryForVersionsOutput versions = storage.QueryForVersions(
       QueryForVersionsInput
@@ -126,5 +127,21 @@ public class Fixtures {
       ddbClientWest2,
       false
     );
+    if (alsoMutation) {
+      DdbHelper.deleteKeyStoreDdbItem(
+        branchKeyId,
+        "branch:MUTATION_COMMITMENT",
+        physicalName,
+        ddbClientWest2,
+        false
+      );
+      DdbHelper.deleteKeyStoreDdbItem(
+        branchKeyId,
+        "beacon:MUTATION_INDEX",
+        physicalName,
+        ddbClientWest2,
+        false
+      );
+    }
   }
 }
