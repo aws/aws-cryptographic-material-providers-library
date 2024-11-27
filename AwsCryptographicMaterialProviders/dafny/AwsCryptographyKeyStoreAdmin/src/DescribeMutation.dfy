@@ -3,6 +3,7 @@
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "MutationStateStructures.dfy"
 include "MutationsConstants.dfy"
+include "SystemKey/Handler.dfy"
 
 module {:options "/functionSyntax:4" } DescribeMutation {
   import opened StandardLibrary
@@ -12,6 +13,8 @@ module {:options "/functionSyntax:4" } DescribeMutation {
   import Types = AwsCryptographyKeyStoreAdminTypes
   import StateStrucs = MutationStateStructures
   import M_ErrorMessages = MutationsConstants.ErrorMessages
+  import SystemKeyHandler = SystemKey.Handler
+  import KMS = Com.Amazonaws.Kms
 
   datatype InternalDescribeMutationInput = | InternalDescribeMutationInput (
     nameonly Identifier: string ,
@@ -65,7 +68,7 @@ module {:options "/functionSyntax:4" } DescribeMutation {
     var Index := fetchMutation.MutationIndex.value;
     :- Need(
       // If custom storage is really bad
-      Commitment.Identifier == Index.Identifier,
+      Commitment.Identifier == Index.Identifier && 0 < |Commitment.Identifier|,
       Types.MutationInvalidException(
         message := "The Mutation Index read from storage and the Mutation Commitment are for different Branch Key IDs."
         + " The Storage implementation is wrong, or something terrible has happened to storage."
@@ -74,7 +77,7 @@ module {:options "/functionSyntax:4" } DescribeMutation {
         + " Mutation Index Branch Key ID: " + Index.Identifier + ";"
       ));
     :- Need(
-      Commitment.UUID == Index.UUID,
+      Commitment.UUID == Index.UUID && 0 < |Commitment.UUID| ,
       Types.MutationInvalidException(
         message := "The Mutation Index read from storage and the Mutation Commitment are for different Mutations."
         + " Branch Key ID: " + input.Identifier + ";"
@@ -85,7 +88,6 @@ module {:options "/functionSyntax:4" } DescribeMutation {
       Commitment := Commitment,
       Index := Index);
     assert CommitmentAndIndex.ValidState();
-    // TODO-Mutations-GA :: Use System Key to Verify Commitment and Index
     var MutationToApply :- StateStrucs.DeserializeMutation(CommitmentAndIndex);
     var original := Types.MutableBranchKeyProperties(
       KmsArn := MutationToApply.Original.kmsArn,
@@ -99,7 +101,7 @@ module {:options "/functionSyntax:4" } DescribeMutation {
       Original := original,
       Terminal := terminal,
       Input := MutationToApply.Input,
-      SystemKey := "TrustStorage",
+      SystemKey := SystemKeyDescription(Commitment),
       CreateTime := MutationToApply.CreateTime,
       UUID := MutationToApply.UUID
     );
@@ -109,5 +111,35 @@ module {:options "/functionSyntax:4" } DescribeMutation {
     var inFlight := Types.MutationInFlight.Yes(
       Yes := description);
     return Success(Types.DescribeMutationOutput(MutationInFlight := inFlight));
+  }
+
+  const TRUST_STORAGE_str := "Trust Storage"
+  const KMS_SYM_ENC_str := "KMS Symmetric Encryption"
+  const UNKOWN_str := "Unknown"
+
+  function SystemKeyDescription(
+    MutationCommitment: KeyStoreTypes.MutationCommitment
+  ): (output: string)
+    ensures
+      && MutationCommitment.CiphertextBlob == SystemKeyHandler.TRUST_STORAGE_UTF8_BYTES
+      ==>
+        output == TRUST_STORAGE_str
+    ensures
+      && MutationCommitment.CiphertextBlob != SystemKeyHandler.TRUST_STORAGE_UTF8_BYTES
+      && KMS.Types.IsValid_CiphertextType(MutationCommitment.CiphertextBlob)
+      ==>
+        output == KMS_SYM_ENC_str
+    ensures
+      && MutationCommitment.CiphertextBlob != SystemKeyHandler.TRUST_STORAGE_UTF8_BYTES
+      && !KMS.Types.IsValid_CiphertextType(MutationCommitment.CiphertextBlob)
+      ==>
+        output == UNKOWN_str
+  {
+    if MutationCommitment.CiphertextBlob == SystemKeyHandler.TRUST_STORAGE_UTF8_BYTES
+    then TRUST_STORAGE_str
+    else
+    if KMS.Types.IsValid_CiphertextType(MutationCommitment.CiphertextBlob)
+    then KMS_SYM_ENC_str
+    else UNKOWN_str
   }
 }
