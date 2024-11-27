@@ -1075,8 +1075,10 @@ module {:options "/functionSyntax:4" } Mutations {
     ensures keyManagerStrategy.ValidState()
   {
     var wrappedKey?;
+    var kmsOperation: string;
     match keyManagerStrategy {
       case reEncrypt(kms) =>
+        kmsOperation := "ReEncrypt";
         wrappedKey? := KMSKeystoreOperations.MutateViaReEncrypt(
           ciphertext := item.CiphertextBlob,
           sourceEncryptionContext := item.EncryptionContext,
@@ -1087,6 +1089,7 @@ module {:options "/functionSyntax:4" } Mutations {
           kmsClient := kms.kmsClient
         );
       case decryptEncrypt(kmsD, kmsE) =>
+        kmsOperation := "Decrypt/Encrypt";
         if (localOperation == "InitializeMutation") {
           // When using the decrypt encrypt strategy, we created the new DecryptOnly with the encrypt client.
           // If we want to reencrypt it for the new active we must do so with only the encrypt client. This means
@@ -1132,7 +1135,8 @@ module {:options "/functionSyntax:4" } Mutations {
         item := item,
         error := wrappedKey?.error,
         terminalKmsArn := terminalKmsArn,
-        localOperation := localOperation);
+        localOperation := localOperation,
+        kmsOperation := kmsOperation);
       return Failure(error);
     }
     // TODO-Mutations-DoNotVersion :: ActiveHierarchicalSymmetricVersion will need to be handled
