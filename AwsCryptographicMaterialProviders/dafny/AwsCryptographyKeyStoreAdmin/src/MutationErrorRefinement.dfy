@@ -125,23 +125,51 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
       identifier := item.Identifier,
       itemType := itemType,
       errorMessage? := kmsErrorMessage?);
+    var kmsWithMsg: bool := opaqueKmsError?.Some? && kmsErrorMessage?.Some?;
+    var knownKmsStrat: bool := (kmsOperation == "ReEncrypt" || kmsOperation == "Decrypt/Encrypt");
     // if it is an opaque KMS Error, and there is a message, it is KMS.Types.OpaqueWithText
-    if (opaqueKmsError?.Some? && kmsErrorMessage?.Some?) {
-      var hasReEncryptFrom? := String.HasSubString(kmsErrorMessage?.value, "ReEncryptFrom");
-      var hasReEncryptTo? := String.HasSubString(kmsErrorMessage?.value, "ReEncryptTo");
-      if (hasReEncryptFrom?.Some?) {
-        return Types.MutationFromException(
-            message := "Key Management denied access based on the original properties."
-            + " Mutation is halted. Check access to KMS ARN: " + item.KmsArn + "."
-            + "\n" + errorContext
-          );
-      }
-      if (hasReEncryptTo?.Some?) {
-        return Types.MutationToException(
-            message := "Key Management denied access based on the terminal properties."
-            + " Mutation is halted. Check access to KMS ARN: " + terminalKmsArn  + "."
-            + "\n" + errorContext
-          );
+    if (kmsWithMsg && knownKmsStrat) {
+      match kmsOperation {
+        case "ReEncrypt" =>
+          var hasReEncryptFrom? := String.HasSubString(kmsErrorMessage?.value, "ReEncryptFrom");
+          var hasReEncryptTo? := String.HasSubString(kmsErrorMessage?.value, "ReEncryptTo");
+          if (hasReEncryptFrom?.Some?) {
+            return Types.MutationFromException(
+                message := "Key Management denied access based on the original properties."
+                + " Mutation is halted. Check access to KMS ARN: " + item.KmsArn + "."
+                + "\n" + errorContext
+              );
+          }
+          if (hasReEncryptTo?.Some?) {
+            return Types.MutationToException(
+                message := "Key Management denied access based on the terminal properties."
+                + " Mutation is halted. Check access to KMS ARN: " + terminalKmsArn  + "."
+                + "\n" + errorContext
+              );
+          }
+        case "Decrypt/Encrypt" =>
+          var hasDecrypt? := String.HasSubString(kmsErrorMessage?.value, "Decrypt");
+          var hasEncrypt? := String.HasSubString(kmsErrorMessage?.value, "Encrypt");
+          if (hasDecrypt?.Some?) {
+            return Types.MutationFromException(
+                message := "Key Management denied access based on the original properties."
+                + " Mutation is halted. Check decrypt access to KMS ARN: " + item.KmsArn + "."
+                + "\n" + errorContext
+              );
+          }
+          if (hasEncrypt?.Some?) {
+            return Types.MutationToException(
+                message := "Key Management denied access based on the terminal properties."
+                + " Mutation is halted. Check encrypt access to KMS ARN: " + terminalKmsArn + "."
+                + "\n" + errorContext
+              );
+          }
+        case _ =>
+          // This will never happen
+          return Types.KeyStoreAdminException(
+              message := "Unknown KMS Operation used for Mutation operation: " + kmsOperation
+              + ".\n" + errorContext
+            );
       }
     }
     return Types.KeyStoreAdminException(
