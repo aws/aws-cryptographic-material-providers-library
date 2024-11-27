@@ -5,7 +5,6 @@ package software.amazon.cryptography.example.hierarchy.mutations;
 import java.util.HashMap;
 import javax.annotation.Nullable;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
-import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
@@ -27,13 +26,11 @@ public class MutationResumeExample {
     String kmsKeyArnTerminal,
     String branchKeyId,
     SystemKey systemKey,
-    @Nullable DynamoDbClient dynamoDbClient,
-    @Nullable KmsClient kmsClient
+    KeyManagementStrategy strategy,
+    @Nullable DynamoDbClient dynamoDbClient
   ) {
     boolean mutationConflictThrown = false;
 
-    kmsClient = AdminProvider.kms(kmsClient);
-    KeyManagementStrategy strategy = AdminProvider.strategy(kmsClient);
     KeyStoreAdmin admin = AdminProvider.admin(
       physicalName,
       logicalName,
@@ -188,9 +185,11 @@ public class MutationResumeExample {
       kmsKeyArnTerminal,
       branchKeyId,
       SystemKey.builder().trustStorage(TrustStorage.builder().build()).build(),
-      null,
+      // This examples uses a ReEncrypt strategy for mutating branch keys
+      AdminProvider.strategy(null),
       null
     );
+    // We clean up our items to make sure the table doesn't grow indefinitely.
     Fixtures.cleanUpBranchKeyId(null, branchKeyId, true);
   }
 }

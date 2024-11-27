@@ -1,5 +1,3 @@
-// Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
-// SPDX-License-Identifier: Apache-2.0
 package software.amazon.cryptography.example.hierarchy.mutations;
 
 import java.util.HashMap;
@@ -8,6 +6,8 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
+import software.amazon.cryptography.example.hierarchy.StorageExample;
+import software.amazon.cryptography.keystore.KeyStorageInterface;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput;
@@ -17,19 +17,25 @@ import software.amazon.cryptography.keystoreadmin.model.Mutations;
 import software.amazon.cryptography.keystoreadmin.model.SystemKey;
 import software.amazon.cryptography.keystoreadmin.model.TrustStorage;
 
-public class MutationExample {
+public class MutationExampleDecryptEncryptStrategy {
 
-  public static String End2End(
+  public static String End2EndDecryptEncrypt(
     String keyStoreTableName,
     String logicalKeyStoreName,
     String kmsKeyArnTerminal,
     String branchKeyId,
     SystemKey systemKey,
     @Nullable DynamoDbClient dynamoDbClient,
-    @Nullable KmsClient kmsClient
+    @Nullable KmsClient decryptKmsClient,
+    @Nullable KmsClient encryptKmsClient
   ) {
-    kmsClient = AdminProvider.kms(kmsClient);
-    KeyManagementStrategy strategy = AdminProvider.strategy(kmsClient);
+    decryptKmsClient = AdminProvider.kms(decryptKmsClient);
+    encryptKmsClient = AdminProvider.kms(encryptKmsClient);
+
+    KeyManagementStrategy strategy = AdminProvider.decryptEncryptStrategy(
+      decryptKmsClient,
+      encryptKmsClient
+    );
     KeyStoreAdmin admin = AdminProvider.admin(
       keyStoreTableName,
       logicalKeyStoreName,
@@ -38,7 +44,7 @@ public class MutationExample {
 
     System.out.println("BranchKey ID to mutate: " + branchKeyId);
     HashMap<String, String> terminalEC = new HashMap<>();
-    terminalEC.put("Robbie", "is a dog.");
+    terminalEC.put("Koda", "is a dog.");
     Mutations mutations = Mutations
       .builder()
       .TerminalEncryptionContext(terminalEC)
@@ -76,24 +82,26 @@ public class MutationExample {
   }
 
   public static void main(final String[] args) {
-    if (args.length <= 1) {
+    if (args.length <= 3) {
       throw new IllegalArgumentException(
-        "To run this example, include the keyStoreTableName, logicalKeyStoreName, and kmsKeyTerminal in args"
+        "To run this example, include the keyStoreTableName, logicalKeyStoreName, kmsKeyTerminal, and branchKeyId in args"
       );
     }
     final String keyStoreTableName = args[0];
     final String logicalKeyStoreName = args[1];
     final String kmsKeyArnTerminal = args[2];
     final String branchKeyId = args[3];
-    End2End(
+    End2EndDecryptEncrypt(
       keyStoreTableName,
       logicalKeyStoreName,
       kmsKeyArnTerminal,
       branchKeyId,
       SystemKey.builder().trustStorage(TrustStorage.builder().build()).build(),
       null,
+      null,
       null
     );
+
     // We clean up our items to make sure the table doesn't grow indefinitely.
     Fixtures.cleanUpBranchKeyId(null, branchKeyId, true);
   }
