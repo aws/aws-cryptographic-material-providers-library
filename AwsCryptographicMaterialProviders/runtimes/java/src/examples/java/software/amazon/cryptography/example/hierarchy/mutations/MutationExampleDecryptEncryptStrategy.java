@@ -103,13 +103,6 @@ public class MutationExampleDecryptEncryptStrategy {
     );
 
     // We clean up our items to make sure the table doesn't grow indefinitely.
-    // We assume the DDB table is in us west 2. If not, replace with a client in the
-    // appropriate region.
-    KeyStorageInterface storage = StorageExample.create(
-      Fixtures.ddbClientWest2,
-      keyStoreTableName,
-      logicalKeyStoreName
-    );
-    Fixtures.cleanUpBranchKeyId(storage, branchKeyId);
+    Fixtures.cleanUpBranchKeyId(null, branchKeyId, true);
   }
 }
