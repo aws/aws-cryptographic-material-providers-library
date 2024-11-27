@@ -91,14 +91,4 @@ public class AdminProvider {
     return kmsClient;
   }
 
-  public static String mutatedItemsToString(
-    List<MutatedBranchKeyItem> mutatedItems
-  ) {
-    return mutatedItems
-      .stream()
-      .map(item -> String.format("%s : %s", item.ItemType(), item.Description())
-      )
-      .collect(Collectors.joining(",\n"));
-  }
-
 }

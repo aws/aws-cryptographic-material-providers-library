@@ -1,9 +1,10 @@
-package software.amazon.cryptography.example.hierarchy;
+package software.amazon.cryptography.example.hierarchy.mutations;
 
 import java.util.HashMap;
 import javax.annotation.Nullable;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kms.KmsClient;
+import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput;
@@ -59,9 +60,9 @@ public class MutationExampleDecryptEncryptStrategy {
       "InitLogs: " +
         branchKeyId +
         " items: \n" +
-        AdminProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
+        MutationsProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
     );
-    MutationResumeExample.workMutation(
+    MutationsProvider.workMutation(
       branchKeyId,
       systemKey,
       token,
