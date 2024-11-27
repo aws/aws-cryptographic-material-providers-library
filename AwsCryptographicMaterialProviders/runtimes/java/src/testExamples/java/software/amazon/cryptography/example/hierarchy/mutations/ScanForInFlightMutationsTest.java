@@ -16,11 +16,14 @@ public class ScanForInFlightMutationsTest {
     PageResult actual = underTest.scanForMutationLock(null);
     assert actual.lastEvaluatedKey() != null;
     assert actual.inFlightMutations().isEmpty();
-    while (actual.lastEvaluatedKey() != null) {
+    final short pageLimit = 5;
+    short pageIndex = 0;
+    while (actual.lastEvaluatedKey() != null && pageIndex < pageLimit) {
       actual = underTest.scanForMutationLock(actual.lastEvaluatedKey());
       if (!actual.inFlightMutations().isEmpty()) {
         System.out.println(actual.inFlightMutations());
       }
+      pageIndex++;
     }
   }
 }

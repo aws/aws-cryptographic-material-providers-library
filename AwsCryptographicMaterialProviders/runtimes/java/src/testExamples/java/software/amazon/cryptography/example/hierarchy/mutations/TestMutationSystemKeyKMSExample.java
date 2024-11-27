@@ -31,6 +31,6 @@ public class TestMutationSystemKeyKMSExample {
       Fixtures.TEST_KEYSTORE_NAME,
       Fixtures.TEST_LOGICAL_KEYSTORE_NAME
     );
-    Fixtures.cleanUpBranchKeyId(storage, branchKeyId);
+    Fixtures.cleanUpBranchKeyId(storage, branchKeyId, false);
   }
 }
