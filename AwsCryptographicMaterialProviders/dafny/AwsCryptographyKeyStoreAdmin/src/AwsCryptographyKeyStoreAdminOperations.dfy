@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "Mutations.dfy"
+include "InitializeMutation.dfy"
+include "ApplyMutation.dfy"
 include "KmsUtils.dfy"
 include "DescribeMutation.dfy"
 
@@ -13,6 +15,8 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   import KeyStoreTypes = KeyStoreOperations.Types
   import KMS = Com.Amazonaws.Kms
   import Mutations
+  import KSAInitializeMutation = InternalInitializeMutation
+  import KSAApplyMutation = InternalApplyMutation
   import DM = DescribeMutation
   import KmsUtils
 
@@ -348,7 +352,8 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     assume {:axiom} keyManagerStrat.Modifies !! systemKey.Modifies;
     // assert StorageSystemKeyKeyManagerStratAreInDependentLie(config.storage, systemKey, keyManagerStrat);
 
-    var internalInput := Mutations.InternalInitializeMutationInput(
+    var internalInput := KSAInitializeMutation.InternalInitializeMutationInput(
+      // var internalInput := Mutations.InternalInitializeMutationInput(
       Identifier := input.Identifier,
       Mutations := input.Mutations,
       SystemKey := systemKey,
@@ -358,8 +363,10 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       storage := config.storage
     );
 
-    internalInput :- Mutations.ValidateInitializeMutationInput(internalInput);
-    output := Mutations.InitializeMutation(internalInput);
+    internalInput :- KSAInitializeMutation.ValidateInitializeMutationInput(internalInput);
+    // internalInput :- Mutations.ValidateInitializeMutationInput(internalInput);
+    output := KSAInitializeMutation.InitializeMutation(internalInput);
+    // output := Mutations.InitializeMutation(internalInput);
     return output;
   }
 
@@ -382,7 +389,8 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     }
     assume {:axiom} keyManagerStrat.Modifies !! systemKey.Modifies;
 
-    var internalInput := Mutations.InternalApplyMutationInput(
+    var internalInput := KSAApplyMutation.InternalApplyMutationInput(
+      // var internalInput := Mutations.InternalApplyMutationInput(
       MutationToken := input.MutationToken,
       PageSize := input.PageSize,
       SystemKey := systemKey,
@@ -390,8 +398,10 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       keyManagerStrategy := keyManagerStrat,
       storage := config.storage);
 
-    var _ :- Mutations.ValidateApplyMutationInput(internalInput); //, config.logicalKeyStoreName, config.storage);
-    output := Mutations.ApplyMutation(internalInput); //, config.logicalKeyStoreName, keyManagerStrat, config.storage, systemKey);
+    var _ :- KSAApplyMutation.ValidateApplyMutationInput(internalInput);
+    // var _ :- Mutations.ValidateApplyMutationInput(internalInput); //, config.logicalKeyStoreName, config.storage);
+    output := KSAApplyMutation.ApplyMutation(internalInput);
+    // output := Mutations.ApplyMutation(internalInput); //, config.logicalKeyStoreName, keyManagerStrat, config.storage, systemKey);
     return output;
   }
 

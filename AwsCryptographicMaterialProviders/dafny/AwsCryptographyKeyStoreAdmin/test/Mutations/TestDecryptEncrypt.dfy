@@ -197,11 +197,7 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
     expect lastActive?.Item.Type.ActiveHierarchicalSymmetricVersion?;
     var lastActive := lastActive?.Item.Type.ActiveHierarchicalSymmetricVersion.Version;
 
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_ACTIVE_TYPE, ddbClient);
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BEACON_KEY_TYPE_VALUE, ddbClient);
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.MUTATION_COMMITMENT_TYPE, ddbClient);
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_TYPE_PREFIX + lastActive, ddbClient);
-
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
     // print "TestDecryptEncryptStrat.TestDecryptEncryptInitializeReEncryptApplyHappyCase: ";
   }
 
@@ -354,11 +350,7 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
     expect lastActive?.Item.Type.ActiveHierarchicalSymmetricVersion?;
     var lastActive := lastActive?.Item.Type.ActiveHierarchicalSymmetricVersion.Version;
 
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_ACTIVE_TYPE, ddbClient);
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BEACON_KEY_TYPE_VALUE, ddbClient);
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.MUTATION_COMMITMENT_TYPE, ddbClient);
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_TYPE_PREFIX + lastActive, ddbClient);
-
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
     // print "TestDecryptEncryptStrat.TestDecryptEncryptRoundTripHappyCase: \n";
 
   }

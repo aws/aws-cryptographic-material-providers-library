@@ -88,9 +88,7 @@ module TestVersionKey {
     // Since this process uses a read DDB table,
     // the number of records will forever increase.
     // To avoid this, remove the items.
-    CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, newActiveVersion, ddbClient);
-    CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, oldActiveVersion, ddbClient);
-    CleanupItems.DeleteActive(branchKeyId.branchKeyIdentifier, ddbClient);
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=branchKeyId.branchKeyIdentifier, ddbClient:=ddbClient);
 
     // We expect that getting the old active key has the same version as getting a branch key through the get version key api
     expect getBranchKeyVersionResult.branchKeyMaterials.branchKeyVersion == oldActiveResult.branchKeyMaterials.branchKeyVersion;
@@ -190,9 +188,7 @@ module TestVersionKey {
     // Since this process uses a real DDB table,
     // the number of records will forever increase.
     // To avoid this, remove the items.
-    CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, newActiveVersion, ddbClient);
-    CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, oldActiveVersion, ddbClient);
-    CleanupItems.DeleteActive(branchKeyId.branchKeyIdentifier, ddbClient);
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=branchKeyId.branchKeyIdentifier, ddbClient:=ddbClient);
 
     // We expect that getting the old active key has the same version as getting a branch key through the get version key api
     expect getBranchKeyVersionResult.branchKeyMaterials.branchKeyVersion == oldActiveResult.branchKeyMaterials.branchKeyVersion;
@@ -307,9 +303,7 @@ module TestVersionKey {
     // Since this process uses a read DDB table,
     // the number of records will forever increase.
     // To avoid this, remove the items.
-    CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, newActiveVersionEast, ddbClient);
-    CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, oldActiveVersion, ddbClient);
-    CleanupItems.DeleteActive(branchKeyId.branchKeyIdentifier, ddbClient);
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=branchKeyId.branchKeyIdentifier, ddbClient:=ddbClient);
 
     // We expect that getting the old active key has the same version as getting a branch key through the get version key api
     expect getBranchKeyVersionResultEast.branchKeyMaterials.branchKeyVersion == oldActiveResult.branchKeyMaterials.branchKeyVersion;
