@@ -364,9 +364,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     );
 
     internalInput :- KSAInitializeMutation.ValidateInitializeMutationInput(internalInput);
-    // internalInput :- Mutations.ValidateInitializeMutationInput(internalInput);
     output := KSAInitializeMutation.InitializeMutation(internalInput);
-    // output := Mutations.InitializeMutation(internalInput);
     return output;
   }
 
@@ -399,9 +397,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       storage := config.storage);
 
     var _ :- KSAApplyMutation.ValidateApplyMutationInput(internalInput);
-    // var _ :- Mutations.ValidateApplyMutationInput(internalInput); //, config.logicalKeyStoreName, config.storage);
     output := KSAApplyMutation.ApplyMutation(internalInput);
-    // output := Mutations.ApplyMutation(internalInput); //, config.logicalKeyStoreName, keyManagerStrat, config.storage, systemKey);
     return output;
   }
 
