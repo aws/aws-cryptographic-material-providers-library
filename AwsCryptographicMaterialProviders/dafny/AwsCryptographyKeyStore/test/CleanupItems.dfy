@@ -131,7 +131,6 @@ module CleanupItems {
     requires
       && ddbClient.ValidState()
       && DDB.Types.IsValid_TableName(tableName)
-      && UTF8.IsASCIIString(tableName)
     modifies ddbClient.Modifies
     ensures ddbClient.ValidState()
   {
@@ -150,7 +149,11 @@ module CleanupItems {
       ExpressionAttributeValues := Some(ExpressionAttributeValues)
     );
     var queryRes :- ddbClient.Query(queryReq);
-    var deleteItems: DDB.Types.TransactWriteItemList :- Seq.MapWithResult(
+    if (queryRes.Items.None?) {
+      return Success(true);
+    }
+    // DDB.Types.TransactWriteItemList
+    var deleteItems: seq<DDB.Types.TransactWriteItem> :- Seq.MapWithResult(
       (item: DDB.Types.AttributeMap)
       =>
         :- Need(
@@ -169,8 +172,16 @@ module CleanupItems {
                 TableName := tableName
               )))),
       queryRes.Items.value);
+
+    if (0 == |deleteItems|) {
+      return Success(true);
+    }
+    if (100 < |deleteItems|) {
+      // eh, we are going to return false, and delete 100 items
+      deleteItems := deleteItems[..100];
+    }
     var deleteReq := DDB.Types.TransactWriteItemsInput(TransactItems := deleteItems);
     var _ :- ddbClient.TransactWriteItems(deleteReq);
-    return Success(true);
+    return Success(if 100 < |queryRes.Items.value| then false else true);
   }
 }
