@@ -15,7 +15,7 @@ public class ScanForInFlightMutationsTest {
     );
     PageResult actual = underTest.scanForMutationLock(null);
     assert actual.lastEvaluatedKey() != null;
-    assert actual.inFlightMutations().isEmpty();
+    assert !actual.inFlightMutations().isEmpty();
     final short pageLimit = 5;
     short pageIndex = 0;
     while (actual.lastEvaluatedKey() != null && pageIndex < pageLimit) {
