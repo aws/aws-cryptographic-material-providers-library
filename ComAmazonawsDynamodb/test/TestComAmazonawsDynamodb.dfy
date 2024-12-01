@@ -8,9 +8,9 @@ module TestComAmazonawsDynamoDB {
   import opened StandardLibrary.UInt
   import opened Wrappers
 
-  // Use the infra we have already set up for KeyStore testing
-  // to test DynamoDb. Currently relies on some KeyStore specific logic to test.
-  const tableNameTest : DDB.Types.TableName := "KeyStoreTestTable"
+  // Use the infra we have already set up for Smithy-Dafny
+  // to test DynamoDb.
+  const tableNameTest : DDB.Types.TableName := "TestTable"
   const secIndex : DDB.Types.IndexName := "Active-Keys"
 
   // Basic smoke test for DDB client.
@@ -23,7 +23,7 @@ module TestComAmazonawsDynamoDB {
 
     var item: DDB.Types.AttributeMap := map[
       "branch-key-id" := DDB.Types.AttributeValue.S("ddb-client-test"),
-      "type" := DDB.Types.AttributeValue.S("ddb-client-test"),
+      "version" := DDB.Types.AttributeValue.S("ddb-client-test"),
       "status" := DDB.Types.AttributeValue.S("ACTIVE")
     ];
 
@@ -50,7 +50,7 @@ module TestComAmazonawsDynamoDB {
 
     var Key2Get: DDB.Types.Key := map[
       "branch-key-id" := DDB.Types.AttributeValue.S("ddb-client-test"),
-      "type" := DDB.Types.AttributeValue.S("ddb-client-test")
+      "version" := DDB.Types.AttributeValue.S("ddb-client-test")
     ];
     var getInput := DDB.Types.GetItemInput(
       TableName := tableNameTest,
