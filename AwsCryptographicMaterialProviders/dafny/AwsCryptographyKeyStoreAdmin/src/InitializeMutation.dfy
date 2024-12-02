@@ -307,7 +307,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     );
     if (verifyActive?.Fail?) {
       return Failure(verifyActive?.error);
-    }    
+    }
 
       // -= Assert Beacon Key is in Original
     :- Need(
