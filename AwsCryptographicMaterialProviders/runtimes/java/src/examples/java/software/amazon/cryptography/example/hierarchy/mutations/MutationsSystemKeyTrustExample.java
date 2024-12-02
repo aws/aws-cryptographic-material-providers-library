@@ -17,6 +17,20 @@ import software.amazon.cryptography.keystoreadmin.model.MutationVerificationExce
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
 import software.amazon.cryptography.keystoreadmin.model.SystemKey;
 
+/**
+ * To ensure a Mutation is applied consistently to all items
+ * of a Branch Key,
+ * the library persists the Mutation into the Key Store's Storage.
+ * An agent with write access to this storage
+ * could manipulate the persisted Mutation.
+ * To mitigate this risk,
+ * AWS Crypto Tools recommends using a KMS System Key.
+ * However,
+ * if the storage is trusted,
+ * this is not needed.
+ * This example demonstrates a Trust Storage configuration,
+ * which assumes the storage can only be written to by trusted actors.
+ */
 public class MutationsSystemKeyTrustExample {
 
   public static String End2End(

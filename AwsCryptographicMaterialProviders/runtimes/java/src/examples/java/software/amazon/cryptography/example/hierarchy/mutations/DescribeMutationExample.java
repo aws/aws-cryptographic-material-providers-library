@@ -4,11 +4,8 @@ package software.amazon.cryptography.example.hierarchy.mutations;
 
 import static software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider.executeInitialize;
 
-import java.util.HashMap;
 import java.util.Objects;
 import javax.annotation.Nullable;
-import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
-import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.example.hierarchy.CreateKeyExample;
@@ -19,41 +16,55 @@ import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
 import software.amazon.cryptography.keystoreadmin.model.MutationDescription;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
-import software.amazon.cryptography.keystoreadmin.model.Mutations;
 import software.amazon.cryptography.keystoreadmin.model.SystemKey;
 
+/**
+ * Mutations are complex asynchronous workflows.
+ * The {@code DescribeMutation} operation can be used to
+ * inspect the details of an in-flight Mutation.
+ * It can also be used to check if a Mutation is in-flight at all,
+ * or to retrieve the {@code MutationToken} for an in-flight Mutation.
+ * The {@code MutationToken} can than be passed to {@code ApplyMutation}
+ * to work or complete the Mutation.
+ */
 public class DescribeMutationExample {
 
   @Nullable
   public static DescribeMutationOutput Example(
-    String keyStoreTableName,
-    String logicalKeyStoreName,
     String branchKeyId,
-    @Nullable DynamoDbClient dynamoDbClient
+    @Nullable KeyStoreAdmin admin
   ) {
-    KeyStoreAdmin admin = AdminProvider.admin(
-      keyStoreTableName,
-      logicalKeyStoreName,
-      dynamoDbClient
-    );
+    final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
     DescribeMutationInput input = DescribeMutationInput
       .builder()
       .Identifier(branchKeyId)
       .build();
-    DescribeMutationOutput output = admin.DescribeMutation(input);
+
+    DescribeMutationOutput output = _admin.DescribeMutation(input);
+    // If there is no Mutation in-flight for the given Branch Key ID,
+    // No will not be null
     if (output.MutationInFlight().No() != null) {
       System.out.println(
         "There is no mutation in flight for Branch Key ID: " + branchKeyId
       );
       return null;
     }
+    // If there is a Mutation in-flight for the given Branch Key ID,
+    // Yes will not be null
     if (output.MutationInFlight().Yes() != null) {
+      // The Yes object holds a MutationDescription object
       MutationDescription description = output.MutationInFlight().Yes();
       System.out.println(
-        "There is a mutation in flight for Branch Key ID: " + branchKeyId
+        "There is a mutation in flight for Branch Key ID: " +
+        branchKeyId +
+        "\n It was started on: " +
+        description.MutationDetails().CreateTime() +
+        "\n The Input was: " +
+        description.MutationDetails().Input()
       );
+      // The Description object holds Details and the Token.
       System.out.println(
-        "Description: " + description.MutationDetails().UUID()
+        "The Token to continue the Mutation is: " + description.MutationToken()
       );
       return output;
     }
@@ -61,39 +72,31 @@ public class DescribeMutationExample {
   }
 
   public static MutationToken InitMutation(
-    String keyStoreTableName,
-    String logicalKeyStoreName,
-    String kmsKeyArnTerminal,
     String branchKeyId,
-    SystemKey systemKey,
-    @Nullable DynamoDbClient dynamoDbClient,
-    @Nullable KmsClient kmsClient
+    String kmsKeyArnTerminal,
+    @Nullable SystemKey systemKey,
+    @Nullable KeyManagementStrategy strategy,
+    @Nullable KeyStoreAdmin admin
   ) {
-    kmsClient = AdminProvider.kms(kmsClient);
-    KeyManagementStrategy strategy = AdminProvider.strategy(kmsClient);
-    KeyStoreAdmin admin = AdminProvider.admin(
-      keyStoreTableName,
-      logicalKeyStoreName,
-      dynamoDbClient
-    );
-    HashMap<String, String> terminalEC = new HashMap<>();
-    terminalEC.put("Robbie", "is a dog.");
-    Mutations mutations = Mutations
-      .builder()
-      .TerminalEncryptionContext(terminalEC)
-      .TerminalKmsArn(kmsKeyArnTerminal)
-      .build();
+    final SystemKey _systemKey = systemKey == null
+      ? MutationsProvider.KmsSystemKey()
+      : systemKey;
+    final KeyManagementStrategy _strategy = strategy == null
+      ? AdminProvider.strategy(null)
+      : strategy;
+    final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
+
     InitializeMutationInput initInput = InitializeMutationInput
       .builder()
-      .Mutations(mutations)
+      .Mutations(MutationsProvider.defaultMutation(kmsKeyArnTerminal))
       .Identifier(branchKeyId)
-      .Strategy(strategy)
-      .SystemKey(systemKey)
+      .Strategy(_strategy)
+      .SystemKey(_systemKey)
       .build();
 
     MutationToken token = executeInitialize(
       branchKeyId,
-      admin,
+      _admin,
       initInput,
       "InitLogs"
     );
@@ -101,39 +104,32 @@ public class DescribeMutationExample {
   }
 
   public static void CompleteExample(
-    String keyStoreTableName,
-    String logicalKeyStoreName,
     String kmsKeyArnOriginal,
     String kmsKeyArnTerminal,
     String branchKeyId,
-    SystemKey systemKey,
-    @Nullable DynamoDbClient dynamoDbClient,
-    @Nullable KmsClient kmsClient
+    @Nullable SystemKey systemKey,
+    @Nullable KeyManagementStrategy strategy,
+    @Nullable KeyStoreAdmin admin
   ) {
-    CreateKeyExample.CreateKey(
-      keyStoreTableName,
-      logicalKeyStoreName,
-      kmsKeyArnOriginal,
-      branchKeyId,
-      dynamoDbClient
-    );
+    final SystemKey _systemKey = systemKey == null
+      ? MutationsProvider.KmsSystemKey()
+      : systemKey;
+    final KeyManagementStrategy _strategy = strategy == null
+      ? AdminProvider.strategy(null)
+      : strategy;
+    final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
+
+    CreateKeyExample.CreateKey(kmsKeyArnOriginal, branchKeyId, _admin);
 
     MutationToken fromInit = InitMutation(
-      keyStoreTableName,
-      logicalKeyStoreName,
-      kmsKeyArnTerminal,
       branchKeyId,
-      systemKey,
-      dynamoDbClient,
-      kmsClient
+      kmsKeyArnTerminal,
+      _systemKey,
+      _strategy,
+      _admin
     );
 
-    DescribeMutationOutput describeRes = Example(
-      keyStoreTableName,
-      logicalKeyStoreName,
-      branchKeyId,
-      dynamoDbClient
-    );
+    DescribeMutationOutput describeRes = Example(branchKeyId, _admin);
     assert Objects.requireNonNull(describeRes).MutationInFlight().Yes() !=
     null : "No mutation in flight for Branch Key ID: " + branchKeyId;
     MutationToken fromDescribe = describeRes
@@ -142,6 +138,11 @@ public class DescribeMutationExample {
       .MutationToken();
     assert fromDescribe != null;
     assert Objects.equals(fromInit.UUID(), fromDescribe.UUID());
-    Fixtures.cleanUpBranchKeyId(null, branchKeyId, true);
+    Fixtures.DeleteBranchKey(
+      branchKeyId,
+      Fixtures.TEST_KEYSTORE_NAME,
+      "1",
+      null
+    );
   }
 }

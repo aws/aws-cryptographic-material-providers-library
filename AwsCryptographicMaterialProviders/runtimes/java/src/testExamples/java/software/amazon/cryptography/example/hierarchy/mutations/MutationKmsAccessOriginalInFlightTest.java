@@ -21,8 +21,6 @@ import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.example.hierarchy.CreateKeyExample;
-import software.amazon.cryptography.example.hierarchy.StorageExample;
-import software.amazon.cryptography.keystore.KeyStorageInterface;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationOutput;
@@ -53,26 +51,11 @@ public class MutationKmsAccessOriginalInFlightTest {
       .builder()
       .trustStorage(TrustStorage.builder().build())
       .build();
-    KeyStorageInterface storage = StorageExample.create(
-      Fixtures.ddbClientWest2,
-      Fixtures.TEST_KEYSTORE_NAME,
-      Fixtures.TEST_LOGICAL_KEYSTORE_NAME
-    );
-    // KeyStorageInterface storage = StorageCheater.create(
-    //   Fixtures.ddbClientWest2,
-    //   Fixtures.TEST_KEYSTORE_NAME,
-    //   Fixtures.TEST_LOGICAL_KEYSTORE_NAME
-    // );
+
     final String branchKeyId =
       testPrefix + java.util.UUID.randomUUID().toString();
 
-    CreateKeyExample.CreateKey(
-      Fixtures.TEST_KEYSTORE_NAME,
-      Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
-      MRK_ARN_WEST,
-      branchKeyId,
-      Fixtures.ddbClientWest2
-    );
+    CreateKeyExample.CreateKey(MRK_ARN_WEST, branchKeyId, null);
     KeyManagementStrategy strategyAll = AdminProvider.strategy(
       Fixtures.kmsClientWest2
     );
@@ -94,7 +77,8 @@ public class MutationKmsAccessOriginalInFlightTest {
     KeyManagementStrategy strategyDenyMrk = AdminProvider.strategy(denyMrk);
     KeyStoreAdmin admin = AdminProvider.admin(
       Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
-      storage
+      Fixtures.TEST_KEYSTORE_NAME,
+      Fixtures.ddbClientWest2
     );
 
     System.out.println("BranchKey ID to mutate: " + branchKeyId);
@@ -219,7 +203,12 @@ public class MutationKmsAccessOriginalInFlightTest {
     }
 
     // Clean Up
-    Fixtures.cleanUpBranchKeyId(storage, branchKeyId, false);
+    Fixtures.DeleteBranchKey(
+      branchKeyId,
+      Fixtures.TEST_KEYSTORE_NAME,
+      "1",
+      null
+    );
     Assert.assertTrue(
       (exceptions.size() == 1),
       "Only 1 exceptions should have been thrown. But got " +
