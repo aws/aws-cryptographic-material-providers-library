@@ -144,7 +144,8 @@ module CleanupItems {
     ];
     var queryReq := DDB.Types.QueryInput(
       TableName := tableName,
-      KeyConditionExpression := Some("#pk = :pk AND #hv = :hv"),
+      KeyConditionExpression := Some("#pk = :pk"),
+      FilterExpression := Some("#hv = :hv"),
       ExpressionAttributeNames := Some(ExpressionAttributeNames),
       ExpressionAttributeValues := Some(ExpressionAttributeValues)
     );
@@ -152,7 +153,6 @@ module CleanupItems {
     if (queryRes.Items.None?) {
       return Success(true);
     }
-    // DDB.Types.TransactWriteItemList
     var deleteItems: seq<DDB.Types.TransactWriteItem> :- Seq.MapWithResult(
       (item: DDB.Types.AttributeMap)
       =>

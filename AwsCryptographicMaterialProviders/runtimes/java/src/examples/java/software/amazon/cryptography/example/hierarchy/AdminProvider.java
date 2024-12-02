@@ -5,6 +5,7 @@ package software.amazon.cryptography.example.hierarchy;
 import javax.annotation.Nullable;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kms.KmsClient;
+import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.keystore.KeyStorageInterface;
 import software.amazon.cryptography.keystore.model.AwsKms;
 import software.amazon.cryptography.keystore.model.DynamoDBTable;
@@ -21,9 +22,10 @@ public class AdminProvider {
     String logicalName,
     @Nullable DynamoDbClient dynamoDbClient
   ) {
+    final DynamoDbClient _ddbClient = dynamoDB(dynamoDbClient);
     DynamoDBTable table = DynamoDBTable
       .builder()
-      .ddbClient(dynamoDbClient)
+      .ddbClient(_ddbClient)
       .ddbTableName(physicalName)
       .build();
     Storage storage = Storage.builder().ddb(table).build();
@@ -37,24 +39,18 @@ public class AdminProvider {
     return KeyStoreAdmin.builder().KeyStoreAdminConfig(config).build();
   }
 
-  public static KeyStoreAdmin admin(
-    String logicalName,
-    KeyStorageInterface storage
-  ) {
-    KeyStoreAdminConfig config = KeyStoreAdminConfig
-      .builder()
-      .logicalKeyStoreName(logicalName)
-      .storage(Storage.builder().custom(storage).build())
-      .build();
-
-    return KeyStoreAdmin.builder().KeyStoreAdminConfig(config).build();
+  public static KeyStoreAdmin admin() {
+    return admin(
+      Fixtures.TEST_KEYSTORE_NAME,
+      Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
+      Fixtures.ddbClientWest2
+    );
   }
 
   public static KeyManagementStrategy strategy(@Nullable KmsClient kmsClient) {
-    kmsClient = kms(kmsClient);
     return KeyManagementStrategy
       .builder()
-      .AwsKmsReEncrypt(AwsKms.builder().kmsClient(kmsClient).build())
+      .AwsKmsReEncrypt(AwsKms.builder().kmsClient(kms(kmsClient)).build())
       .build();
   }
 
@@ -77,21 +73,13 @@ public class AdminProvider {
       .build();
   }
 
-  @SuppressWarnings("resource")
   public static DynamoDbClient dynamoDB(
     @Nullable DynamoDbClient dynamoDbClient
   ) {
-    if (dynamoDbClient == null) {
-      dynamoDbClient = DynamoDbClient.create();
-    }
-    return dynamoDbClient;
+    return dynamoDbClient == null ? DynamoDbClient.create() : dynamoDbClient;
   }
 
-  @SuppressWarnings("resource")
   public static KmsClient kms(@Nullable KmsClient kmsClient) {
-    if (kmsClient == null) {
-      kmsClient = KmsClient.create();
-    }
-    return kmsClient;
+    return kmsClient == null ? KmsClient.create() : kmsClient;
   }
 }

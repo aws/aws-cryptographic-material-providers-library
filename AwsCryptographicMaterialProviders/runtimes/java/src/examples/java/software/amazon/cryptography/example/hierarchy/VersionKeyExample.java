@@ -3,7 +3,6 @@
 package software.amazon.cryptography.example.hierarchy;
 
 import javax.annotation.Nullable;
-import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.KmsSymmetricKeyArn;
 import software.amazon.cryptography.keystoreadmin.model.VersionKeyInput;
@@ -43,21 +42,15 @@ import software.amazon.cryptography.keystoreadmin.model.VersionKeyInput;
 public class VersionKeyExample {
 
   public static String VersionKey(
-    String keyStoreTableName,
-    String logicalKeyStoreName,
     String kmsKeyArn,
     String branchKeyId,
-    @Nullable DynamoDbClient dynamoDbClient
+    @Nullable KeyStoreAdmin admin
   ) {
     // 1. Configure your Key Store Admin resource.
-    KeyStoreAdmin admin = AdminProvider.admin(
-      keyStoreTableName,
-      logicalKeyStoreName,
-      dynamoDbClient
-    );
+    final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
 
     // 2. Version the Branch Key
-    admin.VersionKey(
+    _admin.VersionKey(
       VersionKeyInput
         .builder()
         // This is the KMS ARN that will be used to protect the Branch Key.
@@ -73,21 +66,15 @@ public class VersionKeyExample {
   }
 
   public static void main(final String[] args) {
-    if (args.length <= 1) {
+    if (args.length <= 4) {
       throw new IllegalArgumentException(
-        "To run this example, include the keyStoreTableName, logicalKeyStoreName, and kmsKeyArn in args"
+        "To run this example, include the keyStoreTableName, logicalKeyStoreName, kmsKeyArn, and branchKeyId in args"
       );
     }
     final String keyStoreTableName = args[0];
     final String logicalKeyStoreName = args[1];
     final String kmsKeyArn = args[2];
     final String branchKeyId = args[3];
-    VersionKey(
-      keyStoreTableName,
-      logicalKeyStoreName,
-      kmsKeyArn,
-      branchKeyId,
-      null
-    );
+    VersionKey(kmsKeyArn, branchKeyId, null);
   }
 }
