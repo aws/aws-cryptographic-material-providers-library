@@ -18,7 +18,7 @@ require (
 	github.com/aws/aws-cryptographic-material-providers-library/primitives v0.0.0
 	github.com/aws/aws-cryptographic-material-providers-library/testvectors v0.0.0
 	github.com/aws/aws-sdk-go-v2/service/kms v1.36.0
-	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.9.0
+	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.9.1
 	github.com/dafny-lang/DafnyStandardLibGo v0.0.0
 )
 
