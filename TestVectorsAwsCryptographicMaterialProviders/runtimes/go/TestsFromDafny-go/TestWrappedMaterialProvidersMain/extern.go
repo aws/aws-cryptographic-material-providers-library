@@ -7,6 +7,9 @@ import (
 )
 
 func GetTestVectorExecutionDirectory() dafny.Sequence {
-	cwd, _ := os.Getwd()
+	cwd, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
 	return dafny.SeqOfString(cwd + "/../../../")
 }
