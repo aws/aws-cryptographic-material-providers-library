@@ -14,6 +14,7 @@ var m_DafnyLibraries struct {
 }
 
 func (_static CompanionStruct_Default___) INTERNAL_ReadBytesFromFile(path _dafny.Sequence) (isError bool, bytesRead _dafny.Sequence, errorMsg _dafny.Sequence) {
+	// TODO: fix _dafny.SequenceVerbatimString and use p:= _dafny.SequenceVerbatimString
 	p := func() string {
 		var s string
 		for i := _dafny.Iterate(path); ; {
@@ -35,6 +36,7 @@ func (_static CompanionStruct_Default___) INTERNAL_ReadBytesFromFile(path _dafny
 }
 
 func (_static CompanionStruct_Default___) INTERNAL_WriteBytesToFile(path _dafny.Sequence, bytes _dafny.Sequence) (isError bool, errorMsg _dafny.Sequence) {
+	// TODO: fix _dafny.SequenceVerbatimString and use p:= _dafny.SequenceVerbatimString
 	p := func() string {
 		var s string
 		for i := _dafny.Iterate(path); ; {
