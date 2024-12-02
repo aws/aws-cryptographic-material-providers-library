@@ -91,6 +91,8 @@ public class StormTrackingCMC
   > GetCacheEntry_k(
     software.amazon.cryptography.materialproviders.internaldafny.types.GetCacheEntryInput input
   ) {
+    final Long maxInFlight =
+      Time.__default.CurrentRelativeTimeMilli() + wrapped.inFlightTTL;
     while (true) {
       Wrappers_Compile.Result<
         CacheState,
@@ -108,8 +110,24 @@ public class StormTrackingCMC
         );
       } else {
         try {
-          Thread.sleep(wrapped.sleepMilli);
-        } catch (Exception e) {}
+          if (Time.__default.CurrentRelativeTimeMilli() <= maxInFlight) {
+            Thread.sleep(wrapped.sleepMilli);
+          } else {
+            return CreateGetCacheEntryFailure(
+              software.amazon.cryptography.materialproviders.internaldafny.types.Error.create_InFlightTTLExceeded(
+                dafny.DafnySequence.asString(
+                  "Storm cache inFlightTTL exceeded."
+                )
+              )
+            );
+          }
+        } catch (Exception e) {
+          return CreateGetCacheEntryFailure(
+            software.amazon.cryptography.materialproviders.internaldafny.types.Error.create_Opaque(
+              e
+            )
+          );
+        }
       }
     }
   }

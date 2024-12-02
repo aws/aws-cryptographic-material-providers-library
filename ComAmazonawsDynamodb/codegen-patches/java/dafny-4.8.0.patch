@@ -1,0 +1,14 @@
+diff --git b/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java a/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java
+index 5c6364b2..7feacebc 100644
+--- b/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java
++++ a/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java
+@@ -8670,9 +8670,6 @@ public class ToNative {
+     if (dafnyValue.is_InternalServerError()) {
+       return ToNative.Error((Error_InternalServerError) dafnyValue);
+     }
+-    if (dafnyValue.is_InvalidEndpointException()) {
+-      return ToNative.Error((Error_InvalidEndpointException) dafnyValue);
+-    }
+     if (dafnyValue.is_InvalidExportTimeException()) {
+       return ToNative.Error((Error_InvalidExportTimeException) dafnyValue);
+     }

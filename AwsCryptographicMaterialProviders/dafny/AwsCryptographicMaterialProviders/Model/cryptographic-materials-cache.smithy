@@ -126,6 +126,12 @@ structure EntryAlreadyExists {
   message: String,
 }
 
+@error("client")
+structure InFlightTTLExceeded {
+  @required
+  message: String,
+}
+
 // Materials Cache Constructors
 
 @positional
@@ -190,12 +196,12 @@ structure StormTrackingCache {
   entryPruningTailSize: CountingNumber,
 
   @required
-  @javadoc("How many seconds before expiration should an attempt be made to refresh the materials.
+  @javadoc("How much time before expiration should an attempt be made to refresh the materials.
   If zero, use a simple cache with no storm tracking.")
   gracePeriod: CountingNumber,
 
   @required
-  @javadoc("How many seconds between attempts to refresh the materials.")
+  @javadoc("How much time between attempts to refresh the materials.")
   graceInterval: CountingNumber,
 
   @required
@@ -203,13 +209,30 @@ structure StormTrackingCache {
   fanOut: CountingNumber,
 
   @required
-  @javadoc("How many seconds until an attempt to refresh the materials should be forgotten.")
+  @javadoc("How much time until an attempt to refresh the materials should be forgotten.")
   inFlightTTL: CountingNumber,
 
   @required
   @javadoc("How many milliseconds should a thread sleep if fanOut is exceeded.")
   sleepMilli: CountingNumber,
+
+  @javadoc("The time unit for gracePeriod, graceInterval, and inFlightTTL.
+  The default is seconds.
+  If this is set to milliseconds, then these values will be treated as milliseconds.")
+  timeUnits: TimeUnits
 }
+
+@enum([
+  {
+    name: "Seconds",
+    value: "Seconds",
+  },
+  {
+    name: "Milliseconds",
+    value: "Milliseconds",
+  },
+])
+string TimeUnits
 
 union CacheType {
   Default : DefaultCache,

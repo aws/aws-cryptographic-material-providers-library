@@ -72,6 +72,7 @@ func (CompanionStruct_Default___) DecryptExtern(paddingMode AwsCryptographyPrimi
 	}
 	return Wrappers.Companion_Result_.Create_Success_(dafny.SeqOfBytes(res))
 }
+
 func (CompanionStruct_Default___) EncryptExtern(paddingMode AwsCryptographyPrimitivesTypes.RSAPaddingMode, key dafny.Sequence, plainText dafny.Sequence) Wrappers.Result {
 	derPublicKey, rest := pem.Decode(dafny.ToByteArray(key))
 	if len(rest) > 0 {
@@ -103,10 +104,7 @@ func (CompanionStruct_Default___) EncryptExtern(paddingMode AwsCryptographyPrimi
 
 func getNativeHashAlgorithm(mode AwsCryptographyPrimitivesTypes.RSAPaddingMode) (crypto.Hash, error) {
 	switch mode {
-	case AwsCryptographyPrimitivesTypes.Companion_RSAPaddingMode_.Create_PKCS1_():
-		return crypto.Hash(0), nil
 	case AwsCryptographyPrimitivesTypes.Companion_RSAPaddingMode_.Create_OAEP__SHA1_():
-		// // fmt.Println(crypto.SHA1)
 		return crypto.SHA1, nil
 	case AwsCryptographyPrimitivesTypes.Companion_RSAPaddingMode_.Create_OAEP__SHA256_():
 		return crypto.SHA256, nil
@@ -115,6 +113,6 @@ func getNativeHashAlgorithm(mode AwsCryptographyPrimitivesTypes.RSAPaddingMode) 
 	case AwsCryptographyPrimitivesTypes.Companion_RSAPaddingMode_.Create_OAEP__SHA512_():
 		return crypto.SHA512, nil
 	default:
-		return crypto.Hash(0), fmt.Errorf("unsupported padding mode")
+		return 0, fmt.Errorf("unsupported padding mode")
 	}
 }

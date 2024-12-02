@@ -10,6 +10,7 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     Error_AwsCryptographicMaterialProvidersException,
     Error_EntryAlreadyExists,
     Error_EntryDoesNotExist,
+    Error_InFlightTTLExceeded,
     Error_InvalidAlgorithmSuiteInfo,
     Error_InvalidAlgorithmSuiteInfoOnDecrypt,
     Error_InvalidAlgorithmSuiteInfoOnEncrypt,
@@ -31,6 +32,7 @@ from .errors import (
     ComAmazonawsKms,
     EntryAlreadyExists,
     EntryDoesNotExist,
+    InFlightTTLExceeded,
     InvalidAlgorithmSuiteInfo,
     InvalidAlgorithmSuiteInfoOnDecrypt,
     InvalidAlgorithmSuiteInfoOnEncrypt,
@@ -320,6 +322,8 @@ def _deserialize_validate_commitment_policy_on_decrypt(
 def _deserialize_error(error: Error) -> ServiceError:
     if error.is_Opaque:
         return OpaqueError(obj=error.obj)
+    elif error.is_OpaqueWithText:
+        return OpaqueErrorWithText(obj=error.obj, obj_message=error.objMessage)
     elif error.is_CollectionOfErrors:
         return CollectionOfErrors(
             message=_dafny.string_of(error.message),
@@ -333,6 +337,8 @@ def _deserialize_error(error: Error) -> ServiceError:
         return EntryAlreadyExists(message=_dafny.string_of(error.message))
     elif error.is_EntryDoesNotExist:
         return EntryDoesNotExist(message=_dafny.string_of(error.message))
+    elif error.is_InFlightTTLExceeded:
+        return InFlightTTLExceeded(message=_dafny.string_of(error.message))
     elif error.is_InvalidAlgorithmSuiteInfo:
         return InvalidAlgorithmSuiteInfo(message=_dafny.string_of(error.message))
     elif error.is_InvalidAlgorithmSuiteInfoOnDecrypt:

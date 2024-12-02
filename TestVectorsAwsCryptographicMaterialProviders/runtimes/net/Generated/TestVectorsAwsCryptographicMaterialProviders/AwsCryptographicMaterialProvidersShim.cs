@@ -463,6 +463,9 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
         case AWS.Cryptography.MaterialProviders.EntryDoesNotExist e:
           return TypeConversion.ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S17_EntryDoesNotExist(e);
 
+        case AWS.Cryptography.MaterialProviders.InFlightTTLExceeded e:
+          return TypeConversion.ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_InFlightTTLExceeded(e);
+
         case AWS.Cryptography.MaterialProviders.InvalidAlgorithmSuiteInfo e:
           return TypeConversion.ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S25_InvalidAlgorithmSuiteInfo(e);
 

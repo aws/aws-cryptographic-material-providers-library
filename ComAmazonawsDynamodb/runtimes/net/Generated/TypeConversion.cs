@@ -13135,7 +13135,7 @@ namespace Com.Amazonaws.Dynamodb
                     return FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S28_TransactionConflictException(dafnyVal);
                 case software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_TransactionInProgressException dafnyVal:
                     return FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S30_TransactionInProgressException(dafnyVal);
-                case software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_Opaque dafnyVal:
+                case software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_OpaqueWithText dafnyVal:
                     return new SystemException(dafnyVal._obj.ToString());
                 default:
                     // The switch MUST be complete for _IError, so `value` MUST NOT be an _IError. (How did you get here?)
@@ -13244,7 +13244,7 @@ namespace Com.Amazonaws.Dynamodb
                     return TypeConversion.ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S30_TransactionInProgressException(e);
 
                 default:
-                    return new software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_Opaque(value);
+                    return new software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_OpaqueWithText(value, Dafny.Sequence<char>.FromString(value.ToString()));
 
             }
         }
