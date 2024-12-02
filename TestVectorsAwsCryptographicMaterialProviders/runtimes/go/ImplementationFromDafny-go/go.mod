@@ -7,7 +7,6 @@ replace (
 	github.com/aws/aws-cryptographic-material-providers-library/kms v0.0.0 => ../../../../ComAmazonawsKms/runtimes/go/ImplementationFromDafny-go/
 	github.com/aws/aws-cryptographic-material-providers-library/mpl v0.0.0 => ../../../../AwsCryptographicMaterialProviders/runtimes/go/ImplementationFromDafny-go/
 	github.com/aws/aws-cryptographic-material-providers-library/primitives v0.0.0 => ../../../../AwsCryptographyPrimitives/runtimes/go/ImplementationFromDafny-go/
-	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.9.0 => /Users/rishavkj/Documents/Storage/Team-Repos/DafnyRuntimeGo/v4
 	github.com/dafny-lang/DafnyStandardLibGo => ../../../../StandardLibrary/runtimes/go/ImplementationFromDafny-go/
 )
 
