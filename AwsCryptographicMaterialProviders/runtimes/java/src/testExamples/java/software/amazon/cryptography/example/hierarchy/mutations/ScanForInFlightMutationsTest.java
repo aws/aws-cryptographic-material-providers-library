@@ -13,13 +13,16 @@ public class ScanForInFlightMutationsTest {
       Fixtures.TEST_KEYSTORE_NAME,
       null
     );
-    PageResult actual = underTest.scanForMutationLock(null);
-    assert actual.lastEvaluatedKey() != null;
-    assert actual.inFlightMutations().isEmpty();
+    PageResult actual = underTest.scanForMutationCommitment(null);
+    assert actual.lastEvaluatedKey() !=
+    null : "Last Evaluated Key is null! There are far fewer Mutations in-flight than expected.";
+    assert !actual
+      .inFlightMutations()
+      .isEmpty() : "There are no mutations in-flight! That is wrong.";
     final short pageLimit = 5;
     short pageIndex = 0;
     while (actual.lastEvaluatedKey() != null && pageIndex < pageLimit) {
-      actual = underTest.scanForMutationLock(actual.lastEvaluatedKey());
+      actual = underTest.scanForMutationCommitment(actual.lastEvaluatedKey());
       if (!actual.inFlightMutations().isEmpty()) {
         System.out.println(actual.inFlightMutations());
       }

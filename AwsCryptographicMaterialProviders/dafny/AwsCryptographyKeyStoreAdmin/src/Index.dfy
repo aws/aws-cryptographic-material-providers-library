@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "AwsCryptographyKeyStoreAdminOperations.dfy"
-  // include "../../AwsCryptographyKeyStore/Model/AwsCryptographyKeyStoreTypes.dfy"
 
 module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny"} KeyStoreAdmin refines AbstractAwsCryptographyKeyStoreAdminService
 {
