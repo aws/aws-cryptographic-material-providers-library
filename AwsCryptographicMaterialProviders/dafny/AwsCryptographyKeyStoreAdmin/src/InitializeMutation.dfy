@@ -176,13 +176,12 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         internalInput := input,
         commitment := readItems.MutationCommitment.value);
       if (resumeMutation?) {
-        // TODO-SystemKey :: ResumeMutation will validate SystemKey
         output := ResumeMutation(
           commitment := readItems.MutationCommitment.value,
           index := readItems.MutationIndex,
           logicalKeyStoreName := input.logicalKeyStoreName,
           storage := input.storage, // );//,
-          SystemKey := input.SystemKey);
+          systemKey := input.SystemKey);
         return output;
       }
       return Failure(
@@ -301,11 +300,14 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     assert MutationToApply.ValidState();
     // -= BEGIN Version Active Branch Key
     // --= Validate Active Branch Key
-    var verifyActive :- Mutations.VerifyEncryptedHierarchicalKey(
+    var verifyActive? := Mutations.VerifyEncryptedHierarchicalKey(
       item := activeItem,
       keyManagerStrategy := input.keyManagerStrategy,
       localOperation := "InitializeMutation"
     );
+    if (verifyActive?.Fail?) {
+      return Failure(verifyActive?.error);
+    }    
 
       // -= Assert Beacon Key is in Original
     :- Need(
@@ -512,12 +514,12 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     nameonly index: Option<KeyStoreTypes.MutationIndex>,
     nameonly logicalKeyStoreName: string,
     nameonly storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface,
-    nameonly SystemKey: KmsUtils.InternalSystemKey
+    nameonly systemKey: KmsUtils.InternalSystemKey
   )
     returns (output: Result<Types.InitializeMutationOutput, Types.Error>)
-    requires storage.ValidState() && SystemKey.ValidState()
-    ensures storage.ValidState() && SystemKey.ValidState()
-    modifies storage.Modifies, SystemKey.Modifies
+    requires storage.ValidState() && systemKey.ValidState()
+    ensures storage.ValidState() && systemKey.ValidState()
+    modifies storage.Modifies, systemKey.Modifies
     ensures
       output.Success? && index.Some?
       ==>
@@ -547,7 +549,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       && 0 < |commitment.UUID|,
       Types.KeyStoreAdminException(
         message := "Mutation Commitment's UUID cannot be empty."));
-    var commitmentIsVerified :- SystemKeyHandler.VerifyCommitment(commitment, SystemKey);
+    var commitmentIsVerified :- SystemKeyHandler.VerifyCommitment(commitment, systemKey);
     :- Need(
       commitmentIsVerified,
       Types.MutationVerificationException(
@@ -574,7 +576,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         CreateTime := timestamp,
         CiphertextBlob := [0] // [0] is a temporary place holder, but we should fix this by creating an internal type
       );
-      var SignedMutationIndex :- SystemKeyHandler.SignIndex(newIndex, SystemKey);
+      var SignedMutationIndex :- SystemKeyHandler.SignIndex(newIndex, systemKey);
       // -= Write Mutation Index, conditioned on Mutation Commitment
       var throwAway2? := storage.WriteMutationIndex(
         KeyStoreTypes.WriteMutationIndexInput(
@@ -591,7 +593,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         Token,
         commitment,
         index.value);
-      var indexIsVerified :- SystemKeyHandler.VerifyIndex(commitmentAndIndex.Index, SystemKey);
+      var indexIsVerified :- SystemKeyHandler.VerifyIndex(commitmentAndIndex.Index, systemKey);
       :- Need(
         indexIsVerified,
         Types.MutationVerificationException(
