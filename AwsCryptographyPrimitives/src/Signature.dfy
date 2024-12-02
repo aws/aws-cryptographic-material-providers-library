@@ -3,7 +3,7 @@
 
 include "../Model/AwsCryptographyPrimitivesTypes.dfy"
 
-module {:extern "Signature"} Signature {
+module Signature {
 
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
@@ -58,14 +58,14 @@ module {:extern "Signature"} Signature {
   // Generate an ECDSA key pair
   // Verification key, a.k.a public key, is in X9.62 compressed format
   // Signing Key, a.k.a private key, is in DER-encoded
-  method {:extern "Signature.ECDSA", "ExternKeyGen"} ExternKeyGen(
+  method {:extern "ExternKeyGen"} ExternKeyGen(
     s: Types.ECDSASignatureAlgorithm
   ) returns (res: Result<SignatureKeyPair, Types.Error>)
     ensures res.Success? ==> IsValidSignatureKeyPair(res.value)
 
   // sign the message with the private key
   // private signing key is DER-encoded
-  method {:extern "Signature.ECDSA", "Sign"} Sign(
+  method {:extern "Sign"} Sign(
     s: Types.ECDSASignatureAlgorithm,
     key: seq<uint8>,
     msg: seq<uint8>
@@ -77,7 +77,7 @@ module {:extern "Signature"} Signature {
   // If signature does not match Success(false) is returned
   // This is a valid function
   // because the same inputs will result in the same outputs.
-  function method {:extern "Signature.ECDSA", "Verify"} Verify(
+  function method {:extern "Verify"} Verify(
     s: Types.ECDSASignatureAlgorithm, key: seq<uint8>,
     msg: seq<uint8>,
     sig: seq<uint8>
