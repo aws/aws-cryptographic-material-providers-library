@@ -19,10 +19,8 @@ import software.amazon.awssdk.services.kms.model.KmsException;
 import software.amazon.cryptography.example.CredentialUtils;
 import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
-import software.amazon.cryptography.example.StorageCheater;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.example.hierarchy.CreateKeyExample;
-import software.amazon.cryptography.keystore.KeyStorageInterface;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationOutput;
@@ -49,24 +47,13 @@ public class MutationKmsAccessTerminalInFlightTest {
 
   @Test
   public void test() {
-    KeyStorageInterface storage = StorageCheater.create(
-      Fixtures.ddbClientWest2,
-      Fixtures.TEST_KEYSTORE_NAME,
-      Fixtures.TEST_LOGICAL_KEYSTORE_NAME
-    );
     SystemKey systemKey = SystemKey
       .builder()
       .trustStorage(TrustStorage.builder().build())
       .build();
     final String branchKeyId =
       testPrefix + java.util.UUID.randomUUID().toString();
-    CreateKeyExample.CreateKey(
-      Fixtures.TEST_KEYSTORE_NAME,
-      Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
-      POSTAL_HORN_KEY_ARN,
-      branchKeyId,
-      Fixtures.ddbClientWest2
-    );
+    CreateKeyExample.CreateKey(POSTAL_HORN_KEY_ARN, branchKeyId, null);
     KeyManagementStrategy strategyWest2 = AdminProvider.strategy(
       Fixtures.kmsClientWest2
     );
@@ -210,7 +197,12 @@ public class MutationKmsAccessTerminalInFlightTest {
     }
 
     // Clean Up
-    Fixtures.cleanUpBranchKeyId(storage, branchKeyId, false);
+    Fixtures.DeleteBranchKey(
+      branchKeyId,
+      Fixtures.TEST_KEYSTORE_NAME,
+      "1",
+      null
+    );
     Assert.assertTrue(
       (exceptions.size() == 2),
       "Only two exceptions should have been thrown. But got " +

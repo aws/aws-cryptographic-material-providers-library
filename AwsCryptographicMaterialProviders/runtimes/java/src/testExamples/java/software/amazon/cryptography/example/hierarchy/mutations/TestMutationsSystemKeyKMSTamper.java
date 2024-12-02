@@ -17,8 +17,6 @@ import software.amazon.awssdk.services.dynamodb.model.AttributeValueUpdate;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.example.hierarchy.CreateKeyExample;
-import software.amazon.cryptography.example.hierarchy.StorageExample;
-import software.amazon.cryptography.keystore.KeyStorageInterface;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
@@ -197,13 +195,7 @@ public class TestMutationsSystemKeyKMSTamper {
     final String identifier =
       testPrefix + java.util.UUID.randomUUID().toString();
 
-    CreateKeyExample.CreateKey(
-      Fixtures.TEST_KEYSTORE_NAME,
-      Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
-      Fixtures.MRK_ARN_WEST,
-      identifier,
-      Fixtures.ddbClientWest2
-    );
+    CreateKeyExample.CreateKey(Fixtures.MRK_ARN_WEST, identifier, null);
     //noinspection unchecked
     SystemKey systemKey = MutationsProvider.KmsSystemKey(
       Fixtures.POSTAL_HORN_KEY_ARN,
@@ -256,16 +248,16 @@ public class TestMutationsSystemKeyKMSTamper {
       );
       exThrown = true;
     }
-    KeyStorageInterface storage = StorageExample.create(
-      Fixtures.ddbClientWest2,
-      Fixtures.TEST_KEYSTORE_NAME,
-      Fixtures.TEST_LOGICAL_KEYSTORE_NAME
-    );
     Assert.assertTrue(
       exThrown,
       "Tampering should have lead to a MutationVerificationException! testId: " +
       identifier
     );
-    Fixtures.cleanUpBranchKeyId(storage, identifier, true);
+    Fixtures.DeleteBranchKey(
+      identifier,
+      Fixtures.TEST_KEYSTORE_NAME,
+      "1",
+      null
+    );
   }
 }
