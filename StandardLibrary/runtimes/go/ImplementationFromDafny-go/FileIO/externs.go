@@ -8,6 +8,11 @@ import (
 	_dafny "github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 )
 
+// TODO: Drop this once we fix the DafnyLibraries.FileIO extern
+var m_DafnyLibraries struct {
+	FileIO CompanionStruct_Default___
+}
+
 func (_static CompanionStruct_Default___) INTERNAL_ReadBytesFromFile(path _dafny.Sequence) (isError bool, bytesRead _dafny.Sequence, errorMsg _dafny.Sequence) {
 	p := func() string {
 		var s string
