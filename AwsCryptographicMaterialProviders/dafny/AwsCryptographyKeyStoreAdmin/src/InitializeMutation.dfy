@@ -180,7 +180,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
           commitment := readItems.MutationCommitment.value,
           index := readItems.MutationIndex,
           logicalKeyStoreName := input.logicalKeyStoreName,
-          storage := input.storage, // );//,
+          storage := input.storage,
           systemKey := input.SystemKey);
         return output;
       }
