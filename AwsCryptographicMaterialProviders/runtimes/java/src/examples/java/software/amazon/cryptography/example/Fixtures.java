@@ -4,7 +4,9 @@ package software.amazon.cryptography.example;
 
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
@@ -13,7 +15,13 @@ import software.amazon.awssdk.http.apache.ApacheHttpClient;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
+import software.amazon.awssdk.services.dynamodb.model.Delete;
 import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
+import software.amazon.awssdk.services.dynamodb.model.QueryRequest;
+import software.amazon.awssdk.services.dynamodb.model.QueryResponse;
+import software.amazon.awssdk.services.dynamodb.model.TransactWriteItem;
+import software.amazon.awssdk.services.dynamodb.model.TransactWriteItemsRequest;
+import software.amazon.awssdk.services.dynamodb.model.TransactWriteItemsResponse;
 import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.keystore.KeyStorageInterface;
@@ -67,6 +75,20 @@ public class Fixtures {
     .credentialsProvider(defaultCreds)
     .region(Region.US_EAST_1)
     .build();
+  public static final KmsClient denyMrkKmsClient = KmsClient
+    .builder()
+    .credentialsProvider(
+      CredentialUtils.credsForRole(
+        Fixtures.LIMITED_KMS_ACCESS_IAM_ROLE,
+        "java-mpl-examples",
+        Region.US_WEST_2,
+        Fixtures.httpClient,
+        Fixtures.defaultCreds
+      )
+    )
+    .region(Region.US_WEST_2)
+    .httpClient(Fixtures.httpClient)
+    .build();
 
   public static GetItemResponse getKeyStoreDdbItem(
     final String branchKeyId,
@@ -86,73 +108,70 @@ public class Fixtures {
     );
   }
 
-  public static void cleanUpBranchKeyId(
-    @Nullable KeyStorageInterface storage,
-    String branchKeyId,
-    boolean alsoMutation
+  private static TransactWriteItem bkItemToDeleteReq(
+    final Map<String, AttributeValue> item,
+    final String _tableName
   ) {
-    final KeyStorageInterface _storage;
-    if (storage == null) {
-      _storage =
-        StorageCheater.create(
-          Fixtures.ddbClientWest2,
-          Fixtures.TEST_KEYSTORE_NAME,
-          Fixtures.TEST_LOGICAL_KEYSTORE_NAME
-        );
-    } else {
-      _storage = storage;
-    }
-    QueryForVersionsOutput versions = _storage.QueryForVersions(
-      QueryForVersionsInput
-        .builder()
-        .Identifier(branchKeyId)
-        .PageSize(99)
-        .build()
-    );
-    String physicalName = _storage
-      .GetKeyStorageInfo(GetKeyStorageInfoInput.builder().build())
-      .Name();
-    versions
-      .Items()
-      .forEach(item ->
-        DdbHelper.deleteKeyStoreDdbItem(
-          item.Identifier(),
-          item.EncryptionContext().get("type"),
-          physicalName,
-          ddbClientWest2,
-          false
-        )
-      );
+    final Map<String, AttributeValue> key = new HashMap<>(3, 1);
+    key.put("branch-key-id", item.get("branch-key-id"));
+    key.put("type", item.get("type"));
+    return TransactWriteItem
+      .builder()
+      .delete(Delete.builder().tableName(_tableName).key(key).build())
+      .build();
+  }
 
-    DdbHelper.deleteKeyStoreDdbItem(
-      branchKeyId,
-      "branch:ACTIVE",
-      physicalName,
-      ddbClientWest2,
-      false
+  public static boolean DeleteBranchKey(
+    final String branchKeyId,
+    @Nullable String tableName,
+    @Nullable String hierarchyVersion,
+    @Nullable DynamoDbClient ddbClient
+  ) {
+    final String _tableName = tableName == null
+      ? TEST_KEYSTORE_NAME
+      : tableName;
+    final String _hierarchyVersion = hierarchyVersion == null
+      ? "1"
+      : hierarchyVersion;
+    final DynamoDbClient _ddbClient = ddbClient == null
+      ? ddbClientWest2
+      : ddbClient;
+    final Map<String, String> ExpressionAttributeNames = new HashMap<>(3, 1);
+    ExpressionAttributeNames.put("#pk", "branch-key-id");
+    ExpressionAttributeNames.put("#hv", "hierarchy-version");
+    final Map<String, AttributeValue> ExpressionAttributeValues = new HashMap<>(
+      3,
+      1
     );
-    DdbHelper.deleteKeyStoreDdbItem(
-      branchKeyId,
-      "beacon:ACTIVE",
-      physicalName,
-      ddbClientWest2,
-      false
+    ExpressionAttributeValues.put(":pk", AttributeValue.fromS(branchKeyId));
+    ExpressionAttributeValues.put(
+      ":hv",
+      AttributeValue.fromN(_hierarchyVersion)
     );
-    if (alsoMutation) {
-      DdbHelper.deleteKeyStoreDdbItem(
-        branchKeyId,
-        "branch:MUTATION_COMMITMENT",
-        physicalName,
-        ddbClientWest2,
-        false
-      );
-      DdbHelper.deleteKeyStoreDdbItem(
-        branchKeyId,
-        "beacon:MUTATION_INDEX",
-        physicalName,
-        ddbClientWest2,
-        false
-      );
+    final QueryRequest queryReq = QueryRequest
+      .builder()
+      .tableName(_tableName)
+      .keyConditionExpression("#pk = :pk")
+      .filterExpression("#hv = :hv")
+      .expressionAttributeNames(ExpressionAttributeNames)
+      .expressionAttributeValues(ExpressionAttributeValues)
+      .build();
+    final QueryResponse queryRes = _ddbClient.query(queryReq);
+    final List<TransactWriteItem> deleteItems = queryRes
+      .items()
+      .stream()
+      .map(item -> bkItemToDeleteReq(item, _tableName))
+      .collect(Collectors.toList());
+    if (deleteItems.isEmpty()) {
+      return true;
     }
+    final TransactWriteItemsRequest deleteReq = TransactWriteItemsRequest
+      .builder()
+      .transactItems(
+        deleteItems.size() > 100 ? deleteItems.subList(0, 100) : deleteItems
+      )
+      .build();
+    _ddbClient.transactWriteItems(deleteReq);
+    return deleteItems.size() < 100;
   }
 }

@@ -4,9 +4,6 @@ package software.amazon.cryptography.example.hierarchy.mutations;
 
 import java.util.HashMap;
 import javax.annotation.Nullable;
-import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
-import software.amazon.awssdk.services.kms.KmsClient;
-import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
@@ -15,26 +12,65 @@ import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
 import software.amazon.cryptography.keystoreadmin.model.SystemKey;
-import software.amazon.cryptography.keystoreadmin.model.TrustStorage;
 
+/**
+ * A Branch Key can be Mutated via a Mutation.
+ * Only certain elements of a Branch Key can be mutated:
+ * <ul>
+ *   <li>The Encryption Context</li>
+ *   <li>The KMS ARN</li>
+ * </ul>
+ * Mutations are a workflow facilitated by the Key Store Admin class.
+ * They are started by {@code InitializeMutation},
+ * and then worked by {@code ApplyMutation}.
+ * This division allows a change to be applied asynchronously
+ * to all versions of a Branch Key,
+ * even if there are hundreds of versions. <p>
+ * Note: <Strong>It is a best practice to use KMS System Key when executing a mutation.</Strong>
+ * See {@link MutationSystemKeyKMSExample} for details. <p>
+ * {@code InitializeMutation} serializes the Mutation of a Branch Key,
+ * persisting it to Key Store's Storage,
+ * such that every {@code ApplyMutation} operation consistently applies
+ * the same Mutation.
+ * {@code InitializeMutation} and {@code ApplyMutation} also serialize
+ * a "page Index" to storage;
+ * think of this "page Index" as a bookmark;
+ * it tells the library what is left to do.
+ * {@code ApplyMutation} should be called until
+ * it returns {@code CompleteMutation}. <p>
+ * Note: <strong>A Mutation can lead to lock out of a Branch Key!</strong>
+ * Access to a Branch Key is predicated on access to the KMS Key that protects
+ * the Branch Key, constrained by the Encryption Context of the Branch Key
+ * and the KMS Key Policy.
+ * Changing (mutating) these attributes of a Branch Key changes these predicates;
+ * agents that had access may lose access. <p>
+ * Note: <strong>Mutations are asynchronous and should be completed.</strong>
+ * See {@link ScanForInFlightMutations#ScanForInFlightMutations} for an example
+ * utility to scan for in-complete Mutations.
+ * An in-complete Mutation leaves a Branch Key in a mixed state.
+ * Presumably, both states are safe, but it is a Best Practice to
+ * keep a Branch Key in one consistent state.
+ * Otherwise, reasoning about the Security domain of the Branch Key is difficult.
+ * For this reason,
+ * AWS Crypto Tools recommends completing Mutations as quickly as possible,
+ * using robust workflow solutions such as SQS and Lambda,
+ * along with a Dead Letter Queue,
+ * to ensure any transient failure does not block the eventual completion of
+ * a Mutation.
+ */
 public class MutationExample {
 
   public static String End2End(
-    String keyStoreTableName,
-    String logicalKeyStoreName,
     String kmsKeyArnTerminal,
     String branchKeyId,
-    SystemKey systemKey,
-    @Nullable DynamoDbClient dynamoDbClient,
-    @Nullable KmsClient kmsClient
+    @Nullable SystemKey systemKey,
+    @Nullable KeyStoreAdmin admin
   ) {
-    kmsClient = AdminProvider.kms(kmsClient);
-    KeyManagementStrategy strategy = AdminProvider.strategy(kmsClient);
-    KeyStoreAdmin admin = AdminProvider.admin(
-      keyStoreTableName,
-      logicalKeyStoreName,
-      dynamoDbClient
-    );
+    final SystemKey _systemKey = systemKey == null
+      ? MutationsProvider.KmsSystemKey()
+      : systemKey;
+    final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
+    final KeyManagementStrategy strategy = AdminProvider.strategy(null);
 
     System.out.println("BranchKey ID to mutate: " + branchKeyId);
     HashMap<String, String> terminalEC = new HashMap<>();
@@ -50,10 +86,10 @@ public class MutationExample {
       .Mutations(mutations)
       .Identifier(branchKeyId)
       .Strategy(strategy)
-      .SystemKey(systemKey)
+      .SystemKey(_systemKey)
       .build();
 
-    InitializeMutationOutput initOutput = admin.InitializeMutation(initInput);
+    InitializeMutationOutput initOutput = _admin.InitializeMutation(initInput);
 
     MutationToken token = initOutput.MutationToken();
     System.out.println(
@@ -64,37 +100,14 @@ public class MutationExample {
     );
     MutationsProvider.workMutation(
       branchKeyId,
-      systemKey,
+      _systemKey,
       token,
       strategy,
-      admin
+      _admin
     );
 
     System.out.println("Done with Mutation: " + branchKeyId);
 
     return branchKeyId;
-  }
-
-  public static void main(final String[] args) {
-    if (args.length <= 1) {
-      throw new IllegalArgumentException(
-        "To run this example, include the keyStoreTableName, logicalKeyStoreName, and kmsKeyTerminal in args"
-      );
-    }
-    final String keyStoreTableName = args[0];
-    final String logicalKeyStoreName = args[1];
-    final String kmsKeyArnTerminal = args[2];
-    final String branchKeyId = args[3];
-    End2End(
-      keyStoreTableName,
-      logicalKeyStoreName,
-      kmsKeyArnTerminal,
-      branchKeyId,
-      SystemKey.builder().trustStorage(TrustStorage.builder().build()).build(),
-      null,
-      null
-    );
-    // We clean up our items to make sure the table doesn't grow indefinitely.
-    Fixtures.cleanUpBranchKeyId(null, branchKeyId, true);
   }
 }
