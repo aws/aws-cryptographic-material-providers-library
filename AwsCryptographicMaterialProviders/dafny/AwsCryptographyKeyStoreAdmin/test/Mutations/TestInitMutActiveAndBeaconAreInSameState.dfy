@@ -78,23 +78,7 @@ module {:options "/functionSyntax:4" } TestInitMutActiveAndBeaconAreInSameState 
     }
     // print testLogPrefix + " Initialize Mutation met expectations. Cleaning up\n";
 
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BEACON_KEY_TYPE_VALUE, ddbClient);
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_ACTIVE_TYPE, ddbClient);
-
-    var versionQuery := KeyStoreTypes.QueryForVersionsInput(
-      Identifier := testId, PageSize := 24
-    );
-    var queryOut :- expect storage.QueryForVersions(versionQuery);
-    var items := queryOut.Items;
-    var itemIndex := 0;
-    while itemIndex < |items|
-    {
-      expect "type" in items[itemIndex].EncryptionContext, "Decrypt Only item is missing 'type' from EC!!";
-      var _ := CleanupItems.DeleteTypeWithFailure(testId, items[itemIndex].EncryptionContext["type"], ddbClient);
-      itemIndex := itemIndex + 1;
-    }
-
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
     // print "TestInitMutActiveAndBeaconAreInSameState.TestSadCase: ";
-
   }
 }

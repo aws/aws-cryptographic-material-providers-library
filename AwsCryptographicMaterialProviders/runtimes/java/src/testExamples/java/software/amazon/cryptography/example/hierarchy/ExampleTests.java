@@ -4,38 +4,31 @@ package software.amazon.cryptography.example.hierarchy;
 
 import org.testng.annotations.Test;
 import software.amazon.cryptography.example.Fixtures;
-import software.amazon.cryptography.example.StorageCheater;
+import software.amazon.cryptography.example.hierarchy.mutations.MutationDecryptEncryptExample;
 import software.amazon.cryptography.example.hierarchy.mutations.MutationExample;
-import software.amazon.cryptography.example.hierarchy.mutations.MutationExampleDecryptEncryptStrategy;
 import software.amazon.cryptography.example.hierarchy.mutations.MutationResumeExample;
-import software.amazon.cryptography.keystore.KeyStorageInterface;
+import software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider;
+import software.amazon.cryptography.keystore.model.AwsKms;
+import software.amazon.cryptography.keystoreadmin.model.Mutations;
 import software.amazon.cryptography.keystoreadmin.model.SystemKey;
 import software.amazon.cryptography.keystoreadmin.model.TrustStorage;
 
 public class ExampleTests {
 
   @Test
-  public void End2EndTests() {
+  public void End2EndReEncryptTest() {
     String branchKeyId = CreateKeyExample.CreateKey(
-      Fixtures.TEST_KEYSTORE_NAME,
-      Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
       Fixtures.KEYSTORE_KMS_ARN,
       null,
-      Fixtures.ddbClientWest2
+      AdminProvider.admin()
     );
     System.out.println("\nCreated Branch Key: " + branchKeyId);
     branchKeyId =
       MutationExample.End2End(
-        Fixtures.TEST_KEYSTORE_NAME,
-        Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
         Fixtures.POSTAL_HORN_KEY_ARN,
         branchKeyId,
-        SystemKey
-          .builder()
-          .trustStorage(TrustStorage.builder().build())
-          .build(),
-        Fixtures.ddbClientWest2,
-        Fixtures.kmsClientWest2
+        MutationsProvider.TrustStorage(),
+        AdminProvider.admin()
       );
     System.out.println(
       "\nMutated Branch Key: " +
@@ -46,33 +39,24 @@ public class ExampleTests {
     );
     branchKeyId =
       VersionKeyExample.VersionKey(
-        Fixtures.TEST_KEYSTORE_NAME,
-        Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
         Fixtures.POSTAL_HORN_KEY_ARN,
         branchKeyId,
-        Fixtures.ddbClientWest2
+        AdminProvider.admin()
       );
     branchKeyId =
       VersionKeyExample.VersionKey(
-        Fixtures.TEST_KEYSTORE_NAME,
-        Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
         Fixtures.POSTAL_HORN_KEY_ARN,
         branchKeyId,
-        Fixtures.ddbClientWest2
+        AdminProvider.admin()
       );
     System.out.println("\nVersioned Branch Key: " + branchKeyId + "\n");
     branchKeyId =
       MutationResumeExample.Resume2End(
-        Fixtures.TEST_KEYSTORE_NAME,
-        Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
-        Fixtures.KEYSTORE_KMS_ARN,
         branchKeyId,
-        SystemKey
-          .builder()
-          .trustStorage(TrustStorage.builder().build())
-          .build(),
+        Fixtures.KEYSTORE_KMS_ARN,
         AdminProvider.strategy(Fixtures.kmsClientWest2),
-        Fixtures.ddbClientWest2
+        MutationsProvider.TrustStorage(),
+        AdminProvider.admin()
       );
     System.out.println(
       "\nMutated Branch Key with Resume: " +
@@ -81,37 +65,30 @@ public class ExampleTests {
       Fixtures.KEYSTORE_KMS_ARN +
       "\n"
     );
-    KeyStorageInterface storage = StorageCheater.create(
-      Fixtures.ddbClientWest2,
+    Fixtures.DeleteBranchKey(
+      branchKeyId,
       Fixtures.TEST_KEYSTORE_NAME,
-      Fixtures.TEST_LOGICAL_KEYSTORE_NAME
+      "1",
+      null
     );
-    Fixtures.cleanUpBranchKeyId(storage, branchKeyId, true);
   }
 
   @Test
-  public void End2EndTestsDecryptEncrypt() {
+  public void End2EndDecryptEncryptTest() {
     String branchKeyId = CreateKeyExample.CreateKey(
-      Fixtures.TEST_KEYSTORE_NAME,
-      Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
-      Fixtures.KEYSTORE_KMS_ARN,
+      Fixtures.MRK_ARN_WEST,
       null,
-      Fixtures.ddbClientWest2
+      AdminProvider.admin()
     );
     System.out.println("\nCreated Branch Key: " + branchKeyId);
     branchKeyId =
-      MutationExampleDecryptEncryptStrategy.End2EndDecryptEncrypt(
-        Fixtures.TEST_KEYSTORE_NAME,
-        Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
-        Fixtures.POSTAL_HORN_KEY_ARN,
+      MutationDecryptEncryptExample.End2End(
         branchKeyId,
-        SystemKey
-          .builder()
-          .trustStorage(TrustStorage.builder().build())
-          .build(),
-        Fixtures.ddbClientWest2,
-        Fixtures.kmsClientWest2,
-        Fixtures.kmsClientWest2
+        Fixtures.POSTAL_HORN_KEY_ARN,
+        AwsKms.builder().kmsClient(Fixtures.kmsClientWest2).build(),
+        AwsKms.builder().kmsClient(Fixtures.denyMrkKmsClient).build(),
+        MutationsProvider.KmsSystemKey(),
+        AdminProvider.admin()
       );
     System.out.println(
       "\nMutated Branch Key: " +
@@ -122,36 +99,24 @@ public class ExampleTests {
     );
     branchKeyId =
       VersionKeyExample.VersionKey(
-        Fixtures.TEST_KEYSTORE_NAME,
-        Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
         Fixtures.POSTAL_HORN_KEY_ARN,
         branchKeyId,
-        Fixtures.ddbClientWest2
+        AdminProvider.admin()
       );
     branchKeyId =
       VersionKeyExample.VersionKey(
-        Fixtures.TEST_KEYSTORE_NAME,
-        Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
         Fixtures.POSTAL_HORN_KEY_ARN,
         branchKeyId,
-        Fixtures.ddbClientWest2
+        AdminProvider.admin()
       );
     System.out.println("\nVersioned Branch Key: " + branchKeyId + "\n");
     branchKeyId =
       MutationResumeExample.Resume2End(
-        Fixtures.TEST_KEYSTORE_NAME,
-        Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
-        Fixtures.KEYSTORE_KMS_ARN,
         branchKeyId,
-        SystemKey
-          .builder()
-          .trustStorage(TrustStorage.builder().build())
-          .build(),
-        AdminProvider.decryptEncryptStrategy(
-          Fixtures.kmsClientWest2,
-          Fixtures.kmsClientWest2
-        ),
-        Fixtures.ddbClientWest2
+        Fixtures.KEYSTORE_KMS_ARN,
+        AdminProvider.strategy(Fixtures.kmsClientWest2),
+        MutationsProvider.TrustStorage(),
+        AdminProvider.admin()
       );
     System.out.println(
       "\nMutated Branch Key with Resume: " +
@@ -160,11 +125,11 @@ public class ExampleTests {
       Fixtures.KEYSTORE_KMS_ARN +
       "\n"
     );
-    KeyStorageInterface storage = StorageCheater.create(
-      Fixtures.ddbClientWest2,
+    Fixtures.DeleteBranchKey(
+      branchKeyId,
       Fixtures.TEST_KEYSTORE_NAME,
-      Fixtures.TEST_LOGICAL_KEYSTORE_NAME
+      "1",
+      null
     );
-    Fixtures.cleanUpBranchKeyId(storage, branchKeyId, true);
   }
 }

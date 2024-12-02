@@ -146,6 +146,16 @@ module {:options "/functionSyntax:4" } Structure {
        )
   }
 
+  predicate ActiveHierarchicalSymmetricVersionEncryptionContext?(
+    ec: Types.EncryptionContextString
+  )
+  {
+    && BranchKeyContext?(ec)
+    && BRANCH_KEY_ACTIVE_VERSION_FIELD in ec
+    && ec[TYPE_FIELD] == BRANCH_KEY_ACTIVE_TYPE
+  }
+
+
   function ToAttributeMap(
     key: Types.EncryptedHierarchicalKey
   ): (output: DDB.AttributeMap)
