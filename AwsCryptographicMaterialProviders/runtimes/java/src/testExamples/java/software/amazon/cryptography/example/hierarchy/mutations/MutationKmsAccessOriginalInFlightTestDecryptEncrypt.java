@@ -58,15 +58,9 @@ public class MutationKmsAccessOriginalInFlightTestDecryptEncrypt {
       );
 
     System.out.println("BranchKey ID to mutate: " + branchKeyId);
-    HashMap<String, String> terminalEC = new HashMap<>();
-    terminalEC.put("Robbie", "is a dog.");
-
-    Mutations mutations = Mutations
-      .builder()
-      .TerminalEncryptionContext(terminalEC)
-      .TerminalKmsArn(POSTAL_HORN_KEY_ARN)
-      .build();
-
+    Mutations mutations = MutationsProvider.defaultMutation(
+      POSTAL_HORN_KEY_ARN
+    );
     InitializeMutationInput initInput = InitializeMutationInput
       .builder()
       .Mutations(mutations)

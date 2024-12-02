@@ -244,6 +244,7 @@ module {:options "/functionSyntax:4" } Mutations {
           kmsClient := kms.kmsClient
         );
       case decryptEncrypt(kmsD, kmsE) =>
+        kmsOperation := "Decrypt/Encrypt";
         wrappedKey? := KMSKeystoreOperations.MutateViaDecryptEncrypt(
           ciphertext := item.CiphertextBlob,
           sourceEncryptionContext := item.EncryptionContext,
@@ -256,13 +257,14 @@ module {:options "/functionSyntax:4" } Mutations {
           encryptKmsClient := kmsE.kmsClient
         );
     }
-
+    assert kmsOperation == "ReEncrypt" || kmsOperation == "Decrypt/Encrypt";
     // We call this method to create the new Active from the new Decrypt Only
     if (wrappedKey?.Failure? && item.Type.ActiveHierarchicalSymmetricVersion?) {
       var error := MutationErrorRefinement.CreateActiveException(
         branchKeyItem := item,
         error := wrappedKey?.error,
-        localOperation := localOperation);
+        localOperation := localOperation,
+        kmsOperation := kmsOperation);
       return Failure(error);
     }
     // We call this method to mutate decryptOnly and the Becon
