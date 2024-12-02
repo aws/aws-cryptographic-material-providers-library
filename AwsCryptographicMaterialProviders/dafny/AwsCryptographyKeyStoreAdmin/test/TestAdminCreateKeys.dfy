@@ -89,8 +89,7 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
     // Since this process uses a read DDB table,
     // the number of records will forever increase.
     // To avoid this, remove the items.
-    CleanupItems.DeleteVersion(identifier, branchKeyVersion, ddbClient);
-    CleanupItems.DeleteActive(identifier, ddbClient);
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=identifier, ddbClient:=ddbClient);
 
     expect beaconKeyResult.beaconKeyMaterials.beaconKey.Some?;
     expect |beaconKeyResult.beaconKeyMaterials.beaconKey.value| == 32;

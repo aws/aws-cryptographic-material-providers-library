@@ -12,16 +12,11 @@ import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.awssdk.services.kms.model.KmsException;
-import software.amazon.cryptography.example.CredentialUtils;
 import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.example.hierarchy.CreateKeyExample;
-import software.amazon.cryptography.example.hierarchy.StorageExample;
-import software.amazon.cryptography.keystore.KeyStorageInterface;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationOutput;
@@ -45,58 +40,27 @@ public class MutationKmsAccessOriginalInFlightTestDecryptEncrypt {
       .builder()
       .trustStorage(TrustStorage.builder().build())
       .build();
-    KeyStorageInterface storage = StorageExample.create(
-      Fixtures.ddbClientWest2,
-      Fixtures.TEST_KEYSTORE_NAME,
-      Fixtures.TEST_LOGICAL_KEYSTORE_NAME
-    );
+    KeyStoreAdmin admin = AdminProvider.admin();
 
     final String branchKeyId =
       testPrefix + java.util.UUID.randomUUID().toString();
 
-    CreateKeyExample.CreateKey(
-      Fixtures.TEST_KEYSTORE_NAME,
-      Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
-      MRK_ARN_WEST,
-      branchKeyId,
-      Fixtures.ddbClientWest2
-    );
+    CreateKeyExample.CreateKey(MRK_ARN_WEST, branchKeyId, admin);
     KeyManagementStrategy strategyAll = AdminProvider.decryptEncryptStrategy(
       Fixtures.kmsClientWest2,
       Fixtures.kmsClientWest2
     );
-    KmsClient denyMrk = KmsClient
-      .builder()
-      .credentialsProvider(
-        CredentialUtils.credsForRole(
-          Fixtures.LIMITED_KMS_ACCESS_IAM_ROLE,
-          "java-mpl-examples",
-          Region.US_WEST_2,
-          Fixtures.httpClient,
-          Fixtures.defaultCreds
-        )
-      )
-      .region(Region.US_WEST_2)
-      .httpClient(Fixtures.httpClient)
-      .build();
 
     KeyManagementStrategy strategyDenyMrk =
-      AdminProvider.decryptEncryptStrategy(denyMrk, denyMrk);
-    KeyStoreAdmin admin = AdminProvider.admin(
-      Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
-      storage
-    );
+      AdminProvider.decryptEncryptStrategy(
+        Fixtures.denyMrkKmsClient,
+        Fixtures.denyMrkKmsClient
+      );
 
     System.out.println("BranchKey ID to mutate: " + branchKeyId);
-    HashMap<String, String> terminalEC = new HashMap<>();
-    terminalEC.put("Robbie", "is a dog.");
-
-    Mutations mutations = Mutations
-      .builder()
-      .TerminalEncryptionContext(terminalEC)
-      .TerminalKmsArn(POSTAL_HORN_KEY_ARN)
-      .build();
-
+    Mutations mutations = MutationsProvider.defaultMutation(
+      POSTAL_HORN_KEY_ARN
+    );
     InitializeMutationInput initInput = InitializeMutationInput
       .builder()
       .Mutations(mutations)
@@ -202,7 +166,12 @@ public class MutationKmsAccessOriginalInFlightTestDecryptEncrypt {
     }
 
     // Clean Up
-    Fixtures.cleanUpBranchKeyId(storage, branchKeyId, false);
+    Fixtures.DeleteBranchKey(
+      branchKeyId,
+      Fixtures.TEST_KEYSTORE_NAME,
+      "1",
+      null
+    );
     Assert.assertTrue(
       (exceptions.size() == 1),
       "Only 1 exceptions should have been thrown. But got " +

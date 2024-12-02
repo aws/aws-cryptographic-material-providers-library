@@ -20,35 +20,16 @@ module TestVersionKey {
   import Structure
   import DefaultKeyStorageInterface
   import KmsArn
+  import UTF8
 
   import ComAmazonawsDynamodbTypes
   import KeyStoreErrorMessages
 
   method {:test} TestVersionKey()
   {
-    var kmsClient :- expect KMS.KMSClient();
-    var ddbClient :- expect DDB.DynamoDBClient();
-    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
-    expect ComAmazonawsDynamodbTypes.IsValid_TableName(branchKeyStoreName);
-
-    var keyStoreConfig := Types.KeyStoreConfig(
-      id := None,
-      kmsConfiguration := kmsConfig,
-      logicalKeyStoreName := logicalKeyStoreName,
-      storage := Some(
-        Types.ddb(
-          Types.DynamoDBTable(
-            ddbTableName := branchKeyStoreName,
-            ddbClient := Some(ddbClient)
-          ))),
-      keyManagement := Some(
-        Types.kms(
-          Types.AwsKms(
-            kmsClient := Some(kmsClient)
-          )))
-    );
-
-    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+    var ddbClient :- expect ProvideDDBClient();
+    var kmsClient :- expect ProvideKMSClient();
+    var keyStore :- expect DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
 
     // Create a new key
     // We will create a use this new key per run to avoid tripping up
@@ -88,9 +69,7 @@ module TestVersionKey {
     // Since this process uses a read DDB table,
     // the number of records will forever increase.
     // To avoid this, remove the items.
-    CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, newActiveVersion, ddbClient);
-    CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, oldActiveVersion, ddbClient);
-    CleanupItems.DeleteActive(branchKeyId.branchKeyIdentifier, ddbClient);
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=branchKeyId.branchKeyIdentifier, ddbClient:=ddbClient);
 
     // We expect that getting the old active key has the same version as getting a branch key through the get version key api
     expect getBranchKeyVersionResult.branchKeyMaterials.branchKeyVersion == oldActiveResult.branchKeyMaterials.branchKeyVersion;
@@ -102,29 +81,9 @@ module TestVersionKey {
 
   method {:test} TestVersionKeyWithEC()
   {
-    var kmsClient :- expect KMS.KMSClient();
-    var ddbClient :- expect DDB.DynamoDBClient();
-    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
-    expect ComAmazonawsDynamodbTypes.IsValid_TableName(branchKeyStoreName);
-
-    var keyStoreConfig := Types.KeyStoreConfig(
-      id := None,
-      kmsConfiguration := kmsConfig,
-      logicalKeyStoreName := logicalKeyStoreName,
-      storage := Some(
-        Types.ddb(
-          Types.DynamoDBTable(
-            ddbTableName := branchKeyStoreName,
-            ddbClient := Some(ddbClient)
-          ))),
-      keyManagement := Some(
-        Types.kms(
-          Types.AwsKms(
-            kmsClient := Some(kmsClient)
-          )))
-    );
-
-    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+    var ddbClient :- expect ProvideDDBClient();
+    var kmsClient :- expect ProvideKMSClient();
+    var keyStore :- expect DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
 
     // Create a new key
     // We will create a use this new key per run to avoid tripping up
@@ -190,9 +149,7 @@ module TestVersionKey {
     // Since this process uses a real DDB table,
     // the number of records will forever increase.
     // To avoid this, remove the items.
-    CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, newActiveVersion, ddbClient);
-    CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, oldActiveVersion, ddbClient);
-    CleanupItems.DeleteActive(branchKeyId.branchKeyIdentifier, ddbClient);
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=branchKeyId.branchKeyIdentifier, ddbClient:=ddbClient);
 
     // We expect that getting the old active key has the same version as getting a branch key through the get version key api
     expect getBranchKeyVersionResult.branchKeyMaterials.branchKeyVersion == oldActiveResult.branchKeyMaterials.branchKeyVersion;
@@ -206,9 +163,9 @@ module TestVersionKey {
     expect mat3EC == customEC;
   }
 
-  method {:test} {:vcs_split_on_every_assert} TestMrkVersionKey()
+  method {:test} {:isolate_assertions} TestMrkVersionKey()
   {
-    var ddbClient :- expect DDB.DynamoDBClient();
+    var ddbClient :- expect ProvideDDBClient();
 
     var eastKeyStoreConfig := Types.KeyStoreConfig(
       id := None,
@@ -307,9 +264,7 @@ module TestVersionKey {
     // Since this process uses a read DDB table,
     // the number of records will forever increase.
     // To avoid this, remove the items.
-    CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, newActiveVersionEast, ddbClient);
-    CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, oldActiveVersion, ddbClient);
-    CleanupItems.DeleteActive(branchKeyId.branchKeyIdentifier, ddbClient);
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=branchKeyId.branchKeyIdentifier, ddbClient:=ddbClient);
 
     // We expect that getting the old active key has the same version as getting a branch key through the get version key api
     expect getBranchKeyVersionResultEast.branchKeyMaterials.branchKeyVersion == oldActiveResult.branchKeyMaterials.branchKeyVersion;
