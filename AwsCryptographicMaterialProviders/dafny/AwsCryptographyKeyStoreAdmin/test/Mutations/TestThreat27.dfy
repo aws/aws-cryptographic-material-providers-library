@@ -144,17 +144,7 @@ module {:options "/functionSyntax:4" } TestThreat27 {
     expect timestamp == versionThree?.Item.EncryptionContext[customEC], "Version made DECRYPT_ONLY in wrong state!";
 
     // print "\nTestThreat27 :: TestHappyCase :: All expects passed! Trying to clean up testId: " + testId + "\n";
-
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_ACTIVE_TYPE, ddbClient);
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BEACON_KEY_TYPE_VALUE, ddbClient);
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.MUTATION_COMMITMENT_TYPE, ddbClient);
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.MUTATION_INDEX_TYPE, ddbClient);
-    // print "\nTestThreat27 :: TestHappyCase :: Delete Version for activeOne: " + activeOne + "\n";
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_TYPE_PREFIX + activeOne, ddbClient);
-    // print "\nTestThreat27 :: TestHappyCase :: Delete Version for activeTwo: " + activeTwo + "\n";
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_TYPE_PREFIX + activeTwo, ddbClient);
-    // print "\nTestThreat27 :: TestHappyCase :: Delete Version for activeThree: " + activeThree + "\n";
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_TYPE_PREFIX + activeThree, ddbClient);
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
 
     // print "TestThreat27.TestHappyCase: ";
   }
