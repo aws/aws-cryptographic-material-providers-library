@@ -350,10 +350,8 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       assume {:axiom} keyManagerStrat.decrypt.kmsClient.Modifies !! keyManagerStrat.encrypt.kmsClient.Modifies;
     }
     assume {:axiom} keyManagerStrat.Modifies !! systemKey.Modifies;
-    // assert StorageSystemKeyKeyManagerStratAreInDependentLie(config.storage, systemKey, keyManagerStrat);
 
     var internalInput := KSAInitializeMutation.InternalInitializeMutationInput(
-      // var internalInput := Mutations.InternalInitializeMutationInput(
       Identifier := input.Identifier,
       Mutations := input.Mutations,
       SystemKey := systemKey,
@@ -388,7 +386,6 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     assume {:axiom} keyManagerStrat.Modifies !! systemKey.Modifies;
 
     var internalInput := KSAApplyMutation.InternalApplyMutationInput(
-      // var internalInput := Mutations.InternalApplyMutationInput(
       MutationToken := input.MutationToken,
       PageSize := input.PageSize,
       SystemKey := systemKey,

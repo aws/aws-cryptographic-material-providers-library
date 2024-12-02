@@ -301,14 +301,11 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     assert MutationToApply.ValidState();
     // -= BEGIN Version Active Branch Key
     // --= Validate Active Branch Key
-    var verifyActive? := Mutations.VerifyEncryptedHierarchicalKey(
+    var verifyActive :- Mutations.VerifyEncryptedHierarchicalKey(
       item := activeItem,
       keyManagerStrategy := input.keyManagerStrategy,
       localOperation := "InitializeMutation"
     );
-    if (verifyActive?.Fail?) {
-      return Failure(verifyActive?.error);
-    }
 
       // -= Assert Beacon Key is in Original
     :- Need(
@@ -493,6 +490,8 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       Structure.BRANCH_KEY_TYPE_PREFIX < newDecryptOnly.EncryptionContext[Structure.TYPE_FIELD],
       Types.KeyStoreAdminException(message := "Invalid Branch Key prefix.")
     );
+    // TODO-Mutations-FF : require Decrypt Only Encryption Context
+    // TODO-Mutations-FF : ensure Decrypt Only Item
 
     return Success(newDecryptOnly);
   }
