@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kms.KmsClient;
+import software.amazon.cryptography.example.DdbHelper;
+import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.keystore.model.AwsKms;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
@@ -48,6 +51,10 @@ public class MutationsProvider {
       .build();
   }
 
+  public static SystemKey KmsSystemKey() {
+    return KmsSystemKey(Fixtures.POSTAL_HORN_KEY_ARN);
+  }
+
   public static SystemKey KmsSystemKey(@Nonnull final String systemKeyArn) {
     return KmsSystemKey(systemKeyArn, null, null);
   }
@@ -57,9 +64,8 @@ public class MutationsProvider {
     @Nullable KmsClient systemKeyKmsClient,
     @Nullable List<String> systemKeyGrantTokens
   ) {
-    //noinspection unchecked
     final List<String> tempList = systemKeyGrantTokens == null
-      ? Collections.EMPTY_LIST
+      ? Collections.emptyList()
       : systemKeyGrantTokens;
     final KmsClient tempKms = systemKeyKmsClient == null
       ? AdminProvider.kms(null)
@@ -167,5 +173,51 @@ public class MutationsProvider {
       mutatedItemsToString(initOutput.MutatedBranchKeyItems())
     );
     return token;
+  }
+
+  /**
+   * In some very advanced cases, it may be helpful to reset the Mutation Index.
+   * This can be done by deleting the Mutation Index
+   */
+  static void resetMutationIndex(
+    @Nonnull String branchKeyId,
+    @Nonnull InitializeMutationInput initInput,
+    @Nullable String physicalName,
+    @Nullable String logicalName,
+    @Nullable KeyStoreAdmin admin,
+    @Nullable DynamoDbClient dynamoDbClient
+  ) {
+    final String _physicalName = physicalName == null
+      ? Fixtures.TEST_KEYSTORE_NAME
+      : physicalName;
+    final String _logicalName = logicalName == null
+      ? Fixtures.TEST_LOGICAL_KEYSTORE_NAME
+      : logicalName;
+    final DynamoDbClient _dynamoDbClient = dynamoDbClient == null
+      ? Fixtures.ddbClientWest2
+      : dynamoDbClient;
+    final KeyStoreAdmin _admin = admin == null
+      ? AdminProvider.admin(_physicalName, _logicalName, _dynamoDbClient)
+      : admin;
+    // If we want to restart the Mutation from the beginning, we delete the Index.
+    DdbHelper.deleteKeyStoreDdbItem(
+      branchKeyId,
+      "branch:MUTATION_INDEX",
+      _physicalName,
+      _dynamoDbClient,
+      false
+    );
+    // But if we deleted the index, we do need to call Initialize again
+    MutationsProvider.executeInitialize(
+      branchKeyId,
+      _admin,
+      initInput,
+      "Restart Logs"
+    );
+    System.out.println(
+      "\nDeletion of Index and subsequent call to Initialize reset the pageIndex: " +
+      branchKeyId +
+      "\n"
+    );
   }
 }

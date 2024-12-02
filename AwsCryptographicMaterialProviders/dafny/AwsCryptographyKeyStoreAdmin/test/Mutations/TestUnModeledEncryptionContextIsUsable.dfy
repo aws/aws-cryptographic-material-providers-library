@@ -90,8 +90,6 @@ module {:options "/functionSyntax:4" } TestUnModeledEncryptionContextIsUsable {
       );
       var _ :- expect keyStore.GetBranchKeyVersion(inputV);
 
-      // This is a best effort
-      var _ := CleanupItems.DeleteTypeWithFailure(testId, item.EncryptionContext["type"], ddbClient);
       // print testLogPrefix + " Validated Decrypt Only and tried to clean it up: " + item.EncryptionContext["type"] + "\n";
       itemIndex := 1 + itemIndex;
     }
@@ -103,7 +101,6 @@ module {:options "/functionSyntax:4" } TestUnModeledEncryptionContextIsUsable {
 
     var _ :- expect keyStore.GetActiveBranchKey(KeyStoreTypes.GetActiveBranchKeyInput(branchKeyIdentifier := testId));
     // print testLogPrefix + " Active Validated with KMS/KeyStore: " + testId + "\n";
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BRANCH_KEY_ACTIVE_TYPE, ddbClient);
 
     var beaconInput := KeyStoreTypes.GetEncryptedBeaconKeyInput(Identifier:=testId);
     var beacon? :- expect storage.GetEncryptedBeaconKey(beaconInput);
@@ -111,6 +108,6 @@ module {:options "/functionSyntax:4" } TestUnModeledEncryptionContextIsUsable {
 
     var _ :- expect keyStore.GetBeaconKey(KeyStoreTypes.GetBeaconKeyInput(branchKeyIdentifier := testId));
     // print testLogPrefix + " Beacon Validated with KMS/KeyStore: " + testId + "\n";
-    var _ := CleanupItems.DeleteTypeWithFailure(testId, Structure.BEACON_KEY_TYPE_VALUE, ddbClient);
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
   }
 }
