@@ -212,7 +212,7 @@ module {:options "/functionSyntax:4" } SystemKey.ContentHandler {
     ensures output.Failure? ==> output.error.KeyStoreAdminException?
   {
     hide *;
-    //=- 1. EncryptionContextDigest
+    // =- 1. EncryptionContextDigest
     var digestResult: Result<seq<uint8>, CanonicalEncryptionContext.CanonizeDigestError> :=
       CanonicalEncryptionContext.EncryptionContextDigest(Crypto, Content.ContentToSHA);
     if (digestResult.Failure?) {
@@ -226,7 +226,7 @@ module {:options "/functionSyntax:4" } SystemKey.ContentHandler {
       };
       return Failure(error);
     }
-    //=- 2. UTF8-Base64 Encode
+    // =- 2. UTF8-Base64 Encode
     var encodeResult: Result<MPL.Types.Utf8Bytes, string> :=
       UTF8.Encode(Base64.Encode(digestResult.value));
     if (encodeResult.Failure?) {
@@ -235,7 +235,7 @@ module {:options "/functionSyntax:4" } SystemKey.ContentHandler {
       );
       return Failure(error);
     }
-    //=- 3. Base64 encoded content in EC, along with parition key and sort key
+    // =- 3. Base64 encoded content in EC, along with parition key and sort key
     // Dafny forgets that DIGEST_UTF8_BYTES is valid
     assert UTF8.ValidUTF8Seq(DIGEST_UTF8_BYTES) by {
       UTF8BytesAreValid();
@@ -245,7 +245,7 @@ module {:options "/functionSyntax:4" } SystemKey.ContentHandler {
     var ec_utf8 := map[DIGEST_UTF8_BYTES := encodeResult.value];
     // Dafny forgets that DIGEST_UTF8_BYTES is valid and all the other keys are valid.
     assert forall k | k in ec_utf8.Keys :: UTF8.ValidUTF8Seq(k);
-    //=- 4. Stringify Content for KMS
+    // =- 4. Stringify Content for KMS
     var ecResult: Result<KMS.Types.EncryptionContextType, AwsKmsUtils.StringifyError> :=
       AwsKmsUtils.StringifyEncryptionContext(ec_utf8);
     if (ecResult.Failure?) {

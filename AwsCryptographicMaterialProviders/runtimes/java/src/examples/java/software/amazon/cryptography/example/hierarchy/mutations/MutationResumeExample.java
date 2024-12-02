@@ -4,69 +4,73 @@ package software.amazon.cryptography.example.hierarchy.mutations;
 
 import java.util.HashMap;
 import javax.annotation.Nullable;
-import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
-import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationResult;
+import software.amazon.cryptography.keystoreadmin.model.DescribeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
 import software.amazon.cryptography.keystoreadmin.model.MutationConflictException;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
 import software.amazon.cryptography.keystoreadmin.model.SystemKey;
-import software.amazon.cryptography.keystoreadmin.model.TrustStorage;
 
+/**
+ * Should a {@code MutationToken} be dropped,
+ * a Mutation can still be completed by recovering the {@code MutationToken}
+ * from the Key Store's Storage.
+ * There are two ways to accomplish this:
+ * <ul>
+ *   <li>Call {@code InitializeMutation} with the same input</li>
+ *   <li>Call {@code DescribeMutation} with the Branch Key ID</li>
+ * </ul>
+ * Both methods will return a {@code MutationToken} that can be used
+ * by {@code ApplyMutation} to complete the Mutation.
+ */
 public class MutationResumeExample {
 
   public static String Resume2End(
-    String physicalName,
-    String logicalName,
-    String kmsKeyArnTerminal,
     String branchKeyId,
-    SystemKey systemKey,
-    KeyManagementStrategy strategy,
-    @Nullable DynamoDbClient dynamoDbClient
+    String kmsKeyArnTerminal,
+    @Nullable KeyManagementStrategy strategy,
+    @Nullable SystemKey systemKey,
+    @Nullable KeyStoreAdmin admin
   ) {
     boolean mutationConflictThrown = false;
 
-    KeyStoreAdmin admin = AdminProvider.admin(
-      physicalName,
-      logicalName,
-      dynamoDbClient
-    );
+    final KeyManagementStrategy _strategy = strategy == null
+      ? AdminProvider.strategy(null)
+      : strategy;
+    final SystemKey _systemKey = systemKey == null
+      ? MutationsProvider.KmsSystemKey()
+      : systemKey;
+    final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
 
     System.out.println("BranchKey ID to mutate: " + branchKeyId);
-    HashMap<String, String> terminalEC = new HashMap<>();
-    terminalEC.put("Robbie", "is a dog.");
-    Mutations mutations = Mutations
-      .builder()
-      .TerminalEncryptionContext(terminalEC)
-      .TerminalKmsArn(kmsKeyArnTerminal)
-      .build();
+    Mutations mutations = MutationsProvider.defaultMutation(kmsKeyArnTerminal);
 
     InitializeMutationInput initInput = InitializeMutationInput
       .builder()
       .Mutations(mutations)
       .Identifier(branchKeyId)
-      .Strategy(strategy)
-      .SystemKey(systemKey)
+      .Strategy(_strategy)
+      .SystemKey(_systemKey)
       .build();
 
     MutationToken token = MutationsProvider.executeInitialize(
       branchKeyId,
-      admin,
+      _admin,
       initInput,
       "InitLogs"
     );
     // Work the Mutation once
     ApplyMutationResult result = MutationsProvider.workPage(
       branchKeyId,
-      systemKey,
+      _systemKey,
       token,
-      strategy,
-      admin,
+      _strategy,
+      _admin,
       1
     );
     System.out.println(
@@ -79,17 +83,17 @@ public class MutationResumeExample {
     token =
       MutationsProvider.executeInitialize(
         branchKeyId,
-        admin,
+        _admin,
         initInput,
         "Resume Logs"
       );
     result =
       MutationsProvider.workPage(
         branchKeyId,
-        systemKey,
+        _systemKey,
         token,
-        strategy,
-        admin,
+        _strategy,
+        _admin,
         1
       );
     System.out.println(
@@ -97,26 +101,22 @@ public class MutationResumeExample {
       branchKeyId +
       "\n"
     );
-    // If we want to restart the Mutation from the beginning, we delete the Index.
-    DdbHelper.deleteKeyStoreDdbItem(
+    /*
+    In some very advanced edge cases,
+    it may be helpful to reset a Mutation,
+    such that it goes over every Branch Key Version again.
+    See {@link MutationsProvider#resetMutationIndex}
+    for details on how to accomplish this.
+    But this is NOT necessary to resume an in-flight Mutation;
+    it is just helpful for this particular example.
+    */
+    MutationsProvider.resetMutationIndex(
       branchKeyId,
-      "branch:MUTATION_INDEX",
-      logicalName,
-      dynamoDbClient,
-      false
-    );
-    // But if we deleted the index, we do need to call Initialize again
-    token =
-      MutationsProvider.executeInitialize(
-        branchKeyId,
-        admin,
-        initInput,
-        "Restart Logs"
-      );
-    System.out.println(
-      "\nDeletion of Index and subsequent call to Initialize reset the pageIndex: " +
-      branchKeyId +
-      "\n"
+      initInput,
+      null,
+      null,
+      _admin,
+      null
     );
     try {
       // But if we try to resume it/call initialize mutation via a different input,
@@ -132,12 +132,12 @@ public class MutationResumeExample {
         .builder()
         .Mutations(badMutations)
         .Identifier(branchKeyId)
-        .Strategy(strategy)
-        .SystemKey(systemKey)
+        .Strategy(_strategy)
+        .SystemKey(_systemKey)
         .build();
       MutationsProvider.executeInitialize(
         branchKeyId,
-        admin,
+        _admin,
         badInput,
         "Fail Resume Logs"
       );
@@ -150,6 +150,15 @@ public class MutationResumeExample {
       System.out.println(ex.getMessage());
       mutationConflictThrown = true;
     }
+    // Instead of using Initialize to recover a token,
+    // we can use DescribeMutation
+    DescribeMutationOutput describeRes = DescribeMutationExample.Example(
+      branchKeyId,
+      null
+    );
+    assert describeRes != null : "DescribeMutationExample returned null";
+    assert describeRes.MutationInFlight().Yes() !=
+    null : "DescribeMutationExample returned no in-flight";
     // OK. We have proven we can Resume, Restart,
     // and correctly fail if the wrong input is given
     System.out.println(
@@ -157,39 +166,15 @@ public class MutationResumeExample {
     );
     MutationsProvider.workMutation(
       branchKeyId,
-      systemKey,
-      token,
-      strategy,
-      admin
+      _systemKey,
+      describeRes.MutationInFlight().Yes().MutationToken(),
+      _strategy,
+      _admin
     );
 
     System.out.println("Done with Mutation: " + branchKeyId);
 
     assert mutationConflictThrown;
     return branchKeyId;
-  }
-
-  public static void main(final String[] args) {
-    if (args.length <= 1) {
-      throw new IllegalArgumentException(
-        "To run this example, include the keyStoreTableName, logicalKeyStoreName, and kmsKeyTerminal in args"
-      );
-    }
-    final String keyStoreTableName = args[0];
-    final String logicalKeyStoreName = args[1];
-    final String kmsKeyArnTerminal = args[2];
-    final String branchKeyId = args[3];
-    Resume2End(
-      keyStoreTableName,
-      logicalKeyStoreName,
-      kmsKeyArnTerminal,
-      branchKeyId,
-      SystemKey.builder().trustStorage(TrustStorage.builder().build()).build(),
-      // This examples uses a ReEncrypt strategy for mutating branch keys
-      AdminProvider.strategy(null),
-      null
-    );
-    // We clean up our items to make sure the table doesn't grow indefinitely.
-    Fixtures.cleanUpBranchKeyId(null, branchKeyId, true);
   }
 }

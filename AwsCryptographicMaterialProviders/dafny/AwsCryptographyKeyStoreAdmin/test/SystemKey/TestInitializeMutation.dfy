@@ -83,7 +83,7 @@ module {:options "/functionSyntax:4" } TestSystemKey.TestInitializeMutation {
     expect sadOutput.Failure?, "Should have failed to initialize.";
 
     var ddbClient :- expect Fixtures.ProvideDDBClient();
-    var _ := CleanupItems.DeleteBranchKeyWithOneVersion(testId, ddbClient);
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
   }
 
   const kmsSymEncHPrefix := "\nTestSystemKey.TestInitializeMutation :: KmsSymEncHappyCase :: "
@@ -129,7 +129,7 @@ module {:options "/functionSyntax:4" } TestSystemKey.TestInitializeMutation {
     expect sadOutput.Failure?, "Should have failed to initialize.";
 
     var ddbClient :- expect Fixtures.ProvideDDBClient();
-    var _ := CleanupItems.DeleteBranchKeyWithOneVersion(testId, ddbClient);
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
   }
 
 }
