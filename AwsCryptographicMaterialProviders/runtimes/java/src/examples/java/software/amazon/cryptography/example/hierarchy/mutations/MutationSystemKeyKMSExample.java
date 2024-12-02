@@ -21,6 +21,17 @@ import software.amazon.cryptography.keystoreadmin.model.MutationVerificationExce
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
 import software.amazon.cryptography.keystoreadmin.model.SystemKey;
 
+/**
+ * To ensure a Mutation is applied consistently to all items
+ * of a Branch Key,
+ * the library persists the Mutation into the Key Store's Storage.
+ * An agent with write access to this storage
+ * could manipulate the persisted Mutation.
+ * To mitigate this risk,
+ * AWS Crypto Tools recommends using a KMS System Key.
+ * This example demonstrates a KMS System Key configuration,
+ * which protects these persisted non-Branch Key items with a KMS Key.
+ */
 public class MutationSystemKeyKMSExample {
 
   public static String End2End(
@@ -117,14 +128,5 @@ public class MutationSystemKeyKMSExample {
     assert exThrown;
     assert result.CompleteMutation() != null;
     return identifier;
-  }
-
-  public static void main(final String[] args) {
-    if (args.length <= 3) {
-      throw new IllegalArgumentException(
-        "To run this example, include the systemKeyArn, Branch Key Identifier, and Terminal KMS Key Arn in args."
-      );
-    }
-    End2End(args[0], args[1], args[2]);
   }
 }

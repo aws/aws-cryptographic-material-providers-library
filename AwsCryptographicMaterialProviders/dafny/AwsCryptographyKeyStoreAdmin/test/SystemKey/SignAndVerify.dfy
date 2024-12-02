@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 include "../../src/Index.dfy"
-include "../../../AwsCryptographyKeyStore/test/CleanupItems.dfy"
 include "../../../AwsCryptographyKeyStore/test/Fixtures.dfy"
 include "../../../AwsCryptographyKeyStore/src/Utf8Constants.dfy"
 include "../../../AwsCryptographyKeyStore/Model/AwsCryptographyKeyStoreTypes.dfy"

@@ -10,7 +10,27 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 import software.amazon.awssdk.services.dynamodb.model.ScanRequest;
 import software.amazon.awssdk.services.dynamodb.model.ScanResponse;
+import software.amazon.cryptography.example.Fixtures;
 
+/**
+ * It is a best practice to routinely scan for in-complete Mutations.
+ * An in-complete Mutation occurs whenever a Mutation is started but not completed;
+ * this can happen if a host crashes while Applying a Mutation.
+ * An in-complete Mutation leaves a Branch Key in a mixed state.
+ * Presumably, both states are safe, but it is a Best Practice to
+ * keep a Branch Key in one consistent state.
+ * Otherwise, reasoning about the Security domain of the Branch Key is difficult.
+ * This class scans a DynamoDB table for the items persisted by {@code InitializeMutation}.
+ * When a Mutation is completed
+ * (by calling {@code ApplyMutation} until it returns {@code CompleteMutation})
+ * these items are deleted by {@code ApplyMutation}.
+ * Thus, there presence alone indicates
+ * that a Mutation is in-flight for a Branch Key. <p>
+ * Note: <strong>Do not manually delete these items.</strong>
+ * Doing so prevents the library from
+ * ensuring a Mutation is consistently applied
+ * to all versions of a Branch Key.
+ */
 public class ScanForInFlightMutations {
 
   @Nonnull
@@ -27,7 +47,7 @@ public class ScanForInFlightMutations {
   private static final String PE = "#pk, #sk, #ct";
 
   static {
-    EAN = new HashMap<>(3, 1);
+    EAN = new HashMap<>(4, 1);
     EAN.put("#sk", "type");
     EAN.put("#pk", "branch-key-id");
     EAN.put("#ct", "create-time");
@@ -94,7 +114,7 @@ public class ScanForInFlightMutations {
     }
   }
 
-  public PageResult scanForMutationLock(
+  public PageResult scanForMutationCommitment(
     @Nullable Map<String, AttributeValue> exclusiveStartKey
   ) {
     ScanRequest.Builder request = ScanRequest
@@ -126,5 +146,15 @@ public class ScanForInFlightMutations {
       return new PageResult(list, lastEvaluatedKey);
     }
     return new PageResult(list, null);
+  }
+
+  public static void Example() {
+    ScanForInFlightMutations scanner = new ScanForInFlightMutations(
+      Fixtures.ddbClientWest2,
+      Fixtures.TEST_KEYSTORE_NAME,
+      null
+    );
+    PageResult actual = scanner.scanForMutationCommitment(null);
+    System.out.println(actual);
   }
 }

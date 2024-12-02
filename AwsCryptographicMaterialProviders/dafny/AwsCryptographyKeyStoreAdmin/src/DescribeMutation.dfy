@@ -15,6 +15,7 @@ module {:options "/functionSyntax:4" } DescribeMutation {
   import M_ErrorMessages = MutationsConstants.ErrorMessages
   import SystemKeyHandler = SystemKey.Handler
   import KMS = Com.Amazonaws.Kms
+  import Utf8Constants
 
   datatype InternalDescribeMutationInput = | InternalDescribeMutationInput (
     nameonly Identifier: string ,
@@ -121,21 +122,21 @@ module {:options "/functionSyntax:4" } DescribeMutation {
     MutationCommitment: KeyStoreTypes.MutationCommitment
   ): (output: string)
     ensures
-      && MutationCommitment.CiphertextBlob == SystemKeyHandler.TRUST_STORAGE_UTF8_BYTES
+      && MutationCommitment.CiphertextBlob == Utf8Constants.TRUST_STORAGE_UTF8_BYTES
       ==>
         output == TRUST_STORAGE_str
     ensures
-      && MutationCommitment.CiphertextBlob != SystemKeyHandler.TRUST_STORAGE_UTF8_BYTES
+      && MutationCommitment.CiphertextBlob != Utf8Constants.TRUST_STORAGE_UTF8_BYTES
       && KMS.Types.IsValid_CiphertextType(MutationCommitment.CiphertextBlob)
       ==>
         output == KMS_SYM_ENC_str
     ensures
-      && MutationCommitment.CiphertextBlob != SystemKeyHandler.TRUST_STORAGE_UTF8_BYTES
+      && MutationCommitment.CiphertextBlob != Utf8Constants.TRUST_STORAGE_UTF8_BYTES
       && !KMS.Types.IsValid_CiphertextType(MutationCommitment.CiphertextBlob)
       ==>
         output == UNKOWN_str
   {
-    if MutationCommitment.CiphertextBlob == SystemKeyHandler.TRUST_STORAGE_UTF8_BYTES
+    if MutationCommitment.CiphertextBlob == Utf8Constants.TRUST_STORAGE_UTF8_BYTES
     then TRUST_STORAGE_str
     else
       if KMS.Types.IsValid_CiphertextType(MutationCommitment.CiphertextBlob)
