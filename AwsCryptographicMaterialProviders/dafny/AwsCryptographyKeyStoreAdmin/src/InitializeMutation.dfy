@@ -358,15 +358,24 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
 
     var ActiveEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(newDecryptOnly.EncryptionContext);
 
-    var newActive :- Mutations.ReEncryptHierarchicalKey(
-      item := newDecryptOnly,
-      originalKmsArn := MutationToApply.Terminal.kmsArn,
-      terminalKmsArn := MutationToApply.Terminal.kmsArn,
-      terminalEncryptionContext := ActiveEncryptionContext,
-      keyManagerStrategy := input.keyManagerStrategy,
-      localOperation := "InitializeMutation"
-    );
-
+    var newActive;
+    if (input.keyManagerStrategy.decryptEncrypt?) {
+      newActive :- Mutations.NewActiveItemForDecryptEncrypt(
+        item := newDecryptOnly,
+        terminalKmsArn := MutationToApply.Terminal.kmsArn,
+        terminalEncryptionContext := ActiveEncryptionContext,
+        keyManagerStrategy := input.keyManagerStrategy,
+        localOperation := "InitializeMutation"
+      );
+    } else {
+      newActive :- Mutations.ReEncryptHierarchicalKey(
+        item := newDecryptOnly,
+        originalKmsArn := MutationToApply.Terminal.kmsArn,
+        terminalKmsArn := MutationToApply.Terminal.kmsArn,
+        terminalEncryptionContext := ActiveEncryptionContext,
+        keyManagerStrategy := input.keyManagerStrategy,
+        localOperation := "InitializeMutation");
+    }
     // -= Mutate Beacon Key
     var BeaconEncryptionContext := Structure.ReplaceMutableContext(
       readItems.BeaconItem.EncryptionContext,

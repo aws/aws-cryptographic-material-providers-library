@@ -156,6 +156,58 @@ module {:options "/functionSyntax:4" } Mutations {
     return Pass;
   }
 
+  method {:isolate_asserations} NewActiveItemForDecryptEncrypt(
+    nameonly item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
+    nameonly terminalKmsArn: string,
+    nameonly terminalEncryptionContext: Structure.BranchKeyContext,
+    nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
+    nameonly localOperation: string := "InitializeMutation"
+  )
+    returns (output: Result<Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
+    requires Structure.EncryptedHierarchicalKey?(item)
+    requires KMS.IsValid_KeyIdType(terminalKmsArn)
+    requires KMSKeystoreOperations.AttemptReEncrypt?(item.EncryptionContext, terminalEncryptionContext)
+    requires KmsArn.ValidKmsArn?(terminalKmsArn)
+    requires item.KmsArn == terminalKmsArn
+    requires keyManagerStrategy.ValidState()
+    requires keyManagerStrategy.decryptEncrypt?
+    requires item.Type.HierarchicalSymmetricVersion? // the input is a Version
+    requires Structure.ActiveHierarchicalSymmetricVersionEncryptionContext?(terminalEncryptionContext)
+    modifies keyManagerStrategy.encrypt.Modifies
+    ensures keyManagerStrategy.ValidState()
+    ensures output.Success? ==> output.value.Type.ActiveHierarchicalSymmetricVersion? // the output is an ACTIVE
+  {
+    var wrappedKey?;
+    // When using the decrypt encrypt strategy, we created the new DecryptOnly with the encrypt client.
+    // If we want to reencrypt it for the new active we must do so with only the encrypt client. This means
+    // that the encrypt client will perform both the decrypt and encrypt operations. Otherwise we assume that
+    // the decrypt client has permissions to decrypt the kms key that we are moving to. This is a wrong assumption.
+    wrappedKey? := KMSKeystoreOperations.MutateViaDecryptEncryptOnInitializeMutation(
+      ciphertext := item.CiphertextBlob,
+      sourceEncryptionContext := item.EncryptionContext,
+      destinationEncryptionContext := terminalEncryptionContext,
+      sourceKmsArn := terminalKmsArn,
+      destinationKmsArn := terminalKmsArn,
+      grantTokens := keyManagerStrategy.encrypt.grantTokens,
+      kmsClient := keyManagerStrategy.encrypt.kmsClient
+    );
+    // We call this method to create the new Active from the new Decrypt Only
+    if (wrappedKey?.Failure?) {
+      var error := MutationErrorRefinement.CreateActiveException(
+        branchKeyItem := Structure.ConstructEncryptedHierarchicalKey(
+          terminalEncryptionContext,
+          item.CiphertextBlob),
+        error := wrappedKey?.error,
+        localOperation := localOperation,
+        kmsOperation := "Decrypt/Encrypt");
+      return Failure(error);
+    }
+    output := Success(Structure.ConstructEncryptedHierarchicalKey(
+                        terminalEncryptionContext,
+                        wrappedKey?.value
+                      ));
+  }
+
   method {:isolate_assertions} ReEncryptHierarchicalKey(
     nameonly item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
     nameonly originalKmsArn: string,
@@ -192,34 +244,17 @@ module {:options "/functionSyntax:4" } Mutations {
           kmsClient := kms.kmsClient
         );
       case decryptEncrypt(kmsD, kmsE) =>
-        kmsOperation := "Decrypt/Encrypt";
-        if (localOperation == "InitializeMutation") {
-          // When using the decrypt encrypt strategy, we created the new DecryptOnly with the encrypt client.
-          // If we want to reencrypt it for the new active we must do so with only the encrypt client. This means
-          // that the encrypt client will perform both the decrypt and encrypt operations. Otherwise we assume that
-          // the decrypt client has permissions to decrypt the kms key that we are moving to. This is a wrong assumption.
-          wrappedKey? := KMSKeystoreOperations.MutateViaDecryptEncryptOnInitializeMutation(
-            ciphertext := item.CiphertextBlob,
-            sourceEncryptionContext := item.EncryptionContext,
-            destinationEncryptionContext := terminalEncryptionContext,
-            sourceKmsArn := originalKmsArn,
-            destinationKmsArn := terminalKmsArn,
-            grantTokens := kmsE.grantTokens,
-            kmsClient := kmsE.kmsClient
-          );
-        } else {
-          wrappedKey? := KMSKeystoreOperations.MutateViaDecryptEncrypt(
-            ciphertext := item.CiphertextBlob,
-            sourceEncryptionContext := item.EncryptionContext,
-            destinationEncryptionContext := terminalEncryptionContext,
-            sourceKmsArn := originalKmsArn,
-            destinationKmsArn := terminalKmsArn,
-            decryptGrantTokens := kmsD.grantTokens,
-            decryptKmsClient := kmsD.kmsClient,
-            encryptGrantTokens := kmsE.grantTokens,
-            encryptKmsClient := kmsE.kmsClient
-          );
-        }
+        wrappedKey? := KMSKeystoreOperations.MutateViaDecryptEncrypt(
+          ciphertext := item.CiphertextBlob,
+          sourceEncryptionContext := item.EncryptionContext,
+          destinationEncryptionContext := terminalEncryptionContext,
+          sourceKmsArn := originalKmsArn,
+          destinationKmsArn := terminalKmsArn,
+          decryptGrantTokens := kmsD.grantTokens,
+          decryptKmsClient := kmsD.kmsClient,
+          encryptGrantTokens := kmsE.grantTokens,
+          encryptKmsClient := kmsE.kmsClient
+        );
     }
 
     // We call this method to create the new Active from the new Decrypt Only
