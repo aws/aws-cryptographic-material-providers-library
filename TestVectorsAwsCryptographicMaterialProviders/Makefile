@@ -172,6 +172,18 @@ TRANSLATION_RECORD_PYTHON := \
     --translation-record ../AwsCryptographyPrimitives/runtimes/python/src/aws_cryptography_primitives/internaldafny/generated/dafny_src-py.dtr \
 	--translation-record ../AwsCryptographicMaterialProviders/runtimes/python/src/aws_cryptographic_material_providers/internaldafny/generated/dafny_src-py.dtr
 
+# TODO: Remove this smithy-dafny is fixed to not generated extra code
+polymorph_go:
+	rm -rf runtimes/go/ImplementationFromDafny-go/awscryptographymaterialproviderssmithygenerated \
+      runtimes/go/ImplementationFromDafny-go/awscryptographymaterialproviderssmithygeneratedtypes \
+      runtimes/go/ImplementationFromDafny-go/WrappedAwsCryptographyMaterialProvidersService \
+      runtimes/go/TestsFromDafny-go/awscryptographymaterialproviderssmithygenerated \
+      runtimes/go/TestsFromDafny-go/awscryptographymaterialproviderssmithygeneratedtypes \
+      runtimes/go/TestsFromDafny-go/WrappedAwsCryptographyMaterialProvidersService
+
+# TODO: Remove this once Dafny bug is fixed. https://t.corp.amazon.com/9a9028fd-2711-4843-b8f0-09965f7e61a7/communication#f03694be-7410-47f9-866d-e43093b018f9 
+transpile_go:	
+	sed -i '' 's/_out0 = m_TestWrappedMaterialProvidersMain.GetTestVectorExecutionDirectory()/_out0 = GetTestVectorExecutionDirectory()/g' ./runtimes/go/TestsFromDafny-go/TestWrappedMaterialProvidersMain/TestWrappedMaterialProvidersMain.go
 # Python
 
 # Override default test_python to run tox environment for Dafny tests
