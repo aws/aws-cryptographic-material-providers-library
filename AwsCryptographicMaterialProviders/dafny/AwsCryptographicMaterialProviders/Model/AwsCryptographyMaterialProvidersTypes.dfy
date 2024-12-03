@@ -1623,12 +1623,16 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly graceInterval: CountingNumber ,
     nameonly fanOut: CountingNumber ,
     nameonly inFlightTTL: CountingNumber ,
-    nameonly sleepMilli: CountingNumber
+    nameonly sleepMilli: CountingNumber ,
+    nameonly timeUnits: Option<TimeUnits> := Option.None
   )
   datatype SymmetricSignatureAlgorithm =
     | HMAC(HMAC: AwsCryptographyPrimitivesTypes.DigestAlgorithm)
     | None(None: None)
   type SymmetricSigningKeyList = seq<Secret>
+  datatype TimeUnits =
+    | Seconds
+    | Milliseconds
   datatype UpdateUsageMetadataInput = | UpdateUsageMetadataInput (
     nameonly identifier: seq<uint8> ,
     nameonly bytesUsed: PositiveInteger
@@ -1659,6 +1663,9 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
         nameonly message: string
       )
     | EntryDoesNotExist (
+        nameonly message: string
+      )
+    | InFlightTTLExceeded (
         nameonly message: string
       )
     | InvalidAlgorithmSuiteInfo (
@@ -1713,7 +1720,16 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     | CollectionOfErrors(list: seq<Error>, nameonly message: string)
       // The Opaque error, used for native, extern, wrapped or unknown errors
     | Opaque(obj: object)
-  type OpaqueError = e: Error | e.Opaque? witness *
+      // A better Opaque, with a visible string representation.
+    | OpaqueWithText(obj: object, objMessage : string)
+  type OpaqueError = e: Error | e.Opaque? || e.OpaqueWithText? witness *
+  // This dummy subset type is included to make sure Dafny
+  // always generates a _ExternBase___default.java class.
+  type DummySubsetType = x: int | IsDummySubsetType(x) witness 1
+  predicate method IsDummySubsetType(x: int) {
+    0 < x
+  }
+
 }
 abstract module AbstractAwsCryptographyMaterialProvidersService
 {

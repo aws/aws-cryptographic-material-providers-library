@@ -25,6 +25,9 @@ phases:
       - export PATH="$PWD/dafny:$PATH"
       # Switch back to the main directory
       - cd aws-cryptographic-material-providers-library
+      # Check out tests for release commit
+      - git fetch --tags
+      - git checkout $COMMIT_ID
       # Install test dependencies
       - pyenv install --skip-existing 3.11
       - pyenv local 3.11
@@ -35,7 +38,7 @@ phases:
       # The actual test code must be from local, since we don't publish tests.
       - pip install aws-cryptographic-material-providers==$VERSION
       # Install ESDK-Python, override its requirements to force use of the just-published MPL version
-      - git clone -b mpl-reviewed https://github.com/aws/aws-encryption-sdk-python.git
+      - git clone -b master https://github.com/aws/aws-encryption-sdk-python.git
       - cd aws-encryption-sdk-python
       - sed -i "s/aws-cryptographic-material-providers.*/aws-cryptographic-material-providers==$VERSION/" requirements_mpl.txt
       - cd ..

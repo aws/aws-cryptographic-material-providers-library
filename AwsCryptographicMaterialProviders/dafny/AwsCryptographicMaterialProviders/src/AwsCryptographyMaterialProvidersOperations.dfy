@@ -269,11 +269,15 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   method CheckCache(cache : CacheType, ttlSeconds: PositiveLong) returns (output : Outcome<Error>)
   {
     if cache.StormTracking? {
+      var gracePeriod := if cache.StormTracking.timeUnits.UnwrapOr(Types.Seconds).Seconds? then
+        cache.StormTracking.gracePeriod as PositiveLong
+      else
+        cache.StormTracking.gracePeriod as PositiveLong / 1000;
       var storm := cache.StormTracking;
-      if ttlSeconds <= storm.gracePeriod as PositiveLong {
+      if ttlSeconds <= gracePeriod {
         var msg := "When creating an AwsKmsHierarchicalKeyring with a StormCache, " +
         "the ttlSeconds of the KeyRing must be greater than the gracePeriod of the StormCache " +
-        "yet the ttlSeconds is " + N(ttlSeconds) + " and the gracePeriod is " + N(storm.gracePeriod as PositiveLong) + ".";
+        "yet the ttlSeconds is " + N(ttlSeconds) + " and the gracePeriod is " + N(gracePeriod) + ".";
         return Fail(Types.AwsCryptographicMaterialProvidersException(message := msg));
       }
       return Pass;
@@ -819,6 +823,8 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       case StormTracking(c) =>
         var cache := c.( entryPruningTailSize := OptionalCountingNumber(c.entryPruningTailSize));
         :- StormTracker.CheckSettings(cache);
+
+
         var cmc := new StormTracker.StormTracker(cache);
         var synCmc := new StormTrackingCMC.StormTrackingCMC(cmc);
         return Success(synCmc);

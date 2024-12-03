@@ -28,7 +28,7 @@ jobs:
           # we require multiple approvers if any of those files change
           # when adding any release file, it must be appended with *release
           # we also want to check if there are changes to this file
-          echo "FILES=$(git diff --name-only origin/main origin/${GITHUB_HEAD_REF} .github/workflows/*release.yml .github/workflows/check-files.yml .releaserc.cjs | tr '\n' ' ')" >> "$GITHUB_OUTPUT"
+          echo "FILES=$(git diff --name-only origin/${GITHUB_BASE_REF} origin/${GITHUB_HEAD_REF} .github/workflows/*release.yml .github/workflows/check-files.yml .releaserc.cjs | tr '\n' ' ')" >> "$GITHUB_OUTPUT"
 
       - name: Check if FILES is not empty
         id: comment
