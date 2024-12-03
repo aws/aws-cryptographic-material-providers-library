@@ -179,11 +179,11 @@ polymorph_go:
 	find .. -name "shim.go" | xargs sed -i "" 's/(_static \*CompanionStruct_Default___)//g'
 	
 	rm -rf runtimes/go/ImplementationFromDafny-go/awscryptographymaterialproviderssmithygenerated \
-      runtimes/go/ImplementationFromDafny-go/awscryptographymaterialproviderssmithygeneratedtypes \
-      runtimes/go/ImplementationFromDafny-go/WrappedAwsCryptographyMaterialProvidersService \
-      runtimes/go/TestsFromDafny-go/awscryptographymaterialproviderssmithygenerated \
-      runtimes/go/TestsFromDafny-go/awscryptographymaterialproviderssmithygeneratedtypes \
-      runtimes/go/TestsFromDafny-go/WrappedAwsCryptographyMaterialProvidersService
+		runtimes/go/ImplementationFromDafny-go/awscryptographymaterialproviderssmithygeneratedtypes \
+		runtimes/go/ImplementationFromDafny-go/WrappedAwsCryptographyMaterialProvidersService \
+		runtimes/go/TestsFromDafny-go/awscryptographymaterialproviderssmithygenerated \
+		runtimes/go/TestsFromDafny-go/awscryptographymaterialproviderssmithygeneratedtypes \
+		runtimes/go/TestsFromDafny-go/WrappedAwsCryptographyMaterialProvidersService
 
 # TODO: Remove this once Dafny bug is fixed. https://t.corp.amazon.com/9a9028fd-2711-4843-b8f0-09965f7e61a7/communication#f03694be-7410-47f9-866d-e43093b018f9 
 transpile_go:	
