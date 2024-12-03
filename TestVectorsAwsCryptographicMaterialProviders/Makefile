@@ -177,6 +177,7 @@ TRANSLATION_RECORD_PYTHON := \
 # TODO: Remove these commands once smithy-dafny is fixed
 polymorph_go:
 	find .. -name "shim.go" | xargs sed -i "" 's/(_static \*CompanionStruct_Default___)//g'
+	
 	rm -rf runtimes/go/ImplementationFromDafny-go/awscryptographymaterialproviderssmithygenerated \
       runtimes/go/ImplementationFromDafny-go/awscryptographymaterialproviderssmithygeneratedtypes \
       runtimes/go/ImplementationFromDafny-go/WrappedAwsCryptographyMaterialProvidersService \
