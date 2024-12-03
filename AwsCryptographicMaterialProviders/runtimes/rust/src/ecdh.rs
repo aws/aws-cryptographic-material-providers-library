@@ -123,7 +123,7 @@ pub mod ECDH {
             Ok(out_buf[..new_size].to_vec())
         }
 
-        pub(crate) fn X962_to_X509(
+        pub(crate) fn X962_to_X509( 
             public_key: &[u8],
             alg: &ECDHCurveSpec,
         ) -> Result<Vec<u8>, String> {
