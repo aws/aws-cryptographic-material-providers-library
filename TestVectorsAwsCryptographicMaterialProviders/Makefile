@@ -172,8 +172,11 @@ TRANSLATION_RECORD_PYTHON := \
     --translation-record ../AwsCryptographyPrimitives/runtimes/python/src/aws_cryptography_primitives/internaldafny/generated/dafny_src-py.dtr \
 	--translation-record ../AwsCryptographicMaterialProviders/runtimes/python/src/aws_cryptographic_material_providers/internaldafny/generated/dafny_src-py.dtr
 
-# TODO: Remove this smithy-dafny is fixed to not generated extra code
+# Smithy-dafny generated shim needs a long term fix. 
+# Smithy-dafny generates polymorph code of MPL in test vectors.  
+# TODO: Remove these commands once smithy-dafny is fixed
 polymorph_go:
+	find .. -name "shim.go" | xargs sed -i "" 's/(_static \*CompanionStruct_Default___)//g'
 	rm -rf runtimes/go/ImplementationFromDafny-go/awscryptographymaterialproviderssmithygenerated \
       runtimes/go/ImplementationFromDafny-go/awscryptographymaterialproviderssmithygeneratedtypes \
       runtimes/go/ImplementationFromDafny-go/WrappedAwsCryptographyMaterialProvidersService \
