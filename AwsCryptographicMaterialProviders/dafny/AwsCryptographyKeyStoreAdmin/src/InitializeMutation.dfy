@@ -69,15 +69,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       && input.Mutations.TerminalKmsArn.Some?
       ==>
         && KmsArn.ValidKmsArn?(input.Mutations.TerminalKmsArn.value)
-    ensures
-      && output.Success?
-      ==>
-        input.DoNotVersion == false
   {
-    :- Need(
-         input.DoNotVersion == false,
-         Types.UnsupportedFeatureException(message := "At this time, DoNotVersion MUST be false.")
-       );
     :- Need(|input.Identifier| > 0,
             Types.KeyStoreAdminException(message := "Branch Key Identifier cannot be empty!"));
     var terminalEC := input.Mutations.TerminalEncryptionContext.UnwrapOr(map[]);
@@ -330,6 +322,12 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
           + " For Initialize Mutation to succeed, the ACTIVE & Beacon Key MUST be in the original state."
       ));
 
+    // Mutations-doNotVersion
+    // I think the cleanest way to fry this fish
+    // is to break out a new method.
+    // It takes in the Input, the read ActiveItem, and MutationsToApply
+    // It returns WriteActive & WriteVersion
+
     // --= Generate New Decrypt Only Branch Key with terminal properties
     var maybeNewVersion := UUID.GenerateUUID();
     var newVersion :- maybeNewVersion
@@ -375,6 +373,9 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         keyManagerStrategy := input.keyManagerStrategy,
         localOperation := "InitializeMutation");
     }
+    var writeActive := KeyStoreTypes.OverWriteEncryptedHierarchicalKey(Item:=newActive, Old:=activeItem);
+    var writeVersion := KeyStoreTypes.WriteInitializeMutationVersion.rotate(rotate:=newDecryptOnly);
+
     // -= Mutate Beacon Key
     var BeaconEncryptionContext := Structure.ReplaceMutableContext(
       readItems.BeaconItem.EncryptionContext,
@@ -404,11 +405,11 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     // -= Write Mutation Commitment, new branch key version, mutated beacon key
     var throwAway2? := input.storage.WriteInitializeMutation(
       KeyStoreTypes.WriteInitializeMutationInput(
-        Active := KeyStoreTypes.OverWriteEncryptedHierarchicalKey(Item:=newActive, Old:=activeItem),
-        Version := KeyStoreTypes.WriteInitializeMutationVersion.rotate(rotate:=newDecryptOnly),
+        Active := writeActive,
+        Version := writeVersion,
         Beacon := KeyStoreTypes.OverWriteEncryptedHierarchicalKey(Item:=newBeaconKey, Old:=readItems.BeaconItem),
-        MutationCommitment :=  SignedMutationCommitment, // MutationCommitment,
-        MutationIndex := SignedMutationIndex // MutationIndex
+        MutationCommitment :=  SignedMutationCommitment,
+        MutationIndex := SignedMutationIndex
       ));
     // TODO-Mutations-FF :: Ideally, we would diagnosis the Storage Failure.
     // What Condition Check failed? Was the Key Versioned? Or did another M-Commitment get written?
@@ -609,5 +610,90 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
                      MutatedBranchKeyItems := mutatedBranchKeyItems,
                      InitializeMutationFlag := Flag));
 
+  }
+
+  datatype InitializeMutationActiveInput =
+    | InitializeMutationActiveInput (
+        nameonly input: InternalInitializeMutationInput,
+        nameonly activeItem: KeyStoreTypes.EncryptedHierarchicalKey,
+        nameonly mutationToApply: StateStrucs.MutationToApply,
+        nameonly timestamp: string
+      )
+  {
+    ghost predicate ValidState()
+    {
+      && input.ValidState()
+      && activeItem.Type.ActiveHierarchicalSymmetricVersion?
+      && mutationToApply.ValidState()
+      && 0 < |timestamp|
+    }
+
+    ghost const Modifies :=
+      match input.keyManagerStrategy {
+        case reEncrypt(km) => multiset(km.kmsClient.Modifies)
+        case decryptEncrypt(kmD, kmE) => multiset(kmD.kmsClient.Modifies) + multiset(kmE.kmsClient.Modifies)
+      }
+      + multiset(input.SystemKey.Modifies)
+      + multiset(input.storage.Modifies)
+  }
+
+  datatype InitializeMutationActiveOutput =
+    | InitializeMutationActiveOutput(
+        nameonly writeActive: KeyStoreTypes.OverWriteEncryptedHierarchicalKey,
+        nameonly writeVersion: KeyStoreTypes.WriteInitializeMutationVersion
+      )
+
+  method InitializeMutationActive(
+    localInput: InitializeMutationActiveInput
+  )
+    returns (output: Result<InitializeMutationActiveOutput, Types.Error>)
+    requires localInput.ValidState()
+    modifies localInput.Modifies
+    ensures localInput.ValidState()
+    ensures
+      && localInput.input.DoNotVersion
+      && output.Success?
+      ==>
+        output.value.writeVersion.mutate?
+    ensures
+      && !localInput.input.DoNotVersion
+      && output.Success?
+      ==>
+        output.value.writeVersion.rotate?
+  {
+    if (localInput.input.DoNotVersion) {
+      output := InitializeMutationActiveMutate(localInput);
+    } else {
+      output := InitializeMutationActiveVersion(localInput);
+    }
+    return output;
+  }
+
+  method InitializeMutationActiveVersion(
+    localInput: InitializeMutationActiveInput
+  )
+    returns (output: Result<InitializeMutationActiveOutput, Types.Error>)
+    requires localInput.ValidState()
+    modifies localInput.Modifies
+    ensures localInput.ValidState()
+    requires !localInput.input.DoNotVersion
+    ensures output.Success? ==> output.value.writeVersion.rotate?
+  {
+    output := Failure(Types.UnsupportedFeatureException(message := "WIP"));
+    return output;
+  }
+
+  method InitializeMutationActiveMutate(
+    localInput: InitializeMutationActiveInput
+  )
+    returns (output: Result<InitializeMutationActiveOutput, Types.Error>)
+    requires localInput.ValidState()
+    modifies localInput.Modifies
+    ensures localInput.ValidState()
+    requires localInput.input.DoNotVersion
+    ensures output.Success? ==> output.value.writeVersion.mutate?
+  {
+    output := Failure(Types.UnsupportedFeatureException(message := "WIP"));
+    return output;
   }
 }
