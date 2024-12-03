@@ -169,7 +169,7 @@ public class MutationKmsAccessTerminalInFlightTestDecryptEncrypt {
     }
 
     // Clean Up
-    Fixtures.DeleteBranchKey(
+    DdbHelper.DeleteBranchKey(
       branchKeyId,
       Fixtures.TEST_KEYSTORE_NAME,
       "1",
