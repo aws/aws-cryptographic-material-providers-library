@@ -14,6 +14,8 @@ import software.amazon.awssdk.core.SdkBytes;
 import software.amazon.awssdk.services.dynamodb.model.AttributeAction;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValueUpdate;
+import software.amazon.cryptography.example.Constants;
+import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.example.hierarchy.CreateKeyExample;
@@ -33,8 +35,11 @@ public class TestMutationsSystemKeyKMSTamper {
     final String identifier
   ) {
     Map<String, AttributeValue> ddbKey = new HashMap<>(3, 1);
-    ddbKey.put("branch-key-id", AttributeValue.fromS(identifier));
-    ddbKey.put("type", AttributeValue.fromS("branch:MUTATION_COMMITMENT"));
+    ddbKey.put(Constants.BRANCH_KEY_ID, AttributeValue.fromS(identifier));
+    ddbKey.put(
+      Constants.TYPE,
+      AttributeValue.fromS(Constants.MUTATION_COMMITMENT)
+    );
     return ddbKey;
   }
 
@@ -42,8 +47,8 @@ public class TestMutationsSystemKeyKMSTamper {
     final String identifier
   ) {
     Map<String, AttributeValue> ddbKey = new HashMap<>(3, 1);
-    ddbKey.put("branch-key-id", AttributeValue.fromS(identifier));
-    ddbKey.put("type", AttributeValue.fromS("branch:MUTATION_INDEX"));
+    ddbKey.put(Constants.BRANCH_KEY_ID, AttributeValue.fromS(identifier));
+    ddbKey.put(Constants.TYPE, AttributeValue.fromS("branch:MUTATION_INDEX"));
     return ddbKey;
   }
 
@@ -51,7 +56,7 @@ public class TestMutationsSystemKeyKMSTamper {
   public void testCreateTimeCommitment() {
     Map<String, AttributeValueUpdate> tamper = new HashMap<>(2, 1);
     tamper.put(
-      "create-time",
+      Constants.CREATE_TIME,
       AttributeValueUpdate
         .builder()
         .value(AttributeValue.fromS("now!"))
@@ -61,7 +66,7 @@ public class TestMutationsSystemKeyKMSTamper {
     testAttribute(
       tamper,
       testPrefix + "create-time-commitment-",
-      "branch:MUTATION_COMMITMENT"
+      Constants.MUTATION_COMMITMENT
     );
   }
 
@@ -69,7 +74,7 @@ public class TestMutationsSystemKeyKMSTamper {
   public void testCreateTimeIndex() {
     Map<String, AttributeValueUpdate> tamper = new HashMap<>(2, 1);
     tamper.put(
-      "create-time",
+      Constants.CREATE_TIME,
       AttributeValueUpdate
         .builder()
         .value(AttributeValue.fromS("now!"))
@@ -116,7 +121,7 @@ public class TestMutationsSystemKeyKMSTamper {
         .action(AttributeAction.PUT)
         .build()
     );
-    testAttribute(tamper, testPrefix + "input-", "branch:MUTATION_COMMITMENT");
+    testAttribute(tamper, testPrefix + "input-", Constants.MUTATION_COMMITMENT);
   }
 
   @Test
@@ -140,7 +145,7 @@ public class TestMutationsSystemKeyKMSTamper {
     testAttribute(
       tamper,
       testPrefix + "original-",
-      "branch:MUTATION_COMMITMENT"
+      Constants.MUTATION_COMMITMENT
     );
   }
 
@@ -165,7 +170,7 @@ public class TestMutationsSystemKeyKMSTamper {
     testAttribute(
       tamper,
       testPrefix + "terminal-",
-      "branch:MUTATION_COMMITMENT"
+      Constants.MUTATION_COMMITMENT
     );
   }
 
@@ -226,7 +231,7 @@ public class TestMutationsSystemKeyKMSTamper {
     );
     Map<String, AttributeValue> ddbKey = Objects.equals(
         type,
-        "branch:MUTATION_COMMITMENT"
+        Constants.MUTATION_COMMITMENT
       )
       ? ddbKeyForCommitment(identifier)
       : ddbKeyForIndex(identifier);
@@ -253,7 +258,7 @@ public class TestMutationsSystemKeyKMSTamper {
       "Tampering should have lead to a MutationVerificationException! testId: " +
       identifier
     );
-    Fixtures.DeleteBranchKey(
+    DdbHelper.DeleteBranchKey(
       identifier,
       Fixtures.TEST_KEYSTORE_NAME,
       "1",
