@@ -2,16 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 package software.amazon.cryptography.example.hierarchy;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
+import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
+import software.amazon.cryptography.example.Constants;
+import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.mutations.MutationDecryptEncryptExample;
 import software.amazon.cryptography.example.hierarchy.mutations.MutationExample;
 import software.amazon.cryptography.example.hierarchy.mutations.MutationResumeExample;
 import software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider;
 import software.amazon.cryptography.keystore.model.AwsKms;
-import software.amazon.cryptography.keystoreadmin.model.Mutations;
-import software.amazon.cryptography.keystoreadmin.model.SystemKey;
-import software.amazon.cryptography.keystoreadmin.model.TrustStorage;
 
 public class ExampleTests {
 
@@ -50,6 +51,26 @@ public class ExampleTests {
         AdminProvider.admin()
       );
     System.out.println("\nVersioned Branch Key: " + branchKeyId + "\n");
+    GetItemResponse mCommitmentRes = DdbHelper.getKeyStoreDdbItem(
+      branchKeyId,
+      Constants.MUTATION_COMMITMENT,
+      Fixtures.TEST_KEYSTORE_NAME,
+      Fixtures.ddbClientWest2
+    );
+    Assert.assertFalse(
+      mCommitmentRes.hasItem(),
+      Constants.MUTATION_COMMITMENT + " was not deleted!"
+    );
+    GetItemResponse mIndexRes = DdbHelper.getKeyStoreDdbItem(
+      branchKeyId,
+      Constants.MUTATION_INDEX,
+      Fixtures.TEST_KEYSTORE_NAME,
+      Fixtures.ddbClientWest2
+    );
+    Assert.assertFalse(
+      mIndexRes.hasItem(),
+      Constants.MUTATION_INDEX + " was not deleted!"
+    );
     branchKeyId =
       MutationResumeExample.Resume2End(
         branchKeyId,
@@ -65,7 +86,29 @@ public class ExampleTests {
       Fixtures.KEYSTORE_KMS_ARN +
       "\n"
     );
-    Fixtures.DeleteBranchKey(
+    mCommitmentRes =
+      DdbHelper.getKeyStoreDdbItem(
+        branchKeyId,
+        Constants.MUTATION_COMMITMENT,
+        Fixtures.TEST_KEYSTORE_NAME,
+        Fixtures.ddbClientWest2
+      );
+    Assert.assertFalse(
+      mCommitmentRes.hasItem(),
+      Constants.MUTATION_COMMITMENT + " was not deleted!"
+    );
+    mIndexRes =
+      DdbHelper.getKeyStoreDdbItem(
+        branchKeyId,
+        Constants.MUTATION_INDEX,
+        Fixtures.TEST_KEYSTORE_NAME,
+        Fixtures.ddbClientWest2
+      );
+    Assert.assertFalse(
+      mIndexRes.hasItem(),
+      Constants.MUTATION_INDEX + " was not deleted!"
+    );
+    DdbHelper.DeleteBranchKey(
       branchKeyId,
       Fixtures.TEST_KEYSTORE_NAME,
       "1",
@@ -97,6 +140,26 @@ public class ExampleTests {
       Fixtures.POSTAL_HORN_KEY_ARN +
       "\n"
     );
+    GetItemResponse mCommitmentRes = DdbHelper.getKeyStoreDdbItem(
+      branchKeyId,
+      Constants.MUTATION_COMMITMENT,
+      Fixtures.TEST_KEYSTORE_NAME,
+      Fixtures.ddbClientWest2
+    );
+    Assert.assertFalse(
+      mCommitmentRes.hasItem(),
+      Constants.MUTATION_COMMITMENT + " was not deleted!"
+    );
+    GetItemResponse mIndexRes = DdbHelper.getKeyStoreDdbItem(
+      branchKeyId,
+      Constants.MUTATION_INDEX,
+      Fixtures.TEST_KEYSTORE_NAME,
+      Fixtures.ddbClientWest2
+    );
+    Assert.assertFalse(
+      mIndexRes.hasItem(),
+      Constants.MUTATION_INDEX + " was not deleted!"
+    );
     branchKeyId =
       VersionKeyExample.VersionKey(
         Fixtures.POSTAL_HORN_KEY_ARN,
@@ -125,7 +188,29 @@ public class ExampleTests {
       Fixtures.KEYSTORE_KMS_ARN +
       "\n"
     );
-    Fixtures.DeleteBranchKey(
+    mCommitmentRes =
+      DdbHelper.getKeyStoreDdbItem(
+        branchKeyId,
+        Constants.MUTATION_COMMITMENT,
+        Fixtures.TEST_KEYSTORE_NAME,
+        Fixtures.ddbClientWest2
+      );
+    Assert.assertFalse(
+      mCommitmentRes.hasItem(),
+      Constants.MUTATION_COMMITMENT + " was not deleted!"
+    );
+    mIndexRes =
+      DdbHelper.getKeyStoreDdbItem(
+        branchKeyId,
+        Constants.MUTATION_INDEX,
+        Fixtures.TEST_KEYSTORE_NAME,
+        Fixtures.ddbClientWest2
+      );
+    Assert.assertFalse(
+      mIndexRes.hasItem(),
+      Constants.MUTATION_INDEX + " was not deleted!"
+    );
+    DdbHelper.DeleteBranchKey(
       branchKeyId,
       Fixtures.TEST_KEYSTORE_NAME,
       "1",
