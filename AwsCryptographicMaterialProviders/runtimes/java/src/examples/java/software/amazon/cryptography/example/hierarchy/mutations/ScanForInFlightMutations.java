@@ -54,7 +54,7 @@ public class ScanForInFlightMutations {
     EAN.put("#ct", Constants.CREATE_TIME);
     EAV = new HashMap<>(2, 1);
     EAV.put(
-      ":type",
+      ":sk",
       AttributeValue.builder().s(Constants.MUTATION_COMMITMENT).build()
     );
   }
@@ -121,7 +121,7 @@ public class ScanForInFlightMutations {
     ScanRequest.Builder request = ScanRequest
       .builder()
       .tableName(tableName)
-      .filterExpression("#sk = :type")
+      .filterExpression("#sk = :sk")
       .expressionAttributeNames(EAN)
       .expressionAttributeValues(EAV)
       .projectionExpression(PE);

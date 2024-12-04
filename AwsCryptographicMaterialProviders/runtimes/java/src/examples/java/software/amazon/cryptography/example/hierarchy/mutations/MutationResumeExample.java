@@ -4,7 +4,6 @@ package software.amazon.cryptography.example.hierarchy.mutations;
 
 import java.util.HashMap;
 import javax.annotation.Nullable;
-import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationResult;
@@ -169,7 +168,8 @@ public class MutationResumeExample {
       _systemKey,
       describeRes.MutationInFlight().Yes().MutationToken(),
       _strategy,
-      _admin
+      _admin,
+      (short) 10
     );
 
     System.out.println("Done with Mutation: " + branchKeyId);
