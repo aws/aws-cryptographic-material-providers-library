@@ -336,3 +336,90 @@ Resources:
             }
           ]
         }
+
+  RestrictedKMSHKeyOneOnly:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: !Sub "Restricted-KMS-HKey-One-Only"
+      Description: "Restricted to only KMS Key One"
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "kms:CreateGrant"
+                  - "kms:Decrypt"
+                  - "kms:DescribeKey"
+                  - "kms:Encrypt"
+                  - "kms:GenerateDataKeyWithoutPlaintext"
+                  - "kms:ListGrant"
+                  - "kms:RevokeGrant"
+                Resource: !Sub "arn:aws:kms:*:${AWS::AccountId}:key/${HierarchicalGitHubKMSKeyID}"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !Sub "arn:aws:iam::${AWS::AccountId}:oidc-provider/token.actions.githubusercontent.com"
+            Action: "sts:AssumeRoleWithWebIdentity"
+            Condition:
+              StringEquals:
+                token.actions.githubusercontent.com:aud: "sts.amazonaws.com"
+              StringLike:
+                token.actions.githubusercontent.com:sub:
+                  - "repo:aws/private-aws-encryption-sdk-dafny-staging:*"
+                  - "repo:aws/aws-encryption-sdk-dafny:*"
+                  - "repo:aws/aws-cryptographic-material-providers-library:*"
+                  - "repo:aws/private-aws-cryptographic-material-providers-library-dafny-staging:*"
+          - Effect: Allow
+            Principal:
+              AWS:
+                - !Sub "arn:aws:iam::${AWS::AccountId}:role/ToolsDevelopment"
+                - "arn:aws:iam::648638458147:role/AVP-14101"
+            Action: "sts:AssumeRole"
+
+  RestrictedKMSHKeyTwoOnly:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: !Sub "Restricted-KMS-HKey-Two-Only"
+      Description: "Restricted to only KMS Key Two"
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "kms:CreateGrant"
+                  - "kms:Decrypt"
+                  - "kms:DescribeKey"
+                  - "kms:Encrypt"
+                  - "kms:GenerateDataKeyWithoutPlaintext"
+                  - "kms:ListGrant"
+                  - "kms:RevokeGrant"
+                Resource: !Sub "arn:aws:kms:*:${AWS::AccountId}:key/${HierarchicalGitHubKMSKeyIDTwo}"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !Sub "arn:aws:iam::${AWS::AccountId}:oidc-provider/token.actions.githubusercontent.com"
+            Action: "sts:AssumeRoleWithWebIdentity"
+            Condition:
+              StringEquals:
+                token.actions.githubusercontent.com:aud: "sts.amazonaws.com"
+              StringLike:
+                token.actions.githubusercontent.com:sub:
+                  - "repo:aws/private-aws-encryption-sdk-dafny-staging:*"
+                  - "repo:aws/aws-encryption-sdk-dafny:*"
+                  - "repo:aws/aws-cryptographic-material-providers-library:*"
+                  - "repo:aws/private-aws-cryptographic-material-providers-library-dafny-staging:*"
+          - Effect: Allow
+            Principal:
+              AWS:
+                - !Sub "arn:aws:iam::${AWS::AccountId}:role/ToolsDevelopment"
+                - "arn:aws:iam::648638458147:role/AVP-14101"
+            Action: "sts:AssumeRole"
+            
