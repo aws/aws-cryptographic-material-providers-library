@@ -1,0 +1,13 @@
+diff --git b/AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStore/Model/AwsCryptographyKeyStoreTypes.dfy a/AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStore/Model/AwsCryptographyKeyStoreTypes.dfy
+index 25bd45838..3ddedde75 100644
+--- b/AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStore/Model/AwsCryptographyKeyStoreTypes.dfy
++++ a/AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStore/Model/AwsCryptographyKeyStoreTypes.dfy
+@@ -611,7 +611,7 @@ abstract module AbstractAwsCryptographyKeyStoreService
+   import opened Types = AwsCryptographyKeyStoreTypes
+   import Operations : AbstractAwsCryptographyKeyStoreOperations
+   function method DefaultKeyStoreConfig(): KeyStoreConfig
+-  method KeyStore(config: KeyStoreConfig := DefaultKeyStoreConfig())
++  method {:isoluate_asserations} {:resource_limit 94000000 } KeyStore(config: KeyStoreConfig := DefaultKeyStoreConfig())
+     returns (res: Result<KeyStoreClient, Error>)
+     requires config.ddbClient.Some? ==>
+                config.ddbClient.value.ValidState()
