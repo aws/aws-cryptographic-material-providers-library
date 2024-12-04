@@ -59,7 +59,7 @@ module {:extern "UTF8"} UTF8 {
   }
 
   // Encode ASCII as UTF8 in a function, to allow use in ensures clause
-  function method {:opaque} {:tailrecursion} EncodeAscii(s : string) : (ret : ValidUTF8Bytes)
+  function {:opaque} {:tailrecursion} EncodeAscii(s : string) : (ret : ValidUTF8Bytes)
     requires IsASCIIString(s)
     ensures |s| == |ret|
     ensures forall i | 0 <= i < |s| :: s[i] as uint8 == ret[i]
@@ -71,6 +71,14 @@ module {:extern "UTF8"} UTF8 {
       assert ValidUTF8Seq(x);
       ValidUTF8Concat(x, EncodeAscii(s[1..]));
       x + EncodeAscii(s[1..])
+  } by method {
+    // This avoids the slice (s[1..])
+    // This is important because by default Dafny `const`
+    // are not always constants in the native runtime.
+    // In Java for example, they are static functions
+    // that evaluate the same value over and over.
+    IsASCIIBytesIsValidUTF8(seq(|s|, n requires 0 <= n < |s| => s[n] as uint8));
+    ret := seq(|s|, n requires 0 <= n < |s| => s[n] as uint8);
   }
 
   // if ascii strings are different, their encoding is also unique
@@ -135,7 +143,7 @@ module {:extern "UTF8"} UTF8 {
     || ((s[0] == 0xF4) && (0x80 <= s[1] <= 0x8F) && (0x80 <= s[2] <= 0xBF) && (0x80 <= s[3] <= 0xBF))
   }
 
-  predicate method {:tailrecursion} ValidUTF8Range(a: seq<uint8>, lo: nat, hi: nat)
+  predicate ValidUTF8Range(a: seq<uint8>, lo: nat, hi: nat)
     requires lo <= hi <= |a|
     decreases hi - lo
   {
@@ -153,6 +161,126 @@ module {:extern "UTF8"} UTF8 {
         ValidUTF8Range(a, lo + 4, hi)
       else
         false
+  } by method {
+
+    // The slice a[lo..hi] is un-optimized operations in Dafny.
+    // This means that their usage will result in a lot of data copying.
+    // Additional, it is very likely that these size of these sequences
+    // will be less than uint64.
+    // So writing an optimized version that only works on bounded types
+    // should further optimized this hot code.
+
+    if HasUint64Len(a) {
+      return BoundedValidUTF8Range(a, lo as uint64, hi as uint64);
+    }
+
+    if lo == hi {
+      assert ValidUTF8Range(a, lo, hi);
+      return true;
+    }
+
+    var i := lo;
+
+    while i < hi
+      invariant lo <= i <= hi
+      invariant ValidUTF8Range(a, lo, hi) == ValidUTF8Range(a, i, hi)
+      decreases hi - i
+    {
+      if
+        && i < hi
+        && 0x00 <= a[i] <= 0x7F
+      {
+        assert Uses1Byte(a[i..hi]);
+        i := i + 1;
+      } else if
+        && i + 1 < hi
+        && (0xC2 <= a[i] <= 0xDF)
+        && (0x80 <= a[i+1] <= 0xBF)
+      {
+        assert Uses2Bytes(a[i..hi]);
+        i := i + 2;
+      } else if
+        && i + 2 < hi
+        && (((a[i] == 0xE0) && (0xA0 <= a[i + 1] <= 0xBF) && (0x80 <= a[i + 2] <= 0xBF))
+            || ((0xE1 <= a[i] <= 0xEC) && (0x80 <= a[i + 1] <= 0xBF) && (0x80 <= a[i + 2] <= 0xBF))
+            || ((a[i] == 0xED) && (0x80 <= a[i + 1] <= 0x9F) && (0x80 <= a[i + 2] <= 0xBF))
+            || ((0xEE <= a[i] <= 0xEF) && (0x80 <= a[i + 1] <= 0xBF) && (0x80 <= a[i + 2] <= 0xBF)))
+      {
+        assert Uses3Bytes(a[i..hi]);
+        i := i + 3;
+      } else if
+        && i + 3 < hi
+        && (((a[i] == 0xF0) && (0x90 <= a[i + 1] <= 0xBF) && (0x80 <= a[i + 2] <= 0xBF) && (0x80 <= a[i + 3] <= 0xBF))
+            || ((0xF1 <= a[i] <= 0xF3) && (0x80 <= a[i + 1] <= 0xBF) && (0x80 <= a[i + 2] <= 0xBF) && (0x80 <= a[i + 3] <= 0xBF))
+            || ((a[i] == 0xF4) && (0x80 <= a[i + 1] <= 0x8F) && (0x80 <= a[i + 2] <= 0xBF) && (0x80 <= a[i + 3] <= 0xBF)))
+      {
+        assert Uses4Bytes(a[i..hi]);
+        i := i + 4;
+      } else {
+        assert i < hi;
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  predicate BoundedValidUTF8Range(a: seq64<uint8>, lo: uint64, hi: uint64)
+    requires lo <= hi <= |a| as uint64
+    decreases hi - lo
+  {
+    ValidUTF8Range(a, lo as nat, hi as nat)
+  } by method {
+    if lo == hi {
+      assert ValidUTF8Range(a, lo as nat, hi as nat);
+      return true;
+    }
+
+    var i := lo;
+
+    while i < hi
+      invariant lo <= i <= hi
+      invariant ValidUTF8Range(a, lo as nat, hi as nat) == ValidUTF8Range(a, i as nat, hi as nat)
+      decreases hi - i
+    {
+      if
+        && i < hi
+        && 0x00 <= a[i] <= 0x7F
+      {
+        assert Uses1Byte(a[i..hi]);
+        i := i + 1;
+      } else if
+        && i < hi - 1
+        && (0xC2 <= a[i] <= 0xDF)
+        && (0x80 <= a[i+1] <= 0xBF)
+      {
+        assert Uses2Bytes(a[i..hi]);
+        i := i + 2;
+      } else if
+        && 2 <= hi
+        && i < hi - 2
+        && (((a[i] == 0xE0) && (0xA0 <= a[i + 1] <= 0xBF) && (0x80 <= a[i + 2] <= 0xBF))
+            || ((0xE1 <= a[i] <= 0xEC) && (0x80 <= a[i + 1] <= 0xBF) && (0x80 <= a[i + 2] <= 0xBF))
+            || ((a[i] == 0xED) && (0x80 <= a[i + 1] <= 0x9F) && (0x80 <= a[i + 2] <= 0xBF))
+            || ((0xEE <= a[i] <= 0xEF) && (0x80 <= a[i + 1] <= 0xBF) && (0x80 <= a[i + 2] <= 0xBF)))
+      {
+        assert Uses3Bytes(a[i..hi]);
+        i := i + 3;
+      } else if
+        && 3 <= hi
+        && i < hi - 3
+        && (((a[i] == 0xF0) && (0x90 <= a[i + 1] <= 0xBF) && (0x80 <= a[i + 2] <= 0xBF) && (0x80 <= a[i + 3] <= 0xBF))
+            || ((0xF1 <= a[i] <= 0xF3) && (0x80 <= a[i + 1] <= 0xBF) && (0x80 <= a[i + 2] <= 0xBF) && (0x80 <= a[i + 3] <= 0xBF))
+            || ((a[i] == 0xF4) && (0x80 <= a[i + 1] <= 0x8F) && (0x80 <= a[i + 2] <= 0xBF) && (0x80 <= a[i + 3] <= 0xBF)))
+      {
+        assert Uses4Bytes(a[i..hi]);
+        i := i + 4;
+      } else {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   lemma ValidUTF8Embed(a: seq<uint8>, b: seq<uint8>, c: seq<uint8>, lo: nat, hi: nat)
@@ -206,6 +334,19 @@ module {:extern "UTF8"} UTF8 {
     assert ValidUTF8Seq(s + t) by {
       ValidUTF8Embed(s, t, [], 0, |t|);
       assert s + t == s + t + [] && lo == |s|;
+    }
+  }
+
+  lemma IsASCIIBytesIsValidUTF8(s: seq<uint8>)
+    requires forall i | 0 <= i < |s| :: Uses1Byte([s[i]])
+    ensures ValidUTF8Seq(s)
+  {
+    if |s| == 0 {
+    } else {
+      IsASCIIBytesIsValidUTF8(s[1..]);
+      assert ValidUTF8Seq(s[..1]);
+      ValidUTF8Concat(s[..1], s[1..]);
+      assert s[..1] + s[1..] == s;
     }
   }
 }
