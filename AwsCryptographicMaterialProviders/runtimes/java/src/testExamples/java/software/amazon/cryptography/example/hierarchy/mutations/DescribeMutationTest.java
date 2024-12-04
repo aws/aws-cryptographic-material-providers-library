@@ -6,6 +6,7 @@ import static software.amazon.cryptography.example.hierarchy.mutations.DescribeM
 import java.util.Collections;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.CreateKeyExample;
 import software.amazon.cryptography.keystoreadmin.model.DescribeMutationOutput;
@@ -32,7 +33,7 @@ public class DescribeMutationTest {
       null,
       null
     );
-    Fixtures.DeleteBranchKey(
+    DdbHelper.DeleteBranchKey(
       branchKeyId,
       Fixtures.TEST_KEYSTORE_NAME,
       "1",
@@ -67,7 +68,7 @@ public class DescribeMutationTest {
       describeRes.MutationInFlight().Yes().MutationDetails().SystemKey(),
       "Trust Storage"
     );
-    Fixtures.DeleteBranchKey(
+    DdbHelper.DeleteBranchKey(
       branchKeyId,
       Fixtures.TEST_KEYSTORE_NAME,
       "1",
@@ -104,7 +105,7 @@ public class DescribeMutationTest {
       describeRes.MutationInFlight().Yes().MutationDetails().SystemKey(),
       "KMS Symmetric Encryption"
     );
-    Fixtures.DeleteBranchKey(
+    DdbHelper.DeleteBranchKey(
       branchKeyId,
       Fixtures.TEST_KEYSTORE_NAME,
       "1",
