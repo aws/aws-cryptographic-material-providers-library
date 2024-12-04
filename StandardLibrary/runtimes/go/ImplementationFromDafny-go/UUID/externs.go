@@ -1,8 +1,6 @@
 package UUID
 
 import (
-	"fmt"
-
 	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
 	"github.com/google/uuid"
@@ -24,11 +22,11 @@ func ToByteArray(seq dafny.Sequence) Wrappers.Result {
 
 func FromByteArray(seq dafny.Sequence) Wrappers.Result {
 	byteArray := dafny.ToByteArray(seq)
-	uuid, err := uuid.FromBytes(byteArray)
+	fromBytes, err := uuid.FromBytes(byteArray)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(fmt.Errorf("Failed To Generate UUID From Byte Array"))
+		return Wrappers.Companion_Result_.Create_Failure_(err)
 	}
-	return Wrappers.Companion_Result_.Create_Success_(dafny.SeqOfChars([]dafny.Char(uuid.String())...))
+	return Wrappers.Companion_Result_.Create_Success_(dafny.SeqOfChars([]dafny.Char(fromBytes.String())...))
 }
 
 func GenerateUUID() Wrappers.Result {

@@ -104,8 +104,8 @@ func (_this *MutableMap) Items() _dafny.Set {
 }
 func (_this *MutableMap) Select(k interface{}) interface{} {
 	r := _this.Get(k)
-	if r.IsFailure() {
-		panic("ff")
+	if r.Is_None() {
+		return nil
 	}
 	return r.Dtor_value()
 }
@@ -141,5 +141,3 @@ func (_this *MutableMap) Size() _dafny.Int {
 		return c
 	}
 }
-
-// End of class MutableMap
