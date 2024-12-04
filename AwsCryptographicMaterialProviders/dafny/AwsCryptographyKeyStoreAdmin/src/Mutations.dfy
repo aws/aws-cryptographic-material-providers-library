@@ -112,13 +112,23 @@ module {:options "/functionSyntax:4" } Mutations {
 
       case decryptEncrypt(kmsD, kmsE) =>
         kmsOperation := "Decrypt/Encrypt";
+        var decryptKmsClient;
+        var decryptGrantTokens;
+        if localOperation == "ApplyMutation" {
+          decryptGrantTokens := kmsE.grantTokens;
+          decryptKmsClient := kmsE.kmsClient;
+        } else {
+          decryptGrantTokens := kmsD.grantTokens;
+          decryptKmsClient := kmsD.kmsClient;
+        }
+
         var throwAway? := KMSKeystoreOperations.VerifyViaDecryptEncryptKey(
           ciphertext := item.CiphertextBlob,
           sourceEncryptionContext := item.EncryptionContext,
           destinationEncryptionContext := item.EncryptionContext,
           kmsConfiguration := KeyStoreTypes.kmsKeyArn(item.KmsArn),
-          decryptGrantTokens := kmsD.grantTokens,
-          decryptKmsClient := kmsD.kmsClient
+          decryptGrantTokens := decryptGrantTokens,
+          decryptKmsClient := decryptKmsClient
         );
 
         if throwAway?.Success? {
