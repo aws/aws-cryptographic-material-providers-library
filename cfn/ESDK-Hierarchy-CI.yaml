@@ -80,9 +80,6 @@ Resources:
           KeyType: "HASH"
         - AttributeName: "type"
           KeyType: "RANGE"
-      ProvisionedThroughput:
-        ReadCapacityUnits: "5"
-        WriteCapacityUnits: "5"
       TableName: !Ref KeyStoreDdbTable
 
   HierarchicalKeyringTestTable:
@@ -141,23 +138,16 @@ Resources:
               - dynamodb:Query
               - dynamodb:ConditionCheckItem
               - dynamodb:UpdateItem
-            Resource:
-              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreTable}"
-              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreTable}/index/*"
-          - Effect: Allow
-            Action:
-              - dynamodb:DescribeTable
-              - dynamodb:CreateTable
-              - dynamodb:PutItem
-              - dynamodb:DeleteItem
-              - dynamodb:GetItem
-              - dynamodb:Query
-              - dynamodb:ConditionCheckItem
-              - dynamodb:UpdateItem
+              - dynamodb:BatchGetItem
+              - dynamodb:Scan
             Resource:
               - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreDdbTable}"
               - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreDdbTable}/index/*"
-
+              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreTestTable}"
+              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreTestTable}/index/*"
+              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${HierarchicalKeyringTestTable}"
+              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${HierarchicalKeyringTestTable}/index/*"
+              
   HierarchicalGitHubKMSKeyID:
     Type: "AWS::KMS::Key"
     Properties:
@@ -177,6 +167,49 @@ Resources:
     Properties:
       Description: Another KMS Key for GitHub Action Workflow
       Enabled: true
+      KeyPolicy:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
+            Action: "kms:*"
+            Resource: "*"
+  
+  EccP256:
+    Type: 'AWS::KMS::Key'
+    Properties:
+      Description: ECC Key with P-256
+      KeySpec: ECC_NIST_P256
+      KeyUsage: SIGN_VERIFY
+      KeyPolicy:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
+            Action: "kms:*"
+            Resource: "*"
+  EccP384:
+    Type: 'AWS::KMS::Key'
+    Properties:
+      Description: ECC Key with P-384
+      KeySpec: ECC_NIST_P384
+      KeyUsage: SIGN_VERIFY
+      KeyPolicy:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
+            Action: "kms:*"
+            Resource: "*"
+  EccP521:
+    Type: 'AWS::KMS::Key'
+    Properties:
+      Description: ECC Key with P-521
+      KeySpec: ECC_NIST_P521
+      KeyUsage: SIGN_VERIFY
       KeyPolicy:
         Version: 2012-10-17
         Statement:
@@ -207,6 +240,17 @@ Resources:
               "Resource": [
                 "arn:aws:kms:*:${AWS::AccountId}:key/${HierarchicalGitHubKMSKeyID}",
                 "arn:aws:kms:*:${AWS::AccountId}:key/${HierarchicalGitHubKMSKeyIDTwo}"
+              ]
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "kms:GetPublicKey"
+              ],
+              "Resource": [
+                "arn:aws:kms:*:${AWS::AccountId}:key/${EccP256}",
+                "arn:aws:kms:*:${AWS::AccountId}:key/${EccP384}",
+                "arn:aws:kms:*:${AWS::AccountId}:key/${EccP521}"
               ]
             }
           ]
@@ -261,12 +305,13 @@ Resources:
       RoleName: !Sub "GitHub-CI-${ProjectName}-Role-${AWS::Region}"
       Description: "Access DDB, KMS, Resources for CI from GitHub"
       ManagedPolicyArns:
+        - "arn:aws:iam::370957321024:policy/KMS-Public-CMK-EncryptDecrypt-Key-Access"
+        - "arn:aws:iam::370957321024:policy/Github-ECDH-KMS"
         - "arn:aws:iam::370957321024:policy/PolymorphTestModels-KMS-us-west-2"
         - !Ref KMSUsage
         - !Ref RSAKMSUsage
         - "arn:aws:iam::370957321024:policy/PolymorphTestModels-DDB-ReadWriteDelete-us-west-2"
         - !Ref HierarchicalKeyringTestTableUsage
-        - "arn:aws:iam::370957321024:policy/KMS-Public-CMK-EncryptDecrypt-Key-Access"
       AssumeRolePolicyDocument: !Sub |
         {
           "Version": "2012-10-17",   
