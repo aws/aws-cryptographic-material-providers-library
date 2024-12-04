@@ -64,6 +64,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       output.Success?
       ==>
         && StateStrucs.ValidMutations?(input.Mutations)
+        && 0 < |input.Identifier|
     ensures
       && output.Success?
       && input.Mutations.TerminalKmsArn.Some?
@@ -290,7 +291,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     assert MutationToApply.Original.customEncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
     assert MutationToApply.Terminal.customEncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
     assert MutationToApply.ValidState();
-    // -= BEGIN Version Active Branch Key
+
     // --= Validate Active Branch Key
     var verifyActive? := Mutations.VerifyEncryptedHierarchicalKey(
       item := activeItem,
@@ -328,71 +329,32 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     // It takes in the Input, the read ActiveItem, and MutationsToApply
     // It returns WriteActive & WriteVersion
 
-    // --= Generate New Decrypt Only Branch Key with terminal properties
-    var maybeNewVersion := UUID.GenerateUUID();
-    var newVersion :- maybeNewVersion
-    .MapFailure(e => Types.KeyStoreAdminException(
-                    message := "Could not generate UUID for new Decrypt Only. " + e));
-
-
-    var decryptOnlyEncryptionContext := Mutations.DecryptOnlyBranchKeyEncryptionContextForMutation(
-      input.Identifier,
-      newVersion,
-      timestamp,
-      input.logicalKeyStoreName,
-      MutationToApply.Terminal.kmsArn,
-      MutationToApply.Terminal.customEncryptionContext
-    );
-
-    // TODO-Mutations-GA? :: If the KMS Call fails with access denied,
-    // it indicates that the MPL Consumer does not have access to
-    // GenerateDataKeyWithoutPlaintext on the terminal key.
-    var newDecryptOnly :- CreateNewTerminalDecryptOnlyBranchKey(
-      decryptOnlyEncryptionContext,
-      MutationToApply,
-      input.keyManagerStrategy
-    );
-
-    var ActiveEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(newDecryptOnly.EncryptionContext);
-
-    var newActive;
-    if (input.keyManagerStrategy.decryptEncrypt?) {
-      newActive :- Mutations.NewActiveItemForDecryptEncrypt(
-        item := newDecryptOnly,
-        terminalKmsArn := MutationToApply.Terminal.kmsArn,
-        terminalEncryptionContext := ActiveEncryptionContext,
-        keyManagerStrategy := input.keyManagerStrategy,
-        localOperation := "InitializeMutation"
-      );
-    } else {
-      newActive :- Mutations.ReEncryptHierarchicalKey(
-        item := newDecryptOnly,
-        originalKmsArn := MutationToApply.Terminal.kmsArn,
-        terminalKmsArn := MutationToApply.Terminal.kmsArn,
-        terminalEncryptionContext := ActiveEncryptionContext,
-        keyManagerStrategy := input.keyManagerStrategy,
-        localOperation := "InitializeMutation");
-    }
-    var writeActive := KeyStoreTypes.OverWriteEncryptedHierarchicalKey(Item:=newActive, Old:=activeItem);
-    var writeVersion := KeyStoreTypes.WriteInitializeMutationVersion.rotate(rotate:=newDecryptOnly);
+    var initializeMutationActiveInput := InitializeMutationActiveInput(
+      input := input,
+      activeItem := activeItem,
+      mutationToApply := MutationToApply,
+      timestamp := timestamp);
+    assert initializeMutationActiveInput.ValidState();
+    var initializeMutationActiveOutput :- InitializeMutationActive(initializeMutationActiveInput);
 
     // -= Mutate Beacon Key
-    var BeaconEncryptionContext := Structure.ReplaceMutableContext(
-      readItems.BeaconItem.EncryptionContext,
-      MutationToApply.Terminal.kmsArn,
-      MutationToApply.Terminal.customEncryptionContext
-    );
+    var newBeaconKey :- Mutations.MutateItem(readItems.BeaconItem, MutationToApply, input.keyManagerStrategy, "InitializeMutation", false);
+    // var BeaconEncryptionContext := Structure.ReplaceMutableContext(
+    //   readItems.BeaconItem.EncryptionContext,
+    //   MutationToApply.Terminal.kmsArn,
+    //   MutationToApply.Terminal.customEncryptionContext
+    // );
 
-    assert readItems.BeaconItem.KmsArn == MutationToApply.Original.kmsArn;
+    // assert readItems.BeaconItem.KmsArn == MutationToApply.Original.kmsArn;
 
-    var newBeaconKey :- Mutations.ReEncryptHierarchicalKey(
-      item := readItems.BeaconItem,
-      originalKmsArn := MutationToApply.Original.kmsArn,
-      terminalKmsArn := MutationToApply.Terminal.kmsArn,
-      terminalEncryptionContext := BeaconEncryptionContext,
-      keyManagerStrategy := input.keyManagerStrategy,
-      localOperation := "InitializeMutation"
-    );
+    // var newBeaconKey :- Mutations.ReEncryptHierarchicalKey(
+    //   item := readItems.BeaconItem,
+    //   originalKmsArn := MutationToApply.Original.kmsArn,
+    //   terminalKmsArn := MutationToApply.Terminal.kmsArn,
+    //   terminalEncryptionContext := BeaconEncryptionContext,
+    //   keyManagerStrategy := input.keyManagerStrategy,
+    //   localOperation := "InitializeMutation"
+    // );
 
     // -= Create Mutation Commitment & Mutation Index
     var MutationCommitment :- StateStrucs.SerializeMutationCommitment(MutationToApply);
@@ -405,8 +367,8 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     // -= Write Mutation Commitment, new branch key version, mutated beacon key
     var throwAway2? := input.storage.WriteInitializeMutation(
       KeyStoreTypes.WriteInitializeMutationInput(
-        Active := writeActive,
-        Version := writeVersion,
+        Active := initializeMutationActiveOutput.writeActive,
+        Version := initializeMutationActiveOutput.writeVersion,
         Beacon := KeyStoreTypes.OverWriteEncryptedHierarchicalKey(Item:=newBeaconKey, Old:=readItems.BeaconItem),
         MutationCommitment :=  SignedMutationCommitment,
         MutationIndex := SignedMutationIndex
@@ -415,7 +377,13 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     // What Condition Check failed? Was the Key Versioned? Or did another M-Commitment get written?
     var _ :- throwAway2?.MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
 
-    var mutatedBranchKeyItems := GetMutatedBranchKeyItems(mutationCommitmentUUID, newVersion);
+    var logStatements :=
+      [
+        Types.MutatedBranchKeyItem(ItemType := "Mutation Commitment: " + mutationCommitmentUUID, Description := "Created"),
+        Types.MutatedBranchKeyItem(ItemType := "Mutation Index: " + mutationCommitmentUUID, Description := "Created")
+      ]
+      + initializeMutationActiveOutput.logStatements
+      + [Types.MutatedBranchKeyItem(ItemType := "Beacon", Description := "Mutated")];
 
     var Token := Types.MutationToken(
       Identifier := input.Identifier,
@@ -426,19 +394,8 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
 
     return Success(Types.InitializeMutationOutput(
                      MutationToken := Token,
-                     MutatedBranchKeyItems := mutatedBranchKeyItems,
+                     MutatedBranchKeyItems := logStatements,
                      InitializeMutationFlag := Flag));
-  }
-
-  function GetMutatedBranchKeyItems(mutationCommitmentUUID: seq<char>, newVersion: seq<char>)
-    : (output: seq<Types.MutatedBranchKeyItem>)
-  {
-    [Types.MutatedBranchKeyItem(ItemType := "Mutation Commitment: " + mutationCommitmentUUID, Description := "Created"),
-     Types.MutatedBranchKeyItem(ItemType := "Mutation Index: " + mutationCommitmentUUID, Description := "Created"),
-     Types.MutatedBranchKeyItem(ItemType := "Active: " + newVersion, Description := "Created"),
-     Types.MutatedBranchKeyItem(ItemType := "Decrypt Only: " + newVersion, Description := "Created"),
-     Types.MutatedBranchKeyItem(ItemType := "Beacon", Description := "Mutated")
-    ]
   }
 
   method {:isolate_assertions} CreateNewTerminalDecryptOnlyBranchKey(
@@ -626,6 +583,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       && activeItem.Type.ActiveHierarchicalSymmetricVersion?
       && mutationToApply.ValidState()
       && 0 < |timestamp|
+      && 0 < |input.Identifier|
     }
 
     ghost const Modifies :=
@@ -640,8 +598,15 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
   datatype InitializeMutationActiveOutput =
     | InitializeMutationActiveOutput(
         nameonly writeActive: KeyStoreTypes.OverWriteEncryptedHierarchicalKey,
-        nameonly writeVersion: KeyStoreTypes.WriteInitializeMutationVersion
+        nameonly writeVersion: KeyStoreTypes.WriteInitializeMutationVersion,
+        nameonly logStatements: seq<Types.MutatedBranchKeyItem>
       )
+  {
+    ghost predicate ValidState()
+    {
+      && |logStatements| == 2
+    }
+  }
 
   method InitializeMutationActive(
     localInput: InitializeMutationActiveInput
@@ -660,6 +625,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       && output.Success?
       ==>
         output.value.writeVersion.rotate?
+    ensures output.Success? ==> output.value.ValidState()
   {
     if (localInput.input.DoNotVersion) {
       output := InitializeMutationActiveMutate(localInput);
@@ -677,10 +643,69 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     modifies localInput.Modifies
     ensures localInput.ValidState()
     requires !localInput.input.DoNotVersion
-    ensures output.Success? ==> output.value.writeVersion.rotate?
+    ensures
+      output.Success?
+      ==>
+        && output.value.ValidState()
+        && output.value.writeVersion.rotate?
+        && output.value.logStatements[0].Description == "Rotated"
   {
-    output := Failure(Types.UnsupportedFeatureException(message := "WIP"));
-    return output;
+    // --= Generate New Decrypt Only Branch Key with terminal properties
+    var maybeNewVersion := UUID.GenerateUUID();
+    var newVersion :- maybeNewVersion
+    .MapFailure(e => Types.KeyStoreAdminException(
+                    message := "Could not generate UUID for new Decrypt Only. " + e));
+
+
+    var decryptOnlyEncryptionContext := Mutations.DecryptOnlyBranchKeyEncryptionContextForMutation(
+      localInput.input.Identifier,
+      newVersion,
+      localInput.timestamp,
+      localInput.input.logicalKeyStoreName,
+      localInput.mutationToApply.Terminal.kmsArn,
+      localInput.mutationToApply.Terminal.customEncryptionContext
+    );
+
+    // TODO-Mutations-GA? :: If the KMS Call fails with access denied,
+    // it indicates that the MPL Consumer does not have access to
+    // GenerateDataKeyWithoutPlaintext on the terminal key.
+    var newDecryptOnly :- CreateNewTerminalDecryptOnlyBranchKey(
+      decryptOnlyEncryptionContext,
+      localInput.mutationToApply,
+      localInput.input.keyManagerStrategy
+    );
+
+    var ActiveEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(newDecryptOnly.EncryptionContext);
+
+    var newActive;
+    if (localInput.input.keyManagerStrategy.decryptEncrypt?) {
+      newActive :- Mutations.NewActiveItemForDecryptEncrypt(
+        item := newDecryptOnly,
+        terminalKmsArn := localInput.mutationToApply.Terminal.kmsArn,
+        terminalEncryptionContext := ActiveEncryptionContext,
+        keyManagerStrategy := localInput.input.keyManagerStrategy,
+        localOperation := "InitializeMutation"
+      );
+    } else {
+      newActive :- Mutations.ReEncryptHierarchicalKey(
+        item := newDecryptOnly,
+        originalKmsArn := localInput.mutationToApply.Terminal.kmsArn,
+        terminalKmsArn := localInput.mutationToApply.Terminal.kmsArn,
+        terminalEncryptionContext := ActiveEncryptionContext,
+        keyManagerStrategy := localInput.input.keyManagerStrategy,
+        localOperation := "InitializeMutation",
+        createNewActive := true);
+    }
+
+    return Success(
+        InitializeMutationActiveOutput(
+          writeActive := KeyStoreTypes.OverWriteEncryptedHierarchicalKey(Item:=newActive, Old:=localInput.activeItem),
+          writeVersion := KeyStoreTypes.WriteInitializeMutationVersion.rotate(rotate:=newDecryptOnly),
+          logStatements := [
+            Types.MutatedBranchKeyItem(ItemType := "Active: " + newVersion, Description := "Rotated"),
+            Types.MutatedBranchKeyItem(ItemType := "Decrypt Only: " + newVersion, Description := "Created")
+          ]
+        ));
   }
 
   method InitializeMutationActiveMutate(
@@ -693,7 +718,63 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     requires localInput.input.DoNotVersion
     ensures output.Success? ==> output.value.writeVersion.mutate?
   {
-    output := Failure(Types.UnsupportedFeatureException(message := "WIP"));
-    return output;
+    // output := Failure(Types.UnsupportedFeatureException(message := "WIP"));
+    // return output;
+
+    // Get the Active's Decrypt Only
+    var oldVersion := localInput.activeItem.Type.ActiveHierarchicalSymmetricVersion.Version;
+    var getOldReq := KeyStoreTypes.GetEncryptedBranchKeyVersionInput(
+      Identifier := localInput.input.Identifier,
+      Version := oldVersion);
+    var getOldRes? := localInput.input.storage.GetEncryptedBranchKeyVersion(getOldReq);
+    var getOldRes :- getOldRes?.MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
+
+      // If custom storage, validate read Decrypt Only
+    :- Need(
+      || localInput.input.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+      || (
+           && Mutations.ValidateItemFromStorage?(
+                localInput.input.storage, getOldRes.Item,
+                identifier := localInput.input.Identifier,
+                logicalName := localInput.input.logicalKeyStoreName)
+           && Structure.DecryptOnlyHierarchicalSymmetricKey?(getOldRes.Item)
+           && getOldRes.Item.Type.HierarchicalSymmetricVersion?
+         ),
+      Types.KeyStoreAdminException(
+        message := "Version (Decrypt Only) Item read from storage is malformed! Version: "
+        + Structure.BRANCH_KEY_TYPE_PREFIX + oldVersion)
+    );
+
+    // Assert Decrypt Only is in Original
+    var oldDecrypt := Mutations.MatchItemToState(getOldRes.Item, localInput.mutationToApply);
+    :- Need(
+      oldDecrypt.itemOriginal?,
+      Types.UnexpectedStateException(
+        message := "Version (Decrypt Only) Item read from storage is not in the expected original state!"
+        + " Version: " + Structure.BRANCH_KEY_TYPE_PREFIX + oldVersion)
+    );
+
+    // Mutate the Active
+    var newActive :- Mutations.MutateItem(
+      localInput.activeItem,
+      localInput.mutationToApply,
+      localInput.input.keyManagerStrategy,
+      "InitializeMutation", false);
+    // Mutate the decryptOnly
+    var newDecrypt :- Mutations.MutateItem(
+      oldDecrypt.item,
+      localInput.mutationToApply,
+      localInput.input.keyManagerStrategy,
+      "InitializeMutation", false);
+    var writeVersion := KeyStoreTypes.OverWriteEncryptedHierarchicalKey(Item:=newDecrypt, Old:=oldDecrypt.item);
+    return Success(
+        InitializeMutationActiveOutput(
+          writeActive := KeyStoreTypes.OverWriteEncryptedHierarchicalKey(Item:=newActive, Old:=localInput.activeItem),
+          writeVersion := KeyStoreTypes.WriteInitializeMutationVersion.mutate(mutate:=writeVersion),
+          logStatements := [
+            Types.MutatedBranchKeyItem(ItemType := "Active: " + oldVersion, Description := "Mutated"),
+            Types.MutatedBranchKeyItem(ItemType := "Decrypt Only: " + oldVersion, Description := "Mutated")
+          ]
+        ));
   }
 }
