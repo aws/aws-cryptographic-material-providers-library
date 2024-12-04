@@ -1,9 +1,14 @@
 package software.amazon.cryptography.example.hierarchy.mutations;
 
 import static software.amazon.cryptography.example.Fixtures.MRK_ARN_WEST;
+import static software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider.executeInitialize;
 
+import java.util.List;
+import java.util.Map;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
+import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.example.hierarchy.CreateKeyExample;
@@ -14,6 +19,7 @@ import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
+import software.amazon.cryptography.keystoreadmin.model.MutationToken;
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
 import software.amazon.cryptography.keystoreadmin.model.SystemKey;
 import software.amazon.cryptography.keystoreadmin.model.UnsupportedFeatureException;
@@ -45,11 +51,18 @@ public class DoNotVersionTest {
       .SystemKey(systemKey)
       .Strategy(strategy)
       .build();
-    InitializeMutationOutput initOutput = admin.InitializeMutation(initInput);
+
+    MutationToken token = executeInitialize(
+      branchKeyId,
+      admin,
+      initInput,
+      "InitLogs"
+    );
+
     MutationsProvider.workMutation(
       branchKeyId,
       systemKey,
-      initOutput.MutationToken(),
+      token,
       strategy,
       admin,
       (short) 10
@@ -68,5 +81,9 @@ public class DoNotVersionTest {
       ValidateKeyStoreItem.ValidateBeaconItem(branchKeyId, keyStore),
       "Beacon validation failed."
     );
+    final List<Map<String, AttributeValue>> allBKItems =
+      DdbHelper.QueryForAllBkItemsDDBKeys(branchKeyId, null, null, null);
+    Assert.assertEquals(allBKItems.size(), 3, "Incorrect number of BK items.");
+    DdbHelper.DeleteAllBkKeys(allBKItems, null, null);
   }
 }
