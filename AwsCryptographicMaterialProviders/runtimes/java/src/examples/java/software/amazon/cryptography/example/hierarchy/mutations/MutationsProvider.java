@@ -20,7 +20,6 @@ import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
 import software.amazon.cryptography.keystoreadmin.model.KmsSymmetricEncryption;
-import software.amazon.cryptography.keystoreadmin.model.KmsSymmetricKeyArn;
 import software.amazon.cryptography.keystoreadmin.model.MutatedBranchKeyItem;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
@@ -99,10 +98,10 @@ public class MutationsProvider {
     SystemKey systemKey,
     MutationToken token,
     KeyManagementStrategy strategy,
-    KeyStoreAdmin admin
+    KeyStoreAdmin admin,
+    short limitLoop
   ) {
     boolean done = false;
-    int limitLoop = 10;
 
     while (!done) {
       ApplyMutationResult result = workPage(
@@ -111,7 +110,7 @@ public class MutationsProvider {
         token,
         strategy,
         admin,
-        1
+        99
       );
 
       if (result.ContinueMutation() != null) {
@@ -121,7 +120,7 @@ public class MutationsProvider {
         done = true;
       }
       if (limitLoop == 0) {
-        done = true;
+        throw new RuntimeException("Mutation not completed within limit!");
       }
       limitLoop--;
     }
