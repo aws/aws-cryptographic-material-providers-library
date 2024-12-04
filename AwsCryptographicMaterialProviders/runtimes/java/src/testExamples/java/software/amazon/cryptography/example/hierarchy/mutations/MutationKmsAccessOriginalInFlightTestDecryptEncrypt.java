@@ -6,7 +6,6 @@ import static software.amazon.cryptography.example.hierarchy.mutations.MutationK
 import static software.amazon.cryptography.example.hierarchy.mutations.MutationKmsAccessOriginalInFlightTest.testPrefix;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
@@ -166,7 +165,7 @@ public class MutationKmsAccessOriginalInFlightTestDecryptEncrypt {
     }
 
     // Clean Up
-    Fixtures.DeleteBranchKey(
+    DdbHelper.DeleteBranchKey(
       branchKeyId,
       Fixtures.TEST_KEYSTORE_NAME,
       "1",
