@@ -6,6 +6,7 @@ import static software.amazon.cryptography.example.hierarchy.mutations.Mutations
 
 import java.util.Objects;
 import javax.annotation.Nullable;
+import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.example.hierarchy.CreateKeyExample;
@@ -138,7 +139,7 @@ public class DescribeMutationExample {
       .MutationToken();
     assert fromDescribe != null;
     assert Objects.equals(fromInit.UUID(), fromDescribe.UUID());
-    Fixtures.DeleteBranchKey(
+    DdbHelper.DeleteBranchKey(
       branchKeyId,
       Fixtures.TEST_KEYSTORE_NAME,
       "1",

@@ -1,6 +1,7 @@
 package software.amazon.cryptography.example.hierarchy.mutations;
 
 import org.testng.annotations.Test;
+import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.CreateKeyExample;
 
@@ -18,7 +19,7 @@ public class TestMutationSystemKeyTrustStorage {
       branchKeyId,
       Fixtures.KEYSTORE_KMS_ARN
     );
-    Fixtures.DeleteBranchKey(
+    DdbHelper.DeleteBranchKey(
       branchKeyId,
       Fixtures.TEST_KEYSTORE_NAME,
       "1",

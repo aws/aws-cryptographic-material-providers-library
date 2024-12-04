@@ -10,6 +10,7 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 import software.amazon.awssdk.services.dynamodb.model.ScanRequest;
 import software.amazon.awssdk.services.dynamodb.model.ScanResponse;
+import software.amazon.cryptography.example.Constants;
 import software.amazon.cryptography.example.Fixtures;
 
 /**
@@ -48,13 +49,13 @@ public class ScanForInFlightMutations {
 
   static {
     EAN = new HashMap<>(4, 1);
-    EAN.put("#sk", "type");
-    EAN.put("#pk", "branch-key-id");
-    EAN.put("#ct", "create-time");
+    EAN.put("#sk", Constants.TYPE);
+    EAN.put("#pk", Constants.BRANCH_KEY_ID);
+    EAN.put("#ct", Constants.CREATE_TIME);
     EAV = new HashMap<>(2, 1);
     EAV.put(
-      ":type",
-      AttributeValue.builder().s("branch:MUTATION_COMMITMENT").build()
+      ":sk",
+      AttributeValue.builder().s(Constants.MUTATION_COMMITMENT).build()
     );
   }
 
@@ -120,7 +121,7 @@ public class ScanForInFlightMutations {
     ScanRequest.Builder request = ScanRequest
       .builder()
       .tableName(tableName)
-      .filterExpression("#sk = :type")
+      .filterExpression("#sk = :sk")
       .expressionAttributeNames(EAN)
       .expressionAttributeValues(EAV)
       .projectionExpression(PE);
@@ -137,8 +138,10 @@ public class ScanForInFlightMutations {
       String,
       AttributeValue
     > stringAttributeValueMap : response.items()) {
-      String bkid = stringAttributeValueMap.get("branch-key-id").s();
-      String createTime = stringAttributeValueMap.get("create-time").s();
+      String bkid = stringAttributeValueMap.get(Constants.BRANCH_KEY_ID).s();
+      String createTime = stringAttributeValueMap
+        .get(Constants.CREATE_TIME)
+        .s();
       InFlightMutation apply = new InFlightMutation(bkid, createTime);
       list.add(apply);
     }

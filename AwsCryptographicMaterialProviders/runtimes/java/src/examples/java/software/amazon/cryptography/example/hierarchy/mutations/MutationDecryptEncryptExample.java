@@ -2,12 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 package software.amazon.cryptography.example.hierarchy.mutations;
 
-import java.util.HashMap;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
-import software.amazon.awssdk.services.kms.KmsClient;
-import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.keystore.model.AwsKms;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
@@ -83,7 +79,8 @@ public class MutationDecryptEncryptExample {
       systemKey,
       token,
       strategy,
-      _admin
+      _admin,
+      (short) 10
     );
 
     System.out.println("Done with Mutation: " + branchKeyId);

@@ -3,31 +3,13 @@
 package software.amazon.cryptography.example;
 
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import javax.annotation.Nullable;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.http.SdkHttpClient;
 import software.amazon.awssdk.http.apache.ApacheHttpClient;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
-import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
-import software.amazon.awssdk.services.dynamodb.model.Delete;
-import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
-import software.amazon.awssdk.services.dynamodb.model.QueryRequest;
-import software.amazon.awssdk.services.dynamodb.model.QueryResponse;
-import software.amazon.awssdk.services.dynamodb.model.TransactWriteItem;
-import software.amazon.awssdk.services.dynamodb.model.TransactWriteItemsRequest;
-import software.amazon.awssdk.services.dynamodb.model.TransactWriteItemsResponse;
 import software.amazon.awssdk.services.kms.KmsClient;
-import software.amazon.cryptography.example.hierarchy.AdminProvider;
-import software.amazon.cryptography.keystore.KeyStorageInterface;
-import software.amazon.cryptography.keystore.model.GetKeyStorageInfoInput;
-import software.amazon.cryptography.keystore.model.QueryForVersionsInput;
-import software.amazon.cryptography.keystore.model.QueryForVersionsOutput;
 
 public class Fixtures {
 
@@ -89,89 +71,4 @@ public class Fixtures {
     .region(Region.US_WEST_2)
     .httpClient(Fixtures.httpClient)
     .build();
-
-  public static GetItemResponse getKeyStoreDdbItem(
-    final String branchKeyId,
-    final String branchKeyType,
-    final String physicalName,
-    @Nullable DynamoDbClient dynamoDbClient
-  ) {
-    Map<String, AttributeValue> ddbKey = new HashMap<>(3);
-    ddbKey.put(
-      "branch-key-id",
-      AttributeValue.builder().s(branchKeyId).build()
-    );
-    ddbKey.put("type", AttributeValue.builder().s(branchKeyType).build());
-    dynamoDbClient = AdminProvider.dynamoDB(dynamoDbClient);
-    return dynamoDbClient.getItem(builder ->
-      builder.tableName(physicalName).key(ddbKey)
-    );
-  }
-
-  private static TransactWriteItem bkItemToDeleteReq(
-    final Map<String, AttributeValue> item,
-    final String _tableName
-  ) {
-    final Map<String, AttributeValue> key = new HashMap<>(3, 1);
-    key.put("branch-key-id", item.get("branch-key-id"));
-    key.put("type", item.get("type"));
-    return TransactWriteItem
-      .builder()
-      .delete(Delete.builder().tableName(_tableName).key(key).build())
-      .build();
-  }
-
-  public static boolean DeleteBranchKey(
-    final String branchKeyId,
-    @Nullable String tableName,
-    @Nullable String hierarchyVersion,
-    @Nullable DynamoDbClient ddbClient
-  ) {
-    final String _tableName = tableName == null
-      ? TEST_KEYSTORE_NAME
-      : tableName;
-    final String _hierarchyVersion = hierarchyVersion == null
-      ? "1"
-      : hierarchyVersion;
-    final DynamoDbClient _ddbClient = ddbClient == null
-      ? ddbClientWest2
-      : ddbClient;
-    final Map<String, String> ExpressionAttributeNames = new HashMap<>(3, 1);
-    ExpressionAttributeNames.put("#pk", "branch-key-id");
-    ExpressionAttributeNames.put("#hv", "hierarchy-version");
-    final Map<String, AttributeValue> ExpressionAttributeValues = new HashMap<>(
-      3,
-      1
-    );
-    ExpressionAttributeValues.put(":pk", AttributeValue.fromS(branchKeyId));
-    ExpressionAttributeValues.put(
-      ":hv",
-      AttributeValue.fromN(_hierarchyVersion)
-    );
-    final QueryRequest queryReq = QueryRequest
-      .builder()
-      .tableName(_tableName)
-      .keyConditionExpression("#pk = :pk")
-      .filterExpression("#hv = :hv")
-      .expressionAttributeNames(ExpressionAttributeNames)
-      .expressionAttributeValues(ExpressionAttributeValues)
-      .build();
-    final QueryResponse queryRes = _ddbClient.query(queryReq);
-    final List<TransactWriteItem> deleteItems = queryRes
-      .items()
-      .stream()
-      .map(item -> bkItemToDeleteReq(item, _tableName))
-      .collect(Collectors.toList());
-    if (deleteItems.isEmpty()) {
-      return true;
-    }
-    final TransactWriteItemsRequest deleteReq = TransactWriteItemsRequest
-      .builder()
-      .transactItems(
-        deleteItems.size() > 100 ? deleteItems.subList(0, 100) : deleteItems
-      )
-      .build();
-    _ddbClient.transactWriteItems(deleteReq);
-    return deleteItems.size() < 100;
-  }
 }
