@@ -377,7 +377,8 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
         case itemTerminal(item) =>
           var verify? := Mutations.VerifyEncryptedHierarchicalKey(
             item := item,
-            keyManagerStrategy := keyManagerStrategy
+            keyManagerStrategy := keyManagerStrategy,
+            localOperation := "ApplyMutation"
           );
           if (verify?.Fail?) {
             return Failure(verify?.error);
