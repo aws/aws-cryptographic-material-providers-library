@@ -1153,10 +1153,10 @@ module DefaultKeyStorageInterface {
                ddbTableName
              )
         else TransactOverwriteHKey(
-               input.Version.mutate.Item,
-               input.Version.mutate.Old,
-               ddbTableName
-             )
+            input.Version.mutate.Item,
+            input.Version.mutate.Old,
+            ddbTableName
+          )
       ];
       var transactRequest := DDB.TransactWriteItemsInput(
         TransactItems := items
