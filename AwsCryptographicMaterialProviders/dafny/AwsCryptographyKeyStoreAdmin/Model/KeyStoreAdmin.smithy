@@ -46,22 +46,22 @@ service KeyStoreAdmin {
     CreateKey,
     VersionKey,
     InitializeMutation,
-    ApplyMutation
+    ApplyMutation,
     DescribeMutation
   ],
   errors: [
-    KeyStoreAdminException
-    MutationConflictException
-    MutationInvalidException
-    aws.cryptography.keyStore#KeyStorageException
-    aws.cryptography.keyStore#VersionRaceException
-    aws.cryptography.keyStore#BranchKeyCiphertextException
-    aws.cryptography.keyStore#AlreadyExistsConditionFailed
-    aws.cryptography.keyStore#NoLongerExistsConditionFailed
-    UnexpectedStateException
-    MutationFromException
-    MutationToException
-    MutationVerificationException
+    KeyStoreAdminException,
+    MutationConflictException,
+    MutationInvalidException,
+    aws.cryptography.keyStore#KeyStorageException,
+    aws.cryptography.keyStore#VersionRaceException,
+    aws.cryptography.keyStore#BranchKeyCiphertextException,
+    aws.cryptography.keyStore#AlreadyExistsConditionFailed,
+    aws.cryptography.keyStore#NoLongerExistsConditionFailed,
+    UnexpectedStateException,
+    MutationFromException,
+    MutationToException,
+    MutationVerificationException,
     UnsupportedFeatureException
   ]
 }
@@ -510,6 +510,8 @@ structure DescribeMutationOutput {
 // Errors
 
 @error("client")
+@documentation("
+Exception thrown for various unexpected events or invalid inputs.")
 structure KeyStoreAdminException {
   @required
   message: String
@@ -517,14 +519,25 @@ structure KeyStoreAdminException {
 
 // TODO-Mutations-GA : Document recovery
 @error("client")
-@documentation("A Mutation for this Branch Key ID is already inflight! Nothing was changed. See <link>.")
+@documentation("
+Exception thrown when a mutation for the configured
+Branch Key ID is already inflight. Nothing was changed.")
 structure MutationConflictException {
   @required
   message: String,
 }
 
-// TODO-Mutations-FF : Document recovery
+// TODO-Mutations-GA : Document recovery
 @error("client")
+@documentation("
+ Exception thrown when there is an error with the input for
+ InitializeMutation, ApplyMutation, DescribeMutation, and the
+ attributes present on the table. 
+ Exception thrown when validating the encoding of mutation index
+ and the mutation commitment attributes.
+ If thrown on these operations, an audit of that branch key id 
+ and its versions is recommended.
+")
 structure MutationInvalidException {
   @required
   message: String,
@@ -532,17 +545,25 @@ structure MutationInvalidException {
 
 // TODO-Mutations-GA : Document recovery
 @error("client")
+@documentation("
+ Exception thrown if a branch key is encountered that is not in 
+ the original or the terminal state.
+ The library cannot perform any operation on this branch key.
+ The only way this can be thrown is if the item was modified outside the library.
+")
 structure UnexpectedStateException {
   @required
-  message: String,
+  message: String
 }
 
 // TODO-Mutations-GA : Document recovery
 @error("client")
-@documentation(
-"Key Management generic error encountered while authenticating
-an item already in the terminal state.
-Possibly, access to the terminal KMS Key was withdrawn.")
+@documentation("
+ Exception is a Key Management generic error.
+ Thrown when signature generation or signature verification
+ with the configured SystemKey fails.
+ Possibly, access to the terminal KMS Key was withdrawn.
+")
 structure MutationVerificationException {
   @required
   message: String,
@@ -550,10 +571,12 @@ structure MutationVerificationException {
 
 // TODO-Mutations-GA : Document recovery
 @error("client")
-@documentation(
-"Key Management generic error encountered while mutating
-an item from original to terminal.
-Possibly, access to the terminal KMS Key was withdrawn.")
+@documentation("
+ Exception is a Key Management generic error.
+ Thrown when mutating an item from original to terminal,
+ specifically when the operation fails when moving to the new key.
+ Possibly, access to the terminal KMS Key was withdrawn.
+")
 structure MutationToException {
   @required
   message: String,
@@ -561,10 +584,12 @@ structure MutationToException {
 
 // TODO-Mutations-GA : Document recovery
 @error("client")
-@documentation(
-"Key Management generic error encountered while mutating
-an item from original to terminal.
-Possibly, access to the terminal KMS Key was withdrawn.")
+@documentation("
+ Exception is a Key Management generic error.
+ Thrown when mutating an item from original to terminal,
+ specifically when the operation fails when moving from the old key.
+ Possibly, access to the terminal KMS Key was withdrawn.
+")
 structure MutationFromException {
   @required
   message: String,
