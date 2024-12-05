@@ -15,7 +15,7 @@ public class TestMutationSystemKeyKMSExample {
       testPrefix + java.util.UUID.randomUUID().toString();
     CreateKeyExample.CreateKey(Fixtures.MRK_ARN_WEST, branchKeyId, null);
     MutationSystemKeyKMSExample.End2End(
-      Fixtures.POSTAL_HORN_KEY_ARN,
+      Fixtures.KSA_SYSTEM_KEY,
       branchKeyId,
       Fixtures.KEYSTORE_KMS_ARN
     );
