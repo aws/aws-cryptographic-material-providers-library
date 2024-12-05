@@ -80,7 +80,7 @@ public class DescribeMutationTest {
   public void TestKmsSymEncDescription() {
     //noinspection unchecked
     SystemKey systemKey = MutationsProvider.KmsSystemKey(
-      Fixtures.POSTAL_HORN_KEY_ARN,
+      Fixtures.KSA_SYSTEM_KEY,
       Fixtures.kmsClientWest2,
       Collections.EMPTY_LIST
     );
