@@ -119,7 +119,7 @@ public class ExampleTests {
   @Test
   public void End2EndDecryptEncryptTest() {
     String branchKeyId = CreateKeyExample.CreateKey(
-      Fixtures.MRK_ARN_WEST,
+      Fixtures.KEYSTORE_KMS_ARN,
       null,
       AdminProvider.admin()
     );
@@ -128,8 +128,8 @@ public class ExampleTests {
       MutationDecryptEncryptExample.End2End(
         branchKeyId,
         Fixtures.POSTAL_HORN_KEY_ARN,
-        AwsKms.builder().kmsClient(Fixtures.kmsClientWest2).build(),
-        AwsKms.builder().kmsClient(Fixtures.denyMrkKmsClient).build(),
+        AwsKms.builder().kmsClient(Fixtures.keyStoreOnlyKmsClient).build(),
+        AwsKms.builder().kmsClient(Fixtures.postalHornOnlyKmsClient).build(),
         MutationsProvider.KmsSystemKey(),
         AdminProvider.admin()
       );
