@@ -6,9 +6,10 @@ package software.amazon.cryptography.keystoreadmin.model;
 import java.util.Objects;
 
 /**
- * Key Management generic error encountered while mutating
- * an item from original to terminal.
- * Possibly, access to the terminal KMS Key was withdrawn.
+ *
+ *  Thrown when mutating an item from original to terminal,
+ *  specifically when the operation fails when moving from the old key.
+ *  Generally, this indicates access to the original KMS Key has been denied.
  */
 public class MutationFromException extends RuntimeException {
 
