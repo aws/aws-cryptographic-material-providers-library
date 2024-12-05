@@ -231,7 +231,7 @@ Resources:
             {
               "Effect": "Allow",
               "Action": [
-                "kms:GetPublicKey"
+                "kms:*"
               ],
               "Resource": [
                 "arn:aws:kms:*:${AWS::AccountId}:key/${EccP256}",
@@ -364,6 +364,7 @@ Resources:
               AWS:
                 - !Sub "arn:aws:iam::${AWS::AccountId}:role/ToolsDevelopment"
                 - "arn:aws:iam::648638458147:role/AVP-14101"
+                - !Ref GitHubCIRole
             Action: "sts:AssumeRole"
 
   RestrictedKMSHKeyTwoOnly:
@@ -407,4 +408,5 @@ Resources:
               AWS:
                 - !Sub "arn:aws:iam::${AWS::AccountId}:role/ToolsDevelopment"
                 - "arn:aws:iam::648638458147:role/AVP-14101"
+                - !Ref GitHubCIRole
             Action: "sts:AssumeRole"
