@@ -90,7 +90,7 @@ public class MutationsSystemKeyTrustExample {
       result =
         workPage(
           identifier,
-          MutationsProvider.KmsSystemKey(Fixtures.POSTAL_HORN_KEY_ARN),
+          MutationsProvider.KmsSystemKey(Fixtures.KSA_SYSTEM_KEY),
           token,
           strategy,
           admin,
