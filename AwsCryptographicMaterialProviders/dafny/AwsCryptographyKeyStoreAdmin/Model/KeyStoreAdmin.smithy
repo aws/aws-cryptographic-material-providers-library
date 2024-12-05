@@ -46,22 +46,22 @@ service KeyStoreAdmin {
     CreateKey,
     VersionKey,
     InitializeMutation,
-    ApplyMutation
+    ApplyMutation,
     DescribeMutation
   ],
   errors: [
-    KeyStoreAdminException
-    MutationConflictException
-    MutationInvalidException
-    aws.cryptography.keyStore#KeyStorageException
-    aws.cryptography.keyStore#VersionRaceException
-    aws.cryptography.keyStore#BranchKeyCiphertextException
-    aws.cryptography.keyStore#AlreadyExistsConditionFailed
-    aws.cryptography.keyStore#NoLongerExistsConditionFailed
-    UnexpectedStateException
-    MutationFromException
-    MutationToException
-    MutationVerificationException
+    KeyStoreAdminException,
+    MutationConflictException,
+    MutationInvalidException,
+    aws.cryptography.keyStore#KeyStorageException,
+    aws.cryptography.keyStore#VersionRaceException,
+    aws.cryptography.keyStore#BranchKeyCiphertextException,
+    aws.cryptography.keyStore#AlreadyExistsConditionFailed,
+    aws.cryptography.keyStore#NoLongerExistsConditionFailed,
+    UnexpectedStateException,
+    MutationFromException,
+    MutationToException,
+    MutationVerificationException,
     UnsupportedFeatureException
   ]
 }
@@ -183,8 +183,6 @@ union KeyManagementStrategy {
 
   AwsKmsDecryptEncrypt: AwsKmsDecryptEncrypt
 }
-
-
 
 @documentation(
 "Create a new Branch Key in the Key Store.
@@ -510,69 +508,87 @@ structure DescribeMutationOutput {
 // Errors
 
 @error("client")
+@documentation("
+Exception thrown for various unexpected events or invalid inputs.")
 structure KeyStoreAdminException {
   @required
   message: String
 }
 
-// TODO-Mutations-GA : Document recovery
 @error("client")
-@documentation("A Mutation for this Branch Key ID is already inflight! Nothing was changed. See <link>.")
+@documentation("
+Exception thrown when a mutation for the configured
+Branch Key ID is already in-flight. Nothing was changed.")
 structure MutationConflictException {
   @required
-  message: String,
+  message: String
 }
 
-// TODO-Mutations-FF : Document recovery
 @error("client")
+@documentation("
+ Exception thrown when there is an error with the input for
+ InitializeMutation, ApplyMutation, or DescribeMutation.
+ Exception also thrown when validating the encoding of mutation index
+ and the mutation commitment attributes.
+ If thrown on these operations, an audit of that Branch Key ID 
+ and its versions is recommended.
+")
 structure MutationInvalidException {
   @required
-  message: String,
+  message: String
 }
 
-// TODO-Mutations-GA : Document recovery
 @error("client")
+@documentation("
+ Exception thrown if a Branch Key Item is encountered that is not in 
+ the original or the terminal state.
+ The library cannot perform any operation on this branch key.
+ The only way this can be thrown is if the item was modified outside the library.
+")
 structure UnexpectedStateException {
   @required
-  message: String,
+  message: String
 }
 
-// TODO-Mutations-GA : Document recovery
 @error("client")
-@documentation(
-"Key Management generic error encountered while authenticating
-an item already in the terminal state.
-Possibly, access to the terminal KMS Key was withdrawn.")
+@documentation("
+ Thrown when signature generation or signature verification
+ with the configured System Key fails.
+ This could be caused by KMS denying access to the System Key.
+ It could also be caused by the incorrect System Key being used.
+ Finally, it could indicate that someone has tampered with
+ the Mutation Commitment or Mutation Index persisted to the Key Store's Storage.
+")
 structure MutationVerificationException {
   @required
-  message: String,
+  message: String
 }
 
-// TODO-Mutations-GA : Document recovery
 @error("client")
-@documentation(
-"Key Management generic error encountered while mutating
-an item from original to terminal.
-Possibly, access to the terminal KMS Key was withdrawn.")
+@documentation("
+ Thrown when mutating an item from original to terminal,
+ specifically when the operation fails when moving to the new key.
+ Generally, this indicates access to the terminal KMS Key has been denied.
+")
 structure MutationToException {
   @required
-  message: String,
+  message: String
 }
 
-// TODO-Mutations-GA : Document recovery
 @error("client")
-@documentation(
-"Key Management generic error encountered while mutating
-an item from original to terminal.
-Possibly, access to the terminal KMS Key was withdrawn.")
+@documentation("
+ Thrown when mutating an item from original to terminal,
+ specifically when the operation fails when moving from the old key.
+ Generally, this indicates access to the original KMS Key has been denied.
+")
 structure MutationFromException {
   @required
-  message: String,
+  message: String
 }
 
 @error("client")
 @documentation("This feature is not yet implemented.")
 structure UnsupportedFeatureException {
   @required
-  message: String,
+  message: String
 }

@@ -6,7 +6,9 @@ package software.amazon.cryptography.keystoreadmin.model;
 import java.util.Objects;
 
 /**
- * A Mutation for this Branch Key ID is already inflight! Nothing was changed. See <link>.
+ *
+ * Exception thrown when a mutation for the configured
+ * Branch Key ID is already in-flight. Nothing was changed.
  */
 public class MutationConflictException extends RuntimeException {
 

@@ -6,9 +6,13 @@ package software.amazon.cryptography.keystoreadmin.model;
 import java.util.Objects;
 
 /**
- * Key Management generic error encountered while authenticating
- * an item already in the terminal state.
- * Possibly, access to the terminal KMS Key was withdrawn.
+ *
+ *  Thrown when signature generation or signature verification
+ *  with the configured System Key fails.
+ *  This could be caused by KMS denying access to the System Key.
+ *  It could also be caused by the incorrect System Key being used.
+ *  Finally, it could indicate that someone has tampered with
+ *  the Mutation Commitment or Mutation Index persisted to the Key Store's Storage.
  */
 public class MutationVerificationException extends RuntimeException {
 
