@@ -9,11 +9,11 @@ import (
 func ToByteArray(seq dafny.Sequence) Wrappers.Result {
 	var s string
 	for i := dafny.Iterate(seq); ; {
-		val, ok := i()
-		if ok {
-			s = s + string(val.(dafny.Char))
-		} else {
+		val, endOfSequence := i()
+		if endOfSequence {
 			break
+		} else {
+			s = s + string(val.(dafny.Char))
 		}
 	}
 	uuidString := uuid.MustParse(s)
