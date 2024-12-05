@@ -5,6 +5,15 @@ package software.amazon.cryptography.keystoreadmin.model;
 
 import java.util.Objects;
 
+/**
+ *
+ *  Exception thrown when there is an error with the input for
+ *  InitializeMutation, ApplyMutation, or DescribeMutation.
+ *  Exception also thrown when validating the encoding of mutation index
+ *  and the mutation commitment attributes.
+ *  If thrown on these operations, an audit of that Branch Key ID
+ *  and its versions is recommended.
+ */
 public class MutationInvalidException extends RuntimeException {
 
   protected MutationInvalidException(BuilderImpl builder) {
