@@ -5,6 +5,13 @@ package software.amazon.cryptography.keystoreadmin.model;
 
 import java.util.Objects;
 
+/**
+ *
+ *  Exception thrown if a Branch Key Item is encountered that is not in
+ *  the original or the terminal state.
+ *  The library cannot perform any operation on this branch key.
+ *  The only way this can be thrown is if the item was modified outside the library.
+ */
 public class UnexpectedStateException extends RuntimeException {
 
   protected UnexpectedStateException(BuilderImpl builder) {
