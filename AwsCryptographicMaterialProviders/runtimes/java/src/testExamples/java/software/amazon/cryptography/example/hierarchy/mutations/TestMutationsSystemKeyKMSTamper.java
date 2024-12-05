@@ -203,7 +203,7 @@ public class TestMutationsSystemKeyKMSTamper {
     CreateKeyExample.CreateKey(Fixtures.MRK_ARN_WEST, identifier, null);
     //noinspection unchecked
     SystemKey systemKey = MutationsProvider.KmsSystemKey(
-      Fixtures.POSTAL_HORN_KEY_ARN,
+      Fixtures.KSA_SYSTEM_KEY,
       Fixtures.kmsClientWest2,
       Collections.EMPTY_LIST
     );
