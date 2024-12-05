@@ -184,8 +184,6 @@ union KeyManagementStrategy {
   AwsKmsDecryptEncrypt: AwsKmsDecryptEncrypt
 }
 
-
-
 @documentation(
 "Create a new Branch Key in the Key Store.
 Additionally create a Beacon Key that is tied to this Branch Key.")
@@ -517,36 +515,32 @@ structure KeyStoreAdminException {
   message: String
 }
 
-// TODO-Mutations-GA : Document recovery
 @error("client")
 @documentation("
 Exception thrown when a mutation for the configured
-Branch Key ID is already inflight. Nothing was changed.")
+Branch Key ID is already in-flight. Nothing was changed.")
 structure MutationConflictException {
   @required
-  message: String,
+  message: String
 }
 
-// TODO-Mutations-GA : Document recovery
 @error("client")
 @documentation("
  Exception thrown when there is an error with the input for
- InitializeMutation, ApplyMutation, DescribeMutation, and the
- attributes present on the table. 
- Exception thrown when validating the encoding of mutation index
+ InitializeMutation, ApplyMutation, or DescribeMutation.
+ Exception also thrown when validating the encoding of mutation index
  and the mutation commitment attributes.
- If thrown on these operations, an audit of that branch key id 
+ If thrown on these operations, an audit of that Branch Key ID 
  and its versions is recommended.
 ")
 structure MutationInvalidException {
   @required
-  message: String,
+  message: String
 }
 
-// TODO-Mutations-GA : Document recovery
 @error("client")
 @documentation("
- Exception thrown if a branch key is encountered that is not in 
+ Exception thrown if a Branch Key Item is encountered that is not in 
  the original or the terminal state.
  The library cannot perform any operation on this branch key.
  The only way this can be thrown is if the item was modified outside the library.
@@ -556,48 +550,45 @@ structure UnexpectedStateException {
   message: String
 }
 
-// TODO-Mutations-GA : Document recovery
 @error("client")
 @documentation("
- Exception is a Key Management generic error.
  Thrown when signature generation or signature verification
- with the configured SystemKey fails.
- Possibly, access to the terminal KMS Key was withdrawn.
+ with the configured System Key fails.
+ This could be caused by KMS denying access to the System Key.
+ It could also be caused by the incorrect System Key being used.
+ Finally, it could indicate that someone has tampered with
+ the Mutation Commitment or Mutation Index persisted to the Key Store's Storage.
 ")
 structure MutationVerificationException {
   @required
-  message: String,
+  message: String
 }
 
-// TODO-Mutations-GA : Document recovery
 @error("client")
 @documentation("
- Exception is a Key Management generic error.
  Thrown when mutating an item from original to terminal,
  specifically when the operation fails when moving to the new key.
- Possibly, access to the terminal KMS Key was withdrawn.
+ Generally, this indicates access to the terminal KMS Key has been denied.
 ")
 structure MutationToException {
   @required
-  message: String,
+  message: String
 }
 
-// TODO-Mutations-GA : Document recovery
 @error("client")
 @documentation("
- Exception is a Key Management generic error.
  Thrown when mutating an item from original to terminal,
  specifically when the operation fails when moving from the old key.
- Possibly, access to the terminal KMS Key was withdrawn.
+ Generally, this indicates access to the original KMS Key has been denied.
 ")
 structure MutationFromException {
   @required
-  message: String,
+  message: String
 }
 
 @error("client")
 @documentation("This feature is not yet implemented.")
 structure UnsupportedFeatureException {
   @required
-  message: String,
+  message: String
 }
