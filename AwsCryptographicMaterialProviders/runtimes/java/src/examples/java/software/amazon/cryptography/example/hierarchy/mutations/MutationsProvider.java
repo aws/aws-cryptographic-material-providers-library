@@ -51,7 +51,7 @@ public class MutationsProvider {
   }
 
   public static SystemKey KmsSystemKey() {
-    return KmsSystemKey(Fixtures.POSTAL_HORN_KEY_ARN);
+    return KmsSystemKey(Fixtures.KSA_SYSTEM_KEY);
   }
 
   public static SystemKey KmsSystemKey(@Nonnull final String systemKeyArn) {
