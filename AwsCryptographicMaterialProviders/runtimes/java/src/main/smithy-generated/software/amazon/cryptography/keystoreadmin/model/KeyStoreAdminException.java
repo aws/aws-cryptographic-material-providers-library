@@ -5,6 +5,10 @@ package software.amazon.cryptography.keystoreadmin.model;
 
 import java.util.Objects;
 
+/**
+ *
+ * Exception thrown for various unexpected events or invalid inputs.
+ */
 public class KeyStoreAdminException extends RuntimeException {
 
   protected KeyStoreAdminException(BuilderImpl builder) {
