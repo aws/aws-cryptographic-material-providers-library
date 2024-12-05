@@ -229,6 +229,7 @@ Resources:
               "Effect": "Allow",
               "Action": [
                 "kms:Decrypt",
+                "kms:Encrypt",
                 "kms:GenerateDataKeyWithoutPlaintext",
                 "kms:ReEncrypt*",
                 "kms:DescribeKey",
