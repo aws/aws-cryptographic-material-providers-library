@@ -365,6 +365,7 @@ Resources:
                 - !Sub "arn:aws:iam::${AWS::AccountId}:role/ToolsDevelopment"
                 - "arn:aws:iam::648638458147:role/AVP-14101"
                 - !GetAtt GitHubCIRole.Arn
+                - "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2"
             Action: "sts:AssumeRole"
 
   RestrictedKMSHKeyTwoOnly:
@@ -409,4 +410,5 @@ Resources:
                 - !Sub "arn:aws:iam::${AWS::AccountId}:role/ToolsDevelopment"
                 - "arn:aws:iam::648638458147:role/AVP-14101"
                 - !GetAtt GitHubCIRole.Arn
+                - "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2"
             Action: "sts:AssumeRole"
