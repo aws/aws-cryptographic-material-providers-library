@@ -364,7 +364,7 @@ Resources:
               AWS:
                 - !Sub "arn:aws:iam::${AWS::AccountId}:role/ToolsDevelopment"
                 - "arn:aws:iam::648638458147:role/AVP-14101"
-                - !Ref GitHubCIRole
+                - !GetAtt GitHubCIRole.Arn
             Action: "sts:AssumeRole"
 
   RestrictedKMSHKeyTwoOnly:
@@ -408,5 +408,5 @@ Resources:
               AWS:
                 - !Sub "arn:aws:iam::${AWS::AccountId}:role/ToolsDevelopment"
                 - "arn:aws:iam::648638458147:role/AVP-14101"
-                - !Ref GitHubCIRole
+                - !GetAtt GitHubCIRole.Arn
             Action: "sts:AssumeRole"
