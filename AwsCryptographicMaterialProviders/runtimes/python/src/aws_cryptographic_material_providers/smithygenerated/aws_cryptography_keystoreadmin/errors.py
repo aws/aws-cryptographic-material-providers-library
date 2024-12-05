@@ -55,6 +55,10 @@ class KeyStoreAdminException(ApiError[Literal["KeyStoreAdminException"]]):
         *,
         message: str,
     ):
+        """Exception thrown for various unexpected events or invalid inputs.
+
+        :param message: A message associated with the specific error.
+        """
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
@@ -99,10 +103,10 @@ class MutationFromException(ApiError[Literal["MutationFromException"]]):
         *,
         message: str,
     ):
-        """Key Management generic error encountered while mutating an item from
-        original to terminal.
+        """Thrown when mutating an item from original to terminal, specifically
+        when the operation fails when moving from the old key. Generally, this
+        indicates access to the original KMS Key has been denied.
 
-        Possibly, access to the terminal KMS Key was withdrawn.
         :param message: A message associated with the specific error.
         """
         super().__init__(message)
@@ -149,6 +153,16 @@ class MutationInvalidException(ApiError[Literal["MutationInvalidException"]]):
         *,
         message: str,
     ):
+        """Exception thrown when there is an error with the input for.
+
+        InitializeMutation, ApplyMutation, or DescribeMutation.
+        Exception also thrown when validating the encoding of mutation
+        index  and the mutation commitment attributes.  If thrown on
+        these operations, an audit of that Branch Key ID  and its
+        versions is recommended.
+
+        :param message: A message associated with the specific error.
+        """
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
@@ -193,10 +207,10 @@ class MutationToException(ApiError[Literal["MutationToException"]]):
         *,
         message: str,
     ):
-        """Key Management generic error encountered while mutating an item from
-        original to terminal.
+        """Thrown when mutating an item from original to terminal, specifically
+        when the operation fails when moving to the new key. Generally, this
+        indicates access to the terminal KMS Key has been denied.
 
-        Possibly, access to the terminal KMS Key was withdrawn.
         :param message: A message associated with the specific error.
         """
         super().__init__(message)
@@ -243,10 +257,15 @@ class MutationVerificationException(ApiError[Literal["MutationVerificationExcept
         *,
         message: str,
     ):
-        """Key Management generic error encountered while authenticating an
-        item already in the terminal state.
+        """Thrown when signature generation or signature verification with the
+        configured System Key fails. This could be caused by KMS denying access
+        to the System Key. It could also be caused by the incorrect System Key
+        being used.
 
-        Possibly, access to the terminal KMS Key was withdrawn.
+        Finally, it could indicate that someone has tampered with  the
+        Mutation Commitment or Mutation Index persisted to the Key
+        Store's Storage.
+
         :param message: A message associated with the specific error.
         """
         super().__init__(message)
@@ -293,6 +312,13 @@ class UnexpectedStateException(ApiError[Literal["UnexpectedStateException"]]):
         *,
         message: str,
     ):
+        """Exception thrown if a Branch Key Item is encountered that is not in
+        the original or the terminal state. The library cannot perform any
+        operation on this branch key. The only way this can be thrown is if the
+        item was modified outside the library.
+
+        :param message: A message associated with the specific error.
+        """
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:
@@ -385,9 +411,10 @@ class MutationConflictException(ApiError[Literal["MutationConflictException"]]):
         *,
         message: str,
     ):
-        """A Mutation for this Branch Key ID is already inflight!
+        """Exception thrown when a mutation for the configured Branch Key ID is
+        already in-flight.
 
-        Nothing was changed. See <link>.
+        Nothing was changed.
         :param message: A message associated with the specific error.
         """
         super().__init__(message)
