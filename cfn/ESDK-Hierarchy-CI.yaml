@@ -162,6 +162,19 @@ Resources:
             Action: "kms:*"
             Resource: "*"
 
+  KeyStoreAdminSystemKeyKmsSymEnc:
+    Type: "AWS::KMS::Key"
+    Properties:
+      Description: KMS Key for System Key
+      Enabled: true
+      KeyPolicy:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
+            Action: "kms:*"
+            Resource: "*"
   EccP256:
     Type: "AWS::KMS::Key"
     Properties:
@@ -228,6 +241,16 @@ Resources:
                 "arn:aws:kms:*:${AWS::AccountId}:key/${HierarchicalGitHubKMSKeyIDTwo}"
               ]
             },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "kms:Decrypt",
+                "kms:Encrypt"
+              ],
+              "Resource": [
+                "arn:aws:kms:*:${AWS::AccountId}:key/${KeyStoreAdminSystemKeyKmsSymEnc}"
+              ]
+            },            
             {
               "Effect": "Allow",
               "Action": [
