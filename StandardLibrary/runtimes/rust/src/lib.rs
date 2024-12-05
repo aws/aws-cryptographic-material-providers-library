@@ -1,3 +1,6 @@
+// Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
 #![allow(deprecated, non_upper_case_globals, unused, non_snake_case, non_camel_case_types)]
 
 pub(crate) mod standard_library_externs;
