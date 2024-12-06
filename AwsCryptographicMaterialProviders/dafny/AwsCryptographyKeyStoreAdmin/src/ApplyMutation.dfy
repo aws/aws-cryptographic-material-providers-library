@@ -346,7 +346,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     keyManagerStrategy: KmsUtils.keyManagerStrat,
     mutationToApply: StateStrucs.MutationToApply
   ) returns (output: Result<(seq<KeyStoreTypes.OverWriteEncryptedHierarchicalKey>, seq<Types.MutatedBranchKeyItem>), Types.Error>)
-    requires keyManagerStrategy.ValidState()
+    requires keyManagerStrategy.ValidState() && mutationToApply.ValidState()
     modifies
       match keyManagerStrategy
       case reEncrypt(km) => km.kmsClient.Modifies

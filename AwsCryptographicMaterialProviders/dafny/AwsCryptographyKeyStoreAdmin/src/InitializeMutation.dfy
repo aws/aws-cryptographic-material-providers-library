@@ -584,6 +584,8 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       && mutationToApply.ValidState()
       && 0 < |timestamp|
       && 0 < |input.Identifier|
+      && activeItem.KmsArn == mutationToApply.Original.kmsArn
+      && Structure.EncryptedHierarchicalKey?(activeItem)
     }
 
     ghost const Modifies :=
@@ -649,6 +651,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         && output.value.ValidState()
         && output.value.writeVersion.rotate?
         && output.value.logStatements[0].Description == "Rotated"
+        && |output.value.logStatements| == 2
   {
     // --= Generate New Decrypt Only Branch Key with terminal properties
     var maybeNewVersion := UUID.GenerateUUID();
@@ -687,12 +690,15 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         localOperation := "InitializeMutation"
       );
     } else {
-      newActive :- Mutations.ReEncryptHierarchicalKey(
+      var input := Mutations.ReEncryptHierarchicalKeyInput(
         item := newDecryptOnly,
         originalKmsArn := localInput.mutationToApply.Terminal.kmsArn,
         terminalKmsArn := localInput.mutationToApply.Terminal.kmsArn,
         terminalEncryptionContext := ActiveEncryptionContext,
-        keyManagerStrategy := localInput.input.keyManagerStrategy,
+        keyManagerStrategy := localInput.input.keyManagerStrategy
+      );
+      newActive :- Mutations.ReEncryptHierarchicalKey(
+        input := input,
         localOperation := "InitializeMutation",
         createNewActive := true);
     }
@@ -716,7 +722,11 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     modifies localInput.Modifies
     ensures localInput.ValidState()
     requires localInput.input.DoNotVersion
-    ensures output.Success? ==> output.value.writeVersion.mutate?
+    ensures
+      output.Success?
+      ==>
+        && output.value.writeVersion.mutate?
+        && |output.value.logStatements| == 2
   {
     // output := Failure(Types.UnsupportedFeatureException(message := "WIP"));
     // return output;
