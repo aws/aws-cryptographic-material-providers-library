@@ -54,8 +54,8 @@ func Encode(utf16EncodedDafnySeq dafny.Sequence) Wrappers.Result {
 func utf16EncodedDafnySeqToUint16(seq dafny.Sequence) []uint16 {
 	var r []uint16
 	for i := dafny.Iterate(seq); ; {
-		val, ok := i()
-		if !ok {
+		val, notEndOfSequence := i()
+		if !notEndOfSequence {
 			return r
 		} else {
 			r = append(r, uint16(val.(dafny.Char)))
