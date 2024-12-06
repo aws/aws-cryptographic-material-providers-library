@@ -323,11 +323,6 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
           + " For Initialize Mutation to succeed, the ACTIVE & Beacon Key MUST be in the original state."
       ));
 
-    // Mutations-doNotVersion
-    // I think the cleanest way to fry this fish
-    // is to break out a new method.
-    // It takes in the Input, the read ActiveItem, and MutationsToApply
-    // It returns WriteActive & WriteVersion
 
     var initializeMutationActiveInput := InitializeMutationActiveInput(
       input := input,
@@ -339,22 +334,6 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
 
     // -= Mutate Beacon Key
     var newBeaconKey :- Mutations.MutateItem(readItems.BeaconItem, MutationToApply, input.keyManagerStrategy, "InitializeMutation", false);
-    // var BeaconEncryptionContext := Structure.ReplaceMutableContext(
-    //   readItems.BeaconItem.EncryptionContext,
-    //   MutationToApply.Terminal.kmsArn,
-    //   MutationToApply.Terminal.customEncryptionContext
-    // );
-
-    // assert readItems.BeaconItem.KmsArn == MutationToApply.Original.kmsArn;
-
-    // var newBeaconKey :- Mutations.ReEncryptHierarchicalKey(
-    //   item := readItems.BeaconItem,
-    //   originalKmsArn := MutationToApply.Original.kmsArn,
-    //   terminalKmsArn := MutationToApply.Terminal.kmsArn,
-    //   terminalEncryptionContext := BeaconEncryptionContext,
-    //   keyManagerStrategy := input.keyManagerStrategy,
-    //   localOperation := "InitializeMutation"
-    // );
 
     // -= Create Mutation Commitment & Mutation Index
     var MutationCommitment :- StateStrucs.SerializeMutationCommitment(MutationToApply);
@@ -728,9 +707,6 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         && output.value.writeVersion.mutate?
         && |output.value.logStatements| == 2
   {
-    // output := Failure(Types.UnsupportedFeatureException(message := "WIP"));
-    // return output;
-
     // Get the Active's Decrypt Only
     var oldVersion := localInput.activeItem.Type.ActiveHierarchicalSymmetricVersion.Version;
     var getOldReq := KeyStoreTypes.GetEncryptedBranchKeyVersionInput(

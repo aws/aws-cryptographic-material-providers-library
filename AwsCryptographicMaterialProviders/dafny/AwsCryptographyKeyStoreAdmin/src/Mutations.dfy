@@ -231,7 +231,6 @@ module {:options "/functionSyntax:4" } Mutations {
     ghost predicate Pre()
     {
       && Structure.EncryptedHierarchicalKey?(item)
-         // && KMS.IsValid_KeyIdType(terminalKmsArn) // Should be met by ValidKmsArn?(terminalKmsArn)
       && KMSKeystoreOperations.AttemptReEncrypt?(item.EncryptionContext, terminalEncryptionContext)
       && KmsArn.ValidKmsArn?(originalKmsArn) && KmsArn.ValidKmsArn?(terminalKmsArn)
       && item.KmsArn == originalKmsArn
@@ -251,11 +250,6 @@ module {:options "/functionSyntax:4" } Mutations {
 
   method {:isolate_assertions} ReEncryptHierarchicalKey(
     nameonly input: ReEncryptHierarchicalKeyInput,
-    // nameonly item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
-    // nameonly originalKmsArn: string,
-    // nameonly terminalKmsArn: string,
-    // nameonly terminalEncryptionContext: Structure.BranchKeyContext,
-    // nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
     nameonly localOperation: string := "ApplyMutation",
     nameonly createNewActive: bool := false
   )
@@ -263,17 +257,6 @@ module {:options "/functionSyntax:4" } Mutations {
     requires input.Pre()
     ensures input.Post()
     modifies input.Modifies
-    // requires Structure.EncryptedHierarchicalKey?(item)
-    // // requires KMS.IsValid_KeyIdType(terminalKmsArn) // Should be met by ValidKmsArn?(terminalKmsArn)
-    // requires KMSKeystoreOperations.AttemptReEncrypt?(item.EncryptionContext, terminalEncryptionContext)
-    // requires KmsArn.ValidKmsArn?(originalKmsArn) && KmsArn.ValidKmsArn?(terminalKmsArn)
-    // requires item.KmsArn == originalKmsArn
-    // requires keyManagerStrategy.ValidState()
-    // modifies
-    //   match keyManagerStrategy
-    //   case reEncrypt(km) => km.kmsClient.Modifies
-    //   case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
-    // ensures keyManagerStrategy.ValidState()
     requires localOperation == "InitializeMutation" || localOperation == "ApplyMutation"
   {
     var wrappedKey?;

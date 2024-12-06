@@ -382,19 +382,6 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
         // if item is original, mutate with Failure
         case itemOriginal(item) =>
           var mutatedItem :- Mutations.MutateItem(item, mutationToApply, keyManagerStrategy, "ApplyMutation", false);
-          // var terminalEncryptionContext := Structure.ReplaceMutableContext(
-          //   item.EncryptionContext,
-          //   mutationToApply.Terminal.kmsArn,
-          //   mutationToApply.Terminal.customEncryptionContext
-          // );
-
-          // var mutatedItem :- Mutations.ReEncryptHierarchicalKey(
-          //   item := item,
-          //   originalKmsArn := mutationToApply.Original.kmsArn,
-          //   terminalKmsArn := mutationToApply.Terminal.kmsArn,
-          //   terminalEncryptionContext := terminalEncryptionContext,
-          //   keyManagerStrategy := keyManagerStrategy
-          // );
           itemsEvaluated := itemsEvaluated + [
             KeyStoreTypes.OverWriteEncryptedHierarchicalKey(Item:=mutatedItem, Old:=item)
           ];
