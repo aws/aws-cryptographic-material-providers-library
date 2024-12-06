@@ -10,7 +10,7 @@ func ConcurrentCall(callee Callee, serialIters uint32, concurrentIters uint32) {
 		go func() {
 			defer wg.Done()
 			for j := uint32(0); j < serialIters; j++ {
-				calle.Call(j, concurrentPos)
+				callee.Call(j, concurrentPos)
 			}
 		}()
 		wg.Wait()
