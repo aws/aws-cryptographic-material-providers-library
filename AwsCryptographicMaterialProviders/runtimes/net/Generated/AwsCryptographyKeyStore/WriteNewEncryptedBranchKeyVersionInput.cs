@@ -7,10 +7,9 @@ namespace AWS.Cryptography.KeyStore
 {
   public class WriteNewEncryptedBranchKeyVersionInput
   {
-    private AWS.Cryptography.KeyStore.EncryptedHierarchicalKey _active;
+    private AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey _active;
     private AWS.Cryptography.KeyStore.EncryptedHierarchicalKey _version;
-    private AWS.Cryptography.KeyStore.EncryptedHierarchicalKey _oldActive;
-    public AWS.Cryptography.KeyStore.EncryptedHierarchicalKey Active
+    public AWS.Cryptography.KeyStore.OverWriteEncryptedHierarchicalKey Active
     {
       get { return this._active; }
       set { this._active = value; }
@@ -28,20 +27,10 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._version != null;
     }
-    public AWS.Cryptography.KeyStore.EncryptedHierarchicalKey OldActive
-    {
-      get { return this._oldActive; }
-      set { this._oldActive = value; }
-    }
-    public bool IsSetOldActive()
-    {
-      return this._oldActive != null;
-    }
     public void Validate()
     {
       if (!IsSetActive()) throw new System.ArgumentException("Missing value for required property 'Active'");
       if (!IsSetVersion()) throw new System.ArgumentException("Missing value for required property 'Version'");
-      if (!IsSetOldActive()) throw new System.ArgumentException("Missing value for required property 'OldActive'");
 
     }
   }

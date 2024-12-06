@@ -139,8 +139,7 @@ module {:options "/functionSyntax:4" } TestCreateKeys {
     // Since this process uses a read DDB table,
     // the number of records will forever increase.
     // To avoid this, remove the items.
-    CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, branchKeyVersion, ddbClient);
-    CleanupItems.DeleteActive(branchKeyId.branchKeyIdentifier, ddbClient);
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=branchKeyId.branchKeyIdentifier, ddbClient:=ddbClient);
 
     expect beaconKeyResult.beaconKeyMaterials.beaconKey.Some?;
     expect |beaconKeyResult.beaconKeyMaterials.beaconKey.value| == 32;
@@ -249,9 +248,7 @@ module {:options "/functionSyntax:4" } TestCreateKeys {
     // Since this process uses a read DDB table,
     // the number of records will forever increase.
     // To avoid this, remove the items.
-    CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, branchKeyVersion, ddbClient);
-    CleanupItems.DeleteActive(branchKeyId.branchKeyIdentifier, ddbClient);
-
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=branchKeyId.branchKeyIdentifier, ddbClient:=ddbClient);
 
     expect id
         == versionResult.branchKeyMaterials.branchKeyIdentifier

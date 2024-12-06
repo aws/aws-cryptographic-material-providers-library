@@ -124,37 +124,20 @@ Resources:
         Statement:
           - Effect: Allow
             Action:
+              - dynamodb:DescribeTable
+              - dynamodb:CreateTable
               - dynamodb:PutItem
               - dynamodb:DeleteItem
               - dynamodb:GetItem
               - dynamodb:Query
+              - dynamodb:ConditionCheckItem
+              - dynamodb:UpdateItem
+              - dynamodb:BatchGetItem
             Resource:
               - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${TableName}"
               - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${TableName}/index/*"
-          - Effect: Allow
-            Action:
-              - dynamodb:DescribeTable
-              - dynamodb:CreateTable
-              - dynamodb:PutItem
-              - dynamodb:DeleteItem
-              - dynamodb:GetItem
-              - dynamodb:Query
-              - dynamodb:ConditionCheckItem
-              - dynamodb:UpdateItem
-            Resource:
               - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreTable}"
               - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreTable}/index/*"
-          - Effect: Allow
-            Action:
-              - dynamodb:DescribeTable
-              - dynamodb:CreateTable
-              - dynamodb:PutItem
-              - dynamodb:DeleteItem
-              - dynamodb:GetItem
-              - dynamodb:Query
-              - dynamodb:ConditionCheckItem
-              - dynamodb:UpdateItem
-            Resource:
               - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreDdbTable}"
               - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreDdbTable}/index/*"
 
