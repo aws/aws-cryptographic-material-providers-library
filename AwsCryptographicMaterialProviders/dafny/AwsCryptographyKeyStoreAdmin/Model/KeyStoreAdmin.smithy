@@ -139,7 +139,8 @@ structure TrustStorage {}
 @documentation(
 "Key Store Admin protects any non-cryptographic
 items stored with this Key.
-As of v1.9.0, TrustStorage is the default behavior.")
+As of v1.9.0, TrustStorage is the default behavior;
+though using KmsSymmetricEncryption is a best practice.")
 union SystemKey {
   kmsSymmetricEncryption: KmsSymmetricEncryption
   trustStorage: TrustStorage
@@ -223,11 +224,13 @@ structure CreateKeyOutput {
 }
 
 @documentation(
-  "Create a new ACTIVE version of an existing Branch Key,
-   along with a complementing Version (DECRYPT_ONLY) in the Key Store.
-   This generates a fresh AES-256 key which all future encrypts will use
-   for the Key Derivation Function,
-   until VersionKey is executed again.")
+"Rotates the Branch Key by creating a new ACTIVE version of an existing Branch Key,
+along with a complementing Version (DECRYPT_ONLY) in the Key Store.
+This generates a fresh AES-256 key which all future encrypts will use
+for the Key Derivation Function,
+until VersionKey is executed again.
+This operation can race against itself and Initialize Mutation.
+Should that occur, one of the requests will fail.")
 operation VersionKey {
   input: VersionKeyInput,
   output: VersionKeyOutput,
@@ -256,13 +259,23 @@ structure VersionKeyInput {
 structure VersionKeyOutput {
 }
 
-@documentation("
-Starts a Mutation to all Items of a Branch Key ID.
-Versions the Branch Key ID, such that the new version only has existed in the final state.
+@documentation(
+"Starts a Mutation to all Items of a Branch Key ID.
 Mutates the Beacon Key.
+Either Mutates the Active & its version (decrypt only), or versions the Branch Key,
+depending on the 'Do Not Version' argument.
+Regardless, if operation is successful,
+the Beacon, Active, & the Active's version are in the terminal state.
 Establishes the Mutation Commitment; Simultaneous conflicting Mutations are prevented by the Mutation Commitment.
 Mutations MUST be completed via subsequent invocations of the Apply Mutation Operation,
-first invoked with the Mutation Token returned in InitializeMutationOutput.")
+first invoked with the Mutation Token returned in 'Initialize Mutation Output'.
+This operation is idempotent-ish;
+if invoked with the same request as an in-flight Mutation,
+the operation will return successful.
+The 'Initialize Mutation Flag' of the output indicates
+if the request was for a novel Mutation or one already in-flight.
+This operation can race against itself or Version Key.
+Should that occur, one of the requests will fail.")
 operation InitializeMutation {
   input: InitializeMutationInput
   output: InitializeMutationOutput
@@ -276,7 +289,6 @@ operation InitializeMutation {
     MutationVerificationException
     MutationToException
     MutationFromException
-    UnsupportedFeatureException
   ]
 }
 
@@ -295,7 +307,20 @@ structure InitializeMutationInput {
   @documentation("Optional. Defaults to TrustStorage. See System Key.")
   SystemKey: SystemKey
 
-  @documentation("Optional. Defaults to False. As of v1.9.0, setting this true throws a UnsupportedFeatureException.")
+  @documentation(
+  "Optional. Defaults to False, which Versions (or Rotates) the Branch Key,
+  creating a new Version that has only ever been in the terminal state.
+  Setting this value to True disables the rotation.
+  This is a Security vs Performance trade off.
+  Mutating a Branch Key can change the security domain of the Branch Key.
+  Some application's Threat Models benefit from ensuring a new Version
+  is created whenever a Mutation occurs,
+  allowing the application to track under which security domain data
+  was protected.
+  However, not all Threat Models call for this.
+  Particularly if a Mutations are triggered in response to external actors,
+  creating a new Version for every Mutation request can needlessly grow
+  the item count of a Branch Key.")
   DoNotVersion: Boolean
 }
 
@@ -379,7 +404,11 @@ structure Mutations {
   TerminalEncryptionContext: aws.cryptography.keyStore#EncryptionContextString // EC non Empty MUST be validated in Dafny
 }
 
-@documentation("Applies the Mutation to a page of Branch Key Items. If all Items have been mutated, removes the Mutation Commitment and Index.")
+@documentation(
+"Applies the Mutation to a page of Branch Key Items.
+If all Items have been mutated, removes the Mutation Commitment and Index.
+This operation can race against itself.
+Should that occur, one of the requests will fail.")
 operation ApplyMutation {
   input:  ApplyMutationInput
   output: ApplyMutationOutput
