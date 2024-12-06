@@ -9,8 +9,8 @@ import (
 func SetToOrderedSequence(set dafny.Set, fn func(interface{}, interface{}) bool) dafny.Sequence {
 	var arr []interface{}
 	for i := set.Iterator(); ; {
-		val, ok := i()
-		if ok {
+		val, notEndOfSequence := i()
+		if notEndOfSequence {
 			arr = append(arr, val)
 		} else {
 			sort.Slice(arr, func(i, j int) bool {
