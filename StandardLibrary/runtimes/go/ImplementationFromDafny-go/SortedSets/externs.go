@@ -17,18 +17,18 @@ func SetToOrderedSequence(set dafny.Set, fn func(interface{}, interface{}) bool)
 				a := arr[i].(dafny.Sequence)
 				b := arr[j].(dafny.Sequence)
 				for ii, jj := dafny.Iterate(a), dafny.Iterate(b); ; {
-					v1, ok1 := ii()
-					v2, ok2 := jj()
-					if ok1 && ok2 {
+					v1, notEndOfSequence1 := ii()
+					v2, notEndOfSequence2 := jj()
+					if notEndOfSequence1 && notEndOfSequence2 {
 						if fn(v1, v2) {
 							return true
 						}
 						if fn(v2, v1) {
 							return false
 						}
-					} else if ok1 {
+					} else if notEndOfSequence1 {
 						return false
-					} else if ok2 {
+					} else if notEndOfSequence2 {
 						return true
 					} else {
 						return false
