@@ -49,6 +49,7 @@ module {:extern "Time"} Time {
   // Returns a timestamp for the current time in ISO8601 format in UTC
   // to microsecond precision (e.g. “YYYY-MM-DDTHH:mm:ss.ssssssZ“)
   method {:extern "GetCurrentTimeStamp"} GetCurrentTimeStamp() returns (res: Result<string, string>)
+    ensures res.Success? ==> 0 < |res.value|
 
   function method FormatMilli(diff : uint64) : string
   {

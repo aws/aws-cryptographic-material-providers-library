@@ -28,30 +28,21 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
 
   const DEFAULT_APPLY_PAGE_SIZE := 3 as StandardLibrary.UInt.int32
 
-  datatype CheckedItem =
-    | itemOriginal(item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey)
-    | itemTerminal(item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey)
-      // Never describe itemNeither to customers as such.
-      // Always use the `UnExecptedStateException`.
-    | itemNeither(item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey)
-
-  type OriginalOrTerminal = s:seq<CheckedItem>
-    | forall i <- s :: !i.itemNeither?
-    witness *
-
   predicate ValidateQueryOutResults?(
-    input: InternalApplyMutationInput, //Types.ApplyMutationInput,
+    input: InternalApplyMutationInput,
     queryItems: KeyStoreTypes.QueryForVersionsOutput
   )
   {
     || input.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
     || (
          forall item <- queryItems.Items ::
-           && item.Identifier == input.MutationToken.Identifier
+           && Mutations.ValidateItemFromStorage?(
+                input.storage,
+                item,
+                identifier := input.MutationToken.Identifier,
+                logicalName := input.logicalKeyStoreName)
            && Structure.DecryptOnlyHierarchicalSymmetricKey?(item)
            && item.Type.HierarchicalSymmetricVersion?
-           && item.EncryptionContext[Structure.TABLE_FIELD] == input.logicalKeyStoreName
-           && KmsArn.ValidKmsArn?(item.KmsArn)
        )
   }
 
@@ -198,17 +189,17 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     var MutationToApply :- StateStrucs.DeserializeMutation(CommitmentAndIndex);
 
     // -= Query for page Size Branch Key Items
-    var queryOut :- QueryForVersionsAndValidate(input, MutationToApply);//logicalKeyStoreName, storage, MutationToApply);
+    var queryOut :- QueryForVersionsAndValidate(input, MutationToApply);
 
     var queryOutItems := Seq.Map(
       item
       requires Structure.DecryptOnlyHierarchicalSymmetricKey?(item)
       =>
-        MatchItemToState(item, MutationToApply),
+        Mutations.MatchItemToState(item, MutationToApply),
       queryOut.Items
     );
 
-    var ItemNeither? := (item: CheckedItem) => item.itemNeither?;
+    var ItemNeither? := (item: Mutations.CheckedItem) => item.itemNeither?;
 
     var neitherState? := Seq.Filter(ItemNeither?, queryOutItems);
 
@@ -217,13 +208,13 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     , Types.UnexpectedStateException(
         message := if 0 < |neitherState?| then
           "Item(s) found in an unexpected state: "
-          + Join(Seq.Map((i:CheckedItem) => i.item.Identifier, neitherState?), ",")
+          + Join(Seq.Map((i: Mutations.CheckedItem) => i.item.Identifier, neitherState?), ",")
         else
           "Can't happen"
       ));
 
     Mutations.FilterIsEmpty?(ItemNeither?, queryOutItems);
-    var itemsToProcess: OriginalOrTerminal := queryOutItems;
+    var itemsToProcess: Mutations.OriginalOrTerminal := queryOutItems;
 
     assert forall item <- itemsToProcess ::
         && item.item is KeyStoreTypes.EncryptedHierarchicalKey
@@ -244,6 +235,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     var newIndex :- StateStrucs.SerializeMutationIndex(MutationToApply, Some(queryOut.ExclusiveStartKey));
     var signedNewIndex :- SystemKeyHandler.SignIndex(newIndex, SystemKey);
 
+    // TODO-Mutations-FF Log Index update or deletion of commitment and index
     var _ :- WriteMutations(
       storage,
       itemsEvaluated,
@@ -350,11 +342,11 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
   }
 
   method {:isolate_assertions} ProcessBranchKeysInApplyMutation(
-    items: OriginalOrTerminal,
+    items: Mutations.OriginalOrTerminal,
     keyManagerStrategy: KmsUtils.keyManagerStrat,
     mutationToApply: StateStrucs.MutationToApply
   ) returns (output: Result<(seq<KeyStoreTypes.OverWriteEncryptedHierarchicalKey>, seq<Types.MutatedBranchKeyItem>), Types.Error>)
-    requires keyManagerStrategy.ValidState()
+    requires keyManagerStrategy.ValidState() && mutationToApply.ValidState()
     modifies
       match keyManagerStrategy
       case reEncrypt(km) => km.kmsClient.Modifies
@@ -389,19 +381,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
                Description := " Validated in Terminal")];
         // if item is original, mutate with Failure
         case itemOriginal(item) =>
-          var terminalEncryptionContext := Structure.ReplaceMutableContext(
-            item.EncryptionContext,
-            mutationToApply.Terminal.kmsArn,
-            mutationToApply.Terminal.customEncryptionContext
-          );
-
-          var mutatedItem :- Mutations.ReEncryptHierarchicalKey(
-            item := item,
-            originalKmsArn := mutationToApply.Original.kmsArn,
-            terminalKmsArn := mutationToApply.Terminal.kmsArn,
-            terminalEncryptionContext := terminalEncryptionContext,
-            keyManagerStrategy := keyManagerStrategy
-          );
+          var mutatedItem :- Mutations.MutateItem(item, mutationToApply, keyManagerStrategy, "ApplyMutation", false);
           itemsEvaluated := itemsEvaluated + [
             KeyStoreTypes.OverWriteEncryptedHierarchicalKey(Item:=mutatedItem, Old:=item)
           ];
@@ -412,44 +392,5 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
       }
     }
     return Success((itemsEvaluated, logStatements));
-  }
-
-  lemma OriginalOrTerminalIsEncryptedHierarchicalKey?(items: OriginalOrTerminal)
-    ensures forall item <- items ::
-              && (item.itemOriginal? || item.itemTerminal?)
-              && item.item is KeyStoreTypes.EncryptedHierarchicalKey
-  {}
-
-
-  function MatchItemToState(
-    item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
-    MutationToApply: StateStrucs.MutationToApply
-  ): (output: CheckedItem)
-    requires item.Type.HierarchicalSymmetricVersion?
-    requires Structure.EncryptedHierarchicalKey?(item)
-    requires MutationToApply.ValidState()
-    ensures Structure.EncryptedHierarchicalKey?(output.item)
-    ensures
-      && output.itemOriginal?
-      ==>
-        && output.item.KmsArn == MutationToApply.Original.kmsArn
-    ensures output.item.Type.HierarchicalSymmetricVersion?
-  {
-    if item.EncryptionContext
-       == Structure.ReplaceMutableContext(
-            item.EncryptionContext,
-            MutationToApply.Original.kmsArn,
-            MutationToApply.Original.customEncryptionContext
-          ) then
-      itemOriginal(item)
-    else if item.EncryptionContext
-            == Structure.ReplaceMutableContext(
-                 item.EncryptionContext,
-                 MutationToApply.Terminal.kmsArn,
-                 MutationToApply.Terminal.customEncryptionContext
-               ) then
-      itemTerminal(item)
-    else
-      itemNeither(item)
   }
 }
