@@ -1110,31 +1110,26 @@ module DefaultKeyStorageInterface {
           message := "Invalid mutation index."
         ));
 
-      if (input.Version.mutate?) {
-        return Failure(
-            Types.KeyStorageException(
-              message := "At this time, only rotation is supported."
-            ));
-      }
-
+        /** Validate Inputs can be mapped to DDB Items */
       :- Need(
-        && (forall k <- input.Version.rotate.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
         && (forall k <- input.Active.Item.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k)),
         Types.KeyStorageException( message := ErrorMessages.ENCRYPTION_CONTEXT_EXCEEDS_DDB_LIMIT)
       );
-
-        /** Validate Inputs can be mapped to DDB Items */
       :- Need(
         && (forall k <- input.Beacon.Item.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k)),
         Types.KeyStorageException( message := ErrorMessages.ENCRYPTION_CONTEXT_EXCEEDS_DDB_LIMIT)
       );
 
+      :- Need(
+        match input.Version {
+          case rotate(item) => (forall k <- item.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
+          case mutate(overWrite) => (forall k <- overWrite.Item.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
+        },
+        Types.KeyStorageException( message := ErrorMessages.ENCRYPTION_CONTEXT_EXCEEDS_DDB_LIMIT)
+      );
+
       /** Convert Inputs to DDB Items.*/
       var items: DDB.TransactWriteItemList := [
-        TransactCreateHKey(
-          input.Version.rotate,
-          ddbTableName
-        ),
         TransactOverwriteHKey(
           input.Active.Item,
           input.Active.Old,
@@ -1151,7 +1146,17 @@ module DefaultKeyStorageInterface {
         ),
         TransactCreateMutationIndex(
           input.MutationIndex,
-          ddbTableName)
+          ddbTableName),
+        if input.Version.rotate?
+        then TransactCreateHKey(
+               input.Version.rotate,
+               ddbTableName
+             )
+        else TransactOverwriteHKey(
+            input.Version.mutate.Item,
+            input.Version.mutate.Old,
+            ddbTableName
+          )
       ];
       var transactRequest := DDB.TransactWriteItemsInput(
         TransactItems := items
