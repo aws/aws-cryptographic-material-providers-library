@@ -90,10 +90,12 @@ class KeyStoreAdmin:
         )
 
     def version_key(self, input: VersionKeyInput) -> VersionKeyOutput:
-        """Create a new ACTIVE version of an existing Branch Key, along with a
-        complementing Version (DECRYPT_ONLY) in the Key Store. This generates a
-        fresh AES-256 key which all future encrypts will use for the Key
-        Derivation Function, until VersionKey is executed again.
+        """Rotates the Branch Key by creating a new ACTIVE version of an
+        existing Branch Key, along with a complementing Version (DECRYPT_ONLY)
+        in the Key Store. This generates a fresh AES-256 key which all future
+        encrypts will use for the Key Derivation Function, until VersionKey is
+        executed again. This operation can race against itself and Initialize
+        Mutation. Should that occur, one of the requests will fail.
 
         :param input: The operation's input.
         """
@@ -109,13 +111,21 @@ class KeyStoreAdmin:
     def initialize_mutation(
         self, input: InitializeMutationInput
     ) -> InitializeMutationOutput:
-        """Starts a Mutation to all Items of a Branch Key ID. Versions the
-        Branch Key ID, such that the new version only has existed in the final
-        state. Mutates the Beacon Key. Establishes the Mutation Commitment;
-        Simultaneous conflicting Mutations are prevented by the Mutation
-        Commitment. Mutations MUST be completed via subsequent invocations of
-        the Apply Mutation Operation, first invoked with the Mutation Token
-        returned in InitializeMutationOutput.
+        """Starts a Mutation to all Items of a Branch Key ID. Mutates the
+        Beacon Key. Either Mutates the Active & its version (decrypt only), or
+        versions the Branch Key, depending on the 'Do Not Version' argument.
+        Regardless, if operation is successful, the Beacon, Active, & the
+        Active's version are in the terminal state. Establishes the Mutation
+        Commitment; Simultaneous conflicting Mutations are prevented by the
+        Mutation Commitment. Mutations MUST be completed via subsequent
+        invocations of the Apply Mutation Operation, first invoked with the
+        Mutation Token returned in 'Initialize Mutation Output'. This operation
+        is idempotent-ish; if invoked with the same request as an in-flight
+        Mutation, the operation will return successful. The 'Initialize
+        Mutation Flag' of the output indicates if the request was for a novel
+        Mutation or one already in-flight. This operation can race against
+        itself or Version Key. Should that occur, one of the requests will
+        fail.
 
         :param input: The operation's input.
         """
@@ -130,7 +140,9 @@ class KeyStoreAdmin:
 
     def apply_mutation(self, input: ApplyMutationInput) -> ApplyMutationOutput:
         """Applies the Mutation to a page of Branch Key Items. If all Items
-        have been mutated, removes the Mutation Commitment and Index.
+        have been mutated, removes the Mutation Commitment and Index. This
+        operation can race against itself. Should that occur, one of the
+        requests will fail.
 
         :param input: The operation's input.
         """

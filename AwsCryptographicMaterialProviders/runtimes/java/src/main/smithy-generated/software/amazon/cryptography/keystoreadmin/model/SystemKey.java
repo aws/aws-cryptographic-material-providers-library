@@ -8,7 +8,8 @@ import java.util.Objects;
 /**
  * Key Store Admin protects any non-cryptographic
  * items stored with this Key.
- * As of v1.9.0, TrustStorage is the default behavior.
+ * As of v1.9.0, TrustStorage is the default behavior;
+ * though using KmsSymmetricEncryption is a best practice.
  */
 public class SystemKey {
 

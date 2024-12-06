@@ -445,7 +445,8 @@ class SystemKeyUnknown:
 
 
 # Key Store Admin protects any non-cryptographic items stored with this Key. As of
-# v1.9.0, TrustStorage is the default behavior.
+# v1.9.0, TrustStorage is the default behavior; though using
+# KmsSymmetricEncryption is a best practice.
 SystemKey = Union[
     SystemKeyKmsSymmetricEncryption, SystemKeyTrustStorage, SystemKeyUnknown
 ]
@@ -1533,8 +1534,28 @@ class InitializeMutationInput:
         the Branch Key.
         :param strategy: Optional. Defaults to reEncrypt with a default KMS Client.
         :param system_key: Optional. Defaults to TrustStorage. See System Key.
-        :param do_not_version: Optional. Defaults to False. As of v1.9.0, setting this
-        true throws a UnsupportedFeatureException.
+        :param do_not_version: Optional. Defaults to False, which Versions (or Rotates)
+        the Branch Key,
+          creating a new Version that has only ever been in the terminal
+        state.
+          Setting this value to True disables the rotation.
+          This is a Security
+        vs Performance trade off.
+          Mutating a Branch Key can change the security domain
+        of the Branch Key.
+          Some application's Threat Models benefit from ensuring a
+        new Version
+          is created whenever a Mutation occurs,
+          allowing the application
+        to track under which security domain data
+          was protected.
+          However, not all
+        Threat Models call for this.
+          Particularly if a Mutations are triggered in
+        response to external actors,
+          creating a new Version for every Mutation request
+        can needlessly grow
+          the item count of a Branch Key.
         """
         self.identifier = identifier
         self.mutations = mutations
