@@ -28,17 +28,10 @@ module {:options "/functionSyntax:4" } KmsUtils {
     {
       match this
       case reEncrypt(km) =>
-        && km.kmsClient.ValidState()
-        && km.kmsClient.Modifies == km.kmsClient.Modifies
         && km.ValidState()
         && km.Modifies == km.Modifies
       case decryptEncrypt(kmD, kmE) =>
-        && kmD.kmsClient.ValidState()
-        && kmE.kmsClient.ValidState()
-        && kmD.kmsClient.Modifies == kmD.kmsClient.Modifies
-        && kmE.kmsClient.Modifies == kmE.kmsClient.Modifies
-           // We will assume this is the case in order to make verification happy
-        && kmE.kmsClient.Modifies !! kmD.kmsClient.Modifies
+        // We will assume this is the case in order to make verification happy
         && kmD.ValidState()
         && kmE.ValidState()
         && kmD.Modifies == kmD.Modifies
