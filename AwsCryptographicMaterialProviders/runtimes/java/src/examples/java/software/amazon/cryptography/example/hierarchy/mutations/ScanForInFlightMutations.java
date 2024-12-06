@@ -55,7 +55,7 @@ public class ScanForInFlightMutations {
     EAV = new HashMap<>(2, 1);
     EAV.put(
       ":sk",
-      AttributeValue.builder().s(Constants.MUTATION_COMMITMENT).build()
+      AttributeValue.builder().s(Constants.TYPE_MUTATION_COMMITMENT).build()
     );
   }
 
