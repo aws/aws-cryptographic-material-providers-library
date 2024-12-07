@@ -185,9 +185,6 @@ polymorph_go:
 		runtimes/go/TestsFromDafny-go/awscryptographymaterialproviderssmithygeneratedtypes \
 		runtimes/go/TestsFromDafny-go/WrappedAwsCryptographyMaterialProvidersService
 
-# TODO: Remove this once Dafny bug is fixed. https://t.corp.amazon.com/9a9028fd-2711-4843-b8f0-09965f7e61a7/communication#f03694be-7410-47f9-866d-e43093b018f9 
-transpile_go:	
-	sed -i '' 's/_out0 = m_TestWrappedMaterialProvidersMain.GetTestVectorExecutionDirectory()/_out0 = GetTestVectorExecutionDirectory()/g' ./runtimes/go/TestsFromDafny-go/TestWrappedMaterialProvidersMain/TestWrappedMaterialProvidersMain.go
 # Python
 
 # Override default test_python to run tox environment for Dafny tests
