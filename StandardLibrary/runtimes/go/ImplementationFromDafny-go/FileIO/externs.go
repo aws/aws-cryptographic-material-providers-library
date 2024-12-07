@@ -14,7 +14,18 @@ var m_DafnyLibraries struct {
 }
 
 func (_static CompanionStruct_Default___) INTERNAL_ReadBytesFromFile(path _dafny.Sequence) (isError bool, bytesRead _dafny.Sequence, errorMsg _dafny.Sequence) {
-	p := _dafny.SequenceVerbatimString(path, false)
+	// TODO: fix _dafny.SequenceVerbatimString and use p:= _dafny.SequenceVerbatimString
+	p := func() string {
+		var s string
+		for i := _dafny.Iterate(path); ; {
+			val, ok := i()
+			if !ok {
+				return s
+			} else {
+				s = s + string(val.(_dafny.Char))
+			}
+		}
+	}()
 	dat, err := ioutil.ReadFile(p)
 	if err != nil {
 		errAsSequence := _dafny.UnicodeSeqOfUtf8Bytes(err.Error())
@@ -25,7 +36,18 @@ func (_static CompanionStruct_Default___) INTERNAL_ReadBytesFromFile(path _dafny
 }
 
 func (_static CompanionStruct_Default___) INTERNAL_WriteBytesToFile(path _dafny.Sequence, bytes _dafny.Sequence) (isError bool, errorMsg _dafny.Sequence) {
-	p := _dafny.SequenceVerbatimString(path, false)
+	// TODO: fix _dafny.SequenceVerbatimString and use p:= _dafny.SequenceVerbatimString
+	p := func() string {
+		var s string
+		for i := _dafny.Iterate(path); ; {
+			val, ok := i()
+			if !ok {
+				return s
+			} else {
+				s = s + string(val.(_dafny.Char))
+			}
+		}
+	}()
 
 	// Create directories
 	os.MkdirAll(filepath.Dir(p), os.ModePerm)
