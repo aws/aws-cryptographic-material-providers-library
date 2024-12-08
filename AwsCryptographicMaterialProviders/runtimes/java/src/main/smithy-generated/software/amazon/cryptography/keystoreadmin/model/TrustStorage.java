@@ -10,7 +10,10 @@ package software.amazon.cryptography.keystoreadmin.model;
  * to influence the properties of mutations in flight
  * without needing a KMS key permission,
  * which would otherwise be needed to do the same.
- * AWS Crypto Tools recommends using 'KMS Symmetric Encryption'
+ * As an extreme example,
+ * an actor with only write access to the storage
+ * could modify an in-flight Mutation's terminal KMS Key ARN.
+ * Thus, AWS Crypto Tools recommends using 'KMS Symmetric Encryption'
  * instead of 'Trust Storage' to ensure that Branch Keys are
  * only modified via actors with KMS key permissions.
  */

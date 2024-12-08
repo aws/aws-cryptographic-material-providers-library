@@ -8,8 +8,9 @@ import java.util.Objects;
 /**
  * Key Store Admin protects any non-cryptographic
  * items stored with this Key.
- * As of v1.9.0, TrustStorage is the default behavior;
- * though using KmsSymmetricEncryption is a best practice.
+ * Using 'KMS Symmetric Encryption' is a best practice,
+ * as it prevents actors with only write access to the Key Store's storage
+ * from tampering with Mutations.
  * For a Mutation, the System Key setting MUST be consistent across the Initialize Mutation and all the Apply Mutation calls.
  */
 public class SystemKey {
@@ -31,7 +32,10 @@ public class SystemKey {
    * to influence the properties of mutations in flight
    * without needing a KMS key permission,
    * which would otherwise be needed to do the same.
-   * AWS Crypto Tools recommends using 'KMS Symmetric Encryption'
+   * As an extreme example,
+   * an actor with only write access to the storage
+   * could modify an in-flight Mutation's terminal KMS Key ARN.
+   * Thus, AWS Crypto Tools recommends using 'KMS Symmetric Encryption'
    * instead of 'Trust Storage' to ensure that Branch Keys are
    * only modified via actors with KMS key permissions.
    */
@@ -61,7 +65,10 @@ public class SystemKey {
    * to influence the properties of mutations in flight
    * without needing a KMS key permission,
    * which would otherwise be needed to do the same.
-   * AWS Crypto Tools recommends using 'KMS Symmetric Encryption'
+   * As an extreme example,
+   * an actor with only write access to the storage
+   * could modify an in-flight Mutation's terminal KMS Key ARN.
+   * Thus, AWS Crypto Tools recommends using 'KMS Symmetric Encryption'
    * instead of 'Trust Storage' to ensure that Branch Keys are
    * only modified via actors with KMS key permissions.
    */
@@ -107,7 +114,10 @@ public class SystemKey {
      * to influence the properties of mutations in flight
      * without needing a KMS key permission,
      * which would otherwise be needed to do the same.
-     * AWS Crypto Tools recommends using 'KMS Symmetric Encryption'
+     * As an extreme example,
+     * an actor with only write access to the storage
+     * could modify an in-flight Mutation's terminal KMS Key ARN.
+     * Thus, AWS Crypto Tools recommends using 'KMS Symmetric Encryption'
      * instead of 'Trust Storage' to ensure that Branch Keys are
      * only modified via actors with KMS key permissions.
      */
@@ -120,7 +130,10 @@ public class SystemKey {
      * to influence the properties of mutations in flight
      * without needing a KMS key permission,
      * which would otherwise be needed to do the same.
-     * AWS Crypto Tools recommends using 'KMS Symmetric Encryption'
+     * As an extreme example,
+     * an actor with only write access to the storage
+     * could modify an in-flight Mutation's terminal KMS Key ARN.
+     * Thus, AWS Crypto Tools recommends using 'KMS Symmetric Encryption'
      * instead of 'Trust Storage' to ensure that Branch Keys are
      * only modified via actors with KMS key permissions.
      */

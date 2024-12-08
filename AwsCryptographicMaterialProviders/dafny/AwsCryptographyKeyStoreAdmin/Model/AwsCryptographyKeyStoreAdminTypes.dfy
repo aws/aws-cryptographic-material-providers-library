@@ -24,7 +24,7 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     nameonly MutationToken: MutationToken ,
     nameonly PageSize: Option<int32> := Option.None ,
     nameonly Strategy: Option<KeyManagementStrategy> := Option.None ,
-    nameonly SystemKey: Option<SystemKey> := Option.None
+    nameonly SystemKey: SystemKey
   )
   datatype ApplyMutationOutput = | ApplyMutationOutput (
     nameonly MutationResult: ApplyMutationResult ,
@@ -60,7 +60,7 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     nameonly Identifier: string ,
     nameonly Mutations: Mutations ,
     nameonly Strategy: Option<KeyManagementStrategy> := Option.None ,
-    nameonly SystemKey: Option<SystemKey> := Option.None ,
+    nameonly SystemKey: SystemKey ,
     nameonly DoNotVersion: Option<bool> := Option.None
   )
   datatype InitializeMutationOutput = | InitializeMutationOutput (

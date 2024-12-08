@@ -25,8 +25,9 @@ public class InitializeMutationInput {
   /**
    * Key Store Admin protects any non-cryptographic
    * items stored with this Key.
-   * As of v1.9.0, TrustStorage is the default behavior;
-   * though using KmsSymmetricEncryption is a best practice.
+   * Using 'KMS Symmetric Encryption' is a best practice,
+   * as it prevents actors with only write access to the Key Store's storage
+   * from tampering with Mutations.
    * For a Mutation, the System Key setting MUST be consistent across the Initialize Mutation and all the Apply Mutation calls.
    */
   private final SystemKey SystemKey;
@@ -80,8 +81,9 @@ public class InitializeMutationInput {
   /**
    * @return Key Store Admin protects any non-cryptographic
    * items stored with this Key.
-   * As of v1.9.0, TrustStorage is the default behavior;
-   * though using KmsSymmetricEncryption is a best practice.
+   * Using 'KMS Symmetric Encryption' is a best practice,
+   * as it prevents actors with only write access to the Key Store's storage
+   * from tampering with Mutations.
    * For a Mutation, the System Key setting MUST be consistent across the Initialize Mutation and all the Apply Mutation calls.
    */
   public SystemKey SystemKey() {
@@ -149,8 +151,9 @@ public class InitializeMutationInput {
     /**
      * @param SystemKey Key Store Admin protects any non-cryptographic
      * items stored with this Key.
-     * As of v1.9.0, TrustStorage is the default behavior;
-     * though using KmsSymmetricEncryption is a best practice.
+     * Using 'KMS Symmetric Encryption' is a best practice,
+     * as it prevents actors with only write access to the Key Store's storage
+     * from tampering with Mutations.
      * For a Mutation, the System Key setting MUST be consistent across the Initialize Mutation and all the Apply Mutation calls.
      */
     Builder SystemKey(SystemKey SystemKey);
@@ -158,8 +161,9 @@ public class InitializeMutationInput {
     /**
      * @return Key Store Admin protects any non-cryptographic
      * items stored with this Key.
-     * As of v1.9.0, TrustStorage is the default behavior;
-     * though using KmsSymmetricEncryption is a best practice.
+     * Using 'KMS Symmetric Encryption' is a best practice,
+     * as it prevents actors with only write access to the Key Store's storage
+     * from tampering with Mutations.
      * For a Mutation, the System Key setting MUST be consistent across the Initialize Mutation and all the Apply Mutation calls.
      */
     SystemKey SystemKey();
@@ -277,6 +281,11 @@ public class InitializeMutationInput {
       if (Objects.isNull(this.Mutations())) {
         throw new IllegalArgumentException(
           "Missing value for required field `Mutations`"
+        );
+      }
+      if (Objects.isNull(this.SystemKey())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `SystemKey`"
         );
       }
       return new InitializeMutationInput(this);
