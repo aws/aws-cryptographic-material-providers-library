@@ -129,10 +129,13 @@ structure KmsSymmetricEncryption {
 @documentation(
 "The Storage is trusted enough for items of non-cryptographic material nature,
 even if those items can affect the cryptographic materials.
-Permissions to modify the data store are sufficient
-to influence the contents of mutations in flight
+Thus, permissions to modify the Key Store's storage is sufficient
+to influence the properties of mutations in flight
 without needing a KMS key permission,
-which would otherwise be needed to do the same.")
+which would otherwise be needed to do the same.
+AWS Crypto Tools recommends using 'KMS Symmetric Encryption'
+instead of 'Trust Storage' to ensure that Branch Keys are
+only modified via actors with KMS key permissions.")
 structure TrustStorage {}
 
 // TODO: verify version before release
@@ -140,7 +143,8 @@ structure TrustStorage {}
 "Key Store Admin protects any non-cryptographic
 items stored with this Key.
 As of v1.9.0, TrustStorage is the default behavior;
-though using KmsSymmetricEncryption is a best practice.")
+though using KmsSymmetricEncryption is a best practice.
+For a Mutation, the System Key setting MUST be consistent across the Initialize Mutation and all the Apply Mutation calls.")
 union SystemKey {
   kmsSymmetricEncryption: KmsSymmetricEncryption
   trustStorage: TrustStorage
@@ -229,8 +233,9 @@ along with a complementing Version (DECRYPT_ONLY) in the Key Store.
 This generates a fresh AES-256 key which all future encrypts will use
 for the Key Derivation Function,
 until VersionKey is executed again.
-This operation can race against itself and Initialize Mutation.
-Should that occur, one of the requests will fail.")
+This operation can race against other Version Key requests or Initialize Mutation requests for the same Branch Key.
+Should that occur, all but one of the requests will fail.
+Race errors are either 'Version Race Exceptions' or 'Key Storage Exceptions'.")
 operation VersionKey {
   input: VersionKeyInput,
   output: VersionKeyOutput,
@@ -269,13 +274,16 @@ the Beacon, Active, & the Active's version are in the terminal state.
 Establishes the Mutation Commitment; Simultaneous conflicting Mutations are prevented by the Mutation Commitment.
 Mutations MUST be completed via subsequent invocations of the Apply Mutation Operation,
 first invoked with the Mutation Token returned in 'Initialize Mutation Output'.
-This operation is idempotent-ish;
+With respect to the output's Mutation Token, this operation is idempotent;
 if invoked with the same request as an in-flight Mutation,
-the operation will return successful.
+the operation will return successful
+with the same Mutation Token as earlier requests.
 The 'Initialize Mutation Flag' of the output indicates
 if the request was for a novel Mutation or one already in-flight.
-This operation can race against itself or Version Key.
-Should that occur, one of the requests will fail.")
+This operation can race against other Initialize Mutation requests or Version Key requests for the same Branch Key.
+Should that occur, all but one of the requests will fail.
+Race errors are either 'Version Race Exceptions' or 'Key Storage Exceptions'.
+'Mutation Conflict Exception' is thrown if a different Mutation/change is already in-flight.")
 operation InitializeMutation {
   input: InitializeMutationInput
   output: InitializeMutationOutput
@@ -304,7 +312,7 @@ structure InitializeMutationInput {
   @documentation("Optional. Defaults to reEncrypt with a default KMS Client.")
   Strategy: KeyManagementStrategy
 
-  @documentation("Optional. Defaults to TrustStorage. See System Key.")
+  // Smithy's Effective Docuemtnation will utilize System Key's documentation trait
   SystemKey: SystemKey
 
   @documentation(
@@ -318,7 +326,7 @@ structure InitializeMutationInput {
   allowing the application to track under which security domain data
   was protected.
   However, not all Threat Models call for this.
-  Particularly if a Mutations are triggered in response to external actors,
+  Particularly if Mutations are triggered in response to external actors,
   creating a new Version for every Mutation request can needlessly grow
   the item count of a Branch Key.")
   DoNotVersion: Boolean
@@ -407,8 +415,12 @@ structure Mutations {
 @documentation(
 "Applies the Mutation to a page of Branch Key Items.
 If all Items have been mutated, removes the Mutation Commitment and Index.
-This operation can race against itself.
-Should that occur, one of the requests will fail.")
+This operation can race other Apply Mutation requests for the same Branch Key.
+Should that occur, all but one of the requests will fail with a 'Key Storage Exception'.
+Note that the Mutation Token only contains serializable members;
+the 'System Key' and 'Strategy' settings are separate parameters.
+In particular, the 'System Key' setting MUST be consistent across
+the Initialize Mutation and all the Apply Mutation calls of a Mutation.")
 operation ApplyMutation {
   input:  ApplyMutationInput
   output: ApplyMutationOutput
@@ -429,7 +441,8 @@ structure ApplyMutationInput {
   MutationToken: MutationToken
 
   @documentation(
-  "For Default DynamoDB Table Storage, the maximum page size is 99.
+  "Optional. Defaults to 3 if not set.
+  For Default DynamoDB Table Storage, the maximum page size is 98.
   At most, Apply Mutation will mutate pageSize Items.
   Note that, at least for Storage:DynamoDBTable,
   two additional \"item\" are consumed by the Mutation Commitment and Mutation Index verification.
@@ -439,7 +452,6 @@ structure ApplyMutationInput {
   @documentation("Optional. Defaults to reEncrypt with a default KMS Client.")
   Strategy: KeyManagementStrategy
 
-  @documentation("Optional. Defaults to TrustStorage. See System Key.")
   SystemKey: SystemKey
 }
 
