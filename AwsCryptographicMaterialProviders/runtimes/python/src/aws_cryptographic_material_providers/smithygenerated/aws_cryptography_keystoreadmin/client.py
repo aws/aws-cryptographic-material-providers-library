@@ -94,8 +94,10 @@ class KeyStoreAdmin:
         existing Branch Key, along with a complementing Version (DECRYPT_ONLY)
         in the Key Store. This generates a fresh AES-256 key which all future
         encrypts will use for the Key Derivation Function, until VersionKey is
-        executed again. This operation can race against itself and Initialize
-        Mutation. Should that occur, one of the requests will fail.
+        executed again. This operation can race against other Version Key
+        requests or Initialize Mutation requests for the same Branch Key.
+        Should that occur, all but one of the requests will fail. Race errors
+        are either 'Version Race Exceptions' or 'Key Storage Exceptions'.
 
         :param input: The operation's input.
         """
@@ -119,13 +121,17 @@ class KeyStoreAdmin:
         Commitment; Simultaneous conflicting Mutations are prevented by the
         Mutation Commitment. Mutations MUST be completed via subsequent
         invocations of the Apply Mutation Operation, first invoked with the
-        Mutation Token returned in 'Initialize Mutation Output'. This operation
-        is idempotent-ish; if invoked with the same request as an in-flight
-        Mutation, the operation will return successful. The 'Initialize
-        Mutation Flag' of the output indicates if the request was for a novel
-        Mutation or one already in-flight. This operation can race against
-        itself or Version Key. Should that occur, one of the requests will
-        fail.
+        Mutation Token returned in 'Initialize Mutation Output'. With respect
+        to the output's Mutation Token, this operation is idempotent; if
+        invoked with the same request as an in-flight Mutation, the operation
+        will return successful with the same Mutation Token as earlier
+        requests. The 'Initialize Mutation Flag' of the output indicates if the
+        request was for a novel Mutation or one already in-flight. This
+        operation can race against other Initialize Mutation requests or
+        Version Key requests for the same Branch Key. Should that occur, all
+        but one of the requests will fail. Race errors are either 'Version Race
+        Exceptions' or 'Key Storage Exceptions'. 'Mutation Conflict Exception'
+        is thrown if a different Mutation/change is already in-flight.
 
         :param input: The operation's input.
         """
@@ -141,8 +147,13 @@ class KeyStoreAdmin:
     def apply_mutation(self, input: ApplyMutationInput) -> ApplyMutationOutput:
         """Applies the Mutation to a page of Branch Key Items. If all Items
         have been mutated, removes the Mutation Commitment and Index. This
-        operation can race against itself. Should that occur, one of the
-        requests will fail.
+        operation can race other Apply Mutation requests for the same Branch
+        Key. Should that occur, all but one of the requests will fail with a
+        'Key Storage Exception'. Note that the Mutation Token only contains
+        serializable members; the 'System Key' and 'Strategy' settings are
+        separate parameters. In particular, the 'System Key' setting MUST be
+        consistent across the Initialize Mutation and all the Apply Mutation
+        calls of a Mutation.
 
         :param input: The operation's input.
         """

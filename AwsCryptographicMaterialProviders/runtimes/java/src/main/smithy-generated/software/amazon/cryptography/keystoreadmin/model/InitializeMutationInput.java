@@ -23,7 +23,11 @@ public class InitializeMutationInput {
   private final KeyManagementStrategy Strategy;
 
   /**
-   * Optional. Defaults to TrustStorage. See System Key.
+   * Key Store Admin protects any non-cryptographic
+   * items stored with this Key.
+   * As of v1.9.0, TrustStorage is the default behavior;
+   * though using KmsSymmetricEncryption is a best practice.
+   * For a Mutation, the System Key setting MUST be consistent across the Initialize Mutation and all the Apply Mutation calls.
    */
   private final SystemKey SystemKey;
 
@@ -38,7 +42,7 @@ public class InitializeMutationInput {
    *   allowing the application to track under which security domain data
    *   was protected.
    *   However, not all Threat Models call for this.
-   *   Particularly if a Mutations are triggered in response to external actors,
+   *   Particularly if Mutations are triggered in response to external actors,
    *   creating a new Version for every Mutation request can needlessly grow
    *   the item count of a Branch Key.
    */
@@ -74,7 +78,11 @@ public class InitializeMutationInput {
   }
 
   /**
-   * @return Optional. Defaults to TrustStorage. See System Key.
+   * @return Key Store Admin protects any non-cryptographic
+   * items stored with this Key.
+   * As of v1.9.0, TrustStorage is the default behavior;
+   * though using KmsSymmetricEncryption is a best practice.
+   * For a Mutation, the System Key setting MUST be consistent across the Initialize Mutation and all the Apply Mutation calls.
    */
   public SystemKey SystemKey() {
     return this.SystemKey;
@@ -91,7 +99,7 @@ public class InitializeMutationInput {
    *   allowing the application to track under which security domain data
    *   was protected.
    *   However, not all Threat Models call for this.
-   *   Particularly if a Mutations are triggered in response to external actors,
+   *   Particularly if Mutations are triggered in response to external actors,
    *   creating a new Version for every Mutation request can needlessly grow
    *   the item count of a Branch Key.
    */
@@ -139,12 +147,20 @@ public class InitializeMutationInput {
     KeyManagementStrategy Strategy();
 
     /**
-     * @param SystemKey Optional. Defaults to TrustStorage. See System Key.
+     * @param SystemKey Key Store Admin protects any non-cryptographic
+     * items stored with this Key.
+     * As of v1.9.0, TrustStorage is the default behavior;
+     * though using KmsSymmetricEncryption is a best practice.
+     * For a Mutation, the System Key setting MUST be consistent across the Initialize Mutation and all the Apply Mutation calls.
      */
     Builder SystemKey(SystemKey SystemKey);
 
     /**
-     * @return Optional. Defaults to TrustStorage. See System Key.
+     * @return Key Store Admin protects any non-cryptographic
+     * items stored with this Key.
+     * As of v1.9.0, TrustStorage is the default behavior;
+     * though using KmsSymmetricEncryption is a best practice.
+     * For a Mutation, the System Key setting MUST be consistent across the Initialize Mutation and all the Apply Mutation calls.
      */
     SystemKey SystemKey();
 
@@ -159,7 +175,7 @@ public class InitializeMutationInput {
      *   allowing the application to track under which security domain data
      *   was protected.
      *   However, not all Threat Models call for this.
-     *   Particularly if a Mutations are triggered in response to external actors,
+     *   Particularly if Mutations are triggered in response to external actors,
      *   creating a new Version for every Mutation request can needlessly grow
      *   the item count of a Branch Key.
      */
@@ -176,7 +192,7 @@ public class InitializeMutationInput {
      *   allowing the application to track under which security domain data
      *   was protected.
      *   However, not all Threat Models call for this.
-     *   Particularly if a Mutations are triggered in response to external actors,
+     *   Particularly if Mutations are triggered in response to external actors,
      *   creating a new Version for every Mutation request can needlessly grow
      *   the item count of a Branch Key.
      */
