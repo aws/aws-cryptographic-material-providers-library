@@ -8,7 +8,9 @@ import java.util.Objects;
 /**
  * Key Store Admin protects any non-cryptographic
  * items stored with this Key.
- * As of v1.9.0, TrustStorage is the default behavior.
+ * As of v1.9.0, TrustStorage is the default behavior;
+ * though using KmsSymmetricEncryption is a best practice.
+ * For a Mutation, the System Key setting MUST be consistent across the Initialize Mutation and all the Apply Mutation calls.
  */
 public class SystemKey {
 
@@ -25,10 +27,13 @@ public class SystemKey {
   /**
    * The Storage is trusted enough for items of non-cryptographic material nature,
    * even if those items can affect the cryptographic materials.
-   * Permissions to modify the data store are sufficient
-   * to influence the contents of mutations in flight
+   * Thus, permissions to modify the Key Store's storage is sufficient
+   * to influence the properties of mutations in flight
    * without needing a KMS key permission,
    * which would otherwise be needed to do the same.
+   * AWS Crypto Tools recommends using 'KMS Symmetric Encryption'
+   * instead of 'Trust Storage' to ensure that Branch Keys are
+   * only modified via actors with KMS key permissions.
    */
   private final TrustStorage trustStorage;
 
@@ -52,10 +57,13 @@ public class SystemKey {
   /**
    * @return The Storage is trusted enough for items of non-cryptographic material nature,
    * even if those items can affect the cryptographic materials.
-   * Permissions to modify the data store are sufficient
-   * to influence the contents of mutations in flight
+   * Thus, permissions to modify the Key Store's storage is sufficient
+   * to influence the properties of mutations in flight
    * without needing a KMS key permission,
    * which would otherwise be needed to do the same.
+   * AWS Crypto Tools recommends using 'KMS Symmetric Encryption'
+   * instead of 'Trust Storage' to ensure that Branch Keys are
+   * only modified via actors with KMS key permissions.
    */
   public TrustStorage trustStorage() {
     return this.trustStorage;
@@ -95,20 +103,26 @@ public class SystemKey {
     /**
      * @param trustStorage The Storage is trusted enough for items of non-cryptographic material nature,
      * even if those items can affect the cryptographic materials.
-     * Permissions to modify the data store are sufficient
-     * to influence the contents of mutations in flight
+     * Thus, permissions to modify the Key Store's storage is sufficient
+     * to influence the properties of mutations in flight
      * without needing a KMS key permission,
      * which would otherwise be needed to do the same.
+     * AWS Crypto Tools recommends using 'KMS Symmetric Encryption'
+     * instead of 'Trust Storage' to ensure that Branch Keys are
+     * only modified via actors with KMS key permissions.
      */
     Builder trustStorage(TrustStorage trustStorage);
 
     /**
      * @return The Storage is trusted enough for items of non-cryptographic material nature,
      * even if those items can affect the cryptographic materials.
-     * Permissions to modify the data store are sufficient
-     * to influence the contents of mutations in flight
+     * Thus, permissions to modify the Key Store's storage is sufficient
+     * to influence the properties of mutations in flight
      * without needing a KMS key permission,
      * which would otherwise be needed to do the same.
+     * AWS Crypto Tools recommends using 'KMS Symmetric Encryption'
+     * instead of 'Trust Storage' to ensure that Branch Keys are
+     * only modified via actors with KMS key permissions.
      */
     TrustStorage trustStorage();
 

@@ -10,7 +10,8 @@ public class ApplyMutationInput {
   private final MutationToken MutationToken;
 
   /**
-   * For Default DynamoDB Table Storage, the maximum page size is 99.
+   * Optional. Defaults to 3 if not set.
+   *   For Default DynamoDB Table Storage, the maximum page size is 98.
    *   At most, Apply Mutation will mutate pageSize Items.
    *   Note that, at least for Storage:DynamoDBTable,
    *   two additional "item" are consumed by the Mutation Commitment and Mutation Index verification.
@@ -24,7 +25,11 @@ public class ApplyMutationInput {
   private final KeyManagementStrategy Strategy;
 
   /**
-   * Optional. Defaults to TrustStorage. See System Key.
+   * Key Store Admin protects any non-cryptographic
+   * items stored with this Key.
+   * As of v1.9.0, TrustStorage is the default behavior;
+   * though using KmsSymmetricEncryption is a best practice.
+   * For a Mutation, the System Key setting MUST be consistent across the Initialize Mutation and all the Apply Mutation calls.
    */
   private final SystemKey SystemKey;
 
@@ -40,7 +45,8 @@ public class ApplyMutationInput {
   }
 
   /**
-   * @return For Default DynamoDB Table Storage, the maximum page size is 99.
+   * @return Optional. Defaults to 3 if not set.
+   *   For Default DynamoDB Table Storage, the maximum page size is 98.
    *   At most, Apply Mutation will mutate pageSize Items.
    *   Note that, at least for Storage:DynamoDBTable,
    *   two additional "item" are consumed by the Mutation Commitment and Mutation Index verification.
@@ -58,7 +64,11 @@ public class ApplyMutationInput {
   }
 
   /**
-   * @return Optional. Defaults to TrustStorage. See System Key.
+   * @return Key Store Admin protects any non-cryptographic
+   * items stored with this Key.
+   * As of v1.9.0, TrustStorage is the default behavior;
+   * though using KmsSymmetricEncryption is a best practice.
+   * For a Mutation, the System Key setting MUST be consistent across the Initialize Mutation and all the Apply Mutation calls.
    */
   public SystemKey SystemKey() {
     return this.SystemKey;
@@ -78,7 +88,8 @@ public class ApplyMutationInput {
     MutationToken MutationToken();
 
     /**
-     * @param PageSize For Default DynamoDB Table Storage, the maximum page size is 99.
+     * @param PageSize Optional. Defaults to 3 if not set.
+     *   For Default DynamoDB Table Storage, the maximum page size is 98.
      *   At most, Apply Mutation will mutate pageSize Items.
      *   Note that, at least for Storage:DynamoDBTable,
      *   two additional "item" are consumed by the Mutation Commitment and Mutation Index verification.
@@ -87,7 +98,8 @@ public class ApplyMutationInput {
     Builder PageSize(Integer PageSize);
 
     /**
-     * @return For Default DynamoDB Table Storage, the maximum page size is 99.
+     * @return Optional. Defaults to 3 if not set.
+     *   For Default DynamoDB Table Storage, the maximum page size is 98.
      *   At most, Apply Mutation will mutate pageSize Items.
      *   Note that, at least for Storage:DynamoDBTable,
      *   two additional "item" are consumed by the Mutation Commitment and Mutation Index verification.
@@ -106,12 +118,20 @@ public class ApplyMutationInput {
     KeyManagementStrategy Strategy();
 
     /**
-     * @param SystemKey Optional. Defaults to TrustStorage. See System Key.
+     * @param SystemKey Key Store Admin protects any non-cryptographic
+     * items stored with this Key.
+     * As of v1.9.0, TrustStorage is the default behavior;
+     * though using KmsSymmetricEncryption is a best practice.
+     * For a Mutation, the System Key setting MUST be consistent across the Initialize Mutation and all the Apply Mutation calls.
      */
     Builder SystemKey(SystemKey SystemKey);
 
     /**
-     * @return Optional. Defaults to TrustStorage. See System Key.
+     * @return Key Store Admin protects any non-cryptographic
+     * items stored with this Key.
+     * As of v1.9.0, TrustStorage is the default behavior;
+     * though using KmsSymmetricEncryption is a best practice.
+     * For a Mutation, the System Key setting MUST be consistent across the Initialize Mutation and all the Apply Mutation calls.
      */
     SystemKey SystemKey();
 

@@ -1,6 +1,5 @@
 package software.amazon.cryptography.example.hierarchy.mutations;
 
-import static software.amazon.cryptography.example.Fixtures.MRK_ARN_WEST;
 import static software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider.executeInitialize;
 
 import java.util.List;
@@ -17,12 +16,9 @@ import software.amazon.cryptography.example.hierarchy.ValidateKeyStoreItem;
 import software.amazon.cryptography.keystore.KeyStore;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
-import software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
-import software.amazon.cryptography.keystoreadmin.model.Mutations;
 import software.amazon.cryptography.keystoreadmin.model.SystemKey;
-import software.amazon.cryptography.keystoreadmin.model.UnsupportedFeatureException;
 
 public class DoNotVersionTest {
 
@@ -67,20 +63,10 @@ public class DoNotVersionTest {
       admin,
       (short) 10
     );
-    final KeyStore keyStore = KeyStoreProvider.keyStore();
-    final String version = ValidateKeyStoreItem.ValidateActiveItem(
-      branchKeyId,
-      keyStore
+    final KeyStore keyStore = KeyStoreProvider.keyStore(
+      Fixtures.POSTAL_HORN_KEY_ARN
     );
-    Assert.assertNotNull(version, "Active Item validation failed.");
-    Assert.assertTrue(
-      ValidateKeyStoreItem.ValidateVersionItem(branchKeyId, version, keyStore),
-      "Version validation failed."
-    );
-    Assert.assertTrue(
-      ValidateKeyStoreItem.ValidateBeaconItem(branchKeyId, keyStore),
-      "Beacon validation failed."
-    );
+    ValidateKeyStoreItem.ValidateBranchKey(branchKeyId, keyStore);
     final List<Map<String, AttributeValue>> allBKItems =
       DdbHelper.QueryForAllBkItemsDDBKeys(branchKeyId, null, null, null);
     Assert.assertEquals(allBKItems.size(), 3, "Incorrect number of BK items.");

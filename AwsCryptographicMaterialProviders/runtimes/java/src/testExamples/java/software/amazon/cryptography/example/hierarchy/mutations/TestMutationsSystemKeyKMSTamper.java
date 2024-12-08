@@ -38,7 +38,7 @@ public class TestMutationsSystemKeyKMSTamper {
     ddbKey.put(Constants.BRANCH_KEY_ID, AttributeValue.fromS(identifier));
     ddbKey.put(
       Constants.TYPE,
-      AttributeValue.fromS(Constants.MUTATION_COMMITMENT)
+      AttributeValue.fromS(Constants.TYPE_MUTATION_COMMITMENT)
     );
     return ddbKey;
   }
@@ -66,7 +66,7 @@ public class TestMutationsSystemKeyKMSTamper {
     testAttribute(
       tamper,
       testPrefix + "create-time-commitment-",
-      Constants.MUTATION_COMMITMENT
+      Constants.TYPE_MUTATION_COMMITMENT
     );
   }
 
@@ -121,7 +121,11 @@ public class TestMutationsSystemKeyKMSTamper {
         .action(AttributeAction.PUT)
         .build()
     );
-    testAttribute(tamper, testPrefix + "input-", Constants.MUTATION_COMMITMENT);
+    testAttribute(
+      tamper,
+      testPrefix + "input-",
+      Constants.TYPE_MUTATION_COMMITMENT
+    );
   }
 
   @Test
@@ -145,7 +149,7 @@ public class TestMutationsSystemKeyKMSTamper {
     testAttribute(
       tamper,
       testPrefix + "original-",
-      Constants.MUTATION_COMMITMENT
+      Constants.TYPE_MUTATION_COMMITMENT
     );
   }
 
@@ -170,7 +174,7 @@ public class TestMutationsSystemKeyKMSTamper {
     testAttribute(
       tamper,
       testPrefix + "terminal-",
-      Constants.MUTATION_COMMITMENT
+      Constants.TYPE_MUTATION_COMMITMENT
     );
   }
 
@@ -231,7 +235,7 @@ public class TestMutationsSystemKeyKMSTamper {
     );
     Map<String, AttributeValue> ddbKey = Objects.equals(
         type,
-        Constants.MUTATION_COMMITMENT
+        Constants.TYPE_MUTATION_COMMITMENT
       )
       ? ddbKeyForCommitment(identifier)
       : ddbKeyForIndex(identifier);

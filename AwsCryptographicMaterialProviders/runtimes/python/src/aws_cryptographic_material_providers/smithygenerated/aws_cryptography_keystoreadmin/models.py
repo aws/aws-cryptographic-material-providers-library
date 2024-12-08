@@ -332,9 +332,12 @@ class TrustStorage:
     """The Storage is trusted enough for items of non-cryptographic material
     nature, even if those items can affect the cryptographic materials.
 
-    Permissions to modify the data store are sufficient to influence the
-    contents of mutations in flight without needing a KMS key
-    permission, which would otherwise be needed to do the same.
+    Thus, permissions to modify the Key Store's storage is sufficient to
+    influence the properties of mutations in flight without needing a
+    KMS key permission, which would otherwise be needed to do the same.
+    AWS Crypto Tools recommends using 'KMS Symmetric Encryption' instead
+    of 'Trust Storage' to ensure that Branch Keys are only modified via
+    actors with KMS key permissions.
     """
 
     def as_dict(self) -> Dict[str, Any]:
@@ -392,9 +395,12 @@ class SystemKeyTrustStorage:
     """The Storage is trusted enough for items of non-cryptographic material
     nature, even if those items can affect the cryptographic materials.
 
-    Permissions to modify the data store are sufficient to influence the
-    contents of mutations in flight without needing a KMS key
-    permission, which would otherwise be needed to do the same.
+    Thus, permissions to modify the Key Store's storage is sufficient to
+    influence the properties of mutations in flight without needing a
+    KMS key permission, which would otherwise be needed to do the same.
+    AWS Crypto Tools recommends using 'KMS Symmetric Encryption' instead
+    of 'Trust Storage' to ensure that Branch Keys are only modified via
+    actors with KMS key permissions.
     """
 
     def __init__(self, value: TrustStorage):
@@ -445,7 +451,10 @@ class SystemKeyUnknown:
 
 
 # Key Store Admin protects any non-cryptographic items stored with this Key. As of
-# v1.9.0, TrustStorage is the default behavior.
+# v1.9.0, TrustStorage is the default behavior; though using
+# KmsSymmetricEncryption is a best practice. For a Mutation, the System Key
+# setting MUST be consistent across the Initialize Mutation and all the Apply
+# Mutation calls.
 SystemKey = Union[
     SystemKeyKmsSymmetricEncryption, SystemKeyTrustStorage, SystemKeyUnknown
 ]
@@ -476,17 +485,27 @@ class ApplyMutationInput:
         system_key: Optional[SystemKey] = None,
     ):
         """
-        :param page_size: For Default DynamoDB Table Storage, the maximum page size is
-        99.
-          At most, Apply Mutation will mutate pageSize Items.
-          Note that, at least
-        for Storage:DynamoDBTable,
-          two additional "item" are consumed by the Mutation
-        Commitment and Mutation Index verification.
-          Thus, if the pageSize is 24, 26
-        requests will be sent in the Transact Write Request.
+        :param page_size: Optional. Defaults to 3 if not set.
+          For Default DynamoDB
+        Table Storage, the maximum page size is 98.
+          At most, Apply Mutation will
+        mutate pageSize Items.
+          Note that, at least for Storage:DynamoDBTable,
+          two
+        additional "item" are consumed by the Mutation Commitment and Mutation Index
+        verification.
+          Thus, if the pageSize is 24, 26 requests will be sent in the
+        Transact Write Request.
         :param strategy: Optional. Defaults to reEncrypt with a default KMS Client.
-        :param system_key: Optional. Defaults to TrustStorage. See System Key.
+        :param system_key: Key Store Admin protects any non-cryptographic
+        items stored
+        with this Key.
+        As of v1.9.0, TrustStorage is the default behavior;
+        though using
+        KmsSymmetricEncryption is a best practice.
+        For a Mutation, the System Key
+        setting MUST be consistent across the Initialize Mutation and all the Apply
+        Mutation calls.
         """
         self.mutation_token = mutation_token
         self.page_size = page_size
@@ -1532,9 +1551,37 @@ class InitializeMutationInput:
         :param mutations: Describes the Mutation that will be applied to all Items of
         the Branch Key.
         :param strategy: Optional. Defaults to reEncrypt with a default KMS Client.
-        :param system_key: Optional. Defaults to TrustStorage. See System Key.
-        :param do_not_version: Optional. Defaults to False. As of v1.9.0, setting this
-        true throws a UnsupportedFeatureException.
+        :param system_key: Key Store Admin protects any non-cryptographic
+        items stored
+        with this Key.
+        As of v1.9.0, TrustStorage is the default behavior;
+        though using
+        KmsSymmetricEncryption is a best practice.
+        For a Mutation, the System Key
+        setting MUST be consistent across the Initialize Mutation and all the Apply
+        Mutation calls.
+        :param do_not_version: Optional. Defaults to False, which Versions (or Rotates)
+        the Branch Key,
+          creating a new Version that has only ever been in the terminal
+        state.
+          Setting this value to True disables the rotation.
+          This is a Security
+        vs Performance trade off.
+          Mutating a Branch Key can change the security domain
+        of the Branch Key.
+          Some application's Threat Models benefit from ensuring a
+        new Version
+          is created whenever a Mutation occurs,
+          allowing the application
+        to track under which security domain data
+          was protected.
+          However, not all
+        Threat Models call for this.
+          Particularly if Mutations are triggered in
+        response to external actors,
+          creating a new Version for every Mutation request
+        can needlessly grow
+          the item count of a Branch Key.
         """
         self.identifier = identifier
         self.mutations = mutations
