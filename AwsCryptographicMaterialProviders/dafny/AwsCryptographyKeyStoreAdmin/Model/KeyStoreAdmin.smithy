@@ -133,7 +133,10 @@ Thus, permissions to modify the Key Store's storage is sufficient
 to influence the properties of mutations in flight
 without needing a KMS key permission,
 which would otherwise be needed to do the same.
-AWS Crypto Tools recommends using 'KMS Symmetric Encryption'
+As an extreme example,
+an actor with only write access to the storage
+could modify an in-flight Mutation's terminal KMS Key ARN.
+Thus, AWS Crypto Tools recommends using 'KMS Symmetric Encryption'
 instead of 'Trust Storage' to ensure that Branch Keys are
 only modified via actors with KMS key permissions.")
 structure TrustStorage {}
@@ -142,8 +145,9 @@ structure TrustStorage {}
 @documentation(
 "Key Store Admin protects any non-cryptographic
 items stored with this Key.
-As of v1.9.0, TrustStorage is the default behavior;
-though using KmsSymmetricEncryption is a best practice.
+Using 'KMS Symmetric Encryption' is a best practice,
+as it prevents actors with only write access to the Key Store's storage
+from tampering with Mutations.
 For a Mutation, the System Key setting MUST be consistent across the Initialize Mutation and all the Apply Mutation calls.")
 union SystemKey {
   kmsSymmetricEncryption: KmsSymmetricEncryption
@@ -272,18 +276,26 @@ depending on the 'Do Not Version' argument.
 Regardless, if operation is successful,
 the Beacon, Active, & the Active's version are in the terminal state.
 Establishes the Mutation Commitment; Simultaneous conflicting Mutations are prevented by the Mutation Commitment.
+A Mutation changes the Encryption Context and/or KMS Key associated with a Branch Key.
+As such, a Mutation can cause actors to loose access to a Branch Key,
+if the actor's access was predicated on particular Encryption Context value or KMS Key.
 Mutations MUST be completed via subsequent invocations of the Apply Mutation Operation,
 first invoked with the Mutation Token returned in 'Initialize Mutation Output'.
+If access to a KMS Key is revoked while a Mutation is in-flight,
+the Branch Key will be stuck in a mixed state.
+This is not ideal, but once access to the KMS Key is restored,
+the Mutation can be continued by calling 'Describe Mutation'
+and then calling 'Apply Mutation' as normal.
 With respect to the output's Mutation Token, this operation is idempotent;
 if invoked with the same request as an in-flight Mutation,
 the operation will return successful
 with the same Mutation Token as earlier requests.
 The 'Initialize Mutation Flag' of the output indicates
 if the request was for a novel Mutation or one already in-flight.
+'Mutation Conflict Exception' is thrown if a different Mutation/change is already in-flight.
 This operation can race against other Initialize Mutation requests or Version Key requests for the same Branch Key.
 Should that occur, all but one of the requests will fail.
-Race errors are either 'Version Race Exceptions' or 'Key Storage Exceptions'.
-'Mutation Conflict Exception' is thrown if a different Mutation/change is already in-flight.")
+Race errors are either 'Version Race Exceptions' or 'Key Storage Exceptions'.")
 operation InitializeMutation {
   input: InitializeMutationInput
   output: InitializeMutationOutput
@@ -313,6 +325,7 @@ structure InitializeMutationInput {
   Strategy: KeyManagementStrategy
 
   // Smithy's Effective Docuemtnation will utilize System Key's documentation trait
+  @required
   SystemKey: SystemKey
 
   @documentation(
@@ -452,6 +465,7 @@ structure ApplyMutationInput {
   @documentation("Optional. Defaults to reEncrypt with a default KMS Client.")
   Strategy: KeyManagementStrategy
 
+  @required
   SystemKey: SystemKey
 }
 
