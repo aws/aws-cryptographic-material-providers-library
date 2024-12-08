@@ -77,7 +77,7 @@ module {:options "/functionSyntax:4" } TestMutationsUnModeledAttribute {
       Identifier := testId,
       Mutations := mutationsRequest,
       Strategy := Some(strategy),
-      SystemKey := Some(Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage())),
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()),
       DoNotVersion := Some(false));
     var initializeOutput :- expect underTest.InitializeMutation(initInput);
     var initializeToken := initializeOutput.MutationToken;
@@ -88,7 +88,7 @@ module {:options "/functionSyntax:4" } TestMutationsUnModeledAttribute {
       MutationToken := initializeToken,
       PageSize := Some(24),
       Strategy := Some(strategy),
-      SystemKey := Some(Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage())));
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
     var applyOutput :- expect underTest.ApplyMutation(testInput);
 
     // print testLogPrefix + " Applied Mutation w/ pageSize 24. testId: " + testId + "\n";
