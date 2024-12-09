@@ -61,6 +61,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       if (!IsSetIdentifier()) throw new System.ArgumentException("Missing value for required property 'Identifier'");
       if (!IsSetMutations()) throw new System.ArgumentException("Missing value for required property 'Mutations'");
+      if (!IsSetSystemKey()) throw new System.ArgumentException("Missing value for required property 'SystemKey'");
 
     }
   }
