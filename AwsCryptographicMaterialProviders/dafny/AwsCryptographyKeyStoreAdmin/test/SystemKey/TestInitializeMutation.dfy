@@ -46,7 +46,7 @@ module {:options "/functionSyntax:4" } TestSystemKey.TestInitializeMutation {
     var kmsClient :- expect Fixtures.ProvideKMSClient();
     var underTest :- expect AdminFixtures.DefaultAdmin();
     var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
-    var systemKey := Some(Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
+    var systemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage());
     var uuid :- expect UUID.GenerateUUID();
     var testId := trustStorageHCaseId + "-" + uuid;
     Fixtures.CreateHappyCaseId(id:=testId);
@@ -64,7 +64,7 @@ module {:options "/functionSyntax:4" } TestSystemKey.TestInitializeMutation {
     var initializeAgainOutput :- expect underTest.InitializeMutation(initInput);
     expect initializeToken == initializeAgainOutput.MutationToken;
 
-    var kmSystemKey := Types.SystemKey.kmsSymmetricEncryption(
+    var kmsSystemKey := Types.SystemKey.kmsSymmetricEncryption(
       kmsSymmetricEncryption := Types.KmsSymmetricEncryption(
         KmsArn := Fixtures.publicKeyArn,
         AwsKms := KeyStoreTypes.AwsKms(
@@ -75,7 +75,7 @@ module {:options "/functionSyntax:4" } TestSystemKey.TestInitializeMutation {
       Identifier := testId,
       Mutations := mutationsRequest,
       Strategy := Some(strategy),
-      SystemKey := Some(kmSystemKey),
+      SystemKey := kmsSystemKey,
       DoNotVersion := Some(false));
 
     var sadOutput := underTest.InitializeMutation(sadInput);
@@ -93,7 +93,7 @@ module {:options "/functionSyntax:4" } TestSystemKey.TestInitializeMutation {
     var kmsClient :- expect Fixtures.ProvideKMSClient();
     var underTest :- expect AdminFixtures.DefaultAdmin();
     var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
-    var kmSystemKey := Types.SystemKey.kmsSymmetricEncryption(
+    var kmsSystemKey := Types.SystemKey.kmsSymmetricEncryption(
       kmsSymmetricEncryption := Types.KmsSymmetricEncryption(
         KmsArn := Fixtures.publicKeyArn,
         AwsKms := KeyStoreTypes.AwsKms(
@@ -108,7 +108,7 @@ module {:options "/functionSyntax:4" } TestSystemKey.TestInitializeMutation {
       Identifier := testId,
       Mutations := mutationsRequest,
       Strategy := Some(strategy),
-      SystemKey := Some(kmSystemKey),
+      SystemKey := kmsSystemKey,
       DoNotVersion := Some(false));
     var initializeOutput :- expect underTest.InitializeMutation(initInput);
     var initializeToken := initializeOutput.MutationToken;
@@ -116,7 +116,7 @@ module {:options "/functionSyntax:4" } TestSystemKey.TestInitializeMutation {
     var initializeAgainOutput :- expect underTest.InitializeMutation(initInput);
     expect initializeToken == initializeAgainOutput.MutationToken;
 
-    var trustSK := Some(Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
+    var trustSK := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage());
     var sadInput := Types.InitializeMutationInput(
       Identifier := testId,
       Mutations := mutationsRequest,

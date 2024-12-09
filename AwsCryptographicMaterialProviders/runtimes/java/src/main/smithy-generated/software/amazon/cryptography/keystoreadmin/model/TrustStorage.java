@@ -6,10 +6,16 @@ package software.amazon.cryptography.keystoreadmin.model;
 /**
  * The Storage is trusted enough for items of non-cryptographic material nature,
  * even if those items can affect the cryptographic materials.
- * Permissions to modify the data store are sufficient
- * to influence the contents of mutations in flight
+ * Thus, permissions to modify the Key Store's storage is sufficient
+ * to influence the properties of mutations in flight
  * without needing a KMS key permission,
  * which would otherwise be needed to do the same.
+ * As an extreme example,
+ * an actor with only write access to the storage
+ * could modify an in-flight Mutation's terminal KMS Key ARN.
+ * Thus, AWS Crypto Tools recommends using 'KMS Symmetric Encryption'
+ * instead of 'Trust Storage' to ensure that Branch Keys are
+ * only modified via actors with KMS key permissions.
  */
 public class TrustStorage {
 

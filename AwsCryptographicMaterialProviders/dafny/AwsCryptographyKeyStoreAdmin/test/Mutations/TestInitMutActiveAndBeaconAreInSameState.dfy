@@ -66,7 +66,7 @@ module {:options "/functionSyntax:4" } TestInitMutActiveAndBeaconAreInSameState 
       Identifier := testId,
       Mutations := mutationsRequest,
       Strategy := Some(strategy),
-      SystemKey := Some(Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage())),
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()),
       DoNotVersion := Some(false));
     var initializeOutput? := underTest.InitializeMutation(initInput);
 
