@@ -16,7 +16,14 @@ from botocore.client import BaseClient
 from smithy_python._private.retries import SimpleRetryStrategy
 from smithy_python.interfaces.retries import RetryStrategy
 
-from .models import KMSConfiguration, _kms_configuration_from_dict
+from .models import (
+    KMSConfiguration,
+    KeyManagement,
+    Storage,
+    _key_management_from_dict,
+    _kms_configuration_from_dict,
+    _storage_from_dict,
+)
 
 
 _ServiceInterceptor = Any
@@ -55,35 +62,41 @@ Plugin: TypeAlias = Callable[[Config], None]
 
 
 class KeyStoreConfig(Config):
-    ddb_table_name: str
     kms_configuration: KMSConfiguration
     logical_key_store_name: str
+    key_management: Optional[KeyManagement]
+    ddb_table_name: Optional[str]
     id: Optional[str]
     grant_tokens: Optional[list[str]]
+    storage: Optional[Storage]
     ddb_client: Optional[BaseClient]
     kms_client: Optional[BaseClient]
 
     def __init__(
         self,
         *,
-        ddb_table_name: str,
         kms_configuration: KMSConfiguration,
         logical_key_store_name: str,
+        key_management: Optional[KeyManagement] = None,
+        ddb_table_name: Optional[str] = None,
         id: Optional[str] = None,
         grant_tokens: Optional[list[str]] = None,
+        storage: Optional[Storage] = None,
         ddb_client: Optional[BaseClient] = None,
         kms_client: Optional[BaseClient] = None,
     ):
         """Constructor for KeyStoreConfig.
 
-        :param ddb_table_name: The DynamoDB table name that backs this Key Store.
         :param kms_configuration: Configures Key Store's KMS Key ARN restrictions.
         :param logical_key_store_name: The logical name for this Key Store, which is
         cryptographically bound to the keys it holds. This appears in the Encryption
         Context of KMS requests as `tablename`.
+        :param key_management: The key management configuration for this Key Store.
+        :param ddb_table_name: The DynamoDB table name that backs this Key Store.
         :param id: An identifier for this Key Store.
         :param grant_tokens: The AWS KMS grant tokens that are used when this Key Store
         calls to AWS KMS.
+        :param storage: The storage configuration for this Key Store.
         :param ddb_client: The DynamoDB client this Key Store uses to call Amazon
         DynamoDB. If None is provided and the KMS ARN is, the KMS ARN is used to
         determine the Region of the default client.
@@ -92,6 +105,9 @@ class KeyStoreConfig(Config):
         the default client.
         """
         super().__init__()
+        self.kms_configuration = kms_configuration
+        self.logical_key_store_name = logical_key_store_name
+        self.key_management = key_management
         if (ddb_table_name is not None) and (len(ddb_table_name) < 3):
             raise ValueError(
                 "The size of ddb_table_name must be greater than or equal to 3"
@@ -103,26 +119,33 @@ class KeyStoreConfig(Config):
             )
 
         self.ddb_table_name = ddb_table_name
-        self.kms_configuration = kms_configuration
-        self.logical_key_store_name = logical_key_store_name
         self.id = id
         self.grant_tokens = grant_tokens
+        self.storage = storage
         self.ddb_client = ddb_client
         self.kms_client = kms_client
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the KeyStoreConfig to a dictionary."""
         d: Dict[str, Any] = {
-            "ddb_table_name": self.ddb_table_name,
             "kms_configuration": self.kms_configuration.as_dict(),
             "logical_key_store_name": self.logical_key_store_name,
         }
+
+        if self.key_management is not None:
+            d["key_management"] = self.key_management.as_dict()
+
+        if self.ddb_table_name is not None:
+            d["ddb_table_name"] = self.ddb_table_name
 
         if self.id is not None:
             d["id"] = self.id
 
         if self.grant_tokens is not None:
             d["grant_tokens"] = self.grant_tokens
+
+        if self.storage is not None:
+            d["storage"] = self.storage.as_dict()
 
         if self.ddb_client is not None:
             d["ddb_client"] = self.ddb_client
@@ -136,16 +159,24 @@ class KeyStoreConfig(Config):
     def from_dict(d: Dict[str, Any]) -> "KeyStoreConfig":
         """Creates a KeyStoreConfig from a dictionary."""
         kwargs: Dict[str, Any] = {
-            "ddb_table_name": d["ddb_table_name"],
             "kms_configuration": _kms_configuration_from_dict(d["kms_configuration"]),
             "logical_key_store_name": d["logical_key_store_name"],
         }
+
+        if "key_management" in d:
+            kwargs["key_management"] = (_key_management_from_dict(d["key_management"]),)
+
+        if "ddb_table_name" in d:
+            kwargs["ddb_table_name"] = d["ddb_table_name"]
 
         if "id" in d:
             kwargs["id"] = d["id"]
 
         if "grant_tokens" in d:
             kwargs["grant_tokens"] = d["grant_tokens"]
+
+        if "storage" in d:
+            kwargs["storage"] = (_storage_from_dict(d["storage"]),)
 
         if "ddb_client" in d:
             kwargs["ddb_client"] = d["ddb_client"]
@@ -157,20 +188,26 @@ class KeyStoreConfig(Config):
 
     def __repr__(self) -> str:
         result = "KeyStoreConfig("
-        if self.ddb_table_name is not None:
-            result += f"ddb_table_name={repr(self.ddb_table_name)}, "
-
         if self.kms_configuration is not None:
             result += f"kms_configuration={repr(self.kms_configuration)}, "
 
         if self.logical_key_store_name is not None:
             result += f"logical_key_store_name={repr(self.logical_key_store_name)}, "
 
+        if self.key_management is not None:
+            result += f"key_management={repr(self.key_management)}, "
+
+        if self.ddb_table_name is not None:
+            result += f"ddb_table_name={repr(self.ddb_table_name)}, "
+
         if self.id is not None:
             result += f"id={repr(self.id)}, "
 
         if self.grant_tokens is not None:
             result += f"grant_tokens={repr(self.grant_tokens)}, "
+
+        if self.storage is not None:
+            result += f"storage={repr(self.storage)}, "
 
         if self.ddb_client is not None:
             result += f"ddb_client={repr(self.ddb_client)}, "
@@ -184,11 +221,13 @@ class KeyStoreConfig(Config):
         if not isinstance(other, KeyStoreConfig):
             return False
         attributes: list[str] = [
-            "ddb_table_name",
             "kms_configuration",
             "logical_key_store_name",
+            "key_management",
+            "ddb_table_name",
             "id",
             "grant_tokens",
+            "storage",
             "ddb_client",
             "kms_client",
         ]
