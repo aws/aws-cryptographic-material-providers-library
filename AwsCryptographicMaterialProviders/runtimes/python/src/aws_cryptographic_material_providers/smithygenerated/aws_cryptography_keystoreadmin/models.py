@@ -332,9 +332,14 @@ class TrustStorage:
     """The Storage is trusted enough for items of non-cryptographic material
     nature, even if those items can affect the cryptographic materials.
 
-    Permissions to modify the data store are sufficient to influence the
-    contents of mutations in flight without needing a KMS key
-    permission, which would otherwise be needed to do the same.
+    Thus, permissions to modify the Key Store's storage is sufficient to
+    influence the properties of mutations in flight without needing a
+    KMS key permission, which would otherwise be needed to do the same.
+    As an extreme example, an actor with only write access to the
+    storage could modify an in-flight Mutation's terminal KMS Key ARN.
+    Thus, AWS Crypto Tools recommends using 'KMS Symmetric Encryption'
+    instead of 'Trust Storage' to ensure that Branch Keys are only
+    modified via actors with KMS key permissions.
     """
 
     def as_dict(self) -> Dict[str, Any]:
@@ -392,9 +397,14 @@ class SystemKeyTrustStorage:
     """The Storage is trusted enough for items of non-cryptographic material
     nature, even if those items can affect the cryptographic materials.
 
-    Permissions to modify the data store are sufficient to influence the
-    contents of mutations in flight without needing a KMS key
-    permission, which would otherwise be needed to do the same.
+    Thus, permissions to modify the Key Store's storage is sufficient to
+    influence the properties of mutations in flight without needing a
+    KMS key permission, which would otherwise be needed to do the same.
+    As an extreme example, an actor with only write access to the
+    storage could modify an in-flight Mutation's terminal KMS Key ARN.
+    Thus, AWS Crypto Tools recommends using 'KMS Symmetric Encryption'
+    instead of 'Trust Storage' to ensure that Branch Keys are only
+    modified via actors with KMS key permissions.
     """
 
     def __init__(self, value: TrustStorage):
@@ -444,8 +454,11 @@ class SystemKeyUnknown:
         return f"SystemKeyUnknown(tag={self.tag})"
 
 
-# Key Store Admin protects any non-cryptographic items stored with this Key. As of
-# v1.9.0, TrustStorage is the default behavior.
+# Key Store Admin protects any non-cryptographic items stored with this Key. Using
+# 'KMS Symmetric Encryption' is a best practice, as it prevents actors with only
+# write access to the Key Store's storage from tampering with Mutations. For a
+# Mutation, the System Key setting MUST be consistent across the Initialize
+# Mutation and all the Apply Mutation calls.
 SystemKey = Union[
     SystemKeyKmsSymmetricEncryption, SystemKeyTrustStorage, SystemKeyUnknown
 ]
@@ -465,38 +478,50 @@ class ApplyMutationInput:
     mutation_token: MutationToken
     page_size: Optional[int]
     strategy: Optional[KeyManagementStrategy]
-    system_key: Optional[SystemKey]
+    system_key: SystemKey
 
     def __init__(
         self,
         *,
         mutation_token: MutationToken,
+        system_key: SystemKey,
         page_size: Optional[int] = None,
         strategy: Optional[KeyManagementStrategy] = None,
-        system_key: Optional[SystemKey] = None,
     ):
         """
-        :param page_size: For Default DynamoDB Table Storage, the maximum page size is
-        99.
-          At most, Apply Mutation will mutate pageSize Items.
-          Note that, at least
-        for Storage:DynamoDBTable,
-          two additional "item" are consumed by the Mutation
-        Commitment and Mutation Index verification.
-          Thus, if the pageSize is 24, 26
-        requests will be sent in the Transact Write Request.
+        :param system_key: Key Store Admin protects any non-cryptographic
+        items stored
+        with this Key.
+        Using 'KMS Symmetric Encryption' is a best practice,
+        as it
+        prevents actors with only write access to the Key Store's storage
+        from tampering
+        with Mutations.
+        For a Mutation, the System Key setting MUST be consistent across
+        the Initialize Mutation and all the Apply Mutation calls.
+        :param page_size: Optional. Defaults to 3 if not set.
+          For Default DynamoDB
+        Table Storage, the maximum page size is 98.
+          At most, Apply Mutation will
+        mutate pageSize Items.
+          Note that, at least for Storage:DynamoDBTable,
+          two
+        additional "item" are consumed by the Mutation Commitment and Mutation Index
+        verification.
+          Thus, if the pageSize is 24, 26 requests will be sent in the
+        Transact Write Request.
         :param strategy: Optional. Defaults to reEncrypt with a default KMS Client.
-        :param system_key: Optional. Defaults to TrustStorage. See System Key.
         """
         self.mutation_token = mutation_token
+        self.system_key = system_key
         self.page_size = page_size
         self.strategy = strategy
-        self.system_key = system_key
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the ApplyMutationInput to a dictionary."""
         d: Dict[str, Any] = {
             "mutation_token": self.mutation_token.as_dict(),
+            "system_key": self.system_key.as_dict(),
         }
 
         if self.page_size is not None:
@@ -505,9 +530,6 @@ class ApplyMutationInput:
         if self.strategy is not None:
             d["strategy"] = self.strategy.as_dict()
 
-        if self.system_key is not None:
-            d["system_key"] = self.system_key.as_dict()
-
         return d
 
     @staticmethod
@@ -515,6 +537,7 @@ class ApplyMutationInput:
         """Creates a ApplyMutationInput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "mutation_token": MutationToken.from_dict(d["mutation_token"]),
+            "system_key": _system_key_from_dict(d["system_key"]),
         }
 
         if "page_size" in d:
@@ -522,9 +545,6 @@ class ApplyMutationInput:
 
         if "strategy" in d:
             kwargs["strategy"] = (_key_management_strategy_from_dict(d["strategy"]),)
-
-        if "system_key" in d:
-            kwargs["system_key"] = (_system_key_from_dict(d["system_key"]),)
 
         return ApplyMutationInput(**kwargs)
 
@@ -1515,7 +1535,7 @@ class InitializeMutationInput:
     identifier: str
     mutations: Mutations
     strategy: Optional[KeyManagementStrategy]
-    system_key: Optional[SystemKey]
+    system_key: SystemKey
     do_not_version: Optional[bool]
 
     def __init__(
@@ -1523,23 +1543,52 @@ class InitializeMutationInput:
         *,
         identifier: str,
         mutations: Mutations,
+        system_key: SystemKey,
         strategy: Optional[KeyManagementStrategy] = None,
-        system_key: Optional[SystemKey] = None,
         do_not_version: Optional[bool] = None,
     ):
         """
         :param identifier: The identifier for the Branch Key to be mutated.
         :param mutations: Describes the Mutation that will be applied to all Items of
         the Branch Key.
+        :param system_key: Key Store Admin protects any non-cryptographic
+        items stored
+        with this Key.
+        Using 'KMS Symmetric Encryption' is a best practice,
+        as it
+        prevents actors with only write access to the Key Store's storage
+        from tampering
+        with Mutations.
+        For a Mutation, the System Key setting MUST be consistent across
+        the Initialize Mutation and all the Apply Mutation calls.
         :param strategy: Optional. Defaults to reEncrypt with a default KMS Client.
-        :param system_key: Optional. Defaults to TrustStorage. See System Key.
-        :param do_not_version: Optional. Defaults to False. As of v1.9.0, setting this
-        true throws a UnsupportedFeatureException.
+        :param do_not_version: Optional. Defaults to False, which Versions (or Rotates)
+        the Branch Key,
+          creating a new Version that has only ever been in the terminal
+        state.
+          Setting this value to True disables the rotation.
+          This is a Security
+        vs Performance trade off.
+          Mutating a Branch Key can change the security domain
+        of the Branch Key.
+          Some application's Threat Models benefit from ensuring a
+        new Version
+          is created whenever a Mutation occurs,
+          allowing the application
+        to track under which security domain data
+          was protected.
+          However, not all
+        Threat Models call for this.
+          Particularly if Mutations are triggered in
+        response to external actors,
+          creating a new Version for every Mutation request
+        can needlessly grow
+          the item count of a Branch Key.
         """
         self.identifier = identifier
         self.mutations = mutations
-        self.strategy = strategy
         self.system_key = system_key
+        self.strategy = strategy
         self.do_not_version = do_not_version
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1547,13 +1596,11 @@ class InitializeMutationInput:
         d: Dict[str, Any] = {
             "identifier": self.identifier,
             "mutations": self.mutations.as_dict(),
+            "system_key": self.system_key.as_dict(),
         }
 
         if self.strategy is not None:
             d["strategy"] = self.strategy.as_dict()
-
-        if self.system_key is not None:
-            d["system_key"] = self.system_key.as_dict()
 
         if self.do_not_version is not None:
             d["do_not_version"] = self.do_not_version
@@ -1566,13 +1613,11 @@ class InitializeMutationInput:
         kwargs: Dict[str, Any] = {
             "identifier": d["identifier"],
             "mutations": Mutations.from_dict(d["mutations"]),
+            "system_key": _system_key_from_dict(d["system_key"]),
         }
 
         if "strategy" in d:
             kwargs["strategy"] = (_key_management_strategy_from_dict(d["strategy"]),)
-
-        if "system_key" in d:
-            kwargs["system_key"] = (_system_key_from_dict(d["system_key"]),)
 
         if "do_not_version" in d:
             kwargs["do_not_version"] = d["do_not_version"]

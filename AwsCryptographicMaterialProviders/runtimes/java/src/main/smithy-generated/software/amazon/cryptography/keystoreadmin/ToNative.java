@@ -271,11 +271,7 @@ public class ToNative {
         ToNative.KeyManagementStrategy(dafnyValue.dtor_Strategy().dtor_value())
       );
     }
-    if (dafnyValue.dtor_SystemKey().is_Some()) {
-      nativeBuilder.SystemKey(
-        ToNative.SystemKey(dafnyValue.dtor_SystemKey().dtor_value())
-      );
-    }
+    nativeBuilder.SystemKey(ToNative.SystemKey(dafnyValue.dtor_SystemKey()));
     return nativeBuilder.build();
   }
 
@@ -392,11 +388,7 @@ public class ToNative {
         ToNative.KeyManagementStrategy(dafnyValue.dtor_Strategy().dtor_value())
       );
     }
-    if (dafnyValue.dtor_SystemKey().is_Some()) {
-      nativeBuilder.SystemKey(
-        ToNative.SystemKey(dafnyValue.dtor_SystemKey().dtor_value())
-      );
-    }
+    nativeBuilder.SystemKey(ToNative.SystemKey(dafnyValue.dtor_SystemKey()));
     if (dafnyValue.dtor_DoNotVersion().is_Some()) {
       nativeBuilder.DoNotVersion((dafnyValue.dtor_DoNotVersion().dtor_value()));
     }

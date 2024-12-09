@@ -83,7 +83,7 @@ module {:options "/functionSyntax:4" } TestThreat27 {
       Identifier := testId,
       Mutations := mutationsRequest,
       Strategy := Some(strategy),
-      SystemKey := Some(Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage())),
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()),
       DoNotVersion := Some(false));
     var initializeOutput :- expect underTest.InitializeMutation(testInput);
 

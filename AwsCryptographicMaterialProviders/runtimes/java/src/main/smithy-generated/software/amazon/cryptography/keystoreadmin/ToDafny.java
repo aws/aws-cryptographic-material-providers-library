@@ -148,14 +148,8 @@ public class ToDafny {
           ToDafny.KeyManagementStrategy(nativeValue.Strategy())
         )
         : Option.create_None(KeyManagementStrategy._typeDescriptor());
-    Option<SystemKey> systemKey;
-    systemKey =
-      Objects.nonNull(nativeValue.SystemKey())
-        ? Option.create_Some(
-          SystemKey._typeDescriptor(),
-          ToDafny.SystemKey(nativeValue.SystemKey())
-        )
-        : Option.create_None(SystemKey._typeDescriptor());
+    SystemKey systemKey;
+    systemKey = ToDafny.SystemKey(nativeValue.SystemKey());
     return new ApplyMutationInput(mutationToken, pageSize, strategy, systemKey);
   }
 
@@ -296,14 +290,8 @@ public class ToDafny {
           ToDafny.KeyManagementStrategy(nativeValue.Strategy())
         )
         : Option.create_None(KeyManagementStrategy._typeDescriptor());
-    Option<SystemKey> systemKey;
-    systemKey =
-      Objects.nonNull(nativeValue.SystemKey())
-        ? Option.create_Some(
-          SystemKey._typeDescriptor(),
-          ToDafny.SystemKey(nativeValue.SystemKey())
-        )
-        : Option.create_None(SystemKey._typeDescriptor());
+    SystemKey systemKey;
+    systemKey = ToDafny.SystemKey(nativeValue.SystemKey());
     Option<Boolean> doNotVersion;
     doNotVersion =
       Objects.nonNull(nativeValue.DoNotVersion())
