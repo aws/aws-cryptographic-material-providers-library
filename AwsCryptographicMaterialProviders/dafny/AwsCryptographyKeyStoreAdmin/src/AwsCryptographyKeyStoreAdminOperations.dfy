@@ -42,13 +42,6 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   function {:opaque} MutationLie(): set<object>
   {{}}
 
-  function method DefaultSystemKey(
-    input: Option<Types.SystemKey> := None
-  ): (output: Types.SystemKey)
-  {
-    if input.None? then Types.SystemKey.trustStorage(TrustStorage()) else input.value
-  }
-
   function method DefaultInitializeMutationDoNotVersion(
     input: Option<bool> := None
   ): (output: bool)
@@ -338,7 +331,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     returns (output: Result<InitializeMutationOutput, Error>)
   {
     var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
-    var systemKey :- ResolveSystemKey(DefaultSystemKey(input.SystemKey), config);
+    var systemKey :- ResolveSystemKey(input.SystemKey, config);
     // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
     if keyManagerStrat.reEncrypt? {
       assume {:axiom} keyManagerStrat.reEncrypt.kmsClient.Modifies < MutationLie();
@@ -373,7 +366,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     returns (output: Result<ApplyMutationOutput, Error>)
   {
     var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
-    var systemKey :- ResolveSystemKey(DefaultSystemKey(input.SystemKey), config);
+    var systemKey :- ResolveSystemKey(input.SystemKey, config);
     // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
     if keyManagerStrat.reEncrypt? {
       assume {:axiom} keyManagerStrat.reEncrypt.kmsClient.Modifies < MutationLie();
