@@ -16,15 +16,14 @@ namespace AWS.Cryptography.KeyStoreAdmin
       software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationInput concrete = (software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationInput)value; AWS.Cryptography.KeyStoreAdmin.ApplyMutationInput converted = new AWS.Cryptography.KeyStoreAdmin.ApplyMutationInput(); converted.MutationToken = (AWS.Cryptography.KeyStoreAdmin.MutationToken)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S18_ApplyMutationInput__M13_MutationToken(concrete._MutationToken);
       if (concrete._PageSize.is_Some) converted.PageSize = (int)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S18_ApplyMutationInput__M8_PageSize(concrete._PageSize);
       if (concrete._Strategy.is_Some) converted.Strategy = (AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S18_ApplyMutationInput__M8_Strategy(concrete._Strategy);
-      if (concrete._SystemKey.is_Some) converted.SystemKey = (AWS.Cryptography.KeyStoreAdmin.SystemKey)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S18_ApplyMutationInput__M9_SystemKey(concrete._SystemKey); return converted;
+      converted.SystemKey = (AWS.Cryptography.KeyStoreAdmin.SystemKey)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S18_ApplyMutationInput__M9_SystemKey(concrete._SystemKey); return converted;
     }
     public static software.amazon.cryptography.keystoreadmin.internaldafny.types._IApplyMutationInput ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S18_ApplyMutationInput(AWS.Cryptography.KeyStoreAdmin.ApplyMutationInput value)
     {
       value.Validate();
       int? var_pageSize = value.IsSetPageSize() ? value.PageSize : (int?)null;
       AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy var_strategy = value.IsSetStrategy() ? value.Strategy : (AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy)null;
-      AWS.Cryptography.KeyStoreAdmin.SystemKey var_systemKey = value.IsSetSystemKey() ? value.SystemKey : (AWS.Cryptography.KeyStoreAdmin.SystemKey)null;
-      return new software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationInput(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S18_ApplyMutationInput__M13_MutationToken(value.MutationToken), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S18_ApplyMutationInput__M8_PageSize(var_pageSize), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S18_ApplyMutationInput__M8_Strategy(var_strategy), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S18_ApplyMutationInput__M9_SystemKey(var_systemKey));
+      return new software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationInput(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S18_ApplyMutationInput__M13_MutationToken(value.MutationToken), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S18_ApplyMutationInput__M8_PageSize(var_pageSize), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S18_ApplyMutationInput__M8_Strategy(var_strategy), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S18_ApplyMutationInput__M9_SystemKey(value.SystemKey));
     }
     public static AWS.Cryptography.KeyStoreAdmin.ApplyMutationOutput FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_ApplyMutationOutput(software.amazon.cryptography.keystoreadmin.internaldafny.types._IApplyMutationOutput value)
     {
@@ -128,16 +127,15 @@ namespace AWS.Cryptography.KeyStoreAdmin
       software.amazon.cryptography.keystoreadmin.internaldafny.types.InitializeMutationInput concrete = (software.amazon.cryptography.keystoreadmin.internaldafny.types.InitializeMutationInput)value; AWS.Cryptography.KeyStoreAdmin.InitializeMutationInput converted = new AWS.Cryptography.KeyStoreAdmin.InitializeMutationInput(); converted.Identifier = (string)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S23_InitializeMutationInput__M10_Identifier(concrete._Identifier);
       converted.Mutations = (AWS.Cryptography.KeyStoreAdmin.Mutations)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S23_InitializeMutationInput__M9_Mutations(concrete._Mutations);
       if (concrete._Strategy.is_Some) converted.Strategy = (AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S23_InitializeMutationInput__M8_Strategy(concrete._Strategy);
-      if (concrete._SystemKey.is_Some) converted.SystemKey = (AWS.Cryptography.KeyStoreAdmin.SystemKey)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S23_InitializeMutationInput__M9_SystemKey(concrete._SystemKey);
+      converted.SystemKey = (AWS.Cryptography.KeyStoreAdmin.SystemKey)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S23_InitializeMutationInput__M9_SystemKey(concrete._SystemKey);
       if (concrete._DoNotVersion.is_Some) converted.DoNotVersion = (bool)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S23_InitializeMutationInput__M12_DoNotVersion(concrete._DoNotVersion); return converted;
     }
     public static software.amazon.cryptography.keystoreadmin.internaldafny.types._IInitializeMutationInput ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S23_InitializeMutationInput(AWS.Cryptography.KeyStoreAdmin.InitializeMutationInput value)
     {
       value.Validate();
       AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy var_strategy = value.IsSetStrategy() ? value.Strategy : (AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy)null;
-      AWS.Cryptography.KeyStoreAdmin.SystemKey var_systemKey = value.IsSetSystemKey() ? value.SystemKey : (AWS.Cryptography.KeyStoreAdmin.SystemKey)null;
       bool? var_doNotVersion = value.IsSetDoNotVersion() ? value.DoNotVersion : (bool?)null;
-      return new software.amazon.cryptography.keystoreadmin.internaldafny.types.InitializeMutationInput(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S23_InitializeMutationInput__M10_Identifier(value.Identifier), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S23_InitializeMutationInput__M9_Mutations(value.Mutations), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S23_InitializeMutationInput__M8_Strategy(var_strategy), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S23_InitializeMutationInput__M9_SystemKey(var_systemKey), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S23_InitializeMutationInput__M12_DoNotVersion(var_doNotVersion));
+      return new software.amazon.cryptography.keystoreadmin.internaldafny.types.InitializeMutationInput(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S23_InitializeMutationInput__M10_Identifier(value.Identifier), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S23_InitializeMutationInput__M9_Mutations(value.Mutations), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S23_InitializeMutationInput__M8_Strategy(var_strategy), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S23_InitializeMutationInput__M9_SystemKey(value.SystemKey), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S23_InitializeMutationInput__M12_DoNotVersion(var_doNotVersion));
     }
     public static AWS.Cryptography.KeyStoreAdmin.InitializeMutationOutput FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S24_InitializeMutationOutput(software.amazon.cryptography.keystoreadmin.internaldafny.types._IInitializeMutationOutput value)
     {
@@ -420,13 +418,13 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       return value == null ? Wrappers_Compile.Option<software.amazon.cryptography.keystoreadmin.internaldafny.types._IKeyManagementStrategy>.create_None() : Wrappers_Compile.Option<software.amazon.cryptography.keystoreadmin.internaldafny.types._IKeyManagementStrategy>.create_Some(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_KeyManagementStrategy((AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy)value));
     }
-    public static AWS.Cryptography.KeyStoreAdmin.SystemKey FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S18_ApplyMutationInput__M9_SystemKey(Wrappers_Compile._IOption<software.amazon.cryptography.keystoreadmin.internaldafny.types._ISystemKey> value)
+    public static AWS.Cryptography.KeyStoreAdmin.SystemKey FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S18_ApplyMutationInput__M9_SystemKey(software.amazon.cryptography.keystoreadmin.internaldafny.types._ISystemKey value)
     {
-      return value.is_None ? (AWS.Cryptography.KeyStoreAdmin.SystemKey)null : FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey(value.Extract());
+      return FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey(value);
     }
-    public static Wrappers_Compile._IOption<software.amazon.cryptography.keystoreadmin.internaldafny.types._ISystemKey> ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S18_ApplyMutationInput__M9_SystemKey(AWS.Cryptography.KeyStoreAdmin.SystemKey value)
+    public static software.amazon.cryptography.keystoreadmin.internaldafny.types._ISystemKey ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S18_ApplyMutationInput__M9_SystemKey(AWS.Cryptography.KeyStoreAdmin.SystemKey value)
     {
-      return value == null ? Wrappers_Compile.Option<software.amazon.cryptography.keystoreadmin.internaldafny.types._ISystemKey>.create_None() : Wrappers_Compile.Option<software.amazon.cryptography.keystoreadmin.internaldafny.types._ISystemKey>.create_Some(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey((AWS.Cryptography.KeyStoreAdmin.SystemKey)value));
+      return ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey(value);
     }
     public static AWS.Cryptography.KeyStoreAdmin.ApplyMutationResult FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_ApplyMutationOutput__M14_MutationResult(software.amazon.cryptography.keystoreadmin.internaldafny.types._IApplyMutationResult value)
     {
@@ -540,13 +538,13 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       return value == null ? Wrappers_Compile.Option<software.amazon.cryptography.keystoreadmin.internaldafny.types._IKeyManagementStrategy>.create_None() : Wrappers_Compile.Option<software.amazon.cryptography.keystoreadmin.internaldafny.types._IKeyManagementStrategy>.create_Some(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_KeyManagementStrategy((AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy)value));
     }
-    public static AWS.Cryptography.KeyStoreAdmin.SystemKey FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S23_InitializeMutationInput__M9_SystemKey(Wrappers_Compile._IOption<software.amazon.cryptography.keystoreadmin.internaldafny.types._ISystemKey> value)
+    public static AWS.Cryptography.KeyStoreAdmin.SystemKey FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S23_InitializeMutationInput__M9_SystemKey(software.amazon.cryptography.keystoreadmin.internaldafny.types._ISystemKey value)
     {
-      return value.is_None ? (AWS.Cryptography.KeyStoreAdmin.SystemKey)null : FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey(value.Extract());
+      return FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey(value);
     }
-    public static Wrappers_Compile._IOption<software.amazon.cryptography.keystoreadmin.internaldafny.types._ISystemKey> ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S23_InitializeMutationInput__M9_SystemKey(AWS.Cryptography.KeyStoreAdmin.SystemKey value)
+    public static software.amazon.cryptography.keystoreadmin.internaldafny.types._ISystemKey ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S23_InitializeMutationInput__M9_SystemKey(AWS.Cryptography.KeyStoreAdmin.SystemKey value)
     {
-      return value == null ? Wrappers_Compile.Option<software.amazon.cryptography.keystoreadmin.internaldafny.types._ISystemKey>.create_None() : Wrappers_Compile.Option<software.amazon.cryptography.keystoreadmin.internaldafny.types._ISystemKey>.create_Some(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey((AWS.Cryptography.KeyStoreAdmin.SystemKey)value));
+      return ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S9_SystemKey(value);
     }
     public static bool? FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S23_InitializeMutationInput__M12_DoNotVersion(Wrappers_Compile._IOption<bool> value)
     {

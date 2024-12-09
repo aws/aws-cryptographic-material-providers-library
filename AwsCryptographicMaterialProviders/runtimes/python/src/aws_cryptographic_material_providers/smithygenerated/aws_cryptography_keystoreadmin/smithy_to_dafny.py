@@ -251,16 +251,8 @@ def aws_cryptography_keystoreadmin_InitializeMutationInput(native_input):
             if (native_input.strategy is not None)
             else (Option_None())
         ),
-        SystemKey=(
-            (
-                Option_Some(
-                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_SystemKey(
-                        native_input.system_key
-                    )
-                )
-            )
-            if (native_input.system_key is not None)
-            else (Option_None())
+        SystemKey=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_SystemKey(
+            native_input.system_key
         ),
         DoNotVersion=(
             (Option_Some(native_input.do_not_version))
@@ -405,16 +397,8 @@ def aws_cryptography_keystoreadmin_ApplyMutationInput(native_input):
             if (native_input.strategy is not None)
             else (Option_None())
         ),
-        SystemKey=(
-            (
-                Option_Some(
-                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_SystemKey(
-                        native_input.system_key
-                    )
-                )
-            )
-            if (native_input.system_key is not None)
-            else (Option_None())
+        SystemKey=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_SystemKey(
+            native_input.system_key
         ),
     )
 
