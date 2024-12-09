@@ -23,12 +23,29 @@ public class InitializeMutationInput {
   private final KeyManagementStrategy Strategy;
 
   /**
-   * Optional. Defaults to TrustStorage. See System Key.
+   * Key Store Admin protects any non-cryptographic
+   * items stored with this Key.
+   * Using 'KMS Symmetric Encryption' is a best practice,
+   * as it prevents actors with only write access to the Key Store's storage
+   * from tampering with Mutations.
+   * For a Mutation, the System Key setting MUST be consistent across the Initialize Mutation and all the Apply Mutation calls.
    */
   private final SystemKey SystemKey;
 
   /**
-   * Optional. Defaults to False. As of v1.9.0, setting this true throws a UnsupportedFeatureException.
+   * Optional. Defaults to False, which Versions (or Rotates) the Branch Key,
+   *   creating a new Version that has only ever been in the terminal state.
+   *   Setting this value to True disables the rotation.
+   *   This is a Security vs Performance trade off.
+   *   Mutating a Branch Key can change the security domain of the Branch Key.
+   *   Some application's Threat Models benefit from ensuring a new Version
+   *   is created whenever a Mutation occurs,
+   *   allowing the application to track under which security domain data
+   *   was protected.
+   *   However, not all Threat Models call for this.
+   *   Particularly if Mutations are triggered in response to external actors,
+   *   creating a new Version for every Mutation request can needlessly grow
+   *   the item count of a Branch Key.
    */
   private final Boolean DoNotVersion;
 
@@ -62,14 +79,31 @@ public class InitializeMutationInput {
   }
 
   /**
-   * @return Optional. Defaults to TrustStorage. See System Key.
+   * @return Key Store Admin protects any non-cryptographic
+   * items stored with this Key.
+   * Using 'KMS Symmetric Encryption' is a best practice,
+   * as it prevents actors with only write access to the Key Store's storage
+   * from tampering with Mutations.
+   * For a Mutation, the System Key setting MUST be consistent across the Initialize Mutation and all the Apply Mutation calls.
    */
   public SystemKey SystemKey() {
     return this.SystemKey;
   }
 
   /**
-   * @return Optional. Defaults to False. As of v1.9.0, setting this true throws a UnsupportedFeatureException.
+   * @return Optional. Defaults to False, which Versions (or Rotates) the Branch Key,
+   *   creating a new Version that has only ever been in the terminal state.
+   *   Setting this value to True disables the rotation.
+   *   This is a Security vs Performance trade off.
+   *   Mutating a Branch Key can change the security domain of the Branch Key.
+   *   Some application's Threat Models benefit from ensuring a new Version
+   *   is created whenever a Mutation occurs,
+   *   allowing the application to track under which security domain data
+   *   was protected.
+   *   However, not all Threat Models call for this.
+   *   Particularly if Mutations are triggered in response to external actors,
+   *   creating a new Version for every Mutation request can needlessly grow
+   *   the item count of a Branch Key.
    */
   public Boolean DoNotVersion() {
     return this.DoNotVersion;
@@ -115,22 +149,56 @@ public class InitializeMutationInput {
     KeyManagementStrategy Strategy();
 
     /**
-     * @param SystemKey Optional. Defaults to TrustStorage. See System Key.
+     * @param SystemKey Key Store Admin protects any non-cryptographic
+     * items stored with this Key.
+     * Using 'KMS Symmetric Encryption' is a best practice,
+     * as it prevents actors with only write access to the Key Store's storage
+     * from tampering with Mutations.
+     * For a Mutation, the System Key setting MUST be consistent across the Initialize Mutation and all the Apply Mutation calls.
      */
     Builder SystemKey(SystemKey SystemKey);
 
     /**
-     * @return Optional. Defaults to TrustStorage. See System Key.
+     * @return Key Store Admin protects any non-cryptographic
+     * items stored with this Key.
+     * Using 'KMS Symmetric Encryption' is a best practice,
+     * as it prevents actors with only write access to the Key Store's storage
+     * from tampering with Mutations.
+     * For a Mutation, the System Key setting MUST be consistent across the Initialize Mutation and all the Apply Mutation calls.
      */
     SystemKey SystemKey();
 
     /**
-     * @param DoNotVersion Optional. Defaults to False. As of v1.9.0, setting this true throws a UnsupportedFeatureException.
+     * @param DoNotVersion Optional. Defaults to False, which Versions (or Rotates) the Branch Key,
+     *   creating a new Version that has only ever been in the terminal state.
+     *   Setting this value to True disables the rotation.
+     *   This is a Security vs Performance trade off.
+     *   Mutating a Branch Key can change the security domain of the Branch Key.
+     *   Some application's Threat Models benefit from ensuring a new Version
+     *   is created whenever a Mutation occurs,
+     *   allowing the application to track under which security domain data
+     *   was protected.
+     *   However, not all Threat Models call for this.
+     *   Particularly if Mutations are triggered in response to external actors,
+     *   creating a new Version for every Mutation request can needlessly grow
+     *   the item count of a Branch Key.
      */
     Builder DoNotVersion(Boolean DoNotVersion);
 
     /**
-     * @return Optional. Defaults to False. As of v1.9.0, setting this true throws a UnsupportedFeatureException.
+     * @return Optional. Defaults to False, which Versions (or Rotates) the Branch Key,
+     *   creating a new Version that has only ever been in the terminal state.
+     *   Setting this value to True disables the rotation.
+     *   This is a Security vs Performance trade off.
+     *   Mutating a Branch Key can change the security domain of the Branch Key.
+     *   Some application's Threat Models benefit from ensuring a new Version
+     *   is created whenever a Mutation occurs,
+     *   allowing the application to track under which security domain data
+     *   was protected.
+     *   However, not all Threat Models call for this.
+     *   Particularly if Mutations are triggered in response to external actors,
+     *   creating a new Version for every Mutation request can needlessly grow
+     *   the item count of a Branch Key.
      */
     Boolean DoNotVersion();
 
@@ -213,6 +281,11 @@ public class InitializeMutationInput {
       if (Objects.isNull(this.Mutations())) {
         throw new IllegalArgumentException(
           "Missing value for required field `Mutations`"
+        );
+      }
+      if (Objects.isNull(this.SystemKey())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `SystemKey`"
         );
       }
       return new InitializeMutationInput(this);
