@@ -3,9 +3,11 @@
 
 include "../Model/AwsCryptographyPrimitivesTypes.dfy"
 include "AwsCryptographyPrimitivesOperations.dfy"
+include "ErrorUtils.dfy"
 
 module {:extern "software.amazon.cryptography.primitives.internaldafny" } AtomicPrimitives refines AbstractAwsCryptographyPrimitivesService {
   import Operations = AwsCryptographyPrimitivesOperations
+  import ErrorUtils
 
   function method DefaultCryptoConfig(): CryptoConfig {
     CryptoConfig

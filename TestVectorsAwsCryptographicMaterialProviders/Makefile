@@ -60,6 +60,7 @@ PROJECT_INDEX := \
 	ComAmazonawsDynamodb/src/Index.dfy \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographicMaterialProviders/src/Index.dfy \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStore/src/Index.dfy \
+	AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStoreAdmin/src/Index.dfy \
 
 STD_LIBRARY=StandardLibrary
 SMITHY_DEPS=model
@@ -72,6 +73,7 @@ SERVICE_DEPS_TestVectorsAwsCryptographicMaterialProviders := \
 	ComAmazonawsKms \
 	ComAmazonawsDynamodb \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStore \
+	AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStoreAdmin \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographicMaterialProviders \
 
 SERVICE_DEPS_KeyVectors := \
@@ -79,6 +81,7 @@ SERVICE_DEPS_KeyVectors := \
 	ComAmazonawsKms \
 	ComAmazonawsDynamodb \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStore \
+	AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStoreAdmin \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographicMaterialProviders \
 
 # Constants for languages that drop extern names (Python, Go)

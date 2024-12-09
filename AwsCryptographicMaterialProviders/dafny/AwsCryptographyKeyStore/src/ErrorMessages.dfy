@@ -3,7 +3,7 @@
 
 module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
   const KMS_CONFIG_KMS_ARN_INVALID :=
-    "KMSConfiguration's KMS Key ARN is invalid."
+    "Key Store's KMS Key ARN is invalid."
 
   const CUSTOM_BRANCH_KEY_ID_NEED_EC :=
     "Custom branch key identifier requires custom encryption context."
