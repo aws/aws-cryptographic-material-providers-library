@@ -114,7 +114,7 @@ public class KeyStoreAdmin {
    * depending on the 'Do Not Version' argument.
    * Regardless, if operation is successful,
    * the Beacon, Active, & the Active's version are in the terminal state.
-   * Establishes the Mutation Commitment; Simultaneous conflicting Mutations are prevented by the Mutation Commitment.
+   * Establishes the Mutation Commitment; simultaneous conflicting Mutations are prevented by the Mutation Commitment.
    * A Mutation changes the Encryption Context and/or KMS Key associated with a Branch Key.
    * As such, a Mutation can cause actors to loose access to a Branch Key,
    * if the actor's access was predicated on particular Encryption Context value or KMS Key.
@@ -131,10 +131,10 @@ public class KeyStoreAdmin {
    * with the same Mutation Token as earlier requests.
    * The 'Initialize Mutation Flag' of the output indicates
    * if the request was for a novel Mutation or one already in-flight.
-   * 'Mutation Conflict Exception' is thrown if a different Mutation/change is already in-flight.
+   * 'MutationConflictException' is thrown if a different Mutation/change is already in-flight.
    * This operation can race against other Initialize Mutation requests or Version Key requests for the same Branch Key.
    * Should that occur, all but one of the requests will fail.
-   * Race errors are either 'Version Race Exceptions' or 'Key Storage Exceptions'.
+   * Race errors are either 'VersionRaceException' or 'KeyStorageException'.
    *
    */
   public InitializeMutationOutput InitializeMutation(
