@@ -1,8 +1,6 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
-include "../../../../libraries/src/Collections/Sets/Sets.dfy"
-include "../../../../libraries/src/Collections/Maps/Maps.dfy"
 include "../../../../libraries/src/JSON/API.dfy"
 include "../../../../libraries/src/JSON/Errors.dfy"
 include "../../../../libraries/src/JSON/Values.dfy"
@@ -18,8 +16,6 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   import opened Seq
   import UTF8
   import String = StandardLibrary.String
-  import Sets
-  import Maps
   import SortedSets
 
   import ErrorMessages = KeyStoreErrorMessages
