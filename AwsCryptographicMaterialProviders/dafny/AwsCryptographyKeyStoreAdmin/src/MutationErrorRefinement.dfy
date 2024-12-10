@@ -34,7 +34,7 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
     nameonly localOperation: string := "InitializeMutation",
     nameonly kmsOperation: string := "ReEncrypt"
   ): (output: Types.Error)
-    requires branchKeyItem.Type.ActiveHierarchicalSymmetricVersion?
+    requires branchKeyItem.BranchKeyType.ActiveHierarchicalSymmetricVersion?
   {
     //TODO Mutations-FF :: Decrypt/Encrypt Strategy will need to refactor this
     var opaqueKmsError? := KmsUtils.ExtractKmsOpaque(error);
@@ -58,7 +58,7 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
     nameonly localOperation: string := "InitializeMutation",
     nameonly kmsOperation: string := "ReEncrypt"
   ): (output: Types.Error)
-    requires branchKeyItem.Type.ActiveHierarchicalSymmetricVersion?
+    requires branchKeyItem.BranchKeyType.ActiveHierarchicalSymmetricVersion?
   {
     //TODO Mutations-FF :: Decrypt/Encrypt Strategy will need to refactor this
     var opaqueKmsError? := KmsUtils.ExtractKmsOpaque(error);
@@ -82,7 +82,7 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
     nameonly localOperation: string := "ApplyMutation",
     nameonly kmsOperation: string := "ReEncrypt"
   ): (output: Types.Error)
-    requires branchKeyItem.Type.HierarchicalSymmetricVersion?
+    requires branchKeyItem.BranchKeyType.HierarchicalSymmetricVersion?
   {
     var opaqueKmsError? := KmsUtils.ExtractKmsOpaque(error);
     var kmsErrorMessage? := KmsUtils.ExtractMessageFromKmsError(error);
@@ -90,7 +90,7 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
                           localOperation := localOperation,
                           kmsOperation := kmsOperation,
                           identifier := branchKeyItem.Identifier,
-                          itemType := Structure.BRANCH_KEY_TYPE_PREFIX + branchKeyItem.Type.HierarchicalSymmetricVersion.Version,
+                          itemType := Structure.BRANCH_KEY_TYPE_PREFIX + branchKeyItem.BranchKeyType.HierarchicalSymmetricVersion.Version,
                           errorMessage? := kmsErrorMessage?);
     var message :=
       "Key Management denied access to an already mutated item."
@@ -110,7 +110,7 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
   {
     var opaqueKmsError? := KmsUtils.ExtractKmsOpaque(error);
     var kmsErrorMessage? := KmsUtils.ExtractMessageFromKmsError(error);
-    var itemType := match item.Type {
+    var itemType := match item.BranchKeyType {
       case ActiveHierarchicalSymmetricVersion(version) => Structure.BRANCH_KEY_ACTIVE_TYPE
       case ActiveHierarchicalSymmetricBeacon(version) => Structure.BEACON_KEY_TYPE_VALUE
       case HierarchicalSymmetricVersion(version) => Structure.BRANCH_KEY_TYPE_PREFIX + version.Version

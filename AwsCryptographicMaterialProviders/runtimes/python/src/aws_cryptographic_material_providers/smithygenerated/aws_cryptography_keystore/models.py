@@ -797,7 +797,7 @@ def _hierarchical_key_type_from_dict(d: Dict[str, Any]) -> HierarchicalKeyType:
 
 class EncryptedHierarchicalKey:
     identifier: str
-    type: HierarchicalKeyType
+    branch_key_type: HierarchicalKeyType
     create_time: str
     kms_arn: str
     encryption_context: dict[str, str]
@@ -807,7 +807,7 @@ class EncryptedHierarchicalKey:
         self,
         *,
         identifier: str,
-        type: HierarchicalKeyType,
+        branch_key_type: HierarchicalKeyType,
         create_time: str,
         kms_arn: str,
         encryption_context: dict[str, str],
@@ -817,7 +817,7 @@ class EncryptedHierarchicalKey:
         structure of this information from the underlying storage.
 
         :param identifier: The identifier for this encrypted key.
-        :param type: The type of encrypted key.
+        :param branch_key_type: The type of encrypted key.
         :param create_time: The create time as an ISO 8061 UTC string.
         :param kms_arn: The KMS ARN which protects this encrypted key.
         :param encryption_context: The encryption context needed to
@@ -827,7 +827,7 @@ class EncryptedHierarchicalKey:
         :param ciphertext_blob: The ciphertext for this encrypted key.
         """
         self.identifier = identifier
-        self.type = type
+        self.branch_key_type = branch_key_type
         self.create_time = create_time
         self.kms_arn = kms_arn
         self.encryption_context = encryption_context
@@ -837,7 +837,7 @@ class EncryptedHierarchicalKey:
         """Converts the EncryptedHierarchicalKey to a dictionary."""
         return {
             "identifier": self.identifier,
-            "type": self.type.as_dict(),
+            "branch_key_type": self.branch_key_type.as_dict(),
             "create_time": self.create_time,
             "kms_arn": self.kms_arn,
             "encryption_context": self.encryption_context,
@@ -849,7 +849,7 @@ class EncryptedHierarchicalKey:
         """Creates a EncryptedHierarchicalKey from a dictionary."""
         kwargs: Dict[str, Any] = {
             "identifier": d["identifier"],
-            "type": _hierarchical_key_type_from_dict(d["type"]),
+            "branch_key_type": _hierarchical_key_type_from_dict(d["branch_key_type"]),
             "create_time": d["create_time"],
             "kms_arn": d["kms_arn"],
             "encryption_context": d["encryption_context"],
@@ -863,8 +863,8 @@ class EncryptedHierarchicalKey:
         if self.identifier is not None:
             result += f"identifier={repr(self.identifier)}, "
 
-        if self.type is not None:
-            result += f"type={repr(self.type)}, "
+        if self.branch_key_type is not None:
+            result += f"branch_key_type={repr(self.branch_key_type)}, "
 
         if self.create_time is not None:
             result += f"create_time={repr(self.create_time)}, "
@@ -885,7 +885,7 @@ class EncryptedHierarchicalKey:
             return False
         attributes: list[str] = [
             "identifier",
-            "type",
+            "branch_key_type",
             "create_time",
             "kms_arn",
             "encryption_context",

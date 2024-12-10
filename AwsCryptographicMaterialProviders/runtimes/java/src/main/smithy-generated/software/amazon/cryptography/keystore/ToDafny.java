@@ -428,8 +428,8 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
         nativeValue.Identifier()
       );
-    HierarchicalKeyType type;
-    type = ToDafny.HierarchicalKeyType(nativeValue.Type());
+    HierarchicalKeyType branchKeyType;
+    branchKeyType = ToDafny.HierarchicalKeyType(nativeValue.BranchKeyType());
     DafnySequence<? extends Character> createTime;
     createTime =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
@@ -453,7 +453,7 @@ public class ToDafny {
       );
     return new EncryptedHierarchicalKey(
       identifier,
-      type,
+      branchKeyType,
       createTime,
       kmsArn,
       encryptionContext,

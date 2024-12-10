@@ -498,7 +498,9 @@ public class ToNative {
         dafnyValue.dtor_Identifier()
       )
     );
-    nativeBuilder.Type(ToNative.HierarchicalKeyType(dafnyValue.dtor_Type()));
+    nativeBuilder.BranchKeyType(
+      ToNative.HierarchicalKeyType(dafnyValue.dtor_BranchKeyType())
+    );
     nativeBuilder.CreateTime(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
         dafnyValue.dtor_CreateTime()

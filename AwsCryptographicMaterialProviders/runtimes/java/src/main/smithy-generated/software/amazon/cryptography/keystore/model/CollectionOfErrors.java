@@ -4,7 +4,6 @@
 package software.amazon.cryptography.keystore.model;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CollectionOfErrors extends RuntimeException {
 
@@ -135,14 +134,6 @@ public class CollectionOfErrors extends RuntimeException {
     }
 
     public CollectionOfErrors build() {
-      if (!(this.list == null || this.list.isEmpty())) {
-        this.message =
-          this.message +
-          " String representation of Exceptions in list.\n" +
-          this.list.stream()
-            .map(ex -> ex.getClass().getSimpleName() + ": " + ex.getMessage())
-            .collect(Collectors.joining("\n"));
-      }
       return new CollectionOfErrors(this);
     }
   }

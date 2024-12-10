@@ -116,8 +116,8 @@ def aws_cryptography_keystore_EncryptedHierarchicalKey(native_input):
                 ]
             )
         ),
-        Type=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_HierarchicalKeyType(
-            native_input.type
+        BranchKeyType=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_HierarchicalKeyType(
+            native_input.branch_key_type
         ),
         CreateTime=Seq(
             "".join(

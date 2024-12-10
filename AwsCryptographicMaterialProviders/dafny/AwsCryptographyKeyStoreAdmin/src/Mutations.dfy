@@ -82,7 +82,7 @@ module {:options "/functionSyntax:4" } Mutations {
     requires Structure.EncryptedHierarchicalKey?(item)
     requires KmsArn.ValidKmsArn?(item.KmsArn)
     requires keyManagerStrategy.ValidState()
-    requires item.Type.ActiveHierarchicalSymmetricVersion? || item.Type.HierarchicalSymmetricVersion?
+    requires item.BranchKeyType.ActiveHierarchicalSymmetricVersion? || item.BranchKeyType.HierarchicalSymmetricVersion?
     modifies
       match keyManagerStrategy
       case reEncrypt(km) => km.kmsClient.Modifies
@@ -141,7 +141,7 @@ module {:options "/functionSyntax:4" } Mutations {
 
     if (
         && !success?
-        && item.Type.ActiveHierarchicalSymmetricVersion?
+        && item.BranchKeyType.ActiveHierarchicalSymmetricVersion?
       ) {
       var error := MutationErrorRefinement.VerifyActiveException(
         branchKeyItem := item,
@@ -153,7 +153,7 @@ module {:options "/functionSyntax:4" } Mutations {
 
     if (
         && !success?
-        && item.Type.HierarchicalSymmetricVersion?
+        && item.BranchKeyType.HierarchicalSymmetricVersion?
       ) {
       var error := MutationErrorRefinement.VerifyTerminalException(
         branchKeyItem := item,
@@ -182,11 +182,11 @@ module {:options "/functionSyntax:4" } Mutations {
     requires item.KmsArn == terminalKmsArn
     requires keyManagerStrategy.ValidState()
     requires keyManagerStrategy.decryptEncrypt?
-    requires item.Type.HierarchicalSymmetricVersion? // the input is a Version
+    requires item.BranchKeyType.HierarchicalSymmetricVersion? // the input is a Version
     requires Structure.ActiveHierarchicalSymmetricVersionEncryptionContext?(terminalEncryptionContext)
     modifies keyManagerStrategy.encrypt.Modifies
     ensures keyManagerStrategy.ValidState()
-    ensures output.Success? ==> output.value.Type.ActiveHierarchicalSymmetricVersion? // the output is an ACTIVE
+    ensures output.Success? ==> output.value.BranchKeyType.ActiveHierarchicalSymmetricVersion? // the output is an ACTIVE
   {
     var wrappedKey?;
     // When using the decrypt encrypt strategy, we created the new DecryptOnly with the encrypt client.
@@ -289,7 +289,7 @@ module {:options "/functionSyntax:4" } Mutations {
     }
     assert kmsOperation == "ReEncrypt" || kmsOperation == "Decrypt/Encrypt";
     // We call this method to create the new Active from the new Decrypt Only
-    if (wrappedKey?.Failure? && input.item.Type.ActiveHierarchicalSymmetricVersion? && createNewActive) {
+    if (wrappedKey?.Failure? && input.item.BranchKeyType.ActiveHierarchicalSymmetricVersion? && createNewActive) {
       var error := MutationErrorRefinement.CreateActiveException(
         branchKeyItem := input.item,
         error := wrappedKey?.error,
@@ -376,7 +376,7 @@ module {:options "/functionSyntax:4" } Mutations {
     item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
     MutationToApply: StateStrucs.MutationToApply
   ): (output: CheckedItem)
-    requires item.Type.HierarchicalSymmetricVersion?
+    requires item.BranchKeyType.HierarchicalSymmetricVersion?
     requires Structure.EncryptedHierarchicalKey?(item)
     requires MutationToApply.ValidState()
     ensures Structure.EncryptedHierarchicalKey?(output.item)
@@ -384,7 +384,7 @@ module {:options "/functionSyntax:4" } Mutations {
       && output.itemOriginal?
       ==>
         && output.item.KmsArn == MutationToApply.Original.kmsArn
-    ensures output.item.Type.HierarchicalSymmetricVersion?
+    ensures output.item.BranchKeyType.HierarchicalSymmetricVersion?
   {
     if item.EncryptionContext
        == Structure.ReplaceMutableContext(

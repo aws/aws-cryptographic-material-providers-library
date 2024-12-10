@@ -66,7 +66,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   )
   datatype EncryptedHierarchicalKey = | EncryptedHierarchicalKey (
     nameonly Identifier: string ,
-    nameonly Type: HierarchicalKeyType ,
+    nameonly BranchKeyType: HierarchicalKeyType ,
     nameonly CreateTime: string ,
     nameonly KmsArn: string ,
     nameonly EncryptionContext: EncryptionContextString ,
@@ -993,7 +993,7 @@ abstract module AbstractAwsCryptographyKeyStoreService
   import opened Types = AwsCryptographyKeyStoreTypes
   import Operations : AbstractAwsCryptographyKeyStoreOperations
   function method DefaultKeyStoreConfig(): KeyStoreConfig
-  method {:isoluate_asserations} {:resource_limit 94000000 } KeyStore(config: KeyStoreConfig := DefaultKeyStoreConfig())
+  method {:vcs_split_on_every_assert} {:rlimit 90500000} KeyStore(config: KeyStoreConfig := DefaultKeyStoreConfig())
     returns (res: Result<KeyStoreClient, Error>)
     requires config.ddbClient.Some? ==>
                config.ddbClient.value.ValidState()
