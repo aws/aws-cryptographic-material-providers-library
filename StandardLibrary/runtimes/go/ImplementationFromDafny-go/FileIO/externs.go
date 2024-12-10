@@ -17,11 +17,11 @@ func (_static CompanionStruct_Default___) INTERNAL_ReadBytesFromFile(path _dafny
 	p := func() string {
 		var s string
 		for i := _dafny.Iterate(path); ; {
-			val, endOfSequence := i()
-			if !endOfSequence {
-				return s
-			} else {
+			val, notEndOfSequence := i()
+			if notEndOfSequence {
 				s = s + string(val.(_dafny.Char))
+			} else {
+				return s
 			}
 		}
 	}()
@@ -38,11 +38,11 @@ func (_static CompanionStruct_Default___) INTERNAL_WriteBytesToFile(path _dafny.
 	p := func() string {
 		var s string
 		for i := _dafny.Iterate(path); ; {
-			val, endOfSequence := i()
-			if !endOfSequence {
-				return s
-			} else {
+			val, notEndOfSequence := i()
+			if notEndOfSequence {
 				s = s + string(val.(_dafny.Char))
+			} else {
+				return s
 			}
 		}
 	}()
