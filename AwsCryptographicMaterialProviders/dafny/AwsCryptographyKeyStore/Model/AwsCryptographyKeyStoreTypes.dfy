@@ -60,7 +60,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   )
   datatype EncryptedHierarchicalKey = | EncryptedHierarchicalKey (
     nameonly Identifier: string ,
-    nameonly Type: HierarchicalKeyType ,
+    nameonly HierarchicalKeyType: HierarchicalKeyType ,
     nameonly CreateTime: string ,
     nameonly KmsArn: string ,
     nameonly EncryptionContext: EncryptionContextString ,

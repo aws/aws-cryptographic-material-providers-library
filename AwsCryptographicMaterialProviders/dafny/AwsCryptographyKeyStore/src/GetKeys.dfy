@@ -229,10 +229,10 @@ module GetKeys {
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
               //= type=implication
               //# GetBranchKeyVersion MUST verify that the returned EncryptedHierarchicalKey MUST have the requested `branchKeyVersion`.
-              && versionItem.Type == Types.HierarchicalSymmetricVersion(
-                                       Types.HierarchicalSymmetric(
-                                         Version := input.branchKeyVersion
-                                       ))
+              && versionItem.HierarchicalKeyType == Types.HierarchicalSymmetricVersion(
+                                                      Types.HierarchicalSymmetric(
+                                                        Version := input.branchKeyVersion
+                                                      ))
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
               //= type=implication
@@ -325,10 +325,10 @@ module GetKeys {
       || (
            && Structure.DecryptOnlyHierarchicalSymmetricKey?(branchKeyItem)
            && branchKeyItem.Identifier == input.branchKeyIdentifier
-           && branchKeyItem.Type == Types.HierarchicalSymmetricVersion(
-                                      Types.HierarchicalSymmetric(
-                                        Version := input.branchKeyVersion
-                                      ))
+           && branchKeyItem.HierarchicalKeyType == Types.HierarchicalSymmetricVersion(
+                                                     Types.HierarchicalSymmetric(
+                                                       Version := input.branchKeyVersion
+                                                     ))
            && branchKeyItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
          ),
       Types.KeyStoreException(

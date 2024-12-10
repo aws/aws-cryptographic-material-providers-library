@@ -109,7 +109,7 @@ module {:options "/functionSyntax:4" } Structure {
     && key.CreateTime == key.EncryptionContext[KEY_CREATE_TIME]
     && key.KmsArn == key.EncryptionContext[KMS_FIELD]
 
-    && (match key.Type
+    && (match key.HierarchicalKeyType
         case ActiveHierarchicalSymmetricVersion(active) =>
           && BRANCH_KEY_ACTIVE_VERSION_FIELD in key.EncryptionContext
           && key.EncryptionContext[TYPE_FIELD] == BRANCH_KEY_ACTIVE_TYPE
@@ -193,7 +193,7 @@ module {:options "/functionSyntax:4" } Structure {
 
     Types.EncryptedHierarchicalKey(
       Identifier := EncryptionContext[BRANCH_KEY_IDENTIFIER_FIELD],
-      Type := Type,
+      HierarchicalKeyType := Type,
       CreateTime := EncryptionContext[KEY_CREATE_TIME],
       KmsArn := EncryptionContext[KMS_FIELD],
       EncryptionContext := EncryptionContext,
@@ -208,8 +208,8 @@ module {:options "/functionSyntax:4" } Structure {
 
     requires EncryptedHierarchicalKey?(key)
     requires
-      || key.Type.ActiveHierarchicalSymmetricVersion?
-      || key.Type.HierarchicalSymmetricVersion?
+      || key.HierarchicalKeyType.ActiveHierarchicalSymmetricVersion?
+      || key.HierarchicalKeyType.HierarchicalSymmetricVersion?
 
     ensures output.Success?
             ==>
@@ -246,7 +246,7 @@ module {:options "/functionSyntax:4" } Structure {
                  //# The remaining string encoded as UTF8 bytes MUST be the Branch Key version.
               && output.value.branchKeyVersion == UTF8.Encode(versionInformation[|BRANCH_KEY_TYPE_PREFIX|..]).value
               && output.value.branchKeyVersion == UTF8.Encode(
-                                                    match key.Type
+                                                    match key.HierarchicalKeyType
                                                     case ActiveHierarchicalSymmetricVersion(active) => active.Version
                                                     case HierarchicalSymmetricVersion(decrypt) => decrypt.Version
                                                   ).value
@@ -273,7 +273,7 @@ module {:options "/functionSyntax:4" } Structure {
       || key.EncryptionContext[TYPE_FIELD] == BRANCH_KEY_ACTIVE_TYPE
       || BRANCH_KEY_TYPE_PREFIX < key.EncryptionContext[TYPE_FIELD];
 
-    var branchKeyVersion := match key.Type
+    var branchKeyVersion := match key.HierarchicalKeyType
       case ActiveHierarchicalSymmetricVersion(active) => active.Version
       case HierarchicalSymmetricVersion(decrypt) => decrypt.Version;
 
@@ -479,17 +479,17 @@ module {:options "/functionSyntax:4" } Structure {
 
   predicate ActiveHierarchicalSymmetricKey?(key: Types.EncryptedHierarchicalKey) {
     && EncryptedHierarchicalKey?(key)
-    && key.Type.ActiveHierarchicalSymmetricVersion?
+    && key.HierarchicalKeyType.ActiveHierarchicalSymmetricVersion?
   }
 
   predicate DecryptOnlyHierarchicalSymmetricKey?(key: Types.EncryptedHierarchicalKey) {
     && EncryptedHierarchicalKey?(key)
-    && key.Type.HierarchicalSymmetricVersion?
+    && key.HierarchicalKeyType.HierarchicalSymmetricVersion?
   }
 
   predicate ActiveHierarchicalSymmetricBeaconKey?(key: Types.EncryptedHierarchicalKey) {
     && EncryptedHierarchicalKey?(key)
-    && key.Type.ActiveHierarchicalSymmetricBeacon?
+    && key.HierarchicalKeyType.ActiveHierarchicalSymmetricBeacon?
   }
 
   lemma BranchKeyItemsDoNotCollide(
@@ -502,9 +502,9 @@ module {:options "/functionSyntax:4" } Structure {
       && DecryptOnlyHierarchicalSymmetricKey?(b)
       && ActiveHierarchicalSymmetricBeaconKey?(c)
     requires a.Identifier == b.Identifier == c.Identifier
-    ensures a.Type != b.Type
-    ensures a.Type != c.Type
-    ensures c.Type != b.Type
+    ensures a.HierarchicalKeyType != b.HierarchicalKeyType
+    ensures a.HierarchicalKeyType != c.HierarchicalKeyType
+    ensures c.HierarchicalKeyType != b.HierarchicalKeyType
   {}
 
   lemma ToAttributeMapIsCorrect(

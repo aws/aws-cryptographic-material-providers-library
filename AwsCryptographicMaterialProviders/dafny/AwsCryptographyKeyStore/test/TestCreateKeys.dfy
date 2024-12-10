@@ -119,7 +119,7 @@ module {:options "/functionSyntax:4" } TestCreateKeys {
     var encryptedVersion :- expect keyStore.config.storage.GetEncryptedBranchKeyVersion(
       Types.GetEncryptedBranchKeyVersionInput(
         Identifier := branchKeyId.branchKeyIdentifier,
-        Version := encryptedActive.Item.Type.ActiveHierarchicalSymmetricVersion.Version
+        Version := encryptedActive.Item.HierarchicalKeyType.ActiveHierarchicalSymmetricVersion.Version
       )
     );
 
