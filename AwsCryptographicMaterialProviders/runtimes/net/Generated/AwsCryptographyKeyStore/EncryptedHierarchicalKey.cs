@@ -8,7 +8,7 @@ namespace AWS.Cryptography.KeyStore
   public class EncryptedHierarchicalKey
   {
     private string _identifier;
-    private AWS.Cryptography.KeyStore.HierarchicalKeyType _type;
+    private AWS.Cryptography.KeyStore.HierarchicalKeyType _hierarchicalKeyType;
     private string _createTime;
     private string _kmsArn;
     private System.Collections.Generic.Dictionary<string, string> _encryptionContext;
@@ -22,14 +22,14 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._identifier != null;
     }
-    public AWS.Cryptography.KeyStore.HierarchicalKeyType Type
+    public AWS.Cryptography.KeyStore.HierarchicalKeyType HierarchicalKeyType
     {
-      get { return this._type; }
-      set { this._type = value; }
+      get { return this._hierarchicalKeyType; }
+      set { this._hierarchicalKeyType = value; }
     }
-    public bool IsSetType()
+    public bool IsSetHierarchicalKeyType()
     {
-      return this._type != null;
+      return this._hierarchicalKeyType != null;
     }
     public string CreateTime
     {
@@ -70,7 +70,7 @@ namespace AWS.Cryptography.KeyStore
     public void Validate()
     {
       if (!IsSetIdentifier()) throw new System.ArgumentException("Missing value for required property 'Identifier'");
-      if (!IsSetType()) throw new System.ArgumentException("Missing value for required property 'Type'");
+      if (!IsSetHierarchicalKeyType()) throw new System.ArgumentException("Missing value for required property 'HierarchicalKeyType'");
       if (!IsSetCreateTime()) throw new System.ArgumentException("Missing value for required property 'CreateTime'");
       if (!IsSetKmsArn()) throw new System.ArgumentException("Missing value for required property 'KmsArn'");
       if (!IsSetEncryptionContext()) throw new System.ArgumentException("Missing value for required property 'EncryptionContext'");

@@ -23,8 +23,8 @@ def aws_cryptography_keystore_EncryptedHierarchicalKey(dafny_input):
         identifier=b"".join(
             ord(c).to_bytes(2, "big") for c in dafny_input.Identifier
         ).decode("utf-16-be"),
-        type=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_HierarchicalKeyType(
-            dafny_input.Type
+        hierarchical_key_type=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_HierarchicalKeyType(
+            dafny_input.HierarchicalKeyType
         ),
         create_time=b"".join(
             ord(c).to_bytes(2, "big") for c in dafny_input.CreateTime

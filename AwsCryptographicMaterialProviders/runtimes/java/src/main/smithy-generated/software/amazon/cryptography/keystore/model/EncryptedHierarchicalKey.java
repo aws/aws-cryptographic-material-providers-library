@@ -20,7 +20,7 @@ public class EncryptedHierarchicalKey {
   /**
    * The type of encrypted key.
    */
-  private final HierarchicalKeyType Type;
+  private final HierarchicalKeyType HierarchicalKeyType;
 
   /**
    * The create time as an ISO 8061 UTC string.
@@ -44,7 +44,7 @@ public class EncryptedHierarchicalKey {
 
   protected EncryptedHierarchicalKey(BuilderImpl builder) {
     this.Identifier = builder.Identifier();
-    this.Type = builder.Type();
+    this.HierarchicalKeyType = builder.HierarchicalKeyType();
     this.CreateTime = builder.CreateTime();
     this.KmsArn = builder.KmsArn();
     this.EncryptionContext = builder.EncryptionContext();
@@ -61,8 +61,8 @@ public class EncryptedHierarchicalKey {
   /**
    * @return The type of encrypted key.
    */
-  public HierarchicalKeyType Type() {
-    return this.Type;
+  public HierarchicalKeyType HierarchicalKeyType() {
+    return this.HierarchicalKeyType;
   }
 
   /**
@@ -113,14 +113,14 @@ public class EncryptedHierarchicalKey {
     String Identifier();
 
     /**
-     * @param Type The type of encrypted key.
+     * @param HierarchicalKeyType The type of encrypted key.
      */
-    Builder Type(HierarchicalKeyType Type);
+    Builder HierarchicalKeyType(HierarchicalKeyType HierarchicalKeyType);
 
     /**
      * @return The type of encrypted key.
      */
-    HierarchicalKeyType Type();
+    HierarchicalKeyType HierarchicalKeyType();
 
     /**
      * @param CreateTime The create time as an ISO 8061 UTC string.
@@ -169,7 +169,7 @@ public class EncryptedHierarchicalKey {
 
     protected String Identifier;
 
-    protected HierarchicalKeyType Type;
+    protected HierarchicalKeyType HierarchicalKeyType;
 
     protected String CreateTime;
 
@@ -183,7 +183,7 @@ public class EncryptedHierarchicalKey {
 
     protected BuilderImpl(EncryptedHierarchicalKey model) {
       this.Identifier = model.Identifier();
-      this.Type = model.Type();
+      this.HierarchicalKeyType = model.HierarchicalKeyType();
       this.CreateTime = model.CreateTime();
       this.KmsArn = model.KmsArn();
       this.EncryptionContext = model.EncryptionContext();
@@ -199,13 +199,15 @@ public class EncryptedHierarchicalKey {
       return this.Identifier;
     }
 
-    public Builder Type(HierarchicalKeyType Type) {
-      this.Type = Type;
+    public Builder HierarchicalKeyType(
+      HierarchicalKeyType HierarchicalKeyType
+    ) {
+      this.HierarchicalKeyType = HierarchicalKeyType;
       return this;
     }
 
-    public HierarchicalKeyType Type() {
-      return this.Type;
+    public HierarchicalKeyType HierarchicalKeyType() {
+      return this.HierarchicalKeyType;
     }
 
     public Builder CreateTime(String CreateTime) {
@@ -250,9 +252,9 @@ public class EncryptedHierarchicalKey {
           "Missing value for required field `Identifier`"
         );
       }
-      if (Objects.isNull(this.Type())) {
+      if (Objects.isNull(this.HierarchicalKeyType())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `Type`"
+          "Missing value for required field `HierarchicalKeyType`"
         );
       }
       if (Objects.isNull(this.CreateTime())) {

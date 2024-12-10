@@ -909,7 +909,7 @@ namespace AWS.Cryptography.KeyStore
     public static AWS.Cryptography.KeyStore.EncryptedHierarchicalKey FromDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey(software.amazon.cryptography.keystore.internaldafny.types._IEncryptedHierarchicalKey value)
     {
       software.amazon.cryptography.keystore.internaldafny.types.EncryptedHierarchicalKey concrete = (software.amazon.cryptography.keystore.internaldafny.types.EncryptedHierarchicalKey)value; AWS.Cryptography.KeyStore.EncryptedHierarchicalKey converted = new AWS.Cryptography.KeyStore.EncryptedHierarchicalKey(); converted.Identifier = (string)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey__M10_Identifier(concrete._Identifier);
-      converted.Type = (AWS.Cryptography.KeyStore.HierarchicalKeyType)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey__M4_Type(concrete._Type);
+      converted.HierarchicalKeyType = (AWS.Cryptography.KeyStore.HierarchicalKeyType)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey__M19_HierarchicalKeyType(concrete._HierarchicalKeyType);
       converted.CreateTime = (string)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey__M10_CreateTime(concrete._CreateTime);
       converted.KmsArn = (string)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey__M6_KmsArn(concrete._KmsArn);
       converted.EncryptionContext = (System.Collections.Generic.Dictionary<string, string>)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey__M17_EncryptionContext(concrete._EncryptionContext);
@@ -919,7 +919,7 @@ namespace AWS.Cryptography.KeyStore
     {
       value.Validate();
 
-      return new software.amazon.cryptography.keystore.internaldafny.types.EncryptedHierarchicalKey(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey__M10_Identifier(value.Identifier), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey__M4_Type(value.Type), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey__M10_CreateTime(value.CreateTime), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey__M6_KmsArn(value.KmsArn), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey__M17_EncryptionContext(value.EncryptionContext), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey__M14_CiphertextBlob(value.CiphertextBlob));
+      return new software.amazon.cryptography.keystore.internaldafny.types.EncryptedHierarchicalKey(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey__M10_Identifier(value.Identifier), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey__M19_HierarchicalKeyType(value.HierarchicalKeyType), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey__M10_CreateTime(value.CreateTime), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey__M6_KmsArn(value.KmsArn), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey__M17_EncryptionContext(value.EncryptionContext), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey__M14_CiphertextBlob(value.CiphertextBlob));
     }
     public static string FromDafny_N3_aws__N12_cryptography__N8_keyStore__S9_Utf8Bytes(Dafny.ISequence<byte> value)
     {
@@ -1155,11 +1155,11 @@ namespace AWS.Cryptography.KeyStore
     {
       return ToDafny_N6_smithy__N3_api__S6_String(value);
     }
-    public static AWS.Cryptography.KeyStore.HierarchicalKeyType FromDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey__M4_Type(software.amazon.cryptography.keystore.internaldafny.types._IHierarchicalKeyType value)
+    public static AWS.Cryptography.KeyStore.HierarchicalKeyType FromDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey__M19_HierarchicalKeyType(software.amazon.cryptography.keystore.internaldafny.types._IHierarchicalKeyType value)
     {
       return FromDafny_N3_aws__N12_cryptography__N8_keyStore__S19_HierarchicalKeyType(value);
     }
-    public static software.amazon.cryptography.keystore.internaldafny.types._IHierarchicalKeyType ToDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey__M4_Type(AWS.Cryptography.KeyStore.HierarchicalKeyType value)
+    public static software.amazon.cryptography.keystore.internaldafny.types._IHierarchicalKeyType ToDafny_N3_aws__N12_cryptography__N8_keyStore__S24_EncryptedHierarchicalKey__M19_HierarchicalKeyType(AWS.Cryptography.KeyStore.HierarchicalKeyType value)
     {
       return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S19_HierarchicalKeyType(value);
     }
