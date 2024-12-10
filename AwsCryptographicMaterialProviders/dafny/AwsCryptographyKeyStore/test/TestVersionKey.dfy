@@ -343,7 +343,7 @@ module TestVersionKey {
     var Version := Structure.ConstructEncryptedHierarchicalKey(encryptionContext, [1]);
     var Active := Structure.ConstructEncryptedHierarchicalKey(Structure.ActiveBranchKeyEncryptionContext(encryptionContext), [2]);
     expect Active.Identifier == Version.Identifier;
-    expect Active.Type.ActiveHierarchicalSymmetricVersion.Version == Version.Type.HierarchicalSymmetricVersion.Version;
+    expect Active.HierarchicalKeyType.ActiveHierarchicalSymmetricVersion.Version == Version.HierarchicalKeyType.HierarchicalSymmetricVersion.Version;
     var ddbTableNameUtf8 :- expect UTF8.Encode(branchKeyStoreName);
     var logicalKeyStoreNameUtf8 :- expect UTF8.Encode("");
 
@@ -388,7 +388,7 @@ module TestVersionKey {
     var Version := Structure.ConstructEncryptedHierarchicalKey(encryptionContext, [1]);
     var Active := Structure.ConstructEncryptedHierarchicalKey(Structure.ActiveBranchKeyEncryptionContext(encryptionContext), [2]);
     expect Active.Identifier == Version.Identifier;
-    expect Active.Type.ActiveHierarchicalSymmetricVersion.Version == Version.Type.HierarchicalSymmetricVersion.Version;
+    expect Active.HierarchicalKeyType.ActiveHierarchicalSymmetricVersion.Version == Version.HierarchicalKeyType.HierarchicalSymmetricVersion.Version;
     var ddbTableNameUtf8 :- expect UTF8.Encode(branchKeyStoreName);
     var logicalKeyStoreNameUtf8 :- expect UTF8.Encode("");
 

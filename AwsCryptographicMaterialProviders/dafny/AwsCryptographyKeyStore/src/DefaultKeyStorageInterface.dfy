@@ -101,12 +101,12 @@ module DefaultKeyStorageInterface {
                //= type=implication
                //# The returned EncryptedHierarchicalKey MUST have a type of HierarchicalSymmetricVersion.
             && Structure.DecryptOnlyHierarchicalSymmetricKey?(output.value.Item)
-            && output.value.Item.Type == Types.HierarchicalSymmetricVersion(
-                                           //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#getencryptedbranchkeyversion
-                                           //= type=implication
-                                           //# The returned EncryptedHierarchicalKey MUST have the same version as the input.
-                                           Types.HierarchicalSymmetric( Version := input.Version )
-                                         )
+            && output.value.Item.HierarchicalKeyType == Types.HierarchicalSymmetricVersion(
+                                                          //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#getencryptedbranchkeyversion
+                                                          //= type=implication
+                                                          //# The returned EncryptedHierarchicalKey MUST have the same version as the input.
+                                                          Types.HierarchicalSymmetric( Version := input.Version )
+                                                        )
                //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#logical-keystore-name
                //= type=implication
                //# It is not stored on the items in the so it MUST be added
@@ -494,7 +494,7 @@ module DefaultKeyStorageInterface {
       var activeItem := ToEncryptedHierarchicalKey(getItemResponse.Item.value, logicalKeyStoreName);
 
       :- Need(
-        && activeItem.Type.ActiveHierarchicalSymmetricVersion?
+        && activeItem.HierarchicalKeyType.ActiveHierarchicalSymmetricVersion?
         && activeItem.Identifier == input.Identifier,
         Types.KeyStoreException( message := ErrorMessages.INVALID_ACTIVE_BRANCH_KEY_FROM_STORAGE)
       );
@@ -582,9 +582,9 @@ module DefaultKeyStorageInterface {
       var versionItem := ToEncryptedHierarchicalKey(getItemResponse.Item.value, logicalKeyStoreName);
 
       :- Need(
-        && versionItem.Type.HierarchicalSymmetricVersion?
+        && versionItem.HierarchicalKeyType.HierarchicalSymmetricVersion?
         && versionItem.Identifier == input.Identifier
-        && versionItem.Type == Types.HierarchicalSymmetricVersion(Types.HierarchicalSymmetric( Version := input.Version )),
+        && versionItem.HierarchicalKeyType == Types.HierarchicalSymmetricVersion(Types.HierarchicalSymmetric( Version := input.Version )),
         Types.KeyStoreException( message := ErrorMessages.INVALID_BRANCH_KEY_VERSION_FROM_STORAGE)
       );
 
@@ -673,7 +673,7 @@ module DefaultKeyStorageInterface {
       var beaconItem := ToEncryptedHierarchicalKey(getItemResponse.Item.value, logicalKeyStoreName);
 
       :- Need(
-        && beaconItem.Type.ActiveHierarchicalSymmetricBeacon?
+        && beaconItem.HierarchicalKeyType.ActiveHierarchicalSymmetricBeacon?
         && beaconItem.Identifier == input.Identifier,
         Types.KeyStoreException( message := ErrorMessages.INVALID_BEACON_KEY_FROM_STORAGE)
       );
