@@ -171,7 +171,7 @@ TRANSLATION_RECORD_PYTHON := \
     --translation-record ../ComAmazonawsDynamodb/runtimes/python/src/aws_cryptography_internal_dynamodb/internaldafny/generated/dafny_src-py.dtr \
     --translation-record ../AwsCryptographyPrimitives/runtimes/python/src/aws_cryptography_primitives/internaldafny/generated/dafny_src-py.dtr \
 	--translation-record ../AwsCryptographicMaterialProviders/runtimes/python/src/aws_cryptographic_material_providers/internaldafny/generated/dafny_src-py.dtr
-
+TODO: Remove this when we don't use sed
 # On macOS, sed requires an extra parameter of ""
 OS := $(shell uname)
 ifeq ($(OS), Darwin)
