@@ -63,7 +63,7 @@ structure EncryptedHierarchicalKey {
 
   @required
   @documentation("The type of encrypted key.")
-  Type: HierarchicalKeyType,
+  HierarchicalKeyType: HierarchicalKeyType,
 
   @required
   @documentation("The create time as an ISO 8061 UTC string.")
