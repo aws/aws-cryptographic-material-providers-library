@@ -28,8 +28,7 @@ jobs:
             AwsCryptographicMaterialProviders,
             StandardLibrary,
           ]
-        os: [macos-latest-large]
-    runs-on: ${{ matrix.os }}
+    runs-on: codebuild-AWS-MPL-Verification-${{ github.run_id }}-${{ github.run_attempt }}
     defaults:
       run:
         shell: bash
@@ -40,6 +39,7 @@ jobs:
       - name: Support longpaths
         run: |
           git config --global core.longpaths true
+          sudo rm -rf private/tmp/codebuild
 
       - uses: actions/checkout@v4
       # The specification submodule is private so we don't have access, but we don't need
@@ -47,8 +47,16 @@ jobs:
       - run: git submodule update --init libraries
       - run: git submodule update --init smithy-dafny
 
+      # When using CB MacOS runners state is kept between jobs when it comes to downloading dependencies
+      # Our runner has the dafny-reportgenerator already installed but dotnet returns exit
+      # code 1 if something is installed which cuases the job to fail.
+      # As a workaround we remove the install.
+      - name: Clear and redownload dafny-reportgenerator
+        run: |
+          sudo rm -rf $HOME/.dotnet/tools
+
       - name: Setup Dafny
-        uses: dafny-lang/setup-dafny-action@v1.7.0
+        uses: dafny-lang/setup-dafny-action@v1.8.0
         with:
           dafny-version: ${{ inputs.dafny }}
 
@@ -72,6 +80,8 @@ jobs:
         run: |
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
+          which dafny
+          echo $HOME
           make verify CORES=$CORES
 
       - name: Check solver resource use
