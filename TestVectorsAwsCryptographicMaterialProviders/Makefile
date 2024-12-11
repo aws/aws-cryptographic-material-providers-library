@@ -107,6 +107,11 @@ IMPLEMENTATION_FROM_DAFNY_TV_RUST_ESDK_MAIN= \
 	let dafny_args = dafny_runtime::Sequence::from_array_owned(dafny_strings);\
 	r\#_WrappedMaterialProvidersMain_Compile::_default::Main(\&dafny_args);"
 
+# Rust SED Hacks
+REMOVE_ADMIN_FILE=runtimes/rust/src/deps.rs
+REMOVE_ADMIN_FROM=" pub mod aws_cryptography_keyStoreAdmin;"
+REMOVE_ADMIN_TO="\/\/ removed aws_cryptography_keyStoreAdmin"
+
 # TODO: Remove after wrapped client issue is fixed in Rust
 REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_PRIMITIVES=runtimes/rust/src/deps/aws_cryptography_primitives.rs
 REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_KEYSTORE=runtimes/rust/src/deps/aws_cryptography_keyStore.rs
@@ -117,11 +122,16 @@ REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_TO_2 := '\/\/ removed wrapped module 
 
 transpile_implementation_rust: _replace_main_method_name_rust
 
+transpile_implementation_rust: _remove_admin_rust
+
 # TODO: Remove after wrapped client issue is fixed in Rust
 _polymorph_rust: _remove_wrapped_client_rust
 
 _replace_main_method_name_rust:
 	$(MAKE) _sed_file SED_FILE_PATH=$(IMPLEMENTATION_FROM_DAFNY_TV_RUST_FILE) SED_BEFORE_STRING=$(IMPLEMENTATION_FROM_DAFNY_TV_RUST_MPL_MAIN) SED_AFTER_STRING=$(IMPLEMENTATION_FROM_DAFNY_TV_RUST_ESDK_MAIN)
+
+_remove_admin_rust:
+	$(MAKE) _sed_file SED_FILE_PATH=$(REMOVE_ADMIN_FILE) SED_BEFORE_STRING=$(REMOVE_ADMIN_FROM) SED_AFTER_STRING=$(REMOVE_ADMIN_TO)
 
 # TODO: Remove after wrapped client issue is fixed in Rust
 _remove_wrapped_client_rust:
