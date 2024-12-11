@@ -68,13 +68,9 @@ structure KeyStoreConfig {
   //= type=implication
   //# The following inputs MUST be specified to create a KeyStore:
   //# 
-  //# - [Table Name](#table-name)
   //# - [AWS KMS Configuration](#aws-kms-configuration)
   //# - [Logical KeyStore Name](#logical-keystore-name)
 
-  @required
-  @javadoc("The DynamoDB table name that backs this Key Store.")
-  ddbTableName: TableName,
   @required
   @javadoc("Configures Key Store's KMS Key ARN restrictions.")
   kmsConfiguration: KMSConfiguration,
@@ -88,15 +84,66 @@ structure KeyStoreConfig {
   //# 
   //# - [ID](#keystore-id)
   //# - [AWS KMS Grant Tokens](#aws-kms-grant-tokens)
+  //# - [Storage](#storage)
   //# - [DynamoDb Client](#dynamodb-client)
+  //# - [Table Name](#table-name)
   //# - [KMS Client](#kms-client)
-  
+
+  @javadoc("The key management configuration for this Key Store.")
+  keyManagement: KeyManagement,
+
+  @javadoc("The DynamoDB table name that backs this Key Store.")
+  ddbTableName: TableName,
+
   @javadoc("An identifier for this Key Store.")
   id: String,
   @javadoc("The AWS KMS grant tokens that are used when this Key Store calls to AWS KMS.")
   grantTokens: GrantTokenList,
+  @javadoc("The storage configuration for this Key Store.")
+  storage: Storage,
   @javadoc("The DynamoDB client this Key Store uses to call Amazon DynamoDB. If None is provided and the KMS ARN is, the KMS ARN is used to determine the Region of the default client.")
   ddbClient: DdbClientReference,
+  @javadoc("The KMS client this Key Store uses to call AWS KMS.  If None is provided and the KMS ARN is, the KMS ARN is used to determine the Region of the default client.")
+  kmsClient: KmsClientReference,
+}
+
+union Storage {
+  @javadoc("The DynamoDB configuration that backs this Key Store.")
+  ddb: DynamoDBTable
+  @javadoc("The custom storage configuration that backs this Key Store.")
+  custom: KeyStorageInterfaceReference
+}
+
+structure DynamoDBTable {
+  //= aws-encryption-sdk-specification/framework/branch-key-store.md#dynamodbtable
+  //= type=implication
+  //# A DynamoDBTable configuration MUST take the DynamoDB table name.
+  @required
+  @javadoc("The DynamoDB table name that backs this Key Store.")
+  ddbTableName: TableName,
+
+  //= aws-encryption-sdk-specification/framework/branch-key-store.md#dynamodbtable
+  //= type=implication
+  //# A DynamoDBTable configuration MAY take [DynamoDb Client](#dynamodb-client).
+  @javadoc("The DynamoDB client this Key Store uses to call Amazon DynamoDB. If None is provided and the KMS ARN is, the KMS ARN is used to determine the Region of the default client.")
+  ddbClient: DdbClientReference,
+}
+
+union KeyManagement {
+  @javadoc("The AWS KMS configuration this Key Store with use to authenticate branch keys.")
+  kms: AwsKms,
+}
+
+structure AwsKms {
+  //= aws-encryption-sdk-specification/framework/branch-key-store.md#awskms
+  //= type=implication
+  //# An AwsKms configuration MAY take a list of AWS KMS [grant tokens](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token).
+  @javadoc("The AWS KMS grant tokens that are used when this Key Store calls to AWS KMS.")
+  grantTokens: GrantTokenList,
+
+  //= aws-encryption-sdk-specification/framework/branch-key-store.md#awskms
+  //= type=implication
+  //# An AwsKms configuration MAY take an [AWS KMS SDK client](#awskms).  
   @javadoc("The KMS client this Key Store uses to call AWS KMS.  If None is provided and the KMS ARN is, the KMS ARN is used to determine the Region of the default client.")
   kmsClient: KmsClientReference,
 }
@@ -146,8 +193,8 @@ structure GetKeyStoreInfoOutput {
   @javadoc("An identifier for this Key Store.")
   keyStoreId: String,
   @required
-  @javadoc("The DynamoDB table name that backs this Key Store.")
-  keyStoreName: TableName,
+  @javadoc("The physical name of the backing storage for this Key Store instance.")
+  keyStoreName: String,
   @required
   @javadoc("The logical name for this Key Store, which is cryptographically bound to the keys it holds.")
   logicalKeyStoreName: String,
@@ -156,7 +203,7 @@ structure GetKeyStoreInfoOutput {
   grantTokens: GrantTokenList,
   @required
   @javadoc("Configures Key Store's KMS Key ARN restrictions.")
-  kmsConfiguration: KMSConfiguration
+  kmsConfiguration: KMSConfiguration,
 }
 
 @javadoc("Create the DynamoDB table that backs this Key Store based on the Key Store configuration. If a table already exists, validate it is configured as expected.")
