@@ -25,6 +25,7 @@ jobs:
             ComAmazonawsKms,
             ComAmazonawsDynamodb,
             AwsCryptographyPrimitives,
+            AwsCryptographicMaterialProviders,
           ]
         go-version: ["1.23"]
         os: [
