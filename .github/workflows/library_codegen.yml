@@ -71,7 +71,7 @@ jobs:
         uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
 
       - name: Setup Python, black, and docformatter for code formatting
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
           architecture: x64
