@@ -27,9 +27,7 @@ func (_static *CompanionStruct_Default___) KMSClient() Wrappers.Result {
 	if err != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(ComAmazonawsKmsTypes.Companion_Error_.Create_KMSInternalException_(Wrappers.Companion_Option_.Create_Some_(_dafny.SeqOfChars([]_dafny.Char(err.Error())...))))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(&KMSwrapped.Shim{Client: kms.NewFromConfig(cfg, func(o *kms.Options) {
-		o.Region = "us-west-2"
-	})})
+	return Wrappers.Companion_Result_.Create_Success_(&KMSwrapped.Shim{Client: kms.NewFromConfig(cfg)})
 }
 
 func (_static *CompanionStruct_Default___) RegionMatch(ikmsClient ComAmazonawsKmsTypes.IKMSClient, regionInput _dafny.Sequence) Wrappers.Option {
