@@ -1,3 +1,6 @@
+// Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
 import java.util.*;
 import java.nio.ByteBuffer;
 import java.util.logging.*;
@@ -52,7 +55,7 @@ public class KeyStoreConcurrencyTests {
                     .encryptionContext(encryptionContext)
                     .build()
                 ).branchKeyIdentifier();
-            
+
             logInfo("Success for createALotOfKeys; BranchKeyIdGenerated: " + branchKeyIdGenerated);
         }
         catch (TransactionCanceledException e) {
@@ -69,7 +72,7 @@ public class KeyStoreConcurrencyTests {
                 .branchKeyIdentifier(branchKeyId)
                 .build()
             ).branchKeyMaterials();
-        
+
         try {
             logBranchKeyMaterials(activeBranchKeyMaterials);
             logInfo("BranchKeyMaterials processed successfully");
@@ -87,11 +90,6 @@ public class KeyStoreConcurrencyTests {
             createALotOfKeys();
         }
     }
-
-
-
-
-
 
     // Logger setup
     private static final Logger LOGGER = Logger.getLogger(KeyStoreConcurrencyTests.class.getName());
@@ -115,12 +113,12 @@ public class KeyStoreConcurrencyTests {
         sb.append("BranchKeyMaterials:\n");
         sb.append("  Branch Key Identifier: ").append(materials.branchKeyIdentifier()).append("\n");
         sb.append("  Branch Key Version: ").append(materials.branchKeyVersion()).append("\n");
-        
+
         sb.append("  Encryption Context:\n");
         for (Map.Entry<String, String> entry : materials.encryptionContext().entrySet()) {
             sb.append("    ").append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
         }
-        
+
         ByteBuffer branchKey = materials.branchKey();
         sb.append("  Branch Key (ByteBuffer):\n");
         sb.append("    Capacity: ").append(branchKey.capacity()).append("\n");
