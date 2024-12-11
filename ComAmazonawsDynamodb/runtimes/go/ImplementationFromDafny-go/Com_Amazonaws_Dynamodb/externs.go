@@ -17,9 +17,7 @@ func (_static *CompanionStruct_Default___) DynamoDBClient() Wrappers.Result {
 		return Wrappers.Companion_Result_.Create_Failure_(ComAmazonawsDynamodbTypes.Companion_Error_.Create_InternalServerError_(Wrappers.Companion_Option_.Create_Some_(_dafny.SeqOfChars([]_dafny.Char(err.Error())...))))
 
 	}
-	return Wrappers.Companion_Result_.Create_Success_(&DynamoDBwrapped.Shim{Client: dynamodb.NewFromConfig(cfg, func(o *dynamodb.Options) {
-		o.Region = "us-west-2"
-	})})
+	return Wrappers.Companion_Result_.Create_Success_(&DynamoDBwrapped.Shim{Client: dynamodb.NewFromConfig(cfg, func(o *dynamodb.Options) {})})
 }
 
 func (_static *CompanionStruct_Default___) DDBClientForRegion(regionInput _dafny.Sequence) Wrappers.Result {
