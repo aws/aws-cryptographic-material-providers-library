@@ -402,8 +402,8 @@ structure InitializeMutationOutput {
 }
 
 // TODO: assert release is v1.9.0
-@documentation("
-Define the Mutation in terms of the terminal, or end state,
+@documentation(
+"Define the Mutation in terms of the terminal, or end state,
 value for a particular Branch Key property.
 The original value will be REPLACED with this value.
 As of v1.9.0, a Mutation can either:
@@ -412,14 +412,16 @@ As of v1.9.0, a Mutation can either:
 - replace both the KmsArn and the custom encryption context")
 structure Mutations {
   @documentation(
-  "ReEncrypt all Items of the Branch Key
+  "Optional. If not set, there will be no change to the KMS ARN.
+  If set, ReEncrypt all Items of the Branch Key
   to be authorized by this
   AWS Key Management Service Key.
   A Multi-Region or Single Region AWS KMS Key are permitted,
   but not aliases!")
   TerminalKmsArn: String // KMS Arn validation MUST occur in Dafny
   @documentation(
-  "ReEncrypt all Items of the Branch Key
+  "Optional. If not set, there will be no change to the Encryption Context.
+  ReEncrypt all Items of the Branch Key
   to be authorized with this custom encryption context.
   An empty Encryption Context is not allowed.")
   TerminalEncryptionContext: aws.cryptography.keyStore#EncryptionContextString // EC non Empty MUST be validated in Dafny
