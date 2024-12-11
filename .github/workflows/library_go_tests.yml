@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        library: [StandardLibrary, ComAmazonawsDynamodb]
+        library: [StandardLibrary, ComAmazonawsKms, ComAmazonawsDynamodb]
         go-version: ["1.23"]
         os: [
             # TODO fix Dafny-generated tests on Windows;
