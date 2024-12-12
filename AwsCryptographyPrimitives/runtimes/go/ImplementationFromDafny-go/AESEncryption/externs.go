@@ -15,7 +15,7 @@ var m_AESEncryption struct {
 }
 
 func (CompanionStruct_Default___) AESDecryptExtern(algo AwsCryptographyPrimitivesTypes.AES__GCM, key dafny.Sequence,
-		cipherText dafny.Sequence, authTag dafny.Sequence, iv dafny.Sequence, aad dafny.Sequence) Wrappers.Result {
+	cipherText dafny.Sequence, authTag dafny.Sequence, iv dafny.Sequence, aad dafny.Sequence) Wrappers.Result {
 
 	keyBytes := dafny.ToByteArray(key)
 	cipherTextBytes := dafny.ToByteArray(cipherText)
@@ -45,25 +45,22 @@ func (CompanionStruct_Default___) AESDecryptExtern(algo AwsCryptographyPrimitive
 			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 
-	if algo.Is_AES__GCM() {
-		gcm, err := cipher.NewGCM(block)
-		if err != nil {
-			return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
-				dafny.SeqOfChars([]dafny.Char(err.Error())...)))
-		}
-
-		plaintext, err := gcm.Open(nil, ivBytes, append(cipherTextBytes, authTagBytes...), aadBytes)
-		if err != nil {
-			return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
-				dafny.SeqOfChars([]dafny.Char(err.Error())...)))
-		}
-		return Wrappers.Companion_Result_.Create_Success_(dafny.SeqOfBytes(plaintext))
+	gcm, err := cipher.NewGCM(block)
+	if err != nil {
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
-	return Wrappers.Companion_Result_.Create_Failure_(false)
+
+	plaintext, err := gcm.Open(nil, ivBytes, append(cipherTextBytes, authTagBytes...), aadBytes)
+	if err != nil {
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+	}
+	return Wrappers.Companion_Result_.Create_Success_(dafny.SeqOfBytes(plaintext))
 }
 
 func (CompanionStruct_Default___) AESEncryptExtern(algo AwsCryptographyPrimitivesTypes.AES__GCM, iv dafny.Sequence,
-		key dafny.Sequence, msg dafny.Sequence, aad dafny.Sequence) Wrappers.Result {
+	key dafny.Sequence, msg dafny.Sequence, aad dafny.Sequence) Wrappers.Result {
 
 	keyBytes := dafny.ToByteArray(key)
 	ivBytes := dafny.ToByteArray(iv)
