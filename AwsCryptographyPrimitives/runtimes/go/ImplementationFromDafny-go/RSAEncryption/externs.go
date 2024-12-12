@@ -8,7 +8,7 @@ import (
 	"encoding/pem"
 	"fmt"
 
-	AwsCryptographyPrimitivesTypes "github.com/aws/aws-cryptographic-material-providers-library/primitives/AwsCryptographyPrimitivesTypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/primitives/AwsCryptographyPrimitivesTypes"
 	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
 )
@@ -33,77 +33,92 @@ func (CompanionStruct_Default___) GenerateKeyPairExtern(bits int32) (dafny.Seque
 	if err != nil {
 		panic(err)
 	}
-	return dafny.SeqOfBytes(pem.EncodeToMemory(&pem.Block{Type: "RSA PUBLIC KEY", Bytes: encodePublicKey})), dafny.SeqOfBytes(pem.EncodeToMemory(&pem.Block{Type: "RSA PRIVATE KEY", Bytes: encodePrivateKey}))
+	return dafny.SeqOfBytes(pem.EncodeToMemory(&pem.Block{Type: "RSA PUBLIC KEY", Bytes: encodePublicKey})),
+			dafny.SeqOfBytes(pem.EncodeToMemory(&pem.Block{Type: "RSA PRIVATE KEY", Bytes: encodePrivateKey}))
 }
 
 func (m_RSAEncryption_Ghost) RSA_GetRSAKeyModulusLengthExtern(publicKeyInput dafny.Sequence) Wrappers.Result {
 	derPublicKey, rest := pem.Decode(dafny.ToByteArray(publicKeyInput))
 	if len(rest) > 0 {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(fmt.Errorf("failed to decode PEM: invalid bytes:  %s", rest).Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(fmt.Errorf("failed to decode PEM: invalid bytes:  %s", rest).Error())...)))
 	}
 	publicKey, err := x509.ParsePKIXPublicKey(derPublicKey.Bytes)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 	return Wrappers.Companion_Result_.Create_Success_(uint32(publicKey.(*rsa.PublicKey).N.BitLen()))
 }
 
-func (CompanionStruct_Default___) DecryptExtern(paddingMode AwsCryptographyPrimitivesTypes.RSAPaddingMode, key dafny.Sequence, cipher_text dafny.Sequence) Wrappers.Result {
+func (CompanionStruct_Default___) DecryptExtern(paddingMode AwsCryptographyPrimitivesTypes.RSAPaddingMode,
+		key dafny.Sequence, cipher_text dafny.Sequence) Wrappers.Result {
 	derPrivateKey, rest := pem.Decode(dafny.ToByteArray(key))
 	if len(rest) > 0 {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(fmt.Errorf("failed to decode PEM: invalid bytes:  %s", rest).Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(fmt.Errorf("failed to decode PEM: invalid bytes:  %s", rest).Error())...)))
 	}
 
 	privateKey, err := x509.ParsePKCS8PrivateKey(derPrivateKey.Bytes)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 
 	if paddingMode.Is_PKCS1() {
 		encryptedBytes, err := rsa.DecryptPKCS1v15(rand.Reader, privateKey.(*rsa.PrivateKey), dafny.ToByteArray(cipher_text))
 		if err != nil {
-			return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+			return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+				dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 		}
 		return Wrappers.Companion_Result_.Create_Success_(dafny.SeqOfBytes(encryptedBytes))
 	}
 
 	mode, err := getNativeHashAlgorithm(paddingMode)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 
 	res, err := rsa.DecryptOAEP(crypto.Hash(mode).New(), rand.Reader, privateKey.(*rsa.PrivateKey), dafny.ToByteArray(cipher_text), nil)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 	return Wrappers.Companion_Result_.Create_Success_(dafny.SeqOfBytes(res))
 }
 
-func (CompanionStruct_Default___) EncryptExtern(paddingMode AwsCryptographyPrimitivesTypes.RSAPaddingMode, key dafny.Sequence, plainText dafny.Sequence) Wrappers.Result {
+func (CompanionStruct_Default___) EncryptExtern(paddingMode AwsCryptographyPrimitivesTypes.RSAPaddingMode,
+		key dafny.Sequence, plainText dafny.Sequence) Wrappers.Result {
 	derPublicKey, rest := pem.Decode(dafny.ToByteArray(key))
 	if len(rest) > 0 {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(fmt.Errorf("failed to decode PEM: invalid bytes:  %s", rest).Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(fmt.Errorf("failed to decode PEM: invalid bytes:  %s", rest).Error())...)))
 	}
 
 	publicKey, err := x509.ParsePKIXPublicKey(derPublicKey.Bytes)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 	if paddingMode.Is_PKCS1() {
 		encryptedBytes, err := rsa.EncryptPKCS1v15(rand.Reader, publicKey.(*rsa.PublicKey), dafny.ToByteArray(plainText))
 		if err != nil {
-			return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+			return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+				dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 		}
 		return Wrappers.Companion_Result_.Create_Success_(dafny.SeqOfBytes(encryptedBytes))
 	}
 
 	hash1, err := getNativeHashAlgorithm(paddingMode)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 	encryptedBytes, err := rsa.EncryptOAEP(hash1.New(), rand.Reader, publicKey.(*rsa.PublicKey), dafny.ToByteArray(plainText), nil)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 	return Wrappers.Companion_Result_.Create_Success_(dafny.SeqOfBytes(encryptedBytes))
 }

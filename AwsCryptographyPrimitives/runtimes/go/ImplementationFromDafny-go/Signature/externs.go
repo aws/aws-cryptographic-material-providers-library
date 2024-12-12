@@ -26,27 +26,33 @@ func (CompanionStruct_Default___) ExternKeyGen(algorithm AwsCryptographyPrimitiv
 
 	curve, _, _, err := getNativeEC(algorithm)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 
 	}
 
 	privateKey, pubKey, err = generateKeyPair(curve)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 
-	return Wrappers.Companion_Result_.Create_Success_(Companion_SignatureKeyPair_.Create_SignatureKeyPair_(dafny.SeqOfBytes(pubKey), dafny.SeqOfBytes(privateKey)))
+	return Wrappers.Companion_Result_.Create_Success_(Companion_SignatureKeyPair_.Create_SignatureKeyPair_(
+		dafny.SeqOfBytes(pubKey), dafny.SeqOfBytes(privateKey)))
 }
 
-func (CompanionStruct_Default___) Sign(algorithm AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm, key dafny.Sequence, msg dafny.Sequence) Wrappers.Result {
+func (CompanionStruct_Default___) Sign(algorithm AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm,
+		key dafny.Sequence, msg dafny.Sequence) Wrappers.Result {
 	privateKey, err := x509.ParsePKCS8PrivateKey(dafny.ToByteArray(key))
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 
 	_, digestAlgo, expectedSignatureLength, err := getNativeEC(algorithm)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 
 	}
 
@@ -60,17 +66,20 @@ func (CompanionStruct_Default___) Sign(algorithm AwsCryptographyPrimitivesTypes.
 	for ok := true; ok; ok = len(res) != expectedSignatureLength {
 		res, err = ecdsa.SignASN1(rand.Reader, privateKey.(*ecdsa.PrivateKey), dafny.ToByteArray(msgDigest.Dtor_value().(dafny.Sequence)))
 		if err != nil {
-			return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+			return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+				dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 		}
 	}
 
 	return Wrappers.Companion_Result_.Create_Success_(dafny.SeqOfBytes(res))
 }
 
-func ECDSA_Verify(algorithm AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm, key dafny.Sequence, msg dafny.Sequence, sig dafny.Sequence) Wrappers.Result {
+func ECDSA_Verify(algorithm AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm, key dafny.Sequence,
+		msg dafny.Sequence, sig dafny.Sequence) Wrappers.Result {
 	curve, digestAlgo, _, err := getNativeEC(algorithm)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 
 	msgDigest := ExternDigest.Digest(digestAlgo, msg)
@@ -80,9 +89,12 @@ func ECDSA_Verify(algorithm AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorit
 
 	x, y := elliptic.UnmarshalCompressed(curve, dafny.ToByteArray(key))
 	if x == nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char("Failed to decompress verification key")...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char("Failed to decompress verification key")...)))
 	}
-	res := ecdsa.VerifyASN1(&ecdsa.PublicKey{Curve: curve, X: x, Y: y}, dafny.ToByteArray(msgDigest.Dtor_value().(dafny.Sequence)), dafny.ToByteArray(sig))
+	res := ecdsa.VerifyASN1(&ecdsa.PublicKey{Curve: curve, X: x, Y: y},dafny.ToByteArray(msgDigest.Dtor_value().(dafny.Sequence)),
+							dafny.ToByteArray(sig))
+
 	return Wrappers.Companion_Result_.Create_Success_(res)
 }
 
@@ -101,7 +113,8 @@ func generateKeyPair(curve elliptic.Curve) ([]byte, []byte, error) {
 	return encodedPrivateKey, elliptic.MarshalCompressed(curve, publicKey.X, publicKey.Y), nil
 }
 
-func getNativeEC(curveSpec AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm) (elliptic.Curve, AwsCryptographyPrimitivesTypes.DigestAlgorithm, int, error) {
+func getNativeEC(curveSpec AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm) (elliptic.Curve,
+		AwsCryptographyPrimitivesTypes.DigestAlgorithm, int, error) {
 	switch curveSpec {
 	case AwsCryptographyPrimitivesTypes.Companion_ECDSASignatureAlgorithm_.Create_ECDSA__P256_():
 		return elliptic.P256(), AwsCryptographyPrimitivesTypes.Companion_DigestAlgorithm_.Create_SHA__256_(), 71, nil

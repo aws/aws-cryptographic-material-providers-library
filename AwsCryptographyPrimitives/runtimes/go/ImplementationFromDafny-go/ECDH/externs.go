@@ -9,8 +9,8 @@ import (
 	"encoding/pem"
 	"fmt"
 
-	AwsCryptographyPrimitivesTypes "github.com/aws/aws-cryptographic-material-providers-library/primitives/AwsCryptographyPrimitivesTypes"
-	dafny "github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
+	"github.com/aws/aws-cryptographic-material-providers-library/primitives/AwsCryptographyPrimitivesTypes"
+	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
 )
 
@@ -29,76 +29,90 @@ func (CompanionStruct_Default___) GenerateKeyPair(curveSpec AwsCryptographyPrimi
 
 	curve, err := getNativeEcdhCurve(curveSpec)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 
 	}
 
 	privateKey, pubKey, err = generateKeyPair(curve)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 
 	return Wrappers.Companion_Result_.Create_Success_(Companion_EccKeyPair_.Create_EccKeyPair_(dafny.SeqOfBytes(privateKey), dafny.SeqOfBytes(pubKey)))
 }
 
-func (CompanionStruct_Default___) CalculateSharedSecret(curveSpec AwsCryptographyPrimitivesTypes.ECDHCurveSpec, privateKeyInput AwsCryptographyPrimitivesTypes.ECCPrivateKey, publicKeyInput AwsCryptographyPrimitivesTypes.ECCPublicKey) Wrappers.Result {
+func (CompanionStruct_Default___) CalculateSharedSecret(curveSpec AwsCryptographyPrimitivesTypes.ECDHCurveSpec,
+		privateKeyInput AwsCryptographyPrimitivesTypes.ECCPrivateKey, publicKeyInput AwsCryptographyPrimitivesTypes.ECCPublicKey) Wrappers.Result {
+
 	curve, err := getNativeEcdhCurve(curveSpec)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 
 	}
 	privateKeyPem, rest := pem.Decode(dafny.ToByteArray(privateKeyInput.Dtor_pem()))
 	if len(rest) > 0 {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char("Invalid PEM format")...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char("Invalid PEM format")...)))
 
 	}
 
 	privateKeyDer, err := x509.ParsePKCS8PrivateKey(privateKeyPem.Bytes)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 
 	}
 
 	publicKeyDer, err := x509.ParsePKIXPublicKey(dafny.ToByteArray(publicKeyInput.Dtor_der()))
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 
 	}
 
 	publicKeyEcdh, err := publicKeyDer.(*ecdsa.PublicKey).ECDH()
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 
 	}
 
 	privateKeyEcdh, err := privateKeyDer.(*ecdsa.PrivateKey).ECDH()
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 
 	}
 
 	privateKey, err := curve.NewPrivateKey(privateKeyEcdh.Bytes())
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 
 	}
 
 	publicKey, err := curve.NewPublicKey(publicKeyEcdh.Bytes())
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 
 	}
 
 	sharedSecret, err := privateKey.ECDH(publicKey)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 
 	}
 
 	return Wrappers.Companion_Result_.Create_Success_(dafny.SeqOfBytes(sharedSecret))
 }
 
-func (static CompanionStruct_Default___) CompressPublicKey(publicKeyInput dafny.Sequence, curveSpec AwsCryptographyPrimitivesTypes.ECDHCurveSpec) Wrappers.Result {
+func (static CompanionStruct_Default___) CompressPublicKey(publicKeyInput dafny.Sequence,
+		curveSpec AwsCryptographyPrimitivesTypes.ECDHCurveSpec) Wrappers.Result {
 	// We only need this because elliptic.MarshalCompressed() doesn't return err handle and panics, so to avoid panic we pre-validate the key.
 	validate := static.ValidatePublicKey(curveSpec, publicKeyInput)
 
@@ -107,13 +121,15 @@ func (static CompanionStruct_Default___) CompressPublicKey(publicKeyInput dafny.
 	}
 	pkixPublicKey, err := x509.ParsePKIXPublicKey(dafny.ToByteArray(publicKeyInput))
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 
 	ecdhPublicKey := pkixPublicKey.(*ecdsa.PublicKey)
 	curve, err := getNativeEcdhCurve(curveSpec)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 
 	compressedPoint := elliptic.MarshalCompressed(ecdhCurveToEllipticCurve(curve), ecdhPublicKey.X, ecdhPublicKey.Y)
@@ -121,23 +137,27 @@ func (static CompanionStruct_Default___) CompressPublicKey(publicKeyInput dafny.
 
 }
 
-func (CompanionStruct_Default___) DecompressPublicKey(publicKeyInput dafny.Sequence, curveSpec AwsCryptographyPrimitivesTypes.ECDHCurveSpec) Wrappers.Result {
+func (CompanionStruct_Default___) DecompressPublicKey(publicKeyInput dafny.Sequence,
+		curveSpec AwsCryptographyPrimitivesTypes.ECDHCurveSpec) Wrappers.Result {
 	publicKeyBytes := dafny.ToByteArray(publicKeyInput)
 
 	curve, err := getNativeEcdhCurve(curveSpec)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 	x, y := elliptic.UnmarshalCompressed(ecdhCurveToEllipticCurve(curve), publicKeyBytes)
 	ecPublicKey := ecdsa.PublicKey{Curve: ecdhCurveToEllipticCurve(curve), X: x, Y: y}
 	ecdhPublicKey, err := ecPublicKey.ECDH()
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 	derivedEcdhKey, err := curve.NewPublicKey(ecdhPublicKey.Bytes())
 	b, err := x509.MarshalPKIXPublicKey(derivedEcdhKey)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 	return Wrappers.Companion_Result_.Create_Success_(dafny.SeqOfBytes(b))
 
@@ -162,22 +182,26 @@ func (CompanionStruct_Default___) ParsePublicKey(publicKeyInput dafny.Sequence) 
 	var ecdhPublicKey *ecdh.PublicKey
 	pkixPublicKey, err := x509.ParsePKIXPublicKey(publicKeyBytes)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 
 	if ecdhPublicKey, err = pkixPublicKey.(*ecdsa.PublicKey).ECDH(); err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 
 	encodedPublicKey, err := x509.MarshalPKIXPublicKey(ecdhPublicKey)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 	return Wrappers.Companion_Result_.Create_Success_(dafny.SeqOfBytes(encodedPublicKey))
 
 }
 
-func (companion CompanionStruct_Default___) ValidatePublicKey(curveSpec AwsCryptographyPrimitivesTypes.ECDHCurveSpec, publicKeyInput dafny.Sequence) Wrappers.Result {
+func (companion CompanionStruct_Default___) ValidatePublicKey(curveSpec AwsCryptographyPrimitivesTypes.ECDHCurveSpec,
+	publicKeyInput dafny.Sequence) Wrappers.Result {
 	parseResult := companion.ParsePublicKey(publicKeyInput)
 	if parseResult.IsFailure() {
 		return parseResult
@@ -185,50 +209,60 @@ func (companion CompanionStruct_Default___) ValidatePublicKey(curveSpec AwsCrypt
 
 	curve, err := getNativeEcdhCurve(curveSpec)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 
 	encodedPublicKey, err := x509.ParsePKIXPublicKey(dafny.ToByteArray(parseResult.Dtor_value().(dafny.Sequence)))
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 
 	ecdhPublicKey, err := encodedPublicKey.(*ecdsa.PublicKey).ECDH()
 
 	if _, err := curve.NewPublicKey(ecdhPublicKey.Bytes()); err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 
 	return Wrappers.Companion_Result_.Create_Success_(true)
 }
 
-func (CompanionStruct_Default___) GetPublicKey(curveSpec AwsCryptographyPrimitivesTypes.ECDHCurveSpec, privateKey AwsCryptographyPrimitivesTypes.ECCPrivateKey) Wrappers.Result {
+func (CompanionStruct_Default___) GetPublicKey(curveSpec AwsCryptographyPrimitivesTypes.ECDHCurveSpec,
+	privateKey AwsCryptographyPrimitivesTypes.ECCPrivateKey) Wrappers.Result {
 	privateKeyPem := dafny.ToByteArray(privateKey.Dtor_pem())
 	privateKeyBytes, rest := pem.Decode(privateKeyPem)
 	if len(rest) > 0 {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char("invalid PEM format")...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char("invalid PEM format")...)))
 	}
 	curve, err := getNativeEcdhCurve(curveSpec)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 
 	pk, err := x509.ParsePKCS8PrivateKey(privateKeyBytes.Bytes)
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 	ecdhPk, err := pk.(*ecdsa.PrivateKey).ECDH()
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 	newPrivateKey, err := curve.NewPrivateKey(ecdhPk.Bytes())
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 
 	encodedPublicKey, err := x509.MarshalPKIXPublicKey(newPrivateKey.PublicKey())
 	if err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 	return Wrappers.Companion_Result_.Create_Success_(dafny.SeqOfBytes(encodedPublicKey))
 
