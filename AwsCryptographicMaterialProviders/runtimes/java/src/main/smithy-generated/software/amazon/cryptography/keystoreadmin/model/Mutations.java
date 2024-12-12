@@ -6,7 +6,6 @@ package software.amazon.cryptography.keystoreadmin.model;
 import java.util.Map;
 
 /**
- *
  * Define the Mutation in terms of the terminal, or end state,
  * value for a particular Branch Key property.
  * The original value will be REPLACED with this value.
@@ -18,7 +17,8 @@ import java.util.Map;
 public class Mutations {
 
   /**
-   * ReEncrypt all Items of the Branch Key
+   * Optional. If not set, there will be no change to the KMS ARN.
+   *   If set, ReEncrypt all Items of the Branch Key
    *   to be authorized by this
    *   AWS Key Management Service Key.
    *   A Multi-Region or Single Region AWS KMS Key are permitted,
@@ -27,7 +27,8 @@ public class Mutations {
   private final String TerminalKmsArn;
 
   /**
-   * ReEncrypt all Items of the Branch Key
+   * Optional. If not set, there will be no change to the Encryption Context.
+   *   ReEncrypt all Items of the Branch Key
    *   to be authorized with this custom encryption context.
    *   An empty Encryption Context is not allowed.
    */
@@ -39,7 +40,8 @@ public class Mutations {
   }
 
   /**
-   * @return ReEncrypt all Items of the Branch Key
+   * @return Optional. If not set, there will be no change to the KMS ARN.
+   *   If set, ReEncrypt all Items of the Branch Key
    *   to be authorized by this
    *   AWS Key Management Service Key.
    *   A Multi-Region or Single Region AWS KMS Key are permitted,
@@ -50,7 +52,8 @@ public class Mutations {
   }
 
   /**
-   * @return ReEncrypt all Items of the Branch Key
+   * @return Optional. If not set, there will be no change to the Encryption Context.
+   *   ReEncrypt all Items of the Branch Key
    *   to be authorized with this custom encryption context.
    *   An empty Encryption Context is not allowed.
    */
@@ -68,7 +71,8 @@ public class Mutations {
 
   public interface Builder {
     /**
-     * @param TerminalKmsArn ReEncrypt all Items of the Branch Key
+     * @param TerminalKmsArn Optional. If not set, there will be no change to the KMS ARN.
+     *   If set, ReEncrypt all Items of the Branch Key
      *   to be authorized by this
      *   AWS Key Management Service Key.
      *   A Multi-Region or Single Region AWS KMS Key are permitted,
@@ -77,7 +81,8 @@ public class Mutations {
     Builder TerminalKmsArn(String TerminalKmsArn);
 
     /**
-     * @return ReEncrypt all Items of the Branch Key
+     * @return Optional. If not set, there will be no change to the KMS ARN.
+     *   If set, ReEncrypt all Items of the Branch Key
      *   to be authorized by this
      *   AWS Key Management Service Key.
      *   A Multi-Region or Single Region AWS KMS Key are permitted,
@@ -86,7 +91,8 @@ public class Mutations {
     String TerminalKmsArn();
 
     /**
-     * @param TerminalEncryptionContext ReEncrypt all Items of the Branch Key
+     * @param TerminalEncryptionContext Optional. If not set, there will be no change to the Encryption Context.
+     *   ReEncrypt all Items of the Branch Key
      *   to be authorized with this custom encryption context.
      *   An empty Encryption Context is not allowed.
      */
@@ -95,7 +101,8 @@ public class Mutations {
     );
 
     /**
-     * @return ReEncrypt all Items of the Branch Key
+     * @return Optional. If not set, there will be no change to the Encryption Context.
+     *   ReEncrypt all Items of the Branch Key
      *   to be authorized with this custom encryption context.
      *   An empty Encryption Context is not allowed.
      */
