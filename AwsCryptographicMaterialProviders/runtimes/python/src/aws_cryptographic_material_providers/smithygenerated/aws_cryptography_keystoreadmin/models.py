@@ -1121,14 +1121,18 @@ class Mutations:
         - replace both the KmsArn and
         the custom encryption context
 
-        :param terminal_kms_arn: ReEncrypt all Items of the Branch Key
-          to be
-        authorized by this
+        :param terminal_kms_arn: Optional. If not set, there will be no change to the
+        KMS ARN.
+          If set, ReEncrypt all Items of the Branch Key
+          to be authorized by
+        this
           AWS Key Management Service Key.
-          A Multi-Region or Single
-        Region AWS KMS Key are permitted,
+          A Multi-Region or Single Region AWS KMS
+        Key are permitted,
           but not aliases!
-        :param terminal_encryption_context: ReEncrypt all Items of the Branch Key
+        :param terminal_encryption_context: Optional. If not set, there will be no
+        change to the Encryption Context.
+          ReEncrypt all Items of the Branch Key
           to
         be authorized with this custom encryption context.
           An empty Encryption Context
