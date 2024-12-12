@@ -98,7 +98,13 @@ func (CompanionStruct_Default___) CalculateSharedSecret(curveSpec AwsCryptograph
 	return Wrappers.Companion_Result_.Create_Success_(dafny.SeqOfBytes(sharedSecret))
 }
 
-func (CompanionStruct_Default___) CompressPublicKey(publicKeyInput dafny.Sequence, curveSpec AwsCryptographyPrimitivesTypes.ECDHCurveSpec) Wrappers.Result {
+func (static CompanionStruct_Default___) CompressPublicKey(publicKeyInput dafny.Sequence, curveSpec AwsCryptographyPrimitivesTypes.ECDHCurveSpec) Wrappers.Result {
+	// We only need this because elliptic.MarshalCompressed() doesn't return err handle and panics, so to avoid panic we pre-validate the key.
+	validate := static.ValidatePublicKey(curveSpec, publicKeyInput)
+
+	if validate.IsFailure() {
+		return validate
+	}
 	pkixPublicKey, err := x509.ParsePKIXPublicKey(dafny.ToByteArray(publicKeyInput))
 	if err != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
@@ -190,7 +196,7 @@ func (companion CompanionStruct_Default___) ValidatePublicKey(curveSpec AwsCrypt
 	ecdhPublicKey, err := encodedPublicKey.(*ecdsa.PublicKey).ECDH()
 
 	if _, err := curve.NewPublicKey(ecdhPublicKey.Bytes()); err != nil {
-		return Wrappers.Companion_Result_.Create_Failure_(true)
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 
 	return Wrappers.Companion_Result_.Create_Success_(true)
