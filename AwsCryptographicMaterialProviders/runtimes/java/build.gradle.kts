@@ -315,6 +315,27 @@ val testExamples = task<Test>("testExamples") {
     testLogging {
         events("passed")
     }
+    filter {
+        excludeTestsMatching("software.amazon.cryptography.example.hierarchy.concurrent.*")
+    }
+}
+
+val testConcurrentExamples = task<Test>("testConcurrentExamples") {
+    description = "Runs examples tests."
+    group = "verification"
+
+    testClassesDirs = sourceSets["testExamples"].output.classesDirs
+    classpath = sourceSets["testExamples"].runtimeClasspath + sourceSets["examples"].output + sourceSets.main.get().output
+    // This will show System.out.println statements
+    testLogging.showStandardStreams = true
+    useTestNG()
+
+    testLogging {
+        events("passed")
+    }
+    filter {
+        includeTestsMatching("software.amazon.cryptography.example.hierarchy.concurrent.*")
+    }
 }
 
 fun buildPom(mavenPublication: MavenPublication) {
