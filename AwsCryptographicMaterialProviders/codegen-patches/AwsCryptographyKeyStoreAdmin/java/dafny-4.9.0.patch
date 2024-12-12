@@ -1,0 +1,27 @@
+diff --git b/AwsCryptographicMaterialProviders/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/keystoreadmin/model/CollectionOfErrors.java a/AwsCryptographicMaterialProviders/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/keystoreadmin/model/CollectionOfErrors.java
+index 8ca147980..73ac39572 100644
+--- b/AwsCryptographicMaterialProviders/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/keystoreadmin/model/CollectionOfErrors.java
++++ a/AwsCryptographicMaterialProviders/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/keystoreadmin/model/CollectionOfErrors.java
+@@ -4,6 +4,7 @@
+ package software.amazon.cryptography.keystoreadmin.model;
+ 
+ import java.util.List;
++import java.util.stream.Collectors;
+ 
+ public class CollectionOfErrors extends RuntimeException {
+ 
+@@ -134,6 +135,14 @@ public class CollectionOfErrors extends RuntimeException {
+     }
+ 
+     public CollectionOfErrors build() {
++      if (!(this.list == null || this.list.isEmpty())) {
++        this.message =
++          this.message +
++          " String representation of Exceptions in list.\n" +
++          this.list.stream()
++            .map(ex -> ex.getClass().getSimpleName() + ": " + ex.getMessage())
++            .collect(Collectors.joining("\n"));
++      }        
+       return new CollectionOfErrors(this);
+     }
+   }
