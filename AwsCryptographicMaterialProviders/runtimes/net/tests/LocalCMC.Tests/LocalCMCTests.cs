@@ -75,6 +75,8 @@ public class LocalCMCTests
         BeaconKey = new BeaconKeyMaterials
         {
           BeaconKeyIdentifier = beaconKeyIdentifier,
+          // The cacheIdentifier is used as the material
+          // because we are not testing the cryptography here.
           BeaconKey = cacheIdentifier,
           EncryptionContext = new Dictionary<string, string>()
         }
