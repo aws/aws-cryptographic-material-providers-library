@@ -41,6 +41,10 @@ pub mod local_cmc_tests {
     use chrono::Utc;
     use rand::{thread_rng, Rng};
     use futures::stream::StreamExt;
+    // Currently this is commented out to keep it consistent with other
+    // runtimes but every language should eventually have a network
+    // call delay while testing adding to the StormTrackingCache.
+    // use std::time::Duration;
 
     async fn work_for_thread() -> Result<(), crate::BoxError> {
         let mpl_config: MaterialProvidersConfig = MaterialProvidersConfig::builder().build()?;
@@ -89,7 +93,7 @@ pub mod local_cmc_tests {
                 let test = test.clone();
 
                 async move {
-                    println!("TestLotsofAdd");
+                    println!("-----------TestLotsofAdd-----------");
                     let random = thread_rng().gen_range(0..id_size);
                     let beacon_key_identifier: &str = identifiers[random];
 
@@ -108,10 +112,21 @@ pub mod local_cmc_tests {
                             let materials = Materials::BeaconKey(
                                     BeaconKeyMaterials::builder()
                                     .beacon_key_identifier(beacon_key_identifier.to_string())
+                                    // The cacheIdentifier is used as the material
+                                    // because we are not testing the cryptography here.
                                     .beacon_key(cache_identifier.clone())
                                     .encryption_context(HashMap::new())
                                     .build()?
                                 );
+                            // This sleep time is to mimic a KMS or DDB call
+                            // Currently this is commented out to keep it consistent with other
+                            // runtimes but every language should eventually have a network
+                            // call delay while testing adding to the StormTrackingCache.
+                            // The reason why this is commented out and not just set to 0 is because
+                            // setting it to 0 adds a significant overhead of task switching, and
+                            // with that, testing for 300_000 instances will not be possible.
+                            // let network_call_delay: u64 = 50;
+                            // tokio::time::sleep(Duration::from_millis(network_call_delay)).await;
 
                             test.put_cache_entry()
                                 .identifier(cache_identifier)
