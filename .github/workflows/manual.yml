@@ -47,6 +47,11 @@ jobs:
     with:
       dafny: ${{needs.getVersion.outputs.version}}
       regenerate-code: ${{ inputs.regenerate-code }}
+  manual-ci-go:
+    uses: ./.github/workflows/library_go_tests.yml
+    with:
+      dafny: ${{needs.getVersion.outputs.version}}
+      regenerate-code: ${{ inputs.regenerate-code }}
   manual-interop-test:
     uses: ./.github/workflows/library_interop_tests.yml
     with:
