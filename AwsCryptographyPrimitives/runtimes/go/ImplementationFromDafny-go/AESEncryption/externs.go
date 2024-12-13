@@ -83,20 +83,17 @@ func (CompanionStruct_Default___) AESEncryptExtern(algo AwsCryptographyPrimitive
 			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
 
-	if algo.Is_AES__GCM() {
-		gcm, err := cipher.NewGCM(block)
-		if err != nil {
-			return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
-				dafny.SeqOfChars([]dafny.Char(err.Error())...)))
-		}
-
-		cipherText := gcm.Seal(nil, ivBytes, dafny.ToByteArray(msg), aadBytes)
-		if cipherText == nil {
-			return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
-				dafny.SeqOfChars([]dafny.Char(fmt.Errorf("failed to do AES_GCM Encrypt with the given parameters").Error())...)))
-		}
-		return Wrappers.Companion_Result_.Create_Success_(AwsCryptographyPrimitivesTypes.Companion_AESEncryptOutput_.Create_AESEncryptOutput_(
-			dafny.SeqOfBytes(cipherText[:len(cipherText)-gcm.Overhead()]), dafny.SeqOfBytes(cipherText[len(cipherText)-gcm.Overhead():])))
+	gcm, err := cipher.NewGCM(block)
+	if err != nil {
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(err.Error())...)))
 	}
-	return Wrappers.Companion_Result_.Create_Failure_(false)
+
+	cipherText := gcm.Seal(nil, ivBytes, dafny.ToByteArray(msg), aadBytes)
+	if cipherText == nil {
+		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
+			dafny.SeqOfChars([]dafny.Char(fmt.Errorf("failed to do AES_GCM Encrypt with the given parameters").Error())...)))
+	}
+	return Wrappers.Companion_Result_.Create_Success_(AwsCryptographyPrimitivesTypes.Companion_AESEncryptOutput_.Create_AESEncryptOutput_(
+		dafny.SeqOfBytes(cipherText[:len(cipherText)-gcm.Overhead()]), dafny.SeqOfBytes(cipherText[len(cipherText)-gcm.Overhead():])))
 }

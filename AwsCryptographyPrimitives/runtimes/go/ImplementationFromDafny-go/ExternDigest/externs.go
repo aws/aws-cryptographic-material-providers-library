@@ -11,12 +11,12 @@ import (
 )
 
 func Digest(algorithm AwsCryptographyPrimitivesTypes.DigestAlgorithm, message dafny.Sequence) Wrappers.Result {
-	hash, _ := getNativeEcdhCurve(algorithm)
+	hash, _ := getNativeDigestAlgorithm(algorithm)
 	hash.Write(dafny.ToByteArray(message))
 	return Wrappers.Companion_Result_.Create_Success_(dafny.SeqOfBytes(hash.Sum(nil)))
 }
 
-func getNativeEcdhCurve(algorithm AwsCryptographyPrimitivesTypes.DigestAlgorithm) (hash.Hash, error) {
+func getNativeDigestAlgorithm(algorithm AwsCryptographyPrimitivesTypes.DigestAlgorithm) (hash.Hash, error) {
 	switch algorithm {
 	case AwsCryptographyPrimitivesTypes.Companion_DigestAlgorithm_.Create_SHA__256_():
 		return crypto.SHA256.New(), nil

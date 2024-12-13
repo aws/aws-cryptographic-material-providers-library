@@ -41,9 +41,6 @@ func (hMac *HMac) BlockUpdate(message dafny.Sequence) {
 	}
 }
 
-func (hMac *HMac) String() string {
-	return ""
-}
 func (hMac *HMac) GetResult() dafny.Sequence {
 	res := hMac.hash.Sum(nil)
 	// reset the hash for future use. or maybe reinit it like rust?
