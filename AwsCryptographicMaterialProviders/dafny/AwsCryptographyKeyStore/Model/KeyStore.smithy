@@ -364,7 +364,7 @@ map HmacKeyMap {
   value: Secret
 }
 
-@sensitive
+// This is sensitive
 blob Secret
 
 map EncryptionContext {

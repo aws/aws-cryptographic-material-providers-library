@@ -150,5 +150,5 @@ map EncryptionContext {
   value: Utf8Bytes,
 }
 
-@sensitive
+// This is sensitive
 blob Secret
