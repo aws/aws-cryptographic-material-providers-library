@@ -21,7 +21,7 @@ from cryptography.hazmat.primitives.asymmetric.utils import (
   decode_dss_signature,
   encode_dss_signature
 )
-from cryptography.hazmat.primitives.asymmetric.utils import Prehashed
+from cryptography.hazmat.primitives.asymmetric.utils import Prehashed 
 
 from collections import namedtuple
 import _dafny
