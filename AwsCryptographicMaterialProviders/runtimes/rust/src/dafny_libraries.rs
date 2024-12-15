@@ -137,7 +137,7 @@ pub mod DafnyLibraries {
             bool,
             ::dafny_runtime::Sequence<::dafny_runtime::DafnyCharUTF16>,
         ) {
-            SendBytesToFile(path, bytes, truncated)
+            SendBytesToFile(path, bytes, true)
         }
 
         pub fn INTERNAL_WriteBytesToFile(
