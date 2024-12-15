@@ -30,7 +30,7 @@ namespace Time
 
         public static long GetCurrentCPU()
         {
-            return (long) Process.GetCurrentProcess().TotalProcessorTime.TotalMilliseconds;
+            return (long)Process.GetCurrentProcess().TotalProcessorTime.TotalMilliseconds;
         }
 
         public static _IResult<icharseq, icharseq> GetCurrentTimeStamp()

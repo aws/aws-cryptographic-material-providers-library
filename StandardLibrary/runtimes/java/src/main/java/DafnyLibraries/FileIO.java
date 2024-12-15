@@ -137,7 +137,11 @@ public class FileIO {
         (DafnySequence<Byte>) bytes
       );
 
-      java.io.OutputStream out = Files.newOutputStream(pathObj, java.nio.file.StandardOpenOption.CREATE, java.nio.file.StandardOpenOption.APPEND);
+      java.io.OutputStream out = Files.newOutputStream(
+        pathObj,
+        java.nio.file.StandardOpenOption.CREATE,
+        java.nio.file.StandardOpenOption.APPEND
+      );
       out.write(byteArr);
       out.close();
       return Tuple2.create(false, DafnySequence.empty(TypeDescriptor.CHAR));

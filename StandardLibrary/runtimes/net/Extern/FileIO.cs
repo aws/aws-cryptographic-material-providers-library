@@ -124,8 +124,8 @@ namespace DafnyLibraries
                 CreateParentDirs(pathStr);
                 using (var stream = new FileStream(pathStr, FileMode.Append))
                 {
-                  var myBytes = bytes.CloneAsArray();
-                  stream.Write(myBytes, 0, myBytes.Length);
+                    var myBytes = bytes.CloneAsArray();
+                    stream.Write(myBytes, 0, myBytes.Length);
                 }
                 isError = false;
             }

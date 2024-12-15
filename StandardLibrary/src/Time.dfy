@@ -83,9 +83,9 @@ module {:extern "Time"} Time {
     var ClockTime := GetCurrentMilli();
     var CpuTime := GetCurrentCPU();
     return AbsoluteTime (
-      ClockTime := ClockTime as uint64,
-      CpuTime := CpuTime as uint64
-    );
+        ClockTime := ClockTime as uint64,
+        CpuTime := CpuTime as uint64
+      );
   }
 
   method PrintTimeSince(start : AbsoluteTime)

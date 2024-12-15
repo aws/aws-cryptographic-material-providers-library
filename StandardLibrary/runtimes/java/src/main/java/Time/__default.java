@@ -1,13 +1,13 @@
 package Time;
 
 import Wrappers_Compile.Result;
+import com.sun.management.OperatingSystemMXBean;
 import dafny.DafnySequence;
+import java.lang.management.ManagementFactory;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-import java.lang.management.ManagementFactory;
-import com.sun.management.OperatingSystemMXBean;
 
 public class __default extends Time._ExternBase___default {
 
@@ -20,7 +20,8 @@ public class __default extends Time._ExternBase___default {
   }
 
   public static Long GetCurrentCPU() {
-    OperatingSystemMXBean bean = (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+    OperatingSystemMXBean bean =
+      (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
     return new Long(bean.getProcessCpuTime() / 1000000);
   }
 
