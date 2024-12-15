@@ -14,7 +14,18 @@ var m_DafnyLibraries struct {
 }
 
 func (_static CompanionStruct_Default___) INTERNAL_ReadBytesFromFile(path _dafny.Sequence) (isError bool, bytesRead _dafny.Sequence, errorMsg _dafny.Sequence) {
-	p := _dafny.SequenceVerbatimString(path, false)
+	p := func() string {
+		var s string
+		for i := _dafny.Iterate(path); ; {
+			val, notEndOfSequence := i()
+			if notEndOfSequence {
+				s = s + string(val.(_dafny.Char))
+			} else {
+				return s
+			}
+		}
+	}()
+
 	dat, err := ioutil.ReadFile(p)
 	if err != nil {
 		errAsSequence := _dafny.UnicodeSeqOfUtf8Bytes(err.Error())
@@ -25,16 +36,59 @@ func (_static CompanionStruct_Default___) INTERNAL_ReadBytesFromFile(path _dafny
 }
 
 func (_static CompanionStruct_Default___) INTERNAL_WriteBytesToFile(path _dafny.Sequence, bytes _dafny.Sequence) (isError bool, errorMsg _dafny.Sequence) {
-	p := _dafny.SequenceVerbatimString(path, false)
+	p := func() string {
+		var s string
+		for i := _dafny.Iterate(path); ; {
+			val, notEndOfSequence := i()
+			if notEndOfSequence {
+				s = s + string(val.(_dafny.Char))
+			} else {
+				return s
+			}
+		}
+	}()
 
 	// Create directories
 	os.MkdirAll(filepath.Dir(p), os.ModePerm)
-
 	bytesArray := _dafny.ToByteArray(bytes)
 	err := ioutil.WriteFile(p, bytesArray, 0644)
 	if err != nil {
 		errAsSequence := _dafny.UnicodeSeqOfUtf8Bytes(err.Error())
 		return true, errAsSequence
 	}
+	return false, _dafny.EmptySeq
+}
+
+func (_static CompanionStruct_Default___) INTERNAL_AppendBytesToFile(path _dafny.Sequence, bytes _dafny.Sequence) (isError bool, errorMsg _dafny.Sequence) {
+	p := func() string {
+		var s string
+		for i := _dafny.Iterate(path); ; {
+			val, notEndOfSequence := i()
+			if notEndOfSequence {
+				s = s + string(val.(_dafny.Char))
+			} else {
+				return s
+			}
+		}
+	}()
+
+	// Create directories
+	os.MkdirAll(filepath.Dir(p), os.ModePerm)
+
+	bytesArray := _dafny.ToByteArray(bytes)
+
+	f, err := os.OpenFile(p, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return true, _dafny.UnicodeSeqOfUtf8Bytes(err.Error())
+	}
+
+	if _, err := f.Write(bytesArray); err != nil {
+		return true, _dafny.UnicodeSeqOfUtf8Bytes(err.Error())
+	}
+
+	if err := f.Close(); err != nil {
+		return true, _dafny.UnicodeSeqOfUtf8Bytes(err.Error())
+	}
+
 	return false, _dafny.EmptySeq
 }

@@ -7,6 +7,7 @@
 
 use crate::*;
 use std::time::SystemTime;
+use std::convert::TryFrom;
 
 impl crate::Time::_default {
     #[allow(non_snake_case)]
@@ -24,6 +25,12 @@ impl crate::Time::_default {
             Ok(n) => n.as_millis() as i64,
             Err(_) => 0,
         }
+    }
+
+    #[allow(non_snake_case)]
+    #[allow(dead_code)]
+    pub fn GetCurrentCPU() -> i64 {
+        i64::try_from(cpu_time::ProcessTime::now().as_duration().as_millis()).expect("CPU millisecond didn't fit in an i64")
     }
 
     #[allow(non_snake_case)]

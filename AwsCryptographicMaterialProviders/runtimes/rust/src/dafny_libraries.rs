@@ -130,9 +130,30 @@ pub mod DafnyLibraries {
             }
         }
 
+        pub fn INTERNAL_AppendBytesToFile(
+            path: &::dafny_runtime::Sequence<::dafny_runtime::DafnyCharUTF16>,
+            bytes: &::dafny_runtime::Sequence<u8>,
+        ) -> (
+            bool,
+            ::dafny_runtime::Sequence<::dafny_runtime::DafnyCharUTF16>,
+        ) {
+            SendBytesToFile(path, bytes, truncated)
+        }
+
         pub fn INTERNAL_WriteBytesToFile(
             path: &::dafny_runtime::Sequence<::dafny_runtime::DafnyCharUTF16>,
             bytes: &::dafny_runtime::Sequence<u8>,
+        ) -> (
+            bool,
+            ::dafny_runtime::Sequence<::dafny_runtime::DafnyCharUTF16>,
+        ) {
+            SendBytesToFile(path, bytes, false)
+        }
+
+        pub fn SendBytesToFile(
+            path: &::dafny_runtime::Sequence<::dafny_runtime::DafnyCharUTF16>,
+            bytes: &::dafny_runtime::Sequence<u8>,
+            append: bool
         ) -> (
             bool,
             ::dafny_runtime::Sequence<::dafny_runtime::DafnyCharUTF16>,
@@ -141,9 +162,10 @@ pub mod DafnyLibraries {
             let path = Path::new(&file_name);
 
             let maybe_file = std::fs::OpenOptions::new()
+                .append(append)
                 .write(true)
                 .create(true)
-                .truncate(true)
+                .truncate(!append)
                 .open(path);
             let mut file = match maybe_file {
                 Err(why) => {
