@@ -15,7 +15,7 @@ readme = "README.md"
 [dependencies]
 aws-config = "1.5.8"
 aws-lc-rs = "1.10.0"
-aws-lc-sys = "0.22.0"
+aws-lc-sys = "0.23.1"
 aws-sdk-dynamodb = "1.50.0"
 aws-sdk-kms = "1.47.0"
 aws-smithy-runtime-api = {version = "1.7.2", features = ["client"] }
@@ -27,3 +27,6 @@ dashmap = "6.1.0"
 pem = "3.0.4"
 tokio = {version = "1.41.0", features = ["full"] }
 uuid = { version = "1.11.0", features = ["v4"] }
+timeout = "0.1.0"
+rand = "0.8.5"
+futures = "0.3"
