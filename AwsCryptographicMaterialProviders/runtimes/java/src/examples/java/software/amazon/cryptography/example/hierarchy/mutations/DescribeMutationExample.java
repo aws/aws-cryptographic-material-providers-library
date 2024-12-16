@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 package software.amazon.cryptography.example.hierarchy.mutations;
 
+import static software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider.MutableBranchKeyPropertiesToString;
+import static software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider.MutationsToString;
 import static software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider.executeInitialize;
 
 import java.util.Objects;
@@ -61,7 +63,15 @@ public class DescribeMutationExample {
         "\n It was started on: " +
         description.MutationDetails().CreateTime() +
         "\n The Input was: " +
-        description.MutationDetails().Input()
+        MutationsToString(description.MutationDetails().Input()) +
+        "\n The Original Properties are: " +
+        MutableBranchKeyPropertiesToString(
+          description.MutationDetails().Original()
+        ) +
+        "\n The Terminal Properties are: " +
+        MutableBranchKeyPropertiesToString(
+          description.MutationDetails().Terminal()
+        )
       );
       // The Description object holds Details and the Token.
       System.out.println(

@@ -3,6 +3,7 @@ package software.amazon.cryptography.example.hierarchy.mutations;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -20,6 +21,7 @@ import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
 import software.amazon.cryptography.keystoreadmin.model.KmsSymmetricEncryption;
+import software.amazon.cryptography.keystoreadmin.model.MutableBranchKeyProperties;
 import software.amazon.cryptography.keystoreadmin.model.MutatedBranchKeyItem;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
@@ -27,16 +29,6 @@ import software.amazon.cryptography.keystoreadmin.model.SystemKey;
 import software.amazon.cryptography.keystoreadmin.model.TrustStorage;
 
 public class MutationsProvider {
-
-  public static String mutatedItemsToString(
-    List<MutatedBranchKeyItem> mutatedItems
-  ) {
-    return mutatedItems
-      .stream()
-      .map(item -> String.format("%s : %s", item.ItemType(), item.Description())
-      )
-      .collect(Collectors.joining(",\n"));
-  }
 
   public static Mutations defaultMutation(
     @Nonnull final String terminalKmsArn
@@ -153,6 +145,16 @@ public class MutationsProvider {
     return result;
   }
 
+  public static String mutatedItemsToString(
+    List<MutatedBranchKeyItem> mutatedItems
+  ) {
+    return mutatedItems
+      .stream()
+      .map(item -> String.format("%s : %s", item.ItemType(), item.Description())
+      )
+      .collect(Collectors.joining(",\n"));
+  }
+
   static MutationToken executeInitialize(
     String branchKeyId,
     KeyStoreAdmin admin,
@@ -217,6 +219,35 @@ public class MutationsProvider {
       "\nDeletion of Index and subsequent call to Initialize reset the pageIndex: " +
       branchKeyId +
       "\n"
+    );
+  }
+
+  static String MutationsToString(Mutations mutations) {
+    final String kmsArn = mutations.TerminalKmsArn().isEmpty()
+      ? ""
+      : "KMS ARN: " + mutations.TerminalKmsArn();
+    final String ec = mutations.TerminalEncryptionContext().isEmpty()
+      ? ""
+      : "Encryption Context: " +
+      mutations.TerminalEncryptionContext().toString();
+    if (!kmsArn.isEmpty() && !ec.isEmpty()) {
+      return kmsArn + "\n" + ec;
+    }
+    return kmsArn + ec;
+  }
+
+  static String MutableBranchKeyPropertiesToString(
+    MutableBranchKeyProperties properties
+  ) {
+    final String kmsArn = "KMS ARN: " + properties.KmsArn();
+    if (properties.CustomEncryptionContext().isEmpty()) {
+      return kmsArn;
+    }
+    return (
+      kmsArn +
+      "\n" +
+      "Encryption Context: " +
+      properties.CustomEncryptionContext().toString()
     );
   }
 }

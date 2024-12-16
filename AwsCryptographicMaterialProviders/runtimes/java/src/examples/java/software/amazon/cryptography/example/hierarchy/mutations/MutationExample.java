@@ -73,7 +73,7 @@ public class MutationExample {
     final KeyManagementStrategy strategy = AdminProvider.strategy(null);
 
     System.out.println("BranchKey ID to mutate: " + branchKeyId);
-    HashMap<String, String> terminalEC = new HashMap<>();
+    HashMap<String, String> terminalEC = new HashMap<>(2, 1);
     terminalEC.put("Robbie", "is a dog.");
     Mutations mutations = Mutations
       .builder()
