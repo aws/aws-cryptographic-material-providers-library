@@ -6,7 +6,7 @@
 #![deny(clippy::all)]
 
 use crate::*;
-use ::uuid::Uuid;
+use uuid::Uuid;
 
 impl crate::UUID::_default {
     #[allow(non_snake_case)]

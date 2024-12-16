@@ -83,7 +83,13 @@ pub mod DafnyLibraries {
         use std::io::Write;
         use std::path::Path;
 
-        pub fn INTERNAL_ReadBytesFromFile(
+        // Attempts to read all bytes from the file at {@code path}, and returns a tuple of the following values:
+        // isError : true iff an exception was thrown during path string conversion or when reading the file
+        // bytesRead : the sequence of bytes read from the file, or an empty sequence if {@code isError} is true
+        // errorMsg : the error message of the thrown exception if {@code isError} is true, or an empty equence otherwise
+        // We return these values individually because Result is not defined in the runtime but
+        // instead in library code. It is the responsibility of library code to construct an equivalent Result value.
+        pub(crate) fn INTERNAL_ReadBytesFromFile(
             file: &::dafny_runtime::Sequence<::dafny_runtime::DafnyCharUTF16>,
         ) -> (
             bool,
@@ -122,15 +128,18 @@ pub mod DafnyLibraries {
             }
         }
 
+        // Get the current dirctory for use in error messages
         fn curr_dir() -> String {
             let path = std::env::current_dir();
             match path {
                 Ok(path) => format!("{}", path.display()),
-                Err(_) => "unknown".to_string(),
+                Err(_) => "Error while getting the path of current directory".to_string(),
             }
         }
 
-        pub fn INTERNAL_AppendBytesToFile(
+        // Attempts to append bytes to the file at path, creating nonexistent parent
+        // See SendBytesToFile for details
+        pub(crate) fn INTERNAL_AppendBytesToFile(
             path: &::dafny_runtime::Sequence<::dafny_runtime::DafnyCharUTF16>,
             bytes: &::dafny_runtime::Sequence<u8>,
         ) -> (
@@ -140,7 +149,9 @@ pub mod DafnyLibraries {
             SendBytesToFile(path, bytes, true)
         }
 
-        pub fn INTERNAL_WriteBytesToFile(
+        // Attempts to write bytes to the file at path, creating nonexistent parent
+        // See SendBytesToFile for details
+        pub(crate) fn INTERNAL_WriteBytesToFile(
             path: &::dafny_runtime::Sequence<::dafny_runtime::DafnyCharUTF16>,
             bytes: &::dafny_runtime::Sequence<u8>,
         ) -> (
@@ -150,10 +161,17 @@ pub mod DafnyLibraries {
             SendBytesToFile(path, bytes, false)
         }
 
-        pub fn SendBytesToFile(
+        // Attempts to write bytes to the file at path, creating nonexistent parent
+        // directories as necessary, and returns a tuple of the following values:
+        // isError : true iff an exception was thrown during path string conversion or when writing to the file
+        // errorMsg : the error message of the thrown exception if {@code isError} is true, or an empty sequence otherwise
+        // We return these values individually because {@code Result} is not defined in the runtime but
+        // instead in library code. It is the responsibility of library code to construct an equivalent Result value.
+        // if append is false, the file is truncated, otherwise we append to the existing file.
+        fn SendBytesToFile(
             path: &::dafny_runtime::Sequence<::dafny_runtime::DafnyCharUTF16>,
             bytes: &::dafny_runtime::Sequence<u8>,
-            append: bool
+            append: bool,
         ) -> (
             bool,
             ::dafny_runtime::Sequence<::dafny_runtime::DafnyCharUTF16>,
