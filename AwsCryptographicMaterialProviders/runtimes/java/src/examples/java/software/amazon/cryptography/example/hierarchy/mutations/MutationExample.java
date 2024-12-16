@@ -64,7 +64,8 @@ public class MutationExample {
     String kmsKeyArnTerminal,
     String branchKeyId,
     @Nullable SystemKey systemKey,
-    @Nullable KeyStoreAdmin admin
+    @Nullable KeyStoreAdmin admin,
+    @Nullable Boolean doNotVersion
   ) {
     final SystemKey _systemKey = systemKey == null
       ? MutationsProvider.KmsSystemKey()
@@ -87,6 +88,7 @@ public class MutationExample {
       .Identifier(branchKeyId)
       .Strategy(strategy)
       .SystemKey(_systemKey)
+      .DoNotVersion(doNotVersion)
       .build();
 
     InitializeMutationOutput initOutput = _admin.InitializeMutation(initInput);

@@ -250,4 +250,15 @@ public class MutationsProvider {
       properties.CustomEncryptionContext().toString()
     );
   }
+
+  static String MutationTokenToString(MutationToken token) {
+    return (
+      "branch-key-id: " +
+      token.Identifier() +
+      "\nuuid: " +
+      token.UUID() +
+      "\ncreateTime: " +
+      token.CreateTime()
+    );
+  }
 }

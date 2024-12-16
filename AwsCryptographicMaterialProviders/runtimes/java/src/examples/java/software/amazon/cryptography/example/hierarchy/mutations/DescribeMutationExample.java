@@ -3,6 +3,7 @@
 package software.amazon.cryptography.example.hierarchy.mutations;
 
 import static software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider.MutableBranchKeyPropertiesToString;
+import static software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider.MutationTokenToString;
 import static software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider.MutationsToString;
 import static software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider.executeInitialize;
 
@@ -75,7 +76,8 @@ public class DescribeMutationExample {
       );
       // The Description object holds Details and the Token.
       System.out.println(
-        "The Token to continue the Mutation is: " + description.MutationToken()
+        "The Token to continue the Mutation is: " +
+        MutationTokenToString(description.MutationToken())
       );
       return output;
     }
