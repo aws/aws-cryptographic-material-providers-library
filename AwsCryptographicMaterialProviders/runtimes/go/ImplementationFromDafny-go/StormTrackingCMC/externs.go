@@ -76,5 +76,5 @@ func (cmc *StormTrackingCMC) String() string {
 func (cmc *StormTrackingCMC) GetFromInner(input AwsCryptographyMaterialProvidersTypes.GetCacheEntryInput) Wrappers.Result {
 	cmc.Lock()
 	defer cmc.Unlock()
-	return cmc.stormTracker.GetCacheEntry(input)
+	return cmc.stormTracker.GetFromCache(input)
 }
