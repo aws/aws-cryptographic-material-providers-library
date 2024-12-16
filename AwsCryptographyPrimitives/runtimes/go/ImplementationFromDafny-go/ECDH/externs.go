@@ -44,7 +44,7 @@ func (CompanionStruct_Default___) GenerateKeyPair(curveSpec AwsCryptographyPrimi
 }
 
 func (CompanionStruct_Default___) CalculateSharedSecret(curveSpec AwsCryptographyPrimitivesTypes.ECDHCurveSpec,
-		privateKeyInput AwsCryptographyPrimitivesTypes.ECCPrivateKey, publicKeyInput AwsCryptographyPrimitivesTypes.ECCPublicKey) Wrappers.Result {
+	privateKeyInput AwsCryptographyPrimitivesTypes.ECCPrivateKey, publicKeyInput AwsCryptographyPrimitivesTypes.ECCPublicKey) Wrappers.Result {
 
 	curve, err := getNativeEcdhCurve(curveSpec)
 	if err != nil {
@@ -112,7 +112,7 @@ func (CompanionStruct_Default___) CalculateSharedSecret(curveSpec AwsCryptograph
 }
 
 func (static CompanionStruct_Default___) CompressPublicKey(publicKeyInput dafny.Sequence,
-		curveSpec AwsCryptographyPrimitivesTypes.ECDHCurveSpec) Wrappers.Result {
+	curveSpec AwsCryptographyPrimitivesTypes.ECDHCurveSpec) Wrappers.Result {
 	// We only need this because elliptic.MarshalCompressed() doesn't return err handle and panics, so to avoid panic we pre-validate the key.
 	validate := static.ValidatePublicKey(curveSpec, publicKeyInput)
 
@@ -138,7 +138,7 @@ func (static CompanionStruct_Default___) CompressPublicKey(publicKeyInput dafny.
 }
 
 func (CompanionStruct_Default___) DecompressPublicKey(publicKeyInput dafny.Sequence,
-		curveSpec AwsCryptographyPrimitivesTypes.ECDHCurveSpec) Wrappers.Result {
+	curveSpec AwsCryptographyPrimitivesTypes.ECDHCurveSpec) Wrappers.Result {
 	publicKeyBytes := dafny.ToByteArray(publicKeyInput)
 
 	curve, err := getNativeEcdhCurve(curveSpec)

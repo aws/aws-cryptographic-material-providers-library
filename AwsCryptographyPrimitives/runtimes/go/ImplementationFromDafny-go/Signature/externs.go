@@ -42,7 +42,7 @@ func (CompanionStruct_Default___) ExternKeyGen(algorithm AwsCryptographyPrimitiv
 }
 
 func (CompanionStruct_Default___) Sign(algorithm AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm,
-		key dafny.Sequence, msg dafny.Sequence) Wrappers.Result {
+	key dafny.Sequence, msg dafny.Sequence) Wrappers.Result {
 	privateKey, err := x509.ParsePKCS8PrivateKey(dafny.ToByteArray(key))
 	if err != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
@@ -75,7 +75,7 @@ func (CompanionStruct_Default___) Sign(algorithm AwsCryptographyPrimitivesTypes.
 }
 
 func ECDSA_Verify(algorithm AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm, key dafny.Sequence,
-		msg dafny.Sequence, sig dafny.Sequence) Wrappers.Result {
+	msg dafny.Sequence, sig dafny.Sequence) Wrappers.Result {
 	curve, digestAlgo, _, err := getNativeEC(algorithm)
 	if err != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
@@ -92,8 +92,8 @@ func ECDSA_Verify(algorithm AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorit
 		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
 			dafny.SeqOfChars([]dafny.Char("Failed to decompress verification key")...)))
 	}
-	res := ecdsa.VerifyASN1(&ecdsa.PublicKey{Curve: curve, X: x, Y: y},dafny.ToByteArray(msgDigest.Dtor_value().(dafny.Sequence)),
-							dafny.ToByteArray(sig))
+	res := ecdsa.VerifyASN1(&ecdsa.PublicKey{Curve: curve, X: x, Y: y}, dafny.ToByteArray(msgDigest.Dtor_value().(dafny.Sequence)),
+		dafny.ToByteArray(sig))
 
 	return Wrappers.Companion_Result_.Create_Success_(res)
 }
@@ -114,7 +114,7 @@ func generateKeyPair(curve elliptic.Curve) ([]byte, []byte, error) {
 }
 
 func getNativeEC(curveSpec AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm) (elliptic.Curve,
-		AwsCryptographyPrimitivesTypes.DigestAlgorithm, int, error) {
+	AwsCryptographyPrimitivesTypes.DigestAlgorithm, int, error) {
 	switch curveSpec {
 	case AwsCryptographyPrimitivesTypes.Companion_ECDSASignatureAlgorithm_.Create_ECDSA__P256_():
 		return elliptic.P256(), AwsCryptographyPrimitivesTypes.Companion_DigestAlgorithm_.Create_SHA__256_(), 71, nil
