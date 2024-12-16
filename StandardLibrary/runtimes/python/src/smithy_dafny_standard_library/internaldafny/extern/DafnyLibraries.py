@@ -110,6 +110,22 @@ class FileIO:
             exc_str = traceback.format_exc()
             exc_seq = _dafny.Seq(exc_str)
             return (True, exc_seq)
+
+    @staticmethod
+    def INTERNAL_AppendBytesToFile(path, contents):
+        path_str = path.VerbatimString(False)
+        contents_bytes = bytes(contents)
+
+        try:
+            pathlib.Path(path_str).parent.mkdir(parents=True, exist_ok=True)
+
+            with open(path_str, mode="ab") as file:
+                contents = file.write(contents_bytes)
+                return (False, _dafny.Seq())
+        except:
+            exc_str = traceback.format_exc()
+            exc_seq = _dafny.Seq(exc_str)
+            return (True, exc_seq)
         
     @staticmethod
     def INTERNAL_ReadBytesFromFile(path):

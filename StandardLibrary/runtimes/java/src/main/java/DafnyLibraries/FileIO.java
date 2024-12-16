@@ -102,6 +102,54 @@ public class FileIO {
     }
   }
 
+  /**
+   * Attempts to append {@code bytes} to the file at {@code path}, creating nonexistent parent
+   * directories as necessary, and returns a tuple of the following values:
+   *
+   * <dl>
+   *   <dt>{@code isError}
+   *   <dd>true iff an exception was thrown during path string conversion or when writing to the
+   *       file
+   *   <dt>{@code errorMsg}
+   *   <dd>the error message of the thrown exception if {@code isError} is true, or an empty
+   *       sequence otherwise
+   * </dl>
+   *
+   * <p>We return these values individually because {@code Result} is not defined in the runtime but
+   * instead in library code. It is the responsibility of library code to construct an equivalent
+   * {@code Result} value.
+   */
+  public static Tuple2<
+    Boolean,
+    DafnySequence<? extends Character>
+  > INTERNAL_AppendBytesToFile(
+    DafnySequence<? extends Character> path,
+    DafnySequence<? extends Byte> bytes
+  ) {
+    try {
+      final Path pathObj = dafnyStringToPath(path);
+      createParentDirs(pathObj);
+
+      // It's safe to cast `bytes` to `DafnySequence<Byte>` since the cast value is immediately
+      // consumed
+      @SuppressWarnings("unchecked")
+      final byte[] byteArr = DafnySequence.toByteArray(
+        (DafnySequence<Byte>) bytes
+      );
+
+      java.io.OutputStream out = Files.newOutputStream(
+        pathObj,
+        java.nio.file.StandardOpenOption.CREATE,
+        java.nio.file.StandardOpenOption.APPEND
+      );
+      out.write(byteArr);
+      out.close();
+      return Tuple2.create(false, DafnySequence.empty(TypeDescriptor.CHAR));
+    } catch (Exception ex) {
+      return Tuple2.create(true, stackTraceToDafnyString(ex));
+    }
+  }
+
   /** Returns a Path constructed from the given Dafny string. */
   private static final Path dafnyStringToPath(
     final DafnySequence<? extends Character> path

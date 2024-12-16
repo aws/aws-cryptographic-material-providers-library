@@ -4,10 +4,12 @@
 include "../src/StandardLibrary.dfy"
 include "../src/String.dfy"
 include "../../libraries/src/Wrappers.dfy"
+include "../../libraries/src/FileIO/FileIO.dfy"
 
 module TestStrings {
   import StandardLibrary.String
   import opened Wrappers
+  import opened FileIO
 
   method {:test} TestHasSubStringPositive()
   {
@@ -32,4 +34,17 @@ module TestStrings {
     actual := String.HasSubString("large", "larger");
     expect actual == None, "Needle larger than haystack";
   }
+
+  method {:test} TestFileIO()
+  {
+    var x :- expect WriteBytesToFile("MyFile", [1,2,3,4,5]);
+    x :- expect AppendBytesToFile("MyFile", [6,7,8,9,10]);
+    x :- expect AppendBytesToFile("MyFile", [11,12,13,14,15]);
+    var y :- expect ReadBytesFromFile("MyFile");
+    expect y == [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+    x :- expect WriteBytesToFile("MyFile", [1,2,3,4,5]);
+    y :- expect ReadBytesFromFile("MyFile");
+    expect y == [1,2,3,4,5];
+  }
+
 }
