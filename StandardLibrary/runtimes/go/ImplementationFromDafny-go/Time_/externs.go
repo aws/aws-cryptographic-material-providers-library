@@ -41,8 +41,4 @@ func GetProcessCpuTimeMillis() int64 {
 	usage := new(syscall.Rusage)
 	syscall.Getrusage(syscall.RUSAGE_SELF, usage)
 	return (usage.Utime.Nano() + usage.Stime.Nano()) / 1000000
-
-	// var m runtime.MemStats
-	// runtime.ReadMemStats(&m)
-	// return m.TotalAlloc / 1000000
 }
