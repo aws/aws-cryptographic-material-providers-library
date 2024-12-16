@@ -29,7 +29,7 @@ impl crate::Time::_default {
 
     #[allow(non_snake_case)]
     #[allow(dead_code)]
-    pub fn GetCurrentCPU() -> i64 {
+    pub fn GetProcessCpuTimeMillis() -> i64 {
         i64::try_from(cpu_time::ProcessTime::now().as_duration().as_millis()).expect("CPU millisecond didn't fit in an i64")
     }
 

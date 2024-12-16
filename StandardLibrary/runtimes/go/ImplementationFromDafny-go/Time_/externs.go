@@ -33,14 +33,14 @@ func CurrentRelativeTimeMilli() int64 {
 	return time.Now().UnixMilli()
 }
 
-func (CompanionStruct_Default___) GetCurrentCPU() int64 {
-	return GetCurrentCPU()
+func (CompanionStruct_Default___) GetProcessCpuTimeMillis() int64 {
+	return GetProcessCpuTimeMillis()
 }
 
-func GetCurrentCPU() int64 {
+func GetProcessCpuTimeMillis() int64 {
 	usage := new(syscall.Rusage)
-    syscall.Getrusage(syscall.RUSAGE_SELF, usage)
-    return (usage.Utime.Nano() + usage.Stime.Nano()) / 1000000
+	syscall.Getrusage(syscall.RUSAGE_SELF, usage)
+	return (usage.Utime.Nano() + usage.Stime.Nano()) / 1000000
 
 	// var m runtime.MemStats
 	// runtime.ReadMemStats(&m)

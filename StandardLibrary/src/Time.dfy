@@ -39,7 +39,7 @@ module {:extern "Time"} Time {
   // Returns the number of milliseconds of CPU used by the current process so far.
   // Time is represented as signed over unsigned because java does not do unsigned
   // values - net can do both so we are able to change the representation to signed.
-  method {:extern "GetCurrentCPU"} GetCurrentCPU() returns (res: int64)
+  method {:extern "GetProcessCpuTimeMillis"} GetProcessCpuTimeMillis() returns (res: int64)
     // We are able to make this claim because it does not make sense for time to
     // be negative.
     ensures res >= 0
@@ -81,7 +81,7 @@ module {:extern "Time"} Time {
   method GetAbsoluteTime() returns (output : AbsoluteTime)
   {
     var ClockTime := GetCurrentMilli();
-    var CpuTime := GetCurrentCPU();
+    var CpuTime := GetProcessCpuTimeMillis();
     return AbsoluteTime (
         ClockTime := ClockTime as uint64,
         CpuTime := CpuTime as uint64

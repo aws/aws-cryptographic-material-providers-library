@@ -19,7 +19,7 @@ public class __default extends Time._ExternBase___default {
     return System.currentTimeMillis();
   }
 
-  public static Long GetCurrentCPU() {
+  public static Long GetProcessCpuTimeMillis() {
     OperatingSystemMXBean bean =
       (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
     return new Long(bean.getProcessCpuTime() / 1000000);

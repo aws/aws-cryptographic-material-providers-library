@@ -14,7 +14,7 @@ class default__(smithy_dafny_standard_library.internaldafny.generated.Time.defau
     def CurrentRelativeTime():
         return round(datetime.datetime.now(tz = pytz.UTC).timestamp())
 
-    def GetCurrentCPU():
+    def GetProcessCpuTimeMillis():
         t = os.times()
         return round((t.user + t.system) * 1000)
 

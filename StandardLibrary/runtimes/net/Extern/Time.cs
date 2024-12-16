@@ -28,7 +28,7 @@ namespace Time
             return (long)timespan.TotalMilliseconds;
         }
 
-        public static long GetCurrentCPU()
+        public static long GetProcessCpuTimeMillis()
         {
             return (long)Process.GetCurrentProcess().TotalProcessorTime.TotalMilliseconds;
         }
