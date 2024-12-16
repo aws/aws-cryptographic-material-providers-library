@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euxo pipefail
 
 # Runs `git rm --cached X` for every entry X from list_gitignore_bypass_release_files.sh.
 # This is used to remove .gitignore'd files that were force-committed for a release.

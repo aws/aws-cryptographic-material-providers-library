@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euxo pipefail
 
 # Runs `git add -f --all X` for every entry X from list_gitignore_bypass_release_files.sh.
 # This is used to bypass the .gitignore to commit files that should ONLY be committed for releases.

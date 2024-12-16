@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euxo pipefail
 
 # Echoes every uncommented line between $START_MARKER and $END_MARKER in .gitignore.
 
