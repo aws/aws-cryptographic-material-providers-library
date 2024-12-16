@@ -86,8 +86,7 @@ module TestComputeSetToOrderedSequenceUInt8Less {
   method {:test} TestSetToOrderedSequenceManyItems() {
     var time := Time.GetAbsoluteTime();
     var a := set x:uint16 | 0 <= x < 0xFFFF :: UInt16ToSeq(x);
-    Time.PrintTimeSinceShort(time);
-    time := Time.GetAbsoluteTime();
+    time := Time.PrintTimeSinceShortChained(time);
     var output := ComputeSetToOrderedSequence(a, UInt8Less);
     var output2 := ComputeSetToOrderedSequence2(a, UInt8Less);
     var expected : seq<seq<uint8>> := seq(0xFFFF, i requires 0 <= i < 0xFFFF => UInt16ToSeq(i as uint16));

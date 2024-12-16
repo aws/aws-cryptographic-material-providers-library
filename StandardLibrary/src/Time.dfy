@@ -100,6 +100,13 @@ module {:extern "Time"} Time {
     PrintTimeShort(t);
   }
 
+  method PrintTimeSinceShortChained(start : AbsoluteTime) returns (x : AbsoluteTime)
+  {
+    var end := GetAbsoluteTime();
+    PrintTimeShort(TimeDiff(start, end));
+    return end;
+  }
+
   function method TimeDiff(start : AbsoluteTime, end : AbsoluteTime) : RelativeTime
   {
     if start.ClockTime <= end.ClockTime && start.CpuTime <= end.CpuTime then
