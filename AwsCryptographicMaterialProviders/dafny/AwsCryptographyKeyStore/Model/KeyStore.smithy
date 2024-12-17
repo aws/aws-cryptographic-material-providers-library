@@ -431,7 +431,6 @@ structure KeyStoreException {
 
 // Can be thrown by InitializeMutation & VersionKey
 @error("client")
-@retryable
 @documentation(
 "Operation was rejected due to a race with VersionKey.
 No items were changed.
