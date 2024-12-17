@@ -34,7 +34,7 @@ func (CompanionStruct_Default___) GenerateKeyPairExtern(bits int32) (dafny.Seque
 		panic(err)
 	}
 	return dafny.SeqOfBytes(pem.EncodeToMemory(&pem.Block{Type: "RSA PUBLIC KEY", Bytes: encodePublicKey})),
-			dafny.SeqOfBytes(pem.EncodeToMemory(&pem.Block{Type: "RSA PRIVATE KEY", Bytes: encodePrivateKey}))
+		dafny.SeqOfBytes(pem.EncodeToMemory(&pem.Block{Type: "RSA PRIVATE KEY", Bytes: encodePrivateKey}))
 }
 
 func (m_RSAEncryption_Ghost) RSA_GetRSAKeyModulusLengthExtern(publicKeyInput dafny.Sequence) Wrappers.Result {
@@ -52,7 +52,7 @@ func (m_RSAEncryption_Ghost) RSA_GetRSAKeyModulusLengthExtern(publicKeyInput daf
 }
 
 func (CompanionStruct_Default___) DecryptExtern(paddingMode AwsCryptographyPrimitivesTypes.RSAPaddingMode,
-		key dafny.Sequence, cipher_text dafny.Sequence) Wrappers.Result {
+	key dafny.Sequence, cipher_text dafny.Sequence) Wrappers.Result {
 	derPrivateKey, rest := pem.Decode(dafny.ToByteArray(key))
 	if len(rest) > 0 {
 		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
@@ -89,7 +89,7 @@ func (CompanionStruct_Default___) DecryptExtern(paddingMode AwsCryptographyPrimi
 }
 
 func (CompanionStruct_Default___) EncryptExtern(paddingMode AwsCryptographyPrimitivesTypes.RSAPaddingMode,
-		key dafny.Sequence, plainText dafny.Sequence) Wrappers.Result {
+	key dafny.Sequence, plainText dafny.Sequence) Wrappers.Result {
 	derPublicKey, rest := pem.Decode(dafny.ToByteArray(key))
 	if len(rest) > 0 {
 		return Wrappers.Companion_Result_.Create_Failure_(AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(
