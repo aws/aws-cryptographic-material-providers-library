@@ -9,12 +9,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
-import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
+import software.amazon.awssdk.services.dynamodb.model.TransactionCanceledException;
 import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
@@ -34,10 +35,8 @@ import software.amazon.cryptography.keystoreadmin.model.KeyStoreAdminConfig;
 import software.amazon.cryptography.keystoreadmin.model.KmsSymmetricKeyArn;
 
 // This class contains a suite of tests to check behavior in the storage layer
-// of the library's APIs. These APIs write to the storage layer. We are not testing
-// with the KeyStore layer since this layer induces additional latency due to the calls
-// to AWS KMS. To test the concurrent behavior we don't need to test additional network calls.
-public class StorageConcurrencyTests {
+// of the library's APIs. These APIs write using the storage layer and .
+public class StorageWriteReadConcurrencyTests {
 
   private static final String branchKeyId =
     "concurrency-test-write-key-" + UUID.randomUUID();
@@ -53,7 +52,7 @@ public class StorageConcurrencyTests {
 
   private Map<String, Storage> threadIndexToStorage;
   private Map<String, KeyStore> threadIndexToKeyStore;
-  private static Map<String, String> indexToThreadId, threadIndexToTimestamp;
+  private static Map<String, String> indexToThreadId;
   private static Map<
     String,
     GetActiveBranchKeyOutput
@@ -63,13 +62,17 @@ public class StorageConcurrencyTests {
   > unpickedIndicesForStorage, unpickedIndicesForKeyStore;
   private static Map<String, String> encryptionContext;
   private static final AtomicInteger counter = new AtomicInteger(0);
+  private static final TimeZone timeZone = TimeZone.getTimeZone("UTC");
+  private static final DateFormat dateFormat = new SimpleDateFormat(
+    "yyyy-MM-dd'T'HH:mm:ss.SSSSS'Z'"
+  );
 
   @BeforeClass
   public void setup() {
+    dateFormat.setTimeZone(timeZone);
     threadIndexToStorage = new ConcurrentHashMap<>(16, 1, threadCount);
     threadIndexToKeyStore = new ConcurrentHashMap<>(16, 1, threadCount);
     indexToThreadId = new ConcurrentHashMap<>(16, 1, threadCount);
-    threadIndexToTimestamp = new ConcurrentHashMap<>(16, 1, threadCount);
     getActiveBranchKeyOutputs = new ConcurrentHashMap<>(16, 1, threadCount);
 
     unpickedIndicesForStorage = new ConcurrentLinkedDeque<>(identifiers);
@@ -84,32 +87,6 @@ public class StorageConcurrencyTests {
 
     encryptionContext = new HashMap<>();
     encryptionContext.put("custom", "ec");
-  }
-
-  private KeyStore createKeyStore() {
-    final DynamoDbClient _ddbClient = DynamoDbClient.create();
-    final KmsClient _kmsClient = KmsClient.create();
-    final KeyStoreConfig config = KeyStoreConfig
-      .builder()
-      .ddbClient(_ddbClient)
-      .ddbTableName(Fixtures.TEST_KEYSTORE_NAME)
-      .logicalKeyStoreName(Fixtures.TEST_KEYSTORE_NAME)
-      .kmsClient(_kmsClient)
-      .kmsConfiguration(
-        KMSConfiguration.builder().kmsKeyArn(Fixtures.KEYSTORE_KMS_ARN).build()
-      )
-      .build();
-    return KeyStore.builder().KeyStoreConfig(config).build();
-  }
-
-  private Storage createStorageLayer() {
-    final DynamoDbClient _ddbClient = DynamoDbClient.create();
-    DynamoDBTable table = DynamoDBTable
-      .builder()
-      .ddbClient(_ddbClient)
-      .ddbTableName(Fixtures.TEST_KEYSTORE_NAME)
-      .build();
-    return Storage.builder().ddb(table).build();
   }
 
   @AfterClass
@@ -141,6 +118,32 @@ public class StorageConcurrencyTests {
       DynamoDbClient.create(),
       true
     );
+  }
+
+  public static KeyStore createKeyStore() {
+    final DynamoDbClient _ddbClient = DynamoDbClient.create();
+    final KmsClient _kmsClient = KmsClient.create();
+    final KeyStoreConfig config = KeyStoreConfig
+      .builder()
+      .ddbClient(_ddbClient)
+      .ddbTableName(Fixtures.TEST_KEYSTORE_NAME)
+      .logicalKeyStoreName(Fixtures.TEST_KEYSTORE_NAME)
+      .kmsClient(_kmsClient)
+      .kmsConfiguration(
+        KMSConfiguration.builder().kmsKeyArn(Fixtures.KEYSTORE_KMS_ARN).build()
+      )
+      .build();
+    return KeyStore.builder().KeyStoreConfig(config).build();
+  }
+
+  public static Storage createStorageLayer() {
+    final DynamoDbClient _ddbClient = DynamoDbClient.create();
+    DynamoDBTable table = DynamoDBTable
+      .builder()
+      .ddbClient(_ddbClient)
+      .ddbTableName(Fixtures.TEST_KEYSTORE_NAME)
+      .build();
+    return Storage.builder().ddb(table).build();
   }
 
   private Storage storageForThread(final String threadIdToIndex) {
@@ -188,22 +191,7 @@ public class StorageConcurrencyTests {
       str -> unpickedIndicesForStorage.pop()
     );
 
-    TimeZone tz = TimeZone.getTimeZone("UTC");
-    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSS'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
-    df.setTimeZone(tz);
-    String timestamp = df.format(new Date());
-
-    System.out.println(
-      "Thread ID: " +
-      Thread.currentThread().getId() +
-      " ThreadIndex: " +
-      threadIdToIndex +
-      " Timestamp: " +
-      timestamp +
-      " BranchKeyId: " +
-      branchKeyId
-    );
-    threadIndexToTimestamp.putIfAbsent(threadIdToIndex, timestamp);
+    String timestamp = dateFormat.format(new Date());
 
     try {
       if (Integer.parseInt(threadIdToIndex) % 2 == 0) {
@@ -218,27 +206,58 @@ public class StorageConcurrencyTests {
           .KeyStoreAdminConfig(keyStoreAdminConfig)
           .build();
         raceToWriteWithStorage(admin);
+        System.out.println(
+          "Successfully wrote! Thread ID: " +
+          Thread.currentThread().getId() +
+          " ThreadIndex: " +
+          threadIdToIndex +
+          " Timestamp: " +
+          timestamp +
+          " BranchKeyId: " +
+          branchKeyId
+        );
       } else {
         String iteration = String.valueOf(counter.incrementAndGet());
         KeyStore keyStore = keyStoreForThread(threadIdToIndex);
         GetActiveBranchKeyOutput output = raceToReadWithKeyStore(keyStore);
         getActiveBranchKeyOutputs.put(iteration, output);
+        System.out.println("Successfully read branch key: " + branchKeyId);
       }
-    } catch (DynamoDbException | KeyStorageException | KeyStoreException e) {
-      System.out.println(e);
+    } catch (TransactionCanceledException exception) {
+      System.out.println("Failed to write branch key: " + branchKeyId);
+      // Exceptions that get thrown when you write keys using the Storage interface
+      exception
+        .cancellationReasons()
+        .forEach(cancellationReason -> {
+          Assert.assertTrue(
+            (cancellationReason.code().equals("TransactionConflict") ||
+              cancellationReason.code().equals("None") ||
+              cancellationReason.code().equals("ConditionalCheckFailed"))
+          );
+        });
+    } catch (KeyStorageException | KeyStoreException e) {
+      System.out.println("Failed to read branch key: " + branchKeyId);
+      // Exceptions that get thrown when you read keys using the KeyStore interface.
+      Assert.assertEquals(
+        e.getMessage(),
+        "No item found for corresponding branch key identifier."
+      );
     }
   }
 
   @Test(dependsOnMethods = { "testConcurrentStorage" })
   public void testReadAfterWriteCheck() {
+    // Iterate through the values and check that it equals the first item in the map,
+    // if there are any difference the test will fail.
     System.out.println(getActiveBranchKeyOutputs.size());
-    Set<String> keys = getActiveBranchKeyOutputs.keySet();
-    for (String key : keys) {
-      GetActiveBranchKeyOutput storedOutput = getActiveBranchKeyOutputs.get(
-        key
-      );
-      System.out.println(
-        Arrays.toString(storedOutput.branchKeyMaterials().branchKey().array())
+    GetActiveBranchKeyOutput first = getActiveBranchKeyOutputs
+      .values()
+      .iterator()
+      .next();
+    for (GetActiveBranchKeyOutput value : getActiveBranchKeyOutputs.values()) {
+      Assert.assertEquals(
+        value.branchKeyMaterials().branchKey(),
+        first.branchKeyMaterials().branchKey()
       );
     }
   }

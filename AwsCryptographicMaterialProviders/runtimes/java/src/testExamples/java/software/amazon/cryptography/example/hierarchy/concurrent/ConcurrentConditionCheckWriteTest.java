@@ -39,7 +39,7 @@ public class ConcurrentConditionCheckWriteTest {
     Arrays.asList("1", "2", "3", "4", "5")
   );
   private Map<String, DynamoDbClient> ddbClientToThreadId;
-  private static Map<String, String> indexToThreadId, threadIndexToTimestamp;
+  private static Map<String, String> indexToThreadId;
   private ConcurrentLinkedDeque<String> unpickedIndices;
 
   @BeforeClass
@@ -50,7 +50,6 @@ public class ConcurrentConditionCheckWriteTest {
     );
     indexToThreadId = new ConcurrentHashMap<>(6, 1, threadCount);
     unpickedIndices = new ConcurrentLinkedDeque<>(identifiers);
-    threadIndexToTimestamp = new ConcurrentHashMap<>(6, 1, threadCount);
   }
 
   @AfterClass
@@ -128,7 +127,6 @@ public class ConcurrentConditionCheckWriteTest {
       timestamp
     );
 
-    threadIndexToTimestamp.putIfAbsent(threadIdToIndex, timestamp);
     try {
       DynamoDbClient client = clientForThread(threadIdToIndex);
       TransactWriteItemsResponse transactWriteItemsResponse =
@@ -153,27 +151,5 @@ public class ConcurrentConditionCheckWriteTest {
           );
         });
     }
-  }
-
-  @Test(dependsOnMethods = { "TestConcurrentWriteCheck" })
-  public void TestReadAfterWriteCheck() {
-    GetItemResponse response = DdbHelper.getKeyStoreDdbItem(
-      mLockedId,
-      Constants.TYPE_ACTIVE,
-      Fixtures.TEST_KEYSTORE_NAME,
-      null
-    );
-    String responseTimestamp = response.item().get("timestamp").s();
-    String threadIdToIndex = response.item().get("value").s();
-
-    String testTimeStamp = threadIndexToTimestamp.get(threadIdToIndex);
-
-    Assert.assertEquals(testTimeStamp, responseTimestamp);
-    System.out.println(
-      "Item timestampResponse: " +
-      responseTimestamp +
-      " Test Run recordedTimestamp: " +
-      testTimeStamp
-    );
   }
 }

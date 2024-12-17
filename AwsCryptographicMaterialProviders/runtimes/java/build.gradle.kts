@@ -328,7 +328,10 @@ val testConcurrentExamples = task<Test>("testConcurrentExamples") {
     classpath = sourceSets["testExamples"].runtimeClasspath + sourceSets["examples"].output + sourceSets.main.get().output
     // This will show System.out.println statements
     testLogging.showStandardStreams = true
-    useTestNG()
+    useTestNG() {
+        suites("src/testExamples/java/software/amazon/cryptography/example/hierarchy/concurrent/testng-parallel.xml")
+        maxParallelForks = 2
+    }
 
     testLogging {
         events("passed")
