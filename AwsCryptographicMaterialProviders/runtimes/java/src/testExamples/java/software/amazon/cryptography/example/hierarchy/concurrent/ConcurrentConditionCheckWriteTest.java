@@ -38,15 +38,15 @@ public class ConcurrentConditionCheckWriteTest {
   private static final List<String> identifiers = Collections.unmodifiableList(
     Arrays.asList("1", "2", "3", "4", "5")
   );
-  private Map<String, DynamoDbClient> ddbClientToThreadId;
+  private Map<String, DynamoDbClient> threadIdToDdbClient;
   private static Map<String, String> indexToThreadId;
   private ConcurrentLinkedDeque<String> unpickedIndices;
 
   @BeforeClass
   public void setup() {
-    ddbClientToThreadId = new ConcurrentHashMap<>(6, 1, threadCount);
+    threadIdToDdbClient = new ConcurrentHashMap<>(6, 1, threadCount);
     identifiers.forEach(id ->
-      ddbClientToThreadId.put(id, DynamoDbClient.create())
+      threadIdToDdbClient.put(id, DynamoDbClient.create())
     );
     indexToThreadId = new ConcurrentHashMap<>(6, 1, threadCount);
     unpickedIndices = new ConcurrentLinkedDeque<>(identifiers);
@@ -54,12 +54,13 @@ public class ConcurrentConditionCheckWriteTest {
 
   @AfterClass
   public void teardown() {
+    DynamoDbClient _ddbClient = DynamoDbClient.create();
     identifiers.forEach(id ->
       DdbHelper.deleteKeyStoreDdbItem(
         mLockedId,
         "branch:ACTIVE",
         Fixtures.TEST_KEYSTORE_NAME,
-        DynamoDbClient.create(),
+        _ddbClient,
         true
       )
     );
@@ -99,7 +100,7 @@ public class ConcurrentConditionCheckWriteTest {
   }
 
   private DynamoDbClient clientForThread(final String threadIdToIndex) {
-    return ddbClientToThreadId.computeIfAbsent(
+    return threadIdToDdbClient.computeIfAbsent(
       threadIdToIndex,
       ddbClient -> DynamoDbClient.create()
     );
