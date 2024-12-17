@@ -58,7 +58,7 @@ If you are using the AWS Cryptographic Material Providers Library for Python you
 
 ## Supported Languages
 
-- Java
+- [Java (link to examples)](https://github.com/aws/aws-cryptographic-material-providers-library/tree/main/AwsCryptographicMaterialProviders/runtimes/java/src/examples)
 - .NET
 - Python
 - Dafny

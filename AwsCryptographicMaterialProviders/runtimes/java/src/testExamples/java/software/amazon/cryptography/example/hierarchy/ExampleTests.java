@@ -30,7 +30,8 @@ public class ExampleTests {
         Fixtures.POSTAL_HORN_KEY_ARN,
         branchKeyId,
         MutationsProvider.TrustStorage(),
-        AdminProvider.admin()
+        AdminProvider.admin(),
+        false
       );
     System.out.println(
       "\nMutated Branch Key: " +
