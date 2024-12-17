@@ -8,6 +8,7 @@ import (
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/StormTracker"
 	_dafny "github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
+	DafnyTime "github.com/dafny-lang/DafnyStandardLibGo/Time_"
 )
 
 type StormTrackingCMC struct {
@@ -44,6 +45,7 @@ func (cmc *StormTrackingCMC) GetCacheEntry(input AwsCryptographyMaterialProvider
 	return cmc.GetCacheEntry_k(input)
 }
 func (cmc *StormTrackingCMC) GetCacheEntry_k(input AwsCryptographyMaterialProvidersTypes.GetCacheEntryInput) Wrappers.Result {
+	maxInFlight := DafnyTime.CurrentRelativeTimeMilli() + cmc.stormTracker.InFlightTTL
 	for {
 		res := cmc.GetFromInner(input)
 		if res.IsFailure() {
@@ -53,7 +55,11 @@ func (cmc *StormTrackingCMC) GetCacheEntry_k(input AwsCryptographyMaterialProvid
 		} else if res.Dtor_value().(StormTracker.CacheState).Is_EmptyFetch() {
 			return Companion_Default___.CreateGetCacheEntryFailure(AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_EntryDoesNotExist_(_dafny.SeqOfChars([]_dafny.Char("Entry doesn't exists")...)))
 		} else {
-			time.Sleep(time.Duration(cmc.stormTracker.SleepMilli))
+			if DafnyTime.CurrentRelativeTimeMilli() <= maxInFlight {
+				time.Sleep(time.Duration(cmc.stormTracker.SleepMilli))
+			} else {
+				return Companion_Default___.CreateGetCacheEntryFailure(AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_InFlightTTLExceeded_(_dafny.SeqOfChars([]_dafny.Char("Storm cache inFlightTTL exceeded.")...)))
+			}
 		}
 	}
 }
