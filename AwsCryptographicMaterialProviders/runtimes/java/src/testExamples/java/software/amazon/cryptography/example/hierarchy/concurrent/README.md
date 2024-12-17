@@ -12,6 +12,7 @@ Some things to keep in mind when you add tests. Think about how you will be crea
 thread and what kind of state you need to keep between tests.
 
 Examples:
+
 - [Test regular DynamoDB Client TransactWrites](./ConcurrentConditionCheckWriteTest.java)
 - [Test ACTIVE branch key reads while branch key creation is inflight](./StorageWriteReadConcurrencyTests.java)
 - [Test branch key reads while branch key versioning is inflight](./StorageVersionReadConcurrencyTests.java)
