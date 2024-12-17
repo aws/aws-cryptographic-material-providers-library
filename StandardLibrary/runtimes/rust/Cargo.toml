@@ -8,6 +8,7 @@ rust-version = "1.80.0"
 
 [dependencies]
 chrono = "0.4.38"
+cpu-time = "1.0.0"
 dafny_runtime = { path = "../../../smithy-dafny/TestModels/dafny-dependencies/dafny_runtime_rust"}
 dashmap = "6.1.0"
 uuid = { version = "1.11.0", features = ["v4"] }

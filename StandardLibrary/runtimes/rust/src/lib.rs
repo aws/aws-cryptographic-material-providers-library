@@ -11,10 +11,11 @@ pub(crate) use crate::implementation_from_dafny::r#_Wrappers_Compile;
 pub(crate) mod sets;
 pub(crate) mod time;
 pub(crate) mod uuid;
+pub(crate) mod dafny_libraries;
 pub(crate) use crate::implementation_from_dafny::UTF8;
 pub(crate) mod concurrent_call;
-//pub(crate) mod dafny_libraries;
 
 pub(crate) use crate::implementation_from_dafny::ConcurrentCall;
 pub(crate) use crate::implementation_from_dafny::Time;
 pub(crate) use crate::implementation_from_dafny::UUID;
+pub(crate) use crate::dafny_libraries::DafnyLibraries;
