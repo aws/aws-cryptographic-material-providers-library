@@ -152,7 +152,6 @@ module GetOptTest {
                              ]);
     var x :- expect GetOptions(MyOptions, ["cmd", "--help"]);
     var y :- expect NeedsHelp(MyOptions, x);
-    print "\n", y, "\n";
   }
 
   method {:test} TestHelpFail() {
@@ -196,11 +195,9 @@ module GetOptTest {
 
     x :- expect GetOptions(MyOptions, ["MyProg", "--help"]);
     var y :- expect NeedsHelp(MyOptions, x);
-    print "\n", y, "\n";
 
     x :- expect GetOptions(MyOptions, ["MyProg", "command", "--help"]);
     y :- expect NeedsHelp(MyOptions, x);
-    print "\n", y, "\n";
   }
 
   method {:test} TestDefault() {
