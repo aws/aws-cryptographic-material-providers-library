@@ -47,4 +47,12 @@ module TestStrings {
     expect y == [1,2,3,4,5];
   }
 
+  // ensure that FileIO error are returned properly, and not a panic! or the like
+  // This fails to fail on Windows+Dotnet, becasue \ instead of /
+  // method {:test} TestBadFileIO()
+  // {
+  //   var x := WriteBytesToFile("/../../MyFile", [1,2,3,4,5]);
+  //   expect x.Failure?;
+  // }
+
 }

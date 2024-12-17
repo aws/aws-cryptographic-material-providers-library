@@ -38,7 +38,10 @@ func (CompanionStruct_Default___) GetProcessCpuTimeMillis() int64 {
 }
 
 func GetProcessCpuTimeMillis() int64 {
-	usage := new(syscall.Rusage)
-	syscall.Getrusage(syscall.RUSAGE_SELF, usage)
+	var usage syscall.Rusage
+	err := syscall.Getrusage(syscall.RUSAGE_SELF, &usage)
+	if err != nil {
+		return 0
+	}
 	return (usage.Utime.Nano() + usage.Stime.Nano()) / 1000000
 }
