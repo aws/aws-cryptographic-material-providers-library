@@ -2,178 +2,244 @@ package software.amazon.cryptography.example.hierarchy.concurrent;
 
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
-
-import java.io.IOException;
-import java.nio.ByteBuffer;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.logging.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
-import software.amazon.awssdk.services.dynamodb.model.TransactionCanceledException;
+import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
+import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
 import software.amazon.awssdk.services.kms.KmsClient;
+import software.amazon.cryptography.example.DdbHelper;
+import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.keystore.KeyStore;
-import software.amazon.cryptography.keystore.model.BranchKeyMaterials;
-import software.amazon.cryptography.keystore.model.CreateKeyInput;
+import software.amazon.cryptography.keystore.model.DynamoDBTable;
 import software.amazon.cryptography.keystore.model.GetActiveBranchKeyInput;
+import software.amazon.cryptography.keystore.model.GetActiveBranchKeyOutput;
 import software.amazon.cryptography.keystore.model.KMSConfiguration;
+import software.amazon.cryptography.keystore.model.KeyStorageException;
 import software.amazon.cryptography.keystore.model.KeyStoreConfig;
+import software.amazon.cryptography.keystore.model.KeyStoreException;
+import software.amazon.cryptography.keystore.model.Storage;
+import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
+import software.amazon.cryptography.keystoreadmin.model.CreateKeyInput;
+import software.amazon.cryptography.keystoreadmin.model.CreateKeyOutput;
+import software.amazon.cryptography.keystoreadmin.model.KeyStoreAdminConfig;
+import software.amazon.cryptography.keystoreadmin.model.KmsSymmetricKeyArn;
 
-// Class for testing Key Store Concurrency for Creating and Getting the branch keys
+// This class contains a suite of tests to check behavior in the storage layer
+// of the library's APIs. These APIs write to the storage layer. We are not testing
+// with the KeyStore layer since this layer induces additional latency due to the calls
+// to AWS KMS. To test the concurrent behavior we don't need to test additional network calls.
 public class StorageConcurrencyTests {
 
   private static final String branchKeyId =
-    "concurrency_test_branch_key_" + UUID.randomUUID().toString();
-  private static final String keyStoreTableName = "KeyStoreDdbTable";
-  private static final String logicalKeyStoreName = "KeyStoreDdbTable";
-  private static final String kmsKeyId =
-    "arn:aws:kms:us-west-2:370957321024:key/9d989aa2-2f9c-438c-a745-cc57d3ad0126";
-
-  private static final KeyStore keyStore = KeyStore
-    .builder()
-    .KeyStoreConfig(
-      KeyStoreConfig
-        .builder()
-        .ddbClient(DynamoDbClient.create())
-        .ddbTableName(keyStoreTableName)
-        .logicalKeyStoreName(logicalKeyStoreName)
-        .kmsClient(KmsClient.create())
-        .kmsConfiguration(
-          KMSConfiguration.builder().kmsKeyArn(kmsKeyId).build()
-        )
-        .build()
+    "concurrency-test-write-key-" + UUID.randomUUID();
+  private static final Integer threadCount = 15;
+  private static final List<String> identifiers = Collections.unmodifiableList(
+    Arrays.asList(
+      IntStream
+        .rangeClosed(1, 15)
+        .mapToObj(String::valueOf)
+        .toArray(String[]::new)
     )
-    .build();
+  );
 
-  private static final Map<String, String> encryptionContext;
+  private Map<String, Storage> threadIndexToStorage;
+  private Map<String, KeyStore> threadIndexToKeyStore;
+  private static Map<String, String> indexToThreadId, threadIndexToTimestamp;
+  private static Map<
+    String,
+    GetActiveBranchKeyOutput
+  > getActiveBranchKeyOutputs;
+  private ConcurrentLinkedDeque<
+    String
+  > unpickedIndicesForStorage, unpickedIndicesForKeyStore;
+  private static Map<String, String> encryptionContext;
+  private static final AtomicInteger counter = new AtomicInteger(0);
 
-  static {
-    Map<String, String> tempMap = new HashMap<>();
-    tempMap.put("Example", "Encryption");
-    tempMap.put("Context", "To");
-    tempMap.put("Test", "Key");
-    tempMap.put("Store", "Concurrency");
-    encryptionContext = Collections.unmodifiableMap(tempMap);
+  @BeforeClass
+  public void setup() {
+    threadIndexToStorage = new ConcurrentHashMap<>(16, 1, threadCount);
+    threadIndexToKeyStore = new ConcurrentHashMap<>(16, 1, threadCount);
+    indexToThreadId = new ConcurrentHashMap<>(16, 1, threadCount);
+    threadIndexToTimestamp = new ConcurrentHashMap<>(16, 1, threadCount);
+    getActiveBranchKeyOutputs = new ConcurrentHashMap<>(16, 1, threadCount);
+
+    unpickedIndicesForStorage = new ConcurrentLinkedDeque<>(identifiers);
+    unpickedIndicesForKeyStore = new ConcurrentLinkedDeque<>(identifiers);
+    // For every identifier which will ultimately map to one thread, we will create a unique
+    // storage layer per thread with a unique ddb client. This will make it so that
+    // we isolate resources even further and prevent resource reuse.
+    identifiers.forEach(id -> {
+      threadIndexToStorage.put(id, createStorageLayer());
+      threadIndexToKeyStore.put(id, createKeyStore());
+    });
+
+    encryptionContext = new HashMap<>();
+    encryptionContext.put("custom", "ec");
   }
 
-  public void createALotOfKeys() {
-    try {
-      String branchKeyIdGenerated = keyStore
-        .CreateKey(
-          CreateKeyInput
-            .builder()
-            .branchKeyIdentifier(branchKeyId)
-            .encryptionContext(encryptionContext)
-            .build()
-        )
-        .branchKeyIdentifier();
-
-      logInfo(
-        "Success for createALotOfKeys; BranchKeyIdGenerated: " +
-          branchKeyIdGenerated
-      );
-    } catch (TransactionCanceledException e) {
-      logInfo("Received TransactionCanceledException: " + e.getMessage());
-    } catch (Exception e) {
-      logError("Unexpected error occurred while creating key", e);
-    }
+  private KeyStore createKeyStore() {
+    final DynamoDbClient _ddbClient = DynamoDbClient.create();
+    final KmsClient _kmsClient = KmsClient.create();
+    final KeyStoreConfig config = KeyStoreConfig
+      .builder()
+      .ddbClient(_ddbClient)
+      .ddbTableName(Fixtures.TEST_KEYSTORE_NAME)
+      .logicalKeyStoreName(Fixtures.TEST_KEYSTORE_NAME)
+      .kmsClient(_kmsClient)
+      .kmsConfiguration(
+        KMSConfiguration.builder().kmsKeyArn(Fixtures.KEYSTORE_KMS_ARN).build()
+      )
+      .build();
+    return KeyStore.builder().KeyStoreConfig(config).build();
   }
 
-  public void getALotOfKeys() {
-    BranchKeyMaterials activeBranchKeyMaterials = keyStore
-      .GetActiveBranchKey(
-        GetActiveBranchKeyInput
+  private Storage createStorageLayer() {
+    final DynamoDbClient _ddbClient = DynamoDbClient.create();
+    DynamoDBTable table = DynamoDBTable
+      .builder()
+      .ddbClient(_ddbClient)
+      .ddbTableName(Fixtures.TEST_KEYSTORE_NAME)
+      .build();
+    return Storage.builder().ddb(table).build();
+  }
+
+  @AfterClass
+  public void teardown() {
+    GetItemResponse res = DdbHelper.getKeyStoreDdbItem(
+      branchKeyId,
+      "branch:ACTIVE",
+      Fixtures.TEST_KEYSTORE_NAME,
+      DynamoDbClient.create()
+    );
+    DdbHelper.deleteKeyStoreDdbItem(
+      branchKeyId,
+      "branch:ACTIVE",
+      Fixtures.TEST_KEYSTORE_NAME,
+      DynamoDbClient.create(),
+      true
+    );
+    DdbHelper.deleteKeyStoreDdbItem(
+      branchKeyId,
+      "beacon:ACTIVE",
+      Fixtures.TEST_KEYSTORE_NAME,
+      DynamoDbClient.create(),
+      true
+    );
+    DdbHelper.deleteKeyStoreDdbItem(
+      branchKeyId,
+      res.item().get("version").s(),
+      Fixtures.TEST_KEYSTORE_NAME,
+      DynamoDbClient.create(),
+      true
+    );
+  }
+
+  private Storage storageForThread(final String threadIdToIndex) {
+    return threadIndexToStorage.computeIfAbsent(
+      threadIdToIndex,
+      k -> createStorageLayer()
+    );
+  }
+
+  private KeyStore keyStoreForThread(String threadIdToIndex) {
+    return threadIndexToKeyStore.computeIfAbsent(
+      threadIdToIndex,
+      k -> createKeyStore()
+    );
+  }
+
+  private CreateKeyOutput raceToWriteWithStorage(KeyStoreAdmin admin) {
+    CreateKeyInput createKeyInput = CreateKeyInput
+      .builder()
+      .Identifier(branchKeyId)
+      .EncryptionContext(encryptionContext)
+      .KmsArn(
+        KmsSymmetricKeyArn
           .builder()
-          .branchKeyIdentifier(branchKeyId)
+          .KmsKeyArn(Fixtures.KEYSTORE_KMS_ARN)
           .build()
       )
-      .branchKeyMaterials();
+      .build();
+    return admin.CreateKey(createKeyInput);
+  }
+
+  private GetActiveBranchKeyOutput raceToReadWithKeyStore(KeyStore keyStore) {
+    GetActiveBranchKeyInput input = GetActiveBranchKeyInput
+      .builder()
+      .branchKeyIdentifier(branchKeyId)
+      .build();
+    return keyStore.GetActiveBranchKey(input);
+  }
+
+  @Test(threadPoolSize = 15, invocationCount = 150, timeOut = 10000)
+  public void testConcurrentStorage() {
+    String threadId = String.valueOf(Thread.currentThread().getId());
+    String threadIdToIndex = indexToThreadId.computeIfAbsent(
+      threadId,
+      str -> unpickedIndicesForStorage.pop()
+    );
+
+    TimeZone tz = TimeZone.getTimeZone("UTC");
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSS'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
+    df.setTimeZone(tz);
+    String timestamp = df.format(new Date());
+
+    System.out.println(
+      "Thread ID: " +
+      Thread.currentThread().getId() +
+      " ThreadIndex: " +
+      threadIdToIndex +
+      " Timestamp: " +
+      timestamp +
+      " BranchKeyId: " +
+      branchKeyId
+    );
+    threadIndexToTimestamp.putIfAbsent(threadIdToIndex, timestamp);
 
     try {
-      logBranchKeyMaterials(activeBranchKeyMaterials);
-      logInfo("BranchKeyMaterials processed successfully");
-    } catch (Exception e) {
-      logError("Error processing BranchKeyMaterials", e);
+      if (Integer.parseInt(threadIdToIndex) % 2 == 0) {
+        Storage threadStorage = storageForThread(threadIdToIndex);
+        KeyStoreAdminConfig keyStoreAdminConfig = KeyStoreAdminConfig
+          .builder()
+          .storage(threadStorage)
+          .logicalKeyStoreName(Fixtures.TEST_KEYSTORE_NAME)
+          .build();
+        KeyStoreAdmin admin = KeyStoreAdmin
+          .builder()
+          .KeyStoreAdminConfig(keyStoreAdminConfig)
+          .build();
+        raceToWriteWithStorage(admin);
+      } else {
+        String iteration = String.valueOf(counter.incrementAndGet());
+        KeyStore keyStore = keyStoreForThread(threadIdToIndex);
+        GetActiveBranchKeyOutput output = raceToReadWithKeyStore(keyStore);
+        getActiveBranchKeyOutputs.put(iteration, output);
+      }
+    } catch (DynamoDbException | KeyStorageException | KeyStoreException e) {
+      System.out.println(e);
     }
   }
 
-  @Test(threadPoolSize = 15, invocationCount = 100, timeOut = 10000)
-  public void testConcurrency() {
-    try {
-      getALotOfKeys();
-    } catch (Exception e) {
-      logError("Maybe expected error in testConcurrency", e);
-      createALotOfKeys();
+  @Test(dependsOnMethods = { "testConcurrentStorage" })
+  public void testReadAfterWriteCheck() {
+    System.out.println(getActiveBranchKeyOutputs.size());
+    Set<String> keys = getActiveBranchKeyOutputs.keySet();
+    for (String key : keys) {
+      GetActiveBranchKeyOutput storedOutput = getActiveBranchKeyOutputs.get(
+        key
+      );
+      System.out.println(
+        Arrays.toString(storedOutput.branchKeyMaterials().branchKey().array())
+      );
     }
-  }
-
-  // Logger setup
-  private static final Logger LOGGER = Logger.getLogger(
-    StorageConcurrencyTests.class.getName()
-  );
-  private static FileHandler fileHandler;
-
-  static {
-    try {
-      fileHandler = new FileHandler("keystore_operations.log", true);
-      fileHandler.setFormatter(new SimpleFormatter());
-      LOGGER.addHandler(fileHandler);
-      LOGGER.setLevel(Level.ALL);
-    } catch (IOException e) {
-      System.err.println("Failed to set up logger: " + e.getMessage());
-      e.printStackTrace();
-    }
-  }
-
-  // Logging methods
-  public static void logBranchKeyMaterials(BranchKeyMaterials materials) {
-    StringBuilder sb = new StringBuilder();
-    sb.append("BranchKeyMaterials:\n");
-    sb
-      .append("  Branch Key Identifier: ")
-      .append(materials.branchKeyIdentifier())
-      .append("\n");
-    sb
-      .append("  Branch Key Version: ")
-      .append(materials.branchKeyVersion())
-      .append("\n");
-
-    sb.append("  Encryption Context:\n");
-    for (Map.Entry<String, String> entry : materials
-      .encryptionContext()
-      .entrySet()) {
-      sb
-        .append("    ")
-        .append(entry.getKey())
-        .append(": ")
-        .append(entry.getValue())
-        .append("\n");
-    }
-
-    ByteBuffer branchKey = materials.branchKey();
-    sb.append("  Branch Key (ByteBuffer):\n");
-    sb.append("    Capacity: ").append(branchKey.capacity()).append("\n");
-    sb.append("    Hex: ").append(bytesToHex(branchKey.array())).append("\n");
-
-    LOGGER.info(sb.toString());
-  }
-
-  public static void logInfo(String message) {
-    LOGGER.info(message);
-  }
-
-  public static void logWarning(String message) {
-    LOGGER.warning(message);
-  }
-
-  public static void logError(String message, Throwable thrown) {
-    LOGGER.log(Level.SEVERE, message, thrown);
-  }
-
-  private static String bytesToHex(byte[] bytes) {
-    StringBuilder sb = new StringBuilder();
-    for (byte b : bytes) {
-      sb.append(String.format("%02X ", b));
-    }
-    return sb.toString();
   }
 }
