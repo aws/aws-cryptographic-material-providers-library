@@ -1,4 +1,5 @@
 import datetime
+import os
 import pytz
 import _dafny
 
@@ -12,6 +13,10 @@ class default__(smithy_dafny_standard_library.internaldafny.generated.Time.defau
 
     def CurrentRelativeTime():
         return round(datetime.datetime.now(tz = pytz.UTC).timestamp())
+
+    def GetProcessCpuTimeMillis():
+        t = os.times()
+        return round((t.user + t.system) * 1000)
 
     def GetCurrentTimeStamp():
         try:

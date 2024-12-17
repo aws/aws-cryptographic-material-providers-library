@@ -25,10 +25,12 @@ module {:extern "SortedSets"} SortedSets {
     ensures forall k <- s :: k in res
     ensures |res| == |s|
 
-  function method {:extern "SetToSequence"} ComputeSetToSequence<T(==, !new)>(
+  // This must be a method, not a function, because the results are not deterministic
+  // It might even return different results for the same input
+  method {:extern "SetToSequence"} ComputeSetToSequence<T(==, !new)>(
     s: set<T>
   )
-    : (res: seq<T>)
+    returns (res: seq<T>)
     ensures Seq.HasNoDuplicates(res)
     ensures forall k <- res :: k in s
     ensures forall k <- s :: k in res

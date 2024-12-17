@@ -25,8 +25,8 @@ pub mod internal_StormTrackingCMC {
         }
     }
 
-    impl ::dafny_runtime::UpcastObject<dyn::std::any::Any> for StormTrackingCMC {
-        ::dafny_runtime::UpcastObjectFn!(dyn::std::any::Any);
+    impl ::dafny_runtime::UpcastObject<dyn ::std::any::Any> for StormTrackingCMC {
+        ::dafny_runtime::UpcastObjectFn!(dyn ::std::any::Any);
     }
 
     impl ::dafny_runtime::UpcastObject<dyn software::amazon::cryptography::materialproviders::internaldafny::types::ICryptographicMaterialsCache>
@@ -70,7 +70,7 @@ pub mod internal_StormTrackingCMC {
                             )});
                         }
                         EmptyWait {} => {
-                            if (crate::Time::_default::CurrentRelativeTimeMilli() <= max_in_flight) {
+                            if crate::Time::_default::CurrentRelativeTimeMilli() <= max_in_flight {
                                 std::thread::sleep(sleep_time);
                             } else {
                                 return std::rc::Rc::new(crate::_Wrappers_Compile::Result::Failure{error :

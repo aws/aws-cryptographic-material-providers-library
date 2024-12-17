@@ -46,6 +46,11 @@ jobs:
     uses: ./.github/workflows/library_python_tests.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
+  push-ci-go:
+    needs: getVersion
+    uses: ./.github/workflows/library_go_tests.yml
+    with:
+      dafny: ${{needs.getVersion.outputs.version}}
   pr-interop-test:
     needs: getVersion
     uses: ./.github/workflows/library_interop_tests.yml
