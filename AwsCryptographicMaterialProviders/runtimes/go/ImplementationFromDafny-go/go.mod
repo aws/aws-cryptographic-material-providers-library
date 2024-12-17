@@ -11,7 +11,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.35.1
 	github.com/aws/aws-sdk-go-v2/service/kms v1.36.0
 	github.com/aws/smithy-go v1.21.0
-	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.8.0
+	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.9.1
 
 )
 
