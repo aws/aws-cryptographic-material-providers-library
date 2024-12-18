@@ -21,34 +21,15 @@ module {:options "-functionSyntax:4"} AllAlgorithmSuites {
       Types.CommitmentPolicy.DBE(Types.DBECommitmentPolicy.REQUIRE_ENCRYPT_REQUIRE_DECRYPT)
   }
 
-  // TODO: Add aes-192 after aws-lc-rs adds support
-  // To add AES192 tests, uncomment next line and remove the current value of ESDKAlgorithmSuites
-  //   const ESDKAlgorithmSuites := set id: Types.ESDKAlgorithmSuiteId :: AlgorithmSuites.GetESDKSuite(id)
-  const ESDKAlgorithmSuites := set id: Types.ESDKAlgorithmSuiteId |
-                                 id != Types.ALG_AES_192_GCM_IV12_TAG16_NO_KDF &&
-                                 id != Types.ALG_AES_192_GCM_IV12_TAG16_HKDF_SHA256 &&
-                                 id != Types.ALG_AES_192_GCM_IV12_TAG16_HKDF_SHA384_ECDSA_P384 ::
-                                 AlgorithmSuites.GetESDKSuite(id)
+  const ESDKAlgorithmSuites := set id: Types.ESDKAlgorithmSuiteId :: AlgorithmSuites.GetESDKSuite(id)
+
   const DBEAlgorithmSuites := set id: Types.DBEAlgorithmSuiteId :: AlgorithmSuites.GetDBESuite(id)
 
   const AllAlgorithmSuites := ESDKAlgorithmSuites + DBEAlgorithmSuites
 
-  // TODO: Add aes-192 after aws-lc-rs adds support
-  // To add AES192 tests, comment out AllAlgorithmSuitesIsCompleteExceptAES192
-  // and uncomment AllAlgorithmSuitesIsComplete
-  lemma AllAlgorithmSuitesIsCompleteExceptAES192(id: Types.AlgorithmSuiteId)
-    requires match id
-             case ESDK(e) =>
-               e != Types.ALG_AES_192_GCM_IV12_TAG16_NO_KDF &&
-               e != Types.ALG_AES_192_GCM_IV12_TAG16_HKDF_SHA256 &&
-               e != Types.ALG_AES_192_GCM_IV12_TAG16_HKDF_SHA384_ECDSA_P384
-             case DBE(_) => true
+  lemma AllAlgorithmSuitesIsComplete(id: Types.AlgorithmSuiteId)
     ensures AlgorithmSuites.GetSuite(id) in AllAlgorithmSuites
   {}
-
-  // lemma AllAlgorithmSuitesIsComplete(id: Types.AlgorithmSuiteId)
-  //   ensures AlgorithmSuites.GetSuite(id) in AllAlgorithmSuites
-  // {}
 
   function ToHex(algorithmSuite: Types.AlgorithmSuiteInfo)
     : string
