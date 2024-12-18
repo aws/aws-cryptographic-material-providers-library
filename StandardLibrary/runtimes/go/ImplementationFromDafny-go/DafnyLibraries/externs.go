@@ -7,9 +7,12 @@ import (
 	Std_Wrappers "github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
 )
 
-// Definition of class MutableMap
+// Definition of class MutableMap copied over from
+// https://github.com/dafny-lang/dafny/blob/master/Source/DafnyStandardLibraries/src/Std_Concurrent/Std_Concurrent.go
 type MutableMap struct {
-	Internal sync.Map
+	mu sync.Mutex
+
+	Internal _dafny.Map
 }
 
 func New_MutableMap_() *MutableMap {
@@ -62,56 +65,42 @@ func (_this *MutableMap) Ctor__() {
 }
 func (_this *MutableMap) Keys() _dafny.Set {
 	{
-		keys := make([]interface{}, 0)
+		_this.mu.Lock()
+		defer _this.mu.Unlock()
 
-		_this.Internal.Range(func(key, value interface{}) bool {
-			keys = append(keys, key)
-			return true
-		})
-
-		return _dafny.SetOf(keys[:]...)
+		return _this.Internal.Keys()
 	}
 }
 func (_this *MutableMap) HasKey(k interface{}) bool {
 	{
-		_, ok := _this.Internal.Load(k)
-		return ok
+		_this.mu.Lock()
+		defer _this.mu.Unlock()
+
+		return _this.Internal.Contains(k)
 	}
 }
 func (_this *MutableMap) Values() _dafny.Set {
 	{
-		values := make([]interface{}, 0)
+		_this.mu.Lock()
+		defer _this.mu.Unlock()
 
-		_this.Internal.Range(func(key, value interface{}) bool {
-			values = append(values, value)
-			return true
-		})
-
-		return _dafny.SetOf(values[:]...)
+		return _this.Internal.Values()
 	}
 }
 func (_this *MutableMap) Items() _dafny.Set {
 	{
-		items := make([]interface{}, 0)
+		_this.mu.Lock()
+		defer _this.mu.Unlock()
 
-		_this.Internal.Range(func(key, value interface{}) bool {
-			items = append(items, _dafny.TupleOf(key, value))
-			return true
-		})
-
-		return _dafny.SetOf(items[:]...)
+		return _this.Internal.Items()
 	}
-}
-func (_this *MutableMap) Select(k interface{}) interface{} {
-	r := _this.Get(k)
-	if r.Is_None() {
-		return nil
-	}
-	return r.Dtor_value()
 }
 func (_this *MutableMap) Get(k interface{}) Std_Wrappers.Option {
 	{
-		value, ok := _this.Internal.Load(k)
+		_this.mu.Lock()
+		defer _this.mu.Unlock()
+
+		value, ok := _this.Internal.Find(k)
 		if ok {
 			return Std_Wrappers.Companion_Option_.Create_Some_(value)
 		} else {
@@ -121,23 +110,38 @@ func (_this *MutableMap) Get(k interface{}) Std_Wrappers.Option {
 }
 func (_this *MutableMap) Put(k interface{}, v interface{}) {
 	{
-		_this.Internal.Store(k, v)
+		_this.mu.Lock()
+		defer _this.mu.Unlock()
+
+		_this.Internal = _this.Internal.UpdateUnsafe(k, v)
 	}
 }
 func (_this *MutableMap) Remove(k interface{}) {
 	{
-		_this.Internal.Delete(k)
+		_this.mu.Lock()
+		defer _this.mu.Unlock()
+
+		// This could be special-cased for a single remove to be a bit faster,
+		// but it's still going to be O(n) so likely not worth it.
+		_this.Internal = _this.Internal.Subtract(_dafny.SetOf(k))
 	}
 }
 func (_this *MutableMap) Size() _dafny.Int {
 	{
-		var c _dafny.Int = _dafny.Zero
+		_this.mu.Lock()
+		defer _this.mu.Unlock()
 
-		_this.Internal.Range(func(key, value interface{}) bool {
-			c = c.Plus(_dafny.One)
-			return true
-		})
-
-		return c
+		return _this.Internal.Cardinality()
 	}
+}
+
+// End of class MutableMap
+
+// This is handrolled extern
+func (_this *MutableMap) Select(k interface{}) interface{} {
+	r := _this.Get(k)
+	if r.Is_None() {
+		return nil
+	}
+	return r.Dtor_value()
 }

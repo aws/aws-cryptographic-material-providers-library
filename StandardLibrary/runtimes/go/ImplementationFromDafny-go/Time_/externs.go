@@ -18,7 +18,7 @@ func (CompanionStruct_Default___) CurrentRelativeTime() int64 {
 	return CurrentRelativeTime()
 }
 func CurrentRelativeTime() int64 {
-	return int64(time.Now().Second())
+	return int64(time.Now().Unix())
 }
 
 func (CompanionStruct_Default___) GetCurrentTimeStamp() Wrappers.Result {
