@@ -13,6 +13,7 @@ pub mod deps;
 pub mod error;
 pub mod operation;
 pub mod types;
+pub mod validation;
 pub mod wrapped;
 
 pub(crate) mod standard_library_conversions;
