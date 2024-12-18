@@ -814,42 +814,10 @@ func VerifyMacOutput_ToDafny(nativeOutput kms.VerifyMacOutput) ComAmazonawsKmsTy
 
 }
 
-func InvalidCiphertextException_ToDafny(nativeInput types.InvalidCiphertextException) ComAmazonawsKmsTypes.Error {
+func XksProxyVpcEndpointServiceInvalidConfigurationException_ToDafny(nativeInput types.XksProxyVpcEndpointServiceInvalidConfigurationException) ComAmazonawsKmsTypes.Error {
 	return func() ComAmazonawsKmsTypes.Error {
 
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidCiphertextException_(com_amazonaws_kms_InvalidCiphertextException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func XksKeyInvalidConfigurationException_ToDafny(nativeInput types.XksKeyInvalidConfigurationException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksKeyInvalidConfigurationException_(com_amazonaws_kms_XksKeyInvalidConfigurationException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func UnsupportedOperationException_ToDafny(nativeInput types.UnsupportedOperationException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_UnsupportedOperationException_(com_amazonaws_kms_UnsupportedOperationException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func CloudHsmClusterNotActiveException_ToDafny(nativeInput types.CloudHsmClusterNotActiveException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_CloudHsmClusterNotActiveException_(com_amazonaws_kms_CloudHsmClusterNotActiveException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func InvalidGrantTokenException_ToDafny(nativeInput types.InvalidGrantTokenException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidGrantTokenException_(com_amazonaws_kms_InvalidGrantTokenException_message_ToDafny(nativeInput.Message))
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyVpcEndpointServiceInvalidConfigurationException_(com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
@@ -862,6 +830,14 @@ func KMSInvalidMacException_ToDafny(nativeInput types.KMSInvalidMacException) Co
 
 }
 
+func UnsupportedOperationException_ToDafny(nativeInput types.UnsupportedOperationException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_UnsupportedOperationException_(com_amazonaws_kms_UnsupportedOperationException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
 func MalformedPolicyDocumentException_ToDafny(nativeInput types.MalformedPolicyDocumentException) ComAmazonawsKmsTypes.Error {
 	return func() ComAmazonawsKmsTypes.Error {
 
@@ -870,18 +846,26 @@ func MalformedPolicyDocumentException_ToDafny(nativeInput types.MalformedPolicyD
 
 }
 
-func InvalidImportTokenException_ToDafny(nativeInput types.InvalidImportTokenException) ComAmazonawsKmsTypes.Error {
+func XksKeyInvalidConfigurationException_ToDafny(nativeInput types.XksKeyInvalidConfigurationException) ComAmazonawsKmsTypes.Error {
 	return func() ComAmazonawsKmsTypes.Error {
 
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidImportTokenException_(com_amazonaws_kms_InvalidImportTokenException_message_ToDafny(nativeInput.Message))
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksKeyInvalidConfigurationException_(com_amazonaws_kms_XksKeyInvalidConfigurationException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
 
-func DryRunOperationException_ToDafny(nativeInput types.DryRunOperationException) ComAmazonawsKmsTypes.Error {
+func XksProxyVpcEndpointServiceNotFoundException_ToDafny(nativeInput types.XksProxyVpcEndpointServiceNotFoundException) ComAmazonawsKmsTypes.Error {
 	return func() ComAmazonawsKmsTypes.Error {
 
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_DryRunOperationException_(com_amazonaws_kms_DryRunOperationException_message_ToDafny(nativeInput.Message))
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyVpcEndpointServiceNotFoundException_(com_amazonaws_kms_XksProxyVpcEndpointServiceNotFoundException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func InvalidCiphertextException_ToDafny(nativeInput types.InvalidCiphertextException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidCiphertextException_(com_amazonaws_kms_InvalidCiphertextException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
@@ -894,26 +878,42 @@ func XksProxyUriUnreachableException_ToDafny(nativeInput types.XksProxyUriUnreac
 
 }
 
+func InvalidImportTokenException_ToDafny(nativeInput types.InvalidImportTokenException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidImportTokenException_(com_amazonaws_kms_InvalidImportTokenException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func CloudHsmClusterNotActiveException_ToDafny(nativeInput types.CloudHsmClusterNotActiveException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_CloudHsmClusterNotActiveException_(com_amazonaws_kms_CloudHsmClusterNotActiveException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func InvalidMarkerException_ToDafny(nativeInput types.InvalidMarkerException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidMarkerException_(com_amazonaws_kms_InvalidMarkerException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func DryRunOperationException_ToDafny(nativeInput types.DryRunOperationException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_DryRunOperationException_(com_amazonaws_kms_DryRunOperationException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
 func IncorrectTrustAnchorException_ToDafny(nativeInput types.IncorrectTrustAnchorException) ComAmazonawsKmsTypes.Error {
 	return func() ComAmazonawsKmsTypes.Error {
 
 		return ComAmazonawsKmsTypes.Companion_Error_.Create_IncorrectTrustAnchorException_(com_amazonaws_kms_IncorrectTrustAnchorException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func AlreadyExistsException_ToDafny(nativeInput types.AlreadyExistsException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_AlreadyExistsException_(com_amazonaws_kms_AlreadyExistsException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func XksKeyNotFoundException_ToDafny(nativeInput types.XksKeyNotFoundException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksKeyNotFoundException_(com_amazonaws_kms_XksKeyNotFoundException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
@@ -926,18 +926,18 @@ func KMSInvalidSignatureException_ToDafny(nativeInput types.KMSInvalidSignatureE
 
 }
 
-func CustomKeyStoreHasCMKsException_ToDafny(nativeInput types.CustomKeyStoreHasCMKsException) ComAmazonawsKmsTypes.Error {
+func XksKeyNotFoundException_ToDafny(nativeInput types.XksKeyNotFoundException) ComAmazonawsKmsTypes.Error {
 	return func() ComAmazonawsKmsTypes.Error {
 
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_CustomKeyStoreHasCMKsException_(com_amazonaws_kms_CustomKeyStoreHasCMKsException_message_ToDafny(nativeInput.Message))
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksKeyNotFoundException_(com_amazonaws_kms_XksKeyNotFoundException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
 
-func XksProxyVpcEndpointServiceInvalidConfigurationException_ToDafny(nativeInput types.XksProxyVpcEndpointServiceInvalidConfigurationException) ComAmazonawsKmsTypes.Error {
+func CustomKeyStoreHasCMKsException_ToDafny(nativeInput types.CustomKeyStoreHasCMKsException) ComAmazonawsKmsTypes.Error {
 	return func() ComAmazonawsKmsTypes.Error {
 
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyVpcEndpointServiceInvalidConfigurationException_(com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException_message_ToDafny(nativeInput.Message))
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_CustomKeyStoreHasCMKsException_(com_amazonaws_kms_CustomKeyStoreHasCMKsException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
@@ -950,26 +950,10 @@ func XksProxyInvalidConfigurationException_ToDafny(nativeInput types.XksProxyInv
 
 }
 
-func XksProxyUriEndpointInUseException_ToDafny(nativeInput types.XksProxyUriEndpointInUseException) ComAmazonawsKmsTypes.Error {
+func CustomKeyStoreInvalidStateException_ToDafny(nativeInput types.CustomKeyStoreInvalidStateException) ComAmazonawsKmsTypes.Error {
 	return func() ComAmazonawsKmsTypes.Error {
 
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyUriEndpointInUseException_(com_amazonaws_kms_XksProxyUriEndpointInUseException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func CustomKeyStoreNameInUseException_ToDafny(nativeInput types.CustomKeyStoreNameInUseException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_CustomKeyStoreNameInUseException_(com_amazonaws_kms_CustomKeyStoreNameInUseException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func KMSInvalidStateException_ToDafny(nativeInput types.KMSInvalidStateException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_KMSInvalidStateException_(com_amazonaws_kms_KMSInvalidStateException_message_ToDafny(nativeInput.Message))
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_CustomKeyStoreInvalidStateException_(com_amazonaws_kms_CustomKeyStoreInvalidStateException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
@@ -982,18 +966,34 @@ func KMSInternalException_ToDafny(nativeInput types.KMSInternalException) ComAma
 
 }
 
-func CustomKeyStoreInvalidStateException_ToDafny(nativeInput types.CustomKeyStoreInvalidStateException) ComAmazonawsKmsTypes.Error {
+func XksProxyUriEndpointInUseException_ToDafny(nativeInput types.XksProxyUriEndpointInUseException) ComAmazonawsKmsTypes.Error {
 	return func() ComAmazonawsKmsTypes.Error {
 
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_CustomKeyStoreInvalidStateException_(com_amazonaws_kms_CustomKeyStoreInvalidStateException_message_ToDafny(nativeInput.Message))
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyUriEndpointInUseException_(com_amazonaws_kms_XksProxyUriEndpointInUseException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
 
-func NotFoundException_ToDafny(nativeInput types.NotFoundException) ComAmazonawsKmsTypes.Error {
+func InvalidAliasNameException_ToDafny(nativeInput types.InvalidAliasNameException) ComAmazonawsKmsTypes.Error {
 	return func() ComAmazonawsKmsTypes.Error {
 
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_NotFoundException_(com_amazonaws_kms_NotFoundException_message_ToDafny(nativeInput.Message))
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidAliasNameException_(com_amazonaws_kms_InvalidAliasNameException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func XksProxyUriInUseException_ToDafny(nativeInput types.XksProxyUriInUseException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyUriInUseException_(com_amazonaws_kms_XksProxyUriInUseException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func AlreadyExistsException_ToDafny(nativeInput types.AlreadyExistsException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_AlreadyExistsException_(com_amazonaws_kms_AlreadyExistsException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
@@ -1014,10 +1014,10 @@ func IncorrectKeyException_ToDafny(nativeInput types.IncorrectKeyException) ComA
 
 }
 
-func LimitExceededException_ToDafny(nativeInput types.LimitExceededException) ComAmazonawsKmsTypes.Error {
+func KMSInvalidStateException_ToDafny(nativeInput types.KMSInvalidStateException) ComAmazonawsKmsTypes.Error {
 	return func() ComAmazonawsKmsTypes.Error {
 
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_LimitExceededException_(com_amazonaws_kms_LimitExceededException_message_ToDafny(nativeInput.Message))
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_KMSInvalidStateException_(com_amazonaws_kms_KMSInvalidStateException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
@@ -1030,6 +1030,22 @@ func XksKeyAlreadyInUseException_ToDafny(nativeInput types.XksKeyAlreadyInUseExc
 
 }
 
+func LimitExceededException_ToDafny(nativeInput types.LimitExceededException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_LimitExceededException_(com_amazonaws_kms_LimitExceededException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func NotFoundException_ToDafny(nativeInput types.NotFoundException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_NotFoundException_(com_amazonaws_kms_NotFoundException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
 func XksProxyVpcEndpointServiceInUseException_ToDafny(nativeInput types.XksProxyVpcEndpointServiceInUseException) ComAmazonawsKmsTypes.Error {
 	return func() ComAmazonawsKmsTypes.Error {
 
@@ -1038,10 +1054,26 @@ func XksProxyVpcEndpointServiceInUseException_ToDafny(nativeInput types.XksProxy
 
 }
 
-func CloudHsmClusterInvalidConfigurationException_ToDafny(nativeInput types.CloudHsmClusterInvalidConfigurationException) ComAmazonawsKmsTypes.Error {
+func IncorrectKeyMaterialException_ToDafny(nativeInput types.IncorrectKeyMaterialException) ComAmazonawsKmsTypes.Error {
 	return func() ComAmazonawsKmsTypes.Error {
 
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_CloudHsmClusterInvalidConfigurationException_(com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException_message_ToDafny(nativeInput.Message))
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_IncorrectKeyMaterialException_(com_amazonaws_kms_IncorrectKeyMaterialException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func CloudHsmClusterNotRelatedException_ToDafny(nativeInput types.CloudHsmClusterNotRelatedException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_CloudHsmClusterNotRelatedException_(com_amazonaws_kms_CloudHsmClusterNotRelatedException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func DisabledException_ToDafny(nativeInput types.DisabledException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_DisabledException_(com_amazonaws_kms_DisabledException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
@@ -1050,14 +1082,6 @@ func DependencyTimeoutException_ToDafny(nativeInput types.DependencyTimeoutExcep
 	return func() ComAmazonawsKmsTypes.Error {
 
 		return ComAmazonawsKmsTypes.Companion_Error_.Create_DependencyTimeoutException_(com_amazonaws_kms_DependencyTimeoutException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func InvalidMarkerException_ToDafny(nativeInput types.InvalidMarkerException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidMarkerException_(com_amazonaws_kms_InvalidMarkerException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
@@ -1086,106 +1110,10 @@ func ConflictException_ToDafny(nativeInput types.ConflictException) ComAmazonaws
 
 }
 
-func IncorrectKeyMaterialException_ToDafny(nativeInput types.IncorrectKeyMaterialException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_IncorrectKeyMaterialException_(com_amazonaws_kms_IncorrectKeyMaterialException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func CloudHsmClusterNotRelatedException_ToDafny(nativeInput types.CloudHsmClusterNotRelatedException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_CloudHsmClusterNotRelatedException_(com_amazonaws_kms_CloudHsmClusterNotRelatedException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func InvalidAliasNameException_ToDafny(nativeInput types.InvalidAliasNameException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidAliasNameException_(com_amazonaws_kms_InvalidAliasNameException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func XksProxyUriInUseException_ToDafny(nativeInput types.XksProxyUriInUseException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyUriInUseException_(com_amazonaws_kms_XksProxyUriInUseException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func CloudHsmClusterNotFoundException_ToDafny(nativeInput types.CloudHsmClusterNotFoundException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_CloudHsmClusterNotFoundException_(com_amazonaws_kms_CloudHsmClusterNotFoundException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func DisabledException_ToDafny(nativeInput types.DisabledException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_DisabledException_(com_amazonaws_kms_DisabledException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func CloudHsmClusterInUseException_ToDafny(nativeInput types.CloudHsmClusterInUseException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_CloudHsmClusterInUseException_(com_amazonaws_kms_CloudHsmClusterInUseException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func XksProxyVpcEndpointServiceNotFoundException_ToDafny(nativeInput types.XksProxyVpcEndpointServiceNotFoundException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyVpcEndpointServiceNotFoundException_(com_amazonaws_kms_XksProxyVpcEndpointServiceNotFoundException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func InvalidArnException_ToDafny(nativeInput types.InvalidArnException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidArnException_(com_amazonaws_kms_InvalidArnException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
 func InvalidKeyUsageException_ToDafny(nativeInput types.InvalidKeyUsageException) ComAmazonawsKmsTypes.Error {
 	return func() ComAmazonawsKmsTypes.Error {
 
 		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidKeyUsageException_(com_amazonaws_kms_InvalidKeyUsageException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func TagException_ToDafny(nativeInput types.TagException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_TagException_(com_amazonaws_kms_TagException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func ExpiredImportTokenException_ToDafny(nativeInput types.ExpiredImportTokenException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_ExpiredImportTokenException_(com_amazonaws_kms_ExpiredImportTokenException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func XksProxyIncorrectAuthenticationCredentialException_ToDafny(nativeInput types.XksProxyIncorrectAuthenticationCredentialException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyIncorrectAuthenticationCredentialException_(com_amazonaws_kms_XksProxyIncorrectAuthenticationCredentialException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
@@ -1198,35 +1126,87 @@ func KeyUnavailableException_ToDafny(nativeInput types.KeyUnavailableException) 
 
 }
 
+func CloudHsmClusterNotFoundException_ToDafny(nativeInput types.CloudHsmClusterNotFoundException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_CloudHsmClusterNotFoundException_(com_amazonaws_kms_CloudHsmClusterNotFoundException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func InvalidArnException_ToDafny(nativeInput types.InvalidArnException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidArnException_(com_amazonaws_kms_InvalidArnException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func CloudHsmClusterInUseException_ToDafny(nativeInput types.CloudHsmClusterInUseException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_CloudHsmClusterInUseException_(com_amazonaws_kms_CloudHsmClusterInUseException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func TagException_ToDafny(nativeInput types.TagException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_TagException_(com_amazonaws_kms_TagException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func InvalidGrantTokenException_ToDafny(nativeInput types.InvalidGrantTokenException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidGrantTokenException_(com_amazonaws_kms_InvalidGrantTokenException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func ExpiredImportTokenException_ToDafny(nativeInput types.ExpiredImportTokenException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_ExpiredImportTokenException_(com_amazonaws_kms_ExpiredImportTokenException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func CloudHsmClusterInvalidConfigurationException_ToDafny(nativeInput types.CloudHsmClusterInvalidConfigurationException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_CloudHsmClusterInvalidConfigurationException_(com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func XksProxyIncorrectAuthenticationCredentialException_ToDafny(nativeInput types.XksProxyIncorrectAuthenticationCredentialException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyIncorrectAuthenticationCredentialException_(com_amazonaws_kms_XksProxyIncorrectAuthenticationCredentialException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func CustomKeyStoreNameInUseException_ToDafny(nativeInput types.CustomKeyStoreNameInUseException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_CustomKeyStoreNameInUseException_(com_amazonaws_kms_CustomKeyStoreNameInUseException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
 func OpaqueError_Input_ToDafny(nativeInput error) ComAmazonawsKmsTypes.Error {
 	return ComAmazonawsKmsTypes.Companion_Error_.Create_OpaqueWithText_(nativeInput, dafny.SeqOfChars([]dafny.Char(nativeInput.Error())...))
 }
 
 func Error_ToDafny(err error) ComAmazonawsKmsTypes.Error {
 	// Service Errors
-	var InvalidCiphertextException *types.InvalidCiphertextException
-	if errors.As(err, &InvalidCiphertextException) {
-		return InvalidCiphertextException_ToDafny(*InvalidCiphertextException)
-	}
-
-	var XksKeyInvalidConfigurationException *types.XksKeyInvalidConfigurationException
-	if errors.As(err, &XksKeyInvalidConfigurationException) {
-		return XksKeyInvalidConfigurationException_ToDafny(*XksKeyInvalidConfigurationException)
-	}
-
-	var UnsupportedOperationException *types.UnsupportedOperationException
-	if errors.As(err, &UnsupportedOperationException) {
-		return UnsupportedOperationException_ToDafny(*UnsupportedOperationException)
-	}
-
-	var CloudHsmClusterNotActiveException *types.CloudHsmClusterNotActiveException
-	if errors.As(err, &CloudHsmClusterNotActiveException) {
-		return CloudHsmClusterNotActiveException_ToDafny(*CloudHsmClusterNotActiveException)
-	}
-
-	var InvalidGrantTokenException *types.InvalidGrantTokenException
-	if errors.As(err, &InvalidGrantTokenException) {
-		return InvalidGrantTokenException_ToDafny(*InvalidGrantTokenException)
+	var XksProxyVpcEndpointServiceInvalidConfigurationException *types.XksProxyVpcEndpointServiceInvalidConfigurationException
+	if errors.As(err, &XksProxyVpcEndpointServiceInvalidConfigurationException) {
+		return XksProxyVpcEndpointServiceInvalidConfigurationException_ToDafny(*XksProxyVpcEndpointServiceInvalidConfigurationException)
 	}
 
 	var KMSInvalidMacException *types.KMSInvalidMacException
@@ -1234,19 +1214,29 @@ func Error_ToDafny(err error) ComAmazonawsKmsTypes.Error {
 		return KMSInvalidMacException_ToDafny(*KMSInvalidMacException)
 	}
 
+	var UnsupportedOperationException *types.UnsupportedOperationException
+	if errors.As(err, &UnsupportedOperationException) {
+		return UnsupportedOperationException_ToDafny(*UnsupportedOperationException)
+	}
+
 	var MalformedPolicyDocumentException *types.MalformedPolicyDocumentException
 	if errors.As(err, &MalformedPolicyDocumentException) {
 		return MalformedPolicyDocumentException_ToDafny(*MalformedPolicyDocumentException)
 	}
 
-	var InvalidImportTokenException *types.InvalidImportTokenException
-	if errors.As(err, &InvalidImportTokenException) {
-		return InvalidImportTokenException_ToDafny(*InvalidImportTokenException)
+	var XksKeyInvalidConfigurationException *types.XksKeyInvalidConfigurationException
+	if errors.As(err, &XksKeyInvalidConfigurationException) {
+		return XksKeyInvalidConfigurationException_ToDafny(*XksKeyInvalidConfigurationException)
 	}
 
-	var DryRunOperationException *types.DryRunOperationException
-	if errors.As(err, &DryRunOperationException) {
-		return DryRunOperationException_ToDafny(*DryRunOperationException)
+	var XksProxyVpcEndpointServiceNotFoundException *types.XksProxyVpcEndpointServiceNotFoundException
+	if errors.As(err, &XksProxyVpcEndpointServiceNotFoundException) {
+		return XksProxyVpcEndpointServiceNotFoundException_ToDafny(*XksProxyVpcEndpointServiceNotFoundException)
+	}
+
+	var InvalidCiphertextException *types.InvalidCiphertextException
+	if errors.As(err, &InvalidCiphertextException) {
+		return InvalidCiphertextException_ToDafny(*InvalidCiphertextException)
 	}
 
 	var XksProxyUriUnreachableException *types.XksProxyUriUnreachableException
@@ -1254,19 +1244,29 @@ func Error_ToDafny(err error) ComAmazonawsKmsTypes.Error {
 		return XksProxyUriUnreachableException_ToDafny(*XksProxyUriUnreachableException)
 	}
 
+	var InvalidImportTokenException *types.InvalidImportTokenException
+	if errors.As(err, &InvalidImportTokenException) {
+		return InvalidImportTokenException_ToDafny(*InvalidImportTokenException)
+	}
+
+	var CloudHsmClusterNotActiveException *types.CloudHsmClusterNotActiveException
+	if errors.As(err, &CloudHsmClusterNotActiveException) {
+		return CloudHsmClusterNotActiveException_ToDafny(*CloudHsmClusterNotActiveException)
+	}
+
+	var InvalidMarkerException *types.InvalidMarkerException
+	if errors.As(err, &InvalidMarkerException) {
+		return InvalidMarkerException_ToDafny(*InvalidMarkerException)
+	}
+
+	var DryRunOperationException *types.DryRunOperationException
+	if errors.As(err, &DryRunOperationException) {
+		return DryRunOperationException_ToDafny(*DryRunOperationException)
+	}
+
 	var IncorrectTrustAnchorException *types.IncorrectTrustAnchorException
 	if errors.As(err, &IncorrectTrustAnchorException) {
 		return IncorrectTrustAnchorException_ToDafny(*IncorrectTrustAnchorException)
-	}
-
-	var AlreadyExistsException *types.AlreadyExistsException
-	if errors.As(err, &AlreadyExistsException) {
-		return AlreadyExistsException_ToDafny(*AlreadyExistsException)
-	}
-
-	var XksKeyNotFoundException *types.XksKeyNotFoundException
-	if errors.As(err, &XksKeyNotFoundException) {
-		return XksKeyNotFoundException_ToDafny(*XksKeyNotFoundException)
 	}
 
 	var KMSInvalidSignatureException *types.KMSInvalidSignatureException
@@ -1274,14 +1274,14 @@ func Error_ToDafny(err error) ComAmazonawsKmsTypes.Error {
 		return KMSInvalidSignatureException_ToDafny(*KMSInvalidSignatureException)
 	}
 
+	var XksKeyNotFoundException *types.XksKeyNotFoundException
+	if errors.As(err, &XksKeyNotFoundException) {
+		return XksKeyNotFoundException_ToDafny(*XksKeyNotFoundException)
+	}
+
 	var CustomKeyStoreHasCMKsException *types.CustomKeyStoreHasCMKsException
 	if errors.As(err, &CustomKeyStoreHasCMKsException) {
 		return CustomKeyStoreHasCMKsException_ToDafny(*CustomKeyStoreHasCMKsException)
-	}
-
-	var XksProxyVpcEndpointServiceInvalidConfigurationException *types.XksProxyVpcEndpointServiceInvalidConfigurationException
-	if errors.As(err, &XksProxyVpcEndpointServiceInvalidConfigurationException) {
-		return XksProxyVpcEndpointServiceInvalidConfigurationException_ToDafny(*XksProxyVpcEndpointServiceInvalidConfigurationException)
 	}
 
 	var XksProxyInvalidConfigurationException *types.XksProxyInvalidConfigurationException
@@ -1289,19 +1289,9 @@ func Error_ToDafny(err error) ComAmazonawsKmsTypes.Error {
 		return XksProxyInvalidConfigurationException_ToDafny(*XksProxyInvalidConfigurationException)
 	}
 
-	var XksProxyUriEndpointInUseException *types.XksProxyUriEndpointInUseException
-	if errors.As(err, &XksProxyUriEndpointInUseException) {
-		return XksProxyUriEndpointInUseException_ToDafny(*XksProxyUriEndpointInUseException)
-	}
-
-	var CustomKeyStoreNameInUseException *types.CustomKeyStoreNameInUseException
-	if errors.As(err, &CustomKeyStoreNameInUseException) {
-		return CustomKeyStoreNameInUseException_ToDafny(*CustomKeyStoreNameInUseException)
-	}
-
-	var KMSInvalidStateException *types.KMSInvalidStateException
-	if errors.As(err, &KMSInvalidStateException) {
-		return KMSInvalidStateException_ToDafny(*KMSInvalidStateException)
+	var CustomKeyStoreInvalidStateException *types.CustomKeyStoreInvalidStateException
+	if errors.As(err, &CustomKeyStoreInvalidStateException) {
+		return CustomKeyStoreInvalidStateException_ToDafny(*CustomKeyStoreInvalidStateException)
 	}
 
 	var KMSInternalException *types.KMSInternalException
@@ -1309,14 +1299,24 @@ func Error_ToDafny(err error) ComAmazonawsKmsTypes.Error {
 		return KMSInternalException_ToDafny(*KMSInternalException)
 	}
 
-	var CustomKeyStoreInvalidStateException *types.CustomKeyStoreInvalidStateException
-	if errors.As(err, &CustomKeyStoreInvalidStateException) {
-		return CustomKeyStoreInvalidStateException_ToDafny(*CustomKeyStoreInvalidStateException)
+	var XksProxyUriEndpointInUseException *types.XksProxyUriEndpointInUseException
+	if errors.As(err, &XksProxyUriEndpointInUseException) {
+		return XksProxyUriEndpointInUseException_ToDafny(*XksProxyUriEndpointInUseException)
 	}
 
-	var NotFoundException *types.NotFoundException
-	if errors.As(err, &NotFoundException) {
-		return NotFoundException_ToDafny(*NotFoundException)
+	var InvalidAliasNameException *types.InvalidAliasNameException
+	if errors.As(err, &InvalidAliasNameException) {
+		return InvalidAliasNameException_ToDafny(*InvalidAliasNameException)
+	}
+
+	var XksProxyUriInUseException *types.XksProxyUriInUseException
+	if errors.As(err, &XksProxyUriInUseException) {
+		return XksProxyUriInUseException_ToDafny(*XksProxyUriInUseException)
+	}
+
+	var AlreadyExistsException *types.AlreadyExistsException
+	if errors.As(err, &AlreadyExistsException) {
+		return AlreadyExistsException_ToDafny(*AlreadyExistsException)
 	}
 
 	var CustomKeyStoreNotFoundException *types.CustomKeyStoreNotFoundException
@@ -1329,9 +1329,9 @@ func Error_ToDafny(err error) ComAmazonawsKmsTypes.Error {
 		return IncorrectKeyException_ToDafny(*IncorrectKeyException)
 	}
 
-	var LimitExceededException *types.LimitExceededException
-	if errors.As(err, &LimitExceededException) {
-		return LimitExceededException_ToDafny(*LimitExceededException)
+	var KMSInvalidStateException *types.KMSInvalidStateException
+	if errors.As(err, &KMSInvalidStateException) {
+		return KMSInvalidStateException_ToDafny(*KMSInvalidStateException)
 	}
 
 	var XksKeyAlreadyInUseException *types.XksKeyAlreadyInUseException
@@ -1339,24 +1339,39 @@ func Error_ToDafny(err error) ComAmazonawsKmsTypes.Error {
 		return XksKeyAlreadyInUseException_ToDafny(*XksKeyAlreadyInUseException)
 	}
 
+	var LimitExceededException *types.LimitExceededException
+	if errors.As(err, &LimitExceededException) {
+		return LimitExceededException_ToDafny(*LimitExceededException)
+	}
+
+	var NotFoundException *types.NotFoundException
+	if errors.As(err, &NotFoundException) {
+		return NotFoundException_ToDafny(*NotFoundException)
+	}
+
 	var XksProxyVpcEndpointServiceInUseException *types.XksProxyVpcEndpointServiceInUseException
 	if errors.As(err, &XksProxyVpcEndpointServiceInUseException) {
 		return XksProxyVpcEndpointServiceInUseException_ToDafny(*XksProxyVpcEndpointServiceInUseException)
 	}
 
-	var CloudHsmClusterInvalidConfigurationException *types.CloudHsmClusterInvalidConfigurationException
-	if errors.As(err, &CloudHsmClusterInvalidConfigurationException) {
-		return CloudHsmClusterInvalidConfigurationException_ToDafny(*CloudHsmClusterInvalidConfigurationException)
+	var IncorrectKeyMaterialException *types.IncorrectKeyMaterialException
+	if errors.As(err, &IncorrectKeyMaterialException) {
+		return IncorrectKeyMaterialException_ToDafny(*IncorrectKeyMaterialException)
+	}
+
+	var CloudHsmClusterNotRelatedException *types.CloudHsmClusterNotRelatedException
+	if errors.As(err, &CloudHsmClusterNotRelatedException) {
+		return CloudHsmClusterNotRelatedException_ToDafny(*CloudHsmClusterNotRelatedException)
+	}
+
+	var DisabledException *types.DisabledException
+	if errors.As(err, &DisabledException) {
+		return DisabledException_ToDafny(*DisabledException)
 	}
 
 	var DependencyTimeoutException *types.DependencyTimeoutException
 	if errors.As(err, &DependencyTimeoutException) {
 		return DependencyTimeoutException_ToDafny(*DependencyTimeoutException)
-	}
-
-	var InvalidMarkerException *types.InvalidMarkerException
-	if errors.As(err, &InvalidMarkerException) {
-		return InvalidMarkerException_ToDafny(*InvalidMarkerException)
 	}
 
 	var InvalidGrantIdException *types.InvalidGrantIdException
@@ -1374,24 +1389,14 @@ func Error_ToDafny(err error) ComAmazonawsKmsTypes.Error {
 		return ConflictException_ToDafny(*ConflictException)
 	}
 
-	var IncorrectKeyMaterialException *types.IncorrectKeyMaterialException
-	if errors.As(err, &IncorrectKeyMaterialException) {
-		return IncorrectKeyMaterialException_ToDafny(*IncorrectKeyMaterialException)
+	var InvalidKeyUsageException *types.InvalidKeyUsageException
+	if errors.As(err, &InvalidKeyUsageException) {
+		return InvalidKeyUsageException_ToDafny(*InvalidKeyUsageException)
 	}
 
-	var CloudHsmClusterNotRelatedException *types.CloudHsmClusterNotRelatedException
-	if errors.As(err, &CloudHsmClusterNotRelatedException) {
-		return CloudHsmClusterNotRelatedException_ToDafny(*CloudHsmClusterNotRelatedException)
-	}
-
-	var InvalidAliasNameException *types.InvalidAliasNameException
-	if errors.As(err, &InvalidAliasNameException) {
-		return InvalidAliasNameException_ToDafny(*InvalidAliasNameException)
-	}
-
-	var XksProxyUriInUseException *types.XksProxyUriInUseException
-	if errors.As(err, &XksProxyUriInUseException) {
-		return XksProxyUriInUseException_ToDafny(*XksProxyUriInUseException)
+	var KeyUnavailableException *types.KeyUnavailableException
+	if errors.As(err, &KeyUnavailableException) {
+		return KeyUnavailableException_ToDafny(*KeyUnavailableException)
 	}
 
 	var CloudHsmClusterNotFoundException *types.CloudHsmClusterNotFoundException
@@ -1399,9 +1404,9 @@ func Error_ToDafny(err error) ComAmazonawsKmsTypes.Error {
 		return CloudHsmClusterNotFoundException_ToDafny(*CloudHsmClusterNotFoundException)
 	}
 
-	var DisabledException *types.DisabledException
-	if errors.As(err, &DisabledException) {
-		return DisabledException_ToDafny(*DisabledException)
+	var InvalidArnException *types.InvalidArnException
+	if errors.As(err, &InvalidArnException) {
+		return InvalidArnException_ToDafny(*InvalidArnException)
 	}
 
 	var CloudHsmClusterInUseException *types.CloudHsmClusterInUseException
@@ -1409,24 +1414,14 @@ func Error_ToDafny(err error) ComAmazonawsKmsTypes.Error {
 		return CloudHsmClusterInUseException_ToDafny(*CloudHsmClusterInUseException)
 	}
 
-	var XksProxyVpcEndpointServiceNotFoundException *types.XksProxyVpcEndpointServiceNotFoundException
-	if errors.As(err, &XksProxyVpcEndpointServiceNotFoundException) {
-		return XksProxyVpcEndpointServiceNotFoundException_ToDafny(*XksProxyVpcEndpointServiceNotFoundException)
-	}
-
-	var InvalidArnException *types.InvalidArnException
-	if errors.As(err, &InvalidArnException) {
-		return InvalidArnException_ToDafny(*InvalidArnException)
-	}
-
-	var InvalidKeyUsageException *types.InvalidKeyUsageException
-	if errors.As(err, &InvalidKeyUsageException) {
-		return InvalidKeyUsageException_ToDafny(*InvalidKeyUsageException)
-	}
-
 	var TagException *types.TagException
 	if errors.As(err, &TagException) {
 		return TagException_ToDafny(*TagException)
+	}
+
+	var InvalidGrantTokenException *types.InvalidGrantTokenException
+	if errors.As(err, &InvalidGrantTokenException) {
+		return InvalidGrantTokenException_ToDafny(*InvalidGrantTokenException)
 	}
 
 	var ExpiredImportTokenException *types.ExpiredImportTokenException
@@ -1434,14 +1429,19 @@ func Error_ToDafny(err error) ComAmazonawsKmsTypes.Error {
 		return ExpiredImportTokenException_ToDafny(*ExpiredImportTokenException)
 	}
 
+	var CloudHsmClusterInvalidConfigurationException *types.CloudHsmClusterInvalidConfigurationException
+	if errors.As(err, &CloudHsmClusterInvalidConfigurationException) {
+		return CloudHsmClusterInvalidConfigurationException_ToDafny(*CloudHsmClusterInvalidConfigurationException)
+	}
+
 	var XksProxyIncorrectAuthenticationCredentialException *types.XksProxyIncorrectAuthenticationCredentialException
 	if errors.As(err, &XksProxyIncorrectAuthenticationCredentialException) {
 		return XksProxyIncorrectAuthenticationCredentialException_ToDafny(*XksProxyIncorrectAuthenticationCredentialException)
 	}
 
-	var KeyUnavailableException *types.KeyUnavailableException
-	if errors.As(err, &KeyUnavailableException) {
-		return KeyUnavailableException_ToDafny(*KeyUnavailableException)
+	var CustomKeyStoreNameInUseException *types.CustomKeyStoreNameInUseException
+	if errors.As(err, &CustomKeyStoreNameInUseException) {
+		return CustomKeyStoreNameInUseException_ToDafny(*CustomKeyStoreNameInUseException)
 	}
 
 	return OpaqueError_Input_ToDafny(err)

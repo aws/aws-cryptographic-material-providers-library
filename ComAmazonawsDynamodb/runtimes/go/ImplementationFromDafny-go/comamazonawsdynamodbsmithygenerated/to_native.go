@@ -1478,6 +1478,36 @@ func UpdateTimeToLiveOutput_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Upda
 
 }
 
+func GlobalTableAlreadyExistsException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.GlobalTableAlreadyExistsException {
+	return func() types.GlobalTableAlreadyExistsException {
+
+		return types.GlobalTableAlreadyExistsException{
+			Message: com_amazonaws_dynamodb_GlobalTableAlreadyExistsException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func InternalServerError_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.InternalServerError {
+	return func() types.InternalServerError {
+
+		return types.InternalServerError{
+			Message: com_amazonaws_dynamodb_InternalServerError_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func IdempotentParameterMismatchException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.IdempotentParameterMismatchException {
+	return func() types.IdempotentParameterMismatchException {
+
+		return types.IdempotentParameterMismatchException{
+			Message: com_amazonaws_dynamodb_IdempotentParameterMismatchException_Message_FromDafny(dafnyOutput.Dtor_Message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
 func TransactionInProgressException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.TransactionInProgressException {
 	return func() types.TransactionInProgressException {
 
@@ -1498,36 +1528,6 @@ func InvalidRestoreTimeException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes
 
 }
 
-func GlobalTableAlreadyExistsException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.GlobalTableAlreadyExistsException {
-	return func() types.GlobalTableAlreadyExistsException {
-
-		return types.GlobalTableAlreadyExistsException{
-			Message: com_amazonaws_dynamodb_GlobalTableAlreadyExistsException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func LimitExceededException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.LimitExceededException {
-	return func() types.LimitExceededException {
-
-		return types.LimitExceededException{
-			Message: com_amazonaws_dynamodb_LimitExceededException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func InternalServerError_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.InternalServerError {
-	return func() types.InternalServerError {
-
-		return types.InternalServerError{
-			Message: com_amazonaws_dynamodb_InternalServerError_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
 func ImportNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ImportNotFoundException {
 	return func() types.ImportNotFoundException {
 
@@ -1538,22 +1538,21 @@ func ImportNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Err
 
 }
 
-func ProvisionedThroughputExceededException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ProvisionedThroughputExceededException {
-	return func() types.ProvisionedThroughputExceededException {
+func BackupNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.BackupNotFoundException {
+	return func() types.BackupNotFoundException {
 
-		return types.ProvisionedThroughputExceededException{
-			Message: com_amazonaws_dynamodb_ProvisionedThroughputExceededException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.BackupNotFoundException{
+			Message: com_amazonaws_dynamodb_BackupNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
 }
 
-func ConditionalCheckFailedException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ConditionalCheckFailedException {
-	return func() types.ConditionalCheckFailedException {
+func ProvisionedThroughputExceededException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ProvisionedThroughputExceededException {
+	return func() types.ProvisionedThroughputExceededException {
 
-		return types.ConditionalCheckFailedException{
-			Message: com_amazonaws_dynamodb_ConditionalCheckFailedException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-			Item:    com_amazonaws_dynamodb_ConditionalCheckFailedException_Item_FromDafny(dafnyOutput.Dtor_Item().UnwrapOr(nil)),
+		return types.ProvisionedThroughputExceededException{
+			Message: com_amazonaws_dynamodb_ProvisionedThroughputExceededException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
@@ -1579,41 +1578,21 @@ func ImportConflictException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Err
 
 }
 
+func ContinuousBackupsUnavailableException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ContinuousBackupsUnavailableException {
+	return func() types.ContinuousBackupsUnavailableException {
+
+		return types.ContinuousBackupsUnavailableException{
+			Message: com_amazonaws_dynamodb_ContinuousBackupsUnavailableException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
 func ReplicaAlreadyExistsException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ReplicaAlreadyExistsException {
 	return func() types.ReplicaAlreadyExistsException {
 
 		return types.ReplicaAlreadyExistsException{
 			Message: com_amazonaws_dynamodb_ReplicaAlreadyExistsException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func IdempotentParameterMismatchException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.IdempotentParameterMismatchException {
-	return func() types.IdempotentParameterMismatchException {
-
-		return types.IdempotentParameterMismatchException{
-			Message: com_amazonaws_dynamodb_IdempotentParameterMismatchException_Message_FromDafny(dafnyOutput.Dtor_Message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func PointInTimeRecoveryUnavailableException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.PointInTimeRecoveryUnavailableException {
-	return func() types.PointInTimeRecoveryUnavailableException {
-
-		return types.PointInTimeRecoveryUnavailableException{
-			Message: com_amazonaws_dynamodb_PointInTimeRecoveryUnavailableException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func TableNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.TableNotFoundException {
-	return func() types.TableNotFoundException {
-
-		return types.TableNotFoundException{
-			Message: com_amazonaws_dynamodb_TableNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
@@ -1629,11 +1608,21 @@ func PolicyNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Err
 
 }
 
-func ResourceInUseException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ResourceInUseException {
-	return func() types.ResourceInUseException {
+func TableNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.TableNotFoundException {
+	return func() types.TableNotFoundException {
 
-		return types.ResourceInUseException{
-			Message: com_amazonaws_dynamodb_ResourceInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.TableNotFoundException{
+			Message: com_amazonaws_dynamodb_TableNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func PointInTimeRecoveryUnavailableException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.PointInTimeRecoveryUnavailableException {
+	return func() types.PointInTimeRecoveryUnavailableException {
+
+		return types.PointInTimeRecoveryUnavailableException{
+			Message: com_amazonaws_dynamodb_PointInTimeRecoveryUnavailableException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
@@ -1649,11 +1638,11 @@ func ExportNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Err
 
 }
 
-func BackupInUseException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.BackupInUseException {
-	return func() types.BackupInUseException {
+func RequestLimitExceeded_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.RequestLimitExceeded {
+	return func() types.RequestLimitExceeded {
 
-		return types.BackupInUseException{
-			Message: com_amazonaws_dynamodb_BackupInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.RequestLimitExceeded{
+			Message: com_amazonaws_dynamodb_RequestLimitExceeded_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
@@ -1669,21 +1658,22 @@ func ResourceNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.E
 
 }
 
-func RequestLimitExceeded_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.RequestLimitExceeded {
-	return func() types.RequestLimitExceeded {
+func BackupInUseException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.BackupInUseException {
+	return func() types.BackupInUseException {
 
-		return types.RequestLimitExceeded{
-			Message: com_amazonaws_dynamodb_RequestLimitExceeded_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.BackupInUseException{
+			Message: com_amazonaws_dynamodb_BackupInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
 }
 
-func ContinuousBackupsUnavailableException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ContinuousBackupsUnavailableException {
-	return func() types.ContinuousBackupsUnavailableException {
+func ConditionalCheckFailedException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ConditionalCheckFailedException {
+	return func() types.ConditionalCheckFailedException {
 
-		return types.ContinuousBackupsUnavailableException{
-			Message: com_amazonaws_dynamodb_ContinuousBackupsUnavailableException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.ConditionalCheckFailedException{
+			Message: com_amazonaws_dynamodb_ConditionalCheckFailedException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+			Item:    com_amazonaws_dynamodb_ConditionalCheckFailedException_Item_FromDafny(dafnyOutput.Dtor_Item().UnwrapOr(nil)),
 		}
 	}()
 
@@ -1699,11 +1689,11 @@ func IndexNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Erro
 
 }
 
-func DuplicateItemException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.DuplicateItemException {
-	return func() types.DuplicateItemException {
+func ResourceInUseException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ResourceInUseException {
+	return func() types.ResourceInUseException {
 
-		return types.DuplicateItemException{
-			Message: com_amazonaws_dynamodb_DuplicateItemException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.ResourceInUseException{
+			Message: com_amazonaws_dynamodb_ResourceInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
@@ -1719,16 +1709,6 @@ func ItemCollectionSizeLimitExceededException_FromDafny(dafnyOutput ComAmazonaws
 
 }
 
-func BackupNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.BackupNotFoundException {
-	return func() types.BackupNotFoundException {
-
-		return types.BackupNotFoundException{
-			Message: com_amazonaws_dynamodb_BackupNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
 func TableInUseException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.TableInUseException {
 	return func() types.TableInUseException {
 
@@ -1739,11 +1719,51 @@ func TableInUseException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) 
 
 }
 
-func TableAlreadyExistsException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.TableAlreadyExistsException {
-	return func() types.TableAlreadyExistsException {
+func ReplicaNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ReplicaNotFoundException {
+	return func() types.ReplicaNotFoundException {
 
-		return types.TableAlreadyExistsException{
-			Message: com_amazonaws_dynamodb_TableAlreadyExistsException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.ReplicaNotFoundException{
+			Message: com_amazonaws_dynamodb_ReplicaNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func DuplicateItemException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.DuplicateItemException {
+	return func() types.DuplicateItemException {
+
+		return types.DuplicateItemException{
+			Message: com_amazonaws_dynamodb_DuplicateItemException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func LimitExceededException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.LimitExceededException {
+	return func() types.LimitExceededException {
+
+		return types.LimitExceededException{
+			Message: com_amazonaws_dynamodb_LimitExceededException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func TransactionConflictException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.TransactionConflictException {
+	return func() types.TransactionConflictException {
+
+		return types.TransactionConflictException{
+			Message: com_amazonaws_dynamodb_TransactionConflictException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func GlobalTableNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.GlobalTableNotFoundException {
+	return func() types.GlobalTableNotFoundException {
+
+		return types.GlobalTableNotFoundException{
+			Message: com_amazonaws_dynamodb_GlobalTableNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
@@ -1770,26 +1790,6 @@ func TransactionCanceledException_FromDafny(dafnyOutput ComAmazonawsDynamodbType
 
 }
 
-func TransactionConflictException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.TransactionConflictException {
-	return func() types.TransactionConflictException {
-
-		return types.TransactionConflictException{
-			Message: com_amazonaws_dynamodb_TransactionConflictException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func ReplicaNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ReplicaNotFoundException {
-	return func() types.ReplicaNotFoundException {
-
-		return types.ReplicaNotFoundException{
-			Message: com_amazonaws_dynamodb_ReplicaNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
 func InvalidExportTimeException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.InvalidExportTimeException {
 	return func() types.InvalidExportTimeException {
 
@@ -1800,11 +1800,11 @@ func InvalidExportTimeException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.
 
 }
 
-func GlobalTableNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.GlobalTableNotFoundException {
-	return func() types.GlobalTableNotFoundException {
+func TableAlreadyExistsException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.TableAlreadyExistsException {
+	return func() types.TableAlreadyExistsException {
 
-		return types.GlobalTableNotFoundException{
-			Message: com_amazonaws_dynamodb_GlobalTableNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.TableAlreadyExistsException{
+			Message: com_amazonaws_dynamodb_TableAlreadyExistsException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
@@ -1824,6 +1824,21 @@ func OpaqueError_Output_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) e
 
 func Error_FromDafny(err ComAmazonawsDynamodbTypes.Error) error {
 	// Service Errors
+	if err.Is_GlobalTableAlreadyExistsException() {
+		e := GlobalTableAlreadyExistsException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_InternalServerError() {
+		e := InternalServerError_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_IdempotentParameterMismatchException() {
+		e := IdempotentParameterMismatchException_FromDafny(err)
+		return &e
+	}
+
 	if err.Is_TransactionInProgressException() {
 		e := TransactionInProgressException_FromDafny(err)
 		return &e
@@ -1834,33 +1849,18 @@ func Error_FromDafny(err ComAmazonawsDynamodbTypes.Error) error {
 		return &e
 	}
 
-	if err.Is_GlobalTableAlreadyExistsException() {
-		e := GlobalTableAlreadyExistsException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_LimitExceededException() {
-		e := LimitExceededException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_InternalServerError() {
-		e := InternalServerError_FromDafny(err)
-		return &e
-	}
-
 	if err.Is_ImportNotFoundException() {
 		e := ImportNotFoundException_FromDafny(err)
 		return &e
 	}
 
-	if err.Is_ProvisionedThroughputExceededException() {
-		e := ProvisionedThroughputExceededException_FromDafny(err)
+	if err.Is_BackupNotFoundException() {
+		e := BackupNotFoundException_FromDafny(err)
 		return &e
 	}
 
-	if err.Is_ConditionalCheckFailedException() {
-		e := ConditionalCheckFailedException_FromDafny(err)
+	if err.Is_ProvisionedThroughputExceededException() {
+		e := ProvisionedThroughputExceededException_FromDafny(err)
 		return &e
 	}
 
@@ -1874,23 +1874,13 @@ func Error_FromDafny(err ComAmazonawsDynamodbTypes.Error) error {
 		return &e
 	}
 
+	if err.Is_ContinuousBackupsUnavailableException() {
+		e := ContinuousBackupsUnavailableException_FromDafny(err)
+		return &e
+	}
+
 	if err.Is_ReplicaAlreadyExistsException() {
 		e := ReplicaAlreadyExistsException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_IdempotentParameterMismatchException() {
-		e := IdempotentParameterMismatchException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_PointInTimeRecoveryUnavailableException() {
-		e := PointInTimeRecoveryUnavailableException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_TableNotFoundException() {
-		e := TableNotFoundException_FromDafny(err)
 		return &e
 	}
 
@@ -1899,8 +1889,13 @@ func Error_FromDafny(err ComAmazonawsDynamodbTypes.Error) error {
 		return &e
 	}
 
-	if err.Is_ResourceInUseException() {
-		e := ResourceInUseException_FromDafny(err)
+	if err.Is_TableNotFoundException() {
+		e := TableNotFoundException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_PointInTimeRecoveryUnavailableException() {
+		e := PointInTimeRecoveryUnavailableException_FromDafny(err)
 		return &e
 	}
 
@@ -1909,8 +1904,8 @@ func Error_FromDafny(err ComAmazonawsDynamodbTypes.Error) error {
 		return &e
 	}
 
-	if err.Is_BackupInUseException() {
-		e := BackupInUseException_FromDafny(err)
+	if err.Is_RequestLimitExceeded() {
+		e := RequestLimitExceeded_FromDafny(err)
 		return &e
 	}
 
@@ -1919,13 +1914,13 @@ func Error_FromDafny(err ComAmazonawsDynamodbTypes.Error) error {
 		return &e
 	}
 
-	if err.Is_RequestLimitExceeded() {
-		e := RequestLimitExceeded_FromDafny(err)
+	if err.Is_BackupInUseException() {
+		e := BackupInUseException_FromDafny(err)
 		return &e
 	}
 
-	if err.Is_ContinuousBackupsUnavailableException() {
-		e := ContinuousBackupsUnavailableException_FromDafny(err)
+	if err.Is_ConditionalCheckFailedException() {
+		e := ConditionalCheckFailedException_FromDafny(err)
 		return &e
 	}
 
@@ -1934,8 +1929,8 @@ func Error_FromDafny(err ComAmazonawsDynamodbTypes.Error) error {
 		return &e
 	}
 
-	if err.Is_DuplicateItemException() {
-		e := DuplicateItemException_FromDafny(err)
+	if err.Is_ResourceInUseException() {
+		e := ResourceInUseException_FromDafny(err)
 		return &e
 	}
 
@@ -1944,18 +1939,33 @@ func Error_FromDafny(err ComAmazonawsDynamodbTypes.Error) error {
 		return &e
 	}
 
-	if err.Is_BackupNotFoundException() {
-		e := BackupNotFoundException_FromDafny(err)
-		return &e
-	}
-
 	if err.Is_TableInUseException() {
 		e := TableInUseException_FromDafny(err)
 		return &e
 	}
 
-	if err.Is_TableAlreadyExistsException() {
-		e := TableAlreadyExistsException_FromDafny(err)
+	if err.Is_ReplicaNotFoundException() {
+		e := ReplicaNotFoundException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_DuplicateItemException() {
+		e := DuplicateItemException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_LimitExceededException() {
+		e := LimitExceededException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_TransactionConflictException() {
+		e := TransactionConflictException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_GlobalTableNotFoundException() {
+		e := GlobalTableNotFoundException_FromDafny(err)
 		return &e
 	}
 
@@ -1969,23 +1979,13 @@ func Error_FromDafny(err ComAmazonawsDynamodbTypes.Error) error {
 		return &e
 	}
 
-	if err.Is_TransactionConflictException() {
-		e := TransactionConflictException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_ReplicaNotFoundException() {
-		e := ReplicaNotFoundException_FromDafny(err)
-		return &e
-	}
-
 	if err.Is_InvalidExportTimeException() {
 		e := InvalidExportTimeException_FromDafny(err)
 		return &e
 	}
 
-	if err.Is_GlobalTableNotFoundException() {
-		e := GlobalTableNotFoundException_FromDafny(err)
+	if err.Is_TableAlreadyExistsException() {
+		e := TableAlreadyExistsException_FromDafny(err)
 		return &e
 	}
 
