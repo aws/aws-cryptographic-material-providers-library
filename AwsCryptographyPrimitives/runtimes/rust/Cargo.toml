@@ -9,7 +9,7 @@ rust-version = "1.80.0"
 [dependencies]
 aws-config = "1.5.10"
 aws-lc-rs = "1.10.0"
-aws-lc-sys = "0.22.0"
+aws-lc-sys = "0.24.0"
 aws-smithy-runtime-api = "1.7.3"
 aws-smithy-types = "1.2.9"
 chrono = "0.4.38"

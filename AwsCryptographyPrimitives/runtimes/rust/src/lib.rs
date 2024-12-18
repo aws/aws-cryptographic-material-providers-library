@@ -11,6 +11,7 @@ pub mod conversions;
 pub mod error;
 pub mod operation;
 pub mod types;
+pub mod validation;
 
 pub(crate) mod standard_library_conversions;
 pub(crate) mod standard_library_externs;
