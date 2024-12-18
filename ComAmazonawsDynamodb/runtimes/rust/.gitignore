@@ -13,3 +13,4 @@ src/time.rs
 src/types.rs
 src/types
 src/uuid.rs
+target
