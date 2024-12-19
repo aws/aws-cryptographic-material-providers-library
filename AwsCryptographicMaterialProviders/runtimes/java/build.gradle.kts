@@ -321,7 +321,7 @@ val testExamples = task<Test>("testExamples") {
 }
 
 val testConcurrentExamples = task<Test>("testConcurrentExamples") {
-    description = "Runs examples tests."
+    description = "Runs concurrency tests."
     group = "verification"
 
     testClassesDirs = sourceSets["testExamples"].output.classesDirs

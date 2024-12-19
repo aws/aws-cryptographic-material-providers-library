@@ -91,32 +91,11 @@ public class StorageWriteReadConcurrencyTests {
 
   @AfterClass
   public void teardown() {
-    GetItemResponse res = DdbHelper.getKeyStoreDdbItem(
+    DdbHelper.DeleteBranchKey(
       branchKeyId,
-      "branch:ACTIVE",
       Fixtures.TEST_KEYSTORE_NAME,
-      DynamoDbClient.create()
-    );
-    DdbHelper.deleteKeyStoreDdbItem(
-      branchKeyId,
-      "branch:ACTIVE",
-      Fixtures.TEST_KEYSTORE_NAME,
-      DynamoDbClient.create(),
-      true
-    );
-    DdbHelper.deleteKeyStoreDdbItem(
-      branchKeyId,
-      "beacon:ACTIVE",
-      Fixtures.TEST_KEYSTORE_NAME,
-      DynamoDbClient.create(),
-      true
-    );
-    DdbHelper.deleteKeyStoreDdbItem(
-      branchKeyId,
-      res.item().get("version").s(),
-      Fixtures.TEST_KEYSTORE_NAME,
-      DynamoDbClient.create(),
-      true
+      null,
+      null
     );
   }
 

@@ -41,7 +41,9 @@ import software.amazon.cryptography.keystoreadmin.model.KmsSymmetricKeyArn;
 import software.amazon.cryptography.keystoreadmin.model.VersionKeyInput;
 
 // This class contains a suite of tests that check for behavior of reading
-// a branch key while a version operation is in flight
+// a branch key while a version operation is in flight.
+// The expectation of these tests is that for an already existing Branch Key
+// if there is a race to version the key, we will always be able to read the ACTIVE key.
 public class StorageVersionReadConcurrencyTests {
 
   private static final String branchKeyId =
@@ -150,33 +152,12 @@ public class StorageVersionReadConcurrencyTests {
 
   @AfterClass
   public void teardown() {
-    final DynamoDbClient _ddbClient = DynamoDbClient.create();
-    DdbHelper.deleteKeyStoreDdbItem(
+    DdbHelper.DeleteBranchKey(
       branchKeyId,
-      "branch:ACTIVE",
       Fixtures.TEST_KEYSTORE_NAME,
-      DynamoDbClient.create(),
-      true
+      null,
+      null
     );
-    DdbHelper.deleteKeyStoreDdbItem(
-      branchKeyId,
-      "beacon:ACTIVE",
-      Fixtures.TEST_KEYSTORE_NAME,
-      DynamoDbClient.create(),
-      true
-    );
-    QueryResponse res = _ddbClient.query(queryRequestForCleanUp);
-    res
-      .items()
-      .forEach(response -> {
-        DdbHelper.deleteKeyStoreDdbItem(
-          branchKeyId,
-          response.get("type").s(),
-          Fixtures.TEST_KEYSTORE_NAME,
-          DynamoDbClient.create(),
-          true
-        );
-      });
   }
 
   private Storage storageForThread(final String threadIdToIndex) {
@@ -217,6 +198,12 @@ public class StorageVersionReadConcurrencyTests {
     return keyStore.GetActiveBranchKey(input);
   }
 
+  // For test testConcurrentVersionWithStorage - we fire 10 * 100 request to version the branch key,
+  //    since when we version we also use a condition check we could fail because there is a transaction
+  //    in flight, or we failed the condition check. The TransactionConflict error can happen if there
+  //    are requests all trying to race to write the version, since only 1 will win there will be threads that error
+  //    with TransactionConflict and some that fail with ConditionalCheckFailed because the requests that are lining up
+  //    with the same partition key and sort key value will fail the conditional check.
   @Test(threadPoolSize = 10, invocationCount = 100, timeOut = 10000)
   public void testConcurrentVersionWithStorage() {
     String threadId = String.valueOf(Thread.currentThread().getId());
@@ -263,6 +250,13 @@ public class StorageVersionReadConcurrencyTests {
     }
   }
 
+  // For test testConcurrentActiveReadWhileVersionInFlight, the expectation of this test is that if
+  //    we fire 10 * 100 read requests on the active item we will always be able to read the
+  //    active branch key. This test has no asserts since the "pointer" to the branch key is changing
+  //    so it is not helpful to assert that the version of the active is the same since it is meant to
+  //    change as these tests execute in parallel.
+  //    There are no catch statements here since we expect to always be able to read, if any
+  //    error is thrown the test fails.
   @Test(threadPoolSize = 10, invocationCount = 100, timeOut = 10000)
   public void testConcurrentActiveReadWhileVersionInFlight() {
     // Since on set up we create a branch key, we should always be able to read.
@@ -285,6 +279,11 @@ public class StorageVersionReadConcurrencyTests {
     );
   }
 
+  // This test is more of a sanity check that we were always able to read something.
+  // If you were able to look at the table and how many new versions were created
+  // and how many versions we were able to read, one would see very different results. We end
+  // up writing more new versions than the ones we were able to read. This is because reading
+  // is faster than writing.
   @Test(
     dependsOnMethods = {
       "testConcurrentActiveReadWhileVersionInFlight",

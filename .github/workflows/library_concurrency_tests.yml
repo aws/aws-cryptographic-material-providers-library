@@ -1,5 +1,5 @@
 # This workflow performs interoperability tests across the supported runtimes of the MPL.
-name: Library Interoperability Tests
+name: Library Concurrency Tests
 
 on:
   workflow_call:
@@ -33,7 +33,7 @@ jobs:
           ]
         # https://taskei.amazon.dev/tasks/CrypTool-5284
         dotnet-version: ["6.0.x"]
-        java-versions: [8, 11, 16, 17]
+        java-versions: [8, 17]
     runs-on: ${{ matrix.os }}
     permissions:
       id-token: write
@@ -49,7 +49,7 @@ jobs:
         with:
           aws-region: us-west-2
           role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
-          role-session-name: InterOpTests
+          role-session-name: ConcurrencyTests
 
       - uses: actions/checkout@v3
       #  Not all submodules are needed.
@@ -110,13 +110,13 @@ jobs:
           arguments: clean
           build-root-directory: ./${{ matrix.library }}/runtimes/java
 
-      - name: Compile Java 8
+      - name: Compile Java
         uses: gradle/gradle-build-action@v3
         with:
           arguments: build
           build-root-directory: ./${{ matrix.library }}/runtimes/java
 
-      - name: Test Java 8
+      - name: Test Java
         uses: gradle/gradle-build-action@v3
         with:
           arguments: testConcurrentExamples

@@ -23,11 +23,15 @@ import software.amazon.awssdk.services.dynamodb.model.TransactWriteItemsRequest;
 import software.amazon.awssdk.services.dynamodb.model.TransactWriteItemsResponse;
 import software.amazon.awssdk.services.dynamodb.model.TransactionCanceledException;
 import software.amazon.awssdk.utils.ImmutableMap;
-import software.amazon.cryptography.example.Constants;
 import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 
-// These concurrent tests check that the
+// These concurrent tests check that DynamoDB behaves the way we expect when
+// there are multiple request to write an item to DynamoDB. Our libraries use the
+// TransactWriteItems API with a condition check that the primary key we are writing
+// does not exist. This will result in either 1. ConditionCheckFailure if an item has been
+// written, and we are trying to write over it and 2. TransactionConflict if we are trying to write
+// while there is a transaction being committed.
 public class ConcurrentConditionCheckWriteTest {
 
   private static final Integer threadCount = 5;

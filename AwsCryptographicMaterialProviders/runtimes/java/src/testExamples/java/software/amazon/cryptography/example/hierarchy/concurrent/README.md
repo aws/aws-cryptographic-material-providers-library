@@ -1,12 +1,12 @@
 [//]: # "Copyright Amazon.com Inc. or its affiliates. All Rights Reserved."
 [//]: # "SPDX-License-Identifier: CC-BY-SA-4.0"
 
-# AWS Cryptographic Material Providers Library Concurrency Testing Framework
+# AWS Cryptographic Material Providers Library Concurrency Testing Suite
 
 Welcome to the AWS Cryptographic Material Providers Library Concurrency and Parallelization
-Testing Framework 🎉!
+Testing Suite 🎉!
 
-This framework helps set up scenarios that we would like to run in a parallel or multithreaded environment.
+This testing suite helps set up scenarios that we would like to run in a parallel or multithreaded environment.
 
 Some things to keep in mind when you add tests. Think about how you will be creating resources per
 thread and what kind of state you need to keep between tests.
