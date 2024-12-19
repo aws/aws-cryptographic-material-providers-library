@@ -88,6 +88,13 @@ runs:
       run: |
         make polymorph_python
 
+    # Go needs transpilation for goimports
+    - name: Regenerate Go code using smithy-dafny
+      working-directory: ./${{ inputs.library }}
+      shell: bash
+      run: |
+        make transpile_go
+
     - name: Regenerate Go code using smithy-dafny
       working-directory: ./${{ inputs.library }}
       shell: bash
