@@ -27,6 +27,7 @@ pub mod digest;
 pub mod ecdh;
 pub mod ecdsa;
 pub mod hmac;
+pub mod oslang;
 pub mod random;
 pub mod rsa;
 pub mod sets;

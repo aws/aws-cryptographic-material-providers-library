@@ -36,6 +36,7 @@ src/client
 src/client.rs
 src/aes_kdf_ctr.rs
 src/aes_gcm.rs
+src/oslang.rs
 Cargo.lock
 
 /*.json

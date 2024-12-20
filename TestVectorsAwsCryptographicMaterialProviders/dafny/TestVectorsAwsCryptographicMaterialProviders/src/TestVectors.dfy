@@ -35,11 +35,6 @@ module {:options "-functionSyntax:4"} TestVectors {
     ensures test.cmm.ValidState()
     ensures testResult && !test.vector.NegativeEncryptKeyringVector? ==> materials.Some?
   {
-    print "\nTEST===> ",
-          test.vector.name,
-          if test.vector.description.Some? then "\n" + test.vector.description.value else "",
-          if test.vector.NegativeEncryptKeyringVector? then "\n" + test.vector.errorDescription else "", "\n";
-
     var result := test.cmm.GetEncryptionMaterials(test.input);
 
     testResult := match test.vector
@@ -56,6 +51,11 @@ module {:options "-functionSyntax:4"} TestVectors {
       None;
 
     if !testResult {
+      print "\nTEST===> ",
+            test.vector.name,
+            if test.vector.description.Some? then "\n" + test.vector.description.value else "",
+            if test.vector.NegativeEncryptKeyringVector? then "\n" + test.vector.errorDescription else "", "\n";
+
       if test.vector.PositiveEncryptKeyringVector? || test.vector.PositiveEncryptNegativeDecryptKeyringVector? {
         print result.error;
       }
@@ -69,11 +69,6 @@ module {:options "-functionSyntax:4"} TestVectors {
     modifies test.cmm.Modifies
     ensures test.cmm.ValidState()
   {
-    print "\nTEST===> ",
-          test.vector.name,
-          if test.vector.description.Some? then "\n" + test.vector.description.value else "",
-          if test.vector.NegativeDecryptKeyringTest? then "\n" + test.vector.errorDescription else "\n";
-
     var result := test.cmm.DecryptMaterials(test.input);
 
     output := match test.vector
@@ -87,6 +82,11 @@ module {:options "-functionSyntax:4"} TestVectors {
         => !result.Success?;
 
     if !output {
+      print "\nTEST===> ",
+            test.vector.name,
+            if test.vector.description.Some? then "\n" + test.vector.description.value else "",
+            if test.vector.NegativeDecryptKeyringTest? then "\n" + test.vector.errorDescription else "\n";
+
       if test.vector.PositiveDecryptKeyringTest? {
         if result.Failure? {
           print "Error : ", result.error, "\n";

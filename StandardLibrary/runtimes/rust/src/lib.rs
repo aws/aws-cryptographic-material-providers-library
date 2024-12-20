@@ -8,6 +8,7 @@ pub(crate) mod standard_library_externs;
 pub(crate) mod implementation_from_dafny;
 pub(crate) use crate::implementation_from_dafny::r#_Wrappers_Compile;
 
+pub(crate) mod oslang;
 pub(crate) mod sets;
 pub(crate) mod time;
 pub(crate) mod uuid;
