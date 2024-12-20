@@ -8,6 +8,8 @@ public class __default extends OsLang._ExternBase___default {
     String s = System.getProperty("os.name");
     if (s.startsWith("Mac OS")) {
       s = "MacOS";
+    } else if (s.startsWith("Linux")) {
+      s = "Unix";
     }
     return software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
       s

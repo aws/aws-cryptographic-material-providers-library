@@ -11,23 +11,32 @@ namespace OsLang
         // returns one of : MacOS, Windows, Unix, Other
         public static icharseq GetOsShort()
         {
-            if (System.OperatingSystem.IsMacOS())
+            // PlatformID.MacOSX doesn't actually work
+            String osDesc = System.Runtime.InteropServices.RuntimeInformation.OSDescription;
+            if (osDesc.Contains("Darwin"))
             {
                 return charseq.FromString("MacOS");
             }
-            if (System.OperatingSystem.IsWindows())
+            OperatingSystem os = Environment.OSVersion;
+            PlatformID pid = os.Platform;
+            switch (pid)
             {
-                return charseq.FromString("Windows");
+                case PlatformID.Win32NT:
+                case PlatformID.Win32S:
+                case PlatformID.Win32Windows:
+                case PlatformID.WinCE:
+                    return charseq.FromString("Windows");
+                    break;
+                case PlatformID.Unix:
+                    return charseq.FromString("Unix");
+                    break;
+                case PlatformID.MacOSX:
+                    return charseq.FromString("MacOS");
+                    break;
+                default:
+                    return charseq.FromString("Other");
+                    break;
             }
-            if (System.OperatingSystem.IsLinux())
-            {
-                return charseq.FromString("Unix");
-            }
-            if (System.OperatingSystem.IsFreeBSD())
-            {
-                return charseq.FromString("Unix");
-            }
-            return charseq.FromString("Other");
         }
 
         // returns one of : Java, Dotnet, Go, Python, Rust
