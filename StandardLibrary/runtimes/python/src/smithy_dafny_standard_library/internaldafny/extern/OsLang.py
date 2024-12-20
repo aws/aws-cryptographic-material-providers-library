@@ -11,6 +11,8 @@ class default__(smithy_dafny_standard_library.internaldafny.generated.OsLang.def
         sys = platform.system()
         if sys == "Darwin":
             return _dafny.Seq(_dafny.string_of("MacOS"))
+        if sys == "Linux":
+            return _dafny.Seq(_dafny.string_of("Unix"))
         return _dafny.Seq(_dafny.string_of(sys))
 
     def GetOsLong():
