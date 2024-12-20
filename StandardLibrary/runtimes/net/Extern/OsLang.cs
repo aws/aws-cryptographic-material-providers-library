@@ -26,16 +26,13 @@ namespace OsLang
                 case PlatformID.Win32Windows:
                 case PlatformID.WinCE:
                     return charseq.FromString("Windows");
-                    break;
                 case PlatformID.Unix:
                     return charseq.FromString("Unix");
-                    break;
                 case PlatformID.MacOSX:
+                    // This doesn't actually happen on MacOS
                     return charseq.FromString("MacOS");
-                    break;
                 default:
                     return charseq.FromString("Other");
-                    break;
             }
         }
 
