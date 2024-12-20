@@ -21,6 +21,7 @@ RUST_OTHER_FILES := \
         runtimes/rust/src/ecdh.rs \
         runtimes/rust/src/ecdsa.rs \
         runtimes/rust/src/hmac.rs \
+        runtimes/rust/src/oslang.rs \
         runtimes/rust/src/random.rs \
         runtimes/rust/src/rsa.rs \
         runtimes/rust/src/sets.rs \

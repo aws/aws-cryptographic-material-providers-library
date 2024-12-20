@@ -4,12 +4,14 @@
 include "./StandardLibrary.dfy"
 include "./UInt.dfy"
 include "./String.dfy"
+include "./OsLang.dfy"
 
 module {:extern "Time"} Time {
   import opened StandardLibrary
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
   import StandardLibrary.String
+  import OsLang
 
   // Time is non-deterministic.
   // In this way it is similar to random number.
@@ -130,6 +132,11 @@ module {:extern "Time"} Time {
   method PrintTime(time : RelativeTime)
   {
     print "Clock Time : ", FormatMilli(time.ClockTime), " CPU Time : ", FormatMilli(time.CpuTime), "\n";
+  }
+
+  method PrintTimeLong(time : RelativeTime, tag : string)
+  {
+    print tag, " ", OsLang.GetOsLong(), " ", OsLang.GetLanguageLong(), " Clock Time : ", FormatMilli(time.ClockTime), " CPU Time : ", FormatMilli(time.CpuTime), "\n";
   }
 
   method PrintTimeShort(time : RelativeTime)

@@ -3,6 +3,7 @@
 
 include "../src/StandardLibrary.dfy"
 include "../src/String.dfy"
+include "../src/OsLang.dfy"
 include "../../libraries/src/Wrappers.dfy"
 include "../../libraries/src/FileIO/FileIO.dfy"
 
@@ -10,6 +11,7 @@ module TestStrings {
   import StandardLibrary.String
   import opened Wrappers
   import opened FileIO
+  import OsLang
 
   method {:test} TestHasSubStringPositive()
   {
@@ -47,12 +49,18 @@ module TestStrings {
     expect y == [1,2,3,4,5];
   }
 
+  function method BadFilename() : string
+  {
+    if OsLang.GetOsShort() == "Windows" && OsLang.GetLanguageShort() == "Dotnet" then
+      "foo:bar:baz"
+    else
+      "/../../MyFile"
+  }
   // ensure that FileIO error are returned properly, and not a panic! or the like
-  // This fails to fail on Windows+Dotnet, becasue \ instead of /
-  // method {:test} TestBadFileIO()
-  // {
-  //   var x := WriteBytesToFile("/../../MyFile", [1,2,3,4,5]);
-  //   expect x.Failure?;
-  // }
+  method {:test} TestBadFileIO()
+  {
+    var x := WriteBytesToFile(BadFilename(), [1,2,3,4,5]);
+    expect x.Failure?;
+  }
 
 }

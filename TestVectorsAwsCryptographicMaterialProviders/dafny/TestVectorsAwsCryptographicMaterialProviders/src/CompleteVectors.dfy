@@ -5,6 +5,7 @@ include "TestVectors.dfy"
 include "JSONHelpers.dfy"
 
 include "./VectorsComposition/AllAlgorithmSuites.dfy"
+include "../../../../StandardLibrary/src/Time.dfy"
 
 include "./VectorsComposition/AllDefaultCmm.dfy"
 include "./VectorsComposition/AllHierarchy.dfy"
@@ -50,6 +51,7 @@ module {:options "-functionSyntax:4"} CompleteVectors {
   import WriteJsonManifests
   import TestVectors
   import KeyVectors
+  import Time
 
   // TODO serialize commitment policy
 
@@ -72,6 +74,7 @@ module {:options "-functionSyntax:4"} CompleteVectors {
     returns (output: Result<(), string>)
     requires op.EncryptManifest?
   {
+    var time := Time.GetAbsoluteTime();
 
     var tests := SortedSets.ComputeSetToSequence(AllPositiveKeyringTests);
     // So that we can build the tests
@@ -101,6 +104,7 @@ module {:options "-functionSyntax:4"} CompleteVectors {
       mplEncryptManifestBytes
     );
 
+    Time.PrintTimeSince(time);
     output := Success(());
   }
 
