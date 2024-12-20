@@ -1,4 +1,4 @@
-# This workflow performs interoperability tests across the supported runtimes of the MPL.
+# This workflow performs Concurrency tests of the MPL in Java.
 name: Library Concurrency Tests
 
 on:
@@ -32,7 +32,6 @@ jobs:
             # rust
           ]
         # https://taskei.amazon.dev/tasks/CrypTool-5284
-        dotnet-version: ["6.0.x"]
         java-versions: [8, 17]
     runs-on: ${{ matrix.os }}
     permissions:
@@ -103,12 +102,6 @@ jobs:
         with:
           distribution: "corretto"
           java-version: ${{matrix.java-versions}}
-
-      - name: Clean for next Java
-        uses: gradle/gradle-build-action@v3
-        with:
-          arguments: clean
-          build-root-directory: ./${{ matrix.library }}/runtimes/java
 
       - name: Compile Java
         uses: gradle/gradle-build-action@v3
