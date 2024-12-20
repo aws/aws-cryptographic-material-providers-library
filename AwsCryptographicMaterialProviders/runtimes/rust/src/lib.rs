@@ -55,7 +55,6 @@ pub(crate) use crate::implementation_from_dafny::ConcurrentCall;
 pub(crate) use crate::implementation_from_dafny::DafnyLibraries;
 pub(crate) use crate::implementation_from_dafny::ExternDigest;
 pub(crate) use crate::implementation_from_dafny::ExternRandom;
-// pub(crate) use crate::implementation_from_dafny::OsLang;
 pub(crate) use crate::implementation_from_dafny::Signature;
 pub(crate) use crate::implementation_from_dafny::Time;
 pub(crate) use crate::implementation_from_dafny::ECDH;

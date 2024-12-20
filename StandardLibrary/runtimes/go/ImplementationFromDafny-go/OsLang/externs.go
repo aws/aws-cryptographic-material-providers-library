@@ -50,14 +50,3 @@ func (CompanionStruct_Default___) GetLanguageLong() dafny.Sequence {
 func GetLanguageLong() dafny.Sequence {
 	return dafny.SeqOfChars([]dafny.Char(runtime.Version())...)
 }
-
-
-// func (CompanionStruct_Default___) GetOsLong() _dafny.Sequence {
-// 	return dafny.SeqOfChars([]dafny.Char("aaa"))
-// }
-// func (CompanionStruct_Default___) GetLanguageShort() _dafny.Sequence {
-// 	return dafny.SeqOfChars([]dafny.Char("Go"))
-// }
-// func (CompanionStruct_Default___) GetLanguageLong() _dafny.Sequence {
-// 	return dafny.SeqOfChars([]dafny.Char("aaa"))
-// }
