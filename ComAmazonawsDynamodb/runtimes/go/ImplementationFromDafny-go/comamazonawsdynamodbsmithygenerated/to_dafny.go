@@ -1023,6 +1023,30 @@ func UpdateTimeToLiveOutput_ToDafny(nativeOutput dynamodb.UpdateTimeToLiveOutput
 
 }
 
+func GlobalTableAlreadyExistsException_ToDafny(nativeInput types.GlobalTableAlreadyExistsException) ComAmazonawsDynamodbTypes.Error {
+	return func() ComAmazonawsDynamodbTypes.Error {
+
+		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_GlobalTableAlreadyExistsException_(com_amazonaws_dynamodb_GlobalTableAlreadyExistsException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func InternalServerError_ToDafny(nativeInput types.InternalServerError) ComAmazonawsDynamodbTypes.Error {
+	return func() ComAmazonawsDynamodbTypes.Error {
+
+		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_InternalServerError_(com_amazonaws_dynamodb_InternalServerError_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func IdempotentParameterMismatchException_ToDafny(nativeInput types.IdempotentParameterMismatchException) ComAmazonawsDynamodbTypes.Error {
+	return func() ComAmazonawsDynamodbTypes.Error {
+
+		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_IdempotentParameterMismatchException_(com_amazonaws_dynamodb_IdempotentParameterMismatchException_Message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
 func TransactionInProgressException_ToDafny(nativeInput types.TransactionInProgressException) ComAmazonawsDynamodbTypes.Error {
 	return func() ComAmazonawsDynamodbTypes.Error {
 
@@ -1039,30 +1063,6 @@ func InvalidRestoreTimeException_ToDafny(nativeInput types.InvalidRestoreTimeExc
 
 }
 
-func GlobalTableAlreadyExistsException_ToDafny(nativeInput types.GlobalTableAlreadyExistsException) ComAmazonawsDynamodbTypes.Error {
-	return func() ComAmazonawsDynamodbTypes.Error {
-
-		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_GlobalTableAlreadyExistsException_(com_amazonaws_dynamodb_GlobalTableAlreadyExistsException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func LimitExceededException_ToDafny(nativeInput types.LimitExceededException) ComAmazonawsDynamodbTypes.Error {
-	return func() ComAmazonawsDynamodbTypes.Error {
-
-		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_LimitExceededException_(com_amazonaws_dynamodb_LimitExceededException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func InternalServerError_ToDafny(nativeInput types.InternalServerError) ComAmazonawsDynamodbTypes.Error {
-	return func() ComAmazonawsDynamodbTypes.Error {
-
-		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_InternalServerError_(com_amazonaws_dynamodb_InternalServerError_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
 func ImportNotFoundException_ToDafny(nativeInput types.ImportNotFoundException) ComAmazonawsDynamodbTypes.Error {
 	return func() ComAmazonawsDynamodbTypes.Error {
 
@@ -1071,18 +1071,18 @@ func ImportNotFoundException_ToDafny(nativeInput types.ImportNotFoundException) 
 
 }
 
-func ProvisionedThroughputExceededException_ToDafny(nativeInput types.ProvisionedThroughputExceededException) ComAmazonawsDynamodbTypes.Error {
+func BackupNotFoundException_ToDafny(nativeInput types.BackupNotFoundException) ComAmazonawsDynamodbTypes.Error {
 	return func() ComAmazonawsDynamodbTypes.Error {
 
-		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_ProvisionedThroughputExceededException_(com_amazonaws_dynamodb_ProvisionedThroughputExceededException_message_ToDafny(nativeInput.Message))
+		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_BackupNotFoundException_(com_amazonaws_dynamodb_BackupNotFoundException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
 
-func ConditionalCheckFailedException_ToDafny(nativeInput types.ConditionalCheckFailedException) ComAmazonawsDynamodbTypes.Error {
+func ProvisionedThroughputExceededException_ToDafny(nativeInput types.ProvisionedThroughputExceededException) ComAmazonawsDynamodbTypes.Error {
 	return func() ComAmazonawsDynamodbTypes.Error {
 
-		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_ConditionalCheckFailedException_(com_amazonaws_dynamodb_ConditionalCheckFailedException_message_ToDafny(nativeInput.Message), com_amazonaws_dynamodb_ConditionalCheckFailedException_Item_ToDafny(nativeInput.Item))
+		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_ProvisionedThroughputExceededException_(com_amazonaws_dynamodb_ProvisionedThroughputExceededException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
@@ -1103,34 +1103,18 @@ func ImportConflictException_ToDafny(nativeInput types.ImportConflictException) 
 
 }
 
+func ContinuousBackupsUnavailableException_ToDafny(nativeInput types.ContinuousBackupsUnavailableException) ComAmazonawsDynamodbTypes.Error {
+	return func() ComAmazonawsDynamodbTypes.Error {
+
+		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_ContinuousBackupsUnavailableException_(com_amazonaws_dynamodb_ContinuousBackupsUnavailableException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
 func ReplicaAlreadyExistsException_ToDafny(nativeInput types.ReplicaAlreadyExistsException) ComAmazonawsDynamodbTypes.Error {
 	return func() ComAmazonawsDynamodbTypes.Error {
 
 		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_ReplicaAlreadyExistsException_(com_amazonaws_dynamodb_ReplicaAlreadyExistsException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func IdempotentParameterMismatchException_ToDafny(nativeInput types.IdempotentParameterMismatchException) ComAmazonawsDynamodbTypes.Error {
-	return func() ComAmazonawsDynamodbTypes.Error {
-
-		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_IdempotentParameterMismatchException_(com_amazonaws_dynamodb_IdempotentParameterMismatchException_Message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func PointInTimeRecoveryUnavailableException_ToDafny(nativeInput types.PointInTimeRecoveryUnavailableException) ComAmazonawsDynamodbTypes.Error {
-	return func() ComAmazonawsDynamodbTypes.Error {
-
-		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_PointInTimeRecoveryUnavailableException_(com_amazonaws_dynamodb_PointInTimeRecoveryUnavailableException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func TableNotFoundException_ToDafny(nativeInput types.TableNotFoundException) ComAmazonawsDynamodbTypes.Error {
-	return func() ComAmazonawsDynamodbTypes.Error {
-
-		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_TableNotFoundException_(com_amazonaws_dynamodb_TableNotFoundException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
@@ -1143,10 +1127,18 @@ func PolicyNotFoundException_ToDafny(nativeInput types.PolicyNotFoundException) 
 
 }
 
-func ResourceInUseException_ToDafny(nativeInput types.ResourceInUseException) ComAmazonawsDynamodbTypes.Error {
+func TableNotFoundException_ToDafny(nativeInput types.TableNotFoundException) ComAmazonawsDynamodbTypes.Error {
 	return func() ComAmazonawsDynamodbTypes.Error {
 
-		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_ResourceInUseException_(com_amazonaws_dynamodb_ResourceInUseException_message_ToDafny(nativeInput.Message))
+		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_TableNotFoundException_(com_amazonaws_dynamodb_TableNotFoundException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func PointInTimeRecoveryUnavailableException_ToDafny(nativeInput types.PointInTimeRecoveryUnavailableException) ComAmazonawsDynamodbTypes.Error {
+	return func() ComAmazonawsDynamodbTypes.Error {
+
+		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_PointInTimeRecoveryUnavailableException_(com_amazonaws_dynamodb_PointInTimeRecoveryUnavailableException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
@@ -1159,10 +1151,10 @@ func ExportNotFoundException_ToDafny(nativeInput types.ExportNotFoundException) 
 
 }
 
-func BackupInUseException_ToDafny(nativeInput types.BackupInUseException) ComAmazonawsDynamodbTypes.Error {
+func RequestLimitExceeded_ToDafny(nativeInput types.RequestLimitExceeded) ComAmazonawsDynamodbTypes.Error {
 	return func() ComAmazonawsDynamodbTypes.Error {
 
-		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_BackupInUseException_(com_amazonaws_dynamodb_BackupInUseException_message_ToDafny(nativeInput.Message))
+		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_RequestLimitExceeded_(com_amazonaws_dynamodb_RequestLimitExceeded_message_ToDafny(nativeInput.Message))
 	}()
 
 }
@@ -1175,18 +1167,18 @@ func ResourceNotFoundException_ToDafny(nativeInput types.ResourceNotFoundExcepti
 
 }
 
-func RequestLimitExceeded_ToDafny(nativeInput types.RequestLimitExceeded) ComAmazonawsDynamodbTypes.Error {
+func BackupInUseException_ToDafny(nativeInput types.BackupInUseException) ComAmazonawsDynamodbTypes.Error {
 	return func() ComAmazonawsDynamodbTypes.Error {
 
-		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_RequestLimitExceeded_(com_amazonaws_dynamodb_RequestLimitExceeded_message_ToDafny(nativeInput.Message))
+		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_BackupInUseException_(com_amazonaws_dynamodb_BackupInUseException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
 
-func ContinuousBackupsUnavailableException_ToDafny(nativeInput types.ContinuousBackupsUnavailableException) ComAmazonawsDynamodbTypes.Error {
+func ConditionalCheckFailedException_ToDafny(nativeInput types.ConditionalCheckFailedException) ComAmazonawsDynamodbTypes.Error {
 	return func() ComAmazonawsDynamodbTypes.Error {
 
-		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_ContinuousBackupsUnavailableException_(com_amazonaws_dynamodb_ContinuousBackupsUnavailableException_message_ToDafny(nativeInput.Message))
+		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_ConditionalCheckFailedException_(com_amazonaws_dynamodb_ConditionalCheckFailedException_message_ToDafny(nativeInput.Message), com_amazonaws_dynamodb_ConditionalCheckFailedException_Item_ToDafny(nativeInput.Item))
 	}()
 
 }
@@ -1199,10 +1191,10 @@ func IndexNotFoundException_ToDafny(nativeInput types.IndexNotFoundException) Co
 
 }
 
-func DuplicateItemException_ToDafny(nativeInput types.DuplicateItemException) ComAmazonawsDynamodbTypes.Error {
+func ResourceInUseException_ToDafny(nativeInput types.ResourceInUseException) ComAmazonawsDynamodbTypes.Error {
 	return func() ComAmazonawsDynamodbTypes.Error {
 
-		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_DuplicateItemException_(com_amazonaws_dynamodb_DuplicateItemException_message_ToDafny(nativeInput.Message))
+		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_ResourceInUseException_(com_amazonaws_dynamodb_ResourceInUseException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
@@ -1215,14 +1207,6 @@ func ItemCollectionSizeLimitExceededException_ToDafny(nativeInput types.ItemColl
 
 }
 
-func BackupNotFoundException_ToDafny(nativeInput types.BackupNotFoundException) ComAmazonawsDynamodbTypes.Error {
-	return func() ComAmazonawsDynamodbTypes.Error {
-
-		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_BackupNotFoundException_(com_amazonaws_dynamodb_BackupNotFoundException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
 func TableInUseException_ToDafny(nativeInput types.TableInUseException) ComAmazonawsDynamodbTypes.Error {
 	return func() ComAmazonawsDynamodbTypes.Error {
 
@@ -1231,10 +1215,42 @@ func TableInUseException_ToDafny(nativeInput types.TableInUseException) ComAmazo
 
 }
 
-func TableAlreadyExistsException_ToDafny(nativeInput types.TableAlreadyExistsException) ComAmazonawsDynamodbTypes.Error {
+func ReplicaNotFoundException_ToDafny(nativeInput types.ReplicaNotFoundException) ComAmazonawsDynamodbTypes.Error {
 	return func() ComAmazonawsDynamodbTypes.Error {
 
-		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_TableAlreadyExistsException_(com_amazonaws_dynamodb_TableAlreadyExistsException_message_ToDafny(nativeInput.Message))
+		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_ReplicaNotFoundException_(com_amazonaws_dynamodb_ReplicaNotFoundException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func DuplicateItemException_ToDafny(nativeInput types.DuplicateItemException) ComAmazonawsDynamodbTypes.Error {
+	return func() ComAmazonawsDynamodbTypes.Error {
+
+		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_DuplicateItemException_(com_amazonaws_dynamodb_DuplicateItemException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func LimitExceededException_ToDafny(nativeInput types.LimitExceededException) ComAmazonawsDynamodbTypes.Error {
+	return func() ComAmazonawsDynamodbTypes.Error {
+
+		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_LimitExceededException_(com_amazonaws_dynamodb_LimitExceededException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func TransactionConflictException_ToDafny(nativeInput types.TransactionConflictException) ComAmazonawsDynamodbTypes.Error {
+	return func() ComAmazonawsDynamodbTypes.Error {
+
+		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_TransactionConflictException_(com_amazonaws_dynamodb_TransactionConflictException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func GlobalTableNotFoundException_ToDafny(nativeInput types.GlobalTableNotFoundException) ComAmazonawsDynamodbTypes.Error {
+	return func() ComAmazonawsDynamodbTypes.Error {
+
+		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_GlobalTableNotFoundException_(com_amazonaws_dynamodb_GlobalTableNotFoundException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
@@ -1255,22 +1271,6 @@ func TransactionCanceledException_ToDafny(nativeInput types.TransactionCanceledE
 
 }
 
-func TransactionConflictException_ToDafny(nativeInput types.TransactionConflictException) ComAmazonawsDynamodbTypes.Error {
-	return func() ComAmazonawsDynamodbTypes.Error {
-
-		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_TransactionConflictException_(com_amazonaws_dynamodb_TransactionConflictException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func ReplicaNotFoundException_ToDafny(nativeInput types.ReplicaNotFoundException) ComAmazonawsDynamodbTypes.Error {
-	return func() ComAmazonawsDynamodbTypes.Error {
-
-		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_ReplicaNotFoundException_(com_amazonaws_dynamodb_ReplicaNotFoundException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
 func InvalidExportTimeException_ToDafny(nativeInput types.InvalidExportTimeException) ComAmazonawsDynamodbTypes.Error {
 	return func() ComAmazonawsDynamodbTypes.Error {
 
@@ -1279,20 +1279,35 @@ func InvalidExportTimeException_ToDafny(nativeInput types.InvalidExportTimeExcep
 
 }
 
-func GlobalTableNotFoundException_ToDafny(nativeInput types.GlobalTableNotFoundException) ComAmazonawsDynamodbTypes.Error {
+func TableAlreadyExistsException_ToDafny(nativeInput types.TableAlreadyExistsException) ComAmazonawsDynamodbTypes.Error {
 	return func() ComAmazonawsDynamodbTypes.Error {
 
-		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_GlobalTableNotFoundException_(com_amazonaws_dynamodb_GlobalTableNotFoundException_message_ToDafny(nativeInput.Message))
+		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_TableAlreadyExistsException_(com_amazonaws_dynamodb_TableAlreadyExistsException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
 
 func OpaqueError_Input_ToDafny(nativeInput error) ComAmazonawsDynamodbTypes.Error {
-	return ComAmazonawsDynamodbTypes.Companion_Error_.Create_Opaque_(nativeInput)
+	return ComAmazonawsDynamodbTypes.Companion_Error_.Create_OpaqueWithText_(nativeInput, dafny.SeqOfChars([]dafny.Char(nativeInput.Error())...))
 }
 
 func Error_ToDafny(err error) ComAmazonawsDynamodbTypes.Error {
 	// Service Errors
+	var GlobalTableAlreadyExistsException *types.GlobalTableAlreadyExistsException
+	if errors.As(err, &GlobalTableAlreadyExistsException) {
+		return GlobalTableAlreadyExistsException_ToDafny(*GlobalTableAlreadyExistsException)
+	}
+
+	var InternalServerError *types.InternalServerError
+	if errors.As(err, &InternalServerError) {
+		return InternalServerError_ToDafny(*InternalServerError)
+	}
+
+	var IdempotentParameterMismatchException *types.IdempotentParameterMismatchException
+	if errors.As(err, &IdempotentParameterMismatchException) {
+		return IdempotentParameterMismatchException_ToDafny(*IdempotentParameterMismatchException)
+	}
+
 	var TransactionInProgressException *types.TransactionInProgressException
 	if errors.As(err, &TransactionInProgressException) {
 		return TransactionInProgressException_ToDafny(*TransactionInProgressException)
@@ -1303,34 +1318,19 @@ func Error_ToDafny(err error) ComAmazonawsDynamodbTypes.Error {
 		return InvalidRestoreTimeException_ToDafny(*InvalidRestoreTimeException)
 	}
 
-	var GlobalTableAlreadyExistsException *types.GlobalTableAlreadyExistsException
-	if errors.As(err, &GlobalTableAlreadyExistsException) {
-		return GlobalTableAlreadyExistsException_ToDafny(*GlobalTableAlreadyExistsException)
-	}
-
-	var LimitExceededException *types.LimitExceededException
-	if errors.As(err, &LimitExceededException) {
-		return LimitExceededException_ToDafny(*LimitExceededException)
-	}
-
-	var InternalServerError *types.InternalServerError
-	if errors.As(err, &InternalServerError) {
-		return InternalServerError_ToDafny(*InternalServerError)
-	}
-
 	var ImportNotFoundException *types.ImportNotFoundException
 	if errors.As(err, &ImportNotFoundException) {
 		return ImportNotFoundException_ToDafny(*ImportNotFoundException)
 	}
 
+	var BackupNotFoundException *types.BackupNotFoundException
+	if errors.As(err, &BackupNotFoundException) {
+		return BackupNotFoundException_ToDafny(*BackupNotFoundException)
+	}
+
 	var ProvisionedThroughputExceededException *types.ProvisionedThroughputExceededException
 	if errors.As(err, &ProvisionedThroughputExceededException) {
 		return ProvisionedThroughputExceededException_ToDafny(*ProvisionedThroughputExceededException)
-	}
-
-	var ConditionalCheckFailedException *types.ConditionalCheckFailedException
-	if errors.As(err, &ConditionalCheckFailedException) {
-		return ConditionalCheckFailedException_ToDafny(*ConditionalCheckFailedException)
 	}
 
 	var InvalidEndpointException *types.InvalidEndpointException
@@ -1343,24 +1343,14 @@ func Error_ToDafny(err error) ComAmazonawsDynamodbTypes.Error {
 		return ImportConflictException_ToDafny(*ImportConflictException)
 	}
 
+	var ContinuousBackupsUnavailableException *types.ContinuousBackupsUnavailableException
+	if errors.As(err, &ContinuousBackupsUnavailableException) {
+		return ContinuousBackupsUnavailableException_ToDafny(*ContinuousBackupsUnavailableException)
+	}
+
 	var ReplicaAlreadyExistsException *types.ReplicaAlreadyExistsException
 	if errors.As(err, &ReplicaAlreadyExistsException) {
 		return ReplicaAlreadyExistsException_ToDafny(*ReplicaAlreadyExistsException)
-	}
-
-	var IdempotentParameterMismatchException *types.IdempotentParameterMismatchException
-	if errors.As(err, &IdempotentParameterMismatchException) {
-		return IdempotentParameterMismatchException_ToDafny(*IdempotentParameterMismatchException)
-	}
-
-	var PointInTimeRecoveryUnavailableException *types.PointInTimeRecoveryUnavailableException
-	if errors.As(err, &PointInTimeRecoveryUnavailableException) {
-		return PointInTimeRecoveryUnavailableException_ToDafny(*PointInTimeRecoveryUnavailableException)
-	}
-
-	var TableNotFoundException *types.TableNotFoundException
-	if errors.As(err, &TableNotFoundException) {
-		return TableNotFoundException_ToDafny(*TableNotFoundException)
 	}
 
 	var PolicyNotFoundException *types.PolicyNotFoundException
@@ -1368,9 +1358,14 @@ func Error_ToDafny(err error) ComAmazonawsDynamodbTypes.Error {
 		return PolicyNotFoundException_ToDafny(*PolicyNotFoundException)
 	}
 
-	var ResourceInUseException *types.ResourceInUseException
-	if errors.As(err, &ResourceInUseException) {
-		return ResourceInUseException_ToDafny(*ResourceInUseException)
+	var TableNotFoundException *types.TableNotFoundException
+	if errors.As(err, &TableNotFoundException) {
+		return TableNotFoundException_ToDafny(*TableNotFoundException)
+	}
+
+	var PointInTimeRecoveryUnavailableException *types.PointInTimeRecoveryUnavailableException
+	if errors.As(err, &PointInTimeRecoveryUnavailableException) {
+		return PointInTimeRecoveryUnavailableException_ToDafny(*PointInTimeRecoveryUnavailableException)
 	}
 
 	var ExportNotFoundException *types.ExportNotFoundException
@@ -1378,9 +1373,9 @@ func Error_ToDafny(err error) ComAmazonawsDynamodbTypes.Error {
 		return ExportNotFoundException_ToDafny(*ExportNotFoundException)
 	}
 
-	var BackupInUseException *types.BackupInUseException
-	if errors.As(err, &BackupInUseException) {
-		return BackupInUseException_ToDafny(*BackupInUseException)
+	var RequestLimitExceeded *types.RequestLimitExceeded
+	if errors.As(err, &RequestLimitExceeded) {
+		return RequestLimitExceeded_ToDafny(*RequestLimitExceeded)
 	}
 
 	var ResourceNotFoundException *types.ResourceNotFoundException
@@ -1388,14 +1383,14 @@ func Error_ToDafny(err error) ComAmazonawsDynamodbTypes.Error {
 		return ResourceNotFoundException_ToDafny(*ResourceNotFoundException)
 	}
 
-	var RequestLimitExceeded *types.RequestLimitExceeded
-	if errors.As(err, &RequestLimitExceeded) {
-		return RequestLimitExceeded_ToDafny(*RequestLimitExceeded)
+	var BackupInUseException *types.BackupInUseException
+	if errors.As(err, &BackupInUseException) {
+		return BackupInUseException_ToDafny(*BackupInUseException)
 	}
 
-	var ContinuousBackupsUnavailableException *types.ContinuousBackupsUnavailableException
-	if errors.As(err, &ContinuousBackupsUnavailableException) {
-		return ContinuousBackupsUnavailableException_ToDafny(*ContinuousBackupsUnavailableException)
+	var ConditionalCheckFailedException *types.ConditionalCheckFailedException
+	if errors.As(err, &ConditionalCheckFailedException) {
+		return ConditionalCheckFailedException_ToDafny(*ConditionalCheckFailedException)
 	}
 
 	var IndexNotFoundException *types.IndexNotFoundException
@@ -1403,9 +1398,9 @@ func Error_ToDafny(err error) ComAmazonawsDynamodbTypes.Error {
 		return IndexNotFoundException_ToDafny(*IndexNotFoundException)
 	}
 
-	var DuplicateItemException *types.DuplicateItemException
-	if errors.As(err, &DuplicateItemException) {
-		return DuplicateItemException_ToDafny(*DuplicateItemException)
+	var ResourceInUseException *types.ResourceInUseException
+	if errors.As(err, &ResourceInUseException) {
+		return ResourceInUseException_ToDafny(*ResourceInUseException)
 	}
 
 	var ItemCollectionSizeLimitExceededException *types.ItemCollectionSizeLimitExceededException
@@ -1413,19 +1408,34 @@ func Error_ToDafny(err error) ComAmazonawsDynamodbTypes.Error {
 		return ItemCollectionSizeLimitExceededException_ToDafny(*ItemCollectionSizeLimitExceededException)
 	}
 
-	var BackupNotFoundException *types.BackupNotFoundException
-	if errors.As(err, &BackupNotFoundException) {
-		return BackupNotFoundException_ToDafny(*BackupNotFoundException)
-	}
-
 	var TableInUseException *types.TableInUseException
 	if errors.As(err, &TableInUseException) {
 		return TableInUseException_ToDafny(*TableInUseException)
 	}
 
-	var TableAlreadyExistsException *types.TableAlreadyExistsException
-	if errors.As(err, &TableAlreadyExistsException) {
-		return TableAlreadyExistsException_ToDafny(*TableAlreadyExistsException)
+	var ReplicaNotFoundException *types.ReplicaNotFoundException
+	if errors.As(err, &ReplicaNotFoundException) {
+		return ReplicaNotFoundException_ToDafny(*ReplicaNotFoundException)
+	}
+
+	var DuplicateItemException *types.DuplicateItemException
+	if errors.As(err, &DuplicateItemException) {
+		return DuplicateItemException_ToDafny(*DuplicateItemException)
+	}
+
+	var LimitExceededException *types.LimitExceededException
+	if errors.As(err, &LimitExceededException) {
+		return LimitExceededException_ToDafny(*LimitExceededException)
+	}
+
+	var TransactionConflictException *types.TransactionConflictException
+	if errors.As(err, &TransactionConflictException) {
+		return TransactionConflictException_ToDafny(*TransactionConflictException)
+	}
+
+	var GlobalTableNotFoundException *types.GlobalTableNotFoundException
+	if errors.As(err, &GlobalTableNotFoundException) {
+		return GlobalTableNotFoundException_ToDafny(*GlobalTableNotFoundException)
 	}
 
 	var ExportConflictException *types.ExportConflictException
@@ -1438,24 +1448,14 @@ func Error_ToDafny(err error) ComAmazonawsDynamodbTypes.Error {
 		return TransactionCanceledException_ToDafny(*TransactionCanceledException)
 	}
 
-	var TransactionConflictException *types.TransactionConflictException
-	if errors.As(err, &TransactionConflictException) {
-		return TransactionConflictException_ToDafny(*TransactionConflictException)
-	}
-
-	var ReplicaNotFoundException *types.ReplicaNotFoundException
-	if errors.As(err, &ReplicaNotFoundException) {
-		return ReplicaNotFoundException_ToDafny(*ReplicaNotFoundException)
-	}
-
 	var InvalidExportTimeException *types.InvalidExportTimeException
 	if errors.As(err, &InvalidExportTimeException) {
 		return InvalidExportTimeException_ToDafny(*InvalidExportTimeException)
 	}
 
-	var GlobalTableNotFoundException *types.GlobalTableNotFoundException
-	if errors.As(err, &GlobalTableNotFoundException) {
-		return GlobalTableNotFoundException_ToDafny(*GlobalTableNotFoundException)
+	var TableAlreadyExistsException *types.TableAlreadyExistsException
+	if errors.As(err, &TableAlreadyExistsException) {
+		return TableAlreadyExistsException_ToDafny(*TableAlreadyExistsException)
 	}
 
 	return OpaqueError_Input_ToDafny(err)
