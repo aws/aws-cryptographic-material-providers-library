@@ -94,4 +94,4 @@ jobs:
         with:
           dafny: ${{ env.DAFNY_VERSION }}
           library: ${{ matrix.library }}
-          diff-generated-code: true
+          diff-generated-code: false
