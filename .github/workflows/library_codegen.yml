@@ -30,7 +30,7 @@ jobs:
         # The workflow installs black and docformatter and runs them on generated code.
         python-version: [3.11]
         go-version: ["1.23"]
-        os: [ubuntu-latest]
+        os: [macos-latest]
     runs-on: ${{ matrix.os }}
     defaults:
       run:
@@ -94,4 +94,4 @@ jobs:
         with:
           dafny: ${{ env.DAFNY_VERSION }}
           library: ${{ matrix.library }}
-          diff-generated-code: false
+          diff-generated-code: true
