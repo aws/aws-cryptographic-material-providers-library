@@ -23,6 +23,7 @@ src/digest.rs
 src/ecdh.rs
 src/ecdsa.rs
 src/hmac.rs
+src/oslang.rs
 src/random.rs
 src/rsa.rs
 src/sets.rs

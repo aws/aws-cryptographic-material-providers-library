@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 CORES=2
-
+TRANSPILE_TESTS_IN_RUST=1
 ENABLE_EXTERN_PROCESSING=1
 
 include ../SharedMakefileV2.mk
@@ -25,6 +25,7 @@ RUST_OTHER_FILES := \
 	runtimes/rust/src/hmac.rs \
 	runtimes/rust/src/kms.rs \
 	runtimes/rust/src/local_cmc.rs \
+	runtimes/rust/src/oslang.rs \
 	runtimes/rust/src/random.rs \
 	runtimes/rust/src/rsa.rs \
 	runtimes/rust/src/sets.rs \

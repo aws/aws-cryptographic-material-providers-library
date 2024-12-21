@@ -6,6 +6,7 @@ include "ParseJsonManifests.dfy"
 include "MplManifestOptions.dfy"
   // TODO it would be nice to have this included somehow...
 include "../../KeyVectors/src/Index.dfy"
+include "../../../../StandardLibrary/src/Time.dfy"
 
 module {:options "-functionSyntax:4"} TestManifests {
   import Types = AwsCryptographyMaterialProvidersTypes
@@ -24,11 +25,13 @@ module {:options "-functionSyntax:4"} TestManifests {
   import KeyVectorsTypes = AwsCryptographyMaterialProvidersTestVectorKeysTypes
   import MplManifestOptions
   import CompleteVectors
+  import Time
 
   method StartEncrypt(op: MplManifestOptions.ManifestOptions)
     returns (output: Result<(), string>)
     requires op.Encrypt?
   {
+    var time := Time.GetAbsoluteTime();
     var encryptManifest :- GetManifest(op.manifestPath, "manifest.json");
     :- Need(encryptManifest.EncryptManifest?, "Not a encrypt manifest");
 
@@ -38,6 +41,7 @@ module {:options "-functionSyntax:4"} TestManifests {
 
     var _ :- CompleteVectors.WriteDecryptManifest(op, encryptManifest.keys, decryptVectors);
 
+    Time.PrintTimeSince(time);
     output := Success(());
   }
 
@@ -79,6 +83,7 @@ module {:options "-functionSyntax:4"} TestManifests {
     returns (output: Result<(), string>)
     requires op.Decrypt?
   {
+    var time := Time.GetAbsoluteTime();
     var decryptManifest :- GetManifest(op.manifestPath, "manifest.json");
     :- Need(decryptManifest.DecryptManifest?, "Not a encrypt manifest");
 
@@ -87,6 +92,7 @@ module {:options "-functionSyntax:4"} TestManifests {
 
     TestDecrypts(decryptTests);
 
+    Time.PrintTimeSince(time);
     output := Success(());
   }
 

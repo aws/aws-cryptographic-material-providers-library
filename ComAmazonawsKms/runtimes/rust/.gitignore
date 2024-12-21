@@ -6,6 +6,7 @@ src/conversions
 src/dafny_libraries.rs
 src/deps.rs
 src/implementation_from_dafny.rs
+src/oslang.rs
 src/sets.rs
 src/standard_library_conversions.rs
 src/standard_library_externs.rs

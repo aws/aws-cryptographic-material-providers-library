@@ -7,6 +7,7 @@ SRC=../../../AwsCryptographicMaterialProviders/runtimes/rust/src/
 cp $SRC/concurrent_call.rs src
 cp $SRC/dafny_libraries.rs src
 # kms is different, because of ::deps::
+cp $SRC/oslang.rs src
 cp $SRC/sets.rs src
 cp $SRC/time.rs src
 cp $SRC/uuid.rs src

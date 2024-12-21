@@ -13,6 +13,7 @@ cp $SRC/digest.rs src
 cp $SRC/ecdh.rs src
 cp $SRC/ecdsa.rs src
 cp $SRC/hmac.rs src
+cp $SRC/oslang.rs src
 cp $SRC/kms.rs src
 cp $SRC/local_cmc.rs src
 cp $SRC/random.rs src
