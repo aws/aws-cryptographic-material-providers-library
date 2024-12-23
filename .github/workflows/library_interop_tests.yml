@@ -179,7 +179,7 @@ jobs:
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_go
       
-      # TODO: Remove this after Go polymorph code is fixed
+      # TODO: Remove this after Go polymorph does not generate unwanted duplicate code.
       - name: Purge polymorph code in Go
         if: matrix.language == 'go'
         shell: bash
@@ -372,7 +372,7 @@ jobs:
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_go
         
-      # TODO: Remove this after Go polymorph does not generate duplicate code.
+      # TODO: Remove this after Go polymorph does not generate unwanted duplicate code.
       - name: Purge polymorph code in Go
         if: matrix.decrypting_language == 'go'
         shell: bash
