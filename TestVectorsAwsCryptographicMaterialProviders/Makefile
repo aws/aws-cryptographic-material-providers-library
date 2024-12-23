@@ -175,14 +175,14 @@ TRANSLATION_RECORD_GO := \
 	AwsCryptographicMaterialProviders/runtimes/go/ImplementationFromDafny-go/ImplementationFromDafny-go.dtr
 
 
-polymorph_go: _purge_polymorph_code
+polymorph_go: purge_polymorph_code
 
 # Smithy-dafny generated shim needs a long term fix. 
 # Smithy-dafny generates polymorph code of MPL in test vectors.  
 # TODO: Remove these commands once smithy-dafny is fixed
 # These commands does not work on windows
 # https://taskei.amazon.dev/tasks/CrypTool-5283
-_purge_polymorph_code:
+purge_polymorph_code:
 	find .. -name "shim.go" | xargs sed -i $(SED_PARAMETER) 's/(_static \*CompanionStruct_Default___)//g'
 	rm -rf runtimes/go/ImplementationFromDafny-go/awscryptographymaterialproviderssmithygenerated \
 		runtimes/go/ImplementationFromDafny-go/awscryptographymaterialproviderssmithygeneratedtypes \
