@@ -154,6 +154,42 @@ TRANSLATION_RECORD_PYTHON := \
     --translation-record ../AwsCryptographyPrimitives/runtimes/python/src/aws_cryptography_primitives/internaldafny/generated/dafny_src-py.dtr \
 	--translation-record ../AwsCryptographicMaterialProviders/runtimes/python/src/aws_cryptographic_material_providers/internaldafny/generated/dafny_src-py.dtr
 
+# Go
+
+GO_MODULE_NAME="github.com/aws/aws-cryptographic-material-providers-library/testvectors"
+
+GO_DEPENDENCY_MODULE_NAMES := \
+	--dependency-library-name=aws.cryptography.primitives=github.com/aws/aws-cryptographic-material-providers-library/primitives \
+	--dependency-library-name=com.amazonaws.kms=github.com/aws/aws-cryptographic-material-providers-library/kms \
+	--dependency-library-name=com.amazonaws.dynamodb=github.com/aws/aws-cryptographic-material-providers-library/dynamodb \
+	--dependency-library-name=aws.cryptography.materialProviders=github.com/aws/aws-cryptographic-material-providers-library/mpl \
+	--dependency-library-name=aws.cryptography.keyStore=github.com/aws/aws-cryptographic-material-providers-library/mpl \
+	--dependency-library-name=sdk.com.amazonaws.dynamodb=github.com/aws/aws-sdk-go-v2/service/dynamodb \
+	--dependency-library-name=sdk.com.amazonaws.kms=github.com/aws/aws-sdk-go-v2/service/kms
+
+TRANSLATION_RECORD_GO := \
+	StandardLibrary/runtimes/go/ImplementationFromDafny-go/ImplementationFromDafny-go.dtr \
+	ComAmazonawsKms/runtimes/go/ImplementationFromDafny-go/ImplementationFromDafny-go.dtr \
+	ComAmazonawsDynamodb/runtimes/go/ImplementationFromDafny-go/ImplementationFromDafny-go.dtr \
+	AwsCryptographyPrimitives/runtimes/go/ImplementationFromDafny-go/ImplementationFromDafny-go.dtr \
+	AwsCryptographicMaterialProviders/runtimes/go/ImplementationFromDafny-go/ImplementationFromDafny-go.dtr
+
+# Smithy-dafny generated shim needs a long term fix. 
+# Smithy-dafny generates polymorph code of MPL in test vectors.  
+# TODO: Remove these commands once smithy-dafny is fixed
+# SED parameter is set on SmithyDafnySedMakefile.mk in smithy-dafny
+
+# This commands does not work on windows
+# https://taskei.amazon.dev/tasks/CrypTool-5283
+polymorph_go:
+	find .. -name "shim.go" | xargs sed -i $(SED_PARAMETER) 's/(_static \*CompanionStruct_Default___)//g'
+	rm -rf runtimes/go/ImplementationFromDafny-go/awscryptographymaterialproviderssmithygenerated \
+		runtimes/go/ImplementationFromDafny-go/awscryptographymaterialproviderssmithygeneratedtypes \
+		runtimes/go/ImplementationFromDafny-go/WrappedAwsCryptographyMaterialProvidersService \
+		runtimes/go/TestsFromDafny-go/awscryptographymaterialproviderssmithygenerated \
+		runtimes/go/TestsFromDafny-go/awscryptographymaterialproviderssmithygeneratedtypes \
+		runtimes/go/TestsFromDafny-go/WrappedAwsCryptographyMaterialProvidersService
+		
 # Python
 
 # Override default test_python to run tox environment for Dafny tests
@@ -184,6 +220,10 @@ test_generate_vectors_rust:
 	cd ../../
 	cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/rust/
 
+test_generate_vectors_go:
+	go -C runtimes/go/ImplementationFromDafny-go run ImplementationFromDafny.go encrypt-manifest --encrypt-manifest-output ../
+	cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/go
+
 test_encrypt_vectors_java:
 	gradle -p runtimes/java run --args="encrypt --manifest-path . --decrypt-manifest-path ."
 
@@ -202,6 +242,9 @@ test_encrypt_vectors_rust:
 	cargo run --bin test-vectors --features="wrapped-client" --release -- encrypt --manifest-path . --decrypt-manifest-path . && \
 	cd ../../
 
+test_encrypt_vectors_go:
+	go -C runtimes/go/ImplementationFromDafny-go run ImplementationFromDafny.go encrypt --manifest-path=.. --decrypt-manifest-path=..
+
 test_decrypt_encrypt_vectors_java:
 	gradle -p runtimes/java run --args="decrypt --manifest-path ."
 
@@ -219,3 +262,6 @@ test_decrypt_encrypt_vectors_rust:
 	cd runtimes/rust && \
 	cargo run --bin test-vectors --features="wrapped-client" --release -- decrypt --manifest-path . && \
 	cd ../../
+
+test_decrypt_encrypt_vectors_go:
+	go -C runtimes/go/ImplementationFromDafny-go run ImplementationFromDafny.go decrypt --manifest-path=..

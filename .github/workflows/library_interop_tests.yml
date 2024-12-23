@@ -25,7 +25,7 @@ jobs:
             ubuntu-latest,
             macos-13,
           ]
-        language: [java, net, python, rust]
+        language: [java, net, python, rust, go]
         # https://taskei.amazon.dev/tasks/CrypTool-5284
         dotnet-version: ["6.0.x"]
     runs-on: ${{ matrix.os }}
@@ -96,6 +96,11 @@ jobs:
             sed -i 's|rustfmt --edition 2021 runtimes/rust/src/implementation_from_dafny.rs|#&|' smithy-dafny/SmithyDafnyMakefile.mk
           fi
 
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: "1.23"
+
       - name: Setup NASM for Windows in Rust (aws-lc-sys)
         if: matrix.language == 'rust' && matrix.os == 'windows-latest'
         uses: ilammy/setup-nasm@v1
@@ -160,6 +165,15 @@ jobs:
         run: |
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_rust TRANSPILE_TESTS_IN_RUST=1 CORES=$CORES
+          
+      - name: Build ${{ matrix.library }} implementation in Go
+        if: matrix.language == 'go'
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          # This works because `node` is installed by default on GHA runners
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make transpile_go
 
       - name: Setup gradle
         if: matrix.language == 'java'
@@ -192,8 +206,8 @@ jobs:
             ubuntu-latest,
             macos-13,
           ]
-        encrypting_language: [java, net, python, rust]
-        decrypting_language: [java, net, python, rust]
+        encrypting_language: [java, net, python, rust, go]
+        decrypting_language: [java, net, python, rust, go]
         dotnet-version: ["6.0.x"]
     runs-on: ${{ matrix.os }}
     permissions:
@@ -262,6 +276,11 @@ jobs:
           else
             sed -i 's|rustfmt --edition 2021 runtimes/rust/src/implementation_from_dafny.rs|#&|' smithy-dafny/SmithyDafnyMakefile.mk
           fi
+      
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: "1.23"
 
       - name: Setup NASM for Windows in Rust (aws-lc-sys)
         if: matrix.decrypting_language == 'rust' && matrix.os == 'windows-latest'
@@ -327,6 +346,15 @@ jobs:
         run: |
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_rust TRANSPILE_TESTS_IN_RUST=1 CORES=$CORES
+
+      - name: Build ${{ matrix.library }} implementation in Go
+        if: matrix.decrypting_language == 'go'
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          # This works because `node` is installed by default on GHA runners
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make transpile_go
 
       - name: Download Encrypt Manifest Artifact
         uses: actions/download-artifact@v4
