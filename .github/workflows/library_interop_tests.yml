@@ -169,7 +169,7 @@ jobs:
         run: |
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_rust TRANSPILE_TESTS_IN_RUST=1 CORES=$CORES
-          
+
       - name: Build ${{ matrix.library }} implementation in Go
         if: matrix.language == 'go'
         shell: bash
@@ -178,6 +178,13 @@ jobs:
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_go
+
+      - name: Purge polymorph code in Go
+        if: matrix.language == 'go'
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          make purge_polymorph_code
 
       - name: Setup gradle
         if: matrix.language == 'java'
@@ -280,7 +287,7 @@ jobs:
           else
             sed -i 's|rustfmt --edition 2021 runtimes/rust/src/implementation_from_dafny.rs|#&|' smithy-dafny/SmithyDafnyMakefile.mk
           fi
-      
+
       - name: Setup Go
         uses: actions/setup-go@v2
         with:

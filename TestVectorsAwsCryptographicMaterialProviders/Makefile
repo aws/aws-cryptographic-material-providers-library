@@ -174,14 +174,15 @@ TRANSLATION_RECORD_GO := \
 	AwsCryptographyPrimitives/runtimes/go/ImplementationFromDafny-go/ImplementationFromDafny-go.dtr \
 	AwsCryptographicMaterialProviders/runtimes/go/ImplementationFromDafny-go/ImplementationFromDafny-go.dtr
 
+
+polymorph_go: _purge_polymorph_code
+
 # Smithy-dafny generated shim needs a long term fix. 
 # Smithy-dafny generates polymorph code of MPL in test vectors.  
 # TODO: Remove these commands once smithy-dafny is fixed
-# SED parameter is set on SmithyDafnySedMakefile.mk in smithy-dafny
-
-# This commands does not work on windows
+# These commands does not work on windows
 # https://taskei.amazon.dev/tasks/CrypTool-5283
-polymorph_go:
+_purge_polymorph_code:
 	find .. -name "shim.go" | xargs sed -i $(SED_PARAMETER) 's/(_static \*CompanionStruct_Default___)//g'
 	rm -rf runtimes/go/ImplementationFromDafny-go/awscryptographymaterialproviderssmithygenerated \
 		runtimes/go/ImplementationFromDafny-go/awscryptographymaterialproviderssmithygeneratedtypes \
@@ -189,7 +190,6 @@ polymorph_go:
 		runtimes/go/TestsFromDafny-go/awscryptographymaterialproviderssmithygenerated \
 		runtimes/go/TestsFromDafny-go/awscryptographymaterialproviderssmithygeneratedtypes \
 		runtimes/go/TestsFromDafny-go/WrappedAwsCryptographyMaterialProvidersService
-		
 # Python
 
 # Override default test_python to run tox environment for Dafny tests
