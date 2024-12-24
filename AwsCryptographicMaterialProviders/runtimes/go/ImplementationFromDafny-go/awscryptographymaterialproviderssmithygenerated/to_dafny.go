@@ -17,6 +17,7 @@ import (
 	"github.com/aws/aws-cryptographic-material-providers-library/primitives/AwsCryptographyPrimitivesTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/primitives/awscryptographyprimitivessmithygenerated"
 	"github.com/aws/aws-cryptographic-material-providers-library/primitives/awscryptographyprimitivessmithygeneratedtypes"
+	"github.com/aws/aws-sdk-go-v2/service/kms"
 	kmstypes "github.com/aws/aws-sdk-go-v2/service/kms/types"
 	"github.com/aws/smithy-go"
 	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
@@ -27,7 +28,7 @@ func CreateAwsKmsKeyringInput_ToDafny(nativeInput awscryptographymaterialprovide
 
 	return func() AwsCryptographyMaterialProvidersTypes.CreateAwsKmsKeyringInput {
 
-		return AwsCryptographyMaterialProvidersTypes.Companion_CreateAwsKmsKeyringInput_.Create_CreateAwsKmsKeyringInput_(aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_kmsKeyId_ToDafny(nativeInput.KmsKeyId), &KMSwrapped.Shim{Client: nativeInput.KmsClient}, aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_grantTokens_ToDafny(nativeInput.GrantTokens))
+		return AwsCryptographyMaterialProvidersTypes.Companion_CreateAwsKmsKeyringInput_.Create_CreateAwsKmsKeyringInput_(aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_kmsKeyId_ToDafny(nativeInput.KmsKeyId), aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_kmsClient_ToDafny(nativeInput.KmsClient), aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_grantTokens_ToDafny(nativeInput.GrantTokens))
 	}()
 
 }
@@ -36,7 +37,7 @@ func CreateAwsKmsDiscoveryKeyringInput_ToDafny(nativeInput awscryptographymateri
 
 	return func() AwsCryptographyMaterialProvidersTypes.CreateAwsKmsDiscoveryKeyringInput {
 
-		return AwsCryptographyMaterialProvidersTypes.Companion_CreateAwsKmsDiscoveryKeyringInput_.Create_CreateAwsKmsDiscoveryKeyringInput_(&KMSwrapped.Shim{Client: nativeInput.KmsClient}, aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_discoveryFilter_ToDafny(nativeInput.DiscoveryFilter), aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_grantTokens_ToDafny(nativeInput.GrantTokens))
+		return AwsCryptographyMaterialProvidersTypes.Companion_CreateAwsKmsDiscoveryKeyringInput_.Create_CreateAwsKmsDiscoveryKeyringInput_(aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_kmsClient_ToDafny(nativeInput.KmsClient), aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_discoveryFilter_ToDafny(nativeInput.DiscoveryFilter), aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_grantTokens_ToDafny(nativeInput.GrantTokens))
 	}()
 
 }
@@ -73,7 +74,7 @@ func CreateAwsKmsMrkKeyringInput_ToDafny(nativeInput awscryptographymaterialprov
 
 	return func() AwsCryptographyMaterialProvidersTypes.CreateAwsKmsMrkKeyringInput {
 
-		return AwsCryptographyMaterialProvidersTypes.Companion_CreateAwsKmsMrkKeyringInput_.Create_CreateAwsKmsMrkKeyringInput_(aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_kmsKeyId_ToDafny(nativeInput.KmsKeyId), &KMSwrapped.Shim{Client: nativeInput.KmsClient}, aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_grantTokens_ToDafny(nativeInput.GrantTokens))
+		return AwsCryptographyMaterialProvidersTypes.Companion_CreateAwsKmsMrkKeyringInput_.Create_CreateAwsKmsMrkKeyringInput_(aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_kmsKeyId_ToDafny(nativeInput.KmsKeyId), aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_kmsClient_ToDafny(nativeInput.KmsClient), aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_grantTokens_ToDafny(nativeInput.GrantTokens))
 	}()
 
 }
@@ -96,7 +97,7 @@ func CreateAwsKmsMrkDiscoveryKeyringInput_ToDafny(nativeInput awscryptographymat
 
 	return func() AwsCryptographyMaterialProvidersTypes.CreateAwsKmsMrkDiscoveryKeyringInput {
 
-		return AwsCryptographyMaterialProvidersTypes.Companion_CreateAwsKmsMrkDiscoveryKeyringInput_.Create_CreateAwsKmsMrkDiscoveryKeyringInput_(&KMSwrapped.Shim{Client: nativeInput.KmsClient}, aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_discoveryFilter_ToDafny(nativeInput.DiscoveryFilter), aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_grantTokens_ToDafny(nativeInput.GrantTokens), aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_region_ToDafny(nativeInput.Region))
+		return AwsCryptographyMaterialProvidersTypes.Companion_CreateAwsKmsMrkDiscoveryKeyringInput_.Create_CreateAwsKmsMrkDiscoveryKeyringInput_(aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_kmsClient_ToDafny(nativeInput.KmsClient), aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_discoveryFilter_ToDafny(nativeInput.DiscoveryFilter), aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_grantTokens_ToDafny(nativeInput.GrantTokens), aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_region_ToDafny(nativeInput.Region))
 	}()
 
 }
@@ -124,7 +125,7 @@ func CreateAwsKmsHierarchicalKeyringInput_ToDafny(nativeInput awscryptographymat
 				return Wrappers.Companion_Option_.Create_None_()
 			}
 			return Wrappers.Companion_Option_.Create_Some_(BranchKeyIdSupplier_ToDafny(nativeInput.BranchKeyIdSupplier))
-		}(), nativeInput.KeyStore.DafnyClient, aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_ttlSeconds_ToDafny(nativeInput.TtlSeconds), aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_ToDafny(nativeInput.Cache), aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_partitionId_ToDafny(nativeInput.PartitionId))
+		}(), aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_keyStore_ToDafny(nativeInput.KeyStore), aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_ttlSeconds_ToDafny(nativeInput.TtlSeconds), aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_ToDafny(nativeInput.Cache), aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_partitionId_ToDafny(nativeInput.PartitionId))
 	}()
 
 }
@@ -133,12 +134,7 @@ func CreateAwsKmsRsaKeyringInput_ToDafny(nativeInput awscryptographymaterialprov
 
 	return func() AwsCryptographyMaterialProvidersTypes.CreateAwsKmsRsaKeyringInput {
 
-		return AwsCryptographyMaterialProvidersTypes.Companion_CreateAwsKmsRsaKeyringInput_.Create_CreateAwsKmsRsaKeyringInput_(aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_publicKey_ToDafny(nativeInput.PublicKey), aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_kmsKeyId_ToDafny(nativeInput.KmsKeyId), aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_encryptionAlgorithm_ToDafny(nativeInput.EncryptionAlgorithm), func() Wrappers.Option {
-			if (nativeInput.KmsClient) == nil {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-			return Wrappers.Companion_Option_.Create_Some_(&KMSwrapped.Shim{Client: nativeInput.KmsClient})
-		}(), aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_grantTokens_ToDafny(nativeInput.GrantTokens))
+		return AwsCryptographyMaterialProvidersTypes.Companion_CreateAwsKmsRsaKeyringInput_.Create_CreateAwsKmsRsaKeyringInput_(aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_publicKey_ToDafny(nativeInput.PublicKey), aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_kmsKeyId_ToDafny(nativeInput.KmsKeyId), aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_encryptionAlgorithm_ToDafny(nativeInput.EncryptionAlgorithm), aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_kmsClient_ToDafny(nativeInput.KmsClient), aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_grantTokens_ToDafny(nativeInput.GrantTokens))
 	}()
 
 }
@@ -147,7 +143,7 @@ func CreateAwsKmsEcdhKeyringInput_ToDafny(nativeInput awscryptographymaterialpro
 
 	return func() AwsCryptographyMaterialProvidersTypes.CreateAwsKmsEcdhKeyringInput {
 
-		return AwsCryptographyMaterialProvidersTypes.Companion_CreateAwsKmsEcdhKeyringInput_.Create_CreateAwsKmsEcdhKeyringInput_(aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_KeyAgreementScheme_ToDafny(nativeInput.KeyAgreementScheme), aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_curveSpec_ToDafny(nativeInput.CurveSpec), &KMSwrapped.Shim{Client: nativeInput.KmsClient}, aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_grantTokens_ToDafny(nativeInput.GrantTokens))
+		return AwsCryptographyMaterialProvidersTypes.Companion_CreateAwsKmsEcdhKeyringInput_.Create_CreateAwsKmsEcdhKeyringInput_(aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_KeyAgreementScheme_ToDafny(nativeInput.KeyAgreementScheme), aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_curveSpec_ToDafny(nativeInput.CurveSpec), aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_kmsClient_ToDafny(nativeInput.KmsClient), aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_grantTokens_ToDafny(nativeInput.GrantTokens))
 	}()
 
 }
@@ -971,6 +967,10 @@ func aws_cryptography_materialProviders_ValidDecryptionMaterialsTransitionInput_
 	}()
 }
 
+func Aws_cryptography_materialProviders_GetClientOutput_client_ToDafny(input *kms.Client) ComAmazonawsKmsTypes.IKMSClient {
+	return &KMSwrapped.Shim{Client: input}
+}
+
 func aws_cryptography_materialProviders_CreateAwsKmsMultiKeyringInput_generator_ToDafny(input *string) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
@@ -1020,6 +1020,10 @@ func aws_cryptography_materialProviders_CreateRawRsaKeyringInput_publicKey_ToDaf
 		}
 		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
 	}()
+}
+
+func aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_kmsClient_ToDafny(input *kms.Client) ComAmazonawsKmsTypes.IKMSClient {
+	return &KMSwrapped.Shim{Client: input}
 }
 
 func aws_cryptography_materialProviders_DecryptionMaterials_plaintextDataKey_ToDafny(input []byte) Wrappers.Option {
@@ -1609,6 +1613,15 @@ func aws_cryptography_materialProviders_DecryptMaterialsInput_reproducedEncrypti
 	}()
 }
 
+func aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_kmsClient_ToDafny(input *kms.Client) Wrappers.Option {
+	return func() Wrappers.Option {
+		if (input) == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(&KMSwrapped.Shim{Client: input})
+	}()
+}
+
 func aws_cryptography_materialProviders_CreateAwsKmsMrkMultiKeyringInput_kmsKeyIds_ToDafny(input []string) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
@@ -1669,6 +1682,10 @@ func aws_cryptography_materialProviders_OnDecryptInput_materials_ToDafny(input a
 
 		return AwsCryptographyMaterialProvidersTypes.Companion_DecryptionMaterials_.Create_DecryptionMaterials_(aws_cryptography_materialProviders_DecryptionMaterials_algorithmSuite_ToDafny(input.AlgorithmSuite), aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_ToDafny(input.EncryptionContext), aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_ToDafny(input.RequiredEncryptionContextKeys), aws_cryptography_materialProviders_DecryptionMaterials_plaintextDataKey_ToDafny(input.PlaintextDataKey), aws_cryptography_materialProviders_DecryptionMaterials_verificationKey_ToDafny(input.VerificationKey), aws_cryptography_materialProviders_DecryptionMaterials_symmetricSigningKey_ToDafny(input.SymmetricSigningKey))
 	}()
+}
+
+func aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_kmsClient_ToDafny(input *kms.Client) ComAmazonawsKmsTypes.IKMSClient {
+	return &KMSwrapped.Shim{Client: input}
 }
 
 func aws_cryptography_materialProviders_GetEncryptionMaterialsInput_commitmentPolicy_ToDafny(input awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicy) AwsCryptographyMaterialProvidersTypes.CommitmentPolicy {
@@ -1901,6 +1918,10 @@ func aws_cryptography_materialProviders_CacheType_SingleThreaded_ToDafny(input a
 
 		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTypes.Companion_SingleThreadedCache_.Create_SingleThreadedCache_(aws_cryptography_materialProviders_SingleThreadedCache_entryCapacity_ToDafny(input.EntryCapacity), aws_cryptography_materialProviders_SingleThreadedCache_entryPruningTailSize_ToDafny(input.EntryPruningTailSize)))
 	}()
+}
+
+func aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_kmsClient_ToDafny(input *kms.Client) ComAmazonawsKmsTypes.IKMSClient {
+	return &KMSwrapped.Shim{Client: input}
 }
 
 func aws_cryptography_materialProviders_AlgorithmSuiteInfo_messageVersion_ToDafny(input int32) int32 {
@@ -2364,6 +2385,10 @@ func aws_cryptography_materialProviders_RawPrivateKeyToStaticPublicKeyInput_reci
 	}()
 }
 
+func aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_keyStore_ToDafny(input *awscryptographykeystoresmithygenerated.Client) AwsCryptographyKeyStoreTypes.IKeyStoreClient {
+	return input.DafnyClient
+}
+
 func aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput_grantTokens_ToDafny(input []string) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
@@ -2507,6 +2532,10 @@ func aws_cryptography_materialProviders_RegionList_member_ToDafny(input string) 
 
 		return dafny.SeqOfChars([]dafny.Char(input)...)
 	}()
+}
+
+func aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_kmsClient_ToDafny(input *kms.Client) ComAmazonawsKmsTypes.IKMSClient {
+	return &KMSwrapped.Shim{Client: input}
 }
 
 func aws_cryptography_materialProviders_PutCacheEntryInput_messagesUsed_ToDafny(input *int32) Wrappers.Option {
@@ -3121,6 +3150,10 @@ func aws_cryptography_materialProviders_CreateAwsKmsDiscoveryMultiKeyringInput_r
 		}
 		return dafny.SeqOf(fieldValue...)
 	}()
+}
+
+func aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_kmsClient_ToDafny(input *kms.Client) ComAmazonawsKmsTypes.IKMSClient {
+	return &KMSwrapped.Shim{Client: input}
 }
 
 func aws_cryptography_materialProviders_KmsEcdhStaticConfigurations_KmsPrivateKeyToStaticPublicKey_ToDafny(input awscryptographymaterialproviderssmithygeneratedtypes.KmsPrivateKeyToStaticPublicKeyInput) Wrappers.Option {

@@ -11,6 +11,8 @@ import (
 	"github.com/aws/aws-cryptographic-material-providers-library/kms/comamazonawskmssmithygenerated"
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/AwsCryptographyKeyStoreTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/mpl/awscryptographykeystoresmithygeneratedtypes"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
+	"github.com/aws/aws-sdk-go-v2/service/kms"
 	"github.com/aws/smithy-go"
 	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
@@ -197,17 +199,7 @@ func Error_ToDafny(err error) AwsCryptographyKeyStoreTypes.Error {
 func KeyStoreConfig_ToDafny(nativeInput awscryptographykeystoresmithygeneratedtypes.KeyStoreConfig) AwsCryptographyKeyStoreTypes.KeyStoreConfig {
 	return func() AwsCryptographyKeyStoreTypes.KeyStoreConfig {
 
-		return AwsCryptographyKeyStoreTypes.Companion_KeyStoreConfig_.Create_KeyStoreConfig_(aws_cryptography_keyStore_KeyStoreConfig_ddbTableName_ToDafny(nativeInput.DdbTableName), aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_ToDafny(nativeInput.KmsConfiguration), aws_cryptography_keyStore_KeyStoreConfig_logicalKeyStoreName_ToDafny(nativeInput.LogicalKeyStoreName), aws_cryptography_keyStore_KeyStoreConfig_id_ToDafny(nativeInput.Id), aws_cryptography_keyStore_KeyStoreConfig_grantTokens_ToDafny(nativeInput.GrantTokens), func() Wrappers.Option {
-			if (nativeInput.DdbClient) == nil {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-			return Wrappers.Companion_Option_.Create_Some_(&DynamoDBwrapped.Shim{Client: nativeInput.DdbClient})
-		}(), func() Wrappers.Option {
-			if (nativeInput.KmsClient) == nil {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-			return Wrappers.Companion_Option_.Create_Some_(&KMSwrapped.Shim{Client: nativeInput.KmsClient})
-		}())
+		return AwsCryptographyKeyStoreTypes.Companion_KeyStoreConfig_.Create_KeyStoreConfig_(aws_cryptography_keyStore_KeyStoreConfig_ddbTableName_ToDafny(nativeInput.DdbTableName), aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_ToDafny(nativeInput.KmsConfiguration), aws_cryptography_keyStore_KeyStoreConfig_logicalKeyStoreName_ToDafny(nativeInput.LogicalKeyStoreName), aws_cryptography_keyStore_KeyStoreConfig_id_ToDafny(nativeInput.Id), aws_cryptography_keyStore_KeyStoreConfig_grantTokens_ToDafny(nativeInput.GrantTokens), aws_cryptography_keyStore_KeyStoreConfig_ddbClient_ToDafny(nativeInput.DdbClient), aws_cryptography_keyStore_KeyStoreConfig_kmsClient_ToDafny(nativeInput.KmsClient))
 	}()
 
 }
@@ -248,6 +240,15 @@ func aws_cryptography_keyStore_KeyStoreConfig_id_ToDafny(input *string) Wrappers
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func aws_cryptography_keyStore_KeyStoreConfig_kmsClient_ToDafny(input *kms.Client) Wrappers.Option {
+	return func() Wrappers.Option {
+		if (input) == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(&KMSwrapped.Shim{Client: input})
 	}()
 }
 
@@ -348,6 +349,15 @@ func aws_cryptography_keyStore_GetActiveBranchKeyOutput_branchKeyMaterials_ToDaf
 	return func() AwsCryptographyKeyStoreTypes.BranchKeyMaterials {
 
 		return AwsCryptographyKeyStoreTypes.Companion_BranchKeyMaterials_.Create_BranchKeyMaterials_(aws_cryptography_keyStore_BranchKeyMaterials_branchKeyIdentifier_ToDafny(input.BranchKeyIdentifier), aws_cryptography_keyStore_BranchKeyMaterials_branchKeyVersion_ToDafny(input.BranchKeyVersion), aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_ToDafny(input.EncryptionContext), aws_cryptography_keyStore_BranchKeyMaterials_branchKey_ToDafny(input.BranchKey))
+	}()
+}
+
+func aws_cryptography_keyStore_KeyStoreConfig_ddbClient_ToDafny(input *dynamodb.Client) Wrappers.Option {
+	return func() Wrappers.Option {
+		if (input) == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(&DynamoDBwrapped.Shim{Client: input})
 	}()
 }
 

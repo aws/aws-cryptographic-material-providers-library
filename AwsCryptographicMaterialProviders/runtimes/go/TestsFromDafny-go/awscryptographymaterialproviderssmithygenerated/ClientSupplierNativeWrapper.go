@@ -19,5 +19,5 @@ func (this *ClientSupplierNativeWrapper) GetClient(input AwsCryptographyMaterial
 	if native_error != nil {
 		return Wrappers.Companion_Result_.Create_Failure_(Error_ToDafny(native_error))
 	}
-	return Wrappers.Companion_Result_.Create_Success_(Aws_cryptography_materialProviders_GetClientOutput_client_FromDafny(native_response))
+	return Wrappers.Companion_Result_.Create_Success_(Aws_cryptography_materialProviders_GetClientOutput_client_ToDafny(&native_response))
 }
