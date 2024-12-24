@@ -175,7 +175,7 @@ TRANSLATION_RECORD_GO := \
 	AwsCryptographicMaterialProviders/runtimes/go/ImplementationFromDafny-go/ImplementationFromDafny-go.dtr
 
 
-polymorph_go: purge_polymorph_code
+_polymorph_go: purge_polymorph_code
 
 # Smithy-dafny generated shim needs a long term fix. 
 # Smithy-dafny generates polymorph code of MPL in test vectors.  

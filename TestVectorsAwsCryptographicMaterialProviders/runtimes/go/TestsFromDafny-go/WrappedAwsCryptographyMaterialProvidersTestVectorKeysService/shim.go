@@ -16,7 +16,7 @@ type Shim struct {
 	client *awscryptographymaterialproviderstestvectorkeyssmithygenerated.Client
 }
 
-func  WrappedKeyVectors(inputConfig AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyVectorsConfig) Wrappers.Result {
+func WrappedKeyVectors(inputConfig AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyVectorsConfig) Wrappers.Result {
 	var nativeConfig = awscryptographymaterialproviderstestvectorkeyssmithygenerated.KeyVectorsConfig_FromDafny(inputConfig)
 	var nativeClient, nativeError = awscryptographymaterialproviderstestvectorkeyssmithygenerated.NewClient(nativeConfig)
 	if nativeError != nil {
