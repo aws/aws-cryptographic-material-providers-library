@@ -7,6 +7,12 @@ on:
         description: "The Dafny version to run"
         required: true
         type: string
+  workflow_dispatch:
+    inputs:
+      dafny:
+        description: "The Dafny version to run"
+        required: true
+        type: string
 
 jobs:
   code-generation:
