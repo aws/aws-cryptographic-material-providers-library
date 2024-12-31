@@ -2,9 +2,9 @@
 # if they were they require more than one approval from CODEOWNERS
 name: Check Smithy Files
 
-# TODO: Don't forget to revert
 on:
-  push  # This will trigger on all push events on all branches
+  pull_request_review:
+    types: [submitted]
 
 jobs:
   require-approvals:
