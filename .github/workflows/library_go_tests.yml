@@ -87,6 +87,7 @@ jobs:
       # TODO: Remove this after Go polymorph does not generate unwanted duplicate code.
       - name: Purge polymorph code in Go
         if: matrix.library == 'TestVectorsAwsCryptographicMaterialProviders'
+        working-directory: ./${{ matrix.library }}
         shell: bash
         run: |
           make purge_polymorph_code
