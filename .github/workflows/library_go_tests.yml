@@ -26,7 +26,7 @@ jobs:
             ComAmazonawsDynamodb,
             AwsCryptographyPrimitives,
             AwsCryptographicMaterialProviders,
-            TestVectorsAwsCryptographicMaterialProviders,
+            TestVectorsAwsCryptographicMaterialProviders
           ]
         go-version: ["1.23"]
         os: [
@@ -83,6 +83,13 @@ jobs:
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_go CORES=$CORES
+
+      # TODO: Remove this after Go polymorph does not generate unwanted duplicate code.
+      - name: Purge polymorph code in Go
+        if: matrix.library == 'TestVectorsAwsCryptographicMaterialProviders'
+        shell: bash
+        run: |
+          make purge_polymorph_code
 
       - name: Test ${{ matrix.library }}
         working-directory: ./${{ matrix.library }}
