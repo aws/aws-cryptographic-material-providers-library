@@ -58,16 +58,13 @@ public class AdminProvider {
     @Nullable KmsClient decryptKmsClient,
     @Nullable KmsClient encryptKmsClient
   ) {
-    decryptKmsClient = kms(decryptKmsClient);
-    encryptKmsClient = kms(encryptKmsClient);
-
     return KeyManagementStrategy
       .builder()
       .AwsKmsDecryptEncrypt(
         AwsKmsDecryptEncrypt
           .builder()
-          .decrypt(AwsKms.builder().kmsClient(decryptKmsClient).build())
-          .encrypt(AwsKms.builder().kmsClient(encryptKmsClient).build())
+          .decrypt(AwsKms.builder().kmsClient(kms(decryptKmsClient)).build())
+          .encrypt(AwsKms.builder().kmsClient(kms(encryptKmsClient)).build())
           .build()
       )
       .build();

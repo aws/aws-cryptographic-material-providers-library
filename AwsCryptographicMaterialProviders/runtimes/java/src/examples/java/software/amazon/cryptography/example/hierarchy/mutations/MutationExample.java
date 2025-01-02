@@ -64,7 +64,8 @@ public class MutationExample {
     String kmsKeyArnTerminal,
     String branchKeyId,
     @Nullable SystemKey systemKey,
-    @Nullable KeyStoreAdmin admin
+    @Nullable KeyStoreAdmin admin,
+    @Nullable Boolean doNotVersion
   ) {
     final SystemKey _systemKey = systemKey == null
       ? MutationsProvider.KmsSystemKey()
@@ -73,7 +74,7 @@ public class MutationExample {
     final KeyManagementStrategy strategy = AdminProvider.strategy(null);
 
     System.out.println("BranchKey ID to mutate: " + branchKeyId);
-    HashMap<String, String> terminalEC = new HashMap<>();
+    HashMap<String, String> terminalEC = new HashMap<>(2, 1);
     terminalEC.put("Robbie", "is a dog.");
     Mutations mutations = Mutations
       .builder()
@@ -87,6 +88,7 @@ public class MutationExample {
       .Identifier(branchKeyId)
       .Strategy(strategy)
       .SystemKey(_systemKey)
+      .DoNotVersion(doNotVersion)
       .build();
 
     InitializeMutationOutput initOutput = _admin.InitializeMutation(initInput);
