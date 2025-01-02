@@ -26,7 +26,7 @@ jobs:
             ComAmazonawsDynamodb,
             AwsCryptographyPrimitives,
             AwsCryptographicMaterialProviders,
-            TestVectorsAwsCryptographicMaterialProviders
+            TestVectorsAwsCryptographicMaterialProviders,
           ]
         go-version: ["1.23"]
         os: [
