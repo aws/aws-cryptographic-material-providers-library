@@ -1,0 +1,50 @@
+diff --git b/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/CollectionOfErrors.cs a/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/CollectionOfErrors.cs
+index e752a715a..e203599b2 100644
+--- b/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/CollectionOfErrors.cs
++++ a/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/CollectionOfErrors.cs
+@@ -8,9 +8,17 @@ namespace AWS.Cryptography.KeyStore
+   public class CollectionOfErrors : Exception
+   {
+     public readonly System.Collections.Generic.List<Exception> list;
+-    public CollectionOfErrors(System.Collections.Generic.List<Exception> list, string message) : base(message) { this.list = list; }
++    public CollectionOfErrors(System.Collections.Generic.List<Exception> list, string message) : base(message + $"\n List: \n{ListAsString(list)}") { this.list = list; }
+     public CollectionOfErrors(string message) : base(message) { this.list = new System.Collections.Generic.List<Exception>(); }
+     public CollectionOfErrors() : base("CollectionOfErrors") { this.list = new System.Collections.Generic.List<Exception>(); }
+-  }
+ 
++    private static string ListAsString(List<Exception> list)
++    {
++      if (list.Count < 1) return "";
++      string[] msgArr = new string[list.Count];
++      for (int i = 0; i < list.Count; i++)
++        msgArr[i] = $"{list[i].GetType().Name} :: {list[i].Message}";
++      return String.Join("\n\t", msgArr);
++    }
++  }
+ }
+diff --git b/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/TypeConversion.cs a/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/TypeConversion.cs
+index b7ee7eb89..9c9b351d5 100644
+--- b/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/TypeConversion.cs
++++ a/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/TypeConversion.cs
+@@ -736,7 +736,9 @@ namespace AWS.Cryptography.KeyStore
+             dafnyVal._ComAmazonawsDynamodb
+           );
+         case software.amazon.cryptography.keystore.internaldafny.types.Error_ComAmazonawsKms dafnyVal:
+-          return Com.Amazonaws.KMS.TypeConversion.FromDafny_CommonError(
++          // BEGIN MANUAL EDIT
++          return Com.Amazonaws.Kms.TypeConversion.FromDafny_CommonError(
++          // END MANUAL EDIT
+             dafnyVal._ComAmazonawsKms
+           );
+         case software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStoreException dafnyVal:
+@@ -761,7 +763,9 @@ namespace AWS.Cryptography.KeyStore
+       {
+         case "Com.Amazonaws.KMS":
+           return software.amazon.cryptography.keystore.internaldafny.types.Error.create_ComAmazonawsKms(
+-            Com.Amazonaws.KMS.TypeConversion.ToDafny_CommonError(value)
++          // BEGIN MANUAL EDIT
++            Com.Amazonaws.Kms.TypeConversion.ToDafny_CommonError(value)
++          // END MANUAL EDIT
+           );
+         case "Com.Amazonaws.Dynamodb":
+           return software.amazon.cryptography.keystore.internaldafny.types.Error.create_ComAmazonawsDynamodb(
