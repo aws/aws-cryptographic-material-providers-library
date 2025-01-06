@@ -48,5 +48,5 @@ sphinx = "^7"
 sphinx_rtd_theme = "^2"
 
 [build-system]
-requires = ["poetry-core<2.0.0"]"]
+requires = ["poetry-core<2.0.0"]
 build-backend = "poetry.core.masonry.api"
