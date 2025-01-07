@@ -814,330 +814,10 @@ func VerifyMacOutput_ToDafny(nativeOutput kms.VerifyMacOutput) ComAmazonawsKmsTy
 
 }
 
-func XksProxyVpcEndpointServiceInvalidConfigurationException_ToDafny(nativeInput types.XksProxyVpcEndpointServiceInvalidConfigurationException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyVpcEndpointServiceInvalidConfigurationException_(com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func KMSInvalidMacException_ToDafny(nativeInput types.KMSInvalidMacException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_KMSInvalidMacException_(com_amazonaws_kms_KMSInvalidMacException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func UnsupportedOperationException_ToDafny(nativeInput types.UnsupportedOperationException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_UnsupportedOperationException_(com_amazonaws_kms_UnsupportedOperationException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func MalformedPolicyDocumentException_ToDafny(nativeInput types.MalformedPolicyDocumentException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_MalformedPolicyDocumentException_(com_amazonaws_kms_MalformedPolicyDocumentException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func XksKeyInvalidConfigurationException_ToDafny(nativeInput types.XksKeyInvalidConfigurationException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksKeyInvalidConfigurationException_(com_amazonaws_kms_XksKeyInvalidConfigurationException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func XksProxyVpcEndpointServiceNotFoundException_ToDafny(nativeInput types.XksProxyVpcEndpointServiceNotFoundException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyVpcEndpointServiceNotFoundException_(com_amazonaws_kms_XksProxyVpcEndpointServiceNotFoundException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func InvalidCiphertextException_ToDafny(nativeInput types.InvalidCiphertextException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidCiphertextException_(com_amazonaws_kms_InvalidCiphertextException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func XksProxyUriUnreachableException_ToDafny(nativeInput types.XksProxyUriUnreachableException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyUriUnreachableException_(com_amazonaws_kms_XksProxyUriUnreachableException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func InvalidImportTokenException_ToDafny(nativeInput types.InvalidImportTokenException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidImportTokenException_(com_amazonaws_kms_InvalidImportTokenException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func CloudHsmClusterNotActiveException_ToDafny(nativeInput types.CloudHsmClusterNotActiveException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_CloudHsmClusterNotActiveException_(com_amazonaws_kms_CloudHsmClusterNotActiveException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func InvalidMarkerException_ToDafny(nativeInput types.InvalidMarkerException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidMarkerException_(com_amazonaws_kms_InvalidMarkerException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func DryRunOperationException_ToDafny(nativeInput types.DryRunOperationException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_DryRunOperationException_(com_amazonaws_kms_DryRunOperationException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func IncorrectTrustAnchorException_ToDafny(nativeInput types.IncorrectTrustAnchorException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_IncorrectTrustAnchorException_(com_amazonaws_kms_IncorrectTrustAnchorException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func KMSInvalidSignatureException_ToDafny(nativeInput types.KMSInvalidSignatureException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_KMSInvalidSignatureException_(com_amazonaws_kms_KMSInvalidSignatureException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func XksKeyNotFoundException_ToDafny(nativeInput types.XksKeyNotFoundException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksKeyNotFoundException_(com_amazonaws_kms_XksKeyNotFoundException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func CustomKeyStoreHasCMKsException_ToDafny(nativeInput types.CustomKeyStoreHasCMKsException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_CustomKeyStoreHasCMKsException_(com_amazonaws_kms_CustomKeyStoreHasCMKsException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func XksProxyInvalidConfigurationException_ToDafny(nativeInput types.XksProxyInvalidConfigurationException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyInvalidConfigurationException_(com_amazonaws_kms_XksProxyInvalidConfigurationException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func CustomKeyStoreInvalidStateException_ToDafny(nativeInput types.CustomKeyStoreInvalidStateException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_CustomKeyStoreInvalidStateException_(com_amazonaws_kms_CustomKeyStoreInvalidStateException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func KMSInternalException_ToDafny(nativeInput types.KMSInternalException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_KMSInternalException_(com_amazonaws_kms_KMSInternalException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func XksProxyUriEndpointInUseException_ToDafny(nativeInput types.XksProxyUriEndpointInUseException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyUriEndpointInUseException_(com_amazonaws_kms_XksProxyUriEndpointInUseException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func InvalidAliasNameException_ToDafny(nativeInput types.InvalidAliasNameException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidAliasNameException_(com_amazonaws_kms_InvalidAliasNameException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func XksProxyUriInUseException_ToDafny(nativeInput types.XksProxyUriInUseException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyUriInUseException_(com_amazonaws_kms_XksProxyUriInUseException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
 func AlreadyExistsException_ToDafny(nativeInput types.AlreadyExistsException) ComAmazonawsKmsTypes.Error {
 	return func() ComAmazonawsKmsTypes.Error {
 
 		return ComAmazonawsKmsTypes.Companion_Error_.Create_AlreadyExistsException_(com_amazonaws_kms_AlreadyExistsException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func CustomKeyStoreNotFoundException_ToDafny(nativeInput types.CustomKeyStoreNotFoundException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_CustomKeyStoreNotFoundException_(com_amazonaws_kms_CustomKeyStoreNotFoundException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func IncorrectKeyException_ToDafny(nativeInput types.IncorrectKeyException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_IncorrectKeyException_(com_amazonaws_kms_IncorrectKeyException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func KMSInvalidStateException_ToDafny(nativeInput types.KMSInvalidStateException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_KMSInvalidStateException_(com_amazonaws_kms_KMSInvalidStateException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func XksKeyAlreadyInUseException_ToDafny(nativeInput types.XksKeyAlreadyInUseException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksKeyAlreadyInUseException_(com_amazonaws_kms_XksKeyAlreadyInUseException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func LimitExceededException_ToDafny(nativeInput types.LimitExceededException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_LimitExceededException_(com_amazonaws_kms_LimitExceededException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func NotFoundException_ToDafny(nativeInput types.NotFoundException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_NotFoundException_(com_amazonaws_kms_NotFoundException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func XksProxyVpcEndpointServiceInUseException_ToDafny(nativeInput types.XksProxyVpcEndpointServiceInUseException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyVpcEndpointServiceInUseException_(com_amazonaws_kms_XksProxyVpcEndpointServiceInUseException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func IncorrectKeyMaterialException_ToDafny(nativeInput types.IncorrectKeyMaterialException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_IncorrectKeyMaterialException_(com_amazonaws_kms_IncorrectKeyMaterialException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func CloudHsmClusterNotRelatedException_ToDafny(nativeInput types.CloudHsmClusterNotRelatedException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_CloudHsmClusterNotRelatedException_(com_amazonaws_kms_CloudHsmClusterNotRelatedException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func DisabledException_ToDafny(nativeInput types.DisabledException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_DisabledException_(com_amazonaws_kms_DisabledException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func DependencyTimeoutException_ToDafny(nativeInput types.DependencyTimeoutException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_DependencyTimeoutException_(com_amazonaws_kms_DependencyTimeoutException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func InvalidGrantIdException_ToDafny(nativeInput types.InvalidGrantIdException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidGrantIdException_(com_amazonaws_kms_InvalidGrantIdException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func XksProxyInvalidResponseException_ToDafny(nativeInput types.XksProxyInvalidResponseException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyInvalidResponseException_(com_amazonaws_kms_XksProxyInvalidResponseException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func ConflictException_ToDafny(nativeInput types.ConflictException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_ConflictException_(com_amazonaws_kms_ConflictException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func InvalidKeyUsageException_ToDafny(nativeInput types.InvalidKeyUsageException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidKeyUsageException_(com_amazonaws_kms_InvalidKeyUsageException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func KeyUnavailableException_ToDafny(nativeInput types.KeyUnavailableException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_KeyUnavailableException_(com_amazonaws_kms_KeyUnavailableException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func CloudHsmClusterNotFoundException_ToDafny(nativeInput types.CloudHsmClusterNotFoundException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_CloudHsmClusterNotFoundException_(com_amazonaws_kms_CloudHsmClusterNotFoundException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func InvalidArnException_ToDafny(nativeInput types.InvalidArnException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidArnException_(com_amazonaws_kms_InvalidArnException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
@@ -1150,30 +830,6 @@ func CloudHsmClusterInUseException_ToDafny(nativeInput types.CloudHsmClusterInUs
 
 }
 
-func TagException_ToDafny(nativeInput types.TagException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_TagException_(com_amazonaws_kms_TagException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func InvalidGrantTokenException_ToDafny(nativeInput types.InvalidGrantTokenException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidGrantTokenException_(com_amazonaws_kms_InvalidGrantTokenException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func ExpiredImportTokenException_ToDafny(nativeInput types.ExpiredImportTokenException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_ExpiredImportTokenException_(com_amazonaws_kms_ExpiredImportTokenException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
 func CloudHsmClusterInvalidConfigurationException_ToDafny(nativeInput types.CloudHsmClusterInvalidConfigurationException) ComAmazonawsKmsTypes.Error {
 	return func() ComAmazonawsKmsTypes.Error {
 
@@ -1182,10 +838,50 @@ func CloudHsmClusterInvalidConfigurationException_ToDafny(nativeInput types.Clou
 
 }
 
-func XksProxyIncorrectAuthenticationCredentialException_ToDafny(nativeInput types.XksProxyIncorrectAuthenticationCredentialException) ComAmazonawsKmsTypes.Error {
+func CloudHsmClusterNotActiveException_ToDafny(nativeInput types.CloudHsmClusterNotActiveException) ComAmazonawsKmsTypes.Error {
 	return func() ComAmazonawsKmsTypes.Error {
 
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyIncorrectAuthenticationCredentialException_(com_amazonaws_kms_XksProxyIncorrectAuthenticationCredentialException_message_ToDafny(nativeInput.Message))
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_CloudHsmClusterNotActiveException_(com_amazonaws_kms_CloudHsmClusterNotActiveException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func CloudHsmClusterNotFoundException_ToDafny(nativeInput types.CloudHsmClusterNotFoundException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_CloudHsmClusterNotFoundException_(com_amazonaws_kms_CloudHsmClusterNotFoundException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func CloudHsmClusterNotRelatedException_ToDafny(nativeInput types.CloudHsmClusterNotRelatedException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_CloudHsmClusterNotRelatedException_(com_amazonaws_kms_CloudHsmClusterNotRelatedException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func ConflictException_ToDafny(nativeInput types.ConflictException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_ConflictException_(com_amazonaws_kms_ConflictException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func CustomKeyStoreHasCMKsException_ToDafny(nativeInput types.CustomKeyStoreHasCMKsException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_CustomKeyStoreHasCMKsException_(com_amazonaws_kms_CustomKeyStoreHasCMKsException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func CustomKeyStoreInvalidStateException_ToDafny(nativeInput types.CustomKeyStoreInvalidStateException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_CustomKeyStoreInvalidStateException_(com_amazonaws_kms_CustomKeyStoreInvalidStateException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
@@ -1198,215 +894,319 @@ func CustomKeyStoreNameInUseException_ToDafny(nativeInput types.CustomKeyStoreNa
 
 }
 
+func CustomKeyStoreNotFoundException_ToDafny(nativeInput types.CustomKeyStoreNotFoundException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_CustomKeyStoreNotFoundException_(com_amazonaws_kms_CustomKeyStoreNotFoundException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func DependencyTimeoutException_ToDafny(nativeInput types.DependencyTimeoutException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_DependencyTimeoutException_(com_amazonaws_kms_DependencyTimeoutException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func DisabledException_ToDafny(nativeInput types.DisabledException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_DisabledException_(com_amazonaws_kms_DisabledException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func DryRunOperationException_ToDafny(nativeInput types.DryRunOperationException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_DryRunOperationException_(com_amazonaws_kms_DryRunOperationException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func ExpiredImportTokenException_ToDafny(nativeInput types.ExpiredImportTokenException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_ExpiredImportTokenException_(com_amazonaws_kms_ExpiredImportTokenException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func IncorrectKeyException_ToDafny(nativeInput types.IncorrectKeyException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_IncorrectKeyException_(com_amazonaws_kms_IncorrectKeyException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func IncorrectKeyMaterialException_ToDafny(nativeInput types.IncorrectKeyMaterialException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_IncorrectKeyMaterialException_(com_amazonaws_kms_IncorrectKeyMaterialException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func IncorrectTrustAnchorException_ToDafny(nativeInput types.IncorrectTrustAnchorException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_IncorrectTrustAnchorException_(com_amazonaws_kms_IncorrectTrustAnchorException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func InvalidAliasNameException_ToDafny(nativeInput types.InvalidAliasNameException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidAliasNameException_(com_amazonaws_kms_InvalidAliasNameException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func InvalidArnException_ToDafny(nativeInput types.InvalidArnException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidArnException_(com_amazonaws_kms_InvalidArnException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func InvalidCiphertextException_ToDafny(nativeInput types.InvalidCiphertextException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidCiphertextException_(com_amazonaws_kms_InvalidCiphertextException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func InvalidGrantIdException_ToDafny(nativeInput types.InvalidGrantIdException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidGrantIdException_(com_amazonaws_kms_InvalidGrantIdException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func InvalidGrantTokenException_ToDafny(nativeInput types.InvalidGrantTokenException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidGrantTokenException_(com_amazonaws_kms_InvalidGrantTokenException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func InvalidImportTokenException_ToDafny(nativeInput types.InvalidImportTokenException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidImportTokenException_(com_amazonaws_kms_InvalidImportTokenException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func InvalidKeyUsageException_ToDafny(nativeInput types.InvalidKeyUsageException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidKeyUsageException_(com_amazonaws_kms_InvalidKeyUsageException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func InvalidMarkerException_ToDafny(nativeInput types.InvalidMarkerException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_InvalidMarkerException_(com_amazonaws_kms_InvalidMarkerException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func KMSInternalException_ToDafny(nativeInput types.KMSInternalException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_KMSInternalException_(com_amazonaws_kms_KMSInternalException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func KMSInvalidMacException_ToDafny(nativeInput types.KMSInvalidMacException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_KMSInvalidMacException_(com_amazonaws_kms_KMSInvalidMacException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func KMSInvalidSignatureException_ToDafny(nativeInput types.KMSInvalidSignatureException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_KMSInvalidSignatureException_(com_amazonaws_kms_KMSInvalidSignatureException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func KMSInvalidStateException_ToDafny(nativeInput types.KMSInvalidStateException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_KMSInvalidStateException_(com_amazonaws_kms_KMSInvalidStateException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func KeyUnavailableException_ToDafny(nativeInput types.KeyUnavailableException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_KeyUnavailableException_(com_amazonaws_kms_KeyUnavailableException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func LimitExceededException_ToDafny(nativeInput types.LimitExceededException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_LimitExceededException_(com_amazonaws_kms_LimitExceededException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func MalformedPolicyDocumentException_ToDafny(nativeInput types.MalformedPolicyDocumentException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_MalformedPolicyDocumentException_(com_amazonaws_kms_MalformedPolicyDocumentException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func NotFoundException_ToDafny(nativeInput types.NotFoundException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_NotFoundException_(com_amazonaws_kms_NotFoundException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func TagException_ToDafny(nativeInput types.TagException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_TagException_(com_amazonaws_kms_TagException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func UnsupportedOperationException_ToDafny(nativeInput types.UnsupportedOperationException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_UnsupportedOperationException_(com_amazonaws_kms_UnsupportedOperationException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func XksKeyAlreadyInUseException_ToDafny(nativeInput types.XksKeyAlreadyInUseException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksKeyAlreadyInUseException_(com_amazonaws_kms_XksKeyAlreadyInUseException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func XksKeyInvalidConfigurationException_ToDafny(nativeInput types.XksKeyInvalidConfigurationException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksKeyInvalidConfigurationException_(com_amazonaws_kms_XksKeyInvalidConfigurationException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func XksKeyNotFoundException_ToDafny(nativeInput types.XksKeyNotFoundException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksKeyNotFoundException_(com_amazonaws_kms_XksKeyNotFoundException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func XksProxyIncorrectAuthenticationCredentialException_ToDafny(nativeInput types.XksProxyIncorrectAuthenticationCredentialException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyIncorrectAuthenticationCredentialException_(com_amazonaws_kms_XksProxyIncorrectAuthenticationCredentialException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func XksProxyInvalidConfigurationException_ToDafny(nativeInput types.XksProxyInvalidConfigurationException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyInvalidConfigurationException_(com_amazonaws_kms_XksProxyInvalidConfigurationException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func XksProxyInvalidResponseException_ToDafny(nativeInput types.XksProxyInvalidResponseException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyInvalidResponseException_(com_amazonaws_kms_XksProxyInvalidResponseException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func XksProxyUriEndpointInUseException_ToDafny(nativeInput types.XksProxyUriEndpointInUseException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyUriEndpointInUseException_(com_amazonaws_kms_XksProxyUriEndpointInUseException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func XksProxyUriInUseException_ToDafny(nativeInput types.XksProxyUriInUseException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyUriInUseException_(com_amazonaws_kms_XksProxyUriInUseException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func XksProxyUriUnreachableException_ToDafny(nativeInput types.XksProxyUriUnreachableException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyUriUnreachableException_(com_amazonaws_kms_XksProxyUriUnreachableException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func XksProxyVpcEndpointServiceInUseException_ToDafny(nativeInput types.XksProxyVpcEndpointServiceInUseException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyVpcEndpointServiceInUseException_(com_amazonaws_kms_XksProxyVpcEndpointServiceInUseException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func XksProxyVpcEndpointServiceInvalidConfigurationException_ToDafny(nativeInput types.XksProxyVpcEndpointServiceInvalidConfigurationException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyVpcEndpointServiceInvalidConfigurationException_(com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
+func XksProxyVpcEndpointServiceNotFoundException_ToDafny(nativeInput types.XksProxyVpcEndpointServiceNotFoundException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_XksProxyVpcEndpointServiceNotFoundException_(com_amazonaws_kms_XksProxyVpcEndpointServiceNotFoundException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
 func OpaqueError_Input_ToDafny(nativeInput error) ComAmazonawsKmsTypes.Error {
 	return ComAmazonawsKmsTypes.Companion_Error_.Create_OpaqueWithText_(nativeInput, dafny.SeqOfChars([]dafny.Char(nativeInput.Error())...))
 }
 
 func Error_ToDafny(err error) ComAmazonawsKmsTypes.Error {
 	// Service Errors
-	var XksProxyVpcEndpointServiceInvalidConfigurationException *types.XksProxyVpcEndpointServiceInvalidConfigurationException
-	if errors.As(err, &XksProxyVpcEndpointServiceInvalidConfigurationException) {
-		return XksProxyVpcEndpointServiceInvalidConfigurationException_ToDafny(*XksProxyVpcEndpointServiceInvalidConfigurationException)
-	}
-
-	var KMSInvalidMacException *types.KMSInvalidMacException
-	if errors.As(err, &KMSInvalidMacException) {
-		return KMSInvalidMacException_ToDafny(*KMSInvalidMacException)
-	}
-
-	var UnsupportedOperationException *types.UnsupportedOperationException
-	if errors.As(err, &UnsupportedOperationException) {
-		return UnsupportedOperationException_ToDafny(*UnsupportedOperationException)
-	}
-
-	var MalformedPolicyDocumentException *types.MalformedPolicyDocumentException
-	if errors.As(err, &MalformedPolicyDocumentException) {
-		return MalformedPolicyDocumentException_ToDafny(*MalformedPolicyDocumentException)
-	}
-
-	var XksKeyInvalidConfigurationException *types.XksKeyInvalidConfigurationException
-	if errors.As(err, &XksKeyInvalidConfigurationException) {
-		return XksKeyInvalidConfigurationException_ToDafny(*XksKeyInvalidConfigurationException)
-	}
-
-	var XksProxyVpcEndpointServiceNotFoundException *types.XksProxyVpcEndpointServiceNotFoundException
-	if errors.As(err, &XksProxyVpcEndpointServiceNotFoundException) {
-		return XksProxyVpcEndpointServiceNotFoundException_ToDafny(*XksProxyVpcEndpointServiceNotFoundException)
-	}
-
-	var InvalidCiphertextException *types.InvalidCiphertextException
-	if errors.As(err, &InvalidCiphertextException) {
-		return InvalidCiphertextException_ToDafny(*InvalidCiphertextException)
-	}
-
-	var XksProxyUriUnreachableException *types.XksProxyUriUnreachableException
-	if errors.As(err, &XksProxyUriUnreachableException) {
-		return XksProxyUriUnreachableException_ToDafny(*XksProxyUriUnreachableException)
-	}
-
-	var InvalidImportTokenException *types.InvalidImportTokenException
-	if errors.As(err, &InvalidImportTokenException) {
-		return InvalidImportTokenException_ToDafny(*InvalidImportTokenException)
-	}
-
-	var CloudHsmClusterNotActiveException *types.CloudHsmClusterNotActiveException
-	if errors.As(err, &CloudHsmClusterNotActiveException) {
-		return CloudHsmClusterNotActiveException_ToDafny(*CloudHsmClusterNotActiveException)
-	}
-
-	var InvalidMarkerException *types.InvalidMarkerException
-	if errors.As(err, &InvalidMarkerException) {
-		return InvalidMarkerException_ToDafny(*InvalidMarkerException)
-	}
-
-	var DryRunOperationException *types.DryRunOperationException
-	if errors.As(err, &DryRunOperationException) {
-		return DryRunOperationException_ToDafny(*DryRunOperationException)
-	}
-
-	var IncorrectTrustAnchorException *types.IncorrectTrustAnchorException
-	if errors.As(err, &IncorrectTrustAnchorException) {
-		return IncorrectTrustAnchorException_ToDafny(*IncorrectTrustAnchorException)
-	}
-
-	var KMSInvalidSignatureException *types.KMSInvalidSignatureException
-	if errors.As(err, &KMSInvalidSignatureException) {
-		return KMSInvalidSignatureException_ToDafny(*KMSInvalidSignatureException)
-	}
-
-	var XksKeyNotFoundException *types.XksKeyNotFoundException
-	if errors.As(err, &XksKeyNotFoundException) {
-		return XksKeyNotFoundException_ToDafny(*XksKeyNotFoundException)
-	}
-
-	var CustomKeyStoreHasCMKsException *types.CustomKeyStoreHasCMKsException
-	if errors.As(err, &CustomKeyStoreHasCMKsException) {
-		return CustomKeyStoreHasCMKsException_ToDafny(*CustomKeyStoreHasCMKsException)
-	}
-
-	var XksProxyInvalidConfigurationException *types.XksProxyInvalidConfigurationException
-	if errors.As(err, &XksProxyInvalidConfigurationException) {
-		return XksProxyInvalidConfigurationException_ToDafny(*XksProxyInvalidConfigurationException)
-	}
-
-	var CustomKeyStoreInvalidStateException *types.CustomKeyStoreInvalidStateException
-	if errors.As(err, &CustomKeyStoreInvalidStateException) {
-		return CustomKeyStoreInvalidStateException_ToDafny(*CustomKeyStoreInvalidStateException)
-	}
-
-	var KMSInternalException *types.KMSInternalException
-	if errors.As(err, &KMSInternalException) {
-		return KMSInternalException_ToDafny(*KMSInternalException)
-	}
-
-	var XksProxyUriEndpointInUseException *types.XksProxyUriEndpointInUseException
-	if errors.As(err, &XksProxyUriEndpointInUseException) {
-		return XksProxyUriEndpointInUseException_ToDafny(*XksProxyUriEndpointInUseException)
-	}
-
-	var InvalidAliasNameException *types.InvalidAliasNameException
-	if errors.As(err, &InvalidAliasNameException) {
-		return InvalidAliasNameException_ToDafny(*InvalidAliasNameException)
-	}
-
-	var XksProxyUriInUseException *types.XksProxyUriInUseException
-	if errors.As(err, &XksProxyUriInUseException) {
-		return XksProxyUriInUseException_ToDafny(*XksProxyUriInUseException)
-	}
-
 	var AlreadyExistsException *types.AlreadyExistsException
 	if errors.As(err, &AlreadyExistsException) {
 		return AlreadyExistsException_ToDafny(*AlreadyExistsException)
-	}
-
-	var CustomKeyStoreNotFoundException *types.CustomKeyStoreNotFoundException
-	if errors.As(err, &CustomKeyStoreNotFoundException) {
-		return CustomKeyStoreNotFoundException_ToDafny(*CustomKeyStoreNotFoundException)
-	}
-
-	var IncorrectKeyException *types.IncorrectKeyException
-	if errors.As(err, &IncorrectKeyException) {
-		return IncorrectKeyException_ToDafny(*IncorrectKeyException)
-	}
-
-	var KMSInvalidStateException *types.KMSInvalidStateException
-	if errors.As(err, &KMSInvalidStateException) {
-		return KMSInvalidStateException_ToDafny(*KMSInvalidStateException)
-	}
-
-	var XksKeyAlreadyInUseException *types.XksKeyAlreadyInUseException
-	if errors.As(err, &XksKeyAlreadyInUseException) {
-		return XksKeyAlreadyInUseException_ToDafny(*XksKeyAlreadyInUseException)
-	}
-
-	var LimitExceededException *types.LimitExceededException
-	if errors.As(err, &LimitExceededException) {
-		return LimitExceededException_ToDafny(*LimitExceededException)
-	}
-
-	var NotFoundException *types.NotFoundException
-	if errors.As(err, &NotFoundException) {
-		return NotFoundException_ToDafny(*NotFoundException)
-	}
-
-	var XksProxyVpcEndpointServiceInUseException *types.XksProxyVpcEndpointServiceInUseException
-	if errors.As(err, &XksProxyVpcEndpointServiceInUseException) {
-		return XksProxyVpcEndpointServiceInUseException_ToDafny(*XksProxyVpcEndpointServiceInUseException)
-	}
-
-	var IncorrectKeyMaterialException *types.IncorrectKeyMaterialException
-	if errors.As(err, &IncorrectKeyMaterialException) {
-		return IncorrectKeyMaterialException_ToDafny(*IncorrectKeyMaterialException)
-	}
-
-	var CloudHsmClusterNotRelatedException *types.CloudHsmClusterNotRelatedException
-	if errors.As(err, &CloudHsmClusterNotRelatedException) {
-		return CloudHsmClusterNotRelatedException_ToDafny(*CloudHsmClusterNotRelatedException)
-	}
-
-	var DisabledException *types.DisabledException
-	if errors.As(err, &DisabledException) {
-		return DisabledException_ToDafny(*DisabledException)
-	}
-
-	var DependencyTimeoutException *types.DependencyTimeoutException
-	if errors.As(err, &DependencyTimeoutException) {
-		return DependencyTimeoutException_ToDafny(*DependencyTimeoutException)
-	}
-
-	var InvalidGrantIdException *types.InvalidGrantIdException
-	if errors.As(err, &InvalidGrantIdException) {
-		return InvalidGrantIdException_ToDafny(*InvalidGrantIdException)
-	}
-
-	var XksProxyInvalidResponseException *types.XksProxyInvalidResponseException
-	if errors.As(err, &XksProxyInvalidResponseException) {
-		return XksProxyInvalidResponseException_ToDafny(*XksProxyInvalidResponseException)
-	}
-
-	var ConflictException *types.ConflictException
-	if errors.As(err, &ConflictException) {
-		return ConflictException_ToDafny(*ConflictException)
-	}
-
-	var InvalidKeyUsageException *types.InvalidKeyUsageException
-	if errors.As(err, &InvalidKeyUsageException) {
-		return InvalidKeyUsageException_ToDafny(*InvalidKeyUsageException)
-	}
-
-	var KeyUnavailableException *types.KeyUnavailableException
-	if errors.As(err, &KeyUnavailableException) {
-		return KeyUnavailableException_ToDafny(*KeyUnavailableException)
-	}
-
-	var CloudHsmClusterNotFoundException *types.CloudHsmClusterNotFoundException
-	if errors.As(err, &CloudHsmClusterNotFoundException) {
-		return CloudHsmClusterNotFoundException_ToDafny(*CloudHsmClusterNotFoundException)
-	}
-
-	var InvalidArnException *types.InvalidArnException
-	if errors.As(err, &InvalidArnException) {
-		return InvalidArnException_ToDafny(*InvalidArnException)
 	}
 
 	var CloudHsmClusterInUseException *types.CloudHsmClusterInUseException
@@ -1414,14 +1214,64 @@ func Error_ToDafny(err error) ComAmazonawsKmsTypes.Error {
 		return CloudHsmClusterInUseException_ToDafny(*CloudHsmClusterInUseException)
 	}
 
-	var TagException *types.TagException
-	if errors.As(err, &TagException) {
-		return TagException_ToDafny(*TagException)
+	var CloudHsmClusterInvalidConfigurationException *types.CloudHsmClusterInvalidConfigurationException
+	if errors.As(err, &CloudHsmClusterInvalidConfigurationException) {
+		return CloudHsmClusterInvalidConfigurationException_ToDafny(*CloudHsmClusterInvalidConfigurationException)
 	}
 
-	var InvalidGrantTokenException *types.InvalidGrantTokenException
-	if errors.As(err, &InvalidGrantTokenException) {
-		return InvalidGrantTokenException_ToDafny(*InvalidGrantTokenException)
+	var CloudHsmClusterNotActiveException *types.CloudHsmClusterNotActiveException
+	if errors.As(err, &CloudHsmClusterNotActiveException) {
+		return CloudHsmClusterNotActiveException_ToDafny(*CloudHsmClusterNotActiveException)
+	}
+
+	var CloudHsmClusterNotFoundException *types.CloudHsmClusterNotFoundException
+	if errors.As(err, &CloudHsmClusterNotFoundException) {
+		return CloudHsmClusterNotFoundException_ToDafny(*CloudHsmClusterNotFoundException)
+	}
+
+	var CloudHsmClusterNotRelatedException *types.CloudHsmClusterNotRelatedException
+	if errors.As(err, &CloudHsmClusterNotRelatedException) {
+		return CloudHsmClusterNotRelatedException_ToDafny(*CloudHsmClusterNotRelatedException)
+	}
+
+	var ConflictException *types.ConflictException
+	if errors.As(err, &ConflictException) {
+		return ConflictException_ToDafny(*ConflictException)
+	}
+
+	var CustomKeyStoreHasCMKsException *types.CustomKeyStoreHasCMKsException
+	if errors.As(err, &CustomKeyStoreHasCMKsException) {
+		return CustomKeyStoreHasCMKsException_ToDafny(*CustomKeyStoreHasCMKsException)
+	}
+
+	var CustomKeyStoreInvalidStateException *types.CustomKeyStoreInvalidStateException
+	if errors.As(err, &CustomKeyStoreInvalidStateException) {
+		return CustomKeyStoreInvalidStateException_ToDafny(*CustomKeyStoreInvalidStateException)
+	}
+
+	var CustomKeyStoreNameInUseException *types.CustomKeyStoreNameInUseException
+	if errors.As(err, &CustomKeyStoreNameInUseException) {
+		return CustomKeyStoreNameInUseException_ToDafny(*CustomKeyStoreNameInUseException)
+	}
+
+	var CustomKeyStoreNotFoundException *types.CustomKeyStoreNotFoundException
+	if errors.As(err, &CustomKeyStoreNotFoundException) {
+		return CustomKeyStoreNotFoundException_ToDafny(*CustomKeyStoreNotFoundException)
+	}
+
+	var DependencyTimeoutException *types.DependencyTimeoutException
+	if errors.As(err, &DependencyTimeoutException) {
+		return DependencyTimeoutException_ToDafny(*DependencyTimeoutException)
+	}
+
+	var DisabledException *types.DisabledException
+	if errors.As(err, &DisabledException) {
+		return DisabledException_ToDafny(*DisabledException)
+	}
+
+	var DryRunOperationException *types.DryRunOperationException
+	if errors.As(err, &DryRunOperationException) {
+		return DryRunOperationException_ToDafny(*DryRunOperationException)
 	}
 
 	var ExpiredImportTokenException *types.ExpiredImportTokenException
@@ -1429,9 +1279,124 @@ func Error_ToDafny(err error) ComAmazonawsKmsTypes.Error {
 		return ExpiredImportTokenException_ToDafny(*ExpiredImportTokenException)
 	}
 
-	var CloudHsmClusterInvalidConfigurationException *types.CloudHsmClusterInvalidConfigurationException
-	if errors.As(err, &CloudHsmClusterInvalidConfigurationException) {
-		return CloudHsmClusterInvalidConfigurationException_ToDafny(*CloudHsmClusterInvalidConfigurationException)
+	var IncorrectKeyException *types.IncorrectKeyException
+	if errors.As(err, &IncorrectKeyException) {
+		return IncorrectKeyException_ToDafny(*IncorrectKeyException)
+	}
+
+	var IncorrectKeyMaterialException *types.IncorrectKeyMaterialException
+	if errors.As(err, &IncorrectKeyMaterialException) {
+		return IncorrectKeyMaterialException_ToDafny(*IncorrectKeyMaterialException)
+	}
+
+	var IncorrectTrustAnchorException *types.IncorrectTrustAnchorException
+	if errors.As(err, &IncorrectTrustAnchorException) {
+		return IncorrectTrustAnchorException_ToDafny(*IncorrectTrustAnchorException)
+	}
+
+	var InvalidAliasNameException *types.InvalidAliasNameException
+	if errors.As(err, &InvalidAliasNameException) {
+		return InvalidAliasNameException_ToDafny(*InvalidAliasNameException)
+	}
+
+	var InvalidArnException *types.InvalidArnException
+	if errors.As(err, &InvalidArnException) {
+		return InvalidArnException_ToDafny(*InvalidArnException)
+	}
+
+	var InvalidCiphertextException *types.InvalidCiphertextException
+	if errors.As(err, &InvalidCiphertextException) {
+		return InvalidCiphertextException_ToDafny(*InvalidCiphertextException)
+	}
+
+	var InvalidGrantIdException *types.InvalidGrantIdException
+	if errors.As(err, &InvalidGrantIdException) {
+		return InvalidGrantIdException_ToDafny(*InvalidGrantIdException)
+	}
+
+	var InvalidGrantTokenException *types.InvalidGrantTokenException
+	if errors.As(err, &InvalidGrantTokenException) {
+		return InvalidGrantTokenException_ToDafny(*InvalidGrantTokenException)
+	}
+
+	var InvalidImportTokenException *types.InvalidImportTokenException
+	if errors.As(err, &InvalidImportTokenException) {
+		return InvalidImportTokenException_ToDafny(*InvalidImportTokenException)
+	}
+
+	var InvalidKeyUsageException *types.InvalidKeyUsageException
+	if errors.As(err, &InvalidKeyUsageException) {
+		return InvalidKeyUsageException_ToDafny(*InvalidKeyUsageException)
+	}
+
+	var InvalidMarkerException *types.InvalidMarkerException
+	if errors.As(err, &InvalidMarkerException) {
+		return InvalidMarkerException_ToDafny(*InvalidMarkerException)
+	}
+
+	var KMSInternalException *types.KMSInternalException
+	if errors.As(err, &KMSInternalException) {
+		return KMSInternalException_ToDafny(*KMSInternalException)
+	}
+
+	var KMSInvalidMacException *types.KMSInvalidMacException
+	if errors.As(err, &KMSInvalidMacException) {
+		return KMSInvalidMacException_ToDafny(*KMSInvalidMacException)
+	}
+
+	var KMSInvalidSignatureException *types.KMSInvalidSignatureException
+	if errors.As(err, &KMSInvalidSignatureException) {
+		return KMSInvalidSignatureException_ToDafny(*KMSInvalidSignatureException)
+	}
+
+	var KMSInvalidStateException *types.KMSInvalidStateException
+	if errors.As(err, &KMSInvalidStateException) {
+		return KMSInvalidStateException_ToDafny(*KMSInvalidStateException)
+	}
+
+	var KeyUnavailableException *types.KeyUnavailableException
+	if errors.As(err, &KeyUnavailableException) {
+		return KeyUnavailableException_ToDafny(*KeyUnavailableException)
+	}
+
+	var LimitExceededException *types.LimitExceededException
+	if errors.As(err, &LimitExceededException) {
+		return LimitExceededException_ToDafny(*LimitExceededException)
+	}
+
+	var MalformedPolicyDocumentException *types.MalformedPolicyDocumentException
+	if errors.As(err, &MalformedPolicyDocumentException) {
+		return MalformedPolicyDocumentException_ToDafny(*MalformedPolicyDocumentException)
+	}
+
+	var NotFoundException *types.NotFoundException
+	if errors.As(err, &NotFoundException) {
+		return NotFoundException_ToDafny(*NotFoundException)
+	}
+
+	var TagException *types.TagException
+	if errors.As(err, &TagException) {
+		return TagException_ToDafny(*TagException)
+	}
+
+	var UnsupportedOperationException *types.UnsupportedOperationException
+	if errors.As(err, &UnsupportedOperationException) {
+		return UnsupportedOperationException_ToDafny(*UnsupportedOperationException)
+	}
+
+	var XksKeyAlreadyInUseException *types.XksKeyAlreadyInUseException
+	if errors.As(err, &XksKeyAlreadyInUseException) {
+		return XksKeyAlreadyInUseException_ToDafny(*XksKeyAlreadyInUseException)
+	}
+
+	var XksKeyInvalidConfigurationException *types.XksKeyInvalidConfigurationException
+	if errors.As(err, &XksKeyInvalidConfigurationException) {
+		return XksKeyInvalidConfigurationException_ToDafny(*XksKeyInvalidConfigurationException)
+	}
+
+	var XksKeyNotFoundException *types.XksKeyNotFoundException
+	if errors.As(err, &XksKeyNotFoundException) {
+		return XksKeyNotFoundException_ToDafny(*XksKeyNotFoundException)
 	}
 
 	var XksProxyIncorrectAuthenticationCredentialException *types.XksProxyIncorrectAuthenticationCredentialException
@@ -1439,9 +1404,44 @@ func Error_ToDafny(err error) ComAmazonawsKmsTypes.Error {
 		return XksProxyIncorrectAuthenticationCredentialException_ToDafny(*XksProxyIncorrectAuthenticationCredentialException)
 	}
 
-	var CustomKeyStoreNameInUseException *types.CustomKeyStoreNameInUseException
-	if errors.As(err, &CustomKeyStoreNameInUseException) {
-		return CustomKeyStoreNameInUseException_ToDafny(*CustomKeyStoreNameInUseException)
+	var XksProxyInvalidConfigurationException *types.XksProxyInvalidConfigurationException
+	if errors.As(err, &XksProxyInvalidConfigurationException) {
+		return XksProxyInvalidConfigurationException_ToDafny(*XksProxyInvalidConfigurationException)
+	}
+
+	var XksProxyInvalidResponseException *types.XksProxyInvalidResponseException
+	if errors.As(err, &XksProxyInvalidResponseException) {
+		return XksProxyInvalidResponseException_ToDafny(*XksProxyInvalidResponseException)
+	}
+
+	var XksProxyUriEndpointInUseException *types.XksProxyUriEndpointInUseException
+	if errors.As(err, &XksProxyUriEndpointInUseException) {
+		return XksProxyUriEndpointInUseException_ToDafny(*XksProxyUriEndpointInUseException)
+	}
+
+	var XksProxyUriInUseException *types.XksProxyUriInUseException
+	if errors.As(err, &XksProxyUriInUseException) {
+		return XksProxyUriInUseException_ToDafny(*XksProxyUriInUseException)
+	}
+
+	var XksProxyUriUnreachableException *types.XksProxyUriUnreachableException
+	if errors.As(err, &XksProxyUriUnreachableException) {
+		return XksProxyUriUnreachableException_ToDafny(*XksProxyUriUnreachableException)
+	}
+
+	var XksProxyVpcEndpointServiceInUseException *types.XksProxyVpcEndpointServiceInUseException
+	if errors.As(err, &XksProxyVpcEndpointServiceInUseException) {
+		return XksProxyVpcEndpointServiceInUseException_ToDafny(*XksProxyVpcEndpointServiceInUseException)
+	}
+
+	var XksProxyVpcEndpointServiceInvalidConfigurationException *types.XksProxyVpcEndpointServiceInvalidConfigurationException
+	if errors.As(err, &XksProxyVpcEndpointServiceInvalidConfigurationException) {
+		return XksProxyVpcEndpointServiceInvalidConfigurationException_ToDafny(*XksProxyVpcEndpointServiceInvalidConfigurationException)
+	}
+
+	var XksProxyVpcEndpointServiceNotFoundException *types.XksProxyVpcEndpointServiceNotFoundException
+	if errors.As(err, &XksProxyVpcEndpointServiceNotFoundException) {
+		return XksProxyVpcEndpointServiceNotFoundException_ToDafny(*XksProxyVpcEndpointServiceNotFoundException)
 	}
 
 	return OpaqueError_Input_ToDafny(err)
@@ -5969,367 +5969,7 @@ func com_amazonaws_kms_VerifyMacResponse_MacAlgorithm_ToDafny(input types.MacAlg
 	}()
 }
 
-func com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_KMSInvalidMacException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_UnsupportedOperationException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_MalformedPolicyDocumentException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_XksKeyInvalidConfigurationException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_XksProxyVpcEndpointServiceNotFoundException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_InvalidCiphertextException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_XksProxyUriUnreachableException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_InvalidImportTokenException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_CloudHsmClusterNotActiveException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_InvalidMarkerException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_DryRunOperationException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_IncorrectTrustAnchorException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_KMSInvalidSignatureException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_XksKeyNotFoundException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_CustomKeyStoreHasCMKsException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_XksProxyInvalidConfigurationException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_CustomKeyStoreInvalidStateException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_KMSInternalException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_XksProxyUriEndpointInUseException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_InvalidAliasNameException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_XksProxyUriInUseException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
 func com_amazonaws_kms_AlreadyExistsException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_CustomKeyStoreNotFoundException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_IncorrectKeyException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_KMSInvalidStateException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_XksKeyAlreadyInUseException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_LimitExceededException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_NotFoundException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_XksProxyVpcEndpointServiceInUseException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_IncorrectKeyMaterialException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_CloudHsmClusterNotRelatedException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_DisabledException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_DependencyTimeoutException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_InvalidGrantIdException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_XksProxyInvalidResponseException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_ConflictException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_InvalidKeyUsageException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_KeyUnavailableException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_CloudHsmClusterNotFoundException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_InvalidArnException_message_ToDafny(input *string) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
@@ -6347,7 +5987,7 @@ func com_amazonaws_kms_CloudHsmClusterInUseException_message_ToDafny(input *stri
 	}()
 }
 
-func com_amazonaws_kms_TagException_message_ToDafny(input *string) Wrappers.Option {
+func com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException_message_ToDafny(input *string) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
@@ -6356,7 +5996,97 @@ func com_amazonaws_kms_TagException_message_ToDafny(input *string) Wrappers.Opti
 	}()
 }
 
-func com_amazonaws_kms_InvalidGrantTokenException_message_ToDafny(input *string) Wrappers.Option {
+func com_amazonaws_kms_CloudHsmClusterNotActiveException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_CloudHsmClusterNotFoundException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_CloudHsmClusterNotRelatedException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_ConflictException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_CustomKeyStoreHasCMKsException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_CustomKeyStoreInvalidStateException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_CustomKeyStoreNameInUseException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_CustomKeyStoreNotFoundException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_DependencyTimeoutException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_DisabledException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_DryRunOperationException_message_ToDafny(input *string) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
@@ -6374,7 +6104,214 @@ func com_amazonaws_kms_ExpiredImportTokenException_message_ToDafny(input *string
 	}()
 }
 
-func com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException_message_ToDafny(input *string) Wrappers.Option {
+func com_amazonaws_kms_IncorrectKeyException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_IncorrectKeyMaterialException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_IncorrectTrustAnchorException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_InvalidAliasNameException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_InvalidArnException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_InvalidCiphertextException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_InvalidGrantIdException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_InvalidGrantTokenException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_InvalidImportTokenException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_InvalidKeyUsageException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_InvalidMarkerException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_KMSInternalException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_KMSInvalidMacException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_KMSInvalidSignatureException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_KMSInvalidStateException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_KeyUnavailableException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_LimitExceededException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_MalformedPolicyDocumentException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_NotFoundException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_TagException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_UnsupportedOperationException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_XksKeyAlreadyInUseException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_XksKeyInvalidConfigurationException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_XksKeyNotFoundException_message_ToDafny(input *string) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
@@ -6392,7 +6329,70 @@ func com_amazonaws_kms_XksProxyIncorrectAuthenticationCredentialException_messag
 	}()
 }
 
-func com_amazonaws_kms_CustomKeyStoreNameInUseException_message_ToDafny(input *string) Wrappers.Option {
+func com_amazonaws_kms_XksProxyInvalidConfigurationException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_XksProxyInvalidResponseException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_XksProxyUriEndpointInUseException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_XksProxyUriInUseException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_XksProxyUriUnreachableException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_XksProxyVpcEndpointServiceInUseException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_kms_XksProxyVpcEndpointServiceNotFoundException_message_ToDafny(input *string) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
