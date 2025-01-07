@@ -1478,61 +1478,11 @@ func UpdateTimeToLiveOutput_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Upda
 
 }
 
-func GlobalTableAlreadyExistsException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.GlobalTableAlreadyExistsException {
-	return func() types.GlobalTableAlreadyExistsException {
+func BackupInUseException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.BackupInUseException {
+	return func() types.BackupInUseException {
 
-		return types.GlobalTableAlreadyExistsException{
-			Message: com_amazonaws_dynamodb_GlobalTableAlreadyExistsException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func InternalServerError_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.InternalServerError {
-	return func() types.InternalServerError {
-
-		return types.InternalServerError{
-			Message: com_amazonaws_dynamodb_InternalServerError_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func IdempotentParameterMismatchException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.IdempotentParameterMismatchException {
-	return func() types.IdempotentParameterMismatchException {
-
-		return types.IdempotentParameterMismatchException{
-			Message: com_amazonaws_dynamodb_IdempotentParameterMismatchException_Message_FromDafny(dafnyOutput.Dtor_Message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func TransactionInProgressException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.TransactionInProgressException {
-	return func() types.TransactionInProgressException {
-
-		return types.TransactionInProgressException{
-			Message: com_amazonaws_dynamodb_TransactionInProgressException_Message_FromDafny(dafnyOutput.Dtor_Message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func InvalidRestoreTimeException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.InvalidRestoreTimeException {
-	return func() types.InvalidRestoreTimeException {
-
-		return types.InvalidRestoreTimeException{
-			Message: com_amazonaws_dynamodb_InvalidRestoreTimeException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func ImportNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ImportNotFoundException {
-	return func() types.ImportNotFoundException {
-
-		return types.ImportNotFoundException{
-			Message: com_amazonaws_dynamodb_ImportNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.BackupInUseException{
+			Message: com_amazonaws_dynamodb_BackupInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
@@ -1543,126 +1493,6 @@ func BackupNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Err
 
 		return types.BackupNotFoundException{
 			Message: com_amazonaws_dynamodb_BackupNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func ProvisionedThroughputExceededException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ProvisionedThroughputExceededException {
-	return func() types.ProvisionedThroughputExceededException {
-
-		return types.ProvisionedThroughputExceededException{
-			Message: com_amazonaws_dynamodb_ProvisionedThroughputExceededException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func InvalidEndpointException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.InvalidEndpointException {
-	return func() types.InvalidEndpointException {
-
-		return types.InvalidEndpointException{
-			Message: com_amazonaws_dynamodb_InvalidEndpointException_Message_FromDafny(dafnyOutput.Dtor_Message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func ImportConflictException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ImportConflictException {
-	return func() types.ImportConflictException {
-
-		return types.ImportConflictException{
-			Message: com_amazonaws_dynamodb_ImportConflictException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func ContinuousBackupsUnavailableException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ContinuousBackupsUnavailableException {
-	return func() types.ContinuousBackupsUnavailableException {
-
-		return types.ContinuousBackupsUnavailableException{
-			Message: com_amazonaws_dynamodb_ContinuousBackupsUnavailableException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func ReplicaAlreadyExistsException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ReplicaAlreadyExistsException {
-	return func() types.ReplicaAlreadyExistsException {
-
-		return types.ReplicaAlreadyExistsException{
-			Message: com_amazonaws_dynamodb_ReplicaAlreadyExistsException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func PolicyNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.PolicyNotFoundException {
-	return func() types.PolicyNotFoundException {
-
-		return types.PolicyNotFoundException{
-			Message: com_amazonaws_dynamodb_PolicyNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func TableNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.TableNotFoundException {
-	return func() types.TableNotFoundException {
-
-		return types.TableNotFoundException{
-			Message: com_amazonaws_dynamodb_TableNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func PointInTimeRecoveryUnavailableException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.PointInTimeRecoveryUnavailableException {
-	return func() types.PointInTimeRecoveryUnavailableException {
-
-		return types.PointInTimeRecoveryUnavailableException{
-			Message: com_amazonaws_dynamodb_PointInTimeRecoveryUnavailableException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func ExportNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ExportNotFoundException {
-	return func() types.ExportNotFoundException {
-
-		return types.ExportNotFoundException{
-			Message: com_amazonaws_dynamodb_ExportNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func RequestLimitExceeded_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.RequestLimitExceeded {
-	return func() types.RequestLimitExceeded {
-
-		return types.RequestLimitExceeded{
-			Message: com_amazonaws_dynamodb_RequestLimitExceeded_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func ResourceNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ResourceNotFoundException {
-	return func() types.ResourceNotFoundException {
-
-		return types.ResourceNotFoundException{
-			Message: com_amazonaws_dynamodb_ResourceNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func BackupInUseException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.BackupInUseException {
-	return func() types.BackupInUseException {
-
-		return types.BackupInUseException{
-			Message: com_amazonaws_dynamodb_BackupInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
@@ -1679,51 +1509,11 @@ func ConditionalCheckFailedException_FromDafny(dafnyOutput ComAmazonawsDynamodbT
 
 }
 
-func IndexNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.IndexNotFoundException {
-	return func() types.IndexNotFoundException {
+func ContinuousBackupsUnavailableException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ContinuousBackupsUnavailableException {
+	return func() types.ContinuousBackupsUnavailableException {
 
-		return types.IndexNotFoundException{
-			Message: com_amazonaws_dynamodb_IndexNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func ResourceInUseException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ResourceInUseException {
-	return func() types.ResourceInUseException {
-
-		return types.ResourceInUseException{
-			Message: com_amazonaws_dynamodb_ResourceInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func ItemCollectionSizeLimitExceededException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ItemCollectionSizeLimitExceededException {
-	return func() types.ItemCollectionSizeLimitExceededException {
-
-		return types.ItemCollectionSizeLimitExceededException{
-			Message: com_amazonaws_dynamodb_ItemCollectionSizeLimitExceededException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func TableInUseException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.TableInUseException {
-	return func() types.TableInUseException {
-
-		return types.TableInUseException{
-			Message: com_amazonaws_dynamodb_TableInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func ReplicaNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ReplicaNotFoundException {
-	return func() types.ReplicaNotFoundException {
-
-		return types.ReplicaNotFoundException{
-			Message: com_amazonaws_dynamodb_ReplicaNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.ContinuousBackupsUnavailableException{
+			Message: com_amazonaws_dynamodb_ContinuousBackupsUnavailableException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
@@ -1739,21 +1529,31 @@ func DuplicateItemException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Erro
 
 }
 
-func LimitExceededException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.LimitExceededException {
-	return func() types.LimitExceededException {
+func ExportConflictException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ExportConflictException {
+	return func() types.ExportConflictException {
 
-		return types.LimitExceededException{
-			Message: com_amazonaws_dynamodb_LimitExceededException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.ExportConflictException{
+			Message: com_amazonaws_dynamodb_ExportConflictException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
 }
 
-func TransactionConflictException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.TransactionConflictException {
-	return func() types.TransactionConflictException {
+func ExportNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ExportNotFoundException {
+	return func() types.ExportNotFoundException {
 
-		return types.TransactionConflictException{
-			Message: com_amazonaws_dynamodb_TransactionConflictException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.ExportNotFoundException{
+			Message: com_amazonaws_dynamodb_ExportNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func GlobalTableAlreadyExistsException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.GlobalTableAlreadyExistsException {
+	return func() types.GlobalTableAlreadyExistsException {
+
+		return types.GlobalTableAlreadyExistsException{
+			Message: com_amazonaws_dynamodb_GlobalTableAlreadyExistsException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
@@ -1769,11 +1569,211 @@ func GlobalTableNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbType
 
 }
 
-func ExportConflictException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ExportConflictException {
-	return func() types.ExportConflictException {
+func IdempotentParameterMismatchException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.IdempotentParameterMismatchException {
+	return func() types.IdempotentParameterMismatchException {
 
-		return types.ExportConflictException{
-			Message: com_amazonaws_dynamodb_ExportConflictException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.IdempotentParameterMismatchException{
+			Message: com_amazonaws_dynamodb_IdempotentParameterMismatchException_Message_FromDafny(dafnyOutput.Dtor_Message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func ImportConflictException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ImportConflictException {
+	return func() types.ImportConflictException {
+
+		return types.ImportConflictException{
+			Message: com_amazonaws_dynamodb_ImportConflictException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func ImportNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ImportNotFoundException {
+	return func() types.ImportNotFoundException {
+
+		return types.ImportNotFoundException{
+			Message: com_amazonaws_dynamodb_ImportNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func IndexNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.IndexNotFoundException {
+	return func() types.IndexNotFoundException {
+
+		return types.IndexNotFoundException{
+			Message: com_amazonaws_dynamodb_IndexNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func InternalServerError_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.InternalServerError {
+	return func() types.InternalServerError {
+
+		return types.InternalServerError{
+			Message: com_amazonaws_dynamodb_InternalServerError_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func InvalidEndpointException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.InvalidEndpointException {
+	return func() types.InvalidEndpointException {
+
+		return types.InvalidEndpointException{
+			Message: com_amazonaws_dynamodb_InvalidEndpointException_Message_FromDafny(dafnyOutput.Dtor_Message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func InvalidExportTimeException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.InvalidExportTimeException {
+	return func() types.InvalidExportTimeException {
+
+		return types.InvalidExportTimeException{
+			Message: com_amazonaws_dynamodb_InvalidExportTimeException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func InvalidRestoreTimeException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.InvalidRestoreTimeException {
+	return func() types.InvalidRestoreTimeException {
+
+		return types.InvalidRestoreTimeException{
+			Message: com_amazonaws_dynamodb_InvalidRestoreTimeException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func ItemCollectionSizeLimitExceededException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ItemCollectionSizeLimitExceededException {
+	return func() types.ItemCollectionSizeLimitExceededException {
+
+		return types.ItemCollectionSizeLimitExceededException{
+			Message: com_amazonaws_dynamodb_ItemCollectionSizeLimitExceededException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func LimitExceededException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.LimitExceededException {
+	return func() types.LimitExceededException {
+
+		return types.LimitExceededException{
+			Message: com_amazonaws_dynamodb_LimitExceededException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func PointInTimeRecoveryUnavailableException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.PointInTimeRecoveryUnavailableException {
+	return func() types.PointInTimeRecoveryUnavailableException {
+
+		return types.PointInTimeRecoveryUnavailableException{
+			Message: com_amazonaws_dynamodb_PointInTimeRecoveryUnavailableException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func PolicyNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.PolicyNotFoundException {
+	return func() types.PolicyNotFoundException {
+
+		return types.PolicyNotFoundException{
+			Message: com_amazonaws_dynamodb_PolicyNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func ProvisionedThroughputExceededException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ProvisionedThroughputExceededException {
+	return func() types.ProvisionedThroughputExceededException {
+
+		return types.ProvisionedThroughputExceededException{
+			Message: com_amazonaws_dynamodb_ProvisionedThroughputExceededException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func ReplicaAlreadyExistsException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ReplicaAlreadyExistsException {
+	return func() types.ReplicaAlreadyExistsException {
+
+		return types.ReplicaAlreadyExistsException{
+			Message: com_amazonaws_dynamodb_ReplicaAlreadyExistsException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func ReplicaNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ReplicaNotFoundException {
+	return func() types.ReplicaNotFoundException {
+
+		return types.ReplicaNotFoundException{
+			Message: com_amazonaws_dynamodb_ReplicaNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func RequestLimitExceeded_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.RequestLimitExceeded {
+	return func() types.RequestLimitExceeded {
+
+		return types.RequestLimitExceeded{
+			Message: com_amazonaws_dynamodb_RequestLimitExceeded_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func ResourceInUseException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ResourceInUseException {
+	return func() types.ResourceInUseException {
+
+		return types.ResourceInUseException{
+			Message: com_amazonaws_dynamodb_ResourceInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func ResourceNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.ResourceNotFoundException {
+	return func() types.ResourceNotFoundException {
+
+		return types.ResourceNotFoundException{
+			Message: com_amazonaws_dynamodb_ResourceNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func TableAlreadyExistsException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.TableAlreadyExistsException {
+	return func() types.TableAlreadyExistsException {
+
+		return types.TableAlreadyExistsException{
+			Message: com_amazonaws_dynamodb_TableAlreadyExistsException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func TableInUseException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.TableInUseException {
+	return func() types.TableInUseException {
+
+		return types.TableInUseException{
+			Message: com_amazonaws_dynamodb_TableInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func TableNotFoundException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.TableNotFoundException {
+	return func() types.TableNotFoundException {
+
+		return types.TableNotFoundException{
+			Message: com_amazonaws_dynamodb_TableNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
@@ -1790,21 +1790,21 @@ func TransactionCanceledException_FromDafny(dafnyOutput ComAmazonawsDynamodbType
 
 }
 
-func InvalidExportTimeException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.InvalidExportTimeException {
-	return func() types.InvalidExportTimeException {
+func TransactionConflictException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.TransactionConflictException {
+	return func() types.TransactionConflictException {
 
-		return types.InvalidExportTimeException{
-			Message: com_amazonaws_dynamodb_InvalidExportTimeException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.TransactionConflictException{
+			Message: com_amazonaws_dynamodb_TransactionConflictException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
 }
 
-func TableAlreadyExistsException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.TableAlreadyExistsException {
-	return func() types.TableAlreadyExistsException {
+func TransactionInProgressException_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) types.TransactionInProgressException {
+	return func() types.TransactionInProgressException {
 
-		return types.TableAlreadyExistsException{
-			Message: com_amazonaws_dynamodb_TableAlreadyExistsException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.TransactionInProgressException{
+			Message: com_amazonaws_dynamodb_TransactionInProgressException_Message_FromDafny(dafnyOutput.Dtor_Message().UnwrapOr(nil)),
 		}
 	}()
 
@@ -15680,87 +15680,7 @@ func com_amazonaws_dynamodb_UpdateTimeToLiveOutput_TimeToLiveSpecification_FromD
 		}
 	}()
 }
-func com_amazonaws_dynamodb_GlobalTableAlreadyExistsException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_dynamodb_InternalServerError_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_dynamodb_IdempotentParameterMismatchException_Message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_dynamodb_TransactionInProgressException_Message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_dynamodb_InvalidRestoreTimeException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_dynamodb_ImportNotFoundException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_dynamodb_BackupInUseException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -15777,198 +15697,6 @@ func com_amazonaws_dynamodb_ImportNotFoundException_message_FromDafny(input inte
 	}()
 }
 func com_amazonaws_dynamodb_BackupNotFoundException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_dynamodb_ProvisionedThroughputExceededException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_dynamodb_InvalidEndpointException_Message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_dynamodb_ImportConflictException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_dynamodb_ContinuousBackupsUnavailableException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_dynamodb_ReplicaAlreadyExistsException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_dynamodb_PolicyNotFoundException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_dynamodb_TableNotFoundException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_dynamodb_PointInTimeRecoveryUnavailableException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_dynamodb_ExportNotFoundException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_dynamodb_RequestLimitExceeded_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_dynamodb_ResourceNotFoundException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_dynamodb_BackupInUseException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -16017,71 +15745,7 @@ func com_amazonaws_dynamodb_ConditionalCheckFailedException_Item_FromDafny(input
 		return m
 	}()
 }
-func com_amazonaws_dynamodb_IndexNotFoundException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_dynamodb_ResourceInUseException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_dynamodb_ItemCollectionSizeLimitExceededException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_dynamodb_TableInUseException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_dynamodb_ReplicaNotFoundException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_dynamodb_ContinuousBackupsUnavailableException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -16113,7 +15777,7 @@ func com_amazonaws_dynamodb_DuplicateItemException_message_FromDafny(input inter
 		}
 	}()
 }
-func com_amazonaws_dynamodb_LimitExceededException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_dynamodb_ExportConflictException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -16129,7 +15793,23 @@ func com_amazonaws_dynamodb_LimitExceededException_message_FromDafny(input inter
 		}
 	}()
 }
-func com_amazonaws_dynamodb_TransactionConflictException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_dynamodb_ExportNotFoundException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_dynamodb_GlobalTableAlreadyExistsException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -16161,7 +15841,327 @@ func com_amazonaws_dynamodb_GlobalTableNotFoundException_message_FromDafny(input
 		}
 	}()
 }
-func com_amazonaws_dynamodb_ExportConflictException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_dynamodb_IdempotentParameterMismatchException_Message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_dynamodb_ImportConflictException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_dynamodb_ImportNotFoundException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_dynamodb_IndexNotFoundException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_dynamodb_InternalServerError_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_dynamodb_InvalidEndpointException_Message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_dynamodb_InvalidExportTimeException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_dynamodb_InvalidRestoreTimeException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_dynamodb_ItemCollectionSizeLimitExceededException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_dynamodb_LimitExceededException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_dynamodb_PointInTimeRecoveryUnavailableException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_dynamodb_PolicyNotFoundException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_dynamodb_ProvisionedThroughputExceededException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_dynamodb_ReplicaAlreadyExistsException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_dynamodb_ReplicaNotFoundException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_dynamodb_RequestLimitExceeded_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_dynamodb_ResourceInUseException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_dynamodb_ResourceNotFoundException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_dynamodb_TableAlreadyExistsException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_dynamodb_TableInUseException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_dynamodb_TableNotFoundException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -16268,7 +16268,7 @@ func com_amazonaws_dynamodb_CancellationReason_Message_FromDafny(input interface
 		}
 	}()
 }
-func com_amazonaws_dynamodb_InvalidExportTimeException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_dynamodb_TransactionConflictException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -16284,7 +16284,7 @@ func com_amazonaws_dynamodb_InvalidExportTimeException_message_FromDafny(input i
 		}
 	}()
 }
-func com_amazonaws_dynamodb_TableAlreadyExistsException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_dynamodb_TransactionInProgressException_Message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {

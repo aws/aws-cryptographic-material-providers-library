@@ -1196,411 +1196,11 @@ func VerifyMacOutput_FromDafny(dafnyOutput ComAmazonawsKmsTypes.VerifyMacRespons
 
 }
 
-func XksProxyVpcEndpointServiceInvalidConfigurationException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyVpcEndpointServiceInvalidConfigurationException {
-	return func() types.XksProxyVpcEndpointServiceInvalidConfigurationException {
-
-		return types.XksProxyVpcEndpointServiceInvalidConfigurationException{
-			Message: com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func KMSInvalidMacException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.KMSInvalidMacException {
-	return func() types.KMSInvalidMacException {
-
-		return types.KMSInvalidMacException{
-			Message: com_amazonaws_kms_KMSInvalidMacException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func UnsupportedOperationException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.UnsupportedOperationException {
-	return func() types.UnsupportedOperationException {
-
-		return types.UnsupportedOperationException{
-			Message: com_amazonaws_kms_UnsupportedOperationException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func MalformedPolicyDocumentException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.MalformedPolicyDocumentException {
-	return func() types.MalformedPolicyDocumentException {
-
-		return types.MalformedPolicyDocumentException{
-			Message: com_amazonaws_kms_MalformedPolicyDocumentException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func XksKeyInvalidConfigurationException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksKeyInvalidConfigurationException {
-	return func() types.XksKeyInvalidConfigurationException {
-
-		return types.XksKeyInvalidConfigurationException{
-			Message: com_amazonaws_kms_XksKeyInvalidConfigurationException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func XksProxyVpcEndpointServiceNotFoundException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyVpcEndpointServiceNotFoundException {
-	return func() types.XksProxyVpcEndpointServiceNotFoundException {
-
-		return types.XksProxyVpcEndpointServiceNotFoundException{
-			Message: com_amazonaws_kms_XksProxyVpcEndpointServiceNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func InvalidCiphertextException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidCiphertextException {
-	return func() types.InvalidCiphertextException {
-
-		return types.InvalidCiphertextException{
-			Message: com_amazonaws_kms_InvalidCiphertextException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func XksProxyUriUnreachableException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyUriUnreachableException {
-	return func() types.XksProxyUriUnreachableException {
-
-		return types.XksProxyUriUnreachableException{
-			Message: com_amazonaws_kms_XksProxyUriUnreachableException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func InvalidImportTokenException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidImportTokenException {
-	return func() types.InvalidImportTokenException {
-
-		return types.InvalidImportTokenException{
-			Message: com_amazonaws_kms_InvalidImportTokenException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func CloudHsmClusterNotActiveException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CloudHsmClusterNotActiveException {
-	return func() types.CloudHsmClusterNotActiveException {
-
-		return types.CloudHsmClusterNotActiveException{
-			Message: com_amazonaws_kms_CloudHsmClusterNotActiveException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func InvalidMarkerException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidMarkerException {
-	return func() types.InvalidMarkerException {
-
-		return types.InvalidMarkerException{
-			Message: com_amazonaws_kms_InvalidMarkerException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func DryRunOperationException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.DryRunOperationException {
-	return func() types.DryRunOperationException {
-
-		return types.DryRunOperationException{
-			Message: com_amazonaws_kms_DryRunOperationException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func IncorrectTrustAnchorException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.IncorrectTrustAnchorException {
-	return func() types.IncorrectTrustAnchorException {
-
-		return types.IncorrectTrustAnchorException{
-			Message: com_amazonaws_kms_IncorrectTrustAnchorException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func KMSInvalidSignatureException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.KMSInvalidSignatureException {
-	return func() types.KMSInvalidSignatureException {
-
-		return types.KMSInvalidSignatureException{
-			Message: com_amazonaws_kms_KMSInvalidSignatureException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func XksKeyNotFoundException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksKeyNotFoundException {
-	return func() types.XksKeyNotFoundException {
-
-		return types.XksKeyNotFoundException{
-			Message: com_amazonaws_kms_XksKeyNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func CustomKeyStoreHasCMKsException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CustomKeyStoreHasCMKsException {
-	return func() types.CustomKeyStoreHasCMKsException {
-
-		return types.CustomKeyStoreHasCMKsException{
-			Message: com_amazonaws_kms_CustomKeyStoreHasCMKsException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func XksProxyInvalidConfigurationException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyInvalidConfigurationException {
-	return func() types.XksProxyInvalidConfigurationException {
-
-		return types.XksProxyInvalidConfigurationException{
-			Message: com_amazonaws_kms_XksProxyInvalidConfigurationException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func CustomKeyStoreInvalidStateException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CustomKeyStoreInvalidStateException {
-	return func() types.CustomKeyStoreInvalidStateException {
-
-		return types.CustomKeyStoreInvalidStateException{
-			Message: com_amazonaws_kms_CustomKeyStoreInvalidStateException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func KMSInternalException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.KMSInternalException {
-	return func() types.KMSInternalException {
-
-		return types.KMSInternalException{
-			Message: com_amazonaws_kms_KMSInternalException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func XksProxyUriEndpointInUseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyUriEndpointInUseException {
-	return func() types.XksProxyUriEndpointInUseException {
-
-		return types.XksProxyUriEndpointInUseException{
-			Message: com_amazonaws_kms_XksProxyUriEndpointInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func InvalidAliasNameException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidAliasNameException {
-	return func() types.InvalidAliasNameException {
-
-		return types.InvalidAliasNameException{
-			Message: com_amazonaws_kms_InvalidAliasNameException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func XksProxyUriInUseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyUriInUseException {
-	return func() types.XksProxyUriInUseException {
-
-		return types.XksProxyUriInUseException{
-			Message: com_amazonaws_kms_XksProxyUriInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
 func AlreadyExistsException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.AlreadyExistsException {
 	return func() types.AlreadyExistsException {
 
 		return types.AlreadyExistsException{
 			Message: com_amazonaws_kms_AlreadyExistsException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func CustomKeyStoreNotFoundException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CustomKeyStoreNotFoundException {
-	return func() types.CustomKeyStoreNotFoundException {
-
-		return types.CustomKeyStoreNotFoundException{
-			Message: com_amazonaws_kms_CustomKeyStoreNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func IncorrectKeyException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.IncorrectKeyException {
-	return func() types.IncorrectKeyException {
-
-		return types.IncorrectKeyException{
-			Message: com_amazonaws_kms_IncorrectKeyException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func KMSInvalidStateException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.KMSInvalidStateException {
-	return func() types.KMSInvalidStateException {
-
-		return types.KMSInvalidStateException{
-			Message: com_amazonaws_kms_KMSInvalidStateException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func XksKeyAlreadyInUseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksKeyAlreadyInUseException {
-	return func() types.XksKeyAlreadyInUseException {
-
-		return types.XksKeyAlreadyInUseException{
-			Message: com_amazonaws_kms_XksKeyAlreadyInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func LimitExceededException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.LimitExceededException {
-	return func() types.LimitExceededException {
-
-		return types.LimitExceededException{
-			Message: com_amazonaws_kms_LimitExceededException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func NotFoundException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.NotFoundException {
-	return func() types.NotFoundException {
-
-		return types.NotFoundException{
-			Message: com_amazonaws_kms_NotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func XksProxyVpcEndpointServiceInUseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyVpcEndpointServiceInUseException {
-	return func() types.XksProxyVpcEndpointServiceInUseException {
-
-		return types.XksProxyVpcEndpointServiceInUseException{
-			Message: com_amazonaws_kms_XksProxyVpcEndpointServiceInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func IncorrectKeyMaterialException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.IncorrectKeyMaterialException {
-	return func() types.IncorrectKeyMaterialException {
-
-		return types.IncorrectKeyMaterialException{
-			Message: com_amazonaws_kms_IncorrectKeyMaterialException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func CloudHsmClusterNotRelatedException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CloudHsmClusterNotRelatedException {
-	return func() types.CloudHsmClusterNotRelatedException {
-
-		return types.CloudHsmClusterNotRelatedException{
-			Message: com_amazonaws_kms_CloudHsmClusterNotRelatedException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func DisabledException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.DisabledException {
-	return func() types.DisabledException {
-
-		return types.DisabledException{
-			Message: com_amazonaws_kms_DisabledException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func DependencyTimeoutException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.DependencyTimeoutException {
-	return func() types.DependencyTimeoutException {
-
-		return types.DependencyTimeoutException{
-			Message: com_amazonaws_kms_DependencyTimeoutException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func InvalidGrantIdException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidGrantIdException {
-	return func() types.InvalidGrantIdException {
-
-		return types.InvalidGrantIdException{
-			Message: com_amazonaws_kms_InvalidGrantIdException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func XksProxyInvalidResponseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyInvalidResponseException {
-	return func() types.XksProxyInvalidResponseException {
-
-		return types.XksProxyInvalidResponseException{
-			Message: com_amazonaws_kms_XksProxyInvalidResponseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func ConflictException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.ConflictException {
-	return func() types.ConflictException {
-
-		return types.ConflictException{
-			Message: com_amazonaws_kms_ConflictException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func InvalidKeyUsageException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidKeyUsageException {
-	return func() types.InvalidKeyUsageException {
-
-		return types.InvalidKeyUsageException{
-			Message: com_amazonaws_kms_InvalidKeyUsageException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func KeyUnavailableException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.KeyUnavailableException {
-	return func() types.KeyUnavailableException {
-
-		return types.KeyUnavailableException{
-			Message: com_amazonaws_kms_KeyUnavailableException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func CloudHsmClusterNotFoundException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CloudHsmClusterNotFoundException {
-	return func() types.CloudHsmClusterNotFoundException {
-
-		return types.CloudHsmClusterNotFoundException{
-			Message: com_amazonaws_kms_CloudHsmClusterNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func InvalidArnException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidArnException {
-	return func() types.InvalidArnException {
-
-		return types.InvalidArnException{
-			Message: com_amazonaws_kms_InvalidArnException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
@@ -1616,21 +1216,121 @@ func CloudHsmClusterInUseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Er
 
 }
 
-func TagException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.TagException {
-	return func() types.TagException {
+func CloudHsmClusterInvalidConfigurationException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CloudHsmClusterInvalidConfigurationException {
+	return func() types.CloudHsmClusterInvalidConfigurationException {
 
-		return types.TagException{
-			Message: com_amazonaws_kms_TagException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.CloudHsmClusterInvalidConfigurationException{
+			Message: com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
 }
 
-func InvalidGrantTokenException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidGrantTokenException {
-	return func() types.InvalidGrantTokenException {
+func CloudHsmClusterNotActiveException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CloudHsmClusterNotActiveException {
+	return func() types.CloudHsmClusterNotActiveException {
 
-		return types.InvalidGrantTokenException{
-			Message: com_amazonaws_kms_InvalidGrantTokenException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.CloudHsmClusterNotActiveException{
+			Message: com_amazonaws_kms_CloudHsmClusterNotActiveException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func CloudHsmClusterNotFoundException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CloudHsmClusterNotFoundException {
+	return func() types.CloudHsmClusterNotFoundException {
+
+		return types.CloudHsmClusterNotFoundException{
+			Message: com_amazonaws_kms_CloudHsmClusterNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func CloudHsmClusterNotRelatedException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CloudHsmClusterNotRelatedException {
+	return func() types.CloudHsmClusterNotRelatedException {
+
+		return types.CloudHsmClusterNotRelatedException{
+			Message: com_amazonaws_kms_CloudHsmClusterNotRelatedException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func ConflictException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.ConflictException {
+	return func() types.ConflictException {
+
+		return types.ConflictException{
+			Message: com_amazonaws_kms_ConflictException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func CustomKeyStoreHasCMKsException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CustomKeyStoreHasCMKsException {
+	return func() types.CustomKeyStoreHasCMKsException {
+
+		return types.CustomKeyStoreHasCMKsException{
+			Message: com_amazonaws_kms_CustomKeyStoreHasCMKsException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func CustomKeyStoreInvalidStateException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CustomKeyStoreInvalidStateException {
+	return func() types.CustomKeyStoreInvalidStateException {
+
+		return types.CustomKeyStoreInvalidStateException{
+			Message: com_amazonaws_kms_CustomKeyStoreInvalidStateException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func CustomKeyStoreNameInUseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CustomKeyStoreNameInUseException {
+	return func() types.CustomKeyStoreNameInUseException {
+
+		return types.CustomKeyStoreNameInUseException{
+			Message: com_amazonaws_kms_CustomKeyStoreNameInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func CustomKeyStoreNotFoundException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CustomKeyStoreNotFoundException {
+	return func() types.CustomKeyStoreNotFoundException {
+
+		return types.CustomKeyStoreNotFoundException{
+			Message: com_amazonaws_kms_CustomKeyStoreNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func DependencyTimeoutException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.DependencyTimeoutException {
+	return func() types.DependencyTimeoutException {
+
+		return types.DependencyTimeoutException{
+			Message: com_amazonaws_kms_DependencyTimeoutException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func DisabledException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.DisabledException {
+	return func() types.DisabledException {
+
+		return types.DisabledException{
+			Message: com_amazonaws_kms_DisabledException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func DryRunOperationException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.DryRunOperationException {
+	return func() types.DryRunOperationException {
+
+		return types.DryRunOperationException{
+			Message: com_amazonaws_kms_DryRunOperationException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
@@ -1646,11 +1346,241 @@ func ExpiredImportTokenException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Erro
 
 }
 
-func CloudHsmClusterInvalidConfigurationException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CloudHsmClusterInvalidConfigurationException {
-	return func() types.CloudHsmClusterInvalidConfigurationException {
+func IncorrectKeyException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.IncorrectKeyException {
+	return func() types.IncorrectKeyException {
 
-		return types.CloudHsmClusterInvalidConfigurationException{
-			Message: com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.IncorrectKeyException{
+			Message: com_amazonaws_kms_IncorrectKeyException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func IncorrectKeyMaterialException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.IncorrectKeyMaterialException {
+	return func() types.IncorrectKeyMaterialException {
+
+		return types.IncorrectKeyMaterialException{
+			Message: com_amazonaws_kms_IncorrectKeyMaterialException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func IncorrectTrustAnchorException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.IncorrectTrustAnchorException {
+	return func() types.IncorrectTrustAnchorException {
+
+		return types.IncorrectTrustAnchorException{
+			Message: com_amazonaws_kms_IncorrectTrustAnchorException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func InvalidAliasNameException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidAliasNameException {
+	return func() types.InvalidAliasNameException {
+
+		return types.InvalidAliasNameException{
+			Message: com_amazonaws_kms_InvalidAliasNameException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func InvalidArnException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidArnException {
+	return func() types.InvalidArnException {
+
+		return types.InvalidArnException{
+			Message: com_amazonaws_kms_InvalidArnException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func InvalidCiphertextException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidCiphertextException {
+	return func() types.InvalidCiphertextException {
+
+		return types.InvalidCiphertextException{
+			Message: com_amazonaws_kms_InvalidCiphertextException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func InvalidGrantIdException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidGrantIdException {
+	return func() types.InvalidGrantIdException {
+
+		return types.InvalidGrantIdException{
+			Message: com_amazonaws_kms_InvalidGrantIdException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func InvalidGrantTokenException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidGrantTokenException {
+	return func() types.InvalidGrantTokenException {
+
+		return types.InvalidGrantTokenException{
+			Message: com_amazonaws_kms_InvalidGrantTokenException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func InvalidImportTokenException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidImportTokenException {
+	return func() types.InvalidImportTokenException {
+
+		return types.InvalidImportTokenException{
+			Message: com_amazonaws_kms_InvalidImportTokenException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func InvalidKeyUsageException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidKeyUsageException {
+	return func() types.InvalidKeyUsageException {
+
+		return types.InvalidKeyUsageException{
+			Message: com_amazonaws_kms_InvalidKeyUsageException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func InvalidMarkerException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.InvalidMarkerException {
+	return func() types.InvalidMarkerException {
+
+		return types.InvalidMarkerException{
+			Message: com_amazonaws_kms_InvalidMarkerException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func KMSInternalException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.KMSInternalException {
+	return func() types.KMSInternalException {
+
+		return types.KMSInternalException{
+			Message: com_amazonaws_kms_KMSInternalException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func KMSInvalidMacException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.KMSInvalidMacException {
+	return func() types.KMSInvalidMacException {
+
+		return types.KMSInvalidMacException{
+			Message: com_amazonaws_kms_KMSInvalidMacException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func KMSInvalidSignatureException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.KMSInvalidSignatureException {
+	return func() types.KMSInvalidSignatureException {
+
+		return types.KMSInvalidSignatureException{
+			Message: com_amazonaws_kms_KMSInvalidSignatureException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func KMSInvalidStateException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.KMSInvalidStateException {
+	return func() types.KMSInvalidStateException {
+
+		return types.KMSInvalidStateException{
+			Message: com_amazonaws_kms_KMSInvalidStateException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func KeyUnavailableException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.KeyUnavailableException {
+	return func() types.KeyUnavailableException {
+
+		return types.KeyUnavailableException{
+			Message: com_amazonaws_kms_KeyUnavailableException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func LimitExceededException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.LimitExceededException {
+	return func() types.LimitExceededException {
+
+		return types.LimitExceededException{
+			Message: com_amazonaws_kms_LimitExceededException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func MalformedPolicyDocumentException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.MalformedPolicyDocumentException {
+	return func() types.MalformedPolicyDocumentException {
+
+		return types.MalformedPolicyDocumentException{
+			Message: com_amazonaws_kms_MalformedPolicyDocumentException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func NotFoundException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.NotFoundException {
+	return func() types.NotFoundException {
+
+		return types.NotFoundException{
+			Message: com_amazonaws_kms_NotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func TagException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.TagException {
+	return func() types.TagException {
+
+		return types.TagException{
+			Message: com_amazonaws_kms_TagException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func UnsupportedOperationException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.UnsupportedOperationException {
+	return func() types.UnsupportedOperationException {
+
+		return types.UnsupportedOperationException{
+			Message: com_amazonaws_kms_UnsupportedOperationException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func XksKeyAlreadyInUseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksKeyAlreadyInUseException {
+	return func() types.XksKeyAlreadyInUseException {
+
+		return types.XksKeyAlreadyInUseException{
+			Message: com_amazonaws_kms_XksKeyAlreadyInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func XksKeyInvalidConfigurationException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksKeyInvalidConfigurationException {
+	return func() types.XksKeyInvalidConfigurationException {
+
+		return types.XksKeyInvalidConfigurationException{
+			Message: com_amazonaws_kms_XksKeyInvalidConfigurationException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func XksKeyNotFoundException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksKeyNotFoundException {
+	return func() types.XksKeyNotFoundException {
+
+		return types.XksKeyNotFoundException{
+			Message: com_amazonaws_kms_XksKeyNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
@@ -1666,11 +1596,81 @@ func XksProxyIncorrectAuthenticationCredentialException_FromDafny(dafnyOutput Co
 
 }
 
-func CustomKeyStoreNameInUseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.CustomKeyStoreNameInUseException {
-	return func() types.CustomKeyStoreNameInUseException {
+func XksProxyInvalidConfigurationException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyInvalidConfigurationException {
+	return func() types.XksProxyInvalidConfigurationException {
 
-		return types.CustomKeyStoreNameInUseException{
-			Message: com_amazonaws_kms_CustomKeyStoreNameInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		return types.XksProxyInvalidConfigurationException{
+			Message: com_amazonaws_kms_XksProxyInvalidConfigurationException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func XksProxyInvalidResponseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyInvalidResponseException {
+	return func() types.XksProxyInvalidResponseException {
+
+		return types.XksProxyInvalidResponseException{
+			Message: com_amazonaws_kms_XksProxyInvalidResponseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func XksProxyUriEndpointInUseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyUriEndpointInUseException {
+	return func() types.XksProxyUriEndpointInUseException {
+
+		return types.XksProxyUriEndpointInUseException{
+			Message: com_amazonaws_kms_XksProxyUriEndpointInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func XksProxyUriInUseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyUriInUseException {
+	return func() types.XksProxyUriInUseException {
+
+		return types.XksProxyUriInUseException{
+			Message: com_amazonaws_kms_XksProxyUriInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func XksProxyUriUnreachableException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyUriUnreachableException {
+	return func() types.XksProxyUriUnreachableException {
+
+		return types.XksProxyUriUnreachableException{
+			Message: com_amazonaws_kms_XksProxyUriUnreachableException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func XksProxyVpcEndpointServiceInUseException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyVpcEndpointServiceInUseException {
+	return func() types.XksProxyVpcEndpointServiceInUseException {
+
+		return types.XksProxyVpcEndpointServiceInUseException{
+			Message: com_amazonaws_kms_XksProxyVpcEndpointServiceInUseException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func XksProxyVpcEndpointServiceInvalidConfigurationException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyVpcEndpointServiceInvalidConfigurationException {
+	return func() types.XksProxyVpcEndpointServiceInvalidConfigurationException {
+
+		return types.XksProxyVpcEndpointServiceInvalidConfigurationException{
+			Message: com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
+func XksProxyVpcEndpointServiceNotFoundException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.XksProxyVpcEndpointServiceNotFoundException {
+	return func() types.XksProxyVpcEndpointServiceNotFoundException {
+
+		return types.XksProxyVpcEndpointServiceNotFoundException{
+			Message: com_amazonaws_kms_XksProxyVpcEndpointServiceNotFoundException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
@@ -8081,647 +8081,7 @@ func com_amazonaws_kms_VerifyMacOutput_MacAlgorithm_FromDafny(input interface{})
 		return u.Values()[index]
 	}()
 }
-func com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_KMSInvalidMacException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_UnsupportedOperationException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_MalformedPolicyDocumentException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_XksKeyInvalidConfigurationException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_XksProxyVpcEndpointServiceNotFoundException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_InvalidCiphertextException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_XksProxyUriUnreachableException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_InvalidImportTokenException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CloudHsmClusterNotActiveException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_InvalidMarkerException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_DryRunOperationException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_IncorrectTrustAnchorException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_KMSInvalidSignatureException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_XksKeyNotFoundException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CustomKeyStoreHasCMKsException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_XksProxyInvalidConfigurationException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CustomKeyStoreInvalidStateException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_KMSInternalException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_XksProxyUriEndpointInUseException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_InvalidAliasNameException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_XksProxyUriInUseException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
 func com_amazonaws_kms_AlreadyExistsException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CustomKeyStoreNotFoundException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_IncorrectKeyException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_KMSInvalidStateException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_XksKeyAlreadyInUseException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_LimitExceededException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_NotFoundException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_XksProxyVpcEndpointServiceInUseException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_IncorrectKeyMaterialException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CloudHsmClusterNotRelatedException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_DisabledException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_DependencyTimeoutException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_InvalidGrantIdException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_XksProxyInvalidResponseException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_ConflictException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_InvalidKeyUsageException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_KeyUnavailableException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_CloudHsmClusterNotFoundException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_InvalidArnException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -8753,7 +8113,7 @@ func com_amazonaws_kms_CloudHsmClusterInUseException_message_FromDafny(input int
 		}
 	}()
 }
-func com_amazonaws_kms_TagException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -8769,7 +8129,167 @@ func com_amazonaws_kms_TagException_message_FromDafny(input interface{}) *string
 		}
 	}()
 }
-func com_amazonaws_kms_InvalidGrantTokenException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_CloudHsmClusterNotActiveException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CloudHsmClusterNotFoundException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CloudHsmClusterNotRelatedException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_ConflictException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CustomKeyStoreHasCMKsException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CustomKeyStoreInvalidStateException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CustomKeyStoreNameInUseException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_CustomKeyStoreNotFoundException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_DependencyTimeoutException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_DisabledException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_DryRunOperationException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -8801,7 +8321,375 @@ func com_amazonaws_kms_ExpiredImportTokenException_message_FromDafny(input inter
 		}
 	}()
 }
-func com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_IncorrectKeyException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_IncorrectKeyMaterialException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_IncorrectTrustAnchorException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_InvalidAliasNameException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_InvalidArnException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_InvalidCiphertextException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_InvalidGrantIdException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_InvalidGrantTokenException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_InvalidImportTokenException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_InvalidKeyUsageException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_InvalidMarkerException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_KMSInternalException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_KMSInvalidMacException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_KMSInvalidSignatureException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_KMSInvalidStateException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_KeyUnavailableException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_LimitExceededException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_MalformedPolicyDocumentException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_NotFoundException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_TagException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_UnsupportedOperationException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_XksKeyAlreadyInUseException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_XksKeyInvalidConfigurationException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_XksKeyNotFoundException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
@@ -8833,7 +8721,119 @@ func com_amazonaws_kms_XksProxyIncorrectAuthenticationCredentialException_messag
 		}
 	}()
 }
-func com_amazonaws_kms_CustomKeyStoreNameInUseException_message_FromDafny(input interface{}) *string {
+func com_amazonaws_kms_XksProxyInvalidConfigurationException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_XksProxyInvalidResponseException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_XksProxyUriEndpointInUseException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_XksProxyUriInUseException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_XksProxyUriUnreachableException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_XksProxyVpcEndpointServiceInUseException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func com_amazonaws_kms_XksProxyVpcEndpointServiceNotFoundException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
