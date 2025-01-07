@@ -1824,33 +1824,8 @@ func OpaqueError_Output_FromDafny(dafnyOutput ComAmazonawsDynamodbTypes.Error) e
 
 func Error_FromDafny(err ComAmazonawsDynamodbTypes.Error) error {
 	// Service Errors
-	if err.Is_GlobalTableAlreadyExistsException() {
-		e := GlobalTableAlreadyExistsException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_InternalServerError() {
-		e := InternalServerError_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_IdempotentParameterMismatchException() {
-		e := IdempotentParameterMismatchException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_TransactionInProgressException() {
-		e := TransactionInProgressException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_InvalidRestoreTimeException() {
-		e := InvalidRestoreTimeException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_ImportNotFoundException() {
-		e := ImportNotFoundException_FromDafny(err)
+	if err.Is_BackupInUseException() {
+		e := BackupInUseException_FromDafny(err)
 		return &e
 	}
 
@@ -1859,18 +1834,8 @@ func Error_FromDafny(err ComAmazonawsDynamodbTypes.Error) error {
 		return &e
 	}
 
-	if err.Is_ProvisionedThroughputExceededException() {
-		e := ProvisionedThroughputExceededException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_InvalidEndpointException() {
-		e := InvalidEndpointException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_ImportConflictException() {
-		e := ImportConflictException_FromDafny(err)
+	if err.Is_ConditionalCheckFailedException() {
+		e := ConditionalCheckFailedException_FromDafny(err)
 		return &e
 	}
 
@@ -1879,93 +1844,8 @@ func Error_FromDafny(err ComAmazonawsDynamodbTypes.Error) error {
 		return &e
 	}
 
-	if err.Is_ReplicaAlreadyExistsException() {
-		e := ReplicaAlreadyExistsException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_PolicyNotFoundException() {
-		e := PolicyNotFoundException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_TableNotFoundException() {
-		e := TableNotFoundException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_PointInTimeRecoveryUnavailableException() {
-		e := PointInTimeRecoveryUnavailableException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_ExportNotFoundException() {
-		e := ExportNotFoundException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_RequestLimitExceeded() {
-		e := RequestLimitExceeded_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_ResourceNotFoundException() {
-		e := ResourceNotFoundException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_BackupInUseException() {
-		e := BackupInUseException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_ConditionalCheckFailedException() {
-		e := ConditionalCheckFailedException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_IndexNotFoundException() {
-		e := IndexNotFoundException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_ResourceInUseException() {
-		e := ResourceInUseException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_ItemCollectionSizeLimitExceededException() {
-		e := ItemCollectionSizeLimitExceededException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_TableInUseException() {
-		e := TableInUseException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_ReplicaNotFoundException() {
-		e := ReplicaNotFoundException_FromDafny(err)
-		return &e
-	}
-
 	if err.Is_DuplicateItemException() {
 		e := DuplicateItemException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_LimitExceededException() {
-		e := LimitExceededException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_TransactionConflictException() {
-		e := TransactionConflictException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_GlobalTableNotFoundException() {
-		e := GlobalTableNotFoundException_FromDafny(err)
 		return &e
 	}
 
@@ -1974,8 +1854,48 @@ func Error_FromDafny(err ComAmazonawsDynamodbTypes.Error) error {
 		return &e
 	}
 
-	if err.Is_TransactionCanceledException() {
-		e := TransactionCanceledException_FromDafny(err)
+	if err.Is_ExportNotFoundException() {
+		e := ExportNotFoundException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_GlobalTableAlreadyExistsException() {
+		e := GlobalTableAlreadyExistsException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_GlobalTableNotFoundException() {
+		e := GlobalTableNotFoundException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_IdempotentParameterMismatchException() {
+		e := IdempotentParameterMismatchException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_ImportConflictException() {
+		e := ImportConflictException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_ImportNotFoundException() {
+		e := ImportNotFoundException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_IndexNotFoundException() {
+		e := IndexNotFoundException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_InternalServerError() {
+		e := InternalServerError_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_InvalidEndpointException() {
+		e := InvalidEndpointException_FromDafny(err)
 		return &e
 	}
 
@@ -1984,8 +1904,88 @@ func Error_FromDafny(err ComAmazonawsDynamodbTypes.Error) error {
 		return &e
 	}
 
+	if err.Is_InvalidRestoreTimeException() {
+		e := InvalidRestoreTimeException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_ItemCollectionSizeLimitExceededException() {
+		e := ItemCollectionSizeLimitExceededException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_LimitExceededException() {
+		e := LimitExceededException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_PointInTimeRecoveryUnavailableException() {
+		e := PointInTimeRecoveryUnavailableException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_PolicyNotFoundException() {
+		e := PolicyNotFoundException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_ProvisionedThroughputExceededException() {
+		e := ProvisionedThroughputExceededException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_ReplicaAlreadyExistsException() {
+		e := ReplicaAlreadyExistsException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_ReplicaNotFoundException() {
+		e := ReplicaNotFoundException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_RequestLimitExceeded() {
+		e := RequestLimitExceeded_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_ResourceInUseException() {
+		e := ResourceInUseException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_ResourceNotFoundException() {
+		e := ResourceNotFoundException_FromDafny(err)
+		return &e
+	}
+
 	if err.Is_TableAlreadyExistsException() {
 		e := TableAlreadyExistsException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_TableInUseException() {
+		e := TableInUseException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_TableNotFoundException() {
+		e := TableNotFoundException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_TransactionCanceledException() {
+		e := TransactionCanceledException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_TransactionConflictException() {
+		e := TransactionConflictException_FromDafny(err)
+		return &e
+	}
+
+	if err.Is_TransactionInProgressException() {
+		e := TransactionInProgressException_FromDafny(err)
 		return &e
 	}
 
