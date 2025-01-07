@@ -734,8 +734,8 @@ func (input KeyVectorsConfig) Validate() error {
 // KeyDescriptionMemberKmsMrkDiscovery
 // KeyDescriptionMemberKmsRsa
 // KeyDescriptionMemberMulti
-// KeyDescriptionMemberRequiredEncryptionContext
 // KeyDescriptionMemberRSA
+// KeyDescriptionMemberRequiredEncryptionContext
 // KeyDescriptionMemberStatic
 type KeyDescription interface {
 	isKeyDescription()
