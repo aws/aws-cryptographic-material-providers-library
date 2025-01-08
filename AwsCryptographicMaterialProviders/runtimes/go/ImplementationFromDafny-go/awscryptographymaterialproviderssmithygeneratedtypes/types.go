@@ -2040,6 +2040,153 @@ func (input MaterialProvidersConfig) Validate() error {
 	return nil
 }
 
+// AlgorithmSuiteIdMemberDBE
+// AlgorithmSuiteIdMemberESDK
+type AlgorithmSuiteId interface {
+	isAlgorithmSuiteId()
+}
+
+type AlgorithmSuiteIdMemberDBE struct {
+	Value DBEAlgorithmSuiteId
+}
+
+func (*AlgorithmSuiteIdMemberDBE) isAlgorithmSuiteId() {}
+
+type AlgorithmSuiteIdMemberESDK struct {
+	Value ESDKAlgorithmSuiteId
+}
+
+func (*AlgorithmSuiteIdMemberESDK) isAlgorithmSuiteId() {}
+
+// CacheTypeMemberDefault
+// CacheTypeMemberMultiThreaded
+// CacheTypeMemberNo
+// CacheTypeMemberShared
+// CacheTypeMemberSingleThreaded
+// CacheTypeMemberStormTracking
+type CacheType interface {
+	isCacheType()
+}
+
+type CacheTypeMemberDefault struct {
+	Value DefaultCache
+}
+
+func (*CacheTypeMemberDefault) isCacheType() {}
+
+type CacheTypeMemberMultiThreaded struct {
+	Value MultiThreadedCache
+}
+
+func (*CacheTypeMemberMultiThreaded) isCacheType() {}
+
+type CacheTypeMemberNo struct {
+	Value NoCache
+}
+
+func (*CacheTypeMemberNo) isCacheType() {}
+
+type CacheTypeMemberShared struct {
+	Value ICryptographicMaterialsCache
+}
+
+func (*CacheTypeMemberShared) isCacheType() {}
+
+type CacheTypeMemberSingleThreaded struct {
+	Value SingleThreadedCache
+}
+
+func (*CacheTypeMemberSingleThreaded) isCacheType() {}
+
+type CacheTypeMemberStormTracking struct {
+	Value StormTrackingCache
+}
+
+func (*CacheTypeMemberStormTracking) isCacheType() {}
+
+// CommitmentPolicyMemberDBE
+// CommitmentPolicyMemberESDK
+type CommitmentPolicy interface {
+	isCommitmentPolicy()
+}
+
+type CommitmentPolicyMemberDBE struct {
+	Value DBECommitmentPolicy
+}
+
+func (*CommitmentPolicyMemberDBE) isCommitmentPolicy() {}
+
+type CommitmentPolicyMemberESDK struct {
+	Value ESDKCommitmentPolicy
+}
+
+func (*CommitmentPolicyMemberESDK) isCommitmentPolicy() {}
+
+// DerivationAlgorithmMemberHKDF
+// DerivationAlgorithmMemberIDENTITY
+// DerivationAlgorithmMemberNone
+type DerivationAlgorithm interface {
+	isDerivationAlgorithm()
+}
+
+type DerivationAlgorithmMemberHKDF struct {
+	Value HKDF
+}
+
+func (*DerivationAlgorithmMemberHKDF) isDerivationAlgorithm() {}
+
+type DerivationAlgorithmMemberIDENTITY struct {
+	Value IDENTITY
+}
+
+func (*DerivationAlgorithmMemberIDENTITY) isDerivationAlgorithm() {}
+
+type DerivationAlgorithmMemberNone struct {
+	Value None
+}
+
+func (*DerivationAlgorithmMemberNone) isDerivationAlgorithm() {}
+
+// EdkWrappingAlgorithmMemberDIRECT_KEY_WRAPPING
+// EdkWrappingAlgorithmMemberIntermediateKeyWrapping
+type EdkWrappingAlgorithm interface {
+	isEdkWrappingAlgorithm()
+}
+
+type EdkWrappingAlgorithmMemberDIRECT_KEY_WRAPPING struct {
+	Value DIRECT_KEY_WRAPPING
+}
+
+func (*EdkWrappingAlgorithmMemberDIRECT_KEY_WRAPPING) isEdkWrappingAlgorithm() {}
+
+type EdkWrappingAlgorithmMemberIntermediateKeyWrapping struct {
+	Value IntermediateKeyWrapping
+}
+
+func (*EdkWrappingAlgorithmMemberIntermediateKeyWrapping) isEdkWrappingAlgorithm() {}
+
+// EncryptMemberAES_GCM
+type Encrypt interface {
+	isEncrypt()
+}
+
+type EncryptMemberAES_GCM struct {
+	Value awscryptographyprimitivessmithygeneratedtypes.AES_GCM
+}
+
+func (*EncryptMemberAES_GCM) isEncrypt() {}
+
+// KeyAgreementSchemeMemberStaticConfiguration
+type KeyAgreementScheme interface {
+	isKeyAgreementScheme()
+}
+
+type KeyAgreementSchemeMemberStaticConfiguration struct {
+	Value StaticConfigurations
+}
+
+func (*KeyAgreementSchemeMemberStaticConfiguration) isKeyAgreementScheme() {}
+
 // KmsEcdhStaticConfigurationsMemberKmsPrivateKeyToStaticPublicKey
 // KmsEcdhStaticConfigurationsMemberKmsPublicKeyDiscovery
 type KmsEcdhStaticConfigurations interface {
@@ -2059,34 +2206,64 @@ type KmsEcdhStaticConfigurationsMemberKmsPublicKeyDiscovery struct {
 
 func (*KmsEcdhStaticConfigurationsMemberKmsPublicKeyDiscovery) isKmsEcdhStaticConfigurations() {}
 
-// AlgorithmSuiteIdMemberDBE
-// AlgorithmSuiteIdMemberESDK
-type AlgorithmSuiteId interface {
-	isAlgorithmSuiteId()
+// MaterialsMemberBeaconKey
+// MaterialsMemberBranchKey
+// MaterialsMemberDecryption
+// MaterialsMemberEncryption
+type Materials interface {
+	isMaterials()
 }
 
-type AlgorithmSuiteIdMemberDBE struct {
-	Value DBEAlgorithmSuiteId
+type MaterialsMemberBeaconKey struct {
+	Value awscryptographykeystoresmithygeneratedtypes.BeaconKeyMaterials
 }
 
-func (*AlgorithmSuiteIdMemberDBE) isAlgorithmSuiteId() {}
+func (*MaterialsMemberBeaconKey) isMaterials() {}
 
-type AlgorithmSuiteIdMemberESDK struct {
-	Value ESDKAlgorithmSuiteId
+type MaterialsMemberBranchKey struct {
+	Value awscryptographykeystoresmithygeneratedtypes.BranchKeyMaterials
 }
 
-func (*AlgorithmSuiteIdMemberESDK) isAlgorithmSuiteId() {}
+func (*MaterialsMemberBranchKey) isMaterials() {}
 
-// KeyAgreementSchemeMemberStaticConfiguration
-type KeyAgreementScheme interface {
-	isKeyAgreementScheme()
+type MaterialsMemberDecryption struct {
+	Value DecryptionMaterials
 }
 
-type KeyAgreementSchemeMemberStaticConfiguration struct {
-	Value StaticConfigurations
+func (*MaterialsMemberDecryption) isMaterials() {}
+
+type MaterialsMemberEncryption struct {
+	Value EncryptionMaterials
 }
 
-func (*KeyAgreementSchemeMemberStaticConfiguration) isKeyAgreementScheme() {}
+func (*MaterialsMemberEncryption) isMaterials() {}
+
+// RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey
+// RawEcdhStaticConfigurationsMemberPublicKeyDiscovery
+// RawEcdhStaticConfigurationsMemberRawPrivateKeyToStaticPublicKey
+type RawEcdhStaticConfigurations interface {
+	isRawEcdhStaticConfigurations()
+}
+
+type RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey struct {
+	Value EphemeralPrivateKeyToStaticPublicKeyInput
+}
+
+func (*RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey) isRawEcdhStaticConfigurations() {
+}
+
+type RawEcdhStaticConfigurationsMemberPublicKeyDiscovery struct {
+	Value PublicKeyDiscoveryInput
+}
+
+func (*RawEcdhStaticConfigurationsMemberPublicKeyDiscovery) isRawEcdhStaticConfigurations() {}
+
+type RawEcdhStaticConfigurationsMemberRawPrivateKeyToStaticPublicKey struct {
+	Value RawPrivateKeyToStaticPublicKeyInput
+}
+
+func (*RawEcdhStaticConfigurationsMemberRawPrivateKeyToStaticPublicKey) isRawEcdhStaticConfigurations() {
+}
 
 // SignatureAlgorithmMemberECDSA
 // SignatureAlgorithmMemberNone
@@ -2142,183 +2319,6 @@ type SymmetricSignatureAlgorithmMemberNone struct {
 
 func (*SymmetricSignatureAlgorithmMemberNone) isSymmetricSignatureAlgorithm() {}
 
-// CacheTypeMemberDefault
-// CacheTypeMemberMultiThreaded
-// CacheTypeMemberNo
-// CacheTypeMemberShared
-// CacheTypeMemberSingleThreaded
-// CacheTypeMemberStormTracking
-type CacheType interface {
-	isCacheType()
-}
-
-type CacheTypeMemberDefault struct {
-	Value DefaultCache
-}
-
-func (*CacheTypeMemberDefault) isCacheType() {}
-
-type CacheTypeMemberMultiThreaded struct {
-	Value MultiThreadedCache
-}
-
-func (*CacheTypeMemberMultiThreaded) isCacheType() {}
-
-type CacheTypeMemberNo struct {
-	Value NoCache
-}
-
-func (*CacheTypeMemberNo) isCacheType() {}
-
-type CacheTypeMemberShared struct {
-	Value ICryptographicMaterialsCache
-}
-
-func (*CacheTypeMemberShared) isCacheType() {}
-
-type CacheTypeMemberSingleThreaded struct {
-	Value SingleThreadedCache
-}
-
-func (*CacheTypeMemberSingleThreaded) isCacheType() {}
-
-type CacheTypeMemberStormTracking struct {
-	Value StormTrackingCache
-}
-
-func (*CacheTypeMemberStormTracking) isCacheType() {}
-
-// EncryptMemberAES_GCM
-type Encrypt interface {
-	isEncrypt()
-}
-
-type EncryptMemberAES_GCM struct {
-	Value awscryptographyprimitivessmithygeneratedtypes.AES_GCM
-}
-
-func (*EncryptMemberAES_GCM) isEncrypt() {}
-
-// RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey
-// RawEcdhStaticConfigurationsMemberPublicKeyDiscovery
-// RawEcdhStaticConfigurationsMemberRawPrivateKeyToStaticPublicKey
-type RawEcdhStaticConfigurations interface {
-	isRawEcdhStaticConfigurations()
-}
-
-type RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey struct {
-	Value EphemeralPrivateKeyToStaticPublicKeyInput
-}
-
-func (*RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey) isRawEcdhStaticConfigurations() {
-}
-
-type RawEcdhStaticConfigurationsMemberPublicKeyDiscovery struct {
-	Value PublicKeyDiscoveryInput
-}
-
-func (*RawEcdhStaticConfigurationsMemberPublicKeyDiscovery) isRawEcdhStaticConfigurations() {}
-
-type RawEcdhStaticConfigurationsMemberRawPrivateKeyToStaticPublicKey struct {
-	Value RawPrivateKeyToStaticPublicKeyInput
-}
-
-func (*RawEcdhStaticConfigurationsMemberRawPrivateKeyToStaticPublicKey) isRawEcdhStaticConfigurations() {
-}
-
-// MaterialsMemberBeaconKey
-// MaterialsMemberBranchKey
-// MaterialsMemberDecryption
-// MaterialsMemberEncryption
-type Materials interface {
-	isMaterials()
-}
-
-type MaterialsMemberBeaconKey struct {
-	Value awscryptographykeystoresmithygeneratedtypes.BeaconKeyMaterials
-}
-
-func (*MaterialsMemberBeaconKey) isMaterials() {}
-
-type MaterialsMemberBranchKey struct {
-	Value awscryptographykeystoresmithygeneratedtypes.BranchKeyMaterials
-}
-
-func (*MaterialsMemberBranchKey) isMaterials() {}
-
-type MaterialsMemberDecryption struct {
-	Value DecryptionMaterials
-}
-
-func (*MaterialsMemberDecryption) isMaterials() {}
-
-type MaterialsMemberEncryption struct {
-	Value EncryptionMaterials
-}
-
-func (*MaterialsMemberEncryption) isMaterials() {}
-
-// DerivationAlgorithmMemberHKDF
-// DerivationAlgorithmMemberIDENTITY
-// DerivationAlgorithmMemberNone
-type DerivationAlgorithm interface {
-	isDerivationAlgorithm()
-}
-
-type DerivationAlgorithmMemberHKDF struct {
-	Value HKDF
-}
-
-func (*DerivationAlgorithmMemberHKDF) isDerivationAlgorithm() {}
-
-type DerivationAlgorithmMemberIDENTITY struct {
-	Value IDENTITY
-}
-
-func (*DerivationAlgorithmMemberIDENTITY) isDerivationAlgorithm() {}
-
-type DerivationAlgorithmMemberNone struct {
-	Value None
-}
-
-func (*DerivationAlgorithmMemberNone) isDerivationAlgorithm() {}
-
-// EdkWrappingAlgorithmMemberDIRECT_KEY_WRAPPING
-// EdkWrappingAlgorithmMemberIntermediateKeyWrapping
-type EdkWrappingAlgorithm interface {
-	isEdkWrappingAlgorithm()
-}
-
-type EdkWrappingAlgorithmMemberDIRECT_KEY_WRAPPING struct {
-	Value DIRECT_KEY_WRAPPING
-}
-
-func (*EdkWrappingAlgorithmMemberDIRECT_KEY_WRAPPING) isEdkWrappingAlgorithm() {}
-
-type EdkWrappingAlgorithmMemberIntermediateKeyWrapping struct {
-	Value IntermediateKeyWrapping
-}
-
-func (*EdkWrappingAlgorithmMemberIntermediateKeyWrapping) isEdkWrappingAlgorithm() {}
-
-// CommitmentPolicyMemberDBE
-// CommitmentPolicyMemberESDK
-type CommitmentPolicy interface {
-	isCommitmentPolicy()
-}
-
-type CommitmentPolicyMemberDBE struct {
-	Value DBECommitmentPolicy
-}
-
-func (*CommitmentPolicyMemberDBE) isCommitmentPolicy() {}
-
-type CommitmentPolicyMemberESDK struct {
-	Value ESDKCommitmentPolicy
-}
-
-func (*CommitmentPolicyMemberESDK) isCommitmentPolicy() {}
-
 type AwsCryptographicMaterialProvidersBaseException interface {
 	// This is a dummy method to allow type assertion since Go empty interfaces
 	// aren't useful for type assertion checks. No concrete class is expected to implement
@@ -2332,12 +2332,6 @@ type IBranchKeyIdSupplier interface {
 
 type IClientSupplier interface {
 	GetClient(GetClientInput) (kms.Client, error)
-}
-
-type IKeyring interface {
-	OnEncrypt(OnEncryptInput) (*OnEncryptOutput, error)
-
-	OnDecrypt(OnDecryptInput) (*OnDecryptOutput, error)
 }
 
 type ICryptographicMaterialsCache interface {
@@ -2354,4 +2348,10 @@ type ICryptographicMaterialsManager interface {
 	GetEncryptionMaterials(GetEncryptionMaterialsInput) (*GetEncryptionMaterialsOutput, error)
 
 	DecryptMaterials(DecryptMaterialsInput) (*DecryptMaterialsOutput, error)
+}
+
+type IKeyring interface {
+	OnEncrypt(OnEncryptInput) (*OnEncryptOutput, error)
+
+	OnDecrypt(OnDecryptInput) (*OnDecryptOutput, error)
 }

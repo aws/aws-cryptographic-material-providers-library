@@ -1022,6 +1022,14 @@ func InvalidMarkerException_ToDafny(nativeInput types.InvalidMarkerException) Co
 
 }
 
+func KeyUnavailableException_ToDafny(nativeInput types.KeyUnavailableException) ComAmazonawsKmsTypes.Error {
+	return func() ComAmazonawsKmsTypes.Error {
+
+		return ComAmazonawsKmsTypes.Companion_Error_.Create_KeyUnavailableException_(com_amazonaws_kms_KeyUnavailableException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
 func KMSInternalException_ToDafny(nativeInput types.KMSInternalException) ComAmazonawsKmsTypes.Error {
 	return func() ComAmazonawsKmsTypes.Error {
 
@@ -1050,14 +1058,6 @@ func KMSInvalidStateException_ToDafny(nativeInput types.KMSInvalidStateException
 	return func() ComAmazonawsKmsTypes.Error {
 
 		return ComAmazonawsKmsTypes.Companion_Error_.Create_KMSInvalidStateException_(com_amazonaws_kms_KMSInvalidStateException_message_ToDafny(nativeInput.Message))
-	}()
-
-}
-
-func KeyUnavailableException_ToDafny(nativeInput types.KeyUnavailableException) ComAmazonawsKmsTypes.Error {
-	return func() ComAmazonawsKmsTypes.Error {
-
-		return ComAmazonawsKmsTypes.Companion_Error_.Create_KeyUnavailableException_(com_amazonaws_kms_KeyUnavailableException_message_ToDafny(nativeInput.Message))
 	}()
 
 }
@@ -1334,6 +1334,11 @@ func Error_ToDafny(err error) ComAmazonawsKmsTypes.Error {
 		return InvalidMarkerException_ToDafny(*InvalidMarkerException)
 	}
 
+	var KeyUnavailableException *types.KeyUnavailableException
+	if errors.As(err, &KeyUnavailableException) {
+		return KeyUnavailableException_ToDafny(*KeyUnavailableException)
+	}
+
 	var KMSInternalException *types.KMSInternalException
 	if errors.As(err, &KMSInternalException) {
 		return KMSInternalException_ToDafny(*KMSInternalException)
@@ -1352,11 +1357,6 @@ func Error_ToDafny(err error) ComAmazonawsKmsTypes.Error {
 	var KMSInvalidStateException *types.KMSInvalidStateException
 	if errors.As(err, &KMSInvalidStateException) {
 		return KMSInvalidStateException_ToDafny(*KMSInvalidStateException)
-	}
-
-	var KeyUnavailableException *types.KeyUnavailableException
-	if errors.As(err, &KeyUnavailableException) {
-		return KeyUnavailableException_ToDafny(*KeyUnavailableException)
 	}
 
 	var LimitExceededException *types.LimitExceededException
@@ -6203,6 +6203,15 @@ func com_amazonaws_kms_InvalidMarkerException_message_ToDafny(input *string) Wra
 	}()
 }
 
+func com_amazonaws_kms_KeyUnavailableException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
 func com_amazonaws_kms_KMSInternalException_message_ToDafny(input *string) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
@@ -6231,15 +6240,6 @@ func com_amazonaws_kms_KMSInvalidSignatureException_message_ToDafny(input *strin
 }
 
 func com_amazonaws_kms_KMSInvalidStateException_message_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_kms_KeyUnavailableException_message_ToDafny(input *string) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
