@@ -590,48 +590,48 @@ func OpaqueError_Output_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTy
 
 func Error_FromDafny(err AwsCryptographyMaterialProvidersTypes.Error) error {
 	// Service Errors
-	if err.Is_InvalidEncryptionMaterials() {
-		return InvalidEncryptionMaterials_FromDafny(err)
-	}
-
-	if err.Is_InvalidAlgorithmSuiteInfo() {
-		return InvalidAlgorithmSuiteInfo_FromDafny(err)
-	}
-
-	if err.Is_InvalidEncryptionMaterialsTransition() {
-		return InvalidEncryptionMaterialsTransition_FromDafny(err)
+	if err.Is_AwsCryptographicMaterialProvidersException() {
+		return AwsCryptographicMaterialProvidersException_FromDafny(err)
 	}
 
 	if err.Is_EntryAlreadyExists() {
 		return EntryAlreadyExists_FromDafny(err)
 	}
 
-	if err.Is_InvalidAlgorithmSuiteInfoOnDecrypt() {
-		return InvalidAlgorithmSuiteInfoOnDecrypt_FromDafny(err)
+	if err.Is_EntryDoesNotExist() {
+		return EntryDoesNotExist_FromDafny(err)
 	}
 
 	if err.Is_InFlightTTLExceeded() {
 		return InFlightTTLExceeded_FromDafny(err)
 	}
 
-	if err.Is_InvalidDecryptionMaterialsTransition() {
-		return InvalidDecryptionMaterialsTransition_FromDafny(err)
+	if err.Is_InvalidAlgorithmSuiteInfo() {
+		return InvalidAlgorithmSuiteInfo_FromDafny(err)
 	}
 
-	if err.Is_EntryDoesNotExist() {
-		return EntryDoesNotExist_FromDafny(err)
-	}
-
-	if err.Is_InvalidDecryptionMaterials() {
-		return InvalidDecryptionMaterials_FromDafny(err)
+	if err.Is_InvalidAlgorithmSuiteInfoOnDecrypt() {
+		return InvalidAlgorithmSuiteInfoOnDecrypt_FromDafny(err)
 	}
 
 	if err.Is_InvalidAlgorithmSuiteInfoOnEncrypt() {
 		return InvalidAlgorithmSuiteInfoOnEncrypt_FromDafny(err)
 	}
 
-	if err.Is_AwsCryptographicMaterialProvidersException() {
-		return AwsCryptographicMaterialProvidersException_FromDafny(err)
+	if err.Is_InvalidDecryptionMaterials() {
+		return InvalidDecryptionMaterials_FromDafny(err)
+	}
+
+	if err.Is_InvalidDecryptionMaterialsTransition() {
+		return InvalidDecryptionMaterialsTransition_FromDafny(err)
+	}
+
+	if err.Is_InvalidEncryptionMaterials() {
+		return InvalidEncryptionMaterials_FromDafny(err)
+	}
+
+	if err.Is_InvalidEncryptionMaterialsTransition() {
+		return InvalidEncryptionMaterialsTransition_FromDafny(err)
 	}
 
 	//DependentErrors
