@@ -646,6 +646,15 @@ func (input MultiKeyring) aws_cryptography_materialProvidersTestVectorKeys_KeyDe
 
 	return nil
 }
+func (input MultiKeyring) aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_childKeyrings_Validate() error {
+	for _, item := range input.ChildKeyrings {
+		if input.aws_cryptography_materialProvidersTestVectorKeys_KeyDescriptionList_member_Validate(item) != nil {
+			return input.aws_cryptography_materialProvidersTestVectorKeys_KeyDescriptionList_member_Validate(item)
+		}
+	}
+
+	return nil
+}
 func (input MultiKeyring) aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_generator_Validate() error {
 	if input.Generator == nil {
 		return nil
@@ -702,15 +711,6 @@ func (input MultiKeyring) aws_cryptography_materialProvidersTestVectorKeys_Multi
 	// Default case should not be reached.
 	default:
 		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
-	}
-
-	return nil
-}
-func (input MultiKeyring) aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_childKeyrings_Validate() error {
-	for _, item := range input.ChildKeyrings {
-		if input.aws_cryptography_materialProvidersTestVectorKeys_KeyDescriptionList_member_Validate(item) != nil {
-			return input.aws_cryptography_materialProvidersTestVectorKeys_KeyDescriptionList_member_Validate(item)
-		}
 	}
 
 	return nil

@@ -98,22 +98,6 @@ func (input IntermediateKeyWrapping) Validate() error {
 	return nil
 }
 
-func (input IntermediateKeyWrapping) aws_cryptography_materialProviders_IntermediateKeyWrapping_pdkEncryptAlgorithm_Validate() error {
-	if input.PdkEncryptAlgorithm == nil {
-		return nil
-	}
-	switch unionType := input.PdkEncryptAlgorithm.(type) {
-	case *EncryptMemberAES_GCM:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
-	}
-
-	return nil
-}
 func (input IntermediateKeyWrapping) aws_cryptography_materialProviders_IntermediateKeyWrapping_keyEncryptionKeyKdf_Validate() error {
 	if input.KeyEncryptionKeyKdf == nil {
 		return nil
@@ -152,6 +136,22 @@ func (input IntermediateKeyWrapping) aws_cryptography_materialProviders_Intermed
 			return unionType.Value.Validate()
 		}
 	case *DerivationAlgorithmMemberNone:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+func (input IntermediateKeyWrapping) aws_cryptography_materialProviders_IntermediateKeyWrapping_pdkEncryptAlgorithm_Validate() error {
+	if input.PdkEncryptAlgorithm == nil {
+		return nil
+	}
+	switch unionType := input.PdkEncryptAlgorithm.(type) {
+	case *EncryptMemberAES_GCM:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -239,26 +239,6 @@ func (input AlgorithmSuiteInfo) Validate() error {
 	return nil
 }
 
-func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_Validate() error {
-	if input.Signature == nil {
-		return nil
-	}
-	switch unionType := input.Signature.(type) {
-	case *SignatureAlgorithmMemberECDSA:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	case *SignatureAlgorithmMemberNone:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
-	}
-
-	return nil
-}
 func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_commitment_Validate() error {
 	if input.Commitment == nil {
 		return nil
@@ -273,53 +253,6 @@ func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuit
 			return unionType.Value.Validate()
 		}
 	case *DerivationAlgorithmMemberNone:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
-	}
-
-	return nil
-}
-func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_Validate() error {
-	if input.SymmetricSignature == nil {
-		return nil
-	}
-	switch unionType := input.SymmetricSignature.(type) {
-	case *SymmetricSignatureAlgorithmMemberHMAC:
-	case *SymmetricSignatureAlgorithmMemberNone:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
-	}
-
-	return nil
-}
-func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_Validate() error {
-	if input.Id == nil {
-		return nil
-	}
-	switch unionType := input.Id.(type) {
-	case *AlgorithmSuiteIdMemberESDK:
-	case *AlgorithmSuiteIdMemberDBE:
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
-	}
-
-	return nil
-}
-func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_Validate() error {
-	if input.Encrypt == nil {
-		return nil
-	}
-	switch unionType := input.Encrypt.(type) {
-	case *EncryptMemberAES_GCM:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -350,6 +283,36 @@ func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuit
 
 	return nil
 }
+func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_Validate() error {
+	if input.Encrypt == nil {
+		return nil
+	}
+	switch unionType := input.Encrypt.(type) {
+	case *EncryptMemberAES_GCM:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_Validate() error {
+	if input.Id == nil {
+		return nil
+	}
+	switch unionType := input.Id.(type) {
+	case *AlgorithmSuiteIdMemberESDK:
+	case *AlgorithmSuiteIdMemberDBE:
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
 func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_Validate() error {
 	if input.Kdf == nil {
 		return nil
@@ -364,6 +327,43 @@ func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuit
 			return unionType.Value.Validate()
 		}
 	case *DerivationAlgorithmMemberNone:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_Validate() error {
+	if input.Signature == nil {
+		return nil
+	}
+	switch unionType := input.Signature.(type) {
+	case *SignatureAlgorithmMemberECDSA:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	case *SignatureAlgorithmMemberNone:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_Validate() error {
+	if input.SymmetricSignature == nil {
+		return nil
+	}
+	switch unionType := input.SymmetricSignature.(type) {
+	case *SymmetricSignatureAlgorithmMemberHMAC:
+	case *SymmetricSignatureAlgorithmMemberNone:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -1168,14 +1168,16 @@ func (input DecryptMaterialsInput) Validate() error {
 	return nil
 }
 
-func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMaterialsInput_reproducedEncryptionContext_Validate() error {
-	for key, value := range input.ReproducedEncryptionContext {
-		if !utf8.ValidString(key) {
-			return fmt.Errorf("Invalid UTF bytes %s ", key)
-		}
-		if !utf8.ValidString(value) {
-			return fmt.Errorf("Invalid UTF bytes %s ", value)
-		}
+func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMaterialsInput_algorithmSuiteId_Validate() error {
+	if input.AlgorithmSuiteId == nil {
+		return nil
+	}
+	switch unionType := input.AlgorithmSuiteId.(type) {
+	case *AlgorithmSuiteIdMemberESDK:
+	case *AlgorithmSuiteIdMemberDBE:
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
 	}
 
 	return nil
@@ -1215,16 +1217,14 @@ func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMat
 
 	return nil
 }
-func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMaterialsInput_algorithmSuiteId_Validate() error {
-	if input.AlgorithmSuiteId == nil {
-		return nil
-	}
-	switch unionType := input.AlgorithmSuiteId.(type) {
-	case *AlgorithmSuiteIdMemberESDK:
-	case *AlgorithmSuiteIdMemberDBE:
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMaterialsInput_reproducedEncryptionContext_Validate() error {
+	for key, value := range input.ReproducedEncryptionContext {
+		if !utf8.ValidString(key) {
+			return fmt.Errorf("Invalid UTF bytes %s ", key)
+		}
+		if !utf8.ValidString(value) {
+			return fmt.Errorf("Invalid UTF bytes %s ", value)
+		}
 	}
 
 	return nil
@@ -1264,15 +1264,6 @@ func (input DecryptionMaterials) Validate() error {
 	return nil
 }
 
-func (input DecryptionMaterials) aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_Validate() error {
-	for _, item := range input.RequiredEncryptionContextKeys {
-		if !utf8.ValidString(item) {
-			return fmt.Errorf("Invalid UTF bytes %s ", item)
-		}
-	}
-
-	return nil
-}
 func (input DecryptionMaterials) aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
@@ -1280,6 +1271,15 @@ func (input DecryptionMaterials) aws_cryptography_materialProviders_DecryptionMa
 		}
 		if !utf8.ValidString(value) {
 			return fmt.Errorf("Invalid UTF bytes %s ", value)
+		}
+	}
+
+	return nil
+}
+func (input DecryptionMaterials) aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_Validate() error {
+	for _, item := range input.RequiredEncryptionContextKeys {
+		if !utf8.ValidString(item) {
+			return fmt.Errorf("Invalid UTF bytes %s ", item)
 		}
 	}
 
@@ -1333,11 +1333,16 @@ func (input GetEncryptionMaterialsInput) Validate() error {
 	return nil
 }
 
-func (input GetEncryptionMaterialsInput) aws_cryptography_materialProviders_GetEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate() error {
-	for _, item := range input.RequiredEncryptionContextKeys {
-		if !utf8.ValidString(item) {
-			return fmt.Errorf("Invalid UTF bytes %s ", item)
-		}
+func (input GetEncryptionMaterialsInput) aws_cryptography_materialProviders_GetEncryptionMaterialsInput_commitmentPolicy_Validate() error {
+	if input.CommitmentPolicy == nil {
+		return nil
+	}
+	switch unionType := input.CommitmentPolicy.(type) {
+	case *CommitmentPolicyMemberESDK:
+	case *CommitmentPolicyMemberDBE:
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
 	}
 
 	return nil
@@ -1354,20 +1359,6 @@ func (input GetEncryptionMaterialsInput) aws_cryptography_materialProviders_GetE
 
 	return nil
 }
-func (input GetEncryptionMaterialsInput) aws_cryptography_materialProviders_GetEncryptionMaterialsInput_commitmentPolicy_Validate() error {
-	if input.CommitmentPolicy == nil {
-		return nil
-	}
-	switch unionType := input.CommitmentPolicy.(type) {
-	case *CommitmentPolicyMemberESDK:
-	case *CommitmentPolicyMemberDBE:
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
-	}
-
-	return nil
-}
 func (input GetEncryptionMaterialsInput) aws_cryptography_materialProviders_GetEncryptionMaterialsInput_algorithmSuiteId_Validate() error {
 	if input.AlgorithmSuiteId == nil {
 		return nil
@@ -1378,6 +1369,15 @@ func (input GetEncryptionMaterialsInput) aws_cryptography_materialProviders_GetE
 	// Default case should not be reached.
 	default:
 		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+func (input GetEncryptionMaterialsInput) aws_cryptography_materialProviders_GetEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate() error {
+	for _, item := range input.RequiredEncryptionContextKeys {
+		if !utf8.ValidString(item) {
+			return fmt.Errorf("Invalid UTF bytes %s ", item)
+		}
 	}
 
 	return nil
@@ -1425,6 +1425,15 @@ func (input EncryptionMaterials) Validate() error {
 	return nil
 }
 
+func (input EncryptionMaterials) aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_Validate() error {
+	for _, item := range input.EncryptedDataKeys {
+		if item.Validate() != nil {
+			return item.Validate()
+		}
+	}
+
+	return nil
+}
 func (input EncryptionMaterials) aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
@@ -1432,15 +1441,6 @@ func (input EncryptionMaterials) aws_cryptography_materialProviders_EncryptionMa
 		}
 		if !utf8.ValidString(value) {
 			return fmt.Errorf("Invalid UTF bytes %s ", value)
-		}
-	}
-
-	return nil
-}
-func (input EncryptionMaterials) aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_Validate() error {
-	for _, item := range input.EncryptedDataKeys {
-		if item.Validate() != nil {
-			return item.Validate()
 		}
 	}
 
@@ -1704,20 +1704,6 @@ func (input ValidateCommitmentPolicyOnDecryptInput) Validate() error {
 	return nil
 }
 
-func (input ValidateCommitmentPolicyOnDecryptInput) aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_commitmentPolicy_Validate() error {
-	if input.CommitmentPolicy == nil {
-		return nil
-	}
-	switch unionType := input.CommitmentPolicy.(type) {
-	case *CommitmentPolicyMemberESDK:
-	case *CommitmentPolicyMemberDBE:
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
-	}
-
-	return nil
-}
 func (input ValidateCommitmentPolicyOnDecryptInput) aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_algorithm_Validate() error {
 	if input.Algorithm == nil {
 		return nil
@@ -1725,6 +1711,20 @@ func (input ValidateCommitmentPolicyOnDecryptInput) aws_cryptography_materialPro
 	switch unionType := input.Algorithm.(type) {
 	case *AlgorithmSuiteIdMemberESDK:
 	case *AlgorithmSuiteIdMemberDBE:
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+func (input ValidateCommitmentPolicyOnDecryptInput) aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_commitmentPolicy_Validate() error {
+	if input.CommitmentPolicy == nil {
+		return nil
+	}
+	switch unionType := input.CommitmentPolicy.(type) {
+	case *CommitmentPolicyMemberESDK:
+	case *CommitmentPolicyMemberDBE:
 	// Default case should not be reached.
 	default:
 		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
@@ -1756,20 +1756,6 @@ func (input ValidateCommitmentPolicyOnEncryptInput) Validate() error {
 	return nil
 }
 
-func (input ValidateCommitmentPolicyOnEncryptInput) aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_commitmentPolicy_Validate() error {
-	if input.CommitmentPolicy == nil {
-		return nil
-	}
-	switch unionType := input.CommitmentPolicy.(type) {
-	case *CommitmentPolicyMemberESDK:
-	case *CommitmentPolicyMemberDBE:
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
-	}
-
-	return nil
-}
 func (input ValidateCommitmentPolicyOnEncryptInput) aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_algorithm_Validate() error {
 	if input.Algorithm == nil {
 		return nil
@@ -1777,6 +1763,20 @@ func (input ValidateCommitmentPolicyOnEncryptInput) aws_cryptography_materialPro
 	switch unionType := input.Algorithm.(type) {
 	case *AlgorithmSuiteIdMemberESDK:
 	case *AlgorithmSuiteIdMemberDBE:
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+func (input ValidateCommitmentPolicyOnEncryptInput) aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_commitmentPolicy_Validate() error {
+	if input.CommitmentPolicy == nil {
+		return nil
+	}
+	switch unionType := input.CommitmentPolicy.(type) {
+	case *CommitmentPolicyMemberESDK:
+	case *CommitmentPolicyMemberDBE:
 	// Default case should not be reached.
 	default:
 		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
