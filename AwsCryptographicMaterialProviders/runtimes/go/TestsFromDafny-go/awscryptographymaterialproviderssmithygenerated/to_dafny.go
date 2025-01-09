@@ -376,6 +376,15 @@ func DeleteCacheEntryInput_ToDafny(nativeInput awscryptographymaterialproviderss
 
 }
 
+func CryptographicMaterialsCache_ToDafny(nativeResource awscryptographymaterialproviderssmithygeneratedtypes.ICryptographicMaterialsCache) AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCache {
+	val, ok := nativeResource.(*CryptographicMaterialsCache)
+	if ok {
+		return val.Impl
+	}
+	return CryptographicMaterialsCache{&CryptographicMaterialsCacheNativeWrapper{Impl: nativeResource}}.Impl
+
+}
+
 func GetCacheEntryInput_ToDafny(nativeInput awscryptographymaterialproviderssmithygeneratedtypes.GetCacheEntryInput) AwsCryptographyMaterialProvidersTypes.GetCacheEntryInput {
 
 	return func() AwsCryptographyMaterialProvidersTypes.GetCacheEntryInput {
@@ -412,15 +421,6 @@ func UpdateUsageMetadataInput_ToDafny(nativeInput awscryptographymaterialprovide
 
 }
 
-func CryptographicMaterialsCache_ToDafny(nativeResource awscryptographymaterialproviderssmithygeneratedtypes.ICryptographicMaterialsCache) AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCache {
-	val, ok := nativeResource.(*CryptographicMaterialsCache)
-	if ok {
-		return val.Impl
-	}
-	return CryptographicMaterialsCache{&CryptographicMaterialsCacheNativeWrapper{Impl: nativeResource}}.Impl
-
-}
-
 func DecryptMaterialsInput_ToDafny(nativeInput awscryptographymaterialproviderssmithygeneratedtypes.DecryptMaterialsInput) AwsCryptographyMaterialProvidersTypes.DecryptMaterialsInput {
 
 	return func() AwsCryptographyMaterialProvidersTypes.DecryptMaterialsInput {
@@ -436,6 +436,15 @@ func DecryptMaterialsOutput_ToDafny(nativeOutput awscryptographymaterialprovider
 
 		return AwsCryptographyMaterialProvidersTypes.Companion_DecryptMaterialsOutput_.Create_DecryptMaterialsOutput_(aws_cryptography_materialProviders_DecryptMaterialsOutput_decryptionMaterials_ToDafny(nativeOutput.DecryptionMaterials))
 	}()
+
+}
+
+func CryptographicMaterialsManager_ToDafny(nativeResource awscryptographymaterialproviderssmithygeneratedtypes.ICryptographicMaterialsManager) AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager {
+	val, ok := nativeResource.(*CryptographicMaterialsManager)
+	if ok {
+		return val.Impl
+	}
+	return CryptographicMaterialsManager{&CryptographicMaterialsManagerNativeWrapper{Impl: nativeResource}}.Impl
 
 }
 
@@ -457,15 +466,6 @@ func GetEncryptionMaterialsOutput_ToDafny(nativeOutput awscryptographymaterialpr
 
 }
 
-func CryptographicMaterialsManager_ToDafny(nativeResource awscryptographymaterialproviderssmithygeneratedtypes.ICryptographicMaterialsManager) AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager {
-	val, ok := nativeResource.(*CryptographicMaterialsManager)
-	if ok {
-		return val.Impl
-	}
-	return CryptographicMaterialsManager{&CryptographicMaterialsManagerNativeWrapper{Impl: nativeResource}}.Impl
-
-}
-
 func OnDecryptInput_ToDafny(nativeInput awscryptographymaterialproviderssmithygeneratedtypes.OnDecryptInput) AwsCryptographyMaterialProvidersTypes.OnDecryptInput {
 
 	return func() AwsCryptographyMaterialProvidersTypes.OnDecryptInput {
@@ -484,6 +484,15 @@ func OnDecryptOutput_ToDafny(nativeOutput awscryptographymaterialproviderssmithy
 
 }
 
+func Keyring_ToDafny(nativeResource awscryptographymaterialproviderssmithygeneratedtypes.IKeyring) AwsCryptographyMaterialProvidersTypes.IKeyring {
+	val, ok := nativeResource.(*Keyring)
+	if ok {
+		return val.Impl
+	}
+	return Keyring{&KeyringNativeWrapper{Impl: nativeResource}}.Impl
+
+}
+
 func OnEncryptInput_ToDafny(nativeInput awscryptographymaterialproviderssmithygeneratedtypes.OnEncryptInput) AwsCryptographyMaterialProvidersTypes.OnEncryptInput {
 
 	return func() AwsCryptographyMaterialProvidersTypes.OnEncryptInput {
@@ -499,15 +508,6 @@ func OnEncryptOutput_ToDafny(nativeOutput awscryptographymaterialproviderssmithy
 
 		return AwsCryptographyMaterialProvidersTypes.Companion_OnEncryptOutput_.Create_OnEncryptOutput_(aws_cryptography_materialProviders_OnEncryptOutput_materials_ToDafny(nativeOutput.Materials))
 	}()
-
-}
-
-func Keyring_ToDafny(nativeResource awscryptographymaterialproviderssmithygeneratedtypes.IKeyring) AwsCryptographyMaterialProvidersTypes.IKeyring {
-	val, ok := nativeResource.(*Keyring)
-	if ok {
-		return val.Impl
-	}
-	return Keyring{&KeyringNativeWrapper{Impl: nativeResource}}.Impl
 
 }
 

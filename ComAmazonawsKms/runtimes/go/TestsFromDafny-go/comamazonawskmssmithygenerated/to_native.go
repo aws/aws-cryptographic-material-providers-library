@@ -1456,6 +1456,16 @@ func InvalidMarkerException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) ty
 
 }
 
+func KeyUnavailableException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.KeyUnavailableException {
+	return func() types.KeyUnavailableException {
+
+		return types.KeyUnavailableException{
+			Message: com_amazonaws_kms_KeyUnavailableException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
+		}
+	}()
+
+}
+
 func KMSInternalException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.KMSInternalException {
 	return func() types.KMSInternalException {
 
@@ -1491,16 +1501,6 @@ func KMSInvalidStateException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) 
 
 		return types.KMSInvalidStateException{
 			Message: com_amazonaws_kms_KMSInvalidStateException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
-		}
-	}()
-
-}
-
-func KeyUnavailableException_FromDafny(dafnyOutput ComAmazonawsKmsTypes.Error) types.KeyUnavailableException {
-	return func() types.KeyUnavailableException {
-
-		return types.KeyUnavailableException{
-			Message: com_amazonaws_kms_KeyUnavailableException_message_FromDafny(dafnyOutput.Dtor_message().UnwrapOr(nil)),
 		}
 	}()
 
@@ -1820,6 +1820,11 @@ func Error_FromDafny(err ComAmazonawsKmsTypes.Error) error {
 		return &e
 	}
 
+	if err.Is_KeyUnavailableException() {
+		e := KeyUnavailableException_FromDafny(err)
+		return &e
+	}
+
 	if err.Is_KMSInternalException() {
 		e := KMSInternalException_FromDafny(err)
 		return &e
@@ -1837,11 +1842,6 @@ func Error_FromDafny(err ComAmazonawsKmsTypes.Error) error {
 
 	if err.Is_KMSInvalidStateException() {
 		e := KMSInvalidStateException_FromDafny(err)
-		return &e
-	}
-
-	if err.Is_KeyUnavailableException() {
-		e := KeyUnavailableException_FromDafny(err)
 		return &e
 	}
 
@@ -8497,6 +8497,22 @@ func com_amazonaws_kms_InvalidMarkerException_message_FromDafny(input interface{
 		}
 	}()
 }
+func com_amazonaws_kms_KeyUnavailableException_message_FromDafny(input interface{}) *string {
+	return func() *string {
+		var s string
+		if input == nil {
+			return nil
+		}
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return &[]string{s}[0]
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
 func com_amazonaws_kms_KMSInternalException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
@@ -8546,22 +8562,6 @@ func com_amazonaws_kms_KMSInvalidSignatureException_message_FromDafny(input inte
 	}()
 }
 func com_amazonaws_kms_KMSInvalidStateException_message_FromDafny(input interface{}) *string {
-	return func() *string {
-		var s string
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func com_amazonaws_kms_KeyUnavailableException_message_FromDafny(input interface{}) *string {
 	return func() *string {
 		var s string
 		if input == nil {
