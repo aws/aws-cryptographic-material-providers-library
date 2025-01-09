@@ -344,7 +344,22 @@ type KeyStoreConfig struct {
 	KmsClient *kms.Client
 }
 
+func (input KeyStoreConfig) Validate() error {
+	if len(input.DdbTableName) < 3 {
+		return fmt.Errorf("TableName has a minimum length of 3 but has the length of %d.", len(input.DdbTableName))
+	}
+	if len(input.DdbTableName) > 255 {
+		return fmt.Errorf("TableName has a maximum length of 255 but has the length of %d.", len(input.DdbTableName))
+	}
+	if input.KmsConfiguration == nil {
+		return fmt.Errorf("input.KmsConfiguration is required but has a nil value.")
+	}
+	if input.aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate() != nil {
+		return input.aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate()
+	}
 
+	return nil
+}
 
 func (input KeyStoreConfig) aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate() error {
 	if input.KmsConfiguration == nil {
@@ -381,22 +396,6 @@ func (input KeyStoreConfig) aws_cryptography_keyStore_KeyStoreConfig_kmsConfigur
 	return nil
 }
 
-func (input KeyStoreConfig) Validate() error {
-	if len(input.DdbTableName) < 3 {
-		return fmt.Errorf("TableName has a minimum length of 3 but has the length of %d.", len(input.DdbTableName))
-	}
-	if len(input.DdbTableName) > 255 {
-		return fmt.Errorf("TableName has a maximum length of 255 but has the length of %d.", len(input.DdbTableName))
-	}
-	if input.KmsConfiguration == nil {
-		return fmt.Errorf("input.KmsConfiguration is required but has a nil value.")
-	}
-	if input.aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate() != nil {
-		return input.aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate()
-	}
-
-	return nil
-}
 // KMSConfigurationMemberdiscovery
 // KMSConfigurationMemberkmsKeyArn
 // KMSConfigurationMemberkmsMRKeyArn
