@@ -646,6 +646,15 @@ func (input MultiKeyring) aws_cryptography_materialProvidersTestVectorKeys_KeyDe
 
 	return nil
 }
+func (input MultiKeyring) aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_childKeyrings_Validate() error {
+	for _, item := range input.ChildKeyrings {
+		if input.aws_cryptography_materialProvidersTestVectorKeys_KeyDescriptionList_member_Validate(item) != nil {
+			return input.aws_cryptography_materialProvidersTestVectorKeys_KeyDescriptionList_member_Validate(item)
+		}
+	}
+
+	return nil
+}
 func (input MultiKeyring) aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_generator_Validate() error {
 	if input.Generator == nil {
 		return nil
@@ -706,15 +715,6 @@ func (input MultiKeyring) aws_cryptography_materialProvidersTestVectorKeys_Multi
 
 	return nil
 }
-func (input MultiKeyring) aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_childKeyrings_Validate() error {
-	for _, item := range input.ChildKeyrings {
-		if input.aws_cryptography_materialProvidersTestVectorKeys_KeyDescriptionList_member_Validate(item) != nil {
-			return input.aws_cryptography_materialProvidersTestVectorKeys_KeyDescriptionList_member_Validate(item)
-		}
-	}
-
-	return nil
-}
 
 type KeyVectorsConfig struct {
 	KeyManifestPath string
@@ -734,8 +734,8 @@ func (input KeyVectorsConfig) Validate() error {
 // KeyDescriptionMemberKmsMrkDiscovery
 // KeyDescriptionMemberKmsRsa
 // KeyDescriptionMemberMulti
-// KeyDescriptionMemberRequiredEncryptionContext
 // KeyDescriptionMemberRSA
+// KeyDescriptionMemberRequiredEncryptionContext
 // KeyDescriptionMemberStatic
 type KeyDescription interface {
 	isKeyDescription()
