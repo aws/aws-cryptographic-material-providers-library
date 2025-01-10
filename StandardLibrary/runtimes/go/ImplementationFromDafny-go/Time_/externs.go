@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
-	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Wrappers"
 )
 
 var m__Time = CompanionStruct_Default___{}

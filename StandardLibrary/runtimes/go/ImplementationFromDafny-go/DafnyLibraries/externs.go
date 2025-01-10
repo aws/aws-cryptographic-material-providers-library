@@ -4,7 +4,7 @@ import (
 	sync "sync"
 
 	_dafny "github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
-	Std_Wrappers "github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
+	Std_Wrappers "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Wrappers"
 )
 
 // Definition of class MutableMap copied over from
