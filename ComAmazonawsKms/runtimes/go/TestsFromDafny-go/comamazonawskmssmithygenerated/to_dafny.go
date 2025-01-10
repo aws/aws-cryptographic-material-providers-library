@@ -6,11 +6,11 @@ import (
 	"errors"
 	"time"
 
-	"github.com/aws/aws-cryptographic-material-providers-library/kms/ComAmazonawsKmsTypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms/ComAmazonawsKmsTypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Wrappers"
 	"github.com/aws/aws-sdk-go-v2/service/kms"
 	"github.com/aws/aws-sdk-go-v2/service/kms/types"
 	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
-	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
 )
 
 func CancelKeyDeletionInput_ToDafny(nativeInput kms.CancelKeyDeletionInput) ComAmazonawsKmsTypes.CancelKeyDeletionRequest {
