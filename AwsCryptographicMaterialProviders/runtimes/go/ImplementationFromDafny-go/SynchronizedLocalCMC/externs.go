@@ -3,9 +3,9 @@ package SynchronizedLocalCMC
 import (
 	"sync"
 
-	"github.com/aws/aws-cryptographic-material-providers-library/mpl/AwsCryptographyMaterialProvidersTypes"
-	"github.com/aws/aws-cryptographic-material-providers-library/mpl/LocalCMC"
-	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyMaterialProvidersTypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/LocalCMC"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Wrappers"
 )
 
 type SynchronizedLocalCMC struct {
