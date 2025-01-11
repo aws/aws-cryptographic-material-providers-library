@@ -5,7 +5,7 @@ package comamazonawskmssmithygenerated
 import (
 	"time"
 
-	"github.com/aws/aws-cryptographic-material-providers-library/kms/ComAmazonawsKmsTypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms/ComAmazonawsKmsTypes"
 	"github.com/aws/aws-sdk-go-v2/service/kms"
 	"github.com/aws/aws-sdk-go-v2/service/kms/types"
 	"github.com/aws/smithy-go"

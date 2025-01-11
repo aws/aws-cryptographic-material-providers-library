@@ -5,9 +5,9 @@ package awscryptographykeystoresmithygenerated
 import (
 	"context"
 
-	"github.com/aws/aws-cryptographic-material-providers-library/mpl/AwsCryptographyKeyStoreTypes"
-	"github.com/aws/aws-cryptographic-material-providers-library/mpl/KeyStore"
-	"github.com/aws/aws-cryptographic-material-providers-library/mpl/awscryptographykeystoresmithygeneratedtypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyKeyStoreTypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/KeyStore"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/awscryptographykeystoresmithygeneratedtypes"
 )
 
 type Client struct {

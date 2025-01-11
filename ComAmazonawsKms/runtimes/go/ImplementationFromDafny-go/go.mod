@@ -1,8 +1,8 @@
-module github.com/aws/aws-cryptographic-material-providers-library/kms
+module github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms
 
 go 1.23.0
 
-require github.com/dafny-lang/DafnyStandardLibGo v0.0.0
+require github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library v0.0.0
 
 require (
 	github.com/aws/aws-sdk-go-v2/config v1.27.36
@@ -25,4 +25,4 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sts v1.31.0 // indirect
 )
 
-replace github.com/dafny-lang/DafnyStandardLibGo => ../../../../StandardLibrary/runtimes/go/ImplementationFromDafny-go/
+replace github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library => ../../../../StandardLibrary/runtimes/go/ImplementationFromDafny-go/

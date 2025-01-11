@@ -2,6 +2,7 @@ package OsLang
 
 import (
 	"runtime"
+
 	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 )
 
