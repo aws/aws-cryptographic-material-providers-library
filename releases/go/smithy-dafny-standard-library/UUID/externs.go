@@ -1,8 +1,8 @@
 package UUID
 
 import (
-	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Wrappers"
+	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 	"github.com/google/uuid"
 )
 
