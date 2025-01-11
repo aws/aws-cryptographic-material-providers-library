@@ -6,8 +6,8 @@ import (
 	"unicode/utf16"
 	"unicode/utf8"
 
-	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Wrappers"
+	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 )
 
 //IMP: The below extern implementations are only compatible
