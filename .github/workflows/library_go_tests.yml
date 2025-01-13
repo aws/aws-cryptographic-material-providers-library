@@ -97,3 +97,10 @@ jobs:
         shell: bash
         run: |
           make test_go
+
+      - name: Test ${{ matrix.library }}
+        if: matrix.library == 'AwsCryptographicMaterialProviders'
+        working-directory: ./${{ matrix.library }}/runtimes/go/TestsFromDafny-go
+        shell: bash
+        run: |
+          go test
