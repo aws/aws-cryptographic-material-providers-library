@@ -5,7 +5,7 @@
 build/*
 test/**/Output/*
 /package-lock.json
-/node_modules
+node_modules
 *.log
 
 # Python docs build Artifacts

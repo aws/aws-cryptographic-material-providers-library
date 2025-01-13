@@ -510,6 +510,50 @@ class EntryDoesNotExist(ApiError[Literal["EntryDoesNotExist"]]):
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
+class InFlightTTLExceeded(ApiError[Literal["InFlightTTLExceeded"]]):
+    code: Literal["InFlightTTLExceeded"] = "InFlightTTLExceeded"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the InFlightTTLExceeded to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "InFlightTTLExceeded":
+        """Creates a InFlightTTLExceeded from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return InFlightTTLExceeded(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "InFlightTTLExceeded("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, InFlightTTLExceeded):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
 class AwsCryptographicMaterialProvidersException(
     ApiError[Literal["AwsCryptographicMaterialProvidersException"]]
 ):
@@ -526,6 +570,11 @@ class EntryAlreadyExists(ApiError[Literal["EntryAlreadyExists"]]):
 
 class EntryDoesNotExist(ApiError[Literal["EntryDoesNotExist"]]):
     code: Literal["EntryDoesNotExist"] = "EntryDoesNotExist"
+    message: str
+
+
+class InFlightTTLExceeded(ApiError[Literal["InFlightTTLExceeded"]]):
+    code: Literal["InFlightTTLExceeded"] = "InFlightTTLExceeded"
     message: str
 
 
@@ -779,6 +828,14 @@ def _smithy_error_to_dafny_error(e: ServiceError):
         aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.EntryDoesNotExist,
     ):
         return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_EntryDoesNotExist(
+            message=_dafny.Seq(e.message)
+        )
+
+    if isinstance(
+        e,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors.InFlightTTLExceeded,
+    ):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InFlightTTLExceeded(
             message=_dafny.Seq(e.message)
         )
 

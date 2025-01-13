@@ -92,7 +92,7 @@ module {:options "-functionSyntax:4"} AllDefaultCmm {
           encryptDescription := RawAesKeyring,
           decryptDescription := RawAesKeyring,
           encryptionContext := encryptionContext,
-          requiredEncryptionContextKeys := Some(SortedSets.ComputeSetToSequence(requiredEncryptionContextKeys)),
+          requiredEncryptionContextKeys := Some(SortedSets.ComputeSetToOrderedSequence2(requiredEncryptionContextKeys, (a, b) => a < b)),
           reproducedEncryptionContext := Some(reproducedEncryptionContext)
         )
 
@@ -127,7 +127,7 @@ module {:options "-functionSyntax:4"} AllDefaultCmm {
           encryptDescription := RawAesKeyring,
           decryptDescription := RawAesKeyring,
           encryptionContext := encryptionContext,
-          requiredEncryptionContextKeys := Some(SortedSets.ComputeSetToSequence(requiredEncryptionContextKeys)),
+          requiredEncryptionContextKeys := Some(SortedSets.ComputeSetToOrderedSequence2(requiredEncryptionContextKeys, (a, b) => a < b)),
           reproducedEncryptionContext := Some(reproducedEncryptionContext)
         )
 

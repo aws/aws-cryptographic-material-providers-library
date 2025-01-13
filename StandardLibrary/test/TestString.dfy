@@ -3,11 +3,15 @@
 
 include "../src/StandardLibrary.dfy"
 include "../src/String.dfy"
+include "../src/OsLang.dfy"
 include "../../libraries/src/Wrappers.dfy"
+include "../../libraries/src/FileIO/FileIO.dfy"
 
 module TestStrings {
   import StandardLibrary.String
   import opened Wrappers
+  import opened FileIO
+  import OsLang
 
   method {:test} TestHasSubStringPositive()
   {
@@ -32,4 +36,31 @@ module TestStrings {
     actual := String.HasSubString("large", "larger");
     expect actual == None, "Needle larger than haystack";
   }
+
+  method {:test} TestFileIO()
+  {
+    var x :- expect WriteBytesToFile("MyFile", [1,2,3,4,5]);
+    x :- expect AppendBytesToFile("MyFile", [6,7,8,9,10]);
+    x :- expect AppendBytesToFile("MyFile", [11,12,13,14,15]);
+    var y :- expect ReadBytesFromFile("MyFile");
+    expect y == [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+    x :- expect WriteBytesToFile("MyFile", [1,2,3,4,5]);
+    y :- expect ReadBytesFromFile("MyFile");
+    expect y == [1,2,3,4,5];
+  }
+
+  function method BadFilename() : string
+  {
+    if OsLang.GetOsShort() == "Windows" && OsLang.GetLanguageShort() == "Dotnet" then
+      "foo:bar:baz"
+    else
+      "/../../MyFile"
+  }
+  // ensure that FileIO error are returned properly, and not a panic! or the like
+  method {:test} TestBadFileIO()
+  {
+    var x := WriteBytesToFile(BadFilename(), [1,2,3,4,5]);
+    expect x.Failure?;
+  }
+
 }

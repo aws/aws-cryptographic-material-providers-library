@@ -798,7 +798,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#BatchExecuteStatementOutput": {
@@ -818,7 +817,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#BatchGetItem": {
@@ -928,8 +926,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the input of a <code>BatchGetItem</code> operation.</p>",
-        "smithy.api#input": {}
+        "smithy.api#documentation": "<p>Represents the input of a <code>BatchGetItem</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#BatchGetItemOutput": {
@@ -955,8 +952,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the output of a <code>BatchGetItem</code> operation.</p>",
-        "smithy.api#output": {}
+        "smithy.api#documentation": "<p>Represents the output of a <code>BatchGetItem</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#BatchGetRequestMap": {
@@ -1241,8 +1237,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the input of a <code>BatchWriteItem</code> operation.</p>",
-        "smithy.api#input": {}
+        "smithy.api#documentation": "<p>Represents the input of a <code>BatchWriteItem</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#BatchWriteItemOutput": {
@@ -1268,8 +1263,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the output of a <code>BatchWriteItem</code> operation.</p>",
-        "smithy.api#output": {}
+        "smithy.api#documentation": "<p>Represents the output of a <code>BatchWriteItem</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#BatchWriteItemRequestMap": {
@@ -1901,7 +1895,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#CreateBackupOutput": {
@@ -1915,7 +1908,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#CreateGlobalSecondaryIndexAction": {
@@ -2010,7 +2002,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#CreateGlobalTableOutput": {
@@ -2024,7 +2015,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#CreateReplicaAction": {
@@ -2208,8 +2198,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the input of a <code>CreateTable</code> operation.</p>",
-        "smithy.api#input": {}
+        "smithy.api#documentation": "<p>Represents the input of a <code>CreateTable</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#CreateTableOutput": {
@@ -2223,8 +2212,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the output of a <code>CreateTable</code> operation.</p>",
-        "smithy.api#output": {}
+        "smithy.api#documentation": "<p>Represents the output of a <code>CreateTable</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#CsvDelimiter": {
@@ -2372,7 +2360,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#DeleteBackupOutput": {
@@ -2386,7 +2373,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#DeleteGlobalSecondaryIndexAction": {
@@ -2532,8 +2518,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the input of a <code>DeleteItem</code> operation.</p>",
-        "smithy.api#input": {}
+        "smithy.api#documentation": "<p>Represents the input of a <code>DeleteItem</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#DeleteItemOutput": {
@@ -2559,8 +2544,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the output of a <code>DeleteItem</code> operation.</p>",
-        "smithy.api#output": {}
+        "smithy.api#documentation": "<p>Represents the output of a <code>DeleteItem</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#DeleteReplicaAction": {
@@ -2661,7 +2645,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#DeleteResourcePolicyOutput": {
@@ -2675,7 +2658,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#DeleteTable": {
@@ -2744,8 +2726,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the input of a <code>DeleteTable</code> operation.</p>",
-        "smithy.api#input": {}
+        "smithy.api#documentation": "<p>Represents the input of a <code>DeleteTable</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#DeleteTableOutput": {
@@ -2759,8 +2740,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the output of a <code>DeleteTable</code> operation.</p>",
-        "smithy.api#output": {}
+        "smithy.api#documentation": "<p>Represents the output of a <code>DeleteTable</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#DeletionProtectionEnabled": {
@@ -2804,7 +2784,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#DescribeBackupOutput": {
@@ -2818,7 +2797,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#DescribeContinuousBackups": {
@@ -2859,7 +2837,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#DescribeContinuousBackupsOutput": {
@@ -2873,7 +2850,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#DescribeContributorInsights": {
@@ -2914,7 +2890,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#DescribeContributorInsightsOutput": {
@@ -2958,7 +2933,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#DescribeEndpoints": {
@@ -2977,7 +2951,6 @@
       "type": "structure",
       "members": {},
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#DescribeEndpointsResponse": {
@@ -2992,7 +2965,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#DescribeExport": {
@@ -3030,7 +3002,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#DescribeExportOutput": {
@@ -3044,7 +3015,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#DescribeGlobalTable": {
@@ -3085,7 +3055,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#DescribeGlobalTableOutput": {
@@ -3099,7 +3068,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#DescribeGlobalTableSettings": {
@@ -3140,7 +3108,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#DescribeGlobalTableSettingsOutput": {
@@ -3160,7 +3127,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#DescribeImport": {
@@ -3192,7 +3158,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#DescribeImportOutput": {
@@ -3207,7 +3172,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#DescribeKinesisStreamingDestination": {
@@ -3248,7 +3212,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#DescribeKinesisStreamingDestinationOutput": {
@@ -3268,7 +3231,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#DescribeLimits": {
@@ -3310,8 +3272,7 @@
       "type": "structure",
       "members": {},
       "traits": {
-        "smithy.api#documentation": "<p>Represents the input of a <code>DescribeLimits</code> operation. Has no\n            content.</p>",
-        "smithy.api#input": {}
+        "smithy.api#documentation": "<p>Represents the input of a <code>DescribeLimits</code> operation. Has no\n            content.</p>"
       }
     },
     "com.amazonaws.dynamodb#DescribeLimitsOutput": {
@@ -3343,8 +3304,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the output of a <code>DescribeLimits</code> operation.</p>",
-        "smithy.api#output": {}
+        "smithy.api#documentation": "<p>Represents the output of a <code>DescribeLimits</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#DescribeTable": {
@@ -3419,8 +3379,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the input of a <code>DescribeTable</code> operation.</p>",
-        "smithy.api#input": {}
+        "smithy.api#documentation": "<p>Represents the input of a <code>DescribeTable</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#DescribeTableOutput": {
@@ -3434,8 +3393,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the output of a <code>DescribeTable</code> operation.</p>",
-        "smithy.api#output": {}
+        "smithy.api#documentation": "<p>Represents the output of a <code>DescribeTable</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#DescribeTableReplicaAutoScaling": {
@@ -3470,7 +3428,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#DescribeTableReplicaAutoScalingOutput": {
@@ -3484,7 +3441,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#DescribeTimeToLive": {
@@ -3525,7 +3481,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#DescribeTimeToLiveOutput": {
@@ -3539,7 +3494,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#DestinationStatus": {
@@ -5079,7 +5033,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#ExecuteStatementOutput": {
@@ -5108,7 +5061,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#ExecuteTransaction": {
@@ -5171,7 +5123,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#ExecuteTransactionOutput": {
@@ -5191,7 +5142,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#ExpectedAttributeMap": {
@@ -5595,7 +5545,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#ExportTableToPointInTimeOutput": {
@@ -5609,7 +5558,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#ExportTime": {
@@ -5853,8 +5801,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the input of a <code>GetItem</code> operation.</p>",
-        "smithy.api#input": {}
+        "smithy.api#documentation": "<p>Represents the input of a <code>GetItem</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#GetItemOutput": {
@@ -5874,8 +5821,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the output of a <code>GetItem</code> operation.</p>",
-        "smithy.api#output": {}
+        "smithy.api#documentation": "<p>Represents the output of a <code>GetItem</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#GetResourcePolicy": {
@@ -5919,7 +5865,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#GetResourcePolicyOutput": {
@@ -5939,7 +5884,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#GlobalSecondaryIndex": {
@@ -6674,7 +6618,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#ImportTableOutput": {
@@ -6689,7 +6632,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#ImportedItemCount": {
@@ -7432,7 +7374,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#ListBackupsOutput": {
@@ -7452,7 +7393,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#ListContributorInsights": {
@@ -7504,7 +7444,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#ListContributorInsightsLimit": {
@@ -7533,7 +7472,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#ListExports": {
@@ -7584,7 +7522,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#ListExportsMaxLimit": {
@@ -7613,7 +7550,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#ListGlobalTables": {
@@ -7662,7 +7598,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#ListGlobalTablesOutput": {
@@ -7682,7 +7617,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#ListImports": {
@@ -7730,7 +7664,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#ListImportsMaxLimit": {
@@ -7759,7 +7692,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#ListTables": {
@@ -7817,8 +7749,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the input of a <code>ListTables</code> operation.</p>",
-        "smithy.api#input": {}
+        "smithy.api#documentation": "<p>Represents the input of a <code>ListTables</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#ListTablesInputLimit": {
@@ -7847,8 +7778,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the output of a <code>ListTables</code> operation.</p>",
-        "smithy.api#output": {}
+        "smithy.api#documentation": "<p>Represents the output of a <code>ListTables</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#ListTagsOfResource": {
@@ -7895,7 +7825,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#ListTagsOfResourceOutput": {
@@ -7915,7 +7844,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#LocalSecondaryIndex": {
@@ -8640,8 +8568,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the input of a <code>PutItem</code> operation.</p>",
-        "smithy.api#input": {}
+        "smithy.api#documentation": "<p>Represents the input of a <code>PutItem</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#PutItemInputAttributeMap": {
@@ -8676,8 +8603,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the output of a <code>PutItem</code> operation.</p>",
-        "smithy.api#output": {}
+        "smithy.api#documentation": "<p>Represents the output of a <code>PutItem</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#PutRequest": {
@@ -8763,7 +8689,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#PutResourcePolicyOutput": {
@@ -8777,7 +8702,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#Query": {
@@ -8952,8 +8876,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the input of a <code>Query</code> operation.</p>",
-        "smithy.api#input": {}
+        "smithy.api#documentation": "<p>Represents the input of a <code>Query</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#QueryOutput": {
@@ -8993,8 +8916,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the output of a <code>Query</code> operation.</p>",
-        "smithy.api#output": {}
+        "smithy.api#documentation": "<p>Represents the output of a <code>Query</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#RegionName": {
@@ -9817,7 +9739,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#RestoreTableFromBackupOutput": {
@@ -9831,7 +9752,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#RestoreTableToPointInTime": {
@@ -9944,7 +9864,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#RestoreTableToPointInTimeOutput": {
@@ -9958,7 +9877,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#ReturnConsumedCapacity": {
@@ -10451,8 +10369,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the input of a <code>Scan</code> operation.</p>",
-        "smithy.api#input": {}
+        "smithy.api#documentation": "<p>Represents the input of a <code>Scan</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#ScanOutput": {
@@ -10492,8 +10409,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the output of a <code>Scan</code> operation.</p>",
-        "smithy.api#output": {}
+        "smithy.api#documentation": "<p>Represents the output of a <code>Scan</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#ScanSegment": {
@@ -11210,7 +11126,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#TagValueString": {
@@ -11391,7 +11306,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#TransactGetItemsOutput": {
@@ -11411,7 +11325,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#TransactWriteItem": {
@@ -11527,7 +11440,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#TransactWriteItemsOutput": {
@@ -11547,7 +11459,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#TransactionCanceledException": {
@@ -11643,7 +11554,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#Update": {
@@ -11747,7 +11657,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#UpdateContinuousBackupsOutput": {
@@ -11761,7 +11670,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#UpdateContributorInsights": {
@@ -11809,7 +11717,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#UpdateContributorInsightsOutput": {
@@ -11835,7 +11742,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#UpdateExpression": {
@@ -11922,7 +11828,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#UpdateGlobalTableOutput": {
@@ -11936,7 +11841,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#UpdateGlobalTableSettings": {
@@ -12019,7 +11923,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#UpdateGlobalTableSettingsOutput": {
@@ -12039,7 +11942,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#UpdateItem": {
@@ -12206,8 +12108,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the input of an <code>UpdateItem</code> operation.</p>",
-        "smithy.api#input": {}
+        "smithy.api#documentation": "<p>Represents the input of an <code>UpdateItem</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#UpdateItemOutput": {
@@ -12233,8 +12134,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the output of an <code>UpdateItem</code> operation.</p>",
-        "smithy.api#output": {}
+        "smithy.api#documentation": "<p>Represents the output of an <code>UpdateItem</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#UpdateKinesisStreamingConfiguration": {
@@ -12308,7 +12208,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#UpdateKinesisStreamingDestinationOutput": {
@@ -12340,7 +12239,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#UpdateReplicationGroupMemberAction": {
@@ -12492,8 +12390,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the input of an <code>UpdateTable</code> operation.</p>",
-        "smithy.api#input": {}
+        "smithy.api#documentation": "<p>Represents the input of an <code>UpdateTable</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#UpdateTableOutput": {
@@ -12507,8 +12404,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the output of an <code>UpdateTable</code> operation.</p>",
-        "smithy.api#output": {}
+        "smithy.api#documentation": "<p>Represents the output of an <code>UpdateTable</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#UpdateTableReplicaAutoScaling": {
@@ -12564,7 +12460,6 @@
         }
       },
       "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.amazonaws.dynamodb#UpdateTableReplicaAutoScalingOutput": {
@@ -12578,7 +12473,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#UpdateTimeToLive": {
@@ -12632,8 +12526,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>Represents the input of an <code>UpdateTimeToLive</code> operation.</p>",
-        "smithy.api#input": {}
+        "smithy.api#documentation": "<p>Represents the input of an <code>UpdateTimeToLive</code> operation.</p>"
       }
     },
     "com.amazonaws.dynamodb#UpdateTimeToLiveOutput": {
@@ -12647,7 +12540,6 @@
         }
       },
       "traits": {
-        "smithy.api#output": {}
       }
     },
     "com.amazonaws.dynamodb#WriteRequest": {

@@ -116,6 +116,8 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     StormTrackingCache_StormTrackingCache as DafnyStormTrackingCache,
     SymmetricSignatureAlgorithm_HMAC,
     SymmetricSignatureAlgorithm_None,
+    TimeUnits_Milliseconds,
+    TimeUnits_Seconds,
     UpdateUsageMetadataInput_UpdateUsageMetadataInput as DafnyUpdateUsageMetadataInput,
     ValidDecryptionMaterialsTransitionInput_ValidDecryptionMaterialsTransitionInput as DafnyValidDecryptionMaterialsTransitionInput,
     ValidEncryptionMaterialsTransitionInput_ValidEncryptionMaterialsTransitionInput as DafnyValidEncryptionMaterialsTransitionInput,
@@ -1648,6 +1650,17 @@ def aws_cryptography_materialproviders_StormTrackingCache(native_input):
         fanOut=native_input.fan_out,
         inFlightTTL=native_input.in_flight_ttl,
         sleepMilli=native_input.sleep_milli,
+        timeUnits=(
+            (
+                Option_Some(
+                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_TimeUnits(
+                        native_input.time_units
+                    )
+                )
+            )
+            if (native_input.time_units is not None)
+            else (Option_None())
+        ),
     )
 
 
@@ -1659,6 +1672,17 @@ def aws_cryptography_materialproviders_CryptographicMaterialsCacheReference(
 
     else:
         return native_input
+
+
+def aws_cryptography_materialproviders_TimeUnits(native_input):
+    if native_input == "Seconds":
+        return TimeUnits_Seconds()
+
+    elif native_input == "Milliseconds":
+        return TimeUnits_Milliseconds()
+
+    else:
+        raise ValueError(f"No recognized enum value in enum type: {native_input=}")
 
 
 def aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(native_input):

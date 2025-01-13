@@ -1623,12 +1623,16 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly graceInterval: CountingNumber ,
     nameonly fanOut: CountingNumber ,
     nameonly inFlightTTL: CountingNumber ,
-    nameonly sleepMilli: CountingNumber
+    nameonly sleepMilli: CountingNumber ,
+    nameonly timeUnits: Option<TimeUnits> := Option.None
   )
   datatype SymmetricSignatureAlgorithm =
     | HMAC(HMAC: AwsCryptographyPrimitivesTypes.DigestAlgorithm)
     | None(None: None)
   type SymmetricSigningKeyList = seq<Secret>
+  datatype TimeUnits =
+    | Seconds
+    | Milliseconds
   datatype UpdateUsageMetadataInput = | UpdateUsageMetadataInput (
     nameonly identifier: seq<uint8> ,
     nameonly bytesUsed: PositiveInteger
@@ -1659,6 +1663,9 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
         nameonly message: string
       )
     | EntryDoesNotExist (
+        nameonly message: string
+      )
+    | InFlightTTLExceeded (
         nameonly message: string
       )
     | InvalidAlgorithmSuiteInfo (

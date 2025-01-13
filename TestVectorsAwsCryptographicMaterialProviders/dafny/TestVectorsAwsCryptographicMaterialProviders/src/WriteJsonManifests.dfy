@@ -39,7 +39,7 @@ module {:options "-functionSyntax:4"} WriteJsonManifests {
   function EncryptionContextToJson(key: string, m: Types.EncryptionContext)
     : Result<seq<(string, JSON)>, string>
   {
-    var keys := SortedSets.ComputeSetToSequence(m.Keys);
+    var keys := SortedSets.ComputeSetToOrderedSequence2(m.Keys, (a, b) => a < b);
     var pairsBytes
       :- Seq.MapWithResult(
            k requires k in m.Keys =>

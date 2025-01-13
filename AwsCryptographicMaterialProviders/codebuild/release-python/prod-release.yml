@@ -28,6 +28,15 @@ phases:
       - git fetch --tags
       - git checkout $COMMIT_ID
       - FOUND_VERSION=$(sed -n 's/version = "\(.*\)"/\1/p' AwsCryptographicMaterialProviders/runtimes/python/pyproject.toml)
+      # Assert we are not releasing "aws-cryptographic-material-providers==10.0.0" to prod PyPI.
+      # A bad release has already been uploaded under this name/version to prod PyPI.
+      # This release has been deleted.
+      # Prod PyPI does not allow re-uploading a release under the same name/version.
+      - |
+        if expr ${FOUND_VERSION} == "10.0.0"; then
+          echo "Cannot release version 10.0.0"
+          exit 1;
+        fi
       - |
         if expr ${FOUND_VERSION} != ${VERSION}; then
           echo "pyproject.toml version (${FOUND_VERSION}) does not match expected version (${VERSION}), stopping"

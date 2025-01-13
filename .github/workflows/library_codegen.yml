@@ -29,6 +29,7 @@ jobs:
         # in this workflow.
         # The workflow installs black and docformatter and runs them on generated code.
         python-version: [3.11]
+        go-version: [1.23]
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     defaults:
@@ -79,6 +80,15 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install --upgrade black
           python -m pip install --upgrade docformatter
+
+      - name: Install Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Install Go imports
+        run: |
+          go install golang.org/x/tools/cmd/goimports@latest
 
       - uses: ./.github/actions/polymorph_codegen
         with:

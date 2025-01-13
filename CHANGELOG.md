@@ -1,5 +1,28 @@
 # Changelog
 
+# [1.8.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.4...v1.8.0) (2024-11-19)
+
+This release is available in the following languages:
+
+- Java
+
+### Bug Fixes
+
+- Drop SelectOpt from MutableMap ([bdb6509](https://github.com/aws/aws-cryptographic-material-providers-library/commit/bdb65098881245dfed0f2251bd654313e31b1b89))
+- Externs ([0bc1f96](https://github.com/aws/aws-cryptographic-material-providers-library/commit/0bc1f961462dd9e3821fea438e3067d543adab9c))
+- formatting ([b608ab8](https://github.com/aws/aws-cryptographic-material-providers-library/commit/b608ab88e155bdb23e21f8b3f0f75116b58b182d))
+- **Python-Release:** Run validate tests from release commit ([41c0c94](https://github.com/aws/aws-cryptographic-material-providers-library/commit/41c0c94aac165addcef6e75bc7bad5c1dffa16ac))
+- **Python:** CMCs release lock for unhandled runtime exceptions ([#979](https://github.com/aws/aws-cryptographic-material-providers-library/issues/979)) ([1510b77](https://github.com/aws/aws-cryptographic-material-providers-library/commit/1510b772550646b6e1f26df5b0e6e96b3e48a6e3))
+- **Python:** return error on interrupted sleep ([#1003](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1003)) ([405cf37](https://github.com/aws/aws-cryptographic-material-providers-library/commit/405cf37a20ffe8c36f49eccc95a7482ee97d3f7b))
+- remove input and output traits on DynamoDB operations ([#1012](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1012)) ([8377acf](https://github.com/aws/aws-cryptographic-material-providers-library/commit/8377acfbd505236ca9bb58f21f95cfc5122d1cf9))
+- return error on interrupted sleep ([#993](https://github.com/aws/aws-cryptographic-material-providers-library/issues/993)) ([f49460a](https://github.com/aws/aws-cryptographic-material-providers-library/commit/f49460a569ea03778db3d1856a54b7d9b53fb9e6))
+- rust CI ([42e39cc](https://github.com/aws/aws-cryptographic-material-providers-library/commit/42e39cc8e64b18387b738746457924bcf5dd47e9))
+
+### Features
+
+- **Rust:** Interop test vectors; bump Dafny to 4.9.0 ([#1004](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1004)) ([a505a30](https://github.com/aws/aws-cryptographic-material-providers-library/commit/a505a304f7cf7ed2490498af85c703dc85faf7ab))
+- Storm cache supports millisecond resolution ([#1011](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1011)) ([6f09d5d](https://github.com/aws/aws-cryptographic-material-providers-library/commit/6f09d5d23ecd76658e6d90b23e15ce5daade5bd2))
+
 # [1.7.4](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.3...v1.7.4) (2024-11-06)
 
 This release is available in the following languages:

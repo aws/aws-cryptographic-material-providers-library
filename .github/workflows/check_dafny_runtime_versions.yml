@@ -1,0 +1,36 @@
+# Checks that DafnyRuntimePython version in StandardLibrary's pyproject.toml
+# matches the Dafny version in project.properties.
+# .toml is static and cannot load this automatically.
+# This must be bumped manually.
+name: Check DafnyRuntimePython Version Consistency
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  check-version-consistency:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate DafnyRuntimePython Version Consistency
+        run: |
+          # Extract the version from pyproject.toml
+          dafny_runtime_python_version=$(grep -oP 'DafnyRuntimePython\s*=\s*"\K[^\"]+' StandardLibrary/runtimes/python/pyproject.toml)
+
+          # Normalize by removing `.postN` if present
+          normalized_dafny_runtime_python_version=$(echo "$dafny_runtime_python_version" | sed 's/\.post[0-9]*$//')
+
+          # Extract the version from project.properties
+          dafny_version=$(grep -oP 'dafnyVersion=\K[^\s]+' project.properties)
+
+          # Check if the versions match
+          if [ "$normalized_dafny_runtime_python_version" != "$dafny_version" ]; then
+            echo "Version mismatch! DafnyRuntimePython ($normalized_dafny_runtime_python_version) does not match dafnyVersion ($dafny_version)."
+            exit 1
+          fi
+
+          echo "Versions match: $normalized_dafny_runtime_python_version"

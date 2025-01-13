@@ -41,9 +41,21 @@ module  {:options "/functionSyntax:4"} TestStormTracker {
       identifier := data,
       materials := MakeMat(data),
       creationTime := 123456789,
-      expiryTime := expiryTime,
+      // The expiryTime is in seconds
+      expiryTime := expiryTime / 1000,
       messagesUsed := Option.None,
       bytesUsed := Option.None
+    )
+  }
+  function MakeGetOutput(data : Utf8Bytes, expiryTime : PositiveLong): GetCacheEntryOutput
+  {
+    GetCacheEntryOutput(
+      materials := MakeMat(data),
+      creationTime := 123456789,
+      // The expiryTime is in seconds
+      expiryTime := expiryTime / 1000,
+      messagesUsed := 1,
+      bytesUsed := 0
     )
   }
 
@@ -58,9 +70,14 @@ module  {:options "/functionSyntax:4"} TestStormTracker {
     expect res.EmptyWait?;
     var res2 :- expect st.PutCacheEntry(MakePut(abc, 10000));
     res2 :- expect st.PutCacheEntry(MakePut(cde, 10000));
-    res :- expect st.GetFromCacheWithTime(MakeGet(abc), 10001);
+    // The Storm tracker now deals in milliseconds,
+    // so 11000 is 1 second later
+    // The expiry time is in seconds, is in seconds.
+    // The cache is willing to return a record
+    // anytime within the expiry second.
+    res :- expect st.GetFromCacheWithTime(MakeGet(abc), 11000);
     expect res.EmptyFetch?;
-    res :- expect st.GetFromCacheWithTime(MakeGet(abc), 10001);
+    res :- expect st.GetFromCacheWithTime(MakeGet(abc), 11000);
     expect res.EmptyWait?;
 
     // the following are to test the Dafny header, to see that it allows for multiple calls
@@ -91,9 +108,9 @@ module  {:options "/functionSyntax:4"} TestStormTracker {
     expect res.EmptyWait?;
   }
 
-  method {:test} StormTrackerTTL()
+  method {:test} StormTrackerPruneTTL()
   {
-    var st := new StormTracker(DefaultStorm().(fanOut := 3, inFlightTTL := 5));
+    var st := new StormTracker(DefaultStorm().(graceInterval := 3, fanOut := 3, inFlightTTL := 5));
 
     var one := UTF8.EncodeAscii("one");
     var two := UTF8.EncodeAscii("two");
@@ -112,7 +129,10 @@ module  {:options "/functionSyntax:4"} TestStormTracker {
     expect res.EmptyWait?;
     res :- expect st.GetFromCacheWithTime(MakeGet(four), 10003);
     expect res.EmptyWait?;
-    res :- expect st.GetFromCacheWithTime(MakeGet(four), 10005);
+    // Because the fanOut has been reached,
+    // and nothing has been put into the cache
+    // we need to let prune happen
+    res :- expect st.GetFromCacheWithTime(MakeGet(four), 11000);
     expect res.EmptyFetch?;
   }
 
@@ -134,19 +154,84 @@ module  {:options "/functionSyntax:4"} TestStormTracker {
     expect res.EmptyFetch?;
   }
 
-  method {:test} StormTrackerGracePeriod()
+  method {:test} FullStormTrackerGraceInterval()
   {
-    var st := new StormTracker(DefaultStorm());
+    // The cache is full, we wait for the graceInterval
+    // regardless of the inFlightTTL
 
     var one := UTF8.EncodeAscii("one");
 
-    var res2 :- expect st.PutCacheEntry(MakePut(one, 10010));
+    var st := new StormTracker(DefaultStorm().(graceInterval := 2, inFlightTTL := 3, gracePeriod := 5));
+    // This entry will be in the cache until ms:   11000
+    var _ :- expect st.PutCacheEntry(MakePut(one, 10000));
 
-    var res :- expect st.GetFromCacheWithTime(MakeGet(one), 9999);
-    expect res.Full?;
-    res :- expect st.GetFromCacheWithTime(MakeGet(one), 10000);
+    var res :- expect st.GetFromCacheWithTime(MakeGet(one), 11000 - 5);
     expect res.EmptyFetch?;
-    res :- expect st.GetFromCacheWithTime(MakeGet(one), 10000);
+    res :- expect st.GetFromCacheWithTime(MakeGet(one), 11000 - 5);
+    expect res.Full?;
+    res :- expect st.GetFromCacheWithTime(MakeGet(one), 11000 - 4);
+    expect res.Full?;
+    res :- expect st.GetFromCacheWithTime(MakeGet(one), 11000 - 3);
+    expect res.EmptyFetch?;
+    res :- expect st.GetFromCacheWithTime(MakeGet(one), 11000 - 2);
+    expect res.Full?;
+    res :- expect st.GetFromCacheWithTime(MakeGet(one), 11000 - 1);
+    expect res.EmptyFetch?;
+    res :- expect st.GetFromCacheWithTime(MakeGet(one), 11000 - 1);
+    expect res.Full?;
+    res :- expect st.GetFromCacheWithTime(MakeGet(one), 11000 - 0);
+    // This is because it went inflight
+    expect res.EmptyWait?;
+    res :- expect st.GetFromCacheWithTime(MakeGet(one), 11000 + 1);
+    // Now, graceInterval is smaller, so it calls for fetch
+    expect res.EmptyFetch?;
+  }
+
+  method {:test} StormTrackerGracePeriod()
+  {
+    var config := DefaultStorm();
+    var expiryTime := 100100;
+    // expiryTime stored in the LocalCMC is in seconds
+    // This means that if you only subtract 1,
+    // you will not be before the grace period.
+    // You need to subtract a seconds worth of milliseconds.
+    var beforeGracePeriod := expiryTime - config.gracePeriod as Types.PositiveLong - 1000;
+    var insideGracePeriod := expiryTime - config.gracePeriod as Types.PositiveLong + 1;
+    var st := new StormTracker(config);
+
+    var one := UTF8.EncodeAscii("one");
+
+    var res2 :- expect st.PutCacheEntry(MakePut(one, expiryTime));
+
+    var res :- expect st.GetFromCacheWithTime(MakeGet(one), beforeGracePeriod);
+    expect res.Full?;
+    res :- expect st.GetFromCacheWithTime(MakeGet(one), insideGracePeriod);
+    expect res.EmptyFetch?;
+    res :- expect st.GetFromCacheWithTime(MakeGet(one), insideGracePeriod);
     expect res.Full?;
   }
+
+  method {:test} EmptyStormTrackerTLLAndInterval()
+  {
+    // The cache is empty, we wait for the least
+    // duration between graceInterval and inFlightTTL
+    // for empty identifiers
+    var one := UTF8.EncodeAscii("one");
+
+    var st := new StormTracker(DefaultStorm().(graceInterval := 2, inFlightTTL := 3));
+
+    var res :- expect st.GetFromCacheWithTime(MakeGet(one), 10000);
+    expect res.EmptyFetch?;
+    res :- expect st.GetFromCacheWithTime(MakeGet(one), 10000);
+    expect res.EmptyWait?;
+    res :- expect st.GetFromCacheWithTime(MakeGet(one), 10001);
+    expect res.EmptyWait?;
+    res :- expect st.GetFromCacheWithTime(MakeGet(one), 10002);
+    expect res.EmptyFetch?;
+    res :- expect st.GetFromCacheWithTime(MakeGet(one), 10002);
+    expect res.EmptyWait?;
+    res :- expect st.GetFromCacheWithTime(MakeGet(one), 10003);
+    expect res.EmptyWait?;
+  }
+
 }

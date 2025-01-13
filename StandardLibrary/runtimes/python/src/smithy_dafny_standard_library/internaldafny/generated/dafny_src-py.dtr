@@ -81,6 +81,9 @@ python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
 [options_by_module."StandardLibrary.UInt"]
 legacy-module-names = false
 python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."StandardLibrary.Sequence"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
 [options_by_module."StandardLibrary.String"]
 legacy-module-names = false
 python-module-name = "smithy_dafny_standard_library.internaldafny.generated"

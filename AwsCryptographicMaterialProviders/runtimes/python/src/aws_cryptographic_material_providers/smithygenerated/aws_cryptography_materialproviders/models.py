@@ -1909,6 +1909,16 @@ class SingleThreadedCache:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
+class TimeUnits:
+    SECONDS = "Seconds"
+
+    MILLISECONDS = "Milliseconds"
+
+    # This set contains every possible value known at the time this was generated. New
+    # values may be added in the future.
+    values = frozenset({"Seconds", "Milliseconds"})
+
+
 class StormTrackingCache:
     entry_capacity: int
     entry_pruning_tail_size: int
@@ -1917,6 +1927,7 @@ class StormTrackingCache:
     fan_out: int
     in_flight_ttl: int
     sleep_milli: int
+    time_units: Optional[str]
 
     def __init__(
         self,
@@ -1928,6 +1939,7 @@ class StormTrackingCache:
         fan_out: int = 0,
         in_flight_ttl: int = 0,
         sleep_milli: int = 0,
+        time_units: Optional[str] = None,
     ):
         """A cache that is safe for use in a multi threaded environment, and
         tries to prevent redundant or overly parallel backend calls.
@@ -1935,17 +1947,21 @@ class StormTrackingCache:
         :param entry_capacity: Maximum number of entries cached.
         :param entry_pruning_tail_size: Number of entries to prune at a
             time.
-        :param grace_period: How many seconds before expiration should
-            an attempt be made to refresh the materials. If zero, use a
+        :param grace_period: How much time before expiration should an
+            attempt be made to refresh the materials. If zero, use a
             simple cache with no storm tracking.
-        :param grace_interval: How many seconds between attempts to
-            refresh the materials.
+        :param grace_interval: How much time between attempts to refresh
+            the materials.
         :param fan_out: How many simultaneous attempts to refresh the
             materials.
-        :param in_flight_ttl: How many seconds until an attempt to
-            refresh the materials should be forgotten.
+        :param in_flight_ttl: How much time until an attempt to refresh
+            the materials should be forgotten.
         :param sleep_milli: How many milliseconds should a thread sleep
             if fanOut is exceeded.
+        :param time_units: The time unit for gracePeriod, graceInterval,
+            and inFlightTTL. The default is seconds. If this is set to
+            milliseconds, then these values will be treated as
+            milliseconds.
         """
         if (entry_capacity is not None) and (entry_capacity < 1):
             raise ValueError("entry_capacity must be greater than or equal to 1")
@@ -1977,6 +1993,7 @@ class StormTrackingCache:
             raise ValueError("sleep_milli must be greater than or equal to 1")
 
         self.sleep_milli = sleep_milli
+        self.time_units = time_units
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the StormTrackingCache to a dictionary."""
@@ -2002,6 +2019,9 @@ class StormTrackingCache:
 
         if self.sleep_milli is not None:
             d["sleep_milli"] = self.sleep_milli
+
+        if self.time_units is not None:
+            d["time_units"] = self.time_units
 
         return d
 
@@ -2031,6 +2051,9 @@ class StormTrackingCache:
         if "sleep_milli" in d:
             kwargs["sleep_milli"] = d["sleep_milli"]
 
+        if "time_units" in d:
+            kwargs["time_units"] = d["time_units"]
+
         return StormTrackingCache(**kwargs)
 
     def __repr__(self) -> str:
@@ -2054,7 +2077,10 @@ class StormTrackingCache:
             result += f"in_flight_ttl={repr(self.in_flight_ttl)}, "
 
         if self.sleep_milli is not None:
-            result += f"sleep_milli={repr(self.sleep_milli)}"
+            result += f"sleep_milli={repr(self.sleep_milli)}, "
+
+        if self.time_units is not None:
+            result += f"time_units={repr(self.time_units)}"
 
         return result + ")"
 
@@ -2069,6 +2095,7 @@ class StormTrackingCache:
             "fan_out",
             "in_flight_ttl",
             "sleep_milli",
+            "time_units",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 

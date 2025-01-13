@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aws-cryptographic-material-providers"
-version = "1.7.4"
+version = "1.8.0"
 description = "AWS Cryptographic Material Providers Library for Python"
 authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
 packages = [
@@ -48,5 +48,5 @@ sphinx = "^7"
 sphinx_rtd_theme = "^2"
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core<2.0.0"]
 build-backend = "poetry.core.masonry.api"
