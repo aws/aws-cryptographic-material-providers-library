@@ -27,7 +27,7 @@ AWS_SDK_CMD := --aws-sdk
 STD_LIBRARY=StandardLibrary
 SMITHY_DEPS=model
 
-GO_MODULE_NAME="github.com/aws/aws-cryptographic-material-providers-library/dynamodb"
+GO_MODULE_NAME="github.com/aws/aws-cryptographic-material-providers-library/releases/go/dynamodb"
 
 GO_DEPENDENCY_MODULE_NAMES := \
 	--dependency-library-name=sdk.com.amazonaws.dynamodb=github.com/aws/aws-sdk-go-v2/service/dynamodb \

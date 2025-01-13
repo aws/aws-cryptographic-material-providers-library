@@ -5,9 +5,9 @@ package awscryptographymaterialproviderstestvectorkeyssmithygenerated
 import (
 	"context"
 
-	"github.com/aws/aws-cryptographic-material-providers-library/mpl/AwsCryptographyMaterialProvidersTypes"
-	"github.com/aws/aws-cryptographic-material-providers-library/mpl/awscryptographymaterialproviderssmithygenerated"
-	"github.com/aws/aws-cryptographic-material-providers-library/mpl/awscryptographymaterialproviderssmithygeneratedtypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyMaterialProvidersTypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/awscryptographymaterialproviderssmithygenerated"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/awscryptographymaterialproviderssmithygeneratedtypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/testvectors/AwsCryptographyMaterialProvidersTestVectorKeysTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/testvectors/KeyVectors"
 	"github.com/aws/aws-cryptographic-material-providers-library/testvectors/awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes"

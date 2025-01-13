@@ -4,11 +4,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/aws/aws-cryptographic-material-providers-library/mpl/AwsCryptographyMaterialProvidersTypes"
-	"github.com/aws/aws-cryptographic-material-providers-library/mpl/StormTracker"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyMaterialProvidersTypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/StormTracker"
+	DafnyTime "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Time_"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Wrappers"
 	_dafny "github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
-	DafnyTime "github.com/dafny-lang/DafnyStandardLibGo/Time_"
-	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
 )
 
 type StormTrackingCMC struct {

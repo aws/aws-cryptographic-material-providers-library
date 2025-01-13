@@ -7,12 +7,12 @@ import (
 	"math"
 	"time"
 
-	"github.com/aws/aws-cryptographic-material-providers-library/dynamodb/ComAmazonawsDynamodbTypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/dynamodb/ComAmazonawsDynamodbTypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Wrappers"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/aws/smithy-go"
 	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
-	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
 )
 
 func BatchExecuteStatementInput_FromDafny(dafnyInput ComAmazonawsDynamodbTypes.BatchExecuteStatementInput) dynamodb.BatchExecuteStatementInput {
