@@ -4,13 +4,13 @@ go 1.23.0
 
 replace github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms v0.0.0 => ../ImplementationFromDafny-go
 
-require github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library v0.0.0
+require github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library v0.0.1
 
 require (
 	github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms v0.0.0
 	github.com/aws/aws-sdk-go-v2/service/kms v1.36.0
 	github.com/aws/smithy-go v1.21.0
-	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.9.1
+	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.9.2
 )
 
 require (
