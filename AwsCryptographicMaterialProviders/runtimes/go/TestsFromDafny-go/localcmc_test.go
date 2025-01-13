@@ -24,44 +24,56 @@ var (
 )
 
 func TestConcurrentCacheOperations(t *testing.T) {
-	// Similar to threadPoolSize = 10
-	const numWorkers = 1
-	// Similar to invocationCount = 300000
-	const totalOperations = 1
-	// Similar to timeOut = 10000
-	timeout := time.After(1000 * time.Second)
+	const numWorkers = 10
+	totalOperations := 300000
+	timeout := time.After(10 * time.Second)
+	go func() {
+		<-timeout
+		panic("operation timed out")
+	}()
 	// Create a WaitGroup to track all operations
 	var wg sync.WaitGroup
 	// Create buffered channel to control concurrent operations
-	ops := make(chan struct{}, totalOperations)
+	ops := make(chan int, totalOperations)
+	errChannel := make(chan error, numWorkers)
+	for range numWorkers {
+		wg.Add(1)
+		go func() {
+			processWorker(ops, &wg, errChannel)
+		}()
+	}
 	// Fill the ops channel with work items
-	for i := 0; i < totalOperations; i++ {
-		ops <- struct{}{}
+	for i := range totalOperations {
+		ops <- i
 	}
 	close(ops)
-	// Launch worker goroutines
-	for i := 0; i < numWorkers; i++ {
-		wg.Add(1)
-		go TestLotsOfAdding(t)
-	}
-	// Wait for either completion or timeout
-	done := make(chan struct{})
+	// Wait for completion in a separate goroutine
 	go func() {
 		wg.Wait()
-		close(done)
+		close(errChannel)
 	}()
-	select {
-	case <-timeout:
-		t.Fatal("Test timed out")
-	case <-done:
-		// Test completed successfully
+	// Check for errors in the main test goroutine
+	for err := range errChannel {
+		if err != nil {
+			t.Fatal(err)
+		}
 	}
 }
 
-func TestLotsOfAdding(t *testing.T) {
+func processWorker(ops <-chan int, wg *sync.WaitGroup, errChannel chan<- error) {
+	defer wg.Done()
+	for range ops {
+		err := testLotsOfAdding()
+		if err != nil {
+			errChannel <- err
+		}
+	}
+}
+
+func testLotsOfAdding() error {
 	client, err := awscryptographymaterialproviderssmithygenerated.NewClient(awscryptographymaterialproviderssmithygeneratedtypes.MaterialProvidersConfig{})
 	if err != nil {
-		t.Fatal(err)
+		return err
 	}
 	cache := awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberDefault{
 		Value: awscryptographymaterialproviderssmithygeneratedtypes.DefaultCache{
@@ -72,7 +84,7 @@ func TestLotsOfAdding(t *testing.T) {
 		Cache: &cache,
 	})
 	if err != nil {
-		t.Fatal(err)
+		return err
 	}
 	randIndex, err := rand.Int(rand.Reader, big.NewInt(int64(idSize)))
 	beaconKeyIdentifier := identifiers[randIndex.Int64()]
@@ -99,7 +111,8 @@ func TestLotsOfAdding(t *testing.T) {
 			}
 			test.PutCacheEntry(putCacheEntryInput)
 		default:
-			t.Fatal(err)
+			return err
 		}
 	}
+	return nil
 }
