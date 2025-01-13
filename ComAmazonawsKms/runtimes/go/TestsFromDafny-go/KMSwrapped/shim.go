@@ -5,11 +5,11 @@ package KMSwrapped
 import (
 	"context"
 
-	"github.com/aws/aws-cryptographic-material-providers-library/kms/ComAmazonawsKmsTypes"
-	"github.com/aws/aws-cryptographic-material-providers-library/kms/comamazonawskmssmithygenerated"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms/ComAmazonawsKmsTypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms/comamazonawskmssmithygenerated"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Wrappers"
 	"github.com/aws/aws-sdk-go-v2/service/kms"
 	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
-	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
 )
 
 type Shim struct {

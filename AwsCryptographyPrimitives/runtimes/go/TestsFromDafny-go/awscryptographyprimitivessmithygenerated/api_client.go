@@ -5,9 +5,9 @@ package awscryptographyprimitivessmithygenerated
 import (
 	"context"
 
-	"github.com/aws/aws-cryptographic-material-providers-library/primitives/AtomicPrimitives"
-	"github.com/aws/aws-cryptographic-material-providers-library/primitives/AwsCryptographyPrimitivesTypes"
-	"github.com/aws/aws-cryptographic-material-providers-library/primitives/awscryptographyprimitivessmithygeneratedtypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AtomicPrimitives"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AwsCryptographyPrimitivesTypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/awscryptographyprimitivessmithygeneratedtypes"
 	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 )
 

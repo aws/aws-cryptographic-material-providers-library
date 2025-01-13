@@ -3,16 +3,16 @@
 package awscryptographykeystoresmithygenerated
 
 import (
-	"github.com/aws/aws-cryptographic-material-providers-library/dynamodb/DynamoDBwrapped"
-	"github.com/aws/aws-cryptographic-material-providers-library/dynamodb/comamazonawsdynamodbsmithygenerated"
-	"github.com/aws/aws-cryptographic-material-providers-library/kms/KMSwrapped"
-	"github.com/aws/aws-cryptographic-material-providers-library/kms/comamazonawskmssmithygenerated"
-	"github.com/aws/aws-cryptographic-material-providers-library/mpl/AwsCryptographyKeyStoreTypes"
-	"github.com/aws/aws-cryptographic-material-providers-library/mpl/awscryptographykeystoresmithygeneratedtypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/dynamodb/DynamoDBwrapped"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/dynamodb/comamazonawsdynamodbsmithygenerated"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms/KMSwrapped"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms/comamazonawskmssmithygenerated"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyKeyStoreTypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/awscryptographykeystoresmithygeneratedtypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Wrappers"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/kms"
 	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
-	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
 )
 
 func CreateKeyInput_FromDafny(dafnyInput AwsCryptographyKeyStoreTypes.CreateKeyInput) awscryptographykeystoresmithygeneratedtypes.CreateKeyInput {
