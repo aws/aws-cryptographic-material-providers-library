@@ -21,20 +21,20 @@ fn convert_algorithm(input: &DigestAlgorithm) -> hmac::Algorithm {
 impl crate::HMAC::_default {
     #[allow(non_snake_case)]
     pub fn Digest(
-        input: &::std::rc::Rc<
+        input: &::dafny_runtime::Rc<
             crate::software::amazon::cryptography::primitives::internaldafny::types::HMacInput,
         >,
-    ) -> ::std::rc::Rc<
+    ) -> ::dafny_runtime::Rc<
         _Wrappers_Compile::Result<
             ::dafny_runtime::Sequence<u8>,
-            ::std::rc::Rc<software::amazon::cryptography::primitives::internaldafny::types::Error>,
+            ::dafny_runtime::Rc<software::amazon::cryptography::primitives::internaldafny::types::Error>,
         >,
     > {
         let key_vec: Vec<u8> = input.key().iter().collect();
         let the_key = hmac::Key::new(convert_algorithm(input.digestAlgorithm()), &key_vec);
         let message_vec: Vec<u8> = input.message().iter().collect();
         let result = hmac::sign(&the_key, &message_vec);
-        ::std::rc::Rc::new(_Wrappers_Compile::Result::Success {
+        ::dafny_runtime::Rc::new(_Wrappers_Compile::Result::Success {
             value: result.as_ref().iter().cloned().collect(),
         })
     }
@@ -78,13 +78,13 @@ pub mod HMAC {
             self.inner.borrow_mut().context = context;
         }
         pub fn Build(
-            input: &::std::rc::Rc<
+            input: &::dafny_runtime::Rc<
                 software::amazon::cryptography::primitives::internaldafny::types::DigestAlgorithm,
             >,
-        ) -> ::std::rc::Rc<
+        ) -> ::dafny_runtime::Rc<
             _Wrappers_Compile::Result<
                 ::dafny_runtime::Object<Self>,
-                ::std::rc::Rc<
+                ::dafny_runtime::Rc<
                     software::amazon::cryptography::primitives::internaldafny::types::Error,
                 >,
             >,
@@ -97,7 +97,7 @@ pub mod HMAC {
                 }),
             });
 
-            ::std::rc::Rc::new(_Wrappers_Compile::Result::Success { value: inner })
+            ::dafny_runtime::Rc::new(_Wrappers_Compile::Result::Success { value: inner })
         }
         pub fn BlockUpdate(&self, block: &::dafny_runtime::Sequence<u8>) {
             let part: Vec<u8> = block.iter().collect();

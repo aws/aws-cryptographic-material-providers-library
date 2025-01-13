@@ -9,7 +9,7 @@
 #[allow(non_snake_case)]
 pub mod ECDH {
     use crate::software::amazon::cryptography::primitives::internaldafny::types::Error as DafnyError;
-    use std::rc::Rc;
+    use dafny_runtime::Rc;
 
     fn error(s: &str) -> Rc<DafnyError> {
         Rc::new(DafnyError::AwsCryptographicPrimitivesError {
@@ -23,7 +23,7 @@ pub mod ECDH {
         use crate::software::amazon::cryptography::primitives::internaldafny::types::Error as DafnyError;
         use crate::*;
         use aws_lc_sys;
-        use std::rc::Rc;
+        use dafny_runtime::Rc;
 
         fn get_nid(x: &ECDHCurveSpec) -> i32 {
             match x {
@@ -422,7 +422,7 @@ pub mod ECDH {
         use crate::software::amazon::cryptography::primitives::internaldafny::types::ECDHCurveSpec;
         use crate::software::amazon::cryptography::primitives::internaldafny::types::Error as DafnyError;
         use crate::*;
-        use std::rc::Rc;
+        use dafny_runtime::Rc;
 
         pub fn agree(
             curve_algorithm: &ECDHCurveSpec,
@@ -472,7 +472,7 @@ pub mod ECDH {
         use crate::*;
         use aws_lc_rs::encoding::AsDer;
         use aws_lc_rs::encoding::EcPrivateKeyRfc5915Der;
-        use std::rc::Rc;
+        use dafny_runtime::Rc;
 
         fn ecdsa_key_gen(alg: &ECDHCurveSpec) -> Result<(Vec<u8>, Vec<u8>), String> {
             let private_key =
@@ -518,7 +518,7 @@ pub mod ECDH {
         use super::*;
         use crate::software::amazon::cryptography::primitives::internaldafny::types::ECDHCurveSpec;
         use crate::*;
-        use std::rc::Rc;
+        use dafny_runtime::Rc;
 
         #[test]
         fn test_generate() {
