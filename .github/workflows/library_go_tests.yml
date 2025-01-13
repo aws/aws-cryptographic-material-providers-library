@@ -97,7 +97,8 @@ jobs:
         shell: bash
         run: |
           make test_go
-
+      
+      # This is only to test AwsCryptographicMaterialProviders which has local cmc test inside it. 
       - name: Test ${{ matrix.library }}
         if: matrix.library == 'AwsCryptographicMaterialProviders'
         working-directory: ./${{ matrix.library }}/runtimes/go/TestsFromDafny-go
