@@ -1,6 +1,6 @@
 # AWS Cryptographic Material Providers Library
 
-The AWS Cryptographic Material Providers Library abstracts lower level cryptographic materials management of encryption and decryption materials.
+The AWS Cryptographic Material Providers Library helps you define your key distribution configuration.
 It uses cryptographic best practices to protect the data keys that protect your data.
 The data key is protected with a key encryption key called a _wrapping key_.
 The encryption method returns the data key and one or more encrypted data keys.
