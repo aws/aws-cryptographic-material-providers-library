@@ -14,8 +14,6 @@ also provides APIs to define and use wrapping keys from other key providers.
 
 The AWS Cryptographic Material Providers Library provides methods for encrypting and decrypting cryptographic materials used in higher level client side encryption libraries.
 
-[Security issue notifications](./CONTRIBUTING.md#security-issue-notifications)
-
 ## Security
 
 If you discover a potential security issue in this project
@@ -27,6 +25,10 @@ Please **do not** create a public GitHub issue.
 
 This library is written in Dafny, a formally verifiable programming language that can be compiled into
 different runtimes. Dafny code is transpiled into Go code with the help of internal tools.
+
+### Installation
+
+`go get github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl@latest`
 
 ### Optional Prerequisites
 
