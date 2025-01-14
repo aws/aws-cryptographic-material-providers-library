@@ -1,10 +1,11 @@
-module github.com/aws/aws-cryptographic-material-providers-library/releases/go/dynamodb/test
+module github.com/aws/aws-cryptographic-material-providers-library/releases/go/dynamodb
 
 go 1.23.0
 
+require github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library v0.0.1
+
 require (
-	github.com/aws/aws-cryptographic-material-providers-library/releases/go/dynamodb v0.0.0-00010101000000-000000000000
-	github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library v0.0.1
+	github.com/aws/aws-sdk-go-v2/config v1.28.10
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.39.2
 	github.com/aws/smithy-go v1.22.1
 	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.9.2
@@ -12,7 +13,6 @@ require (
 
 require (
 	github.com/aws/aws-sdk-go-v2 v1.32.8 // indirect
-	github.com/aws/aws-sdk-go-v2/config v1.28.10 // indirect
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.51 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.16.23 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.3.27 // indirect
@@ -26,7 +26,3 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sts v1.33.6 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 )
-
-replace github.com/aws/aws-cryptographic-material-providers-library/releases/go/dynamodb => ../ImplementationFromDafny-go
-
-replace github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library => ../../../../StandardLibrary/runtimes/go/ImplementationFromDafny-go/
