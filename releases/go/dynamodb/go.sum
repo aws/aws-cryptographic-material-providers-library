@@ -1,3 +1,5 @@
+github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library v0.0.1 h1:GMsJ9YTY+JcaZDlaTDOtiqrOXvR909fjXQtv9ed8Ip4=
+github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library v0.0.1/go.mod h1:m3mzHKiNiSC0LWeWX6ZAxSe6mKbJHgliux1Yu/sjCYI=
 github.com/aws/aws-sdk-go-v2 v1.32.8 h1:cZV+NUS/eGxKXMtmyhtYPJ7Z4YLoI/V8bkTdRZfYhGo=
 github.com/aws/aws-sdk-go-v2 v1.32.8/go.mod h1:P5WJBrYqqbWVaOxgH0X/FYYD47/nooaPOZPlQdmiN2U=
 github.com/aws/aws-sdk-go-v2/config v1.28.10 h1:fKODZHfqQu06pCzR69KJ3GuttraRJkhlC8g80RZ0Dfg=
@@ -20,8 +22,6 @@ github.com/aws/aws-sdk-go-v2/service/internal/endpoint-discovery v1.10.8 h1:h56m
 github.com/aws/aws-sdk-go-v2/service/internal/endpoint-discovery v1.10.8/go.mod h1:kK04550Xx95KI0sNmwoB7ciS9QkRwt9TojhoTMXyJdo=
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.12.8 h1:cWno7lefSH6Pp+mSznagKCgfDGeZRin66UvYUqAkyeA=
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.12.8/go.mod h1:tPD+VjU3ABTBoEJ3nctu5Nyg4P4yjqSH5bJGGkY4+XE=
-github.com/aws/aws-sdk-go-v2/service/kms v1.37.10 h1:nqYgJ+twjn6hrhTS97j3tlpNXrw4E9N2zQBgw2FAQMg=
-github.com/aws/aws-sdk-go-v2/service/kms v1.37.10/go.mod h1:wHYtyttsH+A6d2MzXYl8cIf4O2Kw1Kg0qzromSX/wOs=
 github.com/aws/aws-sdk-go-v2/service/sso v1.24.9 h1:YqtxripbjWb2QLyzRK9pByfEDvgg95gpC2AyDq4hFE8=
 github.com/aws/aws-sdk-go-v2/service/sso v1.24.9/go.mod h1:lV8iQpg6OLOfBnqbGMBKYjilBlf633qwHnBEiMSPoHY=
 github.com/aws/aws-sdk-go-v2/service/ssooidc v1.28.8 h1:6dBT1Lz8fK11m22R+AqfRsFn8320K0T5DTGxxOQBSMw=
@@ -34,8 +34,6 @@ github.com/dafny-lang/DafnyRuntimeGo/v4 v4.9.2 h1:g/xAj4F7Zt9wXJ6QjfbfocVi/ZYlAF
 github.com/dafny-lang/DafnyRuntimeGo/v4 v4.9.2/go.mod h1:l2Tm4N2DKuq3ljONC2vOATeM9PUpXbIc8SgXdwwqEto=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
-github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/jmespath/go-jmespath v0.4.0 h1:BEgLn5cpjn8UN1mAw4NjwDrS35OdebyEtFe+9YPoQUg=
 github.com/jmespath/go-jmespath v0.4.0/go.mod h1:T8mJZnbsbmF+m6zOOFylbeCJqk5+pHWvzYPziyZiYoo=
 github.com/jmespath/go-jmespath/internal/testify v1.5.1 h1:shLQSRRSCCPj3f2gpwzGwWFoC7ycTf1rcQZHOlsJ6N8=
