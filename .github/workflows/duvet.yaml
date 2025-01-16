@@ -11,7 +11,7 @@ on:
 
 jobs:
   duvet:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     # This environment stores a token
     # that can be used to checkout
     # the ESDK specification
