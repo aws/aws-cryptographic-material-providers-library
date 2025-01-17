@@ -372,6 +372,14 @@ func CryptoConfig_ToDafny(nativeInput awscryptographyprimitivessmithygeneratedty
 
 }
 
+func AES_CTR_ToDafny(nativeInput awscryptographyprimitivessmithygeneratedtypes.AES_CTR) AwsCryptographyPrimitivesTypes.AES__CTR {
+	return func() AwsCryptographyPrimitivesTypes.AES__CTR {
+
+		return AwsCryptographyPrimitivesTypes.Companion_AES__CTR_.Create_AES__CTR_(aws_cryptography_primitives_AES_CTR_keyLength_ToDafny(nativeInput.KeyLength), aws_cryptography_primitives_AES_CTR_nonceLength_ToDafny(nativeInput.NonceLength))
+	}()
+
+}
+
 func aws_cryptography_primitives_AESDecryptInput_encAlg_ToDafny(input awscryptographyprimitivessmithygeneratedtypes.AES_GCM) AwsCryptographyPrimitivesTypes.AES__GCM {
 	return func() AwsCryptographyPrimitivesTypes.AES__GCM {
 
@@ -1788,10 +1796,16 @@ func aws_cryptography_primitives_AwsCryptographicPrimitivesError_message_ToDafny
 	}()
 }
 
-func AES_CTR_ToDafny(nativeInput awscryptographyprimitivessmithygeneratedtypes.AES_CTR) AwsCryptographyPrimitivesTypes.AES__CTR {
-	return func() AwsCryptographyPrimitivesTypes.AES__CTR {
+func aws_cryptography_primitives_AES_CTR_keyLength_ToDafny(input int32) int32 {
+	return func() int32 {
 
-		return AwsCryptographyPrimitivesTypes.Companion_AES__CTR_.Create_AES__CTR_(aws_cryptography_primitives_AES_CTR_keyLength_ToDafny(nativeInput.KeyLength), aws_cryptography_primitives_AES_CTR_nonceLength_ToDafny(nativeInput.NonceLength))
+		return input
 	}()
+}
 
+func aws_cryptography_primitives_AES_CTR_nonceLength_ToDafny(input int32) int32 {
+	return func() int32 {
+
+		return input
+	}()
 }
