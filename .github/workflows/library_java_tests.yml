@@ -95,13 +95,7 @@ jobs:
           CORES=$(node -e 'console.log(os.cpus().length)')
           make build_java CORES=$CORES
 
-      - name: Test ${{ matrix.library }}
+      - name: Test ${{ matrix.library }} on ${{matrix.java-versions}}
         working-directory: ./${{ matrix.library }}
         run: |
           make test_java
-
-      - name: Test Java ${{matrix.java-versions}}
-        uses: gradle/gradle-build-action@v3
-        with:
-          arguments: runTests
-          build-root-directory: ./${{ matrix.library }}/runtimes/java
