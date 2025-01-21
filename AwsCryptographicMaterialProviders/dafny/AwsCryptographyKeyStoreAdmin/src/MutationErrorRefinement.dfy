@@ -166,7 +166,23 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
               message := "Key Management through an exception."
               + " Mutation is halted. Check access to KMS."
               + "\n" + errorContext);
-
+      }
+    }
+    if (kmsWithMsg) {
+      var hasOriginalArn? := String.HasSubString(kmsErrorMessage?.value, item.KmsArn);
+      var hasTerminalArn? := String.HasSubString(kmsErrorMessage?.value, terminalKmsArn);
+      if (hasOriginalArn?.Some?) {
+        return Types.MutationFromException(
+            message := "Key Management denied access to the original KMS Key."
+            + " Mutation is halted. Check access to KMS ARN: " + item.KmsArn + "."
+            + "\n" + errorContext
+          );
+      } else if (hasTerminalArn?.Some?) {
+        return Types.MutationToException(
+            message := "Key Management denied access to the terminal KMS Key."
+            + " Mutation is halted. Check encrypt access to KMS ARN: " + terminalKmsArn + "."
+            + "\n" + errorContext
+          );
       }
     }
     return Types.KeyStoreAdminException(
