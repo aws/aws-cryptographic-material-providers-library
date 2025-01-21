@@ -64,6 +64,9 @@ jobs:
       - pr-ci-verification
       - pr-ci-java
       - pr-ci-net
+      - pr-ci-python
+      - pr-ci-go
+      - pr-ci-rust
       - pr-interop-test
     runs-on: ubuntu-22.04
     steps:
