@@ -12,11 +12,11 @@ pub mod DafnyLibraries {
     use std::collections::HashMap;
     use std::collections::HashSet;
 
-    pub struct MutableMap<K: ::dafny_runtime::DafnyTypeEq, V: ::dafny_runtime::DafnyTypeEq> {
+    pub struct MutableMap<K: ::dafny_runtime::DafnyTypeEq + Sync + Send, V: ::dafny_runtime::DafnyTypeEq  + Sync + Send> {
         map: DashMap<K, V>,
     }
 
-    impl<K: ::dafny_runtime::DafnyTypeEq, V: ::dafny_runtime::DafnyTypeEq> MutableMap<K, V> {
+    impl<K: ::dafny_runtime::DafnyTypeEq + Sync + Send, V: ::dafny_runtime::DafnyTypeEq + Sync + Send> MutableMap<K, V> {
         pub fn _allocate_object() -> ::dafny_runtime::Object<Self> {
             ::dafny_runtime::Object::new(MutableMap {
                 map: DashMap::new(),
@@ -24,7 +24,7 @@ pub mod DafnyLibraries {
         }
     }
 
-    impl<K: ::dafny_runtime::DafnyTypeEq, V: ::dafny_runtime::DafnyTypeEq>
+    impl<K: ::dafny_runtime::DafnyTypeEq + Sync + Send, V: ::dafny_runtime::DafnyTypeEq + Sync + Send>
         crate::DafnyLibraries::MutableMapTrait<K, V> for MutableMap<K, V>
     {
         fn content(&self) -> ::dafny_runtime::Map<K, V> {
@@ -72,10 +72,10 @@ pub mod DafnyLibraries {
         }
     }
 
-    impl<K: ::dafny_runtime::DafnyTypeEq, V: ::dafny_runtime::DafnyTypeEq>
-        ::dafny_runtime::UpcastObject<dyn ::std::any::Any> for MutableMap<K, V>
+    impl<K: ::dafny_runtime::DafnyTypeEq + Sync + Send, V: ::dafny_runtime::DafnyTypeEq + Sync + Send>
+        ::dafny_runtime::UpcastObject<dafny_runtime::DynAny> for MutableMap<K, V>
     {
-        ::dafny_runtime::UpcastObjectFn!(dyn ::std::any::Any);
+        ::dafny_runtime::UpcastObjectFn!(dafny_runtime::DynAny);
     }
 
     pub mod FileIO {

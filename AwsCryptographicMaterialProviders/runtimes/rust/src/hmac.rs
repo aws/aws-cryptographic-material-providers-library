@@ -44,7 +44,7 @@ impl crate::HMAC::_default {
 pub mod HMAC {
     use crate::*;
     use aws_lc_rs::hmac;
-    use std::cell::RefCell;
+    use ::dafny_runtime::RefCell;
     #[allow(non_camel_case_types)]
     pub struct _default {}
 
@@ -58,24 +58,24 @@ pub mod HMAC {
         inner: RefCell<HMacInner>,
     }
 
-    impl dafny_runtime::UpcastObject<dyn std::any::Any> for HMac {
-        dafny_runtime::UpcastObjectFn!(dyn std::any::Any);
+    impl dafny_runtime::UpcastObject<dafny_runtime::DynAny> for HMac {
+        dafny_runtime::UpcastObjectFn!(dafny_runtime::DynAny);
     }
 
     impl HMac {
         pub fn Init(&self, salt: &::dafny_runtime::Sequence<u8>) {
             let salt: Vec<u8> = salt.iter().collect();
-            self.inner.borrow_mut().key = Some(hmac::Key::new(self.algorithm, &salt));
+            self.inner.lock().unwrap().key = Some(hmac::Key::new(self.algorithm, &salt));
             let context = Some(hmac::Context::with_key(
-                self.inner.borrow().key.as_ref().unwrap(),
+                self.inner.lock().unwrap().key.as_ref().unwrap(),
             ));
-            self.inner.borrow_mut().context = context;
+            self.inner.lock().unwrap().context = context;
         }
         pub fn re_init(&self) {
             let context = Some(hmac::Context::with_key(
-                self.inner.borrow().key.as_ref().unwrap(),
+                self.inner.lock().unwrap().key.as_ref().unwrap(),
             ));
-            self.inner.borrow_mut().context = context;
+            self.inner.lock().unwrap().context = context;
         }
         pub fn Build(
             input: &::dafny_runtime::Rc<
@@ -102,18 +102,18 @@ pub mod HMAC {
         pub fn BlockUpdate(&self, block: &::dafny_runtime::Sequence<u8>) {
             let part: Vec<u8> = block.iter().collect();
             self.inner
-                .borrow_mut()
+                .lock().unwrap()
                 .context
                 .as_mut()
                 .unwrap()
                 .update(&part);
         }
         pub fn GetResult(&self) -> ::dafny_runtime::Sequence<u8> {
-            let is_empty = self.inner.borrow().context.is_none();
+            let is_empty = self.inner.lock().unwrap().context.is_none();
             if is_empty {
                 return [].iter().cloned().collect();
             }
-            let tag = self.inner.borrow_mut().context.take().unwrap().sign();
+            let tag = self.inner.lock().unwrap().context.take().unwrap().sign();
             // other languages allow you to call BlockUpdate after GetResult
             // so we re-initialize to mimic that behavior
             self.re_init();

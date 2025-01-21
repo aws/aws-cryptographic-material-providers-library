@@ -24,8 +24,8 @@ pub mod internal_SynchronizedLocalCMC {
         }
     }
 
-    impl ::dafny_runtime::UpcastObject<dyn ::std::any::Any> for SynchronizedLocalCMC {
-        ::dafny_runtime::UpcastObjectFn!(dyn ::std::any::Any);
+    impl ::dafny_runtime::UpcastObject<dafny_runtime::DynAny> for SynchronizedLocalCMC {
+        ::dafny_runtime::UpcastObjectFn!(dafny_runtime::DynAny);
     }
 
     impl ::dafny_runtime::UpcastObject<dyn software::amazon::cryptography::materialproviders::internaldafny::types::ICryptographicMaterialsCache>
