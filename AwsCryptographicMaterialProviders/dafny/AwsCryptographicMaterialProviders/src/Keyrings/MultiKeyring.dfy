@@ -250,12 +250,12 @@ module {:options "-functionSyntax:4"} MultiKeyring {
         // However not all CMM/keyrings are Dafny CMM/keyrings.
         // Customers can create custom CMM/keyrings.
         if !(
-          || Verified?(generatorKeyring.value)
-          || generatorKeyring.value is MultiKeyring
+            || Verified?(generatorKeyring.value)
+            || generatorKeyring.value is MultiKeyring
           ) {
-            //= aws-encryption-sdk-specification/framework/multi-keyring.md#onencrypt
-            //# - If the generator keyring returns encryption materials missing a
-            //# plaintext data key, OnEncrypt MUST fail.
+          //= aws-encryption-sdk-specification/framework/multi-keyring.md#onencrypt
+          //# - If the generator keyring returns encryption materials missing a
+          //# plaintext data key, OnEncrypt MUST fail.
           :- Need(
             Materials.EncryptionMaterialsHasPlaintextDataKey(onEncryptOutput.value.materials),
             Types.AwsCryptographicMaterialProvidersException(
@@ -297,8 +297,8 @@ module {:options "-functionSyntax:4"} MultiKeyring {
         // However not all CMM/keyrings are Dafny CMM/keyrings.
         // Customers can create custom CMM/keyrings.
         if !(
-          || Verified?(child)
-          || child is MultiKeyring
+            || Verified?(child)
+            || child is MultiKeyring
           ) {
           // We have to explicitly check for this because our child and generator keyrings are of type
           // IKeyring, rather than VerifiableKeyring.
@@ -470,8 +470,8 @@ module {:options "-functionSyntax:4"} MultiKeyring {
     // However not all CMM/keyrings are Dafny CMM/keyrings.
     // Customers can create custom CMM/keyrings.
     if !(
-      || Verified?(keyring)
-      || keyring is MultiKeyring
+        || Verified?(keyring)
+        || keyring is MultiKeyring
       ) {
       :- Need(
         Materials.DecryptionMaterialsTransitionIsValid(input.materials, output.materials),

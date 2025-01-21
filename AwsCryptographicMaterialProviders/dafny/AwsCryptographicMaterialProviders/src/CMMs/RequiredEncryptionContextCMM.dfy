@@ -185,9 +185,9 @@ module RequiredEncryptionContextCMM {
       // However not all CMM/keyrings are Dafny CMM/keyrings.
       // Customers can create custom CMM/keyrings.
       if !(
-        || underlyingCMM is DefaultCMM.DefaultCMM
-        || underlyingCMM is RequiredEncryptionContextCMM
-      ) {
+          || underlyingCMM is DefaultCMM.DefaultCMM
+          || underlyingCMM is RequiredEncryptionContextCMM
+        ) {
 
         :- Need(forall k <- requiredEncryptionContextKeys :: k in result.encryptionMaterials.requiredEncryptionContextKeys,
                 Types.AwsCryptographicMaterialProvidersException(
@@ -317,9 +317,9 @@ module RequiredEncryptionContextCMM {
       // However not all CMM/keyrings are Dafny CMM/keyrings.
       // Customers can create custom CMM/keyrings.
       if !(
-        || underlyingCMM is DefaultCMM.DefaultCMM
-        || underlyingCMM is RequiredEncryptionContextCMM
-      ) {
+          || underlyingCMM is DefaultCMM.DefaultCMM
+          || underlyingCMM is RequiredEncryptionContextCMM
+        ) {
         :- Need(forall k <- requiredEncryptionContextKeys :: k in result.decryptionMaterials.encryptionContext,
                 Types.AwsCryptographicMaterialProvidersException(
                   message := "Final encryption context missing required keys.")

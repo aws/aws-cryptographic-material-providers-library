@@ -274,11 +274,11 @@ module DefaultCMM {
       var result :- keyring.OnEncrypt(Types.OnEncryptInput(materials:=materials));
       var encryptionMaterialsOutput := Types.GetEncryptionMaterialsOutput(encryptionMaterials:=result.materials);
 
-        // For Dafny these are trivial statements
-        // because they implement a trait that ensures this.
-        // However not all CMM/keyrings are Dafny CMM/keyrings.
-        // Customers can create custom CMM/keyrings.
-        if !(
+      // For Dafny these are trivial statements
+      // because they implement a trait that ensures this.
+      // However not all CMM/keyrings are Dafny CMM/keyrings.
+      // Customers can create custom CMM/keyrings.
+      if !(
           || MultiKeyring.Verified?(keyring)
           || keyring is MultiKeyring.MultiKeyring
         ) {
@@ -514,9 +514,9 @@ module DefaultCMM {
       // However not all CMM/keyrings are Dafny CMM/keyrings.
       // Customers can create custom CMM/keyrings.
       if !(
-        || MultiKeyring.Verified?(keyring)
-        || keyring is MultiKeyring.MultiKeyring
-      ) {
+          || MultiKeyring.Verified?(keyring)
+          || keyring is MultiKeyring.MultiKeyring
+        ) {
         :- Need(
           Materials.DecryptionMaterialsTransitionIsValid(materials, result.materials),
           Types.AwsCryptographicMaterialProvidersException(
