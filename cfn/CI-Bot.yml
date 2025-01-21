@@ -46,7 +46,7 @@ Resources:
                   "token.actions.githubusercontent.com:sub": [
                     "repo:aws/aws-cryptographic-material-providers-library:*",
                     "repo:aws/aws-database-encryption-sdk-dynamodb:*",
-                    "repo:aws/aws-encryption-sdk-dafny:*"
+                    "repo:aws/aws-encryption-sdk:*"
                   ]
                 }
               }

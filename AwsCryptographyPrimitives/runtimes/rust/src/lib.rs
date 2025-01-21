@@ -11,6 +11,7 @@ pub mod conversions;
 pub mod error;
 pub mod operation;
 pub mod types;
+pub mod validation;
 
 pub(crate) mod standard_library_conversions;
 pub(crate) mod standard_library_externs;
@@ -26,6 +27,7 @@ pub mod digest;
 pub mod ecdh;
 pub mod ecdsa;
 pub mod hmac;
+pub mod oslang;
 pub mod random;
 pub mod rsa;
 pub mod sets;

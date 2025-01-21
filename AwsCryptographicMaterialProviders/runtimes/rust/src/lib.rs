@@ -1,3 +1,6 @@
+// Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
 #![allow(
     deprecated,
     non_upper_case_globals,
@@ -12,6 +15,7 @@ pub mod deps;
 pub mod error;
 pub mod operation;
 pub mod types;
+pub mod validation;
 
 pub(crate) mod standard_library_conversions;
 pub(crate) mod standard_library_externs;
@@ -35,6 +39,7 @@ pub mod ecdsa;
 pub mod hmac;
 pub mod kms;
 pub mod local_cmc;
+pub mod oslang;
 pub mod random;
 pub mod rsa;
 pub mod sets;

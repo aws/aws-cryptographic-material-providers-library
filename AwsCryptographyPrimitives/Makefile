@@ -21,6 +21,7 @@ RUST_OTHER_FILES := \
         runtimes/rust/src/ecdh.rs \
         runtimes/rust/src/ecdsa.rs \
         runtimes/rust/src/hmac.rs \
+        runtimes/rust/src/oslang.rs \
         runtimes/rust/src/random.rs \
         runtimes/rust/src/rsa.rs \
         runtimes/rust/src/sets.rs \
@@ -49,3 +50,8 @@ PYTHON_MODULE_NAME=aws_cryptography_primitives
 
 TRANSLATION_RECORD_PYTHON := \
     --translation-record ../StandardLibrary/runtimes/python/src/smithy_dafny_standard_library/internaldafny/generated/dafny_src-py.dtr
+
+GO_MODULE_NAME="github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives"
+
+TRANSLATION_RECORD_GO := \
+    StandardLibrary/runtimes/go/ImplementationFromDafny-go/ImplementationFromDafny-go.dtr

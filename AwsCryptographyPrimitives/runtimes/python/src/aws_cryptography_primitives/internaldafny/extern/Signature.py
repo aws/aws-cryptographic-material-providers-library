@@ -21,6 +21,7 @@ from cryptography.hazmat.primitives.asymmetric.utils import (
   decode_dss_signature,
   encode_dss_signature
 )
+from cryptography.hazmat.primitives.asymmetric.utils import Prehashed
 
 from collections import namedtuple
 import _dafny
@@ -48,7 +49,7 @@ class default__(aws_cryptography_primitives.internaldafny.generated.Signature.de
         return Wrappers.Result_Failure(maybe_signature_algorithm.error)
       
       private_key = ec.generate_private_key(
-        maybe_signature_algorithm.value.value.curve
+        maybe_signature_algorithm.value.value.curve()
       )
 
       private_key_pem_bytes = private_key.private_bytes(Encoding.PEM, PrivateFormat.PKCS8, NoEncryption())
@@ -101,9 +102,9 @@ class default__(aws_cryptography_primitives.internaldafny.generated.Signature.de
       
       message_digest_algorithm = maybe_signature_algorithm.value.value.message_digest_algorithm
       if message_digest_algorithm.is_SHA__256:
-        sign_algo = ec.ECDSA(hashes.SHA256())
+        sign_algo = ec.ECDSA(Prehashed(hashes.SHA256()))
       elif message_digest_algorithm.is_SHA__384:
-        sign_algo = ec.ECDSA(hashes.SHA384())
+        sign_algo = ec.ECDSA(Prehashed(hashes.SHA384()))
       else:
         return Wrappers.Result_Failure(Error_AwsCryptographicPrimitivesError(
           message=f"Requested Digest Algorithm is not supported. Requested {message_digest_algorithm}"
@@ -242,9 +243,9 @@ def _ecc_static_length_signature(key, algorithm, digest):
   :rtype: bytes
   """
   if algorithm.message_digest_algorithm.is_SHA__256:
-    sign_algo = ec.ECDSA(hashes.SHA256())
+    sign_algo = ec.ECDSA(Prehashed(hashes.SHA256()))
   elif algorithm.message_digest_algorithm.is_SHA__384:
-    sign_algo = ec.ECDSA(hashes.SHA384())
+    sign_algo = ec.ECDSA(Prehashed(hashes.SHA384()))
   pre_hashed_algorithm = sign_algo
   signature = b""
   while len(signature) != algorithm.expected_signature_length:

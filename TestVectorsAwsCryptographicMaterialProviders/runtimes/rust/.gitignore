@@ -6,6 +6,7 @@ src/types
 src/types.rs
 src/timer.rs
 src/time.rs
+src/validation.rs
 src/storm_tracker.rs
 src/standard_library_externs.rs
 src/standard_library_conversions.rs
@@ -35,6 +36,7 @@ src/client
 src/client.rs
 src/aes_kdf_ctr.rs
 src/aes_gcm.rs
+src/oslang.rs
 Cargo.lock
 
 /*.json

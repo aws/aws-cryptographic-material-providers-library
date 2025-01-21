@@ -13,6 +13,7 @@ pub mod deps;
 pub mod error;
 pub mod operation;
 pub mod types;
+pub mod validation;
 pub mod wrapped;
 
 pub(crate) mod standard_library_conversions;
@@ -37,6 +38,7 @@ pub mod ecdsa;
 pub mod hmac;
 pub mod kms;
 pub mod local_cmc;
+pub mod oslang;
 pub mod random;
 pub mod rsa;
 pub mod sets;
