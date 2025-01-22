@@ -67,7 +67,7 @@ jobs:
         #        uses: dafny-lang/setup-dafny-action@v1.7.0
         uses: ./smithy-dafny/.github/actions/build_dafny_from_source
         with:
-          dafny: bbaf95d86d8375506f43c80db7ff33ca5707af89
+          dafny: d07403b6d6606257e1b5aada4d0156901f4a17de
 
       # TODO: Remove this after the formatting in Rust starts working
       - name: smithy-dafny Rust hacks
