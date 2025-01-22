@@ -29,10 +29,17 @@ module TestDiscoveryGetKeys {
       id := None,
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
-      grantTokens := None,
-      ddbTableName := branchKeyStoreName,
-      ddbClient := Some(ddbClient),
-      kmsClient := Some(kmsClient)
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := branchKeyStoreName,
+            ddbClient := Some(ddbClient)
+          ))),
+      keyManagement := Some(
+        Types.kms(
+          Types.AwsKms(
+            kmsClient := Some(kmsClient)
+          )))
     );
 
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
@@ -62,10 +69,17 @@ module TestDiscoveryGetKeys {
       id := None,
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
-      grantTokens := None,
-      ddbTableName := branchKeyStoreName,
-      ddbClient := Some(ddbClient),
-      kmsClient := Some(kmsClient)
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := branchKeyStoreName,
+            ddbClient := Some(ddbClient)
+          ))),
+      keyManagement := Some(
+        Types.kms(
+          Types.AwsKms(
+            kmsClient := Some(kmsClient)
+          )))
     );
 
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
@@ -95,10 +109,17 @@ module TestDiscoveryGetKeys {
       id := None,
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
-      grantTokens := None,
-      ddbTableName := branchKeyStoreName,
-      ddbClient := Some(ddbClient),
-      kmsClient := Some(kmsClient)
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := branchKeyStoreName,
+            ddbClient := Some(ddbClient)
+          ))),
+      keyManagement := Some(
+        Types.kms(
+          Types.AwsKms(
+            kmsClient := Some(kmsClient)
+          )))
     );
 
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
@@ -133,10 +154,17 @@ module TestDiscoveryGetKeys {
       id := None,
       kmsConfiguration := kmsConfigMr,
       logicalKeyStoreName := logicalKeyStoreName,
-      grantTokens := None,
-      ddbTableName := branchKeyStoreName,
-      ddbClient := Some(ddbClient),
-      kmsClient := Some(kmsClient)
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := branchKeyStoreName,
+            ddbClient := Some(ddbClient)
+          ))),
+      keyManagement := Some(
+        Types.kms(
+          Types.AwsKms(
+            kmsClient := Some(kmsClient)
+          )))
     );
 
     var keyStoreConfigSr := keyStoreConfigMr.(kmsConfiguration := kmsConfigSr);
