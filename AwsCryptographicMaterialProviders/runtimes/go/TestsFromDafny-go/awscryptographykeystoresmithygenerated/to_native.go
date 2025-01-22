@@ -319,6 +319,11 @@ func AlreadyExistsConditionFailed_FromDafny(dafnyOutput AwsCryptographyKeyStoreT
 
 }
 
+func BranchKeyCiphertextException_FromDafny(dafnyOutput AwsCryptographyKeyStoreTypes.Error) awscryptographykeystoresmithygeneratedtypes.BranchKeyCiphertextException {
+	return awscryptographykeystoresmithygeneratedtypes.BranchKeyCiphertextException{Message: aws_cryptography_keyStore_BranchKeyCiphertextException_message_FromDafny(dafnyOutput.Dtor_message())}
+
+}
+
 func KeyManagementException_FromDafny(dafnyOutput AwsCryptographyKeyStoreTypes.Error) awscryptographykeystoresmithygeneratedtypes.KeyManagementException {
 	return awscryptographykeystoresmithygeneratedtypes.KeyManagementException{Message: aws_cryptography_keyStore_KeyManagementException_message_FromDafny(dafnyOutput.Dtor_message())}
 
@@ -390,6 +395,10 @@ func Error_FromDafny(err AwsCryptographyKeyStoreTypes.Error) error {
 	// Service Errors
 	if err.Is_AlreadyExistsConditionFailed() {
 		return AlreadyExistsConditionFailed_FromDafny(err)
+	}
+
+	if err.Is_BranchKeyCiphertextException() {
+		return BranchKeyCiphertextException_FromDafny(err)
 	}
 
 	if err.Is_KeyManagementException() {
@@ -1927,6 +1936,19 @@ func aws_cryptography_keyStore_WriteNewEncryptedBranchKeyVersionInput_Version_Fr
 	}
 }
 func aws_cryptography_keyStore_AlreadyExistsConditionFailed_message_FromDafny(input interface{}) string {
+	return func() string {
+		var s string
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return s
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func aws_cryptography_keyStore_BranchKeyCiphertextException_message_FromDafny(input interface{}) string {
 	return func() string {
 		var s string
 		for i := dafny.Iterate(input); ; {
