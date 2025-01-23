@@ -109,10 +109,17 @@ jobs:
         if: matrix.language == 'rust' && matrix.os == 'windows-latest'
         uses: ilammy/setup-nasm@v1
 
-      - name: Setup Dafny
+      - name: Setup Dafny Not Rust
+        if: matrix.language != 'rust'
         uses: dafny-lang/setup-dafny-action@v1.7.0
         with:
           dafny-version: ${{ inputs.dafny }}
+
+      - name: Setup Dafny Rust
+        if: matrix.language == 'rust'
+        uses: ./smithy-dafny/.github/actions/build_dafny_from_source
+        with:
+          dafny: d07403b6d6606257e1b5aada4d0156901f4a17de
 
       - name: Regenerate code using smithy-dafny if necessary
         if: ${{ inputs.regenerate-code }}
