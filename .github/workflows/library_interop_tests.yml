@@ -22,8 +22,8 @@ jobs:
         os: [
             # https://taskei.amazon.dev/tasks/CrypTool-5283
             # windows-latest,
-            ubuntu-latest,
             macos-13,
+            ubuntu-22.04,
           ]
         language: [java, net, python]
         # https://taskei.amazon.dev/tasks/CrypTool-5284
@@ -144,8 +144,13 @@ jobs:
         os: [
             # TODO just test on mac and ubuntu for now
             # windows-latest,
+<<<<<<< HEAD
             ubuntu-latest,
             macos-13,
+=======
+            ubuntu-22.04,
+            macos-12,
+>>>>>>> eb673d461 (sigh... ubuntu)
           ]
         encrypting_language: [java, net, python]
         decrypting_language: [java, net, python]
