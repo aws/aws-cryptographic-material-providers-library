@@ -113,7 +113,7 @@ REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_FROM_2 := 'pub mod wrapped;'
 REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_TO_1 := '\/\/ removed wrapped-client feature using sed;'
 REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_TO_2 := '\/\/ removed wrapped module using sed;'
 
-transpile_implementation_rust: _replace_main_method_name_rust
+# transpile_implementation_rust: _replace_main_method_name_rust
 
 # TODO: Remove after wrapped client issue is fixed in Rust
 _polymorph_rust: _remove_wrapped_client_rust
