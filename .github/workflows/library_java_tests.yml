@@ -31,8 +31,8 @@ jobs:
         os: [
             # TODO just test on mac for now
             # windows-latest,
-            ubuntu-latest,
             macos-13,
+            ubuntu-22.04,
           ]
     runs-on: ${{ matrix.os }}
     permissions:
