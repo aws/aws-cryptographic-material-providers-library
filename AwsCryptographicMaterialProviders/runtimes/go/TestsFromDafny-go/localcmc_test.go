@@ -3,14 +3,15 @@ package main
 import (
 	"context"
 	"crypto/rand"
+	"fmt"
 	"math/big"
 	"sync"
 	"testing"
 	"time"
 
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/awscryptographykeystoresmithygeneratedtypes"
-	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/awscryptographymaterialproviderssmithygenerated"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/awscryptographymaterialproviderssmithygeneratedtypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/test/awscryptographymaterialproviderssmithygenerated"
 )
 
 // Test setup
@@ -36,10 +37,26 @@ func TestConcurrentCacheOperations(t *testing.T) {
 	// Create buffered channel to control concurrent operations
 	ops := make(chan int, totalOperations)
 	errChannel := make(chan error, numWorkers)
+	client, err := awscryptographymaterialproviderssmithygenerated.NewClient(awscryptographymaterialproviderssmithygeneratedtypes.MaterialProvidersConfig{})
+	if err != nil {
+		panic(err)
+	}
+	cacheType := awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberDefault{
+		Value: awscryptographymaterialproviderssmithygeneratedtypes.DefaultCache{
+			EntryCapacity: 10,
+		},
+	}
+	cache, err := client.CreateCryptographicMaterialsCache(context.Background(), awscryptographymaterialproviderssmithygeneratedtypes.CreateCryptographicMaterialsCacheInput{
+		Cache: &cacheType,
+	})
+	if err != nil {
+		panic(err)
+	}
+
 	for range numWorkers {
 		wg.Add(1)
 		go func() {
-			processWorker(ops, &wg, errChannel)
+			processWorker(ops, &wg, errChannel, cache)
 		}()
 	}
 	// Fill the ops channel with work items
@@ -60,38 +77,23 @@ func TestConcurrentCacheOperations(t *testing.T) {
 	}
 }
 
-func processWorker(ops <-chan int, wg *sync.WaitGroup, errChannel chan<- error) {
+func processWorker(ops <-chan int, wg *sync.WaitGroup, errChannel chan<- error, cache awscryptographymaterialproviderssmithygeneratedtypes.ICryptographicMaterialsCache) {
 	defer wg.Done()
 	for range ops {
-		err := testLotsOfAdding()
+		err := testLotsOfAdding(cache)
 		if err != nil {
 			errChannel <- err
 		}
 	}
 }
 
-func testLotsOfAdding() error {
-	client, err := awscryptographymaterialproviderssmithygenerated.NewClient(awscryptographymaterialproviderssmithygeneratedtypes.MaterialProvidersConfig{})
-	if err != nil {
-		return err
-	}
-	cache := awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberDefault{
-		Value: awscryptographymaterialproviderssmithygeneratedtypes.DefaultCache{
-			EntryCapacity: 10,
-		},
-	}
-	test, err := client.CreateCryptographicMaterialsCache(context.Background(), awscryptographymaterialproviderssmithygeneratedtypes.CreateCryptographicMaterialsCacheInput{
-		Cache: &cache,
-	})
-	if err != nil {
-		return err
-	}
+func testLotsOfAdding(cache awscryptographymaterialproviderssmithygeneratedtypes.ICryptographicMaterialsCache) error {
 	randIndex, err := rand.Int(rand.Reader, big.NewInt(int64(idSize)))
 	beaconKeyIdentifier := identifiers[randIndex.Int64()]
 	getCacheEntryInput := awscryptographymaterialproviderssmithygeneratedtypes.GetCacheEntryInput{
 		Identifier: []byte(beaconKeyIdentifier),
 	}
-	_, err = test.GetCacheEntry(getCacheEntryInput)
+	op, err := cache.GetCacheEntry(getCacheEntryInput)
 	if err != nil {
 		switch err.(type) {
 		case awscryptographymaterialproviderssmithygeneratedtypes.EntryDoesNotExist:
@@ -106,13 +108,21 @@ func testLotsOfAdding() error {
 			putCacheEntryInput := awscryptographymaterialproviderssmithygeneratedtypes.PutCacheEntryInput{
 				Identifier:   []byte(beaconKeyIdentifier),
 				CreationTime: time.Now().Unix(),
-				ExpiryTime:   time.Now().Unix() + 1,
+				ExpiryTime:   time.Now().Unix() + 100,
 				Materials:    &materials,
 			}
-			test.PutCacheEntry(putCacheEntryInput)
+			err := cache.PutCacheEntry(putCacheEntryInput)
+			if err != nil {
+				return (err)
+			}
 		default:
 			return err
 		}
+	} else {
+		if op.Materials.(*awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberBeaconKey).Value.BeaconKeyIdentifier != beaconKeyIdentifier {
+			return fmt.Errorf("beacon key identifier mismatch: %s != %s", op.Materials.(*awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberBeaconKey).Value.BeaconKeyIdentifier, beaconKeyIdentifier)
+		}
+		fmt.Printf("Cache hit with beacon key identifier %s \n", beaconKeyIdentifier)
 	}
 	return nil
 }
