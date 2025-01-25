@@ -80,8 +80,9 @@ jobs:
 
       - name: Setup Rust Toolchain for GitHub CI
         if: matrix.language == 'rust'
-        uses: actions-rust-lang/setup-rust-toolchain@v1.10.1
+        uses: actions-rust-lang/setup-rust-toolchain
         with:
+	  toolchain: 1.83.0
           components: rustfmt
       # TODO - uncomment this after Rust formatter works
       # - name: Rustfmt Check
@@ -283,8 +284,9 @@ jobs:
 
       - name: Setup Rust Toolchain for GitHub CI
         if: matrix.decrypting_language == 'rust'
-        uses: actions-rust-lang/setup-rust-toolchain@v1.10.1
+        uses: actions-rust-lang/setup-rust-toolchain
         with:
+          toolchain: 1.83.0
           components: rustfmt
       # TODO - uncomment this after Rust formatter works
       # - name: Rustfmt Check
