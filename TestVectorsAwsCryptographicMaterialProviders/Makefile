@@ -215,6 +215,7 @@ test_generate_vectors_python:
 	cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/python
 
 test_generate_vectors_rust:
+	rustc --version
 	cd runtimes/rust && \
 	cargo run --bin test-vectors --features="wrapped-client" --release -- encrypt-manifest --encrypt-manifest-output . && \
 	cd ../../
@@ -238,6 +239,7 @@ test_encrypt_vectors_python:
 	python3 -m tox -c runtimes/python --verbose -e cli -- encrypt --manifest-path runtimes/python --decrypt-manifest-path runtimes/python
 
 test_encrypt_vectors_rust:
+	rustc --version
 	cd runtimes/rust && \
 	cargo run --bin test-vectors --features="wrapped-client" --release -- encrypt --manifest-path . --decrypt-manifest-path . && \
 	cd ../../
@@ -259,6 +261,7 @@ test_decrypt_encrypt_vectors_python:
 	python3 -m tox -c runtimes/python --verbose -e cli -- decrypt --manifest-path runtimes/python
 
 test_decrypt_encrypt_vectors_rust:
+	rustc --version
 	cd runtimes/rust && \
 	cargo run --bin test-vectors --features="wrapped-client" --release -- decrypt --manifest-path . && \
 	cd ../../
