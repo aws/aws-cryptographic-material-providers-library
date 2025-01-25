@@ -5,7 +5,7 @@ on:
   workflow_call:
     inputs:
       dafny:
-        description: "The Dafny version to run."
+        description: "The Dafny version to run"
         required: true
         type: string
       regenerate-code:
@@ -80,7 +80,7 @@ jobs:
 
       - name: Setup Rust Toolchain for GitHub CI
         if: matrix.language == 'rust'
-        uses: actions-rust-lang/setup-rust-toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1.10.1
         with:
           toolchain: 1.83.0
           components: rustfmt
@@ -284,7 +284,7 @@ jobs:
 
       - name: Setup Rust Toolchain for GitHub CI
         if: matrix.decrypting_language == 'rust'
-        uses: actions-rust-lang/setup-rust-toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1.10.1
         with:
           toolchain: 1.83.0
           components: rustfmt
