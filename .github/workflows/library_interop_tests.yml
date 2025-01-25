@@ -33,7 +33,7 @@ jobs:
       id-token: write
       contents: read
     env:
-      RUST_MIN_STACK: 804857600
+      RUST_MIN_STACK: 1804857600
     steps:
       - name: Support longpaths on Git checkout
         run: |
@@ -82,7 +82,6 @@ jobs:
         if: matrix.language == 'rust'
         uses: actions-rust-lang/setup-rust-toolchain@v1.10.1
         with:
-          toolchain: 1.83.0
           components: rustfmt
       # TODO - uncomment this after Rust formatter works
       # - name: Rustfmt Check
@@ -237,7 +236,7 @@ jobs:
       id-token: write
       contents: read
     env:
-      RUST_MIN_STACK: 804857600
+      RUST_MIN_STACK: 1804857600
     steps:
       - name: Support longpaths on Git checkout
         run: |
@@ -286,7 +285,6 @@ jobs:
         if: matrix.decrypting_language == 'rust'
         uses: actions-rust-lang/setup-rust-toolchain@v1.10.1
         with:
-          toolchain: 1.83.0
           components: rustfmt
       # TODO - uncomment this after Rust formatter works
       # - name: Rustfmt Check
