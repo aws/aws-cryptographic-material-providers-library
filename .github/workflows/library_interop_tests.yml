@@ -82,7 +82,7 @@ jobs:
         if: matrix.language == 'rust'
         uses: actions-rust-lang/setup-rust-toolchain
         with:
-	  toolchain: 1.83.0
+          toolchain: 1.83.0
           components: rustfmt
       # TODO - uncomment this after Rust formatter works
       # - name: Rustfmt Check
