@@ -5,7 +5,7 @@ on:
   workflow_call:
     inputs:
       dafny:
-        description: "The Dafny version to run"
+        description: "The Dafny version to run."
         required: true
         type: string
       regenerate-code:
