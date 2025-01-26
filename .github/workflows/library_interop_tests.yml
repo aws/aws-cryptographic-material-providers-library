@@ -32,8 +32,6 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    env:
-      RUST_MIN_STACK: 1804857600
     steps:
       - name: Support longpaths on Git checkout
         run: |
@@ -235,8 +233,6 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    env:
-      RUST_MIN_STACK: 1804857600
     steps:
       - name: Support longpaths on Git checkout
         run: |
