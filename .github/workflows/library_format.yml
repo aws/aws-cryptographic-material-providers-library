@@ -61,6 +61,10 @@ jobs:
           library: ${{ matrix.library }}
           diff-generated-code: false
 
+      # make sure we always format for dotnet 6
+      - name: Create temporary global.json
+        run: echo '{"sdk":{"rollForward":"latestFeature","version":"6.0.0"}}' > ./global.json
+
       - name: Check format of ${{ matrix.library }} Dafny code
         working-directory: ./${{ matrix.library }}
         run: |
