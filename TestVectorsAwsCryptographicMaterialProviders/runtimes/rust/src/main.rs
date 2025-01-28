@@ -72,6 +72,7 @@ fn main2() {
     crate::implementation_from_dafny::r#_WrappedMaterialProvidersMain_Compile::_default::Main(&dafny_args);
 }
 
+// RUST_MIN_STACK does not work for `main`, so we need a new thread
 fn main() {
     std::thread::Builder::new().stack_size(64 * 1024 * 1024).spawn(main2).unwrap().join().unwrap();
 }

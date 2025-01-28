@@ -114,7 +114,7 @@ jobs:
         uses: ./smithy-dafny/.github/actions/build_dafny_from_source
         with:
           dafny-version: 4.9.2
-          ref: 867e0e262e8b939f6a1b1260fccec71613dbcc30
+          ref: a928ebf5733dca040cbbb9b0c5861c20fb5bff6d
 
       - name: Setup Dafny Not Rust
         if: matrix.language != 'rust'
@@ -315,7 +315,7 @@ jobs:
         uses: ./smithy-dafny/.github/actions/build_dafny_from_source
         with:
           dafny-version: 4.9.2
-          ref: 867e0e262e8b939f6a1b1260fccec71613dbcc30
+          ref: a928ebf5733dca040cbbb9b0c5861c20fb5bff6d
 
       - name: Setup Dafny 2 Not Rust
         if: matrix.decrypting_language != 'rust'
