@@ -10,4 +10,4 @@ rust-version = "1.80.0"
 chrono = "0.4.39"
 cpu-time = "1.0.0"
 dafny_runtime = { path = "../../../smithy-dafny/TestModels/dafny-dependencies/dafny_runtime_rust", features = ["sync"]}
-uuid = { version = "1.11.0", features = ["v4"] }
+uuid = { version = "1.12.1", features = ["v4"] }
