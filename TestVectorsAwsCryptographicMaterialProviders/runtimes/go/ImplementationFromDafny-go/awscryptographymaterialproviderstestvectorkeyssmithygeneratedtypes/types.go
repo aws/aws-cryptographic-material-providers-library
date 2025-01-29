@@ -177,20 +177,20 @@ func (input RequiredEncryptionContextCMM) Validate() error {
 	if input.RequiredEncryptionContextKeys == nil {
 		return fmt.Errorf("input.RequiredEncryptionContextKeys is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextCMM_requiredEncryptionContextKeys_Validate() != nil {
-		return input.aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextCMM_requiredEncryptionContextKeys_Validate()
+	if input.Aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextCMM_requiredEncryptionContextKeys_Validate() != nil {
+		return input.Aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextCMM_requiredEncryptionContextKeys_Validate()
 	}
 	if input.Underlying == nil {
 		return fmt.Errorf("input.Underlying is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextCMM_underlying_Validate() != nil {
-		return input.aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextCMM_underlying_Validate()
+	if input.Aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextCMM_underlying_Validate() != nil {
+		return input.Aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextCMM_underlying_Validate()
 	}
 
 	return nil
 }
 
-func (input RequiredEncryptionContextCMM) aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextCMM_requiredEncryptionContextKeys_Validate() error {
+func (input RequiredEncryptionContextCMM) Aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextCMM_requiredEncryptionContextKeys_Validate() error {
 	for _, item := range input.RequiredEncryptionContextKeys {
 		if !utf8.ValidString(item) {
 			return fmt.Errorf("Invalid UTF bytes %s ", item)
@@ -199,7 +199,7 @@ func (input RequiredEncryptionContextCMM) aws_cryptography_materialProvidersTest
 
 	return nil
 }
-func (input RequiredEncryptionContextCMM) aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextCMM_underlying_Validate() error {
+func (input RequiredEncryptionContextCMM) Aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextCMM_underlying_Validate() error {
 	if input.Underlying == nil {
 		return nil
 	}
@@ -268,14 +268,14 @@ func (input GetKeyDescriptionOutput) Validate() error {
 	if input.KeyDescription == nil {
 		return fmt.Errorf("input.KeyDescription is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProvidersTestVectorKeys_GetKeyDescriptionOutput_keyDescription_Validate() != nil {
-		return input.aws_cryptography_materialProvidersTestVectorKeys_GetKeyDescriptionOutput_keyDescription_Validate()
+	if input.Aws_cryptography_materialProvidersTestVectorKeys_GetKeyDescriptionOutput_keyDescription_Validate() != nil {
+		return input.Aws_cryptography_materialProvidersTestVectorKeys_GetKeyDescriptionOutput_keyDescription_Validate()
 	}
 
 	return nil
 }
 
-func (input GetKeyDescriptionOutput) aws_cryptography_materialProvidersTestVectorKeys_GetKeyDescriptionOutput_keyDescription_Validate() error {
+func (input GetKeyDescriptionOutput) Aws_cryptography_materialProvidersTestVectorKeys_GetKeyDescriptionOutput_keyDescription_Validate() error {
 	if input.KeyDescription == nil {
 		return nil
 	}
@@ -344,14 +344,14 @@ func (input SerializeKeyDescriptionInput) Validate() error {
 	if input.KeyDescription == nil {
 		return fmt.Errorf("input.KeyDescription is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProvidersTestVectorKeys_SerializeKeyDescriptionInput_keyDescription_Validate() != nil {
-		return input.aws_cryptography_materialProvidersTestVectorKeys_SerializeKeyDescriptionInput_keyDescription_Validate()
+	if input.Aws_cryptography_materialProvidersTestVectorKeys_SerializeKeyDescriptionInput_keyDescription_Validate() != nil {
+		return input.Aws_cryptography_materialProvidersTestVectorKeys_SerializeKeyDescriptionInput_keyDescription_Validate()
 	}
 
 	return nil
 }
 
-func (input SerializeKeyDescriptionInput) aws_cryptography_materialProvidersTestVectorKeys_SerializeKeyDescriptionInput_keyDescription_Validate() error {
+func (input SerializeKeyDescriptionInput) Aws_cryptography_materialProvidersTestVectorKeys_SerializeKeyDescriptionInput_keyDescription_Validate() error {
 	if input.KeyDescription == nil {
 		return nil
 	}
@@ -422,14 +422,14 @@ func (input TestVectorCmmInput) Validate() error {
 	if input.KeyDescription == nil {
 		return fmt.Errorf("input.KeyDescription is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProvidersTestVectorKeys_TestVectorCmmInput_keyDescription_Validate() != nil {
-		return input.aws_cryptography_materialProvidersTestVectorKeys_TestVectorCmmInput_keyDescription_Validate()
+	if input.Aws_cryptography_materialProvidersTestVectorKeys_TestVectorCmmInput_keyDescription_Validate() != nil {
+		return input.Aws_cryptography_materialProvidersTestVectorKeys_TestVectorCmmInput_keyDescription_Validate()
 	}
 
 	return nil
 }
 
-func (input TestVectorCmmInput) aws_cryptography_materialProvidersTestVectorKeys_TestVectorCmmInput_keyDescription_Validate() error {
+func (input TestVectorCmmInput) Aws_cryptography_materialProvidersTestVectorKeys_TestVectorCmmInput_keyDescription_Validate() error {
 	if input.KeyDescription == nil {
 		return nil
 	}
@@ -498,14 +498,14 @@ func (input TestVectorKeyringInput) Validate() error {
 	if input.KeyDescription == nil {
 		return fmt.Errorf("input.KeyDescription is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProvidersTestVectorKeys_TestVectorKeyringInput_keyDescription_Validate() != nil {
-		return input.aws_cryptography_materialProvidersTestVectorKeys_TestVectorKeyringInput_keyDescription_Validate()
+	if input.Aws_cryptography_materialProvidersTestVectorKeys_TestVectorKeyringInput_keyDescription_Validate() != nil {
+		return input.Aws_cryptography_materialProvidersTestVectorKeys_TestVectorKeyringInput_keyDescription_Validate()
 	}
 
 	return nil
 }
 
-func (input TestVectorKeyringInput) aws_cryptography_materialProvidersTestVectorKeys_TestVectorKeyringInput_keyDescription_Validate() error {
+func (input TestVectorKeyringInput) Aws_cryptography_materialProvidersTestVectorKeys_TestVectorKeyringInput_keyDescription_Validate() error {
 	if input.KeyDescription == nil {
 		return nil
 	}
@@ -576,17 +576,17 @@ func (input MultiKeyring) Validate() error {
 	if input.ChildKeyrings == nil {
 		return fmt.Errorf("input.ChildKeyrings is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_childKeyrings_Validate() != nil {
-		return input.aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_childKeyrings_Validate()
+	if input.Aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_childKeyrings_Validate() != nil {
+		return input.Aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_childKeyrings_Validate()
 	}
-	if input.aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_generator_Validate() != nil {
-		return input.aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_generator_Validate()
+	if input.Aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_generator_Validate() != nil {
+		return input.Aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_generator_Validate()
 	}
 
 	return nil
 }
 
-func (input MultiKeyring) aws_cryptography_materialProvidersTestVectorKeys_KeyDescriptionList_member_Validate(Value KeyDescription) error {
+func (input MultiKeyring) Aws_cryptography_materialProvidersTestVectorKeys_KeyDescriptionList_member_Validate(Value KeyDescription) error {
 	if Value == nil {
 		return nil
 	}
@@ -646,16 +646,16 @@ func (input MultiKeyring) aws_cryptography_materialProvidersTestVectorKeys_KeyDe
 
 	return nil
 }
-func (input MultiKeyring) aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_childKeyrings_Validate() error {
+func (input MultiKeyring) Aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_childKeyrings_Validate() error {
 	for _, item := range input.ChildKeyrings {
-		if input.aws_cryptography_materialProvidersTestVectorKeys_KeyDescriptionList_member_Validate(item) != nil {
-			return input.aws_cryptography_materialProvidersTestVectorKeys_KeyDescriptionList_member_Validate(item)
+		if input.Aws_cryptography_materialProvidersTestVectorKeys_KeyDescriptionList_member_Validate(item) != nil {
+			return input.Aws_cryptography_materialProvidersTestVectorKeys_KeyDescriptionList_member_Validate(item)
 		}
 	}
 
 	return nil
 }
-func (input MultiKeyring) aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_generator_Validate() error {
+func (input MultiKeyring) Aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_generator_Validate() error {
 	if input.Generator == nil {
 		return nil
 	}
