@@ -199,7 +199,7 @@ public class MultiThreadedCMCTest {
 
   // This test asserts that there were cache misses and cache hits.
   @Test(dependsOnMethods = { "testTryGetCatchPut" })
-  public void validateTestALotOfAdding() {
+  public void validateCacheHitsAndMisses() {
     int sumOfHits = 0;
     int sumOfMisses = 0;
     int idSelectedCount = -1;
