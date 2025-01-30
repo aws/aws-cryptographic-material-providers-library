@@ -72,10 +72,8 @@ public class MultiThreadedCMCTest {
     ByteBuffer cacheIdentifier = ByteBuffer.wrap(
       beaconKeyIdentifier.getBytes(StandardCharsets.UTF_8)
     );
-    ALWAYS_PICK_INPUT = GetCacheEntryInput
-      .builder()
-      .identifier(cacheIdentifier)
-      .build();
+    ALWAYS_PICK_INPUT =
+      GetCacheEntryInput.builder().identifier(cacheIdentifier).build();
     Materials materials = Materials
       .builder()
       .BeaconKey(
@@ -89,31 +87,33 @@ public class MultiThreadedCMCTest {
           .build()
       )
       .build();
-    ALWAYS_PUT_INPUT = PutCacheEntryInput
-      .builder()
-      .identifier(cacheIdentifier)
-      .creationTime(Instant.now().getEpochSecond())
-      .expiryTime(Instant.now().getEpochSecond() + 1_000_000_000)
-      .materials(materials)
-      .build();
-    cmcUnderTest =  MaterialProviders
-      .builder()
-      .MaterialProvidersConfig(MaterialProvidersConfig.builder().build())
-      .build()
-      .CreateCryptographicMaterialsCache(
-        CreateCryptographicMaterialsCacheInput
-          .builder()
-          .cache(
-            CacheType
-              .builder()
-              .MultiThreaded(
-                // Capacity MUST be thread count + 1 (for always pick)
-                MultiThreadedCache.builder().entryCapacity(11).build()
-              )
-              .build()
-          )
-          .build()
-      );
+    ALWAYS_PUT_INPUT =
+      PutCacheEntryInput
+        .builder()
+        .identifier(cacheIdentifier)
+        .creationTime(Instant.now().getEpochSecond())
+        .expiryTime(Instant.now().getEpochSecond() + 1_000_000_000)
+        .materials(materials)
+        .build();
+    cmcUnderTest =
+      MaterialProviders
+        .builder()
+        .MaterialProvidersConfig(MaterialProvidersConfig.builder().build())
+        .build()
+        .CreateCryptographicMaterialsCache(
+          CreateCryptographicMaterialsCacheInput
+            .builder()
+            .cache(
+              CacheType
+                .builder()
+                .MultiThreaded(
+                  // Capacity MUST be thread count + 1 (for always pick)
+                  MultiThreadedCache.builder().entryCapacity(11).build()
+                )
+                .build()
+            )
+            .build()
+        );
     cmcUnderTest.PutCacheEntry(ALWAYS_PUT_INPUT);
   }
 
@@ -154,7 +154,8 @@ public class MultiThreadedCMCTest {
           .beaconKey(cacheIdentifier)
           .encryptionContext(Collections.emptyMap())
           .build()
-      ).build();
+      )
+      .build();
     PutCacheEntryInput putCacheEntryInput = PutCacheEntryInput
       .builder()
       .identifier(cacheIdentifier)
@@ -163,7 +164,12 @@ public class MultiThreadedCMCTest {
       .materials(materials)
       .build();
 
-    tryGetCatchPut(getCacheEntryInput, cacheIdentifier, index, putCacheEntryInput);
+    tryGetCatchPut(
+      getCacheEntryInput,
+      cacheIdentifier,
+      index,
+      putCacheEntryInput
+    );
   }
 
   private static void tryGetCatchPut(
@@ -192,7 +198,7 @@ public class MultiThreadedCMCTest {
   }
 
   // This test asserts that there were cache misses and cache hits.
-  @Test(dependsOnMethods = {"testTryGetCatchPut"})
+  @Test(dependsOnMethods = { "testTryGetCatchPut" })
   public void validateTestALotOfAdding() {
     int sumOfHits = 0;
     int sumOfMisses = 0;
@@ -227,6 +233,10 @@ public class MultiThreadedCMCTest {
     // along with finer timing control,
     // we cannot assert expected hits or misses
     // But we can assert that the ALWAYS_PICK was missed no more than thread count times
-    Assert.assertEquals(ALWAYS_PICK_MISS.get(), 0, "How was the always Pick missed!");
+    Assert.assertEquals(
+      ALWAYS_PICK_MISS.get(),
+      0,
+      "How was the always Pick missed!"
+    );
   }
 }
