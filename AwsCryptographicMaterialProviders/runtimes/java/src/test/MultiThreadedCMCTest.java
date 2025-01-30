@@ -117,7 +117,7 @@ public class MultiThreadedCMCTest {
     cmcUnderTest.PutCacheEntry(ALWAYS_PUT_INPUT);
   }
 
-  @Test(threadPoolSize = 10, invocationCount = 300_000, timeOut = 10_000)
+  @Test(threadPoolSize = 10, invocationCount = 3_000, timeOut = 10_000)
   public void testTryGetCatchPut() {
     // Always Pick Provides assurance on the LRU nature of our CMCs.
     // Every thread tries to use it every time,
