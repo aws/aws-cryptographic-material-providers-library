@@ -1,17 +1,18 @@
 # Changelog
 
 ## [1.7.5](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.4...v1.7.5) (2025-01-30)
+
 This release is available in the following languages:
 
-- .NET 
+- .NET
 
 ### Fixes
 
-* **.NET:** CollectionOfErrors; list as string ([#1247](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1247)) ([6126ddb](https://github.com/aws/aws-cryptographic-material-providers-library/commit/6126ddb8b9792524ab0fd4d86cbc8258bc6289e6))
+- **.NET:** CollectionOfErrors; list as string ([#1247](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1247)) ([6126ddb](https://github.com/aws/aws-cryptographic-material-providers-library/commit/6126ddb8b9792524ab0fd4d86cbc8258bc6289e6))
 
 ### Maintenance
 
-* **CI:** Allow local testing ([#961](https://github.com/aws/aws-cryptographic-material-providers-library/issues/961)) ([898cb43](https://github.com/aws/aws-cryptographic-material-providers-library/commit/898cb4360144ebc73a7abca295f216dd672b9133))
+- **CI:** Allow local testing ([#961](https://github.com/aws/aws-cryptographic-material-providers-library/issues/961)) ([898cb43](https://github.com/aws/aws-cryptographic-material-providers-library/commit/898cb4360144ebc73a7abca295f216dd672b9133))
 
 # [1.7.4](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.3...v1.7.4) (2024-11-06)
 
