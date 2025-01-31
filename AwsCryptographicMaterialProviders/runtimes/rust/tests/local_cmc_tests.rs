@@ -39,7 +39,7 @@ pub mod local_cmc_tests {
     use aws_mpl_rs::deps::aws_cryptography_keyStore::types::BeaconKeyMaterials;
     use std::collections::HashMap;
     use chrono::Utc;
-    use rand::{thread_rng, Rng};
+    use rand::{rng, Rng};
     use futures::stream::StreamExt;
     // Currently this is commented out to keep it consistent with other
     // runtimes but every language should eventually have a network
@@ -94,7 +94,7 @@ pub mod local_cmc_tests {
 
                 async move {
                     println!("-----------TestLotsofAdd-----------");
-                    let random = thread_rng().gen_range(0..id_size);
+                    let random = rng().random_range(0..id_size);
                     let beacon_key_identifier: &str = identifiers[random];
 
                     let cache_identifier: aws_smithy_types::Blob = aws_smithy_types::Blob::new(beacon_key_identifier.as_bytes());
