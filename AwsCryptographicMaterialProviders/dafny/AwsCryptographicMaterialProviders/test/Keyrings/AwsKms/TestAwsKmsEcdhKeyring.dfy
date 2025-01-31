@@ -122,7 +122,7 @@ module {:options "/functionSyntax:4" } TestAwsKmsEcdhKeyring {
       var GetPublicKeyResponse(_,PublicKey,_,_,_,_,_,_) := publicKeyResponse.value;
       expect PublicKey.Some?;
 
-      print "\nTest with sender: " + senderArns[i] + " and recipient: " + recipientArns[i] + "\n";
+      // print "\nTest with sender: " + senderArns[i] + " and recipient: " + recipientArns[i] + "\n";
       var kmsEcdhKeyring :- expect mpl.CreateAwsKmsEcdhKeyring(
         Types.CreateAwsKmsEcdhKeyringInput(
           KeyAgreementScheme := Types.KmsEcdhStaticConfigurations.KmsPrivateKeyToStaticPublicKey(
@@ -200,7 +200,7 @@ module {:options "/functionSyntax:4" } TestAwsKmsEcdhKeyring {
       var GetPublicKeyResponse(_,PublicKey,_,_,_,_,_,_) := publicKeyResponse.value;
       expect PublicKey.Some?;
 
-      print "\nTest with sender: " + senderArns[i] + " and recipient: " + recipientArns[i] + "\n";
+      // print "\nTest with sender: " + senderArns[i] + " and recipient: " + recipientArns[i] + "\n";
       var kmsEcdhKeyring :- expect mpl.CreateAwsKmsEcdhKeyring(
         Types.CreateAwsKmsEcdhKeyringInput(
           KeyAgreementScheme := Types.KmsEcdhStaticConfigurations.KmsPrivateKeyToStaticPublicKey(
@@ -325,7 +325,7 @@ module {:options "/functionSyntax:4" } TestAwsKmsEcdhKeyring {
           requiredEncryptionContextKeys := []
         )
       );
-      print "\nDiscovery Test for: " + recipientArns[i] + "\n";
+      // print "\nDiscovery Test for: " + recipientArns[i] + "\n";
       var decryptionMaterialsOut :- expect kmsEcdhKeyringDiscovery.OnDecrypt(
         Types.OnDecryptInput(
           materials:=decryptionMaterialsIn,
