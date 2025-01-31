@@ -28,6 +28,29 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
     + "\nKMS Message: " + errorMessage?.UnwrapOr("")
   }
 
+  function GenerateNewActiveException(
+    nameonly identifier: string,
+    nameonly kmsArn: string,
+    nameonly error: KMSKeystoreOperations.KmsError,
+    nameonly localOperation: string := "InitializeMutation",
+    nameonly kmsOperation: string := "GenerateDataKeyWithoutPlaintext"
+  ): (output: Types.Error)
+  {
+    var opaqueKmsError? := KmsUtils.ExtractKmsOpaque(error);
+    var kmsErrorMessage? := KmsUtils.ExtractMessageFromKmsError(error);
+    var errorContext := ParsedErrorContext(
+                          localOperation := localOperation,
+                          kmsOperation := kmsOperation,
+                          identifier := identifier,
+                          itemType := Structure.BRANCH_KEY_ACTIVE_TYPE,
+                          errorMessage? := kmsErrorMessage?);
+    var message :=
+      "Key Management denied access while creating the new Active item."
+      + " Mutation is halted. Check access to KMS ARN: " + kmsArn  + " ."
+      + "\n" + errorContext;
+    Types.MutationToException(message := message)
+  }
+
   function CreateActiveException(
     nameonly branchKeyItem: KeyStoreTypes.EncryptedHierarchicalKey,
     nameonly error: KMSKeystoreOperations.KmsError,
@@ -166,7 +189,23 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
               message := "Key Management through an exception."
               + " Mutation is halted. Check access to KMS."
               + "\n" + errorContext);
-
+      }
+    }
+    if (kmsWithMsg) {
+      var hasOriginalArn? := String.HasSubString(kmsErrorMessage?.value, item.KmsArn);
+      var hasTerminalArn? := String.HasSubString(kmsErrorMessage?.value, terminalKmsArn);
+      if (hasOriginalArn?.Some?) {
+        return Types.MutationFromException(
+            message := "Key Management denied access to the original KMS Key."
+            + " Mutation is halted. Check access to KMS ARN: " + item.KmsArn + "."
+            + "\n" + errorContext
+          );
+      } else if (hasTerminalArn?.Some?) {
+        return Types.MutationToException(
+            message := "Key Management denied access to the terminal KMS Key."
+            + " Mutation is halted. Check encrypt access to KMS ARN: " + terminalKmsArn + "."
+            + "\n" + errorContext
+          );
       }
     }
     return Types.KeyStoreAdminException(
