@@ -289,7 +289,7 @@ jobs:
 
       - name: Setup Dafny 2 Not Rust
         if: matrix.decrypting_language != 'rust'
-        uses: dafny-lang/setup-dafny-action@v1.6.1
+        uses: dafny-lang/setup-dafny-action@v1.8.0
         with:
           dafny-version: ${{ inputs.dafny }}
 
