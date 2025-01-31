@@ -102,7 +102,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
   )
-    returns (res: Result<KMS.GenerateDataKeyWithoutPlaintextResponse, Types.Error>)
+    returns (res: Result<KMS.GenerateDataKeyWithoutPlaintextResponse, KmsError>)
     requires kmsClient.ValidState()
     requires HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(GetKeyId(kmsConfiguration))
     requires AttemptKmsOperation?(kmsConfiguration, encryptionContext)
@@ -145,14 +145,14 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
 
     :- Need(
       && generateResponse.KeyId.Some?,
-      Types.KeyStoreException(
+      Types.KeyManagementException(
         message := "Invalid response from KMS GenerateDataKey:: Invalid Key Id")
     );
 
     :- Need(
       && generateResponse.CiphertextBlob.Some?
       && KMS.IsValid_CiphertextType(generateResponse.CiphertextBlob.value),
-      Types.KeyStoreException(
+      Types.KeyManagementException(
         message := "Invalid response from AWS KMS GenerateDataKey: Invalid ciphertext")
     );
 

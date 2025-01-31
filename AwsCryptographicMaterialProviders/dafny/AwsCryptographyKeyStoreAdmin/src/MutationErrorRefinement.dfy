@@ -28,6 +28,29 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
     + "\nKMS Message: " + errorMessage?.UnwrapOr("")
   }
 
+  function GenerateNewActiveException(
+    nameonly identifier: string,
+    nameonly kmsArn: string,
+    nameonly error: KMSKeystoreOperations.KmsError,
+    nameonly localOperation: string := "InitializeMutation",
+    nameonly kmsOperation: string := "GenerateDataKeyWithoutPlaintext"
+  ): (output: Types.Error)
+  {
+    var opaqueKmsError? := KmsUtils.ExtractKmsOpaque(error);
+    var kmsErrorMessage? := KmsUtils.ExtractMessageFromKmsError(error);
+    var errorContext := ParsedErrorContext(
+                          localOperation := localOperation,
+                          kmsOperation := kmsOperation,
+                          identifier := identifier,
+                          itemType := Structure.BRANCH_KEY_ACTIVE_TYPE,
+                          errorMessage? := kmsErrorMessage?);
+    var message :=
+      "Key Management denied access while creating the new Active item."
+      + " Mutation is halted. Check access to KMS ARN: " + kmsArn  + " ."
+      + "\n" + errorContext;
+    Types.MutationToException(message := message)
+  }
+
   function CreateActiveException(
     nameonly branchKeyItem: KeyStoreTypes.EncryptedHierarchicalKey,
     nameonly error: KMSKeystoreOperations.KmsError,
