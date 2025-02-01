@@ -23,6 +23,8 @@ group = "software.amazon.cryptography"
 version = props.getProperty("mplVersion")
 description = "TestAwsCryptographicMaterialProviders"
 
+var mplVersion = props.getProperty("mplVersion")
+
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(8))
     sourceSets["main"].java {
@@ -68,7 +70,7 @@ repositories {
 dependencies {
     implementation("org.dafny:DafnyRuntime:${dafnyVersion}")
     implementation("software.amazon.smithy.dafny:conversion:0.1.1")
-    implementation("software.amazon.cryptography:aws-cryptographic-material-providers:${version}")
+    implementation("software.amazon.cryptography:aws-cryptographic-material-providers:${mplVersion}")
     implementation(platform("software.amazon.awssdk:bom:2.25.1"))
     implementation("software.amazon.awssdk:dynamodb")
     implementation("software.amazon.awssdk:dynamodb-enhanced")
