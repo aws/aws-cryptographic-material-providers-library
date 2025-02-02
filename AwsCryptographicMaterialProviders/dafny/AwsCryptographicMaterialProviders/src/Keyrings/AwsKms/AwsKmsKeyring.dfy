@@ -508,17 +508,44 @@ module AwsKmsKeyring {
                       //= type=implication
                       //# - The `KeyId` field in the response MUST equal the configured AWS
                       //# KMS key identifier.
-                   && LastDecrypt.output.value.KeyId == Some(awsKmsKey)
-             )
+  //                 && LastDecrypt.output.value.KeyId == Some(awsKmsKey)
+  //           )
              //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
              //= type=implication
              //# - MUST immediately return the modified [decryption materials]
              //# (../structures.md#decryption-materials).
-          && (
-               input.materials.algorithmSuite.edkWrapping.DIRECT_KEY_WRAPPING?
-               ==>
-                 LastDecrypt.output.value.Plaintext == res.value.materials.plaintextDataKey)
+ //         && (
+ //              input.materials.algorithmSuite.edkWrapping.DIRECT_KEY_WRAPPING?
+ //              ==>
+ //                LastDecrypt.output.value.Plaintext == res.value.materials.plaintextDataKey)
       // For intermedite key wrapping, KMS::Decrypt.Plaintext is the intermediate key
+
+                      //# - `GrantTokens` MUST be this keyring's [grant tokens]
+                      //# (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token).
+                      GrantTokens := Some(grantTokens),
+                      EncryptionAlgorithm := None
+                    )
+                    //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
+                    //= type=implication
+                    //# To attempt to decrypt a particular [encrypted data key]
+                    //# (../structures.md#encrypted-data-key), OnDecrypt MUST call [AWS KMS
+                    //# Decrypt](https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html)
+                    //# with the configured AWS KMS client.
+                    == LastDecrypt.input
+                    //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
+                    //= type=implication
+                    //# - The `KeyId` field in the response MUST equal the configured AWS
+                    //# KMS key identifier.
+                 && LastDecrypt.output.value.KeyId == Some(awsKmsKey)
+                    //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
+                    //= type=implication
+                    //# - MUST immediately return the modified [decryption materials]
+                    //# (../structures.md#decryption-materials).
+                 && (
+                      input.materials.algorithmSuite.edkWrapping.DIRECT_KEY_WRAPPING?
+                      ==>
+                        LastDecrypt.output.value.Plaintext == res.value.materials.plaintextDataKey)
+      // For intermediate key wrapping, KMS::Decrypt.Plaintext is the intermediate key
     {
 
       var materials := input.materials;
@@ -528,6 +555,8 @@ module AwsKmsKeyring {
         Materials.DecryptionMaterialsWithoutPlaintextDataKey(materials),
         Types.AwsCryptographicMaterialProvidersException(
           message := "Keyring received decryption materials that already contain a plaintext data key."));
+
+      :- OkForDecrypt(awsKmsArn, awsKmsKey);
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
       //# The set of encrypted data keys MUST first be filtered to match this

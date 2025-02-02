@@ -510,6 +510,8 @@ module AwsKmsMrkKeyring {
         Materials.DecryptionMaterialsWithoutPlaintextDataKey(materials),
         Types.AwsCryptographicMaterialProvidersException( message := "Keyring received decryption materials that already contain a plaintext data key."));
 
+      :- OkForDecrypt(awsKmsArn, awsKmsKey);
+
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-mrk-keyring.md#ondecrypt
       //# The set of encrypted data keys MUST first be filtered to match this
       //# keyring’s configuration.

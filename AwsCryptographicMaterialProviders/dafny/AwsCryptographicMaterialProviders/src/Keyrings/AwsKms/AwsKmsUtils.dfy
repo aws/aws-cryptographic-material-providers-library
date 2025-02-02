@@ -16,6 +16,16 @@ module AwsKmsUtils {
   import KMS = Types.ComAmazonawsKmsTypes
   import UTF8
 
+  function method OkForDecrypt(id : AwsKmsIdentifier, arn : string) : Outcome<Types.Error>
+  {
+    if !id.AwsKmsArnIdentifier? then
+      Fail(Types.AwsCryptographicMaterialProvidersException( message := "KeyID cannot be used for Decrypt : " + arn))
+    else if id.a.resource.resourceType != "key" then
+      Fail(Types.AwsCryptographicMaterialProvidersException( message := "Alias cannot be used for Decrypt : " + arn))
+    else
+      Pass
+  }
+
   function method StringifyEncryptionContext(utf8EncCtx: Types.EncryptionContext):
     (res: Result<KMS.EncryptionContextType, Types.Error>)
   {

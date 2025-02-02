@@ -261,6 +261,8 @@ module AwsKmsRsaKeyring {
         Types.AwsCryptographicMaterialProvidersException(
           message := "Keyring received decryption materials that already contain a plaintext data key."));
 
+      :- AwsKmsUtils.OkForDecrypt(awsKmsArn, awsKmsKey);
+
       :- Need(
         input.materials.algorithmSuite.signature.None?,
         Types.AwsCryptographicMaterialProvidersException(
