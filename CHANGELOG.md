@@ -2,6 +2,9 @@
 
 # [1.9.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.8.0...v1.9.0) (2025-02-03)
 
+This release is available in the following languages:
+
+- Java
 
 ### Bug Fixes
 
