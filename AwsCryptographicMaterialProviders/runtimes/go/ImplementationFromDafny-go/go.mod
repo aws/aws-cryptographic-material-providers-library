@@ -1,13 +1,13 @@
-module github.com/aws/aws-cryptographic-material-providers-library/mpl
+module github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl
 
 go 1.23.0
 
-require github.com/dafny-lang/DafnyStandardLibGo v0.0.0
+require github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library v0.0.0
 
 require (
-	github.com/aws/aws-cryptographic-material-providers-library/dynamodb v0.0.0
-	github.com/aws/aws-cryptographic-material-providers-library/kms v0.0.0
-	github.com/aws/aws-cryptographic-material-providers-library/primitives v0.0.0
+	github.com/aws/aws-cryptographic-material-providers-library/releases/go/dynamodb v0.0.0
+	github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms v0.0.0
+	github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives v0.0.0
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.35.1
 	github.com/aws/aws-sdk-go-v2/service/kms v1.36.0
 	github.com/aws/smithy-go v1.21.0
@@ -34,10 +34,10 @@ require (
 )
 
 replace (
-	github.com/aws/aws-cryptographic-material-providers-library/dynamodb v0.0.0 => ../../../../ComAmazonawsDynamodb/runtimes/go/ImplementationFromDafny-go/
-	github.com/aws/aws-cryptographic-material-providers-library/kms v0.0.0 => ../../../../ComAmazonawsKms/runtimes/go/ImplementationFromDafny-go/
-	github.com/aws/aws-cryptographic-material-providers-library/primitives v0.0.0 => ../../../../AwsCryptographyPrimitives/runtimes/go/ImplementationFromDafny-go/
+	github.com/aws/aws-cryptographic-material-providers-library/releases/go/dynamodb v0.0.0 => ../../../../ComAmazonawsDynamodb/runtimes/go/ImplementationFromDafny-go/
+	github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms v0.0.0 => ../../../../ComAmazonawsKms/runtimes/go/ImplementationFromDafny-go/
+	github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives v0.0.0 => ../../../../AwsCryptographyPrimitives/runtimes/go/ImplementationFromDafny-go/
 
 )
 
-replace github.com/dafny-lang/DafnyStandardLibGo => ../../../../StandardLibrary/runtimes/go/ImplementationFromDafny-go/
+replace github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library => ../../../../StandardLibrary/runtimes/go/ImplementationFromDafny-go/

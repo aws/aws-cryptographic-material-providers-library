@@ -5,14 +5,14 @@ package awscryptographymaterialproviderstestvectorkeyssmithygenerated
 import (
 	"unicode/utf8"
 
-	"github.com/aws/aws-cryptographic-material-providers-library/kms/ComAmazonawsKmsTypes"
-	"github.com/aws/aws-cryptographic-material-providers-library/mpl/AwsCryptographyMaterialProvidersTypes"
-	"github.com/aws/aws-cryptographic-material-providers-library/mpl/awscryptographymaterialproviderssmithygeneratedtypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms/ComAmazonawsKmsTypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyMaterialProvidersTypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/awscryptographymaterialproviderssmithygeneratedtypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Wrappers"
 	"github.com/aws/aws-cryptographic-material-providers-library/testvectors/AwsCryptographyMaterialProvidersTestVectorKeysTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/testvectors/awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes"
 	kmstypes "github.com/aws/aws-sdk-go-v2/service/kms/types"
 	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
-	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
 )
 
 func TestVectorKeyringInput_ToDafny(nativeInput awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.TestVectorKeyringInput) AwsCryptographyMaterialProvidersTestVectorKeysTypes.TestVectorKeyringInput {
@@ -117,10 +117,92 @@ func KeyVectorsConfig_ToDafny(nativeInput awscryptographymaterialproviderstestve
 
 }
 
-func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Hierarchy_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.HierarchyKeyring) Wrappers.Option {
+func aws_cryptography_materialProvidersTestVectorKeys_TestVectorKeyringInput_keyDescription_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescription) AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription {
+	return func() AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription {
+
+		switch input.(type) {
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKms:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Kms_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKms).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Kms_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KMSInfo))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrk:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrk_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrk).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsMrk_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsMrkAware))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrkDiscovery:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrkDiscovery_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrkDiscovery).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsMrkDiscovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsMrkAwareDiscovery))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRSA:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_RSA_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRSA).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_RSA_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawRSA))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberAES:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_AES_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberAES).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_AES_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawAES))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberECDH:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_ECDH_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberECDH).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_ECDH_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawEcdh))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberStatic:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Static_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberStatic).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Static_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.StaticKeyring))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsRsa:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsRsa_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsRsa).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsRsa_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsRsaKeyring))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsECDH:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsECDH_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsECDH).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsECDH_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsEcdhKeyring))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberHierarchy:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Hierarchy_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberHierarchy).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Hierarchy_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.HierarchyKeyring))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberMulti:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Multi_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberMulti).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Multi_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.MultiKeyring))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRequiredEncryptionContext:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_RequiredEncryptionContext_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRequiredEncryptionContext).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_RequiredEncryptionContext_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RequiredEncryptionContextCMM))
+
+		default:
+			panic("Unhandled union type")
+		}
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Kms_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KMSInfo) Wrappers.Option {
 	return func() Wrappers.Option {
 
-		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTestVectorKeysTypes.Companion_HierarchyKeyring_.Create_HierarchyKeyring_(aws_cryptography_materialProvidersTestVectorKeys_HierarchyKeyring_keyId_ToDafny(input.KeyId)))
+		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTestVectorKeysTypes.Companion_KMSInfo_.Create_KMSInfo_(aws_cryptography_materialProvidersTestVectorKeys_KMSInfo_keyId_ToDafny(input.KeyId)))
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_KMSInfo_keyId_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrk_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KmsMrkAware) Wrappers.Option {
+	return func() Wrappers.Option {
+
+		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTestVectorKeysTypes.Companion_KmsMrkAware_.Create_KmsMrkAware_(aws_cryptography_materialProvidersTestVectorKeys_KmsMrkAware_keyId_ToDafny(input.KeyId)))
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_KmsMrkAware_keyId_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrkDiscovery_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KmsMrkAwareDiscovery) Wrappers.Option {
+	return func() Wrappers.Option {
+
+		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTestVectorKeysTypes.Companion_KmsMrkAwareDiscovery_.Create_KmsMrkAwareDiscovery_(aws_cryptography_materialProvidersTestVectorKeys_KmsMrkAwareDiscovery_keyId_ToDafny(input.KeyId), aws_cryptography_materialProvidersTestVectorKeys_KmsMrkAwareDiscovery_defaultMrkRegion_ToDafny(input.DefaultMrkRegion), aws_cryptography_materialProvidersTestVectorKeys_KmsMrkAwareDiscovery_awsKmsDiscoveryFilter_ToDafny(input.AwsKmsDiscoveryFilter)))
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_KmsMrkAwareDiscovery_keyId_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
 	}()
 }
 
@@ -140,10 +222,170 @@ func aws_cryptography_materialProvidersTestVectorKeys_KmsMrkAwareDiscovery_awsKm
 	}()
 }
 
-func aws_cryptography_materialProvidersTestVectorKeys_KmsMrkAware_keyId_ToDafny(input string) dafny.Sequence {
+func aws_cryptography_materialProviders_DiscoveryFilter_accountIds_ToDafny(input []string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		var fieldValue []interface{} = make([]interface{}, 0)
+		for _, val := range input {
+			element := aws_cryptography_materialProviders_AccountIdList_member_ToDafny(val)
+			fieldValue = append(fieldValue, element)
+		}
+		return dafny.SeqOf(fieldValue...)
+	}()
+}
+
+func aws_cryptography_materialProviders_AccountIdList_member_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
 		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProviders_DiscoveryFilter_partition_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_RSA_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.RawRSA) Wrappers.Option {
+	return func() Wrappers.Option {
+
+		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTestVectorKeysTypes.Companion_RawRSA_.Create_RawRSA_(aws_cryptography_materialProvidersTestVectorKeys_RawRSA_keyId_ToDafny(input.KeyId), aws_cryptography_materialProvidersTestVectorKeys_RawRSA_providerId_ToDafny(input.ProviderId), aws_cryptography_materialProvidersTestVectorKeys_RawRSA_padding_ToDafny(input.Padding)))
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_RawRSA_keyId_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_RawRSA_providerId_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_RawRSA_padding_ToDafny(input awscryptographymaterialproviderssmithygeneratedtypes.PaddingScheme) AwsCryptographyMaterialProvidersTypes.PaddingScheme {
+	return func() AwsCryptographyMaterialProvidersTypes.PaddingScheme {
+
+		var index int
+		for _, enumVal := range input.Values() {
+			index++
+			if enumVal == input {
+				break
+			}
+		}
+		var enum interface{}
+		for allEnums, i := dafny.Iterate(AwsCryptographyMaterialProvidersTypes.CompanionStruct_PaddingScheme_{}.AllSingletonConstructors()), 0; i < index; i++ {
+			var ok bool
+			enum, ok = allEnums()
+			if !ok {
+				break
+			}
+		}
+		return enum.(AwsCryptographyMaterialProvidersTypes.PaddingScheme)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_AES_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.RawAES) Wrappers.Option {
+	return func() Wrappers.Option {
+
+		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTestVectorKeysTypes.Companion_RawAES_.Create_RawAES_(aws_cryptography_materialProvidersTestVectorKeys_RawAES_keyId_ToDafny(input.KeyId), aws_cryptography_materialProvidersTestVectorKeys_RawAES_providerId_ToDafny(input.ProviderId)))
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_RawAES_keyId_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_RawAES_providerId_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_ECDH_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.RawEcdh) Wrappers.Option {
+	return func() Wrappers.Option {
+
+		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTestVectorKeysTypes.Companion_RawEcdh_.Create_RawEcdh_(aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_senderKeyId_ToDafny(input.SenderKeyId), aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_recipientKeyId_ToDafny(input.RecipientKeyId), aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_senderPublicKey_ToDafny(input.SenderPublicKey), aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_recipientPublicKey_ToDafny(input.RecipientPublicKey), aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_providerId_ToDafny(input.ProviderId), aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_curveSpec_ToDafny(input.CurveSpec), aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_keyAgreementScheme_ToDafny(input.KeyAgreementScheme)))
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_senderKeyId_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_recipientKeyId_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_senderPublicKey_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_recipientPublicKey_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_providerId_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_curveSpec_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_keyAgreementScheme_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Static_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.StaticKeyring) Wrappers.Option {
+	return func() Wrappers.Option {
+
+		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTestVectorKeysTypes.Companion_StaticKeyring_.Create_StaticKeyring_(aws_cryptography_materialProvidersTestVectorKeys_StaticKeyring_keyId_ToDafny(input.KeyId)))
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_StaticKeyring_keyId_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsRsa_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KmsRsaKeyring) Wrappers.Option {
+	return func() Wrappers.Option {
+
+		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTestVectorKeysTypes.Companion_KmsRsaKeyring_.Create_KmsRsaKeyring_(aws_cryptography_materialProvidersTestVectorKeys_KmsRsaKeyring_keyId_ToDafny(input.KeyId), aws_cryptography_materialProvidersTestVectorKeys_KmsRsaKeyring_encryptionAlgorithm_ToDafny(input.EncryptionAlgorithm)))
 	}()
 }
 
@@ -151,6 +393,98 @@ func aws_cryptography_materialProvidersTestVectorKeys_KmsRsaKeyring_keyId_ToDafn
 	return func() dafny.Sequence {
 
 		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_KmsRsaKeyring_encryptionAlgorithm_ToDafny(input kmstypes.EncryptionAlgorithmSpec) ComAmazonawsKmsTypes.EncryptionAlgorithmSpec {
+	return func() ComAmazonawsKmsTypes.EncryptionAlgorithmSpec {
+
+		var index int
+		for _, enumVal := range input.Values() {
+			index++
+			if enumVal == input {
+				break
+			}
+		}
+		var enum interface{}
+		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
+			var ok bool
+			enum, ok = allEnums()
+			if !ok {
+				break
+			}
+		}
+		return enum.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsECDH_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KmsEcdhKeyring) Wrappers.Option {
+	return func() Wrappers.Option {
+
+		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTestVectorKeysTypes.Companion_KmsEcdhKeyring_.Create_KmsEcdhKeyring_(aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_senderKeyId_ToDafny(input.SenderKeyId), aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_recipientKeyId_ToDafny(input.RecipientKeyId), aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_senderPublicKey_ToDafny(input.SenderPublicKey), aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_recipientPublicKey_ToDafny(input.RecipientPublicKey), aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_curveSpec_ToDafny(input.CurveSpec), aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_keyAgreementScheme_ToDafny(input.KeyAgreementScheme)))
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_senderKeyId_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_recipientKeyId_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_senderPublicKey_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_recipientPublicKey_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_curveSpec_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_keyAgreementScheme_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Hierarchy_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.HierarchyKeyring) Wrappers.Option {
+	return func() Wrappers.Option {
+
+		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTestVectorKeysTypes.Companion_HierarchyKeyring_.Create_HierarchyKeyring_(aws_cryptography_materialProvidersTestVectorKeys_HierarchyKeyring_keyId_ToDafny(input.KeyId)))
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_HierarchyKeyring_keyId_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Multi_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.MultiKeyring) Wrappers.Option {
+	return func() Wrappers.Option {
+
+		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTestVectorKeysTypes.Companion_MultiKeyring_.Create_MultiKeyring_(aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_generator_ToDafny(input.Generator), aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_childKeyrings_ToDafny(input.ChildKeyrings)))
 	}()
 }
 
@@ -203,246 +537,10 @@ func aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_generator_ToD
 	}()
 }
 
-func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_senderPublicKey_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_RawRSA_keyId_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsRsa_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KmsRsaKeyring) Wrappers.Option {
-	return func() Wrappers.Option {
-
-		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTestVectorKeysTypes.Companion_KmsRsaKeyring_.Create_KmsRsaKeyring_(aws_cryptography_materialProvidersTestVectorKeys_KmsRsaKeyring_keyId_ToDafny(input.KeyId), aws_cryptography_materialProvidersTestVectorKeys_KmsRsaKeyring_encryptionAlgorithm_ToDafny(input.EncryptionAlgorithm)))
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_ECDH_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.RawEcdh) Wrappers.Option {
-	return func() Wrappers.Option {
-
-		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTestVectorKeysTypes.Companion_RawEcdh_.Create_RawEcdh_(aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_senderKeyId_ToDafny(input.SenderKeyId), aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_recipientKeyId_ToDafny(input.RecipientKeyId), aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_senderPublicKey_ToDafny(input.SenderPublicKey), aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_recipientPublicKey_ToDafny(input.RecipientPublicKey), aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_providerId_ToDafny(input.ProviderId), aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_curveSpec_ToDafny(input.CurveSpec), aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_keyAgreementScheme_ToDafny(input.KeyAgreementScheme)))
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_senderKeyId_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_RawAES_keyId_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Multi_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.MultiKeyring) Wrappers.Option {
-	return func() Wrappers.Option {
-
-		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTestVectorKeysTypes.Companion_MultiKeyring_.Create_MultiKeyring_(aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_generator_ToDafny(input.Generator), aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_childKeyrings_ToDafny(input.ChildKeyrings)))
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_SerializeKeyDescriptionOutput_json_ToDafny(input []byte) dafny.Sequence {
-	return func() dafny.Sequence {
-		var v []interface{}
-		if input == nil {
-			return nil
-		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqOf(v...)
-	}()
-}
-
-func aws_cryptography_materialProviders_DiscoveryFilter_accountIds_ToDafny(input []string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		var fieldValue []interface{} = make([]interface{}, 0)
-		for _, val := range input {
-			element := aws_cryptography_materialProviders_AccountIdList_member_ToDafny(val)
-			fieldValue = append(fieldValue, element)
-		}
-		return dafny.SeqOf(fieldValue...)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_recipientPublicKey_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_TestVectorCmmInput_keyDescription_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescription) AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription {
-	return func() AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription {
-
-		switch input.(type) {
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKms:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Kms_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKms).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Kms_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KMSInfo))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrk:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrk_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrk).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsMrk_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsMrkAware))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrkDiscovery:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrkDiscovery_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrkDiscovery).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsMrkDiscovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsMrkAwareDiscovery))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRSA:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_RSA_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRSA).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_RSA_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawRSA))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberAES:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_AES_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberAES).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_AES_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawAES))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberECDH:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_ECDH_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberECDH).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_ECDH_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawEcdh))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberStatic:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Static_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberStatic).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Static_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.StaticKeyring))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsRsa:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsRsa_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsRsa).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsRsa_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsRsaKeyring))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsECDH:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsECDH_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsECDH).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsECDH_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsEcdhKeyring))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberHierarchy:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Hierarchy_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberHierarchy).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Hierarchy_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.HierarchyKeyring))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberMulti:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Multi_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberMulti).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Multi_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.MultiKeyring))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRequiredEncryptionContext:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_RequiredEncryptionContext_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRequiredEncryptionContext).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_RequiredEncryptionContext_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RequiredEncryptionContextCMM))
-
-		default:
-			panic("Unhandled union type")
-		}
-	}()
-}
-
-func aws_cryptography_materialProviders_DiscoveryFilter_partition_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_KMSInfo_keyId_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_StaticKeyring_keyId_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_AES_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.RawAES) Wrappers.Option {
-	return func() Wrappers.Option {
-
-		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTestVectorKeysTypes.Companion_RawAES_.Create_RawAES_(aws_cryptography_materialProvidersTestVectorKeys_RawAES_keyId_ToDafny(input.KeyId), aws_cryptography_materialProvidersTestVectorKeys_RawAES_providerId_ToDafny(input.ProviderId)))
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextCMM_requiredEncryptionContextKeys_ToDafny(input []string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		var fieldValue []interface{} = make([]interface{}, 0)
-		for _, val := range input {
-			element := aws_cryptography_materialProviders_EncryptionContextKeys_member_ToDafny(val)
-			fieldValue = append(fieldValue, element)
-		}
-		return dafny.SeqOf(fieldValue...)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Kms_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KMSInfo) Wrappers.Option {
-	return func() Wrappers.Option {
-
-		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTestVectorKeysTypes.Companion_KMSInfo_.Create_KMSInfo_(aws_cryptography_materialProvidersTestVectorKeys_KMSInfo_keyId_ToDafny(input.KeyId)))
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_GetKeyDescriptionOutput_keyDescription_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescription) AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription {
-	return func() AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription {
-
-		switch input.(type) {
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKms:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Kms_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKms).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Kms_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KMSInfo))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrk:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrk_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrk).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsMrk_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsMrkAware))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrkDiscovery:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrkDiscovery_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrkDiscovery).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsMrkDiscovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsMrkAwareDiscovery))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRSA:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_RSA_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRSA).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_RSA_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawRSA))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberAES:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_AES_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberAES).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_AES_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawAES))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberECDH:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_ECDH_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberECDH).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_ECDH_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawEcdh))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberStatic:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Static_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberStatic).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Static_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.StaticKeyring))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsRsa:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsRsa_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsRsa).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsRsa_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsRsaKeyring))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsECDH:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsECDH_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsECDH).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsECDH_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsEcdhKeyring))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberHierarchy:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Hierarchy_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberHierarchy).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Hierarchy_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.HierarchyKeyring))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberMulti:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Multi_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberMulti).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Multi_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.MultiKeyring))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRequiredEncryptionContext:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_RequiredEncryptionContext_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRequiredEncryptionContext).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_RequiredEncryptionContext_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RequiredEncryptionContextCMM))
-
-		default:
-			panic("Unhandled union type")
-		}
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_KmsMrkAwareDiscovery_keyId_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
 func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_RequiredEncryptionContext_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.RequiredEncryptionContextCMM) Wrappers.Option {
 	return func() Wrappers.Option {
 
 		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTestVectorKeysTypes.Companion_RequiredEncryptionContextCMM_.Create_RequiredEncryptionContextCMM_(aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextCMM_underlying_ToDafny(input.Underlying), aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextCMM_requiredEncryptionContextKeys_ToDafny(input.RequiredEncryptionContextKeys)))
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsECDH_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KmsEcdhKeyring) Wrappers.Option {
-	return func() Wrappers.Option {
-
-		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTestVectorKeysTypes.Companion_KmsEcdhKeyring_.Create_KmsEcdhKeyring_(aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_senderKeyId_ToDafny(input.SenderKeyId), aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_recipientKeyId_ToDafny(input.RecipientKeyId), aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_senderPublicKey_ToDafny(input.SenderPublicKey), aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_recipientPublicKey_ToDafny(input.RecipientPublicKey), aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_curveSpec_ToDafny(input.CurveSpec), aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_keyAgreementScheme_ToDafny(input.KeyAgreementScheme)))
 	}()
 }
 
@@ -493,251 +591,15 @@ func aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextC
 	}()
 }
 
-func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_RSA_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.RawRSA) Wrappers.Option {
-	return func() Wrappers.Option {
-
-		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTestVectorKeysTypes.Companion_RawRSA_.Create_RawRSA_(aws_cryptography_materialProvidersTestVectorKeys_RawRSA_keyId_ToDafny(input.KeyId), aws_cryptography_materialProvidersTestVectorKeys_RawRSA_providerId_ToDafny(input.ProviderId), aws_cryptography_materialProvidersTestVectorKeys_RawRSA_padding_ToDafny(input.Padding)))
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_recipientPublicKey_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_keyAgreementScheme_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrk_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KmsMrkAware) Wrappers.Option {
-	return func() Wrappers.Option {
-
-		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTestVectorKeysTypes.Companion_KmsMrkAware_.Create_KmsMrkAware_(aws_cryptography_materialProvidersTestVectorKeys_KmsMrkAware_keyId_ToDafny(input.KeyId)))
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_recipientKeyId_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_SerializeKeyDescriptionInput_keyDescription_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescription) AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription {
-	return func() AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription {
-
-		switch input.(type) {
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKms:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Kms_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKms).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Kms_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KMSInfo))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrk:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrk_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrk).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsMrk_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsMrkAware))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrkDiscovery:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrkDiscovery_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrkDiscovery).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsMrkDiscovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsMrkAwareDiscovery))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRSA:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_RSA_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRSA).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_RSA_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawRSA))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberAES:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_AES_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberAES).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_AES_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawAES))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberECDH:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_ECDH_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberECDH).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_ECDH_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawEcdh))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberStatic:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Static_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberStatic).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Static_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.StaticKeyring))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsRsa:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsRsa_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsRsa).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsRsa_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsRsaKeyring))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsECDH:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsECDH_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsECDH).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsECDH_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsEcdhKeyring))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberHierarchy:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Hierarchy_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberHierarchy).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Hierarchy_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.HierarchyKeyring))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberMulti:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Multi_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberMulti).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Multi_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.MultiKeyring))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRequiredEncryptionContext:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_RequiredEncryptionContext_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRequiredEncryptionContext).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_RequiredEncryptionContext_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RequiredEncryptionContextCMM))
-
-		default:
-			panic("Unhandled union type")
-		}
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_providerId_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_TestVectorCmmInput_forOperation_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.CmmOperation) AwsCryptographyMaterialProvidersTestVectorKeysTypes.CmmOperation {
-	return func() AwsCryptographyMaterialProvidersTestVectorKeysTypes.CmmOperation {
-
-		var index int
-		for _, enumVal := range input.Values() {
-			index++
-			if enumVal == input {
-				break
-			}
-		}
-		var enum interface{}
-		for allEnums, i := dafny.Iterate(AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_CmmOperation_{}.AllSingletonConstructors()), 0; i < index; i++ {
-			var ok bool
-			enum, ok = allEnums()
-			if !ok {
-				break
-			}
-		}
-		return enum.(AwsCryptographyMaterialProvidersTestVectorKeysTypes.CmmOperation)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_KeyVectorException_message_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_RawRSA_padding_ToDafny(input awscryptographymaterialproviderssmithygeneratedtypes.PaddingScheme) AwsCryptographyMaterialProvidersTypes.PaddingScheme {
-	return func() AwsCryptographyMaterialProvidersTypes.PaddingScheme {
-
-		var index int
-		for _, enumVal := range input.Values() {
-			index++
-			if enumVal == input {
-				break
-			}
-		}
-		var enum interface{}
-		for allEnums, i := dafny.Iterate(AwsCryptographyMaterialProvidersTypes.CompanionStruct_PaddingScheme_{}.AllSingletonConstructors()), 0; i < index; i++ {
-			var ok bool
-			enum, ok = allEnums()
-			if !ok {
-				break
-			}
-		}
-		return enum.(AwsCryptographyMaterialProvidersTypes.PaddingScheme)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_senderKeyId_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_KeyVectorsConfig_keyManifestPath_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_senderPublicKey_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Static_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.StaticKeyring) Wrappers.Option {
-	return func() Wrappers.Option {
-
-		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTestVectorKeysTypes.Companion_StaticKeyring_.Create_StaticKeyring_(aws_cryptography_materialProvidersTestVectorKeys_StaticKeyring_keyId_ToDafny(input.KeyId)))
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_TestVectorKeyringInput_keyDescription_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescription) AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription {
-	return func() AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription {
-
-		switch input.(type) {
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKms:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Kms_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKms).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Kms_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KMSInfo))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrk:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrk_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrk).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsMrk_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsMrkAware))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrkDiscovery:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrkDiscovery_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrkDiscovery).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsMrkDiscovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsMrkAwareDiscovery))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRSA:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_RSA_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRSA).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_RSA_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawRSA))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberAES:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_AES_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberAES).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_AES_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawAES))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberECDH:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_ECDH_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberECDH).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_ECDH_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawEcdh))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberStatic:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Static_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberStatic).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Static_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.StaticKeyring))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsRsa:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsRsa_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsRsa).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsRsa_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsRsaKeyring))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsECDH:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsECDH_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsECDH).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsECDH_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsEcdhKeyring))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberHierarchy:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Hierarchy_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberHierarchy).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Hierarchy_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.HierarchyKeyring))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberMulti:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Multi_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberMulti).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Multi_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.MultiKeyring))
-		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRequiredEncryptionContext:
-			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_RequiredEncryptionContext_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRequiredEncryptionContext).Value)
-			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_RequiredEncryptionContext_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RequiredEncryptionContextCMM))
-
-		default:
-			panic("Unhandled union type")
-		}
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_recipientKeyId_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_childKeyrings_ToDafny(input []awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescription) dafny.Sequence {
+func aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextCMM_requiredEncryptionContextKeys_ToDafny(input []string) dafny.Sequence {
 	return func() dafny.Sequence {
 
 		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
-			element := aws_cryptography_materialProvidersTestVectorKeys_KeyDescriptionList_member_ToDafny(val)
+			element := aws_cryptography_materialProviders_EncryptionContextKeys_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
 		}
 		return dafny.SeqOf(fieldValue...)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_RawAES_providerId_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_curveSpec_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
 	}()
 }
 
@@ -756,17 +618,15 @@ func aws_cryptography_materialProviders_EncryptionContextKeys_member_ToDafny(inp
 	}()
 }
 
-func aws_cryptography_materialProvidersTestVectorKeys_RawRSA_providerId_ToDafny(input string) dafny.Sequence {
+func aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_childKeyrings_ToDafny(input []awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescription) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_keyAgreementScheme_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		var fieldValue []interface{} = make([]interface{}, 0)
+		for _, val := range input {
+			element := aws_cryptography_materialProvidersTestVectorKeys_KeyDescriptionList_member_ToDafny(val)
+			fieldValue = append(fieldValue, element)
+		}
+		return dafny.SeqOf(fieldValue...)
 	}()
 }
 
@@ -817,10 +677,72 @@ func aws_cryptography_materialProvidersTestVectorKeys_KeyDescriptionList_member_
 	}()
 }
 
-func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrkDiscovery_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KmsMrkAwareDiscovery) Wrappers.Option {
-	return func() Wrappers.Option {
+func aws_cryptography_materialProvidersTestVectorKeys_TestVectorCmmInput_keyDescription_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescription) AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription {
+	return func() AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription {
 
-		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTestVectorKeysTypes.Companion_KmsMrkAwareDiscovery_.Create_KmsMrkAwareDiscovery_(aws_cryptography_materialProvidersTestVectorKeys_KmsMrkAwareDiscovery_keyId_ToDafny(input.KeyId), aws_cryptography_materialProvidersTestVectorKeys_KmsMrkAwareDiscovery_defaultMrkRegion_ToDafny(input.DefaultMrkRegion), aws_cryptography_materialProvidersTestVectorKeys_KmsMrkAwareDiscovery_awsKmsDiscoveryFilter_ToDafny(input.AwsKmsDiscoveryFilter)))
+		switch input.(type) {
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKms:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Kms_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKms).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Kms_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KMSInfo))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrk:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrk_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrk).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsMrk_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsMrkAware))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrkDiscovery:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrkDiscovery_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrkDiscovery).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsMrkDiscovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsMrkAwareDiscovery))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRSA:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_RSA_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRSA).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_RSA_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawRSA))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberAES:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_AES_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberAES).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_AES_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawAES))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberECDH:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_ECDH_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberECDH).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_ECDH_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawEcdh))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberStatic:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Static_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberStatic).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Static_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.StaticKeyring))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsRsa:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsRsa_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsRsa).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsRsa_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsRsaKeyring))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsECDH:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsECDH_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsECDH).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsECDH_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsEcdhKeyring))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberHierarchy:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Hierarchy_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberHierarchy).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Hierarchy_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.HierarchyKeyring))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberMulti:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Multi_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberMulti).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Multi_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.MultiKeyring))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRequiredEncryptionContext:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_RequiredEncryptionContext_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRequiredEncryptionContext).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_RequiredEncryptionContext_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RequiredEncryptionContextCMM))
+
+		default:
+			panic("Unhandled union type")
+		}
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_TestVectorCmmInput_forOperation_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.CmmOperation) AwsCryptographyMaterialProvidersTestVectorKeysTypes.CmmOperation {
+	return func() AwsCryptographyMaterialProvidersTestVectorKeysTypes.CmmOperation {
+
+		var index int
+		for _, enumVal := range input.Values() {
+			index++
+			if enumVal == input {
+				break
+			}
+		}
+		var enum interface{}
+		for allEnums, i := dafny.Iterate(AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_CmmOperation_{}.AllSingletonConstructors()), 0; i < index; i++ {
+			var ok bool
+			enum, ok = allEnums()
+			if !ok {
+				break
+			}
+		}
+		return enum.(AwsCryptographyMaterialProvidersTestVectorKeysTypes.CmmOperation)
 	}()
 }
 
@@ -837,43 +759,121 @@ func aws_cryptography_materialProvidersTestVectorKeys_GetKeyDescriptionInput_jso
 	}()
 }
 
-func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_curveSpec_ToDafny(input string) dafny.Sequence {
+func aws_cryptography_materialProvidersTestVectorKeys_GetKeyDescriptionOutput_keyDescription_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescription) AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription {
+	return func() AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription {
+
+		switch input.(type) {
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKms:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Kms_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKms).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Kms_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KMSInfo))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrk:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrk_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrk).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsMrk_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsMrkAware))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrkDiscovery:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrkDiscovery_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrkDiscovery).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsMrkDiscovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsMrkAwareDiscovery))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRSA:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_RSA_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRSA).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_RSA_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawRSA))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberAES:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_AES_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberAES).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_AES_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawAES))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberECDH:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_ECDH_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberECDH).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_ECDH_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawEcdh))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberStatic:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Static_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberStatic).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Static_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.StaticKeyring))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsRsa:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsRsa_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsRsa).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsRsa_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsRsaKeyring))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsECDH:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsECDH_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsECDH).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsECDH_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsEcdhKeyring))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberHierarchy:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Hierarchy_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberHierarchy).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Hierarchy_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.HierarchyKeyring))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberMulti:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Multi_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberMulti).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Multi_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.MultiKeyring))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRequiredEncryptionContext:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_RequiredEncryptionContext_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRequiredEncryptionContext).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_RequiredEncryptionContext_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RequiredEncryptionContextCMM))
+
+		default:
+			panic("Unhandled union type")
+		}
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_SerializeKeyDescriptionInput_keyDescription_ToDafny(input awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescription) AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription {
+	return func() AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription {
+
+		switch input.(type) {
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKms:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Kms_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKms).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Kms_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KMSInfo))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrk:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrk_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrk).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsMrk_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsMrkAware))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrkDiscovery:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrkDiscovery_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsMrkDiscovery).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsMrkDiscovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsMrkAwareDiscovery))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRSA:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_RSA_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRSA).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_RSA_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawRSA))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberAES:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_AES_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberAES).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_AES_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawAES))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberECDH:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_ECDH_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberECDH).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_ECDH_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawEcdh))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberStatic:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Static_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberStatic).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Static_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.StaticKeyring))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsRsa:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsRsa_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsRsa).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsRsa_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsRsaKeyring))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsECDH:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsECDH_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberKmsECDH).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_KmsECDH_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsEcdhKeyring))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberHierarchy:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Hierarchy_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberHierarchy).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Hierarchy_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.HierarchyKeyring))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberMulti:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Multi_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberMulti).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_Multi_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.MultiKeyring))
+		case *awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRequiredEncryptionContext:
+			var inputToConversion = aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_RequiredEncryptionContext_ToDafny(input.(*awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescriptionMemberRequiredEncryptionContext).Value)
+			return AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_KeyDescription_{}.Create_RequiredEncryptionContext_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RequiredEncryptionContextCMM))
+
+		default:
+			panic("Unhandled union type")
+		}
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_SerializeKeyDescriptionOutput_json_ToDafny(input []byte) dafny.Sequence {
+	return func() dafny.Sequence {
+		var v []interface{}
+		if input == nil {
+			return nil
+		}
+		for _, e := range input {
+			v = append(v, e)
+		}
+		return dafny.SeqOf(v...)
+	}()
+}
+
+func aws_cryptography_materialProvidersTestVectorKeys_KeyVectorException_message_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
 		return dafny.SeqOfChars([]dafny.Char(input)...)
 	}()
 }
 
-func aws_cryptography_materialProvidersTestVectorKeys_HierarchyKeyring_keyId_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_materialProvidersTestVectorKeys_KmsRsaKeyring_encryptionAlgorithm_ToDafny(input kmstypes.EncryptionAlgorithmSpec) ComAmazonawsKmsTypes.EncryptionAlgorithmSpec {
-	return func() ComAmazonawsKmsTypes.EncryptionAlgorithmSpec {
-
-		var index int
-		for _, enumVal := range input.Values() {
-			index++
-			if enumVal == input {
-				break
-			}
-		}
-		var enum interface{}
-		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
-			var ok bool
-			enum, ok = allEnums()
-			if !ok {
-				break
-			}
-		}
-		return enum.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec)
-	}()
-}
-
-func aws_cryptography_materialProviders_AccountIdList_member_ToDafny(input string) dafny.Sequence {
+func aws_cryptography_materialProvidersTestVectorKeys_KeyVectorsConfig_keyManifestPath_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
 		return dafny.SeqOfChars([]dafny.Char(input)...)

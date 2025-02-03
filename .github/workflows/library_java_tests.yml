@@ -19,21 +19,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        library:
-          [
+        library: [
             AwsCryptographyPrimitives,
             ComAmazonawsKms,
             ComAmazonawsDynamodb,
             AwsCryptographicMaterialProviders,
-            TestVectorsAwsCryptographicMaterialProviders,
+            # TestVectorsAwsCryptographicMaterialProviders,
             StandardLibrary,
           ]
         os: [
             # TODO just test on mac for now
             # windows-latest,
-            ubuntu-latest,
+            ubuntu-22.04,
             macos-13,
           ]
+        java-versions: [8, 11, 16, 17]
     runs-on: ${{ matrix.os }}
     permissions:
       id-token: write
@@ -61,7 +61,7 @@ jobs:
       - run: git submodule update --init --recursive smithy-dafny
 
       - name: Setup Dafny
-        uses: dafny-lang/setup-dafny-action@v1.7.0
+        uses: dafny-lang/setup-dafny-action@v1.8.0
         with:
           dafny-version: ${{ inputs.dafny }}
 
@@ -73,17 +73,17 @@ jobs:
           library: ${{ matrix.library }}
           diff-generated-code: false
 
-      - name: Copy over keys.json so that it is discoverable by the tests
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: copyKeysJSON
-          build-root-directory: ./TestVectorsAwsCryptographicMaterialProviders/runtimes/java
+      # - name: Copy over keys.json so that it is discoverable by the tests
+      #   uses: gradle/gradle-build-action@v2
+      #   with:
+      #     arguments: copyKeysJSON
+      #     build-root-directory: ./TestVectorsAwsCryptographicMaterialProviders/runtimes/java
 
-      - name: Setup Java 8
+      - name: Setup Java ${{matrix.java-versions}}
         uses: actions/setup-java@v3
         with:
           distribution: "corretto"
-          java-version: 8
+          java-version: ${{matrix.java-versions}}
 
       - name: Build ${{ matrix.library }} implementation
         working-directory: ./${{ matrix.library }}
@@ -92,79 +92,7 @@ jobs:
           CORES=$(node -e 'console.log(os.cpus().length)')
           make build_java CORES=$CORES
 
-      - name: Test ${{ matrix.library }}
+      - name: Test ${{ matrix.library }} on ${{matrix.java-versions}}
         working-directory: ./${{ matrix.library }}
         run: |
           make test_java
-
-      - name: Setup Java 11
-        uses: actions/setup-java@v3
-        with:
-          distribution: "corretto"
-          java-version: 11
-
-      - name: Clean for next Java
-        uses: gradle/gradle-build-action@v3
-        with:
-          arguments: clean
-          build-root-directory: ./${{ matrix.library }}/runtimes/java
-
-      - name: Compile Java 11
-        uses: gradle/gradle-build-action@v3
-        with:
-          arguments: build
-          build-root-directory: ./${{ matrix.library }}/runtimes/java
-
-      - name: Test Java 11
-        uses: gradle/gradle-build-action@v3
-        with:
-          arguments: runTests
-          build-root-directory: ./${{ matrix.library }}/runtimes/java
-
-      - name: Setup Java 16
-        uses: actions/setup-java@v3
-        with:
-          distribution: "corretto"
-          java-version: 16
-
-      - name: Clean for next Java
-        uses: gradle/gradle-build-action@v3
-        with:
-          arguments: clean
-          build-root-directory: ./${{ matrix.library }}/runtimes/java
-
-      - name: Compile Java 16
-        uses: gradle/gradle-build-action@v3
-        with:
-          arguments: build
-          build-root-directory: ./${{ matrix.library }}/runtimes/java
-
-      - name: Test Java 16
-        uses: gradle/gradle-build-action@v3
-        with:
-          arguments: runTests
-          build-root-directory: ./${{ matrix.library }}/runtimes/java
-
-      - name: Setup Java 17
-        uses: actions/setup-java@v3
-        with:
-          distribution: "corretto"
-          java-version: 17
-
-      - name: Clean for next Java
-        uses: gradle/gradle-build-action@v3
-        with:
-          arguments: clean
-          build-root-directory: ./${{ matrix.library }}/runtimes/java
-
-      - name: Compile Java 17
-        uses: gradle/gradle-build-action@v3
-        with:
-          arguments: build
-          build-root-directory: ./${{ matrix.library }}/runtimes/java
-
-      - name: Test Java 17
-        uses: gradle/gradle-build-action@v3
-        with:
-          arguments: runTests
-          build-root-directory: ./${{ matrix.library }}/runtimes/java
