@@ -49,6 +49,7 @@ namespace software.amazon.cryptography.internaldafny.StormTrackingCMC
     // NOT synchronized, as some sleeping might be involved
     public Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types._IGetCacheEntryOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError> GetCacheEntry_k(software.amazon.cryptography.materialproviders.internaldafny.types._IGetCacheEntryInput input)
     {
+      long maxInFlight = Time.__default.CurrentRelativeTimeMilli() + wrapped.inFlightTTL;
       while (true)
       {
         Wrappers_Compile._IResult<StormTracker_Compile._ICacheState, software.amazon.cryptography.materialproviders.internaldafny.types._IError>
@@ -68,10 +69,31 @@ namespace software.amazon.cryptography.internaldafny.StormTrackingCMC
           return Wrappers_Compile.Result<software.amazon.cryptography.materialproviders.internaldafny.types._IGetCacheEntryOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError>
               .create_Failure(software.amazon.cryptography.materialproviders.internaldafny.types.Error
                   .create_EntryDoesNotExist(Dafny.Sequence<char>.FromString("Entry does not exist")));
-        }
-        else
+        } else 
         {
-          Thread.Sleep(50);
+          try
+          {
+            if (Time.__default.CurrentRelativeTimeMilli() <= maxInFlight)
+            {
+              Thread.Sleep(TimeSpan.FromMilliseconds(wrapped.sleepMilli));
+            }
+            else
+            {
+              return Wrappers_Compile
+                .Result<software.amazon.cryptography.materialproviders.internaldafny.types._IGetCacheEntryOutput,
+                  software.amazon.cryptography.materialproviders.internaldafny.types._IError>
+                .create_Failure(software.amazon.cryptography.materialproviders.internaldafny.types.Error
+                  .create_InFlightTTLExceeded(Dafny.Sequence<char>.FromString("Storm cache inFlightTtlExceeded")));
+            }
+          }
+          catch (Exception ex)
+          {
+            return Wrappers_Compile
+              .Result<software.amazon.cryptography.materialproviders.internaldafny.types._IGetCacheEntryOutput,
+                software.amazon.cryptography.materialproviders.internaldafny.types._IError>
+              .create_Failure(software.amazon.cryptography.materialproviders.internaldafny.types.Error
+                .create_Opaque(ex));
+          } 
         }
       }
     }
