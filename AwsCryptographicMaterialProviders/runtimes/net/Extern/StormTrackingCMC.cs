@@ -69,7 +69,8 @@ namespace software.amazon.cryptography.internaldafny.StormTrackingCMC
           return Wrappers_Compile.Result<software.amazon.cryptography.materialproviders.internaldafny.types._IGetCacheEntryOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError>
               .create_Failure(software.amazon.cryptography.materialproviders.internaldafny.types.Error
                   .create_EntryDoesNotExist(Dafny.Sequence<char>.FromString("Entry does not exist")));
-        } else 
+        }
+        else
         {
           try
           {
@@ -93,7 +94,7 @@ namespace software.amazon.cryptography.internaldafny.StormTrackingCMC
                 software.amazon.cryptography.materialproviders.internaldafny.types._IError>
               .create_Failure(software.amazon.cryptography.materialproviders.internaldafny.types.Error
                 .create_Opaque(ex));
-          } 
+          }
         }
       }
     }
