@@ -54,7 +54,7 @@ runs:
 
     - name: Install Smithy-Dafny codegen dependencies
       uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
-      
+
     # Replace the project.properties file so that we pick up the right runtimes etc.,
     # in cases where inputs.dafny is different from the current value in that file.
     - name: Update top-level project.properties file
