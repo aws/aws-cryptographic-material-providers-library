@@ -96,15 +96,6 @@ WRAPPED_INDEX_FILE_PATH=dafny/TestVectorsAwsCryptographicMaterialProviders/src/L
 WRAPPED_INDEX_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.materialproviders.internaldafny.wrapped\" } WrappedMaterialProviders refines WrappedAbstractAwsCryptographyMaterialProvidersService"
 WRAPPED_INDEX_FILE_WITHOUT_EXTERN_STRING="module WrappedMaterialProviders refines WrappedAbstractAwsCryptographyMaterialProvidersService"
 
-# Rust SED Hacks
-IMPLEMENTATION_FROM_DAFNY_TV_RUST_FILE=runtimes/rust/src/implementation_from_dafny.rs
-IMPLEMENTATION_FROM_DAFNY_TV_RUST_MPL_MAIN="WrappedMaterialProvidersMain::_default::Main();"
-IMPLEMENTATION_FROM_DAFNY_TV_RUST_ESDK_MAIN= \
-	"let args: Vec<String> = std::env::args().collect();\
-	let dafny_strings = args.iter().map(|x| dafny_runtime::dafny_runtime_conversions::unicode_chars_false::string_to_dafny_string(\&x)).collect::<Vec<_>>();\
-	let dafny_args = dafny_runtime::Sequence::from_array_owned(dafny_strings);\
-	r\#_WrappedMaterialProvidersMain_Compile::_default::Main(\&dafny_args);"
-
 # TODO: Remove after wrapped client issue is fixed in Rust
 REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_PRIMITIVES=runtimes/rust/src/deps/aws_cryptography_primitives.rs
 REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_KEYSTORE=runtimes/rust/src/deps/aws_cryptography_keyStore.rs
@@ -113,13 +104,8 @@ REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_FROM_2 := 'pub mod wrapped;'
 REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_TO_1 := '\/\/ removed wrapped-client feature using sed;'
 REMOVE_WRAPPED_CLIENT_AFTER_POLYMORPH_RUST_TO_2 := '\/\/ removed wrapped module using sed;'
 
-transpile_implementation_rust: _replace_main_method_name_rust
-
 # TODO: Remove after wrapped client issue is fixed in Rust
 _polymorph_rust: _remove_wrapped_client_rust
-
-_replace_main_method_name_rust:
-	$(MAKE) _sed_file SED_FILE_PATH=$(IMPLEMENTATION_FROM_DAFNY_TV_RUST_FILE) SED_BEFORE_STRING=$(IMPLEMENTATION_FROM_DAFNY_TV_RUST_MPL_MAIN) SED_AFTER_STRING=$(IMPLEMENTATION_FROM_DAFNY_TV_RUST_ESDK_MAIN)
 
 # TODO: Remove after wrapped client issue is fixed in Rust
 _remove_wrapped_client_rust:
@@ -159,11 +145,11 @@ TRANSLATION_RECORD_PYTHON := \
 GO_MODULE_NAME="github.com/aws/aws-cryptographic-material-providers-library/testvectors"
 
 GO_DEPENDENCY_MODULE_NAMES := \
-	--dependency-library-name=aws.cryptography.primitives=github.com/aws/aws-cryptographic-material-providers-library/primitives \
-	--dependency-library-name=com.amazonaws.kms=github.com/aws/aws-cryptographic-material-providers-library/kms \
-	--dependency-library-name=com.amazonaws.dynamodb=github.com/aws/aws-cryptographic-material-providers-library/dynamodb \
-	--dependency-library-name=aws.cryptography.materialProviders=github.com/aws/aws-cryptographic-material-providers-library/mpl \
-	--dependency-library-name=aws.cryptography.keyStore=github.com/aws/aws-cryptographic-material-providers-library/mpl \
+	--dependency-library-name=aws.cryptography.primitives=github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives \
+	--dependency-library-name=com.amazonaws.kms=github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms \
+	--dependency-library-name=com.amazonaws.dynamodb=github.com/aws/aws-cryptographic-material-providers-library/releases/go/dynamodb \
+	--dependency-library-name=aws.cryptography.materialProviders=github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl \
+	--dependency-library-name=aws.cryptography.keyStore=github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl \
 	--dependency-library-name=sdk.com.amazonaws.dynamodb=github.com/aws/aws-sdk-go-v2/service/dynamodb \
 	--dependency-library-name=sdk.com.amazonaws.kms=github.com/aws/aws-sdk-go-v2/service/kms
 
@@ -215,6 +201,7 @@ test_generate_vectors_python:
 	cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/python
 
 test_generate_vectors_rust:
+	rustc --version
 	cd runtimes/rust && \
 	cargo run --bin test-vectors --features="wrapped-client" --release -- encrypt-manifest --encrypt-manifest-output . && \
 	cd ../../
@@ -238,6 +225,7 @@ test_encrypt_vectors_python:
 	python3 -m tox -c runtimes/python --verbose -e cli -- encrypt --manifest-path runtimes/python --decrypt-manifest-path runtimes/python
 
 test_encrypt_vectors_rust:
+	rustc --version
 	cd runtimes/rust && \
 	cargo run --bin test-vectors --features="wrapped-client" --release -- encrypt --manifest-path . --decrypt-manifest-path . && \
 	cd ../../
@@ -259,6 +247,7 @@ test_decrypt_encrypt_vectors_python:
 	python3 -m tox -c runtimes/python --verbose -e cli -- decrypt --manifest-path runtimes/python
 
 test_decrypt_encrypt_vectors_rust:
+	rustc --version
 	cd runtimes/rust && \
 	cargo run --bin test-vectors --features="wrapped-client" --release -- decrypt --manifest-path . && \
 	cd ../../

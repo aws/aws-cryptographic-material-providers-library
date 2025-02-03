@@ -65,9 +65,14 @@ pub(crate) use crate::implementation_from_dafny::_StormTracker_Compile;
 pub(crate) use crate::implementation_from_dafny::_LocalCMC_Compile;
 pub(crate) use crate::implementation_from_dafny::_TestWrappedMaterialProvidersMain_Compile;
 
-fn main() {
+fn main2() {
     let args: Vec<String> = std::env::args().collect();
     let dafny_strings = args.iter().map(|x| dafny_runtime::dafny_runtime_conversions::unicode_chars_false::string_to_dafny_string(&x)).collect::<Vec<_>>();
     let dafny_args = dafny_runtime::Sequence::from_array_owned(dafny_strings);
     crate::implementation_from_dafny::r#_WrappedMaterialProvidersMain_Compile::_default::Main(&dafny_args);
+}
+
+// RUST_MIN_STACK does not work for `main`, so we need a new thread
+fn main() {
+    std::thread::Builder::new().stack_size(64 * 1024 * 1024).spawn(main2).unwrap().join().unwrap();
 }

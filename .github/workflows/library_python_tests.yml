@@ -35,7 +35,7 @@ jobs:
             # Note: only tests use the sys.path workaround, not source code.
             # Windows source code is tested downstream (ex. ESDK-Python CI).
             # windows-latest,
-            ubuntu-latest,
+            ubuntu-22.04,
             macos-13,
           ]
     runs-on: ${{ matrix.os }}
@@ -64,7 +64,7 @@ jobs:
       - run: git submodule update --init --recursive smithy-dafny
 
       - name: Setup Dafny
-        uses: dafny-lang/setup-dafny-action@v1.7.0
+        uses: dafny-lang/setup-dafny-action@v1.8.0
         with:
           dafny-version: ${{ inputs.dafny }}
 

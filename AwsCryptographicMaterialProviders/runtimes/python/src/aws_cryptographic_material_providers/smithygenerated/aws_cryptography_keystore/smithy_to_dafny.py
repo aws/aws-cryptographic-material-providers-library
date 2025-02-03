@@ -435,6 +435,26 @@ def aws_cryptography_keystore_BeaconKeyMaterials(native_input):
     )
 
 
+def aws_cryptography_keystore_DdbClientReference(native_input):
+    import aws_cryptography_internal_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb
+
+    client = aws_cryptography_internal_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb.default__.DynamoDBClient(
+        boto_client=native_input
+    )
+    client.value.impl = native_input
+    return client.value
+
+
+def aws_cryptography_keystore_KmsClientReference(native_input):
+    import aws_cryptography_internal_kms.internaldafny.generated.Com_Amazonaws_Kms
+
+    client = aws_cryptography_internal_kms.internaldafny.generated.Com_Amazonaws_Kms.default__.KMSClient(
+        boto_client=native_input
+    )
+    client.value.impl = native_input
+    return client.value
+
+
 def aws_cryptography_keystore_KeyStoreConfig(native_input):
     return DafnyKeyStoreConfig(
         ddbTableName=Seq(
@@ -542,23 +562,3 @@ def aws_cryptography_keystore_KeyStoreConfig(native_input):
             else (Option_None())
         ),
     )
-
-
-def aws_cryptography_keystore_DdbClientReference(native_input):
-    import aws_cryptography_internal_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb
-
-    client = aws_cryptography_internal_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb.default__.DynamoDBClient(
-        boto_client=native_input
-    )
-    client.value.impl = native_input
-    return client.value
-
-
-def aws_cryptography_keystore_KmsClientReference(native_input):
-    import aws_cryptography_internal_kms.internaldafny.generated.Com_Amazonaws_Kms
-
-    client = aws_cryptography_internal_kms.internaldafny.generated.Com_Amazonaws_Kms.default__.KMSClient(
-        boto_client=native_input
-    )
-    client.value.impl = native_input
-    return client.value
