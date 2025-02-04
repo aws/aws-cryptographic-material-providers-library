@@ -1,0 +1,39 @@
+diff --git b/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographicMaterialProviders/CollectionOfErrors.cs a/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographicMaterialProviders/CollectionOfErrors.cs
+index 8f7200422..39f044046 100644
+--- b/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographicMaterialProviders/CollectionOfErrors.cs
++++ a/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographicMaterialProviders/CollectionOfErrors.cs
+@@ -8,9 +8,18 @@ namespace AWS.Cryptography.MaterialProviders
+   public class CollectionOfErrors : Exception
+   {
+     public readonly System.Collections.Generic.List<Exception> list;
+-    public CollectionOfErrors(System.Collections.Generic.List<Exception> list, string message) : base(message) { this.list = list; }
++    public CollectionOfErrors(System.Collections.Generic.List<Exception> list, string message) : base(message + $"\n List: \n{ListAsString(list)}") { this.list = list; }
+     public CollectionOfErrors(string message) : base(message) { this.list = new System.Collections.Generic.List<Exception>(); }
+     public CollectionOfErrors() : base("CollectionOfErrors") { this.list = new System.Collections.Generic.List<Exception>(); }
++
++    private static string ListAsString(List<Exception> list)
++    {
++      if (list.Count < 1) return "";
++      string[] msgArr = new string[list.Count];
++      for (int i = 0; i < list.Count; i++)
++        msgArr[i] = $"{list[i].GetType().Name} :: {list[i].Message}";
++      return String.Join("\n\t", msgArr);
++    }
+   }
+ 
+ }
+diff --git b/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographicMaterialProviders/TypeConversion.cs a/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographicMaterialProviders/TypeConversion.cs
+index d5ab49915..446365249 100644
+--- b/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographicMaterialProviders/TypeConversion.cs
++++ a/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographicMaterialProviders/TypeConversion.cs
+@@ -3946,7 +3946,9 @@ namespace AWS.Cryptography.MaterialProviders
+             dafnyVal._ComAmazonawsDynamodb
+           );
+         case software.amazon.cryptography.materialproviders.internaldafny.types.Error_ComAmazonawsKms dafnyVal:
+-          return Com.Amazonaws.KMS.TypeConversion.FromDafny_CommonError(
++          // BEGIN MANUAL EDIT
++          return Com.Amazonaws.Kms.TypeConversion.FromDafny_CommonError(
++            // END MANUAL EDIT
+             dafnyVal._ComAmazonawsKms
+           );
+         case software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException dafnyVal:
