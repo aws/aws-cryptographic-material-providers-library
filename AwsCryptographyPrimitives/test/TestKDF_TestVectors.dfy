@@ -13,10 +13,10 @@ module TestKDFK_TestVectors {
   import opened TestKDF
 
   // UTF-8 encoded "aws-kms-hierarchy"
-const PURPOSE : UTF8.ValidUTF8Bytes := 
-  var s := [0x61, 0x77, 0x73, 0x2d, 0x6b, 0x6d, 0x73, 0x2d, 0x68, 0x69, 0x65, 0x72, 0x61, 0x72, 0x63, 0x68, 0x79];
-  assert s == UTF8.EncodeAscii("aws-kms-hierarchy");
-  s
+  const PURPOSE : UTF8.ValidUTF8Bytes :=
+    var s := [0x61, 0x77, 0x73, 0x2d, 0x6b, 0x6d, 0x73, 0x2d, 0x68, 0x69, 0x65, 0x72, 0x61, 0x72, 0x63, 0x68, 0x79];
+    assert s == UTF8.EncodeAscii("aws-kms-hierarchy");
+    s
   // https://tiny.amazon.com/bhksn4so
   const rawTestVectors: seq<InternalTestVector> := [b1, b2, b3, b4, b5, b6, b7, b8, b9, b10]
 

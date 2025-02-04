@@ -51,15 +51,15 @@ module Fixtures {
     output := Success(map i <- decodedEncryptionContext :: i.0.value := i.1.value);
   }
 
-const abc : UTF8.ValidUTF8Bytes := 
-  var s := [0x61, 0x62, 0x63];
-  assert s == UTF8.EncodeAscii("abc");
-  s
+  const abc : UTF8.ValidUTF8Bytes :=
+    var s := [0x61, 0x62, 0x63];
+    assert s == UTF8.EncodeAscii("abc");
+    s
 
-const x123 : UTF8.ValidUTF8Bytes := 
-  var s := [0x31, 0x32, 0x33];
-  assert s == UTF8.EncodeAscii("123");
-  s
+  const x123 : UTF8.ValidUTF8Bytes :=
+    var s := [0x31, 0x32, 0x33];
+    assert s == UTF8.EncodeAscii("123");
+    s
 
   // The following are test resources that exist in tests accounts:
 

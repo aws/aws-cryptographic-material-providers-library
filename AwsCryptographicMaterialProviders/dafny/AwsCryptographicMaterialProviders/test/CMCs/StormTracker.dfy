@@ -59,35 +59,35 @@ module  {:options "/functionSyntax:4"} TestStormTracker {
     )
   }
 
-const abc : UTF8.ValidUTF8Bytes := 
-  var s := [0x61, 0x62, 0x63];
-  assert s == UTF8.EncodeAscii("abc");
-  s
+  const abc : UTF8.ValidUTF8Bytes :=
+    var s := [0x61, 0x62, 0x63];
+    assert s == UTF8.EncodeAscii("abc");
+    s
 
-const cde : UTF8.ValidUTF8Bytes := 
-  var s := [0x63, 0x64, 0x65];
-  assert s == UTF8.EncodeAscii("cde");
-  s
+  const cde : UTF8.ValidUTF8Bytes :=
+    var s := [0x63, 0x64, 0x65];
+    assert s == UTF8.EncodeAscii("cde");
+    s
 
-  const one : UTF8.ValidUTF8Bytes := 
-  var s := [0x6f, 0x6e, 0x65];
-  assert s == UTF8.EncodeAscii("one");
-  s
+  const one : UTF8.ValidUTF8Bytes :=
+    var s := [0x6f, 0x6e, 0x65];
+    assert s == UTF8.EncodeAscii("one");
+    s
 
-const two : UTF8.ValidUTF8Bytes := 
-  var s := [0x74, 0x77, 0x6f];
-  assert s == UTF8.EncodeAscii("two");
-  s
+  const two : UTF8.ValidUTF8Bytes :=
+    var s := [0x74, 0x77, 0x6f];
+    assert s == UTF8.EncodeAscii("two");
+    s
 
-const three : UTF8.ValidUTF8Bytes := 
-  var s := [0x74, 0x68, 0x72, 0x65, 0x65];
-  assert s == UTF8.EncodeAscii("three");
-  s
+  const three : UTF8.ValidUTF8Bytes :=
+    var s := [0x74, 0x68, 0x72, 0x65, 0x65];
+    assert s == UTF8.EncodeAscii("three");
+    s
 
-const four : UTF8.ValidUTF8Bytes := 
-  var s := [0x66, 0x6f, 0x75, 0x72];
-  assert s == UTF8.EncodeAscii("four");
-  s
+  const four : UTF8.ValidUTF8Bytes :=
+    var s := [0x66, 0x6f, 0x75, 0x72];
+    assert s == UTF8.EncodeAscii("four");
+    s
 
 
   method {:test} StormTrackerBasics() {

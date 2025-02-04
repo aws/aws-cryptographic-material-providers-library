@@ -47,15 +47,15 @@ module  {:options "/functionSyntax:4"} TestLocalCMC {
     )
   }
 
-const abc : UTF8.ValidUTF8Bytes := 
-  var s := [0x61, 0x62, 0x63];
-  assert s == UTF8.EncodeAscii("abc");
-  s
+  const abc : UTF8.ValidUTF8Bytes :=
+    var s := [0x61, 0x62, 0x63];
+    assert s == UTF8.EncodeAscii("abc");
+    s
 
-const cde : UTF8.ValidUTF8Bytes := 
-  var s := [0x63, 0x64, 0x65];
-  assert s == UTF8.EncodeAscii("cde");
-  s
+  const cde : UTF8.ValidUTF8Bytes :=
+    var s := [0x63, 0x64, 0x65];
+    assert s == UTF8.EncodeAscii("cde");
+    s
 
   method {:test} LocalCMCBasics() {
     var st := new LocalCMC(100);
