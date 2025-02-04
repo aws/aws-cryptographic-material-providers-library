@@ -1784,10 +1784,6 @@ func com_amazonaws_dynamodb_BatchExecuteStatementInput_ReturnConsumedCapacity_To
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnConsumedCapacity_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -1839,10 +1835,6 @@ func com_amazonaws_dynamodb_BatchStatementError_Code_ToDafny(input types.BatchSt
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_BatchStatementErrorCodeEnum_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2272,10 +2264,6 @@ func com_amazonaws_dynamodb_BatchGetItemInput_ReturnConsumedCapacity_ToDafny(inp
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnConsumedCapacity_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2491,10 +2479,6 @@ func com_amazonaws_dynamodb_BatchWriteItemInput_ReturnConsumedCapacity_ToDafny(i
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnConsumedCapacity_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2516,10 +2500,6 @@ func com_amazonaws_dynamodb_BatchWriteItemInput_ReturnItemCollectionMetrics_ToDa
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnItemCollectionMetrics_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2745,7 +2725,6 @@ func com_amazonaws_dynamodb_BackupDetails_BackupStatus_ToDafny(input types.Backu
 			if enumVal == input {
 				break
 			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_BackupStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2767,7 +2746,6 @@ func com_amazonaws_dynamodb_BackupDetails_BackupType_ToDafny(input types.BackupT
 			if enumVal == input {
 				break
 			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_BackupType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2887,10 +2865,6 @@ func com_amazonaws_dynamodb_ReplicaDescription_ReplicaStatus_ToDafny(input types
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReplicaStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -3042,10 +3016,6 @@ func com_amazonaws_dynamodb_TableClassSummary_TableClass_ToDafny(input types.Tab
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_TableClass_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -3096,10 +3066,6 @@ func com_amazonaws_dynamodb_GlobalTableDescription_GlobalTableStatus_ToDafny(inp
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_GlobalTableStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -3160,7 +3126,6 @@ func com_amazonaws_dynamodb_AttributeDefinition_AttributeType_ToDafny(input type
 			if enumVal == input {
 				break
 			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ScalarAttributeType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -3221,7 +3186,6 @@ func com_amazonaws_dynamodb_KeySchemaElement_KeyType_ToDafny(input types.KeyType
 			if enumVal == input {
 				break
 			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_KeyType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -3296,10 +3260,6 @@ func com_amazonaws_dynamodb_Projection_ProjectionType_ToDafny(input types.Projec
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ProjectionType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -3449,10 +3409,6 @@ func com_amazonaws_dynamodb_CreateTableInput_BillingMode_ToDafny(input types.Bil
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_BillingMode_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -3501,10 +3457,6 @@ func com_amazonaws_dynamodb_StreamSpecification_StreamViewType_ToDafny(input typ
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_StreamViewType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -3544,10 +3496,6 @@ func com_amazonaws_dynamodb_SSESpecification_SSEType_ToDafny(input types.SSEType
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_SSEType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -3617,10 +3565,6 @@ func com_amazonaws_dynamodb_CreateTableInput_TableClass_ToDafny(input types.Tabl
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_TableClass_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -3715,10 +3659,6 @@ func com_amazonaws_dynamodb_TableDescription_TableStatus_ToDafny(input types.Tab
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_TableStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -3851,10 +3791,6 @@ func com_amazonaws_dynamodb_BillingModeSummary_BillingMode_ToDafny(input types.B
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_BillingMode_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -4019,10 +3955,6 @@ func com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_IndexStatus_ToDafny(
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_IndexStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -4203,10 +4135,6 @@ func com_amazonaws_dynamodb_SSEDescription_Status_ToDafny(input types.SSEStatus)
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_SSEStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -4228,10 +4156,6 @@ func com_amazonaws_dynamodb_SSEDescription_SSEType_ToDafny(input types.SSEType) 
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_SSEType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -4459,10 +4383,6 @@ func com_amazonaws_dynamodb_SourceTableDetails_BillingMode_ToDafny(input types.B
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_BillingMode_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -4635,10 +4555,6 @@ func com_amazonaws_dynamodb_TimeToLiveDescription_TimeToLiveStatus_ToDafny(input
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_TimeToLiveStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -4772,10 +4688,6 @@ func com_amazonaws_dynamodb_ExpectedAttributeValue_ComparisonOperator_ToDafny(in
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ComparisonOperator_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -4851,10 +4763,6 @@ func com_amazonaws_dynamodb_DeleteItemInput_ConditionalOperator_ToDafny(input ty
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ConditionalOperator_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -4876,10 +4784,6 @@ func com_amazonaws_dynamodb_DeleteItemInput_ReturnValues_ToDafny(input types.Ret
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnValue_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -4901,10 +4805,6 @@ func com_amazonaws_dynamodb_DeleteItemInput_ReturnConsumedCapacity_ToDafny(input
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnConsumedCapacity_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -4926,10 +4826,6 @@ func com_amazonaws_dynamodb_DeleteItemInput_ReturnItemCollectionMetrics_ToDafny(
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnItemCollectionMetrics_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -5139,7 +5035,6 @@ func com_amazonaws_dynamodb_ContinuousBackupsDescription_ContinuousBackupsStatus
 			if enumVal == input {
 				break
 			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ContinuousBackupsStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -5170,10 +5065,6 @@ func com_amazonaws_dynamodb_PointInTimeRecoveryDescription_PointInTimeRecoverySt
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_PointInTimeRecoveryStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -5272,10 +5163,6 @@ func com_amazonaws_dynamodb_DescribeContributorInsightsOutput_ContributorInsight
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ContributorInsightsStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -5398,10 +5285,6 @@ func com_amazonaws_dynamodb_ExportDescription_ExportStatus_ToDafny(input types.E
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ExportStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -5516,10 +5399,6 @@ func com_amazonaws_dynamodb_ExportDescription_S3SseAlgorithm_ToDafny(input types
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_S3SseAlgorithm_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -5568,10 +5447,6 @@ func com_amazonaws_dynamodb_ExportDescription_ExportFormat_ToDafny(input types.E
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ExportFormat_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -5611,10 +5486,6 @@ func com_amazonaws_dynamodb_ExportDescription_ExportType_ToDafny(input types.Exp
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ExportType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -5665,10 +5536,6 @@ func com_amazonaws_dynamodb_IncrementalExportSpecification_ExportViewType_ToDafn
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ExportViewType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -5756,10 +5623,6 @@ func com_amazonaws_dynamodb_ReplicaSettingsDescription_ReplicaStatus_ToDafny(inp
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReplicaStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -5974,10 +5837,6 @@ func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsDescription_Index
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_IndexStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -6071,10 +5930,6 @@ func com_amazonaws_dynamodb_ImportTableDescription_ImportStatus_ToDafny(input ty
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ImportStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -6175,10 +6030,6 @@ func com_amazonaws_dynamodb_ImportTableDescription_InputFormat_ToDafny(input typ
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_InputFormat_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -6248,10 +6099,6 @@ func com_amazonaws_dynamodb_ImportTableDescription_InputCompressionType_ToDafny(
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_InputCompressionType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -6319,10 +6166,6 @@ func com_amazonaws_dynamodb_TableCreationParameters_BillingMode_ToDafny(input ty
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_BillingMode_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -6494,10 +6337,6 @@ func com_amazonaws_dynamodb_KinesisDataStreamDestination_DestinationStatus_ToDaf
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_DestinationStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -6528,10 +6367,6 @@ func com_amazonaws_dynamodb_KinesisDataStreamDestination_ApproximateCreationDate
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ApproximateCreationDateTimePrecision_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -6634,10 +6469,6 @@ func com_amazonaws_dynamodb_TableAutoScalingDescription_TableStatus_ToDafny(inpu
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_TableStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -6719,10 +6550,6 @@ func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingDescription_In
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_IndexStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -6780,10 +6607,6 @@ func com_amazonaws_dynamodb_ReplicaAutoScalingDescription_ReplicaStatus_ToDafny(
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReplicaStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -6850,10 +6673,6 @@ func com_amazonaws_dynamodb_EnableKinesisStreamingConfiguration_ApproximateCreat
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ApproximateCreationDateTimePrecision_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -6893,10 +6712,6 @@ func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput_Destination
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_DestinationStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -6972,10 +6787,6 @@ func com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput_DestinationS
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_DestinationStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -7047,10 +6858,6 @@ func com_amazonaws_dynamodb_ExecuteStatementInput_ReturnConsumedCapacity_ToDafny
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnConsumedCapacity_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -7177,10 +6984,6 @@ func com_amazonaws_dynamodb_ExecuteTransactionInput_ReturnConsumedCapacity_ToDaf
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnConsumedCapacity_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -7303,10 +7106,6 @@ func com_amazonaws_dynamodb_ExportTableToPointInTimeInput_S3SseAlgorithm_ToDafny
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_S3SseAlgorithm_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -7337,10 +7136,6 @@ func com_amazonaws_dynamodb_ExportTableToPointInTimeInput_ExportFormat_ToDafny(i
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ExportFormat_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -7362,10 +7157,6 @@ func com_amazonaws_dynamodb_ExportTableToPointInTimeInput_ExportType_ToDafny(inp
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ExportType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -7448,10 +7239,6 @@ func com_amazonaws_dynamodb_GetItemInput_ReturnConsumedCapacity_ToDafny(input ty
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnConsumedCapacity_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -7558,7 +7345,6 @@ func com_amazonaws_dynamodb_ImportTableInput_InputFormat_ToDafny(input types.Inp
 			if enumVal == input {
 				break
 			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_InputFormat_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -7589,10 +7375,6 @@ func com_amazonaws_dynamodb_ImportTableInput_InputCompressionType_ToDafny(input 
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_InputCompressionType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -7679,10 +7461,6 @@ func com_amazonaws_dynamodb_ListBackupsInput_BackupType_ToDafny(input types.Back
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_BackupTypeFilter_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -7790,10 +7568,6 @@ func com_amazonaws_dynamodb_BackupSummary_BackupStatus_ToDafny(input types.Backu
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_BackupStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -7815,10 +7589,6 @@ func com_amazonaws_dynamodb_BackupSummary_BackupType_ToDafny(input types.BackupT
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_BackupType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -7922,10 +7692,6 @@ func com_amazonaws_dynamodb_ContributorInsightsSummary_ContributorInsightsStatus
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ContributorInsightsStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -8013,10 +7779,6 @@ func com_amazonaws_dynamodb_ExportSummary_ExportStatus_ToDafny(input types.Expor
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ExportStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -8038,10 +7800,6 @@ func com_amazonaws_dynamodb_ExportSummary_ExportType_ToDafny(input types.ExportT
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ExportType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -8209,10 +7967,6 @@ func com_amazonaws_dynamodb_ImportSummary_ImportStatus_ToDafny(input types.Impor
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ImportStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -8261,10 +8015,6 @@ func com_amazonaws_dynamodb_ImportSummary_InputFormat_ToDafny(input types.InputF
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_InputFormat_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -8435,10 +8185,6 @@ func com_amazonaws_dynamodb_PutItemInput_ReturnValues_ToDafny(input types.Return
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnValue_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -8460,10 +8206,6 @@ func com_amazonaws_dynamodb_PutItemInput_ReturnConsumedCapacity_ToDafny(input ty
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnConsumedCapacity_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -8485,10 +8227,6 @@ func com_amazonaws_dynamodb_PutItemInput_ReturnItemCollectionMetrics_ToDafny(inp
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnItemCollectionMetrics_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -8510,10 +8248,6 @@ func com_amazonaws_dynamodb_PutItemInput_ConditionalOperator_ToDafny(input types
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ConditionalOperator_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -8656,10 +8390,6 @@ func com_amazonaws_dynamodb_QueryInput_Select_ToDafny(input types.Select) Wrappe
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_Select_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -8752,7 +8482,6 @@ func com_amazonaws_dynamodb_Condition_ComparisonOperator_ToDafny(input types.Com
 			if enumVal == input {
 				break
 			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ComparisonOperator_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -8799,10 +8528,6 @@ func com_amazonaws_dynamodb_QueryInput_ConditionalOperator_ToDafny(input types.C
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ConditionalOperator_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -8844,10 +8569,6 @@ func com_amazonaws_dynamodb_QueryInput_ReturnConsumedCapacity_ToDafny(input type
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnConsumedCapacity_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -8984,10 +8705,6 @@ func com_amazonaws_dynamodb_RestoreTableFromBackupInput_BillingModeOverride_ToDa
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_BillingMode_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -9119,10 +8836,6 @@ func com_amazonaws_dynamodb_RestoreTableToPointInTimeInput_BillingModeOverride_T
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_BillingMode_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -9249,10 +8962,6 @@ func com_amazonaws_dynamodb_ScanInput_Select_ToDafny(input types.Select) Wrapper
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_Select_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -9285,10 +8994,6 @@ func com_amazonaws_dynamodb_ScanInput_ConditionalOperator_ToDafny(input types.Co
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ConditionalOperator_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -9321,10 +9026,6 @@ func com_amazonaws_dynamodb_ScanInput_ReturnConsumedCapacity_ToDafny(input types
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnConsumedCapacity_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -9554,10 +9255,6 @@ func com_amazonaws_dynamodb_TransactGetItemsInput_ReturnConsumedCapacity_ToDafny
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnConsumedCapacity_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -9688,10 +9385,6 @@ func com_amazonaws_dynamodb_ConditionCheck_ReturnValuesOnConditionCheckFailure_T
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnValuesOnConditionCheckFailure_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -9773,10 +9466,6 @@ func com_amazonaws_dynamodb_Put_ReturnValuesOnConditionCheckFailure_ToDafny(inpu
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnValuesOnConditionCheckFailure_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -9858,10 +9547,6 @@ func com_amazonaws_dynamodb_Delete_ReturnValuesOnConditionCheckFailure_ToDafny(i
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnValuesOnConditionCheckFailure_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -9952,10 +9637,6 @@ func com_amazonaws_dynamodb_Update_ReturnValuesOnConditionCheckFailure_ToDafny(i
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnValuesOnConditionCheckFailure_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -9977,10 +9658,6 @@ func com_amazonaws_dynamodb_TransactWriteItemsInput_ReturnConsumedCapacity_ToDaf
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnConsumedCapacity_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -10002,10 +9679,6 @@ func com_amazonaws_dynamodb_TransactWriteItemsInput_ReturnItemCollectionMetrics_
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnItemCollectionMetrics_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -10145,7 +9818,6 @@ func com_amazonaws_dynamodb_UpdateContributorInsightsInput_ContributorInsightsAc
 			if enumVal == input {
 				break
 			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ContributorInsightsAction_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -10185,10 +9857,6 @@ func com_amazonaws_dynamodb_UpdateContributorInsightsOutput_ContributorInsightsS
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ContributorInsightsStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -10294,10 +9962,6 @@ func com_amazonaws_dynamodb_UpdateGlobalTableSettingsInput_GlobalTableBillingMod
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_BillingMode_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -10587,10 +10251,6 @@ func com_amazonaws_dynamodb_ReplicaSettingsUpdate_ReplicaTableClass_ToDafny(inpu
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_TableClass_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -10720,10 +10380,6 @@ func com_amazonaws_dynamodb_AttributeValueUpdate_Action_ToDafny(input types.Attr
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_AttributeAction_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -10756,10 +10412,6 @@ func com_amazonaws_dynamodb_UpdateItemInput_ConditionalOperator_ToDafny(input ty
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ConditionalOperator_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -10781,10 +10433,6 @@ func com_amazonaws_dynamodb_UpdateItemInput_ReturnValues_ToDafny(input types.Ret
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnValue_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -10806,10 +10454,6 @@ func com_amazonaws_dynamodb_UpdateItemInput_ReturnConsumedCapacity_ToDafny(input
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnConsumedCapacity_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -10831,10 +10475,6 @@ func com_amazonaws_dynamodb_UpdateItemInput_ReturnItemCollectionMetrics_ToDafny(
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnItemCollectionMetrics_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -10952,10 +10592,6 @@ func com_amazonaws_dynamodb_UpdateKinesisStreamingConfiguration_ApproximateCreat
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ApproximateCreationDateTimePrecision_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -10995,10 +10631,6 @@ func com_amazonaws_dynamodb_UpdateKinesisStreamingDestinationOutput_DestinationS
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_DestinationStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -11052,10 +10684,6 @@ func com_amazonaws_dynamodb_UpdateTableInput_BillingMode_ToDafny(input types.Bil
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_BillingMode_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -11352,10 +10980,6 @@ func com_amazonaws_dynamodb_CreateReplicationGroupMemberAction_TableClassOverrid
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_TableClass_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -11436,10 +11060,6 @@ func com_amazonaws_dynamodb_UpdateReplicationGroupMemberAction_TableClassOverrid
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_TableClass_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -11479,10 +11099,6 @@ func com_amazonaws_dynamodb_UpdateTableInput_TableClass_ToDafny(input types.Tabl
 			if enumVal == input {
 				break
 			}
-			if index == len(input.Values()) {
-				return Wrappers.Companion_Option_.Create_None_()
-			}
-
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_TableClass_{}.AllSingletonConstructors()), 0; i < index; i++ {
