@@ -68,16 +68,28 @@ module Constants {
     s
 
   // UTF-8 Encoded "aws-kms-ecdh"
-  const KMS_ECDH_PROVIDER_ID: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii("aws-kms-ecdh")
+  const KMS_ECDH_PROVIDER_ID: UTF8.ValidUTF8Bytes := 
+    var s := [0x61, 0x77, 0x73, 0x2d, 0x6b, 0x6d, 0x73, 0x2d, 0x65, 0x63, 0x64, 0x68];
+    assert s == UTF8.EncodeAscii("aws-kms-ecdh");
+    s
 
   // UTF-8 Encoded "raw-ecdh"
-  const RAW_ECDH_PROVIDER_ID: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii("raw-ecdh")
+  const RAW_ECDH_PROVIDER_ID : UTF8.ValidUTF8Bytes := 
+    var s := [0x72, 0x61, 0x77, 0x2d, 0x65, 0x63, 0x64, 0x68];
+    assert s == UTF8.EncodeAscii("raw-ecdh");
+    s
 
   // UTF-8 Encoded "HMAC_SHA384"
-  const ECDH_KDF_PRF_NAME: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii("HMAC_SHA384")
+  const ECDH_KDF_PRF_NAME : UTF8.ValidUTF8Bytes := 
+    var s := [0x48, 0x4d, 0x41, 0x43, 0x5f, 0x53, 0x48, 0x41, 0x33, 0x38, 0x34];
+    assert s == UTF8.EncodeAscii("HMAC_SHA384");
+    s
 
   // UTF-8 Encoded "ecdh-key-derivation"
-  const ECDH_KDF_UTF8: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii("ecdh-key-derivation")
+const ECDH_KDF_UTF8 : UTF8.ValidUTF8Bytes := 
+  var s := [0x65, 0x63, 0x64, 0x68, 0x2d, 0x6b, 0x65, 0x79, 0x2d, 0x64, 0x65, 0x72, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e];
+  assert s == UTF8.EncodeAscii("ecdh-key-derivation");
+  s
 
   type AwsKmsEncryptedDataKey = edk: Types.EncryptedDataKey |
       && edk.keyProviderId == PROVIDER_ID

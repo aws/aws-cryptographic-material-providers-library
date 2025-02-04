@@ -806,7 +806,7 @@ module AwsKmsHierarchicalKeyring {
         UTF8.IsASCIIString(branchKeyVersion),
         E("Unable to represent as an ASCII string.")
       );
-      var versionBytes := UTF8.EncodeAscii(branchKeyVersion);
+      var versionBytes :- UTF8.Encode(branchKeyVersion).MapFailure(e => Types.AwsCryptographicMaterialProvidersException(message := e));
 
       // Create the suffix
       var suffix : seq<uint8> := logicalKeyStoreNameBytes + NULL_BYTE + branchKeyIdUtf8 + NULL_BYTE + versionBytes;

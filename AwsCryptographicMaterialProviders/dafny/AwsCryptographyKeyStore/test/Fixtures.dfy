@@ -51,6 +51,15 @@ module Fixtures {
     output := Success(map i <- decodedEncryptionContext :: i.0.value := i.1.value);
   }
 
+const abc : UTF8.ValidUTF8Bytes := 
+  var s := [0x61, 0x62, 0x63];
+  assert s == UTF8.EncodeAscii("abc");
+  s
+
+const x123 : UTF8.ValidUTF8Bytes := 
+  var s := [0x31, 0x32, 0x33];
+  assert s == UTF8.EncodeAscii("123");
+  s
 
   // The following are test resources that exist in tests accounts:
 
@@ -85,7 +94,7 @@ module Fixtures {
   const KmsSrkConfigEast : Types.KMSConfiguration := Types.KMSConfiguration.kmsKeyArn(MrkArnEast)
   const KmsSrkConfigWest : Types.KMSConfiguration := Types.KMSConfiguration.kmsKeyArn(MrkArnWest)
   const KmsMrkConfigAP : Types.KMSConfiguration := Types.KMSConfiguration.kmsMRKeyArn(MrkArnAP)
-  const KmsMrkEC : Types.EncryptionContext := map[UTF8.EncodeAscii("abc") := UTF8.EncodeAscii("123")]
+  const KmsMrkEC : Types.EncryptionContext := map[abc := x123]
   const EastBranchKey : string := "MyEastBranch2"
   const WestBranchKey : string := "MyWestBranch2"
   const publicKeyArn := "arn:aws:kms:us-west-2:658956600833:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f"
