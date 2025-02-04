@@ -59,11 +59,40 @@ module  {:options "/functionSyntax:4"} TestStormTracker {
     )
   }
 
+  const abc : UTF8.ValidUTF8Bytes :=
+    var s := [0x61, 0x62, 0x63];
+    assert s == UTF8.EncodeAscii("abc");
+    s
+
+  const cde : UTF8.ValidUTF8Bytes :=
+    var s := [0x63, 0x64, 0x65];
+    assert s == UTF8.EncodeAscii("cde");
+    s
+
+  const one : UTF8.ValidUTF8Bytes :=
+    var s := [0x6f, 0x6e, 0x65];
+    assert s == UTF8.EncodeAscii("one");
+    s
+
+  const two : UTF8.ValidUTF8Bytes :=
+    var s := [0x74, 0x77, 0x6f];
+    assert s == UTF8.EncodeAscii("two");
+    s
+
+  const three : UTF8.ValidUTF8Bytes :=
+    var s := [0x74, 0x68, 0x72, 0x65, 0x65];
+    assert s == UTF8.EncodeAscii("three");
+    s
+
+  const four : UTF8.ValidUTF8Bytes :=
+    var s := [0x66, 0x6f, 0x75, 0x72];
+    assert s == UTF8.EncodeAscii("four");
+    s
+
+
   method {:test} StormTrackerBasics() {
     var st := new StormTracker(DefaultStorm());
 
-    var abc := UTF8.EncodeAscii("abc");
-    var cde := UTF8.EncodeAscii("cde");
     var res :- expect st.GetFromCacheWithTime(MakeGet(abc), 10000);
     expect res.EmptyFetch?;
     res :- expect st.GetFromCacheWithTime(MakeGet(abc), 10000);
@@ -92,12 +121,6 @@ module  {:options "/functionSyntax:4"} TestStormTracker {
   method {:test} StormTrackerFanOut()
   {
     var st := new StormTracker(DefaultStorm().(fanOut := 3));
-
-    var one := UTF8.EncodeAscii("one");
-    var two := UTF8.EncodeAscii("two");
-    var three := UTF8.EncodeAscii("three");
-    var four := UTF8.EncodeAscii("four");
-
     var res :- expect st.GetFromCacheWithTime(MakeGet(one), 10000);
     expect res.EmptyFetch?;
     res :- expect st.GetFromCacheWithTime(MakeGet(two), 10000);
@@ -111,12 +134,6 @@ module  {:options "/functionSyntax:4"} TestStormTracker {
   method {:test} StormTrackerPruneTTL()
   {
     var st := new StormTracker(DefaultStorm().(graceInterval := 3, fanOut := 3, inFlightTTL := 5));
-
-    var one := UTF8.EncodeAscii("one");
-    var two := UTF8.EncodeAscii("two");
-    var three := UTF8.EncodeAscii("three");
-    var four := UTF8.EncodeAscii("four");
-
     var res :- expect st.GetFromCacheWithTime(MakeGet(one), 10000);
     expect res.EmptyFetch?;
     res :- expect st.GetFromCacheWithTime(MakeGet(two), 10000);
@@ -139,9 +156,6 @@ module  {:options "/functionSyntax:4"} TestStormTracker {
   method {:test} StormTrackerGraceInterval()
   {
     var st := new StormTracker(DefaultStorm().(graceInterval := 3));
-
-    var one := UTF8.EncodeAscii("one");
-
     var res :- expect st.GetFromCacheWithTime(MakeGet(one), 10000);
     expect res.EmptyFetch?;
     res :- expect st.GetFromCacheWithTime(MakeGet(one), 10000);
@@ -158,8 +172,6 @@ module  {:options "/functionSyntax:4"} TestStormTracker {
   {
     // The cache is full, we wait for the graceInterval
     // regardless of the inFlightTTL
-
-    var one := UTF8.EncodeAscii("one");
 
     var st := new StormTracker(DefaultStorm().(graceInterval := 2, inFlightTTL := 3, gracePeriod := 5));
     // This entry will be in the cache until ms:   11000
@@ -199,8 +211,6 @@ module  {:options "/functionSyntax:4"} TestStormTracker {
     var insideGracePeriod := expiryTime - config.gracePeriod as Types.PositiveLong + 1;
     var st := new StormTracker(config);
 
-    var one := UTF8.EncodeAscii("one");
-
     var res2 :- expect st.PutCacheEntry(MakePut(one, expiryTime));
 
     var res :- expect st.GetFromCacheWithTime(MakeGet(one), beforeGracePeriod);
@@ -216,7 +226,6 @@ module  {:options "/functionSyntax:4"} TestStormTracker {
     // The cache is empty, we wait for the least
     // duration between graceInterval and inFlightTTL
     // for empty identifiers
-    var one := UTF8.EncodeAscii("one");
 
     var st := new StormTracker(DefaultStorm().(graceInterval := 2, inFlightTTL := 3));
 
