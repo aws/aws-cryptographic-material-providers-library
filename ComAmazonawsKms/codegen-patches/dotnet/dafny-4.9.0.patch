@@ -1,5 +1,5 @@
 diff --git a/ComAmazonawsKms/runtimes/net/Generated/TypeConversion.cs b/ComAmazonawsKms/runtimes/net/Generated/TypeConversion.cs
-index 0752a1dbb..036e47143 100644
+index f318f1f3c..036e47143 100644
 --- a/ComAmazonawsKms/runtimes/net/Generated/TypeConversion.cs
 +++ b/ComAmazonawsKms/runtimes/net/Generated/TypeConversion.cs
 @@ -31,6 +31,32 @@ namespace Com.Amazonaws.Kms
@@ -1790,7 +1790,7 @@ index 0752a1dbb..036e47143 100644
 -        public static System.DateTime FromDafny_N3_com__N9_amazonaws__N3_kms__S8_DateType(Dafny.ISequence<char> value)
 -        {
 -            string timestampString = new string(value.Elements);
--            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }.ToString(), System.Globalization.CultureInfo.InvariantCulture);
+-            return System.DateTime.ParseExact(timestampString, new[] { ISO8601DateFormat, ISO8601DateFormatNoMS }, System.Globalization.CultureInfo.InvariantCulture);
 -
 -        }
 -        public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S8_DateType(System.DateTime value)

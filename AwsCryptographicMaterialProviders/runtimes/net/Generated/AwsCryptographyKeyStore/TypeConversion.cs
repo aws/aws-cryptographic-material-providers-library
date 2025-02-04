@@ -779,9 +779,9 @@ namespace AWS.Cryptography.KeyStore
       {
         case "Com.Amazonaws.KMS":
           return software.amazon.cryptography.keystore.internaldafny.types.Error.create_ComAmazonawsKms(
-            // BEGIN MANUAL EDIT
+          // BEGIN MANUAL EDIT
             Com.Amazonaws.Kms.TypeConversion.ToDafny_CommonError(value)
-            // END MANUAL EDIT
+          // END MANUAL EDIT
           );
         case "Com.Amazonaws.Dynamodb":
           return software.amazon.cryptography.keystore.internaldafny.types.Error.create_ComAmazonawsDynamodb(
