@@ -399,6 +399,9 @@ structure InitializeMutationOutput {
 
   @required
   InitializeMutationFlag: InitializeMutationFlag
+
+  @required
+  LastModifiedTime: String
 }
 
 // TODO: assert release is v1.9.0

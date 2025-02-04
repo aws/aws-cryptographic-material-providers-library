@@ -66,7 +66,8 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   datatype InitializeMutationOutput = | InitializeMutationOutput (
     nameonly MutationToken: MutationToken ,
     nameonly MutatedBranchKeyItems: MutatedBranchKeyItems ,
-    nameonly InitializeMutationFlag: InitializeMutationFlag
+    nameonly InitializeMutationFlag: InitializeMutationFlag ,
+    nameonly LastModifiedTime: string
   )
   datatype KeyManagementStrategy =
     | AwsKmsReEncrypt(AwsKmsReEncrypt: AwsCryptographyKeyStoreTypes.AwsKms)

@@ -946,6 +946,11 @@ public class ToNative {
         dafnyValue.dtor_PageIndex()
       )
     );
+    nativeBuilder.LastModifiedTime(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_LastModifiedTime()
+      )
+    );
     nativeBuilder.CiphertextBlob(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
         dafnyValue.dtor_CiphertextBlob()

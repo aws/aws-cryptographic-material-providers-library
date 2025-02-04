@@ -25,6 +25,7 @@ module {:options "/functionSyntax:4" } Structure {
   const M_INPUT := "input" // The DDB Attribute name for the input, which is AttributeValue.B
   const M_UUID := "uuid" // The DDB Attribute name for the uuid, which is AttributeValue.S
   const M_PAGE_INDEX := "pageIndex" // The DDB Attribute name for the pageIndex, which is AttributeValue.B
+  const M_LAST_MODIFIED_TIME := "lastModifiedTime" // The DDB Attribute name for the lastModifiedTime, which is AttributeValue.S
 
   const AWS_CRYPTO_EC := "aws-crypto-ec"
   const ENCRYPTION_CONTEXT_PREFIX := AWS_CRYPTO_EC + ":"
@@ -840,7 +841,7 @@ module {:options "/functionSyntax:4" } Structure {
        // Structure & DefaultKeyStorage care that these are non-empty Byte Fields.
     && ENC_FIELD in m && m[ENC_FIELD].B? && 0 < |m[ENC_FIELD].B|
     && M_PAGE_INDEX in m && m[M_PAGE_INDEX].B? && 0 < |m[M_PAGE_INDEX].B|
-
+    && M_LAST_MODIFIED_TIME in m && m[M_LAST_MODIFIED_TIME].S?
     && m.Keys == {
                    TYPE_FIELD,
                    HIERARCHY_VERSION,
@@ -848,6 +849,7 @@ module {:options "/functionSyntax:4" } Structure {
                    KEY_CREATE_TIME,
                    M_UUID,
                    M_PAGE_INDEX,
+                   M_LAST_MODIFIED_TIME,
                    ENC_FIELD
                  }
   }
@@ -871,6 +873,7 @@ module {:options "/functionSyntax:4" } Structure {
       CreateTime := item[KEY_CREATE_TIME].S,
       UUID := item[M_UUID].S,
       PageIndex := item[M_PAGE_INDEX].B,
+      LastModifiedTime := item[M_LAST_MODIFIED_TIME].S,
       CiphertextBlob := item[ENC_FIELD].B
     )
   }
@@ -888,6 +891,7 @@ module {:options "/functionSyntax:4" } Structure {
       KEY_CREATE_TIME := DDB.AttributeValue.S(index.CreateTime),
       M_UUID := DDB.AttributeValue.S(index.UUID),
       M_PAGE_INDEX := DDB.AttributeValue.B(index.PageIndex),
+      M_LAST_MODIFIED_TIME := DDB.AttributeValue.S(index.LastModifiedTime),
       ENC_FIELD := DDB.AttributeValue.B(index.CiphertextBlob)
     ]
   }

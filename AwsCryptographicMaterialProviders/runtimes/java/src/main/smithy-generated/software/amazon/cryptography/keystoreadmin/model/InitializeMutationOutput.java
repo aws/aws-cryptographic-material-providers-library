@@ -20,10 +20,13 @@ public class InitializeMutationOutput {
 
   private final InitializeMutationFlag InitializeMutationFlag;
 
+  private final String LastModifiedTime;
+
   protected InitializeMutationOutput(BuilderImpl builder) {
     this.MutationToken = builder.MutationToken();
     this.MutatedBranchKeyItems = builder.MutatedBranchKeyItems();
     this.InitializeMutationFlag = builder.InitializeMutationFlag();
+    this.LastModifiedTime = builder.LastModifiedTime();
   }
 
   /**
@@ -42,6 +45,10 @@ public class InitializeMutationOutput {
 
   public InitializeMutationFlag InitializeMutationFlag() {
     return this.InitializeMutationFlag;
+  }
+
+  public String LastModifiedTime() {
+    return this.LastModifiedTime;
   }
 
   public Builder toBuilder() {
@@ -81,6 +88,10 @@ public class InitializeMutationOutput {
 
     InitializeMutationFlag InitializeMutationFlag();
 
+    Builder LastModifiedTime(String LastModifiedTime);
+
+    String LastModifiedTime();
+
     InitializeMutationOutput build();
   }
 
@@ -92,12 +103,15 @@ public class InitializeMutationOutput {
 
     protected InitializeMutationFlag InitializeMutationFlag;
 
+    protected String LastModifiedTime;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(InitializeMutationOutput model) {
       this.MutationToken = model.MutationToken();
       this.MutatedBranchKeyItems = model.MutatedBranchKeyItems();
       this.InitializeMutationFlag = model.InitializeMutationFlag();
+      this.LastModifiedTime = model.LastModifiedTime();
     }
 
     public Builder MutationToken(MutationToken MutationToken) {
@@ -131,6 +145,15 @@ public class InitializeMutationOutput {
       return this.InitializeMutationFlag;
     }
 
+    public Builder LastModifiedTime(String LastModifiedTime) {
+      this.LastModifiedTime = LastModifiedTime;
+      return this;
+    }
+
+    public String LastModifiedTime() {
+      return this.LastModifiedTime;
+    }
+
     public InitializeMutationOutput build() {
       if (Objects.isNull(this.MutationToken())) {
         throw new IllegalArgumentException(
@@ -145,6 +168,11 @@ public class InitializeMutationOutput {
       if (Objects.isNull(this.InitializeMutationFlag())) {
         throw new IllegalArgumentException(
           "Missing value for required field `InitializeMutationFlag`"
+        );
+      }
+      if (Objects.isNull(this.LastModifiedTime())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `LastModifiedTime`"
         );
       }
       return new InitializeMutationOutput(this);

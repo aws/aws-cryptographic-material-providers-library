@@ -28,6 +28,8 @@ public class MutationIndex {
 
   private final ByteBuffer PageIndex;
 
+  private final String LastModifiedTime;
+
   private final ByteBuffer CiphertextBlob;
 
   protected MutationIndex(BuilderImpl builder) {
@@ -35,6 +37,7 @@ public class MutationIndex {
     this.CreateTime = builder.CreateTime();
     this.UUID = builder.UUID();
     this.PageIndex = builder.PageIndex();
+    this.LastModifiedTime = builder.LastModifiedTime();
     this.CiphertextBlob = builder.CiphertextBlob();
   }
 
@@ -61,6 +64,10 @@ public class MutationIndex {
 
   public ByteBuffer PageIndex() {
     return this.PageIndex;
+  }
+
+  public String LastModifiedTime() {
+    return this.LastModifiedTime;
   }
 
   public ByteBuffer CiphertextBlob() {
@@ -110,6 +117,10 @@ public class MutationIndex {
 
     ByteBuffer PageIndex();
 
+    Builder LastModifiedTime(String LastModifiedTime);
+
+    String LastModifiedTime();
+
     Builder CiphertextBlob(ByteBuffer CiphertextBlob);
 
     ByteBuffer CiphertextBlob();
@@ -127,6 +138,8 @@ public class MutationIndex {
 
     protected ByteBuffer PageIndex;
 
+    protected String LastModifiedTime;
+
     protected ByteBuffer CiphertextBlob;
 
     protected BuilderImpl() {}
@@ -136,6 +149,7 @@ public class MutationIndex {
       this.CreateTime = model.CreateTime();
       this.UUID = model.UUID();
       this.PageIndex = model.PageIndex();
+      this.LastModifiedTime = model.LastModifiedTime();
       this.CiphertextBlob = model.CiphertextBlob();
     }
 
@@ -175,6 +189,15 @@ public class MutationIndex {
       return this.PageIndex;
     }
 
+    public Builder LastModifiedTime(String LastModifiedTime) {
+      this.LastModifiedTime = LastModifiedTime;
+      return this;
+    }
+
+    public String LastModifiedTime() {
+      return this.LastModifiedTime;
+    }
+
     public Builder CiphertextBlob(ByteBuffer CiphertextBlob) {
       this.CiphertextBlob = CiphertextBlob;
       return this;
@@ -203,6 +226,11 @@ public class MutationIndex {
       if (Objects.isNull(this.PageIndex())) {
         throw new IllegalArgumentException(
           "Missing value for required field `PageIndex`"
+        );
+      }
+      if (Objects.isNull(this.LastModifiedTime())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `LastModifiedTime`"
         );
       }
       if (Objects.isNull(this.CiphertextBlob())) {
