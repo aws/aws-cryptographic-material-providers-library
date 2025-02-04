@@ -588,7 +588,8 @@ module {:options "/functionSyntax:4" } LocalCMC {
 
         assert MutableMapIsInjective(cache) by {
           // Since the map values are themselves heap objects, we need to check that they too are unchanged
-          assert forall k <- cache.Keys() :: old(allocated(cache.Select(k))) && unchanged(cache.Select(k));
+          assert forall k <- cache.Keys() :: old(allocated(cache.Select(k)));
+          assert forall k <- cache.Keys() :: unchanged(cache.Select(k));
           assert MutableMapIsInjective(old@CAN_REMOVE(cache));
 
           assert MutableMapContains(old@CAN_REMOVE(cache), cache);
