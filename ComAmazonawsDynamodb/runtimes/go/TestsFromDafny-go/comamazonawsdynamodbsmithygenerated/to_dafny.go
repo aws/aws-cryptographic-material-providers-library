@@ -1643,7 +1643,9 @@ func com_amazonaws_dynamodb_BinarySetAttributeValue_member_ToDafny(input []byte)
 
 func com_amazonaws_dynamodb_AttributeValue_M_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_MapAttributeValue_key_ToDafny(key), com_amazonaws_dynamodb_MapAttributeValue_value_ToDafny(val))
@@ -1876,7 +1878,9 @@ func com_amazonaws_dynamodb_BatchStatementResponse_TableName_ToDafny(input *stri
 
 func com_amazonaws_dynamodb_BatchStatementResponse_Item_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_AttributeMap_key_ToDafny(key), com_amazonaws_dynamodb_AttributeMap_value_ToDafny(val))
@@ -2069,7 +2073,9 @@ func com_amazonaws_dynamodb_Capacity_CapacityUnits_ToDafny(input *float64) Wrapp
 
 func com_amazonaws_dynamodb_ConsumedCapacity_LocalSecondaryIndexes_ToDafny(input map[string]types.Capacity) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_SecondaryIndexesCapacityMap_key_ToDafny(key), com_amazonaws_dynamodb_SecondaryIndexesCapacityMap_value_ToDafny(val))
@@ -2094,7 +2100,9 @@ func com_amazonaws_dynamodb_SecondaryIndexesCapacityMap_value_ToDafny(input type
 
 func com_amazonaws_dynamodb_ConsumedCapacity_GlobalSecondaryIndexes_ToDafny(input map[string]types.Capacity) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_SecondaryIndexesCapacityMap_key_ToDafny(key), com_amazonaws_dynamodb_SecondaryIndexesCapacityMap_value_ToDafny(val))
@@ -2241,7 +2249,9 @@ func com_amazonaws_dynamodb_KeysAndAttributes_ProjectionExpression_ToDafny(input
 
 func com_amazonaws_dynamodb_KeysAndAttributes_ExpressionAttributeNames_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpressionAttributeNameMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpressionAttributeNameMap_value_ToDafny(val))
@@ -2291,7 +2301,9 @@ func com_amazonaws_dynamodb_BatchGetItemInput_ReturnConsumedCapacity_ToDafny(inp
 
 func com_amazonaws_dynamodb_BatchGetItemOutput_Responses_ToDafny(input map[string][]map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_BatchGetResponseMap_key_ToDafny(key), com_amazonaws_dynamodb_BatchGetResponseMap_value_ToDafny(val))
@@ -2334,7 +2346,9 @@ func com_amazonaws_dynamodb_ItemList_member_ToDafny(input map[string]types.Attri
 
 func com_amazonaws_dynamodb_BatchGetItemOutput_UnprocessedKeys_ToDafny(input map[string]types.KeysAndAttributes) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_BatchGetRequestMap_key_ToDafny(key), com_amazonaws_dynamodb_BatchGetRequestMap_value_ToDafny(val))
@@ -2535,7 +2549,9 @@ func com_amazonaws_dynamodb_BatchWriteItemInput_ReturnItemCollectionMetrics_ToDa
 
 func com_amazonaws_dynamodb_BatchWriteItemOutput_UnprocessedItems_ToDafny(input map[string][]types.WriteRequest) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_BatchWriteItemRequestMap_key_ToDafny(key), com_amazonaws_dynamodb_BatchWriteItemRequestMap_value_ToDafny(val))
@@ -2546,7 +2562,9 @@ func com_amazonaws_dynamodb_BatchWriteItemOutput_UnprocessedItems_ToDafny(input 
 
 func com_amazonaws_dynamodb_BatchWriteItemOutput_ItemCollectionMetrics_ToDafny(input map[string][]types.ItemCollectionMetrics) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ItemCollectionMetricsPerTable_key_ToDafny(key), com_amazonaws_dynamodb_ItemCollectionMetricsPerTable_value_ToDafny(val))
@@ -2585,7 +2603,9 @@ func com_amazonaws_dynamodb_ItemCollectionMetricsMultiple_member_ToDafny(input t
 
 func com_amazonaws_dynamodb_ItemCollectionMetrics_ItemCollectionKey_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ItemCollectionKeyAttributeMap_key_ToDafny(key), com_amazonaws_dynamodb_ItemCollectionKeyAttributeMap_value_ToDafny(val))
@@ -4692,7 +4712,9 @@ func com_amazonaws_dynamodb_DeleteItemInput_Key_ToDafny(input map[string]types.A
 
 func com_amazonaws_dynamodb_DeleteItemInput_Expected_ToDafny(input map[string]types.ExpectedAttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpectedAttributeMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpectedAttributeMap_value_ToDafny(val))
@@ -4954,7 +4976,9 @@ func com_amazonaws_dynamodb_DeleteItemInput_ConditionExpression_ToDafny(input *s
 
 func com_amazonaws_dynamodb_DeleteItemInput_ExpressionAttributeNames_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpressionAttributeNameMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpressionAttributeNameMap_value_ToDafny(val))
@@ -4965,7 +4989,9 @@ func com_amazonaws_dynamodb_DeleteItemInput_ExpressionAttributeNames_ToDafny(inp
 
 func com_amazonaws_dynamodb_DeleteItemInput_ExpressionAttributeValues_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpressionAttributeValueMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpressionAttributeValueMap_value_ToDafny(val))
@@ -5023,7 +5049,9 @@ func com_amazonaws_dynamodb_ExpressionAttributeValueMap_value_ToDafny(input type
 
 func com_amazonaws_dynamodb_DeleteItemOutput_Attributes_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_AttributeMap_key_ToDafny(key), com_amazonaws_dynamodb_AttributeMap_value_ToDafny(val))
@@ -7107,7 +7135,9 @@ func com_amazonaws_dynamodb_ExecuteStatementOutput_ConsumedCapacity_ToDafny(inpu
 
 func com_amazonaws_dynamodb_ExecuteStatementOutput_LastEvaluatedKey_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_Key_key_ToDafny(key), com_amazonaws_dynamodb_Key_value_ToDafny(val))
@@ -7217,7 +7247,9 @@ func com_amazonaws_dynamodb_ItemResponseList_member_ToDafny(input types.ItemResp
 
 func com_amazonaws_dynamodb_ItemResponse_Item_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_AttributeMap_key_ToDafny(key), com_amazonaws_dynamodb_AttributeMap_value_ToDafny(val))
@@ -7476,7 +7508,9 @@ func com_amazonaws_dynamodb_GetItemInput_ProjectionExpression_ToDafny(input *str
 
 func com_amazonaws_dynamodb_GetItemInput_ExpressionAttributeNames_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpressionAttributeNameMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpressionAttributeNameMap_value_ToDafny(val))
@@ -7487,7 +7521,9 @@ func com_amazonaws_dynamodb_GetItemInput_ExpressionAttributeNames_ToDafny(input 
 
 func com_amazonaws_dynamodb_GetItemOutput_Item_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_AttributeMap_key_ToDafny(key), com_amazonaws_dynamodb_AttributeMap_value_ToDafny(val))
@@ -8418,7 +8454,9 @@ func com_amazonaws_dynamodb_PutItemInput_Item_ToDafny(input map[string]types.Att
 
 func com_amazonaws_dynamodb_PutItemInput_Expected_ToDafny(input map[string]types.ExpectedAttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpectedAttributeMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpectedAttributeMap_value_ToDafny(val))
@@ -8538,7 +8576,9 @@ func com_amazonaws_dynamodb_PutItemInput_ConditionExpression_ToDafny(input *stri
 
 func com_amazonaws_dynamodb_PutItemInput_ExpressionAttributeNames_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpressionAttributeNameMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpressionAttributeNameMap_value_ToDafny(val))
@@ -8549,7 +8589,9 @@ func com_amazonaws_dynamodb_PutItemInput_ExpressionAttributeNames_ToDafny(input 
 
 func com_amazonaws_dynamodb_PutItemInput_ExpressionAttributeValues_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpressionAttributeValueMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpressionAttributeValueMap_value_ToDafny(val))
@@ -8560,7 +8602,9 @@ func com_amazonaws_dynamodb_PutItemInput_ExpressionAttributeValues_ToDafny(input
 
 func com_amazonaws_dynamodb_PutItemOutput_Attributes_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_AttributeMap_key_ToDafny(key), com_amazonaws_dynamodb_AttributeMap_value_ToDafny(val))
@@ -8707,7 +8751,9 @@ func com_amazonaws_dynamodb_QueryInput_ConsistentRead_ToDafny(input *bool) Wrapp
 
 func com_amazonaws_dynamodb_QueryInput_KeyConditions_ToDafny(input map[string]types.Condition) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_KeyConditions_key_ToDafny(key), com_amazonaws_dynamodb_KeyConditions_value_ToDafny(val))
@@ -8768,7 +8814,9 @@ func com_amazonaws_dynamodb_Condition_ComparisonOperator_ToDafny(input types.Com
 
 func com_amazonaws_dynamodb_QueryInput_QueryFilter_ToDafny(input map[string]types.Condition) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_FilterConditionMap_key_ToDafny(key), com_amazonaws_dynamodb_FilterConditionMap_value_ToDafny(val))
@@ -8827,7 +8875,9 @@ func com_amazonaws_dynamodb_QueryInput_ScanIndexForward_ToDafny(input *bool) Wra
 
 func com_amazonaws_dynamodb_QueryInput_ExclusiveStartKey_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_Key_key_ToDafny(key), com_amazonaws_dynamodb_Key_value_ToDafny(val))
@@ -8890,7 +8940,9 @@ func com_amazonaws_dynamodb_QueryInput_KeyConditionExpression_ToDafny(input *str
 
 func com_amazonaws_dynamodb_QueryInput_ExpressionAttributeNames_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpressionAttributeNameMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpressionAttributeNameMap_value_ToDafny(val))
@@ -8901,7 +8953,9 @@ func com_amazonaws_dynamodb_QueryInput_ExpressionAttributeNames_ToDafny(input ma
 
 func com_amazonaws_dynamodb_QueryInput_ExpressionAttributeValues_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpressionAttributeValueMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpressionAttributeValueMap_value_ToDafny(val))
@@ -8940,7 +8994,9 @@ func com_amazonaws_dynamodb_QueryOutput_ScannedCount_ToDafny(input int32) Wrappe
 
 func com_amazonaws_dynamodb_QueryOutput_LastEvaluatedKey_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_Key_key_ToDafny(key), com_amazonaws_dynamodb_Key_value_ToDafny(val))
@@ -9268,7 +9324,9 @@ func com_amazonaws_dynamodb_ScanInput_Select_ToDafny(input types.Select) Wrapper
 
 func com_amazonaws_dynamodb_ScanInput_ScanFilter_ToDafny(input map[string]types.Condition) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_FilterConditionMap_key_ToDafny(key), com_amazonaws_dynamodb_FilterConditionMap_value_ToDafny(val))
@@ -9304,7 +9362,9 @@ func com_amazonaws_dynamodb_ScanInput_ConditionalOperator_ToDafny(input types.Co
 
 func com_amazonaws_dynamodb_ScanInput_ExclusiveStartKey_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_Key_key_ToDafny(key), com_amazonaws_dynamodb_Key_value_ToDafny(val))
@@ -9376,7 +9436,9 @@ func com_amazonaws_dynamodb_ScanInput_FilterExpression_ToDafny(input *string) Wr
 
 func com_amazonaws_dynamodb_ScanInput_ExpressionAttributeNames_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpressionAttributeNameMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpressionAttributeNameMap_value_ToDafny(val))
@@ -9387,7 +9449,9 @@ func com_amazonaws_dynamodb_ScanInput_ExpressionAttributeNames_ToDafny(input map
 
 func com_amazonaws_dynamodb_ScanInput_ExpressionAttributeValues_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpressionAttributeValueMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpressionAttributeValueMap_value_ToDafny(val))
@@ -9435,7 +9499,9 @@ func com_amazonaws_dynamodb_ScanOutput_ScannedCount_ToDafny(input int32) Wrapper
 
 func com_amazonaws_dynamodb_ScanOutput_LastEvaluatedKey_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_Key_key_ToDafny(key), com_amazonaws_dynamodb_Key_value_ToDafny(val))
@@ -9537,7 +9603,9 @@ func com_amazonaws_dynamodb_Get_ProjectionExpression_ToDafny(input *string) Wrap
 
 func com_amazonaws_dynamodb_Get_ExpressionAttributeNames_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpressionAttributeNameMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpressionAttributeNameMap_value_ToDafny(val))
@@ -9660,7 +9728,9 @@ func com_amazonaws_dynamodb_ConditionCheck_ConditionExpression_ToDafny(input *st
 
 func com_amazonaws_dynamodb_ConditionCheck_ExpressionAttributeNames_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpressionAttributeNameMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpressionAttributeNameMap_value_ToDafny(val))
@@ -9671,7 +9741,9 @@ func com_amazonaws_dynamodb_ConditionCheck_ExpressionAttributeNames_ToDafny(inpu
 
 func com_amazonaws_dynamodb_ConditionCheck_ExpressionAttributeValues_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpressionAttributeValueMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpressionAttributeValueMap_value_ToDafny(val))
@@ -9745,7 +9817,9 @@ func com_amazonaws_dynamodb_Put_ConditionExpression_ToDafny(input *string) Wrapp
 
 func com_amazonaws_dynamodb_Put_ExpressionAttributeNames_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpressionAttributeNameMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpressionAttributeNameMap_value_ToDafny(val))
@@ -9756,7 +9830,9 @@ func com_amazonaws_dynamodb_Put_ExpressionAttributeNames_ToDafny(input map[strin
 
 func com_amazonaws_dynamodb_Put_ExpressionAttributeValues_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpressionAttributeValueMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpressionAttributeValueMap_value_ToDafny(val))
@@ -9830,7 +9906,9 @@ func com_amazonaws_dynamodb_Delete_ConditionExpression_ToDafny(input *string) Wr
 
 func com_amazonaws_dynamodb_Delete_ExpressionAttributeNames_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpressionAttributeNameMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpressionAttributeNameMap_value_ToDafny(val))
@@ -9841,7 +9919,9 @@ func com_amazonaws_dynamodb_Delete_ExpressionAttributeNames_ToDafny(input map[st
 
 func com_amazonaws_dynamodb_Delete_ExpressionAttributeValues_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpressionAttributeValueMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpressionAttributeValueMap_value_ToDafny(val))
@@ -9924,7 +10004,9 @@ func com_amazonaws_dynamodb_Update_ConditionExpression_ToDafny(input *string) Wr
 
 func com_amazonaws_dynamodb_Update_ExpressionAttributeNames_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpressionAttributeNameMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpressionAttributeNameMap_value_ToDafny(val))
@@ -9935,7 +10017,9 @@ func com_amazonaws_dynamodb_Update_ExpressionAttributeNames_ToDafny(input map[st
 
 func com_amazonaws_dynamodb_Update_ExpressionAttributeValues_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpressionAttributeValueMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpressionAttributeValueMap_value_ToDafny(val))
@@ -10044,7 +10128,9 @@ func com_amazonaws_dynamodb_TransactWriteItemsOutput_ConsumedCapacity_ToDafny(in
 
 func com_amazonaws_dynamodb_TransactWriteItemsOutput_ItemCollectionMetrics_ToDafny(input map[string][]types.ItemCollectionMetrics) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ItemCollectionMetricsPerTable_key_ToDafny(key), com_amazonaws_dynamodb_ItemCollectionMetricsPerTable_value_ToDafny(val))
@@ -10649,7 +10735,9 @@ func com_amazonaws_dynamodb_UpdateItemInput_Key_ToDafny(input map[string]types.A
 
 func com_amazonaws_dynamodb_UpdateItemInput_AttributeUpdates_ToDafny(input map[string]types.AttributeValueUpdate) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_AttributeUpdates_key_ToDafny(key), com_amazonaws_dynamodb_AttributeUpdates_value_ToDafny(val))
@@ -10739,7 +10827,9 @@ func com_amazonaws_dynamodb_AttributeValueUpdate_Action_ToDafny(input types.Attr
 
 func com_amazonaws_dynamodb_UpdateItemInput_Expected_ToDafny(input map[string]types.ExpectedAttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpectedAttributeMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpectedAttributeMap_value_ToDafny(val))
@@ -10868,7 +10958,9 @@ func com_amazonaws_dynamodb_UpdateItemInput_ConditionExpression_ToDafny(input *s
 
 func com_amazonaws_dynamodb_UpdateItemInput_ExpressionAttributeNames_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpressionAttributeNameMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpressionAttributeNameMap_value_ToDafny(val))
@@ -10879,7 +10971,9 @@ func com_amazonaws_dynamodb_UpdateItemInput_ExpressionAttributeNames_ToDafny(inp
 
 func com_amazonaws_dynamodb_UpdateItemInput_ExpressionAttributeValues_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_ExpressionAttributeValueMap_key_ToDafny(key), com_amazonaws_dynamodb_ExpressionAttributeValueMap_value_ToDafny(val))
@@ -10890,7 +10984,9 @@ func com_amazonaws_dynamodb_UpdateItemInput_ExpressionAttributeValues_ToDafny(in
 
 func com_amazonaws_dynamodb_UpdateItemOutput_Attributes_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_AttributeMap_key_ToDafny(key), com_amazonaws_dynamodb_AttributeMap_value_ToDafny(val))
@@ -11741,7 +11837,9 @@ func com_amazonaws_dynamodb_ConditionalCheckFailedException_message_ToDafny(inpu
 
 func com_amazonaws_dynamodb_ConditionalCheckFailedException_Item_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_AttributeMap_key_ToDafny(key), com_amazonaws_dynamodb_AttributeMap_value_ToDafny(val))
@@ -12025,7 +12123,9 @@ func com_amazonaws_dynamodb_CancellationReasonList_member_ToDafny(input types.Ca
 
 func com_amazonaws_dynamodb_CancellationReason_Item_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_dynamodb_AttributeMap_key_ToDafny(key), com_amazonaws_dynamodb_AttributeMap_value_ToDafny(val))

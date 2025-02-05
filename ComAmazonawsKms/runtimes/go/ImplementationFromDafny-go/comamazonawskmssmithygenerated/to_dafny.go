@@ -1715,7 +1715,9 @@ func com_amazonaws_kms_CreateGrantRequest_Constraints_ToDafny(input *types.Grant
 
 func com_amazonaws_kms_GrantConstraints_EncryptionContextSubset_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_kms_EncryptionContextType_key_ToDafny(key), com_amazonaws_kms_EncryptionContextType_value_ToDafny(val))
@@ -1740,7 +1742,9 @@ func com_amazonaws_kms_EncryptionContextType_value_ToDafny(input string) dafny.S
 
 func com_amazonaws_kms_GrantConstraints_EncryptionContextEquals_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_kms_EncryptionContextType_key_ToDafny(key), com_amazonaws_kms_EncryptionContextType_value_ToDafny(val))
@@ -2549,7 +2553,9 @@ func com_amazonaws_kms_DecryptRequest_CiphertextBlob_ToDafny(input []byte) dafny
 
 func com_amazonaws_kms_DecryptRequest_EncryptionContext_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_kms_EncryptionContextType_key_ToDafny(key), com_amazonaws_kms_EncryptionContextType_value_ToDafny(val))
@@ -3284,7 +3290,9 @@ func com_amazonaws_kms_EncryptRequest_Plaintext_ToDafny(input []byte) dafny.Sequ
 
 func com_amazonaws_kms_EncryptRequest_EncryptionContext_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_kms_EncryptionContextType_key_ToDafny(key), com_amazonaws_kms_EncryptionContextType_value_ToDafny(val))
@@ -3399,7 +3407,9 @@ func com_amazonaws_kms_GenerateDataKeyRequest_KeyId_ToDafny(input *string) dafny
 
 func com_amazonaws_kms_GenerateDataKeyRequest_EncryptionContext_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_kms_EncryptionContextType_key_ToDafny(key), com_amazonaws_kms_EncryptionContextType_value_ToDafny(val))
@@ -3524,7 +3534,9 @@ func com_amazonaws_kms_GenerateDataKeyResponse_CiphertextForRecipient_ToDafny(in
 
 func com_amazonaws_kms_GenerateDataKeyPairRequest_EncryptionContext_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_kms_EncryptionContextType_key_ToDafny(key), com_amazonaws_kms_EncryptionContextType_value_ToDafny(val))
@@ -3684,7 +3696,9 @@ func com_amazonaws_kms_GenerateDataKeyPairResponse_CiphertextForRecipient_ToDafn
 
 func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextRequest_EncryptionContext_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_kms_EncryptionContextType_key_ToDafny(key), com_amazonaws_kms_EncryptionContextType_value_ToDafny(val))
@@ -3818,7 +3832,9 @@ func com_amazonaws_kms_GenerateDataKeyWithoutPlaintextRequest_KeyId_ToDafny(inpu
 
 func com_amazonaws_kms_GenerateDataKeyWithoutPlaintextRequest_EncryptionContext_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_kms_EncryptionContextType_key_ToDafny(key), com_amazonaws_kms_EncryptionContextType_value_ToDafny(val))
@@ -5124,7 +5140,9 @@ func com_amazonaws_kms_ReEncryptRequest_CiphertextBlob_ToDafny(input []byte) daf
 
 func com_amazonaws_kms_ReEncryptRequest_SourceEncryptionContext_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_kms_EncryptionContextType_key_ToDafny(key), com_amazonaws_kms_EncryptionContextType_value_ToDafny(val))
@@ -5153,7 +5171,9 @@ func com_amazonaws_kms_ReEncryptRequest_DestinationKeyId_ToDafny(input *string) 
 
 func com_amazonaws_kms_ReEncryptRequest_DestinationEncryptionContext_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(com_amazonaws_kms_EncryptionContextType_key_ToDafny(key), com_amazonaws_kms_EncryptionContextType_value_ToDafny(val))
