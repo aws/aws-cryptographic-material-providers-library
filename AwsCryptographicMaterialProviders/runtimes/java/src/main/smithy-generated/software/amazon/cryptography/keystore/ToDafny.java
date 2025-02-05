@@ -910,6 +910,11 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
         nativeValue.PageIndex()
       );
+    DafnySequence<? extends Character> lastModifiedTime;
+    lastModifiedTime =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.LastModifiedTime()
+      );
     DafnySequence<? extends Byte> ciphertextBlob;
     ciphertextBlob =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
@@ -920,6 +925,7 @@ public class ToDafny {
       createTime,
       uUID,
       pageIndex,
+      lastModifiedTime,
       ciphertextBlob
     );
   }

@@ -11,6 +11,7 @@ namespace AWS.Cryptography.KeyStore
     private string _createTime;
     private string _uUID;
     private System.IO.MemoryStream _pageIndex;
+    private string _lastModifiedTime;
     private System.IO.MemoryStream _ciphertextBlob;
     public string Identifier
     {
@@ -48,6 +49,15 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._pageIndex != null;
     }
+    public string LastModifiedTime
+    {
+      get { return this._lastModifiedTime; }
+      set { this._lastModifiedTime = value; }
+    }
+    public bool IsSetLastModifiedTime()
+    {
+      return this._lastModifiedTime != null;
+    }
     public System.IO.MemoryStream CiphertextBlob
     {
       get { return this._ciphertextBlob; }
@@ -63,6 +73,7 @@ namespace AWS.Cryptography.KeyStore
       if (!IsSetCreateTime()) throw new System.ArgumentException("Missing value for required property 'CreateTime'");
       if (!IsSetUUID()) throw new System.ArgumentException("Missing value for required property 'UUID'");
       if (!IsSetPageIndex()) throw new System.ArgumentException("Missing value for required property 'PageIndex'");
+      if (!IsSetLastModifiedTime()) throw new System.ArgumentException("Missing value for required property 'LastModifiedTime'");
       if (!IsSetCiphertextBlob()) throw new System.ArgumentException("Missing value for required property 'CiphertextBlob'");
 
     }

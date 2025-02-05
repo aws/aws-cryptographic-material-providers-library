@@ -409,6 +409,11 @@ public class ToNative {
     nativeBuilder.InitializeMutationFlag(
       ToNative.InitializeMutationFlag(dafnyValue.dtor_InitializeMutationFlag())
     );
+    nativeBuilder.LastModifiedTime(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_LastModifiedTime()
+      )
+    );
     return nativeBuilder.build();
   }
 
