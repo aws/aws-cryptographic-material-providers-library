@@ -30,7 +30,7 @@ SMITHY_DEPS=model
 GO_MODULE_NAME="github.com/aws/aws-cryptographic-material-providers-library/releases/go/dynamodb"
 
 GO_DEPENDENCY_MODULE_NAMES := \
-	--dependency-library-name=sdk.com.amazonaws.dynamodb=github.com/aws/aws-sdk-go-v2/service/dynamodb \
+	--go-dependency-module-name=sdk.com.amazonaws.dynamodb=github.com/aws/aws-sdk-go-v2/service/dynamodb \
 
 TRANSLATION_RECORD_GO := \
     StandardLibrary/runtimes/go/ImplementationFromDafny-go/ImplementationFromDafny-go.dtr
