@@ -235,8 +235,8 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
         message:="ExclusiveStartKey returned by Key Store's Storage is not valid UTF-8 Byte Sequence."));
     var lastModifiedTime? := Time.GetCurrentTimeStamp();
     var lastModifiedTime :- lastModifiedTime?
-      .MapFailure(e => Types.KeyStoreAdminException(
-                      message := "Could not generate a timestamp: " + e));
+    .MapFailure(e => Types.KeyStoreAdminException(
+                    message := "Could not generate a timestamp: " + e));
     var newIndex :- StateStrucs.SerializeMutationIndex(MutationToApply, Some(queryOut.ExclusiveStartKey), lastModifiedTime);
     var signedNewIndex :- SystemKeyHandler.SignIndex(newIndex, SystemKey);
 

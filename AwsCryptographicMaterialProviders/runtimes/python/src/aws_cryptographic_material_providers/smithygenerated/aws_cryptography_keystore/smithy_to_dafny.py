@@ -469,6 +469,16 @@ def aws_cryptography_keystore_MutationIndex(native_input):
             )
         ),
         PageIndex=Seq(native_input.page_index),
+        LastModifiedTime=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.last_modified_time.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
         CiphertextBlob=Seq(native_input.ciphertext_blob),
     )
 

@@ -1676,6 +1676,7 @@ class InitializeMutationOutput:
     mutation_token: MutationToken
     mutated_branch_key_items: list[MutatedBranchKeyItem]
     initialize_mutation_flag: str
+    last_modified_time: str
 
     def __init__(
         self,
@@ -1683,6 +1684,7 @@ class InitializeMutationOutput:
         mutation_token: MutationToken,
         mutated_branch_key_items: list[MutatedBranchKeyItem],
         initialize_mutation_flag: str,
+        last_modified_time: str,
     ):
         """
         :param mutation_token: Pass the Mutation Token to the Apply Mutation operation
@@ -1693,6 +1695,7 @@ class InitializeMutationOutput:
         self.mutation_token = mutation_token
         self.mutated_branch_key_items = mutated_branch_key_items
         self.initialize_mutation_flag = initialize_mutation_flag
+        self.last_modified_time = last_modified_time
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the InitializeMutationOutput to a dictionary."""
@@ -1702,6 +1705,7 @@ class InitializeMutationOutput:
                 self.mutated_branch_key_items
             ),
             "initialize_mutation_flag": self.initialize_mutation_flag,
+            "last_modified_time": self.last_modified_time,
         }
 
     @staticmethod
@@ -1713,6 +1717,7 @@ class InitializeMutationOutput:
                 d["mutated_branch_key_items"]
             ),
             "initialize_mutation_flag": d["initialize_mutation_flag"],
+            "last_modified_time": d["last_modified_time"],
         }
 
         return InitializeMutationOutput(**kwargs)
@@ -1728,7 +1733,12 @@ class InitializeMutationOutput:
             )
 
         if self.initialize_mutation_flag is not None:
-            result += f"initialize_mutation_flag={repr(self.initialize_mutation_flag)}"
+            result += (
+                f"initialize_mutation_flag={repr(self.initialize_mutation_flag)}, "
+            )
+
+        if self.last_modified_time is not None:
+            result += f"last_modified_time={repr(self.last_modified_time)}"
 
         return result + ")"
 
@@ -1739,6 +1749,7 @@ class InitializeMutationOutput:
             "mutation_token",
             "mutated_branch_key_items",
             "initialize_mutation_flag",
+            "last_modified_time",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 

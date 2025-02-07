@@ -494,6 +494,16 @@ def aws_cryptography_keystoreadmin_InitializeMutationOutput(native_input):
         InitializeMutationFlag=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_InitializeMutationFlag(
             native_input.initialize_mutation_flag
         ),
+        LastModifiedTime=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.last_modified_time.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
     )
 
 
