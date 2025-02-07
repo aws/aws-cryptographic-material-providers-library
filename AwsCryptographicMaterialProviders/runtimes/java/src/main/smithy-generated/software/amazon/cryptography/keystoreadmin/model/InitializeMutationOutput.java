@@ -170,11 +170,6 @@ public class InitializeMutationOutput {
           "Missing value for required field `InitializeMutationFlag`"
         );
       }
-      if (Objects.isNull(this.LastModifiedTime())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `LastModifiedTime`"
-        );
-      }
       return new InitializeMutationOutput(this);
     }
   }

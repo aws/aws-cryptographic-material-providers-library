@@ -543,7 +543,7 @@ func MutationIndex_FromDafny(input interface{}) awscryptographykeystoresmithygen
 		CreateTime:       aws_cryptography_keyStore_MutationIndex_CreateTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_CreateTime()),
 		UUID:             aws_cryptography_keyStore_MutationIndex_UUID_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_UUID()),
 		PageIndex:        aws_cryptography_keyStore_MutationIndex_PageIndex_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_PageIndex()),
-		LastModifiedTime: aws_cryptography_keyStore_MutationIndex_LastModifiedTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_LastModifiedTime()),
+		LastModifiedTime: aws_cryptography_keyStore_MutationIndex_LastModifiedTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_LastModifiedTime().UnwrapOr(nil)),
 		CiphertextBlob:   aws_cryptography_keyStore_MutationIndex_CiphertextBlob_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_CiphertextBlob()),
 	}
 
@@ -1488,7 +1488,7 @@ func aws_cryptography_keyStore_GetItemsForInitializeMutationOutput_MutationIndex
 		CreateTime:       aws_cryptography_keyStore_MutationIndex_CreateTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_CreateTime()),
 		UUID:             aws_cryptography_keyStore_MutationIndex_UUID_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_UUID()),
 		PageIndex:        aws_cryptography_keyStore_MutationIndex_PageIndex_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_PageIndex()),
-		LastModifiedTime: aws_cryptography_keyStore_MutationIndex_LastModifiedTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_LastModifiedTime()),
+		LastModifiedTime: aws_cryptography_keyStore_MutationIndex_LastModifiedTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_LastModifiedTime().UnwrapOr(nil)),
 		CiphertextBlob:   aws_cryptography_keyStore_MutationIndex_CiphertextBlob_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_CiphertextBlob()),
 	}
 }
@@ -1547,13 +1547,16 @@ func aws_cryptography_keyStore_MutationIndex_PageIndex_FromDafny(input interface
 		}
 	}()
 }
-func aws_cryptography_keyStore_MutationIndex_LastModifiedTime_FromDafny(input interface{}) string {
-	return func() string {
+func aws_cryptography_keyStore_MutationIndex_LastModifiedTime_FromDafny(input interface{}) *string {
+	return func() *string {
 		var s string
+		if input == nil {
+			return nil
+		}
 		for i := dafny.Iterate(input); ; {
 			val, ok := i()
 			if !ok {
-				return s
+				return &[]string{s}[0]
 			} else {
 				s = s + string(val.(dafny.Char))
 			}
@@ -1648,7 +1651,7 @@ func aws_cryptography_keyStore_GetMutationOutput_MutationIndex_FromDafny(input i
 		CreateTime:       aws_cryptography_keyStore_MutationIndex_CreateTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_CreateTime()),
 		UUID:             aws_cryptography_keyStore_MutationIndex_UUID_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_UUID()),
 		PageIndex:        aws_cryptography_keyStore_MutationIndex_PageIndex_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_PageIndex()),
-		LastModifiedTime: aws_cryptography_keyStore_MutationIndex_LastModifiedTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_LastModifiedTime()),
+		LastModifiedTime: aws_cryptography_keyStore_MutationIndex_LastModifiedTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_LastModifiedTime().UnwrapOr(nil)),
 		CiphertextBlob:   aws_cryptography_keyStore_MutationIndex_CiphertextBlob_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_CiphertextBlob()),
 	}
 }
@@ -1844,7 +1847,7 @@ func aws_cryptography_keyStore_WriteInitializeMutationInput_MutationIndex_FromDa
 		CreateTime:       aws_cryptography_keyStore_MutationIndex_CreateTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_CreateTime()),
 		UUID:             aws_cryptography_keyStore_MutationIndex_UUID_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_UUID()),
 		PageIndex:        aws_cryptography_keyStore_MutationIndex_PageIndex_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_PageIndex()),
-		LastModifiedTime: aws_cryptography_keyStore_MutationIndex_LastModifiedTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_LastModifiedTime()),
+		LastModifiedTime: aws_cryptography_keyStore_MutationIndex_LastModifiedTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_LastModifiedTime().UnwrapOr(nil)),
 		CiphertextBlob:   aws_cryptography_keyStore_MutationIndex_CiphertextBlob_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_CiphertextBlob()),
 	}
 }
@@ -1879,7 +1882,7 @@ func aws_cryptography_keyStore_OverWriteMutationIndex_Index_FromDafny(input inte
 		CreateTime:       aws_cryptography_keyStore_MutationIndex_CreateTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_CreateTime()),
 		UUID:             aws_cryptography_keyStore_MutationIndex_UUID_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_UUID()),
 		PageIndex:        aws_cryptography_keyStore_MutationIndex_PageIndex_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_PageIndex()),
-		LastModifiedTime: aws_cryptography_keyStore_MutationIndex_LastModifiedTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_LastModifiedTime()),
+		LastModifiedTime: aws_cryptography_keyStore_MutationIndex_LastModifiedTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_LastModifiedTime().UnwrapOr(nil)),
 		CiphertextBlob:   aws_cryptography_keyStore_MutationIndex_CiphertextBlob_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_CiphertextBlob()),
 	}
 }
@@ -1888,7 +1891,7 @@ func aws_cryptography_keyStore_OverWriteMutationIndex_Old_FromDafny(input interf
 		CreateTime:       aws_cryptography_keyStore_MutationIndex_CreateTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_CreateTime()),
 		UUID:             aws_cryptography_keyStore_MutationIndex_UUID_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_UUID()),
 		PageIndex:        aws_cryptography_keyStore_MutationIndex_PageIndex_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_PageIndex()),
-		LastModifiedTime: aws_cryptography_keyStore_MutationIndex_LastModifiedTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_LastModifiedTime()),
+		LastModifiedTime: aws_cryptography_keyStore_MutationIndex_LastModifiedTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_LastModifiedTime().UnwrapOr(nil)),
 		CiphertextBlob:   aws_cryptography_keyStore_MutationIndex_CiphertextBlob_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_CiphertextBlob()),
 	}
 }
@@ -1910,7 +1913,7 @@ func aws_cryptography_keyStore_WriteMutationIndexInput_MutationIndex_FromDafny(i
 		CreateTime:       aws_cryptography_keyStore_MutationIndex_CreateTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_CreateTime()),
 		UUID:             aws_cryptography_keyStore_MutationIndex_UUID_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_UUID()),
 		PageIndex:        aws_cryptography_keyStore_MutationIndex_PageIndex_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_PageIndex()),
-		LastModifiedTime: aws_cryptography_keyStore_MutationIndex_LastModifiedTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_LastModifiedTime()),
+		LastModifiedTime: aws_cryptography_keyStore_MutationIndex_LastModifiedTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_LastModifiedTime().UnwrapOr(nil)),
 		CiphertextBlob:   aws_cryptography_keyStore_MutationIndex_CiphertextBlob_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_CiphertextBlob()),
 	}
 }

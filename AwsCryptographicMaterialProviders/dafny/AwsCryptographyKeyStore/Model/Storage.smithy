@@ -165,9 +165,6 @@ structure MutationIndex {
   LastModifiedTime: String
 
   @required
-  LastModifiedTime: String
-
-  @required
   CiphertextBlob: Blob
 }
 

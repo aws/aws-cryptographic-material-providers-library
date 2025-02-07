@@ -1347,10 +1347,12 @@ func aws_cryptography_keyStore_MutationIndex_PageIndex_ToDafny(input []byte) daf
 	}()
 }
 
-func aws_cryptography_keyStore_MutationIndex_LastModifiedTime_ToDafny(input string) dafny.Sequence {
-	return func() dafny.Sequence {
-
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+func aws_cryptography_keyStore_MutationIndex_LastModifiedTime_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
 	}()
 }
 

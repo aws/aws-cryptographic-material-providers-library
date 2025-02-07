@@ -73,7 +73,6 @@ namespace AWS.Cryptography.KeyStore
       if (!IsSetCreateTime()) throw new System.ArgumentException("Missing value for required property 'CreateTime'");
       if (!IsSetUUID()) throw new System.ArgumentException("Missing value for required property 'UUID'");
       if (!IsSetPageIndex()) throw new System.ArgumentException("Missing value for required property 'PageIndex'");
-      if (!IsSetLastModifiedTime()) throw new System.ArgumentException("Missing value for required property 'LastModifiedTime'");
       if (!IsSetCiphertextBlob()) throw new System.ArgumentException("Missing value for required property 'CiphertextBlob'");
 
     }

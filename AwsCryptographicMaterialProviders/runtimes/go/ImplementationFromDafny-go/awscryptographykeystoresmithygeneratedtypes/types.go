@@ -551,11 +551,11 @@ type MutationIndex struct {
 
 	Identifier string
 
-	LastModifiedTime string
-
 	PageIndex []byte
 
 	UUID string
+
+	LastModifiedTime *string
 }
 
 func (input MutationIndex) Validate() error {

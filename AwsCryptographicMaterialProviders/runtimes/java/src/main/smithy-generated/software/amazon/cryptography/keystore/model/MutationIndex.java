@@ -228,11 +228,6 @@ public class MutationIndex {
           "Missing value for required field `PageIndex`"
         );
       }
-      if (Objects.isNull(this.LastModifiedTime())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `LastModifiedTime`"
-        );
-      }
       if (Objects.isNull(this.CiphertextBlob())) {
         throw new IllegalArgumentException(
           "Missing value for required field `CiphertextBlob`"
