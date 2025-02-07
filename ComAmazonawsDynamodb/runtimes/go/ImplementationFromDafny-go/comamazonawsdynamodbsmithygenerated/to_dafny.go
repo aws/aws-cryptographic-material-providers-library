@@ -2765,7 +2765,9 @@ func com_amazonaws_dynamodb_BackupDetails_BackupStatus_ToDafny(input types.Backu
 			if enumVal == input {
 				break
 			}
-			panic("Enum value input not found in enum values")
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
 
 		}
 		var enum interface{}
@@ -2788,7 +2790,9 @@ func com_amazonaws_dynamodb_BackupDetails_BackupType_ToDafny(input types.BackupT
 			if enumVal == input {
 				break
 			}
-			panic("Enum value input not found in enum values")
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
 
 		}
 		var enum interface{}
@@ -3182,7 +3186,9 @@ func com_amazonaws_dynamodb_AttributeDefinition_AttributeType_ToDafny(input type
 			if enumVal == input {
 				break
 			}
-			panic("Enum value input not found in enum values")
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
 
 		}
 		var enum interface{}
@@ -3244,7 +3250,9 @@ func com_amazonaws_dynamodb_KeySchemaElement_KeyType_ToDafny(input types.KeyType
 			if enumVal == input {
 				break
 			}
-			panic("Enum value input not found in enum values")
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
 
 		}
 		var enum interface{}
@@ -5171,7 +5179,9 @@ func com_amazonaws_dynamodb_ContinuousBackupsDescription_ContinuousBackupsStatus
 			if enumVal == input {
 				break
 			}
-			panic("Enum value input not found in enum values")
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
 
 		}
 		var enum interface{}
@@ -7599,7 +7609,9 @@ func com_amazonaws_dynamodb_ImportTableInput_InputFormat_ToDafny(input types.Inp
 			if enumVal == input {
 				break
 			}
-			panic("Enum value input not found in enum values")
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
 
 		}
 		var enum interface{}
@@ -8804,7 +8816,9 @@ func com_amazonaws_dynamodb_Condition_ComparisonOperator_ToDafny(input types.Com
 			if enumVal == input {
 				break
 			}
-			panic("Enum value input not found in enum values")
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
 
 		}
 		var enum interface{}
@@ -10238,7 +10252,9 @@ func com_amazonaws_dynamodb_UpdateContributorInsightsInput_ContributorInsightsAc
 			if enumVal == input {
 				break
 			}
-			panic("Enum value input not found in enum values")
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
 
 		}
 		var enum interface{}

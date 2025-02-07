@@ -1690,7 +1690,9 @@ func com_amazonaws_kms_GrantOperationList_member_ToDafny(input types.GrantOperat
 			if enumVal == input {
 				break
 			}
-			panic("Enum value input not found in enum values")
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
 
 		}
 		var enum interface{}
@@ -2299,7 +2301,9 @@ func com_amazonaws_kms_EncryptionAlgorithmSpecList_member_ToDafny(input types.En
 			if enumVal == input {
 				break
 			}
-			panic("Enum value input not found in enum values")
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
 
 		}
 		var enum interface{}
@@ -2336,7 +2340,9 @@ func com_amazonaws_kms_SigningAlgorithmSpecList_member_ToDafny(input types.Signi
 			if enumVal == input {
 				break
 			}
-			panic("Enum value input not found in enum values")
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
 
 		}
 		var enum interface{}
@@ -2373,7 +2379,9 @@ func com_amazonaws_kms_KeyAgreementAlgorithmSpecList_member_ToDafny(input types.
 			if enumVal == input {
 				break
 			}
-			panic("Enum value input not found in enum values")
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
 
 		}
 		var enum interface{}
@@ -2510,7 +2518,9 @@ func com_amazonaws_kms_MacAlgorithmSpecList_member_ToDafny(input types.MacAlgori
 			if enumVal == input {
 				break
 			}
-			panic("Enum value input not found in enum values")
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
 
 		}
 		var enum interface{}
@@ -2777,7 +2787,9 @@ func com_amazonaws_kms_DeriveSharedSecretRequest_KeyAgreementAlgorithm_ToDafny(i
 			if enumVal == input {
 				break
 			}
-			panic("Enum value input not found in enum values")
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
 
 		}
 		var enum interface{}
@@ -3568,7 +3580,9 @@ func com_amazonaws_kms_GenerateDataKeyPairRequest_KeyPairSpec_ToDafny(input type
 			if enumVal == input {
 				break
 			}
-			panic("Enum value input not found in enum values")
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
 
 		}
 		var enum interface{}
@@ -3731,7 +3745,9 @@ func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextRequest_KeyPairSpec_To
 			if enumVal == input {
 				break
 			}
-			panic("Enum value input not found in enum values")
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
 
 		}
 		var enum interface{}
@@ -3960,7 +3976,9 @@ func com_amazonaws_kms_GenerateMacRequest_MacAlgorithm_ToDafny(input types.MacAl
 			if enumVal == input {
 				break
 			}
-			panic("Enum value input not found in enum values")
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
 
 		}
 		var enum interface{}
@@ -4205,7 +4223,9 @@ func com_amazonaws_kms_GetParametersForImportRequest_WrappingAlgorithm_ToDafny(i
 			if enumVal == input {
 				break
 			}
-			panic("Enum value input not found in enum values")
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
 
 		}
 		var enum interface{}
@@ -4228,7 +4248,9 @@ func com_amazonaws_kms_GetParametersForImportRequest_WrappingKeySpec_ToDafny(inp
 			if enumVal == input {
 				break
 			}
-			panic("Enum value input not found in enum values")
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
 
 		}
 		var enum interface{}
@@ -5657,7 +5679,9 @@ func com_amazonaws_kms_SignRequest_SigningAlgorithm_ToDafny(input types.SigningA
 			if enumVal == input {
 				break
 			}
-			panic("Enum value input not found in enum values")
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
 
 		}
 		var enum interface{}
@@ -6000,7 +6024,9 @@ func com_amazonaws_kms_VerifyRequest_SigningAlgorithm_ToDafny(input types.Signin
 			if enumVal == input {
 				break
 			}
-			panic("Enum value input not found in enum values")
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
 
 		}
 		var enum interface{}
@@ -6109,7 +6135,9 @@ func com_amazonaws_kms_VerifyMacRequest_MacAlgorithm_ToDafny(input types.MacAlgo
 			if enumVal == input {
 				break
 			}
-			panic("Enum value input not found in enum values")
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
 
 		}
 		var enum interface{}
