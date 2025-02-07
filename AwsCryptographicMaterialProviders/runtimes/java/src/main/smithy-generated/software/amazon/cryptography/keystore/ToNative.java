@@ -946,11 +946,13 @@ public class ToNative {
         dafnyValue.dtor_PageIndex()
       )
     );
-    nativeBuilder.LastModifiedTime(
-      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
-        dafnyValue.dtor_LastModifiedTime()
-      )
-    );
+    if (dafnyValue.dtor_LastModifiedTime().is_Some()) {
+      nativeBuilder.LastModifiedTime(
+        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+          dafnyValue.dtor_LastModifiedTime().dtor_value()
+        )
+      );
+    }
     nativeBuilder.CiphertextBlob(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
         dafnyValue.dtor_CiphertextBlob()

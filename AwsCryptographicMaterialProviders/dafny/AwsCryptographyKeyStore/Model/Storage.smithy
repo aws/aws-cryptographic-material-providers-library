@@ -162,6 +162,8 @@ structure MutationIndex {
   @required
   PageIndex: Blob
 
+  LastModifiedTime: String
+
   @required
   LastModifiedTime: String
 

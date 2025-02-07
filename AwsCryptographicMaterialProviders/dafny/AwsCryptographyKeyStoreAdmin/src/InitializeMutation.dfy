@@ -371,7 +371,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
 
     var Flag: Types.InitializeMutationFlag := Types.Created();
 
-    var lastModifiedTime := timestamp;
+    var lastModifiedTime : Option<string> := Option.Some(timestamp);
 
     return Success(Types.InitializeMutationOutput(
                      MutationToken := Token,
@@ -502,7 +502,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       Identifier := commitment.Identifier,
       UUID := commitment.UUID,
       CreateTime := commitment.CreateTime);
-    var lastModifiedTime := commitment.CreateTime;
+    var lastModifiedTime : Option<string> := Option.None;
 
     if (index.None?) {
       Flag := Types.ResumedWithoutIndex();
@@ -510,10 +510,11 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       var timestamp :- timestamp?
       .MapFailure(e => Types.KeyStoreAdminException(
                       message := "Could not generate a timestamp: " + e));
+      lastModifiedTime := Option.Some(timestamp);
       var newIndex := KeyStoreTypes.MutationIndex(
         Identifier := commitment.Identifier,
         PageIndex := MutationIndexUtils.ExclusiveStartKeyToPageIndex(None),
-        LastModifiedTime := timestamp,
+        LastModifiedTime := lastModifiedTime,
         UUID := commitment.UUID,
         CreateTime := timestamp,
         CiphertextBlob := [0] // [0] is a temporary place holder, but we should fix this by creating an internal type

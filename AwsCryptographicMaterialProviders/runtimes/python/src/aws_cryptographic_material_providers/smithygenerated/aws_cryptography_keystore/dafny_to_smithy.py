@@ -242,9 +242,16 @@ def aws_cryptography_keystore_MutationIndex(dafny_input):
             "utf-16-be"
         ),
         page_index=bytes(dafny_input.PageIndex),
-        last_modified_time=b"".join(
-            ord(c).to_bytes(2, "big") for c in dafny_input.LastModifiedTime
-        ).decode("utf-16-be"),
+        last_modified_time=(
+            (
+                b"".join(
+                    ord(c).to_bytes(2, "big")
+                    for c in dafny_input.LastModifiedTime.value
+                ).decode("utf-16-be")
+            )
+            if (dafny_input.LastModifiedTime.is_Some)
+            else None
+        ),
         ciphertext_blob=bytes(dafny_input.CiphertextBlob),
     )
 

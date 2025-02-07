@@ -551,6 +551,8 @@ type MutationIndex struct {
 
 	Identifier string
 
+	LastModifiedTime string
+
 	PageIndex []byte
 
 	UUID string

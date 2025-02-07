@@ -832,7 +832,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     nameonly CreateTime: string ,
     nameonly UUID: string ,
     nameonly PageIndex: seq<uint8> ,
-    nameonly LastModifiedTime: string ,
+    nameonly LastModifiedTime: Option<string> := Option.None ,
     nameonly CiphertextBlob: seq<uint8>
   )
   datatype OverWriteEncryptedHierarchicalKey = | OverWriteEncryptedHierarchicalKey (

@@ -338,9 +338,16 @@ def aws_cryptography_keystoreadmin_InitializeMutationOutput(dafny_input):
         initialize_mutation_flag=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_InitializeMutationFlag(
             dafny_input.InitializeMutationFlag
         ),
-        last_modified_time=b"".join(
-            ord(c).to_bytes(2, "big") for c in dafny_input.LastModifiedTime
-        ).decode("utf-16-be"),
+        last_modified_time=(
+            (
+                b"".join(
+                    ord(c).to_bytes(2, "big")
+                    for c in dafny_input.LastModifiedTime.value
+                ).decode("utf-16-be")
+            )
+            if (dafny_input.LastModifiedTime.is_Some)
+            else None
+        ),
     )
 
 

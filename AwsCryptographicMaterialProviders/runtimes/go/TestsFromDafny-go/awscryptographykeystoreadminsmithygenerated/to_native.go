@@ -81,6 +81,7 @@ func InitializeMutationOutput_FromDafny(dafnyOutput AwsCryptographyKeyStoreAdmin
 	return awscryptographykeystoreadminsmithygeneratedtypes.InitializeMutationOutput{MutationToken: aws_cryptography_keyStoreAdmin_InitializeMutationOutput_MutationToken_FromDafny(dafnyOutput.Dtor_MutationToken()),
 		MutatedBranchKeyItems:  aws_cryptography_keyStoreAdmin_InitializeMutationOutput_MutatedBranchKeyItems_FromDafny(dafnyOutput.Dtor_MutatedBranchKeyItems()),
 		InitializeMutationFlag: aws_cryptography_keyStoreAdmin_InitializeMutationOutput_InitializeMutationFlag_FromDafny(dafnyOutput.Dtor_InitializeMutationFlag()),
+		LastModifiedTime:       aws_cryptography_keyStoreAdmin_InitializeMutationOutput_LastModifiedTime_FromDafny(dafnyOutput.Dtor_LastModifiedTime()),
 	}
 
 }
@@ -946,6 +947,19 @@ func aws_cryptography_keyStoreAdmin_InitializeMutationOutput_InitializeMutationF
 		}
 
 		return u.Values()[index]
+	}()
+}
+func aws_cryptography_keyStoreAdmin_InitializeMutationOutput_LastModifiedTime_FromDafny(input interface{}) string {
+	return func() string {
+		var s string
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return s
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
 	}()
 }
 func aws_cryptography_keyStoreAdmin_VersionKeyInput_Identifier_FromDafny(input interface{}) string {

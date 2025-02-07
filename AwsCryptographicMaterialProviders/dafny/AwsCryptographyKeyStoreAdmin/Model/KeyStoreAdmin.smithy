@@ -400,7 +400,6 @@ structure InitializeMutationOutput {
   @required
   InitializeMutationFlag: InitializeMutationFlag
 
-  @required
   LastModifiedTime: String
 }
 

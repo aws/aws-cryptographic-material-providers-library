@@ -303,7 +303,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
                    Identifier := MutationToApply.Identifier,
                    PageIndex := MutationIndexUtils.ExclusiveStartKeyToPageIndex(ExclusiveStartKey),
                    UUID := MutationToApply.UUID,
-                   LastModifiedTime := TimeStamp,
+                   LastModifiedTime := Option.Some(TimeStamp),
                    CreateTime := MutationToApply.CreateTime,
                    CiphertextBlob := MutationToApply.IndexCiphertext // TODO-Mutations-GA
                  );
@@ -367,7 +367,6 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
         UUID := commitment.UUID,
         CreateTime := commitment.CreateTime,
         ExclusiveStartKey := MutationIndexUtils.PageIndexToExclusiveStartKey(index.PageIndex),
-        // TODO-Modified-time: Should we deserialize LastModifiedTime?
         CommitmentCiphertext := commitment.CiphertextBlob,
         IndexCiphertext := index.CiphertextBlob,
         Input := InputMutationsFromJson(InputJson)

@@ -320,11 +320,18 @@ public class ToDafny {
     InitializeMutationFlag initializeMutationFlag;
     initializeMutationFlag =
       ToDafny.InitializeMutationFlag(nativeValue.InitializeMutationFlag());
-    DafnySequence<? extends Character> lastModifiedTime;
+    Option<DafnySequence<? extends Character>> lastModifiedTime;
     lastModifiedTime =
-      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-        nativeValue.LastModifiedTime()
-      );
+      Objects.nonNull(nativeValue.LastModifiedTime())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.LastModifiedTime()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
     return new InitializeMutationOutput(
       mutationToken,
       mutatedBranchKeyItems,

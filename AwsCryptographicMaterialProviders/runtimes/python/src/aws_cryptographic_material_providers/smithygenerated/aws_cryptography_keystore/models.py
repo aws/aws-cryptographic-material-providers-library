@@ -1515,7 +1515,7 @@ class MutationIndex:
     create_time: str
     uuid: str
     page_index: bytes | bytearray
-    last_modified_time: str
+    last_modified_time: Optional[str]
     ciphertext_blob: bytes | bytearray
 
     def __init__(
@@ -1525,8 +1525,8 @@ class MutationIndex:
         create_time: str,
         uuid: str,
         page_index: bytes | bytearray,
-        last_modified_time: str,
         ciphertext_blob: bytes | bytearray,
+        last_modified_time: Optional[str] = None,
     ):
         """Information of an in-flight Mutation of a Branch Key.
 
@@ -1538,19 +1538,23 @@ class MutationIndex:
         self.create_time = create_time
         self.uuid = uuid
         self.page_index = page_index
-        self.last_modified_time = last_modified_time
         self.ciphertext_blob = ciphertext_blob
+        self.last_modified_time = last_modified_time
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the MutationIndex to a dictionary."""
-        return {
+        d: Dict[str, Any] = {
             "identifier": self.identifier,
             "create_time": self.create_time,
             "uuid": self.uuid,
             "page_index": self.page_index,
-            "last_modified_time": self.last_modified_time,
             "ciphertext_blob": self.ciphertext_blob,
         }
+
+        if self.last_modified_time is not None:
+            d["last_modified_time"] = self.last_modified_time
+
+        return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "MutationIndex":
@@ -1560,9 +1564,11 @@ class MutationIndex:
             "create_time": d["create_time"],
             "uuid": d["uuid"],
             "page_index": d["page_index"],
-            "last_modified_time": d["last_modified_time"],
             "ciphertext_blob": d["ciphertext_blob"],
         }
+
+        if "last_modified_time" in d:
+            kwargs["last_modified_time"] = d["last_modified_time"]
 
         return MutationIndex(**kwargs)
 

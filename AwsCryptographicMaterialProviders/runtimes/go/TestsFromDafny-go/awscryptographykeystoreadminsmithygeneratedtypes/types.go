@@ -481,6 +481,8 @@ func (input InitializeMutationInput) aws_cryptography_keyStoreAdmin_InitializeMu
 type InitializeMutationOutput struct {
 	InitializeMutationFlag InitializeMutationFlag
 
+	LastModifiedTime string
+
 	MutatedBranchKeyItems []MutatedBranchKeyItem
 
 	MutationToken MutationToken

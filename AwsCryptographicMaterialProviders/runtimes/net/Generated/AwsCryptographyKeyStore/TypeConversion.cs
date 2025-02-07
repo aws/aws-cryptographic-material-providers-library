@@ -1557,14 +1557,14 @@ namespace AWS.Cryptography.KeyStore
       converted.CreateTime = (string)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex__M10_CreateTime(concrete._CreateTime);
       converted.UUID = (string)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex__M4_UUID(concrete._UUID);
       converted.PageIndex = (System.IO.MemoryStream)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex__M9_PageIndex(concrete._PageIndex);
-      converted.LastModifiedTime = (string)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex__M16_LastModifiedTime(concrete._LastModifiedTime);
+      if (concrete._LastModifiedTime.is_Some) converted.LastModifiedTime = (string)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex__M16_LastModifiedTime(concrete._LastModifiedTime);
       converted.CiphertextBlob = (System.IO.MemoryStream)FromDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex__M14_CiphertextBlob(concrete._CiphertextBlob); return converted;
     }
     public static software.amazon.cryptography.keystore.internaldafny.types._IMutationIndex ToDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex(AWS.Cryptography.KeyStore.MutationIndex value)
     {
       value.Validate();
-
-      return new software.amazon.cryptography.keystore.internaldafny.types.MutationIndex(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex__M10_Identifier(value.Identifier), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex__M10_CreateTime(value.CreateTime), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex__M4_UUID(value.UUID), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex__M9_PageIndex(value.PageIndex), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex__M16_LastModifiedTime(value.LastModifiedTime), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex__M14_CiphertextBlob(value.CiphertextBlob));
+      string var_lastModifiedTime = value.IsSetLastModifiedTime() ? value.LastModifiedTime : (string)null;
+      return new software.amazon.cryptography.keystore.internaldafny.types.MutationIndex(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex__M10_Identifier(value.Identifier), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex__M10_CreateTime(value.CreateTime), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex__M4_UUID(value.UUID), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex__M9_PageIndex(value.PageIndex), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex__M16_LastModifiedTime(var_lastModifiedTime), ToDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex__M14_CiphertextBlob(value.CiphertextBlob));
     }
     public static string FromDafny_N3_aws__N12_cryptography__N8_keyStore__S9_Utf8Bytes(Dafny.ISequence<byte> value)
     {
@@ -1995,13 +1995,13 @@ namespace AWS.Cryptography.KeyStore
     {
       return ToDafny_N6_smithy__N3_api__S4_Blob(value);
     }
-    public static string FromDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex__M16_LastModifiedTime(Dafny.ISequence<char> value)
+    public static string FromDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex__M16_LastModifiedTime(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
     {
-      return FromDafny_N6_smithy__N3_api__S6_String(value);
+      return value.is_None ? (string)null : FromDafny_N6_smithy__N3_api__S6_String(value.Extract());
     }
-    public static Dafny.ISequence<char> ToDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex__M16_LastModifiedTime(string value)
+    public static Wrappers_Compile._IOption<Dafny.ISequence<char>> ToDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex__M16_LastModifiedTime(string value)
     {
-      return ToDafny_N6_smithy__N3_api__S6_String(value);
+      return value == null ? Wrappers_Compile.Option<Dafny.ISequence<char>>.create_None() : Wrappers_Compile.Option<Dafny.ISequence<char>>.create_Some(ToDafny_N6_smithy__N3_api__S6_String((string)value));
     }
     public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N8_keyStore__S13_MutationIndex__M14_CiphertextBlob(Dafny.ISequence<byte> value)
     {
