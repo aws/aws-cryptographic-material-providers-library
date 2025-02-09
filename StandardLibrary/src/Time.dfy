@@ -134,9 +134,15 @@ module {:extern "Time"} Time {
     print "Clock Time : ", FormatMilli(time.ClockTime), " CPU Time : ", FormatMilli(time.CpuTime), "\n";
   }
 
+  method PrintTimeSinceLong(start : AbsoluteTime, tag : string)
+  {
+    var t := TimeSince(start);
+    PrintTimeLong(t, tag);
+  }
+
   method PrintTimeLong(time : RelativeTime, tag : string)
   {
-    print tag, " ", OsLang.GetOsLong(), " ", OsLang.GetLanguageLong(), " Clock Time : ", FormatMilli(time.ClockTime), " CPU Time : ", FormatMilli(time.CpuTime), "\n";
+    print tag, " ", OsLang.GetOsShort(), " ", OsLang.GetLanguageShort(), " ", FormatMilli(time.ClockTime), " ", FormatMilli(time.CpuTime), "\n";
   }
 
   method PrintTimeShort(time : RelativeTime)
