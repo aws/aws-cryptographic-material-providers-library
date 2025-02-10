@@ -45,12 +45,12 @@ jobs:
   manual-ci-python:
     uses: ./.github/workflows/library_python_tests.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{ inputs.dafny }}
       regenerate-code: ${{ inputs.regenerate-code }}
   manual-ci-go:
     uses: ./.github/workflows/library_go_tests.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{ inputs.dafny }}
       regenerate-code: ${{ inputs.regenerate-code }}
   manual-interop-test:
     uses: ./.github/workflows/library_interop_tests.yml
