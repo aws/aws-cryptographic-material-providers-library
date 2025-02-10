@@ -253,9 +253,9 @@ module {:options "-functionSyntax:4"} MultiKeyring {
             || Verified?(generatorKeyring.value)
             || generatorKeyring.value is MultiKeyring
           ) {
-          //= aws-encryption-sdk-specification/framework/multi-keyring.md#onencrypt
-          //# - If the generator keyring returns encryption materials missing a
-          //# plaintext data key, OnEncrypt MUST fail.
+            //= aws-encryption-sdk-specification/framework/multi-keyring.md#onencrypt
+            //# - If the generator keyring returns encryption materials missing a
+            //# plaintext data key, OnEncrypt MUST fail.
           :- Need(
             Materials.EncryptionMaterialsHasPlaintextDataKey(onEncryptOutput.value.materials),
             Types.AwsCryptographicMaterialProvidersException(
@@ -300,11 +300,11 @@ module {:options "-functionSyntax:4"} MultiKeyring {
             || Verified?(child)
             || child is MultiKeyring
           ) {
-          // We have to explicitly check for this because our child and generator keyrings are of type
-          // IKeyring, rather than VerifiableKeyring.
-          // If we knew we would always have VerifiableKeyrings, we would get this for free.
-          // However, we want to support customer implementations of keyrings which may or may
-          // not perform valid transitions.
+            // We have to explicitly check for this because our child and generator keyrings are of type
+            // IKeyring, rather than VerifiableKeyring.
+            // If we knew we would always have VerifiableKeyrings, we would get this for free.
+            // However, we want to support customer implementations of keyrings which may or may
+            // not perform valid transitions.
 
           :- Need(
             Materials.EncryptionMaterialsHasPlaintextDataKey(onEncryptOutput.value.materials),

@@ -185,8 +185,8 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
         this.senderKmsKeyId.Some?,
         E("Keyring MUST be configured with a sender KMS Key ID")
       );
-      // Impossible to hit on encrypt, but dafny has a hard time inferring that if we are not discovery we
-      // will have senderKmsKeyId.
+        // Impossible to hit on encrypt, but dafny has a hard time inferring that if we are not discovery we
+        // will have senderKmsKeyId.
       :- Need(
         this.senderPublicKey.Some?,
         E("Keyring MUST be configured with a senderPublicKey")

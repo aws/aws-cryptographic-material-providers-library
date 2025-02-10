@@ -27,7 +27,7 @@ module {:options "/functionSyntax:4" } Keyring {
           output.Success?
           ==>
             && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
-               // See the details of ValidEncryptionMaterialsTransition for the following
+            // See the details of ValidEncryptionMaterialsTransition for the following
 
             //= aws-encryption-sdk-specification/framework/keyring-interface.md#generate-data-key
             //= type=implication
