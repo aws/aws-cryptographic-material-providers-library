@@ -83,11 +83,11 @@ module StrictMultiKeyring {
         && (generator.None?
             ==>
               && output.value.generatorKeyring.None?)
-        //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-multi-keyrings.md#aws-kms-multi-keyring
-        //= type=implication
-        //# If there is a set of child identifiers then a set of [AWS KMS Keyring]
-        //# (aws-kms-keyring.md) MUST be created for each AWS KMS key identifier
-        //# by initializing each keyring with
+           //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-multi-keyrings.md#aws-kms-multi-keyring
+           //= type=implication
+           //# If there is a set of child identifiers then a set of [AWS KMS Keyring]
+           //# (aws-kms-keyring.md) MUST be created for each AWS KMS key identifier
+           //# by initializing each keyring with
         && (awsKmsKeys.Some?
             ==>
               && |awsKmsKeys.value| == |output.value.childKeyrings|
@@ -98,7 +98,7 @@ module StrictMultiKeyring {
                    && var awsKmsChild := childKeyring as AwsKmsKeyring.AwsKmsKeyring;
                    // AWS KMS key identifier
                    && awsKmsChild.awsKmsKey == awsKmsKeys.value[index]
-                   // The input list of AWS KMS grant tokens
+                      // The input list of AWS KMS grant tokens
                    && (grantTokens.Some? ==> awsKmsChild.grantTokens == grantTokens.value))
         && (awsKmsKeys.None?
             ==>

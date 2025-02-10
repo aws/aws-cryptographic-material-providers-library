@@ -36,10 +36,10 @@ module {:options "/functionSyntax:4" } CMM {
             //# - For every key in [Required Encryption Context Keys](structures.md#required-encryption-context-keys)
             //#   there MUST be a matching key in the [Encryption Context](structures.md#encryption-context-1).
             && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.encryptionMaterials)
-            //= aws-encryption-sdk-specification/framework/cmm-interface.md#get-encryption-materials
-            //= type=implication
-            //# - The [Required Encryption Context Keys](structures.md#required-encryption-context-keys) MUST be
-            //#   a super set of the Required Encryption Context Keys in the [encryption materials request](#encryption-materials-request).
+               //= aws-encryption-sdk-specification/framework/cmm-interface.md#get-encryption-materials
+               //= type=implication
+               //# - The [Required Encryption Context Keys](structures.md#required-encryption-context-keys) MUST be
+               //#   a super set of the Required Encryption Context Keys in the [encryption materials request](#encryption-materials-request).
             && RequiredEncryptionContextKeys?(input.requiredEncryptionContextKeys, output.value.encryptionMaterials)
 
     ghost predicate DecryptMaterialsEnsuresPublicly(input: Types.DecryptMaterialsInput, output: Result<Types.DecryptMaterialsOutput, Types.Error>)
@@ -57,19 +57,19 @@ module {:options "/functionSyntax:4" } CMM {
               //# - The decryption materials returned MUST follow the specification for [decryption-materials](structures.md#decryption-materials).
               //# - The value of the plaintext data key MUST be non-NULL.
               ==> Materials.DecryptionMaterialsWithPlaintextDataKey(output.value.decryptionMaterials))
-          //= aws-encryption-sdk-specification/framework/cmm-interface.md#decrypt-materials
-          //# The CMM MUST validate the [Encryption Context](structures.md#encryption-context)
-          //# by comparing it to the customer supplied [Reproduced Encryption Context](structures.md#encryption-context)
-          //# in [decrypt materials request](#decrypt-materials-request).
-          //# For every key that exists in both [Reproduced Encryption Context](structures.md#encryption-context)
-          //# and [Encryption Context](structures.md#encryption-context),
-          //# the values MUST be equal or the operation MUST fail.
+             //= aws-encryption-sdk-specification/framework/cmm-interface.md#decrypt-materials
+             //# The CMM MUST validate the [Encryption Context](structures.md#encryption-context)
+             //# by comparing it to the customer supplied [Reproduced Encryption Context](structures.md#encryption-context)
+             //# in [decrypt materials request](#decrypt-materials-request).
+             //# For every key that exists in both [Reproduced Encryption Context](structures.md#encryption-context)
+             //# and [Encryption Context](structures.md#encryption-context),
+             //# the values MUST be equal or the operation MUST fail.
           && (output.Success? ==> ReproducedEncryptionContext?(input))
           && (!ReproducedEncryptionContext?(input) ==> output.Failure?)
-          //= aws-encryption-sdk-specification/framework/cmm-interface.md#decrypt-materials
-          //# - All key-value pairs that exist in [Reproduced Encryption Context](structures.md#encryption-context)
-          //# but do not exist in encryption context on the [decrypt materials request](#decrypt-materials-request)
-          //# SHOULD be appended to the decryption materials.
+             //= aws-encryption-sdk-specification/framework/cmm-interface.md#decrypt-materials
+             //# - All key-value pairs that exist in [Reproduced Encryption Context](structures.md#encryption-context)
+             //# but do not exist in encryption context on the [decrypt materials request](#decrypt-materials-request)
+             //# SHOULD be appended to the decryption materials.
           && (output.Success? ==> EncryptionContextComplete(input, output.value.decryptionMaterials))
   }
 

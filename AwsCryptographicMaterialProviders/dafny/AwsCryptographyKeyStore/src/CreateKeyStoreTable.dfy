@@ -33,9 +33,9 @@ module CreateKeyStoreTable {
   type keyStoreDescription = t: DDB.TableDescription | keyStoreHasExpectedConstruction?(t) witness *
   predicate method keyStoreHasExpectedConstruction?(t: DDB.TableDescription) {
     && t.AttributeDefinitions.Some? && t.KeySchema.Some? && t.TableName.Some? && t.TableArn.Some?
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#keyschema
-    //= type=implication
-    //# The following KeySchema MUST be configured on the table:
+       //= aws-encryption-sdk-specification/framework/branch-key-store.md#keyschema
+       //= type=implication
+       //# The following KeySchema MUST be configured on the table:
     && ToSet(t.AttributeDefinitions.value) >= ToSet(ATTRIBUTE_DEFINITIONS)
     && ToSet(t.KeySchema.value) >= ToSet(KEY_SCHEMA)
   }
@@ -75,14 +75,14 @@ module CreateKeyStoreTable {
         //# - [KeySchema](#keyschema) as defined below.
         && CreateTableInput.TableName == tableName
         && CreateTableInput.KeySchema == KEY_SCHEMA
-        //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkeystore
-        //= type=implication
-        //# If the operation fails to create table, the operation MUST fail.
+           //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkeystore
+           //= type=implication
+           //# If the operation fails to create table, the operation MUST fail.
         && (Seq.Last(ddbClient.History.CreateTable).output.Failure? ==> res.Failure?)
-        //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkeystore
-        //= type=implication
-        //# If the operation successfully creates a table, the operation MUST return the AWS DDB Table Arn
-        //# back to the caller.
+           //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkeystore
+           //= type=implication
+           //# If the operation successfully creates a table, the operation MUST return the AWS DDB Table Arn
+           //# back to the caller.
         && (
              && Seq.Last(ddbClient.History.CreateTable).output.Success?
              && Seq.Last(ddbClient.History.CreateTable).output.value.TableDescription.Some?
@@ -169,11 +169,11 @@ module CreateKeyStoreTable {
         res := Failure(Types.ComAmazonawsDynamodb(error));
       }
     } else {
-        //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkeystore
-        //# If the response is successful, this operation validates that the table has the expected
-        //# [KeySchema](#keyschema) as defined below.
-        //# If the [KeySchema](#keyschema) does not match
-        //# this operation MUST yield an error.
+      //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkeystore
+      //# If the response is successful, this operation validates that the table has the expected
+      //# [KeySchema](#keyschema) as defined below.
+      //# If the [KeySchema](#keyschema) does not match
+      //# this operation MUST yield an error.
       :- Need(
         && maybeDescribeTableResponse.value.Table.Some?
         && keyStoreHasExpectedConstruction?(maybeDescribeTableResponse.value.Table.value)

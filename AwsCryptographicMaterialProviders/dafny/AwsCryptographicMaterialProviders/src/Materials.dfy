@@ -37,11 +37,11 @@ module Materials {
         && var suite := AS.GetSuite(input.algorithmSuiteId);
         && res.value.algorithmSuite == suite
         && (!suite.signature.None? <==> EC_PUBLIC_KEY_FIELD in res.value.encryptionContext)
-        //= aws-encryption-sdk-specification/framework/structures.md#signing-key
-        //= type=implication
-        //# If the
-        //# algorithm suite does not contain an asymmetric signing algorithm, the signing key
-        //# MUST NOT be present.
+           //= aws-encryption-sdk-specification/framework/structures.md#signing-key
+           //= type=implication
+           //# If the
+           //# algorithm suite does not contain an asymmetric signing algorithm, the signing key
+           //# MUST NOT be present.
         && (suite.signature.None? <==> res.value.signingKey.None?)
     //= aws-encryption-sdk-specification/framework/structures.md#encryption-context-1
     //= type=implication
@@ -100,11 +100,11 @@ module Materials {
         && var suite := AS.GetSuite(input.algorithmSuiteId);
         && res.value.algorithmSuite == suite
         && (suite.signature.None? <==> EC_PUBLIC_KEY_FIELD !in input.encryptionContext)
-        //= aws-encryption-sdk-specification/framework/structures.md#encryption-context-2
-        //= type=implication
-        //# The mapped value
-        //# from the reserved key `aws-crypto-public-key` SHOULD be the signature
-        //# verification key stored on the [decryption materials](#decryption-materials).
+           //= aws-encryption-sdk-specification/framework/structures.md#encryption-context-2
+           //= type=implication
+           //# The mapped value
+           //# from the reserved key `aws-crypto-public-key` SHOULD be the signature
+           //# verification key stored on the [decryption materials](#decryption-materials).
         && var verificationKey := DecodeVerificationKey(input.encryptionContext);
         && (
           verificationKey.Success? && verificationKey.value.Some?
@@ -215,30 +215,30 @@ module Materials {
     && AS.AlgorithmSuite?(encryptionMaterials.algorithmSuite)
     && var suite := encryptionMaterials.algorithmSuite;
     && (suite.signature.None? <==> encryptionMaterials.signingKey.None?)
-    //= aws-encryption-sdk-specification/framework/structures.md#plaintext-data-key
-    //= type=implication
-    //# The plaintext data key MUST:
-    //# - Fit the specification for the [key derivation algorithm](algorithm-
-    //#   suites.md#key-derivation-algorithm) included in this decryption
-    //#   material's [algorithm suite](#algorithm-suite).
+       //= aws-encryption-sdk-specification/framework/structures.md#plaintext-data-key
+       //= type=implication
+       //# The plaintext data key MUST:
+       //# - Fit the specification for the [key derivation algorithm](algorithm-
+       //#   suites.md#key-derivation-algorithm) included in this decryption
+       //#   material's [algorithm suite](#algorithm-suite).
     && (encryptionMaterials.plaintextDataKey.Some? ==> AS.GetEncryptKeyLength(suite) as nat == |encryptionMaterials.plaintextDataKey.value|)
-    //= aws-encryption-sdk-specification/framework/structures.md#encrypted-data-keys
-    //= type=implication
-    //# If the plaintext data key is not included in this set of encryption
-    //# materials, this list MUST be empty.
+       //= aws-encryption-sdk-specification/framework/structures.md#encrypted-data-keys
+       //= type=implication
+       //# If the plaintext data key is not included in this set of encryption
+       //# materials, this list MUST be empty.
     && (encryptionMaterials.plaintextDataKey.None? ==> |encryptionMaterials.encryptedDataKeys| == 0)
-    //= aws-encryption-sdk-specification/framework/structures.md#encryption-context-1
-    //= type=implication
-    //# If an [encryption material](#encryption-materials) contains a [signing key]
-    //# (#signing-key), the [encryption context](#encryption-context) SHOULD
-    //# include the reserved key `aws-crypto-public-key`.
-    //
-    //= aws-encryption-sdk-specification/framework/structures.md#encryption-context-1
-    //= type=implication
-    //# If an [encryption
-    //# material](#encryption-materials) does not contains a [signing key]
-    //# (#signing-key), the [encryption context](#encryption-context) SHOULD
-    //# NOT include the reserved key `aws-crypto-public-key`.
+       //= aws-encryption-sdk-specification/framework/structures.md#encryption-context-1
+       //= type=implication
+       //# If an [encryption material](#encryption-materials) contains a [signing key]
+       //# (#signing-key), the [encryption context](#encryption-context) SHOULD
+       //# include the reserved key `aws-crypto-public-key`.
+       //
+       //= aws-encryption-sdk-specification/framework/structures.md#encryption-context-1
+       //= type=implication
+       //# If an [encryption
+       //# material](#encryption-materials) does not contains a [signing key]
+       //# (#signing-key), the [encryption context](#encryption-context) SHOULD
+       //# NOT include the reserved key `aws-crypto-public-key`.
     && (!suite.signature.None? <==> EC_PUBLIC_KEY_FIELD in encryptionMaterials.encryptionContext)
 
     //= aws-encryption-sdk-specification/framework/structures.md#signing-key
@@ -250,15 +250,15 @@ module Materials {
     // But at this time existince is deemed acceptable.
     && (suite.signature.ECDSA? <==> encryptionMaterials.signingKey.Some?)
     && (!suite.signature.None? <==> EC_PUBLIC_KEY_FIELD in encryptionMaterials.encryptionContext)
-    //= aws-encryption-sdk-specification/framework/structures.md#symmetric-signing-keys
-    //= type=implication
-    //# If the algorithm suite does contain a symmetric signing algorithm, this list MUST have length equal to the [encrypted data key list](#encrypted-data-keys).
+       //= aws-encryption-sdk-specification/framework/structures.md#symmetric-signing-keys
+       //= type=implication
+       //# If the algorithm suite does contain a symmetric signing algorithm, this list MUST have length equal to the [encrypted data key list](#encrypted-data-keys).
     && (suite.symmetricSignature.HMAC? ==>
           && encryptionMaterials.symmetricSigningKeys.Some?
           && |encryptionMaterials.symmetricSigningKeys.value| == |encryptionMaterials.encryptedDataKeys|)
-    //= aws-encryption-sdk-specification/framework/structures.md#symmetric-signing-keys
-    //= type=implication
-    //# If the algorithm suite does not contain a symmetric signing algorithm, this list MUST NOT be included in the materials.
+       //= aws-encryption-sdk-specification/framework/structures.md#symmetric-signing-keys
+       //= type=implication
+       //# If the algorithm suite does not contain a symmetric signing algorithm, this list MUST NOT be included in the materials.
     && (suite.symmetricSignature.None? ==> encryptionMaterials.symmetricSigningKeys.None?)
 
     //= aws-encryption-sdk-specification/framework/structures.md#required-encryption-context-keys
@@ -425,18 +425,18 @@ module Materials {
     //# suites.md#encryption-algorithm)  included in this decryption
     //# material's [algorithm suite](#algorithm-suite-1).
     && (decryptionMaterials.plaintextDataKey.Some? ==> AS.GetEncryptKeyLength(suite) as nat == |decryptionMaterials.plaintextDataKey.value|)
-    //= aws-encryption-sdk-specification/framework/structures.md#encryption-context-2
-    //= type=implication
-    //# If a [decryption materials](#decryption-materials) contains a [verification key]
-    //# (#verification-key), the [encryption context](#encryption-context) SHOULD
-    //# include the reserved key `aws-crypto-public-key`.
-    //
-    //= aws-encryption-sdk-specification/framework/structures.md#encryption-context-2
-    //= type=implication
-    //# If a [decryption materials](#decryption-materials) does not contain a
-    //# [verification key](#verification-key), the [encryption context]
-    //# (#encryption-context) SHOULD NOT include the reserved key `aws-crypto-
-    //# public-key`.
+       //= aws-encryption-sdk-specification/framework/structures.md#encryption-context-2
+       //= type=implication
+       //# If a [decryption materials](#decryption-materials) contains a [verification key]
+       //# (#verification-key), the [encryption context](#encryption-context) SHOULD
+       //# include the reserved key `aws-crypto-public-key`.
+       //
+       //= aws-encryption-sdk-specification/framework/structures.md#encryption-context-2
+       //= type=implication
+       //# If a [decryption materials](#decryption-materials) does not contain a
+       //# [verification key](#verification-key), the [encryption context]
+       //# (#encryption-context) SHOULD NOT include the reserved key `aws-crypto-
+       //# public-key`.
     && (!suite.signature.None? <==> EC_PUBLIC_KEY_FIELD in decryptionMaterials.encryptionContext)
 
     //= aws-encryption-sdk-specification/framework/structures.md#verification-key
@@ -448,16 +448,16 @@ module Materials {
     // But at this time existince is deemed acceptable.
     && (suite.signature.ECDSA? <==> decryptionMaterials.verificationKey.Some?)
     && (!suite.signature.None? <==> EC_PUBLIC_KEY_FIELD in decryptionMaterials.encryptionContext)
-    //= aws-encryption-sdk-specification/framework/structures.md#symmetric-signing-key
-    //= type=implication
-    //# If the algorithm suite does contain a symmetric signing algorithm,
-    //# the symmetric signing key MUST also be included in the materials
-    //# if and only if the materials also include a [plaintext data key](#plaintext-data-key-1).
+       //= aws-encryption-sdk-specification/framework/structures.md#symmetric-signing-key
+       //= type=implication
+       //# If the algorithm suite does contain a symmetric signing algorithm,
+       //# the symmetric signing key MUST also be included in the materials
+       //# if and only if the materials also include a [plaintext data key](#plaintext-data-key-1).
     && (!suite.symmetricSignature.None? ==> (decryptionMaterials.plaintextDataKey.Some? <==> decryptionMaterials.symmetricSigningKey.Some?))
-    //= aws-encryption-sdk-specification/framework/structures.md#symmetric-signing-key
-    //= type=implication
-    //# If the algorithm suite does not contain a symmetric signing algorithm,
-    //# the symmetric signing key MUST NOT be included in the materials.
+       //= aws-encryption-sdk-specification/framework/structures.md#symmetric-signing-key
+       //= type=implication
+       //# If the algorithm suite does not contain a symmetric signing algorithm,
+       //# the symmetric signing key MUST NOT be included in the materials.
     && (suite.symmetricSignature.None? ==> decryptionMaterials.symmetricSigningKey.None?)
 
     //= aws-encryption-sdk-specification/framework/structures.md#required-encryption-context-keys-1
