@@ -4,6 +4,7 @@ package awscryptographyprimitivessmithygeneratedtypes
 
 type ECDHCurveSpec string
 
+// Supported ECDH Curve specifications.
 const (
 	ECDHCurveSpecEccNistP256 ECDHCurveSpec = "ECC_NIST_P256"
 	ECDHCurveSpecEccNistP384 ECDHCurveSpec = "ECC_NIST_P384"
@@ -11,7 +12,9 @@ const (
 	ECDHCurveSpecSm2         ECDHCurveSpec = "SM2"
 )
 
+// Supported ECDH Curve specifications.
 func (ECDHCurveSpec) Values() []ECDHCurveSpec {
+	// Supported ECDH Curve specifications.
 	return []ECDHCurveSpec{
 		"ECC_NIST_P256",
 		"ECC_NIST_P384",
@@ -22,13 +25,16 @@ func (ECDHCurveSpec) Values() []ECDHCurveSpec {
 
 type DigestAlgorithm string
 
+// Supported Digest Algorithms.
 const (
 	DigestAlgorithmSha512 DigestAlgorithm = "SHA_512"
 	DigestAlgorithmSha384 DigestAlgorithm = "SHA_384"
 	DigestAlgorithmSha256 DigestAlgorithm = "SHA_256"
 )
 
+// Supported Digest Algorithms.
 func (DigestAlgorithm) Values() []DigestAlgorithm {
+	// Supported Digest Algorithms.
 	return []DigestAlgorithm{
 		"SHA_512",
 		"SHA_384",
@@ -38,12 +44,15 @@ func (DigestAlgorithm) Values() []DigestAlgorithm {
 
 type ECDSASignatureAlgorithm string
 
+// Supported ECDSA Signature Algorithms.
 const (
 	ECDSASignatureAlgorithmEcdsaP384 ECDSASignatureAlgorithm = "ECDSA_P384"
 	ECDSASignatureAlgorithmEcdsaP256 ECDSASignatureAlgorithm = "ECDSA_P256"
 )
 
+// Supported ECDSA Signature Algorithms.
 func (ECDSASignatureAlgorithm) Values() []ECDSASignatureAlgorithm {
+	// Supported ECDSA Signature Algorithms.
 	return []ECDSASignatureAlgorithm{
 		"ECDSA_P384",
 		"ECDSA_P256",
@@ -52,6 +61,7 @@ func (ECDSASignatureAlgorithm) Values() []ECDSASignatureAlgorithm {
 
 type RSAPaddingMode string
 
+// Supported RSA Padding Modes.
 const (
 	RSAPaddingModePkcs1      RSAPaddingMode = "PKCS1"
 	RSAPaddingModeOaepSha1   RSAPaddingMode = "OAEP_SHA1"
@@ -60,7 +70,9 @@ const (
 	RSAPaddingModeOaepSha512 RSAPaddingMode = "OAEP_SHA512"
 )
 
+// Supported RSA Padding Modes.
 func (RSAPaddingMode) Values() []RSAPaddingMode {
+	// Supported RSA Padding Modes.
 	return []RSAPaddingMode{
 		"PKCS1",
 		"OAEP_SHA1",

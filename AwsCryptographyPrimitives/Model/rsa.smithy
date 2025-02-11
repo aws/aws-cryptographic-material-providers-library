@@ -1,5 +1,6 @@
 namespace aws.cryptography.primitives
 
+@documentation("Supported RSA Padding Modes.")
 @enum([
   {
     name: "PKCS1",

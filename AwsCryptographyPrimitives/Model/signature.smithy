@@ -1,5 +1,6 @@
 namespace aws.cryptography.primitives
 
+@documentation("Supported ECDSA Signature Algorithms.")
 @enum([
   {
     name: "ECDSA_P384",

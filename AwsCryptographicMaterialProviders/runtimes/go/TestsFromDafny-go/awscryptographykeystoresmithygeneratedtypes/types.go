@@ -108,10 +108,12 @@ func (input CreateKeyInput) aws_cryptography_keyStore_CreateKeyInput_encryptionC
 	return nil
 }
 
+// Outputs for Branch Key creation.
 type CreateKeyOutput struct {
 	BranchKeyIdentifier string
 }
 
+// Outputs for Branch Key creation.
 func (input CreateKeyOutput) Validate() error {
 
 	return nil
@@ -125,10 +127,12 @@ func (input CreateKeyStoreInput) Validate() error {
 	return nil
 }
 
+// Outputs for Key Store DynamoDB table creation.
 type CreateKeyStoreOutput struct {
 	TableArn string
 }
 
+// Outputs for Key Store DynamoDB table creation.
 func (input CreateKeyStoreOutput) Validate() error {
 	if len(input.TableArn) < 1 {
 		return fmt.Errorf("TableArn has a minimum length of 1 but has the length of %d.", len(input.TableArn))
@@ -148,19 +152,23 @@ func (input Discovery) Validate() error {
 	return nil
 }
 
+// Inputs for getting a Branch Key's ACTIVE version.
 type GetActiveBranchKeyInput struct {
 	BranchKeyIdentifier string
 }
 
+// Inputs for getting a Branch Key's ACTIVE version.
 func (input GetActiveBranchKeyInput) Validate() error {
 
 	return nil
 }
 
+// Outputs for getting a Branch Key's ACTIVE version.
 type GetActiveBranchKeyOutput struct {
 	BranchKeyMaterials BranchKeyMaterials
 }
 
+// Outputs for getting a Branch Key's ACTIVE version.
 func (input GetActiveBranchKeyOutput) Validate() error {
 	if input.BranchKeyMaterials.Validate() != nil {
 		return input.BranchKeyMaterials.Validate()
@@ -169,19 +177,23 @@ func (input GetActiveBranchKeyOutput) Validate() error {
 	return nil
 }
 
+// Inputs for getting a Beacon Key
 type GetBeaconKeyInput struct {
 	BranchKeyIdentifier string
 }
 
+// Inputs for getting a Beacon Key
 func (input GetBeaconKeyInput) Validate() error {
 
 	return nil
 }
 
+// Outputs for getting a Beacon Key
 type GetBeaconKeyOutput struct {
 	BeaconKeyMaterials BeaconKeyMaterials
 }
 
+// Outputs for getting a Beacon Key
 func (input GetBeaconKeyOutput) Validate() error {
 	if input.BeaconKeyMaterials.Validate() != nil {
 		return input.BeaconKeyMaterials.Validate()
@@ -190,21 +202,25 @@ func (input GetBeaconKeyOutput) Validate() error {
 	return nil
 }
 
+// Inputs for getting a version of a Branch Key.
 type GetBranchKeyVersionInput struct {
 	BranchKeyIdentifier string
 
 	BranchKeyVersion string
 }
 
+// Inputs for getting a version of a Branch Key.
 func (input GetBranchKeyVersionInput) Validate() error {
 
 	return nil
 }
 
+// Outputs for getting a version of a Branch Key.
 type GetBranchKeyVersionOutput struct {
 	BranchKeyMaterials BranchKeyMaterials
 }
 
+// Outputs for getting a version of a Branch Key.
 func (input GetBranchKeyVersionOutput) Validate() error {
 	if input.BranchKeyMaterials.Validate() != nil {
 		return input.BranchKeyMaterials.Validate()
@@ -228,6 +244,7 @@ func (input MRDiscovery) Validate() error {
 	return nil
 }
 
+// The configuration information for a Key Store.
 type GetKeyStoreInfoOutput struct {
 	GrantTokens []string
 
@@ -240,6 +257,7 @@ type GetKeyStoreInfoOutput struct {
 	LogicalKeyStoreName string
 }
 
+// The configuration information for a Key Store.
 func (input GetKeyStoreInfoOutput) Validate() error {
 	if input.GrantTokens == nil {
 		return fmt.Errorf("input.GrantTokens is required but has a nil value.")
@@ -295,18 +313,22 @@ func (input GetKeyStoreInfoOutput) aws_cryptography_keyStore_GetKeyStoreInfoOutp
 	return nil
 }
 
+// Inputs for versioning a Branch Key.
 type VersionKeyInput struct {
 	BranchKeyIdentifier string
 }
 
+// Inputs for versioning a Branch Key.
 func (input VersionKeyInput) Validate() error {
 
 	return nil
 }
 
+// Outputs for versioning a Branch Key.
 type VersionKeyOutput struct {
 }
 
+// Outputs for versioning a Branch Key.
 func (input VersionKeyOutput) Validate() error {
 
 	return nil
@@ -396,32 +418,38 @@ func (input KeyStoreConfig) aws_cryptography_keyStore_KeyStoreConfig_kmsConfigur
 	return nil
 }
 
-// KMSConfigurationMemberdiscovery
-// KMSConfigurationMemberkmsKeyArn
-// KMSConfigurationMemberkmsMRKeyArn
-// KMSConfigurationMembermrDiscovery
+//	KMSConfigurationMemberdiscovery
+//	KMSConfigurationMemberkmsKeyArn
+//	KMSConfigurationMemberkmsMRKeyArn
+//	KMSConfigurationMembermrDiscovery
+//
+// Configures Key Store's KMS Key ARN restrictions.
 type KMSConfiguration interface {
 	isKMSConfiguration()
 }
 
+// Configures Key Store's KMS Key ARN restrictions.
 type KMSConfigurationMemberdiscovery struct {
 	Value Discovery
 }
 
 func (*KMSConfigurationMemberdiscovery) isKMSConfiguration() {}
 
+// Configures Key Store's KMS Key ARN restrictions.
 type KMSConfigurationMemberkmsKeyArn struct {
 	Value string
 }
 
 func (*KMSConfigurationMemberkmsKeyArn) isKMSConfiguration() {}
 
+// Configures Key Store's KMS Key ARN restrictions.
 type KMSConfigurationMemberkmsMRKeyArn struct {
 	Value string
 }
 
 func (*KMSConfigurationMemberkmsMRKeyArn) isKMSConfiguration() {}
 
+// Configures Key Store's KMS Key ARN restrictions.
 type KMSConfigurationMembermrDiscovery struct {
 	Value MRDiscovery
 }

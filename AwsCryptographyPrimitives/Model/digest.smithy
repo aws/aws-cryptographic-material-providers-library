@@ -1,5 +1,6 @@
 namespace aws.cryptography.primitives
 
+@documentation("Supported Digest Algorithms.")
 @enum([
   {
     name: "SHA_512",

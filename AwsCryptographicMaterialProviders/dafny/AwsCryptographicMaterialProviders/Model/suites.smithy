@@ -7,7 +7,8 @@ namespace aws.cryptography.materialProviders
 // customer facing, we will need to either model the AlgorithmSuiteProperties
 // as a separate structure (with an associated resource/operation for translating
 // from name to properties) or use more advanced custom traits which allow us to
-// model all properties of the algorithm suite in one structure. 
+// model all properties of the algorithm suite in one structure.
+@documentation("Supported ESDK Algorithm Suite Ids.")
 @enum([
   {
     name: "ALG_AES_128_GCM_IV12_TAG16_NO_KDF",
@@ -56,6 +57,7 @@ namespace aws.cryptography.materialProviders
 ])
 string ESDKAlgorithmSuiteId
 
+@documentation("Supported DBE Algorithm Suite Ids.")
 @enum([
   {
     name: "ALG_AES_256_GCM_HKDF_SHA512_COMMIT_KEY_SYMSIG_HMAC_SHA384",

@@ -14,6 +14,7 @@ namespace aws.cryptography.materialProviders
 //# | FORBID_ENCRYPT_ALLOW_DECRYPT    |
 //# | REQUIRE_ENCRYPT_ALLOW_DECRYPT   |
 //# | REQUIRE_ENCRYPT_REQUIRE_DECRYPT |
+@documentation("Supported ESDK Commitment Policies. For more information, see: https://github.com/awslabs/aws-encryption-sdk-specification/blob/master/framework/commitment-policy.md#supported-format-commitment-policy-enum.")
 @enum([
   {
     name: "FORBID_ENCRYPT_ALLOW_DECRYPT",
@@ -30,6 +31,7 @@ namespace aws.cryptography.materialProviders
 ])
 string ESDKCommitmentPolicy
 
+@documentation("Supported DBE Commitment Policies.")
 @enum([
   {
     name: "REQUIRE_ENCRYPT_REQUIRE_DECRYPT",
@@ -54,7 +56,7 @@ union CommitmentPolicy {
 
 // Padding
 
-// Values come from: https://github.com/awslabs/aws-encryption-sdk-specification/blob/master/framework/raw-rsa-keyring.md#supported-padding-schemes
+@documentation("Supported Padding Schemes. For more information, see: https://github.com/awslabs/aws-encryption-sdk-specification/blob/master/framework/raw-rsa-keyring.md#supported-padding-schemes.")
 @enum([
   {
     name: "PKCS1",
@@ -79,7 +81,7 @@ union CommitmentPolicy {
 ])
 string PaddingScheme
 
-// AES wrapping algorithms
+@documentation("Supported AES wrapping algorithms.")
 @enum([
   {
     name: "ALG_AES128_GCM_IV12_TAG16",
