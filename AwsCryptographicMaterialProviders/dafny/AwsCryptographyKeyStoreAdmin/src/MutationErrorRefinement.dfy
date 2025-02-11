@@ -190,8 +190,16 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
           }
       }
     }
-    // If kmsWithMsg we can match the error message based on the KMS ARN;
-    // these catch KMS Key disabeled or scheduled for deletion
+    // If kmsWithMsg we CAN match the error message based on the KMS ARN;
+    // these catch KMS Key disabled or scheduled for deletion on the ReEncrypt case.
+    // While we could push this if-block into the ReEncrypt case above,
+    // we have not done a complete audit of all the KMS Error messages possible,
+    // and KMS could change the error messages.
+    // Matching on the KMS ARN is therefore still desirable,
+    // even though, at this time, we believe this will only fire for ReEncrypt.
+    // Examples:
+    //   An error occurred (DisabledException) when calling the ReEncrypt operation: arn:aws:kms:us-west-2:827585335069:key/ea9fe275-3667-4e16-8043-80a307cfb20b is disabled.
+    //   An error occurred (KMSInvalidStateException) when calling the ReEncrypt operation: arn:aws:kms:us-west-2:827585335069:key/ea9fe275-3667-4e16-8043-80a307cfb20b is pending deletion.
     if (kmsWithMsg) {
       var hasOriginalArn? := String.HasSubString(kmsErrorMessage?.value, item.KmsArn);
       var hasTerminalArn? := String.HasSubString(kmsErrorMessage?.value, terminalKmsArn);
@@ -211,6 +219,8 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
     }
     // Else we cannot match the error message by either the operation or the KMS ARN, log what we can and move on
     // The exception could be a network (UnknownHostException) or Creds (SigV4 failure)
+    // Example:
+    //   SdkClientException: Received an UnknownHostException when attempting to interact with a service. See cause for the exact endpoint that is failing to resolve. If this is happening on an endpoint that previously worked, there may be a network connectivity issue or your DNS cache could be storing endpoints for too long.
     match kmsOperation {
       case "ReEncrypt" =>
         return Types.KeyStoreAdminException(
