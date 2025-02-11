@@ -161,7 +161,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     :- Need(
       fetchMutation.MutationIndex.Some?,
       Types.MutationInvalidException(
-        message := "No Mutation Index exsists for this in-flight mutation of Branch Key ID " + input.MutationToken.Identifier + " ."
+        message := "No Mutation Index exists for this in-flight mutation of Branch Key ID " + input.MutationToken.Identifier + " ."
       ));
     var CommitmentAndIndex :- Mutations.ValidateCommitmentAndIndexStructures(
       input.MutationToken,
