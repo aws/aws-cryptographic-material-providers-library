@@ -190,7 +190,8 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
           }
       }
     }
-    // If kmsWithMsg and we can match the error message based on the KMS ARN
+    // If kmsWithMsg we can match the error message based on the KMS ARN;
+    // these catch KMS Key disabeled or scheduled for deletion
     if (kmsWithMsg) {
       var hasOriginalArn? := String.HasSubString(kmsErrorMessage?.value, item.KmsArn);
       var hasTerminalArn? := String.HasSubString(kmsErrorMessage?.value, terminalKmsArn);
@@ -209,9 +210,30 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
       }
     }
     // Else we cannot match the error message by either the operation or the KMS ARN, log what we can and move on
-    return Types.KeyStoreAdminException(
-        message := "Key Management through an exception."
-        + " Mutation is halted. Check access to KMS."
-        + "\n" + errorContext);
+    // The exception could be a network (UnknownHostException) or Creds (SigV4 failure)
+    match kmsOperation {
+      case "ReEncrypt" =>
+        return Types.KeyStoreAdminException(
+            message := "Key Management ReEncrypt call failed."
+            + " Mutation is halted. Check access/connectivity to KMS."
+            + "\n Source KMS ARN: " + item.KmsArn
+            + "\n Destination KMS ARN: " + terminalKmsArn
+            + "\n" + errorContext
+          );
+      case "Decrypt" =>
+        return Types.KeyStoreAdminException(
+            message := "Key Management Decrypt call failed."
+            + " Mutation is halted. Check access/connectivity to KMS."
+            + "\n KMS ARN: " + item.KmsArn
+            + "\n" + errorContext
+          );
+      case "Encrypt" =>
+        return Types.KeyStoreAdminException(
+            message := "Key Management Encrypt call failed."
+            + " Mutation is halted. Check access/connectivity to KMS."
+            + "\n KMS ARN: " + terminalKmsArn
+            + "\n" + errorContext
+          );
+    }
   }
 }
