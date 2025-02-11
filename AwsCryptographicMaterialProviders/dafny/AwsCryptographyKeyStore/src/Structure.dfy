@@ -860,7 +860,7 @@ module {:options "/functionSyntax:4" } Structure {
     && 0 < |m.UUID|
     && 0 < |m.PageIndex|
     && 0 < |m.CiphertextBlob|
-        // Ensure LastModifiedTime is either None or Some(non-empty value)
+       // Ensure LastModifiedTime is either None or Some(non-empty value)
     && (m.LastModifiedTime.Some? ==> 0 < |m.LastModifiedTime.value|)
   }
 
