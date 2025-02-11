@@ -157,12 +157,12 @@ module.exports = {
         "preset": "conventionalcommits",
         "presetConfig": {
           "types": [
-            {"type": "feat(dafny)",  "section": "Features -- Dafny", "hidden": false},
-            {"type": "feat(java)",   "section": "Features -- Java", "hidden": false},
-            {"type": "feat(dotnet)", "section": "Features -- DotNet", "hidden": false},
-            {"type": "feat(python)", "section": "Features -- Python", "hidden": false},
-            {"type": "feat(go)",     "section": "Features -- Go", "hidden": false},
-            {"type": "feat(rust)",   "section": "Features -- Rust", "hidden": false},
+            {"type": "feat(dafny)",  "section": "Features", "hidden": false},
+            {"type": "feat(java)",   "section": "Features", "hidden": false},
+            {"type": "feat(dotnet)", "section": "Features", "hidden": false},
+            {"type": "feat(python)", "section": "Features", "hidden": false},
+            {"type": "feat(go)",     "section": "Features", "hidden": false},
+            {"type": "feat(rust)",   "section": "Features", "hidden": false},
             {"type": "fix(dafny)",  "section": "Fixes -- Dafny", "hidden": false},
             {"type": "fix(java)",   "section": "Fixes -- Java", "hidden": false},
             {"type": "fix(dotnet)", "section": "Fixes -- DotNet", "hidden": false},
