@@ -146,7 +146,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     :- Need(
       && generateResponse.KeyId.Some?,
       Types.KeyManagementException(
-        message := "Invalid response from KMS GenerateDataKey:: Invalid Key Id")
+        message := "Invalid response from AWS KMS GenerateDataKey:: Invalid Key Id")
     );
 
     :- Need(
