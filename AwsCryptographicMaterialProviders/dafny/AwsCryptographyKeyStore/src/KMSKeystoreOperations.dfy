@@ -146,7 +146,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     :- Need(
       && generateResponse.KeyId.Some?,
       Types.KeyManagementException(
-        message := "Invalid response from AWS KMS GenerateDataKey:: Invalid Key Id")
+        message := "Invalid response from AWS KMS GenerateDataKey: Invalid Key Id")
     );
 
     :- Need(
@@ -278,7 +278,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && reEncryptResponse.SourceKeyId.value == kmsKeyArn
       && reEncryptResponse.KeyId.value == kmsKeyArn,
       Types.KeyManagementException(
-        message := "Invalid response from AWS KMS ReEncrypt:: Invalid KMS Key Id")
+        message := "Invalid response from AWS KMS ReEncrypt: Invalid KMS Key Id")
     );
 
     :- Need(
@@ -353,7 +353,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && decryptResponse.KeyId.Some?
       && decryptResponse.KeyId.value == kmsKeyArn,
       Types.KeyManagementException(
-        message := "Invalid response from AWS KMS Decrypt :: Invalid KMS Key Id"
+        message := "Invalid response from AWS KMS Decrypt: Invalid KMS Key Id"
       ));
 
     return Success(decryptResponse);
@@ -431,7 +431,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && decryptResponse.KeyId.Some?
       && decryptResponse.KeyId.value == sourceKmsArn,
       Types.KeyManagementException(
-        message := "Invalid response from AWS KMS Decrypt :: Invalid KMS Key Id"
+        message := "Invalid response from AWS KMS Decrypt: Invalid KMS Key Id"
       ));
 
     var kmsEncryptRequest := KMS.EncryptRequest(
@@ -451,7 +451,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && encryptResponse.KeyId.Some?
       && encryptResponse.KeyId.value == destinationKmsArn,
       Types.KeyManagementException(
-        message := "Invalid response from AWS KMS Encrypt :: Invalid KMS Key Id"
+        message := "Invalid response from AWS KMS Encrypt: Invalid KMS Key Id"
       ));
 
     return Success(encryptResponse.CiphertextBlob.value);
@@ -539,13 +539,13 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && reEncryptResponse.SourceKeyId.Some?
       && reEncryptResponse.SourceKeyId.value == sourceKmsArn,  //kmsKeyArn
       Types.KeyManagementException(
-        message := "Invalid response from KMS ReEncrypt:: Invalid Source Key Id")
+        message := "Invalid response from KMS ReEncrypt: Invalid Source Key Id")
     );
     :- Need(
       && reEncryptResponse.KeyId.Some?
       && reEncryptResponse.KeyId.value == destinationKmsArn, // kmsKeyArn,
       Types.KeyManagementException(
-        message := "Invalid response from KMS ReEncrypt:: Invalid Destination Key Id")
+        message := "Invalid response from KMS ReEncrypt: Invalid Destination Key Id")
     );
 
     :- Need(

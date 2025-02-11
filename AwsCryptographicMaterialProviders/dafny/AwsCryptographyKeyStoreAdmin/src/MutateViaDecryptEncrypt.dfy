@@ -62,13 +62,13 @@ module {:options "/functionSyntax:4" } MutateViaDecryptEncrypt {
       && decryptResponse.KeyId.Some?
       && decryptResponse.KeyId.value == kmsArn,
       KMSKeystoreOperations.Types.KeyManagementException(
-        message := "Invalid response from AWS KMS Decrypt :: KMS Key ID of response did not match request."
+        message := "Invalid response from AWS KMS Decrypt: KMS Key ID of response did not match request."
       ));
     :- Need(
       && decryptResponse.Plaintext.Some?
       && KMSKeystoreOperations.KMS.IsValid_PlaintextType(decryptResponse.Plaintext.value),
       KMSKeystoreOperations.Types.KeyManagementException(
-        message := "Invalid response from AWS KMS Decrypt :: KMS response did not include plaintext."
+        message := "Invalid response from AWS KMS Decrypt: KMS response did not include plaintext."
       ));
     return Success(decryptResponse.Plaintext.value);
   }
@@ -119,14 +119,14 @@ module {:options "/functionSyntax:4" } MutateViaDecryptEncrypt {
       && encryptResponse.CiphertextBlob.Some?
       && KMSKeystoreOperations.KMS.IsValid_CiphertextType(encryptResponse.CiphertextBlob.value),
       KMSKeystoreOperations.Types.KeyManagementException(
-        message := "Invalid response from AWS KMS Encrypt :: KMS response's Ciphertext is invalid."
+        message := "Invalid response from AWS KMS Encrypt: KMS response's Ciphertext is invalid."
       )
     );
     :- Need(
       && encryptResponse.KeyId.Some?
       && encryptResponse.KeyId.value == kmsArn,
       KMSKeystoreOperations.Types.KeyManagementException(
-        message := "Invalid response from AWS KMS Encrypt :: KMS Key ID of response did not match request."
+        message := "Invalid response from AWS KMS Encrypt: KMS Key ID of response did not match request."
       )
     );
     return Success(encryptResponse.CiphertextBlob.value);
