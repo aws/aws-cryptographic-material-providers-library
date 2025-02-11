@@ -3,6 +3,7 @@
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "MutationStateStructures.dfy"
 include "MutationErrorRefinement.dfy"
+include "MutateViaDecryptEncrypt.dfy"
 include "KmsUtils.dfy"
 
 /** Common Functions/Methods for Mutations. */
@@ -22,6 +23,7 @@ module {:options "/functionSyntax:4" } Mutations {
   import StateStrucs = MutationStateStructures
   import MutationErrorRefinement
   import KmsUtils
+  import MutateViaDecryptEncrypt
 
   method ValidateCommitmentAndIndexStructures(
     token: Types.MutationToken,
@@ -274,20 +276,31 @@ module {:options "/functionSyntax:4" } Mutations {
           kmsClient := kms.kmsClient
         );
       case decryptEncrypt(kmsD, kmsE) =>
-        kmsOperation := "Decrypt/Encrypt";
-        wrappedKey? := KMSKeystoreOperations.MutateViaDecryptEncrypt(
+        var decryptedKey? := MutateViaDecryptEncrypt.Decrypt(
           ciphertext := input.item.CiphertextBlob,
-          sourceEncryptionContext := input.item.EncryptionContext,
-          destinationEncryptionContext := input.terminalEncryptionContext,
-          sourceKmsArn := input.originalKmsArn,
-          destinationKmsArn := input.terminalKmsArn,
-          decryptGrantTokens := kmsD.grantTokens,
-          decryptKmsClient := kmsD.kmsClient,
-          encryptGrantTokens := kmsE.grantTokens,
-          encryptKmsClient := kmsE.kmsClient
+          encryptionContext := input.item.EncryptionContext,
+          kmsArn := input.originalKmsArn,
+          grantTokens := kmsD.grantTokens,
+          kmsClient := kmsD.kmsClient);
+        if (decryptedKey?.Failure?) {
+          var error := MutationErrorRefinement.MutateExceptionParse(
+            item := input.item,
+            error := decryptedKey?.error,
+            terminalKmsArn := input.terminalKmsArn,
+            localOperation := localOperation,
+            kmsOperation := "Decrypt");
+          return Failure(error);
+        }
+        kmsOperation := "Encrypt";
+        wrappedKey? := MutateViaDecryptEncrypt.Encrypt(
+          plaintext := decryptedKey?.value,
+          encryptionContext := input.terminalEncryptionContext,
+          kmsArn := input.terminalKmsArn,
+          grantTokens := kmsE.grantTokens,
+          kmsClient := kmsE.kmsClient
         );
     }
-    assert kmsOperation == "ReEncrypt" || kmsOperation == "Decrypt/Encrypt";
+    assert kmsOperation == "ReEncrypt" || kmsOperation == "Encrypt";
     // We call this method to create the new Active from the new Decrypt Only
     if (wrappedKey?.Failure? && input.item.Type.ActiveHierarchicalSymmetricVersion? && createNewActive) {
       var error := MutationErrorRefinement.CreateActiveException(
