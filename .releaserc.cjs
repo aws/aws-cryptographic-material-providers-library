@@ -77,7 +77,7 @@ const Runtimes = {
  * @type {import('semantic-release').GlobalConfig}
  */
 module.exports = {
-  branches: ["main", "jocorell/update-releaserc"],
+  branches: ["main"],
   repositoryUrl:
     "git@github.com:aws/aws-cryptographic-material-providers-library.git",
   plugins: [
@@ -97,7 +97,7 @@ module.exports = {
             { type: "docs", section: "Maintenance" },
             { type: "revert", section: "Fixes" },
             { type: "style", section: "Miscellaneous" },
-            { type: "refactor", section: "Miscellaneous"},
+            { type: "refactor", section: "Miscellaneous" },
             { type: "perf", section: "Miscellaneous" },
             { type: "test", section: "Miscellaneous" },
           ],
@@ -224,7 +224,7 @@ module.exports = {
             {
               type: "chore",
               section: "Miscellaneous",
-              hidden: false
+              hidden: false,
             },
             {
               type: "docs",
@@ -299,10 +299,10 @@ module.exports = {
               section: "Fixes -- Rust",
               hidden: false,
             },
-            { type: "style", section: "Miscellaneous", hidden: false},
-            { type: "refactor", section: "Miscellaneous", hidden: false},
-            { type: "perf", section: "Miscellaneous", hidden: false},
-            { type: "test", section: "Miscellaneous", hidden: false},
+            { type: "style", section: "Miscellaneous", hidden: false },
+            { type: "refactor", section: "Miscellaneous", hidden: false },
+            { type: "perf", section: "Miscellaneous", hidden: false },
+            { type: "test", section: "Miscellaneous", hidden: false },
           ],
         },
       },
