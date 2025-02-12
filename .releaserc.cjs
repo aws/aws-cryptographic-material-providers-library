@@ -96,10 +96,10 @@ module.exports = {
             { type: "chore", section: "Maintenance" },
             { type: "docs", section: "Maintenance" },
             { type: "revert", section: "Fixes" },
-            { type: "style", hidden: true },
-            { type: "refactor", hidden: true },
-            { type: "perf", hidden: true },
-            { type: "test", hidden: true },
+            { type: "style", section: "Miscellaneous" },
+            { type: "refactor", section: "Miscellaneous"},
+            { type: "perf", section: "Miscellaneous" },
+            { type: "test", section: "Miscellaneous" },
           ],
         },
         releaseRules: [
@@ -119,7 +119,7 @@ module.exports = {
             {
               type: "feat",
               scope: "dafny",
-              section: "Features -- Dafny",
+              section: "Features -- All Languages",
               hidden: false,
             },
             {
@@ -221,7 +221,11 @@ module.exports = {
               section: "Maintenance -- Rust",
               hidden: false,
             },
-
+            {
+              type: "chore",
+              section: "Miscellaneous",
+              hidden: false
+            },
             {
               type: "docs",
               scope: "dafny",
@@ -295,6 +299,10 @@ module.exports = {
               section: "Fixes -- Rust",
               hidden: false,
             },
+            { type: "style", section: "Miscellaneous", hidden: false},
+            { type: "refactor", section: "Miscellaneous", hidden: false},
+            { type: "perf", section: "Miscellaneous", hidden: false},
+            { type: "test", section: "Miscellaneous", hidden: false},
           ],
         },
       },
