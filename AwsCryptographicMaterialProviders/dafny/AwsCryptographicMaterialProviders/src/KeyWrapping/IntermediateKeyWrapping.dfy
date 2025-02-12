@@ -76,7 +76,9 @@ module IntermediateKeyWrapping {
           UnwrapInput(
             wrappedMaterial := maybeIntermediateWrappedMat.value.providerWrappedIkm,
             encryptionContext := encryptionContext,
-            algorithmSuite := algorithmSuite),
+            algorithmSuite := algorithmSuite,
+            serializedEC := CanonicalEncryptionContext.EncryptionContextToAAD(encryptionContext)
+          ),
           Success(unwrapRes),
           [])
 
@@ -89,12 +91,14 @@ module IntermediateKeyWrapping {
     // Deserialize the Intermediate-Wrapped material
     var deserializedWrapped :- DeserializeIntermediateWrappedMaterial(wrappedMaterial, algorithmSuite);
     var DeserializedIntermediateWrappedMaterial(encryptedPdk, providerWrappedIkm) := deserializedWrapped;
+    var serializedEC := CanonicalEncryptionContext.EncryptionContextToAAD(encryptionContext);
 
     var unwrapOutput :- unwrap.Invoke(
       UnwrapInput(
         wrappedMaterial := providerWrappedIkm,
         encryptionContext := encryptionContext,
-        algorithmSuite := algorithmSuite
+        algorithmSuite := algorithmSuite,
+        serializedEC := serializedEC
       ), []);
     var UnwrapOutput(intermediateMaterial, unwrapInfo) := unwrapOutput;
 
@@ -109,7 +113,7 @@ module IntermediateKeyWrapping {
     // Decrypt the plaintext data key with the pdkEncryptionKey
     var iv: seq<uint8> := seq(AlgorithmSuites.GetEncryptIvLength(algorithmSuite) as nat, _ => 0); // IV is zero
     var tagIndex := |encryptedPdk| - AlgorithmSuites.GetEncryptTagLength(algorithmSuite) as nat;
-    var aad :- CanonicalEncryptionContext.EncryptionContextToAAD(encryptionContext);
+    var aad :- serializedEC;
 
     var decInput := Crypto.AESDecryptInput(
       encAlg := algorithmSuite.encrypt.AES_GCM,
@@ -122,9 +126,7 @@ module IntermediateKeyWrapping {
     var decOutR := cryptoPrimitives.AESDecrypt(decInput);
     var plaintextDataKey :- decOutR.MapFailure(e => Types.AwsCryptographyPrimitives(e));
 
-    :- Need(|plaintextDataKey| == AlgorithmSuites.GetEncryptKeyLength(algorithmSuite) as nat,
-            Types.AwsCryptographicMaterialProvidersException(
-              message := "Unexpected AES_GCM Decrypt length"));
+    assert |plaintextDataKey| == AlgorithmSuites.GetEncryptKeyLength(algorithmSuite) as nat;
 
     return Success(IntermediateUnwrapOutput(
                      plaintextDataKey := plaintextDataKey,
@@ -152,7 +154,9 @@ module IntermediateKeyWrapping {
         && generateAndWrap.Ensures(
              GenerateAndWrapInput(
                algorithmSuite := algorithmSuite,
-               encryptionContext := encryptionContext),
+               encryptionContext := encryptionContext,
+               serializedEC := CanonicalEncryptionContext.EncryptionContextToAAD(encryptionContext)
+             ),
              Success(
                GenerateAndWrapOutput(
                  plaintextMaterial := res.value.intermediateMaterial,
@@ -187,7 +191,8 @@ module IntermediateKeyWrapping {
     var generateAndWrapOutput :- generateAndWrap.Invoke(
       GenerateAndWrapInput(
         algorithmSuite := algorithmSuite,
-        encryptionContext := encryptionContext
+        encryptionContext := encryptionContext,
+        serializedEC := CanonicalEncryptionContext.EncryptionContextToAAD(encryptionContext)
       ), []);
 
     //= aws-encryption-sdk-specification/framework/algorithm-suites.md#intermediate-key-wrapping
@@ -221,10 +226,8 @@ module IntermediateKeyWrapping {
     var encOutR := cryptoPrimitives.AESEncrypt(encInput);
     var encryptedPdk :- encOutR.MapFailure(e => Types.AwsCryptographyPrimitives(e));
 
-    :- Need(|encryptedPdk.cipherText + encryptedPdk.authTag| ==
-            (AlgorithmSuites.GetEncryptKeyLength(algorithmSuite) + AlgorithmSuites.GetEncryptTagLength(algorithmSuite)) as nat,
-            Types.AwsCryptographicMaterialProvidersException(
-              message := "Unexpected AES_GCM Encrypt length"));
+    assert |encryptedPdk.cipherText + encryptedPdk.authTag| ==
+           (AlgorithmSuites.GetEncryptKeyLength(algorithmSuite) + AlgorithmSuites.GetEncryptTagLength(algorithmSuite)) as nat;
 
     var serializedMaterial := encryptedPdk.cipherText + encryptedPdk.authTag + providerWrappedIkm;
 
@@ -251,7 +254,8 @@ module IntermediateKeyWrapping {
         && maybeIntermediateWrappedMat.Success?
         && generateAndWrap.Ensures(GenerateAndWrapInput(
                                      algorithmSuite := algorithmSuite,
-                                     encryptionContext := encryptionContext
+                                     encryptionContext := encryptionContext,
+                                     serializedEC := CanonicalEncryptionContext.EncryptionContextToAAD(encryptionContext)
                                    ), Success(
                                      GenerateAndWrapOutput(
                                        plaintextMaterial := res.value.intermediateMaterial,

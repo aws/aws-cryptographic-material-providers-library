@@ -22,6 +22,7 @@ module Actions {
     method Invoke(a: A, ghost attemptsState: seq<ActionInvoke<A, R>>)
       returns (r: R)
       requires Invariant()
+      requires Requires(a)
       modifies Modifies
       decreases Modifies
       ensures Invariant()
@@ -30,6 +31,8 @@ module Actions {
     predicate Invariant()
       reads Modifies
       decreases Modifies
+
+    predicate Requires(a: A)
 
     /*
      * Contains the assertions that should be true upon return of the Invoke method
@@ -59,6 +62,7 @@ module Actions {
     method Invoke(a: A, ghost attemptsState: seq<ActionInvoke<A, Result<R, E>>>)
       returns (r: Result<R, E>)
       requires Invariant()
+      requires Requires(a)
       modifies Modifies
       decreases Modifies
       ensures Invariant()
@@ -325,6 +329,7 @@ module Actions {
     )
     requires 0 < |s|
     requires action.Invariant()
+    requires forall i <- s :: action.Requires(i)
     modifies action.Modifies
     decreases action.Modifies
     ensures 0 < |attemptsState| <= |s|
