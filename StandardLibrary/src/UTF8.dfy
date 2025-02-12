@@ -59,7 +59,7 @@ module {:extern "UTF8"} UTF8 {
   }
 
   // Encode ASCII as UTF8 in a function, to allow use in ensures clause
-  function {:opaque} EncodeAscii(s : string) : (ret : ValidUTF8Bytes)
+  function method {:opaque} {:tailrecursion} EncodeAscii(s : string) : (ret : ValidUTF8Bytes)
     requires IsASCIIString(s)
     ensures |s| == |ret|
     ensures forall i | 0 <= i < |s| :: s[i] as uint8 == ret[i]

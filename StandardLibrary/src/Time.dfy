@@ -5,6 +5,8 @@ include "./StandardLibrary.dfy"
 include "./UInt.dfy"
 include "./String.dfy"
 include "./OsLang.dfy"
+include "./UTF8.dfy"
+include "../../libraries/src/FileIO/FileIO.dfy"
 
 module {:extern "Time"} Time {
   import opened StandardLibrary
@@ -12,6 +14,8 @@ module {:extern "Time"} Time {
   import opened UInt = StandardLibrary.UInt
   import StandardLibrary.String
   import OsLang
+  import UTF8
+  import FileIO
 
   // Time is non-deterministic.
   // In this way it is similar to random number.
@@ -134,15 +138,27 @@ module {:extern "Time"} Time {
     print "Clock Time : ", FormatMilli(time.ClockTime), " CPU Time : ", FormatMilli(time.CpuTime), "\n";
   }
 
-  method PrintTimeSinceLong(start : AbsoluteTime, tag : string)
+  method PrintTimeSinceLong(start : AbsoluteTime, tag : string, file : Option<string> :=  None)
   {
     var t := TimeSince(start);
-    PrintTimeLong(t, tag);
+    PrintTimeLong(t, tag, file);
   }
 
-  method PrintTimeLong(time : RelativeTime, tag : string)
+  function method BytesToBv(bits: seq<uint8>): seq<bv8>
   {
-    print tag, " ", OsLang.GetOsShort(), " ", OsLang.GetLanguageShort(), " ", FormatMilli(time.ClockTime), " ", FormatMilli(time.CpuTime), "\n";
+    seq(|bits|, i requires 0 <= i < |bits| => bits[i] as bv8)
+  }
+
+  method PrintTimeLong(time : RelativeTime, tag : string, file : Option<string> :=  None)
+  {
+    var val := tag + " " + OsLang.GetOsShort() + " " + OsLang.GetLanguageShort() + " " + FormatMilli(time.ClockTime) + " " + FormatMilli(time.CpuTime) + "\n";
+    print val;
+    if file.Some? {
+      var utf8_val := UTF8.Encode(val);
+      if utf8_val.Success? {
+        var _ := FileIO.AppendBytesToFile(file.value, BytesToBv(utf8_val.value));
+      }
+    }
   }
 
   method PrintTimeShort(time : RelativeTime)
