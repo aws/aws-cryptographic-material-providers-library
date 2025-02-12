@@ -55,6 +55,7 @@ module {:options "-functionSyntax:4"} AllDefaultCmm {
   const a := UTF8.Encode("a").value
   const b := UTF8.Encode("b").value
   const c := UTF8.Encode("c").value
+  const d := UTF8.Encode("𐀂").value
 
   // Dafny has trouble with complex operations on maps in Java
   // by decomposing this outside the set comprehension
@@ -141,6 +142,15 @@ module {:options "-functionSyntax:4"} AllDefaultCmm {
       encryptDescription := StaticPlaintextDataKey,
       decryptDescription := StaticPlaintextDataKey,
       encryptionContext := map[]
+    ),
+    TestVectors.PositiveEncryptKeyringVector(
+      name := "SurrogatePair Encryption Context Test 𐀂",
+      commitmentPolicy := AllAlgorithmSuites.GetCompatibleCommitmentPolicy(StaticAlgorithmSuite),
+      algorithmSuite := StaticAlgorithmSuite,
+      encryptDescription := StaticPlaintextDataKey,
+      decryptDescription := StaticPlaintextDataKey,
+      encryptionContext := map[d := d]
+
     ),
     TestVectors.NegativeEncryptKeyringVector(
       name := "Missing plaintext data key on decrypt",
