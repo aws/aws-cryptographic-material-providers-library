@@ -156,7 +156,7 @@ module.exports = {
             {
               type: "fix",
               scope: "dafny",
-              section: "Fixes -- Dafny",
+              section: "Fixes -- All Languages",
               hidden: false,
             },
             {
@@ -188,7 +188,7 @@ module.exports = {
             {
               type: "chore",
               scope: "dafny",
-              section: "Maintenance -- Dafny",
+              section: "Maintenance -- All Languages",
               hidden: false,
             },
             {
@@ -229,7 +229,7 @@ module.exports = {
             {
               type: "docs",
               scope: "dafny",
-              section: "Maintenance -- Dafny",
+              section: "Maintenance -- All Languages",
               hidden: false,
             },
             {
@@ -262,11 +262,10 @@ module.exports = {
               section: "Maintenance -- Rust",
               hidden: false,
             },
-
             {
               type: "revert",
               scope: "dafny",
-              section: "Fixes -- Dafny",
+              section: "Fixes -- All Languages",
               hidden: false,
             },
             {
