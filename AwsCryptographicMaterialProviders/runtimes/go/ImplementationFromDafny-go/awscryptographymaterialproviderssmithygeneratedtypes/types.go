@@ -375,10 +375,12 @@ func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuit
 	return nil
 }
 
+// Inputs for getting a AWS KMS Client.
 type GetClientInput struct {
 	Region string
 }
 
+// Inputs for getting a AWS KMS Client.
 func (input GetClientInput) Validate() error {
 
 	return nil
@@ -401,12 +403,14 @@ func (input GetClientOutput) Validate() error {
 	return nil
 }
 
+// A filter which defines what AWS partition and AWS accounts a KMS Key may be in for a Keyring to be allowed to attempt to decrypt it.
 type DiscoveryFilter struct {
 	AccountIds []string
 
 	Partition string
 }
 
+// A filter which defines what AWS partition and AWS accounts a KMS Key may be in for a Keyring to be allowed to attempt to decrypt it.
 func (input DiscoveryFilter) Validate() error {
 	if input.AccountIds == nil {
 		return fmt.Errorf("input.AccountIds is required but has a nil value.")
@@ -415,6 +419,7 @@ func (input DiscoveryFilter) Validate() error {
 	return nil
 }
 
+// Inputs for for creating a AWS KMS Discovery Keyring.
 type CreateAwsKmsDiscoveryKeyringInput struct {
 	KmsClient *kms.Client
 
@@ -423,6 +428,7 @@ type CreateAwsKmsDiscoveryKeyringInput struct {
 	GrantTokens []string
 }
 
+// Inputs for for creating a AWS KMS Discovery Keyring.
 func (input CreateAwsKmsDiscoveryKeyringInput) Validate() error {
 	if input.DiscoveryFilter != nil {
 		if input.DiscoveryFilter.Validate() != nil {
@@ -442,10 +448,12 @@ func (input KeyringReference) Validate() error {
 	return nil
 }
 
+// Outputs for creating a Keyring.
 type CreateKeyringOutput struct {
 	Keyring IKeyring
 }
 
+// Outputs for creating a Keyring.
 func (input CreateKeyringOutput) Validate() error {
 
 	return nil
@@ -459,6 +467,7 @@ func (input ClientSupplierReference) Validate() error {
 	return nil
 }
 
+// Inputs for for creating an AWS KMS Discovery Multi-Keyring.
 type CreateAwsKmsDiscoveryMultiKeyringInput struct {
 	Regions []string
 
@@ -469,6 +478,7 @@ type CreateAwsKmsDiscoveryMultiKeyringInput struct {
 	GrantTokens []string
 }
 
+// Inputs for for creating an AWS KMS Discovery Multi-Keyring.
 func (input CreateAwsKmsDiscoveryMultiKeyringInput) Validate() error {
 	if input.Regions == nil {
 		return fmt.Errorf("input.Regions is required but has a nil value.")
@@ -483,6 +493,7 @@ func (input CreateAwsKmsDiscoveryMultiKeyringInput) Validate() error {
 	return nil
 }
 
+// Inputs for creating a KmsPrivateKeyToStaticPublicKey Configuration.
 type KmsPrivateKeyToStaticPublicKeyInput struct {
 	RecipientPublicKey []byte
 
@@ -491,20 +502,24 @@ type KmsPrivateKeyToStaticPublicKeyInput struct {
 	SenderPublicKey []byte
 }
 
+// Inputs for creating a KmsPrivateKeyToStaticPublicKey Configuration.
 func (input KmsPrivateKeyToStaticPublicKeyInput) Validate() error {
 
 	return nil
 }
 
+// Inputs for creating a KmsPublicKeyDiscovery Configuration. This is a DECRYPT ONLY configuration.
 type KmsPublicKeyDiscoveryInput struct {
 	RecipientKmsIdentifier string
 }
 
+// Inputs for creating a KmsPublicKeyDiscovery Configuration. This is a DECRYPT ONLY configuration.
 func (input KmsPublicKeyDiscoveryInput) Validate() error {
 
 	return nil
 }
 
+// Inputs for creating an AWS KMS ECDH Keyring.
 type CreateAwsKmsEcdhKeyringInput struct {
 	CurveSpec awscryptographyprimitivessmithygeneratedtypes.ECDHCurveSpec
 
@@ -515,6 +530,7 @@ type CreateAwsKmsEcdhKeyringInput struct {
 	GrantTokens []string
 }
 
+// Inputs for creating an AWS KMS ECDH Keyring.
 func (input CreateAwsKmsEcdhKeyringInput) Validate() error {
 	if input.KeyAgreementScheme == nil {
 		return fmt.Errorf("input.KeyAgreementScheme is required but has a nil value.")
@@ -555,10 +571,12 @@ func (input BranchKeyIdSupplierReference) Validate() error {
 	return nil
 }
 
+// The best choice for most situations. Probably a StormTrackingCache.
 type DefaultCache struct {
 	EntryCapacity int32
 }
 
+// The best choice for most situations. Probably a StormTrackingCache.
 func (input DefaultCache) Validate() error {
 	if input.EntryCapacity < 1 {
 		return fmt.Errorf("CountingNumber has a minimum of 1 but has the value of %d.", input.EntryCapacity)
@@ -567,12 +585,14 @@ func (input DefaultCache) Validate() error {
 	return nil
 }
 
+// A cache that is safe for use in a multi threaded environment, but no extra functionality.
 type MultiThreadedCache struct {
 	EntryCapacity int32
 
 	EntryPruningTailSize *int32
 }
 
+// A cache that is safe for use in a multi threaded environment, but no extra functionality.
 func (input MultiThreadedCache) Validate() error {
 	if input.EntryCapacity < 1 {
 		return fmt.Errorf("CountingNumber has a minimum of 1 but has the value of %d.", input.EntryCapacity)
@@ -586,9 +606,11 @@ func (input MultiThreadedCache) Validate() error {
 	return nil
 }
 
+// Nothing should ever be cached.
 type NoCache struct {
 }
 
+// Nothing should ever be cached.
 func (input NoCache) Validate() error {
 
 	return nil
@@ -602,12 +624,14 @@ func (input CryptographicMaterialsCacheReference) Validate() error {
 	return nil
 }
 
+// A cache that is NOT safe for use in a multi threaded environment.
 type SingleThreadedCache struct {
 	EntryCapacity int32
 
 	EntryPruningTailSize *int32
 }
 
+// A cache that is NOT safe for use in a multi threaded environment.
 func (input SingleThreadedCache) Validate() error {
 	if input.EntryCapacity < 1 {
 		return fmt.Errorf("CountingNumber has a minimum of 1 but has the value of %d.", input.EntryCapacity)
@@ -621,6 +645,8 @@ func (input SingleThreadedCache) Validate() error {
 	return nil
 }
 
+// A cache that is safe for use in a multi threaded environment,
+// and tries to prevent redundant or overly parallel backend calls.
 type StormTrackingCache struct {
 	EntryCapacity int32
 
@@ -639,6 +665,8 @@ type StormTrackingCache struct {
 	TimeUnits *TimeUnits
 }
 
+// A cache that is safe for use in a multi threaded environment,
+// and tries to prevent redundant or overly parallel backend calls.
 func (input StormTrackingCache) Validate() error {
 	if input.EntryCapacity < 1 {
 		return fmt.Errorf("CountingNumber has a minimum of 1 but has the value of %d.", input.EntryCapacity)
@@ -675,6 +703,7 @@ func (input KeyStoreReference) Validate() error {
 	return nil
 }
 
+// Inputs for creating a Hierarchical Keyring.
 type CreateAwsKmsHierarchicalKeyringInput struct {
 	KeyStore *awscryptographykeystoresmithygenerated.Client
 
@@ -689,6 +718,7 @@ type CreateAwsKmsHierarchicalKeyringInput struct {
 	PartitionId *string
 }
 
+// Inputs for creating a Hierarchical Keyring.
 func (input CreateAwsKmsHierarchicalKeyringInput) Validate() error {
 	if input.TtlSeconds < 0 {
 		return fmt.Errorf("PositiveLong has a minimum of 0 but has the value of %d.", input.TtlSeconds)
@@ -734,6 +764,7 @@ func (input CreateAwsKmsHierarchicalKeyringInput) aws_cryptography_materialProvi
 	return nil
 }
 
+// Inputs for for creating a AWS KMS Keyring.
 type CreateAwsKmsKeyringInput struct {
 	KmsClient *kms.Client
 
@@ -742,11 +773,13 @@ type CreateAwsKmsKeyringInput struct {
 	GrantTokens []string
 }
 
+// Inputs for for creating a AWS KMS Keyring.
 func (input CreateAwsKmsKeyringInput) Validate() error {
 
 	return nil
 }
 
+// Inputs for for creating a AWS KMS MRK Discovery Keyring.
 type CreateAwsKmsMrkDiscoveryKeyringInput struct {
 	KmsClient *kms.Client
 
@@ -757,6 +790,7 @@ type CreateAwsKmsMrkDiscoveryKeyringInput struct {
 	GrantTokens []string
 }
 
+// Inputs for for creating a AWS KMS MRK Discovery Keyring.
 func (input CreateAwsKmsMrkDiscoveryKeyringInput) Validate() error {
 	if input.DiscoveryFilter != nil {
 		if input.DiscoveryFilter.Validate() != nil {
@@ -768,6 +802,7 @@ func (input CreateAwsKmsMrkDiscoveryKeyringInput) Validate() error {
 	return nil
 }
 
+// Inputs for for creating a AWS KMS MRK Discovery Multi-Keyring.
 type CreateAwsKmsMrkDiscoveryMultiKeyringInput struct {
 	Regions []string
 
@@ -778,6 +813,7 @@ type CreateAwsKmsMrkDiscoveryMultiKeyringInput struct {
 	GrantTokens []string
 }
 
+// Inputs for for creating a AWS KMS MRK Discovery Multi-Keyring.
 func (input CreateAwsKmsMrkDiscoveryMultiKeyringInput) Validate() error {
 	if input.Regions == nil {
 		return fmt.Errorf("input.Regions is required but has a nil value.")
@@ -792,6 +828,7 @@ func (input CreateAwsKmsMrkDiscoveryMultiKeyringInput) Validate() error {
 	return nil
 }
 
+// Inputs for for creating an AWS KMS MRK Keyring.
 type CreateAwsKmsMrkKeyringInput struct {
 	KmsClient *kms.Client
 
@@ -800,11 +837,13 @@ type CreateAwsKmsMrkKeyringInput struct {
 	GrantTokens []string
 }
 
+// Inputs for for creating an AWS KMS MRK Keyring.
 func (input CreateAwsKmsMrkKeyringInput) Validate() error {
 
 	return nil
 }
 
+// Inputs for for creating a AWS KMS MRK Multi-Keyring.
 type CreateAwsKmsMrkMultiKeyringInput struct {
 	ClientSupplier IClientSupplier
 
@@ -815,11 +854,13 @@ type CreateAwsKmsMrkMultiKeyringInput struct {
 	KmsKeyIds []string
 }
 
+// Inputs for for creating a AWS KMS MRK Multi-Keyring.
 func (input CreateAwsKmsMrkMultiKeyringInput) Validate() error {
 
 	return nil
 }
 
+// Inputs for for creating a AWS KMS Multi-Keyring.
 type CreateAwsKmsMultiKeyringInput struct {
 	ClientSupplier IClientSupplier
 
@@ -830,11 +871,13 @@ type CreateAwsKmsMultiKeyringInput struct {
 	KmsKeyIds []string
 }
 
+// Inputs for for creating a AWS KMS Multi-Keyring.
 func (input CreateAwsKmsMultiKeyringInput) Validate() error {
 
 	return nil
 }
 
+// Inputs for creating a AWS KMS RSA Keyring.
 type CreateAwsKmsRsaKeyringInput struct {
 	EncryptionAlgorithm kmstypes.EncryptionAlgorithmSpec
 
@@ -847,6 +890,7 @@ type CreateAwsKmsRsaKeyringInput struct {
 	PublicKey []byte
 }
 
+// Inputs for creating a AWS KMS RSA Keyring.
 func (input CreateAwsKmsRsaKeyringInput) Validate() error {
 
 	return nil
@@ -935,30 +979,36 @@ func (input CryptographicMaterialsManagerReference) Validate() error {
 	return nil
 }
 
+// Outputs for creating a Default Cryptographic Materials Manager.
 type CreateCryptographicMaterialsManagerOutput struct {
 	MaterialsManager ICryptographicMaterialsManager
 }
 
+// Outputs for creating a Default Cryptographic Materials Manager.
 func (input CreateCryptographicMaterialsManagerOutput) Validate() error {
 
 	return nil
 }
 
+// Inputs for creating a Default Cryptographic Materials Manager.
 type CreateDefaultCryptographicMaterialsManagerInput struct {
 	Keyring IKeyring
 }
 
+// Inputs for creating a Default Cryptographic Materials Manager.
 func (input CreateDefaultCryptographicMaterialsManagerInput) Validate() error {
 
 	return nil
 }
 
+// Inputs for creating a Multi-Keyring.
 type CreateMultiKeyringInput struct {
 	ChildKeyrings []IKeyring
 
 	Generator IKeyring
 }
 
+// Inputs for creating a Multi-Keyring.
 func (input CreateMultiKeyringInput) Validate() error {
 	if input.ChildKeyrings == nil {
 		return fmt.Errorf("input.ChildKeyrings is required but has a nil value.")
@@ -967,6 +1017,7 @@ func (input CreateMultiKeyringInput) Validate() error {
 	return nil
 }
 
+// Inputs for creating a Raw AES Keyring.
 type CreateRawAesKeyringInput struct {
 	KeyName string
 
@@ -977,46 +1028,55 @@ type CreateRawAesKeyringInput struct {
 	WrappingKey []byte
 }
 
+// Inputs for creating a Raw AES Keyring.
 func (input CreateRawAesKeyringInput) Validate() error {
 
 	return nil
 }
 
+// Inputs for creating a EphemeralPrivateKeyToStaticPublicKey Configuration.
 type EphemeralPrivateKeyToStaticPublicKeyInput struct {
 	RecipientPublicKey []byte
 }
 
+// Inputs for creating a EphemeralPrivateKeyToStaticPublicKey Configuration.
 func (input EphemeralPrivateKeyToStaticPublicKeyInput) Validate() error {
 
 	return nil
 }
 
+// Inputs for creating a PublicKeyDiscovery Configuration.
 type PublicKeyDiscoveryInput struct {
 	RecipientStaticPrivateKey []byte
 }
 
+// Inputs for creating a PublicKeyDiscovery Configuration.
 func (input PublicKeyDiscoveryInput) Validate() error {
 
 	return nil
 }
 
+// Inputs for creating a RawPrivateKeyToStaticPublicKey Configuration.
 type RawPrivateKeyToStaticPublicKeyInput struct {
 	RecipientPublicKey []byte
 
 	SenderStaticPrivateKey []byte
 }
 
+// Inputs for creating a RawPrivateKeyToStaticPublicKey Configuration.
 func (input RawPrivateKeyToStaticPublicKeyInput) Validate() error {
 
 	return nil
 }
 
+// Inputs for creating a raw ECDH Keyring.
 type CreateRawEcdhKeyringInput struct {
 	CurveSpec awscryptographyprimitivessmithygeneratedtypes.ECDHCurveSpec
 
 	KeyAgreementScheme RawEcdhStaticConfigurations
 }
 
+// Inputs for creating a raw ECDH Keyring.
 func (input CreateRawEcdhKeyringInput) Validate() error {
 	if input.KeyAgreementScheme == nil {
 		return fmt.Errorf("input.KeyAgreementScheme is required but has a nil value.")
@@ -1053,6 +1113,7 @@ func (input CreateRawEcdhKeyringInput) aws_cryptography_materialProviders_Create
 	return nil
 }
 
+// Inputs for creating a Raw RAW Keyring.
 type CreateRawRsaKeyringInput struct {
 	KeyName string
 
@@ -1065,11 +1126,13 @@ type CreateRawRsaKeyringInput struct {
 	PublicKey []byte
 }
 
+// Inputs for creating a Raw RAW Keyring.
 func (input CreateRawRsaKeyringInput) Validate() error {
 
 	return nil
 }
 
+// Inputs for creating an Required Encryption Context Cryptographic Materials Manager.
 type CreateRequiredEncryptionContextCMMInput struct {
 	RequiredEncryptionContextKeys []string
 
@@ -1078,6 +1141,7 @@ type CreateRequiredEncryptionContextCMMInput struct {
 	UnderlyingCMM ICryptographicMaterialsManager
 }
 
+// Inputs for creating an Required Encryption Context Cryptographic Materials Manager.
 func (input CreateRequiredEncryptionContextCMMInput) Validate() error {
 	if input.RequiredEncryptionContextKeys == nil {
 		return fmt.Errorf("input.RequiredEncryptionContextKeys is required but has a nil value.")
@@ -1099,10 +1163,12 @@ func (input CreateRequiredEncryptionContextCMMInput) aws_cryptography_materialPr
 	return nil
 }
 
+// Outputs for creating an Required Encryption Context Cryptographic Materials Manager.
 type CreateRequiredEncryptionContextCMMOutput struct {
 	MaterialsManager ICryptographicMaterialsManager
 }
 
+// Outputs for creating an Required Encryption Context Cryptographic Materials Manager.
 func (input CreateRequiredEncryptionContextCMMOutput) Validate() error {
 
 	return nil
@@ -1819,10 +1885,12 @@ func (input ValidEncryptionMaterialsTransitionInput) Validate() error {
 	return nil
 }
 
+// Inputs for determining the Branch Key which should be used to wrap or unwrap the data key for this encryption or decryption
 type GetBranchKeyIdInput struct {
 	EncryptionContext map[string]string
 }
 
+// Inputs for determining the Branch Key which should be used to wrap or unwrap the data key for this encryption or decryption
 func (input GetBranchKeyIdInput) Validate() error {
 	if input.EncryptionContext == nil {
 		return fmt.Errorf("input.EncryptionContext is required but has a nil value.")
@@ -1847,10 +1915,12 @@ func (input GetBranchKeyIdInput) aws_cryptography_materialProviders_GetBranchKey
 	return nil
 }
 
+// Outputs for the Branch Key responsible for wrapping or unwrapping the data key in this encryption or decryption.
 type GetBranchKeyIdOutput struct {
 	BranchKeyId string
 }
 
+// Outputs for the Branch Key responsible for wrapping or unwrapping the data key in this encryption or decryption.
 func (input GetBranchKeyIdOutput) Validate() error {
 
 	return nil
@@ -2176,23 +2246,29 @@ type EncryptMemberAES_GCM struct {
 
 func (*EncryptMemberAES_GCM) isEncrypt() {}
 
-// KeyAgreementSchemeMemberStaticConfiguration
+//	KeyAgreementSchemeMemberStaticConfiguration
+//
+// Supported ECDH Key Agreement Schemes.
 type KeyAgreementScheme interface {
 	isKeyAgreementScheme()
 }
 
+// Supported ECDH Key Agreement Schemes.
 type KeyAgreementSchemeMemberStaticConfiguration struct {
 	Value StaticConfigurations
 }
 
 func (*KeyAgreementSchemeMemberStaticConfiguration) isKeyAgreementScheme() {}
 
-// KmsEcdhStaticConfigurationsMemberKmsPrivateKeyToStaticPublicKey
-// KmsEcdhStaticConfigurationsMemberKmsPublicKeyDiscovery
+//	KmsEcdhStaticConfigurationsMemberKmsPrivateKeyToStaticPublicKey
+//	KmsEcdhStaticConfigurationsMemberKmsPublicKeyDiscovery
+//
+// Allowed configurations when using KmsEcdhStaticConfigurations.
 type KmsEcdhStaticConfigurations interface {
 	isKmsEcdhStaticConfigurations()
 }
 
+// Allowed configurations when using KmsEcdhStaticConfigurations.
 type KmsEcdhStaticConfigurationsMemberKmsPrivateKeyToStaticPublicKey struct {
 	Value KmsPrivateKeyToStaticPublicKeyInput
 }
@@ -2200,6 +2276,7 @@ type KmsEcdhStaticConfigurationsMemberKmsPrivateKeyToStaticPublicKey struct {
 func (*KmsEcdhStaticConfigurationsMemberKmsPrivateKeyToStaticPublicKey) isKmsEcdhStaticConfigurations() {
 }
 
+// Allowed configurations when using KmsEcdhStaticConfigurations.
 type KmsEcdhStaticConfigurationsMemberKmsPublicKeyDiscovery struct {
 	Value KmsPublicKeyDiscoveryInput
 }
@@ -2238,13 +2315,16 @@ type MaterialsMemberEncryption struct {
 
 func (*MaterialsMemberEncryption) isMaterials() {}
 
-// RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey
-// RawEcdhStaticConfigurationsMemberPublicKeyDiscovery
-// RawEcdhStaticConfigurationsMemberRawPrivateKeyToStaticPublicKey
+//	RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey
+//	RawEcdhStaticConfigurationsMemberPublicKeyDiscovery
+//	RawEcdhStaticConfigurationsMemberRawPrivateKeyToStaticPublicKey
+//
+// List of configurations when using RawEcdhStaticConfigurations.
 type RawEcdhStaticConfigurations interface {
 	isRawEcdhStaticConfigurations()
 }
 
+// List of configurations when using RawEcdhStaticConfigurations.
 type RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey struct {
 	Value EphemeralPrivateKeyToStaticPublicKeyInput
 }
@@ -2252,12 +2332,14 @@ type RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey struc
 func (*RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey) isRawEcdhStaticConfigurations() {
 }
 
+// List of configurations when using RawEcdhStaticConfigurations.
 type RawEcdhStaticConfigurationsMemberPublicKeyDiscovery struct {
 	Value PublicKeyDiscoveryInput
 }
 
 func (*RawEcdhStaticConfigurationsMemberPublicKeyDiscovery) isRawEcdhStaticConfigurations() {}
 
+// List of configurations when using RawEcdhStaticConfigurations.
 type RawEcdhStaticConfigurationsMemberRawPrivateKeyToStaticPublicKey struct {
 	Value RawPrivateKeyToStaticPublicKeyInput
 }
@@ -2283,18 +2365,22 @@ type SignatureAlgorithmMemberNone struct {
 
 func (*SignatureAlgorithmMemberNone) isSignatureAlgorithm() {}
 
-// StaticConfigurationsMemberAWS_KMS_ECDH
-// StaticConfigurationsMemberRAW_ECDH
+//	StaticConfigurationsMemberAWS_KMS_ECDH
+//	StaticConfigurationsMemberRAW_ECDH
+//
+// Supported configurations for the StaticConfiguration Key Agreement Scheme.
 type StaticConfigurations interface {
 	isStaticConfigurations()
 }
 
+// Supported configurations for the StaticConfiguration Key Agreement Scheme.
 type StaticConfigurationsMemberAWS_KMS_ECDH struct {
 	Value KmsEcdhStaticConfigurations
 }
 
 func (*StaticConfigurationsMemberAWS_KMS_ECDH) isStaticConfigurations() {}
 
+// Supported configurations for the StaticConfiguration Key Agreement Scheme.
 type StaticConfigurationsMemberRAW_ECDH struct {
 	Value RawEcdhStaticConfigurations
 }

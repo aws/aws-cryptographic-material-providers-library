@@ -1,5 +1,6 @@
 namespace aws.cryptography.primitives
 
+@documentation("Supported ECDH Curve specifications.")
 @enum([
   {
     name: "ECC_NIST_P256",
