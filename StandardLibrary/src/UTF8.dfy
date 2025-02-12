@@ -59,7 +59,9 @@ module {:extern "UTF8"} UTF8 {
   }
 
   // Encode ASCII as UTF8 in a function, to allow use in ensures clause
-  function {:opaque} {:tailrecursion} EncodeAscii(s : string) : (ret : ValidUTF8Bytes)
+  // it's a ghost, because it's very expensive
+  // use explicit bytes in a constant, and then assert that it == EncodeAscii("whatever")
+  function {:opaque} EncodeAscii(s : string) : (ret : ValidUTF8Bytes)
     requires IsASCIIString(s)
     ensures |s| == |ret|
     ensures forall i | 0 <= i < |s| :: s[i] as uint8 == ret[i]
@@ -71,14 +73,6 @@ module {:extern "UTF8"} UTF8 {
       assert ValidUTF8Seq(x);
       ValidUTF8Concat(x, EncodeAscii(s[1..]));
       x + EncodeAscii(s[1..])
-  } by method {
-    // This avoids the slice (s[1..])
-    // This is important because by default Dafny `const`
-    // are not always constants in the native runtime.
-    // In Java for example, they are static functions
-    // that evaluate the same value over and over.
-    IsASCIIBytesIsValidUTF8(seq(|s|, n requires 0 <= n < |s| => s[n] as uint8));
-    ret := seq(|s|, n requires 0 <= n < |s| => s[n] as uint8);
   }
 
   // if ascii strings are different, their encoding is also unique
