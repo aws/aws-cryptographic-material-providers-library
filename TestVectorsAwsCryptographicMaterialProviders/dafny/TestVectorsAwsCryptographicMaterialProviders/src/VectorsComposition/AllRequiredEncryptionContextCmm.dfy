@@ -15,9 +15,9 @@ module {:options "-functionSyntax:4"} AllRequiredEncryptionContextCmm {
 
   import opened UTF8
 
-  const a := UTF8.Encode("a").value
+  const a := UTF8.Encode("\uD835\uDFC1").value
   const b := UTF8.Encode("b").value
-  const c := UTF8.Encode("c").value
+  const c := UTF8.Encode("𝟁").value
 
   // Dafny has trouble with complex operations on maps in Java
   // by decomposing this outside the set comprehension
