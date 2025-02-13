@@ -424,10 +424,15 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
     expect applyOutput?.Success?, "Apply Mutation 2 FAILED";
     expect applyOutput?.value.LastModifiedTime.Some?;
     var lastModifiedTime5 := applyOutput?.value.LastModifiedTime.value;
-    expect lastModifiedTime4 != lastModifiedTime5, "Apply Mutation should return newer timestamp.";
+    expect lastModifiedTime5 != lastModifiedTime4, "Apply Mutation should return newer timestamp.";
 
     // Step 4: Delete Mutation Index
     var cleanedVersion? :- expect CleanupItems.DeleteTypeWithFailure(testId, Structure.MUTATION_INDEX_TYPE, ddbClient);
+
+    // Step 4.1: Describe Mutation when Mutation Index is removed, expect failure with MutationInvalidException
+    var sadDescOutput := underTest.DescribeMutation(describeInput);
+    expect sadDescOutput.Failure?, "Describe Mutation should expect a failure with MutationInvalidException";
+    expect sadDescOutput.error.MutationInvalidException?;
 
     // Step 5: Resume Without Index
     var resumedWithoutIndexOutput :- expect underTest.InitializeMutation(initInput);
