@@ -19,7 +19,8 @@ module {:options "-functionSyntax:4"} AllRequiredEncryptionContextCmm {
   const a := UTF8.Encode("a").value
   const b := UTF8.Encode("b").value
   const c := UTF8.Encode("c").value
-  const d: seq<uint8> := [0xF0,0x90,0x80,0x82]
+  const d : seq<uint8> := [0xf0, 0x90, 0x80, 0x82] // "𐀂" as utf8
+  
   // Dafny has trouble with complex operations on maps in Java
   // by decomposing this outside the set comprehension
   // the translated Java compiles correctly

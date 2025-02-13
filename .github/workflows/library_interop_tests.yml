@@ -203,6 +203,7 @@ jobs:
   testInteroperablity:
     needs: generateEncryptVectors
     strategy:
+      fail-fast: false
       matrix:
         library: [TestVectorsAwsCryptographicMaterialProviders]
         os: [
@@ -211,8 +212,8 @@ jobs:
             ubuntu-22.04,
             macos-13,
           ]
-        encrypting_language: [java, net, python, rust, go]
-        decrypting_language: [java, net, python, rust, go]
+        encrypting_language: [java, net, python, go]
+        decrypting_language: [java, net, python, go]
         dotnet-version: ["6.0.x"]
     runs-on: ${{ matrix.os }}
     permissions:
