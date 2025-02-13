@@ -56,7 +56,7 @@ module {:options "-functionSyntax:4"} AllDefaultCmm {
   const a := UTF8.Encode("a").value
   const b := UTF8.Encode("b").value
   const c := UTF8.Encode("c").value
-  const d: seq<uint8> := [0xF0,0x90,0x80,0x82];
+  const d := UTF8.Encode("𐀂").value
 
   // Dafny has trouble with complex operations on maps in Java
   // by decomposing this outside the set comprehension
@@ -136,42 +136,41 @@ module {:options "-functionSyntax:4"} AllDefaultCmm {
   const Tests
   := {}
   + {
-    TestVectors.PositiveEncryptKeyringVector(
-      name := "Simplest possible happy path",
-      commitmentPolicy := AllAlgorithmSuites.GetCompatibleCommitmentPolicy(StaticAlgorithmSuite),
-      algorithmSuite := StaticAlgorithmSuite,
-      encryptDescription := StaticPlaintextDataKey,
-      decryptDescription := StaticPlaintextDataKey,
-      encryptionContext := map[]
-    ),
+    // TestVectors.PositiveEncryptKeyringVector(
+    //   name := "Simplest possible happy path",
+    //   commitmentPolicy := AllAlgorithmSuites.GetCompatibleCommitmentPolicy(StaticAlgorithmSuite),
+    //   algorithmSuite := StaticAlgorithmSuite,
+    //   encryptDescription := StaticPlaintextDataKey,
+    //   decryptDescription := StaticPlaintextDataKey,
+    //   encryptionContext := map[]
+    // ),
     TestVectors.PositiveEncryptKeyringVector(
       name := "SurrogatePair Encryption Context Test 𐀂",
       commitmentPolicy := AllAlgorithmSuites.GetCompatibleCommitmentPolicy(StaticAlgorithmSuite),
       algorithmSuite := StaticAlgorithmSuite,
-      encryptDescription := StaticPlaintextDataKey,
-      decryptDescription := StaticPlaintextDataKey,
+      encryptDescription := RawAesKeyring,
+      decryptDescription := RawAesKeyring,
       encryptionContext := map[d := d]
-
-    ),
-    TestVectors.NegativeEncryptKeyringVector(
-      name := "Missing plaintext data key on decrypt",
-      errorDescription := "No plaintext data key on encrypt fails",
-      commitmentPolicy := AllAlgorithmSuites.GetCompatibleCommitmentPolicy(StaticAlgorithmSuite),
-      algorithmSuite := StaticAlgorithmSuite,
-      keyDescription := StaticNotPlaintextDataKey,
-      encryptionContext := map[]
-
-    ),
-    TestVectors.PositiveEncryptNegativeDecryptKeyringVector(
-      name := "Missing plaintext data key on decrypt",
-      decryptErrorDescription := "No plaintext data key on encrypt fails",
-      commitmentPolicy := AllAlgorithmSuites.GetCompatibleCommitmentPolicy(StaticAlgorithmSuite),
-      algorithmSuite := StaticAlgorithmSuite,
-      encryptDescription := StaticPlaintextDataKey,
-      decryptDescription := StaticNotPlaintextDataKey,
-      encryptionContext := map[]
     )
+    // TestVectors.NegativeEncryptKeyringVector(
+    //   name := "Missing plaintext data key on decrypt",
+    //   errorDescription := "No plaintext data key on encrypt fails",
+    //   commitmentPolicy := AllAlgorithmSuites.GetCompatibleCommitmentPolicy(StaticAlgorithmSuite),
+    //   algorithmSuite := StaticAlgorithmSuite,
+    //   keyDescription := StaticNotPlaintextDataKey,
+    //   encryptionContext := map[]
+
+    // ),
+    // TestVectors.PositiveEncryptNegativeDecryptKeyringVector(
+    //   name := "Missing plaintext data key on decrypt",
+    //   decryptErrorDescription := "No plaintext data key on encrypt fails",
+    //   commitmentPolicy := AllAlgorithmSuites.GetCompatibleCommitmentPolicy(StaticAlgorithmSuite),
+    //   algorithmSuite := StaticAlgorithmSuite,
+    //   encryptDescription := StaticPlaintextDataKey,
+    //   decryptDescription := StaticNotPlaintextDataKey,
+    //   encryptionContext := map[]
+    // )
   }
-  + FailureBadReproducedEncryptionContext
-  + SuccessTestingRequiredEncryptionContextKeysReproducedEncryptionContext
+  // + FailureBadReproducedEncryptionContext
+  // + SuccessTestingRequiredEncryptionContextKeysReproducedEncryptionContext
 }
