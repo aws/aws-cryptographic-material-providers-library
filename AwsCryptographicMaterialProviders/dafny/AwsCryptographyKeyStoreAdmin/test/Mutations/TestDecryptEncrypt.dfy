@@ -354,4 +354,98 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
     // print "TestDecryptEncryptStrat.TestDecryptEncryptRoundTripHappyCase: \n";
 
   }
+
+  method {:test} TestApplyMutationRoundTripWithLastModifiedTimeHappyCase()
+  {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
+    var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+    var reEncryptStrategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var decryptEncryptStrategy :- expect AdminFixtures.DecryptEncrypKeyManagerStrategy(
+      decryptKmsClient?:=Some(kmsClient),
+      encryptKmsClient?:=Some(kmsClient)
+    );
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
+
+    // Step 0: Create a branch key with 5 versions
+    var uuid :- expect UUID.GenerateUUID();
+    var testId := "test-apply-mutation-roundtrip-with-last-modified-time" + "-" + uuid;
+    Fixtures.CreateHappyCaseId(id:=testId, versionCount:=5, customEC := map[UTF8.EncodeAscii("Koda") := UTF8.EncodeAscii("Is a dog.")]);
+
+    // Step 1: Initialize Mutation and Apply 1st Mutation
+    var timestamp :- expect Time.GetCurrentTimeStamp();
+    var newCustomEC: KeyStoreTypes.EncryptionContextString := map["Koda" := timestamp];
+    var mutationsRequest := Types.Mutations(TerminalEncryptionContext := Some(newCustomEC));
+    var initInput := Types.InitializeMutationInput(
+      Identifier := testId,
+      Mutations := mutationsRequest,
+      Strategy := Some(decryptEncryptStrategy),
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()),
+      DoNotVersion := Some(true));
+    var initializeOutput :- expect underTest.InitializeMutation(initInput);
+    var initializeToken := initializeOutput.MutationToken;
+    expect initializeOutput.LastModifiedTime.Some?;
+    var lastModifiedTime1 := initializeOutput.LastModifiedTime.value;
+
+    var applyInput := Types.ApplyMutationInput(
+      MutationToken := initializeOutput.MutationToken,
+      PageSize := Some(1),
+      Strategy := Some(decryptEncryptStrategy),
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage())
+    );
+    var applyOutput? := underTest.ApplyMutation(applyInput);
+    expect applyOutput?.Success?, "Apply Mutation 1 FAILED";
+    var lastModifiedTime2 := applyOutput?.value.LastModifiedTime.value;
+    expect lastModifiedTime2 != lastModifiedTime1, "Apply Mutation should return newer timestamp.";
+
+    // Step 2: DescribeMutation and validate LastModifiedTime
+    var describeInput := Types.DescribeMutationInput(Identifier := testId);
+    var describeOutput :- expect underTest.DescribeMutation(describeInput);
+    expect describeOutput.MutationInFlight.Yes?, "Describe Mutation should return in-flight Mutations.";
+    var lastModifiedTime3 := describeOutput.MutationInFlight.Yes.LastModifiedTime.value;
+    expect lastModifiedTime2 == lastModifiedTime3, "Describe Mutation should return the same timestamp when last mutation was applied.";
+
+    // Step 3: Resume Mutation and Apply One More Mutation
+    var resumeOutput :- expect underTest.InitializeMutation(initInput);
+    var lastModifiedTime4 := resumeOutput.LastModifiedTime.value;
+    expect lastModifiedTime4 == lastModifiedTime2, "Resumed mutation should have same timestamp when last mutation was applied.";
+
+    applyInput := Types.ApplyMutationInput(
+      MutationToken := resumeOutput.MutationToken,
+      PageSize := Some(1),
+      Strategy := Some(decryptEncryptStrategy),
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage())
+    );
+    applyOutput? := underTest.ApplyMutation(applyInput);
+    expect applyOutput?.Success?, "Apply Mutation 2 FAILED";
+    var lastModifiedTime5 := applyOutput?.value.LastModifiedTime.value;
+    expect lastModifiedTime4 != lastModifiedTime5, "Apply Mutation should return newer timestamp.";
+
+    // Step 4: Delete Mutation Index
+    var cleanedVersion? :- expect CleanupItems.DeleteTypeWithFailure(testId, Structure.MUTATION_INDEX_TYPE, ddbClient);
+
+    // Step 5: Resume Without Index
+    var resumedWithoutIndexOutput :- expect underTest.InitializeMutation(initInput);
+    expect resumedWithoutIndexOutput.InitializeMutationFlag == Types.InitializeMutationFlag.ResumedWithoutIndex, "Expected Mutation to be resumed by creating new Mutation Index";
+    var lastModifiedTime6 := resumedWithoutIndexOutput.LastModifiedTime.value;
+    expect lastModifiedTime6 != lastModifiedTime5, "LastModifiedTime should change after resuming without index.";
+    var token := resumedWithoutIndexOutput.MutationToken;
+
+    // Step 6: Continue applying remaining mutations
+    // We have to apply mutations for all items(since ResumedWithoutIndex restarts the Mutation)
+    applyInput := Types.ApplyMutationInput(
+      MutationToken := token,
+      PageSize := Some(6),
+      Strategy := Some(decryptEncryptStrategy),
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage())
+    );
+    applyOutput? := underTest.ApplyMutation(applyInput);
+    expect applyOutput?.Success?, "Apply Mutation After ResumedWithoutIndex FAILED";
+    expect !(applyOutput?.value.MutationResult.ContinueMutation?), "Apply Mutation should return Complete Mutation.";
+    expect applyOutput?.value.MutationResult.CompleteMutation?, "Apply Mutation should return Complete Mutation.";
+
+    // Cleanup: Delete the branch key
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
+  }
 }
