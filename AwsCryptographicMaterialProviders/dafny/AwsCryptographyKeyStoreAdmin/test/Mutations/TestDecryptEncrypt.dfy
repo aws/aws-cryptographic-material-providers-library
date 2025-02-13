@@ -396,6 +396,7 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
     );
     var applyOutput? := underTest.ApplyMutation(applyInput);
     expect applyOutput?.Success?, "Apply Mutation 1 FAILED";
+    expect applyOutput?.value.LastModifiedTime.Some?;
     var lastModifiedTime2 := applyOutput?.value.LastModifiedTime.value;
     expect lastModifiedTime2 != lastModifiedTime1, "Apply Mutation should return newer timestamp.";
 
@@ -403,11 +404,13 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
     var describeInput := Types.DescribeMutationInput(Identifier := testId);
     var describeOutput :- expect underTest.DescribeMutation(describeInput);
     expect describeOutput.MutationInFlight.Yes?, "Describe Mutation should return in-flight Mutations.";
+    expect describeOutput.MutationInFlight.Yes.LastModifiedTime.Some?;
     var lastModifiedTime3 := describeOutput.MutationInFlight.Yes.LastModifiedTime.value;
     expect lastModifiedTime2 == lastModifiedTime3, "Describe Mutation should return the same timestamp when last mutation was applied.";
 
     // Step 3: Resume Mutation and Apply One More Mutation
     var resumeOutput :- expect underTest.InitializeMutation(initInput);
+    expect resumeOutput.LastModifiedTime.Some?;
     var lastModifiedTime4 := resumeOutput.LastModifiedTime.value;
     expect lastModifiedTime4 == lastModifiedTime2, "Resumed mutation should have same timestamp when last mutation was applied.";
 
@@ -419,6 +422,7 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
     );
     applyOutput? := underTest.ApplyMutation(applyInput);
     expect applyOutput?.Success?, "Apply Mutation 2 FAILED";
+    expect applyOutput?.value.LastModifiedTime.Some?;
     var lastModifiedTime5 := applyOutput?.value.LastModifiedTime.value;
     expect lastModifiedTime4 != lastModifiedTime5, "Apply Mutation should return newer timestamp.";
 
@@ -428,6 +432,7 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
     // Step 5: Resume Without Index
     var resumedWithoutIndexOutput :- expect underTest.InitializeMutation(initInput);
     expect resumedWithoutIndexOutput.InitializeMutationFlag == Types.InitializeMutationFlag.ResumedWithoutIndex, "Expected Mutation to be resumed by creating new Mutation Index";
+    expect resumedWithoutIndexOutput.LastModifiedTime.Some?;
     var lastModifiedTime6 := resumedWithoutIndexOutput.LastModifiedTime.value;
     expect lastModifiedTime6 != lastModifiedTime5, "LastModifiedTime should change after resuming without index.";
     var token := resumedWithoutIndexOutput.MutationToken;
