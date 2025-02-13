@@ -3,7 +3,7 @@
 
 include "AwsCryptographyMaterialProvidersOperations.dfy"
 
-module {:extern "software.amazon.cryptography.materialproviders.internaldafny" } MaterialProviders refines AbstractAwsCryptographyMaterialProvidersService
+module MaterialProviders refines AbstractAwsCryptographyMaterialProvidersService
 {
 
   import Operations = AwsCryptographyMaterialProvidersOperations

@@ -1,0 +1,35 @@
+{
+  "manifest": {
+    "version": 4,
+    "type": "awses-mpl-decrypt"
+  },
+  "client": "mpl-dafny",
+  "keys": "file://keys.json",
+  "tests": {
+    "bfd1994b-d423-4c7a-8caf-736d000e665b": {
+      "type": "positive-keyring",
+      "description": "336f4fe7-37f0-477c-9668-30511271f760->Decryption 0014",
+      "algorithmSuiteId": "0014",
+      "keyDescription": {
+        "type": "raw",
+        "key": "aes-256",
+        "provider-id": "aws-raw-vectors-persistent-aes-256",
+        "encryption-algorithm": "aes"
+      },
+      "encryptedDataKeys": [
+        {
+          "keyProviderId": "aws-raw-vectors-persistent-aes-256",
+          "keyProviderInfo": "YWVzLTI1NgAAAIAAAAAM5E9PNEoDz12UOIzJ",
+          "ciphertext": "LQwN1X61I8cDHpewrnJPJ7mu2gySWIOmsT4CX13dfXY="
+        }
+      ],
+      "result": {
+        "plaintextDataKey": "STdAuUmKtFDw1XmvYqQGgw==",
+        "requiredEncryptionContextKeys": []
+      },
+      "encryptionContext": {
+        "𐀂": "𐀂"
+      }
+    }
+  }
+}

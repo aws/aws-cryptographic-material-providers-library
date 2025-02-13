@@ -12,17 +12,18 @@ module {:options "-functionSyntax:4"} AllRequiredEncryptionContextCmm {
   import KeyVectorsTypes = AwsCryptographyMaterialProvidersTestVectorKeysTypes
   import Types = AwsCryptographyMaterialProvidersTypes
   import AllDefaultCmm
-
+  
+  import opened UInt = StandardLibrary.UInt
   import opened UTF8
 
   const a := UTF8.Encode("a").value
   const b := UTF8.Encode("b").value
   const c := UTF8.Encode("c").value
-
+  const d: seq<uint8> := [0xF0,0x90,0x80,0x82]
   // Dafny has trouble with complex operations on maps in Java
   // by decomposing this outside the set comprehension
   // the translated Java compiles correctly
-  const rootEncryptionContext := map[a := a, b := b]
+  const rootEncryptionContext := map[a := a, b := b, d := d]
   const encryptionContextsToTest := {rootEncryptionContext}
   const disjointEncryptionContext := map[a := c, b := c, c := c]
 
