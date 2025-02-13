@@ -17,6 +17,7 @@ on:
 jobs:
   generateEncryptVectors:
     strategy:
+      fail-fast: false
       matrix:
         library: [TestVectorsAwsCryptographicMaterialProviders]
         os: [
