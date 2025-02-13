@@ -841,7 +841,6 @@ module {:options "/functionSyntax:4" } Structure {
        // Structure & DefaultKeyStorage care that these are non-empty Byte Fields.
     && ENC_FIELD in m && m[ENC_FIELD].B? && 0 < |m[ENC_FIELD].B|
     && M_PAGE_INDEX in m && m[M_PAGE_INDEX].B? && 0 < |m[M_PAGE_INDEX].B|
-       // This Check may not be true for existing in-flight mutations
     && (M_LAST_MODIFIED_TIME in m ==> m[M_LAST_MODIFIED_TIME].S?)
     && m.Keys - {M_LAST_MODIFIED_TIME} == {
                                             TYPE_FIELD,

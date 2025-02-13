@@ -574,6 +574,31 @@ def aws_cryptography_keystoreadmin_ApplyMutationOutput(native_input):
                 for list_element in native_input.mutated_branch_key_items
             ]
         ),
+        LastModifiedTime=(
+            (
+                Option_Some(
+                    Seq(
+                        "".join(
+                            [
+                                chr(int.from_bytes(pair, "big"))
+                                for pair in zip(
+                                    *[
+                                        iter(
+                                            native_input.last_modified_time.encode(
+                                                "utf-16-be"
+                                            )
+                                        )
+                                    ]
+                                    * 2
+                                )
+                            ]
+                        )
+                    )
+                )
+            )
+            if (native_input.last_modified_time is not None)
+            else (Option_None())
+        ),
     )
 
 
@@ -657,6 +682,31 @@ def aws_cryptography_keystoreadmin_MutationDescription(native_input):
         ),
         MutationToken=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_MutationToken(
             native_input.mutation_token
+        ),
+        LastModifiedTime=(
+            (
+                Option_Some(
+                    Seq(
+                        "".join(
+                            [
+                                chr(int.from_bytes(pair, "big"))
+                                for pair in zip(
+                                    *[
+                                        iter(
+                                            native_input.last_modified_time.encode(
+                                                "utf-16-be"
+                                            )
+                                        )
+                                    ]
+                                    * 2
+                                )
+                            ]
+                        )
+                    )
+                )
+            )
+            if (native_input.last_modified_time is not None)
+            else (Option_None())
         ),
     )
 

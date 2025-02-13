@@ -285,6 +285,13 @@ public class ToNative {
     nativeBuilder.MutatedBranchKeyItems(
       ToNative.MutatedBranchKeyItems(dafnyValue.dtor_MutatedBranchKeyItems())
     );
+    if (dafnyValue.dtor_LastModifiedTime().is_Some()) {
+      nativeBuilder.LastModifiedTime(
+        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+          dafnyValue.dtor_LastModifiedTime().dtor_value()
+        )
+      );
+    }
     return nativeBuilder.build();
   }
 
@@ -506,6 +513,13 @@ public class ToNative {
     nativeBuilder.MutationToken(
       ToNative.MutationToken(dafnyValue.dtor_MutationToken())
     );
+    if (dafnyValue.dtor_LastModifiedTime().is_Some()) {
+      nativeBuilder.LastModifiedTime(
+        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+          dafnyValue.dtor_LastModifiedTime().dtor_value()
+        )
+      );
+    }
     return nativeBuilder.build();
   }
 

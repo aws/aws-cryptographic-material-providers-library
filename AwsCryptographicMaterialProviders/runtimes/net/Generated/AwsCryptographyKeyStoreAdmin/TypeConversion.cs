@@ -28,13 +28,14 @@ namespace AWS.Cryptography.KeyStoreAdmin
     public static AWS.Cryptography.KeyStoreAdmin.ApplyMutationOutput FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_ApplyMutationOutput(software.amazon.cryptography.keystoreadmin.internaldafny.types._IApplyMutationOutput value)
     {
       software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationOutput concrete = (software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationOutput)value; AWS.Cryptography.KeyStoreAdmin.ApplyMutationOutput converted = new AWS.Cryptography.KeyStoreAdmin.ApplyMutationOutput(); converted.MutationResult = (AWS.Cryptography.KeyStoreAdmin.ApplyMutationResult)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_ApplyMutationOutput__M14_MutationResult(concrete._MutationResult);
-      converted.MutatedBranchKeyItems = (System.Collections.Generic.List<AWS.Cryptography.KeyStoreAdmin.MutatedBranchKeyItem>)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_ApplyMutationOutput__M21_MutatedBranchKeyItems(concrete._MutatedBranchKeyItems); return converted;
+      converted.MutatedBranchKeyItems = (System.Collections.Generic.List<AWS.Cryptography.KeyStoreAdmin.MutatedBranchKeyItem>)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_ApplyMutationOutput__M21_MutatedBranchKeyItems(concrete._MutatedBranchKeyItems);
+      if (concrete._LastModifiedTime.is_Some) converted.LastModifiedTime = (string)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_ApplyMutationOutput__M16_LastModifiedTime(concrete._LastModifiedTime); return converted;
     }
     public static software.amazon.cryptography.keystoreadmin.internaldafny.types._IApplyMutationOutput ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_ApplyMutationOutput(AWS.Cryptography.KeyStoreAdmin.ApplyMutationOutput value)
     {
       value.Validate();
-
-      return new software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationOutput(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_ApplyMutationOutput__M14_MutationResult(value.MutationResult), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_ApplyMutationOutput__M21_MutatedBranchKeyItems(value.MutatedBranchKeyItems));
+      string var_lastModifiedTime = value.IsSetLastModifiedTime() ? value.LastModifiedTime : (string)null;
+      return new software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationOutput(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_ApplyMutationOutput__M14_MutationResult(value.MutationResult), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_ApplyMutationOutput__M21_MutatedBranchKeyItems(value.MutatedBranchKeyItems), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_ApplyMutationOutput__M16_LastModifiedTime(var_lastModifiedTime));
     }
     public static AWS.Cryptography.KeyStoreAdmin.ApplyMutationResult FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_ApplyMutationResult(software.amazon.cryptography.keystoreadmin.internaldafny.types._IApplyMutationResult value)
     {
@@ -443,6 +444,14 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       return ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_MutatedBranchKeyItems(value);
     }
+    public static string FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_ApplyMutationOutput__M16_LastModifiedTime(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
+    {
+      return value.is_None ? (string)null : FromDafny_N6_smithy__N3_api__S6_String(value.Extract());
+    }
+    public static Wrappers_Compile._IOption<Dafny.ISequence<char>> ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_ApplyMutationOutput__M16_LastModifiedTime(string value)
+    {
+      return value == null ? Wrappers_Compile.Option<Dafny.ISequence<char>>.create_None() : Wrappers_Compile.Option<Dafny.ISequence<char>>.create_Some(ToDafny_N6_smithy__N3_api__S6_String((string)value));
+    }
     public static AWS.Cryptography.KeyStoreAdmin.MutationToken FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_ApplyMutationResult__M16_ContinueMutation(software.amazon.cryptography.keystoreadmin.internaldafny.types._IMutationToken value)
     {
       return FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S13_MutationToken(value);
@@ -783,6 +792,14 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       return Dafny.Sequence<software.amazon.cryptography.keystoreadmin.internaldafny.types._IMutatedBranchKeyItem>.FromArray(value.Select(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_MutatedBranchKeyItems__M6_member).ToArray());
     }
+    public static string FromDafny_N6_smithy__N3_api__S6_String(Dafny.ISequence<char> value)
+    {
+      return new string(value.Elements);
+    }
+    public static Dafny.ISequence<char> ToDafny_N6_smithy__N3_api__S6_String(string value)
+    {
+      return Dafny.Sequence<char>.FromString(value);
+    }
     public static AWS.Cryptography.KeyStoreAdmin.MutationComplete FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S16_MutationComplete(software.amazon.cryptography.keystoreadmin.internaldafny.types._IMutationComplete value)
     {
       software.amazon.cryptography.keystoreadmin.internaldafny.types.MutationComplete concrete = (software.amazon.cryptography.keystoreadmin.internaldafny.types.MutationComplete)value; AWS.Cryptography.KeyStoreAdmin.MutationComplete converted = new AWS.Cryptography.KeyStoreAdmin.MutationComplete(); return converted;
@@ -792,14 +809,6 @@ namespace AWS.Cryptography.KeyStoreAdmin
       value.Validate();
 
       return new software.amazon.cryptography.keystoreadmin.internaldafny.types.MutationComplete();
-    }
-    public static string FromDafny_N6_smithy__N3_api__S6_String(Dafny.ISequence<char> value)
-    {
-      return new string(value.Elements);
-    }
-    public static Dafny.ISequence<char> ToDafny_N6_smithy__N3_api__S6_String(string value)
-    {
-      return Dafny.Sequence<char>.FromString(value);
     }
     public static System.Collections.Generic.Dictionary<string, string> FromDafny_N3_aws__N12_cryptography__N8_keyStore__S17_EncryptionContext(Dafny.IMap<Dafny.ISequence<byte>, Dafny.ISequence<byte>> value)
     {
@@ -885,13 +894,14 @@ namespace AWS.Cryptography.KeyStoreAdmin
     public static AWS.Cryptography.KeyStoreAdmin.MutationDescription FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_MutationDescription(software.amazon.cryptography.keystoreadmin.internaldafny.types._IMutationDescription value)
     {
       software.amazon.cryptography.keystoreadmin.internaldafny.types.MutationDescription concrete = (software.amazon.cryptography.keystoreadmin.internaldafny.types.MutationDescription)value; AWS.Cryptography.KeyStoreAdmin.MutationDescription converted = new AWS.Cryptography.KeyStoreAdmin.MutationDescription(); converted.MutationDetails = (AWS.Cryptography.KeyStoreAdmin.MutationDetails)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_MutationDescription__M15_MutationDetails(concrete._MutationDetails);
-      converted.MutationToken = (AWS.Cryptography.KeyStoreAdmin.MutationToken)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_MutationDescription__M13_MutationToken(concrete._MutationToken); return converted;
+      converted.MutationToken = (AWS.Cryptography.KeyStoreAdmin.MutationToken)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_MutationDescription__M13_MutationToken(concrete._MutationToken);
+      if (concrete._LastModifiedTime.is_Some) converted.LastModifiedTime = (string)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_MutationDescription__M16_LastModifiedTime(concrete._LastModifiedTime); return converted;
     }
     public static software.amazon.cryptography.keystoreadmin.internaldafny.types._IMutationDescription ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_MutationDescription(AWS.Cryptography.KeyStoreAdmin.MutationDescription value)
     {
       value.Validate();
-
-      return new software.amazon.cryptography.keystoreadmin.internaldafny.types.MutationDescription(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_MutationDescription__M15_MutationDetails(value.MutationDetails), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_MutationDescription__M13_MutationToken(value.MutationToken));
+      string var_lastModifiedTime = value.IsSetLastModifiedTime() ? value.LastModifiedTime : (string)null;
+      return new software.amazon.cryptography.keystoreadmin.internaldafny.types.MutationDescription(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_MutationDescription__M15_MutationDetails(value.MutationDetails), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_MutationDescription__M13_MutationToken(value.MutationToken), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_MutationDescription__M16_LastModifiedTime(var_lastModifiedTime));
     }
     public static AWS.Cryptography.KeyStoreAdmin.KmsSymmetricEncryption FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S22_KmsSymmetricEncryption(software.amazon.cryptography.keystoreadmin.internaldafny.types._IKmsSymmetricEncryption value)
     {
@@ -1041,6 +1051,14 @@ namespace AWS.Cryptography.KeyStoreAdmin
     public static software.amazon.cryptography.keystoreadmin.internaldafny.types._IMutationToken ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_MutationDescription__M13_MutationToken(AWS.Cryptography.KeyStoreAdmin.MutationToken value)
     {
       return ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S13_MutationToken(value);
+    }
+    public static string FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_MutationDescription__M16_LastModifiedTime(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
+    {
+      return value.is_None ? (string)null : FromDafny_N6_smithy__N3_api__S6_String(value.Extract());
+    }
+    public static Wrappers_Compile._IOption<Dafny.ISequence<char>> ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_MutationDescription__M16_LastModifiedTime(string value)
+    {
+      return value == null ? Wrappers_Compile.Option<Dafny.ISequence<char>>.create_None() : Wrappers_Compile.Option<Dafny.ISequence<char>>.create_Some(ToDafny_N6_smithy__N3_api__S6_String((string)value));
     }
     public static string FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S22_KmsSymmetricEncryption__M6_KmsArn(Dafny.ISequence<char> value)
     {

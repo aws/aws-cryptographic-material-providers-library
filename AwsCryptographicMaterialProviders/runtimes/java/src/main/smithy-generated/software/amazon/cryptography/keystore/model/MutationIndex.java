@@ -28,6 +28,9 @@ public class MutationIndex {
 
   private final ByteBuffer PageIndex;
 
+  /**
+   * ISO 8601 timestamp of last time the Mutation was Initialized or Applied.
+   */
   private final String LastModifiedTime;
 
   private final ByteBuffer CiphertextBlob;
@@ -66,6 +69,9 @@ public class MutationIndex {
     return this.PageIndex;
   }
 
+  /**
+   * @return ISO 8601 timestamp of last time the Mutation was Initialized or Applied.
+   */
   public String LastModifiedTime() {
     return this.LastModifiedTime;
   }
@@ -117,8 +123,14 @@ public class MutationIndex {
 
     ByteBuffer PageIndex();
 
+    /**
+     * @param LastModifiedTime ISO 8601 timestamp of last time the Mutation was Initialized or Applied.
+     */
     Builder LastModifiedTime(String LastModifiedTime);
 
+    /**
+     * @return ISO 8601 timestamp of last time the Mutation was Initialized or Applied.
+     */
     String LastModifiedTime();
 
     Builder CiphertextBlob(ByteBuffer CiphertextBlob);

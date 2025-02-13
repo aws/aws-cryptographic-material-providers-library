@@ -1533,6 +1533,8 @@ class MutationIndex:
         :param identifier: The Branch Key under Mutation.
         :param create_time: The create time as an ISO 8061 UTC string.
         :param uuid: A unique identifier for the Mutation.
+        :param last_modified_time: ISO 8601 timestamp of last time the
+            Mutation was Initialized or Applied.
         """
         self.identifier = identifier
         self.create_time = create_time

@@ -107,7 +107,8 @@ module {:options "/functionSyntax:4" } DescribeMutation {
     );
     var description := Types.MutationDescription(
       MutationDetails := details,
-      MutationToken := token);
+      MutationToken := token,
+      LastModifiedTime:= Index.LastModifiedTime);
     var inFlight := Types.MutationInFlight.Yes(
       Yes := description);
     return Success(Types.DescribeMutationOutput(MutationInFlight := inFlight));

@@ -15,9 +15,12 @@ public class ApplyMutationOutput {
    */
   private final List<MutatedBranchKeyItem> MutatedBranchKeyItems;
 
+  private final String LastModifiedTime;
+
   protected ApplyMutationOutput(BuilderImpl builder) {
     this.MutationResult = builder.MutationResult();
     this.MutatedBranchKeyItems = builder.MutatedBranchKeyItems();
+    this.LastModifiedTime = builder.LastModifiedTime();
   }
 
   public ApplyMutationResult MutationResult() {
@@ -29,6 +32,10 @@ public class ApplyMutationOutput {
    */
   public List<MutatedBranchKeyItem> MutatedBranchKeyItems() {
     return this.MutatedBranchKeyItems;
+  }
+
+  public String LastModifiedTime() {
+    return this.LastModifiedTime;
   }
 
   public Builder toBuilder() {
@@ -56,6 +63,10 @@ public class ApplyMutationOutput {
      */
     List<MutatedBranchKeyItem> MutatedBranchKeyItems();
 
+    Builder LastModifiedTime(String LastModifiedTime);
+
+    String LastModifiedTime();
+
     ApplyMutationOutput build();
   }
 
@@ -65,11 +76,14 @@ public class ApplyMutationOutput {
 
     protected List<MutatedBranchKeyItem> MutatedBranchKeyItems;
 
+    protected String LastModifiedTime;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(ApplyMutationOutput model) {
       this.MutationResult = model.MutationResult();
       this.MutatedBranchKeyItems = model.MutatedBranchKeyItems();
+      this.LastModifiedTime = model.LastModifiedTime();
     }
 
     public Builder MutationResult(ApplyMutationResult MutationResult) {
@@ -90,6 +104,15 @@ public class ApplyMutationOutput {
 
     public List<MutatedBranchKeyItem> MutatedBranchKeyItems() {
       return this.MutatedBranchKeyItems;
+    }
+
+    public Builder LastModifiedTime(String LastModifiedTime) {
+      this.LastModifiedTime = LastModifiedTime;
+      return this;
+    }
+
+    public String LastModifiedTime() {
+      return this.LastModifiedTime;
     }
 
     public ApplyMutationOutput build() {

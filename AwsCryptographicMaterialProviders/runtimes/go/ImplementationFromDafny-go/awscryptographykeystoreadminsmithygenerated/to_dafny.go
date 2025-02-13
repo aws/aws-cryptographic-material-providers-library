@@ -36,7 +36,7 @@ func ApplyMutationOutput_ToDafny(nativeOutput awscryptographykeystoreadminsmithy
 
 	return func() AwsCryptographyKeyStoreAdminTypes.ApplyMutationOutput {
 
-		return AwsCryptographyKeyStoreAdminTypes.Companion_ApplyMutationOutput_.Create_ApplyMutationOutput_(aws_cryptography_keyStoreAdmin_ApplyMutationOutput_MutationResult_ToDafny(nativeOutput.MutationResult), aws_cryptography_keyStoreAdmin_ApplyMutationOutput_MutatedBranchKeyItems_ToDafny(nativeOutput.MutatedBranchKeyItems))
+		return AwsCryptographyKeyStoreAdminTypes.Companion_ApplyMutationOutput_.Create_ApplyMutationOutput_(aws_cryptography_keyStoreAdmin_ApplyMutationOutput_MutationResult_ToDafny(nativeOutput.MutationResult), aws_cryptography_keyStoreAdmin_ApplyMutationOutput_MutatedBranchKeyItems_ToDafny(nativeOutput.MutatedBranchKeyItems), aws_cryptography_keyStoreAdmin_ApplyMutationOutput_LastModifiedTime_ToDafny(nativeOutput.LastModifiedTime))
 	}()
 
 }
@@ -492,6 +492,15 @@ func aws_cryptography_keyStoreAdmin_MutatedBranchKeyItem_Description_ToDafny(inp
 	}()
 }
 
+func aws_cryptography_keyStoreAdmin_ApplyMutationOutput_LastModifiedTime_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
 func aws_cryptography_keyStoreAdmin_CreateKeyInput_Identifier_ToDafny(input *string) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
@@ -625,7 +634,7 @@ func aws_cryptography_keyStoreAdmin_DescribeMutationOutput_MutationInFlight_ToDa
 func aws_cryptography_keyStoreAdmin_MutationInFlight_Yes_ToDafny(input awscryptographykeystoreadminsmithygeneratedtypes.MutationDescription) Wrappers.Option {
 	return func() Wrappers.Option {
 
-		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyKeyStoreAdminTypes.Companion_MutationDescription_.Create_MutationDescription_(aws_cryptography_keyStoreAdmin_MutationDescription_MutationDetails_ToDafny(input.MutationDetails), aws_cryptography_keyStoreAdmin_MutationDescription_MutationToken_ToDafny(input.MutationToken)))
+		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyKeyStoreAdminTypes.Companion_MutationDescription_.Create_MutationDescription_(aws_cryptography_keyStoreAdmin_MutationDescription_MutationDetails_ToDafny(input.MutationDetails), aws_cryptography_keyStoreAdmin_MutationDescription_MutationToken_ToDafny(input.MutationToken), aws_cryptography_keyStoreAdmin_MutationDescription_LastModifiedTime_ToDafny(input.LastModifiedTime)))
 	}()
 }
 
@@ -732,6 +741,15 @@ func aws_cryptography_keyStoreAdmin_MutationDescription_MutationToken_ToDafny(in
 	return func() AwsCryptographyKeyStoreAdminTypes.MutationToken {
 
 		return AwsCryptographyKeyStoreAdminTypes.Companion_MutationToken_.Create_MutationToken_(aws_cryptography_keyStoreAdmin_MutationToken_Identifier_ToDafny(input.Identifier), aws_cryptography_keyStoreAdmin_MutationToken_UUID_ToDafny(input.UUID), aws_cryptography_keyStoreAdmin_MutationToken_CreateTime_ToDafny(input.CreateTime))
+	}()
+}
+
+func aws_cryptography_keyStoreAdmin_MutationDescription_LastModifiedTime_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
 	}()
 }
 

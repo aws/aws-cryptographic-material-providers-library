@@ -17,9 +17,15 @@ public class MutationDescription {
    */
   private final MutationToken MutationToken;
 
+  /**
+   * ISO 8601 timestamp of last time the Mutation was Initialized or Applied.
+   */
+  private final String LastModifiedTime;
+
   protected MutationDescription(BuilderImpl builder) {
     this.MutationDetails = builder.MutationDetails();
     this.MutationToken = builder.MutationToken();
+    this.LastModifiedTime = builder.LastModifiedTime();
   }
 
   /**
@@ -34,6 +40,13 @@ public class MutationDescription {
    */
   public MutationToken MutationToken() {
     return this.MutationToken;
+  }
+
+  /**
+   * @return ISO 8601 timestamp of last time the Mutation was Initialized or Applied.
+   */
+  public String LastModifiedTime() {
+    return this.LastModifiedTime;
   }
 
   public Builder toBuilder() {
@@ -65,6 +78,16 @@ public class MutationDescription {
      */
     MutationToken MutationToken();
 
+    /**
+     * @param LastModifiedTime ISO 8601 timestamp of last time the Mutation was Initialized or Applied.
+     */
+    Builder LastModifiedTime(String LastModifiedTime);
+
+    /**
+     * @return ISO 8601 timestamp of last time the Mutation was Initialized or Applied.
+     */
+    String LastModifiedTime();
+
     MutationDescription build();
   }
 
@@ -74,11 +97,14 @@ public class MutationDescription {
 
     protected MutationToken MutationToken;
 
+    protected String LastModifiedTime;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(MutationDescription model) {
       this.MutationDetails = model.MutationDetails();
       this.MutationToken = model.MutationToken();
+      this.LastModifiedTime = model.LastModifiedTime();
     }
 
     public Builder MutationDetails(MutationDetails MutationDetails) {
@@ -97,6 +123,15 @@ public class MutationDescription {
 
     public MutationToken MutationToken() {
       return this.MutationToken;
+    }
+
+    public Builder LastModifiedTime(String LastModifiedTime) {
+      this.LastModifiedTime = LastModifiedTime;
+      return this;
+    }
+
+    public String LastModifiedTime() {
+      return this.LastModifiedTime;
     }
 
     public MutationDescription build() {

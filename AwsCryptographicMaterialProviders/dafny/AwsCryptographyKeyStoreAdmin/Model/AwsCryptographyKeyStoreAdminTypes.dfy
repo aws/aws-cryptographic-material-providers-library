@@ -28,7 +28,8 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   )
   datatype ApplyMutationOutput = | ApplyMutationOutput (
     nameonly MutationResult: ApplyMutationResult ,
-    nameonly MutatedBranchKeyItems: MutatedBranchKeyItems
+    nameonly MutatedBranchKeyItems: MutatedBranchKeyItems ,
+    nameonly LastModifiedTime: Option<string> := Option.None
   )
   datatype ApplyMutationResult =
     | ContinueMutation(ContinueMutation: MutationToken)
@@ -214,7 +215,8 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
                               )
   datatype MutationDescription = | MutationDescription (
     nameonly MutationDetails: MutationDetails ,
-    nameonly MutationToken: MutationToken
+    nameonly MutationToken: MutationToken ,
+    nameonly LastModifiedTime: Option<string> := Option.None
   )
   datatype MutationDetails = | MutationDetails (
     nameonly Original: MutableBranchKeyProperties ,

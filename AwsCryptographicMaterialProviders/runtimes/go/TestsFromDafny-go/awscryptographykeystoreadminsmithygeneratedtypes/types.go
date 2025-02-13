@@ -164,6 +164,8 @@ type ApplyMutationOutput struct {
 	MutatedBranchKeyItems []MutatedBranchKeyItem
 
 	MutationResult ApplyMutationResult
+
+	LastModifiedTime *string
 }
 
 func (input ApplyMutationOutput) Validate() error {
@@ -362,6 +364,8 @@ type MutationDescription struct {
 	MutationDetails MutationDetails
 
 	MutationToken MutationToken
+
+	LastModifiedTime *string
 }
 
 func (input MutationDescription) Validate() error {

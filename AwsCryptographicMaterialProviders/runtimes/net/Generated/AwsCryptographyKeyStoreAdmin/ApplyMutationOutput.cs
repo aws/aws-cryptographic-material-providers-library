@@ -9,6 +9,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
   {
     private AWS.Cryptography.KeyStoreAdmin.ApplyMutationResult _mutationResult;
     private System.Collections.Generic.List<AWS.Cryptography.KeyStoreAdmin.MutatedBranchKeyItem> _mutatedBranchKeyItems;
+    private string _lastModifiedTime;
     public AWS.Cryptography.KeyStoreAdmin.ApplyMutationResult MutationResult
     {
       get { return this._mutationResult; }
@@ -26,6 +27,15 @@ namespace AWS.Cryptography.KeyStoreAdmin
     public bool IsSetMutatedBranchKeyItems()
     {
       return this._mutatedBranchKeyItems != null;
+    }
+    public string LastModifiedTime
+    {
+      get { return this._lastModifiedTime; }
+      set { this._lastModifiedTime = value; }
+    }
+    public bool IsSetLastModifiedTime()
+    {
+      return this._lastModifiedTime != null;
     }
     public void Validate()
     {
