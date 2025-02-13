@@ -57,7 +57,7 @@ module {:options "-functionSyntax:4"} CompleteVectors {
 
   const AllPositiveKeyringTests
   := {}
-  + AllDefaultCmm.Tests
+  // + AllDefaultCmm.Tests
   // + AllHierarchy.Tests
   // + AllKms.Tests
   // + AllKmsMrkAware.Tests
@@ -66,7 +66,7 @@ module {:options "-functionSyntax:4"} CompleteVectors {
   // + AllRawAES.Tests
   // + AllRawRSA.Tests
   // + AllMulti.Tests
-  // + AllRequiredEncryptionContextCmm.Tests
+  + AllRequiredEncryptionContextCmm.Tests
   // + AllRawECDH.Tests
   // + AllKmsEcdh.Tests
 

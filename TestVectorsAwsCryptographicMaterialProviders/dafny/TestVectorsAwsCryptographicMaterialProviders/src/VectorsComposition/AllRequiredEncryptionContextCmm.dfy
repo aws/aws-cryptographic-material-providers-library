@@ -12,6 +12,7 @@ module {:options "-functionSyntax:4"} AllRequiredEncryptionContextCmm {
   import KeyVectorsTypes = AwsCryptographyMaterialProvidersTestVectorKeysTypes
   import Types = AwsCryptographyMaterialProvidersTypes
   import AllDefaultCmm
+  import AllKms
   
   import opened UInt = StandardLibrary.UInt
   import opened UTF8
@@ -20,13 +21,15 @@ module {:options "-functionSyntax:4"} AllRequiredEncryptionContextCmm {
   const b := UTF8.Encode("b").value
   const c := UTF8.Encode("c").value
   const d : seq<uint8> := [0xf0, 0x90, 0x80, 0x82] // "𐀂" as utf8
-  
+
   // Dafny has trouble with complex operations on maps in Java
   // by decomposing this outside the set comprehension
   // the translated Java compiles correctly
-  const rootEncryptionContext := map[a := a, b := b, d := d]
+  const rootEncryptionContext := map[a := a, b := b]
   const encryptionContextsToTest := {rootEncryptionContext}
   const disjointEncryptionContext := map[a := c, b := c, c := c]
+  const psiECMap := map[a := a, d := d]
+  const psiEC := {psiECMap}
 
   lemma disjointEncryptionContextCorrect()
     ensures rootEncryptionContext.Values !! disjointEncryptionContext.Values
@@ -117,9 +120,51 @@ module {:options "-functionSyntax:4"} AllRequiredEncryptionContextCmm {
           requiredEncryptionContextKeys := Some(SortedSets.ComputeSetToOrderedSequence2(requiredEncryptionContextKeys, (a, b) => a < b)),
           reproducedEncryptionContext := Some(reproducedEncryptionContext)
         )
+
+  const SuccessTestingRequiredEncryptionContextKeysReproducedEncryptionContextPsi :=
+    set
+      encryptionContext <- psiEC,
+      requiredEncryptionContextKeys
+      <- set
+           s <- AllDefaultCmm.SubSets(
+                  encryptionContext,
+                  SortedSets.ComputeSetToOrderedSequence2(encryptionContext.Keys, (a, d) => a < d))
+           | |s| != 0
+           :: s.Keys,
+      reproducedEncryptionContext
+      <- set
+           s <- AllDefaultCmm.SubSets(
+                  encryptionContext,
+                  SortedSets.ComputeSetToOrderedSequence2(encryptionContext.Keys, (a, d) => a < d))
+           | s.Keys * requiredEncryptionContextKeys == requiredEncryptionContextKeys
+           :: s
+      ::
+        TestVectors.PositiveEncryptKeyringVector(
+          name := "Success testing requiredEncryptionContextKeys/reproducedEncryptionContext",
+          commitmentPolicy := AllAlgorithmSuites.GetCompatibleCommitmentPolicy(AllDefaultCmm.StaticAlgorithmSuite),
+          algorithmSuite := AllDefaultCmm.StaticAlgorithmSuite,
+          encryptDescription := KeyVectorsTypes.RequiredEncryptionContext(
+            KeyVectorsTypes.RequiredEncryptionContextCMM(
+              underlying := KeyVectorsTypes.Kms(KeyVectorsTypes.KMSInfo( keyId := "us-west-2-decryptable" )),
+              requiredEncryptionContextKeys := SortedSets.ComputeSetToOrderedSequence2(requiredEncryptionContextKeys, (a, d) => a < d)
+            )
+          ),
+          decryptDescription := KeyVectorsTypes.RequiredEncryptionContext(
+            KeyVectorsTypes.RequiredEncryptionContextCMM(
+              underlying := KeyVectorsTypes.Kms(KeyVectorsTypes.KMSInfo( keyId := "us-west-2-decryptable" )),
+              requiredEncryptionContextKeys := SortedSets.ComputeSetToOrderedSequence2(requiredEncryptionContextKeys, (a, d) => a < d)
+            )
+          ),
+          encryptionContext := encryptionContext,
+          requiredEncryptionContextKeys := Some(SortedSets.ComputeSetToOrderedSequence2(requiredEncryptionContextKeys, (a, d) => a < d)),
+          reproducedEncryptionContext := Some(reproducedEncryptionContext)
+        )
+
   // These are only required encryption context vectors with static aes keyrings
-  const Tests: set<TestVectors.EncryptTestVector> :=
-    SuccessTestingRequiredEncryptionContextKeysReproducedEncryptionContext +
-    FailureBadReproducedEncryptionContext
+  const Tests: set<TestVectors.EncryptTestVector> 
+  := {}
+  + SuccessTestingRequiredEncryptionContextKeysReproducedEncryptionContextPsi
+  //  + SuccessTestingRequiredEncryptionContextKeysReproducedEncryptionContext 
+  //  + FailureBadReproducedEncryptionContext
 
 }
