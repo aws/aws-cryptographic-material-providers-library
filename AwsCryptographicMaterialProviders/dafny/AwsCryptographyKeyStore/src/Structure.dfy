@@ -841,16 +841,30 @@ module {:options "/functionSyntax:4" } Structure {
        // Structure & DefaultKeyStorage care that these are non-empty Byte Fields.
     && ENC_FIELD in m && m[ENC_FIELD].B? && 0 < |m[ENC_FIELD].B|
     && M_PAGE_INDEX in m && m[M_PAGE_INDEX].B? && 0 < |m[M_PAGE_INDEX].B|
-    && (M_LAST_MODIFIED_TIME in m ==> m[M_LAST_MODIFIED_TIME].S?)
-    && m.Keys - {M_LAST_MODIFIED_TIME} == {
-                                            TYPE_FIELD,
-                                            HIERARCHY_VERSION,
-                                            BRANCH_KEY_IDENTIFIER_FIELD,
-                                            KEY_CREATE_TIME,
-                                            M_UUID,
-                                            M_PAGE_INDEX,
-                                            ENC_FIELD
-                                          }
+
+    // Exactly specify allowed keys based on presence of M_LAST_MODIFIED_TIME
+    // Old In-flight mutations do not write M_LAST_MODIFIED_TIME in their Key Storage
+    && (M_LAST_MODIFIED_TIME in m ==>
+          m.Keys == {
+            TYPE_FIELD,
+            HIERARCHY_VERSION,
+            BRANCH_KEY_IDENTIFIER_FIELD,
+            KEY_CREATE_TIME,
+            M_LAST_MODIFIED_TIME,
+            M_UUID,
+            M_PAGE_INDEX,
+            ENC_FIELD
+          })
+    && (M_LAST_MODIFIED_TIME !in m ==>
+          m.Keys == {
+            TYPE_FIELD,
+            HIERARCHY_VERSION,
+            BRANCH_KEY_IDENTIFIER_FIELD,
+            KEY_CREATE_TIME,
+            M_UUID,
+            M_PAGE_INDEX,
+            ENC_FIELD
+          })
   }
 
   predicate MutationIndex?(m: Types.MutationIndex)
@@ -873,8 +887,8 @@ module {:options "/functionSyntax:4" } Structure {
       UUID := item[M_UUID].S,
       PageIndex := item[M_PAGE_INDEX].B,
       LastModifiedTime := if (M_LAST_MODIFIED_TIME in item && item[M_LAST_MODIFIED_TIME].S?)
-      then Option.Some(item[M_LAST_MODIFIED_TIME].S)
-      else Option.None,
+      then Some(item[M_LAST_MODIFIED_TIME].S)
+      else None,
       CiphertextBlob := item[ENC_FIELD].B
     )
   }
@@ -905,6 +919,9 @@ module {:options "/functionSyntax:4" } Structure {
   )
     requires MutationIndexAttribute?(item)
     requires MutationIndex?(index)
+    requires M_LAST_MODIFIED_TIME in item <==> index.LastModifiedTime.Some?
+    requires M_LAST_MODIFIED_TIME !in item <==> !index.LastModifiedTime.Some?
+
     ensures
       ToMutationIndex(item) == index <==> MutationIndexToAttributeMap(index) == item
   {}
