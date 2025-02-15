@@ -903,6 +903,18 @@ module DefaultKeyStorageInterface {
           )
       ];
 
+      /** Filter out items that match Version type only for mutate case */
+      var filteredItems := if input.Version.rotate? then
+        /* For rotate, no filtering needed as it's writing a new Decrypt Only item.*/
+        input.Items
+      else
+        /* For mutate, filter out any items that matches the active version.*/
+        /* To avoid writing the same version item twice for same Transaction Write.*/
+        Seq.Filter((item: Types.OverWriteEncryptedHierarchicalKey) =>
+                     item.Item.Type != input.Version.mutate.Item.Type,
+                   input.Items
+        );
+
       /** Convert Items to DDB */
       var decryptOnlyItems: seq<DDB.TransactWriteItem> :- Seq.MapWithResult(
         (branchKey: Types.OverWriteEncryptedHierarchicalKey)
@@ -914,11 +926,12 @@ module DefaultKeyStorageInterface {
                Types.KeyStorageException( message := ErrorMessages.ENCRYPTION_CONTEXT_EXCEEDS_DDB_LIMIT)
              );
           /* Only Version, or Decrypt Only, items are permitted.*/
+          /* TODO-Mutation-FF-Atomic: Make sure the exception is Accurate.*/
           :- Need(
                branchKey.Item.Type.HierarchicalSymmetricVersion?,
                Types.KeyStorageException(
+
                  message :=
-                   // TODO-AtomicMutation: Make sure the exception is Accurate.
                    "WriteAtomicMutation of DynamoDB Encrypted Key Storage ONLY writes Active, Beacon, Version & Decrypt Only Items to Storage."
                    + "Encountered a non-Decrypt Only Item."
                ));
@@ -928,7 +941,7 @@ module DefaultKeyStorageInterface {
                              branchKey.Old,
                              ddbTableName);
           Success(overWrite),
-        input.Items);
+        filteredItems);
 
       /** Construct & Issue DDB Request */
       var ddbRequest := DDB.TransactWriteItemsInput(
