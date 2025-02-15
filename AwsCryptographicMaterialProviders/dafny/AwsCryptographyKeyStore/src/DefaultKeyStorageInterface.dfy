@@ -856,8 +856,6 @@ module DefaultKeyStorageInterface {
       decreases Modifies - {History}
       ensures ValidState() && unchanged(History)
       ensures WriteAtomicMutationEnsuresPublicly(input, output)
-
-      ensures output.Failure?
     {
       /** Validate Inputs can be mapped to DDB Items */
       :- Need(
