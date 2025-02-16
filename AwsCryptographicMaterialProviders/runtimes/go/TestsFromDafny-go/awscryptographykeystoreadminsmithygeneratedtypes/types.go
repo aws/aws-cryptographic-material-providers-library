@@ -22,36 +22,44 @@ func (input MutationToken) Validate() error {
 	return nil
 }
 
+type AwsKmsDecryptEncrypt struct {
+	Decrypt *awscryptographykeystoresmithygeneratedtypes.AwsKms
+
+	Encrypt *awscryptographykeystoresmithygeneratedtypes.AwsKms
+}
+
+func (input AwsKmsDecryptEncrypt) Validate() error {
+	if input.Decrypt != nil {
+		if input.Decrypt.Validate() != nil {
+			return input.Decrypt.Validate()
+		}
+
+	}
+	if input.Encrypt != nil {
+		if input.Encrypt.Validate() != nil {
+			return input.Encrypt.Validate()
+		}
+
+	}
+
+	return nil
+}
+
 type KmsSymmetricEncryption struct {
 	AwsKms awscryptographykeystoresmithygeneratedtypes.AwsKms
 
-	KmsArn KmsSymmetricKeyArn
+	KmsArn string
 }
 
 func (input KmsSymmetricEncryption) Validate() error {
 	if input.AwsKms.Validate() != nil {
 		return input.AwsKms.Validate()
 	}
-	if input.KmsArn == nil {
-		return fmt.Errorf("input.KmsArn is required but has a nil value.")
+	if len(input.KmsArn) < 1 {
+		return fmt.Errorf("KeyIdType has a minimum length of 1 but has the length of %d.", len(input.KmsArn))
 	}
-	if input.Aws_cryptography_keyStoreAdmin_KmsSymmetricEncryption_KmsArn_Validate() != nil {
-		return input.Aws_cryptography_keyStoreAdmin_KmsSymmetricEncryption_KmsArn_Validate()
-	}
-
-	return nil
-}
-
-func (input KmsSymmetricEncryption) Aws_cryptography_keyStoreAdmin_KmsSymmetricEncryption_KmsArn_Validate() error {
-	if input.KmsArn == nil {
-		return nil
-	}
-	switch unionType := input.KmsArn.(type) {
-	case *KmsSymmetricKeyArnMemberKmsKeyArn:
-	case *KmsSymmetricKeyArnMemberKmsMRKeyArn:
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	if len(input.KmsArn) > 2048 {
+		return fmt.Errorf("KeyIdType has a maximum length of 2048 but has the length of %d.", len(input.KmsArn))
 	}
 
 	return nil
@@ -68,43 +76,30 @@ func (input TrustStorage) Validate() error {
 type ApplyMutationInput struct {
 	MutationToken MutationToken
 
+	SystemKey SystemKey
+
 	PageSize *int32
 
 	Strategy KeyManagementStrategy
-
-	SystemKey SystemKey
 }
 
 func (input ApplyMutationInput) Validate() error {
 	if input.MutationToken.Validate() != nil {
 		return input.MutationToken.Validate()
 	}
-	if input.Aws_cryptography_keyStoreAdmin_ApplyMutationInput_Strategy_Validate() != nil {
-		return input.Aws_cryptography_keyStoreAdmin_ApplyMutationInput_Strategy_Validate()
+	if input.SystemKey == nil {
+		return fmt.Errorf("input.SystemKey is required but has a nil value.")
 	}
 	if input.Aws_cryptography_keyStoreAdmin_ApplyMutationInput_SystemKey_Validate() != nil {
 		return input.Aws_cryptography_keyStoreAdmin_ApplyMutationInput_SystemKey_Validate()
 	}
-
-	return nil
-}
-
-func (input ApplyMutationInput) Aws_cryptography_keyStoreAdmin_ApplyMutationInput_Strategy_Validate() error {
-	if input.Strategy == nil {
-		return nil
-	}
-	switch unionType := input.Strategy.(type) {
-	case *KeyManagementStrategyMemberAwsKmsReEncrypt:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	if input.Aws_cryptography_keyStoreAdmin_ApplyMutationInput_Strategy_Validate() != nil {
+		return input.Aws_cryptography_keyStoreAdmin_ApplyMutationInput_Strategy_Validate()
 	}
 
 	return nil
 }
+
 func (input ApplyMutationInput) Aws_cryptography_keyStoreAdmin_ApplyMutationInput_SystemKey_Validate() error {
 	if input.SystemKey == nil {
 		return nil
@@ -115,6 +110,26 @@ func (input ApplyMutationInput) Aws_cryptography_keyStoreAdmin_ApplyMutationInpu
 			return unionType.Value.Validate()
 		}
 	case *SystemKeyMembertrustStorage:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+func (input ApplyMutationInput) Aws_cryptography_keyStoreAdmin_ApplyMutationInput_Strategy_Validate() error {
+	if input.Strategy == nil {
+		return nil
+	}
+	switch unionType := input.Strategy.(type) {
+	case *KeyManagementStrategyMemberAwsKmsReEncrypt:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	case *KeyManagementStrategyMemberAwsKmsDecryptEncrypt:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -260,6 +275,10 @@ func (input CreateKeyInput) Aws_cryptography_keyStoreAdmin_CreateKeyInput_Strate
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
+	case *KeyManagementStrategyMemberAwsKmsDecryptEncrypt:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
 	// Default case should not be reached.
 	default:
 		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
@@ -394,43 +413,30 @@ type InitializeMutationInput struct {
 
 	Mutations Mutations
 
+	SystemKey SystemKey
+
 	DoNotVersion *bool
 
 	Strategy KeyManagementStrategy
-
-	SystemKey SystemKey
 }
 
 func (input InitializeMutationInput) Validate() error {
 	if input.Mutations.Validate() != nil {
 		return input.Mutations.Validate()
 	}
-	if input.Aws_cryptography_keyStoreAdmin_InitializeMutationInput_Strategy_Validate() != nil {
-		return input.Aws_cryptography_keyStoreAdmin_InitializeMutationInput_Strategy_Validate()
+	if input.SystemKey == nil {
+		return fmt.Errorf("input.SystemKey is required but has a nil value.")
 	}
 	if input.Aws_cryptography_keyStoreAdmin_InitializeMutationInput_SystemKey_Validate() != nil {
 		return input.Aws_cryptography_keyStoreAdmin_InitializeMutationInput_SystemKey_Validate()
 	}
-
-	return nil
-}
-
-func (input InitializeMutationInput) Aws_cryptography_keyStoreAdmin_InitializeMutationInput_Strategy_Validate() error {
-	if input.Strategy == nil {
-		return nil
-	}
-	switch unionType := input.Strategy.(type) {
-	case *KeyManagementStrategyMemberAwsKmsReEncrypt:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	if input.Aws_cryptography_keyStoreAdmin_InitializeMutationInput_Strategy_Validate() != nil {
+		return input.Aws_cryptography_keyStoreAdmin_InitializeMutationInput_Strategy_Validate()
 	}
 
 	return nil
 }
+
 func (input InitializeMutationInput) Aws_cryptography_keyStoreAdmin_InitializeMutationInput_SystemKey_Validate() error {
 	if input.SystemKey == nil {
 		return nil
@@ -441,6 +447,26 @@ func (input InitializeMutationInput) Aws_cryptography_keyStoreAdmin_InitializeMu
 			return unionType.Value.Validate()
 		}
 	case *SystemKeyMembertrustStorage:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+func (input InitializeMutationInput) Aws_cryptography_keyStoreAdmin_InitializeMutationInput_Strategy_Validate() error {
+	if input.Strategy == nil {
+		return nil
+	}
+	switch unionType := input.Strategy.(type) {
+	case *KeyManagementStrategyMemberAwsKmsReEncrypt:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	case *KeyManagementStrategyMemberAwsKmsDecryptEncrypt:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -529,6 +555,10 @@ func (input VersionKeyInput) Aws_cryptography_keyStoreAdmin_VersionKeyInput_Stra
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
+	case *KeyManagementStrategyMemberAwsKmsDecryptEncrypt:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
 	// Default case should not be reached.
 	default:
 		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
@@ -604,6 +634,14 @@ func (input KmsClientReference) Validate() error {
 	return nil
 }
 
+type PrimitivesReference struct {
+}
+
+func (input PrimitivesReference) Validate() error {
+
+	return nil
+}
+
 // ApplyMutationResultMemberCompleteMutation
 // ApplyMutationResultMemberContinueMutation
 type ApplyMutationResult interface {
@@ -622,10 +660,17 @@ type ApplyMutationResultMemberContinueMutation struct {
 
 func (*ApplyMutationResultMemberContinueMutation) isApplyMutationResult() {}
 
+// KeyManagementStrategyMemberAwsKmsDecryptEncrypt
 // KeyManagementStrategyMemberAwsKmsReEncrypt
 type KeyManagementStrategy interface {
 	isKeyManagementStrategy()
 }
+
+type KeyManagementStrategyMemberAwsKmsDecryptEncrypt struct {
+	Value AwsKmsDecryptEncrypt
+}
+
+func (*KeyManagementStrategyMemberAwsKmsDecryptEncrypt) isKeyManagementStrategy() {}
 
 type KeyManagementStrategyMemberAwsKmsReEncrypt struct {
 	Value awscryptographykeystoresmithygeneratedtypes.AwsKms
