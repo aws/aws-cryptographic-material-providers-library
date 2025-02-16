@@ -1,0 +1,116 @@
+# This workflow performs Concurrency tests of the MPL in Java.
+name: Library Concurrency Tests
+
+on:
+  workflow_call:
+    inputs:
+      dafny:
+        description: "The Dafny version to run"
+        required: true
+        type: string
+      regenerate-code:
+        description: "Regenerate code using smithy-dafny"
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  generateEncryptVectors:
+    strategy:
+      matrix:
+        library: [AwsCryptographicMaterialProviders]
+        os: [
+            # https://taskei.amazon.dev/tasks/CrypTool-5283
+            # windows-latest,
+            ubuntu-latest,
+            macos-13,
+          ]
+        language: [
+            java,
+            # net,
+            # python,
+            # rust
+          ]
+        # https://taskei.amazon.dev/tasks/CrypTool-5284
+        java-versions: [8, 17]
+    runs-on: ${{ matrix.os }}
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+
+      # Test Vectors need to call KMS
+      - name: Configure AWS Credentials for Tests
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-region: us-west-2
+          role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
+          role-session-name: ConcurrencyTests
+
+      - uses: actions/checkout@v3
+      #  Not all submodules are needed.
+      # We manually pull the submodule we DO need.
+      - run: git submodule update --init libraries
+      - run: git submodule update --init --recursive smithy-dafny
+
+      # Setup Java in Rust is needed for running polymorph
+      - name: Setup Java 17
+        if: matrix.language == 'java' || matrix.language == 'rust'
+        uses: actions/setup-java@v3
+        with:
+          distribution: "corretto"
+          java-version: 17
+
+      - name: Setup .NET Core SDK '6.0.x'
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Setup Dafny
+        uses: dafny-lang/setup-dafny-action@v1.7.0
+        with:
+          dafny-version: ${{ inputs.dafny }}
+
+      - name: Regenerate code using smithy-dafny if necessary
+        if: ${{ inputs.regenerate-code }}
+        uses: ./.github/actions/polymorph_codegen
+        with:
+          dafny: ${{ inputs.dafny }}
+          library: ${{ matrix.library }}
+          diff-generated-code: false
+
+      # Build implementation for each runtime
+      - name: Build ${{ matrix.library }} implementation in Java
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          # This works because `node` is installed by default on GHA runners
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make build_java CORES=$CORES
+
+      - name: Setup gradle
+        if: matrix.language == 'java'
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: 7.2
+
+      - name: Setup Java ${{matrix.java-versions}}
+        uses: actions/setup-java@v3
+        with:
+          distribution: "corretto"
+          java-version: ${{matrix.java-versions}}
+
+      - name: Compile Java
+        uses: gradle/gradle-build-action@v3
+        with:
+          arguments: build
+          build-root-directory: ./${{ matrix.library }}/runtimes/java
+
+      - name: Test Java
+        uses: gradle/gradle-build-action@v3
+        with:
+          arguments: testConcurrentExamples
+          build-root-directory: ./${{ matrix.library }}/runtimes/java
