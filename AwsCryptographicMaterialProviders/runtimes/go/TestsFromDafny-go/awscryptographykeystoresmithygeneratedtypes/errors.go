@@ -36,6 +36,16 @@ func (e AlreadyExistsConditionFailed) Error() string {
 	return fmt.Sprintf("%s: %s", e.ErrorCodeOverride, e.Message)
 }
 
+type BranchKeyCiphertextException struct {
+	KeyStoreBaseException
+	Message           string
+	ErrorCodeOverride *string
+}
+
+func (e BranchKeyCiphertextException) Error() string {
+	return fmt.Sprintf("%s: %s", e.ErrorCodeOverride, e.Message)
+}
+
 type KeyStorageException struct {
 	KeyStoreBaseException
 	Message           string
