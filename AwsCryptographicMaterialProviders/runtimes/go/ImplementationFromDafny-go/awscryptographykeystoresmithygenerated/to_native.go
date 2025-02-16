@@ -320,6 +320,11 @@ func AlreadyExistsConditionFailed_FromDafny(dafnyOutput AwsCryptographyKeyStoreT
 
 }
 
+func BranchKeyCiphertextException_FromDafny(dafnyOutput AwsCryptographyKeyStoreTypes.Error) awscryptographykeystoresmithygeneratedtypes.BranchKeyCiphertextException {
+	return awscryptographykeystoresmithygeneratedtypes.BranchKeyCiphertextException{Message: Aws_cryptography_keyStore_BranchKeyCiphertextException_message_FromDafny(dafnyOutput.Dtor_message())}
+
+}
+
 func KeyManagementException_FromDafny(dafnyOutput AwsCryptographyKeyStoreTypes.Error) awscryptographykeystoresmithygeneratedtypes.KeyManagementException {
 	return awscryptographykeystoresmithygeneratedtypes.KeyManagementException{Message: Aws_cryptography_keyStore_KeyManagementException_message_FromDafny(dafnyOutput.Dtor_message())}
 
@@ -385,6 +390,10 @@ func Error_FromDafny(err AwsCryptographyKeyStoreTypes.Error) error {
 	// Service Errors
 	if err.Is_AlreadyExistsConditionFailed() {
 		return AlreadyExistsConditionFailed_FromDafny(err)
+	}
+
+	if err.Is_BranchKeyCiphertextException() {
+		return BranchKeyCiphertextException_FromDafny(err)
 	}
 
 	if err.Is_KeyManagementException() {
@@ -1694,6 +1703,15 @@ func Aws_cryptography_keyStore_WriteNewEncryptedBranchKeyVersionInput_Version_Fr
 	}
 }
 func Aws_cryptography_keyStore_AlreadyExistsConditionFailed_message_FromDafny(input interface{}) string {
+	return func() string {
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
+	}()
+}
+func Aws_cryptography_keyStore_BranchKeyCiphertextException_message_FromDafny(input interface{}) string {
 	return func() string {
 
 		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
