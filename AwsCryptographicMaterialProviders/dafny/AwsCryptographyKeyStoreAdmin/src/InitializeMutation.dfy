@@ -7,6 +7,7 @@ include "KmsUtils.dfy"
 include "MutationIndexUtils.dfy"
 include "SystemKey/Handler.dfy"
 include "Mutations.dfy"
+include "MutationErrorRefinement.dfy"
 
 module {:options "/functionSyntax:4" } InternalInitializeMutation {
   // StandardLibrary Imports
@@ -33,6 +34,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
   import MutationIndexUtils
   import SystemKeyHandler = SystemKey.Handler
   import Mutations
+  import MutationErrorRefinement
 
   datatype InternalInitializeMutationInput = | InternalInitializeMutationInput (
     nameonly Identifier: string ,
@@ -417,12 +419,18 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       grantTokens := grantTokens,
       kmsClient := kmsClient
     );
-    var wrappedDecryptOnlyBranchKey :- wrappedDecryptOnlyBranchKey?
-    .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
+
+    if (wrappedDecryptOnlyBranchKey?.Failure?) {
+      var error := MutationErrorRefinement.GenerateNewActiveException(
+        identifier := decryptOnlyEncryptionContext[Structure.BRANCH_KEY_IDENTIFIER_FIELD],
+        kmsArn := mutationToApply.Terminal.kmsArn,
+        error := wrappedDecryptOnlyBranchKey?.error);
+      return Failure(error);
+    }
 
     var newDecryptOnly := Structure.ConstructEncryptedHierarchicalKey(
       decryptOnlyEncryptionContext,
-      wrappedDecryptOnlyBranchKey.CiphertextBlob.value
+      wrappedDecryptOnlyBranchKey?.value.CiphertextBlob.value
     );
 
     :- Need(
