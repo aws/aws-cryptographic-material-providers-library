@@ -399,6 +399,8 @@ structure InitializeMutationOutput {
 
   @required
   InitializeMutationFlag: InitializeMutationFlag
+
+  LastModifiedTime: String
 }
 
 // TODO: assert release is v1.9.0
@@ -485,6 +487,7 @@ structure ApplyMutationOutput {
   MutationResult: ApplyMutationResult
   @required
   MutatedBranchKeyItems: MutatedBranchKeyItems
+  LastModifiedTime: String
 }
 
 // TODO: verify version before release
@@ -528,6 +531,8 @@ structure MutationDescription {
   @required
   @documentation("This token can be passed to Apply Mutation to continue the Mutation.")
   MutationToken: MutationToken
+  @documentation("ISO 8601 timestamp of last time the Mutation was Initialized or Applied.")
+  LastModifiedTime: String
 }
 
 structure MutationDetails {

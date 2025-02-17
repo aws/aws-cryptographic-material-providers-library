@@ -910,6 +910,18 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
         nativeValue.PageIndex()
       );
+    Option<DafnySequence<? extends Character>> lastModifiedTime;
+    lastModifiedTime =
+      Objects.nonNull(nativeValue.LastModifiedTime())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.LastModifiedTime()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
     DafnySequence<? extends Byte> ciphertextBlob;
     ciphertextBlob =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
@@ -920,6 +932,7 @@ public class ToDafny {
       createTime,
       uUID,
       pageIndex,
+      lastModifiedTime,
       ciphertextBlob
     );
   }

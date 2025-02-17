@@ -11,6 +11,7 @@ namespace AWS.Cryptography.KeyStore
     private string _createTime;
     private string _uUID;
     private System.IO.MemoryStream _pageIndex;
+    private string _lastModifiedTime;
     private System.IO.MemoryStream _ciphertextBlob;
     public string Identifier
     {
@@ -47,6 +48,15 @@ namespace AWS.Cryptography.KeyStore
     public bool IsSetPageIndex()
     {
       return this._pageIndex != null;
+    }
+    public string LastModifiedTime
+    {
+      get { return this._lastModifiedTime; }
+      set { this._lastModifiedTime = value; }
+    }
+    public bool IsSetLastModifiedTime()
+    {
+      return this._lastModifiedTime != null;
     }
     public System.IO.MemoryStream CiphertextBlob
     {
