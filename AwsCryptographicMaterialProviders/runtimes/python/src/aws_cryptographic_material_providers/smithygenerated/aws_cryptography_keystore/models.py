@@ -662,7 +662,7 @@ class HierarchicalKeyTypeActiveHierarchicalSymmetricVersion:
 
     @staticmethod
     def from_dict(
-        d: Dict[str, Any]
+        d: Dict[str, Any],
     ) -> "HierarchicalKeyTypeActiveHierarchicalSymmetricVersion":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
@@ -697,7 +697,7 @@ class HierarchicalKeyTypeHierarchicalSymmetricVersion:
 
     @staticmethod
     def from_dict(
-        d: Dict[str, Any]
+        d: Dict[str, Any],
     ) -> "HierarchicalKeyTypeHierarchicalSymmetricVersion":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
@@ -728,7 +728,7 @@ class HierarchicalKeyTypeActiveHierarchicalSymmetricBeacon:
 
     @staticmethod
     def from_dict(
-        d: Dict[str, Any]
+        d: Dict[str, Any],
     ) -> "HierarchicalKeyTypeActiveHierarchicalSymmetricBeacon":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
@@ -2491,7 +2491,7 @@ WriteInitializeMutationVersion = Union[
 
 
 def _write_initialize_mutation_version_from_dict(
-    d: Dict[str, Any]
+    d: Dict[str, Any],
 ) -> WriteInitializeMutationVersion:
     if "rotate" in d:
         return WriteInitializeMutationVersionRotate.from_dict(d)

@@ -856,13 +856,123 @@ module DefaultKeyStorageInterface {
       decreases Modifies - {History}
       ensures ValidState() && unchanged(History)
       ensures WriteAtomicMutationEnsuresPublicly(input, output)
-
-      ensures output.Failure?
     {
-      return Failure(
-          Types.KeyStorageException(
-            message := "At this time, WriteAtomicMutation is not supported."
-          ));
+      /** Validate Inputs can be mapped to DDB Items */
+      :- Need(
+        && (forall k <- input.Active.Item.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k)),
+        Types.KeyStorageException( message := ErrorMessages.ENCRYPTION_CONTEXT_EXCEEDS_DDB_LIMIT)
+      );
+      :- Need(
+        && (forall k <- input.Beacon.Item.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k)),
+        Types.KeyStorageException( message := ErrorMessages.ENCRYPTION_CONTEXT_EXCEEDS_DDB_LIMIT)
+      );
+
+      :- Need(
+        match input.Version {
+          case rotate(item) => (forall k <- item.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
+          case mutate(overWrite) => (forall k <- overWrite.Item.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
+        },
+        Types.KeyStorageException( message := ErrorMessages.ENCRYPTION_CONTEXT_EXCEEDS_DDB_LIMIT)
+      );
+      :- Need(
+        |input.Items| < DDB_MAX_MUTATION_WRITE_PAGE_SIZE,
+        Types.KeyStorageException(message:="DynamoDB Encrypted Key Storage can only write page sizes less than " + DDB_MAX_MUTATION_WRITE_PAGE_SIZE_str + "."
+        ));
+
+      /** Convert Inputs to DDB Items.*/
+      var items: DDB.TransactWriteItemList := [
+        TransactOverwriteHKey(
+          input.Active.Item,
+          input.Active.Old,
+          ddbTableName
+        ),
+        TransactOverwriteHKey(
+          input.Beacon.Item,
+          input.Beacon.Old,
+          ddbTableName
+        ),
+        if input.Version.rotate?
+        then TransactCreateHKey(
+               input.Version.rotate,
+               ddbTableName
+             )
+        else TransactOverwriteHKey(
+            input.Version.mutate.Item,
+            input.Version.mutate.Old,
+            ddbTableName
+          )
+      ];
+
+      /** Filter out items that match Version type only for mutate case */
+      var filteredItems := if input.Version.rotate? then
+        /* For rotate, no filtering needed as it's writing a new Decrypt Only item.*/
+        input.Items
+      else
+        /* For mutate, filter out any items that matches the active version.*/
+        /* To avoid writing the same version item twice for same Transaction Write.*/
+        Seq.Filter((item: Types.OverWriteEncryptedHierarchicalKey) =>
+                     item.Item.Type != input.Version.mutate.Item.Type,
+                   input.Items
+        );
+
+      /** Convert Items to DDB */
+      var decryptOnlyItems: seq<DDB.TransactWriteItem> :- Seq.MapWithResult(
+        (branchKey: Types.OverWriteEncryptedHierarchicalKey)
+        =>
+          /* All Attribute Names MUST comply with DDB's limits.*/
+          /* Attribute Names are the "keys" of the Encryption Context.*/
+          :- Need(
+               && (forall k <- branchKey.Item.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k)),
+               Types.KeyStorageException( message := ErrorMessages.ENCRYPTION_CONTEXT_EXCEEDS_DDB_LIMIT)
+             );
+          /* Only Version, or Decrypt Only, items are permitted.*/
+          /* TODO-Mutation-FF-Atomic: Make sure the exception is Accurate.*/
+          :- Need(
+               branchKey.Item.Type.HierarchicalSymmetricVersion?,
+               Types.KeyStorageException(
+
+                 message :=
+                   "WriteAtomicMutation of DynamoDB Encrypted Key Storage ONLY writes Active, Beacon, Version & Decrypt Only Items to Storage."
+                   + "Encountered a non-Decrypt Only Item."
+               ));
+          /* The branch key is valid for DDB; create a Put request.*/
+          var overWrite := TransactOverwriteHKey(
+                             branchKey.Item,
+                             branchKey.Old,
+                             ddbTableName);
+          Success(overWrite),
+        filteredItems);
+
+      /** Construct & Issue DDB Request */
+      var ddbRequest := DDB.TransactWriteItemsInput(
+        TransactItems := items + decryptOnlyItems
+      );
+      var ddbResponse? := ddbClient.TransactWriteItems(ddbRequest);
+
+      /** Handle DDB Error */
+      // TODO: Wherever we write a Transaction, to explain race failure, we MUST do something like this:
+      if (ddbResponse?.Failure? && ddbResponse?.error.TransactionCanceledException?) {
+        return Failure(
+            Types.KeyStorageException(
+              message :=
+                "DDB request to Write Atomic Mutation was failed by DDB with TransactionCanceledException. "
+                + "This MAY be caused by a race between hosts mutating the same Branch Key ID. "
+                + "The Mutation has NOT completed. "
+                + "Table Name: "+ ddbTableName
+                + "\tBranch Key ID: " + input.Active.Item.Identifier
+                + "\tDDB Exception Message: \n" + ddbResponse?.error.Message.UnwrapOr("")));
+      }
+      var _ :- ddbResponse?
+      .MapFailure(e => wrapDdbException(
+                      e := e,
+                      storageOperation := "WriteAtomicMutation",
+                      ddbOperation := "TransactWriteItems",
+                      identifier := input.Active.Item.Identifier,
+                      tableName := ddbTableName
+                    ));
+
+      // This is a Smithy Modeled Operation; the output MUST be a Structure
+      return Success(Types.WriteAtomicMutationOutput());
     }
 
     method GetEncryptedBeaconKey' ( input: Types.GetEncryptedBeaconKeyInput )
