@@ -8,6 +8,8 @@ module {:options "-functionSyntax:4"} AllRawAES {
   import TestVectors
   import AllAlgorithmSuites
   import KeyVectorsTypes = AwsCryptographyMaterialProvidersTestVectorKeysTypes
+  import opened UTF8
+  import opened UInt = StandardLibrary.UInt
 
   // These are all the PositiveKeyDescription for the RawAESKeyring
 
@@ -23,7 +25,14 @@ module {:options "-functionSyntax:4"} AllRawAES {
                               providerId := "aws-raw-vectors-persistent-" + key
                             ))
 
-  const Tests :=
+  const normal : seq<uint8> := [0x6e, 0x6f, 0x72, 0x6d, 0x61, 0x6c, 0xed, 0x80, 0x80] // "normal퀀" as utf8
+  const psi : seq<uint8> := [0xf0, 0x90, 0x80, 0x82] // "𐀂" as utf8
+
+  const controlEncryptionContext := map[normal := normal]
+  const encryptionContextPsi := map[psi := psi]
+  const ecToTest := {controlEncryptionContext, encryptionContextPsi}
+
+  const TestsNoEc :=
     set
       keyDescription <- KeyDescriptions,
       algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
@@ -37,4 +46,26 @@ module {:options "-functionSyntax:4"} AllRawAES {
           encryptDescription := keyDescription,
           decryptDescription := keyDescription
         )
+
+  const TestsWithEc :=
+    set
+      keyDescription <- KeyDescriptions,
+      algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
+      ec <- ecToTest,
+      commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite)
+      ::
+        TestVectors.PositiveEncryptKeyringVector(
+          name := "Generated RawAES " + keyDescription.AES.keyId,
+          commitmentPolicy := commitmentPolicy,
+          algorithmSuite := algorithmSuite,
+          encryptDescription := keyDescription,
+          decryptDescription := keyDescription,
+          encryptionContext := ec
+        )
+  
+  const Tests := 
+    {} 
+    + TestsNoEc
+    + TestsWithEc
+
 }

@@ -63,7 +63,7 @@ module {:options "-functionSyntax:4"} CompleteVectors {
   // + AllKmsMrkAware.Tests
   // + AllKmsMrkAwareDiscovery.Tests
   // + AllKmsRsa.Tests
-  // + AllRawAES.Tests
+  + AllRawAES.Tests
   // + AllRawRSA.Tests
   // + AllMulti.Tests
   + AllRequiredEncryptionContextCmm.Tests
