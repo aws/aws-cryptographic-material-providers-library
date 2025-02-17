@@ -34,7 +34,7 @@ module {:options "/functionSyntax:4"} TestWriteAtomicMutation {
 
     // Create initial test data
     CreateHappyCaseId(testId);
-    // print "\nTestWriteAtomicMutation :: TestHappyCase :: Created the test items! testId: " + testId + "\n";
+    // print "\nTestWriteAtomicMutation :: TestHappyCaseMutate :: Created the test items! testId: " + testId + "\n";
 
     // Get all three items (active, beacon, decrypt)
     var activeInput := Types.GetEncryptedActiveBranchKeyInput(
@@ -57,7 +57,7 @@ module {:options "/functionSyntax:4"} TestWriteAtomicMutation {
     );
     var decrypt? :- expect underTest.GetEncryptedBranchKeyVersion(decryptInput);
     var decrypt := decrypt?.Item;
-    // print "\nTestWriteAtomicMutation :: TestHappyCase :: Retrieved test items! testId: " + testId + "\n";
+    // print "\nTestWriteAtomicMutation :: TestHappyCaseMutate :: Retrieved test items! testId: " + testId + "\n";
 
     // Create modified versions with custom EC "aws-crypto-ec:Robbie":timestamp
     var timestamp :- expect Time.GetCurrentTimeStamp();
@@ -115,11 +115,11 @@ module {:options "/functionSyntax:4"} TestWriteAtomicMutation {
     expect
       |items| == 6,
       "Test expects there to be 6 Decrypt Only items! Found: " + String.Base10Int2String(|items|);
-    // print "\nTestWriteMutatedVersions :: TestHappyCase :: Read the test items! testId: "
+    // print "\nTestWriteAtomicMutation :: TestHappyCaseMutate :: Read the test items! testId: "
     //       + testId  +  "\n";
 
-    // TODO-Mutations-FF-Atomic : WriteAtomicMutation should handle Transaction request
-    //   to not include two write operations on one item(version)
+    // WriteAtomicMutation should handle Transaction request
+    // to not include two write operations on active decrypt-only version
     var mutatedItems: Types.OverWriteEncryptedHierarchicalKeys := [];
     var itemIndex := 0;
     while itemIndex < |items|
@@ -147,7 +147,7 @@ module {:options "/functionSyntax:4"} TestWriteAtomicMutation {
     );
 
     var output :- expect underTest.WriteAtomicMutation(input);
-    // print "\nTestWriteAtomicMutation :: TestHappyCase :: Executed atomic mutation! testId: " + testId + "\n";
+    // print "\nTestWriteAtomicMutation :: TestHappyCaseMutate :: Executed atomic mutation! testId: " + testId + "\n";
 
     // Verify changes
     var verifyActive? :- expect underTest.GetEncryptedActiveBranchKey(
