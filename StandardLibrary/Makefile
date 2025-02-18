@@ -38,5 +38,5 @@ polymorph_rust:
 polymorph_dafny: $(if $(USE_DAFNY_STANDARD_LIBRARIES), build_dafny_stdlibs, )
 
 build_dafny_stdlibs:
-	dafny build -t:lib --output $(PROJECT_ROOT)/bin/DafnyStandardLibraries-smithy-dafny-subset.doo \
+	dafny build -t:lib --output $(LIBRARY_ROOT)/bin/DafnyStandardLibraries-smithy-dafny-subset.doo \
 		../smithy-dafny/TestModels/dafny-dependencies/StandardLibrary/DafnyStandardLibraries-smithy-dafny-subset.toml
