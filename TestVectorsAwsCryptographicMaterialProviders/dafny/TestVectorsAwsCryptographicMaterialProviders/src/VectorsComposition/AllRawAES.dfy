@@ -16,14 +16,22 @@ module {:options "-functionSyntax:4"} AllRawAES {
   // TODO: Add aes-192 after aws-lc-rs adds support
   // const aesPersistentKeyNames := [ "aes-128", "aes-192", "aes-256"]
   const aesPersistentKeyNames := [ "aes-128", "aes-256"]
-  const KeyDescriptions :=
+  const KeyDescriptionsWithPsi :=
     set
       key <- aesPersistentKeyNames
       ::
         KeyVectorsTypes.AES(KeyVectorsTypes.RawAES(
                               keyId := key,  
                               // providerId := "aws-raw-vectors-persistent-" + key
-                              providerId := "aws-raw-vectors-persistent-" + key + "-𐀂"
+                              providerId := "aws-raw-vectors-persistent-" + key + "-\uD835\uDFC1"
+                            ))
+  const KeyDescriptions :=
+    set
+      key <- aesPersistentKeyNames
+      ::
+        KeyVectorsTypes.AES(KeyVectorsTypes.RawAES(
+                              keyId := key,  
+                              providerId := "aws-raw-vectors-persistent-" + key
                             ))
 
   const normal : seq<uint8> := [0x6e, 0x6f, 0x72, 0x6d, 0x61, 0x6c, 0xed, 0x80, 0x80] // "normal퀀" as utf8
@@ -35,7 +43,7 @@ module {:options "-functionSyntax:4"} AllRawAES {
 
   const TestsNoEc :=
     set
-      keyDescription <- KeyDescriptions,
+      keyDescription <- KeyDescriptions + KeyDescriptionsWithPsi,
       algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
       commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite)
       ::
@@ -50,7 +58,7 @@ module {:options "-functionSyntax:4"} AllRawAES {
 
   const TestsWithEc :=
     set
-      keyDescription <- KeyDescriptions,
+      keyDescription <- KeyDescriptions + KeyDescriptionsWithPsi,
       algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
       ec <- ecToTest,
       commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite)
