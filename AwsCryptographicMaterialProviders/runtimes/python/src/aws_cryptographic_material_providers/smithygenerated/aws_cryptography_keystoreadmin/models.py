@@ -811,6 +811,344 @@ class ApplyMutationOutput:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
+class Mutations:
+    terminal_kms_arn: Optional[str]
+    terminal_encryption_context: Optional[dict[str, str]]
+
+    def __init__(
+        self,
+        *,
+        terminal_kms_arn: Optional[str] = None,
+        terminal_encryption_context: Optional[dict[str, str]] = None,
+    ):
+        """Define the Mutation in terms of the terminal, or end state, value
+        for a particular Branch Key property. The original value will be
+        REPLACED with this value.
+
+        As of v1.9.0, a Mutation can either:
+        - replace the KmsArn protecting the
+        Branch Key
+        - replace the custom encryption context
+        - replace both the KmsArn and
+        the custom encryption context
+
+        :param terminal_kms_arn: Optional. If not set, there will be no change to the
+        KMS ARN.
+          If set, ReEncrypt all Items of the Branch Key
+          to be authorized by
+        this
+          AWS Key Management Service Key.
+          A Multi-Region or Single Region AWS KMS
+        Key are permitted,
+          but not aliases!
+        :param terminal_encryption_context: Optional. If not set, there will be no
+        change to the Encryption Context.
+          ReEncrypt all Items of the Branch Key
+          to
+        be authorized with this custom encryption context.
+          An empty Encryption Context
+        is not allowed.
+        """
+        self.terminal_kms_arn = terminal_kms_arn
+        self.terminal_encryption_context = terminal_encryption_context
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the Mutations to a dictionary."""
+        d: Dict[str, Any] = {}
+
+        if self.terminal_kms_arn is not None:
+            d["terminal_kms_arn"] = self.terminal_kms_arn
+
+        if self.terminal_encryption_context is not None:
+            d["terminal_encryption_context"] = self.terminal_encryption_context
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "Mutations":
+        """Creates a Mutations from a dictionary."""
+        kwargs: Dict[str, Any] = {}
+
+        if "terminal_kms_arn" in d:
+            kwargs["terminal_kms_arn"] = d["terminal_kms_arn"]
+
+        if "terminal_encryption_context" in d:
+            kwargs["terminal_encryption_context"] = d["terminal_encryption_context"]
+
+        return Mutations(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "Mutations("
+        if self.terminal_kms_arn is not None:
+            result += f"terminal_kms_arn={repr(self.terminal_kms_arn)}, "
+
+        if self.terminal_encryption_context is not None:
+            result += (
+                f"terminal_encryption_context={repr(self.terminal_encryption_context)}"
+            )
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, Mutations):
+            return False
+        attributes: list[str] = [
+            "terminal_kms_arn",
+            "terminal_encryption_context",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class AtomicMutationInput:
+    identifier: str
+    mutations: Mutations
+    strategy: Optional[KeyManagementStrategy]
+    system_key: SystemKey
+    do_not_version: Optional[bool]
+
+    def __init__(
+        self,
+        *,
+        identifier: str,
+        mutations: Mutations,
+        system_key: SystemKey,
+        strategy: Optional[KeyManagementStrategy] = None,
+        do_not_version: Optional[bool] = None,
+    ):
+        """
+        :param identifier: The identifier for the Branch Key to be mutated.
+        :param mutations: Describes the Mutation that will be applied to all Items of
+        the Branch Key.
+        :param system_key: Key Store Admin protects any non-cryptographic
+        items stored
+        with this Key.
+        Using 'KMS Symmetric Encryption' is a best practice,
+        as it
+        prevents actors with only write access to the Key Store's storage
+        from tampering
+        with Mutations.
+        For a Mutation, the System Key setting MUST be consistent across
+        the Initialize Mutation and all the Apply Mutation calls.
+        :param strategy: Optional. Defaults to reEncrypt with a default KMS Client.
+        :param do_not_version: Optional. Defaults to False, which Versions (or Rotates)
+        the Branch Key,
+          creating a new Version that has only ever been in the terminal
+        state.
+          Setting this value to True disables the rotation.
+          This is a Security
+        vs Performance trade off.
+          Mutating a Branch Key can change the security domain
+        of the Branch Key.
+          Some application's Threat Models benefit from ensuring a
+        new Version
+          is created whenever a Mutation occurs,
+          allowing the application
+        to track under which security domain data
+          was protected.
+          However, not all
+        Threat Models call for this.
+          Particularly if Mutations are triggered in
+        response to external actors,
+          creating a new Version for every Mutation request
+        can needlessly grow
+          the item count of a Branch Key.
+        """
+        self.identifier = identifier
+        self.mutations = mutations
+        self.system_key = system_key
+        self.strategy = strategy
+        self.do_not_version = do_not_version
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the AtomicMutationInput to a dictionary."""
+        d: Dict[str, Any] = {
+            "identifier": self.identifier,
+            "mutations": self.mutations.as_dict(),
+            "system_key": self.system_key.as_dict(),
+        }
+
+        if self.strategy is not None:
+            d["strategy"] = self.strategy.as_dict()
+
+        if self.do_not_version is not None:
+            d["do_not_version"] = self.do_not_version
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "AtomicMutationInput":
+        """Creates a AtomicMutationInput from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "identifier": d["identifier"],
+            "mutations": Mutations.from_dict(d["mutations"]),
+            "system_key": _system_key_from_dict(d["system_key"]),
+        }
+
+        if "strategy" in d:
+            kwargs["strategy"] = (_key_management_strategy_from_dict(d["strategy"]),)
+
+        if "do_not_version" in d:
+            kwargs["do_not_version"] = d["do_not_version"]
+
+        return AtomicMutationInput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "AtomicMutationInput("
+        if self.identifier is not None:
+            result += f"identifier={repr(self.identifier)}, "
+
+        if self.mutations is not None:
+            result += f"mutations={repr(self.mutations)}, "
+
+        if self.strategy is not None:
+            result += f"strategy={repr(self.strategy)}, "
+
+        if self.system_key is not None:
+            result += f"system_key={repr(self.system_key)}, "
+
+        if self.do_not_version is not None:
+            result += f"do_not_version={repr(self.do_not_version)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, AtomicMutationInput):
+            return False
+        attributes: list[str] = [
+            "identifier",
+            "mutations",
+            "strategy",
+            "system_key",
+            "do_not_version",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class AtomicMutationOutput:
+    identifier: str
+    mutations: Mutations
+    strategy: Optional[KeyManagementStrategy]
+    system_key: SystemKey
+    do_not_version: Optional[bool]
+
+    def __init__(
+        self,
+        *,
+        identifier: str,
+        mutations: Mutations,
+        system_key: SystemKey,
+        strategy: Optional[KeyManagementStrategy] = None,
+        do_not_version: Optional[bool] = None,
+    ):
+        """
+        :param identifier: The identifier for the Branch Key to be mutated.
+        :param mutations: Describes the Mutation that will be applied to all Items of
+        the Branch Key.
+        :param system_key: Key Store Admin protects any non-cryptographic
+        items stored
+        with this Key.
+        Using 'KMS Symmetric Encryption' is a best practice,
+        as it
+        prevents actors with only write access to the Key Store's storage
+        from tampering
+        with Mutations.
+        For a Mutation, the System Key setting MUST be consistent across
+        the Initialize Mutation and all the Apply Mutation calls.
+        :param strategy: Optional. Defaults to reEncrypt with a default KMS Client.
+        :param do_not_version: Optional. Defaults to False, which Versions (or Rotates)
+        the Branch Key,
+          creating a new Version that has only ever been in the terminal
+        state.
+          Setting this value to True disables the rotation.
+          This is a Security
+        vs Performance trade off.
+          Mutating a Branch Key can change the security domain
+        of the Branch Key.
+          Some application's Threat Models benefit from ensuring a
+        new Version
+          is created whenever a Mutation occurs,
+          allowing the application
+        to track under which security domain data
+          was protected.
+          However, not all
+        Threat Models call for this.
+          Particularly if Mutations are triggered in
+        response to external actors,
+          creating a new Version for every Mutation request
+        can needlessly grow
+          the item count of a Branch Key.
+        """
+        self.identifier = identifier
+        self.mutations = mutations
+        self.system_key = system_key
+        self.strategy = strategy
+        self.do_not_version = do_not_version
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the AtomicMutationOutput to a dictionary."""
+        d: Dict[str, Any] = {
+            "identifier": self.identifier,
+            "mutations": self.mutations.as_dict(),
+            "system_key": self.system_key.as_dict(),
+        }
+
+        if self.strategy is not None:
+            d["strategy"] = self.strategy.as_dict()
+
+        if self.do_not_version is not None:
+            d["do_not_version"] = self.do_not_version
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "AtomicMutationOutput":
+        """Creates a AtomicMutationOutput from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "identifier": d["identifier"],
+            "mutations": Mutations.from_dict(d["mutations"]),
+            "system_key": _system_key_from_dict(d["system_key"]),
+        }
+
+        if "strategy" in d:
+            kwargs["strategy"] = (_key_management_strategy_from_dict(d["strategy"]),)
+
+        if "do_not_version" in d:
+            kwargs["do_not_version"] = d["do_not_version"]
+
+        return AtomicMutationOutput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "AtomicMutationOutput("
+        if self.identifier is not None:
+            result += f"identifier={repr(self.identifier)}, "
+
+        if self.mutations is not None:
+            result += f"mutations={repr(self.mutations)}, "
+
+        if self.strategy is not None:
+            result += f"strategy={repr(self.strategy)}, "
+
+        if self.system_key is not None:
+            result += f"system_key={repr(self.system_key)}, "
+
+        if self.do_not_version is not None:
+            result += f"do_not_version={repr(self.do_not_version)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, AtomicMutationOutput):
+            return False
+        attributes: list[str] = [
+            "identifier",
+            "mutations",
+            "strategy",
+            "system_key",
+            "do_not_version",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
 class KmsSymmetricKeyArnKmsKeyArn:
     """Key Store is restricted to only this KMS Key ARN.
 
@@ -1096,94 +1434,6 @@ class DescribeMutationInput:
             return False
         attributes: list[str] = [
             "identifier",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
-
-class Mutations:
-    terminal_kms_arn: Optional[str]
-    terminal_encryption_context: Optional[dict[str, str]]
-
-    def __init__(
-        self,
-        *,
-        terminal_kms_arn: Optional[str] = None,
-        terminal_encryption_context: Optional[dict[str, str]] = None,
-    ):
-        """Define the Mutation in terms of the terminal, or end state, value
-        for a particular Branch Key property. The original value will be
-        REPLACED with this value.
-
-        As of v1.9.0, a Mutation can either:
-        - replace the KmsArn protecting the
-        Branch Key
-        - replace the custom encryption context
-        - replace both the KmsArn and
-        the custom encryption context
-
-        :param terminal_kms_arn: Optional. If not set, there will be no change to the
-        KMS ARN.
-          If set, ReEncrypt all Items of the Branch Key
-          to be authorized by
-        this
-          AWS Key Management Service Key.
-          A Multi-Region or Single Region AWS KMS
-        Key are permitted,
-          but not aliases!
-        :param terminal_encryption_context: Optional. If not set, there will be no
-        change to the Encryption Context.
-          ReEncrypt all Items of the Branch Key
-          to
-        be authorized with this custom encryption context.
-          An empty Encryption Context
-        is not allowed.
-        """
-        self.terminal_kms_arn = terminal_kms_arn
-        self.terminal_encryption_context = terminal_encryption_context
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the Mutations to a dictionary."""
-        d: Dict[str, Any] = {}
-
-        if self.terminal_kms_arn is not None:
-            d["terminal_kms_arn"] = self.terminal_kms_arn
-
-        if self.terminal_encryption_context is not None:
-            d["terminal_encryption_context"] = self.terminal_encryption_context
-
-        return d
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "Mutations":
-        """Creates a Mutations from a dictionary."""
-        kwargs: Dict[str, Any] = {}
-
-        if "terminal_kms_arn" in d:
-            kwargs["terminal_kms_arn"] = d["terminal_kms_arn"]
-
-        if "terminal_encryption_context" in d:
-            kwargs["terminal_encryption_context"] = d["terminal_encryption_context"]
-
-        return Mutations(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "Mutations("
-        if self.terminal_kms_arn is not None:
-            result += f"terminal_kms_arn={repr(self.terminal_kms_arn)}, "
-
-        if self.terminal_encryption_context is not None:
-            result += (
-                f"terminal_encryption_context={repr(self.terminal_encryption_context)}"
-            )
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, Mutations):
-            return False
-        attributes: list[str] = [
-            "terminal_kms_arn",
-            "terminal_encryption_context",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 

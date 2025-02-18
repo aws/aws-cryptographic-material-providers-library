@@ -17,6 +17,7 @@ from smithy_python.interfaces.retries import RetryErrorInfo, RetryErrorType
 from .config import Plugin
 from .deserialize import (
     _deserialize_apply_mutation,
+    _deserialize_atomic_mutation,
     _deserialize_create_key,
     _deserialize_describe_mutation,
     _deserialize_initialize_mutation,
@@ -26,6 +27,8 @@ from .errors import ServiceError
 from .models import (
     ApplyMutationInput,
     ApplyMutationOutput,
+    AtomicMutationInput,
+    AtomicMutationOutput,
     CreateKeyInput,
     CreateKeyOutput,
     DescribeMutationInput,
@@ -37,6 +40,7 @@ from .models import (
 )
 from .serialize import (
     _serialize_apply_mutation,
+    _serialize_atomic_mutation,
     _serialize_create_key,
     _serialize_describe_mutation,
     _serialize_initialize_mutation,
@@ -187,6 +191,20 @@ class KeyStoreAdmin:
             deserialize=_deserialize_describe_mutation,
             config=self._config,
             operation_name="DescribeMutation",
+        )
+
+    def atomic_mutation(self, input: AtomicMutationInput) -> AtomicMutationOutput:
+        """Invokes the AtomicMutation operation.
+
+        :param input: The operation's input.
+        """
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_atomic_mutation,
+            deserialize=_deserialize_atomic_mutation,
+            config=self._config,
+            operation_name="AtomicMutation",
         )
 
     def _execute_operation(

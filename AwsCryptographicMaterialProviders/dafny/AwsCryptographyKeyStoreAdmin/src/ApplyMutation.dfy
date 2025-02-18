@@ -298,6 +298,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     return Success(());
   }
 
+  // TODO-Atomic: Refactor with Atomic Mutation
   method QueryForVersionsAndValidate(
     input: InternalApplyMutationInput,
     mutationToApply: StateStrucs.MutationToApply

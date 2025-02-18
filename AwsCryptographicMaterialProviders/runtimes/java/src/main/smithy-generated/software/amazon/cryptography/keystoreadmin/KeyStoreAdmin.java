@@ -12,6 +12,8 @@ import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.IKeyStoreAdminClient;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationOutput;
+import software.amazon.cryptography.keystoreadmin.model.AtomicMutationInput;
+import software.amazon.cryptography.keystoreadmin.model.AtomicMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.CreateKeyInput;
 import software.amazon.cryptography.keystoreadmin.model.CreateKeyOutput;
 import software.amazon.cryptography.keystoreadmin.model.DescribeMutationInput;
@@ -69,6 +71,19 @@ public class KeyStoreAdmin {
       throw ToNative.Error(result.dtor_error());
     }
     return ToNative.ApplyMutationOutput(result.dtor_value());
+  }
+
+  public AtomicMutationOutput AtomicMutation(AtomicMutationInput input) {
+    software.amazon.cryptography.keystoreadmin.internaldafny.types.AtomicMutationInput dafnyValue =
+      ToDafny.AtomicMutationInput(input);
+    Result<
+      software.amazon.cryptography.keystoreadmin.internaldafny.types.AtomicMutationOutput,
+      Error
+    > result = this._impl.AtomicMutation(dafnyValue);
+    if (result.is_Failure()) {
+      throw ToNative.Error(result.dtor_error());
+    }
+    return ToNative.AtomicMutationOutput(result.dtor_value());
   }
 
   /**

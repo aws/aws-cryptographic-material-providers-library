@@ -1,0 +1,233 @@
+file_format_version = "1.0"
+dafny_version = "4.9.0.0"
+[options_by_module.AwsCryptographyKeyStoreTypes]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.AwsCryptographyKeyStoreAdminTypes]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.AbstractAwsCryptographyKeyStoreAdminOperations]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.AbstractAwsCryptographyKeyStoreAdminService]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.AwsCryptographyMaterialProvidersTypes]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.AwsArnParsing]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.AwsKmsMrkMatchForDecrypt]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.AwsKmsUtils]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.Structure]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.KeyStoreErrorMessages]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.KmsArn]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.StorageHelpers]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.DefaultKeyStorageInterface]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.AbstractAwsCryptographyKeyStoreOperations]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.KMSKeystoreOperations]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.CreateKeys]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.CreateKeyStoreTable]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.GetKeys]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.AwsCryptographyKeyStoreOperations]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.MutationIndexUtils]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.MutationStateStructures]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.KmsUtils]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.MutationErrorRefinement]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.Mutations]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.PrefixUtils]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.CanonicalEncryptionContext]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.AbstractAwsCryptographyMaterialProvidersOperations]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.AbstractAwsCryptographyMaterialProvidersService]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.AlgorithmSuites]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.Materials]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.Keyring]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.MultiKeyring]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.AwsKmsMrkAreUnique]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.Constants]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.MaterialWrapping]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.IntermediateKeyWrapping]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.EdkWrapping]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.ErrorMessages]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.AwsKmsKeyring]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.StrictMultiKeyring]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.AwsKmsDiscoveryKeyring]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.DiscoveryMultiKeyring]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.AwsKmsMrkDiscoveryKeyring]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.MrkAwareDiscoveryMultiKeyring]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.AwsKmsMrkKeyring]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.MrkAwareStrictMultiKeyring]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.LocalCMC]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.SynchronizedLocalCMC]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.StormTracker]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.StormTrackingCMC]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.CacheConstants]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.AwsKmsHierarchicalKeyring]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.AwsKmsRsaKeyring]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.EcdhEdkWrapping]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.RawECDHKeyring]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.AwsKmsEcdhKeyring]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.RawAESKeyring]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.RawRSAKeyring]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.CMM]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.Defaults]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.Commitment]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.DefaultCMM]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.DefaultClientSupplier]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.Utils]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.RequiredEncryptionContextCMM]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.AwsCryptographyMaterialProvidersOperations]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.MaterialProviders]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module."SystemKey.ContentHandler"]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module."SystemKey.Handler"]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.InternalInitializeMutation]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.InternalApplyMutation]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module."MutationsConstants.ErrorMessages"]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.DescribeMutation]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.AwsCryptographyKeyStoreAdminOperations]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.KeyStoreAdmin]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.AbstractAwsCryptographyKeyStoreService]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false
+[options_by_module.KeyStore]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl"
+legacy-module-names = false

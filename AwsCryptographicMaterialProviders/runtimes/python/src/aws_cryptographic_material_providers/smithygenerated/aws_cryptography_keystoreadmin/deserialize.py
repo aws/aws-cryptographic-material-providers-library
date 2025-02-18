@@ -5,6 +5,7 @@
 import _dafny
 from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreAdminTypes import (
     ApplyMutationOutput_ApplyMutationOutput as DafnyApplyMutationOutput,
+    AtomicMutationOutput_AtomicMutationOutput as DafnyAtomicMutationOutput,
     CreateKeyOutput_CreateKeyOutput as DafnyCreateKeyOutput,
     DescribeMutationOutput_DescribeMutationOutput as DafnyDescribeMutationOutput,
     Error,
@@ -98,6 +99,15 @@ def _deserialize_describe_mutation(input: DafnyResponse, config: Config):
     if input.IsFailure():
         return _deserialize_error(input.error)
     return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_DescribeMutationOutput(
+        input.value
+    )
+
+
+def _deserialize_atomic_mutation(input: DafnyResponse, config: Config):
+
+    if input.IsFailure():
+        return _deserialize_error(input.error)
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_AtomicMutationOutput(
         input.value
     )
 

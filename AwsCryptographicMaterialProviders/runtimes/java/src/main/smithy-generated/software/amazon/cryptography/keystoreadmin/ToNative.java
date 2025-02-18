@@ -23,6 +23,8 @@ import software.amazon.cryptography.keystoreadmin.internaldafny.types.IKeyStoreA
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationResult;
+import software.amazon.cryptography.keystoreadmin.model.AtomicMutationInput;
+import software.amazon.cryptography.keystoreadmin.model.AtomicMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.AwsKmsDecryptEncrypt;
 import software.amazon.cryptography.keystoreadmin.model.CollectionOfErrors;
 import software.amazon.cryptography.keystoreadmin.model.CreateKeyInput;
@@ -282,6 +284,38 @@ public class ToNative {
     nativeBuilder.MutationResult(
       ToNative.ApplyMutationResult(dafnyValue.dtor_MutationResult())
     );
+    nativeBuilder.MutatedBranchKeyItems(
+      ToNative.MutatedBranchKeyItems(dafnyValue.dtor_MutatedBranchKeyItems())
+    );
+    return nativeBuilder.build();
+  }
+
+  public static AtomicMutationInput AtomicMutationInput(
+    software.amazon.cryptography.keystoreadmin.internaldafny.types.AtomicMutationInput dafnyValue
+  ) {
+    AtomicMutationInput.Builder nativeBuilder = AtomicMutationInput.builder();
+    nativeBuilder.Identifier(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_Identifier()
+      )
+    );
+    nativeBuilder.Mutations(ToNative.Mutations(dafnyValue.dtor_Mutations()));
+    if (dafnyValue.dtor_Strategy().is_Some()) {
+      nativeBuilder.Strategy(
+        ToNative.KeyManagementStrategy(dafnyValue.dtor_Strategy().dtor_value())
+      );
+    }
+    nativeBuilder.SystemKey(ToNative.SystemKey(dafnyValue.dtor_SystemKey()));
+    if (dafnyValue.dtor_DoNotVersion().is_Some()) {
+      nativeBuilder.DoNotVersion((dafnyValue.dtor_DoNotVersion().dtor_value()));
+    }
+    return nativeBuilder.build();
+  }
+
+  public static AtomicMutationOutput AtomicMutationOutput(
+    software.amazon.cryptography.keystoreadmin.internaldafny.types.AtomicMutationOutput dafnyValue
+  ) {
+    AtomicMutationOutput.Builder nativeBuilder = AtomicMutationOutput.builder();
     nativeBuilder.MutatedBranchKeyItems(
       ToNative.MutatedBranchKeyItems(dafnyValue.dtor_MutatedBranchKeyItems())
     );

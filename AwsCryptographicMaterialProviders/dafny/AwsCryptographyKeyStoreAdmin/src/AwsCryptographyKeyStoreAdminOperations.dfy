@@ -6,6 +6,7 @@ include "InitializeMutation.dfy"
 include "ApplyMutation.dfy"
 include "KmsUtils.dfy"
 include "DescribeMutation.dfy"
+include "AtomicMutation.dfy"
 
 module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKeyStoreAdminOperations {
   import opened AwsKmsUtils
@@ -18,6 +19,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   import KSAInitializeMutation = InternalInitializeMutation
   import KSAApplyMutation = InternalApplyMutation
   import DM = DescribeMutation
+  import KSAAtomicMutation = InternalAtomicMutation
   import KmsUtils
 
   datatype Config = Config(
@@ -356,6 +358,42 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
 
     internalInput :- KSAInitializeMutation.ValidateInitializeMutationInput(internalInput);
     output := KSAInitializeMutation.InitializeMutation(internalInput);
+    return output;
+  }
+
+  // TODO: Ensure code is true
+  predicate AtomicMutationEnsuresPublicly(input: AtomicMutationInput, output: Result<AtomicMutationOutput, Error>)
+  {true}
+
+  method AtomicMutation(config: InternalConfig, input: AtomicMutationInput )
+    returns (output: Result<AtomicMutationOutput, Error>)
+  {
+    var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
+    var systemKey :- ResolveSystemKey(input.SystemKey, config);
+    // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
+    if keyManagerStrat.reEncrypt? {
+      assume {:axiom} keyManagerStrat.reEncrypt.kmsClient.Modifies < MutationLie();
+    }
+
+    if keyManagerStrat.decryptEncrypt? {
+      assume {:axiom} keyManagerStrat.decrypt.kmsClient.Modifies < MutationLie();
+      assume {:axiom} keyManagerStrat.encrypt.kmsClient.Modifies < MutationLie();
+      assume {:axiom} keyManagerStrat.decrypt.kmsClient.Modifies !! keyManagerStrat.encrypt.kmsClient.Modifies;
+    }
+    assume {:axiom} keyManagerStrat.Modifies !! systemKey.Modifies;
+
+    var internalInput := KSAAtomicMutation.InternalAtomicMutationInput(
+      Identifier := input.Identifier,
+      Mutations := input.Mutations,
+      SystemKey := systemKey,
+      DoNotVersion := DefaultInitializeMutationDoNotVersion(input.DoNotVersion),
+      logicalKeyStoreName := config.logicalKeyStoreName,
+      keyManagerStrategy := keyManagerStrat,
+      storage := config.storage
+    );
+
+    internalInput :- KSAAtomicMutation.ValidateAtomicMutationInput(internalInput);
+    output := KSAAtomicMutation.AtomicMutation(internalInput);
     return output;
   }
 
