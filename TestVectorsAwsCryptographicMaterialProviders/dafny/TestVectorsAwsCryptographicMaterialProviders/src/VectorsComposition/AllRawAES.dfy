@@ -22,7 +22,7 @@ module {:options "-functionSyntax:4"} AllRawAES {
       ::
         KeyVectorsTypes.AES(KeyVectorsTypes.RawAES(
                               keyId := key,  
-                              providerId := "aws-raw-vectors-persistent-" + key + "𐀂"
+                              providerId := "aws-raw-vectors-persistent-" + key + "\uD835\uDFC1"
                             ))
 
   const normal : seq<uint8> := [0x6e, 0x6f, 0x72, 0x6d, 0x61, 0x6c, 0xed, 0x80, 0x80] // "normal퀀" as utf8
