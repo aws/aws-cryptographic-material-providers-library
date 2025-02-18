@@ -22,7 +22,6 @@ module {:options "-functionSyntax:4"} AllRawAES {
       ::
         KeyVectorsTypes.AES(KeyVectorsTypes.RawAES(
                               keyId := key,  
-                              // providerId := "aws-raw-vectors-persistent-" + key
                               providerId := "aws-raw-vectors-persistent-" + key + "-\uD835\uDFC1"
                             ))
   const KeyDescriptions :=

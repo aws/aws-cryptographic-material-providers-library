@@ -59,7 +59,7 @@ module {:options "-functionSyntax:4"} CompleteVectors {
   := {}
   // + AllDefaultCmm.Tests
   // + AllHierarchy.Tests
-  // + AllKms.Tests
+  + AllKms.Tests
   // + AllKmsMrkAware.Tests
   // + AllKmsMrkAwareDiscovery.Tests
   // + AllKmsRsa.Tests
