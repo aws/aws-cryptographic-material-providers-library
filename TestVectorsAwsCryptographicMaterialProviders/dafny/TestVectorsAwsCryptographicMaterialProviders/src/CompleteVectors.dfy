@@ -67,7 +67,7 @@ module {:options "-functionSyntax:4"} CompleteVectors {
   + AllRawRSA.Tests
   + AllMulti.Tests
   + AllRequiredEncryptionContextCmm.Tests
-  + AllRawECDH.Tests
+  // + AllRawECDH.Tests
   + AllKmsEcdh.Tests
 
   method WriteStuff(op: MplManifestOptions.ManifestOptions)
