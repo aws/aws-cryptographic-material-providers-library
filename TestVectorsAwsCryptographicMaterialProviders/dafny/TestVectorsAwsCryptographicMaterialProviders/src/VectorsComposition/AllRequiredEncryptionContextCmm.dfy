@@ -164,7 +164,7 @@ module {:options "-functionSyntax:4"} AllRequiredEncryptionContextCmm {
   const Tests: set<TestVectors.EncryptTestVector> 
   := {}
   + SuccessTestingRequiredEncryptionContextKeysReproducedEncryptionContextPsi
-  //  + SuccessTestingRequiredEncryptionContextKeysReproducedEncryptionContext 
-  //  + FailureBadReproducedEncryptionContext
+   + SuccessTestingRequiredEncryptionContextKeysReproducedEncryptionContext 
+   + FailureBadReproducedEncryptionContext
 
 }
