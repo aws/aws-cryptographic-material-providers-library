@@ -16,8 +16,11 @@ module {:options "-functionSyntax:4"} AllRawAES {
   // These are all the PositiveKeyDescription for the RawAESKeyring
 
   // TODO: Add aes-192 after aws-lc-rs adds support
-  // const aesPersistentKeyNames := [ "aes-128", "aes-192", "aes-256"]
-  const aesPersistentKeyNames := ["aes-128", "aes-256"]
+  // const aesPersistentKeyNames := [ "aes-128", "aes-192", "aes-256", "\ud835\udfc1-nonascii-\ud800\udc02-aes-256-\ud835\udfc1"]
+  // UTF-8 (JSON) -> UTF-16 (Dafny source code) substitution:
+  // 𝟁 -> "\ud835\udfc1"
+  // 𐀂 -> "\ud800\udc02"
+  const aesPersistentKeyNames := ["aes-128", "aes-256", "\ud835\udfc1-nonascii-\ud800\udc02-aes-256-\ud835\udfc1"]
   const KeyDescriptionsWithPsi :=
     set
       key <- aesPersistentKeyNames

@@ -20,4 +20,7 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
   const encryptionContextBasicMap := map[a := a]
   const encryptionContextBasic := {encryptionContextBasicMap}
 
+  const encryptionContextEmptyMap: map<seq<uint8>, seq<uint8>> := map[]
+  const encryptionContextEmpty := {encryptionContextEmptyMap}
+
 }
