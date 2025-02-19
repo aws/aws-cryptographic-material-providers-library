@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 include "AllAlgorithmSuites.dfy"
+include "EncryptionContextUtils.dfy"
 
 module {:options "-functionSyntax:4"} AllRawAES {
   import opened Wrappers
   import TestVectors
+  import EncryptionContextUtils
   import AllAlgorithmSuites
   import KeyVectorsTypes = AwsCryptographyMaterialProvidersTestVectorKeysTypes
   import opened UTF8
@@ -15,7 +17,7 @@ module {:options "-functionSyntax:4"} AllRawAES {
 
   // TODO: Add aes-192 after aws-lc-rs adds support
   // const aesPersistentKeyNames := [ "aes-128", "aes-192", "aes-256"]
-  const aesPersistentKeyNames := [ "aes-128", "aes-256"]
+  const aesPersistentKeyNames := ["aes-128", "aes-256"]
   const KeyDescriptionsWithPsi :=
     set
       key <- aesPersistentKeyNames
@@ -33,13 +35,6 @@ module {:options "-functionSyntax:4"} AllRawAES {
                               providerId := "aws-raw-vectors-persistent-" + key
                             ))
 
-  const normal : seq<uint8> := [0x6e, 0x6f, 0x72, 0x6d, 0x61, 0x6c, 0xed, 0x80, 0x80] // "normal퀀" as utf8
-  const psi : seq<uint8> := [0xf0, 0x90, 0x80, 0x82] // "𐀂" as utf8
-
-  const controlEncryptionContext := map[normal := normal]
-  const encryptionContextPsi := map[psi := psi]
-  const ecToTest := {controlEncryptionContext, encryptionContextPsi}
-
   const TestsNoEc :=
     set
       keyDescription <- KeyDescriptions + KeyDescriptionsWithPsi,
@@ -47,7 +42,7 @@ module {:options "-functionSyntax:4"} AllRawAES {
       commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite)
       ::
         TestVectors.PositiveEncryptKeyringVector(
-          name := "Generated RawAES " + keyDescription.AES.keyId,
+          name := "Generated RawAES No Encryption Context " + keyDescription.AES.keyId,
           encryptionContext := map[],
           commitmentPolicy := commitmentPolicy,
           algorithmSuite := algorithmSuite,
@@ -55,25 +50,58 @@ module {:options "-functionSyntax:4"} AllRawAES {
           decryptDescription := keyDescription
         )
 
-  const TestsWithEc :=
+  const TestsWitPsiEc :=
     set
       keyDescription <- KeyDescriptions + KeyDescriptionsWithPsi,
       algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
-      ec <- ecToTest,
-      commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite)
+      commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite),
+      encryptionContext <- EncryptionContextUtils.encryptionContextWitPsi
       ::
         TestVectors.PositiveEncryptKeyringVector(
-          name := "Generated RawAES " + keyDescription.AES.keyId,
+          name := "Generated RawAES Encryption Context With Psi " + keyDescription.AES.keyId,
+          encryptionContext := encryptionContext,
           commitmentPolicy := commitmentPolicy,
           algorithmSuite := algorithmSuite,
           encryptDescription := keyDescription,
-          decryptDescription := keyDescription,
-          encryptionContext := ec
+          decryptDescription := keyDescription
+        )
+
+  const TestControlEc := 
+    set 
+      keyDescription <- KeyDescriptions + KeyDescriptionsWithPsi,
+      algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
+      commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite),
+      encryptionContext <- EncryptionContextUtils.encryptionContextControl
+      ::
+        TestVectors.PositiveEncryptKeyringVector(
+          name := "Generated RawAES Control Encryption Context " + keyDescription.AES.keyId,
+          encryptionContext := encryptionContext,
+          commitmentPolicy := commitmentPolicy,
+          algorithmSuite := algorithmSuite,
+          encryptDescription := keyDescription,
+          decryptDescription := keyDescription
+        )
+
+  const TestsBasicEc := 
+    set 
+      keyDescription <- KeyDescriptions + KeyDescriptionsWithPsi,
+      algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
+      commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite),
+      encryptionContext <- EncryptionContextUtils.encryptionContextBasic
+      ::
+        TestVectors.PositiveEncryptKeyringVector(
+          name := "Generated RawAES Basic Encryption Context " + keyDescription.AES.keyId,
+          encryptionContext := encryptionContext,
+          commitmentPolicy := commitmentPolicy,
+          algorithmSuite := algorithmSuite,
+          encryptDescription := keyDescription,
+          decryptDescription := keyDescription
         )
   
   const Tests := 
-    {} 
+  {}
     + TestsNoEc
-    + TestsWithEc
-
+    + TestsWitPsiEc
+    + TestsBasicEc
+    + TestControlEc
 }
