@@ -4,8 +4,6 @@ The AWS Cryptographic Internal StandardLibrary is a helper library used in the A
 
 **DO NOT** take a standalone dependency on this library.
 
-[Security issue notifications](./CONTRIBUTING.md#security-issue-notifications)
-
 ## Installation
 
 `go get github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library@latest`
