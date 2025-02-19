@@ -20,7 +20,7 @@ module {:options "-functionSyntax:4"} AllRawAES {
   // UTF-8 (JSON) -> UTF-16 (Dafny source code) substitution:
   // 𝟁 -> "\ud835\udfc1"
   // 𐀂 -> "\ud800\udc02"
-  const aesPersistentKeyNames := ["aes-128", "aes-256", "\ud835\udfc1-nonascii-\ud800\udc02-aes-256-\ud835\udfc1"]
+  const aesPersistentKeyNames := ["aes-128", "aes-256", "\uD835\uDfc1-nonascii-\uD800\uDC02-aes-256-\uD835\uDFC1"]
   const KeyDescriptionsWithPsi :=
     set
       key <- aesPersistentKeyNames
