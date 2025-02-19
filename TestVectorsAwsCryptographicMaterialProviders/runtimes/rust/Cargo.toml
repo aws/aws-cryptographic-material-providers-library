@@ -24,6 +24,7 @@ dashmap = "6.1.0"
 pem = "3.0.4"
 tokio = {version = "1.43.0", features = ["full"] }
 uuid = { version = "1.12.1", features = ["v4"] }
+ring = "=0.17.8"
 
 [dev-dependencies]
 aws-mpl-test-vectors = { path = ".", features = ["wrapped-client"] }
