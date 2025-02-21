@@ -12,7 +12,7 @@ wrapped-client = []
 [dependencies]
 aws-config = "1.5.15"
 aws-lc-rs = "1.12.2"
-aws-lc-sys = "0.25.0"
+aws-lc-sys = "0.26.0"
 aws-sdk-dynamodb = "1.55.0"
 aws-sdk-kms = "1.51.0"
 aws-smithy-runtime-api = {version = "1.7.3", features = ["client"] }
@@ -24,7 +24,7 @@ dashmap = "6.1.0"
 pem = "3.0.4"
 tokio = {version = "1.43.0", features = ["full"] }
 uuid = { version = "1.12.1", features = ["v4"] }
-ring = "=0.17.8"
+ring = "0.17.9"
 
 [dev-dependencies]
 aws-mpl-test-vectors = { path = ".", features = ["wrapped-client"] }
