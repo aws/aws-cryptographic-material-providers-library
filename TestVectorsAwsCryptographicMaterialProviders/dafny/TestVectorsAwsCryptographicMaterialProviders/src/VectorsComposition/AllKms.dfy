@@ -83,10 +83,27 @@ module {:options "-functionSyntax:4"} AllKms {
           decryptDescription := keyDescription
         )
   
+  const TestsWithDiffUTF8Ec := 
+    set 
+      keyDescription <- KeyDescriptions,
+      algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
+      commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite),
+      encryptionContext <- EncryptionContextUtils.variedUTF8EncryptionContext
+      ::
+        TestVectors.PositiveEncryptKeyringVector(
+          name := "Generated KMS Basic Encryption Context " + keyDescription.Kms.keyId,
+          encryptionContext := encryptionContext,
+          commitmentPolicy := commitmentPolicy,
+          algorithmSuite := algorithmSuite,
+          encryptDescription := keyDescription,
+          decryptDescription := keyDescription
+        )
+  
   const Tests := 
   {}
     + TestsNoEc
     + TestsWitPsiEc
     + TestsBasicEc
     + TestControlEc
+    + TestsWithDiffUTF8Ec
 }
