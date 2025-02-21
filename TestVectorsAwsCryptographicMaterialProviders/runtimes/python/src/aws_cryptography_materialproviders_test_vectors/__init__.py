@@ -1,6 +1,8 @@
 # Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 
+import sys
+
 """
 MPL's Dafny code parses the TestVectors JSON recursively.
 i.e. GetTests(Json) = (Json[0], GetTests(Json[1:]))
