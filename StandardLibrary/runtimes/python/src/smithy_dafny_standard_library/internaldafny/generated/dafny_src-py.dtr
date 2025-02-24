@@ -135,45 +135,6 @@ python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
 [options_by_module.DafnyLibraries]
 legacy-module-names = false
 python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
-[options_by_module."Std.Wrappers"]
-legacy-module-names = false
-python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
-[options_by_module."Std.Frames"]
-legacy-module-names = false
-python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
-[options_by_module."Std.Termination"]
-legacy-module-names = false
-python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
-[options_by_module."Std.GenericActions"]
-legacy-module-names = false
-python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
-[options_by_module."Std.BoundedInts"]
-legacy-module-names = false
-python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
-[options_by_module."Std.DynamicArray"]
-legacy-module-names = false
-python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
-[options_by_module."Std.Math"]
-legacy-module-names = false
-python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
-[options_by_module."Std.Relations"]
-legacy-module-names = false
-python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
-[options_by_module."Std.Collections.Seq"]
-legacy-module-names = false
-python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
-[options_by_module."Std.Actions"]
-legacy-module-names = false
-python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
-[options_by_module."Std.Aggregators"]
-legacy-module-names = false
-python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
-[options_by_module."Std.Enumerators"]
-legacy-module-names = false
-python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
-[options_by_module."Std.Streams"]
-legacy-module-names = false
-python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
 [options_by_module."JSON.Utils.Views.Core"]
 legacy-module-names = false
 python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
