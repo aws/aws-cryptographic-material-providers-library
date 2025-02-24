@@ -60,8 +60,6 @@ import software.amazon.awssdk.services.dynamodb.model.DisableKinesisStreamingDes
 import software.amazon.awssdk.services.dynamodb.model.DisableKinesisStreamingDestinationResponse;
 import software.amazon.awssdk.services.dynamodb.model.DuplicateItemException;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
-import software.amazon.awssdk.services.dynamodb.model.EnableKinesisStreamingDestinationRequest;
-import software.amazon.awssdk.services.dynamodb.model.EnableKinesisStreamingDestinationResponse;
 import software.amazon.awssdk.services.dynamodb.model.ExecuteStatementRequest;
 import software.amazon.awssdk.services.dynamodb.model.ExecuteStatementResponse;
 import software.amazon.awssdk.services.dynamodb.model.ExecuteTransactionRequest;
@@ -112,6 +110,7 @@ import software.amazon.awssdk.services.dynamodb.model.QueryRequest;
 import software.amazon.awssdk.services.dynamodb.model.QueryResponse;
 import software.amazon.awssdk.services.dynamodb.model.ReplicaAlreadyExistsException;
 import software.amazon.awssdk.services.dynamodb.model.ReplicaNotFoundException;
+import software.amazon.awssdk.services.dynamodb.model.ReplicatedWriteConflictException;
 import software.amazon.awssdk.services.dynamodb.model.RequestLimitExceededException;
 import software.amazon.awssdk.services.dynamodb.model.ResourceInUseException;
 import software.amazon.awssdk.services.dynamodb.model.ResourceNotFoundException;
@@ -197,10 +196,6 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Descri
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.DescribeTableReplicaAutoScalingOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.DescribeTimeToLiveInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.DescribeTimeToLiveOutput;
-import software.amazon.cryptography.services.dynamodb.internaldafny.types.DisableKinesisStreamingDestinationInput;
-import software.amazon.cryptography.services.dynamodb.internaldafny.types.DisableKinesisStreamingDestinationOutput;
-import software.amazon.cryptography.services.dynamodb.internaldafny.types.EnableKinesisStreamingDestinationInput;
-import software.amazon.cryptography.services.dynamodb.internaldafny.types.EnableKinesisStreamingDestinationOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.ExecuteStatementInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.ExecuteStatementOutput;
@@ -215,6 +210,8 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.GetRes
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.IDynamoDBClient;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.ImportTableInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.ImportTableOutput;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.KinesisStreamingDestinationInput;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.KinesisStreamingDestinationOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.ListBackupsInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.ListBackupsOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.ListContributorInsightsInput;
@@ -683,6 +680,12 @@ public class Shim implements IDynamoDBClient {
         ToDafny.Error(ex)
       );
     } catch (ProvisionedThroughputExceededException ex) {
+      return Result.create_Failure(
+        DeleteItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (ReplicatedWriteConflictException ex) {
       return Result.create_Failure(
         DeleteItemOutput._typeDescriptor(),
         Error._typeDescriptor(),
@@ -1372,114 +1375,54 @@ public class Shim implements IDynamoDBClient {
 
   @Override
   public Result<
-    DisableKinesisStreamingDestinationOutput,
+    KinesisStreamingDestinationOutput,
     Error
-  > DisableKinesisStreamingDestination(
-    DisableKinesisStreamingDestinationInput input
-  ) {
+  > DisableKinesisStreamingDestination(KinesisStreamingDestinationInput input) {
     DisableKinesisStreamingDestinationRequest converted =
-      ToNative.DisableKinesisStreamingDestinationInput(input);
+      ToNative.KinesisStreamingDestinationInput(input);
     try {
       DisableKinesisStreamingDestinationResponse result =
         _impl.disableKinesisStreamingDestination(converted);
-      DisableKinesisStreamingDestinationOutput dafnyResponse =
-        ToDafny.DisableKinesisStreamingDestinationOutput(result);
+      KinesisStreamingDestinationOutput dafnyResponse =
+        ToDafny.KinesisStreamingDestinationOutput(result);
       return Result.create_Success(
-        DisableKinesisStreamingDestinationOutput._typeDescriptor(),
+        KinesisStreamingDestinationOutput._typeDescriptor(),
         Error._typeDescriptor(),
         dafnyResponse
       );
     } catch (InternalServerErrorException ex) {
       return Result.create_Failure(
-        DisableKinesisStreamingDestinationOutput._typeDescriptor(),
+        KinesisStreamingDestinationOutput._typeDescriptor(),
         Error._typeDescriptor(),
         ToDafny.Error(ex)
       );
     } catch (LimitExceededException ex) {
       return Result.create_Failure(
-        DisableKinesisStreamingDestinationOutput._typeDescriptor(),
+        KinesisStreamingDestinationOutput._typeDescriptor(),
         Error._typeDescriptor(),
         ToDafny.Error(ex)
       );
     } catch (ResourceInUseException ex) {
       return Result.create_Failure(
-        DisableKinesisStreamingDestinationOutput._typeDescriptor(),
+        KinesisStreamingDestinationOutput._typeDescriptor(),
         Error._typeDescriptor(),
         ToDafny.Error(ex)
       );
     } catch (ResourceNotFoundException ex) {
       return Result.create_Failure(
-        DisableKinesisStreamingDestinationOutput._typeDescriptor(),
+        KinesisStreamingDestinationOutput._typeDescriptor(),
         Error._typeDescriptor(),
         ToDafny.Error(ex)
       );
     } catch (DynamoDbException ex) {
       return Result.create_Failure(
-        DisableKinesisStreamingDestinationOutput._typeDescriptor(),
+        KinesisStreamingDestinationOutput._typeDescriptor(),
         Error._typeDescriptor(),
         ToDafny.Error(ex)
       );
     } catch (Exception ex) {
       return Result.create_Failure(
-        DisableKinesisStreamingDestinationOutput._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
-    }
-  }
-
-  @Override
-  public Result<
-    EnableKinesisStreamingDestinationOutput,
-    Error
-  > EnableKinesisStreamingDestination(
-    EnableKinesisStreamingDestinationInput input
-  ) {
-    EnableKinesisStreamingDestinationRequest converted =
-      ToNative.EnableKinesisStreamingDestinationInput(input);
-    try {
-      EnableKinesisStreamingDestinationResponse result =
-        _impl.enableKinesisStreamingDestination(converted);
-      EnableKinesisStreamingDestinationOutput dafnyResponse =
-        ToDafny.EnableKinesisStreamingDestinationOutput(result);
-      return Result.create_Success(
-        EnableKinesisStreamingDestinationOutput._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
-    } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(
-        EnableKinesisStreamingDestinationOutput._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
-    } catch (LimitExceededException ex) {
-      return Result.create_Failure(
-        EnableKinesisStreamingDestinationOutput._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
-    } catch (ResourceInUseException ex) {
-      return Result.create_Failure(
-        EnableKinesisStreamingDestinationOutput._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
-    } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(
-        EnableKinesisStreamingDestinationOutput._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
-    } catch (DynamoDbException ex) {
-      return Result.create_Failure(
-        EnableKinesisStreamingDestinationOutput._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
-    } catch (Exception ex) {
-      return Result.create_Failure(
-        EnableKinesisStreamingDestinationOutput._typeDescriptor(),
+        KinesisStreamingDestinationOutput._typeDescriptor(),
         Error._typeDescriptor(),
         ToDafny.Error(ex)
       );
@@ -2136,6 +2079,12 @@ public class Shim implements IDynamoDBClient {
         ToDafny.Error(ex)
       );
     } catch (ProvisionedThroughputExceededException ex) {
+      return Result.create_Failure(
+        PutItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (ReplicatedWriteConflictException ex) {
       return Result.create_Failure(
         PutItemOutput._typeDescriptor(),
         Error._typeDescriptor(),
@@ -2960,6 +2909,12 @@ public class Shim implements IDynamoDBClient {
         ToDafny.Error(ex)
       );
     } catch (ProvisionedThroughputExceededException ex) {
+      return Result.create_Failure(
+        UpdateItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    } catch (ReplicatedWriteConflictException ex) {
       return Result.create_Failure(
         UpdateItemOutput._typeDescriptor(),
         Error._typeDescriptor(),

@@ -109,7 +109,7 @@ func CreateTableInput_ToDafny(nativeInput dynamodb.CreateTableInput) ComAmazonaw
 
 	return func() ComAmazonawsDynamodbTypes.CreateTableInput {
 
-		return ComAmazonawsDynamodbTypes.Companion_CreateTableInput_.Create_CreateTableInput_(com_amazonaws_dynamodb_CreateTableInput_AttributeDefinitions_ToDafny(nativeInput.AttributeDefinitions), com_amazonaws_dynamodb_CreateTableInput_TableName_ToDafny(nativeInput.TableName), com_amazonaws_dynamodb_CreateTableInput_KeySchema_ToDafny(nativeInput.KeySchema), com_amazonaws_dynamodb_CreateTableInput_LocalSecondaryIndexes_ToDafny(nativeInput.LocalSecondaryIndexes), com_amazonaws_dynamodb_CreateTableInput_GlobalSecondaryIndexes_ToDafny(nativeInput.GlobalSecondaryIndexes), com_amazonaws_dynamodb_CreateTableInput_BillingMode_ToDafny(nativeInput.BillingMode), com_amazonaws_dynamodb_CreateTableInput_ProvisionedThroughput_ToDafny(nativeInput.ProvisionedThroughput), com_amazonaws_dynamodb_CreateTableInput_StreamSpecification_ToDafny(nativeInput.StreamSpecification), com_amazonaws_dynamodb_CreateTableInput_SSESpecification_ToDafny(nativeInput.SSESpecification), com_amazonaws_dynamodb_CreateTableInput_Tags_ToDafny(nativeInput.Tags), com_amazonaws_dynamodb_CreateTableInput_TableClass_ToDafny(nativeInput.TableClass), com_amazonaws_dynamodb_CreateTableInput_DeletionProtectionEnabled_ToDafny(nativeInput.DeletionProtectionEnabled), com_amazonaws_dynamodb_CreateTableInput_ResourcePolicy_ToDafny(nativeInput.ResourcePolicy), com_amazonaws_dynamodb_CreateTableInput_OnDemandThroughput_ToDafny(nativeInput.OnDemandThroughput))
+		return ComAmazonawsDynamodbTypes.Companion_CreateTableInput_.Create_CreateTableInput_(com_amazonaws_dynamodb_CreateTableInput_AttributeDefinitions_ToDafny(nativeInput.AttributeDefinitions), com_amazonaws_dynamodb_CreateTableInput_TableName_ToDafny(nativeInput.TableName), com_amazonaws_dynamodb_CreateTableInput_KeySchema_ToDafny(nativeInput.KeySchema), com_amazonaws_dynamodb_CreateTableInput_LocalSecondaryIndexes_ToDafny(nativeInput.LocalSecondaryIndexes), com_amazonaws_dynamodb_CreateTableInput_GlobalSecondaryIndexes_ToDafny(nativeInput.GlobalSecondaryIndexes), com_amazonaws_dynamodb_CreateTableInput_BillingMode_ToDafny(nativeInput.BillingMode), com_amazonaws_dynamodb_CreateTableInput_ProvisionedThroughput_ToDafny(nativeInput.ProvisionedThroughput), com_amazonaws_dynamodb_CreateTableInput_StreamSpecification_ToDafny(nativeInput.StreamSpecification), com_amazonaws_dynamodb_CreateTableInput_SSESpecification_ToDafny(nativeInput.SSESpecification), com_amazonaws_dynamodb_CreateTableInput_Tags_ToDafny(nativeInput.Tags), com_amazonaws_dynamodb_CreateTableInput_TableClass_ToDafny(nativeInput.TableClass), com_amazonaws_dynamodb_CreateTableInput_DeletionProtectionEnabled_ToDafny(nativeInput.DeletionProtectionEnabled), com_amazonaws_dynamodb_CreateTableInput_WarmThroughput_ToDafny(nativeInput.WarmThroughput), com_amazonaws_dynamodb_CreateTableInput_ResourcePolicy_ToDafny(nativeInput.ResourcePolicy), com_amazonaws_dynamodb_CreateTableInput_OnDemandThroughput_ToDafny(nativeInput.OnDemandThroughput))
 	}()
 
 }
@@ -145,7 +145,7 @@ func DeleteItemInput_ToDafny(nativeInput dynamodb.DeleteItemInput) ComAmazonawsD
 
 	return func() ComAmazonawsDynamodbTypes.DeleteItemInput {
 
-		return ComAmazonawsDynamodbTypes.Companion_DeleteItemInput_.Create_DeleteItemInput_(com_amazonaws_dynamodb_DeleteItemInput_TableName_ToDafny(nativeInput.TableName), com_amazonaws_dynamodb_DeleteItemInput_Key_ToDafny(nativeInput.Key), com_amazonaws_dynamodb_DeleteItemInput_Expected_ToDafny(nativeInput.Expected), com_amazonaws_dynamodb_DeleteItemInput_ConditionalOperator_ToDafny(nativeInput.ConditionalOperator), com_amazonaws_dynamodb_DeleteItemInput_ReturnValues_ToDafny(nativeInput.ReturnValues), com_amazonaws_dynamodb_DeleteItemInput_ReturnConsumedCapacity_ToDafny(nativeInput.ReturnConsumedCapacity), com_amazonaws_dynamodb_DeleteItemInput_ReturnItemCollectionMetrics_ToDafny(nativeInput.ReturnItemCollectionMetrics), com_amazonaws_dynamodb_DeleteItemInput_ConditionExpression_ToDafny(nativeInput.ConditionExpression), com_amazonaws_dynamodb_DeleteItemInput_ExpressionAttributeNames_ToDafny(nativeInput.ExpressionAttributeNames), com_amazonaws_dynamodb_DeleteItemInput_ExpressionAttributeValues_ToDafny(nativeInput.ExpressionAttributeValues))
+		return ComAmazonawsDynamodbTypes.Companion_DeleteItemInput_.Create_DeleteItemInput_(com_amazonaws_dynamodb_DeleteItemInput_TableName_ToDafny(nativeInput.TableName), com_amazonaws_dynamodb_DeleteItemInput_Key_ToDafny(nativeInput.Key), com_amazonaws_dynamodb_DeleteItemInput_Expected_ToDafny(nativeInput.Expected), com_amazonaws_dynamodb_DeleteItemInput_ConditionalOperator_ToDafny(nativeInput.ConditionalOperator), com_amazonaws_dynamodb_DeleteItemInput_ReturnValues_ToDafny(nativeInput.ReturnValues), com_amazonaws_dynamodb_DeleteItemInput_ReturnConsumedCapacity_ToDafny(nativeInput.ReturnConsumedCapacity), com_amazonaws_dynamodb_DeleteItemInput_ReturnItemCollectionMetrics_ToDafny(nativeInput.ReturnItemCollectionMetrics), com_amazonaws_dynamodb_DeleteItemInput_ConditionExpression_ToDafny(nativeInput.ConditionExpression), com_amazonaws_dynamodb_DeleteItemInput_ExpressionAttributeNames_ToDafny(nativeInput.ExpressionAttributeNames), com_amazonaws_dynamodb_DeleteItemInput_ExpressionAttributeValues_ToDafny(nativeInput.ExpressionAttributeValues), com_amazonaws_dynamodb_DeleteItemInput_ReturnValuesOnConditionCheckFailure_ToDafny(nativeInput.ReturnValuesOnConditionCheckFailure))
 	}()
 
 }
@@ -429,38 +429,20 @@ func DescribeTimeToLiveOutput_ToDafny(nativeOutput dynamodb.DescribeTimeToLiveOu
 
 }
 
-func DisableKinesisStreamingDestinationInput_ToDafny(nativeInput dynamodb.DisableKinesisStreamingDestinationInput) ComAmazonawsDynamodbTypes.DisableKinesisStreamingDestinationInput {
+func DisableKinesisStreamingDestinationInput_ToDafny(nativeInput dynamodb.DisableKinesisStreamingDestinationInput) ComAmazonawsDynamodbTypes.KinesisStreamingDestinationInput {
 
-	return func() ComAmazonawsDynamodbTypes.DisableKinesisStreamingDestinationInput {
+	return func() ComAmazonawsDynamodbTypes.KinesisStreamingDestinationInput {
 
-		return ComAmazonawsDynamodbTypes.Companion_DisableKinesisStreamingDestinationInput_.Create_DisableKinesisStreamingDestinationInput_(com_amazonaws_dynamodb_DisableKinesisStreamingDestinationInput_TableName_ToDafny(nativeInput.TableName), com_amazonaws_dynamodb_DisableKinesisStreamingDestinationInput_StreamArn_ToDafny(nativeInput.StreamArn), com_amazonaws_dynamodb_DisableKinesisStreamingDestinationInput_EnableKinesisStreamingConfiguration_ToDafny(nativeInput.EnableKinesisStreamingConfiguration))
+		return ComAmazonawsDynamodbTypes.Companion_KinesisStreamingDestinationInput_.Create_KinesisStreamingDestinationInput_(com_amazonaws_dynamodb_KinesisStreamingDestinationInput_TableName_ToDafny(nativeInput.TableName), com_amazonaws_dynamodb_KinesisStreamingDestinationInput_StreamArn_ToDafny(nativeInput.StreamArn), com_amazonaws_dynamodb_KinesisStreamingDestinationInput_EnableKinesisStreamingConfiguration_ToDafny(nativeInput.EnableKinesisStreamingConfiguration))
 	}()
 
 }
 
-func DisableKinesisStreamingDestinationOutput_ToDafny(nativeOutput dynamodb.DisableKinesisStreamingDestinationOutput) ComAmazonawsDynamodbTypes.DisableKinesisStreamingDestinationOutput {
+func DisableKinesisStreamingDestinationOutput_ToDafny(nativeOutput dynamodb.DisableKinesisStreamingDestinationOutput) ComAmazonawsDynamodbTypes.KinesisStreamingDestinationOutput {
 
-	return func() ComAmazonawsDynamodbTypes.DisableKinesisStreamingDestinationOutput {
+	return func() ComAmazonawsDynamodbTypes.KinesisStreamingDestinationOutput {
 
-		return ComAmazonawsDynamodbTypes.Companion_DisableKinesisStreamingDestinationOutput_.Create_DisableKinesisStreamingDestinationOutput_(com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput_TableName_ToDafny(nativeOutput.TableName), com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput_StreamArn_ToDafny(nativeOutput.StreamArn), com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput_DestinationStatus_ToDafny(nativeOutput.DestinationStatus), com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput_EnableKinesisStreamingConfiguration_ToDafny(nativeOutput.EnableKinesisStreamingConfiguration))
-	}()
-
-}
-
-func EnableKinesisStreamingDestinationInput_ToDafny(nativeInput dynamodb.EnableKinesisStreamingDestinationInput) ComAmazonawsDynamodbTypes.EnableKinesisStreamingDestinationInput {
-
-	return func() ComAmazonawsDynamodbTypes.EnableKinesisStreamingDestinationInput {
-
-		return ComAmazonawsDynamodbTypes.Companion_EnableKinesisStreamingDestinationInput_.Create_EnableKinesisStreamingDestinationInput_(com_amazonaws_dynamodb_EnableKinesisStreamingDestinationInput_TableName_ToDafny(nativeInput.TableName), com_amazonaws_dynamodb_EnableKinesisStreamingDestinationInput_StreamArn_ToDafny(nativeInput.StreamArn), com_amazonaws_dynamodb_EnableKinesisStreamingDestinationInput_EnableKinesisStreamingConfiguration_ToDafny(nativeInput.EnableKinesisStreamingConfiguration))
-	}()
-
-}
-
-func EnableKinesisStreamingDestinationOutput_ToDafny(nativeOutput dynamodb.EnableKinesisStreamingDestinationOutput) ComAmazonawsDynamodbTypes.EnableKinesisStreamingDestinationOutput {
-
-	return func() ComAmazonawsDynamodbTypes.EnableKinesisStreamingDestinationOutput {
-
-		return ComAmazonawsDynamodbTypes.Companion_EnableKinesisStreamingDestinationOutput_.Create_EnableKinesisStreamingDestinationOutput_(com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput_TableName_ToDafny(nativeOutput.TableName), com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput_StreamArn_ToDafny(nativeOutput.StreamArn), com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput_DestinationStatus_ToDafny(nativeOutput.DestinationStatus), com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput_EnableKinesisStreamingConfiguration_ToDafny(nativeOutput.EnableKinesisStreamingConfiguration))
+		return ComAmazonawsDynamodbTypes.Companion_KinesisStreamingDestinationOutput_.Create_KinesisStreamingDestinationOutput_(com_amazonaws_dynamodb_KinesisStreamingDestinationOutput_TableName_ToDafny(nativeOutput.TableName), com_amazonaws_dynamodb_KinesisStreamingDestinationOutput_StreamArn_ToDafny(nativeOutput.StreamArn), com_amazonaws_dynamodb_KinesisStreamingDestinationOutput_DestinationStatus_ToDafny(nativeOutput.DestinationStatus), com_amazonaws_dynamodb_KinesisStreamingDestinationOutput_EnableKinesisStreamingConfiguration_ToDafny(nativeOutput.EnableKinesisStreamingConfiguration))
 	}()
 
 }
@@ -469,7 +451,7 @@ func ExecuteStatementInput_ToDafny(nativeInput dynamodb.ExecuteStatementInput) C
 
 	return func() ComAmazonawsDynamodbTypes.ExecuteStatementInput {
 
-		return ComAmazonawsDynamodbTypes.Companion_ExecuteStatementInput_.Create_ExecuteStatementInput_(com_amazonaws_dynamodb_ExecuteStatementInput_Statement_ToDafny(nativeInput.Statement), com_amazonaws_dynamodb_ExecuteStatementInput_Parameters_ToDafny(nativeInput.Parameters), com_amazonaws_dynamodb_ExecuteStatementInput_ConsistentRead_ToDafny(nativeInput.ConsistentRead), com_amazonaws_dynamodb_ExecuteStatementInput_NextToken_ToDafny(nativeInput.NextToken), com_amazonaws_dynamodb_ExecuteStatementInput_ReturnConsumedCapacity_ToDafny(nativeInput.ReturnConsumedCapacity), com_amazonaws_dynamodb_ExecuteStatementInput_Limit_ToDafny(nativeInput.Limit))
+		return ComAmazonawsDynamodbTypes.Companion_ExecuteStatementInput_.Create_ExecuteStatementInput_(com_amazonaws_dynamodb_ExecuteStatementInput_Statement_ToDafny(nativeInput.Statement), com_amazonaws_dynamodb_ExecuteStatementInput_Parameters_ToDafny(nativeInput.Parameters), com_amazonaws_dynamodb_ExecuteStatementInput_ConsistentRead_ToDafny(nativeInput.ConsistentRead), com_amazonaws_dynamodb_ExecuteStatementInput_NextToken_ToDafny(nativeInput.NextToken), com_amazonaws_dynamodb_ExecuteStatementInput_ReturnConsumedCapacity_ToDafny(nativeInput.ReturnConsumedCapacity), com_amazonaws_dynamodb_ExecuteStatementInput_Limit_ToDafny(nativeInput.Limit), com_amazonaws_dynamodb_ExecuteStatementInput_ReturnValuesOnConditionCheckFailure_ToDafny(nativeInput.ReturnValuesOnConditionCheckFailure))
 	}()
 
 }
@@ -703,7 +685,7 @@ func PutItemInput_ToDafny(nativeInput dynamodb.PutItemInput) ComAmazonawsDynamod
 
 	return func() ComAmazonawsDynamodbTypes.PutItemInput {
 
-		return ComAmazonawsDynamodbTypes.Companion_PutItemInput_.Create_PutItemInput_(com_amazonaws_dynamodb_PutItemInput_TableName_ToDafny(nativeInput.TableName), com_amazonaws_dynamodb_PutItemInput_Item_ToDafny(nativeInput.Item), com_amazonaws_dynamodb_PutItemInput_Expected_ToDafny(nativeInput.Expected), com_amazonaws_dynamodb_PutItemInput_ReturnValues_ToDafny(nativeInput.ReturnValues), com_amazonaws_dynamodb_PutItemInput_ReturnConsumedCapacity_ToDafny(nativeInput.ReturnConsumedCapacity), com_amazonaws_dynamodb_PutItemInput_ReturnItemCollectionMetrics_ToDafny(nativeInput.ReturnItemCollectionMetrics), com_amazonaws_dynamodb_PutItemInput_ConditionalOperator_ToDafny(nativeInput.ConditionalOperator), com_amazonaws_dynamodb_PutItemInput_ConditionExpression_ToDafny(nativeInput.ConditionExpression), com_amazonaws_dynamodb_PutItemInput_ExpressionAttributeNames_ToDafny(nativeInput.ExpressionAttributeNames), com_amazonaws_dynamodb_PutItemInput_ExpressionAttributeValues_ToDafny(nativeInput.ExpressionAttributeValues))
+		return ComAmazonawsDynamodbTypes.Companion_PutItemInput_.Create_PutItemInput_(com_amazonaws_dynamodb_PutItemInput_TableName_ToDafny(nativeInput.TableName), com_amazonaws_dynamodb_PutItemInput_Item_ToDafny(nativeInput.Item), com_amazonaws_dynamodb_PutItemInput_Expected_ToDafny(nativeInput.Expected), com_amazonaws_dynamodb_PutItemInput_ReturnValues_ToDafny(nativeInput.ReturnValues), com_amazonaws_dynamodb_PutItemInput_ReturnConsumedCapacity_ToDafny(nativeInput.ReturnConsumedCapacity), com_amazonaws_dynamodb_PutItemInput_ReturnItemCollectionMetrics_ToDafny(nativeInput.ReturnItemCollectionMetrics), com_amazonaws_dynamodb_PutItemInput_ConditionalOperator_ToDafny(nativeInput.ConditionalOperator), com_amazonaws_dynamodb_PutItemInput_ConditionExpression_ToDafny(nativeInput.ConditionExpression), com_amazonaws_dynamodb_PutItemInput_ExpressionAttributeNames_ToDafny(nativeInput.ExpressionAttributeNames), com_amazonaws_dynamodb_PutItemInput_ExpressionAttributeValues_ToDafny(nativeInput.ExpressionAttributeValues), com_amazonaws_dynamodb_PutItemInput_ReturnValuesOnConditionCheckFailure_ToDafny(nativeInput.ReturnValuesOnConditionCheckFailure))
 	}()
 
 }
@@ -937,7 +919,7 @@ func UpdateItemInput_ToDafny(nativeInput dynamodb.UpdateItemInput) ComAmazonawsD
 
 	return func() ComAmazonawsDynamodbTypes.UpdateItemInput {
 
-		return ComAmazonawsDynamodbTypes.Companion_UpdateItemInput_.Create_UpdateItemInput_(com_amazonaws_dynamodb_UpdateItemInput_TableName_ToDafny(nativeInput.TableName), com_amazonaws_dynamodb_UpdateItemInput_Key_ToDafny(nativeInput.Key), com_amazonaws_dynamodb_UpdateItemInput_AttributeUpdates_ToDafny(nativeInput.AttributeUpdates), com_amazonaws_dynamodb_UpdateItemInput_Expected_ToDafny(nativeInput.Expected), com_amazonaws_dynamodb_UpdateItemInput_ConditionalOperator_ToDafny(nativeInput.ConditionalOperator), com_amazonaws_dynamodb_UpdateItemInput_ReturnValues_ToDafny(nativeInput.ReturnValues), com_amazonaws_dynamodb_UpdateItemInput_ReturnConsumedCapacity_ToDafny(nativeInput.ReturnConsumedCapacity), com_amazonaws_dynamodb_UpdateItemInput_ReturnItemCollectionMetrics_ToDafny(nativeInput.ReturnItemCollectionMetrics), com_amazonaws_dynamodb_UpdateItemInput_UpdateExpression_ToDafny(nativeInput.UpdateExpression), com_amazonaws_dynamodb_UpdateItemInput_ConditionExpression_ToDafny(nativeInput.ConditionExpression), com_amazonaws_dynamodb_UpdateItemInput_ExpressionAttributeNames_ToDafny(nativeInput.ExpressionAttributeNames), com_amazonaws_dynamodb_UpdateItemInput_ExpressionAttributeValues_ToDafny(nativeInput.ExpressionAttributeValues))
+		return ComAmazonawsDynamodbTypes.Companion_UpdateItemInput_.Create_UpdateItemInput_(com_amazonaws_dynamodb_UpdateItemInput_TableName_ToDafny(nativeInput.TableName), com_amazonaws_dynamodb_UpdateItemInput_Key_ToDafny(nativeInput.Key), com_amazonaws_dynamodb_UpdateItemInput_AttributeUpdates_ToDafny(nativeInput.AttributeUpdates), com_amazonaws_dynamodb_UpdateItemInput_Expected_ToDafny(nativeInput.Expected), com_amazonaws_dynamodb_UpdateItemInput_ConditionalOperator_ToDafny(nativeInput.ConditionalOperator), com_amazonaws_dynamodb_UpdateItemInput_ReturnValues_ToDafny(nativeInput.ReturnValues), com_amazonaws_dynamodb_UpdateItemInput_ReturnConsumedCapacity_ToDafny(nativeInput.ReturnConsumedCapacity), com_amazonaws_dynamodb_UpdateItemInput_ReturnItemCollectionMetrics_ToDafny(nativeInput.ReturnItemCollectionMetrics), com_amazonaws_dynamodb_UpdateItemInput_UpdateExpression_ToDafny(nativeInput.UpdateExpression), com_amazonaws_dynamodb_UpdateItemInput_ConditionExpression_ToDafny(nativeInput.ConditionExpression), com_amazonaws_dynamodb_UpdateItemInput_ExpressionAttributeNames_ToDafny(nativeInput.ExpressionAttributeNames), com_amazonaws_dynamodb_UpdateItemInput_ExpressionAttributeValues_ToDafny(nativeInput.ExpressionAttributeValues), com_amazonaws_dynamodb_UpdateItemInput_ReturnValuesOnConditionCheckFailure_ToDafny(nativeInput.ReturnValuesOnConditionCheckFailure))
 	}()
 
 }
@@ -973,7 +955,7 @@ func UpdateTableInput_ToDafny(nativeInput dynamodb.UpdateTableInput) ComAmazonaw
 
 	return func() ComAmazonawsDynamodbTypes.UpdateTableInput {
 
-		return ComAmazonawsDynamodbTypes.Companion_UpdateTableInput_.Create_UpdateTableInput_(com_amazonaws_dynamodb_UpdateTableInput_AttributeDefinitions_ToDafny(nativeInput.AttributeDefinitions), com_amazonaws_dynamodb_UpdateTableInput_TableName_ToDafny(nativeInput.TableName), com_amazonaws_dynamodb_UpdateTableInput_BillingMode_ToDafny(nativeInput.BillingMode), com_amazonaws_dynamodb_UpdateTableInput_ProvisionedThroughput_ToDafny(nativeInput.ProvisionedThroughput), com_amazonaws_dynamodb_UpdateTableInput_GlobalSecondaryIndexUpdates_ToDafny(nativeInput.GlobalSecondaryIndexUpdates), com_amazonaws_dynamodb_UpdateTableInput_StreamSpecification_ToDafny(nativeInput.StreamSpecification), com_amazonaws_dynamodb_UpdateTableInput_SSESpecification_ToDafny(nativeInput.SSESpecification), com_amazonaws_dynamodb_UpdateTableInput_ReplicaUpdates_ToDafny(nativeInput.ReplicaUpdates), com_amazonaws_dynamodb_UpdateTableInput_TableClass_ToDafny(nativeInput.TableClass), com_amazonaws_dynamodb_UpdateTableInput_DeletionProtectionEnabled_ToDafny(nativeInput.DeletionProtectionEnabled), com_amazonaws_dynamodb_UpdateTableInput_OnDemandThroughput_ToDafny(nativeInput.OnDemandThroughput))
+		return ComAmazonawsDynamodbTypes.Companion_UpdateTableInput_.Create_UpdateTableInput_(com_amazonaws_dynamodb_UpdateTableInput_AttributeDefinitions_ToDafny(nativeInput.AttributeDefinitions), com_amazonaws_dynamodb_UpdateTableInput_TableName_ToDafny(nativeInput.TableName), com_amazonaws_dynamodb_UpdateTableInput_BillingMode_ToDafny(nativeInput.BillingMode), com_amazonaws_dynamodb_UpdateTableInput_ProvisionedThroughput_ToDafny(nativeInput.ProvisionedThroughput), com_amazonaws_dynamodb_UpdateTableInput_GlobalSecondaryIndexUpdates_ToDafny(nativeInput.GlobalSecondaryIndexUpdates), com_amazonaws_dynamodb_UpdateTableInput_StreamSpecification_ToDafny(nativeInput.StreamSpecification), com_amazonaws_dynamodb_UpdateTableInput_SSESpecification_ToDafny(nativeInput.SSESpecification), com_amazonaws_dynamodb_UpdateTableInput_ReplicaUpdates_ToDafny(nativeInput.ReplicaUpdates), com_amazonaws_dynamodb_UpdateTableInput_TableClass_ToDafny(nativeInput.TableClass), com_amazonaws_dynamodb_UpdateTableInput_DeletionProtectionEnabled_ToDafny(nativeInput.DeletionProtectionEnabled), com_amazonaws_dynamodb_UpdateTableInput_MultiRegionConsistency_ToDafny(nativeInput.MultiRegionConsistency), com_amazonaws_dynamodb_UpdateTableInput_OnDemandThroughput_ToDafny(nativeInput.OnDemandThroughput), com_amazonaws_dynamodb_UpdateTableInput_WarmThroughput_ToDafny(nativeInput.WarmThroughput))
 	}()
 
 }
@@ -1215,6 +1197,14 @@ func ReplicaNotFoundException_ToDafny(nativeInput types.ReplicaNotFoundException
 
 }
 
+func ReplicatedWriteConflictException_ToDafny(nativeInput types.ReplicatedWriteConflictException) ComAmazonawsDynamodbTypes.Error {
+	return func() ComAmazonawsDynamodbTypes.Error {
+
+		return ComAmazonawsDynamodbTypes.Companion_Error_.Create_ReplicatedWriteConflictException_(com_amazonaws_dynamodb_ReplicatedWriteConflictException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
 func RequestLimitExceeded_ToDafny(nativeInput types.RequestLimitExceeded) ComAmazonawsDynamodbTypes.Error {
 	return func() ComAmazonawsDynamodbTypes.Error {
 
@@ -1413,6 +1403,11 @@ func Error_ToDafny(err error) ComAmazonawsDynamodbTypes.Error {
 		return ReplicaNotFoundException_ToDafny(*ReplicaNotFoundException)
 	}
 
+	var ReplicatedWriteConflictException *types.ReplicatedWriteConflictException
+	if errors.As(err, &ReplicatedWriteConflictException) {
+		return ReplicatedWriteConflictException_ToDafny(*ReplicatedWriteConflictException)
+	}
+
 	var RequestLimitExceeded *types.RequestLimitExceeded
 	if errors.As(err, &RequestLimitExceeded) {
 		return RequestLimitExceeded_ToDafny(*RequestLimitExceeded)
@@ -1478,7 +1473,7 @@ func com_amazonaws_dynamodb_BatchExecuteStatementInput_Statements_ToDafny(input 
 func com_amazonaws_dynamodb_PartiQLBatchRequest_member_ToDafny(input types.BatchStatementRequest) ComAmazonawsDynamodbTypes.BatchStatementRequest {
 	return func() ComAmazonawsDynamodbTypes.BatchStatementRequest {
 
-		return ComAmazonawsDynamodbTypes.Companion_BatchStatementRequest_.Create_BatchStatementRequest_(com_amazonaws_dynamodb_BatchStatementRequest_Statement_ToDafny(input.Statement), com_amazonaws_dynamodb_BatchStatementRequest_Parameters_ToDafny(input.Parameters), com_amazonaws_dynamodb_BatchStatementRequest_ConsistentRead_ToDafny(input.ConsistentRead))
+		return ComAmazonawsDynamodbTypes.Companion_BatchStatementRequest_.Create_BatchStatementRequest_(com_amazonaws_dynamodb_BatchStatementRequest_Statement_ToDafny(input.Statement), com_amazonaws_dynamodb_BatchStatementRequest_Parameters_ToDafny(input.Parameters), com_amazonaws_dynamodb_BatchStatementRequest_ConsistentRead_ToDafny(input.ConsistentRead), com_amazonaws_dynamodb_BatchStatementRequest_ReturnValuesOnConditionCheckFailure_ToDafny(input.ReturnValuesOnConditionCheckFailure))
 	}()
 }
 
@@ -1776,6 +1771,27 @@ func com_amazonaws_dynamodb_BatchStatementRequest_ConsistentRead_ToDafny(input *
 	}()
 }
 
+func com_amazonaws_dynamodb_BatchStatementRequest_ReturnValuesOnConditionCheckFailure_ToDafny(input types.ReturnValuesOnConditionCheckFailure) Wrappers.Option {
+	return func() Wrappers.Option {
+		var index int
+		for _, enumVal := range input.Values() {
+			index++
+			if enumVal == input {
+				break
+			}
+		}
+		var enum interface{}
+		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnValuesOnConditionCheckFailure_{}.AllSingletonConstructors()), 0; i < index; i++ {
+			var ok bool
+			enum, ok = allEnums()
+			if !ok {
+				break
+			}
+		}
+		return Wrappers.Companion_Option_.Create_Some_(enum.(ComAmazonawsDynamodbTypes.ReturnValuesOnConditionCheckFailure))
+	}()
+}
+
 func com_amazonaws_dynamodb_BatchExecuteStatementInput_ReturnConsumedCapacity_ToDafny(input types.ReturnConsumedCapacity) Wrappers.Option {
 	return func() Wrappers.Option {
 		var index int
@@ -1823,7 +1839,7 @@ func com_amazonaws_dynamodb_BatchStatementResponse_Error_ToDafny(input *types.Ba
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_BatchStatementError_.Create_BatchStatementError_(com_amazonaws_dynamodb_BatchStatementError_Code_ToDafny(input.Code), com_amazonaws_dynamodb_BatchStatementError_Message_ToDafny(input.Message)))
+		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_BatchStatementError_.Create_BatchStatementError_(com_amazonaws_dynamodb_BatchStatementError_Code_ToDafny(input.Code), com_amazonaws_dynamodb_BatchStatementError_Message_ToDafny(input.Message), com_amazonaws_dynamodb_BatchStatementError_Item_ToDafny(input.Item)))
 	}()
 }
 
@@ -1857,16 +1873,7 @@ func com_amazonaws_dynamodb_BatchStatementError_Message_ToDafny(input *string) W
 	}()
 }
 
-func com_amazonaws_dynamodb_BatchStatementResponse_TableName_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_dynamodb_BatchStatementResponse_Item_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
+func com_amazonaws_dynamodb_BatchStatementError_Item_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
 
 		fieldValue := dafny.NewMapBuilder()
@@ -1921,6 +1928,26 @@ func com_amazonaws_dynamodb_AttributeMap_value_ToDafny(input types.AttributeValu
 		default:
 			panic("Unhandled union type")
 		}
+	}()
+}
+
+func com_amazonaws_dynamodb_BatchStatementResponse_TableName_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_dynamodb_BatchStatementResponse_Item_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
+	return func() Wrappers.Option {
+
+		fieldValue := dafny.NewMapBuilder()
+		for key, val := range input {
+			fieldValue.Add(com_amazonaws_dynamodb_AttributeMap_key_ToDafny(key), com_amazonaws_dynamodb_AttributeMap_value_ToDafny(val))
+		}
+		return Wrappers.Companion_Option_.Create_Some_(fieldValue.ToMap())
 	}()
 }
 
@@ -2844,7 +2871,7 @@ func com_amazonaws_dynamodb_GlobalTableDescription_ReplicationGroup_ToDafny(inpu
 func com_amazonaws_dynamodb_ReplicaDescriptionList_member_ToDafny(input types.ReplicaDescription) ComAmazonawsDynamodbTypes.ReplicaDescription {
 	return func() ComAmazonawsDynamodbTypes.ReplicaDescription {
 
-		return ComAmazonawsDynamodbTypes.Companion_ReplicaDescription_.Create_ReplicaDescription_(com_amazonaws_dynamodb_ReplicaDescription_RegionName_ToDafny(input.RegionName), com_amazonaws_dynamodb_ReplicaDescription_ReplicaStatus_ToDafny(input.ReplicaStatus), com_amazonaws_dynamodb_ReplicaDescription_ReplicaStatusDescription_ToDafny(input.ReplicaStatusDescription), com_amazonaws_dynamodb_ReplicaDescription_ReplicaStatusPercentProgress_ToDafny(input.ReplicaStatusPercentProgress), com_amazonaws_dynamodb_ReplicaDescription_KMSMasterKeyId_ToDafny(input.KMSMasterKeyId), com_amazonaws_dynamodb_ReplicaDescription_ProvisionedThroughputOverride_ToDafny(input.ProvisionedThroughputOverride), com_amazonaws_dynamodb_ReplicaDescription_OnDemandThroughputOverride_ToDafny(input.OnDemandThroughputOverride), com_amazonaws_dynamodb_ReplicaDescription_GlobalSecondaryIndexes_ToDafny(input.GlobalSecondaryIndexes), com_amazonaws_dynamodb_ReplicaDescription_ReplicaInaccessibleDateTime_ToDafny(input.ReplicaInaccessibleDateTime), com_amazonaws_dynamodb_ReplicaDescription_ReplicaTableClassSummary_ToDafny(input.ReplicaTableClassSummary))
+		return ComAmazonawsDynamodbTypes.Companion_ReplicaDescription_.Create_ReplicaDescription_(com_amazonaws_dynamodb_ReplicaDescription_RegionName_ToDafny(input.RegionName), com_amazonaws_dynamodb_ReplicaDescription_ReplicaStatus_ToDafny(input.ReplicaStatus), com_amazonaws_dynamodb_ReplicaDescription_ReplicaStatusDescription_ToDafny(input.ReplicaStatusDescription), com_amazonaws_dynamodb_ReplicaDescription_ReplicaStatusPercentProgress_ToDafny(input.ReplicaStatusPercentProgress), com_amazonaws_dynamodb_ReplicaDescription_KMSMasterKeyId_ToDafny(input.KMSMasterKeyId), com_amazonaws_dynamodb_ReplicaDescription_ProvisionedThroughputOverride_ToDafny(input.ProvisionedThroughputOverride), com_amazonaws_dynamodb_ReplicaDescription_OnDemandThroughputOverride_ToDafny(input.OnDemandThroughputOverride), com_amazonaws_dynamodb_ReplicaDescription_WarmThroughput_ToDafny(input.WarmThroughput), com_amazonaws_dynamodb_ReplicaDescription_GlobalSecondaryIndexes_ToDafny(input.GlobalSecondaryIndexes), com_amazonaws_dynamodb_ReplicaDescription_ReplicaInaccessibleDateTime_ToDafny(input.ReplicaInaccessibleDateTime), com_amazonaws_dynamodb_ReplicaDescription_ReplicaTableClassSummary_ToDafny(input.ReplicaTableClassSummary))
 	}()
 }
 
@@ -2941,6 +2968,54 @@ func com_amazonaws_dynamodb_OnDemandThroughputOverride_MaxReadRequestUnits_ToDaf
 	}()
 }
 
+func com_amazonaws_dynamodb_ReplicaDescription_WarmThroughput_ToDafny(input *types.TableWarmThroughputDescription) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_TableWarmThroughputDescription_.Create_TableWarmThroughputDescription_(com_amazonaws_dynamodb_TableWarmThroughputDescription_ReadUnitsPerSecond_ToDafny(input.ReadUnitsPerSecond), com_amazonaws_dynamodb_TableWarmThroughputDescription_WriteUnitsPerSecond_ToDafny(input.WriteUnitsPerSecond), com_amazonaws_dynamodb_TableWarmThroughputDescription_Status_ToDafny(input.Status)))
+	}()
+}
+
+func com_amazonaws_dynamodb_TableWarmThroughputDescription_ReadUnitsPerSecond_ToDafny(input *int64) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(*input)
+	}()
+}
+
+func com_amazonaws_dynamodb_TableWarmThroughputDescription_WriteUnitsPerSecond_ToDafny(input *int64) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(*input)
+	}()
+}
+
+func com_amazonaws_dynamodb_TableWarmThroughputDescription_Status_ToDafny(input types.TableStatus) Wrappers.Option {
+	return func() Wrappers.Option {
+		var index int
+		for _, enumVal := range input.Values() {
+			index++
+			if enumVal == input {
+				break
+			}
+		}
+		var enum interface{}
+		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_TableStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
+			var ok bool
+			enum, ok = allEnums()
+			if !ok {
+				break
+			}
+		}
+		return Wrappers.Companion_Option_.Create_Some_(enum.(ComAmazonawsDynamodbTypes.TableStatus))
+	}()
+}
+
 func com_amazonaws_dynamodb_ReplicaDescription_GlobalSecondaryIndexes_ToDafny(input []types.ReplicaGlobalSecondaryIndexDescription) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
@@ -2958,7 +3033,7 @@ func com_amazonaws_dynamodb_ReplicaDescription_GlobalSecondaryIndexes_ToDafny(in
 func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescriptionList_member_ToDafny(input types.ReplicaGlobalSecondaryIndexDescription) ComAmazonawsDynamodbTypes.ReplicaGlobalSecondaryIndexDescription {
 	return func() ComAmazonawsDynamodbTypes.ReplicaGlobalSecondaryIndexDescription {
 
-		return ComAmazonawsDynamodbTypes.Companion_ReplicaGlobalSecondaryIndexDescription_.Create_ReplicaGlobalSecondaryIndexDescription_(com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription_IndexName_ToDafny(input.IndexName), com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription_ProvisionedThroughputOverride_ToDafny(input.ProvisionedThroughputOverride), com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription_OnDemandThroughputOverride_ToDafny(input.OnDemandThroughputOverride))
+		return ComAmazonawsDynamodbTypes.Companion_ReplicaGlobalSecondaryIndexDescription_.Create_ReplicaGlobalSecondaryIndexDescription_(com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription_IndexName_ToDafny(input.IndexName), com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription_ProvisionedThroughputOverride_ToDafny(input.ProvisionedThroughputOverride), com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription_OnDemandThroughputOverride_ToDafny(input.OnDemandThroughputOverride), com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription_WarmThroughput_ToDafny(input.WarmThroughput))
 	}()
 }
 
@@ -2986,6 +3061,54 @@ func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription_OnDemandThrou
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_OnDemandThroughputOverride_.Create_OnDemandThroughputOverride_(com_amazonaws_dynamodb_OnDemandThroughputOverride_MaxReadRequestUnits_ToDafny(input.MaxReadRequestUnits)))
+	}()
+}
+
+func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription_WarmThroughput_ToDafny(input *types.GlobalSecondaryIndexWarmThroughputDescription) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_GlobalSecondaryIndexWarmThroughputDescription_.Create_GlobalSecondaryIndexWarmThroughputDescription_(com_amazonaws_dynamodb_GlobalSecondaryIndexWarmThroughputDescription_ReadUnitsPerSecond_ToDafny(input.ReadUnitsPerSecond), com_amazonaws_dynamodb_GlobalSecondaryIndexWarmThroughputDescription_WriteUnitsPerSecond_ToDafny(input.WriteUnitsPerSecond), com_amazonaws_dynamodb_GlobalSecondaryIndexWarmThroughputDescription_Status_ToDafny(input.Status)))
+	}()
+}
+
+func com_amazonaws_dynamodb_GlobalSecondaryIndexWarmThroughputDescription_ReadUnitsPerSecond_ToDafny(input *int64) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(*input)
+	}()
+}
+
+func com_amazonaws_dynamodb_GlobalSecondaryIndexWarmThroughputDescription_WriteUnitsPerSecond_ToDafny(input *int64) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(*input)
+	}()
+}
+
+func com_amazonaws_dynamodb_GlobalSecondaryIndexWarmThroughputDescription_Status_ToDafny(input types.IndexStatus) Wrappers.Option {
+	return func() Wrappers.Option {
+		var index int
+		for _, enumVal := range input.Values() {
+			index++
+			if enumVal == input {
+				break
+			}
+		}
+		var enum interface{}
+		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_IndexStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
+			var ok bool
+			enum, ok = allEnums()
+			if !ok {
+				break
+			}
+		}
+		return Wrappers.Companion_Option_.Create_Some_(enum.(ComAmazonawsDynamodbTypes.IndexStatus))
 	}()
 }
 
@@ -3311,7 +3434,7 @@ func com_amazonaws_dynamodb_CreateTableInput_GlobalSecondaryIndexes_ToDafny(inpu
 func com_amazonaws_dynamodb_GlobalSecondaryIndexList_member_ToDafny(input types.GlobalSecondaryIndex) ComAmazonawsDynamodbTypes.GlobalSecondaryIndex {
 	return func() ComAmazonawsDynamodbTypes.GlobalSecondaryIndex {
 
-		return ComAmazonawsDynamodbTypes.Companion_GlobalSecondaryIndex_.Create_GlobalSecondaryIndex_(com_amazonaws_dynamodb_GlobalSecondaryIndex_IndexName_ToDafny(input.IndexName), com_amazonaws_dynamodb_GlobalSecondaryIndex_KeySchema_ToDafny(input.KeySchema), com_amazonaws_dynamodb_GlobalSecondaryIndex_Projection_ToDafny(input.Projection), com_amazonaws_dynamodb_GlobalSecondaryIndex_ProvisionedThroughput_ToDafny(input.ProvisionedThroughput), com_amazonaws_dynamodb_GlobalSecondaryIndex_OnDemandThroughput_ToDafny(input.OnDemandThroughput))
+		return ComAmazonawsDynamodbTypes.Companion_GlobalSecondaryIndex_.Create_GlobalSecondaryIndex_(com_amazonaws_dynamodb_GlobalSecondaryIndex_IndexName_ToDafny(input.IndexName), com_amazonaws_dynamodb_GlobalSecondaryIndex_KeySchema_ToDafny(input.KeySchema), com_amazonaws_dynamodb_GlobalSecondaryIndex_Projection_ToDafny(input.Projection), com_amazonaws_dynamodb_GlobalSecondaryIndex_ProvisionedThroughput_ToDafny(input.ProvisionedThroughput), com_amazonaws_dynamodb_GlobalSecondaryIndex_OnDemandThroughput_ToDafny(input.OnDemandThroughput), com_amazonaws_dynamodb_GlobalSecondaryIndex_WarmThroughput_ToDafny(input.WarmThroughput))
 	}()
 }
 
@@ -3393,6 +3516,33 @@ func com_amazonaws_dynamodb_OnDemandThroughput_MaxReadRequestUnits_ToDafny(input
 }
 
 func com_amazonaws_dynamodb_OnDemandThroughput_MaxWriteRequestUnits_ToDafny(input *int64) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(*input)
+	}()
+}
+
+func com_amazonaws_dynamodb_GlobalSecondaryIndex_WarmThroughput_ToDafny(input *types.WarmThroughput) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_WarmThroughput_.Create_WarmThroughput_(com_amazonaws_dynamodb_WarmThroughput_ReadUnitsPerSecond_ToDafny(input.ReadUnitsPerSecond), com_amazonaws_dynamodb_WarmThroughput_WriteUnitsPerSecond_ToDafny(input.WriteUnitsPerSecond)))
+	}()
+}
+
+func com_amazonaws_dynamodb_WarmThroughput_ReadUnitsPerSecond_ToDafny(input *int64) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(*input)
+	}()
+}
+
+func com_amazonaws_dynamodb_WarmThroughput_WriteUnitsPerSecond_ToDafny(input *int64) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
@@ -3587,6 +3737,15 @@ func com_amazonaws_dynamodb_CreateTableInput_DeletionProtectionEnabled_ToDafny(i
 	}()
 }
 
+func com_amazonaws_dynamodb_CreateTableInput_WarmThroughput_ToDafny(input *types.WarmThroughput) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_WarmThroughput_.Create_WarmThroughput_(com_amazonaws_dynamodb_WarmThroughput_ReadUnitsPerSecond_ToDafny(input.ReadUnitsPerSecond), com_amazonaws_dynamodb_WarmThroughput_WriteUnitsPerSecond_ToDafny(input.WriteUnitsPerSecond)))
+	}()
+}
+
 func com_amazonaws_dynamodb_CreateTableInput_ResourcePolicy_ToDafny(input *string) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
@@ -3610,7 +3769,7 @@ func com_amazonaws_dynamodb_CreateTableOutput_TableDescription_ToDafny(input *ty
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_TableDescription_.Create_TableDescription_(com_amazonaws_dynamodb_TableDescription_AttributeDefinitions_ToDafny(input.AttributeDefinitions), com_amazonaws_dynamodb_TableDescription_TableName_ToDafny(input.TableName), com_amazonaws_dynamodb_TableDescription_KeySchema_ToDafny(input.KeySchema), com_amazonaws_dynamodb_TableDescription_TableStatus_ToDafny(input.TableStatus), com_amazonaws_dynamodb_TableDescription_CreationDateTime_ToDafny(input.CreationDateTime), com_amazonaws_dynamodb_TableDescription_ProvisionedThroughput_ToDafny(input.ProvisionedThroughput), com_amazonaws_dynamodb_TableDescription_TableSizeBytes_ToDafny(input.TableSizeBytes), com_amazonaws_dynamodb_TableDescription_ItemCount_ToDafny(input.ItemCount), com_amazonaws_dynamodb_TableDescription_TableArn_ToDafny(input.TableArn), com_amazonaws_dynamodb_TableDescription_TableId_ToDafny(input.TableId), com_amazonaws_dynamodb_TableDescription_BillingModeSummary_ToDafny(input.BillingModeSummary), com_amazonaws_dynamodb_TableDescription_LocalSecondaryIndexes_ToDafny(input.LocalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_GlobalSecondaryIndexes_ToDafny(input.GlobalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_StreamSpecification_ToDafny(input.StreamSpecification), com_amazonaws_dynamodb_TableDescription_LatestStreamLabel_ToDafny(input.LatestStreamLabel), com_amazonaws_dynamodb_TableDescription_LatestStreamArn_ToDafny(input.LatestStreamArn), com_amazonaws_dynamodb_TableDescription_GlobalTableVersion_ToDafny(input.GlobalTableVersion), com_amazonaws_dynamodb_TableDescription_Replicas_ToDafny(input.Replicas), com_amazonaws_dynamodb_TableDescription_RestoreSummary_ToDafny(input.RestoreSummary), com_amazonaws_dynamodb_TableDescription_SSEDescription_ToDafny(input.SSEDescription), com_amazonaws_dynamodb_TableDescription_ArchivalSummary_ToDafny(input.ArchivalSummary), com_amazonaws_dynamodb_TableDescription_TableClassSummary_ToDafny(input.TableClassSummary), com_amazonaws_dynamodb_TableDescription_DeletionProtectionEnabled_ToDafny(input.DeletionProtectionEnabled), com_amazonaws_dynamodb_TableDescription_OnDemandThroughput_ToDafny(input.OnDemandThroughput)))
+		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_TableDescription_.Create_TableDescription_(com_amazonaws_dynamodb_TableDescription_AttributeDefinitions_ToDafny(input.AttributeDefinitions), com_amazonaws_dynamodb_TableDescription_TableName_ToDafny(input.TableName), com_amazonaws_dynamodb_TableDescription_KeySchema_ToDafny(input.KeySchema), com_amazonaws_dynamodb_TableDescription_TableStatus_ToDafny(input.TableStatus), com_amazonaws_dynamodb_TableDescription_CreationDateTime_ToDafny(input.CreationDateTime), com_amazonaws_dynamodb_TableDescription_ProvisionedThroughput_ToDafny(input.ProvisionedThroughput), com_amazonaws_dynamodb_TableDescription_TableSizeBytes_ToDafny(input.TableSizeBytes), com_amazonaws_dynamodb_TableDescription_ItemCount_ToDafny(input.ItemCount), com_amazonaws_dynamodb_TableDescription_TableArn_ToDafny(input.TableArn), com_amazonaws_dynamodb_TableDescription_TableId_ToDafny(input.TableId), com_amazonaws_dynamodb_TableDescription_BillingModeSummary_ToDafny(input.BillingModeSummary), com_amazonaws_dynamodb_TableDescription_LocalSecondaryIndexes_ToDafny(input.LocalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_GlobalSecondaryIndexes_ToDafny(input.GlobalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_StreamSpecification_ToDafny(input.StreamSpecification), com_amazonaws_dynamodb_TableDescription_LatestStreamLabel_ToDafny(input.LatestStreamLabel), com_amazonaws_dynamodb_TableDescription_LatestStreamArn_ToDafny(input.LatestStreamArn), com_amazonaws_dynamodb_TableDescription_GlobalTableVersion_ToDafny(input.GlobalTableVersion), com_amazonaws_dynamodb_TableDescription_Replicas_ToDafny(input.Replicas), com_amazonaws_dynamodb_TableDescription_RestoreSummary_ToDafny(input.RestoreSummary), com_amazonaws_dynamodb_TableDescription_SSEDescription_ToDafny(input.SSEDescription), com_amazonaws_dynamodb_TableDescription_ArchivalSummary_ToDafny(input.ArchivalSummary), com_amazonaws_dynamodb_TableDescription_TableClassSummary_ToDafny(input.TableClassSummary), com_amazonaws_dynamodb_TableDescription_DeletionProtectionEnabled_ToDafny(input.DeletionProtectionEnabled), com_amazonaws_dynamodb_TableDescription_OnDemandThroughput_ToDafny(input.OnDemandThroughput), com_amazonaws_dynamodb_TableDescription_WarmThroughput_ToDafny(input.WarmThroughput), com_amazonaws_dynamodb_TableDescription_MultiRegionConsistency_ToDafny(input.MultiRegionConsistency)))
 	}()
 }
 
@@ -3911,7 +4070,7 @@ func com_amazonaws_dynamodb_TableDescription_GlobalSecondaryIndexes_ToDafny(inpu
 func com_amazonaws_dynamodb_GlobalSecondaryIndexDescriptionList_member_ToDafny(input types.GlobalSecondaryIndexDescription) ComAmazonawsDynamodbTypes.GlobalSecondaryIndexDescription {
 	return func() ComAmazonawsDynamodbTypes.GlobalSecondaryIndexDescription {
 
-		return ComAmazonawsDynamodbTypes.Companion_GlobalSecondaryIndexDescription_.Create_GlobalSecondaryIndexDescription_(com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_IndexName_ToDafny(input.IndexName), com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_KeySchema_ToDafny(input.KeySchema), com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_Projection_ToDafny(input.Projection), com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_IndexStatus_ToDafny(input.IndexStatus), com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_Backfilling_ToDafny(input.Backfilling), com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_ProvisionedThroughput_ToDafny(input.ProvisionedThroughput), com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_IndexSizeBytes_ToDafny(input.IndexSizeBytes), com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_ItemCount_ToDafny(input.ItemCount), com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_IndexArn_ToDafny(input.IndexArn), com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_OnDemandThroughput_ToDafny(input.OnDemandThroughput))
+		return ComAmazonawsDynamodbTypes.Companion_GlobalSecondaryIndexDescription_.Create_GlobalSecondaryIndexDescription_(com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_IndexName_ToDafny(input.IndexName), com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_KeySchema_ToDafny(input.KeySchema), com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_Projection_ToDafny(input.Projection), com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_IndexStatus_ToDafny(input.IndexStatus), com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_Backfilling_ToDafny(input.Backfilling), com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_ProvisionedThroughput_ToDafny(input.ProvisionedThroughput), com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_IndexSizeBytes_ToDafny(input.IndexSizeBytes), com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_ItemCount_ToDafny(input.ItemCount), com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_IndexArn_ToDafny(input.IndexArn), com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_OnDemandThroughput_ToDafny(input.OnDemandThroughput), com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_WarmThroughput_ToDafny(input.WarmThroughput))
 	}()
 }
 
@@ -4019,6 +4178,15 @@ func com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_OnDemandThroughput_T
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_OnDemandThroughput_.Create_OnDemandThroughput_(com_amazonaws_dynamodb_OnDemandThroughput_MaxReadRequestUnits_ToDafny(input.MaxReadRequestUnits), com_amazonaws_dynamodb_OnDemandThroughput_MaxWriteRequestUnits_ToDafny(input.MaxWriteRequestUnits)))
+	}()
+}
+
+func com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_WarmThroughput_ToDafny(input *types.GlobalSecondaryIndexWarmThroughputDescription) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_GlobalSecondaryIndexWarmThroughputDescription_.Create_GlobalSecondaryIndexWarmThroughputDescription_(com_amazonaws_dynamodb_GlobalSecondaryIndexWarmThroughputDescription_ReadUnitsPerSecond_ToDafny(input.ReadUnitsPerSecond), com_amazonaws_dynamodb_GlobalSecondaryIndexWarmThroughputDescription_WriteUnitsPerSecond_ToDafny(input.WriteUnitsPerSecond), com_amazonaws_dynamodb_GlobalSecondaryIndexWarmThroughputDescription_Status_ToDafny(input.Status)))
 	}()
 }
 
@@ -4249,6 +4417,36 @@ func com_amazonaws_dynamodb_TableDescription_OnDemandThroughput_ToDafny(input *t
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_OnDemandThroughput_.Create_OnDemandThroughput_(com_amazonaws_dynamodb_OnDemandThroughput_MaxReadRequestUnits_ToDafny(input.MaxReadRequestUnits), com_amazonaws_dynamodb_OnDemandThroughput_MaxWriteRequestUnits_ToDafny(input.MaxWriteRequestUnits)))
+	}()
+}
+
+func com_amazonaws_dynamodb_TableDescription_WarmThroughput_ToDafny(input *types.TableWarmThroughputDescription) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_TableWarmThroughputDescription_.Create_TableWarmThroughputDescription_(com_amazonaws_dynamodb_TableWarmThroughputDescription_ReadUnitsPerSecond_ToDafny(input.ReadUnitsPerSecond), com_amazonaws_dynamodb_TableWarmThroughputDescription_WriteUnitsPerSecond_ToDafny(input.WriteUnitsPerSecond), com_amazonaws_dynamodb_TableWarmThroughputDescription_Status_ToDafny(input.Status)))
+	}()
+}
+
+func com_amazonaws_dynamodb_TableDescription_MultiRegionConsistency_ToDafny(input types.MultiRegionConsistency) Wrappers.Option {
+	return func() Wrappers.Option {
+		var index int
+		for _, enumVal := range input.Values() {
+			index++
+			if enumVal == input {
+				break
+			}
+		}
+		var enum interface{}
+		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_MultiRegionConsistency_{}.AllSingletonConstructors()), 0; i < index; i++ {
+			var ok bool
+			enum, ok = allEnums()
+			if !ok {
+				break
+			}
+		}
+		return Wrappers.Companion_Option_.Create_Some_(enum.(ComAmazonawsDynamodbTypes.MultiRegionConsistency))
 	}()
 }
 
@@ -4917,6 +5115,27 @@ func com_amazonaws_dynamodb_ExpressionAttributeValueMap_value_ToDafny(input type
 	}()
 }
 
+func com_amazonaws_dynamodb_DeleteItemInput_ReturnValuesOnConditionCheckFailure_ToDafny(input types.ReturnValuesOnConditionCheckFailure) Wrappers.Option {
+	return func() Wrappers.Option {
+		var index int
+		for _, enumVal := range input.Values() {
+			index++
+			if enumVal == input {
+				break
+			}
+		}
+		var enum interface{}
+		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnValuesOnConditionCheckFailure_{}.AllSingletonConstructors()), 0; i < index; i++ {
+			var ok bool
+			enum, ok = allEnums()
+			if !ok {
+				break
+			}
+		}
+		return Wrappers.Companion_Option_.Create_Some_(enum.(ComAmazonawsDynamodbTypes.ReturnValuesOnConditionCheckFailure))
+	}()
+}
+
 func com_amazonaws_dynamodb_DeleteItemOutput_Attributes_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
 
@@ -4987,7 +5206,7 @@ func com_amazonaws_dynamodb_DeleteTableOutput_TableDescription_ToDafny(input *ty
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_TableDescription_.Create_TableDescription_(com_amazonaws_dynamodb_TableDescription_AttributeDefinitions_ToDafny(input.AttributeDefinitions), com_amazonaws_dynamodb_TableDescription_TableName_ToDafny(input.TableName), com_amazonaws_dynamodb_TableDescription_KeySchema_ToDafny(input.KeySchema), com_amazonaws_dynamodb_TableDescription_TableStatus_ToDafny(input.TableStatus), com_amazonaws_dynamodb_TableDescription_CreationDateTime_ToDafny(input.CreationDateTime), com_amazonaws_dynamodb_TableDescription_ProvisionedThroughput_ToDafny(input.ProvisionedThroughput), com_amazonaws_dynamodb_TableDescription_TableSizeBytes_ToDafny(input.TableSizeBytes), com_amazonaws_dynamodb_TableDescription_ItemCount_ToDafny(input.ItemCount), com_amazonaws_dynamodb_TableDescription_TableArn_ToDafny(input.TableArn), com_amazonaws_dynamodb_TableDescription_TableId_ToDafny(input.TableId), com_amazonaws_dynamodb_TableDescription_BillingModeSummary_ToDafny(input.BillingModeSummary), com_amazonaws_dynamodb_TableDescription_LocalSecondaryIndexes_ToDafny(input.LocalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_GlobalSecondaryIndexes_ToDafny(input.GlobalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_StreamSpecification_ToDafny(input.StreamSpecification), com_amazonaws_dynamodb_TableDescription_LatestStreamLabel_ToDafny(input.LatestStreamLabel), com_amazonaws_dynamodb_TableDescription_LatestStreamArn_ToDafny(input.LatestStreamArn), com_amazonaws_dynamodb_TableDescription_GlobalTableVersion_ToDafny(input.GlobalTableVersion), com_amazonaws_dynamodb_TableDescription_Replicas_ToDafny(input.Replicas), com_amazonaws_dynamodb_TableDescription_RestoreSummary_ToDafny(input.RestoreSummary), com_amazonaws_dynamodb_TableDescription_SSEDescription_ToDafny(input.SSEDescription), com_amazonaws_dynamodb_TableDescription_ArchivalSummary_ToDafny(input.ArchivalSummary), com_amazonaws_dynamodb_TableDescription_TableClassSummary_ToDafny(input.TableClassSummary), com_amazonaws_dynamodb_TableDescription_DeletionProtectionEnabled_ToDafny(input.DeletionProtectionEnabled), com_amazonaws_dynamodb_TableDescription_OnDemandThroughput_ToDafny(input.OnDemandThroughput)))
+		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_TableDescription_.Create_TableDescription_(com_amazonaws_dynamodb_TableDescription_AttributeDefinitions_ToDafny(input.AttributeDefinitions), com_amazonaws_dynamodb_TableDescription_TableName_ToDafny(input.TableName), com_amazonaws_dynamodb_TableDescription_KeySchema_ToDafny(input.KeySchema), com_amazonaws_dynamodb_TableDescription_TableStatus_ToDafny(input.TableStatus), com_amazonaws_dynamodb_TableDescription_CreationDateTime_ToDafny(input.CreationDateTime), com_amazonaws_dynamodb_TableDescription_ProvisionedThroughput_ToDafny(input.ProvisionedThroughput), com_amazonaws_dynamodb_TableDescription_TableSizeBytes_ToDafny(input.TableSizeBytes), com_amazonaws_dynamodb_TableDescription_ItemCount_ToDafny(input.ItemCount), com_amazonaws_dynamodb_TableDescription_TableArn_ToDafny(input.TableArn), com_amazonaws_dynamodb_TableDescription_TableId_ToDafny(input.TableId), com_amazonaws_dynamodb_TableDescription_BillingModeSummary_ToDafny(input.BillingModeSummary), com_amazonaws_dynamodb_TableDescription_LocalSecondaryIndexes_ToDafny(input.LocalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_GlobalSecondaryIndexes_ToDafny(input.GlobalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_StreamSpecification_ToDafny(input.StreamSpecification), com_amazonaws_dynamodb_TableDescription_LatestStreamLabel_ToDafny(input.LatestStreamLabel), com_amazonaws_dynamodb_TableDescription_LatestStreamArn_ToDafny(input.LatestStreamArn), com_amazonaws_dynamodb_TableDescription_GlobalTableVersion_ToDafny(input.GlobalTableVersion), com_amazonaws_dynamodb_TableDescription_Replicas_ToDafny(input.Replicas), com_amazonaws_dynamodb_TableDescription_RestoreSummary_ToDafny(input.RestoreSummary), com_amazonaws_dynamodb_TableDescription_SSEDescription_ToDafny(input.SSEDescription), com_amazonaws_dynamodb_TableDescription_ArchivalSummary_ToDafny(input.ArchivalSummary), com_amazonaws_dynamodb_TableDescription_TableClassSummary_ToDafny(input.TableClassSummary), com_amazonaws_dynamodb_TableDescription_DeletionProtectionEnabled_ToDafny(input.DeletionProtectionEnabled), com_amazonaws_dynamodb_TableDescription_OnDemandThroughput_ToDafny(input.OnDemandThroughput), com_amazonaws_dynamodb_TableDescription_WarmThroughput_ToDafny(input.WarmThroughput), com_amazonaws_dynamodb_TableDescription_MultiRegionConsistency_ToDafny(input.MultiRegionConsistency)))
 	}()
 }
 
@@ -5053,7 +5272,7 @@ func com_amazonaws_dynamodb_ContinuousBackupsDescription_PointInTimeRecoveryDesc
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_PointInTimeRecoveryDescription_.Create_PointInTimeRecoveryDescription_(com_amazonaws_dynamodb_PointInTimeRecoveryDescription_PointInTimeRecoveryStatus_ToDafny(input.PointInTimeRecoveryStatus), com_amazonaws_dynamodb_PointInTimeRecoveryDescription_EarliestRestorableDateTime_ToDafny(input.EarliestRestorableDateTime), com_amazonaws_dynamodb_PointInTimeRecoveryDescription_LatestRestorableDateTime_ToDafny(input.LatestRestorableDateTime)))
+		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_PointInTimeRecoveryDescription_.Create_PointInTimeRecoveryDescription_(com_amazonaws_dynamodb_PointInTimeRecoveryDescription_PointInTimeRecoveryStatus_ToDafny(input.PointInTimeRecoveryStatus), com_amazonaws_dynamodb_PointInTimeRecoveryDescription_RecoveryPeriodInDays_ToDafny(input.RecoveryPeriodInDays), com_amazonaws_dynamodb_PointInTimeRecoveryDescription_EarliestRestorableDateTime_ToDafny(input.EarliestRestorableDateTime), com_amazonaws_dynamodb_PointInTimeRecoveryDescription_LatestRestorableDateTime_ToDafny(input.LatestRestorableDateTime)))
 	}()
 }
 
@@ -5075,6 +5294,15 @@ func com_amazonaws_dynamodb_PointInTimeRecoveryDescription_PointInTimeRecoverySt
 			}
 		}
 		return Wrappers.Companion_Option_.Create_Some_(enum.(ComAmazonawsDynamodbTypes.PointInTimeRecoveryStatus))
+	}()
+}
+
+func com_amazonaws_dynamodb_PointInTimeRecoveryDescription_RecoveryPeriodInDays_ToDafny(input *int32) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(*input)
 	}()
 }
 
@@ -6430,7 +6658,7 @@ func com_amazonaws_dynamodb_DescribeTableOutput_Table_ToDafny(input *types.Table
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_TableDescription_.Create_TableDescription_(com_amazonaws_dynamodb_TableDescription_AttributeDefinitions_ToDafny(input.AttributeDefinitions), com_amazonaws_dynamodb_TableDescription_TableName_ToDafny(input.TableName), com_amazonaws_dynamodb_TableDescription_KeySchema_ToDafny(input.KeySchema), com_amazonaws_dynamodb_TableDescription_TableStatus_ToDafny(input.TableStatus), com_amazonaws_dynamodb_TableDescription_CreationDateTime_ToDafny(input.CreationDateTime), com_amazonaws_dynamodb_TableDescription_ProvisionedThroughput_ToDafny(input.ProvisionedThroughput), com_amazonaws_dynamodb_TableDescription_TableSizeBytes_ToDafny(input.TableSizeBytes), com_amazonaws_dynamodb_TableDescription_ItemCount_ToDafny(input.ItemCount), com_amazonaws_dynamodb_TableDescription_TableArn_ToDafny(input.TableArn), com_amazonaws_dynamodb_TableDescription_TableId_ToDafny(input.TableId), com_amazonaws_dynamodb_TableDescription_BillingModeSummary_ToDafny(input.BillingModeSummary), com_amazonaws_dynamodb_TableDescription_LocalSecondaryIndexes_ToDafny(input.LocalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_GlobalSecondaryIndexes_ToDafny(input.GlobalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_StreamSpecification_ToDafny(input.StreamSpecification), com_amazonaws_dynamodb_TableDescription_LatestStreamLabel_ToDafny(input.LatestStreamLabel), com_amazonaws_dynamodb_TableDescription_LatestStreamArn_ToDafny(input.LatestStreamArn), com_amazonaws_dynamodb_TableDescription_GlobalTableVersion_ToDafny(input.GlobalTableVersion), com_amazonaws_dynamodb_TableDescription_Replicas_ToDafny(input.Replicas), com_amazonaws_dynamodb_TableDescription_RestoreSummary_ToDafny(input.RestoreSummary), com_amazonaws_dynamodb_TableDescription_SSEDescription_ToDafny(input.SSEDescription), com_amazonaws_dynamodb_TableDescription_ArchivalSummary_ToDafny(input.ArchivalSummary), com_amazonaws_dynamodb_TableDescription_TableClassSummary_ToDafny(input.TableClassSummary), com_amazonaws_dynamodb_TableDescription_DeletionProtectionEnabled_ToDafny(input.DeletionProtectionEnabled), com_amazonaws_dynamodb_TableDescription_OnDemandThroughput_ToDafny(input.OnDemandThroughput)))
+		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_TableDescription_.Create_TableDescription_(com_amazonaws_dynamodb_TableDescription_AttributeDefinitions_ToDafny(input.AttributeDefinitions), com_amazonaws_dynamodb_TableDescription_TableName_ToDafny(input.TableName), com_amazonaws_dynamodb_TableDescription_KeySchema_ToDafny(input.KeySchema), com_amazonaws_dynamodb_TableDescription_TableStatus_ToDafny(input.TableStatus), com_amazonaws_dynamodb_TableDescription_CreationDateTime_ToDafny(input.CreationDateTime), com_amazonaws_dynamodb_TableDescription_ProvisionedThroughput_ToDafny(input.ProvisionedThroughput), com_amazonaws_dynamodb_TableDescription_TableSizeBytes_ToDafny(input.TableSizeBytes), com_amazonaws_dynamodb_TableDescription_ItemCount_ToDafny(input.ItemCount), com_amazonaws_dynamodb_TableDescription_TableArn_ToDafny(input.TableArn), com_amazonaws_dynamodb_TableDescription_TableId_ToDafny(input.TableId), com_amazonaws_dynamodb_TableDescription_BillingModeSummary_ToDafny(input.BillingModeSummary), com_amazonaws_dynamodb_TableDescription_LocalSecondaryIndexes_ToDafny(input.LocalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_GlobalSecondaryIndexes_ToDafny(input.GlobalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_StreamSpecification_ToDafny(input.StreamSpecification), com_amazonaws_dynamodb_TableDescription_LatestStreamLabel_ToDafny(input.LatestStreamLabel), com_amazonaws_dynamodb_TableDescription_LatestStreamArn_ToDafny(input.LatestStreamArn), com_amazonaws_dynamodb_TableDescription_GlobalTableVersion_ToDafny(input.GlobalTableVersion), com_amazonaws_dynamodb_TableDescription_Replicas_ToDafny(input.Replicas), com_amazonaws_dynamodb_TableDescription_RestoreSummary_ToDafny(input.RestoreSummary), com_amazonaws_dynamodb_TableDescription_SSEDescription_ToDafny(input.SSEDescription), com_amazonaws_dynamodb_TableDescription_ArchivalSummary_ToDafny(input.ArchivalSummary), com_amazonaws_dynamodb_TableDescription_TableClassSummary_ToDafny(input.TableClassSummary), com_amazonaws_dynamodb_TableDescription_DeletionProtectionEnabled_ToDafny(input.DeletionProtectionEnabled), com_amazonaws_dynamodb_TableDescription_OnDemandThroughput_ToDafny(input.OnDemandThroughput), com_amazonaws_dynamodb_TableDescription_WarmThroughput_ToDafny(input.WarmThroughput), com_amazonaws_dynamodb_TableDescription_MultiRegionConsistency_ToDafny(input.MultiRegionConsistency)))
 	}()
 }
 
@@ -6638,7 +6866,7 @@ func com_amazonaws_dynamodb_DescribeTimeToLiveOutput_TimeToLiveDescription_ToDaf
 	}()
 }
 
-func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationInput_TableName_ToDafny(input *string) dafny.Sequence {
+func com_amazonaws_dynamodb_KinesisStreamingDestinationInput_TableName_ToDafny(input *string) dafny.Sequence {
 	return func() dafny.Sequence {
 		if input == nil {
 			return nil
@@ -6647,7 +6875,7 @@ func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationInput_TableName_To
 	}()
 }
 
-func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationInput_StreamArn_ToDafny(input *string) dafny.Sequence {
+func com_amazonaws_dynamodb_KinesisStreamingDestinationInput_StreamArn_ToDafny(input *string) dafny.Sequence {
 	return func() dafny.Sequence {
 		if input == nil {
 			return nil
@@ -6656,7 +6884,7 @@ func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationInput_StreamArn_To
 	}()
 }
 
-func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationInput_EnableKinesisStreamingConfiguration_ToDafny(input *types.EnableKinesisStreamingConfiguration) Wrappers.Option {
+func com_amazonaws_dynamodb_KinesisStreamingDestinationInput_EnableKinesisStreamingConfiguration_ToDafny(input *types.EnableKinesisStreamingConfiguration) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
@@ -6686,7 +6914,7 @@ func com_amazonaws_dynamodb_EnableKinesisStreamingConfiguration_ApproximateCreat
 	}()
 }
 
-func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput_TableName_ToDafny(input *string) Wrappers.Option {
+func com_amazonaws_dynamodb_KinesisStreamingDestinationOutput_TableName_ToDafny(input *string) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
@@ -6695,7 +6923,7 @@ func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput_TableName_T
 	}()
 }
 
-func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput_StreamArn_ToDafny(input *string) Wrappers.Option {
+func com_amazonaws_dynamodb_KinesisStreamingDestinationOutput_StreamArn_ToDafny(input *string) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
@@ -6704,7 +6932,7 @@ func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput_StreamArn_T
 	}()
 }
 
-func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput_DestinationStatus_ToDafny(input types.DestinationStatus) Wrappers.Option {
+func com_amazonaws_dynamodb_KinesisStreamingDestinationOutput_DestinationStatus_ToDafny(input types.DestinationStatus) Wrappers.Option {
 	return func() Wrappers.Option {
 		var index int
 		for _, enumVal := range input.Values() {
@@ -6725,82 +6953,7 @@ func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput_Destination
 	}()
 }
 
-func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput_EnableKinesisStreamingConfiguration_ToDafny(input *types.EnableKinesisStreamingConfiguration) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_EnableKinesisStreamingConfiguration_.Create_EnableKinesisStreamingConfiguration_(com_amazonaws_dynamodb_EnableKinesisStreamingConfiguration_ApproximateCreationDateTimePrecision_ToDafny(input.ApproximateCreationDateTimePrecision)))
-	}()
-}
-
-func com_amazonaws_dynamodb_EnableKinesisStreamingDestinationInput_TableName_ToDafny(input *string) dafny.Sequence {
-	return func() dafny.Sequence {
-		if input == nil {
-			return nil
-		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
-	}()
-}
-
-func com_amazonaws_dynamodb_EnableKinesisStreamingDestinationInput_StreamArn_ToDafny(input *string) dafny.Sequence {
-	return func() dafny.Sequence {
-		if input == nil {
-			return nil
-		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
-	}()
-}
-
-func com_amazonaws_dynamodb_EnableKinesisStreamingDestinationInput_EnableKinesisStreamingConfiguration_ToDafny(input *types.EnableKinesisStreamingConfiguration) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_EnableKinesisStreamingConfiguration_.Create_EnableKinesisStreamingConfiguration_(com_amazonaws_dynamodb_EnableKinesisStreamingConfiguration_ApproximateCreationDateTimePrecision_ToDafny(input.ApproximateCreationDateTimePrecision)))
-	}()
-}
-
-func com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput_TableName_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput_StreamArn_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
-	}()
-}
-
-func com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput_DestinationStatus_ToDafny(input types.DestinationStatus) Wrappers.Option {
-	return func() Wrappers.Option {
-		var index int
-		for _, enumVal := range input.Values() {
-			index++
-			if enumVal == input {
-				break
-			}
-		}
-		var enum interface{}
-		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_DestinationStatus_{}.AllSingletonConstructors()), 0; i < index; i++ {
-			var ok bool
-			enum, ok = allEnums()
-			if !ok {
-				break
-			}
-		}
-		return Wrappers.Companion_Option_.Create_Some_(enum.(ComAmazonawsDynamodbTypes.DestinationStatus))
-	}()
-}
-
-func com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput_EnableKinesisStreamingConfiguration_ToDafny(input *types.EnableKinesisStreamingConfiguration) Wrappers.Option {
+func com_amazonaws_dynamodb_KinesisStreamingDestinationOutput_EnableKinesisStreamingConfiguration_ToDafny(input *types.EnableKinesisStreamingConfiguration) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
@@ -6880,6 +7033,27 @@ func com_amazonaws_dynamodb_ExecuteStatementInput_Limit_ToDafny(input *int32) Wr
 	}()
 }
 
+func com_amazonaws_dynamodb_ExecuteStatementInput_ReturnValuesOnConditionCheckFailure_ToDafny(input types.ReturnValuesOnConditionCheckFailure) Wrappers.Option {
+	return func() Wrappers.Option {
+		var index int
+		for _, enumVal := range input.Values() {
+			index++
+			if enumVal == input {
+				break
+			}
+		}
+		var enum interface{}
+		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnValuesOnConditionCheckFailure_{}.AllSingletonConstructors()), 0; i < index; i++ {
+			var ok bool
+			enum, ok = allEnums()
+			if !ok {
+				break
+			}
+		}
+		return Wrappers.Companion_Option_.Create_Some_(enum.(ComAmazonawsDynamodbTypes.ReturnValuesOnConditionCheckFailure))
+	}()
+}
+
 func com_amazonaws_dynamodb_ExecuteStatementOutput_Items_ToDafny(input []map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
@@ -6940,7 +7114,7 @@ func com_amazonaws_dynamodb_ExecuteTransactionInput_TransactStatements_ToDafny(i
 func com_amazonaws_dynamodb_ParameterizedStatements_member_ToDafny(input types.ParameterizedStatement) ComAmazonawsDynamodbTypes.ParameterizedStatement {
 	return func() ComAmazonawsDynamodbTypes.ParameterizedStatement {
 
-		return ComAmazonawsDynamodbTypes.Companion_ParameterizedStatement_.Create_ParameterizedStatement_(com_amazonaws_dynamodb_ParameterizedStatement_Statement_ToDafny(input.Statement), com_amazonaws_dynamodb_ParameterizedStatement_Parameters_ToDafny(input.Parameters))
+		return ComAmazonawsDynamodbTypes.Companion_ParameterizedStatement_.Create_ParameterizedStatement_(com_amazonaws_dynamodb_ParameterizedStatement_Statement_ToDafny(input.Statement), com_amazonaws_dynamodb_ParameterizedStatement_Parameters_ToDafny(input.Parameters), com_amazonaws_dynamodb_ParameterizedStatement_ReturnValuesOnConditionCheckFailure_ToDafny(input.ReturnValuesOnConditionCheckFailure))
 	}()
 }
 
@@ -6964,6 +7138,27 @@ func com_amazonaws_dynamodb_ParameterizedStatement_Parameters_ToDafny(input []ty
 			fieldValue = append(fieldValue, element)
 		}
 		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(fieldValue...))
+	}()
+}
+
+func com_amazonaws_dynamodb_ParameterizedStatement_ReturnValuesOnConditionCheckFailure_ToDafny(input types.ReturnValuesOnConditionCheckFailure) Wrappers.Option {
+	return func() Wrappers.Option {
+		var index int
+		for _, enumVal := range input.Values() {
+			index++
+			if enumVal == input {
+				break
+			}
+		}
+		var enum interface{}
+		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnValuesOnConditionCheckFailure_{}.AllSingletonConstructors()), 0; i < index; i++ {
+			var ok bool
+			enum, ok = allEnums()
+			if !ok {
+				break
+			}
+		}
+		return Wrappers.Companion_Option_.Create_Some_(enum.(ComAmazonawsDynamodbTypes.ReturnValuesOnConditionCheckFailure))
 	}()
 }
 
@@ -8292,6 +8487,27 @@ func com_amazonaws_dynamodb_PutItemInput_ExpressionAttributeValues_ToDafny(input
 	}()
 }
 
+func com_amazonaws_dynamodb_PutItemInput_ReturnValuesOnConditionCheckFailure_ToDafny(input types.ReturnValuesOnConditionCheckFailure) Wrappers.Option {
+	return func() Wrappers.Option {
+		var index int
+		for _, enumVal := range input.Values() {
+			index++
+			if enumVal == input {
+				break
+			}
+		}
+		var enum interface{}
+		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnValuesOnConditionCheckFailure_{}.AllSingletonConstructors()), 0; i < index; i++ {
+			var ok bool
+			enum, ok = allEnums()
+			if !ok {
+				break
+			}
+		}
+		return Wrappers.Companion_Option_.Create_Some_(enum.(ComAmazonawsDynamodbTypes.ReturnValuesOnConditionCheckFailure))
+	}()
+}
+
 func com_amazonaws_dynamodb_PutItemOutput_Attributes_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
 
@@ -8778,7 +8994,7 @@ func com_amazonaws_dynamodb_RestoreTableFromBackupOutput_TableDescription_ToDafn
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_TableDescription_.Create_TableDescription_(com_amazonaws_dynamodb_TableDescription_AttributeDefinitions_ToDafny(input.AttributeDefinitions), com_amazonaws_dynamodb_TableDescription_TableName_ToDafny(input.TableName), com_amazonaws_dynamodb_TableDescription_KeySchema_ToDafny(input.KeySchema), com_amazonaws_dynamodb_TableDescription_TableStatus_ToDafny(input.TableStatus), com_amazonaws_dynamodb_TableDescription_CreationDateTime_ToDafny(input.CreationDateTime), com_amazonaws_dynamodb_TableDescription_ProvisionedThroughput_ToDafny(input.ProvisionedThroughput), com_amazonaws_dynamodb_TableDescription_TableSizeBytes_ToDafny(input.TableSizeBytes), com_amazonaws_dynamodb_TableDescription_ItemCount_ToDafny(input.ItemCount), com_amazonaws_dynamodb_TableDescription_TableArn_ToDafny(input.TableArn), com_amazonaws_dynamodb_TableDescription_TableId_ToDafny(input.TableId), com_amazonaws_dynamodb_TableDescription_BillingModeSummary_ToDafny(input.BillingModeSummary), com_amazonaws_dynamodb_TableDescription_LocalSecondaryIndexes_ToDafny(input.LocalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_GlobalSecondaryIndexes_ToDafny(input.GlobalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_StreamSpecification_ToDafny(input.StreamSpecification), com_amazonaws_dynamodb_TableDescription_LatestStreamLabel_ToDafny(input.LatestStreamLabel), com_amazonaws_dynamodb_TableDescription_LatestStreamArn_ToDafny(input.LatestStreamArn), com_amazonaws_dynamodb_TableDescription_GlobalTableVersion_ToDafny(input.GlobalTableVersion), com_amazonaws_dynamodb_TableDescription_Replicas_ToDafny(input.Replicas), com_amazonaws_dynamodb_TableDescription_RestoreSummary_ToDafny(input.RestoreSummary), com_amazonaws_dynamodb_TableDescription_SSEDescription_ToDafny(input.SSEDescription), com_amazonaws_dynamodb_TableDescription_ArchivalSummary_ToDafny(input.ArchivalSummary), com_amazonaws_dynamodb_TableDescription_TableClassSummary_ToDafny(input.TableClassSummary), com_amazonaws_dynamodb_TableDescription_DeletionProtectionEnabled_ToDafny(input.DeletionProtectionEnabled), com_amazonaws_dynamodb_TableDescription_OnDemandThroughput_ToDafny(input.OnDemandThroughput)))
+		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_TableDescription_.Create_TableDescription_(com_amazonaws_dynamodb_TableDescription_AttributeDefinitions_ToDafny(input.AttributeDefinitions), com_amazonaws_dynamodb_TableDescription_TableName_ToDafny(input.TableName), com_amazonaws_dynamodb_TableDescription_KeySchema_ToDafny(input.KeySchema), com_amazonaws_dynamodb_TableDescription_TableStatus_ToDafny(input.TableStatus), com_amazonaws_dynamodb_TableDescription_CreationDateTime_ToDafny(input.CreationDateTime), com_amazonaws_dynamodb_TableDescription_ProvisionedThroughput_ToDafny(input.ProvisionedThroughput), com_amazonaws_dynamodb_TableDescription_TableSizeBytes_ToDafny(input.TableSizeBytes), com_amazonaws_dynamodb_TableDescription_ItemCount_ToDafny(input.ItemCount), com_amazonaws_dynamodb_TableDescription_TableArn_ToDafny(input.TableArn), com_amazonaws_dynamodb_TableDescription_TableId_ToDafny(input.TableId), com_amazonaws_dynamodb_TableDescription_BillingModeSummary_ToDafny(input.BillingModeSummary), com_amazonaws_dynamodb_TableDescription_LocalSecondaryIndexes_ToDafny(input.LocalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_GlobalSecondaryIndexes_ToDafny(input.GlobalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_StreamSpecification_ToDafny(input.StreamSpecification), com_amazonaws_dynamodb_TableDescription_LatestStreamLabel_ToDafny(input.LatestStreamLabel), com_amazonaws_dynamodb_TableDescription_LatestStreamArn_ToDafny(input.LatestStreamArn), com_amazonaws_dynamodb_TableDescription_GlobalTableVersion_ToDafny(input.GlobalTableVersion), com_amazonaws_dynamodb_TableDescription_Replicas_ToDafny(input.Replicas), com_amazonaws_dynamodb_TableDescription_RestoreSummary_ToDafny(input.RestoreSummary), com_amazonaws_dynamodb_TableDescription_SSEDescription_ToDafny(input.SSEDescription), com_amazonaws_dynamodb_TableDescription_ArchivalSummary_ToDafny(input.ArchivalSummary), com_amazonaws_dynamodb_TableDescription_TableClassSummary_ToDafny(input.TableClassSummary), com_amazonaws_dynamodb_TableDescription_DeletionProtectionEnabled_ToDafny(input.DeletionProtectionEnabled), com_amazonaws_dynamodb_TableDescription_OnDemandThroughput_ToDafny(input.OnDemandThroughput), com_amazonaws_dynamodb_TableDescription_WarmThroughput_ToDafny(input.WarmThroughput), com_amazonaws_dynamodb_TableDescription_MultiRegionConsistency_ToDafny(input.MultiRegionConsistency)))
 	}()
 }
 
@@ -8909,7 +9125,7 @@ func com_amazonaws_dynamodb_RestoreTableToPointInTimeOutput_TableDescription_ToD
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_TableDescription_.Create_TableDescription_(com_amazonaws_dynamodb_TableDescription_AttributeDefinitions_ToDafny(input.AttributeDefinitions), com_amazonaws_dynamodb_TableDescription_TableName_ToDafny(input.TableName), com_amazonaws_dynamodb_TableDescription_KeySchema_ToDafny(input.KeySchema), com_amazonaws_dynamodb_TableDescription_TableStatus_ToDafny(input.TableStatus), com_amazonaws_dynamodb_TableDescription_CreationDateTime_ToDafny(input.CreationDateTime), com_amazonaws_dynamodb_TableDescription_ProvisionedThroughput_ToDafny(input.ProvisionedThroughput), com_amazonaws_dynamodb_TableDescription_TableSizeBytes_ToDafny(input.TableSizeBytes), com_amazonaws_dynamodb_TableDescription_ItemCount_ToDafny(input.ItemCount), com_amazonaws_dynamodb_TableDescription_TableArn_ToDafny(input.TableArn), com_amazonaws_dynamodb_TableDescription_TableId_ToDafny(input.TableId), com_amazonaws_dynamodb_TableDescription_BillingModeSummary_ToDafny(input.BillingModeSummary), com_amazonaws_dynamodb_TableDescription_LocalSecondaryIndexes_ToDafny(input.LocalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_GlobalSecondaryIndexes_ToDafny(input.GlobalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_StreamSpecification_ToDafny(input.StreamSpecification), com_amazonaws_dynamodb_TableDescription_LatestStreamLabel_ToDafny(input.LatestStreamLabel), com_amazonaws_dynamodb_TableDescription_LatestStreamArn_ToDafny(input.LatestStreamArn), com_amazonaws_dynamodb_TableDescription_GlobalTableVersion_ToDafny(input.GlobalTableVersion), com_amazonaws_dynamodb_TableDescription_Replicas_ToDafny(input.Replicas), com_amazonaws_dynamodb_TableDescription_RestoreSummary_ToDafny(input.RestoreSummary), com_amazonaws_dynamodb_TableDescription_SSEDescription_ToDafny(input.SSEDescription), com_amazonaws_dynamodb_TableDescription_ArchivalSummary_ToDafny(input.ArchivalSummary), com_amazonaws_dynamodb_TableDescription_TableClassSummary_ToDafny(input.TableClassSummary), com_amazonaws_dynamodb_TableDescription_DeletionProtectionEnabled_ToDafny(input.DeletionProtectionEnabled), com_amazonaws_dynamodb_TableDescription_OnDemandThroughput_ToDafny(input.OnDemandThroughput)))
+		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_TableDescription_.Create_TableDescription_(com_amazonaws_dynamodb_TableDescription_AttributeDefinitions_ToDafny(input.AttributeDefinitions), com_amazonaws_dynamodb_TableDescription_TableName_ToDafny(input.TableName), com_amazonaws_dynamodb_TableDescription_KeySchema_ToDafny(input.KeySchema), com_amazonaws_dynamodb_TableDescription_TableStatus_ToDafny(input.TableStatus), com_amazonaws_dynamodb_TableDescription_CreationDateTime_ToDafny(input.CreationDateTime), com_amazonaws_dynamodb_TableDescription_ProvisionedThroughput_ToDafny(input.ProvisionedThroughput), com_amazonaws_dynamodb_TableDescription_TableSizeBytes_ToDafny(input.TableSizeBytes), com_amazonaws_dynamodb_TableDescription_ItemCount_ToDafny(input.ItemCount), com_amazonaws_dynamodb_TableDescription_TableArn_ToDafny(input.TableArn), com_amazonaws_dynamodb_TableDescription_TableId_ToDafny(input.TableId), com_amazonaws_dynamodb_TableDescription_BillingModeSummary_ToDafny(input.BillingModeSummary), com_amazonaws_dynamodb_TableDescription_LocalSecondaryIndexes_ToDafny(input.LocalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_GlobalSecondaryIndexes_ToDafny(input.GlobalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_StreamSpecification_ToDafny(input.StreamSpecification), com_amazonaws_dynamodb_TableDescription_LatestStreamLabel_ToDafny(input.LatestStreamLabel), com_amazonaws_dynamodb_TableDescription_LatestStreamArn_ToDafny(input.LatestStreamArn), com_amazonaws_dynamodb_TableDescription_GlobalTableVersion_ToDafny(input.GlobalTableVersion), com_amazonaws_dynamodb_TableDescription_Replicas_ToDafny(input.Replicas), com_amazonaws_dynamodb_TableDescription_RestoreSummary_ToDafny(input.RestoreSummary), com_amazonaws_dynamodb_TableDescription_SSEDescription_ToDafny(input.SSEDescription), com_amazonaws_dynamodb_TableDescription_ArchivalSummary_ToDafny(input.ArchivalSummary), com_amazonaws_dynamodb_TableDescription_TableClassSummary_ToDafny(input.TableClassSummary), com_amazonaws_dynamodb_TableDescription_DeletionProtectionEnabled_ToDafny(input.DeletionProtectionEnabled), com_amazonaws_dynamodb_TableDescription_OnDemandThroughput_ToDafny(input.OnDemandThroughput), com_amazonaws_dynamodb_TableDescription_WarmThroughput_ToDafny(input.WarmThroughput), com_amazonaws_dynamodb_TableDescription_MultiRegionConsistency_ToDafny(input.MultiRegionConsistency)))
 	}()
 }
 
@@ -9770,7 +9986,7 @@ func com_amazonaws_dynamodb_UpdateContinuousBackupsInput_PointInTimeRecoverySpec
 		if input == nil {
 			return ComAmazonawsDynamodbTypes.PointInTimeRecoverySpecification{}
 		}
-		return ComAmazonawsDynamodbTypes.Companion_PointInTimeRecoverySpecification_.Create_PointInTimeRecoverySpecification_(com_amazonaws_dynamodb_PointInTimeRecoverySpecification_PointInTimeRecoveryEnabled_ToDafny(input.PointInTimeRecoveryEnabled))
+		return ComAmazonawsDynamodbTypes.Companion_PointInTimeRecoverySpecification_.Create_PointInTimeRecoverySpecification_(com_amazonaws_dynamodb_PointInTimeRecoverySpecification_PointInTimeRecoveryEnabled_ToDafny(input.PointInTimeRecoveryEnabled), com_amazonaws_dynamodb_PointInTimeRecoverySpecification_RecoveryPeriodInDays_ToDafny(input.RecoveryPeriodInDays))
 	}()
 }
 
@@ -9780,6 +9996,15 @@ func com_amazonaws_dynamodb_PointInTimeRecoverySpecification_PointInTimeRecovery
 			return false
 		}
 		return *input
+	}()
+}
+
+func com_amazonaws_dynamodb_PointInTimeRecoverySpecification_RecoveryPeriodInDays_ToDafny(input *int32) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(*input)
 	}()
 }
 
@@ -10528,6 +10753,27 @@ func com_amazonaws_dynamodb_UpdateItemInput_ExpressionAttributeValues_ToDafny(in
 	}()
 }
 
+func com_amazonaws_dynamodb_UpdateItemInput_ReturnValuesOnConditionCheckFailure_ToDafny(input types.ReturnValuesOnConditionCheckFailure) Wrappers.Option {
+	return func() Wrappers.Option {
+		var index int
+		for _, enumVal := range input.Values() {
+			index++
+			if enumVal == input {
+				break
+			}
+		}
+		var enum interface{}
+		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnValuesOnConditionCheckFailure_{}.AllSingletonConstructors()), 0; i < index; i++ {
+			var ok bool
+			enum, ok = allEnums()
+			if !ok {
+				break
+			}
+		}
+		return Wrappers.Companion_Option_.Create_Some_(enum.(ComAmazonawsDynamodbTypes.ReturnValuesOnConditionCheckFailure))
+	}()
+}
+
 func com_amazonaws_dynamodb_UpdateItemOutput_Attributes_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
 
@@ -10732,7 +10978,7 @@ func com_amazonaws_dynamodb_GlobalSecondaryIndexUpdate_Update_ToDafny(input *typ
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_UpdateGlobalSecondaryIndexAction_.Create_UpdateGlobalSecondaryIndexAction_(com_amazonaws_dynamodb_UpdateGlobalSecondaryIndexAction_IndexName_ToDafny(input.IndexName), com_amazonaws_dynamodb_UpdateGlobalSecondaryIndexAction_ProvisionedThroughput_ToDafny(input.ProvisionedThroughput), com_amazonaws_dynamodb_UpdateGlobalSecondaryIndexAction_OnDemandThroughput_ToDafny(input.OnDemandThroughput)))
+		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_UpdateGlobalSecondaryIndexAction_.Create_UpdateGlobalSecondaryIndexAction_(com_amazonaws_dynamodb_UpdateGlobalSecondaryIndexAction_IndexName_ToDafny(input.IndexName), com_amazonaws_dynamodb_UpdateGlobalSecondaryIndexAction_ProvisionedThroughput_ToDafny(input.ProvisionedThroughput), com_amazonaws_dynamodb_UpdateGlobalSecondaryIndexAction_OnDemandThroughput_ToDafny(input.OnDemandThroughput), com_amazonaws_dynamodb_UpdateGlobalSecondaryIndexAction_WarmThroughput_ToDafny(input.WarmThroughput)))
 	}()
 }
 
@@ -10763,12 +11009,21 @@ func com_amazonaws_dynamodb_UpdateGlobalSecondaryIndexAction_OnDemandThroughput_
 	}()
 }
 
+func com_amazonaws_dynamodb_UpdateGlobalSecondaryIndexAction_WarmThroughput_ToDafny(input *types.WarmThroughput) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_WarmThroughput_.Create_WarmThroughput_(com_amazonaws_dynamodb_WarmThroughput_ReadUnitsPerSecond_ToDafny(input.ReadUnitsPerSecond), com_amazonaws_dynamodb_WarmThroughput_WriteUnitsPerSecond_ToDafny(input.WriteUnitsPerSecond)))
+	}()
+}
+
 func com_amazonaws_dynamodb_GlobalSecondaryIndexUpdate_Create_ToDafny(input *types.CreateGlobalSecondaryIndexAction) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_CreateGlobalSecondaryIndexAction_.Create_CreateGlobalSecondaryIndexAction_(com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction_IndexName_ToDafny(input.IndexName), com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction_KeySchema_ToDafny(input.KeySchema), com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction_Projection_ToDafny(input.Projection), com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction_ProvisionedThroughput_ToDafny(input.ProvisionedThroughput), com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction_OnDemandThroughput_ToDafny(input.OnDemandThroughput)))
+		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_CreateGlobalSecondaryIndexAction_.Create_CreateGlobalSecondaryIndexAction_(com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction_IndexName_ToDafny(input.IndexName), com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction_KeySchema_ToDafny(input.KeySchema), com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction_Projection_ToDafny(input.Projection), com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction_ProvisionedThroughput_ToDafny(input.ProvisionedThroughput), com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction_OnDemandThroughput_ToDafny(input.OnDemandThroughput), com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction_WarmThroughput_ToDafny(input.WarmThroughput)))
 	}()
 }
 
@@ -10819,6 +11074,15 @@ func com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction_OnDemandThroughput_
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_OnDemandThroughput_.Create_OnDemandThroughput_(com_amazonaws_dynamodb_OnDemandThroughput_MaxReadRequestUnits_ToDafny(input.MaxReadRequestUnits), com_amazonaws_dynamodb_OnDemandThroughput_MaxWriteRequestUnits_ToDafny(input.MaxWriteRequestUnits)))
+	}()
+}
+
+func com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction_WarmThroughput_ToDafny(input *types.WarmThroughput) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_WarmThroughput_.Create_WarmThroughput_(com_amazonaws_dynamodb_WarmThroughput_ReadUnitsPerSecond_ToDafny(input.ReadUnitsPerSecond), com_amazonaws_dynamodb_WarmThroughput_WriteUnitsPerSecond_ToDafny(input.WriteUnitsPerSecond)))
 	}()
 }
 
@@ -11121,6 +11385,27 @@ func com_amazonaws_dynamodb_UpdateTableInput_DeletionProtectionEnabled_ToDafny(i
 	}()
 }
 
+func com_amazonaws_dynamodb_UpdateTableInput_MultiRegionConsistency_ToDafny(input types.MultiRegionConsistency) Wrappers.Option {
+	return func() Wrappers.Option {
+		var index int
+		for _, enumVal := range input.Values() {
+			index++
+			if enumVal == input {
+				break
+			}
+		}
+		var enum interface{}
+		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_MultiRegionConsistency_{}.AllSingletonConstructors()), 0; i < index; i++ {
+			var ok bool
+			enum, ok = allEnums()
+			if !ok {
+				break
+			}
+		}
+		return Wrappers.Companion_Option_.Create_Some_(enum.(ComAmazonawsDynamodbTypes.MultiRegionConsistency))
+	}()
+}
+
 func com_amazonaws_dynamodb_UpdateTableInput_OnDemandThroughput_ToDafny(input *types.OnDemandThroughput) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
@@ -11130,12 +11415,21 @@ func com_amazonaws_dynamodb_UpdateTableInput_OnDemandThroughput_ToDafny(input *t
 	}()
 }
 
+func com_amazonaws_dynamodb_UpdateTableInput_WarmThroughput_ToDafny(input *types.WarmThroughput) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_WarmThroughput_.Create_WarmThroughput_(com_amazonaws_dynamodb_WarmThroughput_ReadUnitsPerSecond_ToDafny(input.ReadUnitsPerSecond), com_amazonaws_dynamodb_WarmThroughput_WriteUnitsPerSecond_ToDafny(input.WriteUnitsPerSecond)))
+	}()
+}
+
 func com_amazonaws_dynamodb_UpdateTableOutput_TableDescription_ToDafny(input *types.TableDescription) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_TableDescription_.Create_TableDescription_(com_amazonaws_dynamodb_TableDescription_AttributeDefinitions_ToDafny(input.AttributeDefinitions), com_amazonaws_dynamodb_TableDescription_TableName_ToDafny(input.TableName), com_amazonaws_dynamodb_TableDescription_KeySchema_ToDafny(input.KeySchema), com_amazonaws_dynamodb_TableDescription_TableStatus_ToDafny(input.TableStatus), com_amazonaws_dynamodb_TableDescription_CreationDateTime_ToDafny(input.CreationDateTime), com_amazonaws_dynamodb_TableDescription_ProvisionedThroughput_ToDafny(input.ProvisionedThroughput), com_amazonaws_dynamodb_TableDescription_TableSizeBytes_ToDafny(input.TableSizeBytes), com_amazonaws_dynamodb_TableDescription_ItemCount_ToDafny(input.ItemCount), com_amazonaws_dynamodb_TableDescription_TableArn_ToDafny(input.TableArn), com_amazonaws_dynamodb_TableDescription_TableId_ToDafny(input.TableId), com_amazonaws_dynamodb_TableDescription_BillingModeSummary_ToDafny(input.BillingModeSummary), com_amazonaws_dynamodb_TableDescription_LocalSecondaryIndexes_ToDafny(input.LocalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_GlobalSecondaryIndexes_ToDafny(input.GlobalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_StreamSpecification_ToDafny(input.StreamSpecification), com_amazonaws_dynamodb_TableDescription_LatestStreamLabel_ToDafny(input.LatestStreamLabel), com_amazonaws_dynamodb_TableDescription_LatestStreamArn_ToDafny(input.LatestStreamArn), com_amazonaws_dynamodb_TableDescription_GlobalTableVersion_ToDafny(input.GlobalTableVersion), com_amazonaws_dynamodb_TableDescription_Replicas_ToDafny(input.Replicas), com_amazonaws_dynamodb_TableDescription_RestoreSummary_ToDafny(input.RestoreSummary), com_amazonaws_dynamodb_TableDescription_SSEDescription_ToDafny(input.SSEDescription), com_amazonaws_dynamodb_TableDescription_ArchivalSummary_ToDafny(input.ArchivalSummary), com_amazonaws_dynamodb_TableDescription_TableClassSummary_ToDafny(input.TableClassSummary), com_amazonaws_dynamodb_TableDescription_DeletionProtectionEnabled_ToDafny(input.DeletionProtectionEnabled), com_amazonaws_dynamodb_TableDescription_OnDemandThroughput_ToDafny(input.OnDemandThroughput)))
+		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_TableDescription_.Create_TableDescription_(com_amazonaws_dynamodb_TableDescription_AttributeDefinitions_ToDafny(input.AttributeDefinitions), com_amazonaws_dynamodb_TableDescription_TableName_ToDafny(input.TableName), com_amazonaws_dynamodb_TableDescription_KeySchema_ToDafny(input.KeySchema), com_amazonaws_dynamodb_TableDescription_TableStatus_ToDafny(input.TableStatus), com_amazonaws_dynamodb_TableDescription_CreationDateTime_ToDafny(input.CreationDateTime), com_amazonaws_dynamodb_TableDescription_ProvisionedThroughput_ToDafny(input.ProvisionedThroughput), com_amazonaws_dynamodb_TableDescription_TableSizeBytes_ToDafny(input.TableSizeBytes), com_amazonaws_dynamodb_TableDescription_ItemCount_ToDafny(input.ItemCount), com_amazonaws_dynamodb_TableDescription_TableArn_ToDafny(input.TableArn), com_amazonaws_dynamodb_TableDescription_TableId_ToDafny(input.TableId), com_amazonaws_dynamodb_TableDescription_BillingModeSummary_ToDafny(input.BillingModeSummary), com_amazonaws_dynamodb_TableDescription_LocalSecondaryIndexes_ToDafny(input.LocalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_GlobalSecondaryIndexes_ToDafny(input.GlobalSecondaryIndexes), com_amazonaws_dynamodb_TableDescription_StreamSpecification_ToDafny(input.StreamSpecification), com_amazonaws_dynamodb_TableDescription_LatestStreamLabel_ToDafny(input.LatestStreamLabel), com_amazonaws_dynamodb_TableDescription_LatestStreamArn_ToDafny(input.LatestStreamArn), com_amazonaws_dynamodb_TableDescription_GlobalTableVersion_ToDafny(input.GlobalTableVersion), com_amazonaws_dynamodb_TableDescription_Replicas_ToDafny(input.Replicas), com_amazonaws_dynamodb_TableDescription_RestoreSummary_ToDafny(input.RestoreSummary), com_amazonaws_dynamodb_TableDescription_SSEDescription_ToDafny(input.SSEDescription), com_amazonaws_dynamodb_TableDescription_ArchivalSummary_ToDafny(input.ArchivalSummary), com_amazonaws_dynamodb_TableDescription_TableClassSummary_ToDafny(input.TableClassSummary), com_amazonaws_dynamodb_TableDescription_DeletionProtectionEnabled_ToDafny(input.DeletionProtectionEnabled), com_amazonaws_dynamodb_TableDescription_OnDemandThroughput_ToDafny(input.OnDemandThroughput), com_amazonaws_dynamodb_TableDescription_WarmThroughput_ToDafny(input.WarmThroughput), com_amazonaws_dynamodb_TableDescription_MultiRegionConsistency_ToDafny(input.MultiRegionConsistency)))
 	}()
 }
 
@@ -11547,6 +11841,15 @@ func com_amazonaws_dynamodb_ReplicaAlreadyExistsException_message_ToDafny(input 
 }
 
 func com_amazonaws_dynamodb_ReplicaNotFoundException_message_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+	}()
+}
+
+func com_amazonaws_dynamodb_ReplicatedWriteConflictException_message_ToDafny(input *string) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()

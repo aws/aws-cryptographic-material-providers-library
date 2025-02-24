@@ -180,7 +180,8 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
   type BatchGetResponseMap = map<TableArn, ItemList>
   datatype BatchStatementError = | BatchStatementError (
     nameonly Code: Option<BatchStatementErrorCodeEnum> := Option.None ,
-    nameonly Message: Option<String> := Option.None
+    nameonly Message: Option<String> := Option.None ,
+    nameonly Item: Option<AttributeMap> := Option.None
   )
   datatype BatchStatementErrorCodeEnum =
     | ConditionalCheckFailed
@@ -197,7 +198,8 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
   datatype BatchStatementRequest = | BatchStatementRequest (
     nameonly Statement: PartiQLStatement ,
     nameonly Parameters: Option<PreparedStatementParameters> := Option.None ,
-    nameonly ConsistentRead: Option<ConsistentRead> := Option.None
+    nameonly ConsistentRead: Option<ConsistentRead> := Option.None ,
+    nameonly ReturnValuesOnConditionCheckFailure: Option<ReturnValuesOnConditionCheckFailure> := Option.None
   )
   datatype BatchStatementResponse = | BatchStatementResponse (
     nameonly Error: Option<BatchStatementError> := Option.None ,
@@ -339,7 +341,8 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
     nameonly KeySchema: KeySchema ,
     nameonly Projection: Projection ,
     nameonly ProvisionedThroughput: Option<ProvisionedThroughput> := Option.None ,
-    nameonly OnDemandThroughput: Option<OnDemandThroughput> := Option.None
+    nameonly OnDemandThroughput: Option<OnDemandThroughput> := Option.None ,
+    nameonly WarmThroughput: Option<WarmThroughput> := Option.None
   )
   datatype CreateGlobalTableInput = | CreateGlobalTableInput (
     nameonly GlobalTableName: TableName ,
@@ -372,6 +375,7 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
     nameonly Tags: Option<TagList> := Option.None ,
     nameonly TableClass: Option<TableClass> := Option.None ,
     nameonly DeletionProtectionEnabled: Option<DeletionProtectionEnabled> := Option.None ,
+    nameonly WarmThroughput: Option<WarmThroughput> := Option.None ,
     nameonly ResourcePolicy: Option<ResourcePolicy> := Option.None ,
     nameonly OnDemandThroughput: Option<OnDemandThroughput> := Option.None
   )
@@ -421,7 +425,8 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
     nameonly ReturnItemCollectionMetrics: Option<ReturnItemCollectionMetrics> := Option.None ,
     nameonly ConditionExpression: Option<ConditionExpression> := Option.None ,
     nameonly ExpressionAttributeNames: Option<ExpressionAttributeNameMap> := Option.None ,
-    nameonly ExpressionAttributeValues: Option<ExpressionAttributeValueMap> := Option.None
+    nameonly ExpressionAttributeValues: Option<ExpressionAttributeValueMap> := Option.None ,
+    nameonly ReturnValuesOnConditionCheckFailure: Option<ReturnValuesOnConditionCheckFailure> := Option.None
   )
   datatype DeleteItemOutput = | DeleteItemOutput (
     nameonly Attributes: Option<AttributeMap> := Option.None ,
@@ -547,17 +552,6 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
     | DISABLED
     | ENABLE_FAILED
     | UPDATING
-  datatype DisableKinesisStreamingDestinationInput = | DisableKinesisStreamingDestinationInput (
-    nameonly TableName: TableArn ,
-    nameonly StreamArn: StreamArn ,
-    nameonly EnableKinesisStreamingConfiguration: Option<EnableKinesisStreamingConfiguration> := Option.None
-  )
-  datatype DisableKinesisStreamingDestinationOutput = | DisableKinesisStreamingDestinationOutput (
-    nameonly TableName: Option<TableName> := Option.None ,
-    nameonly StreamArn: Option<StreamArn> := Option.None ,
-    nameonly DestinationStatus: Option<DestinationStatus> := Option.None ,
-    nameonly EnableKinesisStreamingConfiguration: Option<EnableKinesisStreamingConfiguration> := Option.None
-  )
   type DoubleObject = x: seq<uint8> | IsValid_DoubleObject(x) witness *
   predicate method IsValid_DoubleObject(x: seq<uint8>) {
     ( 8 <= |x| <= 8 )
@@ -588,7 +582,6 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
       DescribeTableReplicaAutoScaling := [];
       DescribeTimeToLive := [];
       DisableKinesisStreamingDestination := [];
-      EnableKinesisStreamingDestination := [];
       ExecuteStatement := [];
       ExecuteTransaction := [];
       ExportTableToPointInTime := [];
@@ -645,8 +638,7 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
     ghost var DescribeTable: seq<DafnyCallEvent<DescribeTableInput, Result<DescribeTableOutput, Error>>>
     ghost var DescribeTableReplicaAutoScaling: seq<DafnyCallEvent<DescribeTableReplicaAutoScalingInput, Result<DescribeTableReplicaAutoScalingOutput, Error>>>
     ghost var DescribeTimeToLive: seq<DafnyCallEvent<DescribeTimeToLiveInput, Result<DescribeTimeToLiveOutput, Error>>>
-    ghost var DisableKinesisStreamingDestination: seq<DafnyCallEvent<DisableKinesisStreamingDestinationInput, Result<DisableKinesisStreamingDestinationOutput, Error>>>
-    ghost var EnableKinesisStreamingDestination: seq<DafnyCallEvent<EnableKinesisStreamingDestinationInput, Result<EnableKinesisStreamingDestinationOutput, Error>>>
+    ghost var DisableKinesisStreamingDestination: seq<DafnyCallEvent<KinesisStreamingDestinationInput, Result<KinesisStreamingDestinationOutput, Error>>>
     ghost var ExecuteStatement: seq<DafnyCallEvent<ExecuteStatementInput, Result<ExecuteStatementOutput, Error>>>
     ghost var ExecuteTransaction: seq<DafnyCallEvent<ExecuteTransactionInput, Result<ExecuteTransactionOutput, Error>>>
     ghost var ExportTableToPointInTime: seq<DafnyCallEvent<ExportTableToPointInTimeInput, Result<ExportTableToPointInTimeOutput, Error>>>
@@ -1052,10 +1044,10 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
       ensures DescribeTimeToLiveEnsuresPublicly(input, output)
       ensures History.DescribeTimeToLive == old(History.DescribeTimeToLive) + [DafnyCallEvent(input, output)]
 
-    predicate DisableKinesisStreamingDestinationEnsuresPublicly(input: DisableKinesisStreamingDestinationInput , output: Result<DisableKinesisStreamingDestinationOutput, Error>)
+    predicate DisableKinesisStreamingDestinationEnsuresPublicly(input: KinesisStreamingDestinationInput , output: Result<KinesisStreamingDestinationOutput, Error>)
     // The public method to be called by library consumers
-    method DisableKinesisStreamingDestination ( input: DisableKinesisStreamingDestinationInput )
-      returns (output: Result<DisableKinesisStreamingDestinationOutput, Error>)
+    method DisableKinesisStreamingDestination ( input: KinesisStreamingDestinationInput )
+      returns (output: Result<KinesisStreamingDestinationOutput, Error>)
       requires
         && ValidState()
       modifies Modifies - {History} ,
@@ -1066,21 +1058,6 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
         && ValidState()
       ensures DisableKinesisStreamingDestinationEnsuresPublicly(input, output)
       ensures History.DisableKinesisStreamingDestination == old(History.DisableKinesisStreamingDestination) + [DafnyCallEvent(input, output)]
-
-    predicate EnableKinesisStreamingDestinationEnsuresPublicly(input: EnableKinesisStreamingDestinationInput , output: Result<EnableKinesisStreamingDestinationOutput, Error>)
-    // The public method to be called by library consumers
-    method EnableKinesisStreamingDestination ( input: EnableKinesisStreamingDestinationInput )
-      returns (output: Result<EnableKinesisStreamingDestinationOutput, Error>)
-      requires
-        && ValidState()
-      modifies Modifies - {History} ,
-               History`EnableKinesisStreamingDestination
-      // Dafny will skip type parameters when generating a default decreases clause.
-      decreases Modifies - {History}
-      ensures
-        && ValidState()
-      ensures EnableKinesisStreamingDestinationEnsuresPublicly(input, output)
-      ensures History.EnableKinesisStreamingDestination == old(History.EnableKinesisStreamingDestination) + [DafnyCallEvent(input, output)]
 
     predicate ExecuteStatementEnsuresPublicly(input: ExecuteStatementInput , output: Result<ExecuteStatementOutput, Error>)
     // The public method to be called by library consumers
@@ -1566,17 +1543,6 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
   datatype EnableKinesisStreamingConfiguration = | EnableKinesisStreamingConfiguration (
     nameonly ApproximateCreationDateTimePrecision: Option<ApproximateCreationDateTimePrecision> := Option.None
   )
-  datatype EnableKinesisStreamingDestinationInput = | EnableKinesisStreamingDestinationInput (
-    nameonly TableName: TableArn ,
-    nameonly StreamArn: StreamArn ,
-    nameonly EnableKinesisStreamingConfiguration: Option<EnableKinesisStreamingConfiguration> := Option.None
-  )
-  datatype EnableKinesisStreamingDestinationOutput = | EnableKinesisStreamingDestinationOutput (
-    nameonly TableName: Option<TableName> := Option.None ,
-    nameonly StreamArn: Option<StreamArn> := Option.None ,
-    nameonly DestinationStatus: Option<DestinationStatus> := Option.None ,
-    nameonly EnableKinesisStreamingConfiguration: Option<EnableKinesisStreamingConfiguration> := Option.None
-  )
   datatype Endpoint = | Endpoint (
     nameonly Address: String ,
     nameonly CachePeriodInMinutes: Long
@@ -1595,7 +1561,8 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
     nameonly ConsistentRead: Option<ConsistentRead> := Option.None ,
     nameonly NextToken: Option<PartiQLNextToken> := Option.None ,
     nameonly ReturnConsumedCapacity: Option<ReturnConsumedCapacity> := Option.None ,
-    nameonly Limit: Option<PositiveIntegerObject> := Option.None
+    nameonly Limit: Option<PositiveIntegerObject> := Option.None ,
+    nameonly ReturnValuesOnConditionCheckFailure: Option<ReturnValuesOnConditionCheckFailure> := Option.None
   )
   datatype ExecuteStatementOutput = | ExecuteStatementOutput (
     nameonly Items: Option<ItemList> := Option.None ,
@@ -1725,7 +1692,8 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
     nameonly KeySchema: KeySchema ,
     nameonly Projection: Projection ,
     nameonly ProvisionedThroughput: Option<ProvisionedThroughput> := Option.None ,
-    nameonly OnDemandThroughput: Option<OnDemandThroughput> := Option.None
+    nameonly OnDemandThroughput: Option<OnDemandThroughput> := Option.None ,
+    nameonly WarmThroughput: Option<WarmThroughput> := Option.None
   )
   datatype GlobalSecondaryIndexAutoScalingUpdate = | GlobalSecondaryIndexAutoScalingUpdate (
     nameonly IndexName: Option<IndexName> := Option.None ,
@@ -1745,7 +1713,8 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
     nameonly IndexSizeBytes: Option<LongObject> := Option.None ,
     nameonly ItemCount: Option<LongObject> := Option.None ,
     nameonly IndexArn: Option<String> := Option.None ,
-    nameonly OnDemandThroughput: Option<OnDemandThroughput> := Option.None
+    nameonly OnDemandThroughput: Option<OnDemandThroughput> := Option.None ,
+    nameonly WarmThroughput: Option<GlobalSecondaryIndexWarmThroughputDescription> := Option.None
   )
   type GlobalSecondaryIndexDescriptionList = seq<GlobalSecondaryIndexDescription>
   type GlobalSecondaryIndexes = seq<GlobalSecondaryIndexInfo>
@@ -1763,6 +1732,11 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
     nameonly Delete: Option<DeleteGlobalSecondaryIndexAction> := Option.None
   )
   type GlobalSecondaryIndexUpdateList = seq<GlobalSecondaryIndexUpdate>
+  datatype GlobalSecondaryIndexWarmThroughputDescription = | GlobalSecondaryIndexWarmThroughputDescription (
+    nameonly ReadUnitsPerSecond: Option<PositiveLongObject> := Option.None ,
+    nameonly WriteUnitsPerSecond: Option<PositiveLongObject> := Option.None ,
+    nameonly Status: Option<IndexStatus> := Option.None
+  )
   datatype GlobalTable = | GlobalTable (
     nameonly GlobalTableName: Option<TableName> := Option.None ,
     nameonly ReplicationGroup: Option<ReplicaList> := Option.None
@@ -2056,6 +2030,9 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
   type Long = int64
   type LongObject = int64
   type MapAttributeValue = map<AttributeName, AttributeValue>
+  datatype MultiRegionConsistency =
+    | EVENTUAL
+    | STRONG
   type NextTokenString = string
   type NonKeyAttributeName = x: string | IsValid_NonKeyAttributeName(x) witness *
   predicate method IsValid_NonKeyAttributeName(x: string) {
@@ -2081,7 +2058,8 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
   )
   datatype ParameterizedStatement = | ParameterizedStatement (
     nameonly Statement: PartiQLStatement ,
-    nameonly Parameters: Option<PreparedStatementParameters> := Option.None
+    nameonly Parameters: Option<PreparedStatementParameters> := Option.None ,
+    nameonly ReturnValuesOnConditionCheckFailure: Option<ReturnValuesOnConditionCheckFailure> := Option.None
   )
   type ParameterizedStatements = x: seq<ParameterizedStatement> | IsValid_ParameterizedStatements(x) witness *
   predicate method IsValid_ParameterizedStatements(x: seq<ParameterizedStatement>) {
@@ -2102,11 +2080,13 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
   }
   datatype PointInTimeRecoveryDescription = | PointInTimeRecoveryDescription (
     nameonly PointInTimeRecoveryStatus: Option<PointInTimeRecoveryStatus> := Option.None ,
+    nameonly RecoveryPeriodInDays: Option<RecoveryPeriodInDays> := Option.None ,
     nameonly EarliestRestorableDateTime: Option<string> := Option.None ,
     nameonly LatestRestorableDateTime: Option<string> := Option.None
   )
   datatype PointInTimeRecoverySpecification = | PointInTimeRecoverySpecification (
-    nameonly PointInTimeRecoveryEnabled: BooleanObject
+    nameonly PointInTimeRecoveryEnabled: BooleanObject ,
+    nameonly RecoveryPeriodInDays: Option<RecoveryPeriodInDays> := Option.None
   )
   datatype PointInTimeRecoveryStatus =
     | ENABLED
@@ -2172,7 +2152,8 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
     nameonly ConditionalOperator: Option<ConditionalOperator> := Option.None ,
     nameonly ConditionExpression: Option<ConditionExpression> := Option.None ,
     nameonly ExpressionAttributeNames: Option<ExpressionAttributeNameMap> := Option.None ,
-    nameonly ExpressionAttributeValues: Option<ExpressionAttributeValueMap> := Option.None
+    nameonly ExpressionAttributeValues: Option<ExpressionAttributeValueMap> := Option.None ,
+    nameonly ReturnValuesOnConditionCheckFailure: Option<ReturnValuesOnConditionCheckFailure> := Option.None
   )
   type PutItemInputAttributeMap = map<AttributeName, AttributeValue>
   datatype PutItemOutput = | PutItemOutput (
@@ -2218,6 +2199,10 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
     nameonly LastEvaluatedKey: Option<Key> := Option.None ,
     nameonly ConsumedCapacity: Option<ConsumedCapacity> := Option.None
   )
+  type RecoveryPeriodInDays = x: int32 | IsValid_RecoveryPeriodInDays(x) witness *
+  predicate method IsValid_RecoveryPeriodInDays(x: int32) {
+    ( 1 <= x <= 35 )
+  }
   type RegionName = string
   datatype Replica = | Replica (
     nameonly RegionName: Option<RegionName> := Option.None
@@ -2247,6 +2232,7 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
     nameonly KMSMasterKeyId: Option<KMSMasterKeyId> := Option.None ,
     nameonly ProvisionedThroughputOverride: Option<ProvisionedThroughputOverride> := Option.None ,
     nameonly OnDemandThroughputOverride: Option<OnDemandThroughputOverride> := Option.None ,
+    nameonly WarmThroughput: Option<TableWarmThroughputDescription> := Option.None ,
     nameonly GlobalSecondaryIndexes: Option<ReplicaGlobalSecondaryIndexDescriptionList> := Option.None ,
     nameonly ReplicaInaccessibleDateTime: Option<string> := Option.None ,
     nameonly ReplicaTableClassSummary: Option<TableClassSummary> := Option.None
@@ -2272,7 +2258,8 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
   datatype ReplicaGlobalSecondaryIndexDescription = | ReplicaGlobalSecondaryIndexDescription (
     nameonly IndexName: Option<IndexName> := Option.None ,
     nameonly ProvisionedThroughputOverride: Option<ProvisionedThroughputOverride> := Option.None ,
-    nameonly OnDemandThroughputOverride: Option<OnDemandThroughputOverride> := Option.None
+    nameonly OnDemandThroughputOverride: Option<OnDemandThroughputOverride> := Option.None ,
+    nameonly WarmThroughput: Option<GlobalSecondaryIndexWarmThroughputDescription> := Option.None
   )
   type ReplicaGlobalSecondaryIndexDescriptionList = seq<ReplicaGlobalSecondaryIndexDescription>
   type ReplicaGlobalSecondaryIndexList = x: seq<ReplicaGlobalSecondaryIndex> | IsValid_ReplicaGlobalSecondaryIndexList(x) witness *
@@ -2573,7 +2560,9 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
     nameonly ArchivalSummary: Option<ArchivalSummary> := Option.None ,
     nameonly TableClassSummary: Option<TableClassSummary> := Option.None ,
     nameonly DeletionProtectionEnabled: Option<DeletionProtectionEnabled> := Option.None ,
-    nameonly OnDemandThroughput: Option<OnDemandThroughput> := Option.None
+    nameonly OnDemandThroughput: Option<OnDemandThroughput> := Option.None ,
+    nameonly WarmThroughput: Option<TableWarmThroughputDescription> := Option.None ,
+    nameonly MultiRegionConsistency: Option<MultiRegionConsistency> := Option.None
   )
   type TableId = string
   type TableName = x: string | IsValid_TableName(x) witness *
@@ -2589,6 +2578,11 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
     | INACCESSIBLE_ENCRYPTION_CREDENTIALS
     | ARCHIVING
     | ARCHIVED
+  datatype TableWarmThroughputDescription = | TableWarmThroughputDescription (
+    nameonly ReadUnitsPerSecond: Option<PositiveLongObject> := Option.None ,
+    nameonly WriteUnitsPerSecond: Option<PositiveLongObject> := Option.None ,
+    nameonly Status: Option<TableStatus> := Option.None
+  )
   datatype Tag = | Tag (
     nameonly Key: TagKeyString ,
     nameonly Value: TagValueString
@@ -2694,7 +2688,8 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
   datatype UpdateGlobalSecondaryIndexAction = | UpdateGlobalSecondaryIndexAction (
     nameonly IndexName: IndexName ,
     nameonly ProvisionedThroughput: Option<ProvisionedThroughput> := Option.None ,
-    nameonly OnDemandThroughput: Option<OnDemandThroughput> := Option.None
+    nameonly OnDemandThroughput: Option<OnDemandThroughput> := Option.None ,
+    nameonly WarmThroughput: Option<WarmThroughput> := Option.None
   )
   datatype UpdateGlobalTableInput = | UpdateGlobalTableInput (
     nameonly GlobalTableName: TableName ,
@@ -2727,7 +2722,8 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
     nameonly UpdateExpression: Option<UpdateExpression> := Option.None ,
     nameonly ConditionExpression: Option<ConditionExpression> := Option.None ,
     nameonly ExpressionAttributeNames: Option<ExpressionAttributeNameMap> := Option.None ,
-    nameonly ExpressionAttributeValues: Option<ExpressionAttributeValueMap> := Option.None
+    nameonly ExpressionAttributeValues: Option<ExpressionAttributeValueMap> := Option.None ,
+    nameonly ReturnValuesOnConditionCheckFailure: Option<ReturnValuesOnConditionCheckFailure> := Option.None
   )
   datatype UpdateItemOutput = | UpdateItemOutput (
     nameonly Attributes: Option<AttributeMap> := Option.None ,
@@ -2767,7 +2763,9 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
     nameonly ReplicaUpdates: Option<ReplicationGroupUpdateList> := Option.None ,
     nameonly TableClass: Option<TableClass> := Option.None ,
     nameonly DeletionProtectionEnabled: Option<DeletionProtectionEnabled> := Option.None ,
-    nameonly OnDemandThroughput: Option<OnDemandThroughput> := Option.None
+    nameonly MultiRegionConsistency: Option<MultiRegionConsistency> := Option.None ,
+    nameonly OnDemandThroughput: Option<OnDemandThroughput> := Option.None ,
+    nameonly WarmThroughput: Option<WarmThroughput> := Option.None
   )
   datatype UpdateTableOutput = | UpdateTableOutput (
     nameonly TableDescription: Option<TableDescription> := Option.None
@@ -2787,6 +2785,10 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
   )
   datatype UpdateTimeToLiveOutput = | UpdateTimeToLiveOutput (
     nameonly TimeToLiveSpecification: Option<TimeToLiveSpecification> := Option.None
+  )
+  datatype WarmThroughput = | WarmThroughput (
+    nameonly ReadUnitsPerSecond: Option<LongObject> := Option.None ,
+    nameonly WriteUnitsPerSecond: Option<LongObject> := Option.None
   )
   datatype WriteRequest = | WriteRequest (
     nameonly PutRequest: Option<PutRequest> := Option.None ,
@@ -2869,6 +2871,9 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
         nameonly message: Option<ErrorMessage> := Option.None
       )
     | ReplicaNotFoundException (
+        nameonly message: Option<ErrorMessage> := Option.None
+      )
+    | ReplicatedWriteConflictException (
         nameonly message: Option<ErrorMessage> := Option.None
       )
     | RequestLimitExceeded (
@@ -3313,12 +3318,12 @@ abstract module AbstractComAmazonawsDynamodbOperations {
     ensures DescribeTimeToLiveEnsuresPublicly(input, output)
 
 
-  predicate DisableKinesisStreamingDestinationEnsuresPublicly(input: DisableKinesisStreamingDestinationInput , output: Result<DisableKinesisStreamingDestinationOutput, Error>)
+  predicate DisableKinesisStreamingDestinationEnsuresPublicly(input: KinesisStreamingDestinationInput , output: Result<KinesisStreamingDestinationOutput, Error>)
   // The private method to be refined by the library developer
 
 
-  method DisableKinesisStreamingDestination ( config: InternalConfig , input: DisableKinesisStreamingDestinationInput )
-    returns (output: Result<DisableKinesisStreamingDestinationOutput, Error>)
+  method DisableKinesisStreamingDestination ( config: InternalConfig , input: KinesisStreamingDestinationInput )
+    returns (output: Result<KinesisStreamingDestinationOutput, Error>)
     requires
       && ValidInternalConfig?(config)
     modifies ModifiesInternalConfig(config)
@@ -3327,22 +3332,6 @@ abstract module AbstractComAmazonawsDynamodbOperations {
     ensures
       && ValidInternalConfig?(config)
     ensures DisableKinesisStreamingDestinationEnsuresPublicly(input, output)
-
-
-  predicate EnableKinesisStreamingDestinationEnsuresPublicly(input: EnableKinesisStreamingDestinationInput , output: Result<EnableKinesisStreamingDestinationOutput, Error>)
-  // The private method to be refined by the library developer
-
-
-  method EnableKinesisStreamingDestination ( config: InternalConfig , input: EnableKinesisStreamingDestinationInput )
-    returns (output: Result<EnableKinesisStreamingDestinationOutput, Error>)
-    requires
-      && ValidInternalConfig?(config)
-    modifies ModifiesInternalConfig(config)
-    // Dafny will skip type parameters when generating a default decreases clause.
-    decreases ModifiesInternalConfig(config)
-    ensures
-      && ValidInternalConfig?(config)
-    ensures EnableKinesisStreamingDestinationEnsuresPublicly(input, output)
 
 
   predicate ExecuteStatementEnsuresPublicly(input: ExecuteStatementInput , output: Result<ExecuteStatementOutput, Error>)

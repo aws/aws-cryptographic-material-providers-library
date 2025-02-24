@@ -75,8 +75,6 @@ import software.amazon.awssdk.services.dynamodb.model.DisableKinesisStreamingDes
 import software.amazon.awssdk.services.dynamodb.model.DisableKinesisStreamingDestinationResponse;
 import software.amazon.awssdk.services.dynamodb.model.DuplicateItemException;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
-import software.amazon.awssdk.services.dynamodb.model.EnableKinesisStreamingDestinationRequest;
-import software.amazon.awssdk.services.dynamodb.model.EnableKinesisStreamingDestinationResponse;
 import software.amazon.awssdk.services.dynamodb.model.ExecuteStatementRequest;
 import software.amazon.awssdk.services.dynamodb.model.ExecuteStatementResponse;
 import software.amazon.awssdk.services.dynamodb.model.ExecuteTransactionRequest;
@@ -127,6 +125,7 @@ import software.amazon.awssdk.services.dynamodb.model.QueryRequest;
 import software.amazon.awssdk.services.dynamodb.model.QueryResponse;
 import software.amazon.awssdk.services.dynamodb.model.ReplicaAlreadyExistsException;
 import software.amazon.awssdk.services.dynamodb.model.ReplicaNotFoundException;
+import software.amazon.awssdk.services.dynamodb.model.ReplicatedWriteConflictException;
 import software.amazon.awssdk.services.dynamodb.model.RequestLimitExceededException;
 import software.amazon.awssdk.services.dynamodb.model.ResourceInUseException;
 import software.amazon.awssdk.services.dynamodb.model.ResourceNotFoundException;
@@ -259,11 +258,7 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Descri
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.DescribeTimeToLiveInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.DescribeTimeToLiveOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.DestinationStatus;
-import software.amazon.cryptography.services.dynamodb.internaldafny.types.DisableKinesisStreamingDestinationInput;
-import software.amazon.cryptography.services.dynamodb.internaldafny.types.DisableKinesisStreamingDestinationOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.EnableKinesisStreamingConfiguration;
-import software.amazon.cryptography.services.dynamodb.internaldafny.types.EnableKinesisStreamingDestinationInput;
-import software.amazon.cryptography.services.dynamodb.internaldafny.types.EnableKinesisStreamingDestinationOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Endpoint;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_BackupInUseException;
@@ -289,6 +284,7 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ProvisionedThroughputExceededException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ReplicaAlreadyExistsException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ReplicaNotFoundException;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ReplicatedWriteConflictException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_RequestLimitExceeded;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ResourceInUseException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ResourceNotFoundException;
@@ -322,6 +318,7 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Global
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.GlobalSecondaryIndexDescription;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.GlobalSecondaryIndexInfo;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.GlobalSecondaryIndexUpdate;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.GlobalSecondaryIndexWarmThroughputDescription;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.GlobalTable;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.GlobalTableDescription;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.GlobalTableGlobalSecondaryIndexSettingsUpdate;
@@ -344,6 +341,8 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.KeySch
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.KeyType;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.KeysAndAttributes;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.KinesisDataStreamDestination;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.KinesisStreamingDestinationInput;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.KinesisStreamingDestinationOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.ListBackupsInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.ListBackupsOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.ListContributorInsightsInput;
@@ -361,6 +360,7 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.ListTa
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.LocalSecondaryIndex;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.LocalSecondaryIndexDescription;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.LocalSecondaryIndexInfo;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.MultiRegionConsistency;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.OnDemandThroughput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.OnDemandThroughputOverride;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.ParameterizedStatement;
@@ -424,6 +424,7 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.TableC
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.TableCreationParameters;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.TableDescription;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.TableStatus;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.TableWarmThroughputDescription;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Tag;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.TagResourceInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.TimeToLiveDescription;
@@ -458,6 +459,7 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Update
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.UpdateTableReplicaAutoScalingOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.UpdateTimeToLiveInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.UpdateTimeToLiveOutput;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.WarmThroughput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.WriteRequest;
 
 public class ToDafny {
@@ -1402,7 +1404,36 @@ public class ToDafny {
         : Option.create_None(
           DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
         );
-    return new BatchStatementError(code, message);
+    Option<
+      DafnyMap<
+        ? extends DafnySequence<? extends Character>,
+        ? extends AttributeValue
+      >
+    > item;
+    item =
+      (Objects.nonNull(nativeValue.item()) && nativeValue.item().size() > 0)
+        ? Option.create_Some(
+          TypeDescriptor.referenceWithInitializer(
+            dafny.DafnyMap.class,
+            () ->
+              dafny.DafnyMap.<
+                dafny.DafnySequence<? extends Character>,
+                AttributeValue
+              >empty()
+          ),
+          ToDafny.AttributeMap(nativeValue.item())
+        )
+        : Option.create_None(
+          TypeDescriptor.referenceWithInitializer(
+            dafny.DafnyMap.class,
+            () ->
+              dafny.DafnyMap.<
+                dafny.DafnySequence<? extends Character>,
+                AttributeValue
+              >empty()
+          )
+        );
+    return new BatchStatementError(code, message, item);
   }
 
   public static BatchStatementRequest BatchStatementRequest(
@@ -1432,7 +1463,26 @@ public class ToDafny {
           (nativeValue.consistentRead())
         )
         : Option.create_None(TypeDescriptor.BOOLEAN);
-    return new BatchStatementRequest(statement, parameters, consistentRead);
+    Option<
+      ReturnValuesOnConditionCheckFailure
+    > returnValuesOnConditionCheckFailure;
+    returnValuesOnConditionCheckFailure =
+      Objects.nonNull(nativeValue.returnValuesOnConditionCheckFailure())
+        ? Option.create_Some(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor(),
+          ToDafny.ReturnValuesOnConditionCheckFailure(
+            nativeValue.returnValuesOnConditionCheckFailure()
+          )
+        )
+        : Option.create_None(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor()
+        );
+    return new BatchStatementRequest(
+      statement,
+      parameters,
+      consistentRead,
+      returnValuesOnConditionCheckFailure
+    );
   }
 
   public static BatchStatementResponse BatchStatementResponse(
@@ -2138,12 +2188,21 @@ public class ToDafny {
           ToDafny.OnDemandThroughput(nativeValue.onDemandThroughput())
         )
         : Option.create_None(OnDemandThroughput._typeDescriptor());
+    Option<WarmThroughput> warmThroughput;
+    warmThroughput =
+      Objects.nonNull(nativeValue.warmThroughput())
+        ? Option.create_Some(
+          WarmThroughput._typeDescriptor(),
+          ToDafny.WarmThroughput(nativeValue.warmThroughput())
+        )
+        : Option.create_None(WarmThroughput._typeDescriptor());
     return new CreateGlobalSecondaryIndexAction(
       indexName,
       keySchema,
       projection,
       provisionedThroughput,
-      onDemandThroughput
+      onDemandThroughput,
+      warmThroughput
     );
   }
 
@@ -2357,6 +2416,14 @@ public class ToDafny {
           (nativeValue.deletionProtectionEnabled())
         )
         : Option.create_None(TypeDescriptor.BOOLEAN);
+    Option<WarmThroughput> warmThroughput;
+    warmThroughput =
+      Objects.nonNull(nativeValue.warmThroughput())
+        ? Option.create_Some(
+          WarmThroughput._typeDescriptor(),
+          ToDafny.WarmThroughput(nativeValue.warmThroughput())
+        )
+        : Option.create_None(WarmThroughput._typeDescriptor());
     Option<DafnySequence<? extends Character>> resourcePolicy;
     resourcePolicy =
       Objects.nonNull(nativeValue.resourcePolicy())
@@ -2390,6 +2457,7 @@ public class ToDafny {
       tags,
       tableClass,
       deletionProtectionEnabled,
+      warmThroughput,
       resourcePolicy,
       onDemandThroughput
     );
@@ -2714,6 +2782,20 @@ public class ToDafny {
             AttributeValue._typeDescriptor()
           )
         );
+    Option<
+      ReturnValuesOnConditionCheckFailure
+    > returnValuesOnConditionCheckFailure;
+    returnValuesOnConditionCheckFailure =
+      Objects.nonNull(nativeValue.returnValuesOnConditionCheckFailure())
+        ? Option.create_Some(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor(),
+          ToDafny.ReturnValuesOnConditionCheckFailure(
+            nativeValue.returnValuesOnConditionCheckFailure()
+          )
+        )
+        : Option.create_None(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor()
+        );
     return new DeleteItemInput(
       tableName,
       key,
@@ -2724,7 +2806,8 @@ public class ToDafny {
       returnItemCollectionMetrics,
       conditionExpression,
       expressionAttributeNames,
-      expressionAttributeValues
+      expressionAttributeValues,
+      returnValuesOnConditionCheckFailure
     );
   }
 
@@ -3354,97 +3437,6 @@ public class ToDafny {
     return new DescribeTimeToLiveOutput(timeToLiveDescription);
   }
 
-  public static DisableKinesisStreamingDestinationInput DisableKinesisStreamingDestinationInput(
-    DisableKinesisStreamingDestinationRequest nativeValue
-  ) {
-    DafnySequence<? extends Character> tableName;
-    tableName =
-      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-        nativeValue.tableName()
-      );
-    DafnySequence<? extends Character> streamArn;
-    streamArn =
-      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-        nativeValue.streamArn()
-      );
-    Option<
-      EnableKinesisStreamingConfiguration
-    > enableKinesisStreamingConfiguration;
-    enableKinesisStreamingConfiguration =
-      Objects.nonNull(nativeValue.enableKinesisStreamingConfiguration())
-        ? Option.create_Some(
-          EnableKinesisStreamingConfiguration._typeDescriptor(),
-          ToDafny.EnableKinesisStreamingConfiguration(
-            nativeValue.enableKinesisStreamingConfiguration()
-          )
-        )
-        : Option.create_None(
-          EnableKinesisStreamingConfiguration._typeDescriptor()
-        );
-    return new DisableKinesisStreamingDestinationInput(
-      tableName,
-      streamArn,
-      enableKinesisStreamingConfiguration
-    );
-  }
-
-  public static DisableKinesisStreamingDestinationOutput DisableKinesisStreamingDestinationOutput(
-    DisableKinesisStreamingDestinationResponse nativeValue
-  ) {
-    Option<DafnySequence<? extends Character>> tableName;
-    tableName =
-      Objects.nonNull(nativeValue.tableName())
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-            nativeValue.tableName()
-          )
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
-    Option<DafnySequence<? extends Character>> streamArn;
-    streamArn =
-      Objects.nonNull(nativeValue.streamArn())
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-            nativeValue.streamArn()
-          )
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
-    Option<DestinationStatus> destinationStatus;
-    destinationStatus =
-      Objects.nonNull(nativeValue.destinationStatus())
-        ? Option.create_Some(
-          DestinationStatus._typeDescriptor(),
-          ToDafny.DestinationStatus(nativeValue.destinationStatus())
-        )
-        : Option.create_None(DestinationStatus._typeDescriptor());
-    Option<
-      EnableKinesisStreamingConfiguration
-    > enableKinesisStreamingConfiguration;
-    enableKinesisStreamingConfiguration =
-      Objects.nonNull(nativeValue.enableKinesisStreamingConfiguration())
-        ? Option.create_Some(
-          EnableKinesisStreamingConfiguration._typeDescriptor(),
-          ToDafny.EnableKinesisStreamingConfiguration(
-            nativeValue.enableKinesisStreamingConfiguration()
-          )
-        )
-        : Option.create_None(
-          EnableKinesisStreamingConfiguration._typeDescriptor()
-        );
-    return new DisableKinesisStreamingDestinationOutput(
-      tableName,
-      streamArn,
-      destinationStatus,
-      enableKinesisStreamingConfiguration
-    );
-  }
-
   public static EnableKinesisStreamingConfiguration EnableKinesisStreamingConfiguration(
     software.amazon.awssdk.services.dynamodb.model.EnableKinesisStreamingConfiguration nativeValue
   ) {
@@ -3464,97 +3456,6 @@ public class ToDafny {
         );
     return new EnableKinesisStreamingConfiguration(
       approximateCreationDateTimePrecision
-    );
-  }
-
-  public static EnableKinesisStreamingDestinationInput EnableKinesisStreamingDestinationInput(
-    EnableKinesisStreamingDestinationRequest nativeValue
-  ) {
-    DafnySequence<? extends Character> tableName;
-    tableName =
-      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-        nativeValue.tableName()
-      );
-    DafnySequence<? extends Character> streamArn;
-    streamArn =
-      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-        nativeValue.streamArn()
-      );
-    Option<
-      EnableKinesisStreamingConfiguration
-    > enableKinesisStreamingConfiguration;
-    enableKinesisStreamingConfiguration =
-      Objects.nonNull(nativeValue.enableKinesisStreamingConfiguration())
-        ? Option.create_Some(
-          EnableKinesisStreamingConfiguration._typeDescriptor(),
-          ToDafny.EnableKinesisStreamingConfiguration(
-            nativeValue.enableKinesisStreamingConfiguration()
-          )
-        )
-        : Option.create_None(
-          EnableKinesisStreamingConfiguration._typeDescriptor()
-        );
-    return new EnableKinesisStreamingDestinationInput(
-      tableName,
-      streamArn,
-      enableKinesisStreamingConfiguration
-    );
-  }
-
-  public static EnableKinesisStreamingDestinationOutput EnableKinesisStreamingDestinationOutput(
-    EnableKinesisStreamingDestinationResponse nativeValue
-  ) {
-    Option<DafnySequence<? extends Character>> tableName;
-    tableName =
-      Objects.nonNull(nativeValue.tableName())
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-            nativeValue.tableName()
-          )
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
-    Option<DafnySequence<? extends Character>> streamArn;
-    streamArn =
-      Objects.nonNull(nativeValue.streamArn())
-        ? Option.create_Some(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
-          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-            nativeValue.streamArn()
-          )
-        )
-        : Option.create_None(
-          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
-        );
-    Option<DestinationStatus> destinationStatus;
-    destinationStatus =
-      Objects.nonNull(nativeValue.destinationStatus())
-        ? Option.create_Some(
-          DestinationStatus._typeDescriptor(),
-          ToDafny.DestinationStatus(nativeValue.destinationStatus())
-        )
-        : Option.create_None(DestinationStatus._typeDescriptor());
-    Option<
-      EnableKinesisStreamingConfiguration
-    > enableKinesisStreamingConfiguration;
-    enableKinesisStreamingConfiguration =
-      Objects.nonNull(nativeValue.enableKinesisStreamingConfiguration())
-        ? Option.create_Some(
-          EnableKinesisStreamingConfiguration._typeDescriptor(),
-          ToDafny.EnableKinesisStreamingConfiguration(
-            nativeValue.enableKinesisStreamingConfiguration()
-          )
-        )
-        : Option.create_None(
-          EnableKinesisStreamingConfiguration._typeDescriptor()
-        );
-    return new EnableKinesisStreamingDestinationOutput(
-      tableName,
-      streamArn,
-      destinationStatus,
-      enableKinesisStreamingConfiguration
     );
   }
 
@@ -3633,13 +3534,28 @@ public class ToDafny {
       Objects.nonNull(nativeValue.limit())
         ? Option.create_Some(TypeDescriptor.INT, (nativeValue.limit()))
         : Option.create_None(TypeDescriptor.INT);
+    Option<
+      ReturnValuesOnConditionCheckFailure
+    > returnValuesOnConditionCheckFailure;
+    returnValuesOnConditionCheckFailure =
+      Objects.nonNull(nativeValue.returnValuesOnConditionCheckFailure())
+        ? Option.create_Some(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor(),
+          ToDafny.ReturnValuesOnConditionCheckFailure(
+            nativeValue.returnValuesOnConditionCheckFailure()
+          )
+        )
+        : Option.create_None(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor()
+        );
     return new ExecuteStatementInput(
       statement,
       parameters,
       consistentRead,
       nextToken,
       returnConsumedCapacity,
-      limit
+      limit,
+      returnValuesOnConditionCheckFailure
     );
   }
 
@@ -4623,12 +4539,21 @@ public class ToDafny {
           ToDafny.OnDemandThroughput(nativeValue.onDemandThroughput())
         )
         : Option.create_None(OnDemandThroughput._typeDescriptor());
+    Option<WarmThroughput> warmThroughput;
+    warmThroughput =
+      Objects.nonNull(nativeValue.warmThroughput())
+        ? Option.create_Some(
+          WarmThroughput._typeDescriptor(),
+          ToDafny.WarmThroughput(nativeValue.warmThroughput())
+        )
+        : Option.create_None(WarmThroughput._typeDescriptor());
     return new GlobalSecondaryIndex(
       indexName,
       keySchema,
       projection,
       provisionedThroughput,
-      onDemandThroughput
+      onDemandThroughput,
+      warmThroughput
     );
   }
 
@@ -4772,6 +4697,18 @@ public class ToDafny {
           ToDafny.OnDemandThroughput(nativeValue.onDemandThroughput())
         )
         : Option.create_None(OnDemandThroughput._typeDescriptor());
+    Option<GlobalSecondaryIndexWarmThroughputDescription> warmThroughput;
+    warmThroughput =
+      Objects.nonNull(nativeValue.warmThroughput())
+        ? Option.create_Some(
+          GlobalSecondaryIndexWarmThroughputDescription._typeDescriptor(),
+          ToDafny.GlobalSecondaryIndexWarmThroughputDescription(
+            nativeValue.warmThroughput()
+          )
+        )
+        : Option.create_None(
+          GlobalSecondaryIndexWarmThroughputDescription._typeDescriptor()
+        );
     return new GlobalSecondaryIndexDescription(
       indexName,
       keySchema,
@@ -4782,7 +4719,8 @@ public class ToDafny {
       indexSizeBytes,
       itemCount,
       indexArn,
-      onDemandThroughput
+      onDemandThroughput,
+      warmThroughput
     );
   }
 
@@ -4934,6 +4872,40 @@ public class ToDafny {
       nativeValue,
       software.amazon.cryptography.services.dynamodb.internaldafny.ToDafny::GlobalSecondaryIndexUpdate,
       GlobalSecondaryIndexUpdate._typeDescriptor()
+    );
+  }
+
+  public static GlobalSecondaryIndexWarmThroughputDescription GlobalSecondaryIndexWarmThroughputDescription(
+    software.amazon.awssdk.services.dynamodb.model.GlobalSecondaryIndexWarmThroughputDescription nativeValue
+  ) {
+    Option<Long> readUnitsPerSecond;
+    readUnitsPerSecond =
+      Objects.nonNull(nativeValue.readUnitsPerSecond())
+        ? Option.create_Some(
+          TypeDescriptor.LONG,
+          (nativeValue.readUnitsPerSecond())
+        )
+        : Option.create_None(TypeDescriptor.LONG);
+    Option<Long> writeUnitsPerSecond;
+    writeUnitsPerSecond =
+      Objects.nonNull(nativeValue.writeUnitsPerSecond())
+        ? Option.create_Some(
+          TypeDescriptor.LONG,
+          (nativeValue.writeUnitsPerSecond())
+        )
+        : Option.create_None(TypeDescriptor.LONG);
+    Option<IndexStatus> status;
+    status =
+      Objects.nonNull(nativeValue.status())
+        ? Option.create_Some(
+          IndexStatus._typeDescriptor(),
+          ToDafny.IndexStatus(nativeValue.status())
+        )
+        : Option.create_None(IndexStatus._typeDescriptor());
+    return new GlobalSecondaryIndexWarmThroughputDescription(
+      readUnitsPerSecond,
+      writeUnitsPerSecond,
+      status
     );
   }
 
@@ -5947,6 +5919,97 @@ public class ToDafny {
     );
   }
 
+  public static KinesisStreamingDestinationInput KinesisStreamingDestinationInput(
+    DisableKinesisStreamingDestinationRequest nativeValue
+  ) {
+    DafnySequence<? extends Character> tableName;
+    tableName =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.tableName()
+      );
+    DafnySequence<? extends Character> streamArn;
+    streamArn =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.streamArn()
+      );
+    Option<
+      EnableKinesisStreamingConfiguration
+    > enableKinesisStreamingConfiguration;
+    enableKinesisStreamingConfiguration =
+      Objects.nonNull(nativeValue.enableKinesisStreamingConfiguration())
+        ? Option.create_Some(
+          EnableKinesisStreamingConfiguration._typeDescriptor(),
+          ToDafny.EnableKinesisStreamingConfiguration(
+            nativeValue.enableKinesisStreamingConfiguration()
+          )
+        )
+        : Option.create_None(
+          EnableKinesisStreamingConfiguration._typeDescriptor()
+        );
+    return new KinesisStreamingDestinationInput(
+      tableName,
+      streamArn,
+      enableKinesisStreamingConfiguration
+    );
+  }
+
+  public static KinesisStreamingDestinationOutput KinesisStreamingDestinationOutput(
+    DisableKinesisStreamingDestinationResponse nativeValue
+  ) {
+    Option<DafnySequence<? extends Character>> tableName;
+    tableName =
+      Objects.nonNull(nativeValue.tableName())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.tableName()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
+    Option<DafnySequence<? extends Character>> streamArn;
+    streamArn =
+      Objects.nonNull(nativeValue.streamArn())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.streamArn()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
+    Option<DestinationStatus> destinationStatus;
+    destinationStatus =
+      Objects.nonNull(nativeValue.destinationStatus())
+        ? Option.create_Some(
+          DestinationStatus._typeDescriptor(),
+          ToDafny.DestinationStatus(nativeValue.destinationStatus())
+        )
+        : Option.create_None(DestinationStatus._typeDescriptor());
+    Option<
+      EnableKinesisStreamingConfiguration
+    > enableKinesisStreamingConfiguration;
+    enableKinesisStreamingConfiguration =
+      Objects.nonNull(nativeValue.enableKinesisStreamingConfiguration())
+        ? Option.create_Some(
+          EnableKinesisStreamingConfiguration._typeDescriptor(),
+          ToDafny.EnableKinesisStreamingConfiguration(
+            nativeValue.enableKinesisStreamingConfiguration()
+          )
+        )
+        : Option.create_None(
+          EnableKinesisStreamingConfiguration._typeDescriptor()
+        );
+    return new KinesisStreamingDestinationOutput(
+      tableName,
+      streamArn,
+      destinationStatus,
+      enableKinesisStreamingConfiguration
+    );
+  }
+
   public static DafnySequence<? extends AttributeValue> ListAttributeValue(
     List<
       software.amazon.awssdk.services.dynamodb.model.AttributeValue
@@ -6697,7 +6760,25 @@ public class ToDafny {
         : Option.create_None(
           DafnySequence._typeDescriptor(AttributeValue._typeDescriptor())
         );
-    return new ParameterizedStatement(statement, parameters);
+    Option<
+      ReturnValuesOnConditionCheckFailure
+    > returnValuesOnConditionCheckFailure;
+    returnValuesOnConditionCheckFailure =
+      Objects.nonNull(nativeValue.returnValuesOnConditionCheckFailure())
+        ? Option.create_Some(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor(),
+          ToDafny.ReturnValuesOnConditionCheckFailure(
+            nativeValue.returnValuesOnConditionCheckFailure()
+          )
+        )
+        : Option.create_None(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor()
+        );
+    return new ParameterizedStatement(
+      statement,
+      parameters,
+      returnValuesOnConditionCheckFailure
+    );
   }
 
   public static DafnySequence<
@@ -6755,6 +6836,14 @@ public class ToDafny {
           )
         )
         : Option.create_None(PointInTimeRecoveryStatus._typeDescriptor());
+    Option<Integer> recoveryPeriodInDays;
+    recoveryPeriodInDays =
+      Objects.nonNull(nativeValue.recoveryPeriodInDays())
+        ? Option.create_Some(
+          TypeDescriptor.INT,
+          (nativeValue.recoveryPeriodInDays())
+        )
+        : Option.create_None(TypeDescriptor.INT);
     Option<DafnySequence<? extends Character>> earliestRestorableDateTime;
     earliestRestorableDateTime =
       Objects.nonNull(nativeValue.earliestRestorableDateTime())
@@ -6781,6 +6870,7 @@ public class ToDafny {
         );
     return new PointInTimeRecoveryDescription(
       pointInTimeRecoveryStatus,
+      recoveryPeriodInDays,
       earliestRestorableDateTime,
       latestRestorableDateTime
     );
@@ -6791,7 +6881,18 @@ public class ToDafny {
   ) {
     Boolean pointInTimeRecoveryEnabled;
     pointInTimeRecoveryEnabled = (nativeValue.pointInTimeRecoveryEnabled());
-    return new PointInTimeRecoverySpecification(pointInTimeRecoveryEnabled);
+    Option<Integer> recoveryPeriodInDays;
+    recoveryPeriodInDays =
+      Objects.nonNull(nativeValue.recoveryPeriodInDays())
+        ? Option.create_Some(
+          TypeDescriptor.INT,
+          (nativeValue.recoveryPeriodInDays())
+        )
+        : Option.create_None(TypeDescriptor.INT);
+    return new PointInTimeRecoverySpecification(
+      pointInTimeRecoveryEnabled,
+      recoveryPeriodInDays
+    );
   }
 
   public static DafnySequence<
@@ -7147,6 +7248,20 @@ public class ToDafny {
             AttributeValue._typeDescriptor()
           )
         );
+    Option<
+      ReturnValuesOnConditionCheckFailure
+    > returnValuesOnConditionCheckFailure;
+    returnValuesOnConditionCheckFailure =
+      Objects.nonNull(nativeValue.returnValuesOnConditionCheckFailure())
+        ? Option.create_Some(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor(),
+          ToDafny.ReturnValuesOnConditionCheckFailure(
+            nativeValue.returnValuesOnConditionCheckFailure()
+          )
+        )
+        : Option.create_None(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor()
+        );
     return new PutItemInput(
       tableName,
       item,
@@ -7157,7 +7272,8 @@ public class ToDafny {
       conditionalOperator,
       conditionExpression,
       expressionAttributeNames,
-      expressionAttributeValues
+      expressionAttributeValues,
+      returnValuesOnConditionCheckFailure
     );
   }
 
@@ -7905,6 +8021,14 @@ public class ToDafny {
           )
         )
         : Option.create_None(OnDemandThroughputOverride._typeDescriptor());
+    Option<TableWarmThroughputDescription> warmThroughput;
+    warmThroughput =
+      Objects.nonNull(nativeValue.warmThroughput())
+        ? Option.create_Some(
+          TableWarmThroughputDescription._typeDescriptor(),
+          ToDafny.TableWarmThroughputDescription(nativeValue.warmThroughput())
+        )
+        : Option.create_None(TableWarmThroughputDescription._typeDescriptor());
     Option<
       DafnySequence<? extends ReplicaGlobalSecondaryIndexDescription>
     > globalSecondaryIndexes;
@@ -7952,6 +8076,7 @@ public class ToDafny {
       kMSMasterKeyId,
       provisionedThroughputOverride,
       onDemandThroughputOverride,
+      warmThroughput,
       globalSecondaryIndexes,
       replicaInaccessibleDateTime,
       replicaTableClassSummary
@@ -8156,10 +8281,23 @@ public class ToDafny {
           )
         )
         : Option.create_None(OnDemandThroughputOverride._typeDescriptor());
+    Option<GlobalSecondaryIndexWarmThroughputDescription> warmThroughput;
+    warmThroughput =
+      Objects.nonNull(nativeValue.warmThroughput())
+        ? Option.create_Some(
+          GlobalSecondaryIndexWarmThroughputDescription._typeDescriptor(),
+          ToDafny.GlobalSecondaryIndexWarmThroughputDescription(
+            nativeValue.warmThroughput()
+          )
+        )
+        : Option.create_None(
+          GlobalSecondaryIndexWarmThroughputDescription._typeDescriptor()
+        );
     return new ReplicaGlobalSecondaryIndexDescription(
       indexName,
       provisionedThroughputOverride,
-      onDemandThroughputOverride
+      onDemandThroughputOverride,
+      warmThroughput
     );
   }
 
@@ -9928,6 +10066,22 @@ public class ToDafny {
           ToDafny.OnDemandThroughput(nativeValue.onDemandThroughput())
         )
         : Option.create_None(OnDemandThroughput._typeDescriptor());
+    Option<TableWarmThroughputDescription> warmThroughput;
+    warmThroughput =
+      Objects.nonNull(nativeValue.warmThroughput())
+        ? Option.create_Some(
+          TableWarmThroughputDescription._typeDescriptor(),
+          ToDafny.TableWarmThroughputDescription(nativeValue.warmThroughput())
+        )
+        : Option.create_None(TableWarmThroughputDescription._typeDescriptor());
+    Option<MultiRegionConsistency> multiRegionConsistency;
+    multiRegionConsistency =
+      Objects.nonNull(nativeValue.multiRegionConsistency())
+        ? Option.create_Some(
+          MultiRegionConsistency._typeDescriptor(),
+          ToDafny.MultiRegionConsistency(nativeValue.multiRegionConsistency())
+        )
+        : Option.create_None(MultiRegionConsistency._typeDescriptor());
     return new TableDescription(
       attributeDefinitions,
       tableName,
@@ -9952,7 +10106,9 @@ public class ToDafny {
       archivalSummary,
       tableClassSummary,
       deletionProtectionEnabled,
-      onDemandThroughput
+      onDemandThroughput,
+      warmThroughput,
+      multiRegionConsistency
     );
   }
 
@@ -9963,6 +10119,40 @@ public class ToDafny {
       nativeValue,
       software.amazon.smithy.dafny.conversion.ToDafny.Simple::CharacterSequence,
       DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+    );
+  }
+
+  public static TableWarmThroughputDescription TableWarmThroughputDescription(
+    software.amazon.awssdk.services.dynamodb.model.TableWarmThroughputDescription nativeValue
+  ) {
+    Option<Long> readUnitsPerSecond;
+    readUnitsPerSecond =
+      Objects.nonNull(nativeValue.readUnitsPerSecond())
+        ? Option.create_Some(
+          TypeDescriptor.LONG,
+          (nativeValue.readUnitsPerSecond())
+        )
+        : Option.create_None(TypeDescriptor.LONG);
+    Option<Long> writeUnitsPerSecond;
+    writeUnitsPerSecond =
+      Objects.nonNull(nativeValue.writeUnitsPerSecond())
+        ? Option.create_Some(
+          TypeDescriptor.LONG,
+          (nativeValue.writeUnitsPerSecond())
+        )
+        : Option.create_None(TypeDescriptor.LONG);
+    Option<TableStatus> status;
+    status =
+      Objects.nonNull(nativeValue.status())
+        ? Option.create_Some(
+          TableStatus._typeDescriptor(),
+          ToDafny.TableStatus(nativeValue.status())
+        )
+        : Option.create_None(TableStatus._typeDescriptor());
+    return new TableWarmThroughputDescription(
+      readUnitsPerSecond,
+      writeUnitsPerSecond,
+      status
     );
   }
 
@@ -10512,10 +10702,19 @@ public class ToDafny {
           ToDafny.OnDemandThroughput(nativeValue.onDemandThroughput())
         )
         : Option.create_None(OnDemandThroughput._typeDescriptor());
+    Option<WarmThroughput> warmThroughput;
+    warmThroughput =
+      Objects.nonNull(nativeValue.warmThroughput())
+        ? Option.create_Some(
+          WarmThroughput._typeDescriptor(),
+          ToDafny.WarmThroughput(nativeValue.warmThroughput())
+        )
+        : Option.create_None(WarmThroughput._typeDescriptor());
     return new UpdateGlobalSecondaryIndexAction(
       indexName,
       provisionedThroughput,
-      onDemandThroughput
+      onDemandThroughput,
+      warmThroughput
     );
   }
 
@@ -10828,6 +11027,20 @@ public class ToDafny {
             AttributeValue._typeDescriptor()
           )
         );
+    Option<
+      ReturnValuesOnConditionCheckFailure
+    > returnValuesOnConditionCheckFailure;
+    returnValuesOnConditionCheckFailure =
+      Objects.nonNull(nativeValue.returnValuesOnConditionCheckFailure())
+        ? Option.create_Some(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor(),
+          ToDafny.ReturnValuesOnConditionCheckFailure(
+            nativeValue.returnValuesOnConditionCheckFailure()
+          )
+        )
+        : Option.create_None(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor()
+        );
     return new UpdateItemInput(
       tableName,
       key,
@@ -10840,7 +11053,8 @@ public class ToDafny {
       updateExpression,
       conditionExpression,
       expressionAttributeNames,
-      expressionAttributeValues
+      expressionAttributeValues,
+      returnValuesOnConditionCheckFailure
     );
   }
 
@@ -11191,6 +11405,14 @@ public class ToDafny {
           (nativeValue.deletionProtectionEnabled())
         )
         : Option.create_None(TypeDescriptor.BOOLEAN);
+    Option<MultiRegionConsistency> multiRegionConsistency;
+    multiRegionConsistency =
+      Objects.nonNull(nativeValue.multiRegionConsistency())
+        ? Option.create_Some(
+          MultiRegionConsistency._typeDescriptor(),
+          ToDafny.MultiRegionConsistency(nativeValue.multiRegionConsistency())
+        )
+        : Option.create_None(MultiRegionConsistency._typeDescriptor());
     Option<OnDemandThroughput> onDemandThroughput;
     onDemandThroughput =
       Objects.nonNull(nativeValue.onDemandThroughput())
@@ -11199,6 +11421,14 @@ public class ToDafny {
           ToDafny.OnDemandThroughput(nativeValue.onDemandThroughput())
         )
         : Option.create_None(OnDemandThroughput._typeDescriptor());
+    Option<WarmThroughput> warmThroughput;
+    warmThroughput =
+      Objects.nonNull(nativeValue.warmThroughput())
+        ? Option.create_Some(
+          WarmThroughput._typeDescriptor(),
+          ToDafny.WarmThroughput(nativeValue.warmThroughput())
+        )
+        : Option.create_None(WarmThroughput._typeDescriptor());
     return new UpdateTableInput(
       attributeDefinitions,
       tableName,
@@ -11210,7 +11440,9 @@ public class ToDafny {
       replicaUpdates,
       tableClass,
       deletionProtectionEnabled,
-      onDemandThroughput
+      multiRegionConsistency,
+      onDemandThroughput,
+      warmThroughput
     );
   }
 
@@ -11330,6 +11562,28 @@ public class ToDafny {
         )
         : Option.create_None(TimeToLiveSpecification._typeDescriptor());
     return new UpdateTimeToLiveOutput(timeToLiveSpecification);
+  }
+
+  public static WarmThroughput WarmThroughput(
+    software.amazon.awssdk.services.dynamodb.model.WarmThroughput nativeValue
+  ) {
+    Option<Long> readUnitsPerSecond;
+    readUnitsPerSecond =
+      Objects.nonNull(nativeValue.readUnitsPerSecond())
+        ? Option.create_Some(
+          TypeDescriptor.LONG,
+          (nativeValue.readUnitsPerSecond())
+        )
+        : Option.create_None(TypeDescriptor.LONG);
+    Option<Long> writeUnitsPerSecond;
+    writeUnitsPerSecond =
+      Objects.nonNull(nativeValue.writeUnitsPerSecond())
+        ? Option.create_Some(
+          TypeDescriptor.LONG,
+          (nativeValue.writeUnitsPerSecond())
+        )
+        : Option.create_None(TypeDescriptor.LONG);
+    return new WarmThroughput(readUnitsPerSecond, writeUnitsPerSecond);
   }
 
   public static WriteRequest WriteRequest(
@@ -11767,6 +12021,22 @@ public class ToDafny {
           DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
         );
     return new Error_ReplicaNotFoundException(message);
+  }
+
+  public static Error Error(ReplicatedWriteConflictException nativeValue) {
+    Option<DafnySequence<? extends Character>> message;
+    message =
+      Objects.nonNull(nativeValue.getMessage())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.getMessage()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
+    return new Error_ReplicatedWriteConflictException(message);
   }
 
   public static Error Error(RequestLimitExceededException nativeValue) {
@@ -12621,6 +12891,29 @@ public class ToDafny {
     }
   }
 
+  public static MultiRegionConsistency MultiRegionConsistency(
+    software.amazon.awssdk.services.dynamodb.model.MultiRegionConsistency nativeValue
+  ) {
+    switch (nativeValue) {
+      case EVENTUAL:
+        {
+          return MultiRegionConsistency.create_EVENTUAL();
+        }
+      case STRONG:
+        {
+          return MultiRegionConsistency.create_STRONG();
+        }
+      default:
+        {
+          throw new RuntimeException(
+            "Cannot convert " +
+            nativeValue +
+            " to software.amazon.cryptography.services.dynamodb.internaldafny.types.MultiRegionConsistency."
+          );
+        }
+    }
+  }
+
   public static PointInTimeRecoveryStatus PointInTimeRecoveryStatus(
     software.amazon.awssdk.services.dynamodb.model.PointInTimeRecoveryStatus nativeValue
   ) {
@@ -13278,6 +13571,16 @@ public class ToDafny {
   public static KeyType KeyType(String nativeValue) {
     return KeyType(
       software.amazon.awssdk.services.dynamodb.model.KeyType.fromValue(
+        nativeValue
+      )
+    );
+  }
+
+  public static MultiRegionConsistency MultiRegionConsistency(
+    String nativeValue
+  ) {
+    return MultiRegionConsistency(
+      software.amazon.awssdk.services.dynamodb.model.MultiRegionConsistency.fromValue(
         nativeValue
       )
     );

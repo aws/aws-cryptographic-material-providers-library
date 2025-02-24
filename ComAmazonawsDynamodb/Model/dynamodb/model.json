@@ -936,7 +936,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the input of a <code>BatchGetItem</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the input of a <code>BatchGetItem</code> operation.</p>"
                 
             }
         },
@@ -963,7 +963,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the output of a <code>BatchGetItem</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the output of a <code>BatchGetItem</code> operation.</p>"
                 
             }
         },
@@ -1261,7 +1261,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the input of a <code>BatchWriteItem</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the input of a <code>BatchWriteItem</code> operation.</p>"
                 
             }
         },
@@ -1288,7 +1288,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the output of a <code>BatchWriteItem</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the output of a <code>BatchWriteItem</code> operation.</p>"
                 
             }
         },
@@ -2240,7 +2240,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the input of a <code>CreateTable</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the input of a <code>CreateTable</code> operation.</p>"
                 
             }
         },
@@ -2255,7 +2255,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the output of a <code>CreateTable</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the output of a <code>CreateTable</code> operation.</p>"
                 
             }
         },
@@ -2573,7 +2573,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the input of a <code>DeleteItem</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the input of a <code>DeleteItem</code> operation.</p>"
                 
             }
         },
@@ -2600,7 +2600,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the output of a <code>DeleteItem</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the output of a <code>DeleteItem</code> operation.</p>"
                 
             }
         },
@@ -2785,7 +2785,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the input of a <code>DeleteTable</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the input of a <code>DeleteTable</code> operation.</p>"
                 
             }
         },
@@ -2800,7 +2800,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the output of a <code>DeleteTable</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the output of a <code>DeleteTable</code> operation.</p>"
                 
             }
         },
@@ -3351,7 +3351,7 @@
             "type": "structure",
             "members": {},
             "traits": {
-                "smithy.api#documentation": "<p>Represents the input of a <code>DescribeLimits</code> operation. Has no\n            content.</p>",
+                "smithy.api#documentation": "<p>Represents the input of a <code>DescribeLimits</code> operation. Has no\n            content.</p>"
                 
             }
         },
@@ -3384,7 +3384,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the output of a <code>DescribeLimits</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the output of a <code>DescribeLimits</code> operation.</p>"
                 
             }
         },
@@ -3460,7 +3460,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the input of a <code>DescribeTable</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the input of a <code>DescribeTable</code> operation.</p>"
                 
             }
         },
@@ -3475,7 +3475,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the output of a <code>DescribeTable</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the output of a <code>DescribeTable</code> operation.</p>"
                 
             }
         },
@@ -3746,9 +3746,6 @@
                 },
                 {
                     "target": "com.amazonaws.dynamodb#DisableKinesisStreamingDestination"
-                },
-                {
-                    "target": "com.amazonaws.dynamodb#EnableKinesisStreamingDestination"
                 },
                 {
                     "target": "com.amazonaws.dynamodb#ExecuteStatement"
@@ -6158,38 +6155,6 @@
                 "smithy.api#documentation": "<p>Enables setting the configuration for Kinesis Streaming.</p>"
             }
         },
-        "com.amazonaws.dynamodb#EnableKinesisStreamingDestination": {
-            "type": "operation",
-            "input": {
-                "target": "com.amazonaws.dynamodb#KinesisStreamingDestinationInput"
-            },
-            "output": {
-                "target": "com.amazonaws.dynamodb#KinesisStreamingDestinationOutput"
-            },
-            "errors": [
-                {
-                    "target": "com.amazonaws.dynamodb#InternalServerError"
-                },
-                {
-                    "target": "com.amazonaws.dynamodb#InvalidEndpointException"
-                },
-                {
-                    "target": "com.amazonaws.dynamodb#LimitExceededException"
-                },
-                {
-                    "target": "com.amazonaws.dynamodb#ResourceInUseException"
-                },
-                {
-                    "target": "com.amazonaws.dynamodb#ResourceNotFoundException"
-                }
-            ],
-            "traits": {
-                "aws.api#clientDiscoveredEndpoint": {
-                    "required": false
-                },
-                "smithy.api#documentation": "<p>Starts table data replication to the specified Kinesis data stream at a timestamp\n            chosen during the enable workflow. If this operation doesn't return results immediately,\n            use DescribeKinesisStreamingDestination to check if streaming to the Kinesis data stream\n            is ACTIVE.</p>"
-            }
-        },
         "com.amazonaws.dynamodb#Endpoint": {
             "type": "structure",
             "members": {
@@ -7094,7 +7059,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the input of a <code>GetItem</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the input of a <code>GetItem</code> operation.</p>"
                 
             }
         },
@@ -7115,7 +7080,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the output of a <code>GetItem</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the output of a <code>GetItem</code> operation.</p>"
                 
             }
         },
@@ -8973,22 +8938,7 @@
                     "outputToken": "LastEvaluatedTableName",
                     "items": "TableNames",
                     "pageSize": "Limit"
-                },
-                "smithy.test#smokeTests": [
-                    {
-                        "id": "ListTablesSuccess",
-                        "params": {
-                            "Limit": 1
-                        },
-                        "vendorParams": {
-                            "region": "us-west-2"
-                        },
-                        "vendorParamsShape": "aws.test#AwsVendorParams",
-                        "expect": {
-                            "success": {}
-                        }
-                    }
-                ]
+                }
             }
         },
         "com.amazonaws.dynamodb#ListTablesInput": {
@@ -9008,7 +8958,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the input of a <code>ListTables</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the input of a <code>ListTables</code> operation.</p>"
                 
             }
         },
@@ -9038,7 +8988,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the output of a <code>ListTables</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the output of a <code>ListTables</code> operation.</p>"
                 
             }
         },
@@ -9875,7 +9825,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the input of a <code>PutItem</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the input of a <code>PutItem</code> operation.</p>"
                 
             }
         },
@@ -9911,7 +9861,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the output of a <code>PutItem</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the output of a <code>PutItem</code> operation.</p>"
                 
             }
         },
@@ -10189,7 +10139,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the input of a <code>Query</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the input of a <code>Query</code> operation.</p>"
                 
             }
         },
@@ -10230,7 +10180,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the output of a <code>Query</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the output of a <code>Query</code> operation.</p>"
                 
             }
         },
@@ -11723,7 +11673,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the input of a <code>Scan</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the input of a <code>Scan</code> operation.</p>"
                 
             }
         },
@@ -11764,7 +11714,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the output of a <code>Scan</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the output of a <code>Scan</code> operation.</p>"
                 
             }
         },
@@ -13531,7 +13481,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the input of an <code>UpdateItem</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the input of an <code>UpdateItem</code> operation.</p>"
                 
             }
         },
@@ -13558,7 +13508,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the output of an <code>UpdateItem</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the output of an <code>UpdateItem</code> operation.</p>"
                 
             }
         },
@@ -13829,7 +13779,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the input of an <code>UpdateTable</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the input of an <code>UpdateTable</code> operation.</p>"
                 
             }
         },
@@ -13844,7 +13794,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the output of an <code>UpdateTable</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the output of an <code>UpdateTable</code> operation.</p>"
                 
             }
         },
@@ -13969,7 +13919,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Represents the input of an <code>UpdateTimeToLive</code> operation.</p>",
+                "smithy.api#documentation": "<p>Represents the input of an <code>UpdateTimeToLive</code> operation.</p>"
                 
             }
         },

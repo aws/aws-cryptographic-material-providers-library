@@ -427,39 +427,21 @@ namespace Com.Amazonaws.Dynamodb
             }
 
         }
-        public Wrappers_Compile._IResult<software.amazon.cryptography.services.dynamodb.internaldafny.types._IDisableKinesisStreamingDestinationOutput, software.amazon.cryptography.services.dynamodb.internaldafny.types._IError> DisableKinesisStreamingDestination(software.amazon.cryptography.services.dynamodb.internaldafny.types._IDisableKinesisStreamingDestinationInput request)
+        public Wrappers_Compile._IResult<software.amazon.cryptography.services.dynamodb.internaldafny.types._IKinesisStreamingDestinationOutput, software.amazon.cryptography.services.dynamodb.internaldafny.types._IError> DisableKinesisStreamingDestination(software.amazon.cryptography.services.dynamodb.internaldafny.types._IKinesisStreamingDestinationInput request)
         {
-            Amazon.DynamoDBv2.Model.DisableKinesisStreamingDestinationRequest sdkRequest = TypeConversion.FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S39_DisableKinesisStreamingDestinationInput(request); try
+            Amazon.DynamoDBv2.Model.DisableKinesisStreamingDestinationRequest sdkRequest = TypeConversion.FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S32_KinesisStreamingDestinationInput(request); try
             {
                 Amazon.DynamoDBv2.Model.DisableKinesisStreamingDestinationResponse sdkResponse =
                 this._impl.DisableKinesisStreamingDestinationAsync(sdkRequest).Result;
-                return Wrappers_Compile.Result<software.amazon.cryptography.services.dynamodb.internaldafny.types._IDisableKinesisStreamingDestinationOutput, software.amazon.cryptography.services.dynamodb.internaldafny.types._IError>.create_Success(TypeConversion.ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S40_DisableKinesisStreamingDestinationOutput(sdkResponse));
+                return Wrappers_Compile.Result<software.amazon.cryptography.services.dynamodb.internaldafny.types._IKinesisStreamingDestinationOutput, software.amazon.cryptography.services.dynamodb.internaldafny.types._IError>.create_Success(TypeConversion.ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S33_KinesisStreamingDestinationOutput(sdkResponse));
             }
             catch (System.AggregateException aggregate)
             {
-                return Wrappers_Compile.Result<software.amazon.cryptography.services.dynamodb.internaldafny.types._IDisableKinesisStreamingDestinationOutput, software.amazon.cryptography.services.dynamodb.internaldafny.types._IError>.create_Failure(TypeConversion.ToDafny_CommonError(aggregate.InnerException));
+                return Wrappers_Compile.Result<software.amazon.cryptography.services.dynamodb.internaldafny.types._IKinesisStreamingDestinationOutput, software.amazon.cryptography.services.dynamodb.internaldafny.types._IError>.create_Failure(TypeConversion.ToDafny_CommonError(aggregate.InnerException));
             }
             catch (System.Exception ex)
             {
-                return Wrappers_Compile.Result<software.amazon.cryptography.services.dynamodb.internaldafny.types._IDisableKinesisStreamingDestinationOutput, software.amazon.cryptography.services.dynamodb.internaldafny.types._IError>.create_Failure(TypeConversion.ToDafny_CommonError(ex));
-            }
-
-        }
-        public Wrappers_Compile._IResult<software.amazon.cryptography.services.dynamodb.internaldafny.types._IEnableKinesisStreamingDestinationOutput, software.amazon.cryptography.services.dynamodb.internaldafny.types._IError> EnableKinesisStreamingDestination(software.amazon.cryptography.services.dynamodb.internaldafny.types._IEnableKinesisStreamingDestinationInput request)
-        {
-            Amazon.DynamoDBv2.Model.EnableKinesisStreamingDestinationRequest sdkRequest = TypeConversion.FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S38_EnableKinesisStreamingDestinationInput(request); try
-            {
-                Amazon.DynamoDBv2.Model.EnableKinesisStreamingDestinationResponse sdkResponse =
-                this._impl.EnableKinesisStreamingDestinationAsync(sdkRequest).Result;
-                return Wrappers_Compile.Result<software.amazon.cryptography.services.dynamodb.internaldafny.types._IEnableKinesisStreamingDestinationOutput, software.amazon.cryptography.services.dynamodb.internaldafny.types._IError>.create_Success(TypeConversion.ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S39_EnableKinesisStreamingDestinationOutput(sdkResponse));
-            }
-            catch (System.AggregateException aggregate)
-            {
-                return Wrappers_Compile.Result<software.amazon.cryptography.services.dynamodb.internaldafny.types._IEnableKinesisStreamingDestinationOutput, software.amazon.cryptography.services.dynamodb.internaldafny.types._IError>.create_Failure(TypeConversion.ToDafny_CommonError(aggregate.InnerException));
-            }
-            catch (System.Exception ex)
-            {
-                return Wrappers_Compile.Result<software.amazon.cryptography.services.dynamodb.internaldafny.types._IEnableKinesisStreamingDestinationOutput, software.amazon.cryptography.services.dynamodb.internaldafny.types._IError>.create_Failure(TypeConversion.ToDafny_CommonError(ex));
+                return Wrappers_Compile.Result<software.amazon.cryptography.services.dynamodb.internaldafny.types._IKinesisStreamingDestinationOutput, software.amazon.cryptography.services.dynamodb.internaldafny.types._IError>.create_Failure(TypeConversion.ToDafny_CommonError(ex));
             }
 
         }
