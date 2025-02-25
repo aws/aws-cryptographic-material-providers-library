@@ -116,6 +116,38 @@ module {:options "-functionSyntax:4"} AllRawAES {
           encryptDescription := keyDescription,
           decryptDescription := keyDescription
         )
+    
+  const TestsWithOneUTF8Ec := 
+    set 
+      keyDescription <- KeyDescriptions + KeyDescriptionsWithPsi,
+      algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
+      commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite),
+      encryptionContext <- EncryptionContextUtils.smallUTF82Ec
+      ::
+        TestVectors.PositiveEncryptKeyringVector(
+          name := "Generated RawAES Basic Encryption Context " + keyDescription.AES.keyId,
+          encryptionContext := encryptionContext,
+          commitmentPolicy := commitmentPolicy,
+          algorithmSuite := algorithmSuite,
+          encryptDescription := keyDescription,
+          decryptDescription := keyDescription
+        )
+  
+  const TestsWithTwoUTF8Ec := 
+    set 
+      keyDescription <- KeyDescriptions + KeyDescriptionsWithPsi,
+      algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
+      commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite),
+      encryptionContext <- EncryptionContextUtils.mediumUTF82Ec
+      ::
+        TestVectors.PositiveEncryptKeyringVector(
+          name := "Generated RawAES Basic Encryption Context " + keyDescription.AES.keyId,
+          encryptionContext := encryptionContext,
+          commitmentPolicy := commitmentPolicy,
+          algorithmSuite := algorithmSuite,
+          encryptDescription := keyDescription,
+          decryptDescription := keyDescription
+        )
   
   const Tests := 
   {}

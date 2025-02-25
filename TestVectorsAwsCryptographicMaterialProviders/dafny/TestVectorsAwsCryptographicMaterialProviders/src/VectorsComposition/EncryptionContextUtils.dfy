@@ -101,5 +101,15 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
    + encryptionContextAscii
    + encryptionContextUTF82
    + encryptionContextUTF83
-   + encryptionContextUTF84 
+   + encryptionContextUTF84
+
+  const smallUTF82Ec := {map[
+      utf8_2_1 := utf8_2_1
+  ]}
+  
+  const mediumUTF82Ec := {map[
+      utf8_2_4 := utf8_2_4,
+      utf8_2_3 := utf8_2_3
+  ]}
+
 }
