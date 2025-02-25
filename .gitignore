@@ -13,6 +13,9 @@ build
 doc/build
 AwsCryptographicMaterialProviders/runtimes/python/doc/generated/*
 
+# Dafny build artifacts
+bin
+
 # Duvet output
 specification_compliance_report.html
 
