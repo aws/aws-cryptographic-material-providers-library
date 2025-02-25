@@ -47,7 +47,6 @@ jobs:
 
       - uses: actions/checkout@v4
         with:
-          submodules: 'true'
           token: ${{secrets.PAT}}
       - name: Init Submodules
         shell: bash
