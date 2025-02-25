@@ -15,6 +15,7 @@ import (
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AwsCryptographyPrimitivesTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/awscryptographyprimitivessmithygenerated"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/awscryptographyprimitivessmithygeneratedtypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/UTF8"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Wrappers"
 	"github.com/aws/aws-sdk-go-v2/service/kms"
 	kmstypes "github.com/aws/aws-sdk-go-v2/service/kms/types"
@@ -759,28 +760,20 @@ func aws_cryptography_materialProviders_DiscoveryFilter_accountIds_FromDafny(inp
 }
 func aws_cryptography_materialProviders_AccountIdList_member_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_DiscoveryFilter_partition_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_grantTokens_FromDafny(input interface{}) []string {
@@ -799,15 +792,11 @@ func aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_grantT
 }
 func aws_cryptography_materialProviders_GrantTokenList_member_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_CreateAwsKmsDiscoveryMultiKeyringInput_regions_FromDafny(input interface{}) []string {
@@ -823,15 +812,11 @@ func aws_cryptography_materialProviders_CreateAwsKmsDiscoveryMultiKeyringInput_r
 }
 func aws_cryptography_materialProviders_RegionList_member_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_CreateAwsKmsDiscoveryMultiKeyringInput_discoveryFilter_FromDafny(input interface{}) *awscryptographymaterialproviderssmithygeneratedtypes.DiscoveryFilter {
@@ -880,15 +865,11 @@ func aws_cryptography_materialProviders_KmsEcdhStaticConfigurations_KmsPublicKey
 }
 func aws_cryptography_materialProviders_KmsPublicKeyDiscoveryInput_recipientKmsIdentifier_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_KmsEcdhStaticConfigurations_KmsPrivateKeyToStaticPublicKey_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.KmsPrivateKeyToStaticPublicKeyInput {
@@ -899,15 +880,11 @@ func aws_cryptography_materialProviders_KmsEcdhStaticConfigurations_KmsPrivateKe
 }
 func aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_senderKmsIdentifier_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_senderPublicKey_FromDafny(input interface{}) []byte {
@@ -984,18 +961,14 @@ func aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_grantTokens
 }
 func aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_branchKeyId_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return &s
 	}()
 }
 func aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_keyStore_FromDafny(input interface{}) *awscryptographykeystoresmithygenerated.Client {
@@ -1193,31 +1166,23 @@ func aws_cryptography_materialProviders_StormTrackingCache_timeUnits_FromDafny(i
 }
 func aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_partitionId_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return &s
 	}()
 }
 func aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_kmsKeyId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_kmsClient_FromDafny(input interface{}) *kms.Client {
@@ -1274,15 +1239,11 @@ func aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_gra
 }
 func aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_region_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput_regions_FromDafny(input interface{}) []string {
@@ -1320,15 +1281,11 @@ func aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryMultiKeyringInpu
 }
 func aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_kmsKeyId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_kmsClient_FromDafny(input interface{}) *kms.Client {
@@ -1355,18 +1312,14 @@ func aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_grantTokens_
 }
 func aws_cryptography_materialProviders_CreateAwsKmsMrkMultiKeyringInput_generator_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return &s
 	}()
 }
 func aws_cryptography_materialProviders_CreateAwsKmsMrkMultiKeyringInput_kmsKeyIds_FromDafny(input interface{}) []string {
@@ -1385,15 +1338,11 @@ func aws_cryptography_materialProviders_CreateAwsKmsMrkMultiKeyringInput_kmsKeyI
 }
 func aws_cryptography_materialProviders_KmsKeyIdList_member_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_CreateAwsKmsMrkMultiKeyringInput_grantTokens_FromDafny(input interface{}) []string {
@@ -1412,18 +1361,14 @@ func aws_cryptography_materialProviders_CreateAwsKmsMrkMultiKeyringInput_grantTo
 }
 func aws_cryptography_materialProviders_CreateAwsKmsMultiKeyringInput_generator_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return &s
 	}()
 }
 func aws_cryptography_materialProviders_CreateAwsKmsMultiKeyringInput_kmsKeyIds_FromDafny(input interface{}) []string {
@@ -1472,15 +1417,11 @@ func aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_publicKey_Fr
 }
 func aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_kmsKeyId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_encryptionAlgorithm_FromDafny(input interface{}) kmstypes.EncryptionAlgorithmSpec {
@@ -1579,28 +1520,20 @@ func aws_cryptography_materialProviders_CreateMultiKeyringInput_childKeyrings_Fr
 }
 func aws_cryptography_materialProviders_CreateRawAesKeyringInput_keyNamespace_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_CreateRawAesKeyringInput_keyName_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_CreateRawAesKeyringInput_wrappingKey_FromDafny(input interface{}) []byte {
@@ -1757,28 +1690,20 @@ func aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_curveSpec_From
 }
 func aws_cryptography_materialProviders_CreateRawRsaKeyringInput_keyNamespace_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_CreateRawRsaKeyringInput_keyName_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_CreateRawRsaKeyringInput_paddingScheme_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.PaddingScheme {
@@ -1844,21 +1769,13 @@ func aws_cryptography_materialProviders_CreateRequiredEncryptionContextCMMInput_
 }
 func aws_cryptography_materialProviders_EncryptionContextKeys_member_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				// UTF bytes should be always converted from bytes to string in go
-				// Otherwise go treats the string as a unicode codepoint
 
-				var valUint, _ = val.(uint8)
-				var byteSlice = []byte{valUint}
-				s = s + string(byteSlice)
+		// UTF bytes should be always converted from bytes to string in go
+		// Otherwise go treats the string as a unicode codepoint
 
-			}
-		}
+		s := string(dafny.ToByteArray(input.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_DecryptionMaterials_algorithmSuite_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteInfo {
@@ -2277,40 +2194,24 @@ func aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_Fr
 }
 func aws_cryptography_materialProviders_EncryptionContext_key_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				// UTF bytes should be always converted from bytes to string in go
-				// Otherwise go treats the string as a unicode codepoint
 
-				var valUint, _ = val.(uint8)
-				var byteSlice = []byte{valUint}
-				s = s + string(byteSlice)
+		// UTF bytes should be always converted from bytes to string in go
+		// Otherwise go treats the string as a unicode codepoint
 
-			}
-		}
+		s := string(dafny.ToByteArray(input.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_EncryptionContext_value_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				// UTF bytes should be always converted from bytes to string in go
-				// Otherwise go treats the string as a unicode codepoint
 
-				var valUint, _ = val.(uint8)
-				var byteSlice = []byte{valUint}
-				s = s + string(byteSlice)
+		// UTF bytes should be always converted from bytes to string in go
+		// Otherwise go treats the string as a unicode codepoint
 
-			}
-		}
+		s := string(dafny.ToByteArray(input.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_FromDafny(input interface{}) []string {
@@ -2418,21 +2319,13 @@ func aws_cryptography_materialProviders_EncryptedDataKeyList_member_FromDafny(in
 }
 func aws_cryptography_materialProviders_EncryptedDataKey_keyProviderId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				// UTF bytes should be always converted from bytes to string in go
-				// Otherwise go treats the string as a unicode codepoint
 
-				var valUint, _ = val.(uint8)
-				var byteSlice = []byte{valUint}
-				s = s + string(byteSlice)
+		// UTF bytes should be always converted from bytes to string in go
+		// Otherwise go treats the string as a unicode codepoint
 
-			}
-		}
+		s := string(dafny.ToByteArray(input.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_EncryptedDataKey_keyProviderInfo_FromDafny(input interface{}) []byte {
@@ -2845,28 +2738,20 @@ func aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_Fr
 }
 func aws_cryptography_materialProviders_GetBranchKeyIdOutput_branchKeyId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_GetClientInput_region_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func Aws_cryptography_materialProviders_GetClientOutput_client_FromDafny(input interface{}) *kms.Client {
@@ -2978,34 +2863,22 @@ func aws_cryptography_materialProviders_Materials_BranchKey_FromDafny(input inte
 }
 func aws_cryptography_keyStore_BranchKeyMaterials_branchKeyIdentifier_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_BranchKeyMaterials_branchKeyVersion_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				// UTF bytes should be always converted from bytes to string in go
-				// Otherwise go treats the string as a unicode codepoint
 
-				var valUint, _ = val.(uint8)
-				var byteSlice = []byte{valUint}
-				s = s + string(byteSlice)
+		// UTF bytes should be always converted from bytes to string in go
+		// Otherwise go treats the string as a unicode codepoint
 
-			}
-		}
+		s := string(dafny.ToByteArray(input.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_FromDafny(input interface{}) map[string]string {
@@ -3025,40 +2898,24 @@ func aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_FromDafny(in
 }
 func aws_cryptography_keyStore_EncryptionContext_key_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				// UTF bytes should be always converted from bytes to string in go
-				// Otherwise go treats the string as a unicode codepoint
 
-				var valUint, _ = val.(uint8)
-				var byteSlice = []byte{valUint}
-				s = s + string(byteSlice)
+		// UTF bytes should be always converted from bytes to string in go
+		// Otherwise go treats the string as a unicode codepoint
 
-			}
-		}
+		s := string(dafny.ToByteArray(input.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_EncryptionContext_value_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				// UTF bytes should be always converted from bytes to string in go
-				// Otherwise go treats the string as a unicode codepoint
 
-				var valUint, _ = val.(uint8)
-				var byteSlice = []byte{valUint}
-				s = s + string(byteSlice)
+		// UTF bytes should be always converted from bytes to string in go
+		// Otherwise go treats the string as a unicode codepoint
 
-			}
-		}
+		s := string(dafny.ToByteArray(input.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_BranchKeyMaterials_branchKey_FromDafny(input interface{}) []byte {
@@ -3086,15 +2943,11 @@ func aws_cryptography_materialProviders_Materials_BeaconKey_FromDafny(input inte
 }
 func aws_cryptography_keyStore_BeaconKeyMaterials_beaconKeyIdentifier_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_FromDafny(input interface{}) map[string]string {
@@ -3145,15 +2998,11 @@ func aws_cryptography_keyStore_BeaconKeyMaterials_hmacKeys_FromDafny(input inter
 }
 func aws_cryptography_keyStore_HmacKeyMap_key_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_HmacKeyMap_value_FromDafny(input interface{}) []byte {
@@ -3530,145 +3379,101 @@ func aws_cryptography_materialProviders_OnEncryptOutput_materials_FromDafny(inpu
 }
 func aws_cryptography_materialProviders_AwsCryptographicMaterialProvidersException_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_EntryAlreadyExists_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_EntryDoesNotExist_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_InFlightTTLExceeded_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_InvalidAlgorithmSuiteInfo_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_InvalidAlgorithmSuiteInfoOnDecrypt_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_InvalidAlgorithmSuiteInfoOnEncrypt_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_InvalidDecryptionMaterials_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_InvalidDecryptionMaterialsTransition_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_InvalidEncryptionMaterials_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_InvalidEncryptionMaterialsTransition_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_StaticConfigurations_AWS_KMS_ECDH_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.KmsEcdhStaticConfigurations {

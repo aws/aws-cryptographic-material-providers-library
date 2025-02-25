@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/dynamodb/ComAmazonawsDynamodbTypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/UTF8"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Wrappers"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
@@ -2018,16 +2019,10 @@ func com_amazonaws_dynamodb_PartiQLBatchRequest_member_FromDafny(input interface
 }
 func com_amazonaws_dynamodb_BatchStatementRequest_Statement_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_BatchStatementRequest_Parameters_FromDafny(input interface{}) []types.AttributeValue {
@@ -2116,34 +2111,22 @@ func com_amazonaws_dynamodb_PreparedStatementParameters_member_FromDafny(input i
 }
 func com_amazonaws_dynamodb_AttributeValue_S_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 		if input == nil {
-			return s
+			return ""
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_AttributeValue_N_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 		if input == nil {
-			return s
+			return ""
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_AttributeValue_B_FromDafny(input interface{}) []byte {
@@ -2180,16 +2163,10 @@ func com_amazonaws_dynamodb_AttributeValue_SS_FromDafny(input interface{}) []str
 }
 func com_amazonaws_dynamodb_StringSetAttributeValue_member_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_AttributeValue_NS_FromDafny(input interface{}) []string {
@@ -2210,16 +2187,10 @@ func com_amazonaws_dynamodb_AttributeValue_NS_FromDafny(input interface{}) []str
 }
 func com_amazonaws_dynamodb_NumberSetAttributeValue_member_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_AttributeValue_BS_FromDafny(input interface{}) [][]byte {
@@ -2273,18 +2244,12 @@ func com_amazonaws_dynamodb_AttributeValue_M_FromDafny(input interface{}) map[st
 }
 func com_amazonaws_dynamodb_MapAttributeValue_key_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 		if input == nil {
-			return s
+			return ""
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_MapAttributeValue_value_FromDafny(input interface{}) types.AttributeValue {
@@ -2550,34 +2515,22 @@ func com_amazonaws_dynamodb_BatchStatementError_Code_FromDafny(input interface{}
 }
 func com_amazonaws_dynamodb_BatchStatementError_Message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_BatchStatementResponse_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_BatchStatementResponse_Item_FromDafny(input interface{}) map[string]types.AttributeValue {
@@ -2599,18 +2552,12 @@ func com_amazonaws_dynamodb_BatchStatementResponse_Item_FromDafny(input interfac
 }
 func com_amazonaws_dynamodb_AttributeMap_key_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 		if input == nil {
-			return s
+			return ""
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_AttributeMap_value_FromDafny(input interface{}) types.AttributeValue {
@@ -2713,18 +2660,12 @@ func com_amazonaws_dynamodb_ConsumedCapacityMultiple_member_FromDafny(input inte
 }
 func com_amazonaws_dynamodb_ConsumedCapacity_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ConsumedCapacity_CapacityUnits_FromDafny(input interface{}) *float64 {
@@ -2854,18 +2795,12 @@ func com_amazonaws_dynamodb_ConsumedCapacity_LocalSecondaryIndexes_FromDafny(inp
 }
 func com_amazonaws_dynamodb_SecondaryIndexesCapacityMap_key_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 		if input == nil {
-			return s
+			return ""
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_SecondaryIndexesCapacityMap_value_FromDafny(input interface{}) types.Capacity {
@@ -2911,18 +2846,12 @@ func com_amazonaws_dynamodb_BatchGetItemInput_RequestItems_FromDafny(input inter
 }
 func com_amazonaws_dynamodb_BatchGetRequestMap_key_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 		if input == nil {
-			return s
+			return ""
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_BatchGetRequestMap_value_FromDafny(input interface{}) types.KeysAndAttributes {
@@ -2967,18 +2896,12 @@ func com_amazonaws_dynamodb_KeyList_member_FromDafny(input interface{}) map[stri
 }
 func com_amazonaws_dynamodb_Key_key_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 		if input == nil {
-			return s
+			return ""
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_Key_value_FromDafny(input interface{}) types.AttributeValue {
@@ -3067,16 +2990,10 @@ func com_amazonaws_dynamodb_KeysAndAttributes_AttributesToGet_FromDafny(input in
 }
 func com_amazonaws_dynamodb_AttributeNameList_member_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_KeysAndAttributes_ConsistentRead_FromDafny(input interface{}) *bool {
@@ -3091,18 +3008,12 @@ func com_amazonaws_dynamodb_KeysAndAttributes_ConsistentRead_FromDafny(input int
 }
 func com_amazonaws_dynamodb_KeysAndAttributes_ProjectionExpression_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_KeysAndAttributes_ExpressionAttributeNames_FromDafny(input interface{}) map[string]string {
@@ -3124,32 +3035,20 @@ func com_amazonaws_dynamodb_KeysAndAttributes_ExpressionAttributeNames_FromDafny
 }
 func com_amazonaws_dynamodb_ExpressionAttributeNameMap_key_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 		if input == nil {
-			return s
+			return ""
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_ExpressionAttributeNameMap_value_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_BatchGetItemInput_ReturnConsumedCapacity_FromDafny(input interface{}) types.ReturnConsumedCapacity {
@@ -3192,18 +3091,12 @@ func com_amazonaws_dynamodb_BatchGetItemOutput_Responses_FromDafny(input interfa
 }
 func com_amazonaws_dynamodb_BatchGetResponseMap_key_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 		if input == nil {
-			return s
+			return ""
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_BatchGetResponseMap_value_FromDafny(input interface{}) []map[string]types.AttributeValue {
@@ -3283,18 +3176,12 @@ func com_amazonaws_dynamodb_BatchWriteItemInput_RequestItems_FromDafny(input int
 }
 func com_amazonaws_dynamodb_BatchWriteItemRequestMap_key_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 		if input == nil {
-			return s
+			return ""
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_BatchWriteItemRequestMap_value_FromDafny(input interface{}) []types.WriteRequest {
@@ -3346,18 +3233,12 @@ func com_amazonaws_dynamodb_PutRequest_Item_FromDafny(input interface{}) map[str
 }
 func com_amazonaws_dynamodb_PutItemInputAttributeMap_key_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 		if input == nil {
-			return s
+			return ""
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_PutItemInputAttributeMap_value_FromDafny(input interface{}) types.AttributeValue {
@@ -3530,18 +3411,12 @@ func com_amazonaws_dynamodb_BatchWriteItemOutput_ItemCollectionMetrics_FromDafny
 }
 func com_amazonaws_dynamodb_ItemCollectionMetricsPerTable_key_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 		if input == nil {
-			return s
+			return ""
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_ItemCollectionMetricsPerTable_value_FromDafny(input interface{}) []types.ItemCollectionMetrics {
@@ -3586,18 +3461,12 @@ func com_amazonaws_dynamodb_ItemCollectionMetrics_ItemCollectionKey_FromDafny(in
 }
 func com_amazonaws_dynamodb_ItemCollectionKeyAttributeMap_key_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 		if input == nil {
-			return s
+			return ""
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_ItemCollectionKeyAttributeMap_value_FromDafny(input interface{}) types.AttributeValue {
@@ -3716,30 +3585,18 @@ func com_amazonaws_dynamodb_BatchWriteItemOutput_ConsumedCapacity_FromDafny(inpu
 }
 func com_amazonaws_dynamodb_CreateBackupInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_CreateBackupInput_BackupName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_CreateBackupOutput_BackupDetails_FromDafny(input interface{}) *types.BackupDetails {
@@ -3760,30 +3617,18 @@ func com_amazonaws_dynamodb_CreateBackupOutput_BackupDetails_FromDafny(input int
 }
 func com_amazonaws_dynamodb_BackupDetails_BackupArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_BackupDetails_BackupName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_BackupDetails_BackupSizeBytes_FromDafny(input interface{}) *int64 {
@@ -3882,16 +3727,10 @@ func com_amazonaws_dynamodb_BackupDetails_BackupExpiryDateTime_FromDafny(input i
 }
 func com_amazonaws_dynamodb_CreateGlobalTableInput_GlobalTableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_CreateGlobalTableInput_ReplicationGroup_FromDafny(input interface{}) []types.Replica {
@@ -3918,18 +3757,12 @@ func com_amazonaws_dynamodb_ReplicaList_member_FromDafny(input interface{}) type
 }
 func com_amazonaws_dynamodb_Replica_RegionName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_CreateGlobalTableOutput_GlobalTableDescription_FromDafny(input interface{}) *types.GlobalTableDescription {
@@ -3981,18 +3814,12 @@ func com_amazonaws_dynamodb_ReplicaDescriptionList_member_FromDafny(input interf
 }
 func com_amazonaws_dynamodb_ReplicaDescription_RegionName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ReplicaDescription_ReplicaStatus_FromDafny(input interface{}) types.ReplicaStatus {
@@ -4018,50 +3845,32 @@ func com_amazonaws_dynamodb_ReplicaDescription_ReplicaStatus_FromDafny(input int
 }
 func com_amazonaws_dynamodb_ReplicaDescription_ReplicaStatusDescription_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ReplicaDescription_ReplicaStatusPercentProgress_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ReplicaDescription_KMSMasterKeyId_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ReplicaDescription_ProvisionedThroughputOverride_FromDafny(input interface{}) *types.ProvisionedThroughputOverride {
@@ -4132,18 +3941,12 @@ func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescriptionList_member_Fr
 }
 func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription_ProvisionedThroughputOverride_FromDafny(input interface{}) *types.ProvisionedThroughputOverride {
@@ -4250,18 +4053,12 @@ func com_amazonaws_dynamodb_TableClassSummary_LastUpdateDateTime_FromDafny(input
 }
 func com_amazonaws_dynamodb_GlobalTableDescription_GlobalTableArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_GlobalTableDescription_CreationDateTime_FromDafny(input interface{}) *time.Time {
@@ -4312,18 +4109,12 @@ func com_amazonaws_dynamodb_GlobalTableDescription_GlobalTableStatus_FromDafny(i
 }
 func com_amazonaws_dynamodb_GlobalTableDescription_GlobalTableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_CreateTableInput_AttributeDefinitions_FromDafny(input interface{}) []types.AttributeDefinition {
@@ -4351,16 +4142,10 @@ func com_amazonaws_dynamodb_AttributeDefinitions_member_FromDafny(input interfac
 }
 func com_amazonaws_dynamodb_AttributeDefinition_AttributeName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_AttributeDefinition_AttributeType_FromDafny(input interface{}) types.ScalarAttributeType {
@@ -4383,16 +4168,10 @@ func com_amazonaws_dynamodb_AttributeDefinition_AttributeType_FromDafny(input in
 }
 func com_amazonaws_dynamodb_CreateTableInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_CreateTableInput_KeySchema_FromDafny(input interface{}) []types.KeySchemaElement {
@@ -4420,16 +4199,10 @@ func com_amazonaws_dynamodb_KeySchema_member_FromDafny(input interface{}) types.
 }
 func com_amazonaws_dynamodb_KeySchemaElement_AttributeName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_KeySchemaElement_KeyType_FromDafny(input interface{}) types.KeyType {
@@ -4478,16 +4251,10 @@ func com_amazonaws_dynamodb_LocalSecondaryIndexList_member_FromDafny(input inter
 }
 func com_amazonaws_dynamodb_LocalSecondaryIndex_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_LocalSecondaryIndex_KeySchema_FromDafny(input interface{}) []types.KeySchemaElement {
@@ -4552,16 +4319,10 @@ func com_amazonaws_dynamodb_Projection_NonKeyAttributes_FromDafny(input interfac
 }
 func com_amazonaws_dynamodb_NonKeyAttributeNameList_member_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_CreateTableInput_GlobalSecondaryIndexes_FromDafny(input interface{}) []types.GlobalSecondaryIndex {
@@ -4594,16 +4355,10 @@ func com_amazonaws_dynamodb_GlobalSecondaryIndexList_member_FromDafny(input inte
 }
 func com_amazonaws_dynamodb_GlobalSecondaryIndex_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_GlobalSecondaryIndex_KeySchema_FromDafny(input interface{}) []types.KeySchemaElement {
@@ -4804,18 +4559,12 @@ func com_amazonaws_dynamodb_SSESpecification_SSEType_FromDafny(input interface{}
 }
 func com_amazonaws_dynamodb_SSESpecification_KMSMasterKeyId_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_CreateTableInput_Tags_FromDafny(input interface{}) []types.Tag {
@@ -4845,30 +4594,18 @@ func com_amazonaws_dynamodb_TagList_member_FromDafny(input interface{}) types.Ta
 }
 func com_amazonaws_dynamodb_Tag_Key_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_Tag_Value_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_CreateTableInput_TableClass_FromDafny(input interface{}) types.TableClass {
@@ -4904,18 +4641,12 @@ func com_amazonaws_dynamodb_CreateTableInput_DeletionProtectionEnabled_FromDafny
 }
 func com_amazonaws_dynamodb_CreateTableInput_ResourcePolicy_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_CreateTableInput_OnDemandThroughput_FromDafny(input interface{}) *types.OnDemandThroughput {
@@ -4980,18 +4711,12 @@ func com_amazonaws_dynamodb_TableDescription_AttributeDefinitions_FromDafny(inpu
 }
 func com_amazonaws_dynamodb_TableDescription_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_TableDescription_KeySchema_FromDafny(input interface{}) []types.KeySchemaElement {
@@ -5172,34 +4897,22 @@ func com_amazonaws_dynamodb_TableDescription_ItemCount_FromDafny(input interface
 }
 func com_amazonaws_dynamodb_TableDescription_TableArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_TableDescription_TableId_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_TableDescription_BillingModeSummary_FromDafny(input interface{}) *types.BillingModeSummary {
@@ -5290,18 +5003,12 @@ func com_amazonaws_dynamodb_LocalSecondaryIndexDescriptionList_member_FromDafny(
 }
 func com_amazonaws_dynamodb_LocalSecondaryIndexDescription_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_LocalSecondaryIndexDescription_KeySchema_FromDafny(input interface{}) []types.KeySchemaElement {
@@ -5353,18 +5060,12 @@ func com_amazonaws_dynamodb_LocalSecondaryIndexDescription_ItemCount_FromDafny(i
 }
 func com_amazonaws_dynamodb_LocalSecondaryIndexDescription_IndexArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_TableDescription_GlobalSecondaryIndexes_FromDafny(input interface{}) []types.GlobalSecondaryIndexDescription {
@@ -5402,18 +5103,12 @@ func com_amazonaws_dynamodb_GlobalSecondaryIndexDescriptionList_member_FromDafny
 }
 func com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_KeySchema_FromDafny(input interface{}) []types.KeySchemaElement {
@@ -5510,18 +5205,12 @@ func com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_ItemCount_FromDafny(
 }
 func com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_IndexArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_OnDemandThroughput_FromDafny(input interface{}) *types.OnDemandThroughput {
@@ -5548,50 +5237,32 @@ func com_amazonaws_dynamodb_TableDescription_StreamSpecification_FromDafny(input
 }
 func com_amazonaws_dynamodb_TableDescription_LatestStreamLabel_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_TableDescription_LatestStreamArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_TableDescription_GlobalTableVersion_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_TableDescription_Replicas_FromDafny(input interface{}) []types.ReplicaDescription {
@@ -5625,34 +5296,22 @@ func com_amazonaws_dynamodb_TableDescription_RestoreSummary_FromDafny(input inte
 }
 func com_amazonaws_dynamodb_RestoreSummary_SourceBackupArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_RestoreSummary_SourceTableArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_RestoreSummary_RestoreDateTime_FromDafny(input interface{}) *time.Time {
@@ -5743,18 +5402,12 @@ func com_amazonaws_dynamodb_SSEDescription_SSEType_FromDafny(input interface{}) 
 }
 func com_amazonaws_dynamodb_SSEDescription_KMSMasterKeyArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_SSEDescription_InaccessibleEncryptionDateTime_FromDafny(input interface{}) *time.Time {
@@ -5821,34 +5474,22 @@ func com_amazonaws_dynamodb_ArchivalSummary_ArchivalDateTime_FromDafny(input int
 }
 func com_amazonaws_dynamodb_ArchivalSummary_ArchivalReason_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ArchivalSummary_ArchivalBackupArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_TableDescription_TableClassSummary_FromDafny(input interface{}) *types.TableClassSummary {
@@ -5885,16 +5526,10 @@ func com_amazonaws_dynamodb_TableDescription_OnDemandThroughput_FromDafny(input 
 }
 func com_amazonaws_dynamodb_DeleteBackupInput_BackupArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DeleteBackupOutput_BackupDescription_FromDafny(input interface{}) *types.BackupDescription {
@@ -5946,46 +5581,28 @@ func com_amazonaws_dynamodb_BackupDescription_SourceTableDetails_FromDafny(input
 }
 func com_amazonaws_dynamodb_SourceTableDetails_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_SourceTableDetails_TableId_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_SourceTableDetails_TableArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_SourceTableDetails_TableSizeBytes_FromDafny(input interface{}) *int64 {
@@ -6128,18 +5745,12 @@ func com_amazonaws_dynamodb_LocalSecondaryIndexes_member_FromDafny(input interfa
 }
 func com_amazonaws_dynamodb_LocalSecondaryIndexInfo_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_LocalSecondaryIndexInfo_KeySchema_FromDafny(input interface{}) []types.KeySchemaElement {
@@ -6199,18 +5810,12 @@ func com_amazonaws_dynamodb_GlobalSecondaryIndexes_member_FromDafny(input interf
 }
 func com_amazonaws_dynamodb_GlobalSecondaryIndexInfo_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_GlobalSecondaryIndexInfo_KeySchema_FromDafny(input interface{}) []types.KeySchemaElement {
@@ -6307,18 +5912,12 @@ func com_amazonaws_dynamodb_TimeToLiveDescription_TimeToLiveStatus_FromDafny(inp
 }
 func com_amazonaws_dynamodb_TimeToLiveDescription_AttributeName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_SourceTableFeatureDetails_SSEDescription_FromDafny(input interface{}) *types.SSEDescription {
@@ -6336,16 +5935,10 @@ func com_amazonaws_dynamodb_SourceTableFeatureDetails_SSEDescription_FromDafny(i
 }
 func com_amazonaws_dynamodb_DeleteItemInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DeleteItemInput_Key_FromDafny(input interface{}) map[string]types.AttributeValue {
@@ -6381,18 +5974,12 @@ func com_amazonaws_dynamodb_DeleteItemInput_Expected_FromDafny(input interface{}
 }
 func com_amazonaws_dynamodb_ExpectedAttributeMap_key_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 		if input == nil {
-			return s
+			return ""
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_ExpectedAttributeMap_value_FromDafny(input interface{}) types.ExpectedAttributeValue {
@@ -6678,18 +6265,12 @@ func com_amazonaws_dynamodb_DeleteItemInput_ReturnItemCollectionMetrics_FromDafn
 }
 func com_amazonaws_dynamodb_DeleteItemInput_ConditionExpression_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DeleteItemInput_ExpressionAttributeNames_FromDafny(input interface{}) map[string]string {
@@ -6728,18 +6309,12 @@ func com_amazonaws_dynamodb_DeleteItemInput_ExpressionAttributeValues_FromDafny(
 }
 func com_amazonaws_dynamodb_ExpressionAttributeValueMap_key_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 		if input == nil {
-			return s
+			return ""
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_ExpressionAttributeValueMap_value_FromDafny(input interface{}) types.AttributeValue {
@@ -6856,62 +6431,38 @@ func com_amazonaws_dynamodb_DeleteItemOutput_ItemCollectionMetrics_FromDafny(inp
 }
 func com_amazonaws_dynamodb_DeleteResourcePolicyInput_ResourceArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DeleteResourcePolicyInput_ExpectedRevisionId_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DeleteResourcePolicyOutput_RevisionId_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DeleteTableInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DeleteTableOutput_TableDescription_FromDafny(input interface{}) *types.TableDescription {
@@ -6949,16 +6500,10 @@ func com_amazonaws_dynamodb_DeleteTableOutput_TableDescription_FromDafny(input i
 }
 func com_amazonaws_dynamodb_DescribeBackupInput_BackupArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DescribeBackupOutput_BackupDescription_FromDafny(input interface{}) *types.BackupDescription {
@@ -6975,16 +6520,10 @@ func com_amazonaws_dynamodb_DescribeBackupOutput_BackupDescription_FromDafny(inp
 }
 func com_amazonaws_dynamodb_DescribeContinuousBackupsInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DescribeContinuousBackupsOutput_ContinuousBackupsDescription_FromDafny(input interface{}) *types.ContinuousBackupsDescription {
@@ -7101,64 +6640,40 @@ func com_amazonaws_dynamodb_PointInTimeRecoveryDescription_LatestRestorableDateT
 }
 func com_amazonaws_dynamodb_DescribeContributorInsightsInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DescribeContributorInsightsInput_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DescribeContributorInsightsOutput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DescribeContributorInsightsOutput_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DescribeContributorInsightsOutput_ContributorInsightsRuleList_FromDafny(input interface{}) []string {
@@ -7179,16 +6694,10 @@ func com_amazonaws_dynamodb_DescribeContributorInsightsOutput_ContributorInsight
 }
 func com_amazonaws_dynamodb_ContributorInsightsRuleList_member_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_DescribeContributorInsightsOutput_ContributorInsightsStatus_FromDafny(input interface{}) types.ContributorInsightsStatus {
@@ -7250,34 +6759,22 @@ func com_amazonaws_dynamodb_DescribeContributorInsightsOutput_FailureException_F
 }
 func com_amazonaws_dynamodb_FailureException_ExceptionName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_FailureException_ExceptionDescription_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DescribeEndpointsOutput_Endpoints_FromDafny(input interface{}) []types.Endpoint {
@@ -7305,16 +6802,10 @@ func com_amazonaws_dynamodb_Endpoints_member_FromDafny(input interface{}) types.
 }
 func com_amazonaws_dynamodb_Endpoint_Address_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_Endpoint_CachePeriodInMinutes_FromDafny(input interface{}) int64 {
@@ -7327,16 +6818,10 @@ func com_amazonaws_dynamodb_Endpoint_CachePeriodInMinutes_FromDafny(input interf
 }
 func com_amazonaws_dynamodb_DescribeExportInput_ExportArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DescribeExportOutput_ExportDescription_FromDafny(input interface{}) *types.ExportDescription {
@@ -7371,18 +6856,12 @@ func com_amazonaws_dynamodb_DescribeExportOutput_ExportDescription_FromDafny(inp
 }
 func com_amazonaws_dynamodb_ExportDescription_ExportArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExportDescription_ExportStatus_FromDafny(input interface{}) types.ExportStatus {
@@ -7458,50 +6937,32 @@ func com_amazonaws_dynamodb_ExportDescription_EndTime_FromDafny(input interface{
 }
 func com_amazonaws_dynamodb_ExportDescription_ExportManifest_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExportDescription_TableArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExportDescription_TableId_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExportDescription_ExportTime_FromDafny(input interface{}) *time.Time {
@@ -7531,66 +6992,42 @@ func com_amazonaws_dynamodb_ExportDescription_ExportTime_FromDafny(input interfa
 }
 func com_amazonaws_dynamodb_ExportDescription_ClientToken_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExportDescription_S3Bucket_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExportDescription_S3BucketOwner_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExportDescription_S3Prefix_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExportDescription_S3SseAlgorithm_FromDafny(input interface{}) types.S3SseAlgorithm {
@@ -7616,50 +7053,32 @@ func com_amazonaws_dynamodb_ExportDescription_S3SseAlgorithm_FromDafny(input int
 }
 func com_amazonaws_dynamodb_ExportDescription_S3SseKmsKeyId_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExportDescription_FailureCode_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExportDescription_FailureMessage_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExportDescription_ExportFormat_FromDafny(input interface{}) types.ExportFormat {
@@ -7809,16 +7228,10 @@ func com_amazonaws_dynamodb_IncrementalExportSpecification_ExportViewType_FromDa
 }
 func com_amazonaws_dynamodb_DescribeGlobalTableInput_GlobalTableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DescribeGlobalTableOutput_GlobalTableDescription_FromDafny(input interface{}) *types.GlobalTableDescription {
@@ -7837,32 +7250,20 @@ func com_amazonaws_dynamodb_DescribeGlobalTableOutput_GlobalTableDescription_Fro
 }
 func com_amazonaws_dynamodb_DescribeGlobalTableSettingsInput_GlobalTableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DescribeGlobalTableSettingsOutput_GlobalTableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DescribeGlobalTableSettingsOutput_ReplicaSettings_FromDafny(input interface{}) []types.ReplicaSettingsDescription {
@@ -7899,16 +7300,10 @@ func com_amazonaws_dynamodb_ReplicaSettingsDescriptionList_member_FromDafny(inpu
 }
 func com_amazonaws_dynamodb_ReplicaSettingsDescription_RegionName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ReplicaSettingsDescription_ReplicaStatus_FromDafny(input interface{}) types.ReplicaStatus {
@@ -7999,18 +7394,12 @@ func com_amazonaws_dynamodb_AutoScalingSettingsDescription_AutoScalingDisabled_F
 }
 func com_amazonaws_dynamodb_AutoScalingSettingsDescription_AutoScalingRoleArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_AutoScalingSettingsDescription_ScalingPolicies_FromDafny(input interface{}) []types.AutoScalingPolicyDescription {
@@ -8040,18 +7429,12 @@ func com_amazonaws_dynamodb_AutoScalingPolicyDescriptionList_member_FromDafny(in
 }
 func com_amazonaws_dynamodb_AutoScalingPolicyDescription_PolicyName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_AutoScalingPolicyDescription_TargetTrackingScalingPolicyConfiguration_FromDafny(input interface{}) *types.AutoScalingTargetTrackingScalingPolicyConfigurationDescription {
@@ -8166,16 +7549,10 @@ func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsDescriptionList_m
 }
 func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsDescription_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsDescription_IndexStatus_FromDafny(input interface{}) types.IndexStatus {
@@ -8260,16 +7637,10 @@ func com_amazonaws_dynamodb_ReplicaSettingsDescription_ReplicaTableClassSummary_
 }
 func com_amazonaws_dynamodb_DescribeImportInput_ImportArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DescribeImportOutput_ImportTableDescription_FromDafny(input interface{}) *types.ImportTableDescription {
@@ -8300,18 +7671,12 @@ func com_amazonaws_dynamodb_DescribeImportOutput_ImportTableDescription_FromDafn
 }
 func com_amazonaws_dynamodb_ImportTableDescription_ImportArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ImportTableDescription_ImportStatus_FromDafny(input interface{}) types.ImportStatus {
@@ -8337,50 +7702,32 @@ func com_amazonaws_dynamodb_ImportTableDescription_ImportStatus_FromDafny(input 
 }
 func com_amazonaws_dynamodb_ImportTableDescription_TableArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ImportTableDescription_TableId_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ImportTableDescription_ClientToken_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ImportTableDescription_S3BucketSource_FromDafny(input interface{}) *types.S3BucketSource {
@@ -8397,48 +7744,30 @@ func com_amazonaws_dynamodb_ImportTableDescription_S3BucketSource_FromDafny(inpu
 }
 func com_amazonaws_dynamodb_S3BucketSource_S3BucketOwner_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_S3BucketSource_S3Bucket_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_S3BucketSource_S3KeyPrefix_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ImportTableDescription_ErrorCount_FromDafny(input interface{}) int64 {
@@ -8453,18 +7782,12 @@ func com_amazonaws_dynamodb_ImportTableDescription_ErrorCount_FromDafny(input in
 }
 func com_amazonaws_dynamodb_ImportTableDescription_CloudWatchLogGroupArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ImportTableDescription_InputFormat_FromDafny(input interface{}) types.InputFormat {
@@ -8511,18 +7834,12 @@ func com_amazonaws_dynamodb_InputFormatOptions_Csv_FromDafny(input interface{}) 
 }
 func com_amazonaws_dynamodb_CsvOptions_Delimiter_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_CsvOptions_HeaderList_FromDafny(input interface{}) []string {
@@ -8543,16 +7860,10 @@ func com_amazonaws_dynamodb_CsvOptions_HeaderList_FromDafny(input interface{}) [
 }
 func com_amazonaws_dynamodb_CsvHeaderList_member_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_ImportTableDescription_InputCompressionType_FromDafny(input interface{}) types.InputCompressionType {
@@ -8595,16 +7906,10 @@ func com_amazonaws_dynamodb_ImportTableDescription_TableCreationParameters_FromD
 }
 func com_amazonaws_dynamodb_TableCreationParameters_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_TableCreationParameters_AttributeDefinitions_FromDafny(input interface{}) []types.AttributeDefinition {
@@ -8788,64 +8093,40 @@ func com_amazonaws_dynamodb_ImportTableDescription_ImportedItemCount_FromDafny(i
 }
 func com_amazonaws_dynamodb_ImportTableDescription_FailureCode_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ImportTableDescription_FailureMessage_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DescribeKinesisStreamingDestinationInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DescribeKinesisStreamingDestinationOutput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DescribeKinesisStreamingDestinationOutput_KinesisDataStreamDestinations_FromDafny(input interface{}) []types.KinesisDataStreamDestination {
@@ -8877,18 +8158,12 @@ func com_amazonaws_dynamodb_KinesisDataStreamDestinations_member_FromDafny(input
 }
 func com_amazonaws_dynamodb_KinesisDataStreamDestination_StreamArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_KinesisDataStreamDestination_DestinationStatus_FromDafny(input interface{}) types.DestinationStatus {
@@ -8914,18 +8189,12 @@ func com_amazonaws_dynamodb_KinesisDataStreamDestination_DestinationStatus_FromD
 }
 func com_amazonaws_dynamodb_KinesisDataStreamDestination_DestinationStatusDescription_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_KinesisDataStreamDestination_ApproximateCreationDateTimePrecision_FromDafny(input interface{}) types.ApproximateCreationDateTimePrecision {
@@ -8991,16 +8260,10 @@ func com_amazonaws_dynamodb_DescribeLimitsOutput_TableMaxWriteCapacityUnits_From
 }
 func com_amazonaws_dynamodb_DescribeTableInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DescribeTableOutput_Table_FromDafny(input interface{}) *types.TableDescription {
@@ -9038,16 +8301,10 @@ func com_amazonaws_dynamodb_DescribeTableOutput_Table_FromDafny(input interface{
 }
 func com_amazonaws_dynamodb_DescribeTableReplicaAutoScalingInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DescribeTableReplicaAutoScalingOutput_TableAutoScalingDescription_FromDafny(input interface{}) *types.TableAutoScalingDescription {
@@ -9064,18 +8321,12 @@ func com_amazonaws_dynamodb_DescribeTableReplicaAutoScalingOutput_TableAutoScali
 }
 func com_amazonaws_dynamodb_TableAutoScalingDescription_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_TableAutoScalingDescription_TableStatus_FromDafny(input interface{}) types.TableStatus {
@@ -9129,18 +8380,12 @@ func com_amazonaws_dynamodb_ReplicaAutoScalingDescriptionList_member_FromDafny(i
 }
 func com_amazonaws_dynamodb_ReplicaAutoScalingDescription_RegionName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ReplicaAutoScalingDescription_GlobalSecondaryIndexes_FromDafny(input interface{}) []types.ReplicaGlobalSecondaryIndexAutoScalingDescription {
@@ -9172,18 +8417,12 @@ func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingDescriptionLis
 }
 func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingDescription_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingDescription_IndexStatus_FromDafny(input interface{}) types.IndexStatus {
@@ -9286,16 +8525,10 @@ func com_amazonaws_dynamodb_ReplicaAutoScalingDescription_ReplicaStatus_FromDafn
 }
 func com_amazonaws_dynamodb_DescribeTimeToLiveInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DescribeTimeToLiveOutput_TimeToLiveDescription_FromDafny(input interface{}) *types.TimeToLiveDescription {
@@ -9311,30 +8544,18 @@ func com_amazonaws_dynamodb_DescribeTimeToLiveOutput_TimeToLiveDescription_FromD
 }
 func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationInput_StreamArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationInput_EnableKinesisStreamingConfiguration_FromDafny(input interface{}) *types.EnableKinesisStreamingConfiguration {
@@ -9370,34 +8591,22 @@ func com_amazonaws_dynamodb_EnableKinesisStreamingConfiguration_ApproximateCreat
 }
 func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput_StreamArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput_DestinationStatus_FromDafny(input interface{}) types.DestinationStatus {
@@ -9433,30 +8642,18 @@ func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput_EnableKines
 }
 func com_amazonaws_dynamodb_EnableKinesisStreamingDestinationInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_EnableKinesisStreamingDestinationInput_StreamArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_EnableKinesisStreamingDestinationInput_EnableKinesisStreamingConfiguration_FromDafny(input interface{}) *types.EnableKinesisStreamingConfiguration {
@@ -9471,34 +8668,22 @@ func com_amazonaws_dynamodb_EnableKinesisStreamingDestinationInput_EnableKinesis
 }
 func com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput_StreamArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput_DestinationStatus_FromDafny(input interface{}) types.DestinationStatus {
@@ -9534,16 +8719,10 @@ func com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput_EnableKinesi
 }
 func com_amazonaws_dynamodb_ExecuteStatementInput_Statement_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExecuteStatementInput_Parameters_FromDafny(input interface{}) []types.AttributeValue {
@@ -9574,18 +8753,12 @@ func com_amazonaws_dynamodb_ExecuteStatementInput_ConsistentRead_FromDafny(input
 }
 func com_amazonaws_dynamodb_ExecuteStatementInput_NextToken_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExecuteStatementInput_ReturnConsumedCapacity_FromDafny(input interface{}) types.ReturnConsumedCapacity {
@@ -9637,18 +8810,12 @@ func com_amazonaws_dynamodb_ExecuteStatementOutput_Items_FromDafny(input interfa
 }
 func com_amazonaws_dynamodb_ExecuteStatementOutput_NextToken_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExecuteStatementOutput_ConsumedCapacity_FromDafny(input interface{}) *types.ConsumedCapacity {
@@ -9709,16 +8876,10 @@ func com_amazonaws_dynamodb_ParameterizedStatements_member_FromDafny(input inter
 }
 func com_amazonaws_dynamodb_ParameterizedStatement_Statement_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ParameterizedStatement_Parameters_FromDafny(input interface{}) []types.AttributeValue {
@@ -9739,18 +8900,12 @@ func com_amazonaws_dynamodb_ParameterizedStatement_Parameters_FromDafny(input in
 }
 func com_amazonaws_dynamodb_ExecuteTransactionInput_ClientRequestToken_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExecuteTransactionInput_ReturnConsumedCapacity_FromDafny(input interface{}) types.ReturnConsumedCapacity {
@@ -9833,16 +8988,10 @@ func com_amazonaws_dynamodb_ExecuteTransactionOutput_ConsumedCapacity_FromDafny(
 }
 func com_amazonaws_dynamodb_ExportTableToPointInTimeInput_TableArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExportTableToPointInTimeInput_ExportTime_FromDafny(input interface{}) *time.Time {
@@ -9872,64 +9021,40 @@ func com_amazonaws_dynamodb_ExportTableToPointInTimeInput_ExportTime_FromDafny(i
 }
 func com_amazonaws_dynamodb_ExportTableToPointInTimeInput_ClientToken_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExportTableToPointInTimeInput_S3Bucket_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExportTableToPointInTimeInput_S3BucketOwner_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExportTableToPointInTimeInput_S3Prefix_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExportTableToPointInTimeInput_S3SseAlgorithm_FromDafny(input interface{}) types.S3SseAlgorithm {
@@ -9955,18 +9080,12 @@ func com_amazonaws_dynamodb_ExportTableToPointInTimeInput_S3SseAlgorithm_FromDaf
 }
 func com_amazonaws_dynamodb_ExportTableToPointInTimeInput_S3SseKmsKeyId_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExportTableToPointInTimeInput_ExportFormat_FromDafny(input interface{}) types.ExportFormat {
@@ -10055,16 +9174,10 @@ func com_amazonaws_dynamodb_ExportTableToPointInTimeOutput_ExportDescription_Fro
 }
 func com_amazonaws_dynamodb_GetItemInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_GetItemInput_Key_FromDafny(input interface{}) map[string]types.AttributeValue {
@@ -10130,18 +9243,12 @@ func com_amazonaws_dynamodb_GetItemInput_ReturnConsumedCapacity_FromDafny(input 
 }
 func com_amazonaws_dynamodb_GetItemInput_ProjectionExpression_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_GetItemInput_ExpressionAttributeNames_FromDafny(input interface{}) map[string]string {
@@ -10196,64 +9303,40 @@ func com_amazonaws_dynamodb_GetItemOutput_ConsumedCapacity_FromDafny(input inter
 }
 func com_amazonaws_dynamodb_GetResourcePolicyInput_ResourceArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_GetResourcePolicyOutput_Policy_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_GetResourcePolicyOutput_RevisionId_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ImportTableInput_ClientToken_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ImportTableInput_S3BucketSource_FromDafny(input interface{}) *types.S3BucketSource {
@@ -10358,18 +9441,12 @@ func com_amazonaws_dynamodb_ImportTableOutput_ImportTableDescription_FromDafny(i
 }
 func com_amazonaws_dynamodb_ListBackupsInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ListBackupsInput_Limit_FromDafny(input interface{}) *int32 {
@@ -10434,18 +9511,12 @@ func com_amazonaws_dynamodb_ListBackupsInput_TimeRangeUpperBound_FromDafny(input
 }
 func com_amazonaws_dynamodb_ListBackupsInput_ExclusiveStartBackupArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ListBackupsInput_BackupType_FromDafny(input interface{}) types.BackupTypeFilter {
@@ -10504,82 +9575,52 @@ func com_amazonaws_dynamodb_BackupSummaries_member_FromDafny(input interface{}) 
 }
 func com_amazonaws_dynamodb_BackupSummary_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_BackupSummary_TableId_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_BackupSummary_TableArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_BackupSummary_BackupArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_BackupSummary_BackupName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_BackupSummary_BackupCreationDateTime_FromDafny(input interface{}) *time.Time {
@@ -10686,50 +9727,32 @@ func com_amazonaws_dynamodb_BackupSummary_BackupSizeBytes_FromDafny(input interf
 }
 func com_amazonaws_dynamodb_ListBackupsOutput_LastEvaluatedBackupArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ListContributorInsightsInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ListContributorInsightsInput_NextToken_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ListContributorInsightsInput_MaxResults_FromDafny(input interface{}) int32 {
@@ -10763,34 +9786,22 @@ func com_amazonaws_dynamodb_ContributorInsightsSummaries_member_FromDafny(input 
 }
 func com_amazonaws_dynamodb_ContributorInsightsSummary_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ContributorInsightsSummary_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ContributorInsightsSummary_ContributorInsightsStatus_FromDafny(input interface{}) types.ContributorInsightsStatus {
@@ -10816,34 +9827,22 @@ func com_amazonaws_dynamodb_ContributorInsightsSummary_ContributorInsightsStatus
 }
 func com_amazonaws_dynamodb_ListContributorInsightsOutput_NextToken_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ListExportsInput_TableArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ListExportsInput_MaxResults_FromDafny(input interface{}) *int32 {
@@ -10858,18 +9857,12 @@ func com_amazonaws_dynamodb_ListExportsInput_MaxResults_FromDafny(input interfac
 }
 func com_amazonaws_dynamodb_ListExportsInput_NextToken_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ListExportsOutput_ExportSummaries_FromDafny(input interface{}) []types.ExportSummary {
@@ -10900,18 +9893,12 @@ func com_amazonaws_dynamodb_ExportSummaries_member_FromDafny(input interface{}) 
 }
 func com_amazonaws_dynamodb_ExportSummary_ExportArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExportSummary_ExportStatus_FromDafny(input interface{}) types.ExportStatus {
@@ -10958,34 +9945,22 @@ func com_amazonaws_dynamodb_ExportSummary_ExportType_FromDafny(input interface{}
 }
 func com_amazonaws_dynamodb_ListExportsOutput_NextToken_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ListGlobalTablesInput_ExclusiveStartGlobalTableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ListGlobalTablesInput_Limit_FromDafny(input interface{}) *int32 {
@@ -11000,18 +9975,12 @@ func com_amazonaws_dynamodb_ListGlobalTablesInput_Limit_FromDafny(input interfac
 }
 func com_amazonaws_dynamodb_ListGlobalTablesInput_RegionName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ListGlobalTablesOutput_GlobalTables_FromDafny(input interface{}) []types.GlobalTable {
@@ -11041,18 +10010,12 @@ func com_amazonaws_dynamodb_GlobalTableList_member_FromDafny(input interface{}) 
 }
 func com_amazonaws_dynamodb_GlobalTable_GlobalTableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_GlobalTable_ReplicationGroup_FromDafny(input interface{}) []types.Replica {
@@ -11073,34 +10036,22 @@ func com_amazonaws_dynamodb_GlobalTable_ReplicationGroup_FromDafny(input interfa
 }
 func com_amazonaws_dynamodb_ListGlobalTablesOutput_LastEvaluatedGlobalTableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ListImportsInput_TableArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ListImportsInput_PageSize_FromDafny(input interface{}) *int32 {
@@ -11115,18 +10066,12 @@ func com_amazonaws_dynamodb_ListImportsInput_PageSize_FromDafny(input interface{
 }
 func com_amazonaws_dynamodb_ListImportsInput_NextToken_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ListImportsOutput_ImportSummaryList_FromDafny(input interface{}) []types.ImportSummary {
@@ -11162,18 +10107,12 @@ func com_amazonaws_dynamodb_ImportSummaryList_member_FromDafny(input interface{}
 }
 func com_amazonaws_dynamodb_ImportSummary_ImportArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ImportSummary_ImportStatus_FromDafny(input interface{}) types.ImportStatus {
@@ -11199,18 +10138,12 @@ func com_amazonaws_dynamodb_ImportSummary_ImportStatus_FromDafny(input interface
 }
 func com_amazonaws_dynamodb_ImportSummary_TableArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ImportSummary_S3BucketSource_FromDafny(input interface{}) *types.S3BucketSource {
@@ -11227,18 +10160,12 @@ func com_amazonaws_dynamodb_ImportSummary_S3BucketSource_FromDafny(input interfa
 }
 func com_amazonaws_dynamodb_ImportSummary_CloudWatchLogGroupArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ImportSummary_InputFormat_FromDafny(input interface{}) types.InputFormat {
@@ -11314,34 +10241,22 @@ func com_amazonaws_dynamodb_ImportSummary_EndTime_FromDafny(input interface{}) *
 }
 func com_amazonaws_dynamodb_ListImportsOutput_NextToken_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ListTablesInput_ExclusiveStartTableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ListTablesInput_Limit_FromDafny(input interface{}) *int32 {
@@ -11372,62 +10287,38 @@ func com_amazonaws_dynamodb_ListTablesOutput_TableNames_FromDafny(input interfac
 }
 func com_amazonaws_dynamodb_TableNameList_member_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_ListTablesOutput_LastEvaluatedTableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ListTagsOfResourceInput_ResourceArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ListTagsOfResourceInput_NextToken_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ListTagsOfResourceOutput_Tags_FromDafny(input interface{}) []types.Tag {
@@ -11448,32 +10339,20 @@ func com_amazonaws_dynamodb_ListTagsOfResourceOutput_Tags_FromDafny(input interf
 }
 func com_amazonaws_dynamodb_ListTagsOfResourceOutput_NextToken_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_PutItemInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_PutItemInput_Item_FromDafny(input interface{}) map[string]types.AttributeValue {
@@ -11593,18 +10472,12 @@ func com_amazonaws_dynamodb_PutItemInput_ConditionalOperator_FromDafny(input int
 }
 func com_amazonaws_dynamodb_PutItemInput_ConditionExpression_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_PutItemInput_ExpressionAttributeNames_FromDafny(input interface{}) map[string]string {
@@ -11687,46 +10560,28 @@ func com_amazonaws_dynamodb_PutItemOutput_ItemCollectionMetrics_FromDafny(input 
 }
 func com_amazonaws_dynamodb_PutResourcePolicyInput_ResourceArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_PutResourcePolicyInput_Policy_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_PutResourcePolicyInput_ExpectedRevisionId_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_PutResourcePolicyInput_ConfirmRemoveSelfResourceAccess_FromDafny(input interface{}) bool {
@@ -11741,48 +10596,30 @@ func com_amazonaws_dynamodb_PutResourcePolicyInput_ConfirmRemoveSelfResourceAcce
 }
 func com_amazonaws_dynamodb_PutResourcePolicyOutput_RevisionId_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_QueryInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_QueryInput_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_QueryInput_Select_FromDafny(input interface{}) types.Select {
@@ -11861,18 +10698,12 @@ func com_amazonaws_dynamodb_QueryInput_KeyConditions_FromDafny(input interface{}
 }
 func com_amazonaws_dynamodb_KeyConditions_key_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 		if input == nil {
-			return s
+			return ""
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_KeyConditions_value_FromDafny(input interface{}) types.Condition {
@@ -11937,18 +10768,12 @@ func com_amazonaws_dynamodb_QueryInput_QueryFilter_FromDafny(input interface{}) 
 }
 func com_amazonaws_dynamodb_FilterConditionMap_key_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 		if input == nil {
-			return s
+			return ""
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_FilterConditionMap_value_FromDafny(input interface{}) types.Condition {
@@ -12031,50 +10856,32 @@ func com_amazonaws_dynamodb_QueryInput_ReturnConsumedCapacity_FromDafny(input in
 }
 func com_amazonaws_dynamodb_QueryInput_ProjectionExpression_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_QueryInput_FilterExpression_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_QueryInput_KeyConditionExpression_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_QueryInput_ExpressionAttributeNames_FromDafny(input interface{}) map[string]string {
@@ -12168,30 +10975,18 @@ func com_amazonaws_dynamodb_QueryOutput_ConsumedCapacity_FromDafny(input interfa
 }
 func com_amazonaws_dynamodb_RestoreTableFromBackupInput_TargetTableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_RestoreTableFromBackupInput_BackupArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_RestoreTableFromBackupInput_BillingModeOverride_FromDafny(input interface{}) types.BillingMode {
@@ -12316,48 +11111,30 @@ func com_amazonaws_dynamodb_RestoreTableFromBackupOutput_TableDescription_FromDa
 }
 func com_amazonaws_dynamodb_RestoreTableToPointInTimeInput_SourceTableArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_RestoreTableToPointInTimeInput_SourceTableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_RestoreTableToPointInTimeInput_TargetTableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_RestoreTableToPointInTimeInput_UseLatestRestorableTime_FromDafny(input interface{}) *bool {
@@ -12517,32 +11294,20 @@ func com_amazonaws_dynamodb_RestoreTableToPointInTimeOutput_TableDescription_Fro
 }
 func com_amazonaws_dynamodb_ScanInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ScanInput_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ScanInput_AttributesToGet_FromDafny(input interface{}) []string {
@@ -12690,34 +11455,22 @@ func com_amazonaws_dynamodb_ScanInput_Segment_FromDafny(input interface{}) *int3
 }
 func com_amazonaws_dynamodb_ScanInput_ProjectionExpression_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ScanInput_FilterExpression_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ScanInput_ExpressionAttributeNames_FromDafny(input interface{}) map[string]string {
@@ -12821,16 +11574,10 @@ func com_amazonaws_dynamodb_ScanOutput_ConsumedCapacity_FromDafny(input interfac
 }
 func com_amazonaws_dynamodb_TagResourceInput_ResourceArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_TagResourceInput_Tags_FromDafny(input interface{}) []types.Tag {
@@ -12896,32 +11643,20 @@ func com_amazonaws_dynamodb_Get_Key_FromDafny(input interface{}) map[string]type
 }
 func com_amazonaws_dynamodb_Get_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_Get_ProjectionExpression_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_Get_ExpressionAttributeNames_FromDafny(input interface{}) map[string]string {
@@ -13050,30 +11785,18 @@ func com_amazonaws_dynamodb_ConditionCheck_Key_FromDafny(input interface{}) map[
 }
 func com_amazonaws_dynamodb_ConditionCheck_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ConditionCheck_ConditionExpression_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ConditionCheck_ExpressionAttributeNames_FromDafny(input interface{}) map[string]string {
@@ -13162,32 +11885,20 @@ func com_amazonaws_dynamodb_Put_Item_FromDafny(input interface{}) map[string]typ
 }
 func com_amazonaws_dynamodb_Put_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_Put_ConditionExpression_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_Put_ExpressionAttributeNames_FromDafny(input interface{}) map[string]string {
@@ -13276,32 +11987,20 @@ func com_amazonaws_dynamodb_Delete_Key_FromDafny(input interface{}) map[string]t
 }
 func com_amazonaws_dynamodb_Delete_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_Delete_ConditionExpression_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_Delete_ExpressionAttributeNames_FromDafny(input interface{}) map[string]string {
@@ -13391,46 +12090,28 @@ func com_amazonaws_dynamodb_Update_Key_FromDafny(input interface{}) map[string]t
 }
 func com_amazonaws_dynamodb_Update_UpdateExpression_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_Update_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_Update_ConditionExpression_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_Update_ExpressionAttributeNames_FromDafny(input interface{}) map[string]string {
@@ -13532,18 +12213,12 @@ func com_amazonaws_dynamodb_TransactWriteItemsInput_ReturnItemCollectionMetrics_
 }
 func com_amazonaws_dynamodb_TransactWriteItemsInput_ClientRequestToken_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_TransactWriteItemsOutput_ConsumedCapacity_FromDafny(input interface{}) []types.ConsumedCapacity {
@@ -13581,16 +12256,10 @@ func com_amazonaws_dynamodb_TransactWriteItemsOutput_ItemCollectionMetrics_FromD
 }
 func com_amazonaws_dynamodb_UntagResourceInput_ResourceArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UntagResourceInput_TagKeys_FromDafny(input interface{}) []string {
@@ -13609,30 +12278,18 @@ func com_amazonaws_dynamodb_UntagResourceInput_TagKeys_FromDafny(input interface
 }
 func com_amazonaws_dynamodb_TagKeyList_member_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateContinuousBackupsInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateContinuousBackupsInput_PointInTimeRecoverySpecification_FromDafny(input interface{}) *types.PointInTimeRecoverySpecification {
@@ -13664,32 +12321,20 @@ func com_amazonaws_dynamodb_UpdateContinuousBackupsOutput_ContinuousBackupsDescr
 }
 func com_amazonaws_dynamodb_UpdateContributorInsightsInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateContributorInsightsInput_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateContributorInsightsInput_ContributorInsightsAction_FromDafny(input interface{}) types.ContributorInsightsAction {
@@ -13712,34 +12357,22 @@ func com_amazonaws_dynamodb_UpdateContributorInsightsInput_ContributorInsightsAc
 }
 func com_amazonaws_dynamodb_UpdateContributorInsightsOutput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateContributorInsightsOutput_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateContributorInsightsOutput_ContributorInsightsStatus_FromDafny(input interface{}) types.ContributorInsightsStatus {
@@ -13765,16 +12398,10 @@ func com_amazonaws_dynamodb_UpdateContributorInsightsOutput_ContributorInsightsS
 }
 func com_amazonaws_dynamodb_UpdateGlobalTableInput_GlobalTableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateGlobalTableInput_ReplicaUpdates_FromDafny(input interface{}) []types.ReplicaUpdate {
@@ -13812,16 +12439,10 @@ func com_amazonaws_dynamodb_ReplicaUpdate_Create_FromDafny(input interface{}) *t
 }
 func com_amazonaws_dynamodb_CreateReplicaAction_RegionName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ReplicaUpdate_Delete_FromDafny(input interface{}) *types.DeleteReplicaAction {
@@ -13836,16 +12457,10 @@ func com_amazonaws_dynamodb_ReplicaUpdate_Delete_FromDafny(input interface{}) *t
 }
 func com_amazonaws_dynamodb_DeleteReplicaAction_RegionName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateGlobalTableOutput_GlobalTableDescription_FromDafny(input interface{}) *types.GlobalTableDescription {
@@ -13864,16 +12479,10 @@ func com_amazonaws_dynamodb_UpdateGlobalTableOutput_GlobalTableDescription_FromD
 }
 func com_amazonaws_dynamodb_UpdateGlobalTableSettingsInput_GlobalTableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateGlobalTableSettingsInput_GlobalTableBillingMode_FromDafny(input interface{}) types.BillingMode {
@@ -13953,18 +12562,12 @@ func com_amazonaws_dynamodb_AutoScalingSettingsUpdate_AutoScalingDisabled_FromDa
 }
 func com_amazonaws_dynamodb_AutoScalingSettingsUpdate_AutoScalingRoleArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_AutoScalingSettingsUpdate_ScalingPolicyUpdate_FromDafny(input interface{}) *types.AutoScalingPolicyUpdate {
@@ -13980,18 +12583,12 @@ func com_amazonaws_dynamodb_AutoScalingSettingsUpdate_ScalingPolicyUpdate_FromDa
 }
 func com_amazonaws_dynamodb_AutoScalingPolicyUpdate_PolicyName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_AutoScalingPolicyUpdate_TargetTrackingScalingPolicyConfiguration_FromDafny(input interface{}) *types.AutoScalingTargetTrackingScalingPolicyConfigurationUpdate {
@@ -14077,16 +12674,10 @@ func com_amazonaws_dynamodb_GlobalTableGlobalSecondaryIndexSettingsUpdateList_me
 }
 func com_amazonaws_dynamodb_GlobalTableGlobalSecondaryIndexSettingsUpdate_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_GlobalTableGlobalSecondaryIndexSettingsUpdate_ProvisionedWriteCapacityUnits_FromDafny(input interface{}) *int64 {
@@ -14143,16 +12734,10 @@ func com_amazonaws_dynamodb_ReplicaSettingsUpdateList_member_FromDafny(input int
 }
 func com_amazonaws_dynamodb_ReplicaSettingsUpdate_RegionName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ReplicaSettingsUpdate_ReplicaProvisionedReadCapacityUnits_FromDafny(input interface{}) *int64 {
@@ -14207,16 +12792,10 @@ func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsUpdateList_member
 }
 func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsUpdate_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsUpdate_ProvisionedReadCapacityUnits_FromDafny(input interface{}) *int64 {
@@ -14266,18 +12845,12 @@ func com_amazonaws_dynamodb_ReplicaSettingsUpdate_ReplicaTableClass_FromDafny(in
 }
 func com_amazonaws_dynamodb_UpdateGlobalTableSettingsOutput_GlobalTableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateGlobalTableSettingsOutput_ReplicaSettings_FromDafny(input interface{}) []types.ReplicaSettingsDescription {
@@ -14298,16 +12871,10 @@ func com_amazonaws_dynamodb_UpdateGlobalTableSettingsOutput_ReplicaSettings_From
 }
 func com_amazonaws_dynamodb_UpdateItemInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateItemInput_Key_FromDafny(input interface{}) map[string]types.AttributeValue {
@@ -14343,18 +12910,12 @@ func com_amazonaws_dynamodb_UpdateItemInput_AttributeUpdates_FromDafny(input int
 }
 func com_amazonaws_dynamodb_AttributeUpdates_key_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
 		if input == nil {
-			return s
+			return ""
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return []string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return s
 	}()
 }
 func com_amazonaws_dynamodb_AttributeUpdates_value_FromDafny(input interface{}) types.AttributeValueUpdate {
@@ -14561,34 +13122,22 @@ func com_amazonaws_dynamodb_UpdateItemInput_ReturnItemCollectionMetrics_FromDafn
 }
 func com_amazonaws_dynamodb_UpdateItemInput_UpdateExpression_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateItemInput_ConditionExpression_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateItemInput_ExpressionAttributeNames_FromDafny(input interface{}) map[string]string {
@@ -14671,30 +13220,18 @@ func com_amazonaws_dynamodb_UpdateItemOutput_ItemCollectionMetrics_FromDafny(inp
 }
 func com_amazonaws_dynamodb_UpdateKinesisStreamingDestinationInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateKinesisStreamingDestinationInput_StreamArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateKinesisStreamingDestinationInput_UpdateKinesisStreamingConfiguration_FromDafny(input interface{}) *types.UpdateKinesisStreamingConfiguration {
@@ -14730,34 +13267,22 @@ func com_amazonaws_dynamodb_UpdateKinesisStreamingConfiguration_ApproximateCreat
 }
 func com_amazonaws_dynamodb_UpdateKinesisStreamingDestinationOutput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateKinesisStreamingDestinationOutput_StreamArn_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateKinesisStreamingDestinationOutput_DestinationStatus_FromDafny(input interface{}) types.DestinationStatus {
@@ -14809,16 +13334,10 @@ func com_amazonaws_dynamodb_UpdateTableInput_AttributeDefinitions_FromDafny(inpu
 }
 func com_amazonaws_dynamodb_UpdateTableInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateTableInput_BillingMode_FromDafny(input interface{}) types.BillingMode {
@@ -14893,16 +13412,10 @@ func com_amazonaws_dynamodb_GlobalSecondaryIndexUpdate_Update_FromDafny(input in
 }
 func com_amazonaws_dynamodb_UpdateGlobalSecondaryIndexAction_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateGlobalSecondaryIndexAction_ProvisionedThroughput_FromDafny(input interface{}) *types.ProvisionedThroughput {
@@ -14943,16 +13456,10 @@ func com_amazonaws_dynamodb_GlobalSecondaryIndexUpdate_Create_FromDafny(input in
 }
 func com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction_KeySchema_FromDafny(input interface{}) []types.KeySchemaElement {
@@ -15012,16 +13519,10 @@ func com_amazonaws_dynamodb_GlobalSecondaryIndexUpdate_Delete_FromDafny(input in
 }
 func com_amazonaws_dynamodb_DeleteGlobalSecondaryIndexAction_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateTableInput_StreamSpecification_FromDafny(input interface{}) *types.StreamSpecification {
@@ -15090,32 +13591,20 @@ func com_amazonaws_dynamodb_ReplicationGroupUpdate_Create_FromDafny(input interf
 }
 func com_amazonaws_dynamodb_CreateReplicationGroupMemberAction_RegionName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_CreateReplicationGroupMemberAction_KMSMasterKeyId_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_CreateReplicationGroupMemberAction_ProvisionedThroughputOverride_FromDafny(input interface{}) *types.ProvisionedThroughputOverride {
@@ -15166,16 +13655,10 @@ func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexList_member_FromDafny(inp
 }
 func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndex_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndex_ProvisionedThroughputOverride_FromDafny(input interface{}) *types.ProvisionedThroughputOverride {
@@ -15236,32 +13719,20 @@ func com_amazonaws_dynamodb_ReplicationGroupUpdate_Update_FromDafny(input interf
 }
 func com_amazonaws_dynamodb_UpdateReplicationGroupMemberAction_RegionName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateReplicationGroupMemberAction_KMSMasterKeyId_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateReplicationGroupMemberAction_ProvisionedThroughputOverride_FromDafny(input interface{}) *types.ProvisionedThroughputOverride {
@@ -15333,16 +13804,10 @@ func com_amazonaws_dynamodb_ReplicationGroupUpdate_Delete_FromDafny(input interf
 }
 func com_amazonaws_dynamodb_DeleteReplicationGroupMemberAction_RegionName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateTableInput_TableClass_FromDafny(input interface{}) types.TableClass {
@@ -15447,18 +13912,12 @@ func com_amazonaws_dynamodb_GlobalSecondaryIndexAutoScalingUpdateList_member_Fro
 }
 func com_amazonaws_dynamodb_GlobalSecondaryIndexAutoScalingUpdate_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_GlobalSecondaryIndexAutoScalingUpdate_ProvisionedWriteCapacityAutoScalingUpdate_FromDafny(input interface{}) *types.AutoScalingSettingsUpdate {
@@ -15477,16 +13936,10 @@ func com_amazonaws_dynamodb_GlobalSecondaryIndexAutoScalingUpdate_ProvisionedWri
 }
 func com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingInput_ProvisionedWriteCapacityAutoScalingUpdate_FromDafny(input interface{}) *types.AutoScalingSettingsUpdate {
@@ -15531,16 +13984,10 @@ func com_amazonaws_dynamodb_ReplicaAutoScalingUpdateList_member_FromDafny(input 
 }
 func com_amazonaws_dynamodb_ReplicaAutoScalingUpdate_RegionName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ReplicaAutoScalingUpdate_ReplicaGlobalSecondaryIndexUpdates_FromDafny(input interface{}) []types.ReplicaGlobalSecondaryIndexAutoScalingUpdate {
@@ -15570,18 +14017,12 @@ func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingUpdateList_mem
 }
 func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingUpdate_IndexName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingUpdate_ProvisionedReadCapacityAutoScalingUpdate_FromDafny(input interface{}) *types.AutoScalingSettingsUpdate {
@@ -15626,16 +14067,10 @@ func com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingOutput_TableAutoScaling
 }
 func com_amazonaws_dynamodb_UpdateTimeToLiveInput_TableName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateTimeToLiveInput_TimeToLiveSpecification_FromDafny(input interface{}) *types.TimeToLiveSpecification {
@@ -15657,16 +14092,10 @@ func com_amazonaws_dynamodb_TimeToLiveSpecification_Enabled_FromDafny(input inte
 }
 func com_amazonaws_dynamodb_TimeToLiveSpecification_AttributeName_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_UpdateTimeToLiveOutput_TimeToLiveSpecification_FromDafny(input interface{}) *types.TimeToLiveSpecification {
@@ -15682,50 +14111,32 @@ func com_amazonaws_dynamodb_UpdateTimeToLiveOutput_TimeToLiveSpecification_FromD
 }
 func com_amazonaws_dynamodb_BackupInUseException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_BackupNotFoundException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ConditionalCheckFailedException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ConditionalCheckFailedException_Item_FromDafny(input interface{}) map[string]types.AttributeValue {
@@ -15747,450 +14158,282 @@ func com_amazonaws_dynamodb_ConditionalCheckFailedException_Item_FromDafny(input
 }
 func com_amazonaws_dynamodb_ContinuousBackupsUnavailableException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_DuplicateItemException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExportConflictException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ExportNotFoundException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_GlobalTableAlreadyExistsException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_GlobalTableNotFoundException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_IdempotentParameterMismatchException_Message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ImportConflictException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ImportNotFoundException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_IndexNotFoundException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_InternalServerError_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_InvalidEndpointException_Message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_InvalidExportTimeException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_InvalidRestoreTimeException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ItemCollectionSizeLimitExceededException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_LimitExceededException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_PointInTimeRecoveryUnavailableException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_PolicyNotFoundException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ProvisionedThroughputExceededException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ReplicaAlreadyExistsException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ReplicaNotFoundException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_RequestLimitExceeded_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ResourceInUseException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_ResourceNotFoundException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_TableAlreadyExistsException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_TableInUseException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_TableNotFoundException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_TransactionCanceledException_Message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_TransactionCanceledException_CancellationReasons_FromDafny(input interface{}) []types.CancellationReason {
@@ -16238,65 +14481,41 @@ func com_amazonaws_dynamodb_CancellationReason_Item_FromDafny(input interface{})
 }
 func com_amazonaws_dynamodb_CancellationReason_Code_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_CancellationReason_Message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_TransactionConflictException_message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
 func com_amazonaws_dynamodb_TransactionInProgressException_Message_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+		return &s
 	}()
 }
