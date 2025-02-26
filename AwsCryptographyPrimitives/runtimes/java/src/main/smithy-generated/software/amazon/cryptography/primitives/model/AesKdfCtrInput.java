@@ -10,7 +10,7 @@ public class AesKdfCtrInput {
 
   private final ByteBuffer ikm;
 
-  private final int expectedLength;
+  private final Integer expectedLength;
 
   private final ByteBuffer nonce;
 
@@ -24,7 +24,7 @@ public class AesKdfCtrInput {
     return this.ikm;
   }
 
-  public int expectedLength() {
+  public Integer expectedLength() {
     return this.expectedLength;
   }
 
@@ -45,9 +45,9 @@ public class AesKdfCtrInput {
 
     ByteBuffer ikm();
 
-    Builder expectedLength(int expectedLength);
+    Builder expectedLength(Integer expectedLength);
 
-    int expectedLength();
+    Integer expectedLength();
 
     Builder nonce(ByteBuffer nonce);
 
@@ -60,9 +60,7 @@ public class AesKdfCtrInput {
 
     protected ByteBuffer ikm;
 
-    protected int expectedLength;
-
-    private boolean _expectedLengthSet = false;
+    protected Integer expectedLength;
 
     protected ByteBuffer nonce;
 
@@ -71,7 +69,6 @@ public class AesKdfCtrInput {
     protected BuilderImpl(AesKdfCtrInput model) {
       this.ikm = model.ikm();
       this.expectedLength = model.expectedLength();
-      this._expectedLengthSet = true;
       this.nonce = model.nonce();
     }
 
@@ -84,13 +81,12 @@ public class AesKdfCtrInput {
       return this.ikm;
     }
 
-    public Builder expectedLength(int expectedLength) {
+    public Builder expectedLength(Integer expectedLength) {
       this.expectedLength = expectedLength;
-      this._expectedLengthSet = true;
       return this;
     }
 
-    public int expectedLength() {
+    public Integer expectedLength() {
       return this.expectedLength;
     }
 
@@ -109,12 +105,12 @@ public class AesKdfCtrInput {
           "Missing value for required field `ikm`"
         );
       }
-      if (!this._expectedLengthSet) {
+      if (Objects.isNull(this.expectedLength())) {
         throw new IllegalArgumentException(
           "Missing value for required field `expectedLength`"
         );
       }
-      if (this._expectedLengthSet && this.expectedLength() < 0) {
+      if (Objects.nonNull(this.expectedLength()) && this.expectedLength() < 0) {
         throw new IllegalArgumentException(
           "`expectedLength` must be greater than or equal to 0"
         );

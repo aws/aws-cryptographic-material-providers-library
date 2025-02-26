@@ -16,7 +16,7 @@ public class HkdfInput {
 
   private final ByteBuffer info;
 
-  private final int expectedLength;
+  private final Integer expectedLength;
 
   protected HkdfInput(BuilderImpl builder) {
     this.digestAlgorithm = builder.digestAlgorithm();
@@ -42,7 +42,7 @@ public class HkdfInput {
     return this.info;
   }
 
-  public int expectedLength() {
+  public Integer expectedLength() {
     return this.expectedLength;
   }
 
@@ -71,9 +71,9 @@ public class HkdfInput {
 
     ByteBuffer info();
 
-    Builder expectedLength(int expectedLength);
+    Builder expectedLength(Integer expectedLength);
 
-    int expectedLength();
+    Integer expectedLength();
 
     HkdfInput build();
   }
@@ -88,9 +88,7 @@ public class HkdfInput {
 
     protected ByteBuffer info;
 
-    protected int expectedLength;
-
-    private boolean _expectedLengthSet = false;
+    protected Integer expectedLength;
 
     protected BuilderImpl() {}
 
@@ -100,7 +98,6 @@ public class HkdfInput {
       this.ikm = model.ikm();
       this.info = model.info();
       this.expectedLength = model.expectedLength();
-      this._expectedLengthSet = true;
     }
 
     public Builder digestAlgorithm(DigestAlgorithm digestAlgorithm) {
@@ -139,13 +136,12 @@ public class HkdfInput {
       return this.info;
     }
 
-    public Builder expectedLength(int expectedLength) {
+    public Builder expectedLength(Integer expectedLength) {
       this.expectedLength = expectedLength;
-      this._expectedLengthSet = true;
       return this;
     }
 
-    public int expectedLength() {
+    public Integer expectedLength() {
       return this.expectedLength;
     }
 
@@ -165,12 +161,12 @@ public class HkdfInput {
           "Missing value for required field `info`"
         );
       }
-      if (!this._expectedLengthSet) {
+      if (Objects.isNull(this.expectedLength())) {
         throw new IllegalArgumentException(
           "Missing value for required field `expectedLength`"
         );
       }
-      if (this._expectedLengthSet && this.expectedLength() < 0) {
+      if (Objects.nonNull(this.expectedLength()) && this.expectedLength() < 0) {
         throw new IllegalArgumentException(
           "`expectedLength` must be greater than or equal to 0"
         );

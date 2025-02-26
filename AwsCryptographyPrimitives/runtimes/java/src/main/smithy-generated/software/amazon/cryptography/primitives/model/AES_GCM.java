@@ -3,13 +3,15 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.primitives.model;
 
+import java.util.Objects;
+
 public class AES_GCM {
 
-  private final int keyLength;
+  private final Integer keyLength;
 
-  private final int tagLength;
+  private final Integer tagLength;
 
-  private final int ivLength;
+  private final Integer ivLength;
 
   protected AES_GCM(BuilderImpl builder) {
     this.keyLength = builder.keyLength();
@@ -17,15 +19,15 @@ public class AES_GCM {
     this.ivLength = builder.ivLength();
   }
 
-  public int keyLength() {
+  public Integer keyLength() {
     return this.keyLength;
   }
 
-  public int tagLength() {
+  public Integer tagLength() {
     return this.tagLength;
   }
 
-  public int ivLength() {
+  public Integer ivLength() {
     return this.ivLength;
   }
 
@@ -38,118 +40,106 @@ public class AES_GCM {
   }
 
   public interface Builder {
-    Builder keyLength(int keyLength);
+    Builder keyLength(Integer keyLength);
 
-    int keyLength();
+    Integer keyLength();
 
-    Builder tagLength(int tagLength);
+    Builder tagLength(Integer tagLength);
 
-    int tagLength();
+    Integer tagLength();
 
-    Builder ivLength(int ivLength);
+    Builder ivLength(Integer ivLength);
 
-    int ivLength();
+    Integer ivLength();
 
     AES_GCM build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected int keyLength;
+    protected Integer keyLength;
 
-    private boolean _keyLengthSet = false;
+    protected Integer tagLength;
 
-    protected int tagLength;
-
-    private boolean _tagLengthSet = false;
-
-    protected int ivLength;
-
-    private boolean _ivLengthSet = false;
+    protected Integer ivLength;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(AES_GCM model) {
       this.keyLength = model.keyLength();
-      this._keyLengthSet = true;
       this.tagLength = model.tagLength();
-      this._tagLengthSet = true;
       this.ivLength = model.ivLength();
-      this._ivLengthSet = true;
     }
 
-    public Builder keyLength(int keyLength) {
+    public Builder keyLength(Integer keyLength) {
       this.keyLength = keyLength;
-      this._keyLengthSet = true;
       return this;
     }
 
-    public int keyLength() {
+    public Integer keyLength() {
       return this.keyLength;
     }
 
-    public Builder tagLength(int tagLength) {
+    public Builder tagLength(Integer tagLength) {
       this.tagLength = tagLength;
-      this._tagLengthSet = true;
       return this;
     }
 
-    public int tagLength() {
+    public Integer tagLength() {
       return this.tagLength;
     }
 
-    public Builder ivLength(int ivLength) {
+    public Builder ivLength(Integer ivLength) {
       this.ivLength = ivLength;
-      this._ivLengthSet = true;
       return this;
     }
 
-    public int ivLength() {
+    public Integer ivLength() {
       return this.ivLength;
     }
 
     public AES_GCM build() {
-      if (!this._keyLengthSet) {
+      if (Objects.isNull(this.keyLength())) {
         throw new IllegalArgumentException(
           "Missing value for required field `keyLength`"
         );
       }
-      if (this._keyLengthSet && this.keyLength() < 1) {
+      if (Objects.nonNull(this.keyLength()) && this.keyLength() < 1) {
         throw new IllegalArgumentException(
           "`keyLength` must be greater than or equal to 1"
         );
       }
-      if (this._keyLengthSet && this.keyLength() > 32) {
+      if (Objects.nonNull(this.keyLength()) && this.keyLength() > 32) {
         throw new IllegalArgumentException(
           "`keyLength` must be less than or equal to 32."
         );
       }
-      if (!this._tagLengthSet) {
+      if (Objects.isNull(this.tagLength())) {
         throw new IllegalArgumentException(
           "Missing value for required field `tagLength`"
         );
       }
-      if (this._tagLengthSet && this.tagLength() < 0) {
+      if (Objects.nonNull(this.tagLength()) && this.tagLength() < 0) {
         throw new IllegalArgumentException(
           "`tagLength` must be greater than or equal to 0"
         );
       }
-      if (this._tagLengthSet && this.tagLength() > 32) {
+      if (Objects.nonNull(this.tagLength()) && this.tagLength() > 32) {
         throw new IllegalArgumentException(
           "`tagLength` must be less than or equal to 32."
         );
       }
-      if (!this._ivLengthSet) {
+      if (Objects.isNull(this.ivLength())) {
         throw new IllegalArgumentException(
           "Missing value for required field `ivLength`"
         );
       }
-      if (this._ivLengthSet && this.ivLength() < 0) {
+      if (Objects.nonNull(this.ivLength()) && this.ivLength() < 0) {
         throw new IllegalArgumentException(
           "`ivLength` must be greater than or equal to 0"
         );
       }
-      if (this._ivLengthSet && this.ivLength() > 255) {
+      if (Objects.nonNull(this.ivLength()) && this.ivLength() > 255) {
         throw new IllegalArgumentException(
           "`ivLength` must be less than or equal to 255."
         );

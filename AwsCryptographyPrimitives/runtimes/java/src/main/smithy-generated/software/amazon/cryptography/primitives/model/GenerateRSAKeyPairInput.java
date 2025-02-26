@@ -3,15 +3,17 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.primitives.model;
 
+import java.util.Objects;
+
 public class GenerateRSAKeyPairInput {
 
-  private final int lengthBits;
+  private final Integer lengthBits;
 
   protected GenerateRSAKeyPairInput(BuilderImpl builder) {
     this.lengthBits = builder.lengthBits();
   }
 
-  public int lengthBits() {
+  public Integer lengthBits() {
     return this.lengthBits;
   }
 
@@ -24,48 +26,44 @@ public class GenerateRSAKeyPairInput {
   }
 
   public interface Builder {
-    Builder lengthBits(int lengthBits);
+    Builder lengthBits(Integer lengthBits);
 
-    int lengthBits();
+    Integer lengthBits();
 
     GenerateRSAKeyPairInput build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected int lengthBits;
-
-    private boolean _lengthBitsSet = false;
+    protected Integer lengthBits;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(GenerateRSAKeyPairInput model) {
       this.lengthBits = model.lengthBits();
-      this._lengthBitsSet = true;
     }
 
-    public Builder lengthBits(int lengthBits) {
+    public Builder lengthBits(Integer lengthBits) {
       this.lengthBits = lengthBits;
-      this._lengthBitsSet = true;
       return this;
     }
 
-    public int lengthBits() {
+    public Integer lengthBits() {
       return this.lengthBits;
     }
 
     public GenerateRSAKeyPairInput build() {
-      if (!this._lengthBitsSet) {
+      if (Objects.isNull(this.lengthBits())) {
         throw new IllegalArgumentException(
           "Missing value for required field `lengthBits`"
         );
       }
-      if (this._lengthBitsSet && this.lengthBits() < 81) {
+      if (Objects.nonNull(this.lengthBits()) && this.lengthBits() < 81) {
         throw new IllegalArgumentException(
           "`lengthBits` must be greater than or equal to 81"
         );
       }
-      if (this._lengthBitsSet && this.lengthBits() > 4096) {
+      if (Objects.nonNull(this.lengthBits()) && this.lengthBits() > 4096) {
         throw new IllegalArgumentException(
           "`lengthBits` must be less than or equal to 4096."
         );
