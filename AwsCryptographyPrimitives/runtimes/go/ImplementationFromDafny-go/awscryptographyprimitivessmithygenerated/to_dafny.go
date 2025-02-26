@@ -3,6 +3,8 @@
 package awscryptographyprimitivessmithygenerated
 
 import (
+	"unicode/utf16"
+
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AwsCryptographyPrimitivesTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/awscryptographyprimitivessmithygeneratedtypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Wrappers"
@@ -1792,7 +1794,14 @@ func aws_cryptography_primitives_ValidatePublicKeyOutput_success_ToDafny(input b
 func aws_cryptography_primitives_AwsCryptographicPrimitivesError_message_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 

@@ -5,6 +5,7 @@ package comamazonawskmssmithygenerated
 import (
 	"errors"
 	"time"
+	"unicode/utf16"
 
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms/ComAmazonawsKmsTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Wrappers"
@@ -1452,7 +1453,14 @@ func com_amazonaws_kms_CancelKeyDeletionRequest_KeyId_ToDafny(input *string) daf
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -1461,7 +1469,14 @@ func com_amazonaws_kms_CancelKeyDeletionResponse_KeyId_ToDafny(input *string) Wr
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -1470,7 +1485,14 @@ func com_amazonaws_kms_ConnectCustomKeyStoreRequest_CustomKeyStoreId_ToDafny(inp
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -1479,7 +1501,14 @@ func com_amazonaws_kms_CreateAliasRequest_AliasName_ToDafny(input *string) dafny
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -1488,7 +1517,14 @@ func com_amazonaws_kms_CreateAliasRequest_TargetKeyId_ToDafny(input *string) daf
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -1497,7 +1533,14 @@ func com_amazonaws_kms_CreateCustomKeyStoreRequest_CustomKeyStoreName_ToDafny(in
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -1506,7 +1549,14 @@ func com_amazonaws_kms_CreateCustomKeyStoreRequest_CloudHsmClusterId_ToDafny(inp
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -1515,7 +1565,14 @@ func com_amazonaws_kms_CreateCustomKeyStoreRequest_TrustAnchorCertificate_ToDafn
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -1524,7 +1581,14 @@ func com_amazonaws_kms_CreateCustomKeyStoreRequest_KeyStorePassword_ToDafny(inpu
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -1554,7 +1618,14 @@ func com_amazonaws_kms_CreateCustomKeyStoreRequest_XksProxyUriEndpoint_ToDafny(i
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -1563,7 +1634,14 @@ func com_amazonaws_kms_CreateCustomKeyStoreRequest_XksProxyUriPath_ToDafny(input
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -1572,7 +1650,14 @@ func com_amazonaws_kms_CreateCustomKeyStoreRequest_XksProxyVpcEndpointServiceNam
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -1590,7 +1675,14 @@ func com_amazonaws_kms_XksProxyAuthenticationCredentialType_AccessKeyId_ToDafny(
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -1599,7 +1691,14 @@ func com_amazonaws_kms_XksProxyAuthenticationCredentialType_RawSecretAccessKey_T
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -1629,7 +1728,14 @@ func com_amazonaws_kms_CreateCustomKeyStoreResponse_CustomKeyStoreId_ToDafny(inp
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -1638,7 +1744,14 @@ func com_amazonaws_kms_CreateGrantRequest_KeyId_ToDafny(input *string) dafny.Seq
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -1647,7 +1760,14 @@ func com_amazonaws_kms_CreateGrantRequest_GranteePrincipal_ToDafny(input *string
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -1656,7 +1776,14 @@ func com_amazonaws_kms_CreateGrantRequest_RetiringPrincipal_ToDafny(input *strin
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -1718,14 +1845,28 @@ func com_amazonaws_kms_GrantConstraints_EncryptionContextSubset_ToDafny(input ma
 func com_amazonaws_kms_EncryptionContextType_key_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
 func com_amazonaws_kms_EncryptionContextType_value_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -1757,7 +1898,14 @@ func com_amazonaws_kms_CreateGrantRequest_GrantTokens_ToDafny(input []string) Wr
 func com_amazonaws_kms_GrantTokenList_member_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -1766,7 +1914,14 @@ func com_amazonaws_kms_CreateGrantRequest_Name_ToDafny(input *string) Wrappers.O
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -1784,7 +1939,14 @@ func com_amazonaws_kms_CreateGrantResponse_GrantToken_ToDafny(input *string) Wra
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -1793,7 +1955,14 @@ func com_amazonaws_kms_CreateGrantResponse_GrantId_ToDafny(input *string) Wrappe
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -1802,7 +1971,14 @@ func com_amazonaws_kms_CreateKeyRequest_Policy_ToDafny(input *string) Wrappers.O
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -1811,7 +1987,14 @@ func com_amazonaws_kms_CreateKeyRequest_Description_ToDafny(input *string) Wrapp
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -1904,7 +2087,14 @@ func com_amazonaws_kms_CreateKeyRequest_CustomKeyStoreId_ToDafny(input *string) 
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -1941,7 +2131,14 @@ func com_amazonaws_kms_Tag_TagKey_ToDafny(input *string) dafny.Sequence {
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -1950,7 +2147,14 @@ func com_amazonaws_kms_Tag_TagValue_ToDafny(input *string) dafny.Sequence {
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -1968,7 +2172,14 @@ func com_amazonaws_kms_CreateKeyRequest_XksKeyId_ToDafny(input *string) Wrappers
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -1986,7 +2197,14 @@ func com_amazonaws_kms_KeyMetadata_AWSAccountId_ToDafny(input *string) Wrappers.
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -1995,7 +2213,14 @@ func com_amazonaws_kms_KeyMetadata_KeyId_ToDafny(input *string) dafny.Sequence {
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -2004,7 +2229,14 @@ func com_amazonaws_kms_KeyMetadata_Arn_ToDafny(input *string) Wrappers.Option {
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -2030,7 +2262,14 @@ func com_amazonaws_kms_KeyMetadata_Description_ToDafny(input *string) Wrappers.O
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -2122,7 +2361,14 @@ func com_amazonaws_kms_KeyMetadata_CustomKeyStoreId_ToDafny(input *string) Wrapp
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -2131,7 +2377,14 @@ func com_amazonaws_kms_KeyMetadata_CloudHsmClusterId_ToDafny(input *string) Wrap
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -2377,7 +2630,14 @@ func com_amazonaws_kms_MultiRegionKey_Arn_ToDafny(input *string) Wrappers.Option
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -2386,7 +2646,14 @@ func com_amazonaws_kms_MultiRegionKey_Region_ToDafny(input *string) Wrappers.Opt
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -2469,7 +2736,14 @@ func com_amazonaws_kms_XksKeyConfigurationType_Id_ToDafny(input *string) Wrapper
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -2516,7 +2790,14 @@ func com_amazonaws_kms_DecryptRequest_KeyId_ToDafny(input *string) Wrappers.Opti
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -2598,7 +2879,14 @@ func com_amazonaws_kms_DecryptResponse_KeyId_ToDafny(input *string) Wrappers.Opt
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -2654,7 +2942,14 @@ func com_amazonaws_kms_DeleteAliasRequest_AliasName_ToDafny(input *string) dafny
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -2663,7 +2958,14 @@ func com_amazonaws_kms_DeleteCustomKeyStoreRequest_CustomKeyStoreId_ToDafny(inpu
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -2672,7 +2974,14 @@ func com_amazonaws_kms_DeleteImportedKeyMaterialRequest_KeyId_ToDafny(input *str
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -2681,7 +2990,14 @@ func com_amazonaws_kms_DeriveSharedSecretRequest_KeyId_ToDafny(input *string) da
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -2756,7 +3072,14 @@ func com_amazonaws_kms_DeriveSharedSecretResponse_KeyId_ToDafny(input *string) W
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -2833,7 +3156,14 @@ func com_amazonaws_kms_DescribeCustomKeyStoresRequest_CustomKeyStoreId_ToDafny(i
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -2842,7 +3172,14 @@ func com_amazonaws_kms_DescribeCustomKeyStoresRequest_CustomKeyStoreName_ToDafny
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -2860,7 +3197,14 @@ func com_amazonaws_kms_DescribeCustomKeyStoresRequest_Marker_ToDafny(input *stri
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -2890,7 +3234,14 @@ func com_amazonaws_kms_CustomKeyStoresListEntry_CustomKeyStoreId_ToDafny(input *
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -2899,7 +3250,14 @@ func com_amazonaws_kms_CustomKeyStoresListEntry_CustomKeyStoreName_ToDafny(input
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -2908,7 +3266,14 @@ func com_amazonaws_kms_CustomKeyStoresListEntry_CloudHsmClusterId_ToDafny(input 
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -2917,7 +3282,14 @@ func com_amazonaws_kms_CustomKeyStoresListEntry_TrustAnchorCertificate_ToDafny(i
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3029,7 +3401,14 @@ func com_amazonaws_kms_XksProxyConfigurationType_AccessKeyId_ToDafny(input *stri
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3038,7 +3417,14 @@ func com_amazonaws_kms_XksProxyConfigurationType_UriEndpoint_ToDafny(input *stri
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3047,7 +3433,14 @@ func com_amazonaws_kms_XksProxyConfigurationType_UriPath_ToDafny(input *string) 
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3056,7 +3449,14 @@ func com_amazonaws_kms_XksProxyConfigurationType_VpcEndpointServiceName_ToDafny(
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3065,7 +3465,14 @@ func com_amazonaws_kms_DescribeCustomKeyStoresResponse_NextMarker_ToDafny(input 
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3081,7 +3488,14 @@ func com_amazonaws_kms_DescribeKeyRequest_KeyId_ToDafny(input *string) dafny.Seq
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -3113,7 +3527,14 @@ func com_amazonaws_kms_DisableKeyRequest_KeyId_ToDafny(input *string) dafny.Sequ
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -3122,7 +3543,14 @@ func com_amazonaws_kms_DisableKeyRotationRequest_KeyId_ToDafny(input *string) da
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -3131,7 +3559,14 @@ func com_amazonaws_kms_DisconnectCustomKeyStoreRequest_CustomKeyStoreId_ToDafny(
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -3140,7 +3575,14 @@ func com_amazonaws_kms_EnableKeyRequest_KeyId_ToDafny(input *string) dafny.Seque
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -3149,7 +3591,14 @@ func com_amazonaws_kms_EnableKeyRotationRequest_KeyId_ToDafny(input *string) daf
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -3167,7 +3616,14 @@ func com_amazonaws_kms_EncryptRequest_KeyId_ToDafny(input *string) dafny.Sequenc
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -3257,7 +3713,14 @@ func com_amazonaws_kms_EncryptResponse_KeyId_ToDafny(input *string) Wrappers.Opt
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3287,7 +3750,14 @@ func com_amazonaws_kms_GenerateDataKeyRequest_KeyId_ToDafny(input *string) dafny
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -3395,7 +3865,14 @@ func com_amazonaws_kms_GenerateDataKeyResponse_KeyId_ToDafny(input *string) Wrap
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3428,7 +3905,14 @@ func com_amazonaws_kms_GenerateDataKeyPairRequest_KeyId_ToDafny(input *string) d
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -3529,7 +4013,14 @@ func com_amazonaws_kms_GenerateDataKeyPairResponse_KeyId_ToDafny(input *string) 
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3583,7 +4074,14 @@ func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextRequest_KeyId_ToDafny(
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -3662,7 +4160,14 @@ func com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextResponse_KeyId_ToDafny
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3692,7 +4197,14 @@ func com_amazonaws_kms_GenerateDataKeyWithoutPlaintextRequest_KeyId_ToDafny(inpu
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -3778,7 +4290,14 @@ func com_amazonaws_kms_GenerateDataKeyWithoutPlaintextResponse_KeyId_ToDafny(inp
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3800,7 +4319,14 @@ func com_amazonaws_kms_GenerateMacRequest_KeyId_ToDafny(input *string) dafny.Seq
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -3887,7 +4413,14 @@ func com_amazonaws_kms_GenerateMacResponse_KeyId_ToDafny(input *string) Wrappers
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3905,7 +4438,14 @@ func com_amazonaws_kms_GenerateRandomRequest_CustomKeyStoreId_ToDafny(input *str
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3949,7 +4489,14 @@ func com_amazonaws_kms_GetKeyPolicyRequest_KeyId_ToDafny(input *string) dafny.Se
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -3958,7 +4505,14 @@ func com_amazonaws_kms_GetKeyPolicyRequest_PolicyName_ToDafny(input *string) Wra
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3967,7 +4521,14 @@ func com_amazonaws_kms_GetKeyPolicyResponse_Policy_ToDafny(input *string) Wrappe
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3976,7 +4537,14 @@ func com_amazonaws_kms_GetKeyPolicyResponse_PolicyName_ToDafny(input *string) Wr
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3985,7 +4553,14 @@ func com_amazonaws_kms_GetKeyRotationStatusRequest_KeyId_ToDafny(input *string) 
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -4001,7 +4576,14 @@ func com_amazonaws_kms_GetKeyRotationStatusResponse_KeyId_ToDafny(input *string)
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4039,7 +4621,14 @@ func com_amazonaws_kms_GetParametersForImportRequest_KeyId_ToDafny(input *string
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -4090,7 +4679,14 @@ func com_amazonaws_kms_GetParametersForImportResponse_KeyId_ToDafny(input *strin
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4135,7 +4731,14 @@ func com_amazonaws_kms_GetPublicKeyRequest_KeyId_ToDafny(input *string) dafny.Se
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -4158,7 +4761,14 @@ func com_amazonaws_kms_GetPublicKeyResponse_KeyId_ToDafny(input *string) Wrapper
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4285,7 +4895,14 @@ func com_amazonaws_kms_ImportKeyMaterialRequest_KeyId_ToDafny(input *string) daf
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -4351,7 +4968,14 @@ func com_amazonaws_kms_ListAliasesRequest_KeyId_ToDafny(input *string) Wrappers.
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4369,7 +4993,14 @@ func com_amazonaws_kms_ListAliasesRequest_Marker_ToDafny(input *string) Wrappers
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4399,7 +5030,14 @@ func com_amazonaws_kms_AliasListEntry_AliasName_ToDafny(input *string) Wrappers.
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4408,7 +5046,14 @@ func com_amazonaws_kms_AliasListEntry_AliasArn_ToDafny(input *string) Wrappers.O
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4417,7 +5062,14 @@ func com_amazonaws_kms_AliasListEntry_TargetKeyId_ToDafny(input *string) Wrapper
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4446,7 +5098,14 @@ func com_amazonaws_kms_ListAliasesResponse_NextMarker_ToDafny(input *string) Wra
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4471,7 +5130,14 @@ func com_amazonaws_kms_ListGrantsRequest_Marker_ToDafny(input *string) Wrappers.
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4480,7 +5146,14 @@ func com_amazonaws_kms_ListGrantsRequest_KeyId_ToDafny(input *string) dafny.Sequ
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -4489,7 +5162,14 @@ func com_amazonaws_kms_ListGrantsRequest_GrantId_ToDafny(input *string) Wrappers
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4498,7 +5178,14 @@ func com_amazonaws_kms_ListGrantsRequest_GranteePrincipal_ToDafny(input *string)
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4528,7 +5215,14 @@ func com_amazonaws_kms_GrantListEntry_KeyId_ToDafny(input *string) Wrappers.Opti
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4537,7 +5231,14 @@ func com_amazonaws_kms_GrantListEntry_GrantId_ToDafny(input *string) Wrappers.Op
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4546,7 +5247,14 @@ func com_amazonaws_kms_GrantListEntry_Name_ToDafny(input *string) Wrappers.Optio
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4565,7 +5273,14 @@ func com_amazonaws_kms_GrantListEntry_GranteePrincipal_ToDafny(input *string) Wr
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4574,7 +5289,14 @@ func com_amazonaws_kms_GrantListEntry_RetiringPrincipal_ToDafny(input *string) W
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4583,7 +5305,14 @@ func com_amazonaws_kms_GrantListEntry_IssuingAccount_ToDafny(input *string) Wrap
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4615,7 +5344,14 @@ func com_amazonaws_kms_ListGrantsResponse_NextMarker_ToDafny(input *string) Wrap
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4631,7 +5367,14 @@ func com_amazonaws_kms_ListKeyPoliciesRequest_KeyId_ToDafny(input *string) dafny
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -4649,7 +5392,14 @@ func com_amazonaws_kms_ListKeyPoliciesRequest_Marker_ToDafny(input *string) Wrap
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4670,7 +5420,14 @@ func com_amazonaws_kms_ListKeyPoliciesResponse_PolicyNames_ToDafny(input []strin
 func com_amazonaws_kms_PolicyNameList_member_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -4679,7 +5436,14 @@ func com_amazonaws_kms_ListKeyPoliciesResponse_NextMarker_ToDafny(input *string)
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4695,7 +5459,14 @@ func com_amazonaws_kms_ListKeyRotationsRequest_KeyId_ToDafny(input *string) dafn
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -4713,7 +5484,14 @@ func com_amazonaws_kms_ListKeyRotationsRequest_Marker_ToDafny(input *string) Wra
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4743,7 +5521,14 @@ func com_amazonaws_kms_RotationsListEntry_KeyId_ToDafny(input *string) Wrappers.
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4783,7 +5568,14 @@ func com_amazonaws_kms_ListKeyRotationsResponse_NextMarker_ToDafny(input *string
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4808,7 +5600,14 @@ func com_amazonaws_kms_ListKeysRequest_Marker_ToDafny(input *string) Wrappers.Op
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4838,7 +5637,14 @@ func com_amazonaws_kms_KeyListEntry_KeyId_ToDafny(input *string) Wrappers.Option
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4847,7 +5653,14 @@ func com_amazonaws_kms_KeyListEntry_KeyArn_ToDafny(input *string) Wrappers.Optio
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4856,7 +5669,14 @@ func com_amazonaws_kms_ListKeysResponse_NextMarker_ToDafny(input *string) Wrappe
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4872,7 +5692,14 @@ func com_amazonaws_kms_ListResourceTagsRequest_KeyId_ToDafny(input *string) dafn
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -4890,7 +5717,14 @@ func com_amazonaws_kms_ListResourceTagsRequest_Marker_ToDafny(input *string) Wra
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4913,7 +5747,14 @@ func com_amazonaws_kms_ListResourceTagsResponse_NextMarker_ToDafny(input *string
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4929,7 +5770,14 @@ func com_amazonaws_kms_PutKeyPolicyRequest_KeyId_ToDafny(input *string) dafny.Se
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -4938,7 +5786,14 @@ func com_amazonaws_kms_PutKeyPolicyRequest_PolicyName_ToDafny(input *string) Wra
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4947,7 +5802,14 @@ func com_amazonaws_kms_PutKeyPolicyRequest_Policy_ToDafny(input *string) dafny.S
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -4987,7 +5849,14 @@ func com_amazonaws_kms_ReEncryptRequest_SourceKeyId_ToDafny(input *string) Wrapp
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4996,7 +5865,14 @@ func com_amazonaws_kms_ReEncryptRequest_DestinationKeyId_ToDafny(input *string) 
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5094,7 +5970,14 @@ func com_amazonaws_kms_ReEncryptResponse_SourceKeyId_ToDafny(input *string) Wrap
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5103,7 +5986,14 @@ func com_amazonaws_kms_ReEncryptResponse_KeyId_ToDafny(input *string) Wrappers.O
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5154,7 +6044,14 @@ func com_amazonaws_kms_ReplicateKeyRequest_KeyId_ToDafny(input *string) dafny.Se
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5163,7 +6060,14 @@ func com_amazonaws_kms_ReplicateKeyRequest_ReplicaRegion_ToDafny(input *string) 
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5172,7 +6076,14 @@ func com_amazonaws_kms_ReplicateKeyRequest_Policy_ToDafny(input *string) Wrapper
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5188,7 +6099,14 @@ func com_amazonaws_kms_ReplicateKeyRequest_Description_ToDafny(input *string) Wr
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5220,7 +6138,14 @@ func com_amazonaws_kms_ReplicateKeyResponse_ReplicaPolicy_ToDafny(input *string)
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5243,7 +6168,14 @@ func com_amazonaws_kms_RetireGrantRequest_GrantToken_ToDafny(input *string) Wrap
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5252,7 +6184,14 @@ func com_amazonaws_kms_RetireGrantRequest_KeyId_ToDafny(input *string) Wrappers.
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5261,7 +6200,14 @@ func com_amazonaws_kms_RetireGrantRequest_GrantId_ToDafny(input *string) Wrapper
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5279,7 +6225,14 @@ func com_amazonaws_kms_RevokeGrantRequest_KeyId_ToDafny(input *string) dafny.Seq
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5288,7 +6241,14 @@ func com_amazonaws_kms_RevokeGrantRequest_GrantId_ToDafny(input *string) dafny.S
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5306,7 +6266,14 @@ func com_amazonaws_kms_RotateKeyOnDemandRequest_KeyId_ToDafny(input *string) daf
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5315,7 +6282,14 @@ func com_amazonaws_kms_RotateKeyOnDemandResponse_KeyId_ToDafny(input *string) Wr
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5324,7 +6298,14 @@ func com_amazonaws_kms_ScheduleKeyDeletionRequest_KeyId_ToDafny(input *string) d
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5342,7 +6323,14 @@ func com_amazonaws_kms_ScheduleKeyDeletionResponse_KeyId_ToDafny(input *string) 
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5391,7 +6379,14 @@ func com_amazonaws_kms_SignRequest_KeyId_ToDafny(input *string) dafny.Sequence {
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5478,7 +6473,14 @@ func com_amazonaws_kms_SignResponse_KeyId_ToDafny(input *string) Wrappers.Option
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5521,7 +6523,14 @@ func com_amazonaws_kms_TagResourceRequest_KeyId_ToDafny(input *string) dafny.Seq
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5544,7 +6553,14 @@ func com_amazonaws_kms_UntagResourceRequest_KeyId_ToDafny(input *string) dafny.S
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5565,7 +6581,14 @@ func com_amazonaws_kms_UntagResourceRequest_TagKeys_ToDafny(input []string) dafn
 func com_amazonaws_kms_TagKeyList_member_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5574,7 +6597,14 @@ func com_amazonaws_kms_UpdateAliasRequest_AliasName_ToDafny(input *string) dafny
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5583,7 +6613,14 @@ func com_amazonaws_kms_UpdateAliasRequest_TargetKeyId_ToDafny(input *string) daf
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5592,7 +6629,14 @@ func com_amazonaws_kms_UpdateCustomKeyStoreRequest_CustomKeyStoreId_ToDafny(inpu
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5601,7 +6645,14 @@ func com_amazonaws_kms_UpdateCustomKeyStoreRequest_NewCustomKeyStoreName_ToDafny
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5610,7 +6661,14 @@ func com_amazonaws_kms_UpdateCustomKeyStoreRequest_KeyStorePassword_ToDafny(inpu
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5619,7 +6677,14 @@ func com_amazonaws_kms_UpdateCustomKeyStoreRequest_CloudHsmClusterId_ToDafny(inp
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5628,7 +6693,14 @@ func com_amazonaws_kms_UpdateCustomKeyStoreRequest_XksProxyUriEndpoint_ToDafny(i
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5637,7 +6709,14 @@ func com_amazonaws_kms_UpdateCustomKeyStoreRequest_XksProxyUriPath_ToDafny(input
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5646,7 +6725,14 @@ func com_amazonaws_kms_UpdateCustomKeyStoreRequest_XksProxyVpcEndpointServiceNam
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5685,7 +6771,14 @@ func com_amazonaws_kms_UpdateKeyDescriptionRequest_KeyId_ToDafny(input *string) 
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5694,7 +6787,14 @@ func com_amazonaws_kms_UpdateKeyDescriptionRequest_Description_ToDafny(input *st
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5703,7 +6803,14 @@ func com_amazonaws_kms_UpdatePrimaryRegionRequest_KeyId_ToDafny(input *string) d
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5712,7 +6819,14 @@ func com_amazonaws_kms_UpdatePrimaryRegionRequest_PrimaryRegion_ToDafny(input *s
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5721,7 +6835,14 @@ func com_amazonaws_kms_VerifyRequest_KeyId_ToDafny(input *string) dafny.Sequence
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5821,7 +6942,14 @@ func com_amazonaws_kms_VerifyResponse_KeyId_ToDafny(input *string) Wrappers.Opti
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5871,7 +6999,14 @@ func com_amazonaws_kms_VerifyMacRequest_KeyId_ToDafny(input *string) dafny.Seque
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5937,7 +7072,14 @@ func com_amazonaws_kms_VerifyMacResponse_KeyId_ToDafny(input *string) Wrappers.O
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5974,7 +7116,14 @@ func com_amazonaws_kms_AlreadyExistsException_message_ToDafny(input *string) Wra
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5983,7 +7132,14 @@ func com_amazonaws_kms_CloudHsmClusterInUseException_message_ToDafny(input *stri
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5992,7 +7148,14 @@ func com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException_message_ToDa
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6001,7 +7164,14 @@ func com_amazonaws_kms_CloudHsmClusterNotActiveException_message_ToDafny(input *
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6010,7 +7180,14 @@ func com_amazonaws_kms_CloudHsmClusterNotFoundException_message_ToDafny(input *s
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6019,7 +7196,14 @@ func com_amazonaws_kms_CloudHsmClusterNotRelatedException_message_ToDafny(input 
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6028,7 +7212,14 @@ func com_amazonaws_kms_ConflictException_message_ToDafny(input *string) Wrappers
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6037,7 +7228,14 @@ func com_amazonaws_kms_CustomKeyStoreHasCMKsException_message_ToDafny(input *str
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6046,7 +7244,14 @@ func com_amazonaws_kms_CustomKeyStoreInvalidStateException_message_ToDafny(input
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6055,7 +7260,14 @@ func com_amazonaws_kms_CustomKeyStoreNameInUseException_message_ToDafny(input *s
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6064,7 +7276,14 @@ func com_amazonaws_kms_CustomKeyStoreNotFoundException_message_ToDafny(input *st
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6073,7 +7292,14 @@ func com_amazonaws_kms_DependencyTimeoutException_message_ToDafny(input *string)
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6082,7 +7308,14 @@ func com_amazonaws_kms_DisabledException_message_ToDafny(input *string) Wrappers
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6091,7 +7324,14 @@ func com_amazonaws_kms_DryRunOperationException_message_ToDafny(input *string) W
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6100,7 +7340,14 @@ func com_amazonaws_kms_ExpiredImportTokenException_message_ToDafny(input *string
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6109,7 +7356,14 @@ func com_amazonaws_kms_IncorrectKeyException_message_ToDafny(input *string) Wrap
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6118,7 +7372,14 @@ func com_amazonaws_kms_IncorrectKeyMaterialException_message_ToDafny(input *stri
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6127,7 +7388,14 @@ func com_amazonaws_kms_IncorrectTrustAnchorException_message_ToDafny(input *stri
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6136,7 +7404,14 @@ func com_amazonaws_kms_InvalidAliasNameException_message_ToDafny(input *string) 
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6145,7 +7420,14 @@ func com_amazonaws_kms_InvalidArnException_message_ToDafny(input *string) Wrappe
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6154,7 +7436,14 @@ func com_amazonaws_kms_InvalidCiphertextException_message_ToDafny(input *string)
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6163,7 +7452,14 @@ func com_amazonaws_kms_InvalidGrantIdException_message_ToDafny(input *string) Wr
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6172,7 +7468,14 @@ func com_amazonaws_kms_InvalidGrantTokenException_message_ToDafny(input *string)
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6181,7 +7484,14 @@ func com_amazonaws_kms_InvalidImportTokenException_message_ToDafny(input *string
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6190,7 +7500,14 @@ func com_amazonaws_kms_InvalidKeyUsageException_message_ToDafny(input *string) W
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6199,7 +7516,14 @@ func com_amazonaws_kms_InvalidMarkerException_message_ToDafny(input *string) Wra
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6208,7 +7532,14 @@ func com_amazonaws_kms_KeyUnavailableException_message_ToDafny(input *string) Wr
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6217,7 +7548,14 @@ func com_amazonaws_kms_KMSInternalException_message_ToDafny(input *string) Wrapp
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6226,7 +7564,14 @@ func com_amazonaws_kms_KMSInvalidMacException_message_ToDafny(input *string) Wra
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6235,7 +7580,14 @@ func com_amazonaws_kms_KMSInvalidSignatureException_message_ToDafny(input *strin
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6244,7 +7596,14 @@ func com_amazonaws_kms_KMSInvalidStateException_message_ToDafny(input *string) W
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6253,7 +7612,14 @@ func com_amazonaws_kms_LimitExceededException_message_ToDafny(input *string) Wra
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6262,7 +7628,14 @@ func com_amazonaws_kms_MalformedPolicyDocumentException_message_ToDafny(input *s
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6271,7 +7644,14 @@ func com_amazonaws_kms_NotFoundException_message_ToDafny(input *string) Wrappers
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6280,7 +7660,14 @@ func com_amazonaws_kms_TagException_message_ToDafny(input *string) Wrappers.Opti
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6289,7 +7676,14 @@ func com_amazonaws_kms_UnsupportedOperationException_message_ToDafny(input *stri
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6298,7 +7692,14 @@ func com_amazonaws_kms_XksKeyAlreadyInUseException_message_ToDafny(input *string
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6307,7 +7708,14 @@ func com_amazonaws_kms_XksKeyInvalidConfigurationException_message_ToDafny(input
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6316,7 +7724,14 @@ func com_amazonaws_kms_XksKeyNotFoundException_message_ToDafny(input *string) Wr
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6325,7 +7740,14 @@ func com_amazonaws_kms_XksProxyIncorrectAuthenticationCredentialException_messag
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6334,7 +7756,14 @@ func com_amazonaws_kms_XksProxyInvalidConfigurationException_message_ToDafny(inp
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6343,7 +7772,14 @@ func com_amazonaws_kms_XksProxyInvalidResponseException_message_ToDafny(input *s
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6352,7 +7788,14 @@ func com_amazonaws_kms_XksProxyUriEndpointInUseException_message_ToDafny(input *
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6361,7 +7804,14 @@ func com_amazonaws_kms_XksProxyUriInUseException_message_ToDafny(input *string) 
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6370,7 +7820,14 @@ func com_amazonaws_kms_XksProxyUriUnreachableException_message_ToDafny(input *st
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6379,7 +7836,14 @@ func com_amazonaws_kms_XksProxyVpcEndpointServiceInUseException_message_ToDafny(
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6388,7 +7852,14 @@ func com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException_m
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6397,6 +7868,13 @@ func com_amazonaws_kms_XksProxyVpcEndpointServiceNotFoundException_message_ToDaf
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }

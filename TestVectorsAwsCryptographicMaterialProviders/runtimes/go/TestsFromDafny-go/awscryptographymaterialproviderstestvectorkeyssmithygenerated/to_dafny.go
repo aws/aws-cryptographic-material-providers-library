@@ -3,6 +3,7 @@
 package awscryptographymaterialproviderstestvectorkeyssmithygenerated
 
 import (
+	"unicode/utf16"
 	"unicode/utf8"
 
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms/ComAmazonawsKmsTypes"
@@ -174,7 +175,14 @@ func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Kms_ToDafny
 func aws_cryptography_materialProvidersTestVectorKeys_KMSInfo_keyId_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -188,7 +196,14 @@ func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrk_ToDa
 func aws_cryptography_materialProvidersTestVectorKeys_KmsMrkAware_keyId_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -202,14 +217,28 @@ func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrkDisco
 func aws_cryptography_materialProvidersTestVectorKeys_KmsMrkAwareDiscovery_keyId_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
 func aws_cryptography_materialProvidersTestVectorKeys_KmsMrkAwareDiscovery_defaultMrkRegion_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -237,14 +266,28 @@ func aws_cryptography_materialProviders_DiscoveryFilter_accountIds_ToDafny(input
 func aws_cryptography_materialProviders_AccountIdList_member_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
 func aws_cryptography_materialProviders_DiscoveryFilter_partition_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -258,14 +301,28 @@ func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_RSA_ToDafny
 func aws_cryptography_materialProvidersTestVectorKeys_RawRSA_keyId_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
 func aws_cryptography_materialProvidersTestVectorKeys_RawRSA_providerId_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -301,14 +358,28 @@ func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_AES_ToDafny
 func aws_cryptography_materialProvidersTestVectorKeys_RawAES_keyId_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
 func aws_cryptography_materialProvidersTestVectorKeys_RawAES_providerId_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -322,49 +393,98 @@ func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_ECDH_ToDafn
 func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_senderKeyId_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
 func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_recipientKeyId_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
 func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_senderPublicKey_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
 func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_recipientPublicKey_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
 func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_providerId_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
 func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_curveSpec_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
 func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_keyAgreementScheme_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -378,7 +498,14 @@ func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Static_ToDa
 func aws_cryptography_materialProvidersTestVectorKeys_StaticKeyring_keyId_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -392,7 +519,14 @@ func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsRsa_ToDa
 func aws_cryptography_materialProvidersTestVectorKeys_KmsRsaKeyring_keyId_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -428,42 +562,84 @@ func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsECDH_ToD
 func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_senderKeyId_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
 func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_recipientKeyId_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
 func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_senderPublicKey_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
 func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_recipientPublicKey_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
 func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_curveSpec_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
 func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_keyAgreementScheme_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -477,7 +653,14 @@ func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Hierarchy_T
 func aws_cryptography_materialProvidersTestVectorKeys_HierarchyKeyring_keyId_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -607,7 +790,9 @@ func aws_cryptography_materialProviders_EncryptionContextKeys_member_ToDafny(inp
 	return func() dafny.Sequence {
 
 		return dafny.SeqOf(func() []interface{} {
-			utf8.ValidString(input)
+			if !utf8.ValidString(input) {
+				panic("invalid utf8 input provided")
+			}
 			b := []byte(input)
 			f := make([]interface{}, len(b))
 			for i, v := range b {
@@ -869,13 +1054,27 @@ func aws_cryptography_materialProvidersTestVectorKeys_SerializeKeyDescriptionOut
 func aws_cryptography_materialProvidersTestVectorKeys_KeyVectorException_message_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
 func aws_cryptography_materialProvidersTestVectorKeys_KeyVectorsConfig_keyManifestPath_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }

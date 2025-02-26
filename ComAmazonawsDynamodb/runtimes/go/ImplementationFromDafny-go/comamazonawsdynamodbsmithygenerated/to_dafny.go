@@ -7,6 +7,7 @@ import (
 	"errors"
 	"math"
 	"time"
+	"unicode/utf16"
 
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/dynamodb/ComAmazonawsDynamodbTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Wrappers"
@@ -1487,7 +1488,14 @@ func com_amazonaws_dynamodb_BatchStatementRequest_Statement_ToDafny(input *strin
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -1548,14 +1556,28 @@ func com_amazonaws_dynamodb_PreparedStatementParameters_member_ToDafny(input typ
 func com_amazonaws_dynamodb_AttributeValue_S_ToDafny(input string) Wrappers.Option {
 	return func() Wrappers.Option {
 
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
 func com_amazonaws_dynamodb_AttributeValue_N_ToDafny(input string) Wrappers.Option {
 	return func() Wrappers.Option {
 
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -1589,7 +1611,14 @@ func com_amazonaws_dynamodb_AttributeValue_SS_ToDafny(input []string) Wrappers.O
 func com_amazonaws_dynamodb_StringSetAttributeValue_member_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -1610,7 +1639,14 @@ func com_amazonaws_dynamodb_AttributeValue_NS_ToDafny(input []string) Wrappers.O
 func com_amazonaws_dynamodb_NumberSetAttributeValue_member_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -1655,7 +1691,14 @@ func com_amazonaws_dynamodb_AttributeValue_M_ToDafny(input map[string]types.Attr
 func com_amazonaws_dynamodb_MapAttributeValue_key_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -1853,7 +1896,14 @@ func com_amazonaws_dynamodb_BatchStatementError_Message_ToDafny(input *string) W
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -1862,7 +1912,14 @@ func com_amazonaws_dynamodb_BatchStatementResponse_TableName_ToDafny(input *stri
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -1880,7 +1937,14 @@ func com_amazonaws_dynamodb_BatchStatementResponse_Item_ToDafny(input map[string
 func com_amazonaws_dynamodb_AttributeMap_key_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -1950,7 +2014,14 @@ func com_amazonaws_dynamodb_ConsumedCapacity_TableName_ToDafny(input *string) Wr
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -2073,7 +2144,14 @@ func com_amazonaws_dynamodb_ConsumedCapacity_LocalSecondaryIndexes_ToDafny(input
 func com_amazonaws_dynamodb_SecondaryIndexesCapacityMap_key_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -2109,7 +2187,14 @@ func com_amazonaws_dynamodb_BatchGetItemInput_RequestItems_ToDafny(input map[str
 func com_amazonaws_dynamodb_BatchGetRequestMap_key_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -2148,7 +2233,14 @@ func com_amazonaws_dynamodb_KeyList_member_ToDafny(input map[string]types.Attrib
 func com_amazonaws_dynamodb_Key_key_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -2209,7 +2301,14 @@ func com_amazonaws_dynamodb_KeysAndAttributes_AttributesToGet_ToDafny(input []st
 func com_amazonaws_dynamodb_AttributeNameList_member_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -2227,7 +2326,14 @@ func com_amazonaws_dynamodb_KeysAndAttributes_ProjectionExpression_ToDafny(input
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -2245,14 +2351,28 @@ func com_amazonaws_dynamodb_KeysAndAttributes_ExpressionAttributeNames_ToDafny(i
 func com_amazonaws_dynamodb_ExpressionAttributeNameMap_key_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
 func com_amazonaws_dynamodb_ExpressionAttributeNameMap_value_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -2291,7 +2411,14 @@ func com_amazonaws_dynamodb_BatchGetItemOutput_Responses_ToDafny(input map[strin
 func com_amazonaws_dynamodb_BatchGetResponseMap_key_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -2359,7 +2486,14 @@ func com_amazonaws_dynamodb_BatchWriteItemInput_RequestItems_ToDafny(input map[s
 func com_amazonaws_dynamodb_BatchWriteItemRequestMap_key_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -2407,7 +2541,14 @@ func com_amazonaws_dynamodb_PutRequest_Item_ToDafny(input map[string]types.Attri
 func com_amazonaws_dynamodb_PutItemInputAttributeMap_key_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -2538,7 +2679,14 @@ func com_amazonaws_dynamodb_BatchWriteItemOutput_ItemCollectionMetrics_ToDafny(i
 func com_amazonaws_dynamodb_ItemCollectionMetricsPerTable_key_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -2577,7 +2725,14 @@ func com_amazonaws_dynamodb_ItemCollectionMetrics_ItemCollectionKey_ToDafny(inpu
 func com_amazonaws_dynamodb_ItemCollectionKeyAttributeMap_key_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -2668,7 +2823,14 @@ func com_amazonaws_dynamodb_CreateBackupInput_TableName_ToDafny(input *string) d
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -2677,7 +2839,14 @@ func com_amazonaws_dynamodb_CreateBackupInput_BackupName_ToDafny(input *string) 
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -2695,7 +2864,14 @@ func com_amazonaws_dynamodb_BackupDetails_BackupArn_ToDafny(input *string) dafny
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -2704,7 +2880,14 @@ func com_amazonaws_dynamodb_BackupDetails_BackupName_ToDafny(input *string) dafn
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -2784,7 +2967,14 @@ func com_amazonaws_dynamodb_CreateGlobalTableInput_GlobalTableName_ToDafny(input
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -2814,7 +3004,14 @@ func com_amazonaws_dynamodb_Replica_RegionName_ToDafny(input *string) Wrappers.O
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -2853,7 +3050,14 @@ func com_amazonaws_dynamodb_ReplicaDescription_RegionName_ToDafny(input *string)
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -2883,7 +3087,14 @@ func com_amazonaws_dynamodb_ReplicaDescription_ReplicaStatusDescription_ToDafny(
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -2892,7 +3103,14 @@ func com_amazonaws_dynamodb_ReplicaDescription_ReplicaStatusPercentProgress_ToDa
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -2901,7 +3119,14 @@ func com_amazonaws_dynamodb_ReplicaDescription_KMSMasterKeyId_ToDafny(input *str
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -2967,7 +3192,14 @@ func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription_IndexName_ToD
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3044,7 +3276,14 @@ func com_amazonaws_dynamodb_GlobalTableDescription_GlobalTableArn_ToDafny(input 
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3084,7 +3323,14 @@ func com_amazonaws_dynamodb_GlobalTableDescription_GlobalTableName_ToDafny(input
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3114,7 +3360,14 @@ func com_amazonaws_dynamodb_AttributeDefinition_AttributeName_ToDafny(input *str
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -3144,7 +3397,14 @@ func com_amazonaws_dynamodb_CreateTableInput_TableName_ToDafny(input *string) da
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -3174,7 +3434,14 @@ func com_amazonaws_dynamodb_KeySchemaElement_AttributeName_ToDafny(input *string
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -3225,7 +3492,14 @@ func com_amazonaws_dynamodb_LocalSecondaryIndex_IndexName_ToDafny(input *string)
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -3290,7 +3564,14 @@ func com_amazonaws_dynamodb_Projection_NonKeyAttributes_ToDafny(input []string) 
 func com_amazonaws_dynamodb_NonKeyAttributeNameList_member_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -3320,7 +3601,14 @@ func com_amazonaws_dynamodb_GlobalSecondaryIndex_IndexName_ToDafny(input *string
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -3514,7 +3802,14 @@ func com_amazonaws_dynamodb_SSESpecification_KMSMasterKeyId_ToDafny(input *strin
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3544,7 +3839,14 @@ func com_amazonaws_dynamodb_Tag_Key_ToDafny(input *string) dafny.Sequence {
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -3553,7 +3855,14 @@ func com_amazonaws_dynamodb_Tag_Value_ToDafny(input *string) dafny.Sequence {
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -3592,7 +3901,14 @@ func com_amazonaws_dynamodb_CreateTableInput_ResourcePolicy_ToDafny(input *strin
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3633,7 +3949,14 @@ func com_amazonaws_dynamodb_TableDescription_TableName_ToDafny(input *string) Wr
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3761,7 +4084,14 @@ func com_amazonaws_dynamodb_TableDescription_TableArn_ToDafny(input *string) Wra
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3770,7 +4100,14 @@ func com_amazonaws_dynamodb_TableDescription_TableId_ToDafny(input *string) Wrap
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3840,7 +4177,14 @@ func com_amazonaws_dynamodb_LocalSecondaryIndexDescription_IndexName_ToDafny(inp
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3890,7 +4234,14 @@ func com_amazonaws_dynamodb_LocalSecondaryIndexDescription_IndexArn_ToDafny(inpu
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -3920,7 +4271,14 @@ func com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_IndexName_ToDafny(in
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4009,7 +4367,14 @@ func com_amazonaws_dynamodb_GlobalSecondaryIndexDescription_IndexArn_ToDafny(inp
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4036,7 +4401,14 @@ func com_amazonaws_dynamodb_TableDescription_LatestStreamLabel_ToDafny(input *st
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4045,7 +4417,14 @@ func com_amazonaws_dynamodb_TableDescription_LatestStreamArn_ToDafny(input *stri
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4054,7 +4433,14 @@ func com_amazonaws_dynamodb_TableDescription_GlobalTableVersion_ToDafny(input *s
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4086,7 +4472,14 @@ func com_amazonaws_dynamodb_RestoreSummary_SourceBackupArn_ToDafny(input *string
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4095,7 +4488,14 @@ func com_amazonaws_dynamodb_RestoreSummary_SourceTableArn_ToDafny(input *string)
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4174,7 +4574,14 @@ func com_amazonaws_dynamodb_SSEDescription_KMSMasterKeyArn_ToDafny(input *string
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4212,7 +4619,14 @@ func com_amazonaws_dynamodb_ArchivalSummary_ArchivalReason_ToDafny(input *string
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4221,7 +4635,14 @@ func com_amazonaws_dynamodb_ArchivalSummary_ArchivalBackupArn_ToDafny(input *str
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4257,7 +4678,14 @@ func com_amazonaws_dynamodb_DeleteBackupInput_BackupArn_ToDafny(input *string) d
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -4293,7 +4721,14 @@ func com_amazonaws_dynamodb_SourceTableDetails_TableName_ToDafny(input *string) 
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -4302,7 +4737,14 @@ func com_amazonaws_dynamodb_SourceTableDetails_TableId_ToDafny(input *string) da
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -4311,7 +4753,14 @@ func com_amazonaws_dynamodb_SourceTableDetails_TableArn_ToDafny(input *string) W
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4431,7 +4880,14 @@ func com_amazonaws_dynamodb_LocalSecondaryIndexInfo_IndexName_ToDafny(input *str
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4484,7 +4940,14 @@ func com_amazonaws_dynamodb_GlobalSecondaryIndexInfo_IndexName_ToDafny(input *st
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4573,7 +5036,14 @@ func com_amazonaws_dynamodb_TimeToLiveDescription_AttributeName_ToDafny(input *s
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4591,7 +5061,14 @@ func com_amazonaws_dynamodb_DeleteItemInput_TableName_ToDafny(input *string) daf
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -4620,7 +5097,14 @@ func com_amazonaws_dynamodb_DeleteItemInput_Expected_ToDafny(input map[string]ty
 func com_amazonaws_dynamodb_ExpectedAttributeMap_key_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -4844,7 +5328,14 @@ func com_amazonaws_dynamodb_DeleteItemInput_ConditionExpression_ToDafny(input *s
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4873,7 +5364,14 @@ func com_amazonaws_dynamodb_DeleteItemInput_ExpressionAttributeValues_ToDafny(in
 func com_amazonaws_dynamodb_ExpressionAttributeValueMap_key_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -4951,7 +5449,14 @@ func com_amazonaws_dynamodb_DeleteResourcePolicyInput_ResourceArn_ToDafny(input 
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -4960,7 +5465,14 @@ func com_amazonaws_dynamodb_DeleteResourcePolicyInput_ExpectedRevisionId_ToDafny
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4969,7 +5481,14 @@ func com_amazonaws_dynamodb_DeleteResourcePolicyOutput_RevisionId_ToDafny(input 
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -4978,7 +5497,14 @@ func com_amazonaws_dynamodb_DeleteTableInput_TableName_ToDafny(input *string) da
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -4996,7 +5522,14 @@ func com_amazonaws_dynamodb_DescribeBackupInput_BackupArn_ToDafny(input *string)
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5014,7 +5547,14 @@ func com_amazonaws_dynamodb_DescribeContinuousBackupsInput_TableName_ToDafny(inp
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5103,7 +5643,14 @@ func com_amazonaws_dynamodb_DescribeContributorInsightsInput_TableName_ToDafny(i
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5112,7 +5659,14 @@ func com_amazonaws_dynamodb_DescribeContributorInsightsInput_IndexName_ToDafny(i
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5121,7 +5675,14 @@ func com_amazonaws_dynamodb_DescribeContributorInsightsOutput_TableName_ToDafny(
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5130,7 +5691,14 @@ func com_amazonaws_dynamodb_DescribeContributorInsightsOutput_IndexName_ToDafny(
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5151,7 +5719,14 @@ func com_amazonaws_dynamodb_DescribeContributorInsightsOutput_ContributorInsight
 func com_amazonaws_dynamodb_ContributorInsightsRuleList_member_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5200,7 +5775,14 @@ func com_amazonaws_dynamodb_FailureException_ExceptionName_ToDafny(input *string
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5209,7 +5791,14 @@ func com_amazonaws_dynamodb_FailureException_ExceptionDescription_ToDafny(input 
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5239,7 +5828,14 @@ func com_amazonaws_dynamodb_Endpoint_Address_ToDafny(input *string) dafny.Sequen
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5255,7 +5851,14 @@ func com_amazonaws_dynamodb_DescribeExportInput_ExportArn_ToDafny(input *string)
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5273,7 +5876,14 @@ func com_amazonaws_dynamodb_ExportDescription_ExportArn_ToDafny(input *string) W
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5323,7 +5933,14 @@ func com_amazonaws_dynamodb_ExportDescription_ExportManifest_ToDafny(input *stri
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5332,7 +5949,14 @@ func com_amazonaws_dynamodb_ExportDescription_TableArn_ToDafny(input *string) Wr
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5341,7 +5965,14 @@ func com_amazonaws_dynamodb_ExportDescription_TableId_ToDafny(input *string) Wra
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5360,7 +5991,14 @@ func com_amazonaws_dynamodb_ExportDescription_ClientToken_ToDafny(input *string)
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5369,7 +6007,14 @@ func com_amazonaws_dynamodb_ExportDescription_S3Bucket_ToDafny(input *string) Wr
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5378,7 +6023,14 @@ func com_amazonaws_dynamodb_ExportDescription_S3BucketOwner_ToDafny(input *strin
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5387,7 +6039,14 @@ func com_amazonaws_dynamodb_ExportDescription_S3Prefix_ToDafny(input *string) Wr
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5417,7 +6076,14 @@ func com_amazonaws_dynamodb_ExportDescription_S3SseKmsKeyId_ToDafny(input *strin
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5426,7 +6092,14 @@ func com_amazonaws_dynamodb_ExportDescription_FailureCode_ToDafny(input *string)
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5435,7 +6108,14 @@ func com_amazonaws_dynamodb_ExportDescription_FailureMessage_ToDafny(input *stri
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5554,7 +6234,14 @@ func com_amazonaws_dynamodb_DescribeGlobalTableInput_GlobalTableName_ToDafny(inp
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5572,7 +6259,14 @@ func com_amazonaws_dynamodb_DescribeGlobalTableSettingsInput_GlobalTableName_ToD
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5581,7 +6275,14 @@ func com_amazonaws_dynamodb_DescribeGlobalTableSettingsOutput_GlobalTableName_To
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5611,7 +6312,14 @@ func com_amazonaws_dynamodb_ReplicaSettingsDescription_RegionName_ToDafny(input 
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5695,7 +6403,14 @@ func com_amazonaws_dynamodb_AutoScalingSettingsDescription_AutoScalingRoleArn_To
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5725,7 +6440,14 @@ func com_amazonaws_dynamodb_AutoScalingPolicyDescription_PolicyName_ToDafny(inpu
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5825,7 +6547,14 @@ func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsDescription_Index
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5900,7 +6629,14 @@ func com_amazonaws_dynamodb_DescribeImportInput_ImportArn_ToDafny(input *string)
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -5918,7 +6654,14 @@ func com_amazonaws_dynamodb_ImportTableDescription_ImportArn_ToDafny(input *stri
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5948,7 +6691,14 @@ func com_amazonaws_dynamodb_ImportTableDescription_TableArn_ToDafny(input *strin
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5957,7 +6707,14 @@ func com_amazonaws_dynamodb_ImportTableDescription_TableId_ToDafny(input *string
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5966,7 +6723,14 @@ func com_amazonaws_dynamodb_ImportTableDescription_ClientToken_ToDafny(input *st
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5984,7 +6748,14 @@ func com_amazonaws_dynamodb_S3BucketSource_S3BucketOwner_ToDafny(input *string) 
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -5993,7 +6764,14 @@ func com_amazonaws_dynamodb_S3BucketSource_S3Bucket_ToDafny(input *string) dafny
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -6002,7 +6780,14 @@ func com_amazonaws_dynamodb_S3BucketSource_S3KeyPrefix_ToDafny(input *string) Wr
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6018,7 +6803,14 @@ func com_amazonaws_dynamodb_ImportTableDescription_CloudWatchLogGroupArn_ToDafny
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6066,7 +6858,14 @@ func com_amazonaws_dynamodb_CsvOptions_Delimiter_ToDafny(input *string) Wrappers
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6087,7 +6886,14 @@ func com_amazonaws_dynamodb_CsvOptions_HeaderList_ToDafny(input []string) Wrappe
 func com_amazonaws_dynamodb_CsvHeaderList_member_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -6126,7 +6932,14 @@ func com_amazonaws_dynamodb_TableCreationParameters_TableName_ToDafny(input *str
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -6268,7 +7081,14 @@ func com_amazonaws_dynamodb_ImportTableDescription_FailureCode_ToDafny(input *st
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6277,7 +7097,14 @@ func com_amazonaws_dynamodb_ImportTableDescription_FailureMessage_ToDafny(input 
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6286,7 +7113,14 @@ func com_amazonaws_dynamodb_DescribeKinesisStreamingDestinationInput_TableName_T
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -6295,7 +7129,14 @@ func com_amazonaws_dynamodb_DescribeKinesisStreamingDestinationOutput_TableName_
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6325,7 +7166,14 @@ func com_amazonaws_dynamodb_KinesisDataStreamDestination_StreamArn_ToDafny(input
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6355,7 +7203,14 @@ func com_amazonaws_dynamodb_KinesisDataStreamDestination_DestinationStatusDescri
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6421,7 +7276,14 @@ func com_amazonaws_dynamodb_DescribeTableInput_TableName_ToDafny(input *string) 
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -6439,7 +7301,14 @@ func com_amazonaws_dynamodb_DescribeTableReplicaAutoScalingInput_TableName_ToDaf
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -6457,7 +7326,14 @@ func com_amazonaws_dynamodb_TableAutoScalingDescription_TableName_ToDafny(input 
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6508,7 +7384,14 @@ func com_amazonaws_dynamodb_ReplicaAutoScalingDescription_RegionName_ToDafny(inp
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6538,7 +7421,14 @@ func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingDescription_In
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6625,7 +7515,14 @@ func com_amazonaws_dynamodb_DescribeTimeToLiveInput_TableName_ToDafny(input *str
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -6643,7 +7540,14 @@ func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationInput_TableName_To
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -6652,7 +7556,14 @@ func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationInput_StreamArn_To
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -6691,7 +7602,14 @@ func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput_TableName_T
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6700,7 +7618,14 @@ func com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput_StreamArn_T
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6739,7 +7664,14 @@ func com_amazonaws_dynamodb_EnableKinesisStreamingDestinationInput_TableName_ToD
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -6748,7 +7680,14 @@ func com_amazonaws_dynamodb_EnableKinesisStreamingDestinationInput_StreamArn_ToD
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -6766,7 +7705,14 @@ func com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput_TableName_To
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6775,7 +7721,14 @@ func com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput_StreamArn_To
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6814,7 +7767,14 @@ func com_amazonaws_dynamodb_ExecuteStatementInput_Statement_ToDafny(input *strin
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -6846,7 +7806,14 @@ func com_amazonaws_dynamodb_ExecuteStatementInput_NextToken_ToDafny(input *strin
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6899,7 +7866,14 @@ func com_amazonaws_dynamodb_ExecuteStatementOutput_NextToken_ToDafny(input *stri
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -6949,7 +7923,14 @@ func com_amazonaws_dynamodb_ParameterizedStatement_Statement_ToDafny(input *stri
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -6972,7 +7953,14 @@ func com_amazonaws_dynamodb_ExecuteTransactionInput_ClientRequestToken_ToDafny(i
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7048,7 +8036,14 @@ func com_amazonaws_dynamodb_ExportTableToPointInTimeInput_TableArn_ToDafny(input
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -7067,7 +8062,14 @@ func com_amazonaws_dynamodb_ExportTableToPointInTimeInput_ClientToken_ToDafny(in
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7076,7 +8078,14 @@ func com_amazonaws_dynamodb_ExportTableToPointInTimeInput_S3Bucket_ToDafny(input
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -7085,7 +8094,14 @@ func com_amazonaws_dynamodb_ExportTableToPointInTimeInput_S3BucketOwner_ToDafny(
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7094,7 +8110,14 @@ func com_amazonaws_dynamodb_ExportTableToPointInTimeInput_S3Prefix_ToDafny(input
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7124,7 +8147,14 @@ func com_amazonaws_dynamodb_ExportTableToPointInTimeInput_S3SseKmsKeyId_ToDafny(
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7193,7 +8223,14 @@ func com_amazonaws_dynamodb_GetItemInput_TableName_ToDafny(input *string) dafny.
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -7257,7 +8294,14 @@ func com_amazonaws_dynamodb_GetItemInput_ProjectionExpression_ToDafny(input *str
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7297,7 +8341,14 @@ func com_amazonaws_dynamodb_GetResourcePolicyInput_ResourceArn_ToDafny(input *st
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -7306,7 +8357,14 @@ func com_amazonaws_dynamodb_GetResourcePolicyOutput_Policy_ToDafny(input *string
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7315,7 +8373,14 @@ func com_amazonaws_dynamodb_GetResourcePolicyOutput_RevisionId_ToDafny(input *st
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7324,7 +8389,14 @@ func com_amazonaws_dynamodb_ImportTableInput_ClientToken_ToDafny(input *string) 
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7411,7 +8483,14 @@ func com_amazonaws_dynamodb_ListBackupsInput_TableName_ToDafny(input *string) Wr
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7449,7 +8528,14 @@ func com_amazonaws_dynamodb_ListBackupsInput_ExclusiveStartBackupArn_ToDafny(inp
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7500,7 +8586,14 @@ func com_amazonaws_dynamodb_BackupSummary_TableName_ToDafny(input *string) Wrapp
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7509,7 +8602,14 @@ func com_amazonaws_dynamodb_BackupSummary_TableId_ToDafny(input *string) Wrapper
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7518,7 +8618,14 @@ func com_amazonaws_dynamodb_BackupSummary_TableArn_ToDafny(input *string) Wrappe
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7527,7 +8634,14 @@ func com_amazonaws_dynamodb_BackupSummary_BackupArn_ToDafny(input *string) Wrapp
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7536,7 +8650,14 @@ func com_amazonaws_dynamodb_BackupSummary_BackupName_ToDafny(input *string) Wrap
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7616,7 +8737,14 @@ func com_amazonaws_dynamodb_ListBackupsOutput_LastEvaluatedBackupArn_ToDafny(inp
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7625,7 +8753,14 @@ func com_amazonaws_dynamodb_ListContributorInsightsInput_TableName_ToDafny(input
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7634,7 +8769,14 @@ func com_amazonaws_dynamodb_ListContributorInsightsInput_NextToken_ToDafny(input
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7671,7 +8813,14 @@ func com_amazonaws_dynamodb_ContributorInsightsSummary_TableName_ToDafny(input *
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7680,7 +8829,14 @@ func com_amazonaws_dynamodb_ContributorInsightsSummary_IndexName_ToDafny(input *
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7710,7 +8866,14 @@ func com_amazonaws_dynamodb_ListContributorInsightsOutput_NextToken_ToDafny(inpu
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7719,7 +8882,14 @@ func com_amazonaws_dynamodb_ListExportsInput_TableArn_ToDafny(input *string) Wra
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7737,7 +8907,14 @@ func com_amazonaws_dynamodb_ListExportsInput_NextToken_ToDafny(input *string) Wr
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7767,7 +8944,14 @@ func com_amazonaws_dynamodb_ExportSummary_ExportArn_ToDafny(input *string) Wrapp
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7818,7 +9002,14 @@ func com_amazonaws_dynamodb_ListExportsOutput_NextToken_ToDafny(input *string) W
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7827,7 +9018,14 @@ func com_amazonaws_dynamodb_ListGlobalTablesInput_ExclusiveStartGlobalTableName_
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7845,7 +9043,14 @@ func com_amazonaws_dynamodb_ListGlobalTablesInput_RegionName_ToDafny(input *stri
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7875,7 +9080,14 @@ func com_amazonaws_dynamodb_GlobalTable_GlobalTableName_ToDafny(input *string) W
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7898,7 +9110,14 @@ func com_amazonaws_dynamodb_ListGlobalTablesOutput_LastEvaluatedGlobalTableName_
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7907,7 +9126,14 @@ func com_amazonaws_dynamodb_ListImportsInput_TableArn_ToDafny(input *string) Wra
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7925,7 +9151,14 @@ func com_amazonaws_dynamodb_ListImportsInput_NextToken_ToDafny(input *string) Wr
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7955,7 +9188,14 @@ func com_amazonaws_dynamodb_ImportSummary_ImportArn_ToDafny(input *string) Wrapp
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -7985,7 +9225,14 @@ func com_amazonaws_dynamodb_ImportSummary_TableArn_ToDafny(input *string) Wrappe
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -8003,7 +9250,14 @@ func com_amazonaws_dynamodb_ImportSummary_CloudWatchLogGroupArn_ToDafny(input *s
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -8053,7 +9307,14 @@ func com_amazonaws_dynamodb_ListImportsOutput_NextToken_ToDafny(input *string) W
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -8062,7 +9323,14 @@ func com_amazonaws_dynamodb_ListTablesInput_ExclusiveStartTableName_ToDafny(inpu
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -8092,7 +9360,14 @@ func com_amazonaws_dynamodb_ListTablesOutput_TableNames_ToDafny(input []string) 
 func com_amazonaws_dynamodb_TableNameList_member_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -8101,7 +9376,14 @@ func com_amazonaws_dynamodb_ListTablesOutput_LastEvaluatedTableName_ToDafny(inpu
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -8110,7 +9392,14 @@ func com_amazonaws_dynamodb_ListTagsOfResourceInput_ResourceArn_ToDafny(input *s
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -8119,7 +9408,14 @@ func com_amazonaws_dynamodb_ListTagsOfResourceInput_NextToken_ToDafny(input *str
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -8142,7 +9438,14 @@ func com_amazonaws_dynamodb_ListTagsOfResourceOutput_NextToken_ToDafny(input *st
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -8151,7 +9454,14 @@ func com_amazonaws_dynamodb_PutItemInput_TableName_ToDafny(input *string) dafny.
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -8266,7 +9576,14 @@ func com_amazonaws_dynamodb_PutItemInput_ConditionExpression_ToDafny(input *stri
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -8326,7 +9643,14 @@ func com_amazonaws_dynamodb_PutResourcePolicyInput_ResourceArn_ToDafny(input *st
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -8335,7 +9659,14 @@ func com_amazonaws_dynamodb_PutResourcePolicyInput_Policy_ToDafny(input *string)
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -8344,7 +9675,14 @@ func com_amazonaws_dynamodb_PutResourcePolicyInput_ExpectedRevisionId_ToDafny(in
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -8360,7 +9698,14 @@ func com_amazonaws_dynamodb_PutResourcePolicyOutput_RevisionId_ToDafny(input *st
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -8369,7 +9714,14 @@ func com_amazonaws_dynamodb_QueryInput_TableName_ToDafny(input *string) dafny.Se
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -8378,7 +9730,14 @@ func com_amazonaws_dynamodb_QueryInput_IndexName_ToDafny(input *string) Wrappers
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -8449,7 +9808,14 @@ func com_amazonaws_dynamodb_QueryInput_KeyConditions_ToDafny(input map[string]ty
 func com_amazonaws_dynamodb_KeyConditions_key_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -8509,7 +9875,14 @@ func com_amazonaws_dynamodb_QueryInput_QueryFilter_ToDafny(input map[string]type
 func com_amazonaws_dynamodb_FilterConditionMap_key_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -8587,7 +9960,14 @@ func com_amazonaws_dynamodb_QueryInput_ProjectionExpression_ToDafny(input *strin
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -8596,7 +9976,14 @@ func com_amazonaws_dynamodb_QueryInput_FilterExpression_ToDafny(input *string) W
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -8605,7 +9992,14 @@ func com_amazonaws_dynamodb_QueryInput_KeyConditionExpression_ToDafny(input *str
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -8684,7 +10078,14 @@ func com_amazonaws_dynamodb_RestoreTableFromBackupInput_TargetTableName_ToDafny(
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -8693,7 +10094,14 @@ func com_amazonaws_dynamodb_RestoreTableFromBackupInput_BackupArn_ToDafny(input 
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -8787,7 +10195,14 @@ func com_amazonaws_dynamodb_RestoreTableToPointInTimeInput_SourceTableArn_ToDafn
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -8796,7 +10211,14 @@ func com_amazonaws_dynamodb_RestoreTableToPointInTimeInput_SourceTableName_ToDaf
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -8805,7 +10227,14 @@ func com_amazonaws_dynamodb_RestoreTableToPointInTimeInput_TargetTableName_ToDaf
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -8918,7 +10347,14 @@ func com_amazonaws_dynamodb_ScanInput_TableName_ToDafny(input *string) dafny.Seq
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -8927,7 +10363,14 @@ func com_amazonaws_dynamodb_ScanInput_IndexName_ToDafny(input *string) Wrappers.
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -9062,7 +10505,14 @@ func com_amazonaws_dynamodb_ScanInput_ProjectionExpression_ToDafny(input *string
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -9071,7 +10521,14 @@ func com_amazonaws_dynamodb_ScanInput_FilterExpression_ToDafny(input *string) Wr
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -9159,7 +10616,14 @@ func com_amazonaws_dynamodb_TagResourceInput_ResourceArn_ToDafny(input *string) 
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -9223,7 +10687,14 @@ func com_amazonaws_dynamodb_Get_TableName_ToDafny(input *string) dafny.Sequence 
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -9232,7 +10703,14 @@ func com_amazonaws_dynamodb_Get_ProjectionExpression_ToDafny(input *string) Wrap
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -9342,7 +10820,14 @@ func com_amazonaws_dynamodb_ConditionCheck_TableName_ToDafny(input *string) dafn
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -9351,7 +10836,14 @@ func com_amazonaws_dynamodb_ConditionCheck_ConditionExpression_ToDafny(input *st
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -9423,7 +10915,14 @@ func com_amazonaws_dynamodb_Put_TableName_ToDafny(input *string) dafny.Sequence 
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -9432,7 +10931,14 @@ func com_amazonaws_dynamodb_Put_ConditionExpression_ToDafny(input *string) Wrapp
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -9504,7 +11010,14 @@ func com_amazonaws_dynamodb_Delete_TableName_ToDafny(input *string) dafny.Sequen
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -9513,7 +11026,14 @@ func com_amazonaws_dynamodb_Delete_ConditionExpression_ToDafny(input *string) Wr
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -9585,7 +11105,14 @@ func com_amazonaws_dynamodb_Update_UpdateExpression_ToDafny(input *string) dafny
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -9594,7 +11121,14 @@ func com_amazonaws_dynamodb_Update_TableName_ToDafny(input *string) dafny.Sequen
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -9603,7 +11137,14 @@ func com_amazonaws_dynamodb_Update_ConditionExpression_ToDafny(input *string) Wr
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -9697,7 +11238,14 @@ func com_amazonaws_dynamodb_TransactWriteItemsInput_ClientRequestToken_ToDafny(i
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -9731,7 +11279,14 @@ func com_amazonaws_dynamodb_UntagResourceInput_ResourceArn_ToDafny(input *string
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -9752,7 +11307,14 @@ func com_amazonaws_dynamodb_UntagResourceInput_TagKeys_ToDafny(input []string) d
 func com_amazonaws_dynamodb_TagKeyList_member_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -9761,7 +11323,14 @@ func com_amazonaws_dynamodb_UpdateContinuousBackupsInput_TableName_ToDafny(input
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -9797,7 +11366,14 @@ func com_amazonaws_dynamodb_UpdateContributorInsightsInput_TableName_ToDafny(inp
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -9806,7 +11382,14 @@ func com_amazonaws_dynamodb_UpdateContributorInsightsInput_IndexName_ToDafny(inp
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -9836,7 +11419,14 @@ func com_amazonaws_dynamodb_UpdateContributorInsightsOutput_TableName_ToDafny(in
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -9845,7 +11435,14 @@ func com_amazonaws_dynamodb_UpdateContributorInsightsOutput_IndexName_ToDafny(in
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -9875,7 +11472,14 @@ func com_amazonaws_dynamodb_UpdateGlobalTableInput_GlobalTableName_ToDafny(input
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -9914,7 +11518,14 @@ func com_amazonaws_dynamodb_CreateReplicaAction_RegionName_ToDafny(input *string
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -9932,7 +11543,14 @@ func com_amazonaws_dynamodb_DeleteReplicaAction_RegionName_ToDafny(input *string
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -9950,7 +11568,14 @@ func com_amazonaws_dynamodb_UpdateGlobalTableSettingsInput_GlobalTableName_ToDaf
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -10025,7 +11650,14 @@ func com_amazonaws_dynamodb_AutoScalingSettingsUpdate_AutoScalingRoleArn_ToDafny
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -10043,7 +11675,14 @@ func com_amazonaws_dynamodb_AutoScalingPolicyUpdate_PolicyName_ToDafny(input *st
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -10125,7 +11764,14 @@ func com_amazonaws_dynamodb_GlobalTableGlobalSecondaryIndexSettingsUpdate_IndexN
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -10173,7 +11819,14 @@ func com_amazonaws_dynamodb_ReplicaSettingsUpdate_RegionName_ToDafny(input *stri
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -10221,7 +11874,14 @@ func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsUpdate_IndexName_
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -10269,7 +11929,14 @@ func com_amazonaws_dynamodb_UpdateGlobalTableSettingsOutput_GlobalTableName_ToDa
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -10292,7 +11959,14 @@ func com_amazonaws_dynamodb_UpdateItemInput_TableName_ToDafny(input *string) daf
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -10321,7 +11995,14 @@ func com_amazonaws_dynamodb_UpdateItemInput_AttributeUpdates_ToDafny(input map[s
 func com_amazonaws_dynamodb_AttributeUpdates_key_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		return dafny.SeqOfChars([]dafny.Char(input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -10493,7 +12174,14 @@ func com_amazonaws_dynamodb_UpdateItemInput_UpdateExpression_ToDafny(input *stri
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -10502,7 +12190,14 @@ func com_amazonaws_dynamodb_UpdateItemInput_ConditionExpression_ToDafny(input *s
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -10562,7 +12257,14 @@ func com_amazonaws_dynamodb_UpdateKinesisStreamingDestinationInput_TableName_ToD
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -10571,7 +12273,14 @@ func com_amazonaws_dynamodb_UpdateKinesisStreamingDestinationInput_StreamArn_ToD
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -10610,7 +12319,14 @@ func com_amazonaws_dynamodb_UpdateKinesisStreamingDestinationOutput_TableName_To
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -10619,7 +12335,14 @@ func com_amazonaws_dynamodb_UpdateKinesisStreamingDestinationOutput_StreamArn_To
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -10672,7 +12395,14 @@ func com_amazonaws_dynamodb_UpdateTableInput_TableName_ToDafny(input *string) da
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -10741,7 +12471,14 @@ func com_amazonaws_dynamodb_UpdateGlobalSecondaryIndexAction_IndexName_ToDafny(i
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -10777,7 +12514,14 @@ func com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction_IndexName_ToDafny(i
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -10836,7 +12580,14 @@ func com_amazonaws_dynamodb_DeleteGlobalSecondaryIndexAction_IndexName_ToDafny(i
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -10893,7 +12644,14 @@ func com_amazonaws_dynamodb_CreateReplicationGroupMemberAction_RegionName_ToDafn
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -10902,7 +12660,14 @@ func com_amazonaws_dynamodb_CreateReplicationGroupMemberAction_KMSMasterKeyId_To
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -10950,7 +12715,14 @@ func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndex_IndexName_ToDafny(input 
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -11007,7 +12779,14 @@ func com_amazonaws_dynamodb_UpdateReplicationGroupMemberAction_RegionName_ToDafn
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -11016,7 +12795,14 @@ func com_amazonaws_dynamodb_UpdateReplicationGroupMemberAction_KMSMasterKeyId_To
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11087,7 +12873,14 @@ func com_amazonaws_dynamodb_DeleteReplicationGroupMemberAction_RegionName_ToDafn
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -11165,7 +12958,14 @@ func com_amazonaws_dynamodb_GlobalSecondaryIndexAutoScalingUpdate_IndexName_ToDa
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11183,7 +12983,14 @@ func com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingInput_TableName_ToDafny
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -11222,7 +13029,14 @@ func com_amazonaws_dynamodb_ReplicaAutoScalingUpdate_RegionName_ToDafny(input *s
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -11252,7 +13066,14 @@ func com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingUpdate_IndexNa
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11288,7 +13109,14 @@ func com_amazonaws_dynamodb_UpdateTimeToLiveInput_TableName_ToDafny(input *strin
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -11315,7 +13143,14 @@ func com_amazonaws_dynamodb_TimeToLiveSpecification_AttributeName_ToDafny(input 
 		if input == nil {
 			return nil
 		}
-		return dafny.SeqOfChars([]dafny.Char(*input)...)
+		return dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true)
 	}()
 }
 
@@ -11333,7 +13168,14 @@ func com_amazonaws_dynamodb_BackupInUseException_message_ToDafny(input *string) 
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11342,7 +13184,14 @@ func com_amazonaws_dynamodb_BackupNotFoundException_message_ToDafny(input *strin
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11351,7 +13200,14 @@ func com_amazonaws_dynamodb_ConditionalCheckFailedException_message_ToDafny(inpu
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11371,7 +13227,14 @@ func com_amazonaws_dynamodb_ContinuousBackupsUnavailableException_message_ToDafn
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11380,7 +13243,14 @@ func com_amazonaws_dynamodb_DuplicateItemException_message_ToDafny(input *string
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11389,7 +13259,14 @@ func com_amazonaws_dynamodb_ExportConflictException_message_ToDafny(input *strin
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11398,7 +13275,14 @@ func com_amazonaws_dynamodb_ExportNotFoundException_message_ToDafny(input *strin
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11407,7 +13291,14 @@ func com_amazonaws_dynamodb_GlobalTableAlreadyExistsException_message_ToDafny(in
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11416,7 +13307,14 @@ func com_amazonaws_dynamodb_GlobalTableNotFoundException_message_ToDafny(input *
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11425,7 +13323,14 @@ func com_amazonaws_dynamodb_IdempotentParameterMismatchException_Message_ToDafny
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11434,7 +13339,14 @@ func com_amazonaws_dynamodb_ImportConflictException_message_ToDafny(input *strin
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11443,7 +13355,14 @@ func com_amazonaws_dynamodb_ImportNotFoundException_message_ToDafny(input *strin
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11452,7 +13371,14 @@ func com_amazonaws_dynamodb_IndexNotFoundException_message_ToDafny(input *string
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11461,7 +13387,14 @@ func com_amazonaws_dynamodb_InternalServerError_message_ToDafny(input *string) W
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11470,7 +13403,14 @@ func com_amazonaws_dynamodb_InvalidEndpointException_Message_ToDafny(input *stri
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11479,7 +13419,14 @@ func com_amazonaws_dynamodb_InvalidExportTimeException_message_ToDafny(input *st
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11488,7 +13435,14 @@ func com_amazonaws_dynamodb_InvalidRestoreTimeException_message_ToDafny(input *s
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11497,7 +13451,14 @@ func com_amazonaws_dynamodb_ItemCollectionSizeLimitExceededException_message_ToD
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11506,7 +13467,14 @@ func com_amazonaws_dynamodb_LimitExceededException_message_ToDafny(input *string
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11515,7 +13483,14 @@ func com_amazonaws_dynamodb_PointInTimeRecoveryUnavailableException_message_ToDa
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11524,7 +13499,14 @@ func com_amazonaws_dynamodb_PolicyNotFoundException_message_ToDafny(input *strin
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11533,7 +13515,14 @@ func com_amazonaws_dynamodb_ProvisionedThroughputExceededException_message_ToDaf
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11542,7 +13531,14 @@ func com_amazonaws_dynamodb_ReplicaAlreadyExistsException_message_ToDafny(input 
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11551,7 +13547,14 @@ func com_amazonaws_dynamodb_ReplicaNotFoundException_message_ToDafny(input *stri
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11560,7 +13563,14 @@ func com_amazonaws_dynamodb_RequestLimitExceeded_message_ToDafny(input *string) 
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11569,7 +13579,14 @@ func com_amazonaws_dynamodb_ResourceInUseException_message_ToDafny(input *string
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11578,7 +13595,14 @@ func com_amazonaws_dynamodb_ResourceNotFoundException_message_ToDafny(input *str
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11587,7 +13611,14 @@ func com_amazonaws_dynamodb_TableAlreadyExistsException_message_ToDafny(input *s
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11596,7 +13627,14 @@ func com_amazonaws_dynamodb_TableInUseException_message_ToDafny(input *string) W
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11605,7 +13643,14 @@ func com_amazonaws_dynamodb_TableNotFoundException_message_ToDafny(input *string
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11614,7 +13659,14 @@ func com_amazonaws_dynamodb_TransactionCanceledException_Message_ToDafny(input *
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11655,7 +13707,14 @@ func com_amazonaws_dynamodb_CancellationReason_Code_ToDafny(input *string) Wrapp
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11664,7 +13723,14 @@ func com_amazonaws_dynamodb_CancellationReason_Message_ToDafny(input *string) Wr
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11673,7 +13739,14 @@ func com_amazonaws_dynamodb_TransactionConflictException_message_ToDafny(input *
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }
 
@@ -11682,6 +13755,13 @@ func com_amazonaws_dynamodb_TransactionInProgressException_Message_ToDafny(input
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(*input)...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(func() []interface{} {
+			var i []interface{}
+			e := utf16.Encode([]rune(*input))
+			for _, i2 := range e {
+				i = append(i, dafny.Char(i2))
+			}
+			return i
+		}(), true))
 	}()
 }

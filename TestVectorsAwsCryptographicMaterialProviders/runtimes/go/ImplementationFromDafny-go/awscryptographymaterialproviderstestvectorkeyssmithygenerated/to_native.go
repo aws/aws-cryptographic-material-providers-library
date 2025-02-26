@@ -6,6 +6,7 @@ import (
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms/ComAmazonawsKmsTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyMaterialProvidersTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/awscryptographymaterialproviderssmithygeneratedtypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/UTF8"
 	"github.com/aws/aws-cryptographic-material-providers-library/testvectors/AwsCryptographyMaterialProvidersTestVectorKeysTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/testvectors/awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes"
 	kmstypes "github.com/aws/aws-sdk-go-v2/service/kms/types"
@@ -192,15 +193,11 @@ func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Kms_FromDaf
 }
 func aws_cryptography_materialProvidersTestVectorKeys_KMSInfo_keyId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrk_FromDafny(input interface{}) awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KmsMrkAware {
@@ -208,15 +205,11 @@ func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrk_From
 }
 func aws_cryptography_materialProvidersTestVectorKeys_KmsMrkAware_keyId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrkDiscovery_FromDafny(input interface{}) awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KmsMrkAwareDiscovery {
@@ -227,28 +220,20 @@ func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsMrkDisco
 }
 func aws_cryptography_materialProvidersTestVectorKeys_KmsMrkAwareDiscovery_keyId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_KmsMrkAwareDiscovery_defaultMrkRegion_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_KmsMrkAwareDiscovery_awsKmsDiscoveryFilter_FromDafny(input interface{}) *awscryptographymaterialproviderssmithygeneratedtypes.DiscoveryFilter {
@@ -272,28 +257,20 @@ func aws_cryptography_materialProviders_DiscoveryFilter_accountIds_FromDafny(inp
 }
 func aws_cryptography_materialProviders_AccountIdList_member_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProviders_DiscoveryFilter_partition_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_RSA_FromDafny(input interface{}) awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.RawRSA {
@@ -304,28 +281,20 @@ func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_RSA_FromDaf
 }
 func aws_cryptography_materialProvidersTestVectorKeys_RawRSA_keyId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_RawRSA_providerId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_RawRSA_padding_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.PaddingScheme {
@@ -353,28 +322,20 @@ func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_AES_FromDaf
 }
 func aws_cryptography_materialProvidersTestVectorKeys_RawAES_keyId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_RawAES_providerId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_ECDH_FromDafny(input interface{}) awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.RawEcdh {
@@ -389,93 +350,65 @@ func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_ECDH_FromDa
 }
 func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_senderKeyId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_recipientKeyId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_senderPublicKey_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_recipientPublicKey_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_providerId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_curveSpec_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_RawEcdh_keyAgreementScheme_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Static_FromDafny(input interface{}) awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.StaticKeyring {
@@ -483,15 +416,11 @@ func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Static_From
 }
 func aws_cryptography_materialProvidersTestVectorKeys_StaticKeyring_keyId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsRsa_FromDafny(input interface{}) awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KmsRsaKeyring {
@@ -501,15 +430,11 @@ func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsRsa_From
 }
 func aws_cryptography_materialProvidersTestVectorKeys_KmsRsaKeyring_keyId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_KmsRsaKeyring_encryptionAlgorithm_FromDafny(input interface{}) kmstypes.EncryptionAlgorithmSpec {
@@ -541,80 +466,56 @@ func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_KmsECDH_Fro
 }
 func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_senderKeyId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_recipientKeyId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_senderPublicKey_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_recipientPublicKey_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_curveSpec_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_KmsEcdhKeyring_keyAgreementScheme_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Hierarchy_FromDafny(input interface{}) awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.HierarchyKeyring {
@@ -622,15 +523,11 @@ func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Hierarchy_F
 }
 func aws_cryptography_materialProvidersTestVectorKeys_HierarchyKeyring_keyId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_KeyDescription_Multi_FromDafny(input interface{}) awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.MultiKeyring {
@@ -817,21 +714,13 @@ func aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextC
 }
 func aws_cryptography_materialProviders_EncryptionContextKeys_member_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				// UTF bytes should be always converted from bytes to string in go
-				// Otherwise go treats the string as a unicode codepoint
 
-				var valUint, _ = val.(uint8)
-				var byteSlice = []byte{valUint}
-				s = s + string(byteSlice)
+		// UTF bytes should be always converted from bytes to string in go
+		// Otherwise go treats the string as a unicode codepoint
 
-			}
-		}
+		s := string(dafny.ToByteArray(input.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_childKeyrings_FromDafny(input interface{}) []awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescription {
@@ -1213,27 +1102,19 @@ func aws_cryptography_materialProvidersTestVectorKeys_SerializeKeyDescriptionOut
 }
 func aws_cryptography_materialProvidersTestVectorKeys_KeyVectorException_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_materialProvidersTestVectorKeys_KeyVectorsConfig_keyManifestPath_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }

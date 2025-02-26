@@ -5,6 +5,7 @@ package awscryptographyprimitivessmithygenerated
 import (
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AwsCryptographyPrimitivesTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/awscryptographyprimitivessmithygeneratedtypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/UTF8"
 	"github.com/dafny-lang/DafnyRuntimeGo/v4/dafny"
 )
 
@@ -1805,15 +1806,11 @@ func aws_cryptography_primitives_ValidatePublicKeyOutput_success_FromDafny(input
 }
 func aws_cryptography_primitives_AwsCryptographicPrimitivesError_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_primitives_AES_CTR_keyLength_FromDafny(input interface{}) int32 {

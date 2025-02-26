@@ -9,6 +9,7 @@ import (
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms/comamazonawskmssmithygenerated"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyKeyStoreTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/awscryptographykeystoresmithygeneratedtypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/UTF8"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Wrappers"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/kms"
@@ -176,18 +177,14 @@ func KeyStoreConfig_FromDafny(dafnyOutput AwsCryptographyKeyStoreTypes.KeyStoreC
 
 func aws_cryptography_keyStore_CreateKeyInput_branchKeyIdentifier_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return &s
 	}()
 }
 func aws_cryptography_keyStore_CreateKeyInput_encryptionContext_FromDafny(input interface{}) map[string]string {
@@ -207,79 +204,51 @@ func aws_cryptography_keyStore_CreateKeyInput_encryptionContext_FromDafny(input 
 }
 func aws_cryptography_keyStore_EncryptionContext_key_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				// UTF bytes should be always converted from bytes to string in go
-				// Otherwise go treats the string as a unicode codepoint
 
-				var valUint, _ = val.(uint8)
-				var byteSlice = []byte{valUint}
-				s = s + string(byteSlice)
+		// UTF bytes should be always converted from bytes to string in go
+		// Otherwise go treats the string as a unicode codepoint
 
-			}
-		}
+		s := string(dafny.ToByteArray(input.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_EncryptionContext_value_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				// UTF bytes should be always converted from bytes to string in go
-				// Otherwise go treats the string as a unicode codepoint
 
-				var valUint, _ = val.(uint8)
-				var byteSlice = []byte{valUint}
-				s = s + string(byteSlice)
+		// UTF bytes should be always converted from bytes to string in go
+		// Otherwise go treats the string as a unicode codepoint
 
-			}
-		}
+		s := string(dafny.ToByteArray(input.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_CreateKeyOutput_branchKeyIdentifier_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_CreateKeyStoreOutput_tableArn_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_GetActiveBranchKeyInput_branchKeyIdentifier_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_GetActiveBranchKeyOutput_branchKeyMaterials_FromDafny(input interface{}) awscryptographykeystoresmithygeneratedtypes.BranchKeyMaterials {
@@ -291,34 +260,22 @@ func aws_cryptography_keyStore_GetActiveBranchKeyOutput_branchKeyMaterials_FromD
 }
 func aws_cryptography_keyStore_BranchKeyMaterials_branchKeyIdentifier_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_BranchKeyMaterials_branchKeyVersion_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				// UTF bytes should be always converted from bytes to string in go
-				// Otherwise go treats the string as a unicode codepoint
 
-				var valUint, _ = val.(uint8)
-				var byteSlice = []byte{valUint}
-				s = s + string(byteSlice)
+		// UTF bytes should be always converted from bytes to string in go
+		// Otherwise go treats the string as a unicode codepoint
 
-			}
-		}
+		s := string(dafny.ToByteArray(input.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_FromDafny(input interface{}) map[string]string {
@@ -354,15 +311,11 @@ func aws_cryptography_keyStore_BranchKeyMaterials_branchKey_FromDafny(input inte
 }
 func aws_cryptography_keyStore_GetBeaconKeyInput_branchKeyIdentifier_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_GetBeaconKeyOutput_beaconKeyMaterials_FromDafny(input interface{}) awscryptographykeystoresmithygeneratedtypes.BeaconKeyMaterials {
@@ -374,15 +327,11 @@ func aws_cryptography_keyStore_GetBeaconKeyOutput_beaconKeyMaterials_FromDafny(i
 }
 func aws_cryptography_keyStore_BeaconKeyMaterials_beaconKeyIdentifier_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_FromDafny(input interface{}) map[string]string {
@@ -433,15 +382,11 @@ func aws_cryptography_keyStore_BeaconKeyMaterials_hmacKeys_FromDafny(input inter
 }
 func aws_cryptography_keyStore_HmacKeyMap_key_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_HmacKeyMap_value_FromDafny(input interface{}) []byte {
@@ -462,28 +407,20 @@ func aws_cryptography_keyStore_HmacKeyMap_value_FromDafny(input interface{}) []b
 }
 func aws_cryptography_keyStore_GetBranchKeyVersionInput_branchKeyIdentifier_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_GetBranchKeyVersionInput_branchKeyVersion_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_GetBranchKeyVersionOutput_branchKeyMaterials_FromDafny(input interface{}) awscryptographykeystoresmithygeneratedtypes.BranchKeyMaterials {
@@ -495,41 +432,29 @@ func aws_cryptography_keyStore_GetBranchKeyVersionOutput_branchKeyMaterials_From
 }
 func aws_cryptography_keyStore_GetKeyStoreInfoOutput_keyStoreId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_GetKeyStoreInfoOutput_keyStoreName_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_GetKeyStoreInfoOutput_logicalKeyStoreName_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_GetKeyStoreInfoOutput_grantTokens_FromDafny(input interface{}) []string {
@@ -545,15 +470,11 @@ func aws_cryptography_keyStore_GetKeyStoreInfoOutput_grantTokens_FromDafny(input
 }
 func aws_cryptography_keyStore_GrantTokenList_member_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_FromDafny(input interface{}) awscryptographykeystoresmithygeneratedtypes.KMSConfiguration {
@@ -589,28 +510,20 @@ func aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_FromDafny(
 }
 func aws_cryptography_keyStore_KMSConfiguration_kmsKeyArn_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_KMSConfiguration_kmsMRKeyArn_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_KMSConfiguration_discovery_FromDafny(input interface{}) awscryptographykeystoresmithygeneratedtypes.Discovery {
@@ -621,54 +534,38 @@ func aws_cryptography_keyStore_KMSConfiguration_mrDiscovery_FromDafny(input inte
 }
 func aws_cryptography_keyStore_MRDiscovery_region_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_VersionKeyInput_branchKeyIdentifier_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_KeyStoreException_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_KeyStoreConfig_ddbTableName_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_FromDafny(input interface{}) awscryptographykeystoresmithygeneratedtypes.KMSConfiguration {
@@ -704,31 +601,23 @@ func aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_FromDafny(input i
 }
 func aws_cryptography_keyStore_KeyStoreConfig_logicalKeyStoreName_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func aws_cryptography_keyStore_KeyStoreConfig_id_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return &s
 	}()
 }
 func aws_cryptography_keyStore_KeyStoreConfig_grantTokens_FromDafny(input interface{}) []string {
