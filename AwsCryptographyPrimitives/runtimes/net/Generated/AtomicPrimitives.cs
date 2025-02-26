@@ -138,7 +138,7 @@ namespace AWS.Cryptography.Primitives
             if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
             return TypeConversion.FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_ECDSASignOutput(result.dtor_value);
         }
-        public bool ECDSAVerify(AWS.Cryptography.Primitives.ECDSAVerifyInput input)
+        public bool? ECDSAVerify(AWS.Cryptography.Primitives.ECDSAVerifyInput input)
         {
             software.amazon.cryptography.primitives.internaldafny.types._IECDSAVerifyInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N10_primitives__S16_ECDSAVerifyInput(input);
             Wrappers_Compile._IResult<bool, software.amazon.cryptography.primitives.internaldafny.types._IError> result = _impl.ECDSAVerify(internalInput);

@@ -39,7 +39,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_AlreadyExistsException ToDafny_N3_com__N9_amazonaws__N3_kms__S22_AlreadyExistsException(Amazon.KeyManagementService.Model.AlreadyExistsException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_AlreadyExistsException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S22_AlreadyExistsException__M7_message(var_message)
             );
@@ -61,7 +61,7 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._ICancelKeyDeletionResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S25_CancelKeyDeletionResponse(Amazon.KeyManagementService.Model.CancelKeyDeletionResponse value)
         {
 
-            string var_keyId = value.KeyId;
+            string var_keyId = (string)value.KeyId;
             return new software.amazon.cryptography.services.kms.internaldafny.types.CancelKeyDeletionResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S25_CancelKeyDeletionResponse__M5_KeyId(var_keyId));
         }
         public static Amazon.KeyManagementService.Model.CloudHsmClusterInUseException FromDafny_N3_com__N9_amazonaws__N3_kms__S29_CloudHsmClusterInUseException(software.amazon.cryptography.services.kms.internaldafny.types.Error_CloudHsmClusterInUseException value)
@@ -72,7 +72,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_CloudHsmClusterInUseException ToDafny_N3_com__N9_amazonaws__N3_kms__S29_CloudHsmClusterInUseException(Amazon.KeyManagementService.Model.CloudHsmClusterInUseException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_CloudHsmClusterInUseException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S29_CloudHsmClusterInUseException__M7_message(var_message)
             );
@@ -85,7 +85,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_CloudHsmClusterInvalidConfigurationException ToDafny_N3_com__N9_amazonaws__N3_kms__S44_CloudHsmClusterInvalidConfigurationException(Amazon.KeyManagementService.Model.CloudHsmClusterInvalidConfigurationException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_CloudHsmClusterInvalidConfigurationException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S44_CloudHsmClusterInvalidConfigurationException__M7_message(var_message)
             );
@@ -98,7 +98,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_CloudHsmClusterNotActiveException ToDafny_N3_com__N9_amazonaws__N3_kms__S33_CloudHsmClusterNotActiveException(Amazon.KeyManagementService.Model.CloudHsmClusterNotActiveException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_CloudHsmClusterNotActiveException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S33_CloudHsmClusterNotActiveException__M7_message(var_message)
             );
@@ -111,7 +111,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_CloudHsmClusterNotFoundException ToDafny_N3_com__N9_amazonaws__N3_kms__S32_CloudHsmClusterNotFoundException(Amazon.KeyManagementService.Model.CloudHsmClusterNotFoundException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_CloudHsmClusterNotFoundException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S32_CloudHsmClusterNotFoundException__M7_message(var_message)
             );
@@ -124,7 +124,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_CloudHsmClusterNotRelatedException ToDafny_N3_com__N9_amazonaws__N3_kms__S34_CloudHsmClusterNotRelatedException(Amazon.KeyManagementService.Model.CloudHsmClusterNotRelatedException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_CloudHsmClusterNotRelatedException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S34_CloudHsmClusterNotRelatedException__M7_message(var_message)
             );
@@ -137,7 +137,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_ConflictException ToDafny_N3_com__N9_amazonaws__N3_kms__S17_ConflictException(Amazon.KeyManagementService.Model.ConflictException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_ConflictException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S17_ConflictException__M7_message(var_message)
             );
@@ -251,15 +251,15 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._ICreateCustomKeyStoreRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S27_CreateCustomKeyStoreRequest(Amazon.KeyManagementService.Model.CreateCustomKeyStoreRequest value)
         {
 
-            string var_cloudHsmClusterId = value.CloudHsmClusterId;
-            string var_trustAnchorCertificate = value.TrustAnchorCertificate;
-            string var_keyStorePassword = value.KeyStorePassword;
-            Amazon.KeyManagementService.CustomKeyStoreType var_customKeyStoreType = value.CustomKeyStoreType;
-            string var_xksProxyUriEndpoint = value.XksProxyUriEndpoint;
-            string var_xksProxyUriPath = value.XksProxyUriPath;
-            string var_xksProxyVpcEndpointServiceName = value.XksProxyVpcEndpointServiceName;
-            Amazon.KeyManagementService.Model.XksProxyAuthenticationCredentialType var_xksProxyAuthenticationCredential = value.XksProxyAuthenticationCredential;
-            Amazon.KeyManagementService.XksProxyConnectivityType var_xksProxyConnectivity = value.XksProxyConnectivity;
+            string var_cloudHsmClusterId = (string)value.CloudHsmClusterId;
+            string var_trustAnchorCertificate = (string)value.TrustAnchorCertificate;
+            string var_keyStorePassword = (string)value.KeyStorePassword;
+            Amazon.KeyManagementService.CustomKeyStoreType var_customKeyStoreType = (Amazon.KeyManagementService.CustomKeyStoreType)value.CustomKeyStoreType;
+            string var_xksProxyUriEndpoint = (string)value.XksProxyUriEndpoint;
+            string var_xksProxyUriPath = (string)value.XksProxyUriPath;
+            string var_xksProxyVpcEndpointServiceName = (string)value.XksProxyVpcEndpointServiceName;
+            Amazon.KeyManagementService.Model.XksProxyAuthenticationCredentialType var_xksProxyAuthenticationCredential = (Amazon.KeyManagementService.Model.XksProxyAuthenticationCredentialType)value.XksProxyAuthenticationCredential;
+            Amazon.KeyManagementService.XksProxyConnectivityType var_xksProxyConnectivity = (Amazon.KeyManagementService.XksProxyConnectivityType)value.XksProxyConnectivity;
             return new software.amazon.cryptography.services.kms.internaldafny.types.CreateCustomKeyStoreRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S27_CreateCustomKeyStoreRequest__M18_CustomKeyStoreName(value.CustomKeyStoreName), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_CreateCustomKeyStoreRequest__M17_CloudHsmClusterId(var_cloudHsmClusterId), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_CreateCustomKeyStoreRequest__M22_TrustAnchorCertificate(var_trustAnchorCertificate), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_CreateCustomKeyStoreRequest__M16_KeyStorePassword(var_keyStorePassword), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_CreateCustomKeyStoreRequest__M18_CustomKeyStoreType(var_customKeyStoreType), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_CreateCustomKeyStoreRequest__M19_XksProxyUriEndpoint(var_xksProxyUriEndpoint), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_CreateCustomKeyStoreRequest__M15_XksProxyUriPath(var_xksProxyUriPath), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_CreateCustomKeyStoreRequest__M30_XksProxyVpcEndpointServiceName(var_xksProxyVpcEndpointServiceName), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_CreateCustomKeyStoreRequest__M32_XksProxyAuthenticationCredential(var_xksProxyAuthenticationCredential), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_CreateCustomKeyStoreRequest__M20_XksProxyConnectivity(var_xksProxyConnectivity));
         }
         public static Amazon.KeyManagementService.Model.CreateCustomKeyStoreResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S28_CreateCustomKeyStoreResponse(software.amazon.cryptography.services.kms.internaldafny.types._ICreateCustomKeyStoreResponse value)
@@ -269,7 +269,7 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._ICreateCustomKeyStoreResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S28_CreateCustomKeyStoreResponse(Amazon.KeyManagementService.Model.CreateCustomKeyStoreResponse value)
         {
 
-            string var_customKeyStoreId = value.CustomKeyStoreId;
+            string var_customKeyStoreId = (string)value.CustomKeyStoreId;
             return new software.amazon.cryptography.services.kms.internaldafny.types.CreateCustomKeyStoreResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S28_CreateCustomKeyStoreResponse__M16_CustomKeyStoreId(var_customKeyStoreId));
         }
         public static Amazon.KeyManagementService.Model.CreateGrantRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S18_CreateGrantRequest(software.amazon.cryptography.services.kms.internaldafny.types._ICreateGrantRequest value)
@@ -286,11 +286,11 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._ICreateGrantRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S18_CreateGrantRequest(Amazon.KeyManagementService.Model.CreateGrantRequest value)
         {
 
-            string var_retiringPrincipal = value.RetiringPrincipal;
-            Amazon.KeyManagementService.Model.GrantConstraints var_constraints = value.Constraints;
-            System.Collections.Generic.List<string> var_grantTokens = value.GrantTokens;
-            string var_name = value.Name;
-            bool? var_dryRun = value.DryRun;
+            string var_retiringPrincipal = (string)value.RetiringPrincipal;
+            Amazon.KeyManagementService.Model.GrantConstraints var_constraints = (Amazon.KeyManagementService.Model.GrantConstraints)value.Constraints;
+            System.Collections.Generic.List<string> var_grantTokens = (System.Collections.Generic.List<string>)value.GrantTokens;
+            string var_name = (string)value.Name;
+            bool? var_dryRun = (bool?)value.DryRun;
             return new software.amazon.cryptography.services.kms.internaldafny.types.CreateGrantRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S18_CreateGrantRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S18_CreateGrantRequest__M16_GranteePrincipal(value.GranteePrincipal), ToDafny_N3_com__N9_amazonaws__N3_kms__S18_CreateGrantRequest__M17_RetiringPrincipal(var_retiringPrincipal), ToDafny_N3_com__N9_amazonaws__N3_kms__S18_CreateGrantRequest__M10_Operations(value.Operations), ToDafny_N3_com__N9_amazonaws__N3_kms__S18_CreateGrantRequest__M11_Constraints(var_constraints), ToDafny_N3_com__N9_amazonaws__N3_kms__S18_CreateGrantRequest__M11_GrantTokens(var_grantTokens), ToDafny_N3_com__N9_amazonaws__N3_kms__S18_CreateGrantRequest__M4_Name(var_name), ToDafny_N3_com__N9_amazonaws__N3_kms__S18_CreateGrantRequest__M6_DryRun(var_dryRun));
         }
         public static Amazon.KeyManagementService.Model.CreateGrantResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S19_CreateGrantResponse(software.amazon.cryptography.services.kms.internaldafny.types._ICreateGrantResponse value)
@@ -301,8 +301,8 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._ICreateGrantResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S19_CreateGrantResponse(Amazon.KeyManagementService.Model.CreateGrantResponse value)
         {
 
-            string var_grantToken = value.GrantToken;
-            string var_grantId = value.GrantId;
+            string var_grantToken = (string)value.GrantToken;
+            string var_grantId = (string)value.GrantId;
             return new software.amazon.cryptography.services.kms.internaldafny.types.CreateGrantResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S19_CreateGrantResponse__M10_GrantToken(var_grantToken), ToDafny_N3_com__N9_amazonaws__N3_kms__S19_CreateGrantResponse__M7_GrantId(var_grantId));
         }
         public static Amazon.KeyManagementService.Model.CreateKeyRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S16_CreateKeyRequest(software.amazon.cryptography.services.kms.internaldafny.types._ICreateKeyRequest value)
@@ -322,17 +322,17 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._ICreateKeyRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S16_CreateKeyRequest(Amazon.KeyManagementService.Model.CreateKeyRequest value)
         {
 
-            string var_policy = value.Policy;
-            string var_description = value.Description;
-            Amazon.KeyManagementService.KeyUsageType var_keyUsage = value.KeyUsage;
-            Amazon.KeyManagementService.CustomerMasterKeySpec var_customerMasterKeySpec = value.CustomerMasterKeySpec;
-            Amazon.KeyManagementService.KeySpec var_keySpec = value.KeySpec;
-            Amazon.KeyManagementService.OriginType var_origin = value.Origin;
-            string var_customKeyStoreId = value.CustomKeyStoreId;
-            bool? var_bypassPolicyLockoutSafetyCheck = value.BypassPolicyLockoutSafetyCheck;
-            System.Collections.Generic.List<Amazon.KeyManagementService.Model.Tag> var_tags = value.Tags;
-            bool? var_multiRegion = value.MultiRegion;
-            string var_xksKeyId = value.XksKeyId;
+            string var_policy = (string)value.Policy;
+            string var_description = (string)value.Description;
+            Amazon.KeyManagementService.KeyUsageType var_keyUsage = (Amazon.KeyManagementService.KeyUsageType)value.KeyUsage;
+            Amazon.KeyManagementService.CustomerMasterKeySpec var_customerMasterKeySpec = (Amazon.KeyManagementService.CustomerMasterKeySpec)value.CustomerMasterKeySpec;
+            Amazon.KeyManagementService.KeySpec var_keySpec = (Amazon.KeyManagementService.KeySpec)value.KeySpec;
+            Amazon.KeyManagementService.OriginType var_origin = (Amazon.KeyManagementService.OriginType)value.Origin;
+            string var_customKeyStoreId = (string)value.CustomKeyStoreId;
+            bool? var_bypassPolicyLockoutSafetyCheck = (bool?)value.BypassPolicyLockoutSafetyCheck;
+            System.Collections.Generic.List<Amazon.KeyManagementService.Model.Tag> var_tags = (System.Collections.Generic.List<Amazon.KeyManagementService.Model.Tag>)value.Tags;
+            bool? var_multiRegion = (bool?)value.MultiRegion;
+            string var_xksKeyId = (string)value.XksKeyId;
             return new software.amazon.cryptography.services.kms.internaldafny.types.CreateKeyRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S16_CreateKeyRequest__M6_Policy(var_policy), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_CreateKeyRequest__M11_Description(var_description), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_CreateKeyRequest__M8_KeyUsage(var_keyUsage), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_CreateKeyRequest__M21_CustomerMasterKeySpec(var_customerMasterKeySpec), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_CreateKeyRequest__M7_KeySpec(var_keySpec), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_CreateKeyRequest__M6_Origin(var_origin), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_CreateKeyRequest__M16_CustomKeyStoreId(var_customKeyStoreId), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_CreateKeyRequest__M30_BypassPolicyLockoutSafetyCheck(var_bypassPolicyLockoutSafetyCheck), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_CreateKeyRequest__M4_Tags(var_tags), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_CreateKeyRequest__M11_MultiRegion(var_multiRegion), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_CreateKeyRequest__M8_XksKeyId(var_xksKeyId));
         }
         public static Amazon.KeyManagementService.Model.CreateKeyResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S17_CreateKeyResponse(software.amazon.cryptography.services.kms.internaldafny.types._ICreateKeyResponse value)
@@ -342,7 +342,7 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._ICreateKeyResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S17_CreateKeyResponse(Amazon.KeyManagementService.Model.CreateKeyResponse value)
         {
 
-            Amazon.KeyManagementService.Model.KeyMetadata var_keyMetadata = value.KeyMetadata;
+            Amazon.KeyManagementService.Model.KeyMetadata var_keyMetadata = (Amazon.KeyManagementService.Model.KeyMetadata)value.KeyMetadata;
             return new software.amazon.cryptography.services.kms.internaldafny.types.CreateKeyResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S17_CreateKeyResponse__M11_KeyMetadata(var_keyMetadata));
         }
         public static Amazon.KeyManagementService.CustomerMasterKeySpec FromDafny_N3_com__N9_amazonaws__N3_kms__S21_CustomerMasterKeySpec(software.amazon.cryptography.services.kms.internaldafny.types._ICustomerMasterKeySpec value)
@@ -387,7 +387,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_CustomKeyStoreHasCMKsException ToDafny_N3_com__N9_amazonaws__N3_kms__S30_CustomKeyStoreHasCMKsException(Amazon.KeyManagementService.Model.CustomKeyStoreHasCMKsException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_CustomKeyStoreHasCMKsException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S30_CustomKeyStoreHasCMKsException__M7_message(var_message)
             );
@@ -400,7 +400,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_CustomKeyStoreInvalidStateException ToDafny_N3_com__N9_amazonaws__N3_kms__S35_CustomKeyStoreInvalidStateException(Amazon.KeyManagementService.Model.CustomKeyStoreInvalidStateException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_CustomKeyStoreInvalidStateException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S35_CustomKeyStoreInvalidStateException__M7_message(var_message)
             );
@@ -413,7 +413,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_CustomKeyStoreNameInUseException ToDafny_N3_com__N9_amazonaws__N3_kms__S32_CustomKeyStoreNameInUseException(Amazon.KeyManagementService.Model.CustomKeyStoreNameInUseException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_CustomKeyStoreNameInUseException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S32_CustomKeyStoreNameInUseException__M7_message(var_message)
             );
@@ -426,7 +426,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_CustomKeyStoreNotFoundException ToDafny_N3_com__N9_amazonaws__N3_kms__S31_CustomKeyStoreNotFoundException(Amazon.KeyManagementService.Model.CustomKeyStoreNotFoundException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_CustomKeyStoreNotFoundException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S31_CustomKeyStoreNotFoundException__M7_message(var_message)
             );
@@ -492,12 +492,12 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IDecryptRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S14_DecryptRequest(Amazon.KeyManagementService.Model.DecryptRequest value)
         {
 
-            System.Collections.Generic.Dictionary<string, string> var_encryptionContext = value.EncryptionContext;
-            System.Collections.Generic.List<string> var_grantTokens = value.GrantTokens;
-            string var_keyId = value.KeyId;
-            Amazon.KeyManagementService.EncryptionAlgorithmSpec var_encryptionAlgorithm = value.EncryptionAlgorithm;
-            Amazon.KeyManagementService.Model.RecipientInfo var_recipient = value.Recipient;
-            bool? var_dryRun = value.DryRun;
+            System.Collections.Generic.Dictionary<string, string> var_encryptionContext = (System.Collections.Generic.Dictionary<string, string>)value.EncryptionContext;
+            System.Collections.Generic.List<string> var_grantTokens = (System.Collections.Generic.List<string>)value.GrantTokens;
+            string var_keyId = (string)value.KeyId;
+            Amazon.KeyManagementService.EncryptionAlgorithmSpec var_encryptionAlgorithm = (Amazon.KeyManagementService.EncryptionAlgorithmSpec)value.EncryptionAlgorithm;
+            Amazon.KeyManagementService.Model.RecipientInfo var_recipient = (Amazon.KeyManagementService.Model.RecipientInfo)value.Recipient;
+            bool? var_dryRun = (bool?)value.DryRun;
             return new software.amazon.cryptography.services.kms.internaldafny.types.DecryptRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S14_DecryptRequest__M14_CiphertextBlob(value.CiphertextBlob), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_DecryptRequest__M17_EncryptionContext(var_encryptionContext), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_DecryptRequest__M11_GrantTokens(var_grantTokens), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_DecryptRequest__M5_KeyId(var_keyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_DecryptRequest__M19_EncryptionAlgorithm(var_encryptionAlgorithm), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_DecryptRequest__M9_Recipient(var_recipient), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_DecryptRequest__M6_DryRun(var_dryRun));
         }
         public static Amazon.KeyManagementService.Model.DecryptResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S15_DecryptResponse(software.amazon.cryptography.services.kms.internaldafny.types._IDecryptResponse value)
@@ -510,10 +510,10 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IDecryptResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S15_DecryptResponse(Amazon.KeyManagementService.Model.DecryptResponse value)
         {
 
-            string var_keyId = value.KeyId;
-            System.IO.MemoryStream var_plaintext = value.Plaintext;
-            Amazon.KeyManagementService.EncryptionAlgorithmSpec var_encryptionAlgorithm = value.EncryptionAlgorithm;
-            System.IO.MemoryStream var_ciphertextForRecipient = value.CiphertextForRecipient;
+            string var_keyId = (string)value.KeyId;
+            System.IO.MemoryStream var_plaintext = (System.IO.MemoryStream)value.Plaintext;
+            Amazon.KeyManagementService.EncryptionAlgorithmSpec var_encryptionAlgorithm = (Amazon.KeyManagementService.EncryptionAlgorithmSpec)value.EncryptionAlgorithm;
+            System.IO.MemoryStream var_ciphertextForRecipient = (System.IO.MemoryStream)value.CiphertextForRecipient;
             return new software.amazon.cryptography.services.kms.internaldafny.types.DecryptResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S15_DecryptResponse__M5_KeyId(var_keyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S15_DecryptResponse__M9_Plaintext(var_plaintext), ToDafny_N3_com__N9_amazonaws__N3_kms__S15_DecryptResponse__M19_EncryptionAlgorithm(var_encryptionAlgorithm), ToDafny_N3_com__N9_amazonaws__N3_kms__S15_DecryptResponse__M22_CiphertextForRecipient(var_ciphertextForRecipient));
         }
         public static Amazon.KeyManagementService.Model.DeleteAliasRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S18_DeleteAliasRequest(software.amazon.cryptography.services.kms.internaldafny.types._IDeleteAliasRequest value)
@@ -564,7 +564,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_DependencyTimeoutException ToDafny_N3_com__N9_amazonaws__N3_kms__S26_DependencyTimeoutException(Amazon.KeyManagementService.Model.DependencyTimeoutException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_DependencyTimeoutException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S26_DependencyTimeoutException__M7_message(var_message)
             );
@@ -581,9 +581,9 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IDeriveSharedSecretRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S25_DeriveSharedSecretRequest(Amazon.KeyManagementService.Model.DeriveSharedSecretRequest value)
         {
 
-            System.Collections.Generic.List<string> var_grantTokens = value.GrantTokens;
-            bool? var_dryRun = value.DryRun;
-            Amazon.KeyManagementService.Model.RecipientInfo var_recipient = value.Recipient;
+            System.Collections.Generic.List<string> var_grantTokens = (System.Collections.Generic.List<string>)value.GrantTokens;
+            bool? var_dryRun = (bool?)value.DryRun;
+            Amazon.KeyManagementService.Model.RecipientInfo var_recipient = (Amazon.KeyManagementService.Model.RecipientInfo)value.Recipient;
             return new software.amazon.cryptography.services.kms.internaldafny.types.DeriveSharedSecretRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S25_DeriveSharedSecretRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S25_DeriveSharedSecretRequest__M21_KeyAgreementAlgorithm(value.KeyAgreementAlgorithm), ToDafny_N3_com__N9_amazonaws__N3_kms__S25_DeriveSharedSecretRequest__M9_PublicKey(value.PublicKey), ToDafny_N3_com__N9_amazonaws__N3_kms__S25_DeriveSharedSecretRequest__M11_GrantTokens(var_grantTokens), ToDafny_N3_com__N9_amazonaws__N3_kms__S25_DeriveSharedSecretRequest__M6_DryRun(var_dryRun), ToDafny_N3_com__N9_amazonaws__N3_kms__S25_DeriveSharedSecretRequest__M9_Recipient(var_recipient));
         }
         public static Amazon.KeyManagementService.Model.DeriveSharedSecretResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S26_DeriveSharedSecretResponse(software.amazon.cryptography.services.kms.internaldafny.types._IDeriveSharedSecretResponse value)
@@ -597,11 +597,11 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IDeriveSharedSecretResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S26_DeriveSharedSecretResponse(Amazon.KeyManagementService.Model.DeriveSharedSecretResponse value)
         {
 
-            string var_keyId = value.KeyId;
-            System.IO.MemoryStream var_sharedSecret = value.SharedSecret;
-            System.IO.MemoryStream var_ciphertextForRecipient = value.CiphertextForRecipient;
-            Amazon.KeyManagementService.KeyAgreementAlgorithmSpec var_keyAgreementAlgorithm = value.KeyAgreementAlgorithm;
-            Amazon.KeyManagementService.OriginType var_keyOrigin = value.KeyOrigin;
+            string var_keyId = (string)value.KeyId;
+            System.IO.MemoryStream var_sharedSecret = (System.IO.MemoryStream)value.SharedSecret;
+            System.IO.MemoryStream var_ciphertextForRecipient = (System.IO.MemoryStream)value.CiphertextForRecipient;
+            Amazon.KeyManagementService.KeyAgreementAlgorithmSpec var_keyAgreementAlgorithm = (Amazon.KeyManagementService.KeyAgreementAlgorithmSpec)value.KeyAgreementAlgorithm;
+            Amazon.KeyManagementService.OriginType var_keyOrigin = (Amazon.KeyManagementService.OriginType)value.KeyOrigin;
             return new software.amazon.cryptography.services.kms.internaldafny.types.DeriveSharedSecretResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S26_DeriveSharedSecretResponse__M5_KeyId(var_keyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S26_DeriveSharedSecretResponse__M12_SharedSecret(var_sharedSecret), ToDafny_N3_com__N9_amazonaws__N3_kms__S26_DeriveSharedSecretResponse__M22_CiphertextForRecipient(var_ciphertextForRecipient), ToDafny_N3_com__N9_amazonaws__N3_kms__S26_DeriveSharedSecretResponse__M21_KeyAgreementAlgorithm(var_keyAgreementAlgorithm), ToDafny_N3_com__N9_amazonaws__N3_kms__S26_DeriveSharedSecretResponse__M9_KeyOrigin(var_keyOrigin));
         }
         public static Amazon.KeyManagementService.Model.DescribeCustomKeyStoresRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S30_DescribeCustomKeyStoresRequest(software.amazon.cryptography.services.kms.internaldafny.types._IDescribeCustomKeyStoresRequest value)
@@ -614,10 +614,10 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IDescribeCustomKeyStoresRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S30_DescribeCustomKeyStoresRequest(Amazon.KeyManagementService.Model.DescribeCustomKeyStoresRequest value)
         {
 
-            string var_customKeyStoreId = value.CustomKeyStoreId;
-            string var_customKeyStoreName = value.CustomKeyStoreName;
-            int? var_limit = value.Limit;
-            string var_marker = value.Marker;
+            string var_customKeyStoreId = (string)value.CustomKeyStoreId;
+            string var_customKeyStoreName = (string)value.CustomKeyStoreName;
+            int? var_limit = (int?)value.Limit;
+            string var_marker = (string)value.Marker;
             return new software.amazon.cryptography.services.kms.internaldafny.types.DescribeCustomKeyStoresRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S30_DescribeCustomKeyStoresRequest__M16_CustomKeyStoreId(var_customKeyStoreId), ToDafny_N3_com__N9_amazonaws__N3_kms__S30_DescribeCustomKeyStoresRequest__M18_CustomKeyStoreName(var_customKeyStoreName), ToDafny_N3_com__N9_amazonaws__N3_kms__S30_DescribeCustomKeyStoresRequest__M5_Limit(var_limit), ToDafny_N3_com__N9_amazonaws__N3_kms__S30_DescribeCustomKeyStoresRequest__M6_Marker(var_marker));
         }
         public static Amazon.KeyManagementService.Model.DescribeCustomKeyStoresResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S31_DescribeCustomKeyStoresResponse(software.amazon.cryptography.services.kms.internaldafny.types._IDescribeCustomKeyStoresResponse value)
@@ -629,9 +629,9 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IDescribeCustomKeyStoresResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S31_DescribeCustomKeyStoresResponse(Amazon.KeyManagementService.Model.DescribeCustomKeyStoresResponse value)
         {
 
-            System.Collections.Generic.List<Amazon.KeyManagementService.Model.CustomKeyStoresListEntry> var_customKeyStores = value.CustomKeyStores;
-            string var_nextMarker = value.NextMarker;
-            bool? var_truncated = value.Truncated;
+            System.Collections.Generic.List<Amazon.KeyManagementService.Model.CustomKeyStoresListEntry> var_customKeyStores = (System.Collections.Generic.List<Amazon.KeyManagementService.Model.CustomKeyStoresListEntry>)value.CustomKeyStores;
+            string var_nextMarker = (string)value.NextMarker;
+            bool? var_truncated = (bool?)value.Truncated;
             return new software.amazon.cryptography.services.kms.internaldafny.types.DescribeCustomKeyStoresResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S31_DescribeCustomKeyStoresResponse__M15_CustomKeyStores(var_customKeyStores), ToDafny_N3_com__N9_amazonaws__N3_kms__S31_DescribeCustomKeyStoresResponse__M10_NextMarker(var_nextMarker), ToDafny_N3_com__N9_amazonaws__N3_kms__S31_DescribeCustomKeyStoresResponse__M9_Truncated(var_truncated));
         }
         public static Amazon.KeyManagementService.Model.DescribeKeyRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S18_DescribeKeyRequest(software.amazon.cryptography.services.kms.internaldafny.types._IDescribeKeyRequest value)
@@ -642,7 +642,7 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IDescribeKeyRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S18_DescribeKeyRequest(Amazon.KeyManagementService.Model.DescribeKeyRequest value)
         {
 
-            System.Collections.Generic.List<string> var_grantTokens = value.GrantTokens;
+            System.Collections.Generic.List<string> var_grantTokens = (System.Collections.Generic.List<string>)value.GrantTokens;
             return new software.amazon.cryptography.services.kms.internaldafny.types.DescribeKeyRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S18_DescribeKeyRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S18_DescribeKeyRequest__M11_GrantTokens(var_grantTokens));
         }
         public static Amazon.KeyManagementService.Model.DescribeKeyResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S19_DescribeKeyResponse(software.amazon.cryptography.services.kms.internaldafny.types._IDescribeKeyResponse value)
@@ -652,7 +652,7 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IDescribeKeyResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S19_DescribeKeyResponse(Amazon.KeyManagementService.Model.DescribeKeyResponse value)
         {
 
-            Amazon.KeyManagementService.Model.KeyMetadata var_keyMetadata = value.KeyMetadata;
+            Amazon.KeyManagementService.Model.KeyMetadata var_keyMetadata = (Amazon.KeyManagementService.Model.KeyMetadata)value.KeyMetadata;
             return new software.amazon.cryptography.services.kms.internaldafny.types.DescribeKeyResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S19_DescribeKeyResponse__M11_KeyMetadata(var_keyMetadata));
         }
         public static Amazon.KeyManagementService.Model.DisabledException FromDafny_N3_com__N9_amazonaws__N3_kms__S17_DisabledException(software.amazon.cryptography.services.kms.internaldafny.types.Error_DisabledException value)
@@ -663,7 +663,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_DisabledException ToDafny_N3_com__N9_amazonaws__N3_kms__S17_DisabledException(Amazon.KeyManagementService.Model.DisabledException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_DisabledException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S17_DisabledException__M7_message(var_message)
             );
@@ -716,7 +716,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_DryRunOperationException ToDafny_N3_com__N9_amazonaws__N3_kms__S24_DryRunOperationException(Amazon.KeyManagementService.Model.DryRunOperationException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_DryRunOperationException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S24_DryRunOperationException__M7_message(var_message)
             );
@@ -739,7 +739,7 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IEnableKeyRotationRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S24_EnableKeyRotationRequest(Amazon.KeyManagementService.Model.EnableKeyRotationRequest value)
         {
 
-            int? var_rotationPeriodInDays = value.RotationPeriodInDays;
+            int? var_rotationPeriodInDays = (int?)value.RotationPeriodInDays;
             return new software.amazon.cryptography.services.kms.internaldafny.types.EnableKeyRotationRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S24_EnableKeyRotationRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S24_EnableKeyRotationRequest__M20_RotationPeriodInDays(var_rotationPeriodInDays));
         }
         public static Amazon.KeyManagementService.EncryptionAlgorithmSpec FromDafny_N3_com__N9_amazonaws__N3_kms__S23_EncryptionAlgorithmSpec(software.amazon.cryptography.services.kms.internaldafny.types._IEncryptionAlgorithmSpec value)
@@ -768,10 +768,10 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IEncryptRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S14_EncryptRequest(Amazon.KeyManagementService.Model.EncryptRequest value)
         {
 
-            System.Collections.Generic.Dictionary<string, string> var_encryptionContext = value.EncryptionContext;
-            System.Collections.Generic.List<string> var_grantTokens = value.GrantTokens;
-            Amazon.KeyManagementService.EncryptionAlgorithmSpec var_encryptionAlgorithm = value.EncryptionAlgorithm;
-            bool? var_dryRun = value.DryRun;
+            System.Collections.Generic.Dictionary<string, string> var_encryptionContext = (System.Collections.Generic.Dictionary<string, string>)value.EncryptionContext;
+            System.Collections.Generic.List<string> var_grantTokens = (System.Collections.Generic.List<string>)value.GrantTokens;
+            Amazon.KeyManagementService.EncryptionAlgorithmSpec var_encryptionAlgorithm = (Amazon.KeyManagementService.EncryptionAlgorithmSpec)value.EncryptionAlgorithm;
+            bool? var_dryRun = (bool?)value.DryRun;
             return new software.amazon.cryptography.services.kms.internaldafny.types.EncryptRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S14_EncryptRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_EncryptRequest__M9_Plaintext(value.Plaintext), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_EncryptRequest__M17_EncryptionContext(var_encryptionContext), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_EncryptRequest__M11_GrantTokens(var_grantTokens), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_EncryptRequest__M19_EncryptionAlgorithm(var_encryptionAlgorithm), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_EncryptRequest__M6_DryRun(var_dryRun));
         }
         public static Amazon.KeyManagementService.Model.EncryptResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S15_EncryptResponse(software.amazon.cryptography.services.kms.internaldafny.types._IEncryptResponse value)
@@ -783,9 +783,9 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IEncryptResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S15_EncryptResponse(Amazon.KeyManagementService.Model.EncryptResponse value)
         {
 
-            System.IO.MemoryStream var_ciphertextBlob = value.CiphertextBlob;
-            string var_keyId = value.KeyId;
-            Amazon.KeyManagementService.EncryptionAlgorithmSpec var_encryptionAlgorithm = value.EncryptionAlgorithm;
+            System.IO.MemoryStream var_ciphertextBlob = (System.IO.MemoryStream)value.CiphertextBlob;
+            string var_keyId = (string)value.KeyId;
+            Amazon.KeyManagementService.EncryptionAlgorithmSpec var_encryptionAlgorithm = (Amazon.KeyManagementService.EncryptionAlgorithmSpec)value.EncryptionAlgorithm;
             return new software.amazon.cryptography.services.kms.internaldafny.types.EncryptResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S15_EncryptResponse__M14_CiphertextBlob(var_ciphertextBlob), ToDafny_N3_com__N9_amazonaws__N3_kms__S15_EncryptResponse__M5_KeyId(var_keyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S15_EncryptResponse__M19_EncryptionAlgorithm(var_encryptionAlgorithm));
         }
         public static Amazon.KeyManagementService.ExpirationModelType FromDafny_N3_com__N9_amazonaws__N3_kms__S19_ExpirationModelType(software.amazon.cryptography.services.kms.internaldafny.types._IExpirationModelType value)
@@ -808,7 +808,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_ExpiredImportTokenException ToDafny_N3_com__N9_amazonaws__N3_kms__S27_ExpiredImportTokenException(Amazon.KeyManagementService.Model.ExpiredImportTokenException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_ExpiredImportTokenException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S27_ExpiredImportTokenException__M7_message(var_message)
             );
@@ -825,10 +825,10 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IGenerateDataKeyPairRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S26_GenerateDataKeyPairRequest(Amazon.KeyManagementService.Model.GenerateDataKeyPairRequest value)
         {
 
-            System.Collections.Generic.Dictionary<string, string> var_encryptionContext = value.EncryptionContext;
-            System.Collections.Generic.List<string> var_grantTokens = value.GrantTokens;
-            Amazon.KeyManagementService.Model.RecipientInfo var_recipient = value.Recipient;
-            bool? var_dryRun = value.DryRun;
+            System.Collections.Generic.Dictionary<string, string> var_encryptionContext = (System.Collections.Generic.Dictionary<string, string>)value.EncryptionContext;
+            System.Collections.Generic.List<string> var_grantTokens = (System.Collections.Generic.List<string>)value.GrantTokens;
+            Amazon.KeyManagementService.Model.RecipientInfo var_recipient = (Amazon.KeyManagementService.Model.RecipientInfo)value.Recipient;
+            bool? var_dryRun = (bool?)value.DryRun;
             return new software.amazon.cryptography.services.kms.internaldafny.types.GenerateDataKeyPairRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S26_GenerateDataKeyPairRequest__M17_EncryptionContext(var_encryptionContext), ToDafny_N3_com__N9_amazonaws__N3_kms__S26_GenerateDataKeyPairRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S26_GenerateDataKeyPairRequest__M11_KeyPairSpec(value.KeyPairSpec), ToDafny_N3_com__N9_amazonaws__N3_kms__S26_GenerateDataKeyPairRequest__M11_GrantTokens(var_grantTokens), ToDafny_N3_com__N9_amazonaws__N3_kms__S26_GenerateDataKeyPairRequest__M9_Recipient(var_recipient), ToDafny_N3_com__N9_amazonaws__N3_kms__S26_GenerateDataKeyPairRequest__M6_DryRun(var_dryRun));
         }
         public static Amazon.KeyManagementService.Model.GenerateDataKeyPairResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S27_GenerateDataKeyPairResponse(software.amazon.cryptography.services.kms.internaldafny.types._IGenerateDataKeyPairResponse value)
@@ -843,12 +843,12 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IGenerateDataKeyPairResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S27_GenerateDataKeyPairResponse(Amazon.KeyManagementService.Model.GenerateDataKeyPairResponse value)
         {
 
-            System.IO.MemoryStream var_privateKeyCiphertextBlob = value.PrivateKeyCiphertextBlob;
-            System.IO.MemoryStream var_privateKeyPlaintext = value.PrivateKeyPlaintext;
-            System.IO.MemoryStream var_publicKey = value.PublicKey;
-            string var_keyId = value.KeyId;
-            Amazon.KeyManagementService.DataKeyPairSpec var_keyPairSpec = value.KeyPairSpec;
-            System.IO.MemoryStream var_ciphertextForRecipient = value.CiphertextForRecipient;
+            System.IO.MemoryStream var_privateKeyCiphertextBlob = (System.IO.MemoryStream)value.PrivateKeyCiphertextBlob;
+            System.IO.MemoryStream var_privateKeyPlaintext = (System.IO.MemoryStream)value.PrivateKeyPlaintext;
+            System.IO.MemoryStream var_publicKey = (System.IO.MemoryStream)value.PublicKey;
+            string var_keyId = (string)value.KeyId;
+            Amazon.KeyManagementService.DataKeyPairSpec var_keyPairSpec = (Amazon.KeyManagementService.DataKeyPairSpec)value.KeyPairSpec;
+            System.IO.MemoryStream var_ciphertextForRecipient = (System.IO.MemoryStream)value.CiphertextForRecipient;
             return new software.amazon.cryptography.services.kms.internaldafny.types.GenerateDataKeyPairResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S27_GenerateDataKeyPairResponse__M24_PrivateKeyCiphertextBlob(var_privateKeyCiphertextBlob), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_GenerateDataKeyPairResponse__M19_PrivateKeyPlaintext(var_privateKeyPlaintext), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_GenerateDataKeyPairResponse__M9_PublicKey(var_publicKey), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_GenerateDataKeyPairResponse__M5_KeyId(var_keyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_GenerateDataKeyPairResponse__M11_KeyPairSpec(var_keyPairSpec), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_GenerateDataKeyPairResponse__M22_CiphertextForRecipient(var_ciphertextForRecipient));
         }
         public static Amazon.KeyManagementService.Model.GenerateDataKeyPairWithoutPlaintextRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S42_GenerateDataKeyPairWithoutPlaintextRequest(software.amazon.cryptography.services.kms.internaldafny.types._IGenerateDataKeyPairWithoutPlaintextRequest value)
@@ -862,9 +862,9 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IGenerateDataKeyPairWithoutPlaintextRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S42_GenerateDataKeyPairWithoutPlaintextRequest(Amazon.KeyManagementService.Model.GenerateDataKeyPairWithoutPlaintextRequest value)
         {
 
-            System.Collections.Generic.Dictionary<string, string> var_encryptionContext = value.EncryptionContext;
-            System.Collections.Generic.List<string> var_grantTokens = value.GrantTokens;
-            bool? var_dryRun = value.DryRun;
+            System.Collections.Generic.Dictionary<string, string> var_encryptionContext = (System.Collections.Generic.Dictionary<string, string>)value.EncryptionContext;
+            System.Collections.Generic.List<string> var_grantTokens = (System.Collections.Generic.List<string>)value.GrantTokens;
+            bool? var_dryRun = (bool?)value.DryRun;
             return new software.amazon.cryptography.services.kms.internaldafny.types.GenerateDataKeyPairWithoutPlaintextRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S42_GenerateDataKeyPairWithoutPlaintextRequest__M17_EncryptionContext(var_encryptionContext), ToDafny_N3_com__N9_amazonaws__N3_kms__S42_GenerateDataKeyPairWithoutPlaintextRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S42_GenerateDataKeyPairWithoutPlaintextRequest__M11_KeyPairSpec(value.KeyPairSpec), ToDafny_N3_com__N9_amazonaws__N3_kms__S42_GenerateDataKeyPairWithoutPlaintextRequest__M11_GrantTokens(var_grantTokens), ToDafny_N3_com__N9_amazonaws__N3_kms__S42_GenerateDataKeyPairWithoutPlaintextRequest__M6_DryRun(var_dryRun));
         }
         public static Amazon.KeyManagementService.Model.GenerateDataKeyPairWithoutPlaintextResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S43_GenerateDataKeyPairWithoutPlaintextResponse(software.amazon.cryptography.services.kms.internaldafny.types._IGenerateDataKeyPairWithoutPlaintextResponse value)
@@ -877,10 +877,10 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IGenerateDataKeyPairWithoutPlaintextResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S43_GenerateDataKeyPairWithoutPlaintextResponse(Amazon.KeyManagementService.Model.GenerateDataKeyPairWithoutPlaintextResponse value)
         {
 
-            System.IO.MemoryStream var_privateKeyCiphertextBlob = value.PrivateKeyCiphertextBlob;
-            System.IO.MemoryStream var_publicKey = value.PublicKey;
-            string var_keyId = value.KeyId;
-            Amazon.KeyManagementService.DataKeyPairSpec var_keyPairSpec = value.KeyPairSpec;
+            System.IO.MemoryStream var_privateKeyCiphertextBlob = (System.IO.MemoryStream)value.PrivateKeyCiphertextBlob;
+            System.IO.MemoryStream var_publicKey = (System.IO.MemoryStream)value.PublicKey;
+            string var_keyId = (string)value.KeyId;
+            Amazon.KeyManagementService.DataKeyPairSpec var_keyPairSpec = (Amazon.KeyManagementService.DataKeyPairSpec)value.KeyPairSpec;
             return new software.amazon.cryptography.services.kms.internaldafny.types.GenerateDataKeyPairWithoutPlaintextResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S43_GenerateDataKeyPairWithoutPlaintextResponse__M24_PrivateKeyCiphertextBlob(var_privateKeyCiphertextBlob), ToDafny_N3_com__N9_amazonaws__N3_kms__S43_GenerateDataKeyPairWithoutPlaintextResponse__M9_PublicKey(var_publicKey), ToDafny_N3_com__N9_amazonaws__N3_kms__S43_GenerateDataKeyPairWithoutPlaintextResponse__M5_KeyId(var_keyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S43_GenerateDataKeyPairWithoutPlaintextResponse__M11_KeyPairSpec(var_keyPairSpec));
         }
         public static Amazon.KeyManagementService.Model.GenerateDataKeyRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S22_GenerateDataKeyRequest(software.amazon.cryptography.services.kms.internaldafny.types._IGenerateDataKeyRequest value)
@@ -896,12 +896,12 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IGenerateDataKeyRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S22_GenerateDataKeyRequest(Amazon.KeyManagementService.Model.GenerateDataKeyRequest value)
         {
 
-            System.Collections.Generic.Dictionary<string, string> var_encryptionContext = value.EncryptionContext;
-            int? var_numberOfBytes = value.NumberOfBytes;
-            Amazon.KeyManagementService.DataKeySpec var_keySpec = value.KeySpec;
-            System.Collections.Generic.List<string> var_grantTokens = value.GrantTokens;
-            Amazon.KeyManagementService.Model.RecipientInfo var_recipient = value.Recipient;
-            bool? var_dryRun = value.DryRun;
+            System.Collections.Generic.Dictionary<string, string> var_encryptionContext = (System.Collections.Generic.Dictionary<string, string>)value.EncryptionContext;
+            int? var_numberOfBytes = (int?)value.NumberOfBytes;
+            Amazon.KeyManagementService.DataKeySpec var_keySpec = (Amazon.KeyManagementService.DataKeySpec)value.KeySpec;
+            System.Collections.Generic.List<string> var_grantTokens = (System.Collections.Generic.List<string>)value.GrantTokens;
+            Amazon.KeyManagementService.Model.RecipientInfo var_recipient = (Amazon.KeyManagementService.Model.RecipientInfo)value.Recipient;
+            bool? var_dryRun = (bool?)value.DryRun;
             return new software.amazon.cryptography.services.kms.internaldafny.types.GenerateDataKeyRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S22_GenerateDataKeyRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S22_GenerateDataKeyRequest__M17_EncryptionContext(var_encryptionContext), ToDafny_N3_com__N9_amazonaws__N3_kms__S22_GenerateDataKeyRequest__M13_NumberOfBytes(var_numberOfBytes), ToDafny_N3_com__N9_amazonaws__N3_kms__S22_GenerateDataKeyRequest__M7_KeySpec(var_keySpec), ToDafny_N3_com__N9_amazonaws__N3_kms__S22_GenerateDataKeyRequest__M11_GrantTokens(var_grantTokens), ToDafny_N3_com__N9_amazonaws__N3_kms__S22_GenerateDataKeyRequest__M9_Recipient(var_recipient), ToDafny_N3_com__N9_amazonaws__N3_kms__S22_GenerateDataKeyRequest__M6_DryRun(var_dryRun));
         }
         public static Amazon.KeyManagementService.Model.GenerateDataKeyResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S23_GenerateDataKeyResponse(software.amazon.cryptography.services.kms.internaldafny.types._IGenerateDataKeyResponse value)
@@ -914,10 +914,10 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IGenerateDataKeyResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S23_GenerateDataKeyResponse(Amazon.KeyManagementService.Model.GenerateDataKeyResponse value)
         {
 
-            System.IO.MemoryStream var_ciphertextBlob = value.CiphertextBlob;
-            System.IO.MemoryStream var_plaintext = value.Plaintext;
-            string var_keyId = value.KeyId;
-            System.IO.MemoryStream var_ciphertextForRecipient = value.CiphertextForRecipient;
+            System.IO.MemoryStream var_ciphertextBlob = (System.IO.MemoryStream)value.CiphertextBlob;
+            System.IO.MemoryStream var_plaintext = (System.IO.MemoryStream)value.Plaintext;
+            string var_keyId = (string)value.KeyId;
+            System.IO.MemoryStream var_ciphertextForRecipient = (System.IO.MemoryStream)value.CiphertextForRecipient;
             return new software.amazon.cryptography.services.kms.internaldafny.types.GenerateDataKeyResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S23_GenerateDataKeyResponse__M14_CiphertextBlob(var_ciphertextBlob), ToDafny_N3_com__N9_amazonaws__N3_kms__S23_GenerateDataKeyResponse__M9_Plaintext(var_plaintext), ToDafny_N3_com__N9_amazonaws__N3_kms__S23_GenerateDataKeyResponse__M5_KeyId(var_keyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S23_GenerateDataKeyResponse__M22_CiphertextForRecipient(var_ciphertextForRecipient));
         }
         public static Amazon.KeyManagementService.Model.GenerateDataKeyWithoutPlaintextRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S38_GenerateDataKeyWithoutPlaintextRequest(software.amazon.cryptography.services.kms.internaldafny.types._IGenerateDataKeyWithoutPlaintextRequest value)
@@ -932,11 +932,11 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IGenerateDataKeyWithoutPlaintextRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S38_GenerateDataKeyWithoutPlaintextRequest(Amazon.KeyManagementService.Model.GenerateDataKeyWithoutPlaintextRequest value)
         {
 
-            System.Collections.Generic.Dictionary<string, string> var_encryptionContext = value.EncryptionContext;
-            Amazon.KeyManagementService.DataKeySpec var_keySpec = value.KeySpec;
-            int? var_numberOfBytes = value.NumberOfBytes;
-            System.Collections.Generic.List<string> var_grantTokens = value.GrantTokens;
-            bool? var_dryRun = value.DryRun;
+            System.Collections.Generic.Dictionary<string, string> var_encryptionContext = (System.Collections.Generic.Dictionary<string, string>)value.EncryptionContext;
+            Amazon.KeyManagementService.DataKeySpec var_keySpec = (Amazon.KeyManagementService.DataKeySpec)value.KeySpec;
+            int? var_numberOfBytes = (int?)value.NumberOfBytes;
+            System.Collections.Generic.List<string> var_grantTokens = (System.Collections.Generic.List<string>)value.GrantTokens;
+            bool? var_dryRun = (bool?)value.DryRun;
             return new software.amazon.cryptography.services.kms.internaldafny.types.GenerateDataKeyWithoutPlaintextRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S38_GenerateDataKeyWithoutPlaintextRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S38_GenerateDataKeyWithoutPlaintextRequest__M17_EncryptionContext(var_encryptionContext), ToDafny_N3_com__N9_amazonaws__N3_kms__S38_GenerateDataKeyWithoutPlaintextRequest__M7_KeySpec(var_keySpec), ToDafny_N3_com__N9_amazonaws__N3_kms__S38_GenerateDataKeyWithoutPlaintextRequest__M13_NumberOfBytes(var_numberOfBytes), ToDafny_N3_com__N9_amazonaws__N3_kms__S38_GenerateDataKeyWithoutPlaintextRequest__M11_GrantTokens(var_grantTokens), ToDafny_N3_com__N9_amazonaws__N3_kms__S38_GenerateDataKeyWithoutPlaintextRequest__M6_DryRun(var_dryRun));
         }
         public static Amazon.KeyManagementService.Model.GenerateDataKeyWithoutPlaintextResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S39_GenerateDataKeyWithoutPlaintextResponse(software.amazon.cryptography.services.kms.internaldafny.types._IGenerateDataKeyWithoutPlaintextResponse value)
@@ -947,8 +947,8 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IGenerateDataKeyWithoutPlaintextResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S39_GenerateDataKeyWithoutPlaintextResponse(Amazon.KeyManagementService.Model.GenerateDataKeyWithoutPlaintextResponse value)
         {
 
-            System.IO.MemoryStream var_ciphertextBlob = value.CiphertextBlob;
-            string var_keyId = value.KeyId;
+            System.IO.MemoryStream var_ciphertextBlob = (System.IO.MemoryStream)value.CiphertextBlob;
+            string var_keyId = (string)value.KeyId;
             return new software.amazon.cryptography.services.kms.internaldafny.types.GenerateDataKeyWithoutPlaintextResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S39_GenerateDataKeyWithoutPlaintextResponse__M14_CiphertextBlob(var_ciphertextBlob), ToDafny_N3_com__N9_amazonaws__N3_kms__S39_GenerateDataKeyWithoutPlaintextResponse__M5_KeyId(var_keyId));
         }
         public static Amazon.KeyManagementService.Model.GenerateMacRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S18_GenerateMacRequest(software.amazon.cryptography.services.kms.internaldafny.types._IGenerateMacRequest value)
@@ -962,8 +962,8 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IGenerateMacRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S18_GenerateMacRequest(Amazon.KeyManagementService.Model.GenerateMacRequest value)
         {
 
-            System.Collections.Generic.List<string> var_grantTokens = value.GrantTokens;
-            bool? var_dryRun = value.DryRun;
+            System.Collections.Generic.List<string> var_grantTokens = (System.Collections.Generic.List<string>)value.GrantTokens;
+            bool? var_dryRun = (bool?)value.DryRun;
             return new software.amazon.cryptography.services.kms.internaldafny.types.GenerateMacRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S18_GenerateMacRequest__M7_Message(value.Message), ToDafny_N3_com__N9_amazonaws__N3_kms__S18_GenerateMacRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S18_GenerateMacRequest__M12_MacAlgorithm(value.MacAlgorithm), ToDafny_N3_com__N9_amazonaws__N3_kms__S18_GenerateMacRequest__M11_GrantTokens(var_grantTokens), ToDafny_N3_com__N9_amazonaws__N3_kms__S18_GenerateMacRequest__M6_DryRun(var_dryRun));
         }
         public static Amazon.KeyManagementService.Model.GenerateMacResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S19_GenerateMacResponse(software.amazon.cryptography.services.kms.internaldafny.types._IGenerateMacResponse value)
@@ -975,9 +975,9 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IGenerateMacResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S19_GenerateMacResponse(Amazon.KeyManagementService.Model.GenerateMacResponse value)
         {
 
-            System.IO.MemoryStream var_mac = value.Mac;
-            Amazon.KeyManagementService.MacAlgorithmSpec var_macAlgorithm = value.MacAlgorithm;
-            string var_keyId = value.KeyId;
+            System.IO.MemoryStream var_mac = (System.IO.MemoryStream)value.Mac;
+            Amazon.KeyManagementService.MacAlgorithmSpec var_macAlgorithm = (Amazon.KeyManagementService.MacAlgorithmSpec)value.MacAlgorithm;
+            string var_keyId = (string)value.KeyId;
             return new software.amazon.cryptography.services.kms.internaldafny.types.GenerateMacResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S19_GenerateMacResponse__M3_Mac(var_mac), ToDafny_N3_com__N9_amazonaws__N3_kms__S19_GenerateMacResponse__M12_MacAlgorithm(var_macAlgorithm), ToDafny_N3_com__N9_amazonaws__N3_kms__S19_GenerateMacResponse__M5_KeyId(var_keyId));
         }
         public static Amazon.KeyManagementService.Model.GenerateRandomRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S21_GenerateRandomRequest(software.amazon.cryptography.services.kms.internaldafny.types._IGenerateRandomRequest value)
@@ -989,9 +989,9 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IGenerateRandomRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S21_GenerateRandomRequest(Amazon.KeyManagementService.Model.GenerateRandomRequest value)
         {
 
-            int? var_numberOfBytes = value.NumberOfBytes;
-            string var_customKeyStoreId = value.CustomKeyStoreId;
-            Amazon.KeyManagementService.Model.RecipientInfo var_recipient = value.Recipient;
+            int? var_numberOfBytes = (int?)value.NumberOfBytes;
+            string var_customKeyStoreId = (string)value.CustomKeyStoreId;
+            Amazon.KeyManagementService.Model.RecipientInfo var_recipient = (Amazon.KeyManagementService.Model.RecipientInfo)value.Recipient;
             return new software.amazon.cryptography.services.kms.internaldafny.types.GenerateRandomRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S21_GenerateRandomRequest__M13_NumberOfBytes(var_numberOfBytes), ToDafny_N3_com__N9_amazonaws__N3_kms__S21_GenerateRandomRequest__M16_CustomKeyStoreId(var_customKeyStoreId), ToDafny_N3_com__N9_amazonaws__N3_kms__S21_GenerateRandomRequest__M9_Recipient(var_recipient));
         }
         public static Amazon.KeyManagementService.Model.GenerateRandomResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S22_GenerateRandomResponse(software.amazon.cryptography.services.kms.internaldafny.types._IGenerateRandomResponse value)
@@ -1002,8 +1002,8 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IGenerateRandomResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S22_GenerateRandomResponse(Amazon.KeyManagementService.Model.GenerateRandomResponse value)
         {
 
-            System.IO.MemoryStream var_plaintext = value.Plaintext;
-            System.IO.MemoryStream var_ciphertextForRecipient = value.CiphertextForRecipient;
+            System.IO.MemoryStream var_plaintext = (System.IO.MemoryStream)value.Plaintext;
+            System.IO.MemoryStream var_ciphertextForRecipient = (System.IO.MemoryStream)value.CiphertextForRecipient;
             return new software.amazon.cryptography.services.kms.internaldafny.types.GenerateRandomResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S22_GenerateRandomResponse__M9_Plaintext(var_plaintext), ToDafny_N3_com__N9_amazonaws__N3_kms__S22_GenerateRandomResponse__M22_CiphertextForRecipient(var_ciphertextForRecipient));
         }
         public static Amazon.KeyManagementService.Model.GetKeyPolicyRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S19_GetKeyPolicyRequest(software.amazon.cryptography.services.kms.internaldafny.types._IGetKeyPolicyRequest value)
@@ -1014,7 +1014,7 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IGetKeyPolicyRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S19_GetKeyPolicyRequest(Amazon.KeyManagementService.Model.GetKeyPolicyRequest value)
         {
 
-            string var_policyName = value.PolicyName;
+            string var_policyName = (string)value.PolicyName;
             return new software.amazon.cryptography.services.kms.internaldafny.types.GetKeyPolicyRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S19_GetKeyPolicyRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S19_GetKeyPolicyRequest__M10_PolicyName(var_policyName));
         }
         public static Amazon.KeyManagementService.Model.GetKeyPolicyResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S20_GetKeyPolicyResponse(software.amazon.cryptography.services.kms.internaldafny.types._IGetKeyPolicyResponse value)
@@ -1025,8 +1025,8 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IGetKeyPolicyResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S20_GetKeyPolicyResponse(Amazon.KeyManagementService.Model.GetKeyPolicyResponse value)
         {
 
-            string var_policy = value.Policy;
-            string var_policyName = value.PolicyName;
+            string var_policy = (string)value.Policy;
+            string var_policyName = (string)value.PolicyName;
             return new software.amazon.cryptography.services.kms.internaldafny.types.GetKeyPolicyResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S20_GetKeyPolicyResponse__M6_Policy(var_policy), ToDafny_N3_com__N9_amazonaws__N3_kms__S20_GetKeyPolicyResponse__M10_PolicyName(var_policyName));
         }
         public static Amazon.KeyManagementService.Model.GetKeyRotationStatusRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S27_GetKeyRotationStatusRequest(software.amazon.cryptography.services.kms.internaldafny.types._IGetKeyRotationStatusRequest value)
@@ -1050,11 +1050,11 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IGetKeyRotationStatusResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S28_GetKeyRotationStatusResponse(Amazon.KeyManagementService.Model.GetKeyRotationStatusResponse value)
         {
 
-            bool? var_keyRotationEnabled = value.KeyRotationEnabled;
-            string var_keyId = value.KeyId;
-            int? var_rotationPeriodInDays = value.RotationPeriodInDays;
-            System.DateTime? var_nextRotationDate = value.NextRotationDate;
-            System.DateTime? var_onDemandRotationStartDate = value.OnDemandRotationStartDate;
+            bool? var_keyRotationEnabled = (bool?)value.KeyRotationEnabled;
+            string var_keyId = (string)value.KeyId;
+            int? var_rotationPeriodInDays = (int?)value.RotationPeriodInDays;
+            System.DateTime? var_nextRotationDate = (System.DateTime?)value.NextRotationDate;
+            System.DateTime? var_onDemandRotationStartDate = (System.DateTime?)value.OnDemandRotationStartDate;
             return new software.amazon.cryptography.services.kms.internaldafny.types.GetKeyRotationStatusResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S28_GetKeyRotationStatusResponse__M18_KeyRotationEnabled(var_keyRotationEnabled), ToDafny_N3_com__N9_amazonaws__N3_kms__S28_GetKeyRotationStatusResponse__M5_KeyId(var_keyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S28_GetKeyRotationStatusResponse__M20_RotationPeriodInDays(var_rotationPeriodInDays), ToDafny_N3_com__N9_amazonaws__N3_kms__S28_GetKeyRotationStatusResponse__M16_NextRotationDate(var_nextRotationDate), ToDafny_N3_com__N9_amazonaws__N3_kms__S28_GetKeyRotationStatusResponse__M25_OnDemandRotationStartDate(var_onDemandRotationStartDate));
         }
         public static Amazon.KeyManagementService.Model.GetParametersForImportRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S29_GetParametersForImportRequest(software.amazon.cryptography.services.kms.internaldafny.types._IGetParametersForImportRequest value)
@@ -1079,10 +1079,10 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IGetParametersForImportResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S30_GetParametersForImportResponse(Amazon.KeyManagementService.Model.GetParametersForImportResponse value)
         {
 
-            string var_keyId = value.KeyId;
-            System.IO.MemoryStream var_importToken = value.ImportToken;
-            System.IO.MemoryStream var_publicKey = value.PublicKey;
-            System.DateTime? var_parametersValidTo = value.ParametersValidTo;
+            string var_keyId = (string)value.KeyId;
+            System.IO.MemoryStream var_importToken = (System.IO.MemoryStream)value.ImportToken;
+            System.IO.MemoryStream var_publicKey = (System.IO.MemoryStream)value.PublicKey;
+            System.DateTime? var_parametersValidTo = (System.DateTime?)value.ParametersValidTo;
             return new software.amazon.cryptography.services.kms.internaldafny.types.GetParametersForImportResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S30_GetParametersForImportResponse__M5_KeyId(var_keyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S30_GetParametersForImportResponse__M11_ImportToken(var_importToken), ToDafny_N3_com__N9_amazonaws__N3_kms__S30_GetParametersForImportResponse__M9_PublicKey(var_publicKey), ToDafny_N3_com__N9_amazonaws__N3_kms__S30_GetParametersForImportResponse__M17_ParametersValidTo(var_parametersValidTo));
         }
         public static Amazon.KeyManagementService.Model.GetPublicKeyRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S19_GetPublicKeyRequest(software.amazon.cryptography.services.kms.internaldafny.types._IGetPublicKeyRequest value)
@@ -1093,7 +1093,7 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IGetPublicKeyRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S19_GetPublicKeyRequest(Amazon.KeyManagementService.Model.GetPublicKeyRequest value)
         {
 
-            System.Collections.Generic.List<string> var_grantTokens = value.GrantTokens;
+            System.Collections.Generic.List<string> var_grantTokens = (System.Collections.Generic.List<string>)value.GrantTokens;
             return new software.amazon.cryptography.services.kms.internaldafny.types.GetPublicKeyRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S19_GetPublicKeyRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S19_GetPublicKeyRequest__M11_GrantTokens(var_grantTokens));
         }
         public static Amazon.KeyManagementService.Model.GetPublicKeyResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S20_GetPublicKeyResponse(software.amazon.cryptography.services.kms.internaldafny.types._IGetPublicKeyResponse value)
@@ -1110,14 +1110,14 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IGetPublicKeyResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S20_GetPublicKeyResponse(Amazon.KeyManagementService.Model.GetPublicKeyResponse value)
         {
 
-            string var_keyId = value.KeyId;
-            System.IO.MemoryStream var_publicKey = value.PublicKey;
-            Amazon.KeyManagementService.CustomerMasterKeySpec var_customerMasterKeySpec = value.CustomerMasterKeySpec;
-            Amazon.KeyManagementService.KeySpec var_keySpec = value.KeySpec;
-            Amazon.KeyManagementService.KeyUsageType var_keyUsage = value.KeyUsage;
-            System.Collections.Generic.List<string> var_encryptionAlgorithms = value.EncryptionAlgorithms;
-            System.Collections.Generic.List<string> var_signingAlgorithms = value.SigningAlgorithms;
-            System.Collections.Generic.List<string> var_keyAgreementAlgorithms = value.KeyAgreementAlgorithms;
+            string var_keyId = (string)value.KeyId;
+            System.IO.MemoryStream var_publicKey = (System.IO.MemoryStream)value.PublicKey;
+            Amazon.KeyManagementService.CustomerMasterKeySpec var_customerMasterKeySpec = (Amazon.KeyManagementService.CustomerMasterKeySpec)value.CustomerMasterKeySpec;
+            Amazon.KeyManagementService.KeySpec var_keySpec = (Amazon.KeyManagementService.KeySpec)value.KeySpec;
+            Amazon.KeyManagementService.KeyUsageType var_keyUsage = (Amazon.KeyManagementService.KeyUsageType)value.KeyUsage;
+            System.Collections.Generic.List<string> var_encryptionAlgorithms = (System.Collections.Generic.List<string>)value.EncryptionAlgorithms;
+            System.Collections.Generic.List<string> var_signingAlgorithms = (System.Collections.Generic.List<string>)value.SigningAlgorithms;
+            System.Collections.Generic.List<string> var_keyAgreementAlgorithms = (System.Collections.Generic.List<string>)value.KeyAgreementAlgorithms;
             return new software.amazon.cryptography.services.kms.internaldafny.types.GetPublicKeyResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S20_GetPublicKeyResponse__M5_KeyId(var_keyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S20_GetPublicKeyResponse__M9_PublicKey(var_publicKey), ToDafny_N3_com__N9_amazonaws__N3_kms__S20_GetPublicKeyResponse__M21_CustomerMasterKeySpec(var_customerMasterKeySpec), ToDafny_N3_com__N9_amazonaws__N3_kms__S20_GetPublicKeyResponse__M7_KeySpec(var_keySpec), ToDafny_N3_com__N9_amazonaws__N3_kms__S20_GetPublicKeyResponse__M8_KeyUsage(var_keyUsage), ToDafny_N3_com__N9_amazonaws__N3_kms__S20_GetPublicKeyResponse__M20_EncryptionAlgorithms(var_encryptionAlgorithms), ToDafny_N3_com__N9_amazonaws__N3_kms__S20_GetPublicKeyResponse__M17_SigningAlgorithms(var_signingAlgorithms), ToDafny_N3_com__N9_amazonaws__N3_kms__S20_GetPublicKeyResponse__M22_KeyAgreementAlgorithms(var_keyAgreementAlgorithms));
         }
         public static Amazon.KeyManagementService.GrantOperation FromDafny_N3_com__N9_amazonaws__N3_kms__S14_GrantOperation(software.amazon.cryptography.services.kms.internaldafny.types._IGrantOperation value)
@@ -1173,8 +1173,8 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IImportKeyMaterialRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S24_ImportKeyMaterialRequest(Amazon.KeyManagementService.Model.ImportKeyMaterialRequest value)
         {
 
-            System.DateTime? var_validTo = value.ValidTo;
-            Amazon.KeyManagementService.ExpirationModelType var_expirationModel = value.ExpirationModel;
+            System.DateTime? var_validTo = (System.DateTime?)value.ValidTo;
+            Amazon.KeyManagementService.ExpirationModelType var_expirationModel = (Amazon.KeyManagementService.ExpirationModelType)value.ExpirationModel;
             return new software.amazon.cryptography.services.kms.internaldafny.types.ImportKeyMaterialRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S24_ImportKeyMaterialRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S24_ImportKeyMaterialRequest__M11_ImportToken(value.ImportToken), ToDafny_N3_com__N9_amazonaws__N3_kms__S24_ImportKeyMaterialRequest__M20_EncryptedKeyMaterial(value.EncryptedKeyMaterial), ToDafny_N3_com__N9_amazonaws__N3_kms__S24_ImportKeyMaterialRequest__M7_ValidTo(var_validTo), ToDafny_N3_com__N9_amazonaws__N3_kms__S24_ImportKeyMaterialRequest__M15_ExpirationModel(var_expirationModel));
         }
         public static Amazon.KeyManagementService.Model.ImportKeyMaterialResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S25_ImportKeyMaterialResponse(software.amazon.cryptography.services.kms.internaldafny.types._IImportKeyMaterialResponse value)
@@ -1195,7 +1195,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_IncorrectKeyException ToDafny_N3_com__N9_amazonaws__N3_kms__S21_IncorrectKeyException(Amazon.KeyManagementService.Model.IncorrectKeyException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_IncorrectKeyException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S21_IncorrectKeyException__M7_message(var_message)
             );
@@ -1208,7 +1208,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_IncorrectKeyMaterialException ToDafny_N3_com__N9_amazonaws__N3_kms__S29_IncorrectKeyMaterialException(Amazon.KeyManagementService.Model.IncorrectKeyMaterialException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_IncorrectKeyMaterialException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S29_IncorrectKeyMaterialException__M7_message(var_message)
             );
@@ -1221,7 +1221,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_IncorrectTrustAnchorException ToDafny_N3_com__N9_amazonaws__N3_kms__S29_IncorrectTrustAnchorException(Amazon.KeyManagementService.Model.IncorrectTrustAnchorException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_IncorrectTrustAnchorException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S29_IncorrectTrustAnchorException__M7_message(var_message)
             );
@@ -1234,7 +1234,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidAliasNameException ToDafny_N3_com__N9_amazonaws__N3_kms__S25_InvalidAliasNameException(Amazon.KeyManagementService.Model.InvalidAliasNameException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidAliasNameException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S25_InvalidAliasNameException__M7_message(var_message)
             );
@@ -1247,7 +1247,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidArnException ToDafny_N3_com__N9_amazonaws__N3_kms__S19_InvalidArnException(Amazon.KeyManagementService.Model.InvalidArnException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidArnException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S19_InvalidArnException__M7_message(var_message)
             );
@@ -1260,7 +1260,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidCiphertextException ToDafny_N3_com__N9_amazonaws__N3_kms__S26_InvalidCiphertextException(Amazon.KeyManagementService.Model.InvalidCiphertextException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidCiphertextException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S26_InvalidCiphertextException__M7_message(var_message)
             );
@@ -1273,7 +1273,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidGrantIdException ToDafny_N3_com__N9_amazonaws__N3_kms__S23_InvalidGrantIdException(Amazon.KeyManagementService.Model.InvalidGrantIdException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidGrantIdException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S23_InvalidGrantIdException__M7_message(var_message)
             );
@@ -1286,7 +1286,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidGrantTokenException ToDafny_N3_com__N9_amazonaws__N3_kms__S26_InvalidGrantTokenException(Amazon.KeyManagementService.Model.InvalidGrantTokenException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidGrantTokenException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S26_InvalidGrantTokenException__M7_message(var_message)
             );
@@ -1299,7 +1299,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidImportTokenException ToDafny_N3_com__N9_amazonaws__N3_kms__S27_InvalidImportTokenException(Amazon.KeyManagementService.Model.InvalidImportTokenException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidImportTokenException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S27_InvalidImportTokenException__M7_message(var_message)
             );
@@ -1312,7 +1312,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidKeyUsageException ToDafny_N3_com__N9_amazonaws__N3_kms__S24_InvalidKeyUsageException(Amazon.KeyManagementService.Model.InvalidKeyUsageException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidKeyUsageException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S24_InvalidKeyUsageException__M7_message(var_message)
             );
@@ -1325,7 +1325,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidMarkerException ToDafny_N3_com__N9_amazonaws__N3_kms__S22_InvalidMarkerException(Amazon.KeyManagementService.Model.InvalidMarkerException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidMarkerException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S22_InvalidMarkerException__M7_message(var_message)
             );
@@ -1428,7 +1428,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_KeyUnavailableException ToDafny_N3_com__N9_amazonaws__N3_kms__S23_KeyUnavailableException(Amazon.KeyManagementService.Model.KeyUnavailableException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_KeyUnavailableException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S23_KeyUnavailableException__M7_message(var_message)
             );
@@ -1457,7 +1457,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_KMSInternalException ToDafny_N3_com__N9_amazonaws__N3_kms__S20_KMSInternalException(Amazon.KeyManagementService.Model.KMSInternalException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_KMSInternalException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S20_KMSInternalException__M7_message(var_message)
             );
@@ -1470,7 +1470,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_KMSInvalidMacException ToDafny_N3_com__N9_amazonaws__N3_kms__S22_KMSInvalidMacException(Amazon.KeyManagementService.Model.KMSInvalidMacException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_KMSInvalidMacException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S22_KMSInvalidMacException__M7_message(var_message)
             );
@@ -1483,7 +1483,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_KMSInvalidSignatureException ToDafny_N3_com__N9_amazonaws__N3_kms__S28_KMSInvalidSignatureException(Amazon.KeyManagementService.Model.KMSInvalidSignatureException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_KMSInvalidSignatureException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S28_KMSInvalidSignatureException__M7_message(var_message)
             );
@@ -1496,7 +1496,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_KMSInvalidStateException ToDafny_N3_com__N9_amazonaws__N3_kms__S24_KMSInvalidStateException(Amazon.KeyManagementService.Model.KMSInvalidStateException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_KMSInvalidStateException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S24_KMSInvalidStateException__M7_message(var_message)
             );
@@ -1509,7 +1509,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_LimitExceededException ToDafny_N3_com__N9_amazonaws__N3_kms__S22_LimitExceededException(Amazon.KeyManagementService.Model.LimitExceededException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_LimitExceededException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S22_LimitExceededException__M7_message(var_message)
             );
@@ -1523,9 +1523,9 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IListAliasesRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S18_ListAliasesRequest(Amazon.KeyManagementService.Model.ListAliasesRequest value)
         {
 
-            string var_keyId = value.KeyId;
-            int? var_limit = value.Limit;
-            string var_marker = value.Marker;
+            string var_keyId = (string)value.KeyId;
+            int? var_limit = (int?)value.Limit;
+            string var_marker = (string)value.Marker;
             return new software.amazon.cryptography.services.kms.internaldafny.types.ListAliasesRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S18_ListAliasesRequest__M5_KeyId(var_keyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S18_ListAliasesRequest__M5_Limit(var_limit), ToDafny_N3_com__N9_amazonaws__N3_kms__S18_ListAliasesRequest__M6_Marker(var_marker));
         }
         public static Amazon.KeyManagementService.Model.ListAliasesResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S19_ListAliasesResponse(software.amazon.cryptography.services.kms.internaldafny.types._IListAliasesResponse value)
@@ -1537,9 +1537,9 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IListAliasesResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S19_ListAliasesResponse(Amazon.KeyManagementService.Model.ListAliasesResponse value)
         {
 
-            System.Collections.Generic.List<Amazon.KeyManagementService.Model.AliasListEntry> var_aliases = value.Aliases;
-            string var_nextMarker = value.NextMarker;
-            bool? var_truncated = value.Truncated;
+            System.Collections.Generic.List<Amazon.KeyManagementService.Model.AliasListEntry> var_aliases = (System.Collections.Generic.List<Amazon.KeyManagementService.Model.AliasListEntry>)value.Aliases;
+            string var_nextMarker = (string)value.NextMarker;
+            bool? var_truncated = (bool?)value.Truncated;
             return new software.amazon.cryptography.services.kms.internaldafny.types.ListAliasesResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S19_ListAliasesResponse__M7_Aliases(var_aliases), ToDafny_N3_com__N9_amazonaws__N3_kms__S19_ListAliasesResponse__M10_NextMarker(var_nextMarker), ToDafny_N3_com__N9_amazonaws__N3_kms__S19_ListAliasesResponse__M9_Truncated(var_truncated));
         }
         public static Amazon.KeyManagementService.Model.ListGrantsRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S17_ListGrantsRequest(software.amazon.cryptography.services.kms.internaldafny.types._IListGrantsRequest value)
@@ -1553,10 +1553,10 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IListGrantsRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S17_ListGrantsRequest(Amazon.KeyManagementService.Model.ListGrantsRequest value)
         {
 
-            int? var_limit = value.Limit;
-            string var_marker = value.Marker;
-            string var_grantId = value.GrantId;
-            string var_granteePrincipal = value.GranteePrincipal;
+            int? var_limit = (int?)value.Limit;
+            string var_marker = (string)value.Marker;
+            string var_grantId = (string)value.GrantId;
+            string var_granteePrincipal = (string)value.GranteePrincipal;
             return new software.amazon.cryptography.services.kms.internaldafny.types.ListGrantsRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S17_ListGrantsRequest__M5_Limit(var_limit), ToDafny_N3_com__N9_amazonaws__N3_kms__S17_ListGrantsRequest__M6_Marker(var_marker), ToDafny_N3_com__N9_amazonaws__N3_kms__S17_ListGrantsRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S17_ListGrantsRequest__M7_GrantId(var_grantId), ToDafny_N3_com__N9_amazonaws__N3_kms__S17_ListGrantsRequest__M16_GranteePrincipal(var_granteePrincipal));
         }
         public static Amazon.KeyManagementService.Model.ListGrantsResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S18_ListGrantsResponse(software.amazon.cryptography.services.kms.internaldafny.types._IListGrantsResponse value)
@@ -1568,9 +1568,9 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IListGrantsResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S18_ListGrantsResponse(Amazon.KeyManagementService.Model.ListGrantsResponse value)
         {
 
-            System.Collections.Generic.List<Amazon.KeyManagementService.Model.GrantListEntry> var_grants = value.Grants;
-            string var_nextMarker = value.NextMarker;
-            bool? var_truncated = value.Truncated;
+            System.Collections.Generic.List<Amazon.KeyManagementService.Model.GrantListEntry> var_grants = (System.Collections.Generic.List<Amazon.KeyManagementService.Model.GrantListEntry>)value.Grants;
+            string var_nextMarker = (string)value.NextMarker;
+            bool? var_truncated = (bool?)value.Truncated;
             return new software.amazon.cryptography.services.kms.internaldafny.types.ListGrantsResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S18_ListGrantsResponse__M6_Grants(var_grants), ToDafny_N3_com__N9_amazonaws__N3_kms__S18_ListGrantsResponse__M10_NextMarker(var_nextMarker), ToDafny_N3_com__N9_amazonaws__N3_kms__S18_ListGrantsResponse__M9_Truncated(var_truncated));
         }
         public static Amazon.KeyManagementService.Model.ListKeyPoliciesRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S22_ListKeyPoliciesRequest(software.amazon.cryptography.services.kms.internaldafny.types._IListKeyPoliciesRequest value)
@@ -1582,8 +1582,8 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IListKeyPoliciesRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S22_ListKeyPoliciesRequest(Amazon.KeyManagementService.Model.ListKeyPoliciesRequest value)
         {
 
-            int? var_limit = value.Limit;
-            string var_marker = value.Marker;
+            int? var_limit = (int?)value.Limit;
+            string var_marker = (string)value.Marker;
             return new software.amazon.cryptography.services.kms.internaldafny.types.ListKeyPoliciesRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S22_ListKeyPoliciesRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S22_ListKeyPoliciesRequest__M5_Limit(var_limit), ToDafny_N3_com__N9_amazonaws__N3_kms__S22_ListKeyPoliciesRequest__M6_Marker(var_marker));
         }
         public static Amazon.KeyManagementService.Model.ListKeyPoliciesResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S23_ListKeyPoliciesResponse(software.amazon.cryptography.services.kms.internaldafny.types._IListKeyPoliciesResponse value)
@@ -1595,9 +1595,9 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IListKeyPoliciesResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S23_ListKeyPoliciesResponse(Amazon.KeyManagementService.Model.ListKeyPoliciesResponse value)
         {
 
-            System.Collections.Generic.List<string> var_policyNames = value.PolicyNames;
-            string var_nextMarker = value.NextMarker;
-            bool? var_truncated = value.Truncated;
+            System.Collections.Generic.List<string> var_policyNames = (System.Collections.Generic.List<string>)value.PolicyNames;
+            string var_nextMarker = (string)value.NextMarker;
+            bool? var_truncated = (bool?)value.Truncated;
             return new software.amazon.cryptography.services.kms.internaldafny.types.ListKeyPoliciesResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S23_ListKeyPoliciesResponse__M11_PolicyNames(var_policyNames), ToDafny_N3_com__N9_amazonaws__N3_kms__S23_ListKeyPoliciesResponse__M10_NextMarker(var_nextMarker), ToDafny_N3_com__N9_amazonaws__N3_kms__S23_ListKeyPoliciesResponse__M9_Truncated(var_truncated));
         }
         public static Amazon.KeyManagementService.Model.ListKeyRotationsRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S23_ListKeyRotationsRequest(software.amazon.cryptography.services.kms.internaldafny.types._IListKeyRotationsRequest value)
@@ -1609,8 +1609,8 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IListKeyRotationsRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S23_ListKeyRotationsRequest(Amazon.KeyManagementService.Model.ListKeyRotationsRequest value)
         {
 
-            int? var_limit = value.Limit;
-            string var_marker = value.Marker;
+            int? var_limit = (int?)value.Limit;
+            string var_marker = (string)value.Marker;
             return new software.amazon.cryptography.services.kms.internaldafny.types.ListKeyRotationsRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S23_ListKeyRotationsRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S23_ListKeyRotationsRequest__M5_Limit(var_limit), ToDafny_N3_com__N9_amazonaws__N3_kms__S23_ListKeyRotationsRequest__M6_Marker(var_marker));
         }
         public static Amazon.KeyManagementService.Model.ListKeyRotationsResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S24_ListKeyRotationsResponse(software.amazon.cryptography.services.kms.internaldafny.types._IListKeyRotationsResponse value)
@@ -1622,9 +1622,9 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IListKeyRotationsResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S24_ListKeyRotationsResponse(Amazon.KeyManagementService.Model.ListKeyRotationsResponse value)
         {
 
-            System.Collections.Generic.List<Amazon.KeyManagementService.Model.RotationsListEntry> var_rotations = value.Rotations;
-            string var_nextMarker = value.NextMarker;
-            bool? var_truncated = value.Truncated;
+            System.Collections.Generic.List<Amazon.KeyManagementService.Model.RotationsListEntry> var_rotations = (System.Collections.Generic.List<Amazon.KeyManagementService.Model.RotationsListEntry>)value.Rotations;
+            string var_nextMarker = (string)value.NextMarker;
+            bool? var_truncated = (bool?)value.Truncated;
             return new software.amazon.cryptography.services.kms.internaldafny.types.ListKeyRotationsResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S24_ListKeyRotationsResponse__M9_Rotations(var_rotations), ToDafny_N3_com__N9_amazonaws__N3_kms__S24_ListKeyRotationsResponse__M10_NextMarker(var_nextMarker), ToDafny_N3_com__N9_amazonaws__N3_kms__S24_ListKeyRotationsResponse__M9_Truncated(var_truncated));
         }
         public static Amazon.KeyManagementService.Model.ListKeysRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S15_ListKeysRequest(software.amazon.cryptography.services.kms.internaldafny.types._IListKeysRequest value)
@@ -1635,8 +1635,8 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IListKeysRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S15_ListKeysRequest(Amazon.KeyManagementService.Model.ListKeysRequest value)
         {
 
-            int? var_limit = value.Limit;
-            string var_marker = value.Marker;
+            int? var_limit = (int?)value.Limit;
+            string var_marker = (string)value.Marker;
             return new software.amazon.cryptography.services.kms.internaldafny.types.ListKeysRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S15_ListKeysRequest__M5_Limit(var_limit), ToDafny_N3_com__N9_amazonaws__N3_kms__S15_ListKeysRequest__M6_Marker(var_marker));
         }
         public static Amazon.KeyManagementService.Model.ListKeysResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S16_ListKeysResponse(software.amazon.cryptography.services.kms.internaldafny.types._IListKeysResponse value)
@@ -1648,9 +1648,9 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IListKeysResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S16_ListKeysResponse(Amazon.KeyManagementService.Model.ListKeysResponse value)
         {
 
-            System.Collections.Generic.List<Amazon.KeyManagementService.Model.KeyListEntry> var_keys = value.Keys;
-            string var_nextMarker = value.NextMarker;
-            bool? var_truncated = value.Truncated;
+            System.Collections.Generic.List<Amazon.KeyManagementService.Model.KeyListEntry> var_keys = (System.Collections.Generic.List<Amazon.KeyManagementService.Model.KeyListEntry>)value.Keys;
+            string var_nextMarker = (string)value.NextMarker;
+            bool? var_truncated = (bool?)value.Truncated;
             return new software.amazon.cryptography.services.kms.internaldafny.types.ListKeysResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S16_ListKeysResponse__M4_Keys(var_keys), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_ListKeysResponse__M10_NextMarker(var_nextMarker), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_ListKeysResponse__M9_Truncated(var_truncated));
         }
         public static Amazon.KeyManagementService.Model.ListResourceTagsRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S23_ListResourceTagsRequest(software.amazon.cryptography.services.kms.internaldafny.types._IListResourceTagsRequest value)
@@ -1662,8 +1662,8 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IListResourceTagsRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S23_ListResourceTagsRequest(Amazon.KeyManagementService.Model.ListResourceTagsRequest value)
         {
 
-            int? var_limit = value.Limit;
-            string var_marker = value.Marker;
+            int? var_limit = (int?)value.Limit;
+            string var_marker = (string)value.Marker;
             return new software.amazon.cryptography.services.kms.internaldafny.types.ListResourceTagsRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S23_ListResourceTagsRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S23_ListResourceTagsRequest__M5_Limit(var_limit), ToDafny_N3_com__N9_amazonaws__N3_kms__S23_ListResourceTagsRequest__M6_Marker(var_marker));
         }
         public static Amazon.KeyManagementService.Model.ListResourceTagsResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S24_ListResourceTagsResponse(software.amazon.cryptography.services.kms.internaldafny.types._IListResourceTagsResponse value)
@@ -1675,9 +1675,9 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IListResourceTagsResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S24_ListResourceTagsResponse(Amazon.KeyManagementService.Model.ListResourceTagsResponse value)
         {
 
-            System.Collections.Generic.List<Amazon.KeyManagementService.Model.Tag> var_tags = value.Tags;
-            string var_nextMarker = value.NextMarker;
-            bool? var_truncated = value.Truncated;
+            System.Collections.Generic.List<Amazon.KeyManagementService.Model.Tag> var_tags = (System.Collections.Generic.List<Amazon.KeyManagementService.Model.Tag>)value.Tags;
+            string var_nextMarker = (string)value.NextMarker;
+            bool? var_truncated = (bool?)value.Truncated;
             return new software.amazon.cryptography.services.kms.internaldafny.types.ListResourceTagsResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S24_ListResourceTagsResponse__M4_Tags(var_tags), ToDafny_N3_com__N9_amazonaws__N3_kms__S24_ListResourceTagsResponse__M10_NextMarker(var_nextMarker), ToDafny_N3_com__N9_amazonaws__N3_kms__S24_ListResourceTagsResponse__M9_Truncated(var_truncated));
         }
         public static Amazon.KeyManagementService.MacAlgorithmSpec FromDafny_N3_com__N9_amazonaws__N3_kms__S16_MacAlgorithmSpec(software.amazon.cryptography.services.kms.internaldafny.types._IMacAlgorithmSpec value)
@@ -1704,7 +1704,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_MalformedPolicyDocumentException ToDafny_N3_com__N9_amazonaws__N3_kms__S32_MalformedPolicyDocumentException(Amazon.KeyManagementService.Model.MalformedPolicyDocumentException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_MalformedPolicyDocumentException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S32_MalformedPolicyDocumentException__M7_message(var_message)
             );
@@ -1741,7 +1741,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_NotFoundException ToDafny_N3_com__N9_amazonaws__N3_kms__S17_NotFoundException(Amazon.KeyManagementService.Model.NotFoundException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_NotFoundException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S17_NotFoundException__M7_message(var_message)
             );
@@ -1772,8 +1772,8 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IPutKeyPolicyRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S19_PutKeyPolicyRequest(Amazon.KeyManagementService.Model.PutKeyPolicyRequest value)
         {
 
-            string var_policyName = value.PolicyName;
-            bool? var_bypassPolicyLockoutSafetyCheck = value.BypassPolicyLockoutSafetyCheck;
+            string var_policyName = (string)value.PolicyName;
+            bool? var_bypassPolicyLockoutSafetyCheck = (bool?)value.BypassPolicyLockoutSafetyCheck;
             return new software.amazon.cryptography.services.kms.internaldafny.types.PutKeyPolicyRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S19_PutKeyPolicyRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S19_PutKeyPolicyRequest__M10_PolicyName(var_policyName), ToDafny_N3_com__N9_amazonaws__N3_kms__S19_PutKeyPolicyRequest__M6_Policy(value.Policy), ToDafny_N3_com__N9_amazonaws__N3_kms__S19_PutKeyPolicyRequest__M30_BypassPolicyLockoutSafetyCheck(var_bypassPolicyLockoutSafetyCheck));
         }
         public static Amazon.KeyManagementService.Model.ReEncryptRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S16_ReEncryptRequest(software.amazon.cryptography.services.kms.internaldafny.types._IReEncryptRequest value)
@@ -1791,13 +1791,13 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IReEncryptRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S16_ReEncryptRequest(Amazon.KeyManagementService.Model.ReEncryptRequest value)
         {
 
-            System.Collections.Generic.Dictionary<string, string> var_sourceEncryptionContext = value.SourceEncryptionContext;
-            string var_sourceKeyId = value.SourceKeyId;
-            System.Collections.Generic.Dictionary<string, string> var_destinationEncryptionContext = value.DestinationEncryptionContext;
-            Amazon.KeyManagementService.EncryptionAlgorithmSpec var_sourceEncryptionAlgorithm = value.SourceEncryptionAlgorithm;
-            Amazon.KeyManagementService.EncryptionAlgorithmSpec var_destinationEncryptionAlgorithm = value.DestinationEncryptionAlgorithm;
-            System.Collections.Generic.List<string> var_grantTokens = value.GrantTokens;
-            bool? var_dryRun = value.DryRun;
+            System.Collections.Generic.Dictionary<string, string> var_sourceEncryptionContext = (System.Collections.Generic.Dictionary<string, string>)value.SourceEncryptionContext;
+            string var_sourceKeyId = (string)value.SourceKeyId;
+            System.Collections.Generic.Dictionary<string, string> var_destinationEncryptionContext = (System.Collections.Generic.Dictionary<string, string>)value.DestinationEncryptionContext;
+            Amazon.KeyManagementService.EncryptionAlgorithmSpec var_sourceEncryptionAlgorithm = (Amazon.KeyManagementService.EncryptionAlgorithmSpec)value.SourceEncryptionAlgorithm;
+            Amazon.KeyManagementService.EncryptionAlgorithmSpec var_destinationEncryptionAlgorithm = (Amazon.KeyManagementService.EncryptionAlgorithmSpec)value.DestinationEncryptionAlgorithm;
+            System.Collections.Generic.List<string> var_grantTokens = (System.Collections.Generic.List<string>)value.GrantTokens;
+            bool? var_dryRun = (bool?)value.DryRun;
             return new software.amazon.cryptography.services.kms.internaldafny.types.ReEncryptRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S16_ReEncryptRequest__M14_CiphertextBlob(value.CiphertextBlob), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_ReEncryptRequest__M23_SourceEncryptionContext(var_sourceEncryptionContext), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_ReEncryptRequest__M11_SourceKeyId(var_sourceKeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_ReEncryptRequest__M16_DestinationKeyId(value.DestinationKeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_ReEncryptRequest__M28_DestinationEncryptionContext(var_destinationEncryptionContext), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_ReEncryptRequest__M25_SourceEncryptionAlgorithm(var_sourceEncryptionAlgorithm), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_ReEncryptRequest__M30_DestinationEncryptionAlgorithm(var_destinationEncryptionAlgorithm), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_ReEncryptRequest__M11_GrantTokens(var_grantTokens), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_ReEncryptRequest__M6_DryRun(var_dryRun));
         }
         public static Amazon.KeyManagementService.Model.ReEncryptResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S17_ReEncryptResponse(software.amazon.cryptography.services.kms.internaldafny.types._IReEncryptResponse value)
@@ -1811,11 +1811,11 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IReEncryptResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S17_ReEncryptResponse(Amazon.KeyManagementService.Model.ReEncryptResponse value)
         {
 
-            System.IO.MemoryStream var_ciphertextBlob = value.CiphertextBlob;
-            string var_sourceKeyId = value.SourceKeyId;
-            string var_keyId = value.KeyId;
-            Amazon.KeyManagementService.EncryptionAlgorithmSpec var_sourceEncryptionAlgorithm = value.SourceEncryptionAlgorithm;
-            Amazon.KeyManagementService.EncryptionAlgorithmSpec var_destinationEncryptionAlgorithm = value.DestinationEncryptionAlgorithm;
+            System.IO.MemoryStream var_ciphertextBlob = (System.IO.MemoryStream)value.CiphertextBlob;
+            string var_sourceKeyId = (string)value.SourceKeyId;
+            string var_keyId = (string)value.KeyId;
+            Amazon.KeyManagementService.EncryptionAlgorithmSpec var_sourceEncryptionAlgorithm = (Amazon.KeyManagementService.EncryptionAlgorithmSpec)value.SourceEncryptionAlgorithm;
+            Amazon.KeyManagementService.EncryptionAlgorithmSpec var_destinationEncryptionAlgorithm = (Amazon.KeyManagementService.EncryptionAlgorithmSpec)value.DestinationEncryptionAlgorithm;
             return new software.amazon.cryptography.services.kms.internaldafny.types.ReEncryptResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S17_ReEncryptResponse__M14_CiphertextBlob(var_ciphertextBlob), ToDafny_N3_com__N9_amazonaws__N3_kms__S17_ReEncryptResponse__M11_SourceKeyId(var_sourceKeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S17_ReEncryptResponse__M5_KeyId(var_keyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S17_ReEncryptResponse__M25_SourceEncryptionAlgorithm(var_sourceEncryptionAlgorithm), ToDafny_N3_com__N9_amazonaws__N3_kms__S17_ReEncryptResponse__M30_DestinationEncryptionAlgorithm(var_destinationEncryptionAlgorithm));
         }
         public static Amazon.KeyManagementService.Model.ReplicateKeyRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S19_ReplicateKeyRequest(software.amazon.cryptography.services.kms.internaldafny.types._IReplicateKeyRequest value)
@@ -1830,10 +1830,10 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IReplicateKeyRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S19_ReplicateKeyRequest(Amazon.KeyManagementService.Model.ReplicateKeyRequest value)
         {
 
-            string var_policy = value.Policy;
-            bool? var_bypassPolicyLockoutSafetyCheck = value.BypassPolicyLockoutSafetyCheck;
-            string var_description = value.Description;
-            System.Collections.Generic.List<Amazon.KeyManagementService.Model.Tag> var_tags = value.Tags;
+            string var_policy = (string)value.Policy;
+            bool? var_bypassPolicyLockoutSafetyCheck = (bool?)value.BypassPolicyLockoutSafetyCheck;
+            string var_description = (string)value.Description;
+            System.Collections.Generic.List<Amazon.KeyManagementService.Model.Tag> var_tags = (System.Collections.Generic.List<Amazon.KeyManagementService.Model.Tag>)value.Tags;
             return new software.amazon.cryptography.services.kms.internaldafny.types.ReplicateKeyRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S19_ReplicateKeyRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S19_ReplicateKeyRequest__M13_ReplicaRegion(value.ReplicaRegion), ToDafny_N3_com__N9_amazonaws__N3_kms__S19_ReplicateKeyRequest__M6_Policy(var_policy), ToDafny_N3_com__N9_amazonaws__N3_kms__S19_ReplicateKeyRequest__M30_BypassPolicyLockoutSafetyCheck(var_bypassPolicyLockoutSafetyCheck), ToDafny_N3_com__N9_amazonaws__N3_kms__S19_ReplicateKeyRequest__M11_Description(var_description), ToDafny_N3_com__N9_amazonaws__N3_kms__S19_ReplicateKeyRequest__M4_Tags(var_tags));
         }
         public static Amazon.KeyManagementService.Model.ReplicateKeyResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S20_ReplicateKeyResponse(software.amazon.cryptography.services.kms.internaldafny.types._IReplicateKeyResponse value)
@@ -1845,9 +1845,9 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IReplicateKeyResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S20_ReplicateKeyResponse(Amazon.KeyManagementService.Model.ReplicateKeyResponse value)
         {
 
-            Amazon.KeyManagementService.Model.KeyMetadata var_replicaKeyMetadata = value.ReplicaKeyMetadata;
-            string var_replicaPolicy = value.ReplicaPolicy;
-            System.Collections.Generic.List<Amazon.KeyManagementService.Model.Tag> var_replicaTags = value.ReplicaTags;
+            Amazon.KeyManagementService.Model.KeyMetadata var_replicaKeyMetadata = (Amazon.KeyManagementService.Model.KeyMetadata)value.ReplicaKeyMetadata;
+            string var_replicaPolicy = (string)value.ReplicaPolicy;
+            System.Collections.Generic.List<Amazon.KeyManagementService.Model.Tag> var_replicaTags = (System.Collections.Generic.List<Amazon.KeyManagementService.Model.Tag>)value.ReplicaTags;
             return new software.amazon.cryptography.services.kms.internaldafny.types.ReplicateKeyResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S20_ReplicateKeyResponse__M18_ReplicaKeyMetadata(var_replicaKeyMetadata), ToDafny_N3_com__N9_amazonaws__N3_kms__S20_ReplicateKeyResponse__M13_ReplicaPolicy(var_replicaPolicy), ToDafny_N3_com__N9_amazonaws__N3_kms__S20_ReplicateKeyResponse__M11_ReplicaTags(var_replicaTags));
         }
         public static Amazon.KeyManagementService.Model.RetireGrantRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S18_RetireGrantRequest(software.amazon.cryptography.services.kms.internaldafny.types._IRetireGrantRequest value)
@@ -1860,10 +1860,10 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IRetireGrantRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S18_RetireGrantRequest(Amazon.KeyManagementService.Model.RetireGrantRequest value)
         {
 
-            string var_grantToken = value.GrantToken;
-            string var_keyId = value.KeyId;
-            string var_grantId = value.GrantId;
-            bool? var_dryRun = value.DryRun;
+            string var_grantToken = (string)value.GrantToken;
+            string var_keyId = (string)value.KeyId;
+            string var_grantId = (string)value.GrantId;
+            bool? var_dryRun = (bool?)value.DryRun;
             return new software.amazon.cryptography.services.kms.internaldafny.types.RetireGrantRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S18_RetireGrantRequest__M10_GrantToken(var_grantToken), ToDafny_N3_com__N9_amazonaws__N3_kms__S18_RetireGrantRequest__M5_KeyId(var_keyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S18_RetireGrantRequest__M7_GrantId(var_grantId), ToDafny_N3_com__N9_amazonaws__N3_kms__S18_RetireGrantRequest__M6_DryRun(var_dryRun));
         }
         public static Amazon.KeyManagementService.Model.RevokeGrantRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S18_RevokeGrantRequest(software.amazon.cryptography.services.kms.internaldafny.types._IRevokeGrantRequest value)
@@ -1875,7 +1875,7 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IRevokeGrantRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S18_RevokeGrantRequest(Amazon.KeyManagementService.Model.RevokeGrantRequest value)
         {
 
-            bool? var_dryRun = value.DryRun;
+            bool? var_dryRun = (bool?)value.DryRun;
             return new software.amazon.cryptography.services.kms.internaldafny.types.RevokeGrantRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S18_RevokeGrantRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S18_RevokeGrantRequest__M7_GrantId(value.GrantId), ToDafny_N3_com__N9_amazonaws__N3_kms__S18_RevokeGrantRequest__M6_DryRun(var_dryRun));
         }
         public static Amazon.KeyManagementService.Model.RotateKeyOnDemandRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S24_RotateKeyOnDemandRequest(software.amazon.cryptography.services.kms.internaldafny.types._IRotateKeyOnDemandRequest value)
@@ -1895,7 +1895,7 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IRotateKeyOnDemandResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S25_RotateKeyOnDemandResponse(Amazon.KeyManagementService.Model.RotateKeyOnDemandResponse value)
         {
 
-            string var_keyId = value.KeyId;
+            string var_keyId = (string)value.KeyId;
             return new software.amazon.cryptography.services.kms.internaldafny.types.RotateKeyOnDemandResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S25_RotateKeyOnDemandResponse__M5_KeyId(var_keyId));
         }
         public static Amazon.KeyManagementService.RotationType FromDafny_N3_com__N9_amazonaws__N3_kms__S12_RotationType(software.amazon.cryptography.services.kms.internaldafny.types._IRotationType value)
@@ -1918,7 +1918,7 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IScheduleKeyDeletionRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S26_ScheduleKeyDeletionRequest(Amazon.KeyManagementService.Model.ScheduleKeyDeletionRequest value)
         {
 
-            int? var_pendingWindowInDays = value.PendingWindowInDays;
+            int? var_pendingWindowInDays = (int?)value.PendingWindowInDays;
             return new software.amazon.cryptography.services.kms.internaldafny.types.ScheduleKeyDeletionRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S26_ScheduleKeyDeletionRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S26_ScheduleKeyDeletionRequest__M19_PendingWindowInDays(var_pendingWindowInDays));
         }
         public static Amazon.KeyManagementService.Model.ScheduleKeyDeletionResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S27_ScheduleKeyDeletionResponse(software.amazon.cryptography.services.kms.internaldafny.types._IScheduleKeyDeletionResponse value)
@@ -1931,10 +1931,10 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IScheduleKeyDeletionResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S27_ScheduleKeyDeletionResponse(Amazon.KeyManagementService.Model.ScheduleKeyDeletionResponse value)
         {
 
-            string var_keyId = value.KeyId;
-            System.DateTime? var_deletionDate = value.DeletionDate;
-            Amazon.KeyManagementService.KeyState var_keyState = value.KeyState;
-            int? var_pendingWindowInDays = value.PendingWindowInDays;
+            string var_keyId = (string)value.KeyId;
+            System.DateTime? var_deletionDate = (System.DateTime?)value.DeletionDate;
+            Amazon.KeyManagementService.KeyState var_keyState = (Amazon.KeyManagementService.KeyState)value.KeyState;
+            int? var_pendingWindowInDays = (int?)value.PendingWindowInDays;
             return new software.amazon.cryptography.services.kms.internaldafny.types.ScheduleKeyDeletionResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S27_ScheduleKeyDeletionResponse__M5_KeyId(var_keyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_ScheduleKeyDeletionResponse__M12_DeletionDate(var_deletionDate), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_ScheduleKeyDeletionResponse__M8_KeyState(var_keyState), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_ScheduleKeyDeletionResponse__M19_PendingWindowInDays(var_pendingWindowInDays));
         }
         public static Amazon.KeyManagementService.SigningAlgorithmSpec FromDafny_N3_com__N9_amazonaws__N3_kms__S20_SigningAlgorithmSpec(software.amazon.cryptography.services.kms.internaldafny.types._ISigningAlgorithmSpec value)
@@ -1977,9 +1977,9 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._ISignRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S11_SignRequest(Amazon.KeyManagementService.Model.SignRequest value)
         {
 
-            Amazon.KeyManagementService.MessageType var_messageType = value.MessageType;
-            System.Collections.Generic.List<string> var_grantTokens = value.GrantTokens;
-            bool? var_dryRun = value.DryRun;
+            Amazon.KeyManagementService.MessageType var_messageType = (Amazon.KeyManagementService.MessageType)value.MessageType;
+            System.Collections.Generic.List<string> var_grantTokens = (System.Collections.Generic.List<string>)value.GrantTokens;
+            bool? var_dryRun = (bool?)value.DryRun;
             return new software.amazon.cryptography.services.kms.internaldafny.types.SignRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S11_SignRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_SignRequest__M7_Message(value.Message), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_SignRequest__M11_MessageType(var_messageType), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_SignRequest__M11_GrantTokens(var_grantTokens), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_SignRequest__M16_SigningAlgorithm(value.SigningAlgorithm), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_SignRequest__M6_DryRun(var_dryRun));
         }
         public static Amazon.KeyManagementService.Model.SignResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S12_SignResponse(software.amazon.cryptography.services.kms.internaldafny.types._ISignResponse value)
@@ -1991,9 +1991,9 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._ISignResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S12_SignResponse(Amazon.KeyManagementService.Model.SignResponse value)
         {
 
-            string var_keyId = value.KeyId;
-            System.IO.MemoryStream var_signature = value.Signature;
-            Amazon.KeyManagementService.SigningAlgorithmSpec var_signingAlgorithm = value.SigningAlgorithm;
+            string var_keyId = (string)value.KeyId;
+            System.IO.MemoryStream var_signature = (System.IO.MemoryStream)value.Signature;
+            Amazon.KeyManagementService.SigningAlgorithmSpec var_signingAlgorithm = (Amazon.KeyManagementService.SigningAlgorithmSpec)value.SigningAlgorithm;
             return new software.amazon.cryptography.services.kms.internaldafny.types.SignResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S12_SignResponse__M5_KeyId(var_keyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S12_SignResponse__M9_Signature(var_signature), ToDafny_N3_com__N9_amazonaws__N3_kms__S12_SignResponse__M16_SigningAlgorithm(var_signingAlgorithm));
         }
         public static Amazon.KeyManagementService.Model.TagException FromDafny_N3_com__N9_amazonaws__N3_kms__S12_TagException(software.amazon.cryptography.services.kms.internaldafny.types.Error_TagException value)
@@ -2004,7 +2004,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_TagException ToDafny_N3_com__N9_amazonaws__N3_kms__S12_TagException(Amazon.KeyManagementService.Model.TagException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_TagException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S12_TagException__M7_message(var_message)
             );
@@ -2028,7 +2028,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_UnsupportedOperationException ToDafny_N3_com__N9_amazonaws__N3_kms__S29_UnsupportedOperationException(Amazon.KeyManagementService.Model.UnsupportedOperationException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_UnsupportedOperationException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S29_UnsupportedOperationException__M7_message(var_message)
             );
@@ -2070,14 +2070,14 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IUpdateCustomKeyStoreRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S27_UpdateCustomKeyStoreRequest(Amazon.KeyManagementService.Model.UpdateCustomKeyStoreRequest value)
         {
 
-            string var_newCustomKeyStoreName = value.NewCustomKeyStoreName;
-            string var_keyStorePassword = value.KeyStorePassword;
-            string var_cloudHsmClusterId = value.CloudHsmClusterId;
-            string var_xksProxyUriEndpoint = value.XksProxyUriEndpoint;
-            string var_xksProxyUriPath = value.XksProxyUriPath;
-            string var_xksProxyVpcEndpointServiceName = value.XksProxyVpcEndpointServiceName;
-            Amazon.KeyManagementService.Model.XksProxyAuthenticationCredentialType var_xksProxyAuthenticationCredential = value.XksProxyAuthenticationCredential;
-            Amazon.KeyManagementService.XksProxyConnectivityType var_xksProxyConnectivity = value.XksProxyConnectivity;
+            string var_newCustomKeyStoreName = (string)value.NewCustomKeyStoreName;
+            string var_keyStorePassword = (string)value.KeyStorePassword;
+            string var_cloudHsmClusterId = (string)value.CloudHsmClusterId;
+            string var_xksProxyUriEndpoint = (string)value.XksProxyUriEndpoint;
+            string var_xksProxyUriPath = (string)value.XksProxyUriPath;
+            string var_xksProxyVpcEndpointServiceName = (string)value.XksProxyVpcEndpointServiceName;
+            Amazon.KeyManagementService.Model.XksProxyAuthenticationCredentialType var_xksProxyAuthenticationCredential = (Amazon.KeyManagementService.Model.XksProxyAuthenticationCredentialType)value.XksProxyAuthenticationCredential;
+            Amazon.KeyManagementService.XksProxyConnectivityType var_xksProxyConnectivity = (Amazon.KeyManagementService.XksProxyConnectivityType)value.XksProxyConnectivity;
             return new software.amazon.cryptography.services.kms.internaldafny.types.UpdateCustomKeyStoreRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S27_UpdateCustomKeyStoreRequest__M16_CustomKeyStoreId(value.CustomKeyStoreId), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_UpdateCustomKeyStoreRequest__M21_NewCustomKeyStoreName(var_newCustomKeyStoreName), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_UpdateCustomKeyStoreRequest__M16_KeyStorePassword(var_keyStorePassword), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_UpdateCustomKeyStoreRequest__M17_CloudHsmClusterId(var_cloudHsmClusterId), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_UpdateCustomKeyStoreRequest__M19_XksProxyUriEndpoint(var_xksProxyUriEndpoint), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_UpdateCustomKeyStoreRequest__M15_XksProxyUriPath(var_xksProxyUriPath), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_UpdateCustomKeyStoreRequest__M30_XksProxyVpcEndpointServiceName(var_xksProxyVpcEndpointServiceName), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_UpdateCustomKeyStoreRequest__M32_XksProxyAuthenticationCredential(var_xksProxyAuthenticationCredential), ToDafny_N3_com__N9_amazonaws__N3_kms__S27_UpdateCustomKeyStoreRequest__M20_XksProxyConnectivity(var_xksProxyConnectivity));
         }
         public static Amazon.KeyManagementService.Model.UpdateCustomKeyStoreResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S28_UpdateCustomKeyStoreResponse(software.amazon.cryptography.services.kms.internaldafny.types._IUpdateCustomKeyStoreResponse value)
@@ -2124,8 +2124,8 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IVerifyMacRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S16_VerifyMacRequest(Amazon.KeyManagementService.Model.VerifyMacRequest value)
         {
 
-            System.Collections.Generic.List<string> var_grantTokens = value.GrantTokens;
-            bool? var_dryRun = value.DryRun;
+            System.Collections.Generic.List<string> var_grantTokens = (System.Collections.Generic.List<string>)value.GrantTokens;
+            bool? var_dryRun = (bool?)value.DryRun;
             return new software.amazon.cryptography.services.kms.internaldafny.types.VerifyMacRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S16_VerifyMacRequest__M7_Message(value.Message), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_VerifyMacRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_VerifyMacRequest__M12_MacAlgorithm(value.MacAlgorithm), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_VerifyMacRequest__M3_Mac(value.Mac), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_VerifyMacRequest__M11_GrantTokens(var_grantTokens), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_VerifyMacRequest__M6_DryRun(var_dryRun));
         }
         public static Amazon.KeyManagementService.Model.VerifyMacResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S17_VerifyMacResponse(software.amazon.cryptography.services.kms.internaldafny.types._IVerifyMacResponse value)
@@ -2137,9 +2137,9 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IVerifyMacResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S17_VerifyMacResponse(Amazon.KeyManagementService.Model.VerifyMacResponse value)
         {
 
-            string var_keyId = value.KeyId;
-            bool? var_macValid = value.MacValid;
-            Amazon.KeyManagementService.MacAlgorithmSpec var_macAlgorithm = value.MacAlgorithm;
+            string var_keyId = (string)value.KeyId;
+            bool? var_macValid = (bool?)value.MacValid;
+            Amazon.KeyManagementService.MacAlgorithmSpec var_macAlgorithm = (Amazon.KeyManagementService.MacAlgorithmSpec)value.MacAlgorithm;
             return new software.amazon.cryptography.services.kms.internaldafny.types.VerifyMacResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S17_VerifyMacResponse__M5_KeyId(var_keyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S17_VerifyMacResponse__M8_MacValid(var_macValid), ToDafny_N3_com__N9_amazonaws__N3_kms__S17_VerifyMacResponse__M12_MacAlgorithm(var_macAlgorithm));
         }
         public static Amazon.KeyManagementService.Model.VerifyRequest FromDafny_N3_com__N9_amazonaws__N3_kms__S13_VerifyRequest(software.amazon.cryptography.services.kms.internaldafny.types._IVerifyRequest value)
@@ -2155,9 +2155,9 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IVerifyRequest ToDafny_N3_com__N9_amazonaws__N3_kms__S13_VerifyRequest(Amazon.KeyManagementService.Model.VerifyRequest value)
         {
 
-            Amazon.KeyManagementService.MessageType var_messageType = value.MessageType;
-            System.Collections.Generic.List<string> var_grantTokens = value.GrantTokens;
-            bool? var_dryRun = value.DryRun;
+            Amazon.KeyManagementService.MessageType var_messageType = (Amazon.KeyManagementService.MessageType)value.MessageType;
+            System.Collections.Generic.List<string> var_grantTokens = (System.Collections.Generic.List<string>)value.GrantTokens;
+            bool? var_dryRun = (bool?)value.DryRun;
             return new software.amazon.cryptography.services.kms.internaldafny.types.VerifyRequest(ToDafny_N3_com__N9_amazonaws__N3_kms__S13_VerifyRequest__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S13_VerifyRequest__M7_Message(value.Message), ToDafny_N3_com__N9_amazonaws__N3_kms__S13_VerifyRequest__M11_MessageType(var_messageType), ToDafny_N3_com__N9_amazonaws__N3_kms__S13_VerifyRequest__M9_Signature(value.Signature), ToDafny_N3_com__N9_amazonaws__N3_kms__S13_VerifyRequest__M16_SigningAlgorithm(value.SigningAlgorithm), ToDafny_N3_com__N9_amazonaws__N3_kms__S13_VerifyRequest__M11_GrantTokens(var_grantTokens), ToDafny_N3_com__N9_amazonaws__N3_kms__S13_VerifyRequest__M6_DryRun(var_dryRun));
         }
         public static Amazon.KeyManagementService.Model.VerifyResponse FromDafny_N3_com__N9_amazonaws__N3_kms__S14_VerifyResponse(software.amazon.cryptography.services.kms.internaldafny.types._IVerifyResponse value)
@@ -2169,9 +2169,9 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IVerifyResponse ToDafny_N3_com__N9_amazonaws__N3_kms__S14_VerifyResponse(Amazon.KeyManagementService.Model.VerifyResponse value)
         {
 
-            string var_keyId = value.KeyId;
-            bool? var_signatureValid = value.SignatureValid;
-            Amazon.KeyManagementService.SigningAlgorithmSpec var_signingAlgorithm = value.SigningAlgorithm;
+            string var_keyId = (string)value.KeyId;
+            bool? var_signatureValid = (bool?)value.SignatureValid;
+            Amazon.KeyManagementService.SigningAlgorithmSpec var_signingAlgorithm = (Amazon.KeyManagementService.SigningAlgorithmSpec)value.SigningAlgorithm;
             return new software.amazon.cryptography.services.kms.internaldafny.types.VerifyResponse(ToDafny_N3_com__N9_amazonaws__N3_kms__S14_VerifyResponse__M5_KeyId(var_keyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_VerifyResponse__M14_SignatureValid(var_signatureValid), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_VerifyResponse__M16_SigningAlgorithm(var_signingAlgorithm));
         }
         public static Amazon.KeyManagementService.WrappingKeySpec FromDafny_N3_com__N9_amazonaws__N3_kms__S15_WrappingKeySpec(software.amazon.cryptography.services.kms.internaldafny.types._IWrappingKeySpec value)
@@ -2198,7 +2198,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_XksKeyAlreadyInUseException ToDafny_N3_com__N9_amazonaws__N3_kms__S27_XksKeyAlreadyInUseException(Amazon.KeyManagementService.Model.XksKeyAlreadyInUseException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_XksKeyAlreadyInUseException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S27_XksKeyAlreadyInUseException__M7_message(var_message)
             );
@@ -2211,7 +2211,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_XksKeyInvalidConfigurationException ToDafny_N3_com__N9_amazonaws__N3_kms__S35_XksKeyInvalidConfigurationException(Amazon.KeyManagementService.Model.XksKeyInvalidConfigurationException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_XksKeyInvalidConfigurationException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S35_XksKeyInvalidConfigurationException__M7_message(var_message)
             );
@@ -2224,7 +2224,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_XksKeyNotFoundException ToDafny_N3_com__N9_amazonaws__N3_kms__S23_XksKeyNotFoundException(Amazon.KeyManagementService.Model.XksKeyNotFoundException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_XksKeyNotFoundException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S23_XksKeyNotFoundException__M7_message(var_message)
             );
@@ -2249,7 +2249,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyIncorrectAuthenticationCredentialException ToDafny_N3_com__N9_amazonaws__N3_kms__S50_XksProxyIncorrectAuthenticationCredentialException(Amazon.KeyManagementService.Model.XksProxyIncorrectAuthenticationCredentialException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyIncorrectAuthenticationCredentialException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S50_XksProxyIncorrectAuthenticationCredentialException__M7_message(var_message)
             );
@@ -2262,7 +2262,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyInvalidConfigurationException ToDafny_N3_com__N9_amazonaws__N3_kms__S37_XksProxyInvalidConfigurationException(Amazon.KeyManagementService.Model.XksProxyInvalidConfigurationException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyInvalidConfigurationException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S37_XksProxyInvalidConfigurationException__M7_message(var_message)
             );
@@ -2275,7 +2275,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyInvalidResponseException ToDafny_N3_com__N9_amazonaws__N3_kms__S32_XksProxyInvalidResponseException(Amazon.KeyManagementService.Model.XksProxyInvalidResponseException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyInvalidResponseException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S32_XksProxyInvalidResponseException__M7_message(var_message)
             );
@@ -2288,7 +2288,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyUriEndpointInUseException ToDafny_N3_com__N9_amazonaws__N3_kms__S33_XksProxyUriEndpointInUseException(Amazon.KeyManagementService.Model.XksProxyUriEndpointInUseException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyUriEndpointInUseException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S33_XksProxyUriEndpointInUseException__M7_message(var_message)
             );
@@ -2301,7 +2301,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyUriInUseException ToDafny_N3_com__N9_amazonaws__N3_kms__S25_XksProxyUriInUseException(Amazon.KeyManagementService.Model.XksProxyUriInUseException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyUriInUseException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S25_XksProxyUriInUseException__M7_message(var_message)
             );
@@ -2314,7 +2314,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyUriUnreachableException ToDafny_N3_com__N9_amazonaws__N3_kms__S31_XksProxyUriUnreachableException(Amazon.KeyManagementService.Model.XksProxyUriUnreachableException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyUriUnreachableException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S31_XksProxyUriUnreachableException__M7_message(var_message)
             );
@@ -2327,7 +2327,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyVpcEndpointServiceInUseException ToDafny_N3_com__N9_amazonaws__N3_kms__S40_XksProxyVpcEndpointServiceInUseException(Amazon.KeyManagementService.Model.XksProxyVpcEndpointServiceInUseException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyVpcEndpointServiceInUseException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S40_XksProxyVpcEndpointServiceInUseException__M7_message(var_message)
             );
@@ -2340,7 +2340,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyVpcEndpointServiceInvalidConfigurationException ToDafny_N3_com__N9_amazonaws__N3_kms__S55_XksProxyVpcEndpointServiceInvalidConfigurationException(Amazon.KeyManagementService.Model.XksProxyVpcEndpointServiceInvalidConfigurationException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyVpcEndpointServiceInvalidConfigurationException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S55_XksProxyVpcEndpointServiceInvalidConfigurationException__M7_message(var_message)
             );
@@ -2353,7 +2353,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyVpcEndpointServiceNotFoundException ToDafny_N3_com__N9_amazonaws__N3_kms__S43_XksProxyVpcEndpointServiceNotFoundException(Amazon.KeyManagementService.Model.XksProxyVpcEndpointServiceNotFoundException value)
         {
-            string var_message = value.Message;
+            string var_message = (string)value.Message;
             return new software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyVpcEndpointServiceNotFoundException(
             ToDafny_N3_com__N9_amazonaws__N3_kms__S43_XksProxyVpcEndpointServiceNotFoundException__M7_message(var_message)
             );
@@ -2372,7 +2372,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S24_CancelKeyDeletionRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S25_CancelKeyDeletionResponse__M5_KeyId(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
         {
@@ -2436,7 +2436,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S28_ConnectCustomKeyStoreRequest__M16_CustomKeyStoreId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S20_CustomKeyStoreIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S20_CustomKeyStoreIdType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S18_CreateAliasRequest__M9_AliasName(Dafny.ISequence<char> value)
         {
@@ -2444,7 +2444,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S18_CreateAliasRequest__M9_AliasName(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S13_AliasNameType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S13_AliasNameType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S18_CreateAliasRequest__M11_TargetKeyId(Dafny.ISequence<char> value)
         {
@@ -2452,7 +2452,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S18_CreateAliasRequest__M11_TargetKeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S27_CreateCustomKeyStoreRequest__M18_CustomKeyStoreName(Dafny.ISequence<char> value)
         {
@@ -2460,7 +2460,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S27_CreateCustomKeyStoreRequest__M18_CustomKeyStoreName(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S22_CustomKeyStoreNameType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S22_CustomKeyStoreNameType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S27_CreateCustomKeyStoreRequest__M17_CloudHsmClusterId(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
         {
@@ -2548,7 +2548,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S18_CreateGrantRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S18_CreateGrantRequest__M16_GranteePrincipal(Dafny.ISequence<char> value)
         {
@@ -2556,7 +2556,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S18_CreateGrantRequest__M16_GranteePrincipal(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S15_PrincipalIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S15_PrincipalIdType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S18_CreateGrantRequest__M17_RetiringPrincipal(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
         {
@@ -2572,7 +2572,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<software.amazon.cryptography.services.kms.internaldafny.types._IGrantOperation> ToDafny_N3_com__N9_amazonaws__N3_kms__S18_CreateGrantRequest__M10_Operations(System.Collections.Generic.List<string> value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S18_GrantOperationList(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S18_GrantOperationList((System.Collections.Generic.List<string>)value);
         }
         public static Amazon.KeyManagementService.Model.GrantConstraints FromDafny_N3_com__N9_amazonaws__N3_kms__S18_CreateGrantRequest__M11_Constraints(Wrappers_Compile._IOption<software.amazon.cryptography.services.kms.internaldafny.types._IGrantConstraints> value)
         {
@@ -2756,7 +2756,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<byte> ToDafny_N3_com__N9_amazonaws__N3_kms__S14_DecryptRequest__M14_CiphertextBlob(System.IO.MemoryStream value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_CiphertextType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_CiphertextType((System.IO.MemoryStream)value);
         }
         public static System.Collections.Generic.Dictionary<string, string> FromDafny_N3_com__N9_amazonaws__N3_kms__S14_DecryptRequest__M17_EncryptionContext(Wrappers_Compile._IOption<Dafny.IMap<Dafny.ISequence<char>, Dafny.ISequence<char>>> value)
         {
@@ -2844,7 +2844,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S18_DeleteAliasRequest__M9_AliasName(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S13_AliasNameType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S13_AliasNameType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S27_DeleteCustomKeyStoreRequest__M16_CustomKeyStoreId(Dafny.ISequence<char> value)
         {
@@ -2852,7 +2852,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S27_DeleteCustomKeyStoreRequest__M16_CustomKeyStoreId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S20_CustomKeyStoreIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S20_CustomKeyStoreIdType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S32_DeleteImportedKeyMaterialRequest__M5_KeyId(Dafny.ISequence<char> value)
         {
@@ -2860,7 +2860,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S32_DeleteImportedKeyMaterialRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S26_DependencyTimeoutException__M7_message(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
         {
@@ -2876,7 +2876,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S25_DeriveSharedSecretRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static Amazon.KeyManagementService.KeyAgreementAlgorithmSpec FromDafny_N3_com__N9_amazonaws__N3_kms__S25_DeriveSharedSecretRequest__M21_KeyAgreementAlgorithm(software.amazon.cryptography.services.kms.internaldafny.types._IKeyAgreementAlgorithmSpec value)
         {
@@ -2884,7 +2884,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types._IKeyAgreementAlgorithmSpec ToDafny_N3_com__N9_amazonaws__N3_kms__S25_DeriveSharedSecretRequest__M21_KeyAgreementAlgorithm(Amazon.KeyManagementService.KeyAgreementAlgorithmSpec value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S25_KeyAgreementAlgorithmSpec(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S25_KeyAgreementAlgorithmSpec((Amazon.KeyManagementService.KeyAgreementAlgorithmSpec)value);
         }
         public static System.IO.MemoryStream FromDafny_N3_com__N9_amazonaws__N3_kms__S25_DeriveSharedSecretRequest__M9_PublicKey(Dafny.ISequence<byte> value)
         {
@@ -2892,7 +2892,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<byte> ToDafny_N3_com__N9_amazonaws__N3_kms__S25_DeriveSharedSecretRequest__M9_PublicKey(System.IO.MemoryStream value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S13_PublicKeyType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S13_PublicKeyType((System.IO.MemoryStream)value);
         }
         public static System.Collections.Generic.List<string> FromDafny_N3_com__N9_amazonaws__N3_kms__S25_DeriveSharedSecretRequest__M11_GrantTokens(Wrappers_Compile._IOption<Dafny.ISequence<Dafny.ISequence<char>>> value)
         {
@@ -3020,7 +3020,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S18_DescribeKeyRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static System.Collections.Generic.List<string> FromDafny_N3_com__N9_amazonaws__N3_kms__S18_DescribeKeyRequest__M11_GrantTokens(Wrappers_Compile._IOption<Dafny.ISequence<Dafny.ISequence<char>>> value)
         {
@@ -3052,7 +3052,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S17_DisableKeyRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S25_DisableKeyRotationRequest__M5_KeyId(Dafny.ISequence<char> value)
         {
@@ -3060,7 +3060,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S25_DisableKeyRotationRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S31_DisconnectCustomKeyStoreRequest__M16_CustomKeyStoreId(Dafny.ISequence<char> value)
         {
@@ -3068,7 +3068,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S31_DisconnectCustomKeyStoreRequest__M16_CustomKeyStoreId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S20_CustomKeyStoreIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S20_CustomKeyStoreIdType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S24_DryRunOperationException__M7_message(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
         {
@@ -3084,7 +3084,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S16_EnableKeyRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S24_EnableKeyRotationRequest__M5_KeyId(Dafny.ISequence<char> value)
         {
@@ -3092,7 +3092,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S24_EnableKeyRotationRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static int? FromDafny_N3_com__N9_amazonaws__N3_kms__S24_EnableKeyRotationRequest__M20_RotationPeriodInDays(Wrappers_Compile._IOption<int> value)
         {
@@ -3108,7 +3108,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S14_EncryptRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static System.IO.MemoryStream FromDafny_N3_com__N9_amazonaws__N3_kms__S14_EncryptRequest__M9_Plaintext(Dafny.ISequence<byte> value)
         {
@@ -3116,7 +3116,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<byte> ToDafny_N3_com__N9_amazonaws__N3_kms__S14_EncryptRequest__M9_Plaintext(System.IO.MemoryStream value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S13_PlaintextType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S13_PlaintextType((System.IO.MemoryStream)value);
         }
         public static System.Collections.Generic.Dictionary<string, string> FromDafny_N3_com__N9_amazonaws__N3_kms__S14_EncryptRequest__M17_EncryptionContext(Wrappers_Compile._IOption<Dafny.IMap<Dafny.ISequence<char>, Dafny.ISequence<char>>> value)
         {
@@ -3196,7 +3196,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S26_GenerateDataKeyPairRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static Amazon.KeyManagementService.DataKeyPairSpec FromDafny_N3_com__N9_amazonaws__N3_kms__S26_GenerateDataKeyPairRequest__M11_KeyPairSpec(software.amazon.cryptography.services.kms.internaldafny.types._IDataKeyPairSpec value)
         {
@@ -3204,7 +3204,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types._IDataKeyPairSpec ToDafny_N3_com__N9_amazonaws__N3_kms__S26_GenerateDataKeyPairRequest__M11_KeyPairSpec(Amazon.KeyManagementService.DataKeyPairSpec value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S15_DataKeyPairSpec(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S15_DataKeyPairSpec((Amazon.KeyManagementService.DataKeyPairSpec)value);
         }
         public static System.Collections.Generic.List<string> FromDafny_N3_com__N9_amazonaws__N3_kms__S26_GenerateDataKeyPairRequest__M11_GrantTokens(Wrappers_Compile._IOption<Dafny.ISequence<Dafny.ISequence<char>>> value)
         {
@@ -3292,7 +3292,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S42_GenerateDataKeyPairWithoutPlaintextRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static Amazon.KeyManagementService.DataKeyPairSpec FromDafny_N3_com__N9_amazonaws__N3_kms__S42_GenerateDataKeyPairWithoutPlaintextRequest__M11_KeyPairSpec(software.amazon.cryptography.services.kms.internaldafny.types._IDataKeyPairSpec value)
         {
@@ -3300,7 +3300,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types._IDataKeyPairSpec ToDafny_N3_com__N9_amazonaws__N3_kms__S42_GenerateDataKeyPairWithoutPlaintextRequest__M11_KeyPairSpec(Amazon.KeyManagementService.DataKeyPairSpec value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S15_DataKeyPairSpec(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S15_DataKeyPairSpec((Amazon.KeyManagementService.DataKeyPairSpec)value);
         }
         public static System.Collections.Generic.List<string> FromDafny_N3_com__N9_amazonaws__N3_kms__S42_GenerateDataKeyPairWithoutPlaintextRequest__M11_GrantTokens(Wrappers_Compile._IOption<Dafny.ISequence<Dafny.ISequence<char>>> value)
         {
@@ -3356,7 +3356,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S22_GenerateDataKeyRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static System.Collections.Generic.Dictionary<string, string> FromDafny_N3_com__N9_amazonaws__N3_kms__S22_GenerateDataKeyRequest__M17_EncryptionContext(Wrappers_Compile._IOption<Dafny.IMap<Dafny.ISequence<char>, Dafny.ISequence<char>>> value)
         {
@@ -3444,7 +3444,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S38_GenerateDataKeyWithoutPlaintextRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static System.Collections.Generic.Dictionary<string, string> FromDafny_N3_com__N9_amazonaws__N3_kms__S38_GenerateDataKeyWithoutPlaintextRequest__M17_EncryptionContext(Wrappers_Compile._IOption<Dafny.IMap<Dafny.ISequence<char>, Dafny.ISequence<char>>> value)
         {
@@ -3508,7 +3508,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<byte> ToDafny_N3_com__N9_amazonaws__N3_kms__S18_GenerateMacRequest__M7_Message(System.IO.MemoryStream value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S13_PlaintextType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S13_PlaintextType((System.IO.MemoryStream)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S18_GenerateMacRequest__M5_KeyId(Dafny.ISequence<char> value)
         {
@@ -3516,7 +3516,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S18_GenerateMacRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static Amazon.KeyManagementService.MacAlgorithmSpec FromDafny_N3_com__N9_amazonaws__N3_kms__S18_GenerateMacRequest__M12_MacAlgorithm(software.amazon.cryptography.services.kms.internaldafny.types._IMacAlgorithmSpec value)
         {
@@ -3524,7 +3524,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types._IMacAlgorithmSpec ToDafny_N3_com__N9_amazonaws__N3_kms__S18_GenerateMacRequest__M12_MacAlgorithm(Amazon.KeyManagementService.MacAlgorithmSpec value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S16_MacAlgorithmSpec(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S16_MacAlgorithmSpec((Amazon.KeyManagementService.MacAlgorithmSpec)value);
         }
         public static System.Collections.Generic.List<string> FromDafny_N3_com__N9_amazonaws__N3_kms__S18_GenerateMacRequest__M11_GrantTokens(Wrappers_Compile._IOption<Dafny.ISequence<Dafny.ISequence<char>>> value)
         {
@@ -3612,7 +3612,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S19_GetKeyPolicyRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S19_GetKeyPolicyRequest__M10_PolicyName(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
         {
@@ -3644,7 +3644,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S27_GetKeyRotationStatusRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static bool? FromDafny_N3_com__N9_amazonaws__N3_kms__S28_GetKeyRotationStatusResponse__M18_KeyRotationEnabled(Wrappers_Compile._IOption<bool> value)
         {
@@ -3692,7 +3692,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S29_GetParametersForImportRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static Amazon.KeyManagementService.AlgorithmSpec FromDafny_N3_com__N9_amazonaws__N3_kms__S29_GetParametersForImportRequest__M17_WrappingAlgorithm(software.amazon.cryptography.services.kms.internaldafny.types._IAlgorithmSpec value)
         {
@@ -3700,7 +3700,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types._IAlgorithmSpec ToDafny_N3_com__N9_amazonaws__N3_kms__S29_GetParametersForImportRequest__M17_WrappingAlgorithm(Amazon.KeyManagementService.AlgorithmSpec value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S13_AlgorithmSpec(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S13_AlgorithmSpec((Amazon.KeyManagementService.AlgorithmSpec)value);
         }
         public static Amazon.KeyManagementService.WrappingKeySpec FromDafny_N3_com__N9_amazonaws__N3_kms__S29_GetParametersForImportRequest__M15_WrappingKeySpec(software.amazon.cryptography.services.kms.internaldafny.types._IWrappingKeySpec value)
         {
@@ -3708,7 +3708,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types._IWrappingKeySpec ToDafny_N3_com__N9_amazonaws__N3_kms__S29_GetParametersForImportRequest__M15_WrappingKeySpec(Amazon.KeyManagementService.WrappingKeySpec value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S15_WrappingKeySpec(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S15_WrappingKeySpec((Amazon.KeyManagementService.WrappingKeySpec)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S30_GetParametersForImportResponse__M5_KeyId(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
         {
@@ -3748,7 +3748,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S19_GetPublicKeyRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static System.Collections.Generic.List<string> FromDafny_N3_com__N9_amazonaws__N3_kms__S19_GetPublicKeyRequest__M11_GrantTokens(Wrappers_Compile._IOption<Dafny.ISequence<Dafny.ISequence<char>>> value)
         {
@@ -3828,7 +3828,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S24_ImportKeyMaterialRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static System.IO.MemoryStream FromDafny_N3_com__N9_amazonaws__N3_kms__S24_ImportKeyMaterialRequest__M11_ImportToken(Dafny.ISequence<byte> value)
         {
@@ -3836,7 +3836,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<byte> ToDafny_N3_com__N9_amazonaws__N3_kms__S24_ImportKeyMaterialRequest__M11_ImportToken(System.IO.MemoryStream value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_CiphertextType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_CiphertextType((System.IO.MemoryStream)value);
         }
         public static System.IO.MemoryStream FromDafny_N3_com__N9_amazonaws__N3_kms__S24_ImportKeyMaterialRequest__M20_EncryptedKeyMaterial(Dafny.ISequence<byte> value)
         {
@@ -3844,7 +3844,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<byte> ToDafny_N3_com__N9_amazonaws__N3_kms__S24_ImportKeyMaterialRequest__M20_EncryptedKeyMaterial(System.IO.MemoryStream value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_CiphertextType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_CiphertextType((System.IO.MemoryStream)value);
         }
         public static System.DateTime? FromDafny_N3_com__N9_amazonaws__N3_kms__S24_ImportKeyMaterialRequest__M7_ValidTo(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
         {
@@ -4068,7 +4068,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S17_ListGrantsRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S17_ListGrantsRequest__M7_GrantId(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
         {
@@ -4116,7 +4116,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S22_ListKeyPoliciesRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static int? FromDafny_N3_com__N9_amazonaws__N3_kms__S22_ListKeyPoliciesRequest__M5_Limit(Wrappers_Compile._IOption<int> value)
         {
@@ -4164,7 +4164,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S23_ListKeyRotationsRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static int? FromDafny_N3_com__N9_amazonaws__N3_kms__S23_ListKeyRotationsRequest__M5_Limit(Wrappers_Compile._IOption<int> value)
         {
@@ -4252,7 +4252,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S23_ListResourceTagsRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static int? FromDafny_N3_com__N9_amazonaws__N3_kms__S23_ListResourceTagsRequest__M5_Limit(Wrappers_Compile._IOption<int> value)
         {
@@ -4316,7 +4316,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S19_PutKeyPolicyRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S19_PutKeyPolicyRequest__M10_PolicyName(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
         {
@@ -4332,7 +4332,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S19_PutKeyPolicyRequest__M6_Policy(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S10_PolicyType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S10_PolicyType((string)value);
         }
         public static bool? FromDafny_N3_com__N9_amazonaws__N3_kms__S19_PutKeyPolicyRequest__M30_BypassPolicyLockoutSafetyCheck(Wrappers_Compile._IOption<bool> value)
         {
@@ -4348,7 +4348,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<byte> ToDafny_N3_com__N9_amazonaws__N3_kms__S16_ReEncryptRequest__M14_CiphertextBlob(System.IO.MemoryStream value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_CiphertextType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_CiphertextType((System.IO.MemoryStream)value);
         }
         public static System.Collections.Generic.Dictionary<string, string> FromDafny_N3_com__N9_amazonaws__N3_kms__S16_ReEncryptRequest__M23_SourceEncryptionContext(Wrappers_Compile._IOption<Dafny.IMap<Dafny.ISequence<char>, Dafny.ISequence<char>>> value)
         {
@@ -4372,7 +4372,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S16_ReEncryptRequest__M16_DestinationKeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static System.Collections.Generic.Dictionary<string, string> FromDafny_N3_com__N9_amazonaws__N3_kms__S16_ReEncryptRequest__M28_DestinationEncryptionContext(Wrappers_Compile._IOption<Dafny.IMap<Dafny.ISequence<char>, Dafny.ISequence<char>>> value)
         {
@@ -4460,7 +4460,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S19_ReplicateKeyRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S19_ReplicateKeyRequest__M13_ReplicaRegion(Dafny.ISequence<char> value)
         {
@@ -4468,7 +4468,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S19_ReplicateKeyRequest__M13_ReplicaRegion(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S10_RegionType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S10_RegionType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S19_ReplicateKeyRequest__M6_Policy(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
         {
@@ -4564,7 +4564,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S18_RevokeGrantRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S18_RevokeGrantRequest__M7_GrantId(Dafny.ISequence<char> value)
         {
@@ -4572,7 +4572,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S18_RevokeGrantRequest__M7_GrantId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S11_GrantIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S11_GrantIdType((string)value);
         }
         public static bool? FromDafny_N3_com__N9_amazonaws__N3_kms__S18_RevokeGrantRequest__M6_DryRun(Wrappers_Compile._IOption<bool> value)
         {
@@ -4588,7 +4588,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S24_RotateKeyOnDemandRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S25_RotateKeyOnDemandResponse__M5_KeyId(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
         {
@@ -4604,7 +4604,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S26_ScheduleKeyDeletionRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static int? FromDafny_N3_com__N9_amazonaws__N3_kms__S26_ScheduleKeyDeletionRequest__M19_PendingWindowInDays(Wrappers_Compile._IOption<int> value)
         {
@@ -4652,7 +4652,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S11_SignRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static System.IO.MemoryStream FromDafny_N3_com__N9_amazonaws__N3_kms__S11_SignRequest__M7_Message(Dafny.ISequence<byte> value)
         {
@@ -4660,7 +4660,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<byte> ToDafny_N3_com__N9_amazonaws__N3_kms__S11_SignRequest__M7_Message(System.IO.MemoryStream value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S13_PlaintextType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S13_PlaintextType((System.IO.MemoryStream)value);
         }
         public static Amazon.KeyManagementService.MessageType FromDafny_N3_com__N9_amazonaws__N3_kms__S11_SignRequest__M11_MessageType(Wrappers_Compile._IOption<software.amazon.cryptography.services.kms.internaldafny.types._IMessageType> value)
         {
@@ -4684,7 +4684,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types._ISigningAlgorithmSpec ToDafny_N3_com__N9_amazonaws__N3_kms__S11_SignRequest__M16_SigningAlgorithm(Amazon.KeyManagementService.SigningAlgorithmSpec value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S20_SigningAlgorithmSpec(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S20_SigningAlgorithmSpec((Amazon.KeyManagementService.SigningAlgorithmSpec)value);
         }
         public static bool? FromDafny_N3_com__N9_amazonaws__N3_kms__S11_SignRequest__M6_DryRun(Wrappers_Compile._IOption<bool> value)
         {
@@ -4732,7 +4732,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S18_TagResourceRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static System.Collections.Generic.List<Amazon.KeyManagementService.Model.Tag> FromDafny_N3_com__N9_amazonaws__N3_kms__S18_TagResourceRequest__M4_Tags(Dafny.ISequence<software.amazon.cryptography.services.kms.internaldafny.types._ITag> value)
         {
@@ -4740,7 +4740,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<software.amazon.cryptography.services.kms.internaldafny.types._ITag> ToDafny_N3_com__N9_amazonaws__N3_kms__S18_TagResourceRequest__M4_Tags(System.Collections.Generic.List<Amazon.KeyManagementService.Model.Tag> value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S7_TagList(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S7_TagList((System.Collections.Generic.List<Amazon.KeyManagementService.Model.Tag>)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S29_UnsupportedOperationException__M7_message(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
         {
@@ -4756,7 +4756,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S20_UntagResourceRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static System.Collections.Generic.List<string> FromDafny_N3_com__N9_amazonaws__N3_kms__S20_UntagResourceRequest__M7_TagKeys(Dafny.ISequence<Dafny.ISequence<char>> value)
         {
@@ -4764,7 +4764,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<Dafny.ISequence<char>> ToDafny_N3_com__N9_amazonaws__N3_kms__S20_UntagResourceRequest__M7_TagKeys(System.Collections.Generic.List<string> value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S10_TagKeyList(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S10_TagKeyList((System.Collections.Generic.List<string>)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S18_UpdateAliasRequest__M9_AliasName(Dafny.ISequence<char> value)
         {
@@ -4772,7 +4772,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S18_UpdateAliasRequest__M9_AliasName(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S13_AliasNameType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S13_AliasNameType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S18_UpdateAliasRequest__M11_TargetKeyId(Dafny.ISequence<char> value)
         {
@@ -4780,7 +4780,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S18_UpdateAliasRequest__M11_TargetKeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S27_UpdateCustomKeyStoreRequest__M16_CustomKeyStoreId(Dafny.ISequence<char> value)
         {
@@ -4788,7 +4788,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S27_UpdateCustomKeyStoreRequest__M16_CustomKeyStoreId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S20_CustomKeyStoreIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S20_CustomKeyStoreIdType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S27_UpdateCustomKeyStoreRequest__M21_NewCustomKeyStoreName(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
         {
@@ -4860,7 +4860,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S27_UpdateKeyDescriptionRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S27_UpdateKeyDescriptionRequest__M11_Description(Dafny.ISequence<char> value)
         {
@@ -4868,7 +4868,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S27_UpdateKeyDescriptionRequest__M11_Description(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S15_DescriptionType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S15_DescriptionType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S26_UpdatePrimaryRegionRequest__M5_KeyId(Dafny.ISequence<char> value)
         {
@@ -4876,7 +4876,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S26_UpdatePrimaryRegionRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S26_UpdatePrimaryRegionRequest__M13_PrimaryRegion(Dafny.ISequence<char> value)
         {
@@ -4884,7 +4884,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S26_UpdatePrimaryRegionRequest__M13_PrimaryRegion(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S10_RegionType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S10_RegionType((string)value);
         }
         public static System.IO.MemoryStream FromDafny_N3_com__N9_amazonaws__N3_kms__S16_VerifyMacRequest__M7_Message(Dafny.ISequence<byte> value)
         {
@@ -4892,7 +4892,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<byte> ToDafny_N3_com__N9_amazonaws__N3_kms__S16_VerifyMacRequest__M7_Message(System.IO.MemoryStream value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S13_PlaintextType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S13_PlaintextType((System.IO.MemoryStream)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S16_VerifyMacRequest__M5_KeyId(Dafny.ISequence<char> value)
         {
@@ -4900,7 +4900,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S16_VerifyMacRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static Amazon.KeyManagementService.MacAlgorithmSpec FromDafny_N3_com__N9_amazonaws__N3_kms__S16_VerifyMacRequest__M12_MacAlgorithm(software.amazon.cryptography.services.kms.internaldafny.types._IMacAlgorithmSpec value)
         {
@@ -4908,7 +4908,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types._IMacAlgorithmSpec ToDafny_N3_com__N9_amazonaws__N3_kms__S16_VerifyMacRequest__M12_MacAlgorithm(Amazon.KeyManagementService.MacAlgorithmSpec value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S16_MacAlgorithmSpec(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S16_MacAlgorithmSpec((Amazon.KeyManagementService.MacAlgorithmSpec)value);
         }
         public static System.IO.MemoryStream FromDafny_N3_com__N9_amazonaws__N3_kms__S16_VerifyMacRequest__M3_Mac(Dafny.ISequence<byte> value)
         {
@@ -4916,7 +4916,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<byte> ToDafny_N3_com__N9_amazonaws__N3_kms__S16_VerifyMacRequest__M3_Mac(System.IO.MemoryStream value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_CiphertextType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_CiphertextType((System.IO.MemoryStream)value);
         }
         public static System.Collections.Generic.List<string> FromDafny_N3_com__N9_amazonaws__N3_kms__S16_VerifyMacRequest__M11_GrantTokens(Wrappers_Compile._IOption<Dafny.ISequence<Dafny.ISequence<char>>> value)
         {
@@ -4964,7 +4964,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S13_VerifyRequest__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static System.IO.MemoryStream FromDafny_N3_com__N9_amazonaws__N3_kms__S13_VerifyRequest__M7_Message(Dafny.ISequence<byte> value)
         {
@@ -4972,7 +4972,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<byte> ToDafny_N3_com__N9_amazonaws__N3_kms__S13_VerifyRequest__M7_Message(System.IO.MemoryStream value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S13_PlaintextType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S13_PlaintextType((System.IO.MemoryStream)value);
         }
         public static Amazon.KeyManagementService.MessageType FromDafny_N3_com__N9_amazonaws__N3_kms__S13_VerifyRequest__M11_MessageType(Wrappers_Compile._IOption<software.amazon.cryptography.services.kms.internaldafny.types._IMessageType> value)
         {
@@ -4988,7 +4988,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<byte> ToDafny_N3_com__N9_amazonaws__N3_kms__S13_VerifyRequest__M9_Signature(System.IO.MemoryStream value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_CiphertextType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_CiphertextType((System.IO.MemoryStream)value);
         }
         public static Amazon.KeyManagementService.SigningAlgorithmSpec FromDafny_N3_com__N9_amazonaws__N3_kms__S13_VerifyRequest__M16_SigningAlgorithm(software.amazon.cryptography.services.kms.internaldafny.types._ISigningAlgorithmSpec value)
         {
@@ -4996,7 +4996,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types._ISigningAlgorithmSpec ToDafny_N3_com__N9_amazonaws__N3_kms__S13_VerifyRequest__M16_SigningAlgorithm(Amazon.KeyManagementService.SigningAlgorithmSpec value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S20_SigningAlgorithmSpec(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S20_SigningAlgorithmSpec((Amazon.KeyManagementService.SigningAlgorithmSpec)value);
         }
         public static System.Collections.Generic.List<string> FromDafny_N3_com__N9_amazonaws__N3_kms__S13_VerifyRequest__M11_GrantTokens(Wrappers_Compile._IOption<Dafny.ISequence<Dafny.ISequence<char>>> value)
         {
@@ -5257,8 +5257,8 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IGrantConstraints ToDafny_N3_com__N9_amazonaws__N3_kms__S16_GrantConstraints(Amazon.KeyManagementService.Model.GrantConstraints value)
         {
 
-            System.Collections.Generic.Dictionary<string, string> var_encryptionContextSubset = value.EncryptionContextSubset;
-            System.Collections.Generic.Dictionary<string, string> var_encryptionContextEquals = value.EncryptionContextEquals;
+            System.Collections.Generic.Dictionary<string, string> var_encryptionContextSubset = (System.Collections.Generic.Dictionary<string, string>)value.EncryptionContextSubset;
+            System.Collections.Generic.Dictionary<string, string> var_encryptionContextEquals = (System.Collections.Generic.Dictionary<string, string>)value.EncryptionContextEquals;
             return new software.amazon.cryptography.services.kms.internaldafny.types.GrantConstraints(ToDafny_N3_com__N9_amazonaws__N3_kms__S16_GrantConstraints__M23_EncryptionContextSubset(var_encryptionContextSubset), ToDafny_N3_com__N9_amazonaws__N3_kms__S16_GrantConstraints__M23_EncryptionContextEquals(var_encryptionContextEquals));
         }
         public static System.Collections.Generic.List<string> FromDafny_N3_com__N9_amazonaws__N3_kms__S14_GrantTokenList(Dafny.ISequence<Dafny.ISequence<char>> value)
@@ -5372,30 +5372,30 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IKeyMetadata ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata(Amazon.KeyManagementService.Model.KeyMetadata value)
         {
 
-            string var_aWSAccountId = value.AWSAccountId;
-            string var_arn = value.Arn;
-            System.DateTime? var_creationDate = value.CreationDate;
-            bool? var_enabled = value.Enabled;
-            string var_description = value.Description;
-            Amazon.KeyManagementService.KeyUsageType var_keyUsage = value.KeyUsage;
-            Amazon.KeyManagementService.KeyState var_keyState = value.KeyState;
-            System.DateTime? var_deletionDate = value.DeletionDate;
-            System.DateTime? var_validTo = value.ValidTo;
-            Amazon.KeyManagementService.OriginType var_origin = value.Origin;
-            string var_customKeyStoreId = value.CustomKeyStoreId;
-            string var_cloudHsmClusterId = value.CloudHsmClusterId;
-            Amazon.KeyManagementService.ExpirationModelType var_expirationModel = value.ExpirationModel;
-            Amazon.KeyManagementService.KeyManagerType var_keyManager = value.KeyManager;
-            Amazon.KeyManagementService.CustomerMasterKeySpec var_customerMasterKeySpec = value.CustomerMasterKeySpec;
-            Amazon.KeyManagementService.KeySpec var_keySpec = value.KeySpec;
-            System.Collections.Generic.List<string> var_encryptionAlgorithms = value.EncryptionAlgorithms;
-            System.Collections.Generic.List<string> var_signingAlgorithms = value.SigningAlgorithms;
-            System.Collections.Generic.List<string> var_keyAgreementAlgorithms = value.KeyAgreementAlgorithms;
-            bool? var_multiRegion = value.MultiRegion;
-            Amazon.KeyManagementService.Model.MultiRegionConfiguration var_multiRegionConfiguration = value.MultiRegionConfiguration;
-            int? var_pendingDeletionWindowInDays = value.PendingDeletionWindowInDays;
-            System.Collections.Generic.List<string> var_macAlgorithms = value.MacAlgorithms;
-            Amazon.KeyManagementService.Model.XksKeyConfigurationType var_xksKeyConfiguration = value.XksKeyConfiguration;
+            string var_aWSAccountId = (string)value.AWSAccountId;
+            string var_arn = (string)value.Arn;
+            System.DateTime? var_creationDate = (System.DateTime?)value.CreationDate;
+            bool? var_enabled = (bool?)value.Enabled;
+            string var_description = (string)value.Description;
+            Amazon.KeyManagementService.KeyUsageType var_keyUsage = (Amazon.KeyManagementService.KeyUsageType)value.KeyUsage;
+            Amazon.KeyManagementService.KeyState var_keyState = (Amazon.KeyManagementService.KeyState)value.KeyState;
+            System.DateTime? var_deletionDate = (System.DateTime?)value.DeletionDate;
+            System.DateTime? var_validTo = (System.DateTime?)value.ValidTo;
+            Amazon.KeyManagementService.OriginType var_origin = (Amazon.KeyManagementService.OriginType)value.Origin;
+            string var_customKeyStoreId = (string)value.CustomKeyStoreId;
+            string var_cloudHsmClusterId = (string)value.CloudHsmClusterId;
+            Amazon.KeyManagementService.ExpirationModelType var_expirationModel = (Amazon.KeyManagementService.ExpirationModelType)value.ExpirationModel;
+            Amazon.KeyManagementService.KeyManagerType var_keyManager = (Amazon.KeyManagementService.KeyManagerType)value.KeyManager;
+            Amazon.KeyManagementService.CustomerMasterKeySpec var_customerMasterKeySpec = (Amazon.KeyManagementService.CustomerMasterKeySpec)value.CustomerMasterKeySpec;
+            Amazon.KeyManagementService.KeySpec var_keySpec = (Amazon.KeyManagementService.KeySpec)value.KeySpec;
+            System.Collections.Generic.List<string> var_encryptionAlgorithms = (System.Collections.Generic.List<string>)value.EncryptionAlgorithms;
+            System.Collections.Generic.List<string> var_signingAlgorithms = (System.Collections.Generic.List<string>)value.SigningAlgorithms;
+            System.Collections.Generic.List<string> var_keyAgreementAlgorithms = (System.Collections.Generic.List<string>)value.KeyAgreementAlgorithms;
+            bool? var_multiRegion = (bool?)value.MultiRegion;
+            Amazon.KeyManagementService.Model.MultiRegionConfiguration var_multiRegionConfiguration = (Amazon.KeyManagementService.Model.MultiRegionConfiguration)value.MultiRegionConfiguration;
+            int? var_pendingDeletionWindowInDays = (int?)value.PendingDeletionWindowInDays;
+            System.Collections.Generic.List<string> var_macAlgorithms = (System.Collections.Generic.List<string>)value.MacAlgorithms;
+            Amazon.KeyManagementService.Model.XksKeyConfigurationType var_xksKeyConfiguration = (Amazon.KeyManagementService.Model.XksKeyConfigurationType)value.XksKeyConfiguration;
             return new software.amazon.cryptography.services.kms.internaldafny.types.KeyMetadata(ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M12_AWSAccountId(var_aWSAccountId), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M5_KeyId(value.KeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M3_Arn(var_arn), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M12_CreationDate(var_creationDate), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M7_Enabled(var_enabled), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M11_Description(var_description), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M8_KeyUsage(var_keyUsage), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M8_KeyState(var_keyState), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M12_DeletionDate(var_deletionDate), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M7_ValidTo(var_validTo), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M6_Origin(var_origin), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M16_CustomKeyStoreId(var_customKeyStoreId), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M17_CloudHsmClusterId(var_cloudHsmClusterId), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M15_ExpirationModel(var_expirationModel), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M10_KeyManager(var_keyManager), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M21_CustomerMasterKeySpec(var_customerMasterKeySpec), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M7_KeySpec(var_keySpec), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M20_EncryptionAlgorithms(var_encryptionAlgorithms), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M17_SigningAlgorithms(var_signingAlgorithms), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M22_KeyAgreementAlgorithms(var_keyAgreementAlgorithms), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M11_MultiRegion(var_multiRegion), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M24_MultiRegionConfiguration(var_multiRegionConfiguration), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M27_PendingDeletionWindowInDays(var_pendingDeletionWindowInDays), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M13_MacAlgorithms(var_macAlgorithms), ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M19_XksKeyConfiguration(var_xksKeyConfiguration));
         }
         public static System.IO.MemoryStream FromDafny_N3_com__N9_amazonaws__N3_kms__S14_CiphertextType(Dafny.ISequence<byte> value)
@@ -5429,8 +5429,8 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IRecipientInfo ToDafny_N3_com__N9_amazonaws__N3_kms__S13_RecipientInfo(Amazon.KeyManagementService.Model.RecipientInfo value)
         {
 
-            Amazon.KeyManagementService.KeyEncryptionMechanism var_keyEncryptionAlgorithm = value.KeyEncryptionAlgorithm;
-            System.IO.MemoryStream var_attestationDocument = value.AttestationDocument;
+            Amazon.KeyManagementService.KeyEncryptionMechanism var_keyEncryptionAlgorithm = (Amazon.KeyManagementService.KeyEncryptionMechanism)value.KeyEncryptionAlgorithm;
+            System.IO.MemoryStream var_attestationDocument = (System.IO.MemoryStream)value.AttestationDocument;
             return new software.amazon.cryptography.services.kms.internaldafny.types.RecipientInfo(ToDafny_N3_com__N9_amazonaws__N3_kms__S13_RecipientInfo__M22_KeyEncryptionAlgorithm(var_keyEncryptionAlgorithm), ToDafny_N3_com__N9_amazonaws__N3_kms__S13_RecipientInfo__M19_AttestationDocument(var_attestationDocument));
         }
         public static System.IO.MemoryStream FromDafny_N3_com__N9_amazonaws__N3_kms__S13_PlaintextType(Dafny.ISequence<byte> value)
@@ -5613,7 +5613,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S36_XksProxyAuthenticationCredentialType__M11_AccessKeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S37_XksProxyAuthenticationAccessKeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S37_XksProxyAuthenticationAccessKeyIdType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S36_XksProxyAuthenticationCredentialType__M18_RawSecretAccessKey(Dafny.ISequence<char> value)
         {
@@ -5621,7 +5621,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S36_XksProxyAuthenticationCredentialType__M18_RawSecretAccessKey(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S44_XksProxyAuthenticationRawSecretAccessKeyType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S44_XksProxyAuthenticationRawSecretAccessKeyType((string)value);
         }
         public static Amazon.KeyManagementService.GrantOperation FromDafny_N3_com__N9_amazonaws__N3_kms__S18_GrantOperationList__M6_member(software.amazon.cryptography.services.kms.internaldafny.types._IGrantOperation value)
         {
@@ -5629,7 +5629,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types._IGrantOperation ToDafny_N3_com__N9_amazonaws__N3_kms__S18_GrantOperationList__M6_member(Amazon.KeyManagementService.GrantOperation value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_GrantOperation(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_GrantOperation((Amazon.KeyManagementService.GrantOperation)value);
         }
         public static System.Collections.Generic.Dictionary<string, string> FromDafny_N3_com__N9_amazonaws__N3_kms__S16_GrantConstraints__M23_EncryptionContextSubset(Wrappers_Compile._IOption<Dafny.IMap<Dafny.ISequence<char>, Dafny.ISequence<char>>> value)
         {
@@ -5653,7 +5653,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S14_GrantTokenList__M6_member(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_GrantTokenType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_GrantTokenType((string)value);
         }
         public static Amazon.KeyManagementService.Model.Tag FromDafny_N3_com__N9_amazonaws__N3_kms__S7_TagList__M6_member(software.amazon.cryptography.services.kms.internaldafny.types._ITag value)
         {
@@ -5661,7 +5661,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types._ITag ToDafny_N3_com__N9_amazonaws__N3_kms__S7_TagList__M6_member(Amazon.KeyManagementService.Model.Tag value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S3_Tag(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S3_Tag((Amazon.KeyManagementService.Model.Tag)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M12_AWSAccountId(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
         {
@@ -5677,7 +5677,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M5_KeyId(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S11_KeyMetadata__M3_Arn(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
         {
@@ -5869,7 +5869,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S21_EncryptionContextType__M3_key(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S20_EncryptionContextKey(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S20_EncryptionContextKey((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S21_EncryptionContextType__M5_value(Dafny.ISequence<char> value)
         {
@@ -5877,7 +5877,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S21_EncryptionContextType__M5_value(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S22_EncryptionContextValue(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S22_EncryptionContextValue((string)value);
         }
         public static Amazon.KeyManagementService.KeyEncryptionMechanism FromDafny_N3_com__N9_amazonaws__N3_kms__S13_RecipientInfo__M22_KeyEncryptionAlgorithm(Wrappers_Compile._IOption<software.amazon.cryptography.services.kms.internaldafny.types._IKeyEncryptionMechanism> value)
         {
@@ -5901,7 +5901,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types._ICustomKeyStoresListEntry ToDafny_N3_com__N9_amazonaws__N3_kms__S19_CustomKeyStoresList__M6_member(Amazon.KeyManagementService.Model.CustomKeyStoresListEntry value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S24_CustomKeyStoresListEntry(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S24_CustomKeyStoresListEntry((Amazon.KeyManagementService.Model.CustomKeyStoresListEntry)value);
         }
         public static Amazon.KeyManagementService.EncryptionAlgorithmSpec FromDafny_N3_com__N9_amazonaws__N3_kms__S27_EncryptionAlgorithmSpecList__M6_member(software.amazon.cryptography.services.kms.internaldafny.types._IEncryptionAlgorithmSpec value)
         {
@@ -5909,7 +5909,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types._IEncryptionAlgorithmSpec ToDafny_N3_com__N9_amazonaws__N3_kms__S27_EncryptionAlgorithmSpecList__M6_member(Amazon.KeyManagementService.EncryptionAlgorithmSpec value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S23_EncryptionAlgorithmSpec(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S23_EncryptionAlgorithmSpec((Amazon.KeyManagementService.EncryptionAlgorithmSpec)value);
         }
         public static Amazon.KeyManagementService.SigningAlgorithmSpec FromDafny_N3_com__N9_amazonaws__N3_kms__S24_SigningAlgorithmSpecList__M6_member(software.amazon.cryptography.services.kms.internaldafny.types._ISigningAlgorithmSpec value)
         {
@@ -5917,7 +5917,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types._ISigningAlgorithmSpec ToDafny_N3_com__N9_amazonaws__N3_kms__S24_SigningAlgorithmSpecList__M6_member(Amazon.KeyManagementService.SigningAlgorithmSpec value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S20_SigningAlgorithmSpec(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S20_SigningAlgorithmSpec((Amazon.KeyManagementService.SigningAlgorithmSpec)value);
         }
         public static Amazon.KeyManagementService.KeyAgreementAlgorithmSpec FromDafny_N3_com__N9_amazonaws__N3_kms__S29_KeyAgreementAlgorithmSpecList__M6_member(software.amazon.cryptography.services.kms.internaldafny.types._IKeyAgreementAlgorithmSpec value)
         {
@@ -5925,7 +5925,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types._IKeyAgreementAlgorithmSpec ToDafny_N3_com__N9_amazonaws__N3_kms__S29_KeyAgreementAlgorithmSpecList__M6_member(Amazon.KeyManagementService.KeyAgreementAlgorithmSpec value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S25_KeyAgreementAlgorithmSpec(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S25_KeyAgreementAlgorithmSpec((Amazon.KeyManagementService.KeyAgreementAlgorithmSpec)value);
         }
         public static Amazon.KeyManagementService.Model.AliasListEntry FromDafny_N3_com__N9_amazonaws__N3_kms__S9_AliasList__M6_member(software.amazon.cryptography.services.kms.internaldafny.types._IAliasListEntry value)
         {
@@ -5933,7 +5933,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types._IAliasListEntry ToDafny_N3_com__N9_amazonaws__N3_kms__S9_AliasList__M6_member(Amazon.KeyManagementService.Model.AliasListEntry value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_AliasListEntry(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_AliasListEntry((Amazon.KeyManagementService.Model.AliasListEntry)value);
         }
         public static Amazon.KeyManagementService.Model.GrantListEntry FromDafny_N3_com__N9_amazonaws__N3_kms__S9_GrantList__M6_member(software.amazon.cryptography.services.kms.internaldafny.types._IGrantListEntry value)
         {
@@ -5941,7 +5941,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types._IGrantListEntry ToDafny_N3_com__N9_amazonaws__N3_kms__S9_GrantList__M6_member(Amazon.KeyManagementService.Model.GrantListEntry value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_GrantListEntry(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_GrantListEntry((Amazon.KeyManagementService.Model.GrantListEntry)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S14_PolicyNameList__M6_member(Dafny.ISequence<char> value)
         {
@@ -5949,7 +5949,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S14_PolicyNameList__M6_member(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_PolicyNameType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_PolicyNameType((string)value);
         }
         public static Amazon.KeyManagementService.Model.RotationsListEntry FromDafny_N3_com__N9_amazonaws__N3_kms__S13_RotationsList__M6_member(software.amazon.cryptography.services.kms.internaldafny.types._IRotationsListEntry value)
         {
@@ -5957,7 +5957,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types._IRotationsListEntry ToDafny_N3_com__N9_amazonaws__N3_kms__S13_RotationsList__M6_member(Amazon.KeyManagementService.Model.RotationsListEntry value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S18_RotationsListEntry(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S18_RotationsListEntry((Amazon.KeyManagementService.Model.RotationsListEntry)value);
         }
         public static Amazon.KeyManagementService.Model.KeyListEntry FromDafny_N3_com__N9_amazonaws__N3_kms__S7_KeyList__M6_member(software.amazon.cryptography.services.kms.internaldafny.types._IKeyListEntry value)
         {
@@ -5965,7 +5965,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types._IKeyListEntry ToDafny_N3_com__N9_amazonaws__N3_kms__S7_KeyList__M6_member(Amazon.KeyManagementService.Model.KeyListEntry value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S12_KeyListEntry(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S12_KeyListEntry((Amazon.KeyManagementService.Model.KeyListEntry)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S10_TagKeyList__M6_member(Dafny.ISequence<char> value)
         {
@@ -5973,7 +5973,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S10_TagKeyList__M6_member(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S10_TagKeyType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S10_TagKeyType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S37_XksProxyAuthenticationAccessKeyIdType(Dafny.ISequence<char> value)
         {
@@ -6027,9 +6027,9 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IMultiRegionConfiguration ToDafny_N3_com__N9_amazonaws__N3_kms__S24_MultiRegionConfiguration(Amazon.KeyManagementService.Model.MultiRegionConfiguration value)
         {
 
-            Amazon.KeyManagementService.MultiRegionKeyType var_multiRegionKeyType = value.MultiRegionKeyType;
-            Amazon.KeyManagementService.Model.MultiRegionKey var_primaryKey = value.PrimaryKey;
-            System.Collections.Generic.List<Amazon.KeyManagementService.Model.MultiRegionKey> var_replicaKeys = value.ReplicaKeys;
+            Amazon.KeyManagementService.MultiRegionKeyType var_multiRegionKeyType = (Amazon.KeyManagementService.MultiRegionKeyType)value.MultiRegionKeyType;
+            Amazon.KeyManagementService.Model.MultiRegionKey var_primaryKey = (Amazon.KeyManagementService.Model.MultiRegionKey)value.PrimaryKey;
+            System.Collections.Generic.List<Amazon.KeyManagementService.Model.MultiRegionKey> var_replicaKeys = (System.Collections.Generic.List<Amazon.KeyManagementService.Model.MultiRegionKey>)value.ReplicaKeys;
             return new software.amazon.cryptography.services.kms.internaldafny.types.MultiRegionConfiguration(ToDafny_N3_com__N9_amazonaws__N3_kms__S24_MultiRegionConfiguration__M18_MultiRegionKeyType(var_multiRegionKeyType), ToDafny_N3_com__N9_amazonaws__N3_kms__S24_MultiRegionConfiguration__M10_PrimaryKey(var_primaryKey), ToDafny_N3_com__N9_amazonaws__N3_kms__S24_MultiRegionConfiguration__M11_ReplicaKeys(var_replicaKeys));
         }
         public static System.Collections.Generic.List<string> FromDafny_N3_com__N9_amazonaws__N3_kms__S20_MacAlgorithmSpecList(Dafny.ISequence<software.amazon.cryptography.services.kms.internaldafny.types._IMacAlgorithmSpec> value)
@@ -6047,7 +6047,7 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IXksKeyConfigurationType ToDafny_N3_com__N9_amazonaws__N3_kms__S23_XksKeyConfigurationType(Amazon.KeyManagementService.Model.XksKeyConfigurationType value)
         {
 
-            string var_id = value.Id;
+            string var_id = (string)value.Id;
             return new software.amazon.cryptography.services.kms.internaldafny.types.XksKeyConfigurationType(ToDafny_N3_com__N9_amazonaws__N3_kms__S23_XksKeyConfigurationType__M2_Id(var_id));
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S20_EncryptionContextKey(Dafny.ISequence<char> value)
@@ -6094,15 +6094,15 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._ICustomKeyStoresListEntry ToDafny_N3_com__N9_amazonaws__N3_kms__S24_CustomKeyStoresListEntry(Amazon.KeyManagementService.Model.CustomKeyStoresListEntry value)
         {
 
-            string var_customKeyStoreId = value.CustomKeyStoreId;
-            string var_customKeyStoreName = value.CustomKeyStoreName;
-            string var_cloudHsmClusterId = value.CloudHsmClusterId;
-            string var_trustAnchorCertificate = value.TrustAnchorCertificate;
-            Amazon.KeyManagementService.ConnectionStateType var_connectionState = value.ConnectionState;
-            Amazon.KeyManagementService.ConnectionErrorCodeType var_connectionErrorCode = value.ConnectionErrorCode;
-            System.DateTime? var_creationDate = value.CreationDate;
-            Amazon.KeyManagementService.CustomKeyStoreType var_customKeyStoreType = value.CustomKeyStoreType;
-            Amazon.KeyManagementService.Model.XksProxyConfigurationType var_xksProxyConfiguration = value.XksProxyConfiguration;
+            string var_customKeyStoreId = (string)value.CustomKeyStoreId;
+            string var_customKeyStoreName = (string)value.CustomKeyStoreName;
+            string var_cloudHsmClusterId = (string)value.CloudHsmClusterId;
+            string var_trustAnchorCertificate = (string)value.TrustAnchorCertificate;
+            Amazon.KeyManagementService.ConnectionStateType var_connectionState = (Amazon.KeyManagementService.ConnectionStateType)value.ConnectionState;
+            Amazon.KeyManagementService.ConnectionErrorCodeType var_connectionErrorCode = (Amazon.KeyManagementService.ConnectionErrorCodeType)value.ConnectionErrorCode;
+            System.DateTime? var_creationDate = (System.DateTime?)value.CreationDate;
+            Amazon.KeyManagementService.CustomKeyStoreType var_customKeyStoreType = (Amazon.KeyManagementService.CustomKeyStoreType)value.CustomKeyStoreType;
+            Amazon.KeyManagementService.Model.XksProxyConfigurationType var_xksProxyConfiguration = (Amazon.KeyManagementService.Model.XksProxyConfigurationType)value.XksProxyConfiguration;
             return new software.amazon.cryptography.services.kms.internaldafny.types.CustomKeyStoresListEntry(ToDafny_N3_com__N9_amazonaws__N3_kms__S24_CustomKeyStoresListEntry__M16_CustomKeyStoreId(var_customKeyStoreId), ToDafny_N3_com__N9_amazonaws__N3_kms__S24_CustomKeyStoresListEntry__M18_CustomKeyStoreName(var_customKeyStoreName), ToDafny_N3_com__N9_amazonaws__N3_kms__S24_CustomKeyStoresListEntry__M17_CloudHsmClusterId(var_cloudHsmClusterId), ToDafny_N3_com__N9_amazonaws__N3_kms__S24_CustomKeyStoresListEntry__M22_TrustAnchorCertificate(var_trustAnchorCertificate), ToDafny_N3_com__N9_amazonaws__N3_kms__S24_CustomKeyStoresListEntry__M15_ConnectionState(var_connectionState), ToDafny_N3_com__N9_amazonaws__N3_kms__S24_CustomKeyStoresListEntry__M19_ConnectionErrorCode(var_connectionErrorCode), ToDafny_N3_com__N9_amazonaws__N3_kms__S24_CustomKeyStoresListEntry__M12_CreationDate(var_creationDate), ToDafny_N3_com__N9_amazonaws__N3_kms__S24_CustomKeyStoresListEntry__M18_CustomKeyStoreType(var_customKeyStoreType), ToDafny_N3_com__N9_amazonaws__N3_kms__S24_CustomKeyStoresListEntry__M21_XksProxyConfiguration(var_xksProxyConfiguration));
         }
         public static Amazon.KeyManagementService.Model.AliasListEntry FromDafny_N3_com__N9_amazonaws__N3_kms__S14_AliasListEntry(software.amazon.cryptography.services.kms.internaldafny.types._IAliasListEntry value)
@@ -6116,11 +6116,11 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IAliasListEntry ToDafny_N3_com__N9_amazonaws__N3_kms__S14_AliasListEntry(Amazon.KeyManagementService.Model.AliasListEntry value)
         {
 
-            string var_aliasName = value.AliasName;
-            string var_aliasArn = value.AliasArn;
-            string var_targetKeyId = value.TargetKeyId;
-            System.DateTime? var_creationDate = value.CreationDate;
-            System.DateTime? var_lastUpdatedDate = value.LastUpdatedDate;
+            string var_aliasName = (string)value.AliasName;
+            string var_aliasArn = (string)value.AliasArn;
+            string var_targetKeyId = (string)value.TargetKeyId;
+            System.DateTime? var_creationDate = (System.DateTime?)value.CreationDate;
+            System.DateTime? var_lastUpdatedDate = (System.DateTime?)value.LastUpdatedDate;
             return new software.amazon.cryptography.services.kms.internaldafny.types.AliasListEntry(ToDafny_N3_com__N9_amazonaws__N3_kms__S14_AliasListEntry__M9_AliasName(var_aliasName), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_AliasListEntry__M8_AliasArn(var_aliasArn), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_AliasListEntry__M11_TargetKeyId(var_targetKeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_AliasListEntry__M12_CreationDate(var_creationDate), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_AliasListEntry__M15_LastUpdatedDate(var_lastUpdatedDate));
         }
         public static Amazon.KeyManagementService.Model.GrantListEntry FromDafny_N3_com__N9_amazonaws__N3_kms__S14_GrantListEntry(software.amazon.cryptography.services.kms.internaldafny.types._IGrantListEntry value)
@@ -6138,15 +6138,15 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IGrantListEntry ToDafny_N3_com__N9_amazonaws__N3_kms__S14_GrantListEntry(Amazon.KeyManagementService.Model.GrantListEntry value)
         {
 
-            string var_keyId = value.KeyId;
-            string var_grantId = value.GrantId;
-            string var_name = value.Name;
-            System.DateTime? var_creationDate = value.CreationDate;
-            string var_granteePrincipal = value.GranteePrincipal;
-            string var_retiringPrincipal = value.RetiringPrincipal;
-            string var_issuingAccount = value.IssuingAccount;
-            System.Collections.Generic.List<string> var_operations = value.Operations;
-            Amazon.KeyManagementService.Model.GrantConstraints var_constraints = value.Constraints;
+            string var_keyId = (string)value.KeyId;
+            string var_grantId = (string)value.GrantId;
+            string var_name = (string)value.Name;
+            System.DateTime? var_creationDate = (System.DateTime?)value.CreationDate;
+            string var_granteePrincipal = (string)value.GranteePrincipal;
+            string var_retiringPrincipal = (string)value.RetiringPrincipal;
+            string var_issuingAccount = (string)value.IssuingAccount;
+            System.Collections.Generic.List<string> var_operations = (System.Collections.Generic.List<string>)value.Operations;
+            Amazon.KeyManagementService.Model.GrantConstraints var_constraints = (Amazon.KeyManagementService.Model.GrantConstraints)value.Constraints;
             return new software.amazon.cryptography.services.kms.internaldafny.types.GrantListEntry(ToDafny_N3_com__N9_amazonaws__N3_kms__S14_GrantListEntry__M5_KeyId(var_keyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_GrantListEntry__M7_GrantId(var_grantId), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_GrantListEntry__M4_Name(var_name), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_GrantListEntry__M12_CreationDate(var_creationDate), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_GrantListEntry__M16_GranteePrincipal(var_granteePrincipal), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_GrantListEntry__M17_RetiringPrincipal(var_retiringPrincipal), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_GrantListEntry__M14_IssuingAccount(var_issuingAccount), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_GrantListEntry__M10_Operations(var_operations), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_GrantListEntry__M11_Constraints(var_constraints));
         }
         public static Amazon.KeyManagementService.Model.RotationsListEntry FromDafny_N3_com__N9_amazonaws__N3_kms__S18_RotationsListEntry(software.amazon.cryptography.services.kms.internaldafny.types._IRotationsListEntry value)
@@ -6158,9 +6158,9 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IRotationsListEntry ToDafny_N3_com__N9_amazonaws__N3_kms__S18_RotationsListEntry(Amazon.KeyManagementService.Model.RotationsListEntry value)
         {
 
-            string var_keyId = value.KeyId;
-            System.DateTime? var_rotationDate = value.RotationDate;
-            Amazon.KeyManagementService.RotationType var_rotationType = value.RotationType;
+            string var_keyId = (string)value.KeyId;
+            System.DateTime? var_rotationDate = (System.DateTime?)value.RotationDate;
+            Amazon.KeyManagementService.RotationType var_rotationType = (Amazon.KeyManagementService.RotationType)value.RotationType;
             return new software.amazon.cryptography.services.kms.internaldafny.types.RotationsListEntry(ToDafny_N3_com__N9_amazonaws__N3_kms__S18_RotationsListEntry__M5_KeyId(var_keyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S18_RotationsListEntry__M12_RotationDate(var_rotationDate), ToDafny_N3_com__N9_amazonaws__N3_kms__S18_RotationsListEntry__M12_RotationType(var_rotationType));
         }
         public static Amazon.KeyManagementService.Model.KeyListEntry FromDafny_N3_com__N9_amazonaws__N3_kms__S12_KeyListEntry(software.amazon.cryptography.services.kms.internaldafny.types._IKeyListEntry value)
@@ -6171,8 +6171,8 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IKeyListEntry ToDafny_N3_com__N9_amazonaws__N3_kms__S12_KeyListEntry(Amazon.KeyManagementService.Model.KeyListEntry value)
         {
 
-            string var_keyId = value.KeyId;
-            string var_keyArn = value.KeyArn;
+            string var_keyId = (string)value.KeyId;
+            string var_keyArn = (string)value.KeyArn;
             return new software.amazon.cryptography.services.kms.internaldafny.types.KeyListEntry(ToDafny_N3_com__N9_amazonaws__N3_kms__S12_KeyListEntry__M5_KeyId(var_keyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S12_KeyListEntry__M6_KeyArn(var_keyArn));
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S10_TagKeyType(Dafny.ISequence<char> value)
@@ -6189,7 +6189,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S3_Tag__M6_TagKey(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S10_TagKeyType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S10_TagKeyType((string)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S3_Tag__M8_TagValue(Dafny.ISequence<char> value)
         {
@@ -6197,7 +6197,7 @@ namespace Com.Amazonaws.Kms
         }
         public static Dafny.ISequence<char> ToDafny_N3_com__N9_amazonaws__N3_kms__S3_Tag__M8_TagValue(string value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S12_TagValueType(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S12_TagValueType((string)value);
         }
         public static Amazon.KeyManagementService.MultiRegionKeyType FromDafny_N3_com__N9_amazonaws__N3_kms__S24_MultiRegionConfiguration__M18_MultiRegionKeyType(Wrappers_Compile._IOption<software.amazon.cryptography.services.kms.internaldafny.types._IMultiRegionKeyType> value)
         {
@@ -6229,7 +6229,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types._IMacAlgorithmSpec ToDafny_N3_com__N9_amazonaws__N3_kms__S20_MacAlgorithmSpecList__M6_member(Amazon.KeyManagementService.MacAlgorithmSpec value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S16_MacAlgorithmSpec(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S16_MacAlgorithmSpec((Amazon.KeyManagementService.MacAlgorithmSpec)value);
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S23_XksKeyConfigurationType__M2_Id(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
         {
@@ -6479,8 +6479,8 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IMultiRegionKey ToDafny_N3_com__N9_amazonaws__N3_kms__S14_MultiRegionKey(Amazon.KeyManagementService.Model.MultiRegionKey value)
         {
 
-            string var_arn = value.Arn;
-            string var_region = value.Region;
+            string var_arn = (string)value.Arn;
+            string var_region = (string)value.Region;
             return new software.amazon.cryptography.services.kms.internaldafny.types.MultiRegionKey(ToDafny_N3_com__N9_amazonaws__N3_kms__S14_MultiRegionKey__M3_Arn(var_arn), ToDafny_N3_com__N9_amazonaws__N3_kms__S14_MultiRegionKey__M6_Region(var_region));
         }
         public static System.Collections.Generic.List<Amazon.KeyManagementService.Model.MultiRegionKey> FromDafny_N3_com__N9_amazonaws__N3_kms__S18_MultiRegionKeyList(Dafny.ISequence<software.amazon.cryptography.services.kms.internaldafny.types._IMultiRegionKey> value)
@@ -6502,11 +6502,11 @@ namespace Com.Amazonaws.Kms
         public static software.amazon.cryptography.services.kms.internaldafny.types._IXksProxyConfigurationType ToDafny_N3_com__N9_amazonaws__N3_kms__S25_XksProxyConfigurationType(Amazon.KeyManagementService.Model.XksProxyConfigurationType value)
         {
 
-            Amazon.KeyManagementService.XksProxyConnectivityType var_connectivity = value.Connectivity;
-            string var_accessKeyId = value.AccessKeyId;
-            string var_uriEndpoint = value.UriEndpoint;
-            string var_uriPath = value.UriPath;
-            string var_vpcEndpointServiceName = value.VpcEndpointServiceName;
+            Amazon.KeyManagementService.XksProxyConnectivityType var_connectivity = (Amazon.KeyManagementService.XksProxyConnectivityType)value.Connectivity;
+            string var_accessKeyId = (string)value.AccessKeyId;
+            string var_uriEndpoint = (string)value.UriEndpoint;
+            string var_uriPath = (string)value.UriPath;
+            string var_vpcEndpointServiceName = (string)value.VpcEndpointServiceName;
             return new software.amazon.cryptography.services.kms.internaldafny.types.XksProxyConfigurationType(ToDafny_N3_com__N9_amazonaws__N3_kms__S25_XksProxyConfigurationType__M12_Connectivity(var_connectivity), ToDafny_N3_com__N9_amazonaws__N3_kms__S25_XksProxyConfigurationType__M11_AccessKeyId(var_accessKeyId), ToDafny_N3_com__N9_amazonaws__N3_kms__S25_XksProxyConfigurationType__M11_UriEndpoint(var_uriEndpoint), ToDafny_N3_com__N9_amazonaws__N3_kms__S25_XksProxyConfigurationType__M7_UriPath(var_uriPath), ToDafny_N3_com__N9_amazonaws__N3_kms__S25_XksProxyConfigurationType__M22_VpcEndpointServiceName(var_vpcEndpointServiceName));
         }
         public static string FromDafny_N3_com__N9_amazonaws__N3_kms__S14_MultiRegionKey__M3_Arn(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
@@ -6531,7 +6531,7 @@ namespace Com.Amazonaws.Kms
         }
         public static software.amazon.cryptography.services.kms.internaldafny.types._IMultiRegionKey ToDafny_N3_com__N9_amazonaws__N3_kms__S18_MultiRegionKeyList__M6_member(Amazon.KeyManagementService.Model.MultiRegionKey value)
         {
-            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_MultiRegionKey(value);
+            return ToDafny_N3_com__N9_amazonaws__N3_kms__S14_MultiRegionKey((Amazon.KeyManagementService.Model.MultiRegionKey)value);
         }
         public static Amazon.KeyManagementService.XksProxyConnectivityType FromDafny_N3_com__N9_amazonaws__N3_kms__S25_XksProxyConfigurationType__M12_Connectivity(Wrappers_Compile._IOption<software.amazon.cryptography.services.kms.internaldafny.types._IXksProxyConnectivityType> value)
         {
