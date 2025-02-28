@@ -40,7 +40,8 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
   const ascii2 : seq<uint8> := [0xc2, 0xa0] // Â as UTF8
   const ascii3 : seq<uint8> := [0x55] // U as UTF8
   const ascii4 : seq<uint8> := [0xc2, 0xb6] // ¶ as UTF8
-  const ascii5 : seq<uint8> := [0xc3, 0xbf] // ÿ  as UTF8 
+  const ascii5 : seq<uint8> := [0xc3, 0xbf] // ÿ  as UTF8
+  const asciiSet := {ascii1, ascii2, ascii3, ascii4, ascii5}
   const encryptionContextAsciiMap := 
     map[
       ascii1 := ascii1,
@@ -55,7 +56,8 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
   const utf8_2_2: seq<uint8> := [0xd4, 0x98] // Ԙ as UTF8
   const utf8_2_3: seq<uint8> := [0xd4, 0x88] // Ԉ as UTF8
   const utf8_2_4: seq<uint8> := [0xdf, 0x9f] // ߟ as UTF8
-  const utf8_2_5: seq<uint8> := [0xdf, 0x9f] // ߟ as UTF8 
+  const utf8_2_5: seq<uint8> := [0xdf, 0x9f] // ߟ as UTF8
+  const utf8_2Set := {utf8_2_1, utf8_2_2, utf8_2_3, utf8_2_4, utf8_2_5} 
   const encryptionContextUTF82Map :=
     map[
       utf8_2_1 := utf8_2_1,
@@ -71,6 +73,7 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
   const utf8_3_3: seq<uint8> := [0xe2, 0x88, 0xb0] // ∰ as UTF8
   const utf8_3_4: seq<uint8> := [0xef, 0xa3, 0xbf] //  as UTF8
   const utf8_3_5: seq<uint8> := [0xef, 0xbf, 0xbf] // ￿ as UTF8
+  const utf8_3Set := {utf8_3_1, utf8_3_2, utf8_3_3, utf8_3_4, utf8_3_5}
   const encryptionContextUTF83Map :=
     map[
       utf8_3_1 := utf8_3_1,
@@ -86,6 +89,7 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
   const utf8_4_3: seq<uint8> := [0xf0, 0x93, 0x89, 0xa9] // 𓉩  as UTF8
   const utf8_4_4: seq<uint8> := [0xf0, 0x9d, 0x84, 0xa2] // 𝄢 as UTF8
   const utf8_4_5: seq<uint8> := [0xf0, 0x9f, 0xa7, 0xbf] // 🧿 as UTF8
+  const utf8_4Set := {utf8_4_1, utf8_4_2, utf8_4_3, utf8_4_4, utf8_4_5}
   const encryptionContextUTF84Map :=
     map[
       utf8_4_1 := utf8_4_1,
@@ -103,13 +107,10 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
    + encryptionContextUTF83
    + encryptionContextUTF84
 
-  const smallUTF82Ec := {map[
-      utf8_2_1 := utf8_2_1
-  ]}
-  
-  const mediumUTF82Ec := {map[
-      utf8_2_4 := utf8_2_4,
-      utf8_2_3 := utf8_2_3
-  ]}
-
+  const encryptionContextValues :=
+  {}
+    + asciiSet
+    + utf8_2Set
+    + utf8_3Set
+    + utf8_4Set
 }

@@ -116,33 +116,18 @@ module {:options "-functionSyntax:4"} AllRawAES {
           encryptDescription := keyDescription,
           decryptDescription := keyDescription
         )
-    
-  const TestsWithOneUTF8Ec := 
-    set 
-      keyDescription <- KeyDescriptions + KeyDescriptionsWithPsi,
-      algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
-      commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite),
-      encryptionContext <- EncryptionContextUtils.smallUTF82Ec
-      ::
-        TestVectors.PositiveEncryptKeyringVector(
-          name := "Generated RawAES Basic Encryption Context " + keyDescription.AES.keyId,
-          encryptionContext := encryptionContext,
-          commitmentPolicy := commitmentPolicy,
-          algorithmSuite := algorithmSuite,
-          encryptDescription := keyDescription,
-          decryptDescription := keyDescription
-        )
   
-  const TestsWithTwoUTF8Ec := 
+  const TestsWithOnePairOfHighCodePointUtf8ValuesInEc :=
     set 
       keyDescription <- KeyDescriptions + KeyDescriptionsWithPsi,
       algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
       commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite),
-      encryptionContext <- EncryptionContextUtils.mediumUTF82Ec
+      encryptionContextKey <- EncryptionContextUtils.encryptionContextValues,
+      encryptionContextValue <- EncryptionContextUtils.encryptionContextValues
       ::
         TestVectors.PositiveEncryptKeyringVector(
           name := "Generated RawAES Basic Encryption Context " + keyDescription.AES.keyId,
-          encryptionContext := encryptionContext,
+          encryptionContext := map[encryptionContextKey := encryptionContextValue],
           commitmentPolicy := commitmentPolicy,
           algorithmSuite := algorithmSuite,
           encryptDescription := keyDescription,
