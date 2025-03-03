@@ -41,8 +41,7 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
   const ascii3 : seq<uint8> := [0x55] // U as UTF8
   const ascii4 : seq<uint8> := [0xc2, 0xb6] // ¶ as UTF8
   const ascii5 : seq<uint8> := [0xc3, 0xbf] // ÿ  as UTF8
-  const asciiSet := {ascii1, ascii2, ascii3, ascii4, ascii5}
-  const encryptionContextAsciiMap := 
+  const encryptionContextAsciiMapMultipleKeyValues := 
     map[
       ascii1 := ascii1,
       ascii2 := ascii2,
@@ -50,15 +49,18 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
       ascii4 := ascii4,
       ascii5 := ascii5
     ]
-  const encryptionContextAscii := {encryptionContextAsciiMap}
+  const encryptionContextAsciiMapSingleKeyValue := 
+    map[
+      ascii4 := ascii4
+    ]
+  const encryptionContextAscii := {encryptionContextAsciiMapSingleKeyValue}
 
   const utf8_2_1: seq<uint8> := [0xc4, 0x80] // Ä as UTF8
   const utf8_2_2: seq<uint8> := [0xd4, 0x98] // Ԙ as UTF8
   const utf8_2_3: seq<uint8> := [0xd4, 0x88] // Ԉ as UTF8
   const utf8_2_4: seq<uint8> := [0xdf, 0x9f] // ߟ as UTF8
   const utf8_2_5: seq<uint8> := [0xdf, 0x9f] // ߟ as UTF8
-  const utf8_2Set := {utf8_2_1, utf8_2_2, utf8_2_3, utf8_2_4, utf8_2_5} 
-  const encryptionContextUTF82Map :=
+  const encryptionContextUTF82MapMultipleKeyValues :=
     map[
       utf8_2_1 := utf8_2_1,
       utf8_2_2 := utf8_2_2,
@@ -66,15 +68,18 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
       utf8_2_4 := utf8_2_4,
       utf8_2_5 := utf8_2_5
     ]
-  const encryptionContextUTF82 := {encryptionContextUTF82Map}
+  const encryptionContextUTF82MapSingleKeyValue :=
+    map[
+      utf8_2_3 := utf8_2_3
+    ]
+  const encryptionContextUTF82 := {encryptionContextUTF82MapSingleKeyValue}
 
   const utf8_3_1: seq<uint8> := [0xe0, 0xa0, 0x80] // ࠀ as UTF8
   const utf8_3_2: seq<uint8> := [0xe0, 0xb7, 0xb4] // ෴ as UTF8
   const utf8_3_3: seq<uint8> := [0xe2, 0x88, 0xb0] // ∰ as UTF8
   const utf8_3_4: seq<uint8> := [0xef, 0xa3, 0xbf] //  as UTF8
   const utf8_3_5: seq<uint8> := [0xef, 0xbf, 0xbf] // ￿ as UTF8
-  const utf8_3Set := {utf8_3_1, utf8_3_2, utf8_3_3, utf8_3_4, utf8_3_5}
-  const encryptionContextUTF83Map :=
+  const encryptionContextUTF83MapMultipleKeyValues :=
     map[
       utf8_3_1 := utf8_3_1,
       utf8_3_2 := utf8_3_2,
@@ -82,15 +87,18 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
       utf8_3_4 := utf8_3_4,
       utf8_3_5 := utf8_3_5
     ]
-  const encryptionContextUTF83 := {encryptionContextUTF83Map}
+  const encryptionContextUTF83MapSingleKeyValue :=
+    map[
+      utf8_3_3 := utf8_3_3
+    ]
+  const encryptionContextUTF83 := {encryptionContextUTF83MapSingleKeyValue}
 
   const utf8_4_1: seq<uint8> := [0xf0, 0x92, 0x80, 0x80] // 𒀀 as UTF8
   const utf8_4_2: seq<uint8> := [0xf0, 0x93, 0x80, 0xa3] // 𓀣  as UTF8
   const utf8_4_3: seq<uint8> := [0xf0, 0x93, 0x89, 0xa9] // 𓉩  as UTF8
   const utf8_4_4: seq<uint8> := [0xf0, 0x9d, 0x84, 0xa2] // 𝄢 as UTF8
   const utf8_4_5: seq<uint8> := [0xf0, 0x9f, 0xa7, 0xbf] // 🧿 as UTF8
-  const utf8_4Set := {utf8_4_1, utf8_4_2, utf8_4_3, utf8_4_4, utf8_4_5}
-  const encryptionContextUTF84Map :=
+  const encryptionContextUTF84MapMultipleKeyValues :=
     map[
       utf8_4_1 := utf8_4_1,
       utf8_4_2 := utf8_4_2,
@@ -98,7 +106,11 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
       utf8_4_4 := utf8_4_4,
       utf8_4_5 := utf8_4_5
     ]
-  const encryptionContextUTF84 := {encryptionContextUTF84Map}
+  const encryptionContextUTF84MapSingleKeyValue :=
+    map[
+      utf8_4_1 := utf8_4_1
+    ]
+  const encryptionContextUTF84 := {encryptionContextUTF84MapSingleKeyValue}
 
   const variedUTF8EncryptionContext := 
    {}
@@ -107,10 +119,5 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
    + encryptionContextUTF83
    + encryptionContextUTF84
 
-  const encryptionContextValues :=
-  {}
-    + asciiSet
-    + utf8_2Set
-    + utf8_3Set
-    + utf8_4Set
+  const representativeEncryptionContextUtf8Values := {ascii4, utf8_2_3, utf8_3_3, utf8_4_3}
 }
