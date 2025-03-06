@@ -1133,6 +1133,9 @@ public class ToNative {
         )
       );
     }
+    if (dafnyValue.dtor_Item().is_Some()) {
+      builder.item(ToNative.AttributeMap(dafnyValue.dtor_Item().dtor_value()));
+    }
     if (dafnyValue.dtor_Message().is_Some()) {
       builder.message(
         software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
@@ -1193,6 +1196,13 @@ public class ToNative {
       builder.parameters(
         ToNative.PreparedStatementParameters(
           dafnyValue.dtor_Parameters().dtor_value()
+        )
+      );
+    }
+    if (dafnyValue.dtor_ReturnValuesOnConditionCheckFailure().is_Some()) {
+      builder.returnValuesOnConditionCheckFailure(
+        ToNative.ReturnValuesOnConditionCheckFailure(
+          dafnyValue.dtor_ReturnValuesOnConditionCheckFailure().dtor_value()
         )
       );
     }
@@ -2100,6 +2110,13 @@ public class ToNative {
         ToNative.ReturnValue(dafnyValue.dtor_ReturnValues().dtor_value())
       );
     }
+    if (dafnyValue.dtor_ReturnValuesOnConditionCheckFailure().is_Some()) {
+      builder.returnValuesOnConditionCheckFailure(
+        ToNative.ReturnValuesOnConditionCheckFailure(
+          dafnyValue.dtor_ReturnValuesOnConditionCheckFailure().dtor_value()
+        )
+      );
+    }
     builder.tableName(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
         dafnyValue.dtor_TableName()
@@ -2839,6 +2856,13 @@ public class ToNative {
       builder.returnConsumedCapacity(
         ToNative.ReturnConsumedCapacity(
           dafnyValue.dtor_ReturnConsumedCapacity().dtor_value()
+        )
+      );
+    }
+    if (dafnyValue.dtor_ReturnValuesOnConditionCheckFailure().is_Some()) {
+      builder.returnValuesOnConditionCheckFailure(
+        ToNative.ReturnValuesOnConditionCheckFailure(
+          dafnyValue.dtor_ReturnValuesOnConditionCheckFailure().dtor_value()
         )
       );
     }
@@ -4949,6 +4973,13 @@ public class ToNative {
         )
       );
     }
+    if (dafnyValue.dtor_ReturnValuesOnConditionCheckFailure().is_Some()) {
+      builder.returnValuesOnConditionCheckFailure(
+        ToNative.ReturnValuesOnConditionCheckFailure(
+          dafnyValue.dtor_ReturnValuesOnConditionCheckFailure().dtor_value()
+        )
+      );
+    }
     builder.statement(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
         dafnyValue.dtor_Statement()
@@ -5240,6 +5271,13 @@ public class ToNative {
     if (dafnyValue.dtor_ReturnValues().is_Some()) {
       builder.returnValues(
         ToNative.ReturnValue(dafnyValue.dtor_ReturnValues().dtor_value())
+      );
+    }
+    if (dafnyValue.dtor_ReturnValuesOnConditionCheckFailure().is_Some()) {
+      builder.returnValuesOnConditionCheckFailure(
+        ToNative.ReturnValuesOnConditionCheckFailure(
+          dafnyValue.dtor_ReturnValuesOnConditionCheckFailure().dtor_value()
+        )
       );
     }
     builder.tableName(
@@ -7756,6 +7794,13 @@ public class ToNative {
     if (dafnyValue.dtor_ReturnValues().is_Some()) {
       builder.returnValues(
         ToNative.ReturnValue(dafnyValue.dtor_ReturnValues().dtor_value())
+      );
+    }
+    if (dafnyValue.dtor_ReturnValuesOnConditionCheckFailure().is_Some()) {
+      builder.returnValuesOnConditionCheckFailure(
+        ToNative.ReturnValuesOnConditionCheckFailure(
+          dafnyValue.dtor_ReturnValuesOnConditionCheckFailure().dtor_value()
+        )
       );
     }
     builder.tableName(

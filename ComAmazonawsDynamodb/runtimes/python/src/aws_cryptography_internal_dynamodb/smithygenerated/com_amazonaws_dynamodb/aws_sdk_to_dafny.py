@@ -1193,7 +1193,26 @@ def com_amazonaws_dynamodb_BatchStatementRequest(native_input):
             if "ConsistentRead" in native_input.keys()
             else Option_None()
         ),
+        ReturnValuesOnConditionCheckFailure=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
+                    native_input["ReturnValuesOnConditionCheckFailure"]
+                )
+            )
+            if "ReturnValuesOnConditionCheckFailure" in native_input.keys()
+            else Option_None()
+        ),
     )
+
+
+def com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(native_input):
+    # Convert ReturnValuesOnConditionCheckFailure
+    if native_input == "ALL_OLD":
+        return ReturnValuesOnConditionCheckFailure_ALL__OLD()
+    elif native_input == "NONE":
+        return ReturnValuesOnConditionCheckFailure_NONE()
+    else:
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
 def com_amazonaws_dynamodb_ReturnConsumedCapacity(native_input):
@@ -1320,6 +1339,29 @@ def com_amazonaws_dynamodb_BatchStatementError(native_input):
                 )
             )
             if "Message" in native_input.keys()
+            else Option_None()
+        ),
+        Item=(
+            Option_Some(
+                Map(
+                    {
+                        Seq(
+                            "".join(
+                                [
+                                    chr(int.from_bytes(pair, "big"))
+                                    for pair in zip(
+                                        *[iter(key.encode("utf-16-be"))] * 2
+                                    )
+                                ]
+                            )
+                        ): aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
+                            value
+                        )
+                        for (key, value) in native_input["Item"].items()
+                    }
+                )
+            )
+            if "Item" in native_input.keys()
             else Option_None()
         ),
     )
@@ -4188,6 +4230,15 @@ def com_amazonaws_dynamodb_DeleteItemInput(native_input):
             if "ExpressionAttributeValues" in native_input.keys()
             else Option_None()
         ),
+        ReturnValuesOnConditionCheckFailure=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
+                    native_input["ReturnValuesOnConditionCheckFailure"]
+                )
+            )
+            if "ReturnValuesOnConditionCheckFailure" in native_input.keys()
+            else Option_None()
+        ),
     )
 
 
@@ -6645,6 +6696,15 @@ def com_amazonaws_dynamodb_ExecuteStatementInput(native_input):
             if "Limit" in native_input.keys()
             else Option_None()
         ),
+        ReturnValuesOnConditionCheckFailure=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
+                    native_input["ReturnValuesOnConditionCheckFailure"]
+                )
+            )
+            if "ReturnValuesOnConditionCheckFailure" in native_input.keys()
+            else Option_None()
+        ),
     )
 
 
@@ -6799,6 +6859,15 @@ def com_amazonaws_dynamodb_ParameterizedStatement(native_input):
                 )
             )
             if "Parameters" in native_input.keys()
+            else Option_None()
+        ),
+        ReturnValuesOnConditionCheckFailure=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
+                    native_input["ReturnValuesOnConditionCheckFailure"]
+                )
+            )
+            if "ReturnValuesOnConditionCheckFailure" in native_input.keys()
             else Option_None()
         ),
     )
@@ -8414,6 +8483,15 @@ def com_amazonaws_dynamodb_PutItemInput(native_input):
                 )
             )
             if "ExpressionAttributeValues" in native_input.keys()
+            else Option_None()
+        ),
+        ReturnValuesOnConditionCheckFailure=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
+                    native_input["ReturnValuesOnConditionCheckFailure"]
+                )
+            )
+            if "ReturnValuesOnConditionCheckFailure" in native_input.keys()
             else Option_None()
         ),
     )
@@ -10258,16 +10336,6 @@ def com_amazonaws_dynamodb_Update(native_input):
     )
 
 
-def com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(native_input):
-    # Convert ReturnValuesOnConditionCheckFailure
-    if native_input == "ALL_OLD":
-        return ReturnValuesOnConditionCheckFailure_ALL__OLD()
-    elif native_input == "NONE":
-        return ReturnValuesOnConditionCheckFailure_NONE()
-    else:
-        raise ValueError("No recognized enum value in enum type: " + native_input)
-
-
 def com_amazonaws_dynamodb_TransactWriteItemsOutput(native_input):
     return DafnyTransactWriteItemsOutput(
         ConsumedCapacity=(
@@ -11107,6 +11175,15 @@ def com_amazonaws_dynamodb_UpdateItemInput(native_input):
                 )
             )
             if "ExpressionAttributeValues" in native_input.keys()
+            else Option_None()
+        ),
+        ReturnValuesOnConditionCheckFailure=(
+            Option_Some(
+                aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
+                    native_input["ReturnValuesOnConditionCheckFailure"]
+                )
+            )
+            if "ReturnValuesOnConditionCheckFailure" in native_input.keys()
             else Option_None()
         ),
     )

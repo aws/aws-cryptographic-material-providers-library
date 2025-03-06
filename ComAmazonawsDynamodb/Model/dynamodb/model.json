@@ -993,6 +993,12 @@
           "traits": {
             "smithy.api#documentation": "<p> The error message associated with the PartiQL batch response. </p>"
           }
+        },
+        "Item": {
+          "target": "com.amazonaws.dynamodb#AttributeMap",
+          "traits": {
+            "smithy.api#documentation": "<p>The item which caused the condition check to fail. This will be set if ReturnValuesOnConditionCheckFailure is specified as <code>ALL_OLD</code>.</p>"
+          }
         }
       },
       "traits": {
@@ -1090,6 +1096,12 @@
           "target": "com.amazonaws.dynamodb#ConsistentRead",
           "traits": {
             "smithy.api#documentation": "<p> The read consistency of the PartiQL batch request. </p>"
+          }
+        },
+        "ReturnValuesOnConditionCheckFailure": {
+          "target": "com.amazonaws.dynamodb#ReturnValuesOnConditionCheckFailure",
+          "traits": {
+            "smithy.api#documentation": "<p>An optional parameter that returns the item attributes for a PartiQL batch request\n            operation that failed a condition check.</p>\n         <p>There is no additional cost associated with requesting a return value aside from the\n            small network and processing overhead of receiving a larger response. No read capacity\n            units are consumed.</p>"
           }
         }
       },
@@ -2514,6 +2526,12 @@
           "target": "com.amazonaws.dynamodb#ExpressionAttributeValueMap",
           "traits": {
             "smithy.api#documentation": "<p>One or more values that can be substituted in an expression.</p>\n         <p>Use the <b>:</b> (colon) character in an expression to\n            dereference an attribute value. For example, suppose that you wanted to check whether\n            the value of the <i>ProductStatus</i> attribute was one of the following: </p>\n         <p>\n            <code>Available | Backordered | Discontinued</code>\n         </p>\n         <p>You would first need to specify <code>ExpressionAttributeValues</code> as\n            follows:</p>\n         <p>\n            <code>{ \":avail\":{\"S\":\"Available\"}, \":back\":{\"S\":\"Backordered\"},\n                \":disc\":{\"S\":\"Discontinued\"} }</code>\n         </p>\n         <p>You could then use these values in an expression, such as this:</p>\n         <p>\n            <code>ProductStatus IN (:avail, :back, :disc)</code>\n         </p>\n         <p>For more information on expression attribute values, see <a href=\"https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html\">Condition Expressions</a> in the <i>Amazon DynamoDB Developer\n                Guide</i>.</p>"
+          }
+        },
+        "ReturnValuesOnConditionCheckFailure": {
+          "target": "com.amazonaws.dynamodb#ReturnValuesOnConditionCheckFailure",
+          "traits": {
+            "smithy.api#documentation": "<p>An optional parameter that returns the item attributes for a <code>DeleteItem</code>\n            operation that failed a condition check.</p>\n         <p>There is no additional cost associated with requesting a return value aside from the\n            small network and processing overhead of receiving a larger response. No read capacity\n            units are consumed.</p>"
           }
         }
       },
@@ -5029,6 +5047,12 @@
           "target": "com.amazonaws.dynamodb#PositiveIntegerObject",
           "traits": {
             "smithy.api#documentation": "<p>The maximum number of items to evaluate (not necessarily the number of matching\n            items). If DynamoDB processes the number of items up to the limit while processing the\n            results, it stops the operation and returns the matching values up to that point, along\n            with a key in <code>LastEvaluatedKey</code> to apply in a subsequent operation so you\n            can pick up where you left off. Also, if the processed dataset size exceeds 1 MB before\n            DynamoDB reaches this limit, it stops the operation and returns the matching values up\n            to the limit, and a key in <code>LastEvaluatedKey</code> to apply in a subsequent\n            operation to continue the operation. </p>"
+          }
+        },
+        "ReturnValuesOnConditionCheckFailure": {
+          "target": "com.amazonaws.dynamodb#ReturnValuesOnConditionCheckFailure",
+          "traits": {
+            "smithy.api#documentation": "<p>An optional parameter that returns the item attributes for an\n                <code>ExecuteStatement</code> operation that failed a condition check.</p>\n         <p>There is no additional cost associated with requesting a return value aside from the\n            small network and processing overhead of receiving a larger response. No read capacity\n            units are consumed.</p>"
           }
         }
       },
@@ -8074,6 +8098,12 @@
           "traits": {
             "smithy.api#documentation": "<p> The parameter values. </p>"
           }
+        },
+        "ReturnValuesOnConditionCheckFailure": {
+          "target": "com.amazonaws.dynamodb#ReturnValuesOnConditionCheckFailure",
+          "traits": {
+            "smithy.api#documentation": "<p>An optional parameter that returns the item attributes for a PartiQL\n            <code>ParameterizedStatement</code> operation that failed a condition check.</p>\n         <p>There is no additional cost associated with requesting a return value aside from the\n            small network and processing overhead of receiving a larger response. No read capacity\n            units are consumed.</p>"
+          }
         }
       },
       "traits": {
@@ -8564,6 +8594,12 @@
           "target": "com.amazonaws.dynamodb#ExpressionAttributeValueMap",
           "traits": {
             "smithy.api#documentation": "<p>One or more values that can be substituted in an expression.</p>\n         <p>Use the <b>:</b> (colon) character in an expression to\n            dereference an attribute value. For example, suppose that you wanted to check whether\n            the value of the <i>ProductStatus</i> attribute was one of the following: </p>\n         <p>\n            <code>Available | Backordered | Discontinued</code>\n         </p>\n         <p>You would first need to specify <code>ExpressionAttributeValues</code> as\n            follows:</p>\n         <p>\n            <code>{ \":avail\":{\"S\":\"Available\"}, \":back\":{\"S\":\"Backordered\"},\n                \":disc\":{\"S\":\"Discontinued\"} }</code>\n         </p>\n         <p>You could then use these values in an expression, such as this:</p>\n         <p>\n            <code>ProductStatus IN (:avail, :back, :disc)</code>\n         </p>\n         <p>For more information on expression attribute values, see <a href=\"https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html\">Condition Expressions</a> in the <i>Amazon DynamoDB Developer\n                Guide</i>.</p>"
+          }
+        },
+        "ReturnValuesOnConditionCheckFailure": {
+          "target": "com.amazonaws.dynamodb#ReturnValuesOnConditionCheckFailure",
+          "traits": {
+            "smithy.api#documentation": "<p>An optional parameter that returns the item attributes for a <code>PutItem</code>\n            operation that failed a condition check.</p>\n         <p>There is no additional cost associated with requesting a return value aside from the\n            small network and processing overhead of receiving a larger response. No read capacity\n            units are consumed.</p>"
           }
         }
       },
@@ -12104,6 +12140,12 @@
           "target": "com.amazonaws.dynamodb#ExpressionAttributeValueMap",
           "traits": {
             "smithy.api#documentation": "<p>One or more values that can be substituted in an expression.</p>\n         <p>Use the <b>:</b> (colon) character in an expression to\n            dereference an attribute value. For example, suppose that you wanted to check whether\n            the value of the <code>ProductStatus</code> attribute was one of the following: </p>\n         <p>\n            <code>Available | Backordered | Discontinued</code>\n         </p>\n         <p>You would first need to specify <code>ExpressionAttributeValues</code> as\n            follows:</p>\n         <p>\n            <code>{ \":avail\":{\"S\":\"Available\"}, \":back\":{\"S\":\"Backordered\"},\n                \":disc\":{\"S\":\"Discontinued\"} }</code>\n         </p>\n         <p>You could then use these values in an expression, such as this:</p>\n         <p>\n            <code>ProductStatus IN (:avail, :back, :disc)</code>\n         </p>\n         <p>For more information on expression attribute values, see <a href=\"https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html\">Condition Expressions</a> in the <i>Amazon DynamoDB Developer\n                Guide</i>.</p>"
+          }
+        },
+        "ReturnValuesOnConditionCheckFailure": {
+          "target": "com.amazonaws.dynamodb#ReturnValuesOnConditionCheckFailure",
+          "traits": {
+            "smithy.api#documentation": "<p>An optional parameter that returns the item attributes for an <code>UpdateItem</code>\n            operation that failed a condition check.</p>\n         <p>There is no additional cost associated with requesting a return value aside from the\n            small network and processing overhead of receiving a larger response. No read capacity\n            units are consumed.</p>"
           }
         }
       },
