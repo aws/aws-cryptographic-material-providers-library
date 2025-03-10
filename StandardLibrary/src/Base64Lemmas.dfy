@@ -54,7 +54,7 @@ module Base64Lemmas {
     requires Is1Padding(s[(|s| - 4)..])
     ensures Encode(DecodeValid(s)) == s
   {
-    DecodeValidEncode1PaddingHelper(s)
+    DecodeValidEncode1PaddingHelper(s);
     calc {
       Encode(DecodeValid(s));
     ==
