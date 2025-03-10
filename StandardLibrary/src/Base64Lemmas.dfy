@@ -54,16 +54,12 @@ module Base64Lemmas {
     requires Is1Padding(s[(|s| - 4)..])
     ensures Encode(DecodeValid(s)) == s
   {
+    DecodeValidEncode1PaddingHelper(s)
     calc {
       Encode(DecodeValid(s));
     ==
-      assert |DecodeValid(s)| % 3 == 2;
-      assert 2 <= |DecodeValid(s)|;
       EncodeUnpadded(DecodeValid(s)[..(|DecodeValid(s)| - 2)]) + Encode1Padding(DecodeValid(s)[(|DecodeValid(s)| - 2)..]);
     == { DecodeValidUnpaddedPartialFrom1PaddedSeq(s); }
-      assert IsUnpaddedBase64String(s[..(|s| - 4)]) by {
-        assert |s| % 4 == 0;
-      }
       EncodeUnpadded(DecodeUnpadded(s[..(|s| - 4)])) + Encode1Padding(DecodeValid(s)[(|DecodeValid(s)| - 2)..]);
     == { DecodeEncodeUnpadded(s[..(|s| - 4)]); }
       s[..(|s| - 4)] + Encode1Padding(DecodeValid(s)[(|DecodeValid(s)| - 2)..]);
@@ -75,6 +71,19 @@ module Base64Lemmas {
       s;
     }
   }
+
+  lemma DecodeValidEncode1PaddingHelper(s: seq<char>)
+    requires IsBase64String(s)
+    requires |s| >= 4
+    requires Is1Padding(s[(|s| - 4)..])
+  {
+    assert |DecodeValid(s)| % 3 == 2;
+    assert 2 <= |DecodeValid(s)|;
+    assert IsUnpaddedBase64String(s[..(|s| - 4)]) by {
+      assert |s| % 4 == 0;
+    }
+  }
+
 
   lemma DecodeValidUnpaddedPartialFrom2PaddedSeq(s: seq<char>)
     requires IsBase64String(s)
@@ -118,8 +127,6 @@ module Base64Lemmas {
     requires IsBase64String(s)
     requires |s| >= 4
     requires Is2Padding(s[(|s| - 4)..])
-    ensures |DecodeUnpadded(s[..|s|-4])| % 3 == 0
-    ensures |DecodeValid(s)| % 3 == 1
   {
     assert |DecodeUnpadded(s[..|s|-4])| % 3 == 0;
     assert |DecodeValid(s)| % 3 == 1;
