@@ -96,11 +96,10 @@ module Base64Lemmas {
     requires Is2Padding(s[(|s| - 4)..])
     ensures Encode(DecodeValid(s)) == s
   {
+    Helper_DecodeValid2PaddingProperties(s)
     calc {
       Encode(DecodeValid(s));
     ==
-      assert |DecodeUnpadded(s[..|s|-4])| % 3 == 0;
-      assert |DecodeValid(s)| % 3 == 1;
       EncodeUnpadded(DecodeValid(s)[..(|DecodeValid(s)| - 1)]) + Encode2Padding(DecodeValid(s)[(|DecodeValid(s)| - 1)..]);
     == { DecodeValidUnpaddedPartialFrom2PaddedSeq(s); }
       EncodeUnpadded(DecodeUnpadded(s[..(|s| - 4)])) + Encode2Padding(DecodeValid(s)[(|DecodeValid(s)| - 1)..]);
@@ -113,6 +112,17 @@ module Base64Lemmas {
     == { SeqPartsMakeWhole(s, (|s| - 4)); }
       s;
     }
+  }
+
+  lemma Helper_DecodeValid2PaddingProperties(s: seq<char>)
+    requires IsBase64String(s)
+    requires |s| >= 4
+    requires Is2Padding(s[(|s| - 4)..])
+    ensures |DecodeUnpadded(s[..|s|-4])| % 3 == 0
+    ensures |DecodeValid(s)| % 3 == 1
+  {
+    assert |DecodeUnpadded(s[..|s|-4])| % 3 == 0;
+    assert |DecodeValid(s)| % 3 == 1;
   }
 
   lemma DecodeValidEncode(s: seq<char>)
