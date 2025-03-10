@@ -23,7 +23,8 @@ jobs:
             # https://taskei.amazon.dev/tasks/CrypTool-5283
             # windows-latest,
             ubuntu-22.04,
-            macos-13,
+            # TODO: Re-enable macOS after https://t.corp.amazon.com/P205755286
+            # macos-13,
           ]
         language: [java, net, rust, python, go]
         # https://taskei.amazon.dev/tasks/CrypTool-5284
@@ -213,7 +214,8 @@ jobs:
             # TODO just test on mac and ubuntu for now
             # windows-latest,
             ubuntu-22.04,
-            macos-13,
+            # TODO: Re-enable macOS after https://t.corp.amazon.com/P205755286
+            # macos-13,
           ]
         encrypting_language: [java, net, rust, python, go]
         decrypting_language: [java, net, rust, python, go]
