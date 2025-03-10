@@ -125,8 +125,24 @@ module {:options "-functionSyntax:4"} AllRawAES {
       encryptionContext <- EncryptionContextUtils.variedUTF8EncryptionContext
       ::
         TestVectors.PositiveEncryptKeyringVector(
-          name := "Generated RawAES Basic Encryption Context " + keyDescription.AES.keyId,
+          name := "Generated RawAES UTF8 Representative values " + keyDescription.AES.keyId,
           encryptionContext := encryptionContext,
+          commitmentPolicy := commitmentPolicy,
+          algorithmSuite := algorithmSuite,
+          encryptDescription := keyDescription,
+          decryptDescription := keyDescription
+        )
+
+  const TestsWithOnePairOfHighCodePointUtf8ValuesInEc :=
+    set
+      keyDescription <- KeyDescriptions + KeyDescriptionsWithPsi,
+      algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
+      commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite),
+      key, value | key in EncryptionContextUtils.representativeEncryptionContextUtf8Values && value in EncryptionContextUtils.representativeEncryptionContextUtf8Values
+      ::
+        TestVectors.PositiveEncryptKeyringVector(
+          name := "Generated RawAES Mix and Match UTF8 Key Values " + keyDescription.AES.keyId,
+          encryptionContext := map[key := value],
           commitmentPolicy := commitmentPolicy,
           algorithmSuite := algorithmSuite,
           encryptDescription := keyDescription,
