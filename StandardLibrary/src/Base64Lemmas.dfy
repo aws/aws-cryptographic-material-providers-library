@@ -96,7 +96,7 @@ module Base64Lemmas {
     requires Is2Padding(s[(|s| - 4)..])
     ensures Encode(DecodeValid(s)) == s
   {
-    Helper_DecodeValid2PaddingProperties(s);
+    DecodeValid2PaddingPropertiesHelper(s);
     calc {
       Encode(DecodeValid(s));
     ==
@@ -114,7 +114,7 @@ module Base64Lemmas {
     }
   }
 
-  lemma Helper_DecodeValid2PaddingProperties(s: seq<char>)
+  lemma DecodeValid2PaddingPropertiesHelper(s: seq<char>)
     requires IsBase64String(s)
     requires |s| >= 4
     requires Is2Padding(s[(|s| - 4)..])
