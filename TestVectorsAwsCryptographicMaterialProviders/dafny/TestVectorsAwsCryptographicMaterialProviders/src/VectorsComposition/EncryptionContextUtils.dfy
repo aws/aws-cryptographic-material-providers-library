@@ -6,17 +6,21 @@ include "AllAlgorithmSuites.dfy"
 module {:options "-functionSyntax:4"} EncryptionContextUtils {
   import opened UTF8
   import opened UInt = StandardLibrary.UInt
-  
+
   const normal : seq<uint8> := [0x6e, 0x6f, 0x72, 0x6d, 0x61, 0x6c, 0xed, 0x80, 0x80] // "normal퀀" as utf8
   const psi : seq<uint8> := [0xf0, 0x90, 0x80, 0x82] // "𐀂" as utf8
+  const replacementChar : seq<uint8> := [0xEF, 0xBF, 0xBD]
   const a := UTF8.Encode("a").value
 
   const encryptionContextWithPsiMap := map[normal := normal, psi := psi]
   const encryptionContextWitPsi := {encryptionContextWithPsiMap}
 
+  const encryptionContextWithReplacementMap := map[normal := normal, replacementChar:= replacementChar]
+  const encryptionContextWitReplacementChar:= {encryptionContextWithReplacementMap}
+
   const encryptionContextControlMap := map[normal:= normal]
   const encryptionContextControl := {encryptionContextControlMap}
-  
+
   const encryptionContextBasicMap := map[a := a]
   const encryptionContextBasic := {encryptionContextBasicMap}
 
@@ -31,17 +35,17 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
   // 3-byte UTF8 in 3 bytes
   // 4-byte UTF8 in 4 bytes
   // To make sure we are covering enough ground in our EC testing
-  // we will select three random characters within each bin and 
+  // we will select three random characters within each bin and
   // treat those as the representative test cases. In addition
   // we will also select the lowest and highest values within those bins.
   // In total, each "bin" will have 5 representative test cases.
-  
-  const ascii1 : seq<uint8> := [0x31] // 1 as UTF8 
+
+  const ascii1 : seq<uint8> := [0x31] // 1 as UTF8
   const ascii2 : seq<uint8> := [0xc2, 0xa0] // Â as UTF8
   const ascii3 : seq<uint8> := [0x55] // U as UTF8
   const ascii4 : seq<uint8> := [0xc2, 0xb6] // ¶ as UTF8
   const ascii5 : seq<uint8> := [0xc3, 0xbf] // ÿ  as UTF8
-  const encryptionContextAsciiMapMultipleKeyValues := 
+  const encryptionContextAsciiMapMultipleKeyValues :=
     map[
       ascii1 := ascii1,
       ascii2 := ascii2,
@@ -49,7 +53,7 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
       ascii4 := ascii4,
       ascii5 := ascii5
     ]
-  const encryptionContextAsciiMapSingleKeyValue := 
+  const encryptionContextAsciiMapSingleKeyValue :=
     map[
       ascii4 := ascii4
     ]
@@ -112,12 +116,13 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
     ]
   const encryptionContextUTF84 := {encryptionContextUTF84MapSingleKeyValue}
 
-  const variedUTF8EncryptionContext := 
-   {}
-   + encryptionContextAscii
-   + encryptionContextUTF82
-   + encryptionContextUTF83
-   + encryptionContextUTF84
+  const variedUTF8EncryptionContext :=
+    {}
+    + encryptionContextAscii
+    + encryptionContextUTF82
+    + encryptionContextUTF83
+    + encryptionContextUTF84
+    + encryptionContextWitReplacementChar
 
   const representativeEncryptionContextUtf8Values := {ascii4, utf8_2_3, utf8_3_3, utf8_4_3}
 }
