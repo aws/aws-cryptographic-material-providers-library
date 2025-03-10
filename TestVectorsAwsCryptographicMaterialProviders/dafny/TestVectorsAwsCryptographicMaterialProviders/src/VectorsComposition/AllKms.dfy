@@ -34,9 +34,9 @@ module {:options "-functionSyntax:4"} AllKms {
           encryptDescription := keyDescription,
           decryptDescription := keyDescription
         )
-  
+
   const TestsWitPsiEc :=
-    set 
+    set
       keyDescription <- KeyDescriptions,
       algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
       commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite),
@@ -50,9 +50,25 @@ module {:options "-functionSyntax:4"} AllKms {
           encryptDescription := keyDescription,
           decryptDescription := keyDescription
         )
-  
-  const TestControlEc := 
-    set 
+
+  const TestsWitReplacementCharEc :=
+    set
+      keyDescription <- KeyDescriptions,
+      algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
+      commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite),
+      encryptionContext <- EncryptionContextUtils.encryptionContextWitReplacementChar
+      ::
+        TestVectors.PositiveEncryptKeyringVector(
+          name := "Generated KMS Encryption Context With Replacement Char " + keyDescription.Kms.keyId,
+          encryptionContext := encryptionContext,
+          commitmentPolicy := commitmentPolicy,
+          algorithmSuite := algorithmSuite,
+          encryptDescription := keyDescription,
+          decryptDescription := keyDescription
+        )
+
+  const TestControlEc :=
+    set
       keyDescription <- KeyDescriptions,
       algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
       commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite),
@@ -66,9 +82,9 @@ module {:options "-functionSyntax:4"} AllKms {
           encryptDescription := keyDescription,
           decryptDescription := keyDescription
         )
-  
-  const TestsBasicEc := 
-    set 
+
+  const TestsBasicEc :=
+    set
       keyDescription <- KeyDescriptions,
       algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
       commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite),
@@ -82,9 +98,9 @@ module {:options "-functionSyntax:4"} AllKms {
           encryptDescription := keyDescription,
           decryptDescription := keyDescription
         )
-  
-  const TestsWithDiffUTF8Ec := 
-    set 
+
+  const TestsWithDiffUTF8Ec :=
+    set
       keyDescription <- KeyDescriptions,
       algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
       commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite),
@@ -98,12 +114,13 @@ module {:options "-functionSyntax:4"} AllKms {
           encryptDescription := keyDescription,
           decryptDescription := keyDescription
         )
-  
-  const Tests := 
-  {}
+
+  const Tests :=
+    {}
     + TestsNoEc
     + TestsWitPsiEc
     + TestsBasicEc
     + TestControlEc
     + TestsWithDiffUTF8Ec
+    + TestsWitReplacementCharEc
 }

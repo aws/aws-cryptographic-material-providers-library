@@ -20,13 +20,13 @@ module {:options "-functionSyntax:4"} AllRawAES {
   // UTF-8 (JSON) -> UTF-16 (Dafny source code) substitution:
   // 𝟁 -> "\ud835\udfc1"
   // 𐀂 -> "\ud800\udc02"
-  const aesPersistentKeyNames := ["aes-128", "aes-256", "\uD835\uDfc1-nonascii-\uD800\uDC02-aes-256-\uD835\uDFC1"]
+  const aesPersistentKeyNames := ["aes-128", "aes-256", "\uD835\uDfc1-nonascii-\uD800\uDC02-aes-256-\uD835\uDFC1-with-\uFFFD"]
   const KeyDescriptionsWithPsi :=
     set
       key <- aesPersistentKeyNames
       ::
         KeyVectorsTypes.AES(KeyVectorsTypes.RawAES(
-                              keyId := key,  
+                              keyId := key,
                               providerId := "aws-raw-vectors-persistent-" + key + "-\uD835\uDFC1"
                             ))
   const KeyDescriptions :=
@@ -34,7 +34,7 @@ module {:options "-functionSyntax:4"} AllRawAES {
       key <- aesPersistentKeyNames
       ::
         KeyVectorsTypes.AES(KeyVectorsTypes.RawAES(
-                              keyId := key,  
+                              keyId := key,
                               providerId := "aws-raw-vectors-persistent-" + key
                             ))
 
@@ -69,8 +69,24 @@ module {:options "-functionSyntax:4"} AllRawAES {
           decryptDescription := keyDescription
         )
 
-  const TestControlEc := 
-    set 
+  const TestsWitReplacementCharEc :=
+    set
+      keyDescription <- KeyDescriptions + KeyDescriptionsWithPsi,
+      algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
+      commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite),
+      encryptionContext <- EncryptionContextUtils.encryptionContextWitReplacementChar
+      ::
+        TestVectors.PositiveEncryptKeyringVector(
+          name := "Generated RawAES Encryption Context With Psi " + keyDescription.AES.keyId,
+          encryptionContext := encryptionContext,
+          commitmentPolicy := commitmentPolicy,
+          algorithmSuite := algorithmSuite,
+          encryptDescription := keyDescription,
+          decryptDescription := keyDescription
+        )
+
+  const TestControlEc :=
+    set
       keyDescription <- KeyDescriptions + KeyDescriptionsWithPsi,
       algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
       commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite),
@@ -85,8 +101,8 @@ module {:options "-functionSyntax:4"} AllRawAES {
           decryptDescription := keyDescription
         )
 
-  const TestsBasicEc := 
-    set 
+  const TestsBasicEc :=
+    set
       keyDescription <- KeyDescriptions + KeyDescriptionsWithPsi,
       algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
       commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite),
@@ -101,8 +117,8 @@ module {:options "-functionSyntax:4"} AllRawAES {
           decryptDescription := keyDescription
         )
 
-  const TestsWithDiffUTF8Ec := 
-    set 
+  const TestsWithDiffUTF8Ec :=
+    set
       keyDescription <- KeyDescriptions + KeyDescriptionsWithPsi,
       algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
       commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite),
@@ -116,12 +132,13 @@ module {:options "-functionSyntax:4"} AllRawAES {
           encryptDescription := keyDescription,
           decryptDescription := keyDescription
         )
-  
-  const Tests := 
-  {}
+
+  const Tests :=
+    {}
     + TestsNoEc
     + TestsWitPsiEc
     + TestsBasicEc
     + TestControlEc
     + TestsWithDiffUTF8Ec
+    + TestsWitReplacementCharEc
 }
