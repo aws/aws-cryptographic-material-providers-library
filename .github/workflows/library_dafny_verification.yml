@@ -29,7 +29,7 @@ jobs:
             StandardLibrary,
           ]
         os: [
-            ubuntu-22.04,
+            temporary-performance-testing_ubuntu-latest_32-core,
             # TODO: Re-enable macOS after https://t.corp.amazon.com/P205755286
             # macos-latest-large
           ]
