@@ -12,13 +12,13 @@ public class PutCacheEntryInput {
 
   private final Materials materials;
 
-  private final long creationTime;
+  private final Long creationTime;
 
-  private final long expiryTime;
+  private final Long expiryTime;
 
-  private final int messagesUsed;
+  private final Integer messagesUsed;
 
-  private final int bytesUsed;
+  private final Integer bytesUsed;
 
   protected PutCacheEntryInput(BuilderImpl builder) {
     this.identifier = builder.identifier();
@@ -37,19 +37,19 @@ public class PutCacheEntryInput {
     return this.materials;
   }
 
-  public long creationTime() {
+  public Long creationTime() {
     return this.creationTime;
   }
 
-  public long expiryTime() {
+  public Long expiryTime() {
     return this.expiryTime;
   }
 
-  public int messagesUsed() {
+  public Integer messagesUsed() {
     return this.messagesUsed;
   }
 
-  public int bytesUsed() {
+  public Integer bytesUsed() {
     return this.bytesUsed;
   }
 
@@ -70,21 +70,21 @@ public class PutCacheEntryInput {
 
     Materials materials();
 
-    Builder creationTime(long creationTime);
+    Builder creationTime(Long creationTime);
 
-    long creationTime();
+    Long creationTime();
 
-    Builder expiryTime(long expiryTime);
+    Builder expiryTime(Long expiryTime);
 
-    long expiryTime();
+    Long expiryTime();
 
-    Builder messagesUsed(int messagesUsed);
+    Builder messagesUsed(Integer messagesUsed);
 
-    int messagesUsed();
+    Integer messagesUsed();
 
-    Builder bytesUsed(int bytesUsed);
+    Builder bytesUsed(Integer bytesUsed);
 
-    int bytesUsed();
+    Integer bytesUsed();
 
     PutCacheEntryInput build();
   }
@@ -95,21 +95,13 @@ public class PutCacheEntryInput {
 
     protected Materials materials;
 
-    protected long creationTime;
+    protected Long creationTime;
 
-    private boolean _creationTimeSet = false;
+    protected Long expiryTime;
 
-    protected long expiryTime;
+    protected Integer messagesUsed;
 
-    private boolean _expiryTimeSet = false;
-
-    protected int messagesUsed;
-
-    private boolean _messagesUsedSet = false;
-
-    protected int bytesUsed;
-
-    private boolean _bytesUsedSet = false;
+    protected Integer bytesUsed;
 
     protected BuilderImpl() {}
 
@@ -117,13 +109,9 @@ public class PutCacheEntryInput {
       this.identifier = model.identifier();
       this.materials = model.materials();
       this.creationTime = model.creationTime();
-      this._creationTimeSet = true;
       this.expiryTime = model.expiryTime();
-      this._expiryTimeSet = true;
       this.messagesUsed = model.messagesUsed();
-      this._messagesUsedSet = true;
       this.bytesUsed = model.bytesUsed();
-      this._bytesUsedSet = true;
     }
 
     public Builder identifier(ByteBuffer identifier) {
@@ -144,43 +132,39 @@ public class PutCacheEntryInput {
       return this.materials;
     }
 
-    public Builder creationTime(long creationTime) {
+    public Builder creationTime(Long creationTime) {
       this.creationTime = creationTime;
-      this._creationTimeSet = true;
       return this;
     }
 
-    public long creationTime() {
+    public Long creationTime() {
       return this.creationTime;
     }
 
-    public Builder expiryTime(long expiryTime) {
+    public Builder expiryTime(Long expiryTime) {
       this.expiryTime = expiryTime;
-      this._expiryTimeSet = true;
       return this;
     }
 
-    public long expiryTime() {
+    public Long expiryTime() {
       return this.expiryTime;
     }
 
-    public Builder messagesUsed(int messagesUsed) {
+    public Builder messagesUsed(Integer messagesUsed) {
       this.messagesUsed = messagesUsed;
-      this._messagesUsedSet = true;
       return this;
     }
 
-    public int messagesUsed() {
+    public Integer messagesUsed() {
       return this.messagesUsed;
     }
 
-    public Builder bytesUsed(int bytesUsed) {
+    public Builder bytesUsed(Integer bytesUsed) {
       this.bytesUsed = bytesUsed;
-      this._bytesUsedSet = true;
       return this;
     }
 
-    public int bytesUsed() {
+    public Integer bytesUsed() {
       return this.bytesUsed;
     }
 
@@ -195,32 +179,32 @@ public class PutCacheEntryInput {
           "Missing value for required field `materials`"
         );
       }
-      if (!this._creationTimeSet) {
+      if (Objects.isNull(this.creationTime())) {
         throw new IllegalArgumentException(
           "Missing value for required field `creationTime`"
         );
       }
-      if (this._creationTimeSet && this.creationTime() < 0) {
+      if (Objects.nonNull(this.creationTime()) && this.creationTime() < 0) {
         throw new IllegalArgumentException(
           "`creationTime` must be greater than or equal to 0"
         );
       }
-      if (!this._expiryTimeSet) {
+      if (Objects.isNull(this.expiryTime())) {
         throw new IllegalArgumentException(
           "Missing value for required field `expiryTime`"
         );
       }
-      if (this._expiryTimeSet && this.expiryTime() < 0) {
+      if (Objects.nonNull(this.expiryTime()) && this.expiryTime() < 0) {
         throw new IllegalArgumentException(
           "`expiryTime` must be greater than or equal to 0"
         );
       }
-      if (this._messagesUsedSet && this.messagesUsed() < 0) {
+      if (Objects.nonNull(this.messagesUsed()) && this.messagesUsed() < 0) {
         throw new IllegalArgumentException(
           "`messagesUsed` must be greater than or equal to 0"
         );
       }
-      if (this._bytesUsedSet && this.bytesUsed() < 0) {
+      if (Objects.nonNull(this.bytesUsed()) && this.bytesUsed() < 0) {
         throw new IllegalArgumentException(
           "`bytesUsed` must be greater than or equal to 0"
         );
