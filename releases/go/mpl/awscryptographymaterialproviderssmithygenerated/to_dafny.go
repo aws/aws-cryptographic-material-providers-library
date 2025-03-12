@@ -1676,7 +1676,9 @@ func aws_cryptography_materialProviders_EncryptionContextKeys_member_ToDafny(inp
 	return func() dafny.Sequence {
 
 		return dafny.SeqOf(func() []interface{} {
-			utf8.ValidString(input)
+			if !utf8.ValidString(input) {
+				panic("invalid utf8")
+			}
 			b := []byte(input)
 			f := make([]interface{}, len(b))
 			for i, v := range b {
@@ -2119,7 +2121,9 @@ func aws_cryptography_materialProviders_EncryptionContext_key_ToDafny(input stri
 	return func() dafny.Sequence {
 
 		return dafny.SeqOf(func() []interface{} {
-			utf8.ValidString(input)
+			if !utf8.ValidString(input) {
+				panic("invalid utf8")
+			}
 			b := []byte(input)
 			f := make([]interface{}, len(b))
 			for i, v := range b {
@@ -2134,7 +2138,9 @@ func aws_cryptography_materialProviders_EncryptionContext_value_ToDafny(input st
 	return func() dafny.Sequence {
 
 		return dafny.SeqOf(func() []interface{} {
-			utf8.ValidString(input)
+			if !utf8.ValidString(input) {
+				panic("invalid utf8")
+			}
 			b := []byte(input)
 			f := make([]interface{}, len(b))
 			for i, v := range b {
@@ -2236,7 +2242,9 @@ func aws_cryptography_materialProviders_EncryptedDataKey_keyProviderId_ToDafny(i
 	return func() dafny.Sequence {
 
 		return dafny.SeqOf(func() []interface{} {
-			utf8.ValidString(input)
+			if !utf8.ValidString(input) {
+				panic("invalid utf8")
+			}
 			b := []byte(input)
 			f := make([]interface{}, len(b))
 			for i, v := range b {
@@ -2713,7 +2721,9 @@ func aws_cryptography_keyStore_BranchKeyMaterials_branchKeyVersion_ToDafny(input
 	return func() dafny.Sequence {
 
 		return dafny.SeqOf(func() []interface{} {
-			utf8.ValidString(input)
+			if !utf8.ValidString(input) {
+				panic("invalid utf8")
+			}
 			b := []byte(input)
 			f := make([]interface{}, len(b))
 			for i, v := range b {
@@ -2738,7 +2748,9 @@ func aws_cryptography_keyStore_EncryptionContext_key_ToDafny(input string) dafny
 	return func() dafny.Sequence {
 
 		return dafny.SeqOf(func() []interface{} {
-			utf8.ValidString(input)
+			if !utf8.ValidString(input) {
+				panic("invalid utf8")
+			}
 			b := []byte(input)
 			f := make([]interface{}, len(b))
 			for i, v := range b {
@@ -2753,7 +2765,9 @@ func aws_cryptography_keyStore_EncryptionContext_value_ToDafny(input string) daf
 	return func() dafny.Sequence {
 
 		return dafny.SeqOf(func() []interface{} {
-			utf8.ValidString(input)
+			if !utf8.ValidString(input) {
+				panic("invalid utf8")
+			}
 			b := []byte(input)
 			f := make([]interface{}, len(b))
 			for i, v := range b {

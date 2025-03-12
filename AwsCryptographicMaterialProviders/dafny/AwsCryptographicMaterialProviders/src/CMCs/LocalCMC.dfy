@@ -393,7 +393,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
     {
       entryCapacity := entryCapacity';
       entryPruningTailSize := entryPruningTailSize';
-      cache := new MutableMap();
+      cache := new MutableMap(true);
       queue := new DoublyLinkedCacheEntryList();
 
       History := new Types.ICryptographicMaterialsCacheCallHistory();

@@ -696,63 +696,6 @@ func MaterialProvidersConfig_ToDafny(nativeInput awscryptographymaterialprovider
 
 }
 
-func Materials_ToDafny(nativeInput awscryptographymaterialproviderssmithygeneratedtypes.Materials) AwsCryptographyMaterialProvidersTypes.Materials {
-	return func() AwsCryptographyMaterialProvidersTypes.Materials {
-
-		switch nativeInput.(type) {
-		case *awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberEncryption:
-			var inputToConversion = aws_cryptography_materialProviders_Materials_Encryption_ToDafny(nativeInput.(*awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberEncryption).Value)
-			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_Materials_{}.Create_Encryption_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials))
-		case *awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberDecryption:
-			var inputToConversion = aws_cryptography_materialProviders_Materials_Decryption_ToDafny(nativeInput.(*awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberDecryption).Value)
-			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_Materials_{}.Create_Decryption_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials))
-		case *awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberBranchKey:
-			var inputToConversion = aws_cryptography_materialProviders_Materials_BranchKey_ToDafny(nativeInput.(*awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberBranchKey).Value)
-			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_Materials_{}.Create_BranchKey_(inputToConversion.UnwrapOr(nil).(AwsCryptographyKeyStoreTypes.BranchKeyMaterials))
-		case *awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberBeaconKey:
-			var inputToConversion = aws_cryptography_materialProviders_Materials_BeaconKey_ToDafny(nativeInput.(*awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberBeaconKey).Value)
-			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_Materials_{}.Create_BeaconKey_(inputToConversion.UnwrapOr(nil).(AwsCryptographyKeyStoreTypes.BeaconKeyMaterials))
-
-		default:
-			panic("Unhandled union type")
-		}
-	}()
-
-}
-
-func StaticConfigurations_ToDafny(nativeInput awscryptographymaterialproviderssmithygeneratedtypes.StaticConfigurations) AwsCryptographyMaterialProvidersTypes.StaticConfigurations {
-	return func() AwsCryptographyMaterialProvidersTypes.StaticConfigurations {
-
-		switch nativeInput.(type) {
-		case *awscryptographymaterialproviderssmithygeneratedtypes.StaticConfigurationsMemberAWS_KMS_ECDH:
-			var inputToConversion = aws_cryptography_materialProviders_StaticConfigurations_AWS_KMS_ECDH_ToDafny(nativeInput.(*awscryptographymaterialproviderssmithygeneratedtypes.StaticConfigurationsMemberAWS_KMS_ECDH).Value)
-			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_StaticConfigurations_{}.Create_AWS__KMS__ECDH_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations))
-		case *awscryptographymaterialproviderssmithygeneratedtypes.StaticConfigurationsMemberRAW_ECDH:
-			var inputToConversion = aws_cryptography_materialProviders_StaticConfigurations_RAW_ECDH_ToDafny(nativeInput.(*awscryptographymaterialproviderssmithygeneratedtypes.StaticConfigurationsMemberRAW_ECDH).Value)
-			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_StaticConfigurations_{}.Create_RAW__ECDH_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations))
-
-		default:
-			panic("Unhandled union type")
-		}
-	}()
-
-}
-
-func KeyAgreementScheme_ToDafny(nativeInput awscryptographymaterialproviderssmithygeneratedtypes.KeyAgreementScheme) AwsCryptographyMaterialProvidersTypes.KeyAgreementScheme {
-	return func() AwsCryptographyMaterialProvidersTypes.KeyAgreementScheme {
-
-		switch nativeInput.(type) {
-		case *awscryptographymaterialproviderssmithygeneratedtypes.KeyAgreementSchemeMemberStaticConfiguration:
-			var inputToConversion = aws_cryptography_materialProviders_KeyAgreementScheme_StaticConfiguration_ToDafny(nativeInput.(*awscryptographymaterialproviderssmithygeneratedtypes.KeyAgreementSchemeMemberStaticConfiguration).Value)
-			return AwsCryptographyMaterialProvidersTypes.CompanionStruct_KeyAgreementScheme_{}.Create_StaticConfiguration_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.StaticConfigurations))
-
-		default:
-			panic("Unhandled union type")
-		}
-	}()
-
-}
-
 func aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_kmsClient_ToDafny(input *kms.Client) ComAmazonawsKmsTypes.IKMSClient {
 	return &KMSwrapped.Shim{Client: input}
 }
@@ -3280,65 +3223,5 @@ func aws_cryptography_materialProviders_InvalidEncryptionMaterialsTransition_mes
 	return func() dafny.Sequence {
 
 		return dafny.SeqOfChars([]dafny.Char(input)...)
-	}()
-}
-
-func aws_cryptography_materialProviders_StaticConfigurations_AWS_KMS_ECDH_ToDafny(input awscryptographymaterialproviderssmithygeneratedtypes.KmsEcdhStaticConfigurations) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		switch input.(type) {
-		case *awscryptographymaterialproviderssmithygeneratedtypes.KmsEcdhStaticConfigurationsMemberKmsPublicKeyDiscovery:
-			var inputToConversion = aws_cryptography_materialProviders_KmsEcdhStaticConfigurations_KmsPublicKeyDiscovery_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.KmsEcdhStaticConfigurationsMemberKmsPublicKeyDiscovery).Value)
-			return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTypes.CompanionStruct_KmsEcdhStaticConfigurations_{}.Create_KmsPublicKeyDiscovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.KmsPublicKeyDiscoveryInput)))
-		case *awscryptographymaterialproviderssmithygeneratedtypes.KmsEcdhStaticConfigurationsMemberKmsPrivateKeyToStaticPublicKey:
-			var inputToConversion = aws_cryptography_materialProviders_KmsEcdhStaticConfigurations_KmsPrivateKeyToStaticPublicKey_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.KmsEcdhStaticConfigurationsMemberKmsPrivateKeyToStaticPublicKey).Value)
-			return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTypes.CompanionStruct_KmsEcdhStaticConfigurations_{}.Create_KmsPrivateKeyToStaticPublicKey_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.KmsPrivateKeyToStaticPublicKeyInput)))
-
-		default:
-			panic("Unhandled union type")
-		}
-	}()
-}
-
-func aws_cryptography_materialProviders_StaticConfigurations_RAW_ECDH_ToDafny(input awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurations) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		switch input.(type) {
-		case *awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurationsMemberPublicKeyDiscovery:
-			var inputToConversion = aws_cryptography_materialProviders_RawEcdhStaticConfigurations_PublicKeyDiscovery_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurationsMemberPublicKeyDiscovery).Value)
-			return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTypes.CompanionStruct_RawEcdhStaticConfigurations_{}.Create_PublicKeyDiscovery_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.PublicKeyDiscoveryInput)))
-		case *awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurationsMemberRawPrivateKeyToStaticPublicKey:
-			var inputToConversion = aws_cryptography_materialProviders_RawEcdhStaticConfigurations_RawPrivateKeyToStaticPublicKey_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurationsMemberRawPrivateKeyToStaticPublicKey).Value)
-			return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTypes.CompanionStruct_RawEcdhStaticConfigurations_{}.Create_RawPrivateKeyToStaticPublicKey_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.RawPrivateKeyToStaticPublicKeyInput)))
-		case *awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey:
-			var inputToConversion = aws_cryptography_materialProviders_RawEcdhStaticConfigurations_EphemeralPrivateKeyToStaticPublicKey_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey).Value)
-			return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTypes.CompanionStruct_RawEcdhStaticConfigurations_{}.Create_EphemeralPrivateKeyToStaticPublicKey_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.EphemeralPrivateKeyToStaticPublicKeyInput)))
-
-		default:
-			panic("Unhandled union type")
-		}
-	}()
-}
-
-func aws_cryptography_materialProviders_KeyAgreementScheme_StaticConfiguration_ToDafny(input awscryptographymaterialproviderssmithygeneratedtypes.StaticConfigurations) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		switch input.(type) {
-		case *awscryptographymaterialproviderssmithygeneratedtypes.StaticConfigurationsMemberAWS_KMS_ECDH:
-			var inputToConversion = aws_cryptography_materialProviders_StaticConfigurations_AWS_KMS_ECDH_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.StaticConfigurationsMemberAWS_KMS_ECDH).Value)
-			return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTypes.CompanionStruct_StaticConfigurations_{}.Create_AWS__KMS__ECDH_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations)))
-		case *awscryptographymaterialproviderssmithygeneratedtypes.StaticConfigurationsMemberRAW_ECDH:
-			var inputToConversion = aws_cryptography_materialProviders_StaticConfigurations_RAW_ECDH_ToDafny(input.(*awscryptographymaterialproviderssmithygeneratedtypes.StaticConfigurationsMemberRAW_ECDH).Value)
-			return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyMaterialProvidersTypes.CompanionStruct_StaticConfigurations_{}.Create_RAW__ECDH_(inputToConversion.UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations)))
-
-		default:
-			panic("Unhandled union type")
-		}
 	}()
 }

@@ -169,7 +169,7 @@ func (_static *CompanionStruct_Default___) StringifyEncryptionContext(utf8EncCtx
 				_1_utf8Key = interface{}(_compr_0).(_dafny.Sequence)
 				if m_UTF8.Companion_ValidUTF8Bytes_.Is_(_1_utf8Key) {
 					if ((utf8EncCtx).Keys()).Contains(_1_utf8Key) {
-						_coll0.Add(_1_utf8Key, Companion_Default___.StringifyEncryptionContextPair(_1_utf8Key, (utf8EncCtx).Get(_1_utf8Key).(_dafny.Sequence)))
+						_coll0.Add(_1_utf8Key, m_Wrappers.Companion_Result_.Create_Success_(_dafny.TupleOf(_1_utf8Key, (utf8EncCtx).Get(_1_utf8Key).(_dafny.Sequence))))
 					}
 				}
 			}

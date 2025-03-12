@@ -152,7 +152,7 @@ module {:options "/functionSyntax:4" }  StormTracker {
       }
 
       this.wrapped := new LocalCMC.LocalCMC(cache.entryCapacity as nat, cache.entryPruningTailSize.UnwrapOr(1) as nat);
-      this.inFlight := new MutableMap();
+      this.inFlight := new MutableMap(true);
       this.gracePeriod := gracePeriod;
       this.graceInterval := graceInterval;
       this.fanOut := cache.fanOut as Types.PositiveLong;
