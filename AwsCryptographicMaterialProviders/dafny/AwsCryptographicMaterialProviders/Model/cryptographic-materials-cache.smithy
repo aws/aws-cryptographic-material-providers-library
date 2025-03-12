@@ -222,6 +222,9 @@ structure StormTrackingCache {
   timeUnits: TimeUnits
 }
 
+@documentation("The time unit for gracePeriod, graceInterval, and inFlightTTL.
+The default is seconds.
+If this is set to milliseconds, then these values will be treated as milliseconds.")
 @enum([
   {
     name: "Seconds",

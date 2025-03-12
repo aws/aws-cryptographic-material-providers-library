@@ -4,13 +4,16 @@ package awscryptographymaterialproviderssmithygeneratedtypes
 
 type AesWrappingAlg string
 
+// Supported AES wrapping algorithms.
 const (
 	AesWrappingAlgAlgAes128GcmIv12Tag16 AesWrappingAlg = "ALG_AES128_GCM_IV12_TAG16"
 	AesWrappingAlgAlgAes192GcmIv12Tag16 AesWrappingAlg = "ALG_AES192_GCM_IV12_TAG16"
 	AesWrappingAlgAlgAes256GcmIv12Tag16 AesWrappingAlg = "ALG_AES256_GCM_IV12_TAG16"
 )
 
+// Supported AES wrapping algorithms.
 func (AesWrappingAlg) Values() []AesWrappingAlg {
+	// Supported AES wrapping algorithms.
 	return []AesWrappingAlg{
 		"ALG_AES128_GCM_IV12_TAG16",
 		"ALG_AES192_GCM_IV12_TAG16",
@@ -20,12 +23,15 @@ func (AesWrappingAlg) Values() []AesWrappingAlg {
 
 type DBEAlgorithmSuiteId string
 
+// Supported DBE Algorithm Suite Ids.
 const (
 	DBEAlgorithmSuiteIdAlgAes256GcmHkdfSha512CommitKeySymsigHmacSha384          DBEAlgorithmSuiteId = "0x6700"
 	DBEAlgorithmSuiteIdAlgAes256GcmHkdfSha512CommitKeyEcdsaP384SymsigHmacSha384 DBEAlgorithmSuiteId = "0x6701"
 )
 
+// Supported DBE Algorithm Suite Ids.
 func (DBEAlgorithmSuiteId) Values() []DBEAlgorithmSuiteId {
+	// Supported DBE Algorithm Suite Ids.
 	return []DBEAlgorithmSuiteId{
 		"0x6700",
 		"0x6701",
@@ -34,6 +40,7 @@ func (DBEAlgorithmSuiteId) Values() []DBEAlgorithmSuiteId {
 
 type ESDKAlgorithmSuiteId string
 
+// Supported ESDK Algorithm Suite Ids.
 const (
 	ESDKAlgorithmSuiteIdAlgAes128GcmIv12Tag16NoKdf               ESDKAlgorithmSuiteId = "0x0014"
 	ESDKAlgorithmSuiteIdAlgAes192GcmIv12Tag16NoKdf               ESDKAlgorithmSuiteId = "0x0046"
@@ -48,7 +55,9 @@ const (
 	ESDKAlgorithmSuiteIdAlgAes256GcmHkdfSha512CommitKeyEcdsaP384 ESDKAlgorithmSuiteId = "0x0578"
 )
 
+// Supported ESDK Algorithm Suite Ids.
 func (ESDKAlgorithmSuiteId) Values() []ESDKAlgorithmSuiteId {
+	// Supported ESDK Algorithm Suite Ids.
 	return []ESDKAlgorithmSuiteId{
 		"0x0014",
 		"0x0046",
@@ -66,12 +75,21 @@ func (ESDKAlgorithmSuiteId) Values() []ESDKAlgorithmSuiteId {
 
 type TimeUnits string
 
+// The time unit for gracePeriod, graceInterval, and inFlightTTL.
+// The default is seconds.
+// If this is set to milliseconds, then these values will be treated as milliseconds.
 const (
 	TimeUnitsSeconds      TimeUnits = "Seconds"
 	TimeUnitsMilliseconds TimeUnits = "Milliseconds"
 )
 
+// The time unit for gracePeriod, graceInterval, and inFlightTTL.
+// The default is seconds.
+// If this is set to milliseconds, then these values will be treated as milliseconds.
 func (TimeUnits) Values() []TimeUnits {
+	// The time unit for gracePeriod, graceInterval, and inFlightTTL.
+	// The default is seconds.
+	// If this is set to milliseconds, then these values will be treated as milliseconds.
 	return []TimeUnits{
 		"Seconds",
 		"Milliseconds",
@@ -80,6 +98,7 @@ func (TimeUnits) Values() []TimeUnits {
 
 type PaddingScheme string
 
+// Supported Padding Schemes. For more information, see: https://github.com/awslabs/aws-encryption-sdk-specification/blob/master/framework/raw-rsa-keyring.md#supported-padding-schemes.
 const (
 	PaddingSchemePkcs1          PaddingScheme = "PKCS1"
 	PaddingSchemeOaepSha1Mgf1   PaddingScheme = "OAEP_SHA1_MGF1"
@@ -88,7 +107,9 @@ const (
 	PaddingSchemeOaepSha512Mgf1 PaddingScheme = "OAEP_SHA512_MGF1"
 )
 
+// Supported Padding Schemes. For more information, see: https://github.com/awslabs/aws-encryption-sdk-specification/blob/master/framework/raw-rsa-keyring.md#supported-padding-schemes.
 func (PaddingScheme) Values() []PaddingScheme {
+	// Supported Padding Schemes. For more information, see: https://github.com/awslabs/aws-encryption-sdk-specification/blob/master/framework/raw-rsa-keyring.md#supported-padding-schemes.
 	return []PaddingScheme{
 		"PKCS1",
 		"OAEP_SHA1_MGF1",
@@ -100,11 +121,14 @@ func (PaddingScheme) Values() []PaddingScheme {
 
 type DBECommitmentPolicy string
 
+// Supported DBE Commitment Policies.
 const (
 	DBECommitmentPolicyRequireEncryptRequireDecrypt DBECommitmentPolicy = "REQUIRE_ENCRYPT_REQUIRE_DECRYPT"
 )
 
+// Supported DBE Commitment Policies.
 func (DBECommitmentPolicy) Values() []DBECommitmentPolicy {
+	// Supported DBE Commitment Policies.
 	return []DBECommitmentPolicy{
 		"REQUIRE_ENCRYPT_REQUIRE_DECRYPT",
 	}
@@ -112,13 +136,16 @@ func (DBECommitmentPolicy) Values() []DBECommitmentPolicy {
 
 type ESDKCommitmentPolicy string
 
+// Supported ESDK Commitment Policies. For more information, see: https://github.com/awslabs/aws-encryption-sdk-specification/blob/master/framework/commitment-policy.md#supported-format-commitment-policy-enum.
 const (
 	ESDKCommitmentPolicyForbidEncryptAllowDecrypt    ESDKCommitmentPolicy = "FORBID_ENCRYPT_ALLOW_DECRYPT"
 	ESDKCommitmentPolicyRequireEncryptAllowDecrypt   ESDKCommitmentPolicy = "REQUIRE_ENCRYPT_ALLOW_DECRYPT"
 	ESDKCommitmentPolicyRequireEncryptRequireDecrypt ESDKCommitmentPolicy = "REQUIRE_ENCRYPT_REQUIRE_DECRYPT"
 )
 
+// Supported ESDK Commitment Policies. For more information, see: https://github.com/awslabs/aws-encryption-sdk-specification/blob/master/framework/commitment-policy.md#supported-format-commitment-policy-enum.
 func (ESDKCommitmentPolicy) Values() []ESDKCommitmentPolicy {
+	// Supported ESDK Commitment Policies. For more information, see: https://github.com/awslabs/aws-encryption-sdk-specification/blob/master/framework/commitment-policy.md#supported-format-commitment-policy-enum.
 	return []ESDKCommitmentPolicy{
 		"FORBID_ENCRYPT_ALLOW_DECRYPT",
 		"REQUIRE_ENCRYPT_ALLOW_DECRYPT",
