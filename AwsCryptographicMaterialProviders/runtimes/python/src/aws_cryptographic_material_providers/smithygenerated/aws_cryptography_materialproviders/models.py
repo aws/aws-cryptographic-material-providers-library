@@ -3239,7 +3239,7 @@ class CreateDefaultCryptographicMaterialsManagerInput:
         """Inputs for creating a Default Cryptographic Materials Manager.
 
         :param keyring: The Keyring that the created Default
-            Cryprographic Materials Manager will use to wrap data keys.
+            Cryptographic Materials Manager will use to wrap data keys.
         """
         self.keyring = keyring
 
@@ -3954,16 +3954,16 @@ class CreateRequiredEncryptionContextCMMInput:
             encryption and decryption, and correspond to Encryption
             Context key-value pairs which are not stored on the
             resulting message.
-        :param underlying_cmm: The Cryprographic Materials Manager that
+        :param underlying_cmm: The Cryptographic Materials Manager that
             the created Required Encryption Context Cryptographic
             Materials Manager will delegate to. Either a Keyring or
-            underlying Cryprographic Materials Manager must be
+            underlying Cryptographic Materials Manager must be
             specified.
-        :param keyring: The Keyring that the created Cryprographic
+        :param keyring: The Keyring that the created Cryptographic
             Materials Manager will use to wrap data keys. The created
             Required Encryption Context CMM will delegate to a Default
             Cryptographic Materials Manager created with this Keyring.
-            Either a Keyring or an underlying Cryprographic Materials
+            Either a Keyring or an underlying Cryptographic Materials
             Manager must be specified as input.
         """
         self.required_encryption_context_keys = required_encryption_context_keys
