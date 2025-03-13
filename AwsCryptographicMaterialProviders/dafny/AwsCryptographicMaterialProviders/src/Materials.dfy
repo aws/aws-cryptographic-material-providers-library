@@ -255,7 +255,7 @@ module Materials {
        //# If the algorithm suite does contain a symmetric signing algorithm, this list MUST have length equal to the [encrypted data key list](#encrypted-data-keys).
     && (suite.symmetricSignature.HMAC? && encryptionMaterials.symmetricSigningKeys.Some? ==>
           |encryptionMaterials.symmetricSigningKeys.value| == |encryptionMaterials.encryptedDataKeys|)
-    && (suite.symmetricSignature.HMAC? ==> 
+    && (suite.symmetricSignature.HMAC? ==>
           || encryptionMaterials.symmetricSigningKeys.Some?
           || (|encryptionMaterials.encryptedDataKeys| == 0 && encryptionMaterials.symmetricSigningKeys.None?))
        //= aws-encryption-sdk-specification/framework/structures.md#symmetric-signing-keys
