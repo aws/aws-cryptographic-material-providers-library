@@ -111,7 +111,7 @@ module {:options "/functionSyntax:4"} TestMutationIndexConversion {
     expect reconstructedIndex.CiphertextBlob == [0x44, 0x55, 0x66];
 
     // Ensure LastModifiedTime defaults to None
-    expect !reconstructedIndex.LastModifiedTime.Some?;
+    expect reconstructedIndex.LastModifiedTime.None?;
   }
 
   method {:test} TestMutationIndexHandlesOptionalLastModifiedTime() {
