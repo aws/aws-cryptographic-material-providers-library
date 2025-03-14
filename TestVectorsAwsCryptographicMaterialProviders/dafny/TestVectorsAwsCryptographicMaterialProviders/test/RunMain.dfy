@@ -41,8 +41,6 @@ module {:extern} TestWrappedMaterialProvidersMain {
     var directory := GetTestVectorExecutionDirectory();
     var result := TestManifests.StartEncrypt(
       Encrypt(
-        // manifestPath := directory,
-        // decryptManifestOutput := directory
         manifestPath := directory + "dafny/TestVectorsAwsCryptographicMaterialProviders/test/",
         decryptManifestOutput := directory + "dafny/TestVectorsAwsCryptographicMaterialProviders/"
       )
