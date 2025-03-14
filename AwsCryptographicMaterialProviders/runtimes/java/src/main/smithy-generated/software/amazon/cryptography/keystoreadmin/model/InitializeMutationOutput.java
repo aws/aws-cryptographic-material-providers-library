@@ -20,6 +20,9 @@ public class InitializeMutationOutput {
 
   private final InitializeMutationFlag InitializeMutationFlag;
 
+  /**
+   * ISO 8601 timestamp of last time the Mutation was Initialized or Applied.
+   */
   private final String LastModifiedTime;
 
   protected InitializeMutationOutput(BuilderImpl builder) {
@@ -47,6 +50,9 @@ public class InitializeMutationOutput {
     return this.InitializeMutationFlag;
   }
 
+  /**
+   * @return ISO 8601 timestamp of last time the Mutation was Initialized or Applied.
+   */
   public String LastModifiedTime() {
     return this.LastModifiedTime;
   }
@@ -88,8 +94,14 @@ public class InitializeMutationOutput {
 
     InitializeMutationFlag InitializeMutationFlag();
 
+    /**
+     * @param LastModifiedTime ISO 8601 timestamp of last time the Mutation was Initialized or Applied.
+     */
     Builder LastModifiedTime(String LastModifiedTime);
 
+    /**
+     * @return ISO 8601 timestamp of last time the Mutation was Initialized or Applied.
+     */
     String LastModifiedTime();
 
     InitializeMutationOutput build();
@@ -168,6 +180,11 @@ public class InitializeMutationOutput {
       if (Objects.isNull(this.InitializeMutationFlag())) {
         throw new IllegalArgumentException(
           "Missing value for required field `InitializeMutationFlag`"
+        );
+      }
+      if (Objects.isNull(this.LastModifiedTime())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `LastModifiedTime`"
         );
       }
       return new InitializeMutationOutput(this);

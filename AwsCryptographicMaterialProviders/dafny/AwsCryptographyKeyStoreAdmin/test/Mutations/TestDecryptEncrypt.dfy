@@ -385,8 +385,7 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
       DoNotVersion := Some(true));
     var initializeOutput :- expect underTest.InitializeMutation(initInput);
     var initializeToken := initializeOutput.MutationToken;
-    expect initializeOutput.LastModifiedTime.Some?;
-    var lastModifiedTime1 := initializeOutput.LastModifiedTime.value;
+    var lastModifiedTime1 := initializeOutput.LastModifiedTime;
 
     var applyInput := Types.ApplyMutationInput(
       MutationToken := initializeOutput.MutationToken,
@@ -396,22 +395,19 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
     );
     var applyOutput? := underTest.ApplyMutation(applyInput);
     expect applyOutput?.Success?, "Apply Mutation 1 FAILED";
-    expect applyOutput?.value.LastModifiedTime.Some?;
-    var lastModifiedTime2 := applyOutput?.value.LastModifiedTime.value;
+    var lastModifiedTime2 := applyOutput?.value.LastModifiedTime;
     expect lastModifiedTime2 != lastModifiedTime1, "Apply Mutation should return newer timestamp.";
 
     // Step 2: DescribeMutation and validate LastModifiedTime
     var describeInput := Types.DescribeMutationInput(Identifier := testId);
     var describeOutput :- expect underTest.DescribeMutation(describeInput);
     expect describeOutput.MutationInFlight.Yes?, "Describe Mutation should return in-flight Mutations.";
-    expect describeOutput.MutationInFlight.Yes.LastModifiedTime.Some?;
-    var lastModifiedTime3 := describeOutput.MutationInFlight.Yes.LastModifiedTime.value;
+    var lastModifiedTime3 := describeOutput.MutationInFlight.Yes.LastModifiedTime;
     expect lastModifiedTime2 == lastModifiedTime3, "Describe Mutation should return the same timestamp when last mutation was applied.";
 
     // Step 3: Resume Mutation and Apply One More Mutation
     var resumeOutput :- expect underTest.InitializeMutation(initInput);
-    expect resumeOutput.LastModifiedTime.Some?;
-    var lastModifiedTime4 := resumeOutput.LastModifiedTime.value;
+    var lastModifiedTime4 := resumeOutput.LastModifiedTime;
     expect lastModifiedTime4 == lastModifiedTime2, "Resumed mutation should have same timestamp when last mutation was applied.";
 
     applyInput := Types.ApplyMutationInput(
@@ -422,9 +418,10 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
     );
     applyOutput? := underTest.ApplyMutation(applyInput);
     expect applyOutput?.Success?, "Apply Mutation 2 FAILED";
-    expect applyOutput?.value.LastModifiedTime.Some?;
-    var lastModifiedTime5 := applyOutput?.value.LastModifiedTime.value;
+    var lastModifiedTime5 := applyOutput?.value.LastModifiedTime;
     expect lastModifiedTime5 != lastModifiedTime4, "Apply Mutation should return newer timestamp.";
+    // expect lastModifiedTime5 > lastModifiedTime4, "LastModifiedTime should return newer timestamp after resuming without index.";
+
 
     // Step 4: Delete Mutation Index
     var cleanedVersion? :- expect CleanupItems.DeleteTypeWithFailure(testId, Structure.MUTATION_INDEX_TYPE, ddbClient);
@@ -437,9 +434,9 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
     // Step 5: Resume Without Index
     var resumedWithoutIndexOutput :- expect underTest.InitializeMutation(initInput);
     expect resumedWithoutIndexOutput.InitializeMutationFlag == Types.InitializeMutationFlag.ResumedWithoutIndex, "Expected Mutation to be resumed by creating new Mutation Index";
-    expect resumedWithoutIndexOutput.LastModifiedTime.Some?;
-    var lastModifiedTime6 := resumedWithoutIndexOutput.LastModifiedTime.value;
+    var lastModifiedTime6 := resumedWithoutIndexOutput.LastModifiedTime;
     expect lastModifiedTime6 != lastModifiedTime5, "LastModifiedTime should change after resuming without index.";
+    // expect lastModifiedTime6 > lastModifiedTime5, "LastModifiedTime should return newer timestamp after resuming without index.";
     var token := resumedWithoutIndexOutput.MutationToken;
 
     // Step 6: Continue applying remaining mutations

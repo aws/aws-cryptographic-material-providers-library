@@ -400,6 +400,8 @@ structure InitializeMutationOutput {
   @required
   InitializeMutationFlag: InitializeMutationFlag
 
+  @required
+  @documentation("ISO 8601 timestamp of last time the Mutation was Initialized or Applied.")
   LastModifiedTime: String
 }
 
@@ -487,6 +489,8 @@ structure ApplyMutationOutput {
   MutationResult: ApplyMutationResult
   @required
   MutatedBranchKeyItems: MutatedBranchKeyItems
+  @required
+  @documentation("ISO 8601 timestamp of last time the Mutation was Initialized or Applied.")
   LastModifiedTime: String
 }
 
@@ -531,6 +535,7 @@ structure MutationDescription {
   @required
   @documentation("This token can be passed to Apply Mutation to continue the Mutation.")
   MutationToken: MutationToken
+  @required
   @documentation("ISO 8601 timestamp of last time the Mutation was Initialized or Applied.")
   LastModifiedTime: String
 }

@@ -303,7 +303,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
                    Identifier := MutationToApply.Identifier,
                    PageIndex := MutationIndexUtils.ExclusiveStartKeyToPageIndex(ExclusiveStartKey),
                    UUID := MutationToApply.UUID,
-                   LastModifiedTime := Option.Some(TimeStamp),
+                   LastModifiedTime := Some(TimeStamp),
                    CreateTime := MutationToApply.CreateTime,
                    CiphertextBlob := MutationToApply.IndexCiphertext // TODO-Mutations-GA
                  );

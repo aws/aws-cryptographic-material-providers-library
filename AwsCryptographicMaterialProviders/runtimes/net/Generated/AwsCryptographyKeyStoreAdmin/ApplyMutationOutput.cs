@@ -41,6 +41,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       if (!IsSetMutationResult()) throw new System.ArgumentException("Missing value for required property 'MutationResult'");
       if (!IsSetMutatedBranchKeyItems()) throw new System.ArgumentException("Missing value for required property 'MutatedBranchKeyItems'");
+      if (!IsSetLastModifiedTime()) throw new System.ArgumentException("Missing value for required property 'LastModifiedTime'");
 
     }
   }

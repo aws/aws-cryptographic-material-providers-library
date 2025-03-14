@@ -145,6 +145,11 @@ public class MutationDescription {
           "Missing value for required field `MutationToken`"
         );
       }
+      if (Objects.isNull(this.LastModifiedTime())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `LastModifiedTime`"
+        );
+      }
       return new MutationDescription(this);
     }
   }

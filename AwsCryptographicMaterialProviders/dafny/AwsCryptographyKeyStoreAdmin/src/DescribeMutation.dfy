@@ -105,10 +105,13 @@ module {:options "/functionSyntax:4" } DescribeMutation {
       CreateTime := MutationToApply.CreateTime,
       UUID := MutationToApply.UUID
     );
+    var lastModifiedTime := if Index.LastModifiedTime.Some?
+    then Index.LastModifiedTime.value
+    else "LAST_MODIFIED_TIME_NOT_AVAILABLE";
     var description := Types.MutationDescription(
       MutationDetails := details,
       MutationToken := token,
-      LastModifiedTime:= Index.LastModifiedTime);
+      LastModifiedTime:= lastModifiedTime);
     var inFlight := Types.MutationInFlight.Yes(
       Yes := description);
     return Success(Types.DescribeMutationOutput(MutationInFlight := inFlight));

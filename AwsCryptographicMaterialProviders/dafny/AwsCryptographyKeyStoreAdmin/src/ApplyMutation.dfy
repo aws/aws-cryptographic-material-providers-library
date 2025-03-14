@@ -264,7 +264,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
           else
             Types.ApplyMutationResult.CompleteMutation(Types.MutationComplete()),
         MutatedBranchKeyItems := logStatements,
-        LastModifiedTime := Some(lastModifiedTime)
+        LastModifiedTime := lastModifiedTime
       ));
   }
 

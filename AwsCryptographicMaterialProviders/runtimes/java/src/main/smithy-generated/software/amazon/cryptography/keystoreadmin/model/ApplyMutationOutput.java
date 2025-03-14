@@ -15,6 +15,9 @@ public class ApplyMutationOutput {
    */
   private final List<MutatedBranchKeyItem> MutatedBranchKeyItems;
 
+  /**
+   * ISO 8601 timestamp of last time the Mutation was Initialized or Applied.
+   */
   private final String LastModifiedTime;
 
   protected ApplyMutationOutput(BuilderImpl builder) {
@@ -34,6 +37,9 @@ public class ApplyMutationOutput {
     return this.MutatedBranchKeyItems;
   }
 
+  /**
+   * @return ISO 8601 timestamp of last time the Mutation was Initialized or Applied.
+   */
   public String LastModifiedTime() {
     return this.LastModifiedTime;
   }
@@ -63,8 +69,14 @@ public class ApplyMutationOutput {
      */
     List<MutatedBranchKeyItem> MutatedBranchKeyItems();
 
+    /**
+     * @param LastModifiedTime ISO 8601 timestamp of last time the Mutation was Initialized or Applied.
+     */
     Builder LastModifiedTime(String LastModifiedTime);
 
+    /**
+     * @return ISO 8601 timestamp of last time the Mutation was Initialized or Applied.
+     */
     String LastModifiedTime();
 
     ApplyMutationOutput build();
@@ -124,6 +136,11 @@ public class ApplyMutationOutput {
       if (Objects.isNull(this.MutatedBranchKeyItems())) {
         throw new IllegalArgumentException(
           "Missing value for required field `MutatedBranchKeyItems`"
+        );
+      }
+      if (Objects.isNull(this.LastModifiedTime())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `LastModifiedTime`"
         );
       }
       return new ApplyMutationOutput(this);

@@ -41,6 +41,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       if (!IsSetMutationDetails()) throw new System.ArgumentException("Missing value for required property 'MutationDetails'");
       if (!IsSetMutationToken()) throw new System.ArgumentException("Missing value for required property 'MutationToken'");
+      if (!IsSetLastModifiedTime()) throw new System.ArgumentException("Missing value for required property 'LastModifiedTime'");
 
     }
   }

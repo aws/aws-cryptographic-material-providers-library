@@ -886,7 +886,7 @@ module {:options "/functionSyntax:4" } Structure {
       CreateTime := item[KEY_CREATE_TIME].S,
       UUID := item[M_UUID].S,
       PageIndex := item[M_PAGE_INDEX].B,
-      LastModifiedTime := if (M_LAST_MODIFIED_TIME in item && item[M_LAST_MODIFIED_TIME].S?)
+      LastModifiedTime := if (M_LAST_MODIFIED_TIME in item)
       then Some(item[M_LAST_MODIFIED_TIME].S)
       else None,
       CiphertextBlob := item[ENC_FIELD].B
@@ -919,8 +919,6 @@ module {:options "/functionSyntax:4" } Structure {
   )
     requires MutationIndexAttribute?(item)
     requires MutationIndex?(index)
-    requires M_LAST_MODIFIED_TIME in item <==> index.LastModifiedTime.Some?
-    requires M_LAST_MODIFIED_TIME !in item <==> !index.LastModifiedTime.Some?
 
     ensures
       ToMutationIndex(item) == index <==> MutationIndexToAttributeMap(index) == item
