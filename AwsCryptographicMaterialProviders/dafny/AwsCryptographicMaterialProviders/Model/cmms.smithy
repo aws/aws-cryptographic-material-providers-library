@@ -130,7 +130,7 @@ operation CreateDefaultCryptographicMaterialsManager {
 @javadoc("Inputs for creating a Default Cryptographic Materials Manager.")
 structure CreateDefaultCryptographicMaterialsManagerInput {
   @required
-  @javadoc("The Keyring that the created Default Cryprographic Materials Manager will use to wrap data keys.")
+  @javadoc("The Keyring that the created Default Cryptographic Materials Manager will use to wrap data keys.")
   keyring: KeyringReference 
 }
 
@@ -150,9 +150,9 @@ operation CreateRequiredEncryptionContextCMM {
 
 @javadoc("Inputs for creating an Required Encryption Context Cryptographic Materials Manager.")
 structure CreateRequiredEncryptionContextCMMInput {
-  @javadoc("The Cryprographic Materials Manager that the created Required Encryption Context Cryptographic Materials Manager will delegate to. Either a Keyring or underlying Cryprographic Materials Manager must be specified.")
+  @javadoc("The Cryptographic Materials Manager that the created Required Encryption Context Cryptographic Materials Manager will delegate to. Either a Keyring or underlying Cryptographic Materials Manager must be specified.")
   underlyingCMM: CryptographicMaterialsManagerReference,
-  @javadoc("The Keyring that the created Cryprographic Materials Manager will use to wrap data keys. The created Required Encryption Context CMM will delegate to a Default Cryptographic Materials Manager created with this Keyring. Either a Keyring or an underlying Cryprographic Materials Manager must be specified as input.")
+  @javadoc("The Keyring that the created Cryptographic Materials Manager will use to wrap data keys. The created Required Encryption Context CMM will delegate to a Default Cryptographic Materials Manager created with this Keyring. Either a Keyring or an underlying Cryptographic Materials Manager must be specified as input.")
   keyring: KeyringReference,
   @required
   @javadoc("A list of Encryption Context keys which are required to be supplied during encryption and decryption, and correspond to Encryption Context key-value pairs which are not stored on the resulting message.")
