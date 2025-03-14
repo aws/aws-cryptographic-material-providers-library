@@ -1,5 +1,5 @@
 file_format_version = "1.0"
-dafny_version = "4.8.0.0"
+dafny_version = "4.9.0.0"
 [options_by_module.Wrappers]
 legacy-module-names = false
 python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
@@ -81,6 +81,9 @@ python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
 [options_by_module."StandardLibrary.UInt"]
 legacy-module-names = false
 python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module."StandardLibrary.NeedError"]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
 [options_by_module."StandardLibrary.Sequence"]
 legacy-module-names = false
 python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
@@ -94,6 +97,9 @@ python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
 legacy-module-names = false
 python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
 [options_by_module.UTF8]
+legacy-module-names = false
+python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
+[options_by_module.OsLang]
 legacy-module-names = false
 python-module-name = "smithy_dafny_standard_library.internaldafny.generated"
 [options_by_module.Time]

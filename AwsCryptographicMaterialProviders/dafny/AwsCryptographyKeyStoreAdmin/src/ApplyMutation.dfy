@@ -12,6 +12,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
   import opened StandardLibrary
   import opened Wrappers
   import opened Seq
+  import Time
   import UTF8
     // KeyStore Imports
   import KeyStoreTypes = AwsCryptographyKeyStoreAdminTypes.AwsCryptographyKeyStoreTypes
@@ -160,7 +161,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     :- Need(
       fetchMutation.MutationIndex.Some?,
       Types.MutationInvalidException(
-        message := "No Mutation Index exsists for this in-flight mutation of Branch Key ID " + input.MutationToken.Identifier + " ."
+        message := "No Mutation Index exists for this in-flight mutation of Branch Key ID " + input.MutationToken.Identifier + " ."
       ));
     var CommitmentAndIndex :- Mutations.ValidateCommitmentAndIndexStructures(
       input.MutationToken,
@@ -232,7 +233,11 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
       UTF8.ValidUTF8Seq(queryOut.ExclusiveStartKey),
       Types.KeyStoreAdminException(
         message:="ExclusiveStartKey returned by Key Store's Storage is not valid UTF-8 Byte Sequence."));
-    var newIndex :- StateStrucs.SerializeMutationIndex(MutationToApply, Some(queryOut.ExclusiveStartKey));
+    var lastModifiedTime? := Time.GetCurrentTimeStamp();
+    var lastModifiedTime :- lastModifiedTime?
+    .MapFailure(e => Types.KeyStoreAdminException(
+                    message := "Could not generate a timestamp: " + e));
+    var newIndex :- StateStrucs.SerializeMutationIndex(MutationToApply, Some(queryOut.ExclusiveStartKey), lastModifiedTime);
     var signedNewIndex :- SystemKeyHandler.SignIndex(newIndex, SystemKey);
 
     // TODO-Mutations-FF Log Index update or deletion of commitment and index
@@ -258,7 +263,8 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
             Types.ContinueMutation(Token)
           else
             Types.ApplyMutationResult.CompleteMutation(Types.MutationComplete()),
-        MutatedBranchKeyItems := logStatements
+        MutatedBranchKeyItems := logStatements,
+        LastModifiedTime := lastModifiedTime
       ));
   }
 

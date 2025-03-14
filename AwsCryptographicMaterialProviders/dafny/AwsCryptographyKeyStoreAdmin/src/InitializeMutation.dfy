@@ -339,7 +339,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
 
     // -= Create Mutation Commitment & Mutation Index
     var MutationCommitment :- StateStrucs.SerializeMutationCommitment(MutationToApply);
-    var MutationIndex :- StateStrucs.SerializeMutationIndex(MutationToApply, None);
+    var MutationIndex :- StateStrucs.SerializeMutationIndex(MutationToApply, None, timestamp);
 
     // -= Apply System Key to Commitment & Mutation Index
     var SignedMutationCommitment :- SystemKeyHandler.SignCommitment(MutationCommitment, input.SystemKey);
@@ -376,7 +376,8 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     return Success(Types.InitializeMutationOutput(
                      MutationToken := Token,
                      MutatedBranchKeyItems := logStatements,
-                     InitializeMutationFlag := Flag));
+                     InitializeMutationFlag := Flag,
+                     LastModifiedTime := timestamp));
   }
 
   method {:isolate_assertions} CreateNewTerminalDecryptOnlyBranchKey(
@@ -507,6 +508,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       Identifier := commitment.Identifier,
       UUID := commitment.UUID,
       CreateTime := commitment.CreateTime);
+    var lastModifiedTime : string;
 
     if (index.None?) {
       Flag := Types.ResumedWithoutIndex();
@@ -514,9 +516,11 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       var timestamp :- timestamp?
       .MapFailure(e => Types.KeyStoreAdminException(
                       message := "Could not generate a timestamp: " + e));
+      lastModifiedTime := timestamp;
       var newIndex := KeyStoreTypes.MutationIndex(
         Identifier := commitment.Identifier,
         PageIndex := MutationIndexUtils.ExclusiveStartKeyToPageIndex(None),
+        LastModifiedTime := Some(lastModifiedTime),
         UUID := commitment.UUID,
         CreateTime := timestamp,
         CiphertextBlob := [0] // [0] is a temporary place holder, but we should fix this by creating an internal type
@@ -547,12 +551,16 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
             + " This suggests the Key Store's Storage has been tampered with by an un-authorized actor."
             + " Mutation cannot continue. Audit Key Store's Storage's access."
             + " The Mutation will need to be manually restarted."));
+      lastModifiedTime := if index.value.LastModifiedTime.Some?
+      then index.value.LastModifiedTime.value
+      else "LAST_MODIFIED_TIME_NOT_AVAILABLE";
     }
 
     return Success(Types.InitializeMutationOutput(
                      MutationToken := Token,
                      MutatedBranchKeyItems := mutatedBranchKeyItems,
-                     InitializeMutationFlag := Flag));
+                     InitializeMutationFlag := Flag,
+                     LastModifiedTime := lastModifiedTime));
 
   }
 

@@ -288,7 +288,8 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
 
   function SerializeMutationIndex(
     MutationToApply: MutationToApply,
-    ExclusiveStartKey: MutationIndexUtils.ExclusiveStartKey
+    ExclusiveStartKey: MutationIndexUtils.ExclusiveStartKey,
+    TimeStamp: string
   ): (output: Result<KeyStoreTypes.MutationIndex, Types.Error>)
     requires MutationToApply.ValidState() //MutationToApply?(MutationToApply)
     ensures
@@ -302,6 +303,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
                    Identifier := MutationToApply.Identifier,
                    PageIndex := MutationIndexUtils.ExclusiveStartKeyToPageIndex(ExclusiveStartKey),
                    UUID := MutationToApply.UUID,
+                   LastModifiedTime := Some(TimeStamp),
                    CreateTime := MutationToApply.CreateTime,
                    CiphertextBlob := MutationToApply.IndexCiphertext // TODO-Mutations-GA
                  );

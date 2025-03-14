@@ -554,6 +554,8 @@ type MutationIndex struct {
 	PageIndex []byte
 
 	UUID string
+
+	LastModifiedTime *string
 }
 
 func (input MutationIndex) Validate() error {

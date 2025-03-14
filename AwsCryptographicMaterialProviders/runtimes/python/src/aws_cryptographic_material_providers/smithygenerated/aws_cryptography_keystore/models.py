@@ -662,7 +662,7 @@ class HierarchicalKeyTypeActiveHierarchicalSymmetricVersion:
 
     @staticmethod
     def from_dict(
-        d: Dict[str, Any]
+        d: Dict[str, Any],
     ) -> "HierarchicalKeyTypeActiveHierarchicalSymmetricVersion":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
@@ -697,7 +697,7 @@ class HierarchicalKeyTypeHierarchicalSymmetricVersion:
 
     @staticmethod
     def from_dict(
-        d: Dict[str, Any]
+        d: Dict[str, Any],
     ) -> "HierarchicalKeyTypeHierarchicalSymmetricVersion":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
@@ -728,7 +728,7 @@ class HierarchicalKeyTypeActiveHierarchicalSymmetricBeacon:
 
     @staticmethod
     def from_dict(
-        d: Dict[str, Any]
+        d: Dict[str, Any],
     ) -> "HierarchicalKeyTypeActiveHierarchicalSymmetricBeacon":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
@@ -1515,6 +1515,7 @@ class MutationIndex:
     create_time: str
     uuid: str
     page_index: bytes | bytearray
+    last_modified_time: Optional[str]
     ciphertext_blob: bytes | bytearray
 
     def __init__(
@@ -1525,28 +1526,37 @@ class MutationIndex:
         uuid: str,
         page_index: bytes | bytearray,
         ciphertext_blob: bytes | bytearray,
+        last_modified_time: Optional[str] = None,
     ):
         """Information of an in-flight Mutation of a Branch Key.
 
         :param identifier: The Branch Key under Mutation.
         :param create_time: The create time as an ISO 8061 UTC string.
         :param uuid: A unique identifier for the Mutation.
+        :param last_modified_time: ISO 8601 timestamp of last time the
+            Mutation was Initialized or Applied.
         """
         self.identifier = identifier
         self.create_time = create_time
         self.uuid = uuid
         self.page_index = page_index
         self.ciphertext_blob = ciphertext_blob
+        self.last_modified_time = last_modified_time
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the MutationIndex to a dictionary."""
-        return {
+        d: Dict[str, Any] = {
             "identifier": self.identifier,
             "create_time": self.create_time,
             "uuid": self.uuid,
             "page_index": self.page_index,
             "ciphertext_blob": self.ciphertext_blob,
         }
+
+        if self.last_modified_time is not None:
+            d["last_modified_time"] = self.last_modified_time
+
+        return d
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "MutationIndex":
@@ -1558,6 +1568,9 @@ class MutationIndex:
             "page_index": d["page_index"],
             "ciphertext_blob": d["ciphertext_blob"],
         }
+
+        if "last_modified_time" in d:
+            kwargs["last_modified_time"] = d["last_modified_time"]
 
         return MutationIndex(**kwargs)
 
@@ -1575,6 +1588,9 @@ class MutationIndex:
         if self.page_index is not None:
             result += f"page_index={repr(self.page_index)}, "
 
+        if self.last_modified_time is not None:
+            result += f"last_modified_time={repr(self.last_modified_time)}, "
+
         if self.ciphertext_blob is not None:
             result += f"ciphertext_blob={repr(self.ciphertext_blob)}"
 
@@ -1588,6 +1604,7 @@ class MutationIndex:
             "create_time",
             "uuid",
             "page_index",
+            "last_modified_time",
             "ciphertext_blob",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
@@ -2491,7 +2508,7 @@ WriteInitializeMutationVersion = Union[
 
 
 def _write_initialize_mutation_version_from_dict(
-    d: Dict[str, Any]
+    d: Dict[str, Any],
 ) -> WriteInitializeMutationVersion:
     if "rotate" in d:
         return WriteInitializeMutationVersionRotate.from_dict(d)

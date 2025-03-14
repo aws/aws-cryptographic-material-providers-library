@@ -1,5 +1,5 @@
 file_format_version = "1.0"
-dafny_version = "4.8.0.0"
+dafny_version = "4.9.0.0"
 [options_by_module.AwsCryptographyPrimitivesTypes]
 legacy-module-names = false
 python-module-name = "aws_cryptography_primitives.internaldafny.generated"
@@ -49,6 +49,9 @@ python-module-name = "aws_cryptography_primitives.internaldafny.generated"
 legacy-module-names = false
 python-module-name = "aws_cryptography_primitives.internaldafny.generated"
 [options_by_module.AwsCryptographyPrimitivesOperations]
+legacy-module-names = false
+python-module-name = "aws_cryptography_primitives.internaldafny.generated"
+[options_by_module.ErrorUtils]
 legacy-module-names = false
 python-module-name = "aws_cryptography_primitives.internaldafny.generated"
 [options_by_module.AtomicPrimitives]

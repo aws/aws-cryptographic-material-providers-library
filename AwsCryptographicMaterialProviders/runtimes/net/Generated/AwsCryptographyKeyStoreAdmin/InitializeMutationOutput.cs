@@ -10,6 +10,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
     private AWS.Cryptography.KeyStoreAdmin.MutationToken _mutationToken;
     private System.Collections.Generic.List<AWS.Cryptography.KeyStoreAdmin.MutatedBranchKeyItem> _mutatedBranchKeyItems;
     private AWS.Cryptography.KeyStoreAdmin.InitializeMutationFlag _initializeMutationFlag;
+    private string _lastModifiedTime;
     public AWS.Cryptography.KeyStoreAdmin.MutationToken MutationToken
     {
       get { return this._mutationToken; }
@@ -37,11 +38,21 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       return this._initializeMutationFlag != null;
     }
+    public string LastModifiedTime
+    {
+      get { return this._lastModifiedTime; }
+      set { this._lastModifiedTime = value; }
+    }
+    public bool IsSetLastModifiedTime()
+    {
+      return this._lastModifiedTime != null;
+    }
     public void Validate()
     {
       if (!IsSetMutationToken()) throw new System.ArgumentException("Missing value for required property 'MutationToken'");
       if (!IsSetMutatedBranchKeyItems()) throw new System.ArgumentException("Missing value for required property 'MutatedBranchKeyItems'");
       if (!IsSetInitializeMutationFlag()) throw new System.ArgumentException("Missing value for required property 'InitializeMutationFlag'");
+      if (!IsSetLastModifiedTime()) throw new System.ArgumentException("Missing value for required property 'LastModifiedTime'");
 
     }
   }
