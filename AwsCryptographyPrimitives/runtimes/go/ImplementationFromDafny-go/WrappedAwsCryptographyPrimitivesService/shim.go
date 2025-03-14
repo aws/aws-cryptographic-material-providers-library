@@ -15,7 +15,7 @@ type Shim struct {
 	client *awscryptographyprimitivessmithygenerated.Client
 }
 
-func (_static *CompanionStruct_Default___) WrappedAtomicPrimitives(inputConfig AwsCryptographyPrimitivesTypes.CryptoConfig) Wrappers.Result {
+func  WrappedAtomicPrimitives(inputConfig AwsCryptographyPrimitivesTypes.CryptoConfig) Wrappers.Result {
 	var nativeConfig = awscryptographyprimitivessmithygenerated.CryptoConfig_FromDafny(inputConfig)
 	var nativeClient, nativeError = awscryptographyprimitivessmithygenerated.NewClient(nativeConfig)
 	if nativeError != nil {

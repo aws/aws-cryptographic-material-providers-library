@@ -7,22 +7,15 @@ namespace AWS.Cryptography.KeyStore
 {
   public class KeyStoreConfig
   {
-    private string _ddbTableName;
     private AWS.Cryptography.KeyStore.KMSConfiguration _kmsConfiguration;
     private string _logicalKeyStoreName;
+    private AWS.Cryptography.KeyStore.KeyManagement _keyManagement;
+    private string _ddbTableName;
     private string _id;
     private System.Collections.Generic.List<string> _grantTokens;
+    private AWS.Cryptography.KeyStore.Storage _storage;
     private Amazon.DynamoDBv2.IAmazonDynamoDB _ddbClient;
     private Amazon.KeyManagementService.IAmazonKeyManagementService _kmsClient;
-    public string DdbTableName
-    {
-      get { return this._ddbTableName; }
-      set { this._ddbTableName = value; }
-    }
-    public bool IsSetDdbTableName()
-    {
-      return this._ddbTableName != null;
-    }
     public AWS.Cryptography.KeyStore.KMSConfiguration KmsConfiguration
     {
       get { return this._kmsConfiguration; }
@@ -41,6 +34,24 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._logicalKeyStoreName != null;
     }
+    public AWS.Cryptography.KeyStore.KeyManagement KeyManagement
+    {
+      get { return this._keyManagement; }
+      set { this._keyManagement = value; }
+    }
+    public bool IsSetKeyManagement()
+    {
+      return this._keyManagement != null;
+    }
+    public string DdbTableName
+    {
+      get { return this._ddbTableName; }
+      set { this._ddbTableName = value; }
+    }
+    public bool IsSetDdbTableName()
+    {
+      return this._ddbTableName != null;
+    }
     public string Id
     {
       get { return this._id; }
@@ -58,6 +69,15 @@ namespace AWS.Cryptography.KeyStore
     public bool IsSetGrantTokens()
     {
       return this._grantTokens != null;
+    }
+    public AWS.Cryptography.KeyStore.Storage Storage
+    {
+      get { return this._storage; }
+      set { this._storage = value; }
+    }
+    public bool IsSetStorage()
+    {
+      return this._storage != null;
     }
     public Amazon.DynamoDBv2.IAmazonDynamoDB DdbClient
     {
@@ -79,7 +99,6 @@ namespace AWS.Cryptography.KeyStore
     }
     public void Validate()
     {
-      if (!IsSetDdbTableName()) throw new System.ArgumentException("Missing value for required property 'DdbTableName'");
       if (!IsSetKmsConfiguration()) throw new System.ArgumentException("Missing value for required property 'KmsConfiguration'");
       if (!IsSetLogicalKeyStoreName()) throw new System.ArgumentException("Missing value for required property 'LogicalKeyStoreName'");
 
