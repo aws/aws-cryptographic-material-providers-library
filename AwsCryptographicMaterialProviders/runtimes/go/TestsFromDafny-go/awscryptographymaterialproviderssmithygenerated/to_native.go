@@ -375,6 +375,15 @@ func DeleteCacheEntryInput_FromDafny(dafnyInput AwsCryptographyMaterialProviders
 
 }
 
+func CryptographicMaterialsCache_FromDafny(dafnyResource AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCache) awscryptographymaterialproviderssmithygeneratedtypes.ICryptographicMaterialsCache {
+	val, ok := dafnyResource.(*CryptographicMaterialsCacheNativeWrapper)
+	if ok {
+		return val.Impl
+	}
+
+	return &CryptographicMaterialsCache{dafnyResource}
+}
+
 func GetCacheEntryInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.GetCacheEntryInput) awscryptographymaterialproviderssmithygeneratedtypes.GetCacheEntryInput {
 
 	return awscryptographymaterialproviderssmithygeneratedtypes.GetCacheEntryInput{Identifier: aws_cryptography_materialProviders_GetCacheEntryInput_identifier_FromDafny(dafnyInput.Dtor_identifier()),
@@ -414,15 +423,6 @@ func UpdateUsageMetadataInput_FromDafny(dafnyInput AwsCryptographyMaterialProvid
 
 }
 
-func CryptographicMaterialsCache_FromDafny(dafnyResource AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCache) awscryptographymaterialproviderssmithygeneratedtypes.ICryptographicMaterialsCache {
-	val, ok := dafnyResource.(*CryptographicMaterialsCacheNativeWrapper)
-	if ok {
-		return val.Impl
-	}
-
-	return &CryptographicMaterialsCache{dafnyResource}
-}
-
 func DecryptMaterialsInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.DecryptMaterialsInput) awscryptographymaterialproviderssmithygeneratedtypes.DecryptMaterialsInput {
 
 	return awscryptographymaterialproviderssmithygeneratedtypes.DecryptMaterialsInput{AlgorithmSuiteId: aws_cryptography_materialProviders_DecryptMaterialsInput_algorithmSuiteId_FromDafny(dafnyInput.Dtor_algorithmSuiteId()),
@@ -438,6 +438,15 @@ func DecryptMaterialsOutput_FromDafny(dafnyOutput AwsCryptographyMaterialProvide
 
 	return awscryptographymaterialproviderssmithygeneratedtypes.DecryptMaterialsOutput{DecryptionMaterials: aws_cryptography_materialProviders_DecryptMaterialsOutput_decryptionMaterials_FromDafny(dafnyOutput.Dtor_decryptionMaterials())}
 
+}
+
+func CryptographicMaterialsManager_FromDafny(dafnyResource AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager) awscryptographymaterialproviderssmithygeneratedtypes.ICryptographicMaterialsManager {
+	val, ok := dafnyResource.(*CryptographicMaterialsManagerNativeWrapper)
+	if ok {
+		return val.Impl
+	}
+
+	return &CryptographicMaterialsManager{dafnyResource}
 }
 
 func GetEncryptionMaterialsInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.GetEncryptionMaterialsInput) awscryptographymaterialproviderssmithygeneratedtypes.GetEncryptionMaterialsInput {
@@ -457,15 +466,6 @@ func GetEncryptionMaterialsOutput_FromDafny(dafnyOutput AwsCryptographyMaterialP
 
 }
 
-func CryptographicMaterialsManager_FromDafny(dafnyResource AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager) awscryptographymaterialproviderssmithygeneratedtypes.ICryptographicMaterialsManager {
-	val, ok := dafnyResource.(*CryptographicMaterialsManagerNativeWrapper)
-	if ok {
-		return val.Impl
-	}
-
-	return &CryptographicMaterialsManager{dafnyResource}
-}
-
 func OnDecryptInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.OnDecryptInput) awscryptographymaterialproviderssmithygeneratedtypes.OnDecryptInput {
 
 	return awscryptographymaterialproviderssmithygeneratedtypes.OnDecryptInput{Materials: aws_cryptography_materialProviders_OnDecryptInput_materials_FromDafny(dafnyInput.Dtor_materials()),
@@ -480,6 +480,15 @@ func OnDecryptOutput_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes
 
 }
 
+func Keyring_FromDafny(dafnyResource AwsCryptographyMaterialProvidersTypes.IKeyring) awscryptographymaterialproviderssmithygeneratedtypes.IKeyring {
+	val, ok := dafnyResource.(*KeyringNativeWrapper)
+	if ok {
+		return val.Impl
+	}
+
+	return &Keyring{dafnyResource}
+}
+
 func OnEncryptInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.OnEncryptInput) awscryptographymaterialproviderssmithygeneratedtypes.OnEncryptInput {
 
 	return awscryptographymaterialproviderssmithygeneratedtypes.OnEncryptInput{Materials: aws_cryptography_materialProviders_OnEncryptInput_materials_FromDafny(dafnyInput.Dtor_materials())}
@@ -490,15 +499,6 @@ func OnEncryptOutput_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes
 
 	return awscryptographymaterialproviderssmithygeneratedtypes.OnEncryptOutput{Materials: aws_cryptography_materialProviders_OnEncryptOutput_materials_FromDafny(dafnyOutput.Dtor_materials())}
 
-}
-
-func Keyring_FromDafny(dafnyResource AwsCryptographyMaterialProvidersTypes.IKeyring) awscryptographymaterialproviderssmithygeneratedtypes.IKeyring {
-	val, ok := dafnyResource.(*KeyringNativeWrapper)
-	if ok {
-		return val.Impl
-	}
-
-	return &Keyring{dafnyResource}
 }
 
 func AwsCryptographicMaterialProvidersException_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.Error) awscryptographymaterialproviderssmithygeneratedtypes.AwsCryptographicMaterialProvidersException {
