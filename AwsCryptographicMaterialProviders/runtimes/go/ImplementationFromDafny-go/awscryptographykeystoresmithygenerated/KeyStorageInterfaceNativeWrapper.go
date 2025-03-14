@@ -66,3 +66,75 @@ func (this *KeyStorageInterfaceNativeWrapper) GetKeyStorageInfo(input AwsCryptog
 	}
 	return Wrappers.Companion_Result_.Create_Success_(GetKeyStorageInfoOutput_ToDafny(*native_response))
 }
+
+func (this *KeyStorageInterfaceNativeWrapper) GetItemsForInitializeMutation(input AwsCryptographyKeyStoreTypes.GetItemsForInitializeMutationInput) Wrappers.Result {
+	var native_request = GetItemsForInitializeMutationInput_FromDafny(input)
+	var native_response, native_error = this.Impl.GetItemsForInitializeMutation(native_request)
+	if native_error != nil {
+		return Wrappers.Companion_Result_.Create_Failure_(Error_ToDafny(native_error))
+	}
+	return Wrappers.Companion_Result_.Create_Success_(GetItemsForInitializeMutationOutput_ToDafny(*native_response))
+}
+
+func (this *KeyStorageInterfaceNativeWrapper) WriteInitializeMutation(input AwsCryptographyKeyStoreTypes.WriteInitializeMutationInput) Wrappers.Result {
+	var native_request = WriteInitializeMutationInput_FromDafny(input)
+	var native_response, native_error = this.Impl.WriteInitializeMutation(native_request)
+	if native_error != nil {
+		return Wrappers.Companion_Result_.Create_Failure_(Error_ToDafny(native_error))
+	}
+	return Wrappers.Companion_Result_.Create_Success_(WriteInitializeMutationOutput_ToDafny(*native_response))
+}
+
+func (this *KeyStorageInterfaceNativeWrapper) WriteAtomicMutation(input AwsCryptographyKeyStoreTypes.WriteAtomicMutationInput) Wrappers.Result {
+	var native_request = WriteAtomicMutationInput_FromDafny(input)
+	var native_response, native_error = this.Impl.WriteAtomicMutation(native_request)
+	if native_error != nil {
+		return Wrappers.Companion_Result_.Create_Failure_(Error_ToDafny(native_error))
+	}
+	return Wrappers.Companion_Result_.Create_Success_(WriteAtomicMutationOutput_ToDafny(*native_response))
+}
+
+func (this *KeyStorageInterfaceNativeWrapper) QueryForVersions(input AwsCryptographyKeyStoreTypes.QueryForVersionsInput) Wrappers.Result {
+	var native_request = QueryForVersionsInput_FromDafny(input)
+	var native_response, native_error = this.Impl.QueryForVersions(native_request)
+	if native_error != nil {
+		return Wrappers.Companion_Result_.Create_Failure_(Error_ToDafny(native_error))
+	}
+	return Wrappers.Companion_Result_.Create_Success_(QueryForVersionsOutput_ToDafny(*native_response))
+}
+
+func (this *KeyStorageInterfaceNativeWrapper) WriteMutatedVersions(input AwsCryptographyKeyStoreTypes.WriteMutatedVersionsInput) Wrappers.Result {
+	var native_request = WriteMutatedVersionsInput_FromDafny(input)
+	var native_response, native_error = this.Impl.WriteMutatedVersions(native_request)
+	if native_error != nil {
+		return Wrappers.Companion_Result_.Create_Failure_(Error_ToDafny(native_error))
+	}
+	return Wrappers.Companion_Result_.Create_Success_(WriteMutatedVersionsOutput_ToDafny(*native_response))
+}
+
+func (this *KeyStorageInterfaceNativeWrapper) GetMutation(input AwsCryptographyKeyStoreTypes.GetMutationInput) Wrappers.Result {
+	var native_request = GetMutationInput_FromDafny(input)
+	var native_response, native_error = this.Impl.GetMutation(native_request)
+	if native_error != nil {
+		return Wrappers.Companion_Result_.Create_Failure_(Error_ToDafny(native_error))
+	}
+	return Wrappers.Companion_Result_.Create_Success_(GetMutationOutput_ToDafny(*native_response))
+}
+
+func (this *KeyStorageInterfaceNativeWrapper) DeleteMutation(input AwsCryptographyKeyStoreTypes.DeleteMutationInput) Wrappers.Result {
+	var native_request = DeleteMutationInput_FromDafny(input)
+	var native_response, native_error = this.Impl.DeleteMutation(native_request)
+	if native_error != nil {
+		return Wrappers.Companion_Result_.Create_Failure_(Error_ToDafny(native_error))
+	}
+	return Wrappers.Companion_Result_.Create_Success_(DeleteMutationOutput_ToDafny(*native_response))
+}
+
+func (this *KeyStorageInterfaceNativeWrapper) WriteMutationIndex(input AwsCryptographyKeyStoreTypes.WriteMutationIndexInput) Wrappers.Result {
+	var native_request = WriteMutationIndexInput_FromDafny(input)
+	var native_response, native_error = this.Impl.WriteMutationIndex(native_request)
+	if native_error != nil {
+		return Wrappers.Companion_Result_.Create_Failure_(Error_ToDafny(native_error))
+	}
+	return Wrappers.Companion_Result_.Create_Success_(WriteMutationIndexOutput_ToDafny(*native_response))
+}

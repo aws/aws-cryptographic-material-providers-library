@@ -83,9 +83,9 @@ module TestConfig {
   }
 
 
-  method {:test} TestValidConfig() {
-    var kmsClient :- expect KMS.KMSClient();
-    var ddbClient :- expect DDB.DynamoDBClient();
+  method {:vcs_split_on_every_assert} {:test} TestValidConfig() {
+    var kmsClient :- expect ProvideKMSClient();
+    var ddbClient :- expect ProvideDDBClient();
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
 
     var keyStoreConfig := Types.KeyStoreConfig(
