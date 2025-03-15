@@ -95,14 +95,17 @@ jobs:
       # .NET Framework is a software development framework
       # for building and running applications on Windows.
       # https://dotnet.microsoft.com/en-us/learn/dotnet/what-is-dotnet-framework
-      - name: Test ${{ matrix.library }} .NET Framework net48
-        if: matrix.os == 'windows-latest'
-        working-directory: ./${{ matrix.library }}
-        shell: bash
-        run: |
-          nuget locals all -clear
-          dotnet restore runtimes/net
-          make test_net FRAMEWORK=net48
+
+      #      .NET is broken on Windows
+      #      https://t.corp.amazon.com/P211278460
+      #      - name: Test ${{ matrix.library }} .NET Framework net48
+      #        if: matrix.os == 'windows-latest'
+      #        working-directory: ./${{ matrix.library }}
+      #        shell: bash
+      #        run: |
+      #          nuget locals all -clear
+      #          dotnet restore runtimes/net
+      #          make test_net FRAMEWORK=net48
 
       - name: Test ${{ matrix.library }} .NET net6.0
         working-directory: ./${{ matrix.library }}
