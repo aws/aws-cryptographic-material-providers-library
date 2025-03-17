@@ -36,7 +36,7 @@ func ApplyMutationOutput_ToDafny(nativeOutput awscryptographykeystoreadminsmithy
 
 	return func() AwsCryptographyKeyStoreAdminTypes.ApplyMutationOutput {
 
-		return AwsCryptographyKeyStoreAdminTypes.Companion_ApplyMutationOutput_.Create_ApplyMutationOutput_(aws_cryptography_keyStoreAdmin_ApplyMutationOutput_MutationResult_ToDafny(nativeOutput.MutationResult), aws_cryptography_keyStoreAdmin_ApplyMutationOutput_MutatedBranchKeyItems_ToDafny(nativeOutput.MutatedBranchKeyItems))
+		return AwsCryptographyKeyStoreAdminTypes.Companion_ApplyMutationOutput_.Create_ApplyMutationOutput_(aws_cryptography_keyStoreAdmin_ApplyMutationOutput_MutationResult_ToDafny(nativeOutput.MutationResult), aws_cryptography_keyStoreAdmin_ApplyMutationOutput_MutatedBranchKeyItems_ToDafny(nativeOutput.MutatedBranchKeyItems), aws_cryptography_keyStoreAdmin_ApplyMutationOutput_LastModifiedTime_ToDafny(nativeOutput.LastModifiedTime))
 	}()
 
 }
@@ -90,7 +90,7 @@ func InitializeMutationOutput_ToDafny(nativeOutput awscryptographykeystoreadmins
 
 	return func() AwsCryptographyKeyStoreAdminTypes.InitializeMutationOutput {
 
-		return AwsCryptographyKeyStoreAdminTypes.Companion_InitializeMutationOutput_.Create_InitializeMutationOutput_(aws_cryptography_keyStoreAdmin_InitializeMutationOutput_MutationToken_ToDafny(nativeOutput.MutationToken), aws_cryptography_keyStoreAdmin_InitializeMutationOutput_MutatedBranchKeyItems_ToDafny(nativeOutput.MutatedBranchKeyItems), aws_cryptography_keyStoreAdmin_InitializeMutationOutput_InitializeMutationFlag_ToDafny(nativeOutput.InitializeMutationFlag))
+		return AwsCryptographyKeyStoreAdminTypes.Companion_InitializeMutationOutput_.Create_InitializeMutationOutput_(aws_cryptography_keyStoreAdmin_InitializeMutationOutput_MutationToken_ToDafny(nativeOutput.MutationToken), aws_cryptography_keyStoreAdmin_InitializeMutationOutput_MutatedBranchKeyItems_ToDafny(nativeOutput.MutatedBranchKeyItems), aws_cryptography_keyStoreAdmin_InitializeMutationOutput_InitializeMutationFlag_ToDafny(nativeOutput.InitializeMutationFlag), aws_cryptography_keyStoreAdmin_InitializeMutationOutput_LastModifiedTime_ToDafny(nativeOutput.LastModifiedTime))
 	}()
 
 }
@@ -492,6 +492,13 @@ func aws_cryptography_keyStoreAdmin_MutatedBranchKeyItem_Description_ToDafny(inp
 	}()
 }
 
+func aws_cryptography_keyStoreAdmin_ApplyMutationOutput_LastModifiedTime_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
 func aws_cryptography_keyStoreAdmin_CreateKeyInput_Identifier_ToDafny(input *string) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
@@ -625,7 +632,7 @@ func aws_cryptography_keyStoreAdmin_DescribeMutationOutput_MutationInFlight_ToDa
 func aws_cryptography_keyStoreAdmin_MutationInFlight_Yes_ToDafny(input awscryptographykeystoreadminsmithygeneratedtypes.MutationDescription) Wrappers.Option {
 	return func() Wrappers.Option {
 
-		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyKeyStoreAdminTypes.Companion_MutationDescription_.Create_MutationDescription_(aws_cryptography_keyStoreAdmin_MutationDescription_MutationDetails_ToDafny(input.MutationDetails), aws_cryptography_keyStoreAdmin_MutationDescription_MutationToken_ToDafny(input.MutationToken)))
+		return Wrappers.Companion_Option_.Create_Some_(AwsCryptographyKeyStoreAdminTypes.Companion_MutationDescription_.Create_MutationDescription_(aws_cryptography_keyStoreAdmin_MutationDescription_MutationDetails_ToDafny(input.MutationDetails), aws_cryptography_keyStoreAdmin_MutationDescription_MutationToken_ToDafny(input.MutationToken), aws_cryptography_keyStoreAdmin_MutationDescription_LastModifiedTime_ToDafny(input.LastModifiedTime)))
 	}()
 }
 
@@ -735,6 +742,13 @@ func aws_cryptography_keyStoreAdmin_MutationDescription_MutationToken_ToDafny(in
 	}()
 }
 
+func aws_cryptography_keyStoreAdmin_MutationDescription_LastModifiedTime_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
+	}()
+}
+
 func aws_cryptography_keyStoreAdmin_MutationInFlight_No_ToDafny(input string) Wrappers.Option {
 	return func() Wrappers.Option {
 
@@ -839,6 +853,13 @@ func aws_cryptography_keyStoreAdmin_InitializeMutationOutput_InitializeMutationF
 			}
 		}
 		return enum.(AwsCryptographyKeyStoreAdminTypes.InitializeMutationFlag)
+	}()
+}
+
+func aws_cryptography_keyStoreAdmin_InitializeMutationOutput_LastModifiedTime_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return dafny.SeqOfChars([]dafny.Char(input)...)
 	}()
 }
 

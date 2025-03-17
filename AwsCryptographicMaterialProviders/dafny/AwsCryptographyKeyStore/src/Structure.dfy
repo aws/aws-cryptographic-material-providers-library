@@ -25,6 +25,7 @@ module {:options "/functionSyntax:4" } Structure {
   const M_INPUT := "input" // The DDB Attribute name for the input, which is AttributeValue.B
   const M_UUID := "uuid" // The DDB Attribute name for the uuid, which is AttributeValue.S
   const M_PAGE_INDEX := "pageIndex" // The DDB Attribute name for the pageIndex, which is AttributeValue.B
+  const M_LAST_MODIFIED_TIME := "last-modified-time" // The DDB Attribute name for the lastModifiedTime, which is AttributeValue.S
 
   const AWS_CRYPTO_EC := "aws-crypto-ec"
   const ENCRYPTION_CONTEXT_PREFIX := AWS_CRYPTO_EC + ":"
@@ -841,15 +842,27 @@ module {:options "/functionSyntax:4" } Structure {
     && ENC_FIELD in m && m[ENC_FIELD].B? && 0 < |m[ENC_FIELD].B|
     && M_PAGE_INDEX in m && m[M_PAGE_INDEX].B? && 0 < |m[M_PAGE_INDEX].B|
 
-    && m.Keys == {
-                   TYPE_FIELD,
-                   HIERARCHY_VERSION,
-                   BRANCH_KEY_IDENTIFIER_FIELD,
-                   KEY_CREATE_TIME,
-                   M_UUID,
-                   M_PAGE_INDEX,
-                   ENC_FIELD
-                 }
+    // Exactly specify allowed keys based on presence of M_LAST_MODIFIED_TIME
+    // Old In-flight mutations do not write M_LAST_MODIFIED_TIME in their Key Storage
+    && (m.Keys == {
+                    TYPE_FIELD,
+                    HIERARCHY_VERSION,
+                    BRANCH_KEY_IDENTIFIER_FIELD,
+                    KEY_CREATE_TIME,
+                    M_LAST_MODIFIED_TIME,
+                    M_UUID,
+                    M_PAGE_INDEX,
+                    ENC_FIELD
+                  }
+        || m.Keys == {
+                       TYPE_FIELD,
+                       HIERARCHY_VERSION,
+                       BRANCH_KEY_IDENTIFIER_FIELD,
+                       KEY_CREATE_TIME,
+                       M_UUID,
+                       M_PAGE_INDEX,
+                       ENC_FIELD
+                     })
   }
 
   predicate MutationIndex?(m: Types.MutationIndex)
@@ -871,6 +884,9 @@ module {:options "/functionSyntax:4" } Structure {
       CreateTime := item[KEY_CREATE_TIME].S,
       UUID := item[M_UUID].S,
       PageIndex := item[M_PAGE_INDEX].B,
+      LastModifiedTime := if (M_LAST_MODIFIED_TIME in item)
+      then Some(item[M_LAST_MODIFIED_TIME].S)
+      else None,
       CiphertextBlob := item[ENC_FIELD].B
     )
   }
@@ -881,15 +897,18 @@ module {:options "/functionSyntax:4" } Structure {
     requires MutationIndex?(index)
     ensures MutationIndexAttribute?(output)
   {
-    map[
-      TYPE_FIELD := DDB.AttributeValue.S(MUTATION_INDEX_TYPE),
-      HIERARCHY_VERSION := HIERARCHY_VERSION_ATTRIBUTE_VALUE,
-      BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(index.Identifier),
-      KEY_CREATE_TIME := DDB.AttributeValue.S(index.CreateTime),
-      M_UUID := DDB.AttributeValue.S(index.UUID),
-      M_PAGE_INDEX := DDB.AttributeValue.B(index.PageIndex),
-      ENC_FIELD := DDB.AttributeValue.B(index.CiphertextBlob)
-    ]
+    var attributeMap := map[
+                          TYPE_FIELD := DDB.AttributeValue.S(MUTATION_INDEX_TYPE),
+                          HIERARCHY_VERSION := HIERARCHY_VERSION_ATTRIBUTE_VALUE,
+                          BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(index.Identifier),
+                          KEY_CREATE_TIME := DDB.AttributeValue.S(index.CreateTime),
+                          M_UUID := DDB.AttributeValue.S(index.UUID),
+                          M_PAGE_INDEX := DDB.AttributeValue.B(index.PageIndex),
+                          ENC_FIELD := DDB.AttributeValue.B(index.CiphertextBlob)
+                        ];
+    if  index.LastModifiedTime.Some?
+    then attributeMap[M_LAST_MODIFIED_TIME := DDB.AttributeValue.S(index.LastModifiedTime.value)]
+    else attributeMap
   }
 
   lemma MutationIndexAndMutationIndexToAttributeMapAreInverse(
@@ -898,6 +917,7 @@ module {:options "/functionSyntax:4" } Structure {
   )
     requires MutationIndexAttribute?(item)
     requires MutationIndex?(index)
+
     ensures
       ToMutationIndex(item) == index <==> MutationIndexToAttributeMap(index) == item
   {}

@@ -756,19 +756,24 @@ def _apply_mutation_result_from_dict(d: Dict[str, Any]) -> ApplyMutationResult:
 class ApplyMutationOutput:
     mutation_result: ApplyMutationResult
     mutated_branch_key_items: list[MutatedBranchKeyItem]
+    last_modified_time: str
 
     def __init__(
         self,
         *,
         mutation_result: ApplyMutationResult,
         mutated_branch_key_items: list[MutatedBranchKeyItem],
+        last_modified_time: str,
     ):
         """
         :param mutated_branch_key_items: Details what items of the Branch Key ID were
         changed on this invocation.
+        :param last_modified_time: ISO 8601 timestamp of last time the Mutation was
+        Initialized or Applied.
         """
         self.mutation_result = mutation_result
         self.mutated_branch_key_items = mutated_branch_key_items
+        self.last_modified_time = last_modified_time
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the ApplyMutationOutput to a dictionary."""
@@ -777,6 +782,7 @@ class ApplyMutationOutput:
             "mutated_branch_key_items": _mutated_branch_key_items_as_dict(
                 self.mutated_branch_key_items
             ),
+            "last_modified_time": self.last_modified_time,
         }
 
     @staticmethod
@@ -787,6 +793,7 @@ class ApplyMutationOutput:
             "mutated_branch_key_items": _mutated_branch_key_items_from_dict(
                 d["mutated_branch_key_items"]
             ),
+            "last_modified_time": d["last_modified_time"],
         }
 
         return ApplyMutationOutput(**kwargs)
@@ -797,7 +804,12 @@ class ApplyMutationOutput:
             result += f"mutation_result={repr(self.mutation_result)}, "
 
         if self.mutated_branch_key_items is not None:
-            result += f"mutated_branch_key_items={repr(self.mutated_branch_key_items)}"
+            result += (
+                f"mutated_branch_key_items={repr(self.mutated_branch_key_items)}, "
+            )
+
+        if self.last_modified_time is not None:
+            result += f"last_modified_time={repr(self.last_modified_time)}"
 
         return result + ")"
 
@@ -807,6 +819,7 @@ class ApplyMutationOutput:
         attributes: list[str] = [
             "mutation_result",
             "mutated_branch_key_items",
+            "last_modified_time",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
@@ -1349,27 +1362,33 @@ class MutationDetails:
 class MutationDescription:
     mutation_details: MutationDetails
     mutation_token: MutationToken
+    last_modified_time: str
 
     def __init__(
         self,
         *,
         mutation_details: MutationDetails,
         mutation_token: MutationToken,
+        last_modified_time: str,
     ):
         """
         :param mutation_details: Detailed description of the Mutation for this Branch
         Key.
         :param mutation_token: This token can be passed to Apply Mutation to continue
         the Mutation.
+        :param last_modified_time: ISO 8601 timestamp of last time the Mutation was
+        Initialized or Applied.
         """
         self.mutation_details = mutation_details
         self.mutation_token = mutation_token
+        self.last_modified_time = last_modified_time
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the MutationDescription to a dictionary."""
         return {
             "mutation_details": self.mutation_details.as_dict(),
             "mutation_token": self.mutation_token.as_dict(),
+            "last_modified_time": self.last_modified_time,
         }
 
     @staticmethod
@@ -1378,6 +1397,7 @@ class MutationDescription:
         kwargs: Dict[str, Any] = {
             "mutation_details": MutationDetails.from_dict(d["mutation_details"]),
             "mutation_token": MutationToken.from_dict(d["mutation_token"]),
+            "last_modified_time": d["last_modified_time"],
         }
 
         return MutationDescription(**kwargs)
@@ -1388,7 +1408,10 @@ class MutationDescription:
             result += f"mutation_details={repr(self.mutation_details)}, "
 
         if self.mutation_token is not None:
-            result += f"mutation_token={repr(self.mutation_token)}"
+            result += f"mutation_token={repr(self.mutation_token)}, "
+
+        if self.last_modified_time is not None:
+            result += f"last_modified_time={repr(self.last_modified_time)}"
 
         return result + ")"
 
@@ -1398,6 +1421,7 @@ class MutationDescription:
         attributes: list[str] = [
             "mutation_details",
             "mutation_token",
+            "last_modified_time",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
@@ -1676,6 +1700,7 @@ class InitializeMutationOutput:
     mutation_token: MutationToken
     mutated_branch_key_items: list[MutatedBranchKeyItem]
     initialize_mutation_flag: str
+    last_modified_time: str
 
     def __init__(
         self,
@@ -1683,16 +1708,20 @@ class InitializeMutationOutput:
         mutation_token: MutationToken,
         mutated_branch_key_items: list[MutatedBranchKeyItem],
         initialize_mutation_flag: str,
+        last_modified_time: str,
     ):
         """
         :param mutation_token: Pass the Mutation Token to the Apply Mutation operation
         to continue the Mutation.
         :param mutated_branch_key_items: Details what items of the Branch Key ID were
         changed on this invocation.
+        :param last_modified_time: ISO 8601 timestamp of last time the Mutation was
+        Initialized or Applied.
         """
         self.mutation_token = mutation_token
         self.mutated_branch_key_items = mutated_branch_key_items
         self.initialize_mutation_flag = initialize_mutation_flag
+        self.last_modified_time = last_modified_time
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the InitializeMutationOutput to a dictionary."""
@@ -1702,6 +1731,7 @@ class InitializeMutationOutput:
                 self.mutated_branch_key_items
             ),
             "initialize_mutation_flag": self.initialize_mutation_flag,
+            "last_modified_time": self.last_modified_time,
         }
 
     @staticmethod
@@ -1713,6 +1743,7 @@ class InitializeMutationOutput:
                 d["mutated_branch_key_items"]
             ),
             "initialize_mutation_flag": d["initialize_mutation_flag"],
+            "last_modified_time": d["last_modified_time"],
         }
 
         return InitializeMutationOutput(**kwargs)
@@ -1728,7 +1759,12 @@ class InitializeMutationOutput:
             )
 
         if self.initialize_mutation_flag is not None:
-            result += f"initialize_mutation_flag={repr(self.initialize_mutation_flag)}"
+            result += (
+                f"initialize_mutation_flag={repr(self.initialize_mutation_flag)}, "
+            )
+
+        if self.last_modified_time is not None:
+            result += f"last_modified_time={repr(self.last_modified_time)}"
 
         return result + ")"
 
@@ -1739,6 +1775,7 @@ class InitializeMutationOutput:
             "mutation_token",
             "mutated_branch_key_items",
             "initialize_mutation_flag",
+            "last_modified_time",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 

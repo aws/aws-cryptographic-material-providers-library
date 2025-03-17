@@ -161,6 +161,8 @@ func (input MutationComplete) Validate() error {
 }
 
 type ApplyMutationOutput struct {
+	LastModifiedTime string
+
 	MutatedBranchKeyItems []MutatedBranchKeyItem
 
 	MutationResult ApplyMutationResult
@@ -359,6 +361,8 @@ func (input MutationDetails) Validate() error {
 }
 
 type MutationDescription struct {
+	LastModifiedTime string
+
 	MutationDetails MutationDetails
 
 	MutationToken MutationToken
@@ -480,6 +484,8 @@ func (input InitializeMutationInput) aws_cryptography_keyStoreAdmin_InitializeMu
 
 type InitializeMutationOutput struct {
 	InitializeMutationFlag InitializeMutationFlag
+
+	LastModifiedTime string
 
 	MutatedBranchKeyItems []MutatedBranchKeyItem
 

@@ -9,6 +9,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
   {
     private AWS.Cryptography.KeyStoreAdmin.MutationDetails _mutationDetails;
     private AWS.Cryptography.KeyStoreAdmin.MutationToken _mutationToken;
+    private string _lastModifiedTime;
     public AWS.Cryptography.KeyStoreAdmin.MutationDetails MutationDetails
     {
       get { return this._mutationDetails; }
@@ -27,10 +28,20 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       return this._mutationToken != null;
     }
+    public string LastModifiedTime
+    {
+      get { return this._lastModifiedTime; }
+      set { this._lastModifiedTime = value; }
+    }
+    public bool IsSetLastModifiedTime()
+    {
+      return this._lastModifiedTime != null;
+    }
     public void Validate()
     {
       if (!IsSetMutationDetails()) throw new System.ArgumentException("Missing value for required property 'MutationDetails'");
       if (!IsSetMutationToken()) throw new System.ArgumentException("Missing value for required property 'MutationToken'");
+      if (!IsSetLastModifiedTime()) throw new System.ArgumentException("Missing value for required property 'LastModifiedTime'");
 
     }
   }

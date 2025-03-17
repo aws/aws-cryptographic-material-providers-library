@@ -161,7 +161,16 @@ public class ToDafny {
     DafnySequence<? extends MutatedBranchKeyItem> mutatedBranchKeyItems;
     mutatedBranchKeyItems =
       ToDafny.MutatedBranchKeyItems(nativeValue.MutatedBranchKeyItems());
-    return new ApplyMutationOutput(mutationResult, mutatedBranchKeyItems);
+    DafnySequence<? extends Character> lastModifiedTime;
+    lastModifiedTime =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.LastModifiedTime()
+      );
+    return new ApplyMutationOutput(
+      mutationResult,
+      mutatedBranchKeyItems,
+      lastModifiedTime
+    );
   }
 
   public static AwsKmsDecryptEncrypt AwsKmsDecryptEncrypt(
@@ -320,10 +329,16 @@ public class ToDafny {
     InitializeMutationFlag initializeMutationFlag;
     initializeMutationFlag =
       ToDafny.InitializeMutationFlag(nativeValue.InitializeMutationFlag());
+    DafnySequence<? extends Character> lastModifiedTime;
+    lastModifiedTime =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.LastModifiedTime()
+      );
     return new InitializeMutationOutput(
       mutationToken,
       mutatedBranchKeyItems,
-      initializeMutationFlag
+      initializeMutationFlag,
+      lastModifiedTime
     );
   }
 
@@ -407,7 +422,16 @@ public class ToDafny {
     mutationDetails = ToDafny.MutationDetails(nativeValue.MutationDetails());
     MutationToken mutationToken;
     mutationToken = ToDafny.MutationToken(nativeValue.MutationToken());
-    return new MutationDescription(mutationDetails, mutationToken);
+    DafnySequence<? extends Character> lastModifiedTime;
+    lastModifiedTime =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.LastModifiedTime()
+      );
+    return new MutationDescription(
+      mutationDetails,
+      mutationToken,
+      lastModifiedTime
+    );
   }
 
   public static MutationDetails MutationDetails(

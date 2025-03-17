@@ -1,12 +1,15 @@
 file_format_version = "1.0"
-dafny_version = "4.8.0.0"
+dafny_version = "4.9.0.0"
 [options_by_module.AwsCryptographyKeyStoreTypes]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-[options_by_module.AbstractAwsCryptographyKeyStoreOperations]
+[options_by_module.AwsCryptographyKeyStoreAdminTypes]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-[options_by_module.AbstractAwsCryptographyKeyStoreService]
+[options_by_module.AbstractAwsCryptographyKeyStoreAdminOperations]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.AbstractAwsCryptographyKeyStoreAdminService]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
 [options_by_module.AwsCryptographyMaterialProvidersTypes]
@@ -21,19 +24,25 @@ python-module-name = "aws_cryptographic_material_providers.internaldafny.generat
 [options_by_module.AwsKmsUtils]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.Structure]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
 [options_by_module.KeyStoreErrorMessages]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
 [options_by_module.KmsArn]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-[options_by_module.Structure]
+[options_by_module.StorageHelpers]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.DefaultKeyStorageInterface]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.AbstractAwsCryptographyKeyStoreOperations]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
 [options_by_module.KMSKeystoreOperations]
-legacy-module-names = false
-python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-[options_by_module.DDBKeystoreOperations]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
 [options_by_module.CreateKeys]
@@ -48,7 +57,25 @@ python-module-name = "aws_cryptographic_material_providers.internaldafny.generat
 [options_by_module.AwsCryptographyKeyStoreOperations]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-[options_by_module.KeyStore]
+[options_by_module.MutationIndexUtils]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.MutationStateStructures]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.KmsUtils]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.MutationErrorRefinement]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.Mutations]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.PrefixUtils]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.CanonicalEncryptionContext]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
 [options_by_module.AbstractAwsCryptographyMaterialProvidersOperations]
@@ -76,9 +103,6 @@ python-module-name = "aws_cryptographic_material_providers.internaldafny.generat
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
 [options_by_module.MaterialWrapping]
-legacy-module-names = false
-python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-[options_by_module.CanonicalEncryptionContext]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
 [options_by_module.IntermediateKeyWrapping]
@@ -175,5 +199,35 @@ python-module-name = "aws_cryptographic_material_providers.internaldafny.generat
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
 [options_by_module.MaterialProviders]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module."SystemKey.ContentHandler"]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module."SystemKey.Handler"]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.InternalInitializeMutation]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.InternalApplyMutation]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module."MutationsConstants.ErrorMessages"]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.DescribeMutation]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.AwsCryptographyKeyStoreAdminOperations]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.KeyStoreAdmin]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.AbstractAwsCryptographyKeyStoreService]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.KeyStore]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"

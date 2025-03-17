@@ -162,6 +162,9 @@ structure MutationIndex {
   @required
   PageIndex: Blob
 
+  @documentation("ISO 8601 timestamp of last time the Mutation was Initialized or Applied.")
+  LastModifiedTime: String
+
   @required
   CiphertextBlob: Blob
 }
