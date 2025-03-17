@@ -26,6 +26,15 @@ module {:options "-functionSyntax:4"} TestManifests {
   import MplManifestOptions
   import CompleteVectors
   import Time
+  import OsLang
+
+  function LogFileName() : string
+  {
+    if OsLang.GetOsShort() == "Windows" && OsLang.GetLanguageShort() == "Dotnet" then
+      "..\\..\\PerfLog.txt"
+    else
+      "../../PerfLog.txt"
+  }
 
   method StartEncrypt(op: MplManifestOptions.ManifestOptions)
     returns (output: Result<(), string>)
@@ -60,6 +69,7 @@ module {:options "-functionSyntax:4"} TestManifests {
 
     var decryptableTests: seq<(TestVectors.EncryptTest, Types.EncryptionMaterials)> := [];
 
+    var time := Time.GetAbsoluteTime();
     for i := 0 to |tests|
       invariant forall t <- tests :: t.cmm.ValidState()
     {
@@ -72,6 +82,8 @@ module {:options "-functionSyntax:4"} TestManifests {
         hasFailure := true;
       }
     }
+    var elapsed :=Time.TimeSince(time);
+    Time.PrintTimeLong(elapsed, "TestEncrypts", Some(LogFileName()));
 
     print "\n=================== Completed ", |tests|, " Encrypt Tests =================== \n\n";
 
@@ -106,6 +118,7 @@ module {:options "-functionSyntax:4"} TestManifests {
 
     var hasFailure := false;
 
+    var time := Time.GetAbsoluteTime();
     for i := 0 to |tests|
       invariant forall t <- tests :: t.cmm.ValidState()
     {
@@ -114,6 +127,8 @@ module {:options "-functionSyntax:4"} TestManifests {
         hasFailure := true;
       }
     }
+    var elapsed := Time.TimeSince(time);
+    Time.PrintTimeLong(elapsed, "TestDecrypts", Some(LogFileName()));
     print "\n=================== Completed ", |tests|, " Decrypt Tests =================== \n\n";
 
     expect !hasFailure;
