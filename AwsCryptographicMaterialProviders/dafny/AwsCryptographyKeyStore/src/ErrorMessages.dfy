@@ -36,4 +36,7 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
   // If the Item/Record contains an invalid KMS ARN
   const RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN :=
     "The `kms-arn` field for the requested branch key identifier is corrupted."
+
+  const INVALID_HIERARCHY_VERSION :=
+    "Invalid hierarchy version. Expected version 1 or 2."
 }
