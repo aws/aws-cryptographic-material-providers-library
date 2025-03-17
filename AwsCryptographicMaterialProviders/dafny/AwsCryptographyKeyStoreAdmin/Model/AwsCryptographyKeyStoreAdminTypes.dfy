@@ -33,6 +33,16 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   datatype ApplyMutationResult =
     | ContinueMutation(ContinueMutation: MutationToken)
     | CompleteMutation(CompleteMutation: MutationComplete)
+  datatype AtomicMutationInput = | AtomicMutationInput (
+    nameonly Identifier: string ,
+    nameonly Mutations: Mutations ,
+    nameonly Strategy: Option<KeyManagementStrategy> := Option.None ,
+    nameonly SystemKey: SystemKey ,
+    nameonly DoNotVersion: Option<bool> := Option.None
+  )
+  datatype AtomicMutationOutput = | AtomicMutationOutput (
+    nameonly MutatedBranchKeyItems: MutatedBranchKeyItems
+  )
   datatype AwsKmsDecryptEncrypt = | AwsKmsDecryptEncrypt (
     nameonly decrypt: Option<AwsCryptographyKeyStoreTypes.AwsKms> := Option.None ,
     nameonly encrypt: Option<AwsCryptographyKeyStoreTypes.AwsKms> := Option.None
@@ -78,12 +88,14 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
       InitializeMutation := [];
       ApplyMutation := [];
       DescribeMutation := [];
+      AtomicMutation := [];
     }
     ghost var CreateKey: seq<DafnyCallEvent<CreateKeyInput, Result<CreateKeyOutput, Error>>>
     ghost var VersionKey: seq<DafnyCallEvent<VersionKeyInput, Result<VersionKeyOutput, Error>>>
     ghost var InitializeMutation: seq<DafnyCallEvent<InitializeMutationInput, Result<InitializeMutationOutput, Error>>>
     ghost var ApplyMutation: seq<DafnyCallEvent<ApplyMutationInput, Result<ApplyMutationOutput, Error>>>
     ghost var DescribeMutation: seq<DafnyCallEvent<DescribeMutationInput, Result<DescribeMutationOutput, Error>>>
+    ghost var AtomicMutation: seq<DafnyCallEvent<AtomicMutationInput, Result<AtomicMutationOutput, Error>>>
   }
   trait {:termination false} IKeyStoreAdminClient
   {
@@ -186,6 +198,21 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
         && ValidState()
       ensures DescribeMutationEnsuresPublicly(input, output)
       ensures History.DescribeMutation == old(History.DescribeMutation) + [DafnyCallEvent(input, output)]
+
+    predicate AtomicMutationEnsuresPublicly(input: AtomicMutationInput , output: Result<AtomicMutationOutput, Error>)
+    // The public method to be called by library consumers
+    method AtomicMutation ( input: AtomicMutationInput )
+      returns (output: Result<AtomicMutationOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`AtomicMutation
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures AtomicMutationEnsuresPublicly(input, output)
+      ensures History.AtomicMutation == old(History.AtomicMutation) + [DafnyCallEvent(input, output)]
 
   }
   datatype KeyStoreAdminConfig = | KeyStoreAdminConfig (
@@ -481,6 +508,26 @@ abstract module AbstractAwsCryptographyKeyStoreAdminService
       History.DescribeMutation := History.DescribeMutation + [DafnyCallEvent(input, output)];
     }
 
+    predicate AtomicMutationEnsuresPublicly(input: AtomicMutationInput , output: Result<AtomicMutationOutput, Error>)
+    {Operations.AtomicMutationEnsuresPublicly(input, output)}
+    // The public method to be called by library consumers
+    method AtomicMutation ( input: AtomicMutationInput )
+      returns (output: Result<AtomicMutationOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`AtomicMutation
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures AtomicMutationEnsuresPublicly(input, output)
+      ensures History.AtomicMutation == old(History.AtomicMutation) + [DafnyCallEvent(input, output)]
+    {
+      output := Operations.AtomicMutation(config, input);
+      History.AtomicMutation := History.AtomicMutation + [DafnyCallEvent(input, output)];
+    }
+
   }
 }
 abstract module AbstractAwsCryptographyKeyStoreAdminOperations {
@@ -569,4 +616,20 @@ abstract module AbstractAwsCryptographyKeyStoreAdminOperations {
     ensures
       && ValidInternalConfig?(config)
     ensures DescribeMutationEnsuresPublicly(input, output)
+
+
+  predicate AtomicMutationEnsuresPublicly(input: AtomicMutationInput , output: Result<AtomicMutationOutput, Error>)
+  // The private method to be refined by the library developer
+
+
+  method AtomicMutation ( config: InternalConfig , input: AtomicMutationInput )
+    returns (output: Result<AtomicMutationOutput, Error>)
+    requires
+      && ValidInternalConfig?(config)
+    modifies ModifiesInternalConfig(config)
+    // Dafny will skip type parameters when generating a default decreases clause.
+    decreases ModifiesInternalConfig(config)
+    ensures
+      && ValidInternalConfig?(config)
+    ensures AtomicMutationEnsuresPublicly(input, output)
 }

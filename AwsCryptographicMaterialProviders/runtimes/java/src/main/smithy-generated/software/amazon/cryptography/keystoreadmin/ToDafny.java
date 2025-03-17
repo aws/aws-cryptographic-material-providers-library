@@ -20,6 +20,8 @@ import software.amazon.cryptography.keystore.internaldafny.types.Storage;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationInput;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationOutput;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationResult;
+import software.amazon.cryptography.keystoreadmin.internaldafny.types.AtomicMutationInput;
+import software.amazon.cryptography.keystoreadmin.internaldafny.types.AtomicMutationOutput;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.AwsKmsDecryptEncrypt;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.CreateKeyInput;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.CreateKeyOutput;
@@ -162,6 +164,52 @@ public class ToDafny {
     mutatedBranchKeyItems =
       ToDafny.MutatedBranchKeyItems(nativeValue.MutatedBranchKeyItems());
     return new ApplyMutationOutput(mutationResult, mutatedBranchKeyItems);
+  }
+
+  public static AtomicMutationInput AtomicMutationInput(
+    software.amazon.cryptography.keystoreadmin.model.AtomicMutationInput nativeValue
+  ) {
+    DafnySequence<? extends Character> identifier;
+    identifier =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.Identifier()
+      );
+    Mutations mutations;
+    mutations = ToDafny.Mutations(nativeValue.Mutations());
+    Option<KeyManagementStrategy> strategy;
+    strategy =
+      Objects.nonNull(nativeValue.Strategy())
+        ? Option.create_Some(
+          KeyManagementStrategy._typeDescriptor(),
+          ToDafny.KeyManagementStrategy(nativeValue.Strategy())
+        )
+        : Option.create_None(KeyManagementStrategy._typeDescriptor());
+    SystemKey systemKey;
+    systemKey = ToDafny.SystemKey(nativeValue.SystemKey());
+    Option<Boolean> doNotVersion;
+    doNotVersion =
+      Objects.nonNull(nativeValue.DoNotVersion())
+        ? Option.create_Some(
+          TypeDescriptor.BOOLEAN,
+          (nativeValue.DoNotVersion())
+        )
+        : Option.create_None(TypeDescriptor.BOOLEAN);
+    return new AtomicMutationInput(
+      identifier,
+      mutations,
+      strategy,
+      systemKey,
+      doNotVersion
+    );
+  }
+
+  public static AtomicMutationOutput AtomicMutationOutput(
+    software.amazon.cryptography.keystoreadmin.model.AtomicMutationOutput nativeValue
+  ) {
+    DafnySequence<? extends MutatedBranchKeyItem> mutatedBranchKeyItems;
+    mutatedBranchKeyItems =
+      ToDafny.MutatedBranchKeyItems(nativeValue.MutatedBranchKeyItems());
+    return new AtomicMutationOutput(mutatedBranchKeyItems);
   }
 
   public static AwsKmsDecryptEncrypt AwsKmsDecryptEncrypt(

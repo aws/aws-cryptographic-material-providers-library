@@ -354,54 +354,6 @@ class UnexpectedStateException(ApiError[Literal["UnexpectedStateException"]]):
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
-class UnsupportedFeatureException(ApiError[Literal["UnsupportedFeatureException"]]):
-    code: Literal["UnsupportedFeatureException"] = "UnsupportedFeatureException"
-    message: str
-
-    def __init__(
-        self,
-        *,
-        message: str,
-    ):
-        """This feature is not yet implemented.
-
-        :param message: A message associated with the specific error.
-        """
-        super().__init__(message)
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the UnsupportedFeatureException to a dictionary."""
-        return {
-            "message": self.message,
-            "code": self.code,
-        }
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "UnsupportedFeatureException":
-        """Creates a UnsupportedFeatureException from a dictionary."""
-        kwargs: Dict[str, Any] = {
-            "message": d["message"],
-        }
-
-        return UnsupportedFeatureException(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "UnsupportedFeatureException("
-        if self.message is not None:
-            result += f"message={repr(self.message)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, UnsupportedFeatureException):
-            return False
-        attributes: list[str] = [
-            "message",
-            "message",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
-
 class MutationConflictException(ApiError[Literal["MutationConflictException"]]):
     code: Literal["MutationConflictException"] = "MutationConflictException"
     message: str
@@ -444,6 +396,54 @@ class MutationConflictException(ApiError[Literal["MutationConflictException"]]):
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, MutationConflictException):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class UnsupportedFeatureException(ApiError[Literal["UnsupportedFeatureException"]]):
+    code: Literal["UnsupportedFeatureException"] = "UnsupportedFeatureException"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        """This feature is not yet implemented.
+
+        :param message: A message associated with the specific error.
+        """
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the UnsupportedFeatureException to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "UnsupportedFeatureException":
+        """Creates a UnsupportedFeatureException from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return UnsupportedFeatureException(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "UnsupportedFeatureException("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, UnsupportedFeatureException):
             return False
         attributes: list[str] = [
             "message",

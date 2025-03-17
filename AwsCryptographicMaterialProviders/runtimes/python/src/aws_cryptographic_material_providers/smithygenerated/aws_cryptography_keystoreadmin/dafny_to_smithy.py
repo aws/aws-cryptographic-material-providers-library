@@ -285,6 +285,34 @@ def aws_cryptography_keystoreadmin_DescribeMutationInput(dafny_input):
     )
 
 
+def aws_cryptography_keystoreadmin_AtomicMutationInput(dafny_input):
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.AtomicMutationInput(
+        identifier=b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.Identifier
+        ).decode("utf-16-be"),
+        mutations=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_Mutations(
+            dafny_input.Mutations
+        ),
+        strategy=(
+            (
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_KeyManagementStrategy(
+                    dafny_input.Strategy.value
+                )
+            )
+            if (dafny_input.Strategy.is_Some)
+            else None
+        ),
+        system_key=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_SystemKey(
+            dafny_input.SystemKey
+        ),
+        do_not_version=(
+            (dafny_input.DoNotVersion.value)
+            if (dafny_input.DoNotVersion.is_Some)
+            else None
+        ),
+    )
+
+
 def aws_cryptography_keystoreadmin_CreateKeyOutput(dafny_input):
     return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.CreateKeyOutput(
         identifier=b"".join(
@@ -453,6 +481,34 @@ def aws_cryptography_keystoreadmin_DescribeMutationOutput(dafny_input):
     return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.DescribeMutationOutput(
         mutation_in_flight=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_MutationInFlight(
             dafny_input.MutationInFlight
+        ),
+    )
+
+
+def aws_cryptography_keystoreadmin_AtomicMutationOutput(dafny_input):
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.AtomicMutationOutput(
+        identifier=b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.Identifier
+        ).decode("utf-16-be"),
+        mutations=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_Mutations(
+            dafny_input.Mutations
+        ),
+        strategy=(
+            (
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_KeyManagementStrategy(
+                    dafny_input.Strategy.value
+                )
+            )
+            if (dafny_input.Strategy.is_Some)
+            else None
+        ),
+        system_key=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_SystemKey(
+            dafny_input.SystemKey
+        ),
+        do_not_version=(
+            (dafny_input.DoNotVersion.value)
+            if (dafny_input.DoNotVersion.is_Some)
+            else None
         ),
     )
 

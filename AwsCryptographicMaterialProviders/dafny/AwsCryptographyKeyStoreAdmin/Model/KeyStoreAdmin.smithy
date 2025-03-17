@@ -47,7 +47,8 @@ service KeyStoreAdmin {
     VersionKey,
     InitializeMutation,
     ApplyMutation,
-    DescribeMutation
+    DescribeMutation,
+    AtomicMutation
   ],
   errors: [
     KeyStoreAdminException,
@@ -560,6 +561,63 @@ union MutationInFlight {
 structure DescribeMutationOutput {
   @required
   MutationInFlight: MutationInFlight
+}
+
+// Atomic Mutation
+operation AtomicMutation {
+  input: AtomicMutationInput
+  output: AtomicMutationOutput
+  errors: [
+    KeyStoreAdminException
+    MutationConflictException
+    MutationInvalidException
+    UnexpectedStateException
+    aws.cryptography.keyStore#VersionRaceException
+    aws.cryptography.keyStore#KeyStorageException
+    aws.cryptography.keyStore#BranchKeyCiphertextException
+    MutationVerificationException
+    MutationToException
+    MutationFromException
+  ]
+}
+
+structure AtomicMutationInput {
+  @documentation("The identifier for the Branch Key to be mutated.")
+  @required
+  Identifier: String
+
+  @documentation("Describes the Mutation that will be applied to all Items of the Branch Key.")
+  @required
+  Mutations: Mutations
+
+  @documentation("Optional. Defaults to reEncrypt with a default KMS Client.")
+  Strategy: KeyManagementStrategy
+
+  // Smithy's Effective Docuemtnation will utilize System Key's documentation trait
+  @required
+  SystemKey: SystemKey
+
+  @documentation(
+  "Optional. Defaults to False, which Versions (or Rotates) the Branch Key,
+  creating a new Version that has only ever been in the terminal state.
+  Setting this value to True disables the rotation.
+  This is a Security vs Performance trade off.
+  Mutating a Branch Key can change the security domain of the Branch Key.
+  Some application's Threat Models benefit from ensuring a new Version
+  is created whenever a Mutation occurs,
+  allowing the application to track under which security domain data
+  was protected.
+  However, not all Threat Models call for this.
+  Particularly if Mutations are triggered in response to external actors,
+  creating a new Version for every Mutation request can needlessly grow
+  the item count of a Branch Key.")
+  DoNotVersion: Boolean
+}
+
+// TODO-Mutation-FF-Atomic: AtomicMutationOutput
+structure AtomicMutationOutput {
+  @required
+  MutatedBranchKeyItems: MutatedBranchKeyItems
 }
 
 // Errors

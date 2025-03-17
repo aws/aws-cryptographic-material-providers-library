@@ -8,6 +8,8 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     ApplyMutationOutput_ApplyMutationOutput as DafnyApplyMutationOutput,
     ApplyMutationResult_CompleteMutation,
     ApplyMutationResult_ContinueMutation,
+    AtomicMutationInput_AtomicMutationInput as DafnyAtomicMutationInput,
+    AtomicMutationOutput_AtomicMutationOutput as DafnyAtomicMutationOutput,
     AwsKmsDecryptEncrypt_AwsKmsDecryptEncrypt as DafnyAwsKmsDecryptEncrypt,
     CreateKeyInput_CreateKeyInput as DafnyCreateKeyInput,
     CreateKeyOutput_CreateKeyOutput as DafnyCreateKeyOutput,
@@ -459,6 +461,43 @@ def aws_cryptography_keystoreadmin_DescribeMutationInput(native_input):
     )
 
 
+def aws_cryptography_keystoreadmin_AtomicMutationInput(native_input):
+    return DafnyAtomicMutationInput(
+        Identifier=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.identifier.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        Mutations=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_Mutations(
+            native_input.mutations
+        ),
+        Strategy=(
+            (
+                Option_Some(
+                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_KeyManagementStrategy(
+                        native_input.strategy
+                    )
+                )
+            )
+            if (native_input.strategy is not None)
+            else (Option_None())
+        ),
+        SystemKey=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_SystemKey(
+            native_input.system_key
+        ),
+        DoNotVersion=(
+            (Option_Some(native_input.do_not_version))
+            if (native_input.do_not_version is not None)
+            else (Option_None())
+        ),
+    )
+
+
 def aws_cryptography_keystoreadmin_CreateKeyOutput(native_input):
     return DafnyCreateKeyOutput(
         Identifier=Seq(
@@ -709,6 +748,43 @@ def aws_cryptography_keystoreadmin_MutableBranchKeyProperties(native_input):
                 )
                 for (key, value) in native_input.custom_encryption_context.items()
             }
+        ),
+    )
+
+
+def aws_cryptography_keystoreadmin_AtomicMutationOutput(native_input):
+    return DafnyAtomicMutationOutput(
+        Identifier=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.identifier.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        Mutations=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_Mutations(
+            native_input.mutations
+        ),
+        Strategy=(
+            (
+                Option_Some(
+                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_KeyManagementStrategy(
+                        native_input.strategy
+                    )
+                )
+            )
+            if (native_input.strategy is not None)
+            else (Option_None())
+        ),
+        SystemKey=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_SystemKey(
+            native_input.system_key
+        ),
+        DoNotVersion=(
+            (Option_Some(native_input.do_not_version))
+            if (native_input.do_not_version is not None)
+            else (Option_None())
         ),
     )
 
