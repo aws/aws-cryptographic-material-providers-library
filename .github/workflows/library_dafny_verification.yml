@@ -51,9 +51,9 @@ jobs:
         uses: dafny-lang/setup-dafny-action@v1.7.0
         env:
           # This is required to avoid a failing to setup dafny because of Nuget/MacOS Issue
-          NUGET_CERT_REVOCATION_MODE: offline
+          DOTNET_NUGET_SIGNATURE_VERIFICATION: false
         with:
-          dafny-version: ${{ inputs.dafny }} --ignore-signing
+          dafny-version: ${{ inputs.dafny }}
 
       # dafny-reportgenerator requires next6
       # but only 7.0 is installed on macos-13-large
