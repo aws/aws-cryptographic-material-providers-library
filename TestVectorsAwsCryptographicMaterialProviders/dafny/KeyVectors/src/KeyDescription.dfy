@@ -408,8 +408,9 @@ module {:options "-functionSyntax:4"} KeyDescription {
          :- Need(MultiKeyring.generator.Some?, "Generator required for v1 or v2");
          var keyrings := [MultiKeyring.generator.value] + MultiKeyring.childKeyrings;
          :- Need(forall c <- keyrings :: !c.Multi?, "Recursive structures not supported");
+         var g :- ToJson(MultiKeyring.generator.value, outputVersion);
          var keyrings :- KeyDescriptionListToJson(MultiKeyring.childKeyrings, outputVersion);
-         Success(Array(keyrings))
+         Success(Array([g] + keyrings))
       )
     case RequiredEncryptionContext(RequiredEncryptionContext) =>
       var underlying :- ToJson(RequiredEncryptionContext.underlying, outputVersion);
