@@ -133,12 +133,7 @@ module GetKeys {
         message := ErrorMessages.INVALID_HIERARCHY_VERSION
       )
     );
-    print("Here \n");
-    print(branchKeyItem[Structure.HIERARCHY_VERSION].N);
     if (branchKeyItem[Structure.HIERARCHY_VERSION].N == Structure.HIERARCHY_VERSION_1) {
-      print(branchKeyItem[Structure.HIERARCHY_VERSION].N == "1");
-      print(branchKeyItem[Structure.HIERARCHY_VERSION].N);
-
       var encryptionContext := Structure.ToBranchKeyContext(branchKeyItem, logicalKeyStoreName);
       :- Need(
         KmsArn.ValidKmsArn?(encryptionContext[Structure.KMS_FIELD]),
@@ -168,11 +163,20 @@ module GetKeys {
                     ));
 
     } else if (branchKeyItem[Structure.HIERARCHY_VERSION].N == Structure.HIERARCHY_VERSION_2) {
-      print(branchKeyItem[Structure.HIERARCHY_VERSION].N == "2");
-      var exception := Types.KeyStoreException(
-          message := "HV2 found"
+      var encryptionContext := Structure.ToBranchKeyContextHV2(branchKeyItem, logicalKeyStoreName);
+      var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
+        encryptionContext,
+        branchKeyItem,
+        kmsConfiguration,
+        grantTokens,
+        kmsClient
       );
-      return Failure(exception);
+      var plaintextBranchKeyWithMdDigest := branchKey.Plaintext.value;
+      var plaintextMdDigest := plaintextBranchKeyWithMdDigest[|plaintextBranchKeyWithMdDigest|-48..];
+      // var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
+      //   encryptionContext,
+      //   branchKey.Plaintext.value
+      // );
     } else {
       var exception := Types.KeyStoreException(
           message := ErrorMessages.INVALID_HIERARCHY_VERSION

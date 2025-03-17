@@ -160,6 +160,27 @@ module {:options "/functionSyntax:4" } Structure {
         item[k].S
   }
 
+  function ToBranchKeyContextHV2(
+    item: DDB.AttributeMap,
+    logicalKeyStoreName: string
+  ): (output: map<string, string>)
+    requires BranchKeyItem?(item)
+  {
+    var fieldsToRemove := {
+      BRANCH_KEY_FIELD, 
+      BRANCH_KEY_IDENTIFIER_FIELD,
+      TYPE_FIELD,
+      KEY_CREATE_TIME,
+      HIERARCHY_VERSION,
+      KMS_FIELD,
+      BRANCH_KEY_ACTIVE_VERSION_FIELD
+    };
+    
+    map k <- item.Keys - fieldsToRemove
+      :: k[|ENCRYPTION_CONTEXT_PREFIX|..] := item[k].S
+  }
+
+
   function ToBranchKeyMaterials(
     encryptionContext: BranchKeyContext,
     plaintextKey: seq<uint8>
