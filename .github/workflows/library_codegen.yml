@@ -57,6 +57,7 @@ jobs:
         env:
           # This is required to avoid a failing to setup dafny because of Nuget/MacOS Issue
           DOTNET_NUGET_SIGNATURE_VERIFICATION: false
+          NUGET_CERT_REVOCATION_MODE: offline
         with:
           dafny-version: ${{ inputs.dafny }}
           
