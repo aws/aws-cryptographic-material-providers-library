@@ -844,27 +844,25 @@ module {:options "/functionSyntax:4" } Structure {
 
     // Exactly specify allowed keys based on presence of M_LAST_MODIFIED_TIME
     // Old In-flight mutations do not write M_LAST_MODIFIED_TIME in their Key Storage
-    && (M_LAST_MODIFIED_TIME in m ==>
-          m.Keys == {
-            TYPE_FIELD,
-            HIERARCHY_VERSION,
-            BRANCH_KEY_IDENTIFIER_FIELD,
-            KEY_CREATE_TIME,
-            M_LAST_MODIFIED_TIME,
-            M_UUID,
-            M_PAGE_INDEX,
-            ENC_FIELD
-          })
-    && (M_LAST_MODIFIED_TIME !in m ==>
-          m.Keys == {
-            TYPE_FIELD,
-            HIERARCHY_VERSION,
-            BRANCH_KEY_IDENTIFIER_FIELD,
-            KEY_CREATE_TIME,
-            M_UUID,
-            M_PAGE_INDEX,
-            ENC_FIELD
-          })
+    && (m.Keys == {
+                    TYPE_FIELD,
+                    HIERARCHY_VERSION,
+                    BRANCH_KEY_IDENTIFIER_FIELD,
+                    KEY_CREATE_TIME,
+                    M_LAST_MODIFIED_TIME,
+                    M_UUID,
+                    M_PAGE_INDEX,
+                    ENC_FIELD
+                  }
+        || m.Keys == {
+                       TYPE_FIELD,
+                       HIERARCHY_VERSION,
+                       BRANCH_KEY_IDENTIFIER_FIELD,
+                       KEY_CREATE_TIME,
+                       M_UUID,
+                       M_PAGE_INDEX,
+                       ENC_FIELD
+                     })
   }
 
   predicate MutationIndex?(m: Types.MutationIndex)

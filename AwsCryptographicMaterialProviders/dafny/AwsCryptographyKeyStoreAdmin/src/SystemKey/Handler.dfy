@@ -33,8 +33,9 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
   const INPUT_UTF8_BYTES: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii(Structure.M_INPUT) // [105,110,112,117,116]
   // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=cGFnZUluZGV4&oenc=65001&oeol=CR
   const PAGE_INDEX_UTF8_BYTES: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii(Structure.M_PAGE_INDEX) //[112,97,103,101,73,110,100,101,120]
+  // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=bGFzdC1tb2RpZmllZC10aW1l&oenc=65001&oeol=CR
+  const LAST_MODIFIED_TIME_UTF8_BYTES: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii(Structure.M_LAST_MODIFIED_TIME)
   // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=YnJhbmNoOk1VVEFUSU9OX0NPTU1JVE1FTlQ&oenc=65001&oeol=CR
-  // TODO-Modified-Time: Check if we add LastModifiedIndex and Verify SHA along with Index
   const COMMITMENT_TYPE_UTF8_BYTES: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii(Structure.MUTATION_COMMITMENT_TYPE) // [98,114,97,110,99,104,58,77,85,84,65,84,73,79,78,95,67,79,77,77,73,84,77,69,78,84]
   // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=YnJhbmNoOk1VVEFUSU9OX0lOREVY&oenc=65001&oeol=CR
   const INDEX_TYPE_UTF8_BYTES: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii(Structure.MUTATION_INDEX_TYPE) //[98,114,97,110,99,104,58,77,85,84,65,84,73,79,78,95,73,78,68,69,88]
@@ -60,7 +61,13 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
                   CREATE_TIME_UTF8_BYTES,
                   HIERARCHY_VERSION_UTF8_BYTES,
                   PAGE_INDEX_UTF8_BYTES
-                } witness *
+                } ||
+      m.Keys == {
+        CREATE_TIME_UTF8_BYTES,
+        HIERARCHY_VERSION_UTF8_BYTES,
+        PAGE_INDEX_UTF8_BYTES,
+        LAST_MODIFIED_TIME_UTF8_BYTES
+      } witness *
 
   function CommitmentWithSignature(
     MutationCommitment: KSTypes.MutationCommitment,
@@ -198,12 +205,27 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
           + timeBytes?.error);
       return Failure(e);
     }
+
+    var lastModifiedTimeBytes? := if MutationIndex.LastModifiedTime.Some? then
+      UTF8.Encode(MutationIndex.LastModifiedTime.value)
+    else
+      Success([]);
+    if (lastModifiedTimeBytes?.Failure?) {
+      var e := Types.MutationVerificationException(
+        message:=
+          "Could not sign Mutation Index due to Serialization error: "
+          + lastModifiedTimeBytes?.error);
+      return Failure(e);
+    }
     var contentToSHA: IndexContentToSHA := map[
       CREATE_TIME_UTF8_BYTES := timeBytes?.value,
       PAGE_INDEX_UTF8_BYTES := MutationIndex.PageIndex,
-      // TODO-Modified-Time? : Check if we need to sign LastModifiedTime?
       HIERARCHY_VERSION_UTF8_BYTES := HIERARCHY_VERSION_VALUE_UTF8_BYTES
-    ];
+    ] + (if MutationIndex.LastModifiedTime.Some? then
+           map[LAST_MODIFIED_TIME_UTF8_BYTES := lastModifiedTimeBytes?.value]
+         else
+           map[]);
+
     var content := ContentHandler.Content(
       ContentToSHA := contentToSHA,
       PartitionValue := MutationIndex.Identifier,
@@ -344,11 +366,25 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
           + timeBytes?.error);
       return Failure(e);
     }
+    var lastModifiedTimeBytes? := if MutationIndex.LastModifiedTime.Some? then
+      UTF8.Encode(MutationIndex.LastModifiedTime.value)
+    else
+      Success([]);
+    if (lastModifiedTimeBytes?.Failure?) {
+      var e := Types.MutationVerificationException(
+        message:=
+          "Could not sign Mutation Index due to Serialization error: "
+          + lastModifiedTimeBytes?.error);
+      return Failure(e);
+    }
     var contentToSHA: IndexContentToSHA := map[
       CREATE_TIME_UTF8_BYTES := timeBytes?.value,
       PAGE_INDEX_UTF8_BYTES := MutationIndex.PageIndex,
       HIERARCHY_VERSION_UTF8_BYTES := HIERARCHY_VERSION_VALUE_UTF8_BYTES
-    ];
+    ] + (if MutationIndex.LastModifiedTime.Some? then
+           map[LAST_MODIFIED_TIME_UTF8_BYTES := lastModifiedTimeBytes?.value]
+         else
+           map[]);
     var content := ContentHandler.Content(
       ContentToSHA := contentToSHA,
       PartitionValue := MutationIndex.Identifier,
