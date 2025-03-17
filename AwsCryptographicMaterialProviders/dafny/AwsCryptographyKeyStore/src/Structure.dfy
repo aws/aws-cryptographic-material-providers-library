@@ -18,6 +18,8 @@ module {:options "/functionSyntax:4" } Structure {
   const TYPE_FIELD := "type"
   const KEY_CREATE_TIME := "create-time"
   const HIERARCHY_VERSION := "hierarchy-version"
+  const HIERARCHY_VERSION_1 := "1"
+  const HIERARCHY_VERSION_2 := "2"
   const TABLE_FIELD := "tablename"
   const KMS_FIELD := "kms-arn"
 
