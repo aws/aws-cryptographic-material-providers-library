@@ -58,7 +58,7 @@ jobs:
           # This is required to avoid a failing to setup dafny because of Nuget/MacOS Issue
           NUGET_CERT_REVOCATION_MODE: offline
         with:
-          dafny-version: ${{ inputs.dafny }} --ignore-failed-sources
+          dafny-version: ${{ inputs.dafny }} --ignore-signing
           
 
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
