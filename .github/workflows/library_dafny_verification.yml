@@ -55,6 +55,7 @@ jobs:
           NUGET_CERT_REVOCATION_MODE: offline
         with:
           dafny-version: ${{ inputs.dafny }}
+          dotnet-version: '8.0.x'
 
       # dafny-reportgenerator requires next6
       # but only 7.0 is installed on macos-13-large
