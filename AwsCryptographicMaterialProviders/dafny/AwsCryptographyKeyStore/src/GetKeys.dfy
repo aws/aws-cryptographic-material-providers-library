@@ -126,36 +126,59 @@ module GetKeys {
       tableName,
       ddbClient
     );
-
-    var encryptionContext := Structure.ToBranchKeyContext(branchKeyItem, logicalKeyStoreName);
-
     :- Need(
-      KmsArn.ValidKmsArn?(encryptionContext[Structure.KMS_FIELD]),
-      Types.KeyStoreException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
+      branchKeyItem[Structure.HIERARCHY_VERSION].N == Structure.HIERARCHY_VERSION_1 ||
+      branchKeyItem[Structure.HIERARCHY_VERSION].N == Structure.HIERARCHY_VERSION_2,
+      Types.KeyStoreException(
+        message := ErrorMessages.INVALID_HIERARCHY_VERSION
+      )
     );
+    print("Here \n");
+    print(branchKeyItem[Structure.HIERARCHY_VERSION].N);
+    if (branchKeyItem[Structure.HIERARCHY_VERSION].N == Structure.HIERARCHY_VERSION_1) {
+      print(branchKeyItem[Structure.HIERARCHY_VERSION].N == "1");
+      print(branchKeyItem[Structure.HIERARCHY_VERSION].N);
+      
+      var encryptionContext := Structure.ToBranchKeyContext(branchKeyItem, logicalKeyStoreName);
+      :- Need(
+        KmsArn.ValidKmsArn?(encryptionContext[Structure.KMS_FIELD]),
+        Types.KeyStoreException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
+      );
 
-    :- Need(
-      KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext),
-      Types.KeyStoreException( message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT)
-    );
+      :- Need(
+        KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext),
+        Types.KeyStoreException( message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT)
+      );
 
-    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
-      encryptionContext,
-      branchKeyItem,
-      kmsConfiguration,
-      grantTokens,
-      kmsClient
-    );
+      var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
+        encryptionContext,
+        branchKeyItem,
+        kmsConfiguration,
+        grantTokens,
+        kmsClient
+      );
 
-    var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
-      encryptionContext,
-      branchKey.Plaintext.value
-    );
+      var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
+        encryptionContext,
+        branchKey.Plaintext.value
+      );
 
-    return Success(Types.GetActiveBranchKeyOutput(
-                     branchKeyMaterials := branchKeyMaterials
-                   ));
+      return Success(Types.GetActiveBranchKeyOutput(
+                      branchKeyMaterials := branchKeyMaterials
+                    ));
 
+    } else if (branchKeyItem[Structure.HIERARCHY_VERSION].N == Structure.HIERARCHY_VERSION_1) {
+      print(branchKeyItem[Structure.HIERARCHY_VERSION].N == "2");
+      var exception := Types.KeyStoreException(
+          message := "HV2 found"
+      );
+      return Failure(exception);
+    } else {
+      var exception := Types.KeyStoreException(
+          message := ErrorMessages.INVALID_HIERARCHY_VERSION
+      );
+      return Failure(exception); 
+    }
   }
 
   method GetBranchKeyVersion(
