@@ -138,7 +138,7 @@ module GetKeys {
     if (branchKeyItem[Structure.HIERARCHY_VERSION].N == Structure.HIERARCHY_VERSION_1) {
       print(branchKeyItem[Structure.HIERARCHY_VERSION].N == "1");
       print(branchKeyItem[Structure.HIERARCHY_VERSION].N);
-      
+
       var encryptionContext := Structure.ToBranchKeyContext(branchKeyItem, logicalKeyStoreName);
       :- Need(
         KmsArn.ValidKmsArn?(encryptionContext[Structure.KMS_FIELD]),
@@ -167,7 +167,7 @@ module GetKeys {
                       branchKeyMaterials := branchKeyMaterials
                     ));
 
-    } else if (branchKeyItem[Structure.HIERARCHY_VERSION].N == Structure.HIERARCHY_VERSION_1) {
+    } else if (branchKeyItem[Structure.HIERARCHY_VERSION].N == Structure.HIERARCHY_VERSION_2) {
       print(branchKeyItem[Structure.HIERARCHY_VERSION].N == "2");
       var exception := Types.KeyStoreException(
           message := "HV2 found"
