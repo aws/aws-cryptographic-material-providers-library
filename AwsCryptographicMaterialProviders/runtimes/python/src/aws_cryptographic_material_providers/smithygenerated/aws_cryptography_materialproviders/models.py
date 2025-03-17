@@ -856,7 +856,7 @@ SymmetricSignatureAlgorithm = Union[
 
 
 def _symmetric_signature_algorithm_from_dict(
-    d: Dict[str, Any]
+    d: Dict[str, Any],
 ) -> SymmetricSignatureAlgorithm:
     if "HMAC" in d:
         return SymmetricSignatureAlgorithmHMAC.from_dict(d)
@@ -1504,7 +1504,7 @@ class KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery:
 
     @staticmethod
     def from_dict(
-        d: Dict[str, Any]
+        d: Dict[str, Any],
     ) -> "KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
@@ -1535,7 +1535,7 @@ class KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey:
 
     @staticmethod
     def from_dict(
-        d: Dict[str, Any]
+        d: Dict[str, Any],
     ) -> "KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
@@ -1591,7 +1591,7 @@ KmsEcdhStaticConfigurations = Union[
 
 
 def _kms_ecdh_static_configurations_from_dict(
-    d: Dict[str, Any]
+    d: Dict[str, Any],
 ) -> KmsEcdhStaticConfigurations:
     if "KmsPublicKeyDiscovery" in d:
         return KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery.from_dict(d)
@@ -3239,7 +3239,7 @@ class CreateDefaultCryptographicMaterialsManagerInput:
         """Inputs for creating a Default Cryptographic Materials Manager.
 
         :param keyring: The Keyring that the created Default
-            Cryprographic Materials Manager will use to wrap data keys.
+            Cryptographic Materials Manager will use to wrap data keys.
         """
         self.keyring = keyring
 
@@ -3252,7 +3252,7 @@ class CreateDefaultCryptographicMaterialsManagerInput:
 
     @staticmethod
     def from_dict(
-        d: Dict[str, Any]
+        d: Dict[str, Any],
     ) -> "CreateDefaultCryptographicMaterialsManagerInput":
         """Creates a CreateDefaultCryptographicMaterialsManagerInput from a
         dictionary."""
@@ -3630,7 +3630,7 @@ class RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey:
 
     @staticmethod
     def from_dict(
-        d: Dict[str, Any]
+        d: Dict[str, Any],
     ) -> "RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
@@ -3664,7 +3664,7 @@ class RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey:
 
     @staticmethod
     def from_dict(
-        d: Dict[str, Any]
+        d: Dict[str, Any],
     ) -> "RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
@@ -3721,7 +3721,7 @@ RawEcdhStaticConfigurations = Union[
 
 
 def _raw_ecdh_static_configurations_from_dict(
-    d: Dict[str, Any]
+    d: Dict[str, Any],
 ) -> RawEcdhStaticConfigurations:
     if "PublicKeyDiscovery" in d:
         return RawEcdhStaticConfigurationsPublicKeyDiscovery.from_dict(d)
@@ -3954,16 +3954,16 @@ class CreateRequiredEncryptionContextCMMInput:
             encryption and decryption, and correspond to Encryption
             Context key-value pairs which are not stored on the
             resulting message.
-        :param underlying_cmm: The Cryprographic Materials Manager that
+        :param underlying_cmm: The Cryptographic Materials Manager that
             the created Required Encryption Context Cryptographic
             Materials Manager will delegate to. Either a Keyring or
-            underlying Cryprographic Materials Manager must be
+            underlying Cryptographic Materials Manager must be
             specified.
-        :param keyring: The Keyring that the created Cryprographic
+        :param keyring: The Keyring that the created Cryptographic
             Materials Manager will use to wrap data keys. The created
             Required Encryption Context CMM will delegate to a Default
             Cryptographic Materials Manager created with this Keyring.
-            Either a Keyring or an underlying Cryprographic Materials
+            Either a Keyring or an underlying Cryptographic Materials
             Manager must be specified as input.
         """
         self.required_encryption_context_keys = required_encryption_context_keys
