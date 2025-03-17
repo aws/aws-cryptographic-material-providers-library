@@ -71,6 +71,9 @@ jobs:
 
       - name: Setup Dafny
         uses: dafny-lang/setup-dafny-action@v1.7.0
+        env:
+          # This is required to avoid a failing to setup dafny because of Nuget/MacOS Issue
+          NUGET_CERT_REVOCATION_MODE: offline
         with:
           dafny-version: ${{ inputs.dafny }}
 
