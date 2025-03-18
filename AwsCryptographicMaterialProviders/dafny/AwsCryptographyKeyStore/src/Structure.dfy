@@ -25,8 +25,6 @@ module {:options "/functionSyntax:4" } Structure {
   const M_INPUT := "input" // The DDB Attribute name for the input, which is AttributeValue.B
   const M_UUID := "uuid" // The DDB Attribute name for the uuid, which is AttributeValue.S
   const M_PAGE_INDEX := "pageIndex" // The DDB Attribute name for the pageIndex, which is AttributeValue.B
-  const HIERARCHY_VERSION_1 := "1"
-  const HIERARCHY_VERSION_2 := "2"
 
   const AWS_CRYPTO_EC := "aws-crypto-ec"
   const ENCRYPTION_CONTEXT_PREFIX := AWS_CRYPTO_EC + ":"
@@ -188,20 +186,7 @@ module {:options "/functionSyntax:4" } Structure {
     requires BranchKeyItem?(item)
     ensures EncryptedHierarchicalKey?(output)
   {
-    var EncryptionContext := if item[HIERARCHY_VERSION].N == HIERARCHY_VERSION_1 
-      then GetEncryptionContextHV1(item, logicalKeyStoreName)
-      else GetEncryptionContextHV2(item);
-
-    ConstructEncryptedHierarchicalKey(EncryptionContext, item[BRANCH_KEY_FIELD].B)
-  }
-
-  function GetEncryptionContextHV1(
-    item: DDB.AttributeMap,
-    logicalKeyStoreName: string
-  ): (output: map<string, string>)
-    requires BranchKeyItem?(item)
-  {
-    map k <- item.Keys - {BRANCH_KEY_FIELD} + {TABLE_FIELD}
+    var EncryptionContext := map k <- item.Keys - {BRANCH_KEY_FIELD} + {TABLE_FIELD}
                                       // Working around https://github.com/dafny-lang/dafny/issues/5776
                                       //  that will make the following fail to compile
                                       // match k
@@ -213,26 +198,9 @@ module {:options "/functionSyntax:4" } Structure {
                                else if k == TABLE_FIELD then
                                  logicalKeyStoreName
                                else
-                                 item[k].S
-  }
+                                 item[k].S;
 
-  function GetEncryptionContextHV2(
-    item: DDB.AttributeMap
-  ): (output: map<string, string>)
-    requires BranchKeyItem?(item)
-  {
-    var fieldsToRemove := {
-      BRANCH_KEY_FIELD, 
-      BRANCH_KEY_IDENTIFIER_FIELD,
-      TYPE_FIELD,
-      KEY_CREATE_TIME,
-      HIERARCHY_VERSION,
-      KMS_FIELD,
-      BRANCH_KEY_ACTIVE_VERSION_FIELD
-    };
-
-    map k <- item.Keys - fieldsToRemove
-      :: k[|ENCRYPTION_CONTEXT_PREFIX|..] := item[k].S
+    ConstructEncryptedHierarchicalKey(EncryptionContext, item[BRANCH_KEY_FIELD].B)
   }
 
   function ConstructEncryptedHierarchicalKey(
