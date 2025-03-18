@@ -121,7 +121,7 @@ union Encrypt {
 union DerivationAlgorithm {
   HKDF: HKDF,
   // We are using both `IDENTITY` and `None` here
-  // to modle the fact that deriving
+  // to model the fact that deriving
   // the data encryption key and the commitment key
   // MUST be the same.
   // The specification treats NO_KDF as an identity operation.

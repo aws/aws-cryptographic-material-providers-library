@@ -20,13 +20,9 @@
 // We model all the files and the runtimes here in this structure
 const Runtimes = {
   java: {
-    "AwsCryptographicMaterialProviders/runtimes/java/build.gradle.kts": {
+    "project.properties": {
       dependencies: [],
     },
-    "TestVectorsAwsCryptographicMaterialProviders/runtimes/java/build.gradle.kts":
-      {
-        dependencies: [],
-      },
   },
   net: {
     "AwsCryptographicMaterialProviders/runtimes/net/MPL.csproj": {
@@ -86,9 +82,230 @@ module.exports = {
     "git@github.com:aws/aws-cryptographic-material-providers-library.git",
   plugins: [
     // Check the commits since the last release
-    "@semantic-release/commit-analyzer",
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        preset: "conventionalcommits",
+        parserOpts: {
+          noteKeywords: ["BREAKING CHANGE", "BREAKING CHANGES"],
+        },
+        presetConfig: {
+          types: [
+            { type: "feat", section: "Features" },
+            { type: "fix", section: "Fixes" },
+            { type: "chore", section: "Maintenance" },
+            { type: "docs", section: "Maintenance" },
+            { type: "revert", section: "Fixes" },
+            { type: "style", section: "Miscellaneous" },
+            { type: "refactor", section: "Miscellaneous" },
+            { type: "perf", section: "Miscellaneous" },
+            { type: "test", section: "Miscellaneous" },
+          ],
+        },
+        releaseRules: [
+          { type: "docs", release: "patch" },
+          { type: "revert", release: "patch" },
+          { type: "chore", release: "patch" },
+        ],
+      },
+    ],
     // Based on the commits generate release notes
-    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/release-notes-generator",
+      {
+        preset: "conventionalcommits",
+        presetConfig: {
+          types: [
+            {
+              type: "feat",
+              scope: "dafny",
+              section: "Features -- All Languages",
+              hidden: false,
+            },
+            {
+              type: "feat",
+              scope: "java",
+              section: "Features -- Java",
+              hidden: false,
+            },
+            {
+              type: "feat",
+              scope: "dotnet",
+              section: "Features -- DotNet",
+              hidden: false,
+            },
+            {
+              type: "feat",
+              scope: "python",
+              section: "Features -- Python",
+              hidden: false,
+            },
+            {
+              type: "feat",
+              scope: "go",
+              section: "Features -- Go",
+              hidden: false,
+            },
+            {
+              type: "feat",
+              scope: "rust",
+              section: "Features -- Rust",
+              hidden: false,
+            },
+
+            {
+              type: "fix",
+              scope: "dafny",
+              section: "Fixes -- All Languages",
+              hidden: false,
+            },
+            {
+              type: "fix",
+              scope: "java",
+              section: "Fixes -- Java",
+              hidden: false,
+            },
+            {
+              type: "fix",
+              scope: "dotnet",
+              section: "Fixes -- DotNet",
+              hidden: false,
+            },
+            {
+              type: "fix",
+              scope: "python",
+              section: "Fixes -- Python",
+              hidden: false,
+            },
+            { type: "fix", scope: "go", section: "Fixes -- Go", hidden: false },
+            {
+              type: "fix",
+              scope: "rust",
+              section: "Fixes -- Rust",
+              hidden: false,
+            },
+
+            {
+              type: "chore",
+              scope: "dafny",
+              section: "Maintenance -- All Languages",
+              hidden: false,
+            },
+            {
+              type: "chore",
+              scope: "java",
+              section: "Maintenance -- Java",
+              hidden: false,
+            },
+            {
+              type: "chore",
+              scope: "dotnet",
+              section: "Maintenance -- DotNet",
+              hidden: false,
+            },
+            {
+              type: "chore",
+              scope: "python",
+              section: "Maintenance -- Python",
+              hidden: false,
+            },
+            {
+              type: "chore",
+              scope: "go",
+              section: "Maintenance -- Go",
+              hidden: false,
+            },
+            {
+              type: "chore",
+              scope: "rust",
+              section: "Maintenance -- Rust",
+              hidden: false,
+            },
+            {
+              type: "chore",
+              section: "Miscellaneous",
+              hidden: false,
+            },
+            {
+              type: "docs",
+              scope: "dafny",
+              section: "Maintenance -- All Languages",
+              hidden: false,
+            },
+            {
+              type: "docs",
+              scope: "java",
+              section: "Maintenance -- Java",
+              hidden: false,
+            },
+            {
+              type: "docs",
+              scope: "dotnet",
+              section: "Maintenance -- DotNet",
+              hidden: false,
+            },
+            {
+              type: "docs",
+              scope: "python",
+              section: "Maintenance -- Python",
+              hidden: false,
+            },
+            {
+              type: "docs",
+              scope: "go",
+              section: "Maintenance -- Go",
+              hidden: false,
+            },
+            {
+              type: "docs",
+              scope: "rust",
+              section: "Maintenance -- Rust",
+              hidden: false,
+            },
+            {
+              type: "revert",
+              scope: "dafny",
+              section: "Fixes -- All Languages",
+              hidden: false,
+            },
+            {
+              type: "revert",
+              scope: "java",
+              section: "Fixes -- Java",
+              hidden: false,
+            },
+            {
+              type: "revert",
+              scope: "dotnet",
+              section: "Fixes -- DotNet",
+              hidden: false,
+            },
+            {
+              type: "revert",
+              scope: "python",
+              section: "Fixes -- Python",
+              hidden: false,
+            },
+            {
+              type: "revert",
+              scope: "go",
+              section: "Fixes -- Go",
+              hidden: false,
+            },
+            {
+              type: "revert",
+              scope: "rust",
+              section: "Fixes -- Rust",
+              hidden: false,
+            },
+            { type: "style", section: "Miscellaneous", hidden: false },
+            { type: "refactor", section: "Miscellaneous", hidden: false },
+            { type: "perf", section: "Miscellaneous", hidden: false },
+            { type: "test", section: "Miscellaneous", hidden: false },
+          ],
+        },
+      },
+    ],
     // Update the change log with the generated release notes
     [
       "@semantic-release/changelog",
@@ -107,22 +324,11 @@ module.exports = {
           // Does not update the dependencies
           {
             files: Object.keys(Runtimes.java),
-            from: 'version = ".*"',
-            to: 'version = "${nextRelease.version}"',
+            from: "mplVersion=.*",
+            to: "mplVersion=${nextRelease.version}",
             results: Object.keys(Runtimes.java).map(CheckResults),
             countMatches: true,
           },
-          // Now update the Gradle Java  dependencies
-          ...Object.entries(Runtimes.java).flatMap(([file, { dependencies }]) =>
-            dependencies.map((dependency) => ({
-              files: [file],
-              from: `implementation("${dependency}:.*")`,
-              to:
-                `implementation("${dependency}:` + '${nextRelease.version}" />',
-              results: [CheckResults(file)],
-              countMatches: true,
-            })),
-          ),
 
           // Update the version for all DotNet projects
           // Does not update the dependencies
@@ -188,7 +394,7 @@ module.exports = {
           "**/runtimes/python/**/*.dtr",
         ],
         message:
-          "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
+          "chore: ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
       },
     ],
   ],

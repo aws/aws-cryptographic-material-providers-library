@@ -15,6 +15,7 @@ import (
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AwsCryptographyPrimitivesTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/awscryptographyprimitivessmithygenerated"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/awscryptographyprimitivessmithygeneratedtypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/UTF8"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Wrappers"
 	"github.com/aws/aws-sdk-go-v2/service/kms"
 	kmstypes "github.com/aws/aws-sdk-go-v2/service/kms/types"
@@ -23,142 +24,142 @@ import (
 
 func CreateAwsKmsDiscoveryKeyringInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.CreateAwsKmsDiscoveryKeyringInput) awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsDiscoveryKeyringInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsDiscoveryKeyringInput{KmsClient: aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_kmsClient_FromDafny(dafnyInput.Dtor_kmsClient()),
-		DiscoveryFilter: aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_discoveryFilter_FromDafny(dafnyInput.Dtor_discoveryFilter().UnwrapOr(nil)),
-		GrantTokens:     aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_grantTokens_FromDafny(dafnyInput.Dtor_grantTokens().UnwrapOr(nil)),
+	return awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsDiscoveryKeyringInput{KmsClient: Aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_kmsClient_FromDafny(dafnyInput.Dtor_kmsClient()),
+		DiscoveryFilter: Aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_discoveryFilter_FromDafny(dafnyInput.Dtor_discoveryFilter().UnwrapOr(nil)),
+		GrantTokens:     Aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_grantTokens_FromDafny(dafnyInput.Dtor_grantTokens().UnwrapOr(nil)),
 	}
 
 }
 
 func CreateAwsKmsDiscoveryMultiKeyringInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.CreateAwsKmsDiscoveryMultiKeyringInput) awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsDiscoveryMultiKeyringInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsDiscoveryMultiKeyringInput{Regions: aws_cryptography_materialProviders_CreateAwsKmsDiscoveryMultiKeyringInput_regions_FromDafny(dafnyInput.Dtor_regions()),
-		DiscoveryFilter: aws_cryptography_materialProviders_CreateAwsKmsDiscoveryMultiKeyringInput_discoveryFilter_FromDafny(dafnyInput.Dtor_discoveryFilter().UnwrapOr(nil)),
+	return awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsDiscoveryMultiKeyringInput{Regions: Aws_cryptography_materialProviders_CreateAwsKmsDiscoveryMultiKeyringInput_regions_FromDafny(dafnyInput.Dtor_regions()),
+		DiscoveryFilter: Aws_cryptography_materialProviders_CreateAwsKmsDiscoveryMultiKeyringInput_discoveryFilter_FromDafny(dafnyInput.Dtor_discoveryFilter().UnwrapOr(nil)),
 		ClientSupplier: func() awscryptographymaterialproviderssmithygeneratedtypes.IClientSupplier {
 			if dafnyInput.Dtor_clientSupplier().UnwrapOr(nil) == nil {
 				return nil
 			}
 			return ClientSupplier_FromDafny(dafnyInput.Dtor_clientSupplier().UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.IClientSupplier))
 		}(),
-		GrantTokens: aws_cryptography_materialProviders_CreateAwsKmsDiscoveryMultiKeyringInput_grantTokens_FromDafny(dafnyInput.Dtor_grantTokens().UnwrapOr(nil)),
+		GrantTokens: Aws_cryptography_materialProviders_CreateAwsKmsDiscoveryMultiKeyringInput_grantTokens_FromDafny(dafnyInput.Dtor_grantTokens().UnwrapOr(nil)),
 	}
 
 }
 
 func CreateAwsKmsEcdhKeyringInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.CreateAwsKmsEcdhKeyringInput) awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsEcdhKeyringInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsEcdhKeyringInput{KeyAgreementScheme: aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_KeyAgreementScheme_FromDafny(dafnyInput.Dtor_KeyAgreementScheme()),
-		CurveSpec:   aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_curveSpec_FromDafny(dafnyInput.Dtor_curveSpec()),
-		KmsClient:   aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_kmsClient_FromDafny(dafnyInput.Dtor_kmsClient()),
-		GrantTokens: aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_grantTokens_FromDafny(dafnyInput.Dtor_grantTokens().UnwrapOr(nil)),
+	return awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsEcdhKeyringInput{KeyAgreementScheme: Aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_KeyAgreementScheme_FromDafny(dafnyInput.Dtor_KeyAgreementScheme()),
+		CurveSpec:   Aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_curveSpec_FromDafny(dafnyInput.Dtor_curveSpec()),
+		KmsClient:   Aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_kmsClient_FromDafny(dafnyInput.Dtor_kmsClient()),
+		GrantTokens: Aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_grantTokens_FromDafny(dafnyInput.Dtor_grantTokens().UnwrapOr(nil)),
 	}
 
 }
 
 func CreateAwsKmsHierarchicalKeyringInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.CreateAwsKmsHierarchicalKeyringInput) awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsHierarchicalKeyringInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsHierarchicalKeyringInput{BranchKeyId: aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_branchKeyId_FromDafny(dafnyInput.Dtor_branchKeyId().UnwrapOr(nil)),
+	return awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsHierarchicalKeyringInput{BranchKeyId: Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_branchKeyId_FromDafny(dafnyInput.Dtor_branchKeyId().UnwrapOr(nil)),
 		BranchKeyIdSupplier: func() awscryptographymaterialproviderssmithygeneratedtypes.IBranchKeyIdSupplier {
 			if dafnyInput.Dtor_branchKeyIdSupplier().UnwrapOr(nil) == nil {
 				return nil
 			}
 			return BranchKeyIdSupplier_FromDafny(dafnyInput.Dtor_branchKeyIdSupplier().UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.IBranchKeyIdSupplier))
 		}(),
-		KeyStore:    aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_keyStore_FromDafny(dafnyInput.Dtor_keyStore()),
-		TtlSeconds:  aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_ttlSeconds_FromDafny(dafnyInput.Dtor_ttlSeconds()),
-		Cache:       aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_FromDafny(dafnyInput.Dtor_cache().UnwrapOr(nil)),
-		PartitionId: aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_partitionId_FromDafny(dafnyInput.Dtor_partitionId().UnwrapOr(nil)),
+		KeyStore:    Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_keyStore_FromDafny(dafnyInput.Dtor_keyStore()),
+		TtlSeconds:  Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_ttlSeconds_FromDafny(dafnyInput.Dtor_ttlSeconds()),
+		Cache:       Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_FromDafny(dafnyInput.Dtor_cache().UnwrapOr(nil)),
+		PartitionId: Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_partitionId_FromDafny(dafnyInput.Dtor_partitionId().UnwrapOr(nil)),
 	}
 
 }
 
 func CreateAwsKmsKeyringInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.CreateAwsKmsKeyringInput) awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsKeyringInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsKeyringInput{KmsKeyId: aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_kmsKeyId_FromDafny(dafnyInput.Dtor_kmsKeyId()),
-		KmsClient:   aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_kmsClient_FromDafny(dafnyInput.Dtor_kmsClient()),
-		GrantTokens: aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_grantTokens_FromDafny(dafnyInput.Dtor_grantTokens().UnwrapOr(nil)),
+	return awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsKeyringInput{KmsKeyId: Aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_kmsKeyId_FromDafny(dafnyInput.Dtor_kmsKeyId()),
+		KmsClient:   Aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_kmsClient_FromDafny(dafnyInput.Dtor_kmsClient()),
+		GrantTokens: Aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_grantTokens_FromDafny(dafnyInput.Dtor_grantTokens().UnwrapOr(nil)),
 	}
 
 }
 
 func CreateAwsKmsMrkDiscoveryKeyringInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.CreateAwsKmsMrkDiscoveryKeyringInput) awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMrkDiscoveryKeyringInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMrkDiscoveryKeyringInput{KmsClient: aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_kmsClient_FromDafny(dafnyInput.Dtor_kmsClient()),
-		DiscoveryFilter: aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_discoveryFilter_FromDafny(dafnyInput.Dtor_discoveryFilter().UnwrapOr(nil)),
-		GrantTokens:     aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_grantTokens_FromDafny(dafnyInput.Dtor_grantTokens().UnwrapOr(nil)),
-		Region:          aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_region_FromDafny(dafnyInput.Dtor_region()),
+	return awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMrkDiscoveryKeyringInput{KmsClient: Aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_kmsClient_FromDafny(dafnyInput.Dtor_kmsClient()),
+		DiscoveryFilter: Aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_discoveryFilter_FromDafny(dafnyInput.Dtor_discoveryFilter().UnwrapOr(nil)),
+		GrantTokens:     Aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_grantTokens_FromDafny(dafnyInput.Dtor_grantTokens().UnwrapOr(nil)),
+		Region:          Aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_region_FromDafny(dafnyInput.Dtor_region()),
 	}
 
 }
 
 func CreateAwsKmsMrkDiscoveryMultiKeyringInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.CreateAwsKmsMrkDiscoveryMultiKeyringInput) awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMrkDiscoveryMultiKeyringInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMrkDiscoveryMultiKeyringInput{Regions: aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput_regions_FromDafny(dafnyInput.Dtor_regions()),
-		DiscoveryFilter: aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput_discoveryFilter_FromDafny(dafnyInput.Dtor_discoveryFilter().UnwrapOr(nil)),
+	return awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMrkDiscoveryMultiKeyringInput{Regions: Aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput_regions_FromDafny(dafnyInput.Dtor_regions()),
+		DiscoveryFilter: Aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput_discoveryFilter_FromDafny(dafnyInput.Dtor_discoveryFilter().UnwrapOr(nil)),
 		ClientSupplier: func() awscryptographymaterialproviderssmithygeneratedtypes.IClientSupplier {
 			if dafnyInput.Dtor_clientSupplier().UnwrapOr(nil) == nil {
 				return nil
 			}
 			return ClientSupplier_FromDafny(dafnyInput.Dtor_clientSupplier().UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.IClientSupplier))
 		}(),
-		GrantTokens: aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput_grantTokens_FromDafny(dafnyInput.Dtor_grantTokens().UnwrapOr(nil)),
+		GrantTokens: Aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput_grantTokens_FromDafny(dafnyInput.Dtor_grantTokens().UnwrapOr(nil)),
 	}
 
 }
 
 func CreateAwsKmsMrkKeyringInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.CreateAwsKmsMrkKeyringInput) awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMrkKeyringInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMrkKeyringInput{KmsKeyId: aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_kmsKeyId_FromDafny(dafnyInput.Dtor_kmsKeyId()),
-		KmsClient:   aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_kmsClient_FromDafny(dafnyInput.Dtor_kmsClient()),
-		GrantTokens: aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_grantTokens_FromDafny(dafnyInput.Dtor_grantTokens().UnwrapOr(nil)),
+	return awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMrkKeyringInput{KmsKeyId: Aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_kmsKeyId_FromDafny(dafnyInput.Dtor_kmsKeyId()),
+		KmsClient:   Aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_kmsClient_FromDafny(dafnyInput.Dtor_kmsClient()),
+		GrantTokens: Aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_grantTokens_FromDafny(dafnyInput.Dtor_grantTokens().UnwrapOr(nil)),
 	}
 
 }
 
 func CreateAwsKmsMrkMultiKeyringInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.CreateAwsKmsMrkMultiKeyringInput) awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMrkMultiKeyringInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMrkMultiKeyringInput{Generator: aws_cryptography_materialProviders_CreateAwsKmsMrkMultiKeyringInput_generator_FromDafny(dafnyInput.Dtor_generator().UnwrapOr(nil)),
-		KmsKeyIds: aws_cryptography_materialProviders_CreateAwsKmsMrkMultiKeyringInput_kmsKeyIds_FromDafny(dafnyInput.Dtor_kmsKeyIds().UnwrapOr(nil)),
+	return awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMrkMultiKeyringInput{Generator: Aws_cryptography_materialProviders_CreateAwsKmsMrkMultiKeyringInput_generator_FromDafny(dafnyInput.Dtor_generator().UnwrapOr(nil)),
+		KmsKeyIds: Aws_cryptography_materialProviders_CreateAwsKmsMrkMultiKeyringInput_kmsKeyIds_FromDafny(dafnyInput.Dtor_kmsKeyIds().UnwrapOr(nil)),
 		ClientSupplier: func() awscryptographymaterialproviderssmithygeneratedtypes.IClientSupplier {
 			if dafnyInput.Dtor_clientSupplier().UnwrapOr(nil) == nil {
 				return nil
 			}
 			return ClientSupplier_FromDafny(dafnyInput.Dtor_clientSupplier().UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.IClientSupplier))
 		}(),
-		GrantTokens: aws_cryptography_materialProviders_CreateAwsKmsMrkMultiKeyringInput_grantTokens_FromDafny(dafnyInput.Dtor_grantTokens().UnwrapOr(nil)),
+		GrantTokens: Aws_cryptography_materialProviders_CreateAwsKmsMrkMultiKeyringInput_grantTokens_FromDafny(dafnyInput.Dtor_grantTokens().UnwrapOr(nil)),
 	}
 
 }
 
 func CreateAwsKmsMultiKeyringInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.CreateAwsKmsMultiKeyringInput) awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMultiKeyringInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMultiKeyringInput{Generator: aws_cryptography_materialProviders_CreateAwsKmsMultiKeyringInput_generator_FromDafny(dafnyInput.Dtor_generator().UnwrapOr(nil)),
-		KmsKeyIds: aws_cryptography_materialProviders_CreateAwsKmsMultiKeyringInput_kmsKeyIds_FromDafny(dafnyInput.Dtor_kmsKeyIds().UnwrapOr(nil)),
+	return awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsMultiKeyringInput{Generator: Aws_cryptography_materialProviders_CreateAwsKmsMultiKeyringInput_generator_FromDafny(dafnyInput.Dtor_generator().UnwrapOr(nil)),
+		KmsKeyIds: Aws_cryptography_materialProviders_CreateAwsKmsMultiKeyringInput_kmsKeyIds_FromDafny(dafnyInput.Dtor_kmsKeyIds().UnwrapOr(nil)),
 		ClientSupplier: func() awscryptographymaterialproviderssmithygeneratedtypes.IClientSupplier {
 			if dafnyInput.Dtor_clientSupplier().UnwrapOr(nil) == nil {
 				return nil
 			}
 			return ClientSupplier_FromDafny(dafnyInput.Dtor_clientSupplier().UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.IClientSupplier))
 		}(),
-		GrantTokens: aws_cryptography_materialProviders_CreateAwsKmsMultiKeyringInput_grantTokens_FromDafny(dafnyInput.Dtor_grantTokens().UnwrapOr(nil)),
+		GrantTokens: Aws_cryptography_materialProviders_CreateAwsKmsMultiKeyringInput_grantTokens_FromDafny(dafnyInput.Dtor_grantTokens().UnwrapOr(nil)),
 	}
 
 }
 
 func CreateAwsKmsRsaKeyringInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.CreateAwsKmsRsaKeyringInput) awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsRsaKeyringInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsRsaKeyringInput{PublicKey: aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_publicKey_FromDafny(dafnyInput.Dtor_publicKey().UnwrapOr(nil)),
-		KmsKeyId:            aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_kmsKeyId_FromDafny(dafnyInput.Dtor_kmsKeyId()),
-		EncryptionAlgorithm: aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_encryptionAlgorithm_FromDafny(dafnyInput.Dtor_encryptionAlgorithm()),
-		KmsClient:           aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_kmsClient_FromDafny(dafnyInput.Dtor_kmsClient().UnwrapOr(nil)),
-		GrantTokens:         aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_grantTokens_FromDafny(dafnyInput.Dtor_grantTokens().UnwrapOr(nil)),
+	return awscryptographymaterialproviderssmithygeneratedtypes.CreateAwsKmsRsaKeyringInput{PublicKey: Aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_publicKey_FromDafny(dafnyInput.Dtor_publicKey().UnwrapOr(nil)),
+		KmsKeyId:            Aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_kmsKeyId_FromDafny(dafnyInput.Dtor_kmsKeyId()),
+		EncryptionAlgorithm: Aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_encryptionAlgorithm_FromDafny(dafnyInput.Dtor_encryptionAlgorithm()),
+		KmsClient:           Aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_kmsClient_FromDafny(dafnyInput.Dtor_kmsClient().UnwrapOr(nil)),
+		GrantTokens:         Aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_grantTokens_FromDafny(dafnyInput.Dtor_grantTokens().UnwrapOr(nil)),
 	}
 
 }
 
 func CreateCryptographicMaterialsCacheInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.CreateCryptographicMaterialsCacheInput) awscryptographymaterialproviderssmithygeneratedtypes.CreateCryptographicMaterialsCacheInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.CreateCryptographicMaterialsCacheInput{Cache: aws_cryptography_materialProviders_CreateCryptographicMaterialsCacheInput_cache_FromDafny(dafnyInput.Dtor_cache())}
+	return awscryptographymaterialproviderssmithygeneratedtypes.CreateCryptographicMaterialsCacheInput{Cache: Aws_cryptography_materialProviders_CreateCryptographicMaterialsCacheInput_cache_FromDafny(dafnyInput.Dtor_cache())}
 
 }
 
@@ -182,36 +183,36 @@ func CreateMultiKeyringInput_FromDafny(dafnyInput AwsCryptographyMaterialProvide
 		}
 		return Keyring_FromDafny(dafnyInput.Dtor_generator().UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.IKeyring))
 	}(),
-		ChildKeyrings: aws_cryptography_materialProviders_CreateMultiKeyringInput_childKeyrings_FromDafny(dafnyInput.Dtor_childKeyrings()),
+		ChildKeyrings: Aws_cryptography_materialProviders_CreateMultiKeyringInput_childKeyrings_FromDafny(dafnyInput.Dtor_childKeyrings()),
 	}
 
 }
 
 func CreateRawAesKeyringInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.CreateRawAesKeyringInput) awscryptographymaterialproviderssmithygeneratedtypes.CreateRawAesKeyringInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.CreateRawAesKeyringInput{KeyNamespace: aws_cryptography_materialProviders_CreateRawAesKeyringInput_keyNamespace_FromDafny(dafnyInput.Dtor_keyNamespace()),
-		KeyName:     aws_cryptography_materialProviders_CreateRawAesKeyringInput_keyName_FromDafny(dafnyInput.Dtor_keyName()),
-		WrappingKey: aws_cryptography_materialProviders_CreateRawAesKeyringInput_wrappingKey_FromDafny(dafnyInput.Dtor_wrappingKey()),
-		WrappingAlg: aws_cryptography_materialProviders_CreateRawAesKeyringInput_wrappingAlg_FromDafny(dafnyInput.Dtor_wrappingAlg()),
+	return awscryptographymaterialproviderssmithygeneratedtypes.CreateRawAesKeyringInput{KeyNamespace: Aws_cryptography_materialProviders_CreateRawAesKeyringInput_keyNamespace_FromDafny(dafnyInput.Dtor_keyNamespace()),
+		KeyName:     Aws_cryptography_materialProviders_CreateRawAesKeyringInput_keyName_FromDafny(dafnyInput.Dtor_keyName()),
+		WrappingKey: Aws_cryptography_materialProviders_CreateRawAesKeyringInput_wrappingKey_FromDafny(dafnyInput.Dtor_wrappingKey()),
+		WrappingAlg: Aws_cryptography_materialProviders_CreateRawAesKeyringInput_wrappingAlg_FromDafny(dafnyInput.Dtor_wrappingAlg()),
 	}
 
 }
 
 func CreateRawEcdhKeyringInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.CreateRawEcdhKeyringInput) awscryptographymaterialproviderssmithygeneratedtypes.CreateRawEcdhKeyringInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.CreateRawEcdhKeyringInput{KeyAgreementScheme: aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_KeyAgreementScheme_FromDafny(dafnyInput.Dtor_KeyAgreementScheme()),
-		CurveSpec: aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_curveSpec_FromDafny(dafnyInput.Dtor_curveSpec()),
+	return awscryptographymaterialproviderssmithygeneratedtypes.CreateRawEcdhKeyringInput{KeyAgreementScheme: Aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_KeyAgreementScheme_FromDafny(dafnyInput.Dtor_KeyAgreementScheme()),
+		CurveSpec: Aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_curveSpec_FromDafny(dafnyInput.Dtor_curveSpec()),
 	}
 
 }
 
 func CreateRawRsaKeyringInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.CreateRawRsaKeyringInput) awscryptographymaterialproviderssmithygeneratedtypes.CreateRawRsaKeyringInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.CreateRawRsaKeyringInput{KeyNamespace: aws_cryptography_materialProviders_CreateRawRsaKeyringInput_keyNamespace_FromDafny(dafnyInput.Dtor_keyNamespace()),
-		KeyName:       aws_cryptography_materialProviders_CreateRawRsaKeyringInput_keyName_FromDafny(dafnyInput.Dtor_keyName()),
-		PaddingScheme: aws_cryptography_materialProviders_CreateRawRsaKeyringInput_paddingScheme_FromDafny(dafnyInput.Dtor_paddingScheme()),
-		PublicKey:     aws_cryptography_materialProviders_CreateRawRsaKeyringInput_publicKey_FromDafny(dafnyInput.Dtor_publicKey().UnwrapOr(nil)),
-		PrivateKey:    aws_cryptography_materialProviders_CreateRawRsaKeyringInput_privateKey_FromDafny(dafnyInput.Dtor_privateKey().UnwrapOr(nil)),
+	return awscryptographymaterialproviderssmithygeneratedtypes.CreateRawRsaKeyringInput{KeyNamespace: Aws_cryptography_materialProviders_CreateRawRsaKeyringInput_keyNamespace_FromDafny(dafnyInput.Dtor_keyNamespace()),
+		KeyName:       Aws_cryptography_materialProviders_CreateRawRsaKeyringInput_keyName_FromDafny(dafnyInput.Dtor_keyName()),
+		PaddingScheme: Aws_cryptography_materialProviders_CreateRawRsaKeyringInput_paddingScheme_FromDafny(dafnyInput.Dtor_paddingScheme()),
+		PublicKey:     Aws_cryptography_materialProviders_CreateRawRsaKeyringInput_publicKey_FromDafny(dafnyInput.Dtor_publicKey().UnwrapOr(nil)),
+		PrivateKey:    Aws_cryptography_materialProviders_CreateRawRsaKeyringInput_privateKey_FromDafny(dafnyInput.Dtor_privateKey().UnwrapOr(nil)),
 	}
 
 }
@@ -230,32 +231,32 @@ func CreateRequiredEncryptionContextCMMInput_FromDafny(dafnyInput AwsCryptograph
 			}
 			return Keyring_FromDafny(dafnyInput.Dtor_keyring().UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.IKeyring))
 		}(),
-		RequiredEncryptionContextKeys: aws_cryptography_materialProviders_CreateRequiredEncryptionContextCMMInput_requiredEncryptionContextKeys_FromDafny(dafnyInput.Dtor_requiredEncryptionContextKeys()),
+		RequiredEncryptionContextKeys: Aws_cryptography_materialProviders_CreateRequiredEncryptionContextCMMInput_requiredEncryptionContextKeys_FromDafny(dafnyInput.Dtor_requiredEncryptionContextKeys()),
 	}
 
 }
 
 func DecryptionMaterials_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.DecryptionMaterials) awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials{AlgorithmSuite: aws_cryptography_materialProviders_DecryptionMaterials_algorithmSuite_FromDafny(dafnyInput.Dtor_algorithmSuite()),
-		EncryptionContext:             aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_FromDafny(dafnyInput.Dtor_encryptionContext()),
-		RequiredEncryptionContextKeys: aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_FromDafny(dafnyInput.Dtor_requiredEncryptionContextKeys()),
-		PlaintextDataKey:              aws_cryptography_materialProviders_DecryptionMaterials_plaintextDataKey_FromDafny(dafnyInput.Dtor_plaintextDataKey().UnwrapOr(nil)),
-		VerificationKey:               aws_cryptography_materialProviders_DecryptionMaterials_verificationKey_FromDafny(dafnyInput.Dtor_verificationKey().UnwrapOr(nil)),
-		SymmetricSigningKey:           aws_cryptography_materialProviders_DecryptionMaterials_symmetricSigningKey_FromDafny(dafnyInput.Dtor_symmetricSigningKey().UnwrapOr(nil)),
+	return awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials{AlgorithmSuite: Aws_cryptography_materialProviders_DecryptionMaterials_algorithmSuite_FromDafny(dafnyInput.Dtor_algorithmSuite()),
+		EncryptionContext:             Aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_FromDafny(dafnyInput.Dtor_encryptionContext()),
+		RequiredEncryptionContextKeys: Aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_FromDafny(dafnyInput.Dtor_requiredEncryptionContextKeys()),
+		PlaintextDataKey:              Aws_cryptography_materialProviders_DecryptionMaterials_plaintextDataKey_FromDafny(dafnyInput.Dtor_plaintextDataKey().UnwrapOr(nil)),
+		VerificationKey:               Aws_cryptography_materialProviders_DecryptionMaterials_verificationKey_FromDafny(dafnyInput.Dtor_verificationKey().UnwrapOr(nil)),
+		SymmetricSigningKey:           Aws_cryptography_materialProviders_DecryptionMaterials_symmetricSigningKey_FromDafny(dafnyInput.Dtor_symmetricSigningKey().UnwrapOr(nil)),
 	}
 
 }
 
 func EncryptionMaterials_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.EncryptionMaterials) awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials{AlgorithmSuite: aws_cryptography_materialProviders_EncryptionMaterials_algorithmSuite_FromDafny(dafnyInput.Dtor_algorithmSuite()),
-		EncryptionContext:             aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_FromDafny(dafnyInput.Dtor_encryptionContext()),
-		EncryptedDataKeys:             aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_FromDafny(dafnyInput.Dtor_encryptedDataKeys()),
-		RequiredEncryptionContextKeys: aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_FromDafny(dafnyInput.Dtor_requiredEncryptionContextKeys()),
-		PlaintextDataKey:              aws_cryptography_materialProviders_EncryptionMaterials_plaintextDataKey_FromDafny(dafnyInput.Dtor_plaintextDataKey().UnwrapOr(nil)),
-		SigningKey:                    aws_cryptography_materialProviders_EncryptionMaterials_signingKey_FromDafny(dafnyInput.Dtor_signingKey().UnwrapOr(nil)),
-		SymmetricSigningKeys:          aws_cryptography_materialProviders_EncryptionMaterials_symmetricSigningKeys_FromDafny(dafnyInput.Dtor_symmetricSigningKeys().UnwrapOr(nil)),
+	return awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials{AlgorithmSuite: Aws_cryptography_materialProviders_EncryptionMaterials_algorithmSuite_FromDafny(dafnyInput.Dtor_algorithmSuite()),
+		EncryptionContext:             Aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_FromDafny(dafnyInput.Dtor_encryptionContext()),
+		EncryptedDataKeys:             Aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_FromDafny(dafnyInput.Dtor_encryptedDataKeys()),
+		RequiredEncryptionContextKeys: Aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_FromDafny(dafnyInput.Dtor_requiredEncryptionContextKeys()),
+		PlaintextDataKey:              Aws_cryptography_materialProviders_EncryptionMaterials_plaintextDataKey_FromDafny(dafnyInput.Dtor_plaintextDataKey().UnwrapOr(nil)),
+		SigningKey:                    Aws_cryptography_materialProviders_EncryptionMaterials_signingKey_FromDafny(dafnyInput.Dtor_signingKey().UnwrapOr(nil)),
+		SymmetricSigningKeys:          Aws_cryptography_materialProviders_EncryptionMaterials_symmetricSigningKeys_FromDafny(dafnyInput.Dtor_symmetricSigningKeys().UnwrapOr(nil)),
 	}
 
 }
@@ -268,80 +269,80 @@ func GetAlgorithmSuiteInfoInput_FromDafny(dafnyInput dafny.Sequence) awscryptogr
 
 func AlgorithmSuiteInfo_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo) awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteInfo {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteInfo{Id: aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_FromDafny(dafnyOutput.Dtor_id()),
-		BinaryId:           aws_cryptography_materialProviders_AlgorithmSuiteInfo_binaryId_FromDafny(dafnyOutput.Dtor_binaryId()),
-		MessageVersion:     aws_cryptography_materialProviders_AlgorithmSuiteInfo_messageVersion_FromDafny(dafnyOutput.Dtor_messageVersion()),
-		Encrypt:            aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_FromDafny(dafnyOutput.Dtor_encrypt()),
-		Kdf:                aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_FromDafny(dafnyOutput.Dtor_kdf()),
-		Commitment:         aws_cryptography_materialProviders_AlgorithmSuiteInfo_commitment_FromDafny(dafnyOutput.Dtor_commitment()),
-		Signature:          aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_FromDafny(dafnyOutput.Dtor_signature()),
-		SymmetricSignature: aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_FromDafny(dafnyOutput.Dtor_symmetricSignature()),
-		EdkWrapping:        aws_cryptography_materialProviders_AlgorithmSuiteInfo_edkWrapping_FromDafny(dafnyOutput.Dtor_edkWrapping()),
+	return awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteInfo{Id: Aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_FromDafny(dafnyOutput.Dtor_id()),
+		BinaryId:           Aws_cryptography_materialProviders_AlgorithmSuiteInfo_binaryId_FromDafny(dafnyOutput.Dtor_binaryId()),
+		MessageVersion:     Aws_cryptography_materialProviders_AlgorithmSuiteInfo_messageVersion_FromDafny(dafnyOutput.Dtor_messageVersion()),
+		Encrypt:            Aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_FromDafny(dafnyOutput.Dtor_encrypt()),
+		Kdf:                Aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_FromDafny(dafnyOutput.Dtor_kdf()),
+		Commitment:         Aws_cryptography_materialProviders_AlgorithmSuiteInfo_commitment_FromDafny(dafnyOutput.Dtor_commitment()),
+		Signature:          Aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_FromDafny(dafnyOutput.Dtor_signature()),
+		SymmetricSignature: Aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_FromDafny(dafnyOutput.Dtor_symmetricSignature()),
+		EdkWrapping:        Aws_cryptography_materialProviders_AlgorithmSuiteInfo_edkWrapping_FromDafny(dafnyOutput.Dtor_edkWrapping()),
 	}
 
 }
 
 func InitializeDecryptionMaterialsInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.InitializeDecryptionMaterialsInput) awscryptographymaterialproviderssmithygeneratedtypes.InitializeDecryptionMaterialsInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.InitializeDecryptionMaterialsInput{AlgorithmSuiteId: aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_algorithmSuiteId_FromDafny(dafnyInput.Dtor_algorithmSuiteId()),
-		EncryptionContext:             aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_encryptionContext_FromDafny(dafnyInput.Dtor_encryptionContext()),
-		RequiredEncryptionContextKeys: aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_requiredEncryptionContextKeys_FromDafny(dafnyInput.Dtor_requiredEncryptionContextKeys()),
+	return awscryptographymaterialproviderssmithygeneratedtypes.InitializeDecryptionMaterialsInput{AlgorithmSuiteId: Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_algorithmSuiteId_FromDafny(dafnyInput.Dtor_algorithmSuiteId()),
+		EncryptionContext:             Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_encryptionContext_FromDafny(dafnyInput.Dtor_encryptionContext()),
+		RequiredEncryptionContextKeys: Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_requiredEncryptionContextKeys_FromDafny(dafnyInput.Dtor_requiredEncryptionContextKeys()),
 	}
 
 }
 
 func InitializeEncryptionMaterialsInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.InitializeEncryptionMaterialsInput) awscryptographymaterialproviderssmithygeneratedtypes.InitializeEncryptionMaterialsInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.InitializeEncryptionMaterialsInput{AlgorithmSuiteId: aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_algorithmSuiteId_FromDafny(dafnyInput.Dtor_algorithmSuiteId()),
-		EncryptionContext:             aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_encryptionContext_FromDafny(dafnyInput.Dtor_encryptionContext()),
-		RequiredEncryptionContextKeys: aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_requiredEncryptionContextKeys_FromDafny(dafnyInput.Dtor_requiredEncryptionContextKeys()),
-		SigningKey:                    aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_signingKey_FromDafny(dafnyInput.Dtor_signingKey().UnwrapOr(nil)),
-		VerificationKey:               aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_verificationKey_FromDafny(dafnyInput.Dtor_verificationKey().UnwrapOr(nil)),
+	return awscryptographymaterialproviderssmithygeneratedtypes.InitializeEncryptionMaterialsInput{AlgorithmSuiteId: Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_algorithmSuiteId_FromDafny(dafnyInput.Dtor_algorithmSuiteId()),
+		EncryptionContext:             Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_encryptionContext_FromDafny(dafnyInput.Dtor_encryptionContext()),
+		RequiredEncryptionContextKeys: Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_requiredEncryptionContextKeys_FromDafny(dafnyInput.Dtor_requiredEncryptionContextKeys()),
+		SigningKey:                    Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_signingKey_FromDafny(dafnyInput.Dtor_signingKey().UnwrapOr(nil)),
+		VerificationKey:               Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_verificationKey_FromDafny(dafnyInput.Dtor_verificationKey().UnwrapOr(nil)),
 	}
 
 }
 
 func ValidateCommitmentPolicyOnDecryptInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.ValidateCommitmentPolicyOnDecryptInput) awscryptographymaterialproviderssmithygeneratedtypes.ValidateCommitmentPolicyOnDecryptInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.ValidateCommitmentPolicyOnDecryptInput{Algorithm: aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_algorithm_FromDafny(dafnyInput.Dtor_algorithm()),
-		CommitmentPolicy: aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_commitmentPolicy_FromDafny(dafnyInput.Dtor_commitmentPolicy()),
+	return awscryptographymaterialproviderssmithygeneratedtypes.ValidateCommitmentPolicyOnDecryptInput{Algorithm: Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_algorithm_FromDafny(dafnyInput.Dtor_algorithm()),
+		CommitmentPolicy: Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_commitmentPolicy_FromDafny(dafnyInput.Dtor_commitmentPolicy()),
 	}
 
 }
 
 func ValidateCommitmentPolicyOnEncryptInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.ValidateCommitmentPolicyOnEncryptInput) awscryptographymaterialproviderssmithygeneratedtypes.ValidateCommitmentPolicyOnEncryptInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.ValidateCommitmentPolicyOnEncryptInput{Algorithm: aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_algorithm_FromDafny(dafnyInput.Dtor_algorithm()),
-		CommitmentPolicy: aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_commitmentPolicy_FromDafny(dafnyInput.Dtor_commitmentPolicy()),
+	return awscryptographymaterialproviderssmithygeneratedtypes.ValidateCommitmentPolicyOnEncryptInput{Algorithm: Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_algorithm_FromDafny(dafnyInput.Dtor_algorithm()),
+		CommitmentPolicy: Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_commitmentPolicy_FromDafny(dafnyInput.Dtor_commitmentPolicy()),
 	}
 
 }
 
 func ValidDecryptionMaterialsTransitionInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.ValidDecryptionMaterialsTransitionInput) awscryptographymaterialproviderssmithygeneratedtypes.ValidDecryptionMaterialsTransitionInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.ValidDecryptionMaterialsTransitionInput{Start: aws_cryptography_materialProviders_ValidDecryptionMaterialsTransitionInput_start_FromDafny(dafnyInput.Dtor_start()),
-		Stop: aws_cryptography_materialProviders_ValidDecryptionMaterialsTransitionInput_stop_FromDafny(dafnyInput.Dtor_stop()),
+	return awscryptographymaterialproviderssmithygeneratedtypes.ValidDecryptionMaterialsTransitionInput{Start: Aws_cryptography_materialProviders_ValidDecryptionMaterialsTransitionInput_start_FromDafny(dafnyInput.Dtor_start()),
+		Stop: Aws_cryptography_materialProviders_ValidDecryptionMaterialsTransitionInput_stop_FromDafny(dafnyInput.Dtor_stop()),
 	}
 
 }
 
 func ValidEncryptionMaterialsTransitionInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.ValidEncryptionMaterialsTransitionInput) awscryptographymaterialproviderssmithygeneratedtypes.ValidEncryptionMaterialsTransitionInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.ValidEncryptionMaterialsTransitionInput{Start: aws_cryptography_materialProviders_ValidEncryptionMaterialsTransitionInput_start_FromDafny(dafnyInput.Dtor_start()),
-		Stop: aws_cryptography_materialProviders_ValidEncryptionMaterialsTransitionInput_stop_FromDafny(dafnyInput.Dtor_stop()),
+	return awscryptographymaterialproviderssmithygeneratedtypes.ValidEncryptionMaterialsTransitionInput{Start: Aws_cryptography_materialProviders_ValidEncryptionMaterialsTransitionInput_start_FromDafny(dafnyInput.Dtor_start()),
+		Stop: Aws_cryptography_materialProviders_ValidEncryptionMaterialsTransitionInput_stop_FromDafny(dafnyInput.Dtor_stop()),
 	}
 
 }
 
 func GetBranchKeyIdInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.GetBranchKeyIdInput) awscryptographymaterialproviderssmithygeneratedtypes.GetBranchKeyIdInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.GetBranchKeyIdInput{EncryptionContext: aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_FromDafny(dafnyInput.Dtor_encryptionContext())}
+	return awscryptographymaterialproviderssmithygeneratedtypes.GetBranchKeyIdInput{EncryptionContext: Aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_FromDafny(dafnyInput.Dtor_encryptionContext())}
 
 }
 
 func GetBranchKeyIdOutput_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.GetBranchKeyIdOutput) awscryptographymaterialproviderssmithygeneratedtypes.GetBranchKeyIdOutput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.GetBranchKeyIdOutput{BranchKeyId: aws_cryptography_materialProviders_GetBranchKeyIdOutput_branchKeyId_FromDafny(dafnyOutput.Dtor_branchKeyId())}
+	return awscryptographymaterialproviderssmithygeneratedtypes.GetBranchKeyIdOutput{BranchKeyId: Aws_cryptography_materialProviders_GetBranchKeyIdOutput_branchKeyId_FromDafny(dafnyOutput.Dtor_branchKeyId())}
 
 }
 
@@ -356,7 +357,7 @@ func BranchKeyIdSupplier_FromDafny(dafnyResource AwsCryptographyMaterialProvider
 
 func GetClientInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.GetClientInput) awscryptographymaterialproviderssmithygeneratedtypes.GetClientInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.GetClientInput{Region: aws_cryptography_materialProviders_GetClientInput_region_FromDafny(dafnyInput.Dtor_region())}
+	return awscryptographymaterialproviderssmithygeneratedtypes.GetClientInput{Region: Aws_cryptography_materialProviders_GetClientInput_region_FromDafny(dafnyInput.Dtor_region())}
 
 }
 
@@ -371,7 +372,46 @@ func ClientSupplier_FromDafny(dafnyResource AwsCryptographyMaterialProvidersType
 
 func DeleteCacheEntryInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.DeleteCacheEntryInput) awscryptographymaterialproviderssmithygeneratedtypes.DeleteCacheEntryInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.DeleteCacheEntryInput{Identifier: aws_cryptography_materialProviders_DeleteCacheEntryInput_identifier_FromDafny(dafnyInput.Dtor_identifier())}
+	return awscryptographymaterialproviderssmithygeneratedtypes.DeleteCacheEntryInput{Identifier: Aws_cryptography_materialProviders_DeleteCacheEntryInput_identifier_FromDafny(dafnyInput.Dtor_identifier())}
+
+}
+
+func GetCacheEntryInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.GetCacheEntryInput) awscryptographymaterialproviderssmithygeneratedtypes.GetCacheEntryInput {
+
+	return awscryptographymaterialproviderssmithygeneratedtypes.GetCacheEntryInput{Identifier: Aws_cryptography_materialProviders_GetCacheEntryInput_identifier_FromDafny(dafnyInput.Dtor_identifier()),
+		BytesUsed: Aws_cryptography_materialProviders_GetCacheEntryInput_bytesUsed_FromDafny(dafnyInput.Dtor_bytesUsed().UnwrapOr(nil)),
+	}
+
+}
+
+func GetCacheEntryOutput_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.GetCacheEntryOutput) awscryptographymaterialproviderssmithygeneratedtypes.GetCacheEntryOutput {
+
+	return awscryptographymaterialproviderssmithygeneratedtypes.GetCacheEntryOutput{Materials: Aws_cryptography_materialProviders_GetCacheEntryOutput_materials_FromDafny(dafnyOutput.Dtor_materials()),
+		CreationTime: Aws_cryptography_materialProviders_GetCacheEntryOutput_creationTime_FromDafny(dafnyOutput.Dtor_creationTime()),
+		ExpiryTime:   Aws_cryptography_materialProviders_GetCacheEntryOutput_expiryTime_FromDafny(dafnyOutput.Dtor_expiryTime()),
+		MessagesUsed: Aws_cryptography_materialProviders_GetCacheEntryOutput_messagesUsed_FromDafny(dafnyOutput.Dtor_messagesUsed()),
+		BytesUsed:    Aws_cryptography_materialProviders_GetCacheEntryOutput_bytesUsed_FromDafny(dafnyOutput.Dtor_bytesUsed()),
+	}
+
+}
+
+func PutCacheEntryInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.PutCacheEntryInput) awscryptographymaterialproviderssmithygeneratedtypes.PutCacheEntryInput {
+
+	return awscryptographymaterialproviderssmithygeneratedtypes.PutCacheEntryInput{Identifier: Aws_cryptography_materialProviders_PutCacheEntryInput_identifier_FromDafny(dafnyInput.Dtor_identifier()),
+		Materials:    Aws_cryptography_materialProviders_PutCacheEntryInput_materials_FromDafny(dafnyInput.Dtor_materials()),
+		CreationTime: Aws_cryptography_materialProviders_PutCacheEntryInput_creationTime_FromDafny(dafnyInput.Dtor_creationTime()),
+		ExpiryTime:   Aws_cryptography_materialProviders_PutCacheEntryInput_expiryTime_FromDafny(dafnyInput.Dtor_expiryTime()),
+		MessagesUsed: Aws_cryptography_materialProviders_PutCacheEntryInput_messagesUsed_FromDafny(dafnyInput.Dtor_messagesUsed().UnwrapOr(nil)),
+		BytesUsed:    Aws_cryptography_materialProviders_PutCacheEntryInput_bytesUsed_FromDafny(dafnyInput.Dtor_bytesUsed().UnwrapOr(nil)),
+	}
+
+}
+
+func UpdateUsageMetadataInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.UpdateUsageMetadataInput) awscryptographymaterialproviderssmithygeneratedtypes.UpdateUsageMetadataInput {
+
+	return awscryptographymaterialproviderssmithygeneratedtypes.UpdateUsageMetadataInput{Identifier: Aws_cryptography_materialProviders_UpdateUsageMetadataInput_identifier_FromDafny(dafnyInput.Dtor_identifier()),
+		BytesUsed: Aws_cryptography_materialProviders_UpdateUsageMetadataInput_bytesUsed_FromDafny(dafnyInput.Dtor_bytesUsed()),
+	}
 
 }
 
@@ -384,59 +424,37 @@ func CryptographicMaterialsCache_FromDafny(dafnyResource AwsCryptographyMaterial
 	return &CryptographicMaterialsCache{dafnyResource}
 }
 
-func GetCacheEntryInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.GetCacheEntryInput) awscryptographymaterialproviderssmithygeneratedtypes.GetCacheEntryInput {
-
-	return awscryptographymaterialproviderssmithygeneratedtypes.GetCacheEntryInput{Identifier: aws_cryptography_materialProviders_GetCacheEntryInput_identifier_FromDafny(dafnyInput.Dtor_identifier()),
-		BytesUsed: aws_cryptography_materialProviders_GetCacheEntryInput_bytesUsed_FromDafny(dafnyInput.Dtor_bytesUsed().UnwrapOr(nil)),
-	}
-
-}
-
-func GetCacheEntryOutput_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.GetCacheEntryOutput) awscryptographymaterialproviderssmithygeneratedtypes.GetCacheEntryOutput {
-
-	return awscryptographymaterialproviderssmithygeneratedtypes.GetCacheEntryOutput{Materials: aws_cryptography_materialProviders_GetCacheEntryOutput_materials_FromDafny(dafnyOutput.Dtor_materials()),
-		CreationTime: aws_cryptography_materialProviders_GetCacheEntryOutput_creationTime_FromDafny(dafnyOutput.Dtor_creationTime()),
-		ExpiryTime:   aws_cryptography_materialProviders_GetCacheEntryOutput_expiryTime_FromDafny(dafnyOutput.Dtor_expiryTime()),
-		MessagesUsed: aws_cryptography_materialProviders_GetCacheEntryOutput_messagesUsed_FromDafny(dafnyOutput.Dtor_messagesUsed()),
-		BytesUsed:    aws_cryptography_materialProviders_GetCacheEntryOutput_bytesUsed_FromDafny(dafnyOutput.Dtor_bytesUsed()),
-	}
-
-}
-
-func PutCacheEntryInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.PutCacheEntryInput) awscryptographymaterialproviderssmithygeneratedtypes.PutCacheEntryInput {
-
-	return awscryptographymaterialproviderssmithygeneratedtypes.PutCacheEntryInput{Identifier: aws_cryptography_materialProviders_PutCacheEntryInput_identifier_FromDafny(dafnyInput.Dtor_identifier()),
-		Materials:    aws_cryptography_materialProviders_PutCacheEntryInput_materials_FromDafny(dafnyInput.Dtor_materials()),
-		CreationTime: aws_cryptography_materialProviders_PutCacheEntryInput_creationTime_FromDafny(dafnyInput.Dtor_creationTime()),
-		ExpiryTime:   aws_cryptography_materialProviders_PutCacheEntryInput_expiryTime_FromDafny(dafnyInput.Dtor_expiryTime()),
-		MessagesUsed: aws_cryptography_materialProviders_PutCacheEntryInput_messagesUsed_FromDafny(dafnyInput.Dtor_messagesUsed().UnwrapOr(nil)),
-		BytesUsed:    aws_cryptography_materialProviders_PutCacheEntryInput_bytesUsed_FromDafny(dafnyInput.Dtor_bytesUsed().UnwrapOr(nil)),
-	}
-
-}
-
-func UpdateUsageMetadataInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.UpdateUsageMetadataInput) awscryptographymaterialproviderssmithygeneratedtypes.UpdateUsageMetadataInput {
-
-	return awscryptographymaterialproviderssmithygeneratedtypes.UpdateUsageMetadataInput{Identifier: aws_cryptography_materialProviders_UpdateUsageMetadataInput_identifier_FromDafny(dafnyInput.Dtor_identifier()),
-		BytesUsed: aws_cryptography_materialProviders_UpdateUsageMetadataInput_bytesUsed_FromDafny(dafnyInput.Dtor_bytesUsed()),
-	}
-
-}
-
 func DecryptMaterialsInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.DecryptMaterialsInput) awscryptographymaterialproviderssmithygeneratedtypes.DecryptMaterialsInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.DecryptMaterialsInput{AlgorithmSuiteId: aws_cryptography_materialProviders_DecryptMaterialsInput_algorithmSuiteId_FromDafny(dafnyInput.Dtor_algorithmSuiteId()),
-		CommitmentPolicy:            aws_cryptography_materialProviders_DecryptMaterialsInput_commitmentPolicy_FromDafny(dafnyInput.Dtor_commitmentPolicy()),
-		EncryptedDataKeys:           aws_cryptography_materialProviders_DecryptMaterialsInput_encryptedDataKeys_FromDafny(dafnyInput.Dtor_encryptedDataKeys()),
-		EncryptionContext:           aws_cryptography_materialProviders_DecryptMaterialsInput_encryptionContext_FromDafny(dafnyInput.Dtor_encryptionContext()),
-		ReproducedEncryptionContext: aws_cryptography_materialProviders_DecryptMaterialsInput_reproducedEncryptionContext_FromDafny(dafnyInput.Dtor_reproducedEncryptionContext().UnwrapOr(nil)),
+	return awscryptographymaterialproviderssmithygeneratedtypes.DecryptMaterialsInput{AlgorithmSuiteId: Aws_cryptography_materialProviders_DecryptMaterialsInput_algorithmSuiteId_FromDafny(dafnyInput.Dtor_algorithmSuiteId()),
+		CommitmentPolicy:            Aws_cryptography_materialProviders_DecryptMaterialsInput_commitmentPolicy_FromDafny(dafnyInput.Dtor_commitmentPolicy()),
+		EncryptedDataKeys:           Aws_cryptography_materialProviders_DecryptMaterialsInput_encryptedDataKeys_FromDafny(dafnyInput.Dtor_encryptedDataKeys()),
+		EncryptionContext:           Aws_cryptography_materialProviders_DecryptMaterialsInput_encryptionContext_FromDafny(dafnyInput.Dtor_encryptionContext()),
+		ReproducedEncryptionContext: Aws_cryptography_materialProviders_DecryptMaterialsInput_reproducedEncryptionContext_FromDafny(dafnyInput.Dtor_reproducedEncryptionContext().UnwrapOr(nil)),
 	}
 
 }
 
 func DecryptMaterialsOutput_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.DecryptMaterialsOutput) awscryptographymaterialproviderssmithygeneratedtypes.DecryptMaterialsOutput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.DecryptMaterialsOutput{DecryptionMaterials: aws_cryptography_materialProviders_DecryptMaterialsOutput_decryptionMaterials_FromDafny(dafnyOutput.Dtor_decryptionMaterials())}
+	return awscryptographymaterialproviderssmithygeneratedtypes.DecryptMaterialsOutput{DecryptionMaterials: Aws_cryptography_materialProviders_DecryptMaterialsOutput_decryptionMaterials_FromDafny(dafnyOutput.Dtor_decryptionMaterials())}
+
+}
+
+func GetEncryptionMaterialsInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.GetEncryptionMaterialsInput) awscryptographymaterialproviderssmithygeneratedtypes.GetEncryptionMaterialsInput {
+
+	return awscryptographymaterialproviderssmithygeneratedtypes.GetEncryptionMaterialsInput{EncryptionContext: Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_encryptionContext_FromDafny(dafnyInput.Dtor_encryptionContext()),
+		CommitmentPolicy:              Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_commitmentPolicy_FromDafny(dafnyInput.Dtor_commitmentPolicy()),
+		AlgorithmSuiteId:              Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_algorithmSuiteId_FromDafny(dafnyInput.Dtor_algorithmSuiteId().UnwrapOr(nil)),
+		MaxPlaintextLength:            Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_maxPlaintextLength_FromDafny(dafnyInput.Dtor_maxPlaintextLength().UnwrapOr(nil)),
+		RequiredEncryptionContextKeys: Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_requiredEncryptionContextKeys_FromDafny(dafnyInput.Dtor_requiredEncryptionContextKeys().UnwrapOr(nil)),
+	}
+
+}
+
+func GetEncryptionMaterialsOutput_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.GetEncryptionMaterialsOutput) awscryptographymaterialproviderssmithygeneratedtypes.GetEncryptionMaterialsOutput {
+
+	return awscryptographymaterialproviderssmithygeneratedtypes.GetEncryptionMaterialsOutput{EncryptionMaterials: Aws_cryptography_materialProviders_GetEncryptionMaterialsOutput_encryptionMaterials_FromDafny(dafnyOutput.Dtor_encryptionMaterials())}
 
 }
 
@@ -449,34 +467,29 @@ func CryptographicMaterialsManager_FromDafny(dafnyResource AwsCryptographyMateri
 	return &CryptographicMaterialsManager{dafnyResource}
 }
 
-func GetEncryptionMaterialsInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.GetEncryptionMaterialsInput) awscryptographymaterialproviderssmithygeneratedtypes.GetEncryptionMaterialsInput {
-
-	return awscryptographymaterialproviderssmithygeneratedtypes.GetEncryptionMaterialsInput{EncryptionContext: aws_cryptography_materialProviders_GetEncryptionMaterialsInput_encryptionContext_FromDafny(dafnyInput.Dtor_encryptionContext()),
-		CommitmentPolicy:              aws_cryptography_materialProviders_GetEncryptionMaterialsInput_commitmentPolicy_FromDafny(dafnyInput.Dtor_commitmentPolicy()),
-		AlgorithmSuiteId:              aws_cryptography_materialProviders_GetEncryptionMaterialsInput_algorithmSuiteId_FromDafny(dafnyInput.Dtor_algorithmSuiteId().UnwrapOr(nil)),
-		MaxPlaintextLength:            aws_cryptography_materialProviders_GetEncryptionMaterialsInput_maxPlaintextLength_FromDafny(dafnyInput.Dtor_maxPlaintextLength().UnwrapOr(nil)),
-		RequiredEncryptionContextKeys: aws_cryptography_materialProviders_GetEncryptionMaterialsInput_requiredEncryptionContextKeys_FromDafny(dafnyInput.Dtor_requiredEncryptionContextKeys().UnwrapOr(nil)),
-	}
-
-}
-
-func GetEncryptionMaterialsOutput_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.GetEncryptionMaterialsOutput) awscryptographymaterialproviderssmithygeneratedtypes.GetEncryptionMaterialsOutput {
-
-	return awscryptographymaterialproviderssmithygeneratedtypes.GetEncryptionMaterialsOutput{EncryptionMaterials: aws_cryptography_materialProviders_GetEncryptionMaterialsOutput_encryptionMaterials_FromDafny(dafnyOutput.Dtor_encryptionMaterials())}
-
-}
-
 func OnDecryptInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.OnDecryptInput) awscryptographymaterialproviderssmithygeneratedtypes.OnDecryptInput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.OnDecryptInput{Materials: aws_cryptography_materialProviders_OnDecryptInput_materials_FromDafny(dafnyInput.Dtor_materials()),
-		EncryptedDataKeys: aws_cryptography_materialProviders_OnDecryptInput_encryptedDataKeys_FromDafny(dafnyInput.Dtor_encryptedDataKeys()),
+	return awscryptographymaterialproviderssmithygeneratedtypes.OnDecryptInput{Materials: Aws_cryptography_materialProviders_OnDecryptInput_materials_FromDafny(dafnyInput.Dtor_materials()),
+		EncryptedDataKeys: Aws_cryptography_materialProviders_OnDecryptInput_encryptedDataKeys_FromDafny(dafnyInput.Dtor_encryptedDataKeys()),
 	}
 
 }
 
 func OnDecryptOutput_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.OnDecryptOutput) awscryptographymaterialproviderssmithygeneratedtypes.OnDecryptOutput {
 
-	return awscryptographymaterialproviderssmithygeneratedtypes.OnDecryptOutput{Materials: aws_cryptography_materialProviders_OnDecryptOutput_materials_FromDafny(dafnyOutput.Dtor_materials())}
+	return awscryptographymaterialproviderssmithygeneratedtypes.OnDecryptOutput{Materials: Aws_cryptography_materialProviders_OnDecryptOutput_materials_FromDafny(dafnyOutput.Dtor_materials())}
+
+}
+
+func OnEncryptInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.OnEncryptInput) awscryptographymaterialproviderssmithygeneratedtypes.OnEncryptInput {
+
+	return awscryptographymaterialproviderssmithygeneratedtypes.OnEncryptInput{Materials: Aws_cryptography_materialProviders_OnEncryptInput_materials_FromDafny(dafnyInput.Dtor_materials())}
+
+}
+
+func OnEncryptOutput_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.OnEncryptOutput) awscryptographymaterialproviderssmithygeneratedtypes.OnEncryptOutput {
+
+	return awscryptographymaterialproviderssmithygeneratedtypes.OnEncryptOutput{Materials: Aws_cryptography_materialProviders_OnEncryptOutput_materials_FromDafny(dafnyOutput.Dtor_materials())}
 
 }
 
@@ -489,70 +502,58 @@ func Keyring_FromDafny(dafnyResource AwsCryptographyMaterialProvidersTypes.IKeyr
 	return &Keyring{dafnyResource}
 }
 
-func OnEncryptInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.OnEncryptInput) awscryptographymaterialproviderssmithygeneratedtypes.OnEncryptInput {
-
-	return awscryptographymaterialproviderssmithygeneratedtypes.OnEncryptInput{Materials: aws_cryptography_materialProviders_OnEncryptInput_materials_FromDafny(dafnyInput.Dtor_materials())}
-
-}
-
-func OnEncryptOutput_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.OnEncryptOutput) awscryptographymaterialproviderssmithygeneratedtypes.OnEncryptOutput {
-
-	return awscryptographymaterialproviderssmithygeneratedtypes.OnEncryptOutput{Materials: aws_cryptography_materialProviders_OnEncryptOutput_materials_FromDafny(dafnyOutput.Dtor_materials())}
-
-}
-
 func AwsCryptographicMaterialProvidersException_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.Error) awscryptographymaterialproviderssmithygeneratedtypes.AwsCryptographicMaterialProvidersException {
-	return awscryptographymaterialproviderssmithygeneratedtypes.AwsCryptographicMaterialProvidersException{Message: aws_cryptography_materialProviders_AwsCryptographicMaterialProvidersException_message_FromDafny(dafnyOutput.Dtor_message())}
+	return awscryptographymaterialproviderssmithygeneratedtypes.AwsCryptographicMaterialProvidersException{Message: Aws_cryptography_materialProviders_AwsCryptographicMaterialProvidersException_message_FromDafny(dafnyOutput.Dtor_message())}
 
 }
 
 func EntryAlreadyExists_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.Error) awscryptographymaterialproviderssmithygeneratedtypes.EntryAlreadyExists {
-	return awscryptographymaterialproviderssmithygeneratedtypes.EntryAlreadyExists{Message: aws_cryptography_materialProviders_EntryAlreadyExists_message_FromDafny(dafnyOutput.Dtor_message())}
+	return awscryptographymaterialproviderssmithygeneratedtypes.EntryAlreadyExists{Message: Aws_cryptography_materialProviders_EntryAlreadyExists_message_FromDafny(dafnyOutput.Dtor_message())}
 
 }
 
 func EntryDoesNotExist_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.Error) awscryptographymaterialproviderssmithygeneratedtypes.EntryDoesNotExist {
-	return awscryptographymaterialproviderssmithygeneratedtypes.EntryDoesNotExist{Message: aws_cryptography_materialProviders_EntryDoesNotExist_message_FromDafny(dafnyOutput.Dtor_message())}
+	return awscryptographymaterialproviderssmithygeneratedtypes.EntryDoesNotExist{Message: Aws_cryptography_materialProviders_EntryDoesNotExist_message_FromDafny(dafnyOutput.Dtor_message())}
 
 }
 
 func InFlightTTLExceeded_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.Error) awscryptographymaterialproviderssmithygeneratedtypes.InFlightTTLExceeded {
-	return awscryptographymaterialproviderssmithygeneratedtypes.InFlightTTLExceeded{Message: aws_cryptography_materialProviders_InFlightTTLExceeded_message_FromDafny(dafnyOutput.Dtor_message())}
+	return awscryptographymaterialproviderssmithygeneratedtypes.InFlightTTLExceeded{Message: Aws_cryptography_materialProviders_InFlightTTLExceeded_message_FromDafny(dafnyOutput.Dtor_message())}
 
 }
 
 func InvalidAlgorithmSuiteInfo_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.Error) awscryptographymaterialproviderssmithygeneratedtypes.InvalidAlgorithmSuiteInfo {
-	return awscryptographymaterialproviderssmithygeneratedtypes.InvalidAlgorithmSuiteInfo{Message: aws_cryptography_materialProviders_InvalidAlgorithmSuiteInfo_message_FromDafny(dafnyOutput.Dtor_message())}
+	return awscryptographymaterialproviderssmithygeneratedtypes.InvalidAlgorithmSuiteInfo{Message: Aws_cryptography_materialProviders_InvalidAlgorithmSuiteInfo_message_FromDafny(dafnyOutput.Dtor_message())}
 
 }
 
 func InvalidAlgorithmSuiteInfoOnDecrypt_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.Error) awscryptographymaterialproviderssmithygeneratedtypes.InvalidAlgorithmSuiteInfoOnDecrypt {
-	return awscryptographymaterialproviderssmithygeneratedtypes.InvalidAlgorithmSuiteInfoOnDecrypt{Message: aws_cryptography_materialProviders_InvalidAlgorithmSuiteInfoOnDecrypt_message_FromDafny(dafnyOutput.Dtor_message())}
+	return awscryptographymaterialproviderssmithygeneratedtypes.InvalidAlgorithmSuiteInfoOnDecrypt{Message: Aws_cryptography_materialProviders_InvalidAlgorithmSuiteInfoOnDecrypt_message_FromDafny(dafnyOutput.Dtor_message())}
 
 }
 
 func InvalidAlgorithmSuiteInfoOnEncrypt_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.Error) awscryptographymaterialproviderssmithygeneratedtypes.InvalidAlgorithmSuiteInfoOnEncrypt {
-	return awscryptographymaterialproviderssmithygeneratedtypes.InvalidAlgorithmSuiteInfoOnEncrypt{Message: aws_cryptography_materialProviders_InvalidAlgorithmSuiteInfoOnEncrypt_message_FromDafny(dafnyOutput.Dtor_message())}
+	return awscryptographymaterialproviderssmithygeneratedtypes.InvalidAlgorithmSuiteInfoOnEncrypt{Message: Aws_cryptography_materialProviders_InvalidAlgorithmSuiteInfoOnEncrypt_message_FromDafny(dafnyOutput.Dtor_message())}
 
 }
 
 func InvalidDecryptionMaterials_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.Error) awscryptographymaterialproviderssmithygeneratedtypes.InvalidDecryptionMaterials {
-	return awscryptographymaterialproviderssmithygeneratedtypes.InvalidDecryptionMaterials{Message: aws_cryptography_materialProviders_InvalidDecryptionMaterials_message_FromDafny(dafnyOutput.Dtor_message())}
+	return awscryptographymaterialproviderssmithygeneratedtypes.InvalidDecryptionMaterials{Message: Aws_cryptography_materialProviders_InvalidDecryptionMaterials_message_FromDafny(dafnyOutput.Dtor_message())}
 
 }
 
 func InvalidDecryptionMaterialsTransition_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.Error) awscryptographymaterialproviderssmithygeneratedtypes.InvalidDecryptionMaterialsTransition {
-	return awscryptographymaterialproviderssmithygeneratedtypes.InvalidDecryptionMaterialsTransition{Message: aws_cryptography_materialProviders_InvalidDecryptionMaterialsTransition_message_FromDafny(dafnyOutput.Dtor_message())}
+	return awscryptographymaterialproviderssmithygeneratedtypes.InvalidDecryptionMaterialsTransition{Message: Aws_cryptography_materialProviders_InvalidDecryptionMaterialsTransition_message_FromDafny(dafnyOutput.Dtor_message())}
 
 }
 
 func InvalidEncryptionMaterials_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.Error) awscryptographymaterialproviderssmithygeneratedtypes.InvalidEncryptionMaterials {
-	return awscryptographymaterialproviderssmithygeneratedtypes.InvalidEncryptionMaterials{Message: aws_cryptography_materialProviders_InvalidEncryptionMaterials_message_FromDafny(dafnyOutput.Dtor_message())}
+	return awscryptographymaterialproviderssmithygeneratedtypes.InvalidEncryptionMaterials{Message: Aws_cryptography_materialProviders_InvalidEncryptionMaterials_message_FromDafny(dafnyOutput.Dtor_message())}
 
 }
 
 func InvalidEncryptionMaterialsTransition_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.Error) awscryptographymaterialproviderssmithygeneratedtypes.InvalidEncryptionMaterialsTransition {
-	return awscryptographymaterialproviderssmithygeneratedtypes.InvalidEncryptionMaterialsTransition{Message: aws_cryptography_materialProviders_InvalidEncryptionMaterialsTransition_message_FromDafny(dafnyOutput.Dtor_message())}
+	return awscryptographymaterialproviderssmithygeneratedtypes.InvalidEncryptionMaterialsTransition{Message: Aws_cryptography_materialProviders_InvalidEncryptionMaterialsTransition_message_FromDafny(dafnyOutput.Dtor_message())}
 
 }
 
@@ -670,25 +671,25 @@ func Materials_FromDafny(input interface{}) awscryptographymaterialproviderssmit
 	if (input.(AwsCryptographyMaterialProvidersTypes.Materials)).Is_Encryption() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberEncryption{
-			Value: (aws_cryptography_materialProviders_Materials_Encryption_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_Encryption())),
+			Value: (Aws_cryptography_materialProviders_Materials_Encryption_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_Encryption())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.Materials)).Is_Decryption() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberDecryption{
-			Value: (aws_cryptography_materialProviders_Materials_Decryption_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_Decryption())),
+			Value: (Aws_cryptography_materialProviders_Materials_Decryption_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_Decryption())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.Materials)).Is_BranchKey() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberBranchKey{
-			Value: (aws_cryptography_materialProviders_Materials_BranchKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_BranchKey())),
+			Value: (Aws_cryptography_materialProviders_Materials_BranchKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_BranchKey())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.Materials)).Is_BeaconKey() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberBeaconKey{
-			Value: (aws_cryptography_materialProviders_Materials_BeaconKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_BeaconKey())),
+			Value: (Aws_cryptography_materialProviders_Materials_BeaconKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_BeaconKey())),
 		}
 	}
 
@@ -702,13 +703,13 @@ func StaticConfigurations_FromDafny(input interface{}) awscryptographymaterialpr
 	if (input.(AwsCryptographyMaterialProvidersTypes.StaticConfigurations)).Is_AWS__KMS__ECDH() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.StaticConfigurations)).Dtor_AWS__KMS__ECDH())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.StaticConfigurationsMemberAWS_KMS_ECDH{
-			Value: (aws_cryptography_materialProviders_StaticConfigurations_AWS_KMS_ECDH_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_StaticConfigurations_AWS_KMS_ECDH_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.StaticConfigurations)).Is_RAW__ECDH() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.StaticConfigurations)).Dtor_RAW__ECDH())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.StaticConfigurationsMemberRAW_ECDH{
-			Value: (aws_cryptography_materialProviders_StaticConfigurations_RAW_ECDH_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_StaticConfigurations_RAW_ECDH_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 
@@ -722,7 +723,7 @@ func KeyAgreementScheme_FromDafny(input interface{}) awscryptographymaterialprov
 	if (input.(AwsCryptographyMaterialProvidersTypes.KeyAgreementScheme)).Is_StaticConfiguration() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.KeyAgreementScheme)).Dtor_StaticConfiguration())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.KeyAgreementSchemeMemberStaticConfiguration{
-			Value: (aws_cryptography_materialProviders_KeyAgreementScheme_StaticConfiguration_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_KeyAgreementScheme_StaticConfiguration_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 
@@ -730,7 +731,7 @@ func KeyAgreementScheme_FromDafny(input interface{}) awscryptographymaterialprov
 
 }
 
-func aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_kmsClient_FromDafny(input interface{}) *kms.Client {
+func Aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_kmsClient_FromDafny(input interface{}) *kms.Client {
 	shim, ok := input.(*KMSwrapped.Shim)
 	if !ok {
 		panic("Not able to convert client to native")
@@ -738,52 +739,44 @@ func aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_kmsCli
 	return shim.Client
 
 }
-func aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_discoveryFilter_FromDafny(input interface{}) *awscryptographymaterialproviderssmithygeneratedtypes.DiscoveryFilter {
+func Aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_discoveryFilter_FromDafny(input interface{}) *awscryptographymaterialproviderssmithygeneratedtypes.DiscoveryFilter {
 	if input == nil {
 		return nil
 	}
-	return &awscryptographymaterialproviderssmithygeneratedtypes.DiscoveryFilter{AccountIds: aws_cryptography_materialProviders_DiscoveryFilter_accountIds_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DiscoveryFilter).Dtor_accountIds()),
-		Partition: aws_cryptography_materialProviders_DiscoveryFilter_partition_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DiscoveryFilter).Dtor_partition()),
+	return &awscryptographymaterialproviderssmithygeneratedtypes.DiscoveryFilter{AccountIds: Aws_cryptography_materialProviders_DiscoveryFilter_accountIds_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DiscoveryFilter).Dtor_accountIds()),
+		Partition: Aws_cryptography_materialProviders_DiscoveryFilter_partition_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DiscoveryFilter).Dtor_partition()),
 	}
 }
-func aws_cryptography_materialProviders_DiscoveryFilter_accountIds_FromDafny(input interface{}) []string {
+func Aws_cryptography_materialProviders_DiscoveryFilter_accountIds_FromDafny(input interface{}) []string {
 	fieldValue := make([]string, 0)
 	for i := dafny.Iterate(input.(dafny.Sequence)); ; {
 		val, ok := i()
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_AccountIdList_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_AccountIdList_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_AccountIdList_member_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_AccountIdList_member_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_DiscoveryFilter_partition_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_DiscoveryFilter_partition_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_grantTokens_FromDafny(input interface{}) []string {
+func Aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_grantTokens_FromDafny(input interface{}) []string {
 	if input == nil {
 		return nil
 	}
@@ -793,56 +786,48 @@ func aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_grantT
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_GrantTokenList_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_GrantTokenList_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_GrantTokenList_member_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_GrantTokenList_member_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_CreateAwsKmsDiscoveryMultiKeyringInput_regions_FromDafny(input interface{}) []string {
+func Aws_cryptography_materialProviders_CreateAwsKmsDiscoveryMultiKeyringInput_regions_FromDafny(input interface{}) []string {
 	fieldValue := make([]string, 0)
 	for i := dafny.Iterate(input.(dafny.Sequence)); ; {
 		val, ok := i()
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_RegionList_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_RegionList_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_RegionList_member_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_RegionList_member_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_CreateAwsKmsDiscoveryMultiKeyringInput_discoveryFilter_FromDafny(input interface{}) *awscryptographymaterialproviderssmithygeneratedtypes.DiscoveryFilter {
+func Aws_cryptography_materialProviders_CreateAwsKmsDiscoveryMultiKeyringInput_discoveryFilter_FromDafny(input interface{}) *awscryptographymaterialproviderssmithygeneratedtypes.DiscoveryFilter {
 	if input == nil {
 		return nil
 	}
-	return &awscryptographymaterialproviderssmithygeneratedtypes.DiscoveryFilter{AccountIds: aws_cryptography_materialProviders_DiscoveryFilter_accountIds_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DiscoveryFilter).Dtor_accountIds()),
-		Partition: aws_cryptography_materialProviders_DiscoveryFilter_partition_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DiscoveryFilter).Dtor_partition()),
+	return &awscryptographymaterialproviderssmithygeneratedtypes.DiscoveryFilter{AccountIds: Aws_cryptography_materialProviders_DiscoveryFilter_accountIds_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DiscoveryFilter).Dtor_accountIds()),
+		Partition: Aws_cryptography_materialProviders_DiscoveryFilter_partition_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DiscoveryFilter).Dtor_partition()),
 	}
 }
-func aws_cryptography_materialProviders_CreateAwsKmsDiscoveryMultiKeyringInput_grantTokens_FromDafny(input interface{}) []string {
+func Aws_cryptography_materialProviders_CreateAwsKmsDiscoveryMultiKeyringInput_grantTokens_FromDafny(input interface{}) []string {
 	if input == nil {
 		return nil
 	}
@@ -852,67 +837,59 @@ func aws_cryptography_materialProviders_CreateAwsKmsDiscoveryMultiKeyringInput_g
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_GrantTokenList_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_GrantTokenList_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_KeyAgreementScheme_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.KmsEcdhStaticConfigurations {
+func Aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_KeyAgreementScheme_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.KmsEcdhStaticConfigurations {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.KmsEcdhStaticConfigurations
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations)).Is_KmsPublicKeyDiscovery() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.KmsEcdhStaticConfigurationsMemberKmsPublicKeyDiscovery{
-			Value: (aws_cryptography_materialProviders_KmsEcdhStaticConfigurations_KmsPublicKeyDiscovery_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations)).Dtor_KmsPublicKeyDiscovery())),
+			Value: (Aws_cryptography_materialProviders_KmsEcdhStaticConfigurations_KmsPublicKeyDiscovery_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations)).Dtor_KmsPublicKeyDiscovery())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations)).Is_KmsPrivateKeyToStaticPublicKey() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.KmsEcdhStaticConfigurationsMemberKmsPrivateKeyToStaticPublicKey{
-			Value: (aws_cryptography_materialProviders_KmsEcdhStaticConfigurations_KmsPrivateKeyToStaticPublicKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations)).Dtor_KmsPrivateKeyToStaticPublicKey())),
+			Value: (Aws_cryptography_materialProviders_KmsEcdhStaticConfigurations_KmsPrivateKeyToStaticPublicKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations)).Dtor_KmsPrivateKeyToStaticPublicKey())),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_KmsEcdhStaticConfigurations_KmsPublicKeyDiscovery_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.KmsPublicKeyDiscoveryInput {
-	return awscryptographymaterialproviderssmithygeneratedtypes.KmsPublicKeyDiscoveryInput{RecipientKmsIdentifier: aws_cryptography_materialProviders_KmsPublicKeyDiscoveryInput_recipientKmsIdentifier_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.KmsPublicKeyDiscoveryInput).Dtor_recipientKmsIdentifier())}
+func Aws_cryptography_materialProviders_KmsEcdhStaticConfigurations_KmsPublicKeyDiscovery_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.KmsPublicKeyDiscoveryInput {
+	return awscryptographymaterialproviderssmithygeneratedtypes.KmsPublicKeyDiscoveryInput{RecipientKmsIdentifier: Aws_cryptography_materialProviders_KmsPublicKeyDiscoveryInput_recipientKmsIdentifier_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.KmsPublicKeyDiscoveryInput).Dtor_recipientKmsIdentifier())}
 }
-func aws_cryptography_materialProviders_KmsPublicKeyDiscoveryInput_recipientKmsIdentifier_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_KmsPublicKeyDiscoveryInput_recipientKmsIdentifier_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_KmsEcdhStaticConfigurations_KmsPrivateKeyToStaticPublicKey_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.KmsPrivateKeyToStaticPublicKeyInput {
-	return awscryptographymaterialproviderssmithygeneratedtypes.KmsPrivateKeyToStaticPublicKeyInput{SenderKmsIdentifier: aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_senderKmsIdentifier_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.KmsPrivateKeyToStaticPublicKeyInput).Dtor_senderKmsIdentifier()),
-		SenderPublicKey:    aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_senderPublicKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.KmsPrivateKeyToStaticPublicKeyInput).Dtor_senderPublicKey().UnwrapOr(nil)),
-		RecipientPublicKey: aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_recipientPublicKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.KmsPrivateKeyToStaticPublicKeyInput).Dtor_recipientPublicKey()),
+func Aws_cryptography_materialProviders_KmsEcdhStaticConfigurations_KmsPrivateKeyToStaticPublicKey_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.KmsPrivateKeyToStaticPublicKeyInput {
+	return awscryptographymaterialproviderssmithygeneratedtypes.KmsPrivateKeyToStaticPublicKeyInput{SenderKmsIdentifier: Aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_senderKmsIdentifier_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.KmsPrivateKeyToStaticPublicKeyInput).Dtor_senderKmsIdentifier()),
+		SenderPublicKey:    Aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_senderPublicKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.KmsPrivateKeyToStaticPublicKeyInput).Dtor_senderPublicKey().UnwrapOr(nil)),
+		RecipientPublicKey: Aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_recipientPublicKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.KmsPrivateKeyToStaticPublicKeyInput).Dtor_recipientPublicKey()),
 	}
 }
-func aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_senderKmsIdentifier_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_senderKmsIdentifier_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_senderPublicKey_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_senderPublicKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -926,9 +903,9 @@ func aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_send
 		}
 	}()
 }
-func aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_recipientPublicKey_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_recipientPublicKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -942,7 +919,7 @@ func aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_reci
 		}
 	}()
 }
-func aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_curveSpec_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.ECDHCurveSpec {
+func Aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_curveSpec_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.ECDHCurveSpec {
 	return func() awscryptographyprimitivessmithygeneratedtypes.ECDHCurveSpec {
 		var u awscryptographyprimitivessmithygeneratedtypes.ECDHCurveSpec
 		inputEnum := input.(AwsCryptographyPrimitivesTypes.ECDHCurveSpec)
@@ -960,7 +937,7 @@ func aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_curveSpec_F
 		return u.Values()[index]
 	}()
 }
-func aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_kmsClient_FromDafny(input interface{}) *kms.Client {
+func Aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_kmsClient_FromDafny(input interface{}) *kms.Client {
 	shim, ok := input.(*KMSwrapped.Shim)
 	if !ok {
 		panic("Not able to convert client to native")
@@ -968,7 +945,7 @@ func aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_kmsClient_F
 	return shim.Client
 
 }
-func aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_grantTokens_FromDafny(input interface{}) []string {
+func Aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_grantTokens_FromDafny(input interface{}) []string {
 	if input == nil {
 		return nil
 	}
@@ -978,27 +955,23 @@ func aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_grantTokens
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_GrantTokenList_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_GrantTokenList_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_branchKeyId_FromDafny(input interface{}) *string {
+func Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_branchKeyId_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return &s
 	}()
 }
-func aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_keyStore_FromDafny(input interface{}) *awscryptographykeystoresmithygenerated.Client {
+func Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_keyStore_FromDafny(input interface{}) *awscryptographykeystoresmithygenerated.Client {
 	value, ok := input.(AwsCryptographyKeyStoreTypes.IKeyStoreClient)
 	if !ok {
 		panic("invalid type found.")
@@ -1006,14 +979,14 @@ func aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_key
 	return &awscryptographykeystoresmithygenerated.Client{value}
 
 }
-func aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_ttlSeconds_FromDafny(input interface{}) int64 {
+func Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_ttlSeconds_FromDafny(input interface{}) int64 {
 	return func() int64 {
 		var b = input.(int64)
 		return b
 	}()
 
 }
-func aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.CacheType {
+func Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.CacheType {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.CacheType
 	if input == nil {
 		return nil
@@ -1022,31 +995,31 @@ func aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cac
 	if (input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Is_Default() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberDefault{
-			Value: (aws_cryptography_materialProviders_CacheType_Default_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Dtor_Default())),
+			Value: (Aws_cryptography_materialProviders_CacheType_Default_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Dtor_Default())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Is_No() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberNo{
-			Value: (aws_cryptography_materialProviders_CacheType_No_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Dtor_No())),
+			Value: (Aws_cryptography_materialProviders_CacheType_No_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Dtor_No())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Is_SingleThreaded() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberSingleThreaded{
-			Value: (aws_cryptography_materialProviders_CacheType_SingleThreaded_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Dtor_SingleThreaded())),
+			Value: (Aws_cryptography_materialProviders_CacheType_SingleThreaded_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Dtor_SingleThreaded())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Is_MultiThreaded() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberMultiThreaded{
-			Value: (aws_cryptography_materialProviders_CacheType_MultiThreaded_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Dtor_MultiThreaded())),
+			Value: (Aws_cryptography_materialProviders_CacheType_MultiThreaded_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Dtor_MultiThreaded())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Is_StormTracking() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberStormTracking{
-			Value: (aws_cryptography_materialProviders_CacheType_StormTracking_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Dtor_StormTracking())),
+			Value: (Aws_cryptography_materialProviders_CacheType_StormTracking_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Dtor_StormTracking())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Is_Shared() {
@@ -1059,30 +1032,30 @@ func aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cac
 	return union
 
 }
-func aws_cryptography_materialProviders_CacheType_Default_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DefaultCache {
-	return awscryptographymaterialproviderssmithygeneratedtypes.DefaultCache{EntryCapacity: aws_cryptography_materialProviders_DefaultCache_entryCapacity_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DefaultCache).Dtor_entryCapacity())}
+func Aws_cryptography_materialProviders_CacheType_Default_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DefaultCache {
+	return awscryptographymaterialproviderssmithygeneratedtypes.DefaultCache{EntryCapacity: Aws_cryptography_materialProviders_DefaultCache_entryCapacity_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DefaultCache).Dtor_entryCapacity())}
 }
-func aws_cryptography_materialProviders_DefaultCache_entryCapacity_FromDafny(input interface{}) int32 {
+func Aws_cryptography_materialProviders_DefaultCache_entryCapacity_FromDafny(input interface{}) int32 {
 	return func() int32 {
 		var b = input.(int32)
 		return b
 	}()
 }
-func aws_cryptography_materialProviders_CacheType_No_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.NoCache {
+func Aws_cryptography_materialProviders_CacheType_No_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.NoCache {
 	return awscryptographymaterialproviderssmithygeneratedtypes.NoCache{}
 }
-func aws_cryptography_materialProviders_CacheType_SingleThreaded_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.SingleThreadedCache {
-	return awscryptographymaterialproviderssmithygeneratedtypes.SingleThreadedCache{EntryCapacity: aws_cryptography_materialProviders_SingleThreadedCache_entryCapacity_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.SingleThreadedCache).Dtor_entryCapacity()),
-		EntryPruningTailSize: aws_cryptography_materialProviders_SingleThreadedCache_entryPruningTailSize_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.SingleThreadedCache).Dtor_entryPruningTailSize().UnwrapOr(nil)),
+func Aws_cryptography_materialProviders_CacheType_SingleThreaded_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.SingleThreadedCache {
+	return awscryptographymaterialproviderssmithygeneratedtypes.SingleThreadedCache{EntryCapacity: Aws_cryptography_materialProviders_SingleThreadedCache_entryCapacity_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.SingleThreadedCache).Dtor_entryCapacity()),
+		EntryPruningTailSize: Aws_cryptography_materialProviders_SingleThreadedCache_entryPruningTailSize_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.SingleThreadedCache).Dtor_entryPruningTailSize().UnwrapOr(nil)),
 	}
 }
-func aws_cryptography_materialProviders_SingleThreadedCache_entryCapacity_FromDafny(input interface{}) int32 {
+func Aws_cryptography_materialProviders_SingleThreadedCache_entryCapacity_FromDafny(input interface{}) int32 {
 	return func() int32 {
 		var b = input.(int32)
 		return b
 	}()
 }
-func aws_cryptography_materialProviders_SingleThreadedCache_entryPruningTailSize_FromDafny(input interface{}) *int32 {
+func Aws_cryptography_materialProviders_SingleThreadedCache_entryPruningTailSize_FromDafny(input interface{}) *int32 {
 	return func() *int32 {
 		var b int32
 		if input == nil {
@@ -1092,18 +1065,18 @@ func aws_cryptography_materialProviders_SingleThreadedCache_entryPruningTailSize
 		return &b
 	}()
 }
-func aws_cryptography_materialProviders_CacheType_MultiThreaded_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.MultiThreadedCache {
-	return awscryptographymaterialproviderssmithygeneratedtypes.MultiThreadedCache{EntryCapacity: aws_cryptography_materialProviders_MultiThreadedCache_entryCapacity_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.MultiThreadedCache).Dtor_entryCapacity()),
-		EntryPruningTailSize: aws_cryptography_materialProviders_MultiThreadedCache_entryPruningTailSize_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.MultiThreadedCache).Dtor_entryPruningTailSize().UnwrapOr(nil)),
+func Aws_cryptography_materialProviders_CacheType_MultiThreaded_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.MultiThreadedCache {
+	return awscryptographymaterialproviderssmithygeneratedtypes.MultiThreadedCache{EntryCapacity: Aws_cryptography_materialProviders_MultiThreadedCache_entryCapacity_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.MultiThreadedCache).Dtor_entryCapacity()),
+		EntryPruningTailSize: Aws_cryptography_materialProviders_MultiThreadedCache_entryPruningTailSize_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.MultiThreadedCache).Dtor_entryPruningTailSize().UnwrapOr(nil)),
 	}
 }
-func aws_cryptography_materialProviders_MultiThreadedCache_entryCapacity_FromDafny(input interface{}) int32 {
+func Aws_cryptography_materialProviders_MultiThreadedCache_entryCapacity_FromDafny(input interface{}) int32 {
 	return func() int32 {
 		var b = input.(int32)
 		return b
 	}()
 }
-func aws_cryptography_materialProviders_MultiThreadedCache_entryPruningTailSize_FromDafny(input interface{}) *int32 {
+func Aws_cryptography_materialProviders_MultiThreadedCache_entryPruningTailSize_FromDafny(input interface{}) *int32 {
 	return func() *int32 {
 		var b int32
 		if input == nil {
@@ -1113,24 +1086,24 @@ func aws_cryptography_materialProviders_MultiThreadedCache_entryPruningTailSize_
 		return &b
 	}()
 }
-func aws_cryptography_materialProviders_CacheType_StormTracking_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.StormTrackingCache {
-	return awscryptographymaterialproviderssmithygeneratedtypes.StormTrackingCache{EntryCapacity: aws_cryptography_materialProviders_StormTrackingCache_entryCapacity_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.StormTrackingCache).Dtor_entryCapacity()),
-		EntryPruningTailSize: aws_cryptography_materialProviders_StormTrackingCache_entryPruningTailSize_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.StormTrackingCache).Dtor_entryPruningTailSize().UnwrapOr(nil)),
-		GracePeriod:          aws_cryptography_materialProviders_StormTrackingCache_gracePeriod_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.StormTrackingCache).Dtor_gracePeriod()),
-		GraceInterval:        aws_cryptography_materialProviders_StormTrackingCache_graceInterval_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.StormTrackingCache).Dtor_graceInterval()),
-		FanOut:               aws_cryptography_materialProviders_StormTrackingCache_fanOut_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.StormTrackingCache).Dtor_fanOut()),
-		InFlightTTL:          aws_cryptography_materialProviders_StormTrackingCache_inFlightTTL_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.StormTrackingCache).Dtor_inFlightTTL()),
-		SleepMilli:           aws_cryptography_materialProviders_StormTrackingCache_sleepMilli_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.StormTrackingCache).Dtor_sleepMilli()),
-		TimeUnits:            aws_cryptography_materialProviders_StormTrackingCache_timeUnits_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.StormTrackingCache).Dtor_timeUnits().UnwrapOr(nil)),
+func Aws_cryptography_materialProviders_CacheType_StormTracking_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.StormTrackingCache {
+	return awscryptographymaterialproviderssmithygeneratedtypes.StormTrackingCache{EntryCapacity: Aws_cryptography_materialProviders_StormTrackingCache_entryCapacity_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.StormTrackingCache).Dtor_entryCapacity()),
+		EntryPruningTailSize: Aws_cryptography_materialProviders_StormTrackingCache_entryPruningTailSize_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.StormTrackingCache).Dtor_entryPruningTailSize().UnwrapOr(nil)),
+		GracePeriod:          Aws_cryptography_materialProviders_StormTrackingCache_gracePeriod_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.StormTrackingCache).Dtor_gracePeriod()),
+		GraceInterval:        Aws_cryptography_materialProviders_StormTrackingCache_graceInterval_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.StormTrackingCache).Dtor_graceInterval()),
+		FanOut:               Aws_cryptography_materialProviders_StormTrackingCache_fanOut_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.StormTrackingCache).Dtor_fanOut()),
+		InFlightTTL:          Aws_cryptography_materialProviders_StormTrackingCache_inFlightTTL_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.StormTrackingCache).Dtor_inFlightTTL()),
+		SleepMilli:           Aws_cryptography_materialProviders_StormTrackingCache_sleepMilli_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.StormTrackingCache).Dtor_sleepMilli()),
+		TimeUnits:            Aws_cryptography_materialProviders_StormTrackingCache_timeUnits_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.StormTrackingCache).Dtor_timeUnits().UnwrapOr(nil)),
 	}
 }
-func aws_cryptography_materialProviders_StormTrackingCache_entryCapacity_FromDafny(input interface{}) int32 {
+func Aws_cryptography_materialProviders_StormTrackingCache_entryCapacity_FromDafny(input interface{}) int32 {
 	return func() int32 {
 		var b = input.(int32)
 		return b
 	}()
 }
-func aws_cryptography_materialProviders_StormTrackingCache_entryPruningTailSize_FromDafny(input interface{}) *int32 {
+func Aws_cryptography_materialProviders_StormTrackingCache_entryPruningTailSize_FromDafny(input interface{}) *int32 {
 	return func() *int32 {
 		var b int32
 		if input == nil {
@@ -1140,37 +1113,37 @@ func aws_cryptography_materialProviders_StormTrackingCache_entryPruningTailSize_
 		return &b
 	}()
 }
-func aws_cryptography_materialProviders_StormTrackingCache_gracePeriod_FromDafny(input interface{}) int32 {
+func Aws_cryptography_materialProviders_StormTrackingCache_gracePeriod_FromDafny(input interface{}) int32 {
 	return func() int32 {
 		var b = input.(int32)
 		return b
 	}()
 }
-func aws_cryptography_materialProviders_StormTrackingCache_graceInterval_FromDafny(input interface{}) int32 {
+func Aws_cryptography_materialProviders_StormTrackingCache_graceInterval_FromDafny(input interface{}) int32 {
 	return func() int32 {
 		var b = input.(int32)
 		return b
 	}()
 }
-func aws_cryptography_materialProviders_StormTrackingCache_fanOut_FromDafny(input interface{}) int32 {
+func Aws_cryptography_materialProviders_StormTrackingCache_fanOut_FromDafny(input interface{}) int32 {
 	return func() int32 {
 		var b = input.(int32)
 		return b
 	}()
 }
-func aws_cryptography_materialProviders_StormTrackingCache_inFlightTTL_FromDafny(input interface{}) int32 {
+func Aws_cryptography_materialProviders_StormTrackingCache_inFlightTTL_FromDafny(input interface{}) int32 {
 	return func() int32 {
 		var b = input.(int32)
 		return b
 	}()
 }
-func aws_cryptography_materialProviders_StormTrackingCache_sleepMilli_FromDafny(input interface{}) int32 {
+func Aws_cryptography_materialProviders_StormTrackingCache_sleepMilli_FromDafny(input interface{}) int32 {
 	return func() int32 {
 		var b = input.(int32)
 		return b
 	}()
 }
-func aws_cryptography_materialProviders_StormTrackingCache_timeUnits_FromDafny(input interface{}) *awscryptographymaterialproviderssmithygeneratedtypes.TimeUnits {
+func Aws_cryptography_materialProviders_StormTrackingCache_timeUnits_FromDafny(input interface{}) *awscryptographymaterialproviderssmithygeneratedtypes.TimeUnits {
 	return func() *awscryptographymaterialproviderssmithygeneratedtypes.TimeUnits {
 		var u awscryptographymaterialproviderssmithygeneratedtypes.TimeUnits
 		if input == nil {
@@ -1191,36 +1164,28 @@ func aws_cryptography_materialProviders_StormTrackingCache_timeUnits_FromDafny(i
 		return &u.Values()[index]
 	}()
 }
-func aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_partitionId_FromDafny(input interface{}) *string {
+func Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_partitionId_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return &s
 	}()
 }
-func aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_kmsKeyId_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_kmsKeyId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_kmsClient_FromDafny(input interface{}) *kms.Client {
+func Aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_kmsClient_FromDafny(input interface{}) *kms.Client {
 	shim, ok := input.(*KMSwrapped.Shim)
 	if !ok {
 		panic("Not able to convert client to native")
@@ -1228,7 +1193,7 @@ func aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_kmsClient_FromD
 	return shim.Client
 
 }
-func aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_grantTokens_FromDafny(input interface{}) []string {
+func Aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_grantTokens_FromDafny(input interface{}) []string {
 	if input == nil {
 		return nil
 	}
@@ -1238,11 +1203,11 @@ func aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_grantTokens_Fro
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_GrantTokenList_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_GrantTokenList_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_kmsClient_FromDafny(input interface{}) *kms.Client {
+func Aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_kmsClient_FromDafny(input interface{}) *kms.Client {
 	shim, ok := input.(*KMSwrapped.Shim)
 	if !ok {
 		panic("Not able to convert client to native")
@@ -1250,15 +1215,15 @@ func aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_kms
 	return shim.Client
 
 }
-func aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_discoveryFilter_FromDafny(input interface{}) *awscryptographymaterialproviderssmithygeneratedtypes.DiscoveryFilter {
+func Aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_discoveryFilter_FromDafny(input interface{}) *awscryptographymaterialproviderssmithygeneratedtypes.DiscoveryFilter {
 	if input == nil {
 		return nil
 	}
-	return &awscryptographymaterialproviderssmithygeneratedtypes.DiscoveryFilter{AccountIds: aws_cryptography_materialProviders_DiscoveryFilter_accountIds_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DiscoveryFilter).Dtor_accountIds()),
-		Partition: aws_cryptography_materialProviders_DiscoveryFilter_partition_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DiscoveryFilter).Dtor_partition()),
+	return &awscryptographymaterialproviderssmithygeneratedtypes.DiscoveryFilter{AccountIds: Aws_cryptography_materialProviders_DiscoveryFilter_accountIds_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DiscoveryFilter).Dtor_accountIds()),
+		Partition: Aws_cryptography_materialProviders_DiscoveryFilter_partition_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DiscoveryFilter).Dtor_partition()),
 	}
 }
-func aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_grantTokens_FromDafny(input interface{}) []string {
+func Aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_grantTokens_FromDafny(input interface{}) []string {
 	if input == nil {
 		return nil
 	}
@@ -1268,43 +1233,39 @@ func aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_gra
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_GrantTokenList_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_GrantTokenList_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_region_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_region_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput_regions_FromDafny(input interface{}) []string {
+func Aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput_regions_FromDafny(input interface{}) []string {
 	fieldValue := make([]string, 0)
 	for i := dafny.Iterate(input.(dafny.Sequence)); ; {
 		val, ok := i()
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_RegionList_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_RegionList_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput_discoveryFilter_FromDafny(input interface{}) *awscryptographymaterialproviderssmithygeneratedtypes.DiscoveryFilter {
+func Aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput_discoveryFilter_FromDafny(input interface{}) *awscryptographymaterialproviderssmithygeneratedtypes.DiscoveryFilter {
 	if input == nil {
 		return nil
 	}
-	return &awscryptographymaterialproviderssmithygeneratedtypes.DiscoveryFilter{AccountIds: aws_cryptography_materialProviders_DiscoveryFilter_accountIds_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DiscoveryFilter).Dtor_accountIds()),
-		Partition: aws_cryptography_materialProviders_DiscoveryFilter_partition_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DiscoveryFilter).Dtor_partition()),
+	return &awscryptographymaterialproviderssmithygeneratedtypes.DiscoveryFilter{AccountIds: Aws_cryptography_materialProviders_DiscoveryFilter_accountIds_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DiscoveryFilter).Dtor_accountIds()),
+		Partition: Aws_cryptography_materialProviders_DiscoveryFilter_partition_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DiscoveryFilter).Dtor_partition()),
 	}
 }
-func aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput_grantTokens_FromDafny(input interface{}) []string {
+func Aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput_grantTokens_FromDafny(input interface{}) []string {
 	if input == nil {
 		return nil
 	}
@@ -1314,24 +1275,20 @@ func aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryMultiKeyringInpu
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_GrantTokenList_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_GrantTokenList_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_kmsKeyId_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_kmsKeyId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_kmsClient_FromDafny(input interface{}) *kms.Client {
+func Aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_kmsClient_FromDafny(input interface{}) *kms.Client {
 	shim, ok := input.(*KMSwrapped.Shim)
 	if !ok {
 		panic("Not able to convert client to native")
@@ -1339,7 +1296,7 @@ func aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_kmsClient_Fr
 	return shim.Client
 
 }
-func aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_grantTokens_FromDafny(input interface{}) []string {
+func Aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_grantTokens_FromDafny(input interface{}) []string {
 	if input == nil {
 		return nil
 	}
@@ -1349,27 +1306,23 @@ func aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_grantTokens_
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_GrantTokenList_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_GrantTokenList_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_CreateAwsKmsMrkMultiKeyringInput_generator_FromDafny(input interface{}) *string {
+func Aws_cryptography_materialProviders_CreateAwsKmsMrkMultiKeyringInput_generator_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return &s
 	}()
 }
-func aws_cryptography_materialProviders_CreateAwsKmsMrkMultiKeyringInput_kmsKeyIds_FromDafny(input interface{}) []string {
+func Aws_cryptography_materialProviders_CreateAwsKmsMrkMultiKeyringInput_kmsKeyIds_FromDafny(input interface{}) []string {
 	if input == nil {
 		return nil
 	}
@@ -1379,24 +1332,20 @@ func aws_cryptography_materialProviders_CreateAwsKmsMrkMultiKeyringInput_kmsKeyI
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_KmsKeyIdList_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_KmsKeyIdList_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_KmsKeyIdList_member_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_KmsKeyIdList_member_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_CreateAwsKmsMrkMultiKeyringInput_grantTokens_FromDafny(input interface{}) []string {
+func Aws_cryptography_materialProviders_CreateAwsKmsMrkMultiKeyringInput_grantTokens_FromDafny(input interface{}) []string {
 	if input == nil {
 		return nil
 	}
@@ -1406,27 +1355,23 @@ func aws_cryptography_materialProviders_CreateAwsKmsMrkMultiKeyringInput_grantTo
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_GrantTokenList_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_GrantTokenList_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_CreateAwsKmsMultiKeyringInput_generator_FromDafny(input interface{}) *string {
+func Aws_cryptography_materialProviders_CreateAwsKmsMultiKeyringInput_generator_FromDafny(input interface{}) *string {
 	return func() *string {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return &[]string{s}[0]
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return &s
 	}()
 }
-func aws_cryptography_materialProviders_CreateAwsKmsMultiKeyringInput_kmsKeyIds_FromDafny(input interface{}) []string {
+func Aws_cryptography_materialProviders_CreateAwsKmsMultiKeyringInput_kmsKeyIds_FromDafny(input interface{}) []string {
 	if input == nil {
 		return nil
 	}
@@ -1436,11 +1381,11 @@ func aws_cryptography_materialProviders_CreateAwsKmsMultiKeyringInput_kmsKeyIds_
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_KmsKeyIdList_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_KmsKeyIdList_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_CreateAwsKmsMultiKeyringInput_grantTokens_FromDafny(input interface{}) []string {
+func Aws_cryptography_materialProviders_CreateAwsKmsMultiKeyringInput_grantTokens_FromDafny(input interface{}) []string {
 	if input == nil {
 		return nil
 	}
@@ -1450,13 +1395,13 @@ func aws_cryptography_materialProviders_CreateAwsKmsMultiKeyringInput_grantToken
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_GrantTokenList_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_GrantTokenList_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_publicKey_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_publicKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -1470,20 +1415,16 @@ func aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_publicKey_Fr
 		}
 	}()
 }
-func aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_kmsKeyId_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_kmsKeyId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_encryptionAlgorithm_FromDafny(input interface{}) kmstypes.EncryptionAlgorithmSpec {
+func Aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_encryptionAlgorithm_FromDafny(input interface{}) kmstypes.EncryptionAlgorithmSpec {
 	return func() kmstypes.EncryptionAlgorithmSpec {
 		var u kmstypes.EncryptionAlgorithmSpec
 		inputEnum := input.(ComAmazonawsKmsTypes.EncryptionAlgorithmSpec)
@@ -1501,7 +1442,7 @@ func aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_encryptionAl
 		return u.Values()[index]
 	}()
 }
-func aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_kmsClient_FromDafny(input interface{}) *kms.Client {
+func Aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_kmsClient_FromDafny(input interface{}) *kms.Client {
 	shim, ok := input.(*KMSwrapped.Shim)
 	if !ok {
 		panic("Not able to convert client to native")
@@ -1509,7 +1450,7 @@ func aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_kmsClient_Fr
 	return shim.Client
 
 }
-func aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_grantTokens_FromDafny(input interface{}) []string {
+func Aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_grantTokens_FromDafny(input interface{}) []string {
 	if input == nil {
 		return nil
 	}
@@ -1519,41 +1460,41 @@ func aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_grantTokens_
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_GrantTokenList_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_GrantTokenList_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_CreateCryptographicMaterialsCacheInput_cache_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.CacheType {
+func Aws_cryptography_materialProviders_CreateCryptographicMaterialsCacheInput_cache_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.CacheType {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.CacheType
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Is_Default() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberDefault{
-			Value: (aws_cryptography_materialProviders_CacheType_Default_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Dtor_Default())),
+			Value: (Aws_cryptography_materialProviders_CacheType_Default_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Dtor_Default())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Is_No() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberNo{
-			Value: (aws_cryptography_materialProviders_CacheType_No_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Dtor_No())),
+			Value: (Aws_cryptography_materialProviders_CacheType_No_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Dtor_No())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Is_SingleThreaded() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberSingleThreaded{
-			Value: (aws_cryptography_materialProviders_CacheType_SingleThreaded_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Dtor_SingleThreaded())),
+			Value: (Aws_cryptography_materialProviders_CacheType_SingleThreaded_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Dtor_SingleThreaded())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Is_MultiThreaded() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberMultiThreaded{
-			Value: (aws_cryptography_materialProviders_CacheType_MultiThreaded_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Dtor_MultiThreaded())),
+			Value: (Aws_cryptography_materialProviders_CacheType_MultiThreaded_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Dtor_MultiThreaded())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Is_StormTracking() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.CacheTypeMemberStormTracking{
-			Value: (aws_cryptography_materialProviders_CacheType_StormTracking_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Dtor_StormTracking())),
+			Value: (Aws_cryptography_materialProviders_CacheType_StormTracking_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Dtor_StormTracking())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.CacheType)).Is_Shared() {
@@ -1566,7 +1507,7 @@ func aws_cryptography_materialProviders_CreateCryptographicMaterialsCacheInput_c
 	return union
 
 }
-func aws_cryptography_materialProviders_CreateMultiKeyringInput_childKeyrings_FromDafny(input interface{}) []awscryptographymaterialproviderssmithygeneratedtypes.IKeyring {
+func Aws_cryptography_materialProviders_CreateMultiKeyringInput_childKeyrings_FromDafny(input interface{}) []awscryptographymaterialproviderssmithygeneratedtypes.IKeyring {
 	fieldValue := make([]awscryptographymaterialproviderssmithygeneratedtypes.IKeyring, 0)
 	for i := dafny.Iterate(input.(dafny.Sequence)); ; {
 		val, ok := i()
@@ -1577,35 +1518,27 @@ func aws_cryptography_materialProviders_CreateMultiKeyringInput_childKeyrings_Fr
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_CreateRawAesKeyringInput_keyNamespace_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_CreateRawAesKeyringInput_keyNamespace_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_CreateRawAesKeyringInput_keyName_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_CreateRawAesKeyringInput_keyName_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_CreateRawAesKeyringInput_wrappingKey_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_CreateRawAesKeyringInput_wrappingKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -1619,7 +1552,7 @@ func aws_cryptography_materialProviders_CreateRawAesKeyringInput_wrappingKey_Fro
 		}
 	}()
 }
-func aws_cryptography_materialProviders_CreateRawAesKeyringInput_wrappingAlg_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AesWrappingAlg {
+func Aws_cryptography_materialProviders_CreateRawAesKeyringInput_wrappingAlg_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AesWrappingAlg {
 	return func() awscryptographymaterialproviderssmithygeneratedtypes.AesWrappingAlg {
 		var u awscryptographymaterialproviderssmithygeneratedtypes.AesWrappingAlg
 		inputEnum := input.(AwsCryptographyMaterialProvidersTypes.AesWrappingAlg)
@@ -1637,37 +1570,37 @@ func aws_cryptography_materialProviders_CreateRawAesKeyringInput_wrappingAlg_Fro
 		return u.Values()[index]
 	}()
 }
-func aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_KeyAgreementScheme_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurations {
+func Aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_KeyAgreementScheme_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurations {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurations
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations)).Is_PublicKeyDiscovery() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurationsMemberPublicKeyDiscovery{
-			Value: (aws_cryptography_materialProviders_RawEcdhStaticConfigurations_PublicKeyDiscovery_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations)).Dtor_PublicKeyDiscovery())),
+			Value: (Aws_cryptography_materialProviders_RawEcdhStaticConfigurations_PublicKeyDiscovery_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations)).Dtor_PublicKeyDiscovery())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations)).Is_RawPrivateKeyToStaticPublicKey() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurationsMemberRawPrivateKeyToStaticPublicKey{
-			Value: (aws_cryptography_materialProviders_RawEcdhStaticConfigurations_RawPrivateKeyToStaticPublicKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations)).Dtor_RawPrivateKeyToStaticPublicKey())),
+			Value: (Aws_cryptography_materialProviders_RawEcdhStaticConfigurations_RawPrivateKeyToStaticPublicKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations)).Dtor_RawPrivateKeyToStaticPublicKey())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations)).Is_EphemeralPrivateKeyToStaticPublicKey() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey{
-			Value: (aws_cryptography_materialProviders_RawEcdhStaticConfigurations_EphemeralPrivateKeyToStaticPublicKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations)).Dtor_EphemeralPrivateKeyToStaticPublicKey())),
+			Value: (Aws_cryptography_materialProviders_RawEcdhStaticConfigurations_EphemeralPrivateKeyToStaticPublicKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations)).Dtor_EphemeralPrivateKeyToStaticPublicKey())),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_RawEcdhStaticConfigurations_PublicKeyDiscovery_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.PublicKeyDiscoveryInput {
-	return awscryptographymaterialproviderssmithygeneratedtypes.PublicKeyDiscoveryInput{RecipientStaticPrivateKey: aws_cryptography_materialProviders_PublicKeyDiscoveryInput_recipientStaticPrivateKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.PublicKeyDiscoveryInput).Dtor_recipientStaticPrivateKey())}
+func Aws_cryptography_materialProviders_RawEcdhStaticConfigurations_PublicKeyDiscovery_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.PublicKeyDiscoveryInput {
+	return awscryptographymaterialproviderssmithygeneratedtypes.PublicKeyDiscoveryInput{RecipientStaticPrivateKey: Aws_cryptography_materialProviders_PublicKeyDiscoveryInput_recipientStaticPrivateKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.PublicKeyDiscoveryInput).Dtor_recipientStaticPrivateKey())}
 }
-func aws_cryptography_materialProviders_PublicKeyDiscoveryInput_recipientStaticPrivateKey_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_PublicKeyDiscoveryInput_recipientStaticPrivateKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -1681,14 +1614,14 @@ func aws_cryptography_materialProviders_PublicKeyDiscoveryInput_recipientStaticP
 		}
 	}()
 }
-func aws_cryptography_materialProviders_RawEcdhStaticConfigurations_RawPrivateKeyToStaticPublicKey_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.RawPrivateKeyToStaticPublicKeyInput {
-	return awscryptographymaterialproviderssmithygeneratedtypes.RawPrivateKeyToStaticPublicKeyInput{SenderStaticPrivateKey: aws_cryptography_materialProviders_RawPrivateKeyToStaticPublicKeyInput_senderStaticPrivateKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.RawPrivateKeyToStaticPublicKeyInput).Dtor_senderStaticPrivateKey()),
-		RecipientPublicKey: aws_cryptography_materialProviders_RawPrivateKeyToStaticPublicKeyInput_recipientPublicKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.RawPrivateKeyToStaticPublicKeyInput).Dtor_recipientPublicKey()),
+func Aws_cryptography_materialProviders_RawEcdhStaticConfigurations_RawPrivateKeyToStaticPublicKey_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.RawPrivateKeyToStaticPublicKeyInput {
+	return awscryptographymaterialproviderssmithygeneratedtypes.RawPrivateKeyToStaticPublicKeyInput{SenderStaticPrivateKey: Aws_cryptography_materialProviders_RawPrivateKeyToStaticPublicKeyInput_senderStaticPrivateKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.RawPrivateKeyToStaticPublicKeyInput).Dtor_senderStaticPrivateKey()),
+		RecipientPublicKey: Aws_cryptography_materialProviders_RawPrivateKeyToStaticPublicKeyInput_recipientPublicKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.RawPrivateKeyToStaticPublicKeyInput).Dtor_recipientPublicKey()),
 	}
 }
-func aws_cryptography_materialProviders_RawPrivateKeyToStaticPublicKeyInput_senderStaticPrivateKey_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_RawPrivateKeyToStaticPublicKeyInput_senderStaticPrivateKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -1702,9 +1635,9 @@ func aws_cryptography_materialProviders_RawPrivateKeyToStaticPublicKeyInput_send
 		}
 	}()
 }
-func aws_cryptography_materialProviders_RawPrivateKeyToStaticPublicKeyInput_recipientPublicKey_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_RawPrivateKeyToStaticPublicKeyInput_recipientPublicKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -1718,12 +1651,12 @@ func aws_cryptography_materialProviders_RawPrivateKeyToStaticPublicKeyInput_reci
 		}
 	}()
 }
-func aws_cryptography_materialProviders_RawEcdhStaticConfigurations_EphemeralPrivateKeyToStaticPublicKey_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.EphemeralPrivateKeyToStaticPublicKeyInput {
-	return awscryptographymaterialproviderssmithygeneratedtypes.EphemeralPrivateKeyToStaticPublicKeyInput{RecipientPublicKey: aws_cryptography_materialProviders_EphemeralPrivateKeyToStaticPublicKeyInput_recipientPublicKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EphemeralPrivateKeyToStaticPublicKeyInput).Dtor_recipientPublicKey())}
+func Aws_cryptography_materialProviders_RawEcdhStaticConfigurations_EphemeralPrivateKeyToStaticPublicKey_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.EphemeralPrivateKeyToStaticPublicKeyInput {
+	return awscryptographymaterialproviderssmithygeneratedtypes.EphemeralPrivateKeyToStaticPublicKeyInput{RecipientPublicKey: Aws_cryptography_materialProviders_EphemeralPrivateKeyToStaticPublicKeyInput_recipientPublicKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EphemeralPrivateKeyToStaticPublicKeyInput).Dtor_recipientPublicKey())}
 }
-func aws_cryptography_materialProviders_EphemeralPrivateKeyToStaticPublicKeyInput_recipientPublicKey_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_EphemeralPrivateKeyToStaticPublicKeyInput_recipientPublicKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -1737,7 +1670,7 @@ func aws_cryptography_materialProviders_EphemeralPrivateKeyToStaticPublicKeyInpu
 		}
 	}()
 }
-func aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_curveSpec_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.ECDHCurveSpec {
+func Aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_curveSpec_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.ECDHCurveSpec {
 	return func() awscryptographyprimitivessmithygeneratedtypes.ECDHCurveSpec {
 		var u awscryptographyprimitivessmithygeneratedtypes.ECDHCurveSpec
 		inputEnum := input.(AwsCryptographyPrimitivesTypes.ECDHCurveSpec)
@@ -1755,33 +1688,25 @@ func aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_curveSpec_From
 		return u.Values()[index]
 	}()
 }
-func aws_cryptography_materialProviders_CreateRawRsaKeyringInput_keyNamespace_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_CreateRawRsaKeyringInput_keyNamespace_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_CreateRawRsaKeyringInput_keyName_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_CreateRawRsaKeyringInput_keyName_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_CreateRawRsaKeyringInput_paddingScheme_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.PaddingScheme {
+func Aws_cryptography_materialProviders_CreateRawRsaKeyringInput_paddingScheme_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.PaddingScheme {
 	return func() awscryptographymaterialproviderssmithygeneratedtypes.PaddingScheme {
 		var u awscryptographymaterialproviderssmithygeneratedtypes.PaddingScheme
 		inputEnum := input.(AwsCryptographyMaterialProvidersTypes.PaddingScheme)
@@ -1799,9 +1724,9 @@ func aws_cryptography_materialProviders_CreateRawRsaKeyringInput_paddingScheme_F
 		return u.Values()[index]
 	}()
 }
-func aws_cryptography_materialProviders_CreateRawRsaKeyringInput_publicKey_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_CreateRawRsaKeyringInput_publicKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -1815,9 +1740,9 @@ func aws_cryptography_materialProviders_CreateRawRsaKeyringInput_publicKey_FromD
 		}
 	}()
 }
-func aws_cryptography_materialProviders_CreateRawRsaKeyringInput_privateKey_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_CreateRawRsaKeyringInput_privateKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -1831,68 +1756,60 @@ func aws_cryptography_materialProviders_CreateRawRsaKeyringInput_privateKey_From
 		}
 	}()
 }
-func aws_cryptography_materialProviders_CreateRequiredEncryptionContextCMMInput_requiredEncryptionContextKeys_FromDafny(input interface{}) []string {
+func Aws_cryptography_materialProviders_CreateRequiredEncryptionContextCMMInput_requiredEncryptionContextKeys_FromDafny(input interface{}) []string {
 	fieldValue := make([]string, 0)
 	for i := dafny.Iterate(input.(dafny.Sequence)); ; {
 		val, ok := i()
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_EncryptionContextKeys_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_EncryptionContextKeys_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_EncryptionContextKeys_member_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_EncryptionContextKeys_member_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				// UTF bytes should be always converted from bytes to string in go
-				// Otherwise go treats the string as a unicode codepoint
 
-				var valUint, _ = val.(uint8)
-				var byteSlice = []byte{valUint}
-				s = s + string(byteSlice)
+		// UTF bytes should be always converted from bytes to string in go
+		// Otherwise go treats the string as a unicode codepoint
 
-			}
-		}
+		s := string(dafny.ToByteArray(input.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_DecryptionMaterials_algorithmSuite_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteInfo {
-	return awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteInfo{Id: aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_id()),
-		BinaryId:           aws_cryptography_materialProviders_AlgorithmSuiteInfo_binaryId_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_binaryId()),
-		MessageVersion:     aws_cryptography_materialProviders_AlgorithmSuiteInfo_messageVersion_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_messageVersion()),
-		Encrypt:            aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_encrypt()),
-		Kdf:                aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_kdf()),
-		Commitment:         aws_cryptography_materialProviders_AlgorithmSuiteInfo_commitment_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_commitment()),
-		Signature:          aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_signature()),
-		SymmetricSignature: aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_symmetricSignature()),
-		EdkWrapping:        aws_cryptography_materialProviders_AlgorithmSuiteInfo_edkWrapping_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_edkWrapping()),
+func Aws_cryptography_materialProviders_DecryptionMaterials_algorithmSuite_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteInfo {
+	return awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteInfo{Id: Aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_id()),
+		BinaryId:           Aws_cryptography_materialProviders_AlgorithmSuiteInfo_binaryId_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_binaryId()),
+		MessageVersion:     Aws_cryptography_materialProviders_AlgorithmSuiteInfo_messageVersion_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_messageVersion()),
+		Encrypt:            Aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_encrypt()),
+		Kdf:                Aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_kdf()),
+		Commitment:         Aws_cryptography_materialProviders_AlgorithmSuiteInfo_commitment_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_commitment()),
+		Signature:          Aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_signature()),
+		SymmetricSignature: Aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_symmetricSignature()),
+		EdkWrapping:        Aws_cryptography_materialProviders_AlgorithmSuiteInfo_edkWrapping_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_edkWrapping()),
 	}
 }
-func aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteId {
+func Aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteId {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteId
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Is_ESDK() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Dtor_ESDK())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberESDK{
-			Value: (aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Is_DBE() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Dtor_DBE())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberDBE{
-			Value: (aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.ESDKAlgorithmSuiteId {
+func Aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.ESDKAlgorithmSuiteId {
 	return func() awscryptographymaterialproviderssmithygeneratedtypes.ESDKAlgorithmSuiteId {
 		var u awscryptographymaterialproviderssmithygeneratedtypes.ESDKAlgorithmSuiteId
 		inputEnum := input.(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId)
@@ -1910,7 +1827,7 @@ func aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_FromDafny(input in
 		return u.Values()[index]
 	}()
 }
-func aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DBEAlgorithmSuiteId {
+func Aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DBEAlgorithmSuiteId {
 	return func() awscryptographymaterialproviderssmithygeneratedtypes.DBEAlgorithmSuiteId {
 		var u awscryptographymaterialproviderssmithygeneratedtypes.DBEAlgorithmSuiteId
 		inputEnum := input.(AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId)
@@ -1928,9 +1845,9 @@ func aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_FromDafny(input int
 		return u.Values()[index]
 	}()
 }
-func aws_cryptography_materialProviders_AlgorithmSuiteInfo_binaryId_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_AlgorithmSuiteInfo_binaryId_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -1944,82 +1861,64 @@ func aws_cryptography_materialProviders_AlgorithmSuiteInfo_binaryId_FromDafny(in
 		}
 	}()
 }
-func aws_cryptography_materialProviders_AlgorithmSuiteInfo_messageVersion_FromDafny(input interface{}) int32 {
+func Aws_cryptography_materialProviders_AlgorithmSuiteInfo_messageVersion_FromDafny(input interface{}) int32 {
 	return func() int32 {
 		var b = input.(int32)
 		return b
 	}()
 }
-func aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.Encrypt {
+func Aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.Encrypt {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.Encrypt
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.Encrypt)).Is_AES__GCM() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.EncryptMemberAES_GCM{
-			Value: (aws_cryptography_materialProviders_Encrypt_AES_GCM_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Encrypt)).Dtor_AES__GCM())),
+			Value: (Aws_cryptography_materialProviders_Encrypt_AES_GCM_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Encrypt)).Dtor_AES__GCM())),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_Encrypt_AES_GCM_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.AES_GCM {
-	return awscryptographyprimitivessmithygeneratedtypes.AES_GCM{KeyLength: aws_cryptography_primitives_AES_GCM_keyLength_FromDafny(input.(AwsCryptographyPrimitivesTypes.AES__GCM).Dtor_keyLength()),
-		TagLength: aws_cryptography_primitives_AES_GCM_tagLength_FromDafny(input.(AwsCryptographyPrimitivesTypes.AES__GCM).Dtor_tagLength()),
-		IvLength:  aws_cryptography_primitives_AES_GCM_ivLength_FromDafny(input.(AwsCryptographyPrimitivesTypes.AES__GCM).Dtor_ivLength()),
+func Aws_cryptography_materialProviders_Encrypt_AES_GCM_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.AES_GCM {
+	return awscryptographyprimitivessmithygeneratedtypes.AES_GCM{KeyLength: awscryptographyprimitivessmithygenerated.Aws_cryptography_primitives_AES_GCM_keyLength_FromDafny(input.(AwsCryptographyPrimitivesTypes.AES__GCM).Dtor_keyLength()),
+		TagLength: awscryptographyprimitivessmithygenerated.Aws_cryptography_primitives_AES_GCM_tagLength_FromDafny(input.(AwsCryptographyPrimitivesTypes.AES__GCM).Dtor_tagLength()),
+		IvLength:  awscryptographyprimitivessmithygenerated.Aws_cryptography_primitives_AES_GCM_ivLength_FromDafny(input.(AwsCryptographyPrimitivesTypes.AES__GCM).Dtor_ivLength()),
 	}
 }
-func aws_cryptography_primitives_AES_GCM_keyLength_FromDafny(input interface{}) int32 {
-	return func() int32 {
-		var b = input.(int32)
-		return b
-	}()
-}
-func aws_cryptography_primitives_AES_GCM_tagLength_FromDafny(input interface{}) int32 {
-	return func() int32 {
-		var b = input.(int32)
-		return b
-	}()
-}
-func aws_cryptography_primitives_AES_GCM_ivLength_FromDafny(input interface{}) int32 {
-	return func() int32 {
-		var b = input.(int32)
-		return b
-	}()
-}
-func aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithm {
+func Aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithm {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithm
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Is_HKDF() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberHKDF{
-			Value: (aws_cryptography_materialProviders_DerivationAlgorithm_HKDF_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_HKDF())),
+			Value: (Aws_cryptography_materialProviders_DerivationAlgorithm_HKDF_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_HKDF())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Is_IDENTITY() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberIDENTITY{
-			Value: (aws_cryptography_materialProviders_DerivationAlgorithm_IDENTITY_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_IDENTITY())),
+			Value: (Aws_cryptography_materialProviders_DerivationAlgorithm_IDENTITY_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_IDENTITY())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Is_None() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberNone{
-			Value: (aws_cryptography_materialProviders_DerivationAlgorithm_None_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_None())),
+			Value: (Aws_cryptography_materialProviders_DerivationAlgorithm_None_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_None())),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_DerivationAlgorithm_HKDF_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.HKDF {
-	return awscryptographymaterialproviderssmithygeneratedtypes.HKDF{Hmac: aws_cryptography_materialProviders_HKDF_hmac_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.HKDF).Dtor_hmac()),
-		SaltLength:      aws_cryptography_materialProviders_HKDF_saltLength_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.HKDF).Dtor_saltLength()),
-		InputKeyLength:  aws_cryptography_materialProviders_HKDF_inputKeyLength_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.HKDF).Dtor_inputKeyLength()),
-		OutputKeyLength: aws_cryptography_materialProviders_HKDF_outputKeyLength_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.HKDF).Dtor_outputKeyLength()),
+func Aws_cryptography_materialProviders_DerivationAlgorithm_HKDF_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.HKDF {
+	return awscryptographymaterialproviderssmithygeneratedtypes.HKDF{Hmac: Aws_cryptography_materialProviders_HKDF_hmac_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.HKDF).Dtor_hmac()),
+		SaltLength:      Aws_cryptography_materialProviders_HKDF_saltLength_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.HKDF).Dtor_saltLength()),
+		InputKeyLength:  Aws_cryptography_materialProviders_HKDF_inputKeyLength_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.HKDF).Dtor_inputKeyLength()),
+		OutputKeyLength: Aws_cryptography_materialProviders_HKDF_outputKeyLength_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.HKDF).Dtor_outputKeyLength()),
 	}
 }
-func aws_cryptography_materialProviders_HKDF_hmac_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.DigestAlgorithm {
+func Aws_cryptography_materialProviders_HKDF_hmac_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.DigestAlgorithm {
 	return func() awscryptographyprimitivessmithygeneratedtypes.DigestAlgorithm {
 		var u awscryptographyprimitivessmithygeneratedtypes.DigestAlgorithm
 		inputEnum := input.(AwsCryptographyPrimitivesTypes.DigestAlgorithm)
@@ -2037,78 +1936,78 @@ func aws_cryptography_materialProviders_HKDF_hmac_FromDafny(input interface{}) a
 		return u.Values()[index]
 	}()
 }
-func aws_cryptography_materialProviders_HKDF_saltLength_FromDafny(input interface{}) int32 {
+func Aws_cryptography_materialProviders_HKDF_saltLength_FromDafny(input interface{}) int32 {
 	return func() int32 {
 		var b = input.(int32)
 		return b
 	}()
 }
-func aws_cryptography_materialProviders_HKDF_inputKeyLength_FromDafny(input interface{}) int32 {
+func Aws_cryptography_materialProviders_HKDF_inputKeyLength_FromDafny(input interface{}) int32 {
 	return func() int32 {
 		var b = input.(int32)
 		return b
 	}()
 }
-func aws_cryptography_materialProviders_HKDF_outputKeyLength_FromDafny(input interface{}) int32 {
+func Aws_cryptography_materialProviders_HKDF_outputKeyLength_FromDafny(input interface{}) int32 {
 	return func() int32 {
 		var b = input.(int32)
 		return b
 	}()
 }
-func aws_cryptography_materialProviders_DerivationAlgorithm_IDENTITY_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.IDENTITY {
+func Aws_cryptography_materialProviders_DerivationAlgorithm_IDENTITY_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.IDENTITY {
 	return awscryptographymaterialproviderssmithygeneratedtypes.IDENTITY{}
 }
-func aws_cryptography_materialProviders_DerivationAlgorithm_None_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.None {
+func Aws_cryptography_materialProviders_DerivationAlgorithm_None_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.None {
 	return awscryptographymaterialproviderssmithygeneratedtypes.None{}
 }
-func aws_cryptography_materialProviders_AlgorithmSuiteInfo_commitment_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithm {
+func Aws_cryptography_materialProviders_AlgorithmSuiteInfo_commitment_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithm {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithm
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Is_HKDF() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberHKDF{
-			Value: (aws_cryptography_materialProviders_DerivationAlgorithm_HKDF_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_HKDF())),
+			Value: (Aws_cryptography_materialProviders_DerivationAlgorithm_HKDF_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_HKDF())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Is_IDENTITY() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberIDENTITY{
-			Value: (aws_cryptography_materialProviders_DerivationAlgorithm_IDENTITY_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_IDENTITY())),
+			Value: (Aws_cryptography_materialProviders_DerivationAlgorithm_IDENTITY_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_IDENTITY())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Is_None() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberNone{
-			Value: (aws_cryptography_materialProviders_DerivationAlgorithm_None_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_None())),
+			Value: (Aws_cryptography_materialProviders_DerivationAlgorithm_None_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_None())),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.SignatureAlgorithm {
+func Aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.SignatureAlgorithm {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.SignatureAlgorithm
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.SignatureAlgorithm)).Is_ECDSA() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.SignatureAlgorithmMemberECDSA{
-			Value: (aws_cryptography_materialProviders_SignatureAlgorithm_ECDSA_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.SignatureAlgorithm)).Dtor_ECDSA())),
+			Value: (Aws_cryptography_materialProviders_SignatureAlgorithm_ECDSA_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.SignatureAlgorithm)).Dtor_ECDSA())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.SignatureAlgorithm)).Is_None() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.SignatureAlgorithmMemberNone{
-			Value: (aws_cryptography_materialProviders_SignatureAlgorithm_None_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.SignatureAlgorithm)).Dtor_None())),
+			Value: (Aws_cryptography_materialProviders_SignatureAlgorithm_None_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.SignatureAlgorithm)).Dtor_None())),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_SignatureAlgorithm_ECDSA_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.ECDSA {
-	return awscryptographymaterialproviderssmithygeneratedtypes.ECDSA{Curve: aws_cryptography_materialProviders_ECDSA_curve_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.ECDSA).Dtor_curve())}
+func Aws_cryptography_materialProviders_SignatureAlgorithm_ECDSA_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.ECDSA {
+	return awscryptographymaterialproviderssmithygeneratedtypes.ECDSA{Curve: Aws_cryptography_materialProviders_ECDSA_curve_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.ECDSA).Dtor_curve())}
 }
-func aws_cryptography_materialProviders_ECDSA_curve_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.ECDSASignatureAlgorithm {
+func Aws_cryptography_materialProviders_ECDSA_curve_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.ECDSASignatureAlgorithm {
 	return func() awscryptographyprimitivessmithygeneratedtypes.ECDSASignatureAlgorithm {
 		var u awscryptographyprimitivessmithygeneratedtypes.ECDSASignatureAlgorithm
 		inputEnum := input.(AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm)
@@ -2126,29 +2025,29 @@ func aws_cryptography_materialProviders_ECDSA_curve_FromDafny(input interface{})
 		return u.Values()[index]
 	}()
 }
-func aws_cryptography_materialProviders_SignatureAlgorithm_None_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.None {
+func Aws_cryptography_materialProviders_SignatureAlgorithm_None_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.None {
 	return awscryptographymaterialproviderssmithygeneratedtypes.None{}
 }
-func aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.SymmetricSignatureAlgorithm {
+func Aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.SymmetricSignatureAlgorithm {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.SymmetricSignatureAlgorithm
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.SymmetricSignatureAlgorithm)).Is_HMAC() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.SymmetricSignatureAlgorithm)).Dtor_HMAC())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.SymmetricSignatureAlgorithmMemberHMAC{
-			Value: (aws_cryptography_materialProviders_SymmetricSignatureAlgorithm_HMAC_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_SymmetricSignatureAlgorithm_HMAC_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.SymmetricSignatureAlgorithm)).Is_None() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.SymmetricSignatureAlgorithmMemberNone{
-			Value: (aws_cryptography_materialProviders_SymmetricSignatureAlgorithm_None_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.SymmetricSignatureAlgorithm)).Dtor_None())),
+			Value: (Aws_cryptography_materialProviders_SymmetricSignatureAlgorithm_None_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.SymmetricSignatureAlgorithm)).Dtor_None())),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_SymmetricSignatureAlgorithm_HMAC_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.DigestAlgorithm {
+func Aws_cryptography_materialProviders_SymmetricSignatureAlgorithm_HMAC_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.DigestAlgorithm {
 	return func() awscryptographyprimitivessmithygeneratedtypes.DigestAlgorithm {
 		var u awscryptographyprimitivessmithygeneratedtypes.DigestAlgorithm
 		inputEnum := input.(AwsCryptographyPrimitivesTypes.DigestAlgorithm)
@@ -2166,101 +2065,101 @@ func aws_cryptography_materialProviders_SymmetricSignatureAlgorithm_HMAC_FromDaf
 		return u.Values()[index]
 	}()
 }
-func aws_cryptography_materialProviders_SymmetricSignatureAlgorithm_None_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.None {
+func Aws_cryptography_materialProviders_SymmetricSignatureAlgorithm_None_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.None {
 	return awscryptographymaterialproviderssmithygeneratedtypes.None{}
 }
-func aws_cryptography_materialProviders_AlgorithmSuiteInfo_edkWrapping_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.EdkWrappingAlgorithm {
+func Aws_cryptography_materialProviders_AlgorithmSuiteInfo_edkWrapping_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.EdkWrappingAlgorithm {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.EdkWrappingAlgorithm
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.EdkWrappingAlgorithm)).Is_DIRECT__KEY__WRAPPING() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.EdkWrappingAlgorithmMemberDIRECT_KEY_WRAPPING{
-			Value: (aws_cryptography_materialProviders_EdkWrappingAlgorithm_DIRECT_KEY_WRAPPING_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.EdkWrappingAlgorithm)).Dtor_DIRECT__KEY__WRAPPING())),
+			Value: (Aws_cryptography_materialProviders_EdkWrappingAlgorithm_DIRECT_KEY_WRAPPING_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.EdkWrappingAlgorithm)).Dtor_DIRECT__KEY__WRAPPING())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.EdkWrappingAlgorithm)).Is_IntermediateKeyWrapping() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.EdkWrappingAlgorithmMemberIntermediateKeyWrapping{
-			Value: (aws_cryptography_materialProviders_EdkWrappingAlgorithm_IntermediateKeyWrapping_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.EdkWrappingAlgorithm)).Dtor_IntermediateKeyWrapping())),
+			Value: (Aws_cryptography_materialProviders_EdkWrappingAlgorithm_IntermediateKeyWrapping_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.EdkWrappingAlgorithm)).Dtor_IntermediateKeyWrapping())),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_EdkWrappingAlgorithm_DIRECT_KEY_WRAPPING_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DIRECT_KEY_WRAPPING {
+func Aws_cryptography_materialProviders_EdkWrappingAlgorithm_DIRECT_KEY_WRAPPING_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DIRECT_KEY_WRAPPING {
 	return awscryptographymaterialproviderssmithygeneratedtypes.DIRECT_KEY_WRAPPING{}
 }
-func aws_cryptography_materialProviders_EdkWrappingAlgorithm_IntermediateKeyWrapping_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.IntermediateKeyWrapping {
-	return awscryptographymaterialproviderssmithygeneratedtypes.IntermediateKeyWrapping{KeyEncryptionKeyKdf: aws_cryptography_materialProviders_IntermediateKeyWrapping_keyEncryptionKeyKdf_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.IntermediateKeyWrapping).Dtor_keyEncryptionKeyKdf()),
-		MacKeyKdf:           aws_cryptography_materialProviders_IntermediateKeyWrapping_macKeyKdf_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.IntermediateKeyWrapping).Dtor_macKeyKdf()),
-		PdkEncryptAlgorithm: aws_cryptography_materialProviders_IntermediateKeyWrapping_pdkEncryptAlgorithm_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.IntermediateKeyWrapping).Dtor_pdkEncryptAlgorithm()),
+func Aws_cryptography_materialProviders_EdkWrappingAlgorithm_IntermediateKeyWrapping_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.IntermediateKeyWrapping {
+	return awscryptographymaterialproviderssmithygeneratedtypes.IntermediateKeyWrapping{KeyEncryptionKeyKdf: Aws_cryptography_materialProviders_IntermediateKeyWrapping_keyEncryptionKeyKdf_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.IntermediateKeyWrapping).Dtor_keyEncryptionKeyKdf()),
+		MacKeyKdf:           Aws_cryptography_materialProviders_IntermediateKeyWrapping_macKeyKdf_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.IntermediateKeyWrapping).Dtor_macKeyKdf()),
+		PdkEncryptAlgorithm: Aws_cryptography_materialProviders_IntermediateKeyWrapping_pdkEncryptAlgorithm_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.IntermediateKeyWrapping).Dtor_pdkEncryptAlgorithm()),
 	}
 }
-func aws_cryptography_materialProviders_IntermediateKeyWrapping_keyEncryptionKeyKdf_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithm {
+func Aws_cryptography_materialProviders_IntermediateKeyWrapping_keyEncryptionKeyKdf_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithm {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithm
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Is_HKDF() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberHKDF{
-			Value: (aws_cryptography_materialProviders_DerivationAlgorithm_HKDF_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_HKDF())),
+			Value: (Aws_cryptography_materialProviders_DerivationAlgorithm_HKDF_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_HKDF())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Is_IDENTITY() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberIDENTITY{
-			Value: (aws_cryptography_materialProviders_DerivationAlgorithm_IDENTITY_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_IDENTITY())),
+			Value: (Aws_cryptography_materialProviders_DerivationAlgorithm_IDENTITY_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_IDENTITY())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Is_None() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberNone{
-			Value: (aws_cryptography_materialProviders_DerivationAlgorithm_None_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_None())),
+			Value: (Aws_cryptography_materialProviders_DerivationAlgorithm_None_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_None())),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_IntermediateKeyWrapping_macKeyKdf_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithm {
+func Aws_cryptography_materialProviders_IntermediateKeyWrapping_macKeyKdf_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithm {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithm
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Is_HKDF() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberHKDF{
-			Value: (aws_cryptography_materialProviders_DerivationAlgorithm_HKDF_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_HKDF())),
+			Value: (Aws_cryptography_materialProviders_DerivationAlgorithm_HKDF_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_HKDF())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Is_IDENTITY() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberIDENTITY{
-			Value: (aws_cryptography_materialProviders_DerivationAlgorithm_IDENTITY_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_IDENTITY())),
+			Value: (Aws_cryptography_materialProviders_DerivationAlgorithm_IDENTITY_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_IDENTITY())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Is_None() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.DerivationAlgorithmMemberNone{
-			Value: (aws_cryptography_materialProviders_DerivationAlgorithm_None_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_None())),
+			Value: (Aws_cryptography_materialProviders_DerivationAlgorithm_None_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm)).Dtor_None())),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_IntermediateKeyWrapping_pdkEncryptAlgorithm_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.Encrypt {
+func Aws_cryptography_materialProviders_IntermediateKeyWrapping_pdkEncryptAlgorithm_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.Encrypt {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.Encrypt
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.Encrypt)).Is_AES__GCM() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.EncryptMemberAES_GCM{
-			Value: (aws_cryptography_materialProviders_Encrypt_AES_GCM_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Encrypt)).Dtor_AES__GCM())),
+			Value: (Aws_cryptography_materialProviders_Encrypt_AES_GCM_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Encrypt)).Dtor_AES__GCM())),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_FromDafny(input interface{}) map[string]string {
+func Aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_FromDafny(input interface{}) map[string]string {
 	var m map[string]string = make(map[string]string)
 	if input == nil {
 		return nil
@@ -2270,63 +2169,47 @@ func aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_Fr
 		if !ok {
 			break
 		}
-		m[aws_cryptography_materialProviders_EncryptionContext_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = aws_cryptography_materialProviders_EncryptionContext_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
+		m[Aws_cryptography_materialProviders_EncryptionContext_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = Aws_cryptography_materialProviders_EncryptionContext_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
 	}
 	return m
 
 }
-func aws_cryptography_materialProviders_EncryptionContext_key_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_EncryptionContext_key_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				// UTF bytes should be always converted from bytes to string in go
-				// Otherwise go treats the string as a unicode codepoint
 
-				var valUint, _ = val.(uint8)
-				var byteSlice = []byte{valUint}
-				s = s + string(byteSlice)
+		// UTF bytes should be always converted from bytes to string in go
+		// Otherwise go treats the string as a unicode codepoint
 
-			}
-		}
+		s := string(dafny.ToByteArray(input.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_EncryptionContext_value_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_EncryptionContext_value_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				// UTF bytes should be always converted from bytes to string in go
-				// Otherwise go treats the string as a unicode codepoint
 
-				var valUint, _ = val.(uint8)
-				var byteSlice = []byte{valUint}
-				s = s + string(byteSlice)
+		// UTF bytes should be always converted from bytes to string in go
+		// Otherwise go treats the string as a unicode codepoint
 
-			}
-		}
+		s := string(dafny.ToByteArray(input.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_FromDafny(input interface{}) []string {
+func Aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_FromDafny(input interface{}) []string {
 	fieldValue := make([]string, 0)
 	for i := dafny.Iterate(input.(dafny.Sequence)); ; {
 		val, ok := i()
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_EncryptionContextKeys_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_EncryptionContextKeys_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_DecryptionMaterials_plaintextDataKey_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_DecryptionMaterials_plaintextDataKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -2340,9 +2223,9 @@ func aws_cryptography_materialProviders_DecryptionMaterials_plaintextDataKey_Fro
 		}
 	}()
 }
-func aws_cryptography_materialProviders_DecryptionMaterials_verificationKey_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_DecryptionMaterials_verificationKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -2356,9 +2239,9 @@ func aws_cryptography_materialProviders_DecryptionMaterials_verificationKey_From
 		}
 	}()
 }
-func aws_cryptography_materialProviders_DecryptionMaterials_symmetricSigningKey_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_DecryptionMaterials_symmetricSigningKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -2372,19 +2255,19 @@ func aws_cryptography_materialProviders_DecryptionMaterials_symmetricSigningKey_
 		}
 	}()
 }
-func aws_cryptography_materialProviders_EncryptionMaterials_algorithmSuite_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteInfo {
-	return awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteInfo{Id: aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_id()),
-		BinaryId:           aws_cryptography_materialProviders_AlgorithmSuiteInfo_binaryId_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_binaryId()),
-		MessageVersion:     aws_cryptography_materialProviders_AlgorithmSuiteInfo_messageVersion_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_messageVersion()),
-		Encrypt:            aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_encrypt()),
-		Kdf:                aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_kdf()),
-		Commitment:         aws_cryptography_materialProviders_AlgorithmSuiteInfo_commitment_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_commitment()),
-		Signature:          aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_signature()),
-		SymmetricSignature: aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_symmetricSignature()),
-		EdkWrapping:        aws_cryptography_materialProviders_AlgorithmSuiteInfo_edkWrapping_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_edkWrapping()),
+func Aws_cryptography_materialProviders_EncryptionMaterials_algorithmSuite_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteInfo {
+	return awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteInfo{Id: Aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_id()),
+		BinaryId:           Aws_cryptography_materialProviders_AlgorithmSuiteInfo_binaryId_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_binaryId()),
+		MessageVersion:     Aws_cryptography_materialProviders_AlgorithmSuiteInfo_messageVersion_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_messageVersion()),
+		Encrypt:            Aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_encrypt()),
+		Kdf:                Aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_kdf()),
+		Commitment:         Aws_cryptography_materialProviders_AlgorithmSuiteInfo_commitment_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_commitment()),
+		Signature:          Aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_signature()),
+		SymmetricSignature: Aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_symmetricSignature()),
+		EdkWrapping:        Aws_cryptography_materialProviders_AlgorithmSuiteInfo_edkWrapping_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo).Dtor_edkWrapping()),
 	}
 }
-func aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_FromDafny(input interface{}) map[string]string {
+func Aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_FromDafny(input interface{}) map[string]string {
 	var m map[string]string = make(map[string]string)
 	if input == nil {
 		return nil
@@ -2394,50 +2277,42 @@ func aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_Fr
 		if !ok {
 			break
 		}
-		m[aws_cryptography_materialProviders_EncryptionContext_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = aws_cryptography_materialProviders_EncryptionContext_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
+		m[Aws_cryptography_materialProviders_EncryptionContext_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = Aws_cryptography_materialProviders_EncryptionContext_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
 	}
 	return m
 
 }
-func aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_FromDafny(input interface{}) []awscryptographymaterialproviderssmithygeneratedtypes.EncryptedDataKey {
+func Aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_FromDafny(input interface{}) []awscryptographymaterialproviderssmithygeneratedtypes.EncryptedDataKey {
 	fieldValue := make([]awscryptographymaterialproviderssmithygeneratedtypes.EncryptedDataKey, 0)
 	for i := dafny.Iterate(input.(dafny.Sequence)); ; {
 		val, ok := i()
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_EncryptedDataKeyList_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_EncryptedDataKeyList_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_EncryptedDataKeyList_member_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.EncryptedDataKey {
-	return awscryptographymaterialproviderssmithygeneratedtypes.EncryptedDataKey{KeyProviderId: aws_cryptography_materialProviders_EncryptedDataKey_keyProviderId_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptedDataKey).Dtor_keyProviderId()),
-		KeyProviderInfo: aws_cryptography_materialProviders_EncryptedDataKey_keyProviderInfo_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptedDataKey).Dtor_keyProviderInfo()),
-		Ciphertext:      aws_cryptography_materialProviders_EncryptedDataKey_ciphertext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptedDataKey).Dtor_ciphertext()),
+func Aws_cryptography_materialProviders_EncryptedDataKeyList_member_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.EncryptedDataKey {
+	return awscryptographymaterialproviderssmithygeneratedtypes.EncryptedDataKey{KeyProviderId: Aws_cryptography_materialProviders_EncryptedDataKey_keyProviderId_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptedDataKey).Dtor_keyProviderId()),
+		KeyProviderInfo: Aws_cryptography_materialProviders_EncryptedDataKey_keyProviderInfo_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptedDataKey).Dtor_keyProviderInfo()),
+		Ciphertext:      Aws_cryptography_materialProviders_EncryptedDataKey_ciphertext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptedDataKey).Dtor_ciphertext()),
 	}
 }
-func aws_cryptography_materialProviders_EncryptedDataKey_keyProviderId_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_EncryptedDataKey_keyProviderId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				// UTF bytes should be always converted from bytes to string in go
-				// Otherwise go treats the string as a unicode codepoint
 
-				var valUint, _ = val.(uint8)
-				var byteSlice = []byte{valUint}
-				s = s + string(byteSlice)
+		// UTF bytes should be always converted from bytes to string in go
+		// Otherwise go treats the string as a unicode codepoint
 
-			}
-		}
+		s := string(dafny.ToByteArray(input.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_EncryptedDataKey_keyProviderInfo_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_EncryptedDataKey_keyProviderInfo_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -2451,9 +2326,9 @@ func aws_cryptography_materialProviders_EncryptedDataKey_keyProviderInfo_FromDaf
 		}
 	}()
 }
-func aws_cryptography_materialProviders_EncryptedDataKey_ciphertext_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_EncryptedDataKey_ciphertext_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -2467,20 +2342,20 @@ func aws_cryptography_materialProviders_EncryptedDataKey_ciphertext_FromDafny(in
 		}
 	}()
 }
-func aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_FromDafny(input interface{}) []string {
+func Aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_FromDafny(input interface{}) []string {
 	fieldValue := make([]string, 0)
 	for i := dafny.Iterate(input.(dafny.Sequence)); ; {
 		val, ok := i()
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_EncryptionContextKeys_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_EncryptionContextKeys_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_EncryptionMaterials_plaintextDataKey_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_EncryptionMaterials_plaintextDataKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -2494,9 +2369,9 @@ func aws_cryptography_materialProviders_EncryptionMaterials_plaintextDataKey_Fro
 		}
 	}()
 }
-func aws_cryptography_materialProviders_EncryptionMaterials_signingKey_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_EncryptionMaterials_signingKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -2510,7 +2385,7 @@ func aws_cryptography_materialProviders_EncryptionMaterials_signingKey_FromDafny
 		}
 	}()
 }
-func aws_cryptography_materialProviders_EncryptionMaterials_symmetricSigningKeys_FromDafny(input interface{}) [][]byte {
+func Aws_cryptography_materialProviders_EncryptionMaterials_symmetricSigningKeys_FromDafny(input interface{}) [][]byte {
 	if input == nil {
 		return nil
 	}
@@ -2520,13 +2395,13 @@ func aws_cryptography_materialProviders_EncryptionMaterials_symmetricSigningKeys
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_SymmetricSigningKeyList_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_SymmetricSigningKeyList_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_SymmetricSigningKeyList_member_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_SymmetricSigningKeyList_member_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -2542,7 +2417,7 @@ func aws_cryptography_materialProviders_SymmetricSigningKeyList_member_FromDafny
 }
 func Aws_cryptography_materialProviders_GetAlgorithmSuiteInfoInput_binaryId_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -2556,26 +2431,26 @@ func Aws_cryptography_materialProviders_GetAlgorithmSuiteInfoInput_binaryId_From
 		}
 	}()
 }
-func aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_algorithmSuiteId_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteId {
+func Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_algorithmSuiteId_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteId {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteId
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Is_ESDK() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Dtor_ESDK())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberESDK{
-			Value: (aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Is_DBE() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Dtor_DBE())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberDBE{
-			Value: (aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_encryptionContext_FromDafny(input interface{}) map[string]string {
+func Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_encryptionContext_FromDafny(input interface{}) map[string]string {
 	var m map[string]string = make(map[string]string)
 	if input == nil {
 		return nil
@@ -2585,42 +2460,42 @@ func aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_encry
 		if !ok {
 			break
 		}
-		m[aws_cryptography_materialProviders_EncryptionContext_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = aws_cryptography_materialProviders_EncryptionContext_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
+		m[Aws_cryptography_materialProviders_EncryptionContext_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = Aws_cryptography_materialProviders_EncryptionContext_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
 	}
 	return m
 
 }
-func aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_requiredEncryptionContextKeys_FromDafny(input interface{}) []string {
+func Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_requiredEncryptionContextKeys_FromDafny(input interface{}) []string {
 	fieldValue := make([]string, 0)
 	for i := dafny.Iterate(input.(dafny.Sequence)); ; {
 		val, ok := i()
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_EncryptionContextKeys_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_EncryptionContextKeys_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_algorithmSuiteId_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteId {
+func Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_algorithmSuiteId_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteId {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteId
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Is_ESDK() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Dtor_ESDK())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberESDK{
-			Value: (aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Is_DBE() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Dtor_DBE())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberDBE{
-			Value: (aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_encryptionContext_FromDafny(input interface{}) map[string]string {
+func Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_encryptionContext_FromDafny(input interface{}) map[string]string {
 	var m map[string]string = make(map[string]string)
 	if input == nil {
 		return nil
@@ -2630,25 +2505,25 @@ func aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_encry
 		if !ok {
 			break
 		}
-		m[aws_cryptography_materialProviders_EncryptionContext_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = aws_cryptography_materialProviders_EncryptionContext_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
+		m[Aws_cryptography_materialProviders_EncryptionContext_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = Aws_cryptography_materialProviders_EncryptionContext_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
 	}
 	return m
 
 }
-func aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_requiredEncryptionContextKeys_FromDafny(input interface{}) []string {
+func Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_requiredEncryptionContextKeys_FromDafny(input interface{}) []string {
 	fieldValue := make([]string, 0)
 	for i := dafny.Iterate(input.(dafny.Sequence)); ; {
 		val, ok := i()
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_EncryptionContextKeys_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_EncryptionContextKeys_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_signingKey_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_signingKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -2662,9 +2537,9 @@ func aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_signi
 		}
 	}()
 }
-func aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_verificationKey_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_verificationKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -2678,45 +2553,45 @@ func aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_verif
 		}
 	}()
 }
-func aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_algorithm_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteId {
+func Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_algorithm_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteId {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteId
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Is_ESDK() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Dtor_ESDK())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberESDK{
-			Value: (aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Is_DBE() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Dtor_DBE())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberDBE{
-			Value: (aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_commitmentPolicy_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicy {
+func Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_commitmentPolicy_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicy {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicy
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.CommitmentPolicy)).Is_ESDK() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.CommitmentPolicy)).Dtor_ESDK())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberESDK{
-			Value: (aws_cryptography_materialProviders_CommitmentPolicy_ESDK_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_CommitmentPolicy_ESDK_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.CommitmentPolicy)).Is_DBE() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.CommitmentPolicy)).Dtor_DBE())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberDBE{
-			Value: (aws_cryptography_materialProviders_CommitmentPolicy_DBE_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_CommitmentPolicy_DBE_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_CommitmentPolicy_ESDK_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.ESDKCommitmentPolicy {
+func Aws_cryptography_materialProviders_CommitmentPolicy_ESDK_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.ESDKCommitmentPolicy {
 	return func() awscryptographymaterialproviderssmithygeneratedtypes.ESDKCommitmentPolicy {
 		var u awscryptographymaterialproviderssmithygeneratedtypes.ESDKCommitmentPolicy
 		inputEnum := input.(AwsCryptographyMaterialProvidersTypes.ESDKCommitmentPolicy)
@@ -2734,7 +2609,7 @@ func aws_cryptography_materialProviders_CommitmentPolicy_ESDK_FromDafny(input in
 		return u.Values()[index]
 	}()
 }
-func aws_cryptography_materialProviders_CommitmentPolicy_DBE_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DBECommitmentPolicy {
+func Aws_cryptography_materialProviders_CommitmentPolicy_DBE_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DBECommitmentPolicy {
 	return func() awscryptographymaterialproviderssmithygeneratedtypes.DBECommitmentPolicy {
 		var u awscryptographymaterialproviderssmithygeneratedtypes.DBECommitmentPolicy
 		inputEnum := input.(AwsCryptographyMaterialProvidersTypes.DBECommitmentPolicy)
@@ -2752,83 +2627,83 @@ func aws_cryptography_materialProviders_CommitmentPolicy_DBE_FromDafny(input int
 		return u.Values()[index]
 	}()
 }
-func aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_algorithm_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteId {
+func Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_algorithm_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteId {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteId
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Is_ESDK() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Dtor_ESDK())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberESDK{
-			Value: (aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Is_DBE() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Dtor_DBE())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberDBE{
-			Value: (aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_commitmentPolicy_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicy {
+func Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_commitmentPolicy_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicy {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicy
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.CommitmentPolicy)).Is_ESDK() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.CommitmentPolicy)).Dtor_ESDK())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberESDK{
-			Value: (aws_cryptography_materialProviders_CommitmentPolicy_ESDK_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_CommitmentPolicy_ESDK_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.CommitmentPolicy)).Is_DBE() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.CommitmentPolicy)).Dtor_DBE())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberDBE{
-			Value: (aws_cryptography_materialProviders_CommitmentPolicy_DBE_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_CommitmentPolicy_DBE_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_ValidDecryptionMaterialsTransitionInput_start_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials {
-	return awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials{AlgorithmSuite: aws_cryptography_materialProviders_DecryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_algorithmSuite()),
-		EncryptionContext:             aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_encryptionContext()),
-		RequiredEncryptionContextKeys: aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_requiredEncryptionContextKeys()),
-		PlaintextDataKey:              aws_cryptography_materialProviders_DecryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
-		VerificationKey:               aws_cryptography_materialProviders_DecryptionMaterials_verificationKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_verificationKey().UnwrapOr(nil)),
-		SymmetricSigningKey:           aws_cryptography_materialProviders_DecryptionMaterials_symmetricSigningKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_symmetricSigningKey().UnwrapOr(nil)),
+func Aws_cryptography_materialProviders_ValidDecryptionMaterialsTransitionInput_start_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials {
+	return awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials{AlgorithmSuite: Aws_cryptography_materialProviders_DecryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_algorithmSuite()),
+		EncryptionContext:             Aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_encryptionContext()),
+		RequiredEncryptionContextKeys: Aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_requiredEncryptionContextKeys()),
+		PlaintextDataKey:              Aws_cryptography_materialProviders_DecryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
+		VerificationKey:               Aws_cryptography_materialProviders_DecryptionMaterials_verificationKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_verificationKey().UnwrapOr(nil)),
+		SymmetricSigningKey:           Aws_cryptography_materialProviders_DecryptionMaterials_symmetricSigningKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_symmetricSigningKey().UnwrapOr(nil)),
 	}
 }
-func aws_cryptography_materialProviders_ValidDecryptionMaterialsTransitionInput_stop_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials {
-	return awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials{AlgorithmSuite: aws_cryptography_materialProviders_DecryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_algorithmSuite()),
-		EncryptionContext:             aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_encryptionContext()),
-		RequiredEncryptionContextKeys: aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_requiredEncryptionContextKeys()),
-		PlaintextDataKey:              aws_cryptography_materialProviders_DecryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
-		VerificationKey:               aws_cryptography_materialProviders_DecryptionMaterials_verificationKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_verificationKey().UnwrapOr(nil)),
-		SymmetricSigningKey:           aws_cryptography_materialProviders_DecryptionMaterials_symmetricSigningKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_symmetricSigningKey().UnwrapOr(nil)),
+func Aws_cryptography_materialProviders_ValidDecryptionMaterialsTransitionInput_stop_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials {
+	return awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials{AlgorithmSuite: Aws_cryptography_materialProviders_DecryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_algorithmSuite()),
+		EncryptionContext:             Aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_encryptionContext()),
+		RequiredEncryptionContextKeys: Aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_requiredEncryptionContextKeys()),
+		PlaintextDataKey:              Aws_cryptography_materialProviders_DecryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
+		VerificationKey:               Aws_cryptography_materialProviders_DecryptionMaterials_verificationKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_verificationKey().UnwrapOr(nil)),
+		SymmetricSigningKey:           Aws_cryptography_materialProviders_DecryptionMaterials_symmetricSigningKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_symmetricSigningKey().UnwrapOr(nil)),
 	}
 }
-func aws_cryptography_materialProviders_ValidEncryptionMaterialsTransitionInput_start_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials {
-	return awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials{AlgorithmSuite: aws_cryptography_materialProviders_EncryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_algorithmSuite()),
-		EncryptionContext:             aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptionContext()),
-		EncryptedDataKeys:             aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptedDataKeys()),
-		RequiredEncryptionContextKeys: aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_requiredEncryptionContextKeys()),
-		PlaintextDataKey:              aws_cryptography_materialProviders_EncryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
-		SigningKey:                    aws_cryptography_materialProviders_EncryptionMaterials_signingKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_signingKey().UnwrapOr(nil)),
-		SymmetricSigningKeys:          aws_cryptography_materialProviders_EncryptionMaterials_symmetricSigningKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_symmetricSigningKeys().UnwrapOr(nil)),
+func Aws_cryptography_materialProviders_ValidEncryptionMaterialsTransitionInput_start_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials {
+	return awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials{AlgorithmSuite: Aws_cryptography_materialProviders_EncryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_algorithmSuite()),
+		EncryptionContext:             Aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptionContext()),
+		EncryptedDataKeys:             Aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptedDataKeys()),
+		RequiredEncryptionContextKeys: Aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_requiredEncryptionContextKeys()),
+		PlaintextDataKey:              Aws_cryptography_materialProviders_EncryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
+		SigningKey:                    Aws_cryptography_materialProviders_EncryptionMaterials_signingKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_signingKey().UnwrapOr(nil)),
+		SymmetricSigningKeys:          Aws_cryptography_materialProviders_EncryptionMaterials_symmetricSigningKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_symmetricSigningKeys().UnwrapOr(nil)),
 	}
 }
-func aws_cryptography_materialProviders_ValidEncryptionMaterialsTransitionInput_stop_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials {
-	return awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials{AlgorithmSuite: aws_cryptography_materialProviders_EncryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_algorithmSuite()),
-		EncryptionContext:             aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptionContext()),
-		EncryptedDataKeys:             aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptedDataKeys()),
-		RequiredEncryptionContextKeys: aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_requiredEncryptionContextKeys()),
-		PlaintextDataKey:              aws_cryptography_materialProviders_EncryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
-		SigningKey:                    aws_cryptography_materialProviders_EncryptionMaterials_signingKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_signingKey().UnwrapOr(nil)),
-		SymmetricSigningKeys:          aws_cryptography_materialProviders_EncryptionMaterials_symmetricSigningKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_symmetricSigningKeys().UnwrapOr(nil)),
+func Aws_cryptography_materialProviders_ValidEncryptionMaterialsTransitionInput_stop_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials {
+	return awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials{AlgorithmSuite: Aws_cryptography_materialProviders_EncryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_algorithmSuite()),
+		EncryptionContext:             Aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptionContext()),
+		EncryptedDataKeys:             Aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptedDataKeys()),
+		RequiredEncryptionContextKeys: Aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_requiredEncryptionContextKeys()),
+		PlaintextDataKey:              Aws_cryptography_materialProviders_EncryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
+		SigningKey:                    Aws_cryptography_materialProviders_EncryptionMaterials_signingKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_signingKey().UnwrapOr(nil)),
+		SymmetricSigningKeys:          Aws_cryptography_materialProviders_EncryptionMaterials_symmetricSigningKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_symmetricSigningKeys().UnwrapOr(nil)),
 	}
 }
-func aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_FromDafny(input interface{}) map[string]string {
+func Aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_FromDafny(input interface{}) map[string]string {
 	var m map[string]string = make(map[string]string)
 	if input == nil {
 		return nil
@@ -2838,35 +2713,27 @@ func aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_Fr
 		if !ok {
 			break
 		}
-		m[aws_cryptography_materialProviders_EncryptionContext_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = aws_cryptography_materialProviders_EncryptionContext_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
+		m[Aws_cryptography_materialProviders_EncryptionContext_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = Aws_cryptography_materialProviders_EncryptionContext_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
 	}
 	return m
 
 }
-func aws_cryptography_materialProviders_GetBranchKeyIdOutput_branchKeyId_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_GetBranchKeyIdOutput_branchKeyId_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_GetClientInput_region_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_GetClientInput_region_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
 func Aws_cryptography_materialProviders_GetClientOutput_client_FromDafny(input interface{}) *kms.Client {
@@ -2877,9 +2744,9 @@ func Aws_cryptography_materialProviders_GetClientOutput_client_FromDafny(input i
 	return shim.Client
 
 }
-func aws_cryptography_materialProviders_DeleteCacheEntryInput_identifier_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_DeleteCacheEntryInput_identifier_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -2893,9 +2760,9 @@ func aws_cryptography_materialProviders_DeleteCacheEntryInput_identifier_FromDaf
 		}
 	}()
 }
-func aws_cryptography_materialProviders_GetCacheEntryInput_identifier_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_GetCacheEntryInput_identifier_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -2909,7 +2776,7 @@ func aws_cryptography_materialProviders_GetCacheEntryInput_identifier_FromDafny(
 		}
 	}()
 }
-func aws_cryptography_materialProviders_GetCacheEntryInput_bytesUsed_FromDafny(input interface{}) *int64 {
+func Aws_cryptography_materialProviders_GetCacheEntryInput_bytesUsed_FromDafny(input interface{}) *int64 {
 	return func() *int64 {
 		var b int64
 		if input == nil {
@@ -2919,288 +2786,99 @@ func aws_cryptography_materialProviders_GetCacheEntryInput_bytesUsed_FromDafny(i
 		return &b
 	}()
 }
-func aws_cryptography_materialProviders_GetCacheEntryOutput_materials_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.Materials {
+func Aws_cryptography_materialProviders_GetCacheEntryOutput_materials_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.Materials {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.Materials
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.Materials)).Is_Encryption() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberEncryption{
-			Value: (aws_cryptography_materialProviders_Materials_Encryption_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_Encryption())),
+			Value: (Aws_cryptography_materialProviders_Materials_Encryption_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_Encryption())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.Materials)).Is_Decryption() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberDecryption{
-			Value: (aws_cryptography_materialProviders_Materials_Decryption_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_Decryption())),
+			Value: (Aws_cryptography_materialProviders_Materials_Decryption_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_Decryption())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.Materials)).Is_BranchKey() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberBranchKey{
-			Value: (aws_cryptography_materialProviders_Materials_BranchKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_BranchKey())),
+			Value: (Aws_cryptography_materialProviders_Materials_BranchKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_BranchKey())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.Materials)).Is_BeaconKey() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberBeaconKey{
-			Value: (aws_cryptography_materialProviders_Materials_BeaconKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_BeaconKey())),
+			Value: (Aws_cryptography_materialProviders_Materials_BeaconKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_BeaconKey())),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_Materials_Encryption_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials {
-	return awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials{AlgorithmSuite: aws_cryptography_materialProviders_EncryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_algorithmSuite()),
-		EncryptionContext:             aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptionContext()),
-		EncryptedDataKeys:             aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptedDataKeys()),
-		RequiredEncryptionContextKeys: aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_requiredEncryptionContextKeys()),
-		PlaintextDataKey:              aws_cryptography_materialProviders_EncryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
-		SigningKey:                    aws_cryptography_materialProviders_EncryptionMaterials_signingKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_signingKey().UnwrapOr(nil)),
-		SymmetricSigningKeys:          aws_cryptography_materialProviders_EncryptionMaterials_symmetricSigningKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_symmetricSigningKeys().UnwrapOr(nil)),
+func Aws_cryptography_materialProviders_Materials_Encryption_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials {
+	return awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials{AlgorithmSuite: Aws_cryptography_materialProviders_EncryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_algorithmSuite()),
+		EncryptionContext:             Aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptionContext()),
+		EncryptedDataKeys:             Aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptedDataKeys()),
+		RequiredEncryptionContextKeys: Aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_requiredEncryptionContextKeys()),
+		PlaintextDataKey:              Aws_cryptography_materialProviders_EncryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
+		SigningKey:                    Aws_cryptography_materialProviders_EncryptionMaterials_signingKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_signingKey().UnwrapOr(nil)),
+		SymmetricSigningKeys:          Aws_cryptography_materialProviders_EncryptionMaterials_symmetricSigningKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_symmetricSigningKeys().UnwrapOr(nil)),
 	}
 }
-func aws_cryptography_materialProviders_Materials_Decryption_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials {
-	return awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials{AlgorithmSuite: aws_cryptography_materialProviders_DecryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_algorithmSuite()),
-		EncryptionContext:             aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_encryptionContext()),
-		RequiredEncryptionContextKeys: aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_requiredEncryptionContextKeys()),
-		PlaintextDataKey:              aws_cryptography_materialProviders_DecryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
-		VerificationKey:               aws_cryptography_materialProviders_DecryptionMaterials_verificationKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_verificationKey().UnwrapOr(nil)),
-		SymmetricSigningKey:           aws_cryptography_materialProviders_DecryptionMaterials_symmetricSigningKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_symmetricSigningKey().UnwrapOr(nil)),
+func Aws_cryptography_materialProviders_Materials_Decryption_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials {
+	return awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials{AlgorithmSuite: Aws_cryptography_materialProviders_DecryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_algorithmSuite()),
+		EncryptionContext:             Aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_encryptionContext()),
+		RequiredEncryptionContextKeys: Aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_requiredEncryptionContextKeys()),
+		PlaintextDataKey:              Aws_cryptography_materialProviders_DecryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
+		VerificationKey:               Aws_cryptography_materialProviders_DecryptionMaterials_verificationKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_verificationKey().UnwrapOr(nil)),
+		SymmetricSigningKey:           Aws_cryptography_materialProviders_DecryptionMaterials_symmetricSigningKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_symmetricSigningKey().UnwrapOr(nil)),
 	}
 }
-func aws_cryptography_materialProviders_Materials_BranchKey_FromDafny(input interface{}) awscryptographykeystoresmithygeneratedtypes.BranchKeyMaterials {
-	return awscryptographykeystoresmithygeneratedtypes.BranchKeyMaterials{BranchKeyIdentifier: aws_cryptography_keyStore_BranchKeyMaterials_branchKeyIdentifier_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_branchKeyIdentifier()),
-		BranchKeyVersion:  aws_cryptography_keyStore_BranchKeyMaterials_branchKeyVersion_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_branchKeyVersion()),
-		EncryptionContext: aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_encryptionContext()),
-		BranchKey:         aws_cryptography_keyStore_BranchKeyMaterials_branchKey_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_branchKey()),
+func Aws_cryptography_materialProviders_Materials_BranchKey_FromDafny(input interface{}) awscryptographykeystoresmithygeneratedtypes.BranchKeyMaterials {
+	return awscryptographykeystoresmithygeneratedtypes.BranchKeyMaterials{BranchKeyIdentifier: awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_BranchKeyMaterials_branchKeyIdentifier_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_branchKeyIdentifier()),
+		BranchKeyVersion:  awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_BranchKeyMaterials_branchKeyVersion_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_branchKeyVersion()),
+		EncryptionContext: awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_encryptionContext()),
+		BranchKey:         awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_BranchKeyMaterials_branchKey_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_branchKey()),
 	}
 }
-func aws_cryptography_keyStore_BranchKeyMaterials_branchKeyIdentifier_FromDafny(input interface{}) string {
-	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func aws_cryptography_keyStore_BranchKeyMaterials_branchKeyVersion_FromDafny(input interface{}) string {
-	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				// UTF bytes should be always converted from bytes to string in go
-				// Otherwise go treats the string as a unicode codepoint
-
-				var valUint, _ = val.(uint8)
-				var byteSlice = []byte{valUint}
-				s = s + string(byteSlice)
-
-			}
-		}
-	}()
-}
-func aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_FromDafny(input interface{}) map[string]string {
-	var m map[string]string = make(map[string]string)
-	if input == nil {
-		return nil
-	}
-	for i := dafny.Iterate(input.(dafny.Map).Items()); ; {
-		val, ok := i()
-		if !ok {
-			break
-		}
-		m[aws_cryptography_keyStore_EncryptionContext_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = aws_cryptography_keyStore_EncryptionContext_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
-	}
-	return m
-
-}
-func aws_cryptography_keyStore_EncryptionContext_key_FromDafny(input interface{}) string {
-	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				// UTF bytes should be always converted from bytes to string in go
-				// Otherwise go treats the string as a unicode codepoint
-
-				var valUint, _ = val.(uint8)
-				var byteSlice = []byte{valUint}
-				s = s + string(byteSlice)
-
-			}
-		}
-	}()
-}
-func aws_cryptography_keyStore_EncryptionContext_value_FromDafny(input interface{}) string {
-	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				// UTF bytes should be always converted from bytes to string in go
-				// Otherwise go treats the string as a unicode codepoint
-
-				var valUint, _ = val.(uint8)
-				var byteSlice = []byte{valUint}
-				s = s + string(byteSlice)
-
-			}
-		}
-	}()
-}
-func aws_cryptography_keyStore_BranchKeyMaterials_branchKey_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
-		}
-	}()
-}
-func aws_cryptography_materialProviders_Materials_BeaconKey_FromDafny(input interface{}) awscryptographykeystoresmithygeneratedtypes.BeaconKeyMaterials {
-	return awscryptographykeystoresmithygeneratedtypes.BeaconKeyMaterials{BeaconKeyIdentifier: aws_cryptography_keyStore_BeaconKeyMaterials_beaconKeyIdentifier_FromDafny(input.(AwsCryptographyKeyStoreTypes.BeaconKeyMaterials).Dtor_beaconKeyIdentifier()),
-		EncryptionContext: aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_FromDafny(input.(AwsCryptographyKeyStoreTypes.BeaconKeyMaterials).Dtor_encryptionContext()),
-		BeaconKey:         aws_cryptography_keyStore_BeaconKeyMaterials_beaconKey_FromDafny(input.(AwsCryptographyKeyStoreTypes.BeaconKeyMaterials).Dtor_beaconKey().UnwrapOr(nil)),
-		HmacKeys:          aws_cryptography_keyStore_BeaconKeyMaterials_hmacKeys_FromDafny(input.(AwsCryptographyKeyStoreTypes.BeaconKeyMaterials).Dtor_hmacKeys().UnwrapOr(nil)),
+func Aws_cryptography_materialProviders_Materials_BeaconKey_FromDafny(input interface{}) awscryptographykeystoresmithygeneratedtypes.BeaconKeyMaterials {
+	return awscryptographykeystoresmithygeneratedtypes.BeaconKeyMaterials{BeaconKeyIdentifier: awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_BeaconKeyMaterials_beaconKeyIdentifier_FromDafny(input.(AwsCryptographyKeyStoreTypes.BeaconKeyMaterials).Dtor_beaconKeyIdentifier()),
+		EncryptionContext: awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_FromDafny(input.(AwsCryptographyKeyStoreTypes.BeaconKeyMaterials).Dtor_encryptionContext()),
+		BeaconKey:         awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_BeaconKeyMaterials_beaconKey_FromDafny(input.(AwsCryptographyKeyStoreTypes.BeaconKeyMaterials).Dtor_beaconKey().UnwrapOr(nil)),
+		HmacKeys:          awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_BeaconKeyMaterials_hmacKeys_FromDafny(input.(AwsCryptographyKeyStoreTypes.BeaconKeyMaterials).Dtor_hmacKeys().UnwrapOr(nil)),
 	}
 }
-func aws_cryptography_keyStore_BeaconKeyMaterials_beaconKeyIdentifier_FromDafny(input interface{}) string {
-	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_FromDafny(input interface{}) map[string]string {
-	var m map[string]string = make(map[string]string)
-	if input == nil {
-		return nil
-	}
-	for i := dafny.Iterate(input.(dafny.Map).Items()); ; {
-		val, ok := i()
-		if !ok {
-			break
-		}
-		m[aws_cryptography_keyStore_EncryptionContext_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = aws_cryptography_keyStore_EncryptionContext_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
-	}
-	return m
-
-}
-func aws_cryptography_keyStore_BeaconKeyMaterials_beaconKey_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
-		}
-	}()
-}
-func aws_cryptography_keyStore_BeaconKeyMaterials_hmacKeys_FromDafny(input interface{}) map[string][]byte {
-	var m map[string][]byte = make(map[string][]byte)
-	if input == nil {
-		return nil
-	}
-	for i := dafny.Iterate(input.(dafny.Map).Items()); ; {
-		val, ok := i()
-		if !ok {
-			break
-		}
-		m[aws_cryptography_keyStore_HmacKeyMap_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = aws_cryptography_keyStore_HmacKeyMap_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
-	}
-	return m
-
-}
-func aws_cryptography_keyStore_HmacKeyMap_key_FromDafny(input interface{}) string {
-	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
-	}()
-}
-func aws_cryptography_keyStore_HmacKeyMap_value_FromDafny(input interface{}) []byte {
-	return func() []byte {
-		var b []byte
-		if input == nil {
-			return nil
-		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
-		}
-	}()
-}
-func aws_cryptography_materialProviders_GetCacheEntryOutput_creationTime_FromDafny(input interface{}) int64 {
+func Aws_cryptography_materialProviders_GetCacheEntryOutput_creationTime_FromDafny(input interface{}) int64 {
 	return func() int64 {
 		var b = input.(int64)
 		return b
 	}()
 
 }
-func aws_cryptography_materialProviders_GetCacheEntryOutput_expiryTime_FromDafny(input interface{}) int64 {
+func Aws_cryptography_materialProviders_GetCacheEntryOutput_expiryTime_FromDafny(input interface{}) int64 {
 	return func() int64 {
 		var b = input.(int64)
 		return b
 	}()
 
 }
-func aws_cryptography_materialProviders_GetCacheEntryOutput_messagesUsed_FromDafny(input interface{}) int32 {
+func Aws_cryptography_materialProviders_GetCacheEntryOutput_messagesUsed_FromDafny(input interface{}) int32 {
 	return func() int32 {
 		var b = input.(int32)
 		return b
 	}()
 }
-func aws_cryptography_materialProviders_GetCacheEntryOutput_bytesUsed_FromDafny(input interface{}) int32 {
+func Aws_cryptography_materialProviders_GetCacheEntryOutput_bytesUsed_FromDafny(input interface{}) int32 {
 	return func() int32 {
 		var b = input.(int32)
 		return b
 	}()
 }
-func aws_cryptography_materialProviders_PutCacheEntryInput_identifier_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_PutCacheEntryInput_identifier_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -3214,52 +2892,52 @@ func aws_cryptography_materialProviders_PutCacheEntryInput_identifier_FromDafny(
 		}
 	}()
 }
-func aws_cryptography_materialProviders_PutCacheEntryInput_materials_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.Materials {
+func Aws_cryptography_materialProviders_PutCacheEntryInput_materials_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.Materials {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.Materials
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.Materials)).Is_Encryption() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberEncryption{
-			Value: (aws_cryptography_materialProviders_Materials_Encryption_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_Encryption())),
+			Value: (Aws_cryptography_materialProviders_Materials_Encryption_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_Encryption())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.Materials)).Is_Decryption() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberDecryption{
-			Value: (aws_cryptography_materialProviders_Materials_Decryption_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_Decryption())),
+			Value: (Aws_cryptography_materialProviders_Materials_Decryption_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_Decryption())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.Materials)).Is_BranchKey() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberBranchKey{
-			Value: (aws_cryptography_materialProviders_Materials_BranchKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_BranchKey())),
+			Value: (Aws_cryptography_materialProviders_Materials_BranchKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_BranchKey())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.Materials)).Is_BeaconKey() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberBeaconKey{
-			Value: (aws_cryptography_materialProviders_Materials_BeaconKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_BeaconKey())),
+			Value: (Aws_cryptography_materialProviders_Materials_BeaconKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.Materials)).Dtor_BeaconKey())),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_PutCacheEntryInput_creationTime_FromDafny(input interface{}) int64 {
+func Aws_cryptography_materialProviders_PutCacheEntryInput_creationTime_FromDafny(input interface{}) int64 {
 	return func() int64 {
 		var b = input.(int64)
 		return b
 	}()
 
 }
-func aws_cryptography_materialProviders_PutCacheEntryInput_expiryTime_FromDafny(input interface{}) int64 {
+func Aws_cryptography_materialProviders_PutCacheEntryInput_expiryTime_FromDafny(input interface{}) int64 {
 	return func() int64 {
 		var b = input.(int64)
 		return b
 	}()
 
 }
-func aws_cryptography_materialProviders_PutCacheEntryInput_messagesUsed_FromDafny(input interface{}) *int32 {
+func Aws_cryptography_materialProviders_PutCacheEntryInput_messagesUsed_FromDafny(input interface{}) *int32 {
 	return func() *int32 {
 		var b int32
 		if input == nil {
@@ -3269,7 +2947,7 @@ func aws_cryptography_materialProviders_PutCacheEntryInput_messagesUsed_FromDafn
 		return &b
 	}()
 }
-func aws_cryptography_materialProviders_PutCacheEntryInput_bytesUsed_FromDafny(input interface{}) *int32 {
+func Aws_cryptography_materialProviders_PutCacheEntryInput_bytesUsed_FromDafny(input interface{}) *int32 {
 	return func() *int32 {
 		var b int32
 		if input == nil {
@@ -3279,9 +2957,9 @@ func aws_cryptography_materialProviders_PutCacheEntryInput_bytesUsed_FromDafny(i
 		return &b
 	}()
 }
-func aws_cryptography_materialProviders_UpdateUsageMetadataInput_identifier_FromDafny(input interface{}) []byte {
+func Aws_cryptography_materialProviders_UpdateUsageMetadataInput_identifier_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		var b []byte
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
@@ -3295,62 +2973,62 @@ func aws_cryptography_materialProviders_UpdateUsageMetadataInput_identifier_From
 		}
 	}()
 }
-func aws_cryptography_materialProviders_UpdateUsageMetadataInput_bytesUsed_FromDafny(input interface{}) int32 {
+func Aws_cryptography_materialProviders_UpdateUsageMetadataInput_bytesUsed_FromDafny(input interface{}) int32 {
 	return func() int32 {
 		var b = input.(int32)
 		return b
 	}()
 }
-func aws_cryptography_materialProviders_DecryptMaterialsInput_algorithmSuiteId_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteId {
+func Aws_cryptography_materialProviders_DecryptMaterialsInput_algorithmSuiteId_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteId {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteId
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Is_ESDK() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Dtor_ESDK())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberESDK{
-			Value: (aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Is_DBE() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Dtor_DBE())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberDBE{
-			Value: (aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_DecryptMaterialsInput_commitmentPolicy_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicy {
+func Aws_cryptography_materialProviders_DecryptMaterialsInput_commitmentPolicy_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicy {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicy
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.CommitmentPolicy)).Is_ESDK() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.CommitmentPolicy)).Dtor_ESDK())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberESDK{
-			Value: (aws_cryptography_materialProviders_CommitmentPolicy_ESDK_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_CommitmentPolicy_ESDK_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.CommitmentPolicy)).Is_DBE() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.CommitmentPolicy)).Dtor_DBE())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberDBE{
-			Value: (aws_cryptography_materialProviders_CommitmentPolicy_DBE_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_CommitmentPolicy_DBE_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_DecryptMaterialsInput_encryptedDataKeys_FromDafny(input interface{}) []awscryptographymaterialproviderssmithygeneratedtypes.EncryptedDataKey {
+func Aws_cryptography_materialProviders_DecryptMaterialsInput_encryptedDataKeys_FromDafny(input interface{}) []awscryptographymaterialproviderssmithygeneratedtypes.EncryptedDataKey {
 	fieldValue := make([]awscryptographymaterialproviderssmithygeneratedtypes.EncryptedDataKey, 0)
 	for i := dafny.Iterate(input.(dafny.Sequence)); ; {
 		val, ok := i()
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_EncryptedDataKeyList_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_EncryptedDataKeyList_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_DecryptMaterialsInput_encryptionContext_FromDafny(input interface{}) map[string]string {
+func Aws_cryptography_materialProviders_DecryptMaterialsInput_encryptionContext_FromDafny(input interface{}) map[string]string {
 	var m map[string]string = make(map[string]string)
 	if input == nil {
 		return nil
@@ -3360,12 +3038,12 @@ func aws_cryptography_materialProviders_DecryptMaterialsInput_encryptionContext_
 		if !ok {
 			break
 		}
-		m[aws_cryptography_materialProviders_EncryptionContext_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = aws_cryptography_materialProviders_EncryptionContext_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
+		m[Aws_cryptography_materialProviders_EncryptionContext_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = Aws_cryptography_materialProviders_EncryptionContext_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
 	}
 	return m
 
 }
-func aws_cryptography_materialProviders_DecryptMaterialsInput_reproducedEncryptionContext_FromDafny(input interface{}) map[string]string {
+func Aws_cryptography_materialProviders_DecryptMaterialsInput_reproducedEncryptionContext_FromDafny(input interface{}) map[string]string {
 	var m map[string]string = make(map[string]string)
 	if input == nil {
 		return nil
@@ -3375,21 +3053,21 @@ func aws_cryptography_materialProviders_DecryptMaterialsInput_reproducedEncrypti
 		if !ok {
 			break
 		}
-		m[aws_cryptography_materialProviders_EncryptionContext_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = aws_cryptography_materialProviders_EncryptionContext_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
+		m[Aws_cryptography_materialProviders_EncryptionContext_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = Aws_cryptography_materialProviders_EncryptionContext_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
 	}
 	return m
 
 }
-func aws_cryptography_materialProviders_DecryptMaterialsOutput_decryptionMaterials_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials {
-	return awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials{AlgorithmSuite: aws_cryptography_materialProviders_DecryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_algorithmSuite()),
-		EncryptionContext:             aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_encryptionContext()),
-		RequiredEncryptionContextKeys: aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_requiredEncryptionContextKeys()),
-		PlaintextDataKey:              aws_cryptography_materialProviders_DecryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
-		VerificationKey:               aws_cryptography_materialProviders_DecryptionMaterials_verificationKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_verificationKey().UnwrapOr(nil)),
-		SymmetricSigningKey:           aws_cryptography_materialProviders_DecryptionMaterials_symmetricSigningKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_symmetricSigningKey().UnwrapOr(nil)),
+func Aws_cryptography_materialProviders_DecryptMaterialsOutput_decryptionMaterials_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials {
+	return awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials{AlgorithmSuite: Aws_cryptography_materialProviders_DecryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_algorithmSuite()),
+		EncryptionContext:             Aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_encryptionContext()),
+		RequiredEncryptionContextKeys: Aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_requiredEncryptionContextKeys()),
+		PlaintextDataKey:              Aws_cryptography_materialProviders_DecryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
+		VerificationKey:               Aws_cryptography_materialProviders_DecryptionMaterials_verificationKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_verificationKey().UnwrapOr(nil)),
+		SymmetricSigningKey:           Aws_cryptography_materialProviders_DecryptionMaterials_symmetricSigningKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_symmetricSigningKey().UnwrapOr(nil)),
 	}
 }
-func aws_cryptography_materialProviders_GetEncryptionMaterialsInput_encryptionContext_FromDafny(input interface{}) map[string]string {
+func Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_encryptionContext_FromDafny(input interface{}) map[string]string {
 	var m map[string]string = make(map[string]string)
 	if input == nil {
 		return nil
@@ -3399,31 +3077,31 @@ func aws_cryptography_materialProviders_GetEncryptionMaterialsInput_encryptionCo
 		if !ok {
 			break
 		}
-		m[aws_cryptography_materialProviders_EncryptionContext_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = aws_cryptography_materialProviders_EncryptionContext_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
+		m[Aws_cryptography_materialProviders_EncryptionContext_key_FromDafny((*val.(dafny.Tuple).IndexInt(0)))] = Aws_cryptography_materialProviders_EncryptionContext_value_FromDafny((*val.(dafny.Tuple).IndexInt(1)))
 	}
 	return m
 
 }
-func aws_cryptography_materialProviders_GetEncryptionMaterialsInput_commitmentPolicy_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicy {
+func Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_commitmentPolicy_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicy {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicy
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.CommitmentPolicy)).Is_ESDK() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.CommitmentPolicy)).Dtor_ESDK())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberESDK{
-			Value: (aws_cryptography_materialProviders_CommitmentPolicy_ESDK_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_CommitmentPolicy_ESDK_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.CommitmentPolicy)).Is_DBE() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.CommitmentPolicy)).Dtor_DBE())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.CommitmentPolicyMemberDBE{
-			Value: (aws_cryptography_materialProviders_CommitmentPolicy_DBE_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_CommitmentPolicy_DBE_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_GetEncryptionMaterialsInput_algorithmSuiteId_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteId {
+func Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_algorithmSuiteId_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteId {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteId
 	if input == nil {
 		return nil
@@ -3432,20 +3110,20 @@ func aws_cryptography_materialProviders_GetEncryptionMaterialsInput_algorithmSui
 	if (input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Is_ESDK() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Dtor_ESDK())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberESDK{
-			Value: (aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Is_DBE() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId)).Dtor_DBE())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteIdMemberDBE{
-			Value: (aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_GetEncryptionMaterialsInput_maxPlaintextLength_FromDafny(input interface{}) *int64 {
+func Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_maxPlaintextLength_FromDafny(input interface{}) *int64 {
 	return func() *int64 {
 		var b int64
 		if input == nil {
@@ -3455,7 +3133,7 @@ func aws_cryptography_materialProviders_GetEncryptionMaterialsInput_maxPlaintext
 		return &b
 	}()
 }
-func aws_cryptography_materialProviders_GetEncryptionMaterialsInput_requiredEncryptionContextKeys_FromDafny(input interface{}) []string {
+func Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_requiredEncryptionContextKeys_FromDafny(input interface{}) []string {
 	if input == nil {
 		return nil
 	}
@@ -3465,269 +3143,225 @@ func aws_cryptography_materialProviders_GetEncryptionMaterialsInput_requiredEncr
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_EncryptionContextKeys_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_EncryptionContextKeys_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_GetEncryptionMaterialsOutput_encryptionMaterials_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials {
-	return awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials{AlgorithmSuite: aws_cryptography_materialProviders_EncryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_algorithmSuite()),
-		EncryptionContext:             aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptionContext()),
-		EncryptedDataKeys:             aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptedDataKeys()),
-		RequiredEncryptionContextKeys: aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_requiredEncryptionContextKeys()),
-		PlaintextDataKey:              aws_cryptography_materialProviders_EncryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
-		SigningKey:                    aws_cryptography_materialProviders_EncryptionMaterials_signingKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_signingKey().UnwrapOr(nil)),
-		SymmetricSigningKeys:          aws_cryptography_materialProviders_EncryptionMaterials_symmetricSigningKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_symmetricSigningKeys().UnwrapOr(nil)),
+func Aws_cryptography_materialProviders_GetEncryptionMaterialsOutput_encryptionMaterials_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials {
+	return awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials{AlgorithmSuite: Aws_cryptography_materialProviders_EncryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_algorithmSuite()),
+		EncryptionContext:             Aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptionContext()),
+		EncryptedDataKeys:             Aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptedDataKeys()),
+		RequiredEncryptionContextKeys: Aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_requiredEncryptionContextKeys()),
+		PlaintextDataKey:              Aws_cryptography_materialProviders_EncryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
+		SigningKey:                    Aws_cryptography_materialProviders_EncryptionMaterials_signingKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_signingKey().UnwrapOr(nil)),
+		SymmetricSigningKeys:          Aws_cryptography_materialProviders_EncryptionMaterials_symmetricSigningKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_symmetricSigningKeys().UnwrapOr(nil)),
 	}
 }
-func aws_cryptography_materialProviders_OnDecryptInput_materials_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials {
-	return awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials{AlgorithmSuite: aws_cryptography_materialProviders_DecryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_algorithmSuite()),
-		EncryptionContext:             aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_encryptionContext()),
-		RequiredEncryptionContextKeys: aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_requiredEncryptionContextKeys()),
-		PlaintextDataKey:              aws_cryptography_materialProviders_DecryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
-		VerificationKey:               aws_cryptography_materialProviders_DecryptionMaterials_verificationKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_verificationKey().UnwrapOr(nil)),
-		SymmetricSigningKey:           aws_cryptography_materialProviders_DecryptionMaterials_symmetricSigningKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_symmetricSigningKey().UnwrapOr(nil)),
+func Aws_cryptography_materialProviders_OnDecryptInput_materials_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials {
+	return awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials{AlgorithmSuite: Aws_cryptography_materialProviders_DecryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_algorithmSuite()),
+		EncryptionContext:             Aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_encryptionContext()),
+		RequiredEncryptionContextKeys: Aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_requiredEncryptionContextKeys()),
+		PlaintextDataKey:              Aws_cryptography_materialProviders_DecryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
+		VerificationKey:               Aws_cryptography_materialProviders_DecryptionMaterials_verificationKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_verificationKey().UnwrapOr(nil)),
+		SymmetricSigningKey:           Aws_cryptography_materialProviders_DecryptionMaterials_symmetricSigningKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_symmetricSigningKey().UnwrapOr(nil)),
 	}
 }
-func aws_cryptography_materialProviders_OnDecryptInput_encryptedDataKeys_FromDafny(input interface{}) []awscryptographymaterialproviderssmithygeneratedtypes.EncryptedDataKey {
+func Aws_cryptography_materialProviders_OnDecryptInput_encryptedDataKeys_FromDafny(input interface{}) []awscryptographymaterialproviderssmithygeneratedtypes.EncryptedDataKey {
 	fieldValue := make([]awscryptographymaterialproviderssmithygeneratedtypes.EncryptedDataKey, 0)
 	for i := dafny.Iterate(input.(dafny.Sequence)); ; {
 		val, ok := i()
 		if !ok {
 			break
 		}
-		fieldValue = append(fieldValue, aws_cryptography_materialProviders_EncryptedDataKeyList_member_FromDafny(val))
+		fieldValue = append(fieldValue, Aws_cryptography_materialProviders_EncryptedDataKeyList_member_FromDafny(val))
 	}
 	return fieldValue
 }
-func aws_cryptography_materialProviders_OnDecryptOutput_materials_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials {
-	return awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials{AlgorithmSuite: aws_cryptography_materialProviders_DecryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_algorithmSuite()),
-		EncryptionContext:             aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_encryptionContext()),
-		RequiredEncryptionContextKeys: aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_requiredEncryptionContextKeys()),
-		PlaintextDataKey:              aws_cryptography_materialProviders_DecryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
-		VerificationKey:               aws_cryptography_materialProviders_DecryptionMaterials_verificationKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_verificationKey().UnwrapOr(nil)),
-		SymmetricSigningKey:           aws_cryptography_materialProviders_DecryptionMaterials_symmetricSigningKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_symmetricSigningKey().UnwrapOr(nil)),
+func Aws_cryptography_materialProviders_OnDecryptOutput_materials_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials {
+	return awscryptographymaterialproviderssmithygeneratedtypes.DecryptionMaterials{AlgorithmSuite: Aws_cryptography_materialProviders_DecryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_algorithmSuite()),
+		EncryptionContext:             Aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_encryptionContext()),
+		RequiredEncryptionContextKeys: Aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_requiredEncryptionContextKeys()),
+		PlaintextDataKey:              Aws_cryptography_materialProviders_DecryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
+		VerificationKey:               Aws_cryptography_materialProviders_DecryptionMaterials_verificationKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_verificationKey().UnwrapOr(nil)),
+		SymmetricSigningKey:           Aws_cryptography_materialProviders_DecryptionMaterials_symmetricSigningKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials).Dtor_symmetricSigningKey().UnwrapOr(nil)),
 	}
 }
-func aws_cryptography_materialProviders_OnEncryptInput_materials_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials {
-	return awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials{AlgorithmSuite: aws_cryptography_materialProviders_EncryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_algorithmSuite()),
-		EncryptionContext:             aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptionContext()),
-		EncryptedDataKeys:             aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptedDataKeys()),
-		RequiredEncryptionContextKeys: aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_requiredEncryptionContextKeys()),
-		PlaintextDataKey:              aws_cryptography_materialProviders_EncryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
-		SigningKey:                    aws_cryptography_materialProviders_EncryptionMaterials_signingKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_signingKey().UnwrapOr(nil)),
-		SymmetricSigningKeys:          aws_cryptography_materialProviders_EncryptionMaterials_symmetricSigningKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_symmetricSigningKeys().UnwrapOr(nil)),
+func Aws_cryptography_materialProviders_OnEncryptInput_materials_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials {
+	return awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials{AlgorithmSuite: Aws_cryptography_materialProviders_EncryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_algorithmSuite()),
+		EncryptionContext:             Aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptionContext()),
+		EncryptedDataKeys:             Aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptedDataKeys()),
+		RequiredEncryptionContextKeys: Aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_requiredEncryptionContextKeys()),
+		PlaintextDataKey:              Aws_cryptography_materialProviders_EncryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
+		SigningKey:                    Aws_cryptography_materialProviders_EncryptionMaterials_signingKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_signingKey().UnwrapOr(nil)),
+		SymmetricSigningKeys:          Aws_cryptography_materialProviders_EncryptionMaterials_symmetricSigningKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_symmetricSigningKeys().UnwrapOr(nil)),
 	}
 }
-func aws_cryptography_materialProviders_OnEncryptOutput_materials_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials {
-	return awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials{AlgorithmSuite: aws_cryptography_materialProviders_EncryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_algorithmSuite()),
-		EncryptionContext:             aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptionContext()),
-		EncryptedDataKeys:             aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptedDataKeys()),
-		RequiredEncryptionContextKeys: aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_requiredEncryptionContextKeys()),
-		PlaintextDataKey:              aws_cryptography_materialProviders_EncryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
-		SigningKey:                    aws_cryptography_materialProviders_EncryptionMaterials_signingKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_signingKey().UnwrapOr(nil)),
-		SymmetricSigningKeys:          aws_cryptography_materialProviders_EncryptionMaterials_symmetricSigningKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_symmetricSigningKeys().UnwrapOr(nil)),
+func Aws_cryptography_materialProviders_OnEncryptOutput_materials_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials {
+	return awscryptographymaterialproviderssmithygeneratedtypes.EncryptionMaterials{AlgorithmSuite: Aws_cryptography_materialProviders_EncryptionMaterials_algorithmSuite_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_algorithmSuite()),
+		EncryptionContext:             Aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptionContext()),
+		EncryptedDataKeys:             Aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_encryptedDataKeys()),
+		RequiredEncryptionContextKeys: Aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_requiredEncryptionContextKeys()),
+		PlaintextDataKey:              Aws_cryptography_materialProviders_EncryptionMaterials_plaintextDataKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_plaintextDataKey().UnwrapOr(nil)),
+		SigningKey:                    Aws_cryptography_materialProviders_EncryptionMaterials_signingKey_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_signingKey().UnwrapOr(nil)),
+		SymmetricSigningKeys:          Aws_cryptography_materialProviders_EncryptionMaterials_symmetricSigningKeys_FromDafny(input.(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials).Dtor_symmetricSigningKeys().UnwrapOr(nil)),
 	}
 }
-func aws_cryptography_materialProviders_AwsCryptographicMaterialProvidersException_message_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_AwsCryptographicMaterialProvidersException_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_EntryAlreadyExists_message_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_EntryAlreadyExists_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_EntryDoesNotExist_message_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_EntryDoesNotExist_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_InFlightTTLExceeded_message_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_InFlightTTLExceeded_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_InvalidAlgorithmSuiteInfo_message_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_InvalidAlgorithmSuiteInfo_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_InvalidAlgorithmSuiteInfoOnDecrypt_message_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_InvalidAlgorithmSuiteInfoOnDecrypt_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_InvalidAlgorithmSuiteInfoOnEncrypt_message_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_InvalidAlgorithmSuiteInfoOnEncrypt_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_InvalidDecryptionMaterials_message_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_InvalidDecryptionMaterials_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_InvalidDecryptionMaterialsTransition_message_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_InvalidDecryptionMaterialsTransition_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_InvalidEncryptionMaterials_message_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_InvalidEncryptionMaterials_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_InvalidEncryptionMaterialsTransition_message_FromDafny(input interface{}) string {
+func Aws_cryptography_materialProviders_InvalidEncryptionMaterialsTransition_message_FromDafny(input interface{}) string {
 	return func() string {
-		var s string
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return s
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
 	}()
 }
-func aws_cryptography_materialProviders_StaticConfigurations_AWS_KMS_ECDH_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.KmsEcdhStaticConfigurations {
+func Aws_cryptography_materialProviders_StaticConfigurations_AWS_KMS_ECDH_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.KmsEcdhStaticConfigurations {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.KmsEcdhStaticConfigurations
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations)).Is_KmsPublicKeyDiscovery() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.KmsEcdhStaticConfigurationsMemberKmsPublicKeyDiscovery{
-			Value: (aws_cryptography_materialProviders_KmsEcdhStaticConfigurations_KmsPublicKeyDiscovery_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations)).Dtor_KmsPublicKeyDiscovery())),
+			Value: (Aws_cryptography_materialProviders_KmsEcdhStaticConfigurations_KmsPublicKeyDiscovery_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations)).Dtor_KmsPublicKeyDiscovery())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations)).Is_KmsPrivateKeyToStaticPublicKey() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.KmsEcdhStaticConfigurationsMemberKmsPrivateKeyToStaticPublicKey{
-			Value: (aws_cryptography_materialProviders_KmsEcdhStaticConfigurations_KmsPrivateKeyToStaticPublicKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations)).Dtor_KmsPrivateKeyToStaticPublicKey())),
+			Value: (Aws_cryptography_materialProviders_KmsEcdhStaticConfigurations_KmsPrivateKeyToStaticPublicKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations)).Dtor_KmsPrivateKeyToStaticPublicKey())),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_StaticConfigurations_RAW_ECDH_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurations {
+func Aws_cryptography_materialProviders_StaticConfigurations_RAW_ECDH_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurations {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurations
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations)).Is_PublicKeyDiscovery() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurationsMemberPublicKeyDiscovery{
-			Value: (aws_cryptography_materialProviders_RawEcdhStaticConfigurations_PublicKeyDiscovery_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations)).Dtor_PublicKeyDiscovery())),
+			Value: (Aws_cryptography_materialProviders_RawEcdhStaticConfigurations_PublicKeyDiscovery_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations)).Dtor_PublicKeyDiscovery())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations)).Is_RawPrivateKeyToStaticPublicKey() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurationsMemberRawPrivateKeyToStaticPublicKey{
-			Value: (aws_cryptography_materialProviders_RawEcdhStaticConfigurations_RawPrivateKeyToStaticPublicKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations)).Dtor_RawPrivateKeyToStaticPublicKey())),
+			Value: (Aws_cryptography_materialProviders_RawEcdhStaticConfigurations_RawPrivateKeyToStaticPublicKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations)).Dtor_RawPrivateKeyToStaticPublicKey())),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations)).Is_EphemeralPrivateKeyToStaticPublicKey() {
 
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey{
-			Value: (aws_cryptography_materialProviders_RawEcdhStaticConfigurations_EphemeralPrivateKeyToStaticPublicKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations)).Dtor_EphemeralPrivateKeyToStaticPublicKey())),
+			Value: (Aws_cryptography_materialProviders_RawEcdhStaticConfigurations_EphemeralPrivateKeyToStaticPublicKey_FromDafny((input.(AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations)).Dtor_EphemeralPrivateKeyToStaticPublicKey())),
 		}
 	}
 
 	return union
 
 }
-func aws_cryptography_materialProviders_KeyAgreementScheme_StaticConfiguration_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.StaticConfigurations {
+func Aws_cryptography_materialProviders_KeyAgreementScheme_StaticConfiguration_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.StaticConfigurations {
 	var union awscryptographymaterialproviderssmithygeneratedtypes.StaticConfigurations
 
 	if (input.(AwsCryptographyMaterialProvidersTypes.StaticConfigurations)).Is_AWS__KMS__ECDH() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.StaticConfigurations)).Dtor_AWS__KMS__ECDH())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.StaticConfigurationsMemberAWS_KMS_ECDH{
-			Value: (aws_cryptography_materialProviders_StaticConfigurations_AWS_KMS_ECDH_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_StaticConfigurations_AWS_KMS_ECDH_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 	if (input.(AwsCryptographyMaterialProvidersTypes.StaticConfigurations)).Is_RAW__ECDH() {
 		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyMaterialProvidersTypes.StaticConfigurations)).Dtor_RAW__ECDH())
 		union = &awscryptographymaterialproviderssmithygeneratedtypes.StaticConfigurationsMemberRAW_ECDH{
-			Value: (aws_cryptography_materialProviders_StaticConfigurations_RAW_ECDH_FromDafny(dataSource.UnwrapOr(nil))),
+			Value: (Aws_cryptography_materialProviders_StaticConfigurations_RAW_ECDH_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
 

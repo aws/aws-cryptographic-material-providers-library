@@ -29,7 +29,12 @@ jobs:
             TestVectorsAwsCryptographicMaterialProviders,
           ]
         dotnet-version: ["6.0.x"]
-        os: [windows-latest, ubuntu-22.04, macos-13]
+        os: [
+            windows-latest,
+            ubuntu-22.04,
+            # TODO: Re-enable macOS after https://t.corp.amazon.com/P205755286
+            # macos-13,
+          ]
     runs-on: ${{ matrix.os }}
     defaults:
       run:
@@ -56,7 +61,7 @@ jobs:
       # The specification submodule is private so we don't have access, but we don't need
       # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
       - run: git submodule update --init libraries
-      - run: git submodule update --init smithy-dafny
+      - run: git submodule update --init --recursive smithy-dafny
 
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
         uses: actions/setup-dotnet@v3
@@ -64,7 +69,7 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }}
 
       - name: Setup Dafny
-        uses: dafny-lang/setup-dafny-action@v1.7.0
+        uses: dafny-lang/setup-dafny-action@v1.8.0
         with:
           dafny-version: ${{ inputs.dafny }}
 
@@ -90,14 +95,17 @@ jobs:
       # .NET Framework is a software development framework
       # for building and running applications on Windows.
       # https://dotnet.microsoft.com/en-us/learn/dotnet/what-is-dotnet-framework
-      - name: Test ${{ matrix.library }} .NET Framework net48
-        if: matrix.os == 'windows-latest'
-        working-directory: ./${{ matrix.library }}
-        shell: bash
-        run: |
-          nuget locals all -clear
-          dotnet restore runtimes/net
-          make test_net FRAMEWORK=net48
+
+      #      .NET is broken on Windows
+      #      https://t.corp.amazon.com/P211278460
+      #      - name: Test ${{ matrix.library }} .NET Framework net48
+      #        if: matrix.os == 'windows-latest'
+      #        working-directory: ./${{ matrix.library }}
+      #        shell: bash
+      #        run: |
+      #          nuget locals all -clear
+      #          dotnet restore runtimes/net
+      #          make test_net FRAMEWORK=net48
 
       - name: Test ${{ matrix.library }} .NET net6.0
         working-directory: ./${{ matrix.library }}
