@@ -219,7 +219,8 @@ the sort-key for the beacon key is `beacon:ACTIVE'.
 The active branch key and the decrypt_only items have the same plain-text data key.
 The beacon key plain-text data key is unqiue.
 KMS calls are determined by the 'hierarchy-version' and 'KeyManagementStrategy'.
-All three items are written to DDB by a TransactionWriteItems, conditioned on the absence of a conflicting Branch Key ID.")
+All three items are written to DDB by a TransactionWriteItems, conditioned on the absence of a conflicting Branch Key ID.
+See Branch Key Store Developer Guide's 'Create Branch Keys': https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/create-branch-keys.html")
 operation CreateKey {
   input: CreateKeyInput,
   output: CreateKeyOutput
@@ -276,7 +277,8 @@ this only overwrites the ACTIVE item, the DECRYPT_ONLY is a new item.
 This leaves all the previous DECRYPT_ONLY items avabile to service decryption of previous rotations.
 This operation can race against other Version Key requests or Initialize Mutation requests for the same Branch Key.
 Should that occur, all but one of the requests will fail.
-Race errors are either 'Version Race Exceptions' or 'Key Storage Exceptions'.")
+Race errors are either 'Version Race Exceptions' or 'Key Storage Exceptions'.
+See Branch Key Store Developer Guide's 'Rotate your active branch key': https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/rotate-branch-key.html")
 operation VersionKey {
   input: VersionKeyInput,
   output: VersionKeyOutput,
@@ -551,10 +553,11 @@ structure MutableBranchKeyProperties {
   @documentation("The KmsArn protecting the Branch Key.")
   KmsArn: String // KMS Arn validation MUST occur in Dafny
   @required  
-  @documentation("The custom Encryption Context authenticated with this Branch Key.")
+  @documentation("The Encryption Context authenticated with this Branch Key.")
   CustomEncryptionContext: aws.cryptography.keyStore#EncryptionContextString // EC non Empty MUST be validated in Dafny
   @required // TODO-HV-2-BLOCKER : This Shape is only emmitted, so we should be able to add required fields
   @documentation("The 'hierarchy-version' of the Branch Key.")
+  HierarchyVersion: HierarchyVersion
 }
 
 @documentation(
