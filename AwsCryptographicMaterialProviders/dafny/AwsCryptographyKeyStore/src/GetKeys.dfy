@@ -6,6 +6,7 @@ include "Structure.dfy"
 include "KMSKeystoreOperations.dfy"
 include "ErrorMessages.dfy"
 include "KmsArn.dfy"
+include "../../AwsCryptographicMaterialProviders/src/CanonicalEncryptionContext.dfy"
 
 module {:options "/functionSyntax:4" } GetKeys {
   import opened StandardLibrary
@@ -13,6 +14,7 @@ module {:options "/functionSyntax:4" } GetKeys {
   import opened Seq
 
   import Structure
+  import CanonicalEncryptionContext
   import DefaultKeyStorageInterface
   import KMSKeystoreOperations
   import ErrorMessages = KeyStoreErrorMessages
@@ -165,7 +167,10 @@ module {:options "/functionSyntax:4" } GetKeys {
         message := ErrorMessages.INVALID_HIERARCHY_VERSION
       )
     );
-
+    var a := ToHV2EC(branchKeyItem.EncryptionContext);
+    print(a);
+    print("\n");
+    print(CanonicalEncryptionContext.EncryptionContextToAAD(a));
     if (branchKeyItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_1) {
       var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
         branchKeyItem,
@@ -192,6 +197,10 @@ module {:options "/functionSyntax:4" } GetKeys {
         kmsClient
       );
 
+      var plaintextBranchKeyWithMdDigest := branchKey.Plaintext.value;
+      var plaintextBranchKey := plaintextBranchKeyWithMdDigest[0..|plaintextBranchKeyWithMdDigest|-48];
+      var mdDigest := plaintextBranchKeyWithMdDigest[|plaintextBranchKeyWithMdDigest|-48..];
+
       var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
         branchKeyItem,
         branchKey.Plaintext.value
@@ -204,24 +213,29 @@ module {:options "/functionSyntax:4" } GetKeys {
 
   }
 
-  function ToHV2EC(
+  method ToHV2EC(
     item: Types.EncryptionContextString
-  ): (output: map<string, string>)
+  ) returns (output: map<string, string>)
   {
-    var fieldsToRemove := {
-      Structure.BRANCH_KEY_FIELD, 
-      Structure.BRANCH_KEY_IDENTIFIER_FIELD,
-      Structure.TYPE_FIELD,
-      Structure.KEY_CREATE_TIME,
-      Structure.HIERARCHY_VERSION,
-      Structure.KMS_FIELD,
-      Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD,
-      Structure.TABLE_FIELD
-    };
-
-    map k <- item.Keys - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
-      :: k[|Structure.ENCRYPTION_CONTEXT_PREFIX|..] := item[k]
+    var withoutReserved := set k | 
+      k in item && 
+      k !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES :: k;
+    var newMap := map[];
+    var remaining := withoutReserved;
+    while (remaining != {})
+        decreases remaining
+    {
+        var key :| key in remaining;
+        var value := item[key];
+        remaining := remaining - {key};
+        if (|key| >= |Structure.ENCRYPTION_CONTEXT_PREFIX| && key[..|Structure.ENCRYPTION_CONTEXT_PREFIX|] == Structure.ENCRYPTION_CONTEXT_PREFIX) {
+            key := key[|Structure.ENCRYPTION_CONTEXT_PREFIX|..];
+        }
+        newMap := newMap + map[key := value];
+    }
+    return newMap;
   }
+
 
   method GetBranchKeyVersion(
     input: Types.GetBranchKeyVersionInput,
