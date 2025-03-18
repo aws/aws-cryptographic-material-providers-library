@@ -324,6 +324,11 @@ func BranchKeyCiphertextException_FromDafny(dafnyOutput AwsCryptographyKeyStoreT
 
 }
 
+func HierarchyVersionException_FromDafny(dafnyOutput AwsCryptographyKeyStoreTypes.Error) awscryptographykeystoresmithygeneratedtypes.HierarchyVersionException {
+	return awscryptographykeystoresmithygeneratedtypes.HierarchyVersionException{Message: aws_cryptography_keyStore_HierarchyVersionException_message_FromDafny(dafnyOutput.Dtor_message())}
+
+}
+
 func KeyManagementException_FromDafny(dafnyOutput AwsCryptographyKeyStoreTypes.Error) awscryptographykeystoresmithygeneratedtypes.KeyManagementException {
 	return awscryptographykeystoresmithygeneratedtypes.KeyManagementException{Message: aws_cryptography_keyStore_KeyManagementException_message_FromDafny(dafnyOutput.Dtor_message())}
 
@@ -399,6 +404,10 @@ func Error_FromDafny(err AwsCryptographyKeyStoreTypes.Error) error {
 
 	if err.Is_BranchKeyCiphertextException() {
 		return BranchKeyCiphertextException_FromDafny(err)
+	}
+
+	if err.Is_HierarchyVersionException() {
+		return HierarchyVersionException_FromDafny(err)
 	}
 
 	if err.Is_KeyManagementException() {
@@ -545,6 +554,26 @@ func MutationIndex_FromDafny(input interface{}) awscryptographykeystoresmithygen
 		PageIndex:      aws_cryptography_keyStore_MutationIndex_PageIndex_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_PageIndex()),
 		CiphertextBlob: aws_cryptography_keyStore_MutationIndex_CiphertextBlob_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_CiphertextBlob()),
 	}
+
+}
+
+func HierarchyVersion_FromDafny(input interface{}) awscryptographykeystoresmithygeneratedtypes.HierarchyVersion {
+	return func() awscryptographykeystoresmithygeneratedtypes.HierarchyVersion {
+		var u awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
+		inputEnum := input.(AwsCryptographyKeyStoreTypes.HierarchyVersion)
+		index := -1
+		for allEnums := dafny.Iterate(AwsCryptographyKeyStoreTypes.CompanionStruct_HierarchyVersion_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(AwsCryptographyKeyStoreTypes.HierarchyVersion).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+
+		return u.Values()[index]
+	}()
 
 }
 
@@ -1949,6 +1978,19 @@ func aws_cryptography_keyStore_AlreadyExistsConditionFailed_message_FromDafny(in
 	}()
 }
 func aws_cryptography_keyStore_BranchKeyCiphertextException_message_FromDafny(input interface{}) string {
+	return func() string {
+		var s string
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return s
+			} else {
+				s = s + string(val.(dafny.Char))
+			}
+		}
+	}()
+}
+func aws_cryptography_keyStore_HierarchyVersionException_message_FromDafny(input interface{}) string {
 	return func() string {
 		var s string
 		for i := dafny.Iterate(input); ; {

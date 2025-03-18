@@ -5,6 +5,7 @@ package software.amazon.cryptography.keystoreadmin.model;
 
 import java.util.Map;
 import java.util.Objects;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
 
 public class CreateKeyInput {
 
@@ -15,7 +16,7 @@ public class CreateKeyInput {
 
   /**
    * Custom encryption context for the Branch Key.
-   *   Required if branchKeyIdentifier is set.
+   *   Required if branchKeyIdentifier is set OR if 'hierarchy-version-2' (HV-2).
    */
   private final Map<String, String> EncryptionContext;
 
@@ -26,16 +27,26 @@ public class CreateKeyInput {
   private final KmsSymmetricKeyArn KmsArn;
 
   /**
-   * This configures which Key Management Operations will be used
-   *    AND the Key Management Clients (and Grant Tokens) used to invoke those Operations.
+   * For 'hierarchy-version-1' (HV-1), only ReEncrypt is supported (for now).
+   *   For 'hierarchy-version-2' (HV-2), only AwsKmsForHierarchyVersionTwo is supported.
    */
   private final KeyManagementStrategy Strategy;
+
+  /**
+   * The hierarchy-version of a Branch Key;
+   *   all items of the same Branch Key SHOULD
+   *   have the same hierarchy-version.
+   *   The hierarchy-version determines how the Branch Key Store classes
+   *   treat the Branch Keys.
+   */
+  private final HierarchyVersion hierarchyVersion;
 
   protected CreateKeyInput(BuilderImpl builder) {
     this.Identifier = builder.Identifier();
     this.EncryptionContext = builder.EncryptionContext();
     this.KmsArn = builder.KmsArn();
     this.Strategy = builder.Strategy();
+    this.hierarchyVersion = builder.hierarchyVersion();
   }
 
   /**
@@ -47,7 +58,7 @@ public class CreateKeyInput {
 
   /**
    * @return Custom encryption context for the Branch Key.
-   *   Required if branchKeyIdentifier is set.
+   *   Required if branchKeyIdentifier is set OR if 'hierarchy-version-2' (HV-2).
    */
   public Map<String, String> EncryptionContext() {
     return this.EncryptionContext;
@@ -62,11 +73,22 @@ public class CreateKeyInput {
   }
 
   /**
-   * @return This configures which Key Management Operations will be used
-   *    AND the Key Management Clients (and Grant Tokens) used to invoke those Operations.
+   * @return For 'hierarchy-version-1' (HV-1), only ReEncrypt is supported (for now).
+   *   For 'hierarchy-version-2' (HV-2), only AwsKmsForHierarchyVersionTwo is supported.
    */
   public KeyManagementStrategy Strategy() {
     return this.Strategy;
+  }
+
+  /**
+   * @return The hierarchy-version of a Branch Key;
+   *   all items of the same Branch Key SHOULD
+   *   have the same hierarchy-version.
+   *   The hierarchy-version determines how the Branch Key Store classes
+   *   treat the Branch Keys.
+   */
+  public HierarchyVersion hierarchyVersion() {
+    return this.hierarchyVersion;
   }
 
   public Builder toBuilder() {
@@ -90,13 +112,13 @@ public class CreateKeyInput {
 
     /**
      * @param EncryptionContext Custom encryption context for the Branch Key.
-     *   Required if branchKeyIdentifier is set.
+     *   Required if branchKeyIdentifier is set OR if 'hierarchy-version-2' (HV-2).
      */
     Builder EncryptionContext(Map<String, String> EncryptionContext);
 
     /**
      * @return Custom encryption context for the Branch Key.
-     *   Required if branchKeyIdentifier is set.
+     *   Required if branchKeyIdentifier is set OR if 'hierarchy-version-2' (HV-2).
      */
     Map<String, String> EncryptionContext();
 
@@ -113,16 +135,34 @@ public class CreateKeyInput {
     KmsSymmetricKeyArn KmsArn();
 
     /**
-     * @param Strategy This configures which Key Management Operations will be used
-     *    AND the Key Management Clients (and Grant Tokens) used to invoke those Operations.
+     * @param Strategy For 'hierarchy-version-1' (HV-1), only ReEncrypt is supported (for now).
+     *   For 'hierarchy-version-2' (HV-2), only AwsKmsForHierarchyVersionTwo is supported.
      */
     Builder Strategy(KeyManagementStrategy Strategy);
 
     /**
-     * @return This configures which Key Management Operations will be used
-     *    AND the Key Management Clients (and Grant Tokens) used to invoke those Operations.
+     * @return For 'hierarchy-version-1' (HV-1), only ReEncrypt is supported (for now).
+     *   For 'hierarchy-version-2' (HV-2), only AwsKmsForHierarchyVersionTwo is supported.
      */
     KeyManagementStrategy Strategy();
+
+    /**
+     * @param hierarchyVersion The hierarchy-version of a Branch Key;
+     *   all items of the same Branch Key SHOULD
+     *   have the same hierarchy-version.
+     *   The hierarchy-version determines how the Branch Key Store classes
+     *   treat the Branch Keys.
+     */
+    Builder hierarchyVersion(HierarchyVersion hierarchyVersion);
+
+    /**
+     * @return The hierarchy-version of a Branch Key;
+     *   all items of the same Branch Key SHOULD
+     *   have the same hierarchy-version.
+     *   The hierarchy-version determines how the Branch Key Store classes
+     *   treat the Branch Keys.
+     */
+    HierarchyVersion hierarchyVersion();
 
     CreateKeyInput build();
   }
@@ -137,6 +177,8 @@ public class CreateKeyInput {
 
     protected KeyManagementStrategy Strategy;
 
+    protected HierarchyVersion hierarchyVersion;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(CreateKeyInput model) {
@@ -144,6 +186,7 @@ public class CreateKeyInput {
       this.EncryptionContext = model.EncryptionContext();
       this.KmsArn = model.KmsArn();
       this.Strategy = model.Strategy();
+      this.hierarchyVersion = model.hierarchyVersion();
     }
 
     public Builder Identifier(String Identifier) {
@@ -180,6 +223,15 @@ public class CreateKeyInput {
 
     public KeyManagementStrategy Strategy() {
       return this.Strategy;
+    }
+
+    public Builder hierarchyVersion(HierarchyVersion hierarchyVersion) {
+      this.hierarchyVersion = hierarchyVersion;
+      return this;
+    }
+
+    public HierarchyVersion hierarchyVersion() {
+      return this.hierarchyVersion;
     }
 
     public CreateKeyInput build() {
