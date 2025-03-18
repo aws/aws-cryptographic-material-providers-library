@@ -25,6 +25,8 @@ module {:options "/functionSyntax:4" } Structure {
   const M_INPUT := "input" // The DDB Attribute name for the input, which is AttributeValue.B
   const M_UUID := "uuid" // The DDB Attribute name for the uuid, which is AttributeValue.S
   const M_PAGE_INDEX := "pageIndex" // The DDB Attribute name for the pageIndex, which is AttributeValue.B
+  const HIERARCHY_VERSION_1 := "1"
+  const HIERARCHY_VERSION_2 := "2"
 
   const AWS_CRYPTO_EC := "aws-crypto-ec"
   const ENCRYPTION_CONTEXT_PREFIX := AWS_CRYPTO_EC + ":"
