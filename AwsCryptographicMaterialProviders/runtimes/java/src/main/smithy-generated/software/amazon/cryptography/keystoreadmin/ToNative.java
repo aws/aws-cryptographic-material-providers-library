@@ -24,6 +24,7 @@ import software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationResult;
 import software.amazon.cryptography.keystoreadmin.model.AwsKmsDecryptEncrypt;
+import software.amazon.cryptography.keystoreadmin.model.AwsKmsForHierarchyVersionTwo;
 import software.amazon.cryptography.keystoreadmin.model.CollectionOfErrors;
 import software.amazon.cryptography.keystoreadmin.model.CreateKeyInput;
 import software.amazon.cryptography.keystoreadmin.model.CreateKeyOutput;
@@ -309,6 +310,35 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static AwsKmsForHierarchyVersionTwo AwsKmsForHierarchyVersionTwo(
+    software.amazon.cryptography.keystoreadmin.internaldafny.types.AwsKmsForHierarchyVersionTwo dafnyValue
+  ) {
+    AwsKmsForHierarchyVersionTwo.Builder nativeBuilder =
+      AwsKmsForHierarchyVersionTwo.builder();
+    if (dafnyValue.dtor_generateRandom().is_Some()) {
+      nativeBuilder.generateRandom(
+        software.amazon.cryptography.keystore.ToNative.AwsKms(
+          dafnyValue.dtor_generateRandom().dtor_value()
+        )
+      );
+    }
+    if (dafnyValue.dtor_encrypt().is_Some()) {
+      nativeBuilder.encrypt(
+        software.amazon.cryptography.keystore.ToNative.AwsKms(
+          dafnyValue.dtor_encrypt().dtor_value()
+        )
+      );
+    }
+    if (dafnyValue.dtor_decrypt().is_Some()) {
+      nativeBuilder.decrypt(
+        software.amazon.cryptography.keystore.ToNative.AwsKms(
+          dafnyValue.dtor_decrypt().dtor_value()
+        )
+      );
+    }
+    return nativeBuilder.build();
+  }
+
   public static CreateKeyInput CreateKeyInput(
     software.amazon.cryptography.keystoreadmin.internaldafny.types.CreateKeyInput dafnyValue
   ) {
@@ -331,6 +361,13 @@ public class ToNative {
     if (dafnyValue.dtor_Strategy().is_Some()) {
       nativeBuilder.Strategy(
         ToNative.KeyManagementStrategy(dafnyValue.dtor_Strategy().dtor_value())
+      );
+    }
+    if (dafnyValue.dtor_hierarchyVersion().is_Some()) {
+      nativeBuilder.hierarchyVersion(
+        software.amazon.cryptography.keystore.ToNative.HierarchyVersion(
+          dafnyValue.dtor_hierarchyVersion().dtor_value()
+        )
       );
     }
     return nativeBuilder.build();
@@ -462,6 +499,11 @@ public class ToNative {
         dafnyValue.dtor_CustomEncryptionContext()
       )
     );
+    nativeBuilder.HierarchyVersion(
+      software.amazon.cryptography.keystore.ToNative.HierarchyVersion(
+        dafnyValue.dtor_HierarchyVersion()
+      )
+    );
     return nativeBuilder.build();
   }
 
@@ -549,6 +591,13 @@ public class ToNative {
         )
       );
     }
+    if (dafnyValue.dtor_TerminalHierarchyVersion().is_Some()) {
+      nativeBuilder.TerminalHierarchyVersion(
+        software.amazon.cryptography.keystore.ToNative.HierarchyVersion(
+          dafnyValue.dtor_TerminalHierarchyVersion().dtor_value()
+        )
+      );
+    }
     return nativeBuilder.build();
   }
 
@@ -594,6 +643,13 @@ public class ToNative {
     if (dafnyValue.dtor_Strategy().is_Some()) {
       nativeBuilder.Strategy(
         ToNative.KeyManagementStrategy(dafnyValue.dtor_Strategy().dtor_value())
+      );
+    }
+    if (dafnyValue.dtor_hierarchyVersion().is_Some()) {
+      nativeBuilder.hierarchyVersion(
+        software.amazon.cryptography.keystore.ToNative.HierarchyVersion(
+          dafnyValue.dtor_hierarchyVersion().dtor_value()
+        )
       );
     }
     return nativeBuilder.build();
@@ -656,6 +712,13 @@ public class ToNative {
     if (dafnyValue.is_AwsKmsDecryptEncrypt()) {
       nativeBuilder.AwsKmsDecryptEncrypt(
         ToNative.AwsKmsDecryptEncrypt(dafnyValue.dtor_AwsKmsDecryptEncrypt())
+      );
+    }
+    if (dafnyValue.is_AwsKmsForHierarchyVersionTwo()) {
+      nativeBuilder.AwsKmsForHierarchyVersionTwo(
+        ToNative.AwsKmsForHierarchyVersionTwo(
+          dafnyValue.dtor_AwsKmsForHierarchyVersionTwo()
+        )
       );
     }
     return nativeBuilder.build();

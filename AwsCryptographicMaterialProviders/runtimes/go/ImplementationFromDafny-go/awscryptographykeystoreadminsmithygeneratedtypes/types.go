@@ -45,6 +45,37 @@ func (input AwsKmsDecryptEncrypt) Validate() error {
 	return nil
 }
 
+type AwsKmsForHierarchyVersionTwo struct {
+	Decrypt *awscryptographykeystoresmithygeneratedtypes.AwsKms
+
+	Encrypt *awscryptographykeystoresmithygeneratedtypes.AwsKms
+
+	GenerateRandom *awscryptographykeystoresmithygeneratedtypes.AwsKms
+}
+
+func (input AwsKmsForHierarchyVersionTwo) Validate() error {
+	if input.Decrypt != nil {
+		if input.Decrypt.Validate() != nil {
+			return input.Decrypt.Validate()
+		}
+
+	}
+	if input.Encrypt != nil {
+		if input.Encrypt.Validate() != nil {
+			return input.Encrypt.Validate()
+		}
+
+	}
+	if input.GenerateRandom != nil {
+		if input.GenerateRandom.Validate() != nil {
+			return input.GenerateRandom.Validate()
+		}
+
+	}
+
+	return nil
+}
+
 type KmsSymmetricEncryption struct {
 	AwsKms awscryptographykeystoresmithygeneratedtypes.AwsKms
 
@@ -133,6 +164,10 @@ func (input ApplyMutationInput) aws_cryptography_keyStoreAdmin_ApplyMutationInpu
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
+	case *KeyManagementStrategyMemberAwsKmsForHierarchyVersionTwo:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
 	// Default case should not be reached.
 	default:
 		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
@@ -218,6 +253,8 @@ type CreateKeyInput struct {
 
 	EncryptionContext map[string]string
 
+	HierarchyVersion *awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
+
 	Identifier *string
 
 	Strategy KeyManagementStrategy
@@ -279,6 +316,10 @@ func (input CreateKeyInput) aws_cryptography_keyStoreAdmin_CreateKeyInput_Strate
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
+	case *KeyManagementStrategyMemberAwsKmsForHierarchyVersionTwo:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
 	// Default case should not be reached.
 	default:
 		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
@@ -308,6 +349,8 @@ func (input DescribeMutationInput) Validate() error {
 type Mutations struct {
 	TerminalEncryptionContext map[string]string
 
+	TerminalHierarchyVersion *awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
+
 	TerminalKmsArn *string
 }
 
@@ -318,6 +361,8 @@ func (input Mutations) Validate() error {
 
 type MutableBranchKeyProperties struct {
 	CustomEncryptionContext map[string]string
+
+	HierarchyVersion awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
 
 	KmsArn string
 }
@@ -470,6 +515,10 @@ func (input InitializeMutationInput) aws_cryptography_keyStoreAdmin_InitializeMu
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
+	case *KeyManagementStrategyMemberAwsKmsForHierarchyVersionTwo:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
 	// Default case should not be reached.
 	default:
 		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
@@ -515,6 +564,8 @@ type VersionKeyInput struct {
 
 	KmsArn KmsSymmetricKeyArn
 
+	HierarchyVersion *awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
+
 	Strategy KeyManagementStrategy
 }
 
@@ -556,6 +607,10 @@ func (input VersionKeyInput) aws_cryptography_keyStoreAdmin_VersionKeyInput_Stra
 			return unionType.Value.Validate()
 		}
 	case *KeyManagementStrategyMemberAwsKmsDecryptEncrypt:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	case *KeyManagementStrategyMemberAwsKmsForHierarchyVersionTwo:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -661,6 +716,7 @@ type ApplyMutationResultMemberContinueMutation struct {
 func (*ApplyMutationResultMemberContinueMutation) isApplyMutationResult() {}
 
 // KeyManagementStrategyMemberAwsKmsDecryptEncrypt
+// KeyManagementStrategyMemberAwsKmsForHierarchyVersionTwo
 // KeyManagementStrategyMemberAwsKmsReEncrypt
 type KeyManagementStrategy interface {
 	isKeyManagementStrategy()
@@ -671,6 +727,12 @@ type KeyManagementStrategyMemberAwsKmsDecryptEncrypt struct {
 }
 
 func (*KeyManagementStrategyMemberAwsKmsDecryptEncrypt) isKeyManagementStrategy() {}
+
+type KeyManagementStrategyMemberAwsKmsForHierarchyVersionTwo struct {
+	Value AwsKmsForHierarchyVersionTwo
+}
+
+func (*KeyManagementStrategyMemberAwsKmsForHierarchyVersionTwo) isKeyManagementStrategy() {}
 
 type KeyManagementStrategyMemberAwsKmsReEncrypt struct {
 	Value awscryptographykeystoresmithygeneratedtypes.AwsKms
