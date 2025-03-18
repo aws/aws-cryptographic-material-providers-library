@@ -7,7 +7,7 @@ include "KMSKeystoreOperations.dfy"
 include "ErrorMessages.dfy"
 include "KmsArn.dfy"
 
-module GetKeys {
+module {:options "/functionSyntax:4" } GetKeys {
   import opened StandardLibrary
   import opened Wrappers
   import opened Seq
@@ -158,24 +158,69 @@ module GetKeys {
       Types.KeyStoreException(
         message := ErrorMessages.INVALID_ACTIVE_BRANCH_KEY_FROM_STORAGE)
     );
-
-    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
-      branchKeyItem,
-      kmsConfiguration,
-      grantTokens,
-      kmsClient
+    :- Need(
+      branchKeyItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_1 ||
+      branchKeyItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2,
+      Types.KeyStoreException(
+        message := ErrorMessages.INVALID_HIERARCHY_VERSION
+      )
     );
 
-    var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
-      branchKeyItem,
-      branchKey.Plaintext.value
-    );
+    if (branchKeyItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_1) {
+      var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
+        branchKeyItem,
+        kmsConfiguration,
+        grantTokens,
+        kmsClient
+      );
 
-    return Success(
+      var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
+        branchKeyItem,
+        branchKey.Plaintext.value
+      );
+      return Success(
         Types.GetActiveBranchKeyOutput(
           branchKeyMaterials := branchKeyMaterials
         ));
+    } else if (branchKeyItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2) {
+      // print(branchKeyItem.EncryptionContext);
+      // print(ToHV2EC(branchKeyItem.EncryptionContext));
+      var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
+        branchKeyItem,
+        kmsConfiguration,
+        grantTokens,
+        kmsClient
+      );
 
+      var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
+        branchKeyItem,
+        branchKey.Plaintext.value
+      );
+      return Success(
+        Types.GetActiveBranchKeyOutput(
+          branchKeyMaterials := branchKeyMaterials
+        ));
+    }
+
+  }
+
+  function ToHV2EC(
+    item: Types.EncryptionContextString
+  ): (output: map<string, string>)
+  {
+    var fieldsToRemove := {
+      Structure.BRANCH_KEY_FIELD, 
+      Structure.BRANCH_KEY_IDENTIFIER_FIELD,
+      Structure.TYPE_FIELD,
+      Structure.KEY_CREATE_TIME,
+      Structure.HIERARCHY_VERSION,
+      Structure.KMS_FIELD,
+      Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD,
+      Structure.TABLE_FIELD
+    };
+
+    map k <- item.Keys - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
+      :: k[|Structure.ENCRYPTION_CONTEXT_PREFIX|..] := item[k]
   }
 
   method GetBranchKeyVersion(
