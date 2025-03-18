@@ -16,6 +16,7 @@ use aws.cryptography.keyStore#KeyStore
 
 use aws.cryptography.keyStore#EncryptionContext
 use aws.cryptography.keyStore#GrantTokenList
+use aws.cryptography.keyStore#HierarchyVersion
 
 // Even these structures are
 // never used in this model directly,
@@ -56,8 +57,7 @@ service KeyStoreAdmin {
     aws.cryptography.keyStore#KeyStorageException,
     aws.cryptography.keyStore#VersionRaceException,
     aws.cryptography.keyStore#BranchKeyCiphertextException,
-    aws.cryptography.keyStore#AlreadyExistsConditionFailed,
-    aws.cryptography.keyStore#NoLongerExistsConditionFailed,
+    aws.cryptography.keyStore#HierarchyVersionException,
     UnexpectedStateException,
     MutationFromException,
     MutationToException,
@@ -154,6 +154,7 @@ union SystemKey {
   trustStorage: TrustStorage
 }
 
+// TODO update for HV-2
 @documentation("
 Key Store Items are authenticated and re-wrapped via a Decrypt and then Encrypt request.
 This is two separate requests to Key Management, as compared to one.
@@ -179,30 +180,53 @@ structure AwsKmsDecryptEncrypt {
   encrypt: aws.cryptography.keyStore#AwsKms
 }
 
+// TODO-HV-2: complete this doc, and maybe change the name? 
+@documentation(
+"For HV-2, plain-text data keys (PDKs) are created by kms:GenerateRandom.
+The additional authenticated data (AAD) and the PDK are protected by kms:Encrypt.
+To validate a Branch Key item, kms:Decrypt un-wraps the AAD-PDK tuple, and the client verifies the AAD.")
+structure AwsKmsForHierarchyVersionTwo {
+  @documentation("The KMS Client (and Grant Tokens) used to generate the plain-text data key.")
+  generateRandom: aws.cryptography.keyStore#AwsKms
+  @documentation("The KMS Client (and Grant Tokens) used to Encrypt Branch Key Store Items.")
+  encrypt: aws.cryptography.keyStore#AwsKms
+  @documentation("The KMS Client (and Grant Tokens) used to Decrypt Branch Key Store Items.")
+  decrypt: aws.cryptography.keyStore#AwsKms  
+}
+
 @documentation(
   "This configures which Key Management Operations will be used
    AND the Key Management Clients (and Grant Tokens) used to invoke those Operations.")
 union KeyManagementStrategy {
   @documentation(
-  "Key Store Items are authenticated and re-wrapped via KMS ReEncrypt,
+  "Branch Key Store Items are authenticated and re-wrapped via KMS ReEncrypt,
   executed with the provided Grant Tokens and KMS Client.
   This is one request to Key Management, as compared to two.
   But only one set of credentials can be used.")
   AwsKmsReEncrypt: aws.cryptography.keyStore#AwsKms,
 
   AwsKmsDecryptEncrypt: AwsKmsDecryptEncrypt
+
+  AwsKmsForHierarchyVersionTwo: AwsKmsForHierarchyVersionTwo
 }
 
 @documentation(
-"Create a new Branch Key in the Key Store.
-Additionally create a Beacon Key that is tied to this Branch Key.")
+"Create a new Branch Key in the Branch Key Store.
+This creates 3 items: the ACTIVE branch key item, the DECRYPT_ONLY for the ACTIVE branch key item, and the beacon key.
+In DynamoDB, the sort-key for the ACTIVE branch key is 'branch:ACTIVE`;
+the sort-key for the decrypt_only is 'branch:version:<uuid>';
+the sort-key for the beacon key is `beacon:ACTIVE'.
+The active branch key and the decrypt_only items have the same plain-text data key.
+The beacon key plain-text data key is unqiue.
+KMS calls are determined by the 'hierarchy-version' and 'KeyManagementStrategy'.
+All three items are written to DDB by a TransactionWriteItems, conditioned on the absence of a conflicting Branch Key ID.")
 operation CreateKey {
   input: CreateKeyInput,
   output: CreateKeyOutput
   errors: [
     UnsupportedFeatureException
     aws.cryptography.keyStore#KeyStorageException
-    aws.cryptography.keyStore#AlreadyExistsConditionFailed
+    aws.cryptography.keyStore#HierarchyVersionException
     KeyStoreAdminException
   ]
 }
@@ -213,7 +237,7 @@ structure CreateKeyInput {
 
   @documentation(
   "Custom encryption context for the Branch Key.
-  Required if branchKeyIdentifier is set.")
+  Required if branchKeyIdentifier is set OR if 'hierarchy-version-2' (HV-2).")
   EncryptionContext: aws.cryptography.keyStore#EncryptionContext
 
   @required
@@ -222,7 +246,14 @@ structure CreateKeyInput {
   used to protect the Branch Key, but not aliases!")
   KmsArn: KmsSymmetricKeyArn
 
+  @documentation(
+  "For 'hierarchy-version-1' (HV-1), only ReEncrypt is supported (for now).
+  For 'hierarchy-version-2' (HV-2), only AwsKmsForHierarchyVersionTwo is supported.")
   Strategy: KeyManagementStrategy
+
+  // Default is not supported by Smithy-Dafny, but conceptually, we want
+  // @default(1)
+  hierarchyVersion = HierarchyVersion
 }
 
 structure CreateKeyOutput {
@@ -237,6 +268,12 @@ along with a complementing Version (DECRYPT_ONLY) in the Key Store.
 This generates a fresh AES-256 key which all future encrypts will use
 for the Key Derivation Function,
 until VersionKey is executed again.
+Rotation is accomplished by first authenticating the ACTIVE branch key item,
+followed by generation of a new ACTIVE and matching DECRYPT_ONLY.
+KMS calls are determined by the 'hierarchy-version' and 'KeyManagementStrategy'.
+These two items are then writen to the Branch Key Store via a TransactionWriteItems;
+this only overwrites the ACTIVE item, the DECRYPT_ONLY is a new item.
+This leaves all the previous DECRYPT_ONLY items avabile to service decryption of previous rotations.
 This operation can race against other Version Key requests or Initialize Mutation requests for the same Branch Key.
 Should that occur, all but one of the requests will fail.
 Race errors are either 'Version Race Exceptions' or 'Key Storage Exceptions'.")
@@ -246,10 +283,10 @@ operation VersionKey {
   errors: [
     UnsupportedFeatureException
     aws.cryptography.keyStore#VersionRaceException
-    aws.cryptography.keyStore#KeyStorageException    
-    aws.cryptography.keyStore#NoLongerExistsConditionFailed
-    aws.cryptography.keyStore#BranchKeyCiphertextException    
-    KeyStoreAdminException    
+    aws.cryptography.keyStore#KeyStorageException
+    aws.cryptography.keyStore#BranchKeyCiphertextException
+    aws.cryptography.keyStore#HierarchyVersionException
+    KeyStoreAdminException
   ]
 }
 
@@ -262,7 +299,14 @@ structure VersionKeyInput {
   @documentation("Multi-Region or Single Region AWS KMS Key ARN used to protect the Branch Key, but not aliases!")
   KmsArn: KmsSymmetricKeyArn
 
+  @documentation(
+  "For 'hierarchy-version-1' (HV-1), only ReEncrypt is supported (for now).
+  For 'hierarchy-version-2' (HV-2), only AwsKmsForHierarchyVersionTwo is supported.")
   Strategy: KeyManagementStrategy
+
+  // Default is not supported by Smithy-Dafny, but conceptually, we want
+  // @default(HierarchyVersionDefault)
+  hierarchyVersion = HierarchyVersion
 }
 
 structure VersionKeyOutput {
@@ -321,7 +365,11 @@ structure InitializeMutationInput {
   @required
   Mutations: Mutations
 
-  @documentation("Optional. Defaults to reEncrypt with a default KMS Client.")
+  @documentation(
+  "Optional. Defaults to reEncrypt with a default KMS Client.
+  However, if the Branch Key's 'hierarchy-version' is HV-2,
+  or the Branch Key is being mutated to HV-2,
+  the Strategy MUST be AwsKmsForHierarchyVersionTwo.")
   Strategy: KeyManagementStrategy
 
   // Smithy's Effective Docuemtnation will utilize System Key's documentation trait
@@ -401,15 +449,16 @@ structure InitializeMutationOutput {
   InitializeMutationFlag: InitializeMutationFlag
 }
 
-// TODO: assert release is v1.9.0
+// TODO-HV-2: determine v<HV-2>
 @documentation(
 "Define the Mutation in terms of the terminal, or end state,
 value for a particular Branch Key property.
 The original value will be REPLACED with this value.
-As of v1.9.0, a Mutation can either:
+As of v<HV-2>, a Mutation can either:
 - replace the KmsArn protecting the Branch Key
-- replace the custom encryption context
-- replace both the KmsArn and the custom encryption context")
+- replace the encryption context
+- change the 'hierarchy-version'
+- any combination of the above")
 structure Mutations {
   @documentation(
   "Optional. If not set, there will be no change to the KMS ARN.
@@ -422,9 +471,13 @@ structure Mutations {
   @documentation(
   "Optional. If not set, there will be no change to the Encryption Context.
   ReEncrypt all Items of the Branch Key
-  to be authorized with this custom encryption context.
+  to be authorized with this encryption context.
   An empty Encryption Context is not allowed.")
   TerminalEncryptionContext: aws.cryptography.keyStore#EncryptionContextString // EC non Empty MUST be validated in Dafny
+  @documentation(
+  "Optional. If set, changes the hierarchy-version of the Branch Key.
+  At this time, only '2' is allowed; there is no operation that faciliates HV-2 -> HV-1.")
+  TerminalHierarchyVersion: HierarchyVersion // ONLY HV-1 -> HV-2 is supported and MUST be enforced in Dafny
 }
 
 @documentation(
@@ -500,6 +553,8 @@ structure MutableBranchKeyProperties {
   @required  
   @documentation("The custom Encryption Context authenticated with this Branch Key.")
   CustomEncryptionContext: aws.cryptography.keyStore#EncryptionContextString // EC non Empty MUST be validated in Dafny
+  @required // TODO-HV-2-BLOCKER : This Shape is only emmitted, so we should be able to add required fields
+  @documentation("The 'hierarchy-version' of the Branch Key.")
 }
 
 @documentation(

@@ -62,8 +62,27 @@ service KeyStore {
   errors: [
     KeyStoreException
     VersionRaceException
+    KeyManagementException
+    BranchKeyCiphertextException
+    HierarchyVersionException
   ]
 }
+
+@documentation(
+  "The hierarchy-version of a Branch Key;
+  all items of the same Branch Key SHOULD
+  have the same hierarchy-version.
+  The hierarchy-version determines how the Branch Key Store classes
+  treat the Branch Keys.")
+@enum([
+  { name: "1", value: "1" },
+  { name: "2", value: "2" }
+])
+string HierarchyVersion
+
+// Tony does not think that this shape will be useable, but conceptually, this is what we want
+// @documentation("For MPL 1.x, this HierarchyVersion is optional and defaults to \"1\".")
+//string HierarchyVersionDefault = "1"
 
 structure KeyStoreConfig {
 
@@ -107,7 +126,7 @@ structure KeyStoreConfig {
   @javadoc("The DynamoDB client this Key Store uses to call Amazon DynamoDB. If None is provided and the KMS ARN is, the KMS ARN is used to determine the Region of the default client.")
   ddbClient: DdbClientReference,
   @javadoc("The KMS client this Key Store uses to call AWS KMS.  If None is provided and the KMS ARN is, the KMS ARN is used to determine the Region of the default client.")
-  kmsClient: KmsClientReference,
+  kmsClient: KmsClientReference
 }
 
 union Storage {
@@ -230,10 +249,27 @@ structure CreateKeyStoreOutput {
 // One is the branch key, which is used in the hierarchical keyring
 // The second is a beacon key that is used as a root key to
 // derive different beacon keys per beacon.
-@javadoc("Create a new Branch Key in the Key Store. Additionally create a Beacon Key that is tied to this Branch Key.")
+@javadoc(
+"Create a new Branch Key in the Branch Key Store.
+This method ONLY creates hierarchy-version-1 branch keys.
+This creates 3 items: the ACTIVE branch key item, the DECRYPT_ONLY for the ACTIVE branch key item, and the beacon key.
+In DynamoDB, the sort-key for the ACTIVE branch key is 'branch:ACTIVE`;
+the sort-key for the decrypt_only is 'branch:version:<uuid>';
+the sort-key for the beacon key is `beacon:ACTIVE'.
+The active branch key and the decrypt_only items have the same plain-text data key.
+The beacon key plain-text data key is unqiue.
+KMS is called 3 times; GenerateDataKeyWithoutPlaintext is called twice, ReEncrypt is called once.
+All three items are written to DDB by a TransactionWriteItems, conditioned on the absence of a conflicting Branch Key ID.")
 operation CreateKey {
   input: CreateKeyInput,
   output: CreateKeyOutput
+  errors: [
+    // KmsException https://sdk.amazonaws.com/java/api/2.0.0-preview-11/software/amazon/awssdk/services/kms/model/KmsException.html
+    // DynamoDbException https://sdk.amazonaws.com/java/api/2.0.0-preview-11/software/amazon/awssdk/services/dynamodb/model/DynamoDbException.html
+    KeyStoreException
+    KeyManagementException
+    HierarchyVersionException
+  ]
 }
 
 //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
@@ -260,10 +296,29 @@ structure CreateKeyOutput {
 // provided branchKeyIdentifier and rotate the "older" material 
 // on the key store under the branchKeyIdentifier. This operation MUST NOT
 // rotate the beacon key under the branchKeyIdentifier.
-@javadoc("Create a new ACTIVE version of an existing Branch Key in the Key Store, and set the previously ACTIVE version to DECRYPT_ONLY.")
+@javadoc(
+"Rotates an exsisting Branch Key;
+this generates a fresh AES-256 key which all future encrypts will use
+for the Key Derivation Function,
+until VersionKey is executed again.
+This method ONLY works with hierarchy-version-1 Branch Keys;
+if a hierarchy-version-2 Branch Key is encountered, the operation fails before calling KMS.
+Rotation is accomplished by first authenticating the ACTIVE branch key item via 'kms:ReEncrypt'.
+'kms:GenerateDataKeyWithoutPlaintext', followed by 'kms:ReEncrypt' is used to create a new ACTIVE and matching DECRYPT_ONLY.
+These two items are then writen to the Branch Key Store via a TransactionWriteItems;
+this only overwrites the ACTIVE item, the DECRYPT_ONLY is a new item.
+This leaves all the previous DECRYPT_ONLY items avabile to service decryption of previous rotations.")
 operation VersionKey {
   input: VersionKeyInput,
   output: VersionKeyOutput
+  errors: [
+    // KmsException https://sdk.amazonaws.com/java/api/2.0.0-preview-11/software/amazon/awssdk/services/kms/model/KmsException.html
+    // DynamoDbException https://sdk.amazonaws.com/java/api/2.0.0-preview-11/software/amazon/awssdk/services/dynamodb/model/DynamoDbException.html
+    KeyStoreException
+    VersionRaceException
+    KeyManagementException
+    HierarchyVersionException
+  ]  
 }
 
 @javadoc("Inputs for versioning a Branch Key.")
@@ -460,15 +515,25 @@ structure KeyManagementException {
 The cipher-text or additional authenticated data incorporated into the cipher-text,
 such as the encryption context, is corrupted, missing, or otherwise invalid.
 For Branch Keys,
-the Encryption Context is a combination of:
-- the custom encryption context
+the additional authenticated data is a combination of:
+- the encryption context
 - storage identifiers (partition key, sort key, logical name)
 - metadata that binds the Branch Key to encrypted data (version)
+- create-time
 
 If any of the above are modified without calling KMS,
 the Branch Key's cipher-text becomes invalid.
 ")
 structure BranchKeyCiphertextException {
   @required
-  message: String,
+  message: String
+}
+
+@error("client")
+@documentation(
+"The HierarchyVersion of the Branch Key is not supported by the operation.
+'hierarchy-version-2' Branch Keys can only be created or versioned (rotated) via the Branch Key Store Admin.")
+structure HierarchyVersionException {
+  @required
+  message: String
 }
