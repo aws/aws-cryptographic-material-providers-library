@@ -26,7 +26,7 @@ jobs:
             # TODO: Re-enable macOS after https://t.corp.amazon.com/P205755286
             # macos-13,
           ]
-        language: [java, net, python, rust, go]
+        language: [java, net, rust, python, go]
         # https://taskei.amazon.dev/tasks/CrypTool-5284
         dotnet-version: ["6.0.x"]
     runs-on: ${{ matrix.os }}
@@ -46,11 +46,13 @@ jobs:
           role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
           role-session-name: InterOpTests
 
-      - uses: actions/checkout@v3
-      #  Not all submodules are needed.
-      # We manually pull the submodule we DO need.
-      - run: git submodule update --init libraries
-      - run: git submodule update --init --recursive smithy-dafny
+      - uses: actions/checkout@v4
+        with:
+          submodules: "true"
+      - name: Init Submodules
+        shell: bash
+        run: |
+          git submodule update --init --recursive smithy-dafny
 
       # Set up runtimes
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
@@ -204,6 +206,7 @@ jobs:
   testInteroperablity:
     needs: generateEncryptVectors
     strategy:
+      fail-fast: false
       matrix:
         library: [TestVectorsAwsCryptographicMaterialProviders]
         os: [
@@ -213,8 +216,8 @@ jobs:
             # TODO: Re-enable macOS after https://t.corp.amazon.com/P205755286
             # macos-13,
           ]
-        encrypting_language: [java, net, python, rust, go]
-        decrypting_language: [java, net, python, rust, go]
+        encrypting_language: [java, net, rust, python, go]
+        decrypting_language: [java, net, rust, python, go]
         dotnet-version: ["6.0.x"]
     runs-on: ${{ matrix.os }}
     permissions:
@@ -233,11 +236,13 @@ jobs:
           role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
           role-session-name: InterOpTests
 
-      - uses: actions/checkout@v3
-      #  Not all submodules are needed.
-      # We manually pull the submodule we DO need.
-      - run: git submodule update --init libraries
-      - run: git submodule update --init --recursive smithy-dafny
+      - uses: actions/checkout@v4
+        with:
+          submodules: "true"
+      - name: Init Submodules
+        shell: bash
+        run: |
+          git submodule update --init --recursive smithy-dafny
 
       # Set up runtimes
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
