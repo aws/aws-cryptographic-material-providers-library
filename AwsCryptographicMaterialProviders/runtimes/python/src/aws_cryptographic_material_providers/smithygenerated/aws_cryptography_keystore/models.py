@@ -662,7 +662,7 @@ class HierarchicalKeyTypeActiveHierarchicalSymmetricVersion:
 
     @staticmethod
     def from_dict(
-        d: Dict[str, Any]
+        d: Dict[str, Any],
     ) -> "HierarchicalKeyTypeActiveHierarchicalSymmetricVersion":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
@@ -697,7 +697,7 @@ class HierarchicalKeyTypeHierarchicalSymmetricVersion:
 
     @staticmethod
     def from_dict(
-        d: Dict[str, Any]
+        d: Dict[str, Any],
     ) -> "HierarchicalKeyTypeHierarchicalSymmetricVersion":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
@@ -728,7 +728,7 @@ class HierarchicalKeyTypeActiveHierarchicalSymmetricBeacon:
 
     @staticmethod
     def from_dict(
-        d: Dict[str, Any]
+        d: Dict[str, Any],
     ) -> "HierarchicalKeyTypeActiveHierarchicalSymmetricBeacon":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
@@ -2491,7 +2491,7 @@ WriteInitializeMutationVersion = Union[
 
 
 def _write_initialize_mutation_version_from_dict(
-    d: Dict[str, Any]
+    d: Dict[str, Any],
 ) -> WriteInitializeMutationVersion:
     if "rotate" in d:
         return WriteInitializeMutationVersionRotate.from_dict(d)
@@ -3369,6 +3369,23 @@ class DynamoDBTable:
             "ddb_client",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class HierarchyVersion:
+    """The hierarchy-version of a Branch Key; all items of the same Branch Key
+    SHOULD have the same hierarchy-version.
+
+    The hierarchy-version determines how the Branch Key Store classes
+    treat the Branch Keys.
+    """
+
+    V1 = "1"
+
+    V2 = "2"
+
+    # This set contains every possible value known at the time this was generated. New
+    # values may be added in the future.
+    values = frozenset({"1", "2"})
 
 
 class KeyManagementKms:
