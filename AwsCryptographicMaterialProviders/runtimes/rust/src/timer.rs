@@ -1,6 +1,9 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
+use std::sync::atomic::AtomicUsize;
+use std::sync::atomic::Ordering;
+
 pub struct ResourceTracker {
     count: usize,
     total: usize,
@@ -17,6 +20,9 @@ impl ResourceTracker {
             cpu: cpu_time::ProcessTime::now(),
         }
     }
+    pub fn report_leak(&self) {
+        println!("{} outstanding allocations totalling {} bytes.", get_net_counter(), get_net_total());
+    }
     pub fn report(&self) {
         let time = self.time.elapsed().unwrap().as_secs_f64();
         let cpu = self.cpu.elapsed().as_secs_f64();
@@ -30,25 +36,38 @@ impl ResourceTracker {
     }
 }
 
-static mut COUNTER: usize = 0;
-static mut TOTAL: usize = 0;
+static COUNTER: AtomicUsize = AtomicUsize::new(0);
+static TOTAL: AtomicUsize = AtomicUsize::new(0);
+
+static NET_COUNTER: AtomicUsize = AtomicUsize::new(0);
+static NET_TOTAL: AtomicUsize = AtomicUsize::new(0);
 
 fn add_to_counter(inc: usize) {
-    // SAFETY: There are no other threads which could be accessing `COUNTER`.
-    unsafe {
-        COUNTER += 1;
-        TOTAL += inc;
-    }
+    COUNTER.fetch_add(1, Ordering::SeqCst);
+    TOTAL.fetch_add(inc, Ordering::SeqCst);
+    NET_COUNTER.fetch_add(1, Ordering::SeqCst);
+    NET_TOTAL.fetch_add(inc, Ordering::SeqCst);
+}
+
+fn subtract_from_counter(inc: usize) {
+    NET_COUNTER.fetch_sub(1, Ordering::SeqCst);
+    NET_TOTAL.fetch_sub(inc, Ordering::SeqCst);
 }
 
 fn get_counter() -> usize {
-    // SAFETY: There are no other threads which could be accessing `COUNTER`.
-    unsafe { COUNTER }
+    COUNTER.load(Ordering::SeqCst);
 }
 
 fn get_total() -> usize {
-    // SAFETY: There are no other threads which could be accessing `COUNTER`.
-    unsafe { TOTAL }
+    TOTAL.load(Ordering::SeqCst);
+}
+
+fn get_net_counter() -> usize {
+    NET_COUNTER.load(Ordering::SeqCst);
+}
+
+fn get_net_total() -> usize {
+    NET_TOTAL.load(Ordering::SeqCst);
 }
 
 use std::alloc::{GlobalAlloc, Layout, System};
@@ -62,6 +81,7 @@ unsafe impl GlobalAlloc for MyAllocator {
     }
 
     unsafe fn dealloc(&self, ptr: *mut u8, layout: Layout) {
+        subtract_from_counter(layout.size());
         System.dealloc(ptr, layout)
     }
 }
