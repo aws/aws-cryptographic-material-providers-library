@@ -4,7 +4,9 @@ The AWS Cryptographic Internal ComAmazonAwsKms is a modeled library used in the 
 
 **DO NOT** take a standalone dependency on this library.
 
-[Security issue notifications](./CONTRIBUTING.md#security-issue-notifications)
+## Installation
+
+`go get github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms@v0.2.0`
 
 ## Security
 
