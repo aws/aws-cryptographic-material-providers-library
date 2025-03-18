@@ -53,4 +53,7 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
     "Create key store is only supported with legacy configurations. \n" +
     "For details on how to create a DDB table manually see:\n" +
     "https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/use-hierarchical-keyring.html#hierarchical-keyring-prereqs"
+
+  const INVALID_HIERARCHY_VERSION :=
+    "Invalid hierarchy version. Expected version 1 or 2."
 }
