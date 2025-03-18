@@ -172,7 +172,8 @@ module GetKeys {
         kmsClient
       );
       var plaintextBranchKeyWithMdDigest := branchKey.Plaintext.value;
-      var plaintextMdDigest := plaintextBranchKeyWithMdDigest[|plaintextBranchKeyWithMdDigest|-48..];
+      var plaintextBranchKey := plaintextBranchKeyWithMdDigest[0..|plaintextBranchKeyWithMdDigest|-48];
+      var mdDigest := plaintextBranchKeyWithMdDigest[|plaintextBranchKeyWithMdDigest|-48..];
       // var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
       //   encryptionContext,
       //   branchKey.Plaintext.value
