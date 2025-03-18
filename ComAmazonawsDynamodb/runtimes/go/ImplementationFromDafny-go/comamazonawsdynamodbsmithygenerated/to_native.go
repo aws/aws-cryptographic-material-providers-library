@@ -3679,16 +3679,9 @@ func Com_amazonaws_dynamodb_BackupDetails_BackupType_FromDafny(input interface{}
 }
 func Com_amazonaws_dynamodb_BackupDetails_BackupCreationDateTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -3702,18 +3695,11 @@ func Com_amazonaws_dynamodb_BackupDetails_BackupCreationDateTime_FromDafny(input
 }
 func Com_amazonaws_dynamodb_BackupDetails_BackupExpiryDateTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -3971,18 +3957,11 @@ func Com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription_OnDemandThrou
 }
 func Com_amazonaws_dynamodb_ReplicaDescription_ReplicaInaccessibleDateTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -4028,18 +4007,11 @@ func Com_amazonaws_dynamodb_TableClassSummary_TableClass_FromDafny(input interfa
 }
 func Com_amazonaws_dynamodb_TableClassSummary_LastUpdateDateTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -4063,18 +4035,11 @@ func Com_amazonaws_dynamodb_GlobalTableDescription_GlobalTableArn_FromDafny(inpu
 }
 func Com_amazonaws_dynamodb_GlobalTableDescription_CreationDateTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -4758,18 +4723,11 @@ func Com_amazonaws_dynamodb_TableDescription_TableStatus_FromDafny(input interfa
 }
 func Com_amazonaws_dynamodb_TableDescription_CreationDateTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -4797,18 +4755,11 @@ func Com_amazonaws_dynamodb_TableDescription_ProvisionedThroughput_FromDafny(inp
 }
 func Com_amazonaws_dynamodb_ProvisionedThroughputDescription_LastIncreaseDateTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -4822,18 +4773,11 @@ func Com_amazonaws_dynamodb_ProvisionedThroughputDescription_LastIncreaseDateTim
 }
 func Com_amazonaws_dynamodb_ProvisionedThroughputDescription_LastDecreaseDateTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -4949,18 +4893,11 @@ func Com_amazonaws_dynamodb_BillingModeSummary_BillingMode_FromDafny(input inter
 }
 func Com_amazonaws_dynamodb_BillingModeSummary_LastUpdateToPayPerRequestDateTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -5316,16 +5253,9 @@ func Com_amazonaws_dynamodb_RestoreSummary_SourceTableArn_FromDafny(input interf
 }
 func Com_amazonaws_dynamodb_RestoreSummary_RestoreDateTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -5412,18 +5342,11 @@ func Com_amazonaws_dynamodb_SSEDescription_KMSMasterKeyArn_FromDafny(input inter
 }
 func Com_amazonaws_dynamodb_SSEDescription_InaccessibleEncryptionDateTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -5449,18 +5372,11 @@ func Com_amazonaws_dynamodb_TableDescription_ArchivalSummary_FromDafny(input int
 }
 func Com_amazonaws_dynamodb_ArchivalSummary_ArchivalDateTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -5631,16 +5547,9 @@ func Com_amazonaws_dynamodb_SourceTableDetails_KeySchema_FromDafny(input interfa
 }
 func Com_amazonaws_dynamodb_SourceTableDetails_TableCreationDateTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 
-		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -6590,18 +6499,11 @@ func Com_amazonaws_dynamodb_PointInTimeRecoveryDescription_PointInTimeRecoverySt
 }
 func Com_amazonaws_dynamodb_PointInTimeRecoveryDescription_EarliestRestorableDateTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -6615,18 +6517,11 @@ func Com_amazonaws_dynamodb_PointInTimeRecoveryDescription_EarliestRestorableDat
 }
 func Com_amazonaws_dynamodb_PointInTimeRecoveryDescription_LatestRestorableDateTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -6723,18 +6618,11 @@ func Com_amazonaws_dynamodb_DescribeContributorInsightsOutput_ContributorInsight
 }
 func Com_amazonaws_dynamodb_DescribeContributorInsightsOutput_LastUpdateDateTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -6887,18 +6775,11 @@ func Com_amazonaws_dynamodb_ExportDescription_ExportStatus_FromDafny(input inter
 }
 func Com_amazonaws_dynamodb_ExportDescription_StartTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -6912,18 +6793,11 @@ func Com_amazonaws_dynamodb_ExportDescription_StartTime_FromDafny(input interfac
 }
 func Com_amazonaws_dynamodb_ExportDescription_EndTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -6967,18 +6841,11 @@ func Com_amazonaws_dynamodb_ExportDescription_TableId_FromDafny(input interface{
 }
 func Com_amazonaws_dynamodb_ExportDescription_ExportTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -7157,18 +7024,11 @@ func Com_amazonaws_dynamodb_ExportDescription_IncrementalExportSpecification_Fro
 }
 func Com_amazonaws_dynamodb_IncrementalExportSpecification_ExportFromTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -7182,18 +7042,11 @@ func Com_amazonaws_dynamodb_IncrementalExportSpecification_ExportFromTime_FromDa
 }
 func Com_amazonaws_dynamodb_IncrementalExportSpecification_ExportToTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -8013,18 +7866,11 @@ func Com_amazonaws_dynamodb_TableCreationParameters_GlobalSecondaryIndexes_FromD
 }
 func Com_amazonaws_dynamodb_ImportTableDescription_StartTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -8038,18 +7884,11 @@ func Com_amazonaws_dynamodb_ImportTableDescription_StartTime_FromDafny(input int
 }
 func Com_amazonaws_dynamodb_ImportTableDescription_EndTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -8996,18 +8835,11 @@ func Com_amazonaws_dynamodb_ExportTableToPointInTimeInput_TableArn_FromDafny(inp
 }
 func Com_amazonaws_dynamodb_ExportTableToPointInTimeInput_ExportTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -9461,18 +9293,11 @@ func Com_amazonaws_dynamodb_ListBackupsInput_Limit_FromDafny(input interface{}) 
 }
 func Com_amazonaws_dynamodb_ListBackupsInput_TimeRangeLowerBound_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -9486,18 +9311,11 @@ func Com_amazonaws_dynamodb_ListBackupsInput_TimeRangeLowerBound_FromDafny(input
 }
 func Com_amazonaws_dynamodb_ListBackupsInput_TimeRangeUpperBound_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -9625,18 +9443,11 @@ func Com_amazonaws_dynamodb_BackupSummary_BackupName_FromDafny(input interface{}
 }
 func Com_amazonaws_dynamodb_BackupSummary_BackupCreationDateTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -9650,18 +9461,11 @@ func Com_amazonaws_dynamodb_BackupSummary_BackupCreationDateTime_FromDafny(input
 }
 func Com_amazonaws_dynamodb_BackupSummary_BackupExpiryDateTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -10191,18 +9995,11 @@ func Com_amazonaws_dynamodb_ImportSummary_InputFormat_FromDafny(input interface{
 }
 func Com_amazonaws_dynamodb_ImportSummary_StartTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -10216,18 +10013,11 @@ func Com_amazonaws_dynamodb_ImportSummary_StartTime_FromDafny(input interface{})
 }
 func Com_amazonaws_dynamodb_ImportSummary_EndTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -11149,18 +10939,11 @@ func Com_amazonaws_dynamodb_RestoreTableToPointInTimeInput_UseLatestRestorableTi
 }
 func Com_amazonaws_dynamodb_RestoreTableToPointInTimeInput_RestoreDateTime_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {

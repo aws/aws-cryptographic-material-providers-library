@@ -1200,7 +1200,13 @@ func XksProxyVpcEndpointServiceNotFoundException_ToDafny(nativeInput types.XksPr
 }
 
 func OpaqueError_Input_ToDafny(nativeInput error) ComAmazonawsKmsTypes.Error {
-	return ComAmazonawsKmsTypes.Companion_Error_.Create_OpaqueWithText_(nativeInput, dafny.SeqOfChars([]dafny.Char(nativeInput.Error())...))
+	return ComAmazonawsKmsTypes.Companion_Error_.Create_OpaqueWithText_(nativeInput, func() dafny.Sequence {
+		res, err := UTF8.DecodeFromNativeGoByteArray([]byte(nativeInput.Error()))
+		if err != nil {
+			panic("invalid utf8 input provided")
+		}
+		return res
+	}())
 }
 
 func Error_ToDafny(err error) ComAmazonawsKmsTypes.Error {
@@ -2213,7 +2219,13 @@ func Com_amazonaws_kms_KeyMetadata_CreationDate_ToDafny(input *time.Time) Wrappe
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -2287,7 +2299,13 @@ func Com_amazonaws_kms_KeyMetadata_DeletionDate_ToDafny(input *time.Time) Wrappe
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -2297,7 +2315,13 @@ func Com_amazonaws_kms_KeyMetadata_ValidTo_ToDafny(input *time.Time) Wrappers.Op
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -3288,7 +3312,13 @@ func Com_amazonaws_kms_CustomKeyStoresListEntry_CreationDate_ToDafny(input *time
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -4519,7 +4549,13 @@ func Com_amazonaws_kms_GetKeyRotationStatusResponse_NextRotationDate_ToDafny(inp
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -4529,7 +4565,13 @@ func Com_amazonaws_kms_GetKeyRotationStatusResponse_OnDemandRotationStartDate_To
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -4637,7 +4679,13 @@ func Com_amazonaws_kms_GetParametersForImportResponse_ParametersValidTo_ToDafny(
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -4850,7 +4898,13 @@ func Com_amazonaws_kms_ImportKeyMaterialRequest_ValidTo_ToDafny(input *time.Time
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -4986,7 +5040,13 @@ func Com_amazonaws_kms_AliasListEntry_CreationDate_ToDafny(input *time.Time) Wra
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -4996,7 +5056,13 @@ func Com_amazonaws_kms_AliasListEntry_LastUpdatedDate_ToDafny(input *time.Time) 
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -5163,7 +5229,13 @@ func Com_amazonaws_kms_GrantListEntry_CreationDate_ToDafny(input *time.Time) Wra
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -5426,7 +5498,13 @@ func Com_amazonaws_kms_RotationsListEntry_RotationDate_ToDafny(input *time.Time)
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -6199,7 +6277,13 @@ func Com_amazonaws_kms_ScheduleKeyDeletionResponse_DeletionDate_ToDafny(input *t
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 

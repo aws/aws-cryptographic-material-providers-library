@@ -2557,18 +2557,11 @@ func Com_amazonaws_kms_KeyMetadata_Arn_FromDafny(input interface{}) *string {
 }
 func Com_amazonaws_kms_KeyMetadata_CreationDate_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -2644,18 +2637,11 @@ func Com_amazonaws_kms_KeyMetadata_KeyState_FromDafny(input interface{}) types.K
 }
 func Com_amazonaws_kms_KeyMetadata_DeletionDate_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -2669,18 +2655,11 @@ func Com_amazonaws_kms_KeyMetadata_DeletionDate_FromDafny(input interface{}) *ti
 }
 func Com_amazonaws_kms_KeyMetadata_ValidTo_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -3626,18 +3605,11 @@ func Com_amazonaws_kms_CustomKeyStoresListEntry_ConnectionErrorCode_FromDafny(in
 }
 func Com_amazonaws_kms_CustomKeyStoresListEntry_CreationDate_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -4830,18 +4802,11 @@ func Com_amazonaws_kms_GetKeyRotationStatusOutput_RotationPeriodInDays_FromDafny
 }
 func Com_amazonaws_kms_GetKeyRotationStatusOutput_NextRotationDate_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -4855,18 +4820,11 @@ func Com_amazonaws_kms_GetKeyRotationStatusOutput_NextRotationDate_FromDafny(inp
 }
 func Com_amazonaws_kms_GetKeyRotationStatusOutput_OnDemandRotationStartDate_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -4966,18 +4924,11 @@ func Com_amazonaws_kms_GetParametersForImportOutput_PublicKey_FromDafny(input in
 }
 func Com_amazonaws_kms_GetParametersForImportOutput_ParametersValidTo_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -5192,18 +5143,11 @@ func Com_amazonaws_kms_ImportKeyMaterialInput_EncryptedKeyMaterial_FromDafny(inp
 }
 func Com_amazonaws_kms_ImportKeyMaterialInput_ValidTo_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -5326,18 +5270,11 @@ func Com_amazonaws_kms_AliasListEntry_TargetKeyId_FromDafny(input interface{}) *
 }
 func Com_amazonaws_kms_AliasListEntry_CreationDate_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -5351,18 +5288,11 @@ func Com_amazonaws_kms_AliasListEntry_CreationDate_FromDafny(input interface{}) 
 }
 func Com_amazonaws_kms_AliasListEntry_LastUpdatedDate_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -5506,18 +5436,11 @@ func Com_amazonaws_kms_GrantListEntry_Name_FromDafny(input interface{}) *string 
 }
 func Com_amazonaws_kms_GrantListEntry_CreationDate_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -5744,18 +5667,11 @@ func Com_amazonaws_kms_RotationsListEntry_KeyId_FromDafny(input interface{}) *st
 }
 func Com_amazonaws_kms_RotationsListEntry_RotationDate_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
@@ -6443,18 +6359,11 @@ func Com_amazonaws_kms_ScheduleKeyDeletionOutput_KeyId_FromDafny(input interface
 }
 func Com_amazonaws_kms_ScheduleKeyDeletionOutput_DeletionDate_FromDafny(input interface{}) *time.Time {
 	return func() *time.Time {
-		var s string
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input.(dafny.Sequence).(dafny.Sequence)); ; {
-			val, ok := i()
-			if !ok {
-				break
-			} else {
-				s = s + string(val.(dafny.Char))
-			}
-		}
+		a := UTF8.Encode(input.(dafny.Sequence).(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 		if len(s) == 0 {
 			panic("timestamp string is empty")
 		} else {
