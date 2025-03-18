@@ -12,7 +12,7 @@ pub mod AesKdfCtr {
     use crate::*;
     use aws_lc_rs::cipher::{EncryptingKey, EncryptionContext, UnboundCipherKey, AES_256};
     use dafny_runtime::Sequence;
-    use std::rc::Rc;
+    use dafny_runtime::Rc;
 
     fn error(s: &str) -> Rc<DafnyError> {
         Rc::new(DafnyError::AwsCryptographicPrimitivesError {
