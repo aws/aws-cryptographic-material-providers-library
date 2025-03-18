@@ -75,8 +75,8 @@ service KeyStore {
   The hierarchy-version determines how the Branch Key Store classes
   treat the Branch Keys.")
 @enum([
-  { name: "1", value: "1" },
-  { name: "2", value: "2" }
+  { name: "v1", value: "1" },
+  { name: "v2", value: "2" }
 ])
 string HierarchyVersion
 
