@@ -44,7 +44,9 @@ module {:options "/functionSyntax:4" } Structure {
   }
 
   //Attribute Values
+  // TODO-HV-2-Create: Refactor to allow HV-2 but defaults to HV-1
   const HIERARCHY_VERSION_VALUE := "1"
+  const HIERARCHY_VERSION_VALUE_2 := "2"
   const HIERARCHY_VERSION_ATTRIBUTE_VALUE := DDB.AttributeValue.N(HIERARCHY_VERSION_VALUE)
   const BRANCH_KEY_TYPE_PREFIX := "branch:version:"
   const BRANCH_KEY_ACTIVE_TYPE := "branch:ACTIVE"
@@ -458,6 +460,45 @@ module {:options "/functionSyntax:4" } Structure {
     map i <- defixedCustomEncryptionContext :: i.0 := i.1
   }
 
+  opaque function DecryptOnlyBranchKeyEncryptionContextHV2(
+    branchKeyId: string,
+    branchKeyVersion: string,
+    timestamp: string,
+    logicalKeyStoreName: string,
+    kmsKeyArn: string,
+    customEncryptionContext: map<string, string>
+  ): (output: map<string, string>)
+    requires 0 < |branchKeyId|
+    requires 0 < |branchKeyVersion|
+    ensures BranchKeyContext?(output)
+    ensures BRANCH_KEY_TYPE_PREFIX < output[TYPE_FIELD]
+    ensures BRANCH_KEY_ACTIVE_VERSION_FIELD !in output
+    ensures output[KMS_FIELD] == kmsKeyArn
+    ensures output[TABLE_FIELD] == logicalKeyStoreName
+    ensures forall k <- customEncryptionContext
+              ::
+                && ENCRYPTION_CONTEXT_PREFIX + k in output
+                && output[ENCRYPTION_CONTEXT_PREFIX + k] == customEncryptionContext[k]
+  {
+    // Dafny needs some help.
+    // Adding a fixed string
+    // will not make any of the keys collide.
+    // However, this leaks a lot of complexity.
+    // This is why the function is now opaque.
+    // Otherwise things timeout
+    assert forall k <- customEncryptionContext.Keys
+        ::
+          k == (ENCRYPTION_CONTEXT_PREFIX + k)[|ENCRYPTION_CONTEXT_PREFIX|..];
+
+    map[
+      BRANCH_KEY_IDENTIFIER_FIELD := branchKeyId,
+      TYPE_FIELD := BRANCH_KEY_TYPE_PREFIX + branchKeyVersion,
+      KEY_CREATE_TIME := timestamp,
+      TABLE_FIELD := logicalKeyStoreName,
+      KMS_FIELD := kmsKeyArn,
+      HIERARCHY_VERSION := HIERARCHY_VERSION_VALUE_2
+    ] + map k <- customEncryptionContext :: ENCRYPTION_CONTEXT_PREFIX + k := customEncryptionContext[k]
+  }
 
   opaque function DecryptOnlyBranchKeyEncryptionContext(
     branchKeyId: string,
