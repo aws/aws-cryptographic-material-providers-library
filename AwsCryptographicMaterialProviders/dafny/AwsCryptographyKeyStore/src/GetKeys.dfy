@@ -203,8 +203,8 @@ module GetKeys {
         grantTokens,
         kmsClient
       );
-      var mdDigest := HierarchicalVersionUtils.GetMdDigestFromEC(branchKeyItemFromStorage.EncryptionContext);
-      var utf8MDDigest :- HierarchicalVersionUtils.UnstringifyEncryptionContext(mdDigest);
+      var mdDigestMap := HierarchicalVersionUtils.GetMdDigestFromEC(branchKeyItemFromStorage.EncryptionContext);
+      var utf8MDDigest :- HierarchicalVersionUtils.UnstringifyEncryptionContext(mdDigestMap);
       var crypto := HierarchicalVersionUtils.ProvideCryptoClient();
       if (crypto.Failure?) {
         var e := Types.KeyStoreException(
@@ -236,6 +236,12 @@ module GetKeys {
           Types.GetActiveBranchKeyOutput(
             branchKeyMaterials := branchKeyMaterials
           ));
+    } else {
+      // This else block will never be reached because we have check for hierarchical keyring version before if-else.
+      var e := Types.KeyStoreException(
+        message := ErrorMessages.INVALID_HIERARCHY_VERSION
+      );
+      return Failure(e);
     }
 
   }
@@ -380,39 +386,57 @@ module GetKeys {
       )
     );
 
-    var branchKeyItem := VersionItem.Item;
+    var branchKeyItemFromStorage := VersionItem.Item;
 
     :- Need(
       || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
-           && Structure.DecryptOnlyHierarchicalSymmetricKey?(branchKeyItem)
-           && branchKeyItem.Identifier == input.branchKeyIdentifier
-           && branchKeyItem.Type == Types.HierarchicalSymmetricVersion(
+           && Structure.DecryptOnlyHierarchicalSymmetricKey?(branchKeyItemFromStorage)
+           && branchKeyItemFromStorage.Identifier == input.branchKeyIdentifier
+           && branchKeyItemFromStorage.Type == Types.HierarchicalSymmetricVersion(
                                       Types.HierarchicalSymmetric(
                                         Version := input.branchKeyVersion
                                       ))
-           && branchKeyItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+           && branchKeyItemFromStorage.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
          ),
       Types.KeyStoreException(
         message := ErrorMessages.INVALID_BRANCH_KEY_VERSION_FROM_STORAGE)
     );
-
-    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
-      branchKeyItem,
-      kmsConfiguration,
-      grantTokens,
-      kmsClient
+    :- Need(
+      branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_1 ||
+      branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2,
+      Types.KeyStoreException(
+        message := ErrorMessages.INVALID_HIERARCHY_VERSION
+      )
     );
 
-    var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
-      branchKeyItem,
-      branchKey.Plaintext.value
-    );
+    if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_1) {
+      var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
+        branchKeyItemFromStorage,
+        kmsConfiguration,
+        grantTokens,
+        kmsClient
+      );
 
-    return Success(
-        Types.GetBranchKeyVersionOutput(
-          branchKeyMaterials := branchKeyMaterials
-        ));
+      var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
+        branchKeyItemFromStorage,
+        branchKey.Plaintext.value
+      );
+
+      return Success(
+          Types.GetBranchKeyVersionOutput(
+            branchKeyMaterials := branchKeyMaterials
+          ));
+    } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2) {
+
+    } else {
+      // This else block will never be reached because we have check for hierarchical keyring version before if-else.
+      var e := Types.KeyStoreException(
+        message := ErrorMessages.INVALID_HIERARCHY_VERSION
+      );
+      return Failure(e);
+    }
+
   }
 
   method {:vcs_split_on_every_assert} GetBeaconKeyAndUnwrap(

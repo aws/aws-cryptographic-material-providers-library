@@ -21,7 +21,8 @@ module HierarchicalVersionUtils {
     item: Types.EncryptionContextString
   ) : (output: Types.EncryptionContextString)
   {
-    map k | k in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES && k in item :: item[k]
+    map k <- item.Keys - {Structure.TABLE_FIELD}
+      :: k := item[k]
   }
   
   method GetHV2EC(
