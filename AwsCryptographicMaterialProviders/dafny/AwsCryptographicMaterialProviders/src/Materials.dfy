@@ -253,17 +253,11 @@ module Materials {
        //= aws-encryption-sdk-specification/framework/structures.md#symmetric-signing-keys
        //= type=implication
        //# If the algorithm suite does contain a symmetric signing algorithm, this list MUST have length equal to the [encrypted data key list](#encrypted-data-keys).
-<<<<<<< HEAD
-    && (suite.symmetricSignature.HMAC? ==>
-          && encryptionMaterials.symmetricSigningKeys.Some?
-          && |encryptionMaterials.symmetricSigningKeys.value| == |encryptionMaterials.encryptedDataKeys|)
-=======
     && (suite.symmetricSignature.HMAC? && encryptionMaterials.symmetricSigningKeys.Some? ==>
           |encryptionMaterials.symmetricSigningKeys.value| == |encryptionMaterials.encryptedDataKeys|)
     && (suite.symmetricSignature.HMAC? ==>
           || encryptionMaterials.symmetricSigningKeys.Some?
           || (|encryptionMaterials.encryptedDataKeys| == 0 && encryptionMaterials.symmetricSigningKeys.None?))
->>>>>>> ajewell/measure
        //= aws-encryption-sdk-specification/framework/structures.md#symmetric-signing-keys
        //= type=implication
        //# If the algorithm suite does not contain a symmetric signing algorithm, this list MUST NOT be included in the materials.
