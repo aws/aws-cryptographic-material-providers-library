@@ -168,10 +168,18 @@ module GetKeys {
         message := ErrorMessages.INVALID_HIERARCHY_VERSION
       )
     );
-    var a := ToHV2EC(branchKeyItem.EncryptionContext);
-    print(a);
+    var hv2EC := getHV2EC(branchKeyItem.EncryptionContext);
+    var hv2BranchKeyItem := Types.EncryptedHierarchicalKey(
+      Identifier := branchKeyItem.Identifier,
+      Type := branchKeyItem.Type,
+      CreateTime := branchKeyItem.CreateTime,
+      KmsArn := branchKeyItem.KmsArn,
+      EncryptionContext := hv2EC,
+      CiphertextBlob := branchKeyItem.CiphertextBlob
+    );
+    print(hv2BranchKeyItem.EncryptionContext);
     print("\n");
-    var b :- ParseEncryptionContext(a);
+    var b :- UnstringifyEncryptionContext(hv2BranchKeyItem.EncryptionContext);
     print(b);
     var crypto := ProvideCryptoClient();
     if (crypto.Failure?) {
@@ -205,22 +213,49 @@ module GetKeys {
           branchKeyMaterials := branchKeyMaterials
         ));
     } else if (branchKeyItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2) {
-      // print(branchKeyItem.EncryptionContext);
-      // print(ToHV2EC(branchKeyItem.EncryptionContext));
+      var hv2EC := getHV2EC(branchKeyItem.EncryptionContext);
+      var hv2BranchKey := Types.EncryptedHierarchicalKey(
+        Identifier := branchKeyItem.Identifier,
+        Type := branchKeyItem.Type,
+        CreateTime := branchKeyItem.CreateTime,
+        KmsArn := branchKeyItem.KmsArn,
+        EncryptionContext := hv2EC,
+        CiphertextBlob := branchKeyItem.CiphertextBlob
+      );
       var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
-        branchKeyItem,
+        hv2BranchKey,
         kmsConfiguration,
         grantTokens,
         kmsClient
       );
-
+      mdDigestFromTable := getMdDigestFromEC(branchKeyItem.EncryptionContext)
+      var utf8EC :- UnstringifyEncryptionContext(mdDigestFromTable);
+      var crypto := ProvideCryptoClient();
+      if (crypto.Failure?) {
+        var e := Types.KeyStoreException(
+          message :=
+            "Local Cryptography error: " + AtomicPrimitives.ErrorUtils.MessageOrUnknown(crypto.error));
+        return Failure(e);
+      }
+      var mdDigestShaFromTable := CanonicalEncryptionContext.EncryptionContextDigest(crypto.value, utf8EC);
+      if (ecDigest.Failure?) {
+        var e := Types.KeyStoreException(
+          message :=
+            "Failed to create mdDigest");
+        return Failure(e);
+      }
       var plaintextBranchKeyWithMdDigest := branchKey.Plaintext.value;
       var plaintextBranchKey := plaintextBranchKeyWithMdDigest[0..|plaintextBranchKeyWithMdDigest|-48];
-      var mdDigest := plaintextBranchKeyWithMdDigest[|plaintextBranchKeyWithMdDigest|-48..];
-
+      var decryptedMdDigest := plaintextBranchKeyWithMdDigest[|plaintextBranchKeyWithMdDigest|-48..];
+      if (decryptedMdDigest != mdDigestShaFromTable) {
+        var e := Types.KeyStoreException(
+          message :=
+            ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED);
+        return Failure(e);
+      }
       var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
         branchKeyItem,
-        branchKey.Plaintext.value
+        plaintextBranchKey
       );
       return Success(
         Types.GetActiveBranchKeyOutput(
@@ -230,7 +265,14 @@ module GetKeys {
 
   }
 
-  method ToHV2EC(
+  method getMdDigestFromEC(
+    item: Types.EncryptionContextString
+  ) returns (output: Types.EncryptionContextString)
+  {
+    mdDigest := map k | k in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES && k in item :: item[k];
+  }
+
+  method getHV2EC(
     item: Types.EncryptionContextString
   ) returns (output: Types.EncryptionContextString)
   {
@@ -253,13 +295,13 @@ module GetKeys {
     return newMap;
   }
 
-  function method ParseEncryptionContext(stringEncCtx: Types.EncryptionContextString) : (res: Result<Types.EncryptionContext, Types.Error>)
+  function method UnstringifyEncryptionContext(stringEncCtx: Types.EncryptionContextString) : (res: Result<Types.EncryptionContext, Types.Error>)
   {
       if |stringEncCtx| == 0 then
         Success(map[])
       else
         var parseResults: map<string, Result<(UTF8.ValidUTF8Bytes, UTF8.ValidUTF8Bytes), Types.Error>> :=
-          map strKey | strKey in stringEncCtx.Keys :: strKey := ParseEncryptionContextPair(strKey, stringEncCtx[strKey]);
+          map strKey | strKey in stringEncCtx.Keys :: strKey := UnstringifyEncryptionContextPair(strKey, stringEncCtx[strKey]);
         if exists r | r in parseResults.Values :: r.Failure?
         then Failure(
               Types.KeyStoreException(message := "Encryption context contains invalid UTF8")
@@ -273,7 +315,7 @@ module GetKeys {
           else Success(map r | r in parseResults.Values :: r.value.0 := r.value.1)
   }
 
-  function method ParseEncryptionContextPair(strKey: string, strValue: string) : (res: Result<(UTF8.ValidUTF8Bytes, UTF8.ValidUTF8Bytes), Types.Error>)
+  function method UnstringifyEncryptionContextPair(strKey: string, strValue: string) : (res: Result<(UTF8.ValidUTF8Bytes, UTF8.ValidUTF8Bytes), Types.Error>)
       ensures (UTF8.Encode(strKey).Success? && UTF8.Encode(strValue).Success?) <==> res.Success?
   {
       var key :- UTF8
