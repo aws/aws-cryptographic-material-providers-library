@@ -10,6 +10,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
     private string _identifier;
     private AWS.Cryptography.KeyStoreAdmin.KmsSymmetricKeyArn _kmsArn;
     private AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy _strategy;
+    private AWS.Cryptography.KeyStore.HierarchyVersion _hierarchyVersion;
     public string Identifier
     {
       get { return this._identifier; }
@@ -36,6 +37,15 @@ namespace AWS.Cryptography.KeyStoreAdmin
     public bool IsSetStrategy()
     {
       return this._strategy != null;
+    }
+    public AWS.Cryptography.KeyStore.HierarchyVersion HierarchyVersion
+    {
+      get { return this._hierarchyVersion; }
+      set { this._hierarchyVersion = value; }
+    }
+    public bool IsSetHierarchyVersion()
+    {
+      return this._hierarchyVersion != null;
     }
     public void Validate()
     {

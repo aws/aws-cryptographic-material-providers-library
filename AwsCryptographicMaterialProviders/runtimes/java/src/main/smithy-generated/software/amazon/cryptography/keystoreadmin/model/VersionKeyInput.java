@@ -4,6 +4,7 @@
 package software.amazon.cryptography.keystoreadmin.model;
 
 import java.util.Objects;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
 
 public class VersionKeyInput {
 
@@ -18,15 +19,25 @@ public class VersionKeyInput {
   private final KmsSymmetricKeyArn KmsArn;
 
   /**
-   * This configures which Key Management Operations will be used
-   *    AND the Key Management Clients (and Grant Tokens) used to invoke those Operations.
+   * For 'hierarchy-version-1' (HV-1), only ReEncrypt is supported (for now).
+   *   For 'hierarchy-version-2' (HV-2), only AwsKmsForHierarchyVersionTwo is supported.
    */
   private final KeyManagementStrategy Strategy;
+
+  /**
+   * The hierarchy-version of a Branch Key;
+   *   all items of the same Branch Key SHOULD
+   *   have the same hierarchy-version.
+   *   The hierarchy-version determines how the Branch Key Store classes
+   *   treat the Branch Keys.
+   */
+  private final HierarchyVersion hierarchyVersion;
 
   protected VersionKeyInput(BuilderImpl builder) {
     this.Identifier = builder.Identifier();
     this.KmsArn = builder.KmsArn();
     this.Strategy = builder.Strategy();
+    this.hierarchyVersion = builder.hierarchyVersion();
   }
 
   /**
@@ -44,11 +55,22 @@ public class VersionKeyInput {
   }
 
   /**
-   * @return This configures which Key Management Operations will be used
-   *    AND the Key Management Clients (and Grant Tokens) used to invoke those Operations.
+   * @return For 'hierarchy-version-1' (HV-1), only ReEncrypt is supported (for now).
+   *   For 'hierarchy-version-2' (HV-2), only AwsKmsForHierarchyVersionTwo is supported.
    */
   public KeyManagementStrategy Strategy() {
     return this.Strategy;
+  }
+
+  /**
+   * @return The hierarchy-version of a Branch Key;
+   *   all items of the same Branch Key SHOULD
+   *   have the same hierarchy-version.
+   *   The hierarchy-version determines how the Branch Key Store classes
+   *   treat the Branch Keys.
+   */
+  public HierarchyVersion hierarchyVersion() {
+    return this.hierarchyVersion;
   }
 
   public Builder toBuilder() {
@@ -81,16 +103,34 @@ public class VersionKeyInput {
     KmsSymmetricKeyArn KmsArn();
 
     /**
-     * @param Strategy This configures which Key Management Operations will be used
-     *    AND the Key Management Clients (and Grant Tokens) used to invoke those Operations.
+     * @param Strategy For 'hierarchy-version-1' (HV-1), only ReEncrypt is supported (for now).
+     *   For 'hierarchy-version-2' (HV-2), only AwsKmsForHierarchyVersionTwo is supported.
      */
     Builder Strategy(KeyManagementStrategy Strategy);
 
     /**
-     * @return This configures which Key Management Operations will be used
-     *    AND the Key Management Clients (and Grant Tokens) used to invoke those Operations.
+     * @return For 'hierarchy-version-1' (HV-1), only ReEncrypt is supported (for now).
+     *   For 'hierarchy-version-2' (HV-2), only AwsKmsForHierarchyVersionTwo is supported.
      */
     KeyManagementStrategy Strategy();
+
+    /**
+     * @param hierarchyVersion The hierarchy-version of a Branch Key;
+     *   all items of the same Branch Key SHOULD
+     *   have the same hierarchy-version.
+     *   The hierarchy-version determines how the Branch Key Store classes
+     *   treat the Branch Keys.
+     */
+    Builder hierarchyVersion(HierarchyVersion hierarchyVersion);
+
+    /**
+     * @return The hierarchy-version of a Branch Key;
+     *   all items of the same Branch Key SHOULD
+     *   have the same hierarchy-version.
+     *   The hierarchy-version determines how the Branch Key Store classes
+     *   treat the Branch Keys.
+     */
+    HierarchyVersion hierarchyVersion();
 
     VersionKeyInput build();
   }
@@ -103,12 +143,15 @@ public class VersionKeyInput {
 
     protected KeyManagementStrategy Strategy;
 
+    protected HierarchyVersion hierarchyVersion;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(VersionKeyInput model) {
       this.Identifier = model.Identifier();
       this.KmsArn = model.KmsArn();
       this.Strategy = model.Strategy();
+      this.hierarchyVersion = model.hierarchyVersion();
     }
 
     public Builder Identifier(String Identifier) {
@@ -136,6 +179,15 @@ public class VersionKeyInput {
 
     public KeyManagementStrategy Strategy() {
       return this.Strategy;
+    }
+
+    public Builder hierarchyVersion(HierarchyVersion hierarchyVersion) {
+      this.hierarchyVersion = hierarchyVersion;
+      return this;
+    }
+
+    public HierarchyVersion hierarchyVersion() {
+      return this.hierarchyVersion;
     }
 
     public VersionKeyInput build() {

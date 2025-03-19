@@ -9,6 +9,7 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     ApplyMutationResult_CompleteMutation,
     ApplyMutationResult_ContinueMutation,
     AwsKmsDecryptEncrypt_AwsKmsDecryptEncrypt as DafnyAwsKmsDecryptEncrypt,
+    AwsKmsForHierarchyVersionTwo_AwsKmsForHierarchyVersionTwo as DafnyAwsKmsForHierarchyVersionTwo,
     CreateKeyInput_CreateKeyInput as DafnyCreateKeyInput,
     CreateKeyOutput_CreateKeyOutput as DafnyCreateKeyOutput,
     DescribeMutationInput_DescribeMutationInput as DafnyDescribeMutationInput,
@@ -19,6 +20,7 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     InitializeMutationInput_InitializeMutationInput as DafnyInitializeMutationInput,
     InitializeMutationOutput_InitializeMutationOutput as DafnyInitializeMutationOutput,
     KeyManagementStrategy_AwsKmsDecryptEncrypt,
+    KeyManagementStrategy_AwsKmsForHierarchyVersionTwo,
     KeyManagementStrategy_AwsKmsReEncrypt,
     KeyStoreAdminConfig_KeyStoreAdminConfig as DafnyKeyStoreAdminConfig,
     KmsSymmetricEncryption_KmsSymmetricEncryption as DafnyKmsSymmetricEncryption,
@@ -106,6 +108,17 @@ def aws_cryptography_keystoreadmin_CreateKeyInput(native_input):
             if (native_input.strategy is not None)
             else (Option_None())
         ),
+        hierarchyVersion=(
+            (
+                Option_Some(
+                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_HierarchyVersion(
+                        native_input.hierarchy_version
+                    )
+                )
+            )
+            if (native_input.hierarchy_version is not None)
+            else (Option_None())
+        ),
     )
 
 
@@ -169,6 +182,15 @@ def aws_cryptography_keystoreadmin_KeyManagementStrategy(native_input):
                 native_input.value
             )
         )
+    elif isinstance(
+        native_input,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.models.KeyManagementStrategyAwsKmsForHierarchyVersionTwo,
+    ):
+        KeyManagementStrategy_union_value = KeyManagementStrategy_AwsKmsForHierarchyVersionTwo(
+            aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_AwsKmsForHierarchyVersionTwo(
+                native_input.value
+            )
+        )
     else:
         raise ValueError(
             "No recognized union value in union type: " + str(native_input)
@@ -204,6 +226,44 @@ def aws_cryptography_keystoreadmin_AwsKmsDecryptEncrypt(native_input):
     )
 
 
+def aws_cryptography_keystoreadmin_AwsKmsForHierarchyVersionTwo(native_input):
+    return DafnyAwsKmsForHierarchyVersionTwo(
+        generateRandom=(
+            (
+                Option_Some(
+                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_AwsKms(
+                        native_input.generate_random
+                    )
+                )
+            )
+            if (native_input.generate_random is not None)
+            else (Option_None())
+        ),
+        encrypt=(
+            (
+                Option_Some(
+                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_AwsKms(
+                        native_input.encrypt
+                    )
+                )
+            )
+            if (native_input.encrypt is not None)
+            else (Option_None())
+        ),
+        decrypt=(
+            (
+                Option_Some(
+                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_AwsKms(
+                        native_input.decrypt
+                    )
+                )
+            )
+            if (native_input.decrypt is not None)
+            else (Option_None())
+        ),
+    )
+
+
 def aws_cryptography_keystoreadmin_VersionKeyInput(native_input):
     return DafnyVersionKeyInput(
         Identifier=Seq(
@@ -228,6 +288,17 @@ def aws_cryptography_keystoreadmin_VersionKeyInput(native_input):
                 )
             )
             if (native_input.strategy is not None)
+            else (Option_None())
+        ),
+        hierarchyVersion=(
+            (
+                Option_Some(
+                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_HierarchyVersion(
+                        native_input.hierarchy_version
+                    )
+                )
+            )
+            if (native_input.hierarchy_version is not None)
             else (Option_None())
         ),
     )
@@ -330,6 +401,17 @@ def aws_cryptography_keystoreadmin_Mutations(native_input):
                 )
             )
             if (native_input.terminal_encryption_context is not None)
+            else (Option_None())
+        ),
+        TerminalHierarchyVersion=(
+            (
+                Option_Some(
+                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_HierarchyVersion(
+                        native_input.terminal_hierarchy_version
+                    )
+                )
+            )
+            if (native_input.terminal_hierarchy_version is not None)
             else (Option_None())
         ),
     )
@@ -709,6 +791,9 @@ def aws_cryptography_keystoreadmin_MutableBranchKeyProperties(native_input):
                 )
                 for (key, value) in native_input.custom_encryption_context.items()
             }
+        ),
+        HierarchyVersion=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_HierarchyVersion(
+            native_input.hierarchy_version
         ),
     )
 

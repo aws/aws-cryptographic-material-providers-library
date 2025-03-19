@@ -142,6 +142,18 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
         var decrypt :- ResolveKmsInput(kmsDecryptEncrypt.decrypt.value, config);
         var encrypt :- ResolveKmsInput(kmsDecryptEncrypt.encrypt.value, config);
         return Success(KmsUtils.keyManagerStrat.decryptEncrypt(decrypt, encrypt));
+      case AwsKmsForHierarchyVersionTwo(kmsForHV2) =>
+        :- Need(
+          && kmsForHV2.generateRandom.Some?
+          && kmsForHV2.encrypt.Some?
+          && kmsForHV2.decrypt.Some?,
+          Types.KeyStoreAdminException(message :=
+                                         "At this time, users MUST supply KMS clients for generateRandom, encrypt, and decrypt."
+          ));
+        var generateRandom :- ResolveKmsInput(kmsForHV2.generateRandom.value, config);
+        var decrypt :- ResolveKmsInput(kmsForHV2.decrypt.value, config);
+        var encrypt :- ResolveKmsInput(kmsForHV2.encrypt.value, config);
+        return Success(KmsUtils.keyManagerStrat.kmsForHV2(generateRandom, decrypt, encrypt));
     }
   }
 

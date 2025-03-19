@@ -19,6 +19,9 @@ public class InitializeMutationInput {
 
   /**
    * Optional. Defaults to reEncrypt with a default KMS Client.
+   *   However, if the Branch Key's 'hierarchy-version' is HV-2,
+   *   or the Branch Key is being mutated to HV-2,
+   *   the Strategy MUST be AwsKmsForHierarchyVersionTwo.
    */
   private final KeyManagementStrategy Strategy;
 
@@ -73,6 +76,9 @@ public class InitializeMutationInput {
 
   /**
    * @return Optional. Defaults to reEncrypt with a default KMS Client.
+   *   However, if the Branch Key's 'hierarchy-version' is HV-2,
+   *   or the Branch Key is being mutated to HV-2,
+   *   the Strategy MUST be AwsKmsForHierarchyVersionTwo.
    */
   public KeyManagementStrategy Strategy() {
     return this.Strategy;
@@ -140,11 +146,17 @@ public class InitializeMutationInput {
 
     /**
      * @param Strategy Optional. Defaults to reEncrypt with a default KMS Client.
+     *   However, if the Branch Key's 'hierarchy-version' is HV-2,
+     *   or the Branch Key is being mutated to HV-2,
+     *   the Strategy MUST be AwsKmsForHierarchyVersionTwo.
      */
     Builder Strategy(KeyManagementStrategy Strategy);
 
     /**
      * @return Optional. Defaults to reEncrypt with a default KMS Client.
+     *   However, if the Branch Key's 'hierarchy-version' is HV-2,
+     *   or the Branch Key is being mutated to HV-2,
+     *   the Strategy MUST be AwsKmsForHierarchyVersionTwo.
      */
     KeyManagementStrategy Strategy();
 

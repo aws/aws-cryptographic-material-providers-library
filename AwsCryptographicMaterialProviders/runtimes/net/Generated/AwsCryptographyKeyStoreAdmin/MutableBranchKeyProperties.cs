@@ -9,6 +9,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
   {
     private string _kmsArn;
     private System.Collections.Generic.Dictionary<string, string> _customEncryptionContext;
+    private AWS.Cryptography.KeyStore.HierarchyVersion _hierarchyVersion;
     public string KmsArn
     {
       get { return this._kmsArn; }
@@ -27,10 +28,20 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       return this._customEncryptionContext != null;
     }
+    public AWS.Cryptography.KeyStore.HierarchyVersion HierarchyVersion
+    {
+      get { return this._hierarchyVersion; }
+      set { this._hierarchyVersion = value; }
+    }
+    public bool IsSetHierarchyVersion()
+    {
+      return this._hierarchyVersion != null;
+    }
     public void Validate()
     {
       if (!IsSetKmsArn()) throw new System.ArgumentException("Missing value for required property 'KmsArn'");
       if (!IsSetCustomEncryptionContext()) throw new System.ArgumentException("Missing value for required property 'CustomEncryptionContext'");
+      if (!IsSetHierarchyVersion()) throw new System.ArgumentException("Missing value for required property 'HierarchyVersion'");
 
     }
   }

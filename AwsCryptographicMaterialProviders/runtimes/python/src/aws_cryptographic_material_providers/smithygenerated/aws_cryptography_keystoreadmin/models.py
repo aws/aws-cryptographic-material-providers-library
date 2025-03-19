@@ -149,12 +149,97 @@ class AwsKmsDecryptEncrypt:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
-class KeyManagementStrategyAwsKmsReEncrypt:
-    """Key Store Items are authenticated and re-wrapped via KMS ReEncrypt,
-    executed with the provided Grant Tokens and KMS Client.
+class AwsKmsForHierarchyVersionTwo:
+    generate_random: Optional[AwsKms]
+    encrypt: Optional[AwsKms]
+    decrypt: Optional[AwsKms]
 
-    This is one request to Key Management, as compared to two.   But
-    only one set of credentials can be used.
+    def __init__(
+        self,
+        *,
+        generate_random: Optional[AwsKms] = None,
+        encrypt: Optional[AwsKms] = None,
+        decrypt: Optional[AwsKms] = None,
+    ):
+        """For HV-2, plain-text data keys (PDKs) are created by
+        kms:GenerateRandom. The additional authenticated data (AAD) and the PDK
+        are protected by kms:Encrypt. To validate a Branch Key item,
+        kms:Decrypt un-wraps the AAD-PDK tuple, and the client verifies the
+        AAD.
+
+        :param generate_random: The KMS Client (and Grant Tokens) used
+            to generate the plain-text data key.
+        :param encrypt: The KMS Client (and Grant Tokens) used to
+            Encrypt Branch Key Store Items.
+        :param decrypt: The KMS Client (and Grant Tokens) used to
+            Decrypt Branch Key Store Items.
+        """
+        self.generate_random = generate_random
+        self.encrypt = encrypt
+        self.decrypt = decrypt
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the AwsKmsForHierarchyVersionTwo to a dictionary."""
+        d: Dict[str, Any] = {}
+
+        if self.generate_random is not None:
+            d["generate_random"] = self.generate_random.as_dict()
+
+        if self.encrypt is not None:
+            d["encrypt"] = self.encrypt.as_dict()
+
+        if self.decrypt is not None:
+            d["decrypt"] = self.decrypt.as_dict()
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "AwsKmsForHierarchyVersionTwo":
+        """Creates a AwsKmsForHierarchyVersionTwo from a dictionary."""
+        kwargs: Dict[str, Any] = {}
+
+        if "generate_random" in d:
+            kwargs["generate_random"] = AwsKms.from_dict(d["generate_random"])
+
+        if "encrypt" in d:
+            kwargs["encrypt"] = AwsKms.from_dict(d["encrypt"])
+
+        if "decrypt" in d:
+            kwargs["decrypt"] = AwsKms.from_dict(d["decrypt"])
+
+        return AwsKmsForHierarchyVersionTwo(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "AwsKmsForHierarchyVersionTwo("
+        if self.generate_random is not None:
+            result += f"generate_random={repr(self.generate_random)}, "
+
+        if self.encrypt is not None:
+            result += f"encrypt={repr(self.encrypt)}, "
+
+        if self.decrypt is not None:
+            result += f"decrypt={repr(self.decrypt)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, AwsKmsForHierarchyVersionTwo):
+            return False
+        attributes: list[str] = [
+            "generate_random",
+            "encrypt",
+            "decrypt",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class KeyManagementStrategyAwsKmsReEncrypt:
+    """Branch Key Store Items are authenticated and re-wrapped via KMS
+    ReEncrypt,
+
+    executed with the provided Grant Tokens and KMS Client.   This is
+    one request to Key Management, as compared to two.   But only one
+    set of credentials can be used.
     """
 
     def __init__(self, value: AwsKms):
@@ -221,6 +306,42 @@ class KeyManagementStrategyAwsKmsDecryptEncrypt:
         return self.value == other.value
 
 
+class KeyManagementStrategyAwsKmsForHierarchyVersionTwo:
+    """For HV-2, plain-text data keys (PDKs) are created by kms:GenerateRandom.
+
+    The additional authenticated data (AAD) and the PDK are protected by
+    kms:Encrypt. To validate a Branch Key item, kms:Decrypt un-wraps the
+    AAD-PDK tuple, and the client verifies the AAD.
+    """
+
+    def __init__(self, value: AwsKmsForHierarchyVersionTwo):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"AwsKmsForHierarchyVersionTwo": self.value.as_dict()}
+
+    @staticmethod
+    def from_dict(
+        d: Dict[str, Any],
+    ) -> "KeyManagementStrategyAwsKmsForHierarchyVersionTwo":
+        if len(d) != 1:
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return KeyManagementStrategyAwsKmsForHierarchyVersionTwo(
+            AwsKmsForHierarchyVersionTwo.from_dict(d["AwsKmsForHierarchyVersionTwo"])
+        )
+
+    def __repr__(self) -> str:
+        return (
+            f"KeyManagementStrategyAwsKmsForHierarchyVersionTwo(value=repr(self.value))"
+        )
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, KeyManagementStrategyAwsKmsForHierarchyVersionTwo):
+            return False
+        return self.value == other.value
+
+
 class KeyManagementStrategyUnknown:
     """Represents an unknown variant.
 
@@ -251,6 +372,7 @@ class KeyManagementStrategyUnknown:
 KeyManagementStrategy = Union[
     KeyManagementStrategyAwsKmsReEncrypt,
     KeyManagementStrategyAwsKmsDecryptEncrypt,
+    KeyManagementStrategyAwsKmsForHierarchyVersionTwo,
     KeyManagementStrategyUnknown,
 ]
 
@@ -261,6 +383,9 @@ def _key_management_strategy_from_dict(d: Dict[str, Any]) -> KeyManagementStrate
 
     if "AwsKmsDecryptEncrypt" in d:
         return KeyManagementStrategyAwsKmsDecryptEncrypt.from_dict(d)
+
+    if "AwsKmsForHierarchyVersionTwo" in d:
+        return KeyManagementStrategyAwsKmsForHierarchyVersionTwo.from_dict(d)
 
     raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
@@ -922,6 +1047,7 @@ class CreateKeyInput:
     encryption_context: Optional[dict[str, str]]
     kms_arn: KmsSymmetricKeyArn
     strategy: Optional[KeyManagementStrategy]
+    hierarchy_version: Optional[str]
 
     def __init__(
         self,
@@ -930,6 +1056,7 @@ class CreateKeyInput:
         identifier: Optional[str] = None,
         encryption_context: Optional[dict[str, str]] = None,
         strategy: Optional[KeyManagementStrategy] = None,
+        hierarchy_version: Optional[str] = None,
     ):
         """
         :param kms_arn: Multi-Region or Single Region AWS KMS Key
@@ -938,16 +1065,25 @@ class CreateKeyInput:
         :param identifier: The identifier for the created Branch Key.
         :param encryption_context: Custom encryption context for the Branch Key.
 
-        Required if branchKeyIdentifier is set.
-        :param strategy: This configures which Key Management Operations will be used
-
-        AND the Key Management Clients (and Grant Tokens) used to invoke those
-        Operations.
+        Required if branchKeyIdentifier is set OR if 'hierarchy-version-2' (HV-2).
+        :param strategy: For 'hierarchy-version-1' (HV-1), only ReEncrypt is supported
+        (for now).
+          For 'hierarchy-version-2' (HV-2), only AwsKmsForHierarchyVersionTwo
+        is supported.
+        :param hierarchy_version: The hierarchy-version of a Branch Key;
+          all items of
+        the same Branch Key SHOULD
+          have the same hierarchy-version.
+          The
+        hierarchy-version determines how the Branch Key Store classes
+          treat the Branch
+        Keys.
         """
         self.kms_arn = kms_arn
         self.identifier = identifier
         self.encryption_context = encryption_context
         self.strategy = strategy
+        self.hierarchy_version = hierarchy_version
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the CreateKeyInput to a dictionary."""
@@ -963,6 +1099,9 @@ class CreateKeyInput:
 
         if self.strategy is not None:
             d["strategy"] = self.strategy.as_dict()
+
+        if self.hierarchy_version is not None:
+            d["hierarchy_version"] = self.hierarchy_version
 
         return d
 
@@ -982,6 +1121,9 @@ class CreateKeyInput:
         if "strategy" in d:
             kwargs["strategy"] = (_key_management_strategy_from_dict(d["strategy"]),)
 
+        if "hierarchy_version" in d:
+            kwargs["hierarchy_version"] = d["hierarchy_version"]
+
         return CreateKeyInput(**kwargs)
 
     def __repr__(self) -> str:
@@ -996,7 +1138,10 @@ class CreateKeyInput:
             result += f"kms_arn={repr(self.kms_arn)}, "
 
         if self.strategy is not None:
-            result += f"strategy={repr(self.strategy)}"
+            result += f"strategy={repr(self.strategy)}, "
+
+        if self.hierarchy_version is not None:
+            result += f"hierarchy_version={repr(self.hierarchy_version)}"
 
         return result + ")"
 
@@ -1008,6 +1153,7 @@ class CreateKeyInput:
             "encryption_context",
             "kms_arn",
             "strategy",
+            "hierarchy_version",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
@@ -1103,23 +1249,26 @@ class DescribeMutationInput:
 class Mutations:
     terminal_kms_arn: Optional[str]
     terminal_encryption_context: Optional[dict[str, str]]
+    terminal_hierarchy_version: Optional[str]
 
     def __init__(
         self,
         *,
         terminal_kms_arn: Optional[str] = None,
         terminal_encryption_context: Optional[dict[str, str]] = None,
+        terminal_hierarchy_version: Optional[str] = None,
     ):
         """Define the Mutation in terms of the terminal, or end state, value
         for a particular Branch Key property. The original value will be
         REPLACED with this value.
 
-        As of v1.9.0, a Mutation can either:
+        As of v<HV-2>, a Mutation can either:
         - replace the KmsArn protecting the
         Branch Key
-        - replace the custom encryption context
-        - replace both the KmsArn and
-        the custom encryption context
+        - replace the encryption context
+        - change the 'hierarchy-version'
+        -
+        any combination of the above
 
         :param terminal_kms_arn: Optional. If not set, there will be no change to the
         KMS ARN.
@@ -1134,12 +1283,17 @@ class Mutations:
         change to the Encryption Context.
           ReEncrypt all Items of the Branch Key
           to
-        be authorized with this custom encryption context.
-          An empty Encryption Context
-        is not allowed.
+        be authorized with this encryption context.
+          An empty Encryption Context is not
+        allowed.
+        :param terminal_hierarchy_version: Optional. If set, changes the
+        hierarchy-version of the Branch Key.
+          At this time, only '2' is allowed; there
+        is no operation that faciliates HV-2 -> HV-1.
         """
         self.terminal_kms_arn = terminal_kms_arn
         self.terminal_encryption_context = terminal_encryption_context
+        self.terminal_hierarchy_version = terminal_hierarchy_version
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the Mutations to a dictionary."""
@@ -1150,6 +1304,9 @@ class Mutations:
 
         if self.terminal_encryption_context is not None:
             d["terminal_encryption_context"] = self.terminal_encryption_context
+
+        if self.terminal_hierarchy_version is not None:
+            d["terminal_hierarchy_version"] = self.terminal_hierarchy_version
 
         return d
 
@@ -1164,6 +1321,9 @@ class Mutations:
         if "terminal_encryption_context" in d:
             kwargs["terminal_encryption_context"] = d["terminal_encryption_context"]
 
+        if "terminal_hierarchy_version" in d:
+            kwargs["terminal_hierarchy_version"] = d["terminal_hierarchy_version"]
+
         return Mutations(**kwargs)
 
     def __repr__(self) -> str:
@@ -1172,8 +1332,11 @@ class Mutations:
             result += f"terminal_kms_arn={repr(self.terminal_kms_arn)}, "
 
         if self.terminal_encryption_context is not None:
+            result += f"terminal_encryption_context={repr(self.terminal_encryption_context)}, "
+
+        if self.terminal_hierarchy_version is not None:
             result += (
-                f"terminal_encryption_context={repr(self.terminal_encryption_context)}"
+                f"terminal_hierarchy_version={repr(self.terminal_hierarchy_version)}"
             )
 
         return result + ")"
@@ -1184,6 +1347,7 @@ class Mutations:
         attributes: list[str] = [
             "terminal_kms_arn",
             "terminal_encryption_context",
+            "terminal_hierarchy_version",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
@@ -1191,12 +1355,14 @@ class Mutations:
 class MutableBranchKeyProperties:
     kms_arn: str
     custom_encryption_context: dict[str, str]
+    hierarchy_version: str
 
     def __init__(
         self,
         *,
         kms_arn: str,
         custom_encryption_context: dict[str, str],
+        hierarchy_version: str,
     ):
         """Define the Mutable Properties of a Branch Key. As of v1.9.0, the
         Mutable.
@@ -1207,17 +1373,20 @@ class MutableBranchKeyProperties:
         context of a Branch Key
 
         :param kms_arn: The KmsArn protecting the Branch Key.
-        :param custom_encryption_context: The custom Encryption Context authenticated
-        with this Branch Key.
+        :param custom_encryption_context: The Encryption Context authenticated with this
+        Branch Key.
+        :param hierarchy_version: The 'hierarchy-version' of the Branch Key.
         """
         self.kms_arn = kms_arn
         self.custom_encryption_context = custom_encryption_context
+        self.hierarchy_version = hierarchy_version
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the MutableBranchKeyProperties to a dictionary."""
         return {
             "kms_arn": self.kms_arn,
             "custom_encryption_context": self.custom_encryption_context,
+            "hierarchy_version": self.hierarchy_version,
         }
 
     @staticmethod
@@ -1226,6 +1395,7 @@ class MutableBranchKeyProperties:
         kwargs: Dict[str, Any] = {
             "kms_arn": d["kms_arn"],
             "custom_encryption_context": d["custom_encryption_context"],
+            "hierarchy_version": d["hierarchy_version"],
         }
 
         return MutableBranchKeyProperties(**kwargs)
@@ -1237,8 +1407,11 @@ class MutableBranchKeyProperties:
 
         if self.custom_encryption_context is not None:
             result += (
-                f"custom_encryption_context={repr(self.custom_encryption_context)}"
+                f"custom_encryption_context={repr(self.custom_encryption_context)}, "
             )
+
+        if self.hierarchy_version is not None:
+            result += f"hierarchy_version={repr(self.hierarchy_version)}"
 
         return result + ")"
 
@@ -1248,6 +1421,7 @@ class MutableBranchKeyProperties:
         attributes: list[str] = [
             "kms_arn",
             "custom_encryption_context",
+            "hierarchy_version",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
@@ -1566,6 +1740,11 @@ class InitializeMutationInput:
         For a Mutation, the System Key setting MUST be consistent across
         the Initialize Mutation and all the Apply Mutation calls.
         :param strategy: Optional. Defaults to reEncrypt with a default KMS Client.
+
+        However, if the Branch Key's 'hierarchy-version' is HV-2,
+          or the Branch Key is
+        being mutated to HV-2,
+          the Strategy MUST be AwsKmsForHierarchyVersionTwo.
         :param do_not_version: Optional. Defaults to False, which Versions (or Rotates)
         the Branch Key,
           creating a new Version that has only ever been in the terminal
@@ -1747,6 +1926,7 @@ class VersionKeyInput:
     identifier: str
     kms_arn: KmsSymmetricKeyArn
     strategy: Optional[KeyManagementStrategy]
+    hierarchy_version: Optional[str]
 
     def __init__(
         self,
@@ -1754,19 +1934,29 @@ class VersionKeyInput:
         identifier: str,
         kms_arn: KmsSymmetricKeyArn,
         strategy: Optional[KeyManagementStrategy] = None,
+        hierarchy_version: Optional[str] = None,
     ):
         """
         :param identifier: The identifier for the Branch Key to be versioned.
         :param kms_arn: Multi-Region or Single Region AWS KMS Key ARN used to protect
         the Branch Key, but not aliases!
-        :param strategy: This configures which Key Management Operations will be used
-
-        AND the Key Management Clients (and Grant Tokens) used to invoke those
-        Operations.
+        :param strategy: For 'hierarchy-version-1' (HV-1), only ReEncrypt is supported
+        (for now).
+          For 'hierarchy-version-2' (HV-2), only AwsKmsForHierarchyVersionTwo
+        is supported.
+        :param hierarchy_version: The hierarchy-version of a Branch Key;
+          all items of
+        the same Branch Key SHOULD
+          have the same hierarchy-version.
+          The
+        hierarchy-version determines how the Branch Key Store classes
+          treat the Branch
+        Keys.
         """
         self.identifier = identifier
         self.kms_arn = kms_arn
         self.strategy = strategy
+        self.hierarchy_version = hierarchy_version
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the VersionKeyInput to a dictionary."""
@@ -1777,6 +1967,9 @@ class VersionKeyInput:
 
         if self.strategy is not None:
             d["strategy"] = self.strategy.as_dict()
+
+        if self.hierarchy_version is not None:
+            d["hierarchy_version"] = self.hierarchy_version
 
         return d
 
@@ -1791,6 +1984,9 @@ class VersionKeyInput:
         if "strategy" in d:
             kwargs["strategy"] = (_key_management_strategy_from_dict(d["strategy"]),)
 
+        if "hierarchy_version" in d:
+            kwargs["hierarchy_version"] = d["hierarchy_version"]
+
         return VersionKeyInput(**kwargs)
 
     def __repr__(self) -> str:
@@ -1802,7 +1998,10 @@ class VersionKeyInput:
             result += f"kms_arn={repr(self.kms_arn)}, "
 
         if self.strategy is not None:
-            result += f"strategy={repr(self.strategy)}"
+            result += f"strategy={repr(self.strategy)}, "
+
+        if self.hierarchy_version is not None:
+            result += f"hierarchy_version={repr(self.hierarchy_version)}"
 
         return result + ")"
 
@@ -1813,6 +2012,7 @@ class VersionKeyInput:
             "identifier",
             "kms_arn",
             "strategy",
+            "hierarchy_version",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
