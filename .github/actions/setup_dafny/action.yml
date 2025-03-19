@@ -1,0 +1,28 @@
+#
+# 
+# This local action consolidate all uses of dafny-lang/setup-dafny-action
+# as well as works around any dependencies or issues with setting up Dafny.
+# It can also be re-used by downstream projects such as the DB-ESDK and ESDK.
+# 
+name: "Setup Dafny"
+description: "This uses the setup Dafny action."
+inputs:
+  dafny-version:
+    description: "The Dafny version to setup"
+    required: true
+    type: string
+runs:
+  using: "composite"
+  steps:
+      # The dotnet tool requires >= 9.0.202 to work on MacOS
+      # See: https://github.com/dotnet/sdk/issues/46857#issuecomment-2734338347
+      - name: Setup .NET Core SDK '9.0.x'
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "9.0.x"
+
+      - name: Setup Dafny with setup-dafny action
+        uses: dafny-lang/setup-dafny-action@v1.8.0
+        with:
+          dafny-version: ${{ inputs.dafny }}
+

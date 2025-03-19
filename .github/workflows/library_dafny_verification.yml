@@ -52,16 +52,9 @@ jobs:
       - run: git submodule update --init --recursive smithy-dafny
 
       - name: Setup Dafny
-        uses: dafny-lang/setup-dafny-action@v1.8.0
+        uses: ./.github/actions/setup_dafny
         with:
           dafny-version: ${{ inputs.dafny }}
-
-      # dafny-reportgenerator requires next6
-      # but only 7.0 is installed on macos-13-large
-      - name: Setup .NET Core SDK '6.0.x'
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: "6.0.x"
 
       - name: Regenerate code using smithy-dafny if necessary
         if: ${{ inputs.regenerate-code }}
