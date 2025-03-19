@@ -1289,7 +1289,13 @@ func TransactionInProgressException_ToDafny(nativeInput types.TransactionInProgr
 }
 
 func OpaqueError_Input_ToDafny(nativeInput error) ComAmazonawsDynamodbTypes.Error {
-	return ComAmazonawsDynamodbTypes.Companion_Error_.Create_OpaqueWithText_(nativeInput, dafny.SeqOfChars([]dafny.Char(nativeInput.Error())...))
+	return ComAmazonawsDynamodbTypes.Companion_Error_.Create_OpaqueWithText_(nativeInput, func() dafny.Sequence {
+		res, err := UTF8.DecodeFromNativeGoByteArray([]byte(nativeInput.Error()))
+		if err != nil {
+			panic("invalid utf8 input provided")
+		}
+		return res
+	}())
 }
 
 func Error_ToDafny(err error) ComAmazonawsDynamodbTypes.Error {
@@ -2922,7 +2928,13 @@ func Com_amazonaws_dynamodb_BackupDetails_BackupCreationDateTime_ToDafny(input *
 			return dafny.SeqOf()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return dafny.SeqOfChars([]dafny.Char(formattedTime)...)
+		return func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}()
 	}()
 }
 
@@ -2932,7 +2944,13 @@ func Com_amazonaws_dynamodb_BackupDetails_BackupExpiryDateTime_ToDafny(input *ti
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -3194,7 +3212,13 @@ func Com_amazonaws_dynamodb_ReplicaDescription_ReplicaInaccessibleDateTime_ToDaf
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -3234,7 +3258,13 @@ func Com_amazonaws_dynamodb_TableClassSummary_LastUpdateDateTime_ToDafny(input *
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -3259,7 +3289,13 @@ func Com_amazonaws_dynamodb_GlobalTableDescription_CreationDateTime_ToDafny(inpu
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -3955,7 +3991,13 @@ func Com_amazonaws_dynamodb_TableDescription_CreationDateTime_ToDafny(input *tim
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -3974,7 +4016,13 @@ func Com_amazonaws_dynamodb_ProvisionedThroughputDescription_LastIncreaseDateTim
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -3984,7 +4032,13 @@ func Com_amazonaws_dynamodb_ProvisionedThroughputDescription_LastDecreaseDateTim
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -4099,7 +4153,13 @@ func Com_amazonaws_dynamodb_BillingModeSummary_LastUpdateToPayPerRequestDateTime
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -4448,7 +4508,13 @@ func Com_amazonaws_dynamodb_RestoreSummary_RestoreDateTime_ToDafny(input *time.T
 			return dafny.SeqOf()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return dafny.SeqOfChars([]dafny.Char(formattedTime)...)
+		return func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}()
 	}()
 }
 
@@ -4533,7 +4599,13 @@ func Com_amazonaws_dynamodb_SSEDescription_InaccessibleEncryptionDateTime_ToDafn
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -4552,7 +4624,13 @@ func Com_amazonaws_dynamodb_ArchivalSummary_ArchivalDateTime_ToDafny(input *time
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -4729,7 +4807,13 @@ func Com_amazonaws_dynamodb_SourceTableDetails_TableCreationDateTime_ToDafny(inp
 			return dafny.SeqOf()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return dafny.SeqOfChars([]dafny.Char(formattedTime)...)
+		return func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}()
 	}()
 }
 
@@ -5547,7 +5631,13 @@ func Com_amazonaws_dynamodb_PointInTimeRecoveryDescription_EarliestRestorableDat
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -5557,7 +5647,13 @@ func Com_amazonaws_dynamodb_PointInTimeRecoveryDescription_LatestRestorableDateT
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -5675,7 +5771,13 @@ func Com_amazonaws_dynamodb_DescribeContributorInsightsOutput_LastUpdateDateTime
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -5827,7 +5929,13 @@ func Com_amazonaws_dynamodb_ExportDescription_StartTime_ToDafny(input *time.Time
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -5837,7 +5945,13 @@ func Com_amazonaws_dynamodb_ExportDescription_EndTime_ToDafny(input *time.Time) 
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -5892,7 +6006,13 @@ func Com_amazonaws_dynamodb_ExportDescription_ExportTime_ToDafny(input *time.Tim
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -6097,7 +6217,13 @@ func Com_amazonaws_dynamodb_IncrementalExportSpecification_ExportFromTime_ToDafn
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -6107,7 +6233,13 @@ func Com_amazonaws_dynamodb_IncrementalExportSpecification_ExportToTime_ToDafny(
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -6923,7 +7055,13 @@ func Com_amazonaws_dynamodb_ImportTableDescription_StartTime_ToDafny(input *time
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -6933,7 +7071,13 @@ func Com_amazonaws_dynamodb_ImportTableDescription_EndTime_ToDafny(input *time.T
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -7911,7 +8055,13 @@ func Com_amazonaws_dynamodb_ExportTableToPointInTimeInput_ExportTime_ToDafny(inp
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -8355,7 +8505,13 @@ func Com_amazonaws_dynamodb_ListBackupsInput_TimeRangeLowerBound_ToDafny(input *
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -8365,7 +8521,13 @@ func Com_amazonaws_dynamodb_ListBackupsInput_TimeRangeUpperBound_ToDafny(input *
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -8507,7 +8669,13 @@ func Com_amazonaws_dynamodb_BackupSummary_BackupCreationDateTime_ToDafny(input *
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -8517,7 +8685,13 @@ func Com_amazonaws_dynamodb_BackupSummary_BackupExpiryDateTime_ToDafny(input *ti
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -9109,7 +9283,13 @@ func Com_amazonaws_dynamodb_ImportSummary_StartTime_ToDafny(input *time.Time) Wr
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -9119,7 +9299,13 @@ func Com_amazonaws_dynamodb_ImportSummary_EndTime_ToDafny(input *time.Time) Wrap
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 
@@ -10049,7 +10235,13 @@ func Com_amazonaws_dynamodb_RestoreTableToPointInTimeInput_RestoreDateTime_ToDaf
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		formattedTime := input.Format("2006-01-02T15:04:05.999999Z")
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfChars([]dafny.Char(formattedTime)...))
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(formattedTime))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
 	}()
 }
 

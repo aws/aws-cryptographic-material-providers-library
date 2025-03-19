@@ -605,7 +605,13 @@ func CollectionOfErrors_Input_ToDafny(nativeInput awscryptographymaterialprovide
 	for _, i2 := range nativeInput.ListOfErrors {
 		e = append(e, Error_ToDafny(i2))
 	}
-	return AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_CollectionOfErrors_(dafny.SeqOf(e...), dafny.SeqOfChars([]dafny.Char(nativeInput.Message)...))
+	return AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_CollectionOfErrors_(dafny.SeqOf(e...), func() dafny.Sequence {
+		res, err := UTF8.DecodeFromNativeGoByteArray([]byte(nativeInput.Message))
+		if err != nil {
+			panic("invalid utf8 input provided")
+		}
+		return res
+	}())
 }
 func OpaqueError_Input_ToDafny(nativeInput awscryptographymaterialproviderssmithygeneratedtypes.OpaqueError) AwsCryptographyMaterialProvidersTypes.Error {
 	return AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_Opaque_(nativeInput.ErrObject)

@@ -1,5 +1,5 @@
-github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library v0.0.1 h1:GMsJ9YTY+JcaZDlaTDOtiqrOXvR909fjXQtv9ed8Ip4=
-github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library v0.0.1/go.mod h1:m3mzHKiNiSC0LWeWX6ZAxSe6mKbJHgliux1Yu/sjCYI=
+github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library v0.2.0 h1:NhVxn86bWyWc/uOnE+oTikZdj75yOW6kMCfZNBf2x5E=
+github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library v0.2.0/go.mod h1:m3mzHKiNiSC0LWeWX6ZAxSe6mKbJHgliux1Yu/sjCYI=
 github.com/aws/aws-sdk-go-v2 v1.31.0 h1:3V05LbxTSItI5kUqNwhJrrrY1BAXxXt0sN0l72QmG5U=
 github.com/aws/aws-sdk-go-v2 v1.31.0/go.mod h1:ztolYtaEUtdpf9Wftr31CJfLVjOnD/CVRkKOOYgF8hA=
 github.com/aws/aws-sdk-go-v2/config v1.27.36 h1:4IlvHh6Olc7+61O1ktesh0jOcqmq/4WG6C2Aj5SKXy0=
