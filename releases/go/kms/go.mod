@@ -2,7 +2,7 @@ module github.com/aws/aws-cryptographic-material-providers-library/releases/go/k
 
 go 1.23.0
 
-require github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library v0.0.1
+require github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library v0.2.0
 
 require (
 	github.com/aws/aws-sdk-go-v2/config v1.27.36
