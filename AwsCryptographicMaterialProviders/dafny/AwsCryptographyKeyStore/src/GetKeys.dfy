@@ -150,50 +150,52 @@ module GetKeys {
       )
     );
 
-    var branchKeyItem := ActiveOutput.Item;
+    var branchKeyItemFromStorage := ActiveOutput.Item;
 
     :- Need(
       || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
-           && Structure.ActiveHierarchicalSymmetricKey?(branchKeyItem)
-           && branchKeyItem.Identifier == input.branchKeyIdentifier
-           && branchKeyItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+           && Structure.ActiveHierarchicalSymmetricKey?(branchKeyItemFromStorage)
+           && branchKeyItemFromStorage.Identifier == input.branchKeyIdentifier
+           && branchKeyItemFromStorage.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
          ),
       Types.KeyStoreException(
         message := ErrorMessages.INVALID_ACTIVE_BRANCH_KEY_FROM_STORAGE)
     );
     :- Need(
-      branchKeyItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_1 ||
-      branchKeyItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2,
+      branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_1 ||
+      branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2,
       Types.KeyStoreException(
         message := ErrorMessages.INVALID_HIERARCHY_VERSION
       )
     );
-    if (branchKeyItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_1) {
+    if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_1) {
       var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
-        branchKeyItem,
+        branchKeyItemFromStorage,
         kmsConfiguration,
         grantTokens,
         kmsClient
       );
 
       var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
-        branchKeyItem,
+        branchKeyItemFromStorage,
         branchKey.Plaintext.value
       );
       return Success(
           Types.GetActiveBranchKeyOutput(
             branchKeyMaterials := branchKeyMaterials
           ));
-    } else if (branchKeyItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2) {
-      var hv2EC := HierarchicalVersionUtils.GetHV2EC(branchKeyItem.EncryptionContext);
+    } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2) {
+      // branchKeyItemFromStorage.EncryptionContext comes from storage is not the actual EC. 
+      // branchKeyItemFromStorage.EncryptionContext contains all the items in the dynamodb table and table name.
+      var hv2EC := HierarchicalVersionUtils.GetHV2EC(branchKeyItemFromStorage.EncryptionContext);
       var hv2BranchKey := Types.EncryptedHierarchicalKey(
-        Identifier := branchKeyItem.Identifier,
-        Type := branchKeyItem.Type,
-        CreateTime := branchKeyItem.CreateTime,
-        KmsArn := branchKeyItem.KmsArn,
+        Identifier := branchKeyItemFromStorage.Identifier,
+        Type := branchKeyItemFromStorage.Type,
+        CreateTime := branchKeyItemFromStorage.CreateTime,
+        KmsArn := branchKeyItemFromStorage.KmsArn,
         EncryptionContext := hv2EC,
-        CiphertextBlob := branchKeyItem.CiphertextBlob
+        CiphertextBlob := branchKeyItemFromStorage.CiphertextBlob
       );
       var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
         hv2BranchKey,
@@ -201,8 +203,8 @@ module GetKeys {
         grantTokens,
         kmsClient
       );
-      var mdDigestFromTable := HierarchicalVersionUtils.GetMdDigestFromEC(branchKeyItem.EncryptionContext);
-      var utf8MdDigest :- HierarchicalVersionUtils.UnstringifyEncryptionContext(mdDigestFromTable);
+      var mdDigest := HierarchicalVersionUtils.GetMdDigestFromEC(branchKeyItemFromStorage.EncryptionContext);
+      var utf8MDDigest :- HierarchicalVersionUtils.UnstringifyEncryptionContext(mdDigest);
       var crypto := HierarchicalVersionUtils.ProvideCryptoClient();
       if (crypto.Failure?) {
         var e := Types.KeyStoreException(
@@ -210,24 +212,24 @@ module GetKeys {
             "Local Cryptography error: " + AtomicPrimitives.ErrorUtils.MessageOrUnknown(crypto.error));
         return Failure(e);
       }
-      var mdDigestShaFromTable := CanonicalEncryptionContext.EncryptionContextDigest(crypto.value, utf8MdDigest);
-      if (mdDigestShaFromTable.Failure?) {
+      var mdDigestSha := CanonicalEncryptionContext.EncryptionContextDigest(crypto.value, utf8MDDigest);
+      if (mdDigestSha.Failure?) {
         var e := Types.KeyStoreException(
           message :=
-            "Failed to create mdDigest");
+            "Failed to create SHA of MD Digest.");
         return Failure(e);
       }
       var plaintextBranchKeyWithMdDigest := branchKey.Plaintext.value;
       var plaintextBranchKey := plaintextBranchKeyWithMdDigest[0..|plaintextBranchKeyWithMdDigest|-48];
       var decryptedMdDigest := plaintextBranchKeyWithMdDigest[|plaintextBranchKeyWithMdDigest|-48..];
-      if (decryptedMdDigest != mdDigestShaFromTable.value) {
+      if (decryptedMdDigest != mdDigestSha.value) {
         var e := Types.KeyStoreException(
           message :=
             ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED);
         return Failure(e);
       }
       var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
-        branchKeyItem,
+        branchKeyItemFromStorage,
         plaintextBranchKey
       );
       return Success(
