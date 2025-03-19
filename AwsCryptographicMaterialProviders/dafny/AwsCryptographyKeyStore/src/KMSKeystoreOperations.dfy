@@ -96,6 +96,51 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     case kmsMRKeyArn(arn) => arn
   }
 
+  method GenerateRandom(
+    kmsClient: KMS.IKMSClient
+  )
+    returns (res: Result<KMS.GenerateRandomResponse, KmsError>)
+    requires kmsClient.ValidState()
+    modifies kmsClient.Modifies
+    ensures kmsClient.ValidState()
+    ensures
+      && |kmsClient.History.GenerateRandom| == |old(kmsClient.History.GenerateRandom)| + 1
+      && KMS.GenerateRandomRequest(
+           NumberOfBytes:=  Some(32),
+           CustomKeyStoreId:= None,
+           Recipient:= None
+         )
+         == Seq.Last(kmsClient.History.GenerateRandom).input
+      && old(kmsClient.History.GenerateRandom) < kmsClient.History.GenerateRandom
+      && old(kmsClient.History.Encrypt) == kmsClient.History.Encrypt
+      && old(kmsClient.History.Decrypt) == kmsClient.History.Decrypt
+
+    ensures res.Success? ==>
+              && res.value.Plaintext.Some?
+              && |res.value.Plaintext.value| == 32
+              && var kmsOperationOutput := Seq.Last(kmsClient.History.GenerateRandom).output;
+              && kmsOperationOutput.Success?
+              && kmsOperationOutput.value == res.value
+  {
+    var generatorRequest := KMS.GenerateRandomRequest(
+      NumberOfBytes:=  Some(32),
+      CustomKeyStoreId:= None,
+      Recipient:= None
+    );
+
+    var maybeGenerateResponse := kmsClient.GenerateRandom(generatorRequest);
+    var generateResponse :- maybeGenerateResponse
+    .MapFailure(e => Types.ComAmazonawsKms(ComAmazonawsKms := e));
+
+    :- Need(
+      && generateResponse.Plaintext.Some?
+      && |generateResponse.Plaintext.value| == 32,
+      Types.KeyManagementException(
+        message := "Invalid response from AWS KMS GenerateRandom: Invalid Plaintext, Expected 32 bytes of plaintext")
+    );
+    return Success(generateResponse);
+  }
+
   method GenerateKey(
     encryptionContext: Structure.BranchKeyContext,
     kmsConfiguration: Types.KMSConfiguration,

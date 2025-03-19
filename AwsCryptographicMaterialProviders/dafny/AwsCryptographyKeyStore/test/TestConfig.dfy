@@ -3,6 +3,8 @@
 
 include "../src/Index.dfy"
 include "Fixtures.dfy"
+include "../src/KMSKeystoreOperations.dfy"
+include "../../../../ComAmazonawsKms/Model/ComAmazonawsKmsTypes.dfy"
 
 module TestConfig {
   import Types = AwsCryptographyKeyStoreTypes
@@ -14,6 +16,9 @@ module TestConfig {
   import opened Fixtures
   import UUID
   import ErrorMessages = KeyStoreErrorMessages
+  import KO = KMSKeystoreOperations
+  import KMSTypes = ComAmazonawsKmsTypes
+  import Seq
 
   method {:test} TestInvalidKmsKeyArnConfig() {
     var kmsClient :- expect KMS.KMSClient();
@@ -187,5 +192,16 @@ module TestConfig {
     );
     keyStore := KeyStore.KeyStore(keyStoreConfig);
     expect keyStore.Success?;
+  }
+
+  method {:test} TestGenerateRandom() {
+    var kmsClient :- expect KMS.KMSClient();
+
+    // Test Case: Happy Path
+    var response := KO.GenerateRandom(kmsClient);
+    expect response.Success?, response;
+    expect response.value.Plaintext.Some?;
+    expect |response.value.Plaintext.value| == 32;
+    // print response.value.Plaintext.value;
   }
 }
