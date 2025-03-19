@@ -137,7 +137,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && generateResponse.Plaintext.Some?
       && |res.Plaintext.value| == 32,
       Types.KeyManagementException(
-        message := "Invalid response from AWS KMS GenerateRandom: No Plaintextor or Invalid Plaintext")
+        message := "Invalid response from AWS KMS GenerateRandom: No Plaintext or Invalid Plaintext")
     );
     return Success(generateResponse);
   }
