@@ -168,34 +168,6 @@ module GetKeys {
         message := ErrorMessages.INVALID_HIERARCHY_VERSION
       )
     );
-    var hv2EC := getHV2EC(branchKeyItem.EncryptionContext);
-    var hv2BranchKeyItem := Types.EncryptedHierarchicalKey(
-      Identifier := branchKeyItem.Identifier,
-      Type := branchKeyItem.Type,
-      CreateTime := branchKeyItem.CreateTime,
-      KmsArn := branchKeyItem.KmsArn,
-      EncryptionContext := hv2EC,
-      CiphertextBlob := branchKeyItem.CiphertextBlob
-    );
-    print(hv2BranchKeyItem.EncryptionContext);
-    print("\n");
-    var b :- UnstringifyEncryptionContext(hv2BranchKeyItem.EncryptionContext);
-    print(b);
-    var crypto := ProvideCryptoClient();
-    if (crypto.Failure?) {
-      var e := Types.KeyStoreException(
-        message :=
-          "yo");
-      return Failure(e);
-    }
-    var c := CanonicalEncryptionContext.EncryptionContextDigest(crypto.value, b);
-    if (c.Failure?) {
-     var e := Types.KeyStoreException(
-        message :=
-          "yo");
-      return Failure(e);
-    }
-    print(c.value);
     if (branchKeyItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_1) {
       var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
         branchKeyItem,
@@ -229,7 +201,7 @@ module GetKeys {
         kmsClient
       );
       mdDigestFromTable := getMdDigestFromEC(branchKeyItem.EncryptionContext)
-      var utf8EC :- UnstringifyEncryptionContext(mdDigestFromTable);
+      var utf8MdDigest :- UnstringifyEncryptionContext(mdDigestFromTable);
       var crypto := ProvideCryptoClient();
       if (crypto.Failure?) {
         var e := Types.KeyStoreException(
@@ -237,7 +209,7 @@ module GetKeys {
             "Local Cryptography error: " + AtomicPrimitives.ErrorUtils.MessageOrUnknown(crypto.error));
         return Failure(e);
       }
-      var mdDigestShaFromTable := CanonicalEncryptionContext.EncryptionContextDigest(crypto.value, utf8EC);
+      var mdDigestShaFromTable := CanonicalEncryptionContext.EncryptionContextDigest(crypto.value, utf8MdDigest);
       if (ecDigest.Failure?) {
         var e := Types.KeyStoreException(
           message :=
