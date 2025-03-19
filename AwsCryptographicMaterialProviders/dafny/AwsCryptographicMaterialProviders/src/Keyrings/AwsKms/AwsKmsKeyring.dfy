@@ -490,7 +490,7 @@ module AwsKmsKeyring {
                       input.materials.algorithmSuite.edkWrapping.DIRECT_KEY_WRAPPING?
                       ==>
                         LastDecrypt.output.value.Plaintext == res.value.materials.plaintextDataKey)
-      // For intermedite key wrapping, KMS::Decrypt.Plaintext is the intermediate key
+      // For intermediate key wrapping, KMS::Decrypt.Plaintext is the intermediate key
     {
 
       var materials := input.materials;
@@ -500,6 +500,8 @@ module AwsKmsKeyring {
         Materials.DecryptionMaterialsWithoutPlaintextDataKey(materials),
         Types.AwsCryptographicMaterialProvidersException(
           message := "Keyring received decryption materials that already contain a plaintext data key."));
+
+      :- OkForDecrypt(awsKmsArn, awsKmsKey);
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
       //# The set of encrypted data keys MUST first be filtered to match this
