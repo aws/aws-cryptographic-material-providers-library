@@ -24,14 +24,14 @@ func (input BeaconKeyMaterials) Validate() error {
 	if input.EncryptionContext == nil {
 		return fmt.Errorf("input.EncryptionContext is required but has a nil value.")
 	}
-	if input.aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_Validate() != nil {
-		return input.aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_Validate()
+	if input.Aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_Validate() != nil {
+		return input.Aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_Validate()
 	}
 
 	return nil
 }
 
-func (input BeaconKeyMaterials) aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_Validate() error {
+func (input BeaconKeyMaterials) Aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
@@ -61,14 +61,14 @@ func (input BranchKeyMaterials) Validate() error {
 	if input.EncryptionContext == nil {
 		return fmt.Errorf("input.EncryptionContext is required but has a nil value.")
 	}
-	if input.aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_Validate() != nil {
-		return input.aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_Validate()
+	if input.Aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_Validate() != nil {
+		return input.Aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_Validate()
 	}
 
 	return nil
 }
 
-func (input BranchKeyMaterials) aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_Validate() error {
+func (input BranchKeyMaterials) Aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
@@ -88,14 +88,14 @@ type CreateKeyInput struct {
 }
 
 func (input CreateKeyInput) Validate() error {
-	if input.aws_cryptography_keyStore_CreateKeyInput_encryptionContext_Validate() != nil {
-		return input.aws_cryptography_keyStore_CreateKeyInput_encryptionContext_Validate()
+	if input.Aws_cryptography_keyStore_CreateKeyInput_encryptionContext_Validate() != nil {
+		return input.Aws_cryptography_keyStore_CreateKeyInput_encryptionContext_Validate()
 	}
 
 	return nil
 }
 
-func (input CreateKeyInput) aws_cryptography_keyStore_CreateKeyInput_encryptionContext_Validate() error {
+func (input CreateKeyInput) Aws_cryptography_keyStore_CreateKeyInput_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
@@ -253,14 +253,14 @@ func (input GetKeyStoreInfoOutput) Validate() error {
 	if input.KmsConfiguration == nil {
 		return fmt.Errorf("input.KmsConfiguration is required but has a nil value.")
 	}
-	if input.aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_Validate() != nil {
-		return input.aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_Validate()
+	if input.Aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_Validate() != nil {
+		return input.Aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_Validate()
 	}
 
 	return nil
 }
 
-func (input GetKeyStoreInfoOutput) aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_Validate() error {
+func (input GetKeyStoreInfoOutput) Aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_Validate() error {
 	if input.KmsConfiguration == nil {
 		return nil
 	}
@@ -354,14 +354,14 @@ func (input KeyStoreConfig) Validate() error {
 	if input.KmsConfiguration == nil {
 		return fmt.Errorf("input.KmsConfiguration is required but has a nil value.")
 	}
-	if input.aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate() != nil {
-		return input.aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate()
+	if input.Aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate() != nil {
+		return input.Aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate()
 	}
 
 	return nil
 }
 
-func (input KeyStoreConfig) aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate() error {
+func (input KeyStoreConfig) Aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate() error {
 	if input.KmsConfiguration == nil {
 		return nil
 	}
