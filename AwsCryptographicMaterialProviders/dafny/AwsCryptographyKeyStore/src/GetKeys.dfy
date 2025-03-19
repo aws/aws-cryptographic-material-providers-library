@@ -181,9 +181,9 @@ module GetKeys {
         branchKey.Plaintext.value
       );
       return Success(
-        Types.GetActiveBranchKeyOutput(
-          branchKeyMaterials := branchKeyMaterials
-        ));
+          Types.GetActiveBranchKeyOutput(
+            branchKeyMaterials := branchKeyMaterials
+          ));
     } else if (branchKeyItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2) {
       var hv2EC := getHV2EC(branchKeyItem.EncryptionContext);
       var hv2BranchKey := Types.EncryptedHierarchicalKey(
@@ -200,7 +200,7 @@ module GetKeys {
         grantTokens,
         kmsClient
       );
-      mdDigestFromTable := getMdDigestFromEC(branchKeyItem.EncryptionContext)
+      mdDigestFromTable := getMdDigestFromEC(branchKeyItem.EncryptionContext);
       var utf8MdDigest :- UnstringifyEncryptionContext(mdDigestFromTable);
       var crypto := ProvideCryptoClient();
       if (crypto.Failure?) {
@@ -230,9 +230,9 @@ module GetKeys {
         plaintextBranchKey
       );
       return Success(
-        Types.GetActiveBranchKeyOutput(
-          branchKeyMaterials := branchKeyMaterials
-        ));
+          Types.GetActiveBranchKeyOutput(
+            branchKeyMaterials := branchKeyMaterials
+          ));
     }
 
   }
@@ -248,56 +248,56 @@ module GetKeys {
     item: Types.EncryptionContextString
   ) returns (output: Types.EncryptionContextString)
   {
-    var withoutReserved := set k | 
-      k in item && 
+    var withoutReserved := set k |
+      k in item &&
       k !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES :: k;
     var newMap := map[];
     var remaining := withoutReserved;
     while (remaining != {})
-        decreases remaining
+      decreases remaining
     {
-        var key :| key in remaining;
-        var value := item[key];
-        remaining := remaining - {key};
-        if (|key| >= |Structure.ENCRYPTION_CONTEXT_PREFIX| && key[..|Structure.ENCRYPTION_CONTEXT_PREFIX|] == Structure.ENCRYPTION_CONTEXT_PREFIX) {
-            key := key[|Structure.ENCRYPTION_CONTEXT_PREFIX|..];
-        }
-        newMap := newMap + map[key := value];
+      var key :| key in remaining;
+      var value := item[key];
+      remaining := remaining - {key};
+      if (|key| >= |Structure.ENCRYPTION_CONTEXT_PREFIX| && key[..|Structure.ENCRYPTION_CONTEXT_PREFIX|] == Structure.ENCRYPTION_CONTEXT_PREFIX) {
+        key := key[|Structure.ENCRYPTION_CONTEXT_PREFIX|..];
+      }
+      newMap := newMap + map[key := value];
     }
     return newMap;
   }
 
   function method UnstringifyEncryptionContext(stringEncCtx: Types.EncryptionContextString) : (res: Result<Types.EncryptionContext, Types.Error>)
   {
-      if |stringEncCtx| == 0 then
-        Success(map[])
+    if |stringEncCtx| == 0 then
+      Success(map[])
+    else
+      var parseResults: map<string, Result<(UTF8.ValidUTF8Bytes, UTF8.ValidUTF8Bytes), Types.Error>> :=
+        map strKey | strKey in stringEncCtx.Keys :: strKey := UnstringifyEncryptionContextPair(strKey, stringEncCtx[strKey]);
+      if exists r | r in parseResults.Values :: r.Failure?
+      then Failure(
+             Types.KeyStoreException(message := "Encryption context contains invalid UTF8")
+           )
       else
-        var parseResults: map<string, Result<(UTF8.ValidUTF8Bytes, UTF8.ValidUTF8Bytes), Types.Error>> :=
-          map strKey | strKey in stringEncCtx.Keys :: strKey := UnstringifyEncryptionContextPair(strKey, stringEncCtx[strKey]);
-        if exists r | r in parseResults.Values :: r.Failure?
-        then Failure(
-              Types.KeyStoreException(message := "Encryption context contains invalid UTF8")
-            )
-        else
-          assert forall r | r in parseResults.Values :: r.Success?;
-          var utf8KeysUnique := forall k, k' | k in parseResults && k' in parseResults
-                                  :: k != k' ==> parseResults[k].value.0 != parseResults[k'].value.0;
-          if !utf8KeysUnique then Failure(Types.KeyStoreException(
-                                            message := "Encryption context keys are not unique"))  // this should never happen...
-          else Success(map r | r in parseResults.Values :: r.value.0 := r.value.1)
+        assert forall r | r in parseResults.Values :: r.Success?;
+        var utf8KeysUnique := forall k, k' | k in parseResults && k' in parseResults
+                                :: k != k' ==> parseResults[k].value.0 != parseResults[k'].value.0;
+        if !utf8KeysUnique then Failure(Types.KeyStoreException(
+                                          message := "Encryption context keys are not unique"))  // this should never happen...
+        else Success(map r | r in parseResults.Values :: r.value.0 := r.value.1)
   }
 
   function method UnstringifyEncryptionContextPair(strKey: string, strValue: string) : (res: Result<(UTF8.ValidUTF8Bytes, UTF8.ValidUTF8Bytes), Types.Error>)
-      ensures (UTF8.Encode(strKey).Success? && UTF8.Encode(strValue).Success?) <==> res.Success?
+    ensures (UTF8.Encode(strKey).Success? && UTF8.Encode(strValue).Success?) <==> res.Success?
   {
-      var key :- UTF8
-                .Encode(strKey)
-                .MapFailure(WrapStringToError);
-      var value :- UTF8
-                  .Encode(strValue)
-                  .MapFailure(WrapStringToError);
+    var key :- UTF8
+               .Encode(strKey)
+               .MapFailure(WrapStringToError);
+    var value :- UTF8
+                 .Encode(strValue)
+                 .MapFailure(WrapStringToError);
 
-      Success((key, value))
+    Success((key, value))
   }
 
   function method WrapStringToError(e: string)
