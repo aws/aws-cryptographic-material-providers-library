@@ -39,14 +39,14 @@ public class CreateKeyInput {
    *   The hierarchy-version determines how the Branch Key Store classes
    *   treat the Branch Keys.
    */
-  private final HierarchyVersion hierarchyVersion;
+  private final HierarchyVersion HierarchyVersion;
 
   protected CreateKeyInput(BuilderImpl builder) {
     this.Identifier = builder.Identifier();
     this.EncryptionContext = builder.EncryptionContext();
     this.KmsArn = builder.KmsArn();
     this.Strategy = builder.Strategy();
-    this.hierarchyVersion = builder.hierarchyVersion();
+    this.HierarchyVersion = builder.HierarchyVersion();
   }
 
   /**
@@ -87,8 +87,8 @@ public class CreateKeyInput {
    *   The hierarchy-version determines how the Branch Key Store classes
    *   treat the Branch Keys.
    */
-  public HierarchyVersion hierarchyVersion() {
-    return this.hierarchyVersion;
+  public HierarchyVersion HierarchyVersion() {
+    return this.HierarchyVersion;
   }
 
   public Builder toBuilder() {
@@ -147,13 +147,13 @@ public class CreateKeyInput {
     KeyManagementStrategy Strategy();
 
     /**
-     * @param hierarchyVersion The hierarchy-version of a Branch Key;
+     * @param HierarchyVersion The hierarchy-version of a Branch Key;
      *   all items of the same Branch Key SHOULD
      *   have the same hierarchy-version.
      *   The hierarchy-version determines how the Branch Key Store classes
      *   treat the Branch Keys.
      */
-    Builder hierarchyVersion(HierarchyVersion hierarchyVersion);
+    Builder HierarchyVersion(HierarchyVersion HierarchyVersion);
 
     /**
      * @return The hierarchy-version of a Branch Key;
@@ -162,7 +162,7 @@ public class CreateKeyInput {
      *   The hierarchy-version determines how the Branch Key Store classes
      *   treat the Branch Keys.
      */
-    HierarchyVersion hierarchyVersion();
+    HierarchyVersion HierarchyVersion();
 
     CreateKeyInput build();
   }
@@ -177,7 +177,7 @@ public class CreateKeyInput {
 
     protected KeyManagementStrategy Strategy;
 
-    protected HierarchyVersion hierarchyVersion;
+    protected HierarchyVersion HierarchyVersion;
 
     protected BuilderImpl() {}
 
@@ -186,7 +186,7 @@ public class CreateKeyInput {
       this.EncryptionContext = model.EncryptionContext();
       this.KmsArn = model.KmsArn();
       this.Strategy = model.Strategy();
-      this.hierarchyVersion = model.hierarchyVersion();
+      this.HierarchyVersion = model.HierarchyVersion();
     }
 
     public Builder Identifier(String Identifier) {
@@ -225,13 +225,13 @@ public class CreateKeyInput {
       return this.Strategy;
     }
 
-    public Builder hierarchyVersion(HierarchyVersion hierarchyVersion) {
-      this.hierarchyVersion = hierarchyVersion;
+    public Builder HierarchyVersion(HierarchyVersion HierarchyVersion) {
+      this.HierarchyVersion = HierarchyVersion;
       return this;
     }
 
-    public HierarchyVersion hierarchyVersion() {
-      return this.hierarchyVersion;
+    public HierarchyVersion HierarchyVersion() {
+      return this.HierarchyVersion;
     }
 
     public CreateKeyInput build() {
