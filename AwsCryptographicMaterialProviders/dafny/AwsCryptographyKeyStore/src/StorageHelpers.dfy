@@ -3,7 +3,6 @@
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "Structure.dfy"
 include "KmsArn.dfy"
-include "ErrorMessages.dfy"
 
 module {:options "/functionSyntax:4"} StorageHelpers {
   import opened Wrappers
@@ -14,7 +13,6 @@ module {:options "/functionSyntax:4"} StorageHelpers {
   import String = StandardLibrary.String
   import DDB = Com.Amazonaws.Dynamodb
   import KmsArn
-  import ErrorMessages = KeyStoreErrorMessages
 
   const ToAttributeMap := Structure.ToAttributeMap
   const ToEncryptedHierarchicalKey := Structure.ToEncryptedHierarchicalKey
@@ -122,13 +120,6 @@ module {:options "/functionSyntax:4"} StorageHelpers {
               && output.value.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
               && KmsArn.ValidKmsArn?(output.value.KmsArn)
   {
-    :- Need(
-      item[Structure.HIERARCHY_VERSION].N == Structure.HIERARCHY_VERSION_1 ||
-      item[Structure.HIERARCHY_VERSION].N == Structure.HIERARCHY_VERSION_2,
-      Types.KeyStoreException(
-        message := ErrorMessages.INVALID_HIERARCHY_VERSION
-      )
-    );
     :- Need(
          Structure.BranchKeyItem?(item),
          Types.KeyStorageException(
