@@ -105,7 +105,6 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     ensures kmsClient.ValidState()
     ensures
       && |kmsClient.History.GenerateRandom| == |old(kmsClient.History.GenerateRandom)| + 1
-      && var kmsKeyArn := GetKeyId(kmsConfiguration);
       && KMS.GenerateRandomRequest(
            NumberOfBytes:=  Some(32),
            CustomKeyStoreId:= None,
@@ -117,8 +116,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && old(kmsClient.History.Decrypt) == kmsClient.History.Decrypt
 
     ensures res.Success? ==>
-              && res.Plaintext.Some?
-              && |res.Plaintext.value| == 32
+              && res.value.Plaintext.Some?
+              && |res.value.Plaintext.value| == 32
               && var kmsOperationOutput := Seq.Last(kmsClient.History.GenerateRandom).output;
               && kmsOperationOutput.Success?
               && kmsOperationOutput.value == res.value
@@ -135,7 +134,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
 
     :- Need(
       && generateResponse.Plaintext.Some?
-      && |res.Plaintext.value| == 32,
+      && |generateResponse.Plaintext.value| == 32,
       Types.KeyManagementException(
         message := "Invalid response from AWS KMS GenerateRandom: No Plaintext or Invalid Plaintext")
     );

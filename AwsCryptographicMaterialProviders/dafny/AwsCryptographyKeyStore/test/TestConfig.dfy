@@ -3,6 +3,8 @@
 
 include "../src/Index.dfy"
 include "Fixtures.dfy"
+include "../src/KMSKeystoreOperations.dfy"
+include "../../../../ComAmazonawsKms/Model/ComAmazonawsKmsTypes.dfy"
 
 module TestConfig {
   import Types = AwsCryptographyKeyStoreTypes
@@ -14,6 +16,9 @@ module TestConfig {
   import opened Fixtures
   import UUID
   import ErrorMessages = KeyStoreErrorMessages
+  import KO = KMSKeystoreOperations
+  import KMSTypes = ComAmazonawsKmsTypes
+  import Seq
 
   method {:test} TestInvalidKmsKeyArnConfig() {
     var kmsClient :- expect KMS.KMSClient();
@@ -192,48 +197,11 @@ module TestConfig {
   method {:test} TestGenerateRandom() {
     var kmsClient :- expect KMS.KMSClient();
 
-      // Test Case 1: Happy Path
-    {
-      var response := GenerateRandom(kmsClient);
-      expect response.Success?;
-      expect response.value.Plaintext.Some?;
-      expect |response.value.Plaintext.value| == 32;
-      expect |kmsClient.History.GenerateRandom| == 1;
-      print response.value.Plaintext.value;
-    }
-
-      // Test Case 2: Verify History Modification
-    {
-      var oldGenerateRandomHistory := kmsClient.History.GenerateRandom;
-      var oldEncryptHistory := kmsClient.History.Encrypt;
-      var oldDecryptHistory := kmsClient.History.Decrypt;
-
-      var result := GenerateRandom([], kmsClient);
-
-      expect |kmsClient.History.GenerateRandom| == |oldGenerateRandomHistory| + 1;
-      expect kmsClient.History.Encrypt == oldEncryptHistory;
-      expect kmsClient.History.Decrypt == oldDecryptHistory;
-    }
-
-      // Test Case 3: Verify Request Format
-    {
-      var result := GenerateRandom(kmsClient);
-      var lastRequest := Seq.Last(kmsClient.History.GenerateRandom).input;
-
-      expect lastRequest == KMS.GenerateRandomRequest(
-                              NumberOfBytes := Some(32),
-                              CustomKeyStoreId := None,
-                              Recipient := None
-                            );
-    }
-
-      // Test Case 4: Verify Response Matching
-    {
-      var result := GenerateRandom([], kmsClient);
-      expect result.Success?;
-      var lastOperation := Seq.Last(kmsClient.History.GenerateRandom).output;
-      expect lastOperation.Success?;
-      expect lastOperation.value == result.value;
-    }
+    // Test Case: Happy Path
+    var response := KO.GenerateRandom(kmsClient);
+    expect response.Success?, response;
+    expect response.value.Plaintext.Some?;
+    expect |response.value.Plaintext.value| == 32;
+    // print response.value.Plaintext.value;
   }
 }
