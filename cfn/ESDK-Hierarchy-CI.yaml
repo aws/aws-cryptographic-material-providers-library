@@ -231,6 +231,7 @@ Resources:
                 "kms:Decrypt",
                 "kms:Encrypt",
                 "kms:GenerateDataKeyWithoutPlaintext",
+                "kms:GenerateRandom",
                 "kms:ReEncrypt*",
                 "kms:DescribeKey",
                 "kms:CreateGrant",
