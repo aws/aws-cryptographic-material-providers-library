@@ -254,7 +254,7 @@ structure CreateKeyInput {
 
   // Default is not supported by Smithy-Dafny, but conceptually, we want
   // @default(1)
-  hierarchyVersion: HierarchyVersion
+  HierarchyVersion: HierarchyVersion
 }
 
 structure CreateKeyOutput {

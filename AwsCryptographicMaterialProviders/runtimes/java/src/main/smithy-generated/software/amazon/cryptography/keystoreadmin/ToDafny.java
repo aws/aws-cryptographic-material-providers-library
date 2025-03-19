@@ -279,11 +279,11 @@ public class ToDafny {
         : Option.create_None(KeyManagementStrategy._typeDescriptor());
     Option<HierarchyVersion> hierarchyVersion;
     hierarchyVersion =
-      Objects.nonNull(nativeValue.hierarchyVersion())
+      Objects.nonNull(nativeValue.HierarchyVersion())
         ? Option.create_Some(
           HierarchyVersion._typeDescriptor(),
           software.amazon.cryptography.keystore.ToDafny.HierarchyVersion(
-            nativeValue.hierarchyVersion()
+            nativeValue.HierarchyVersion()
           )
         )
         : Option.create_None(HierarchyVersion._typeDescriptor());

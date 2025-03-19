@@ -47,7 +47,7 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     nameonly EncryptionContext: Option<AwsCryptographyKeyStoreTypes.EncryptionContext> := Option.None ,
     nameonly KmsArn: KmsSymmetricKeyArn ,
     nameonly Strategy: Option<KeyManagementStrategy> := Option.None ,
-    nameonly hierarchyVersion: Option<AwsCryptographyKeyStoreTypes.HierarchyVersion> := Option.None
+    nameonly HierarchyVersion: Option<AwsCryptographyKeyStoreTypes.HierarchyVersion> := Option.None
   )
   datatype CreateKeyOutput = | CreateKeyOutput (
     nameonly Identifier: string
