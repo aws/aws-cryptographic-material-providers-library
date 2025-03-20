@@ -237,14 +237,14 @@ module {:options "/functionSyntax:4" } CreateKeys {
     var activeEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(decryptOnlyEncryptionContext);
     var beaconEncryptionContext := Structure.BeaconKeyEncryptionContext(decryptOnlyEncryptionContext);
 
-    assert KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, decryptOnlyEncryptionContext);
+    assert KMSKeystoreOperations.AttemptKmsOperationForHV1?(kmsConfiguration, decryptOnlyEncryptionContext);
     var wrappedDecryptOnlyBranchKey :- KMSKeystoreOperations.GenerateKey(
       decryptOnlyEncryptionContext,
       kmsConfiguration,
       grantTokens,
       kmsClient
     );
-    assert KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, activeEncryptionContext);
+    assert KMSKeystoreOperations.AttemptKmsOperationForHV1?(kmsConfiguration, activeEncryptionContext);
     var wrappedActiveBranchKey :- KMSKeystoreOperations.ReEncryptKey(
       wrappedDecryptOnlyBranchKey.CiphertextBlob.value,
       decryptOnlyEncryptionContext,
@@ -253,7 +253,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
       grantTokens,
       kmsClient
     );
-    assert KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, beaconEncryptionContext);
+    assert KMSKeystoreOperations.AttemptKmsOperationForHV1?(kmsConfiguration, beaconEncryptionContext);
     var wrappedBeaconKey :- KMSKeystoreOperations.GenerateKey(
       beaconEncryptionContext,
       kmsConfiguration,
@@ -342,7 +342,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
               //# The `KmsArn` of the [EncryptedHierarchicalKey](./key-store/key-storage.md#encryptedhierarchicalkey)
               //# MUST be [compatible with](#aws-key-arn-compatibility)
               //# the configured `KMS ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
-              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, oldActiveItem.EncryptionContext)
+              && KMSKeystoreOperations.AttemptKmsOperationForHV1?(kmsConfiguration, oldActiveItem.EncryptionContext)
               && KMSKeystoreOperations.Compatible?(kmsConfiguration, oldActiveItem.KmsArn)
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
@@ -497,7 +497,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     );
 
     :- Need(
-      && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, oldActiveItem.EncryptionContext),
+      && KMSKeystoreOperations.AttemptKmsOperationForHV1?(kmsConfiguration, oldActiveItem.EncryptionContext),
       Types.KeyStoreException(
         message := ErrorMessages.VERSION_KEY_KMS_KEY_ARN_DISAGREEMENT)
     );
@@ -519,7 +519,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
     var activeEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(decryptOnlyEncryptionContext);
 
-    assert KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, decryptOnlyEncryptionContext);
+    assert KMSKeystoreOperations.AttemptKmsOperationForHV1?(kmsConfiguration, decryptOnlyEncryptionContext);
 
     var wrappedDecryptOnlyBranchKey :- KMSKeystoreOperations.GenerateKey(
       decryptOnlyEncryptionContext,
@@ -564,11 +564,11 @@ module {:options "/functionSyntax:4" } CreateKeys {
     //= type=implication
     //# The operation MUST call [AWS KMS API GenerateDataKeyWithoutPlaintext](https://docs.aws.amazon.com/kms/latest/APIReference/API_GenerateDataKeyWithoutPlaintext.html).
     new generateHistory: KMS.DafnyCallEvent<KMS.GenerateDataKeyWithoutPlaintextRequest, Result<KMS.GenerateDataKeyWithoutPlaintextResponse, KMS.Error>>,
-    new reEncryptHistory: KMS.DafnyCallEvent<KMS.ReEncryptRequest, Result<KMS.ReEncryptResponse, KMS.Error>>,
-    kmsClient: KMS.IKMSClient,
-    kmsConfiguration: Types.KMSConfiguration,
-    grantTokens: KMS.GrantTokenList,
-    decryptOnlyEncryptionContext: map<string, string>
+                                                                                               new reEncryptHistory: KMS.DafnyCallEvent<KMS.ReEncryptRequest, Result<KMS.ReEncryptResponse, KMS.Error>>,
+                                                                                                                                                                     kmsClient: KMS.IKMSClient,
+                                                                                                                                                                     kmsConfiguration: Types.KMSConfiguration,
+                                                                                                                                                                     grantTokens: KMS.GrantTokenList,
+                                                                                                                                                                     decryptOnlyEncryptionContext: map<string, string>
   )
     reads kmsClient.History
     requires KMSKeystoreOperations.HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
