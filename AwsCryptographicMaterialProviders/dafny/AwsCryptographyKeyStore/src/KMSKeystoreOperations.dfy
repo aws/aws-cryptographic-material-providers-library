@@ -59,6 +59,17 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     case mrDiscovery(obj) => KmsArn.ValidKmsArn?(encryptionContext[Structure.KMS_FIELD])
   }
 
+  predicate AttemptKmsOperationWithKeyIDInput?(kmsConfiguration: Types.KMSConfiguration, keyID: string)
+    ensures AttemptKmsOperationWithKeyIDInput?(kmsConfiguration, keyID) && HasKeyId(kmsConfiguration)
+            ==> Compatible?(kmsConfiguration, keyID)
+  {
+    match kmsConfiguration
+    case kmsKeyArn(arn) => (arn == keyID) && KmsArn.ValidKmsArn?(arn)
+    case kmsMRKeyArn(arn) => MrkMatch(arn, keyID) && KmsArn.ValidKmsArn?(arn)
+    case discovery(obj) => KmsArn.ValidKmsArn?(keyID)
+    case mrDiscovery(obj) => KmsArn.ValidKmsArn?(keyID)
+  }
+
   predicate Compatible?(kmsConfiguration: Types.KMSConfiguration, keyId : string)
     requires(HasKeyId(kmsConfiguration))
   {
@@ -624,6 +635,79 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && 32 == |decryptResponse.Plaintext.value|,
       Types.KeyStoreException(
         message := "Invalid response from AWS KMS Decrypt: Key is not 32 bytes.")
+    );
+
+    output := Success(decryptResponse);
+
+  }
+
+  method DecryptKeyForHV2(
+    encryptedKey: Types.EncryptedHierarchicalKey,
+    kmsConfiguration: Types.KMSConfiguration,
+    grantTokens: KMS.GrantTokenList,
+    kmsClient: KMS.IKMSClient
+  )
+    returns (output: Result<KMS.DecryptResponse, Types.Error>)
+
+    requires Hv2EncryptionContext?(encryptedKey.EncryptionContext)
+
+    requires kmsClient.ValidState()
+    modifies kmsClient.Modifies
+    ensures kmsClient.ValidState()
+
+    ensures !KmsArn.ValidKmsArn?(encryptedKey.KmsArn) ==> output.Failure?
+    ensures !AttemptKmsOperationWithKeyIDInput?(kmsConfiguration, encryptedKey.KmsArn) ==> output.Failure?
+
+    ensures output.Success?
+            ==>
+              && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
+              && AwsKmsBranchKeyDecryption?(
+                   encryptedKey,
+                   kmsConfiguration,
+                   grantTokens,
+                   kmsClient,
+                   Seq.Last(kmsClient.History.Decrypt)
+                 )
+
+    ensures output.Success?
+            ==>
+              && Seq.Last(kmsClient.History.Decrypt).output.Success?
+              && output.value == Seq.Last(kmsClient.History.Decrypt).output.value
+              && output.value.Plaintext.Some?
+              && 32 == |output.value.Plaintext.value|
+  {
+    :- Need(
+      && KmsArn.ValidKmsArn?(encryptedKey.KmsArn)
+         // This check is overloaded.
+         // It is incredibly unlikely that the the stored ciphertext
+         // has dropped to 0 or exceeds the KMS limit.
+         // So the error message is left unchanged.
+      && KMS.IsValid_CiphertextType(encryptedKey.CiphertextBlob),
+      Types.KeyStoreException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
+    );
+
+    :- Need(
+      AttemptKmsOperationWithKeyIDInput?(kmsConfiguration, encryptedKey.KmsArn),
+      Types.KeyStoreException( message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT)
+    );
+
+    var kmsKeyArn := GetArn(kmsConfiguration, encryptedKey.KmsArn);
+    var maybeDecryptResponse := kmsClient.Decrypt(
+      KMS.DecryptRequest(
+        CiphertextBlob := encryptedKey.CiphertextBlob,
+        EncryptionContext := Some(encryptedKey.EncryptionContext),
+        GrantTokens := Some(grantTokens),
+        KeyId := Some(kmsKeyArn),
+        EncryptionAlgorithm := None
+      )
+    );
+    var decryptResponse :- maybeDecryptResponse.MapFailure(e => Types.ComAmazonawsKms(e));
+
+    :- Need(
+      && decryptResponse.Plaintext.Some?
+      && AES_256_LENGTH + MD_DIGEST_LENGTH == |decryptResponse.Plaintext.value|,
+      Types.KeyStoreException(
+        message := "Invalid response from AWS KMS Decrypt: Key is of incorrect bytes.")
     );
 
     output := Success(decryptResponse);
