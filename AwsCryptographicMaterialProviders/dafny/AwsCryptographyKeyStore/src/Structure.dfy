@@ -494,7 +494,7 @@ module {:options "/functionSyntax:4" } Structure {
       BRANCH_KEY_IDENTIFIER_FIELD := branchKeyId,
       TYPE_FIELD := BRANCH_KEY_TYPE_PREFIX + branchKeyVersion,
       KEY_CREATE_TIME := timestamp,
-      TABLE_FIELD := logicalKeyStoreName,
+      // TABLE_FIELD := logicalKeyStoreName,
       KMS_FIELD := kmsKeyArn,
       HIERARCHY_VERSION := HIERARCHY_VERSION_VALUE_2
     ] + map k <- customEncryptionContext :: ENCRYPTION_CONTEXT_PREFIX + k := customEncryptionContext[k]
