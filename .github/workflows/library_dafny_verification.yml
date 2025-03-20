@@ -28,11 +28,7 @@ jobs:
             AwsCryptographicMaterialProviders,
             StandardLibrary,
           ]
-        os: [
-            ubuntu-22.04,
-            # TODO: Re-enable macOS after https://t.corp.amazon.com/P205755286
-            # macos-latest-large
-          ]
+        os: [macos-latest-large]
     runs-on: ${{ matrix.os }}
     defaults:
       run:
