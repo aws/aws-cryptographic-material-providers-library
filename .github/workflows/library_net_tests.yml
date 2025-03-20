@@ -29,12 +29,7 @@ jobs:
             TestVectorsAwsCryptographicMaterialProviders,
           ]
         dotnet-version: ["6.0.x"]
-        os: [
-            windows-latest,
-            ubuntu-22.04,
-            # TODO: Re-enable macOS after https://t.corp.amazon.com/P205755286
-            # macos-13,
-          ]
+        os: [windows-latest, ubuntu-22.04, macos-13]
     runs-on: ${{ matrix.os }}
     defaults:
       run:
