@@ -707,7 +707,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && decryptResponse.Plaintext.Some?
       && Structure.AES_256_LENGTH + Structure.MD_DIGEST_LENGTH == |decryptResponse.Plaintext.value|,
       Types.KeyStoreException(
-        message := "Invalid response from AWS KMS Decrypt: Key is of incorrect bytes.")
+        message := ErrorMessages.KMS_DECRYPT_INVALID_KEY_LENGTH_HV2)
     );
 
     output := Success(decryptResponse);

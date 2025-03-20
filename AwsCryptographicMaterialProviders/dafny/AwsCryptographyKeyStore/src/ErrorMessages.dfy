@@ -59,4 +59,7 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
 
   const MD_DIGEST_SHA_NOT_MATCHED :=
     "This Branch Key item has failed the authentication check. Either it has been tampered with or the wrong 'Logical Key Store Name' has been provided."
+
+  const KMS_DECRYPT_INVALID_KEY_LENGTH_HV2 :=
+    "Invalid response from AWS KMS Decrypt: Key is not of 80 bytes. This could mean Branch Key Item in the Storage has been tampered"
 }
