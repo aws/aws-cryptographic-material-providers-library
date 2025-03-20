@@ -649,7 +649,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   )
     returns (output: Result<KMS.DecryptResponse, Types.Error>)
 
-    requires Hv2EncryptionContext?(encryptedKey.EncryptionContext)
+    requires Structure.Hv2EncryptionContext?(encryptedKey.EncryptionContext)
 
     requires kmsClient.ValidState()
     modifies kmsClient.Modifies
@@ -705,7 +705,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
 
     :- Need(
       && decryptResponse.Plaintext.Some?
-      && AES_256_LENGTH + MD_DIGEST_LENGTH == |decryptResponse.Plaintext.value|,
+      && Structure.AES_256_LENGTH + Structure.MD_DIGEST_LENGTH == |decryptResponse.Plaintext.value|,
       Types.KeyStoreException(
         message := "Invalid response from AWS KMS Decrypt: Key is of incorrect bytes.")
     );
