@@ -59,6 +59,18 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     case mrDiscovery(obj) => KmsArn.ValidKmsArn?(encryptionContext[Structure.KMS_FIELD])
   }
 
+  // The input KeyID MUST be from Dynamodb item of keystore 
+  predicate AttemptKmsOperationForHV2?(kmsConfiguration: Types.KMSConfiguration, keyID: string)
+    ensures AttemptKmsOperationForHV2?(kmsConfiguration, keyID) && HasKeyId(kmsConfiguration)
+            ==> Compatible?(kmsConfiguration, keyID)
+  {
+    match kmsConfiguration
+    case kmsKeyArn(arn) => (arn == keyID) && KmsArn.ValidKmsArn?(arn)
+    case kmsMRKeyArn(arn) => MrkMatch(arn, keyID) && KmsArn.ValidKmsArn?(arn)
+    case discovery(obj) => KmsArn.ValidKmsArn?(keyID)
+    case mrDiscovery(obj) => KmsArn.ValidKmsArn?(keyID)
+  }
+
   predicate Compatible?(kmsConfiguration: Types.KMSConfiguration, keyId : string)
     requires(HasKeyId(kmsConfiguration))
   {
@@ -576,7 +588,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     ensures output.Success?
             ==>
               && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
-              && AwsKmsBranchKeyDecryption?(
+              && AwsKmsBranchKeyDecryptionForHV1?(
                    encryptedKey,
                    kmsConfiguration,
                    grantTokens,
@@ -643,12 +655,12 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     ensures kmsClient.ValidState()
 
     ensures !KmsArn.ValidKmsArn?(encryptedKey.KmsArn) ==> output.Failure?
-    ensures !AttemptKmsOperationForHV1?(kmsConfiguration, encryptedKey.EncryptionContext) ==> output.Failure?
+    ensures !AttemptKmsOperationForHV2?(kmsConfiguration, encryptedKey.KmsArn) ==> output.Failure?
 
     ensures output.Success?
             ==>
               && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
-              && AwsKmsBranchKeyDecryption?(
+              && AwsKmsBranchKeyDecryptionForHV1?(
                    encryptedKey,
                    kmsConfiguration,
                    grantTokens,
@@ -702,7 +714,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   }
 
 
-  ghost predicate AwsKmsBranchKeyDecryption?(
+  ghost predicate AwsKmsBranchKeyDecryptionForHV1?(
     versionItem: Types.EncryptedHierarchicalKey,
     kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
