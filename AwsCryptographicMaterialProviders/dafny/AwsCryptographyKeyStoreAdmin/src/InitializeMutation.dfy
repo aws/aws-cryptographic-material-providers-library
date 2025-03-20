@@ -17,16 +17,16 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
   import Time
   import UUID
   import UTF8
-  // KMS & MPL Imports
+    // KMS & MPL Imports
   import KMS = ComAmazonawsKmsTypes
   import AwsKmsUtils
-  // KeyStore Imports
+    // KeyStore Imports
   import KeyStoreTypes = AwsCryptographyKeyStoreAdminTypes.AwsCryptographyKeyStoreTypes
   import Structure
   import DefaultKeyStorageInterface
   import KmsArn
   import KMSKeystoreOperations
-  // KeyStoreAdmin Imports
+    // KeyStoreAdmin Imports
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KmsUtils
   import StateStrucs = MutationStateStructures
@@ -239,7 +239,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
 
     var inferredOriginalEC
       := map k <- activeItem.EncryptionContext
-             // This pull everything that is not in our restricted list.
+                  // This pull everything that is not in our restricted list.
              | k !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
       :: k := activeItem.EncryptionContext[k];
 
@@ -260,9 +260,9 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         prefix := Structure.ENCRYPTION_CONTEXT_PREFIX,
         aMap := input.Mutations.TerminalEncryptionContext.value
       ) + unexpectedEC;
-        // ValidateInitializeMutationInput SHOULD take care of this Need, but Dafny is struggling
-        // TODO-Mutations-FF : Replace runtime check with Lemma.
-        // See https://github.com/aws/aws-cryptographic-material-providers-library/pull/750#discussion_r1777654751
+      // ValidateInitializeMutationInput SHOULD take care of this Need, but Dafny is struggling
+      // TODO-Mutations-FF : Replace runtime check with Lemma.
+      // See https://github.com/aws/aws-cryptographic-material-providers-library/pull/750#discussion_r1777654751
       :- Need(
         terminalEC.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES,
         Types.KeyStoreAdminException(message:="Terminal Encryption Context contains a reserved word!")
@@ -386,7 +386,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
   )
     returns (res: Result<KeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
     requires KmsArn.ValidKmsArn?(mutationToApply.Terminal.kmsArn)
-    requires KMSKeystoreOperations.AttemptKmsOperationForHV1?(
+    requires KMSKeystoreOperations.AttemptKmsOperation?(
                KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn), decryptOnlyEncryptionContext
              )
     requires keyManagerStrategy.ValidState()
