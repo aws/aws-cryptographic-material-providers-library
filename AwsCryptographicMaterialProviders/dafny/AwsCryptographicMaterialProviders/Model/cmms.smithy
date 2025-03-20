@@ -187,7 +187,7 @@ structure CreateCachingCMMInput {
   underlyingCMC: CryptographicMaterialsCacheReference,
   @required
   @javadoc("Sets the maximum lifetime for entries in the cache, for both encrypt and decrypt operations. When the specified amount of time passes after initial creation of the entry, the entry will be considered unusable, and the next operation will incur a cache miss.")
-  cacheLimitTtlSeconds: Integer,
+  cacheLimitTtlSeconds: PositiveInteger,
 
   //= aws-encryption-sdk-specification/framework/caching-cmm.md#initialization
   //= type=implication

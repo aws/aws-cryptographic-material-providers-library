@@ -870,7 +870,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       && input.limitMessages.None?
       ==>
         var cmm: CachingCMM.CachingCMM := output.value;
-        && cmm.limitMessages == INT32_MAX_LIMIT as BoundedInts.uint32
+        && cmm.limitMessages == BoundedInts.INT32_MAX
   {
 
     :- Need(
@@ -913,6 +913,9 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       )
     );
     var inputPartitionKeyDigest :- inputPartitionKeyDigest'.MapFailure(e => Types.AwsCryptographyPrimitives(e));
+
+    :- Need(input.limitBytes.Some? ==> 0 <= input.limitBytes.value, CmpError("limitBytes can not be negative."));
+    :- Need(input.limitMessages.Some? ==> 0 <= input.limitMessages.value, CmpError("limitMessages can not be negative."));
 
     var cmm := new CachingCMM.CachingCMM(
       inputCMM := inputCMM,

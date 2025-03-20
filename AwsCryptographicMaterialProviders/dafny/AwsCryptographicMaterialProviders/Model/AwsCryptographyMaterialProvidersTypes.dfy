@@ -993,7 +993,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
   )
   datatype CreateCachingCMMInput = | CreateCachingCMMInput (
     nameonly underlyingCMC: ICryptographicMaterialsCache ,
-    nameonly cacheLimitTtlSeconds: int32 ,
+    nameonly cacheLimitTtlSeconds: PositiveInteger ,
     nameonly underlyingCMM: Option<ICryptographicMaterialsManager> := Option.None ,
     nameonly keyring: Option<IKeyring> := Option.None ,
     nameonly partitionKey: Option<Utf8Bytes> := Option.None ,
