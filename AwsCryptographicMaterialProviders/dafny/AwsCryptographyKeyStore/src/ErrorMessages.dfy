@@ -58,5 +58,5 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
     "Invalid hierarchy version. Expected version 1 or 2."
 
   const MD_DIGEST_SHA_NOT_MATCHED :=
-    "Decrypted md digest SHA does not match md digest sha from the table."
+    "This Branch Key item has failed the authentication check. Either it has been tampered with or the wrong 'Logical Key Store Name' has been provided."
 }
