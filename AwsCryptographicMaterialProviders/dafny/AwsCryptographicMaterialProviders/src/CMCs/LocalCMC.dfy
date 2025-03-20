@@ -67,7 +67,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
     const creationTime: Types.PositiveLong
     const expiryTime: Types.PositiveLong
     var messagesUsed: Types.PositiveInteger
-    var bytesUsed: Types.PositiveInteger
+    var bytesUsed: Types.PositiveLong
 
     constructor(
       nameonly materials': Types.Materials,
@@ -75,7 +75,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
       nameonly creationTime': Types.PositiveLong,
       nameonly expiryTime': Types.PositiveLong,
       nameonly messagesUsed': Types.PositiveInteger,
-      nameonly bytesUsed': Types.PositiveInteger
+      nameonly bytesUsed': Types.PositiveLong
     )
       ensures
         && identifier == identifier'
@@ -626,7 +626,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
         assert cell in multiset(cache.Values());
         if
           && cell.messagesUsed <= INT32_MAX_VALUE - 1
-          && cell.bytesUsed <= INT32_MAX_VALUE - input.bytesUsed
+          && cell.bytesUsed <= INT64_MAX_VALUE - input.bytesUsed
         {
           //= aws-encryption-sdk-specification/framework/cryptographic-materials-cache.md#usage-metadata
           //= type=exception

@@ -11,7 +11,7 @@ namespace AWS.Cryptography.MaterialProviders
     private long? _creationTime;
     private long? _expiryTime;
     private int? _messagesUsed;
-    private int? _bytesUsed;
+    private long? _bytesUsed;
     public AWS.Cryptography.MaterialProviders.Materials Materials
     {
       get { return this._materials; }
@@ -48,7 +48,7 @@ namespace AWS.Cryptography.MaterialProviders
     {
       return this._messagesUsed.HasValue;
     }
-    public int BytesUsed
+    public long BytesUsed
     {
       get { return this._bytesUsed.GetValueOrDefault(); }
       set { this._bytesUsed = value; }

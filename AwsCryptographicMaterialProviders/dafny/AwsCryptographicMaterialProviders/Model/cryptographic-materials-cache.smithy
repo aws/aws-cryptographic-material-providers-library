@@ -56,7 +56,7 @@ operation GetCacheEntry {
 structure GetCacheEntryInput {
   @required
   identifier: Blob,
-  bytesUsed: Long
+  bytesUsed: PositiveInteger
 
 }
 
@@ -84,7 +84,7 @@ structure GetCacheEntryOutput {
   @required
   messagesUsed: PositiveInteger,
   @required
-  bytesUsed: PositiveInteger,
+  bytesUsed: PositiveLong,
 }
 
 union Materials {
@@ -111,7 +111,7 @@ structure UpdateUsageMetadataInput {
   @required
   identifier: Blob,
   @required
-  bytesUsed: PositiveInteger,
+  bytesUsed: PositiveLong,
 }
 
 @error("client")
