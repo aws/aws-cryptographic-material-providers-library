@@ -170,7 +170,7 @@ module GetKeys {
       )
     );
     if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_1) {
-      var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
+      var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHV1(
         branchKeyItemFromStorage,
         kmsConfiguration,
         grantTokens,
@@ -197,7 +197,7 @@ module GetKeys {
         EncryptionContext := hv2EC,
         CiphertextBlob := branchKeyItemFromStorage.CiphertextBlob
       );
-      var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
+      var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHV1(
         hv2BranchKey,
         kmsConfiguration,
         grantTokens,
@@ -220,8 +220,14 @@ module GetKeys {
         return Failure(e);
       }
       var plaintextBranchKeyWithMdDigest := branchKey.Plaintext.value;
-      var plaintextBranchKey := plaintextBranchKeyWithMdDigest[0..|plaintextBranchKeyWithMdDigest|-48];
-      var decryptedMdDigest := plaintextBranchKeyWithMdDigest[|plaintextBranchKeyWithMdDigest|-48..];
+      :- Need(
+        |plaintextBranchKeyWithMdDigest| == Structure.AES_256_LENGTH + Structure.MD_DIGEST_LENGTH,
+        Types.KeyStoreException(
+          message := ErrorMessages.INVALID_HIERARCHY_VERSION
+        )
+      );
+      var plaintextBranchKey := plaintextBranchKeyWithMdDigest[0..Structure.AES_256_LENGTH];
+      var decryptedMdDigest := plaintextBranchKeyWithMdDigest[Structure.AES_256_LENGTH..];
       if (decryptedMdDigest != mdDigestSha.value) {
         var e := Types.KeyStoreException(
           message :=
@@ -411,7 +417,7 @@ module GetKeys {
     );
 
     if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_1) {
-      var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
+      var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHV1(
         branchKeyItemFromStorage,
         kmsConfiguration,
         grantTokens,
@@ -573,7 +579,7 @@ module GetKeys {
         message := ErrorMessages.INVALID_BEACON_KEY_FROM_STORAGE)
     );
 
-    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
+    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHV1(
       branchKeyItem,
       kmsConfiguration,
       grantTokens,
