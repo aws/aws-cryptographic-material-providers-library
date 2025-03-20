@@ -1425,7 +1425,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
   )
   datatype GetCacheEntryInput = | GetCacheEntryInput (
     nameonly identifier: seq<uint8> ,
-    nameonly bytesUsed: Option<PositiveInteger> := Option.None
+    nameonly bytesUsed: Option<PositiveLong> := Option.None
   )
   datatype GetCacheEntryOutput = | GetCacheEntryOutput (
     nameonly materials: Materials ,
@@ -1642,7 +1642,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly creationTime: PositiveLong ,
     nameonly expiryTime: PositiveLong ,
     nameonly messagesUsed: Option<PositiveInteger> := Option.None ,
-    nameonly bytesUsed: Option<PositiveInteger> := Option.None
+    nameonly bytesUsed: Option<PositiveLong> := Option.None
   )
   datatype RawEcdhStaticConfigurations =
     | PublicKeyDiscovery(PublicKeyDiscovery: PublicKeyDiscoveryInput)

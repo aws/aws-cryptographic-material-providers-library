@@ -24,14 +24,14 @@ module {:options "/functionSyntax:4" } CachingCMM  {
   import CanonicalEncryptionContext
   import AlgorithmSuites
   import BoundedInts
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
 
   class CachingCMM
     extends CMM.VerifiableInterface
   {
     const underlyingCMM: Types.ICryptographicMaterialsManager
     const cache: Types.ICryptographicMaterialsCache
-    const cryptoPrimitives: Primitives.AtomicPrimitivesClient
+    const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
     //= aws-encryption-sdk-specification/framework/caching-cmm.md#partition-id
     //= type=implication
     //# The Partition ID MUST NOT be changed after initialization.
@@ -66,7 +66,7 @@ module {:options "/functionSyntax:4" } CachingCMM  {
 
     constructor (
       nameonly inputCMM: Types.ICryptographicMaterialsManager,
-      nameonly inputCryptoPrimitives: Primitives.AtomicPrimitivesClient,
+      nameonly inputCryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient,
       nameonly inputCache: Types.ICryptographicMaterialsCache,
       nameonly inputPartitionKeyDigest: seq<uint8>,
       nameonly ghost inputPartitionKey: seq<uint8>,
@@ -98,8 +98,8 @@ module {:options "/functionSyntax:4" } CachingCMM  {
         && 0 < |inputCryptoPrimitives.History.Digest|
         && var digest := Seq.Last(inputCryptoPrimitives.History.Digest);
         && digest.input
-           == Primitives.Types.DigestInput(
-                digestAlgorithm := Primitives.Types.SHA_512,
+           == AtomicPrimitives.Types.DigestInput(
+                digestAlgorithm := AtomicPrimitives.Types.SHA_512,
                 message := inputPartitionKey
               )
         && digest.output.Success?
@@ -193,8 +193,8 @@ module {:options "/functionSyntax:4" } CachingCMM  {
           && cacheEntryIdentifierRequest.output.Success?
           && CanonicalEncryptionContext.EncryptionContextToAAD(input.encryptionContext).Success?
           && ecDigestRequest.input
-             == Primitives.Types.DigestInput(
-                  digestAlgorithm := Primitives.Types.SHA_512,
+             == AtomicPrimitives.Types.DigestInput(
+                  digestAlgorithm := AtomicPrimitives.Types.SHA_512,
                   message := CanonicalEncryptionContext.EncryptionContextToAAD(input.encryptionContext).value
                 )
 
@@ -211,8 +211,8 @@ module {:options "/functionSyntax:4" } CachingCMM  {
                 //# as the SHA-512 hash of the concatenation of the following byte strings,
                 //# in the order listed:
                 cacheEntryIdentifierRequest.input
-                == Primitives.Types.DigestInput(
-                  digestAlgorithm := Primitives.Types.SHA_512,
+                == AtomicPrimitives.Types.DigestInput(
+                  digestAlgorithm := AtomicPrimitives.Types.SHA_512,
                   message :=
                     //# 1.  The SHA-512 hash of a UTF-8 encoding of the caching CMM’s Partition ID
                     partitionKeyDigest
@@ -231,8 +231,8 @@ module {:options "/functionSyntax:4" } CachingCMM  {
                 //# as the SHA-512 hash of the concatenation of the following byte strings,
                 //# in the order listed:
                 cacheEntryIdentifierRequest.input
-                == Primitives.Types.DigestInput(
-                  digestAlgorithm := Primitives.Types.SHA_512,
+                == AtomicPrimitives.Types.DigestInput(
+                  digestAlgorithm := AtomicPrimitives.Types.SHA_512,
                   message :=
                     //# 1. The SHA-512 hash of a UTF-8 encoding of the caching CMM’s Partition ID
                     partitionKeyDigest
@@ -562,7 +562,7 @@ module {:options "/functionSyntax:4" } CachingCMM  {
           && var ecDigestRequest := Seq.Last(Seq.DropLast(cryptoPrimitives.History.Digest));
           && CanonicalEncryptionContext.EncryptionContextToAAD(input.encryptionContext).Success?
           && ecDigestRequest.output.Success?
-          && ecDigestRequest.input.digestAlgorithm == Primitives.Types.SHA_512
+          && ecDigestRequest.input.digestAlgorithm == AtomicPrimitives.Types.SHA_512
           && ecDigestRequest.input.message == CanonicalEncryptionContext.EncryptionContextToAAD(input.encryptionContext).value
 
           //= aws-encryption-sdk-specification/framework/caching-cmm.md#appendix-a-cache-entry-identifier-formulas
@@ -577,7 +577,7 @@ module {:options "/functionSyntax:4" } CachingCMM  {
           //# it MUST calculate the cache entry identifier as
           //# the SHA-512 hash of the concatenation of the following byte strings,
           //# in the order listed:
-          && cacheEntryIdentifierRequest.input.digestAlgorithm == Primitives.Types.SHA_512
+          && cacheEntryIdentifierRequest.input.digestAlgorithm == AtomicPrimitives.Types.SHA_512
           && cacheEntryIdentifierRequest.input.message ==
              //# 1.  The SHA-512 hash of a UTF-8 encoding of the caching CMM’s Partition ID
              partitionKeyDigest
@@ -802,7 +802,7 @@ module {:options "/functionSyntax:4" } CachingCMM  {
   method GetEncryptMaterialsCacheIdentifier (
     partitionKeyDigest: seq<uint8>,
     input: Types.GetEncryptionMaterialsInput,
-    cryptoPrimitives: Primitives.AtomicPrimitivesClient
+    cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
   )
     returns (output: Result<seq<uint8>, Types.Error>)
     requires cryptoPrimitives.ValidState()
@@ -818,14 +818,14 @@ module {:options "/functionSyntax:4" } CachingCMM  {
         && ecDigestRequest.output.Success?
         && CanonicalEncryptionContext.EncryptionContextToAAD(input.encryptionContext).Success?
         && ecDigestRequest.input
-           == Primitives.Types.DigestInput(
-                digestAlgorithm := Primitives.Types.SHA_512,
+           == AtomicPrimitives.Types.DigestInput(
+                digestAlgorithm := AtomicPrimitives.Types.SHA_512,
                 message := CanonicalEncryptionContext.EncryptionContextToAAD(input.encryptionContext).value
               )
         && (if input.algorithmSuiteId.Some? then
               Seq.Last(cryptoPrimitives.History.Digest).input
-              == Primitives.Types.DigestInput(
-                digestAlgorithm := Primitives.Types.SHA_512,
+              == AtomicPrimitives.Types.DigestInput(
+                digestAlgorithm := AtomicPrimitives.Types.SHA_512,
                 message :=
                   partitionKeyDigest
                   + [0x01]
@@ -834,8 +834,8 @@ module {:options "/functionSyntax:4" } CachingCMM  {
               )
             else
               Seq.Last(cryptoPrimitives.History.Digest).input
-              == Primitives.Types.DigestInput(
-                digestAlgorithm := Primitives.Types.SHA_512,
+              == AtomicPrimitives.Types.DigestInput(
+                digestAlgorithm := AtomicPrimitives.Types.SHA_512,
                 message :=
                   partitionKeyDigest
                   + [0x00]
@@ -851,8 +851,8 @@ module {:options "/functionSyntax:4" } CachingCMM  {
     if input.algorithmSuiteId.Some? {
       var algorithmSuiteBinaryId := AlgorithmSuites.GetSuite(input.algorithmSuiteId.value).binaryId;
       output' := cryptoPrimitives.Digest(
-        Primitives.Types.DigestInput(
-          digestAlgorithm := Primitives.Types.SHA_512,
+        AtomicPrimitives.Types.DigestInput(
+          digestAlgorithm := AtomicPrimitives.Types.SHA_512,
           message :=
             partitionKeyDigest
             + [0x01]
@@ -861,8 +861,8 @@ module {:options "/functionSyntax:4" } CachingCMM  {
         ));
     } else {
       output' := cryptoPrimitives.Digest(
-        Primitives.Types.DigestInput(
-          digestAlgorithm := Primitives.Types.SHA_512,
+        AtomicPrimitives.Types.DigestInput(
+          digestAlgorithm := AtomicPrimitives.Types.SHA_512,
           message :=
             partitionKeyDigest
             + [0x00]
@@ -892,7 +892,7 @@ module {:options "/functionSyntax:4" } CachingCMM  {
   method {:vcs_split_on_every_assert} GetDecryptMaterialsCacheIdentifier(
     partitionKeyDigest: seq<uint8>,
     input: Types.DecryptMaterialsInput,
-    cryptoPrimitives: Primitives.AtomicPrimitivesClient
+    cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
   )
     returns (output: Result<seq<uint8>, Types.Error>)
     requires cryptoPrimitives.ValidState()
@@ -912,10 +912,10 @@ module {:options "/functionSyntax:4" } CachingCMM  {
         && var ecDigestRequest := Seq.Last(Seq.DropLast(cryptoPrimitives.History.Digest));
         && CanonicalEncryptionContext.EncryptionContextToAAD(input.encryptionContext).Success?
         && ecDigestRequest.output.Success?
-        && ecDigestRequest.input.digestAlgorithm == Primitives.Types.SHA_512
+        && ecDigestRequest.input.digestAlgorithm == AtomicPrimitives.Types.SHA_512
         && ecDigestRequest.input.message == CanonicalEncryptionContext.EncryptionContextToAAD(input.encryptionContext).value
 
-        && outputRequest.input.digestAlgorithm == Primitives.Types.SHA_512
+        && outputRequest.input.digestAlgorithm == AtomicPrimitives.Types.SHA_512
         && outputRequest.input.message
            ==  partitionKeyDigest
                + AlgorithmSuites.GetSuite(input.algorithmSuiteId).binaryId
@@ -949,8 +949,8 @@ module {:options "/functionSyntax:4" } CachingCMM  {
     + ecDigest;
 
     var output' := cryptoPrimitives.Digest(
-      Primitives.Types.DigestInput(
-        digestAlgorithm := Primitives.Types.SHA_512,
+      AtomicPrimitives.Types.DigestInput(
+        digestAlgorithm := AtomicPrimitives.Types.SHA_512,
         message := message
       ));
     output := output'.MapFailure(e => Types.AwsCryptographyPrimitives(e));
@@ -970,7 +970,7 @@ module {:options "/functionSyntax:4" } CachingCMM  {
     assert (forall e <- edkDigestRequests :: e.output.Success?);
     assert PluckDigestValue(edkDigestRequests) == digests;
     assert Seq.Last(Seq.DropLast(cryptoPrimitives.History.Digest)).output.Success?;
-    assert Seq.Last(cryptoPrimitives.History.Digest).input.digestAlgorithm == Primitives.Types.SHA_512;
+    assert Seq.Last(cryptoPrimitives.History.Digest).input.digestAlgorithm == AtomicPrimitives.Types.SHA_512;
     assert Seq.Last(cryptoPrimitives.History.Digest).input.message
         ==  partitionKeyDigest
             + AlgorithmSuites.GetSuite(input.algorithmSuiteId).binaryId
@@ -981,7 +981,7 @@ module {:options "/functionSyntax:4" } CachingCMM  {
 
   method Sha512EncryptionContext(
     encryptionContext: Types.EncryptionContext,
-    cryptoPrimitives: Primitives.AtomicPrimitivesClient
+    cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
   )
     returns (output: Result<seq<uint8>, Types.Error>)
     requires cryptoPrimitives.ValidState()
@@ -995,8 +995,8 @@ module {:options "/functionSyntax:4" } CachingCMM  {
         && |cryptoPrimitives.History.Digest| == |old(cryptoPrimitives.History.Digest)| + 1
         && old(cryptoPrimitives.History.Digest) < cryptoPrimitives.History.Digest
         && Seq.Last(cryptoPrimitives.History.Digest).input
-           == Primitives.Types.DigestInput(
-                digestAlgorithm := Primitives.Types.SHA_512,
+           == AtomicPrimitives.Types.DigestInput(
+                digestAlgorithm := AtomicPrimitives.Types.SHA_512,
                 message := CanonicalEncryptionContext.EncryptionContextToAAD(encryptionContext).value
               )
         && Seq.Last(cryptoPrimitives.History.Digest).output.Success?
@@ -1005,8 +1005,8 @@ module {:options "/functionSyntax:4" } CachingCMM  {
     var message :- CanonicalEncryptionContext.EncryptionContextToAAD(encryptionContext);
 
     var output' := cryptoPrimitives.Digest(
-      Primitives.Types.DigestInput(
-        digestAlgorithm := Primitives.Types.SHA_512,
+      AtomicPrimitives.Types.DigestInput(
+        digestAlgorithm := AtomicPrimitives.Types.SHA_512,
         message := message
       ));
 
@@ -1015,7 +1015,7 @@ module {:options "/functionSyntax:4" } CachingCMM  {
 
   method EdkDigests(
     encryptedDataKeys: Types.EncryptedDataKeyList,
-    cryptoPrimitives: Primitives.AtomicPrimitivesClient
+    cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
   )
     returns (output: Result<seq<seq<uint8>>, Types.Error>)
     requires cryptoPrimitives.ValidState()
@@ -1035,8 +1035,8 @@ module {:options "/functionSyntax:4" } CachingCMM  {
                     && request == digestRequests[k]
                     ::
                       && request.input
-                         == Primitives.Types.DigestInput(
-                              digestAlgorithm := Primitives.Types.SHA_512,
+                         == AtomicPrimitives.Types.DigestInput(
+                              digestAlgorithm := AtomicPrimitives.Types.SHA_512,
                               message := EncryptedDataKeyIntoBytes(encryptedDataKeys[k]).value
                             )
                       && request.output.Success?
@@ -1067,8 +1067,8 @@ module {:options "/functionSyntax:4" } CachingCMM  {
           && request == cryptoPrimitives.History.Digest[|old(cryptoPrimitives.History.Digest)| + k]
           ::
             && request.input
-               == Primitives.Types.DigestInput(
-                    digestAlgorithm := Primitives.Types.SHA_512,
+               == AtomicPrimitives.Types.DigestInput(
+                    digestAlgorithm := AtomicPrimitives.Types.SHA_512,
                     message := EncryptedDataKeyIntoBytes(encryptedDataKeys[k]).value
                   )
             && request.output.Success?
@@ -1076,8 +1076,8 @@ module {:options "/functionSyntax:4" } CachingCMM  {
     {
       var message :- EncryptedDataKeyIntoBytes(encryptedDataKeys[i]);
       var digest' := cryptoPrimitives.Digest(
-        Primitives.Types.DigestInput(
-          digestAlgorithm := Primitives.Types.SHA_512,
+        AtomicPrimitives.Types.DigestInput(
+          digestAlgorithm := AtomicPrimitives.Types.SHA_512,
           message := message
         ));
       var digest :- digest'.MapFailure(e => Types.AwsCryptographyPrimitives(e));
@@ -1088,7 +1088,7 @@ module {:options "/functionSyntax:4" } CachingCMM  {
   }
 
   opaque ghost function PluckDigestValue(
-    digestRequests: seq<Primitives.Types.DafnyCallEvent<Primitives.Types.DigestInput, Result<seq<uint8>, Primitives.Types.Error>>>
+    digestRequests: seq<AtomicPrimitives.Types.DafnyCallEvent<AtomicPrimitives.Types.DigestInput, Result<seq<uint8>, AtomicPrimitives.Types.Error>>>
   )
     :seq<seq<uint8>>
     requires forall c <- digestRequests :: c.output.Success?

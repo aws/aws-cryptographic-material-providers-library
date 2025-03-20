@@ -45,7 +45,7 @@ structure PutCacheEntryInput {
   //# since this information can not be updated after the put operation.
   expiryTime: PositiveLong,
   messagesUsed: PositiveInteger,
-  bytesUsed: PositiveInteger,
+  bytesUsed: PositiveLong,
 }
 
 operation GetCacheEntry {
@@ -56,7 +56,7 @@ operation GetCacheEntry {
 structure GetCacheEntryInput {
   @required
   identifier: Blob,
-  bytesUsed: PositiveInteger
+  bytesUsed: PositiveLong
 
 }
 

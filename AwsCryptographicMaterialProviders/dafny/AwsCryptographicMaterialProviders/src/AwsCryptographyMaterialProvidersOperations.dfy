@@ -815,7 +815,6 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   method CreateCachingCMM ( config: InternalConfig , input: CreateCachingCMMInput )
     returns (output: Result<ICryptographicMaterialsManager, Error>)
 
-    ensures input.underlyingCMC.Modifies == old(input.underlyingCMC.Modifies)
     ensures output.Success? ==> output.value is CachingCMM.CachingCMM
 
     //= aws-encryption-sdk-specification/framework/caching-cmm.md#initialization
@@ -892,7 +891,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       inputCMM := input.underlyingCMM.value;
     }
 
-    var inputCryptoPrimitives' := Primitives.AtomicPrimitives();
+    var inputCryptoPrimitives' := AtomicPrimitives.AtomicPrimitives();
     var inputCryptoPrimitives :- inputCryptoPrimitives'.MapFailure(e => Types.AwsCryptographyPrimitives(e));
 
     var partitionKey;
@@ -908,8 +907,8 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     }
 
     var inputPartitionKeyDigest' := inputCryptoPrimitives.Digest(
-      Primitives.Types.DigestInput(
-        digestAlgorithm := Primitives.Types.SHA_512,
+      AtomicPrimitives.Types.DigestInput(
+        digestAlgorithm := AtomicPrimitives.Types.SHA_512,
         message := partitionKey
       )
     );
