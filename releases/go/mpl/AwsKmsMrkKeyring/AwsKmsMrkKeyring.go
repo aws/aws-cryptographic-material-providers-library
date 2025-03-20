@@ -386,68 +386,75 @@ func (_this *AwsKmsMrkKeyring) OnDecrypt_k(input m_AwsCryptographyMaterialProvid
 			output = (_2_valueOrError0).PropagateFailure()
 			return output
 		}
-		var _3_filter *m_AwsKmsUtils.OnDecryptMrkAwareEncryptedDataKeyFilter
-		_ = _3_filter
+		var _3_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
+		_ = _3_valueOrError1
+		_3_valueOrError1 = m_AwsKmsUtils.Companion_Default___.OkForDecrypt((_this).AwsKmsArn(), (_this).AwsKmsKey())
+		if (_3_valueOrError1).IsFailure() {
+			output = (_3_valueOrError1).PropagateFailure()
+			return output
+		}
+		var _4_filter *m_AwsKmsUtils.OnDecryptMrkAwareEncryptedDataKeyFilter
+		_ = _4_filter
 		var _nw0 *m_AwsKmsUtils.OnDecryptMrkAwareEncryptedDataKeyFilter = m_AwsKmsUtils.New_OnDecryptMrkAwareEncryptedDataKeyFilter_()
 		_ = _nw0
 		_nw0.Ctor__((_this).AwsKmsArn(), m_Constants.Companion_Default___.PROVIDER__ID())
-		_3_filter = _nw0
-		var _4_valueOrError1 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq)
-		_ = _4_valueOrError1
+		_4_filter = _nw0
+		var _5_valueOrError2 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq)
+		_ = _5_valueOrError2
 		var _out0 m_Wrappers.Result
 		_ = _out0
-		_out0 = m_Actions.Companion_Default___.FilterWithResult(_3_filter, (input).Dtor_encryptedDataKeys())
-		_4_valueOrError1 = _out0
-		if (_4_valueOrError1).IsFailure() {
-			output = (_4_valueOrError1).PropagateFailure()
+		_out0 = m_Actions.Companion_Default___.FilterWithResult(_4_filter, (input).Dtor_encryptedDataKeys())
+		_5_valueOrError2 = _out0
+		if (_5_valueOrError2).IsFailure() {
+			output = (_5_valueOrError2).PropagateFailure()
 			return output
 		}
-		var _5_edksToAttempt _dafny.Sequence
-		_ = _5_edksToAttempt
-		_5_edksToAttempt = (_4_valueOrError1).Extract().(_dafny.Sequence)
-		if (_dafny.IntOfUint32((_5_edksToAttempt).Cardinality())).Sign() == 0 {
-			var _6_valueOrError2 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq.SetString())
-			_ = _6_valueOrError2
-			_6_valueOrError2 = m_ErrorMessages.Companion_Default___.IncorrectDataKeys((input).Dtor_encryptedDataKeys(), ((input).Dtor_materials()).Dtor_algorithmSuite(), _dafny.SeqOfString(""))
-			if (_6_valueOrError2).IsFailure() {
-				output = (_6_valueOrError2).PropagateFailure()
+		var _6_edksToAttempt _dafny.Sequence
+		_ = _6_edksToAttempt
+		_6_edksToAttempt = (_5_valueOrError2).Extract().(_dafny.Sequence)
+		if (_dafny.IntOfUint32((_6_edksToAttempt).Cardinality())).Sign() == 0 {
+			var _7_valueOrError3 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq.SetString())
+			_ = _7_valueOrError3
+			_7_valueOrError3 = m_ErrorMessages.Companion_Default___.IncorrectDataKeys((input).Dtor_encryptedDataKeys(), ((input).Dtor_materials()).Dtor_algorithmSuite(), _dafny.SeqOfString(""))
+			if (_7_valueOrError3).IsFailure() {
+				output = (_7_valueOrError3).PropagateFailure()
 				return output
 			}
-			var _7_errorMessage _dafny.Sequence
-			_ = _7_errorMessage
-			_7_errorMessage = (_6_valueOrError2).Extract().(_dafny.Sequence)
-			output = m_Wrappers.Companion_Result_.Create_Failure_(m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_7_errorMessage))
+			var _8_errorMessage _dafny.Sequence
+			_ = _8_errorMessage
+			_8_errorMessage = (_7_valueOrError3).Extract().(_dafny.Sequence)
+			output = m_Wrappers.Companion_Result_.Create_Failure_(m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_8_errorMessage))
 			return output
 		}
-		var _8_decryptClosure *DecryptSingleEncryptedDataKey
-		_ = _8_decryptClosure
+		var _9_decryptClosure *DecryptSingleEncryptedDataKey
+		_ = _9_decryptClosure
 		var _nw1 *DecryptSingleEncryptedDataKey = New_DecryptSingleEncryptedDataKey_()
 		_ = _nw1
 		_nw1.Ctor__(_0_materials, (_this).Client(), (_this).AwsKmsKey(), (_this).GrantTokens())
-		_8_decryptClosure = _nw1
-		var _9_outcome m_Wrappers.Result
-		_ = _9_outcome
+		_9_decryptClosure = _nw1
+		var _10_outcome m_Wrappers.Result
+		_ = _10_outcome
 		var _out1 m_Wrappers.Result
 		_ = _out1
-		_out1 = m_Actions.Companion_Default___.ReduceToSuccess(_8_decryptClosure, _5_edksToAttempt)
-		_9_outcome = _out1
-		var _10_valueOrError3 m_Wrappers.Result = m_Wrappers.Result{}
-		_ = _10_valueOrError3
-		_10_valueOrError3 = (_9_outcome).MapFailure(func(coer70 func(_dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
+		_out1 = m_Actions.Companion_Default___.ReduceToSuccess(_9_decryptClosure, _6_edksToAttempt)
+		_10_outcome = _out1
+		var _11_valueOrError4 m_Wrappers.Result = m_Wrappers.Result{}
+		_ = _11_valueOrError4
+		_11_valueOrError4 = (_10_outcome).MapFailure(func(coer70 func(_dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
 			return func(arg71 interface{}) interface{} {
 				return coer70(arg71.(_dafny.Sequence))
 			}
-		}(func(_11_errors _dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error {
-			return m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_CollectionOfErrors_(_11_errors, _dafny.SeqOfString("No Configured KMS Key was able to decrypt the Data Key. The list of encountered Exceptions is available via `list`."))
+		}(func(_12_errors _dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error {
+			return m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_CollectionOfErrors_(_12_errors, _dafny.SeqOfString("No Configured KMS Key was able to decrypt the Data Key. The list of encountered Exceptions is available via `list`."))
 		}))
-		if (_10_valueOrError3).IsFailure() {
-			output = (_10_valueOrError3).PropagateFailure()
+		if (_11_valueOrError4).IsFailure() {
+			output = (_11_valueOrError4).PropagateFailure()
 			return output
 		}
-		var _12_SealedDecryptionMaterials m_AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
-		_ = _12_SealedDecryptionMaterials
-		_12_SealedDecryptionMaterials = (_10_valueOrError3).Extract().(m_AwsCryptographyMaterialProvidersTypes.DecryptionMaterials)
-		output = m_Wrappers.Companion_Result_.Create_Success_(m_AwsCryptographyMaterialProvidersTypes.Companion_OnDecryptOutput_.Create_OnDecryptOutput_(_12_SealedDecryptionMaterials))
+		var _13_SealedDecryptionMaterials m_AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
+		_ = _13_SealedDecryptionMaterials
+		_13_SealedDecryptionMaterials = (_11_valueOrError4).Extract().(m_AwsCryptographyMaterialProvidersTypes.DecryptionMaterials)
+		output = m_Wrappers.Companion_Result_.Create_Success_(m_AwsCryptographyMaterialProvidersTypes.Companion_OnDecryptOutput_.Create_OnDecryptOutput_(_13_SealedDecryptionMaterials))
 		return output
 		return output
 	}
