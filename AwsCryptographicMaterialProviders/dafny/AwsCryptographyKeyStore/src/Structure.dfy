@@ -27,7 +27,8 @@ module {:options "/functionSyntax:4" } Structure {
   const M_PAGE_INDEX := "pageIndex" // The DDB Attribute name for the pageIndex, which is AttributeValue.B
   const HIERARCHY_VERSION_1 := "1"
   const HIERARCHY_VERSION_2 := "2"
-
+  const AES_256_LENGTH := 32
+  const MD_DIGEST_LENGTH := 48
   const AWS_CRYPTO_EC := "aws-crypto-ec"
   const ENCRYPTION_CONTEXT_PREFIX := AWS_CRYPTO_EC + ":"
 
