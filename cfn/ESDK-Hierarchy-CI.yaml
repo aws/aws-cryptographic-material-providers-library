@@ -268,8 +268,10 @@ Resources:
               "Action": [
                 "kms:GenerateRandom"
               ],
-              "Resource": "*"
-            },   
+              "Resource": [
+                "*"
+              ]
+            }   
           ]
         }
       ManagedPolicyName: Hierarchical-GitHub-KMS-Key-Policy
