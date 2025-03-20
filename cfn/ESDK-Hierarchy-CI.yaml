@@ -302,7 +302,16 @@ Resources:
                 "arn:aws:kms:*:${AWS::AccountId}:key/${EccP384}",
                 "arn:aws:kms:*:${AWS::AccountId}:key/${EccP521}"
               ]
-            }
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "kms:GenerateRandom"
+              ],
+              "Resource": [
+                "*"
+              ]
+            }   
           ]
         }
       ManagedPolicyName: Hierarchical-GitHub-KMS-Key-Policy
