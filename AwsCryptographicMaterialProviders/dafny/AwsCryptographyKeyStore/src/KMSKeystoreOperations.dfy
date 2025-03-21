@@ -588,7 +588,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     ensures output.Success?
             ==>
               && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
-              && AwsKmsBranchKeyDecryption?(
+              && AwsKmsBranchKeyHV1Decryption?(
                    encryptedKey,
                    kmsConfiguration,
                    grantTokens,
@@ -661,7 +661,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     ensures output.Success?
             ==>
               && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
-              && AwsKmsBranchKeyDecryption?(
+              && AwsKmsBranchKeyHV2Decryption?(
                    encryptedKey,
                    kmsConfiguration,
                    grantTokens,
@@ -674,7 +674,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
               && Seq.Last(kmsClient.History.Decrypt).output.Success?
               && output.value == Seq.Last(kmsClient.History.Decrypt).output.value
               && output.value.Plaintext.Some?
-              && 32 == |output.value.Plaintext.value|
+              && Structure.AES_256_LENGTH + Structure.MD_DIGEST_LENGTH == |output.value.Plaintext.value|
   {
     :- Need(
       && KmsArn.ValidKmsArn?(encryptedKey.KmsArn)
@@ -714,8 +714,82 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
 
   }
 
+  ghost predicate AwsKmsBranchKeyHV2Decryption?(
+    versionItem: Types.EncryptedHierarchicalKey,
+    kmsConfiguration: Types.KMSConfiguration,
+    grantTokens: KMS.GrantTokenList,
+    kmsClient: KMS.IKMSClient,
+    decryptHistory: KMS.DafnyCallEvent<KMS.DecryptRequest, Result<KMS.DecryptResponse, KMS.Error>>
+  )
+    reads kmsClient.History
 
-  ghost predicate AwsKmsBranchKeyDecryption?(
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
+    //= type=implication
+    //# The operation MUST use the configured `KMS SDK Client` to decrypt the value of the branch key field.
+    requires decryptHistory in kmsClient.History.Decrypt
+  {
+    && Structure.BRANCH_KEY_FIELD !in  versionItem.EncryptionContext
+
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
+    //= type=implication
+    //# If the Keystore's [AWS KMS Configuration](#aws-kms-configuration) is `KMS Key ARN` or `KMS MRKey ARN`,
+    //# the `kms-arn` field of the DDB response item MUST be
+    //# [compatible with](#aws-key-arn-compatibility) the configured KMS Key in
+    //# the [AWS KMS Configuration](#aws-kms-configuration) for this keystore,
+    //# or the operation MUST fail.
+    && (kmsConfiguration.kmsKeyArn? ==> versionItem.KmsArn == kmsConfiguration.kmsKeyArn)
+    && (kmsConfiguration.kmsMRKeyArn? ==> MrkMatch(versionItem.KmsArn, kmsConfiguration.kmsMRKeyArn))
+
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
+    //= type=implication
+    //# If the Keystore's [AWS KMS Configuration](#aws-kms-configuration) is `Discovery` or `MRDiscovery`,
+    //# the `kms-arn` field of DDB response item MUST NOT be an Alias
+    //# or the operation MUST fail.
+    && (kmsConfiguration.discovery? || kmsConfiguration.mrDiscovery? ==> KmsArn.ValidKmsArn?(versionItem.KmsArn))
+
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
+    //= type=implication
+    //# When calling [AWS KMS Decrypt](https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html),
+    //# the keystore operation MUST call with a request constructed as follows:
+
+    && var decryptRequest := decryptHistory.input;
+    && decryptRequest.KeyId.Some?
+       //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
+       //= type=implication
+       //# - `KeyId`, if the KMS Configuration is Discovery, MUST be the `kms-arn` attribute value of the AWS DDB response item.
+    && (kmsConfiguration.discovery? ==> decryptRequest.KeyId == Some(versionItem.KmsArn))
+
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
+    //= type=implication
+    //# If the KMS Configuration is MRDiscovery, `KeyId` MUST be the `kms-arn` attribute value of the AWS DDB response item, with the region replaced by the configured region.
+    && (kmsConfiguration.mrDiscovery? ==> decryptRequest.KeyId == Some(replaceRegion(versionItem.KmsArn, kmsConfiguration.mrDiscovery.region)))
+
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
+    //= type=implication
+    //# Otherwise, it MUST BE the Keystore's configured KMS Key.
+    && (kmsConfiguration.kmsKeyArn? ==> decryptRequest.KeyId == Some(kmsConfiguration.kmsKeyArn))
+    && (kmsConfiguration.kmsMRKeyArn? ==> MrkMatch(decryptRequest.KeyId.value, kmsConfiguration.kmsMRKeyArn))
+
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
+    //= type=implication
+    //# - `CiphertextBlob` MUST be the `CiphertextBlob` attribute value on the provided EncryptedHierarchicalKey
+    && decryptRequest.CiphertextBlob == versionItem.CiphertextBlob
+
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
+    //= type=implication
+    //# - `EncryptionContext` MUST be the [encryption context](#encryption-context) of the provided EncryptedHierarchicalKey
+    && decryptRequest.EncryptionContext == Some(versionItem.EncryptionContext)
+
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
+    //= type=implication
+    //# - `GrantTokens` MUST be this keystore's [grant tokens](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token).
+    && decryptRequest.GrantTokens == Some(grantTokens)
+
+    && decryptHistory.output.Success?
+    && decryptHistory.output.value.Plaintext.Some?
+  }
+
+  ghost predicate AwsKmsBranchKeyHV1Decryption?(
     versionItem: Types.EncryptedHierarchicalKey,
     kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
