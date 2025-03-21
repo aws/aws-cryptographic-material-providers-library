@@ -12,10 +12,9 @@ include "CreateKeys.dfy"
 module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKeyStoreAdminOperations {
   import opened AwsKmsUtils
   import opened StandardLibrary
-  import opened Wrappers
+    // import opened Wrappers
   import KmsArn
   import DefaultKeyStorageInterface
-  import Types = AwsCryptographyKeyStoreAdminTypes
   import KeyStoreOperations = AwsCryptographyKeyStoreOperations
   import KeyStoreTypes = AwsCryptographyKeyStoreTypes
   import KMS = Com.Amazonaws.Kms

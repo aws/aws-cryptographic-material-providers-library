@@ -66,6 +66,6 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
   const KMS_DECRYPT_INVALID_KEY_LENGTH_HV2 :=
     "Invalid response from AWS KMS Decrypt: Key is not of 80 bytes. This could mean Branch Key Item in the Storage has been tampered."
 
-  const INVALID_BRANCH_KEY_CONTEXT := 
+  const INVALID_BRANCH_KEY_CONTEXT :=
     "The branch key item is missing a required attribute. The branch key item might have been tampered to remove some attribute(s)."
 }
