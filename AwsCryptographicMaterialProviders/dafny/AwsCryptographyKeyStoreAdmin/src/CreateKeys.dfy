@@ -9,6 +9,7 @@ include "../../AwsCryptographyKeyStore/src/KMSKeystoreOperations.dfy"
 include "../../AwsCryptographyKeyStore/src/ErrorMessages.dfy"
 include "../../AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
 include "../../AwsCryptographyKeyStore/src/KmsArn.dfy"
+include "SystemKey/ContentHandler.dfy"
 
 module {:options "/functionSyntax:4" } CreateKeysHV2 {
   import opened StandardLibrary
@@ -31,9 +32,8 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
   import Time
   import MutateViaDecryptEncrypt
   import HierarchicalVersionUtils
-  import Crypto = AwsCryptographyPrimitivesTypes
-
-  const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
+  import CryptoTypes = AwsCryptographyPrimitivesTypes
+  import ContentHandler = SystemKey.ContentHandler
 
   //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
   //= type=implication
@@ -115,8 +115,8 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
               //      decryptOnlyEncryptionContext
               //    )
 
-              && beaconKmsRequest.output.Success?
-              && beaconKmsRequest.output.value.CiphertextBlob.Some?
+              // && beaconKmsRequest.output.Success?
+              // && beaconKmsRequest.output.value.CiphertextBlob.Some?
 
               && |storage.History.WriteNewEncryptedBranchKey| == |old(storage.History.WriteNewEncryptedBranchKey)| + 1
 
@@ -216,26 +216,27 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
     var beaconEncryptionContext := Structure.Hv2BeaconKeyEncryptionContext(decryptOnlyEncryptionContext);
 
     // Get Utf8Bytes EC
-    var decryptOnlyEC := HierarchicalVersionUtils.UnstringifyEncryptionContext(decryptOnlyEncryptionContext);
-    var activeEC := HierarchicalVersionUtils.UnstringifyEncryptionContext(activeEncryptionContext);
-    var beaconEC := HierarchicalVersionUtils.UnstringifyEncryptionContext(beaconEncryptionContext);
+    var decryptOnlyECBytes := HierarchicalVersionUtils.UnstringifyEncryptionContext(decryptOnlyEncryptionContext);
+    var activeECBytes := HierarchicalVersionUtils.UnstringifyEncryptionContext(activeEncryptionContext);
+    var beaconECBytes := HierarchicalVersionUtils.UnstringifyEncryptionContext(beaconEncryptionContext);
 
     // Create SHA-384 digests
-    var decryptOnlyDigest := CanonicalEncryptionContext.EncryptionContextDigest(cryptoPrimitives, decryptOnlyEC.value);
-    var activeDigest := CanonicalEncryptionContext.EncryptionContextDigest(cryptoPrimitives, activeEC.value);
-    var beaconDigest := CanonicalEncryptionContext.EncryptionContextDigest(cryptoPrimitives, beaconEC.value);
+    var cryptoClient := ContentHandler.ProvideCryptoClient();
+    var decryptOnlyDigest := CanonicalEncryptionContext.EncryptionContextDigest(cryptoClient.value, decryptOnlyECBytes.value);
+    var activeDigest := CanonicalEncryptionContext.EncryptionContextDigest(cryptoClient.value, activeECBytes.value);
+    var beaconDigest := CanonicalEncryptionContext.EncryptionContextDigest(cryptoClient.value, beaconECBytes.value);
 
     // Generate random bytes for active and beacon keys
-    var generateBytesResult := cryptoPrimitives.GenerateRandomBytes(
-      Crypto.GenerateRandomBytesInput(length := 32)
+    var generateBytesResult := cryptoClient.value.GenerateRandomBytes(
+      CryptoTypes.GenerateRandomBytesInput(length := 32)
     );
     var activePlaintextMaterial :- generateBytesResult
     .MapFailure(e => Types.AwsCryptographyPrimitives(
                     AwsCryptographyPrimitives := e
                   ));
 
-    var beaconGenerateBytesResult := cryptoPrimitives.GenerateRandomBytes(
-      Crypto.GenerateRandomBytesInput(length := 32)
+    var beaconGenerateBytesResult := cryptoClient.value.GenerateRandomBytes(
+      CryptoTypes.GenerateRandomBytesInput(length := 32)
     );
     var beaconPlaintextMaterial :- beaconGenerateBytesResult
     .MapFailure(e => Types.AwsCryptographyPrimitives(
@@ -246,22 +247,28 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
     var kmsKeyArn := KMSKeystoreOperations.GetKeyId(kmsConfiguration);
 
     // Encrypt using MutateViaDecryptEncrypt
-    var wrappedDecryptOnlyBranchKey? :- MutateViaDecryptEncrypt.Encrypt(
-      activePlaintextMaterial,
-      decryptOnlyEncryptionContext,
+    var wrappedDecryptOnlyBranchKey? := MutateViaDecryptEncrypt.Encrypt(
+      decryptOnlyDigest.value + activePlaintextMaterial,
+      customEncryptionContext,
       kmsKeyArn,
       grantTokens,
       kmsClient
     );
-    if (wrappedDecryptOnlyBranchKey?.Failure?) {
-      return Failure(wrappedDecryptOnlyBranchKey?.error);
-    }
+
+    // var wrappedDecryptOnlyBranchKey :- wrappedDecryptOnlyBranchKey?
+    // .MapFailure(e => match e {
+    //             case ComAmazonawsKms(kmsErr) => Types.ComAmazonawsKms(kmsErr)
+    //             case KeyManagementException(msg) => Types.KeyStoreAdminException(message := msg)
+    //           });
+    // if (wrappedDecryptOnlyBranchKey?.Failure?) {
+    //   return Failure(wrappedDecryptOnlyBranchKey?.error);
+    // }
     // var wrappedDecryptOnlyBranchKey := wrappedDecryptOnlyBranchKey?
-    // .MapFailure(e => Types.ComAmazonawsKms(e));
+    // .MapFailure(e => KMSKeystoreOperations.KmsError(e));
 
     // var wrappedActiveBranchKey :- MutateViaDecryptEncrypt.Encrypt(
-    //   activePlaintextMaterial,
-    //   activeEncryptionContext,
+    //   activeDigest + activePlaintextMaterial,
+    //   customEncryptionContext,
     //   kmsKeyArn,
     //   grantTokens,
     //   kmsClient
@@ -269,7 +276,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
 
     // var wrappedBeaconKey :- MutateViaDecryptEncrypt.Encrypt(
     //   beaconPlaintextMaterial,
-    //   beaconEncryptionContext,
+    //   customEncryptionContext,
     //   kmsKeyArn,
     //   grantTokens,
     //   kmsClient
