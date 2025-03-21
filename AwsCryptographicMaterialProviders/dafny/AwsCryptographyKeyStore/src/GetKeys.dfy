@@ -459,7 +459,7 @@ module GetKeys {
         branchKey.Plaintext.value[0..Structure.AES_256_LENGTH]
       );
       return Success(
-          Types.GetActiveBranchKeyOutput(
+          Types.GetBranchKeyVersionOutput(
             branchKeyMaterials := branchKeyMaterials
           ));
     } else {
