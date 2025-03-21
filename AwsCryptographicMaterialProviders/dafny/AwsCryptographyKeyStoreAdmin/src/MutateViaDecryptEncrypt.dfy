@@ -80,7 +80,10 @@ module {:options "/functionSyntax:4" } MutateViaDecryptEncrypt {
     grantTokens: KMSKeystoreOperations.KMS.GrantTokenList,
     kmsClient: KMSKeystoreOperations.KMS.IKMSClient
   ) returns (res: Result<KMSKeystoreOperations.KMS.CiphertextType, KMSKeystoreOperations.KmsError>)
-    requires Structure.BranchKeyContext?(encryptionContext)
+    // TODO: Ensure it still valid for both HV-1 & HV-2
+    requires
+      || Structure.BranchKeyContext?(encryptionContext)
+      || Structure.Hv2EncryptionContext?(encryptionContext)
     requires KMSKeystoreOperations.KmsArn.ValidKmsArn?(kmsArn)
     requires kmsClient.ValidState()
     modifies kmsClient.Modifies

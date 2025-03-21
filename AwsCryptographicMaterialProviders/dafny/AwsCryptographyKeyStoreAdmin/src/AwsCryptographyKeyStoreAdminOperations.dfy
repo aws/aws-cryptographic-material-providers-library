@@ -242,6 +242,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     return Success(internal);
   }
 
+  // TODO: Refactor Config to allow DecryptEncryptStrategy
   function method LegacyConfig(
     keyManagerStrat: KmsUtils.keyManagerStrat,
     kmsArn: Types.KmsSymmetricKeyArn,
@@ -301,6 +302,8 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
 
     if (hierarchyVersion == KeyStoreTypes.HierarchyVersion.v2) {
+      var encryptDecryptConfig :- EncryptDecryptConfig(keyManagerStrat, input.KmsArn, config);
+
       output := CreateKeyHV2(config, input, keyManagerStrat);
     }
     else {
@@ -314,7 +317,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
       assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
 
-      KeyStoreOperations.CreateKey(
+      var output? := KeyStoreOperations.CreateKey(
         config := legacyConfig,
         input := KeyStoreOperations.Types.CreateKeyInput(
           branchKeyIdentifier := input.Identifier,
@@ -330,9 +333,6 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
         ));
     }
   }
-
-  // TODO-HV-2: Refactor to top
-  const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
 
   // TODO-HV-2: Add Pre & Post Conditions -> Maybe copy from KeyStore
   // TODO-HV-2: Should handle KeyManagerStrat for HV2
