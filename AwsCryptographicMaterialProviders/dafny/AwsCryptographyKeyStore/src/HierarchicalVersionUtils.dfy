@@ -3,6 +3,7 @@
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "Structure.dfy"
 include "KMSKeystoreOperations.dfy"
+include "KmsArn.dfy"
 
 module HierarchicalVersionUtils {
 
@@ -12,40 +13,53 @@ module HierarchicalVersionUtils {
 
   import ErrorMessages = KeyStoreErrorMessages
   import Types = AwsCryptographyKeyStoreTypes
+  import KMS = ComAmazonawsKmsTypes
   
   import AtomicPrimitives
   import UTF8
+  import KMSKeystoreOperations
+  import KmsArn
   import Structure
   
   function method GetMdDigestFromEC(
     item: Types.EncryptionContextString
   ) : (output: Types.EncryptionContextString)
+  ensures output.Keys == item.Keys - {Structure.TABLE_FIELD}
+  ensures forall k :: k in output ==> output[k] == item[k]
+  ensures forall k :: k in output ==> k !in {Structure.TABLE_FIELD}
   {
     map k <- item.Keys - {Structure.TABLE_FIELD}
       :: k := item[k]
   }
   
   method GetHV2EC(
-    item: Types.EncryptionContextString
+    ecStringMap: Types.EncryptionContextString
   ) returns (output: Types.EncryptionContextString)
+    ensures Structure.Hv2EncryptionContext?(output)
   {
-    var withoutReserved := set k | 
-      k in item && 
-      k !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES :: k;
-    var newMap := map[];
-    var remaining := withoutReserved;
-    while (remaining != {})
-        decreases remaining
+    var withoutRestrictedField := RemoveRestrictedFields(ecStringMap);
+    var items := withoutRestrictedField.Items;
+    var newMap: map<string, string> := map[];
+
+    while items != {}
+        decreases |items|
     {
-        var key :| key in remaining;
-        var value := item[key];
-        remaining := remaining - {key};
-        if (|key| >= |Structure.ENCRYPTION_CONTEXT_PREFIX| && key[..|Structure.ENCRYPTION_CONTEXT_PREFIX|] == Structure.ENCRYPTION_CONTEXT_PREFIX) {
-            key := key[|Structure.ENCRYPTION_CONTEXT_PREFIX|..];
+        var item :| item in items;
+        items := items - { item };
+        if (|item.0| >= |Structure.ENCRYPTION_CONTEXT_PREFIX| && item.0[..|Structure.ENCRYPTION_CONTEXT_PREFIX|] == Structure.ENCRYPTION_CONTEXT_PREFIX) {
+          var newKey := item.0[|Structure.ENCRYPTION_CONTEXT_PREFIX|..];
+          newMap := newMap[newKey := item.1];
+        } else {
+          newMap := newMap[item.0 := item.1];
         }
-        newMap := newMap + map[key := value];
     }
-    return newMap;
+    return withoutRestrictedField;
+  }
+
+  function method RemoveRestrictedFields(a:map<string, string>) : (output:map<string, string>)
+    ensures Structure.Hv2EncryptionContext?(output)
+  {
+    a - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
   }
 
   function method UnstringifyEncryptionContext(stringEncCtx: Types.EncryptionContextString) : (res: Result<Types.EncryptionContext, Types.Error>)
