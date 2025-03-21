@@ -8,6 +8,7 @@ include "ApplyMutation.dfy"
 include "KmsUtils.dfy"
 include "DescribeMutation.dfy"
 include "CreateKeys.dfy"
+include "../../../../ComAmazonawsDynamodb/Model/ComAmazonawsDynamodbTypes.dfy"
 
 module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKeyStoreAdminOperations {
   import opened AwsKmsUtils
@@ -32,6 +33,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   import Time
   import KO = KMSKeystoreOperations
   import CreateKeysHV2
+  import DDB = ComAmazonawsDynamodbTypes
 
   datatype Config = Config(
     nameonly logicalKeyStoreName: string,
@@ -244,18 +246,18 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
 
   // TODO: Refactor Config to allow DecryptEncryptStrategy
   function method LegacyConfig(
-    keyManagerStrat: KmsUtils.keyManagerStrat,
+    kmsTuple: KmsUtils.KMSTuple,
     kmsArn: Types.KmsSymmetricKeyArn,
     config: InternalConfig
   ): (output: Result<KeyStoreOperations.Config, Error>)
     requires ValidInternalConfig?(config)
     requires
-      && keyManagerStrat.reEncrypt?
-      && keyManagerStrat.reEncrypt.kmsClient.ValidState()
-      && GetValidGrantTokens(Some(keyManagerStrat.reEncrypt.grantTokens)).Success?
+      // && kmsTuple?
+      && kmsTuple.kmsClient.ValidState()
+      && GetValidGrantTokens(Some(kmsTuple.grantTokens)).Success?
     ensures output.Success?
             ==>
-              && keyManagerStrat.reEncrypt.kmsClient.ValidState()
+              && kmsTuple.kmsClient.ValidState()
     ensures output.Success? ==> KeyStoreOperations.ValidInternalConfig?(output.value)
   {
     var _ :- KmsArn.IsValidKeyArn(match kmsArn
@@ -269,8 +271,8 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
                           kmsConfiguration := match kmsArn
                           case KmsKeyArn(kmsKeyArn) => KeyStoreOperations.Types.kmsKeyArn(kmsKeyArn)
                           case KmsMRKeyArn(kmsMRKeyArn) => KeyStoreOperations.Types.kmsMRKeyArn(kmsMRKeyArn),
-                          grantTokens := keyManagerStrat.reEncrypt.grantTokens,
-                          kmsClient := keyManagerStrat.reEncrypt.kmsClient,
+                          grantTokens := kmsTuple.grantTokens,
+                          kmsClient := kmsTuple.kmsClient,
                           ddbClient := None,
                           storage := config.storage,
                           kmsConstructedRegion := None,
@@ -302,9 +304,12 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
 
     if (hierarchyVersion == KeyStoreTypes.HierarchyVersion.v2) {
-      var encryptDecryptConfig :- EncryptDecryptConfig(keyManagerStrat, input.KmsArn, config);
+      var legacyConfig :- LegacyConfig(keyManagerStrat.encrypt, input.KmsArn, config);
 
-      output := CreateKeyHV2(config, input, keyManagerStrat);
+      // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
+      assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
+
+      output := CreateKeyHV2(legacyConfig, input, keyManagerStrat);
     }
     else {
       :- Need(
@@ -312,7 +317,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
         Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time.")
       );
 
-      var legacyConfig :- LegacyConfig(keyManagerStrat, input.KmsArn, config);
+      var legacyConfig :- LegacyConfig(keyManagerStrat.reEncrypt, input.KmsArn, config);
 
       // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
       assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
@@ -336,7 +341,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
 
   // TODO-HV-2: Add Pre & Post Conditions -> Maybe copy from KeyStore
   // TODO-HV-2: Should handle KeyManagerStrat for HV2
-  method CreateKeyHV2(config: InternalConfig, input: CreateKeyInput, keyManagerStrat: KmsUtils.keyManagerStrat)
+  method CreateKeyHV2(config: KeyStoreOperations.Config, input: CreateKeyInput, keyManagerStrat: KmsUtils.keyManagerStrat)
     returns (output: Result<Types.CreateKeyOutput, Error>)
   {
 
@@ -380,7 +385,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     var branchKeyVersion :- maybeBranchKeyVersion
     .MapFailure(e => Types.KeyStoreAdminException(message := e));
 
-    var unwrapEncryptionContext := input.encryptionContext.UnwrapOr(map[]);
+    var unwrapEncryptionContext := input.EncryptionContext.UnwrapOr(map[]);
     var encodedEncryptionContext
       := set k <- unwrapEncryptionContext
       ::
@@ -431,7 +436,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time.")
     );
 
-    var legacyConfig :- LegacyConfig(keyManagerStrat, input.KmsArn, config);
+    var legacyConfig :- LegacyConfig(keyManagerStrat.reEncrypt, input.KmsArn, config);
 
     // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
     assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
