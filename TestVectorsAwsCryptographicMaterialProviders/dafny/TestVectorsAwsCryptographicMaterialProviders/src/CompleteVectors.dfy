@@ -161,8 +161,7 @@ module {:options "-functionSyntax:4"} CompleteVectors {
   method WriteVectorsFile(location: string, bytes: seq<uint8>)
     returns (output: Result<(), string>)
   {
-    var bv := JSONHelpers.BytesBv(bytes);
-    output := FileIO.WriteBytesToFile(location, bv);
+    output := FileIO.WriteBytesToFile(location, bytes);
   }
 
 }
