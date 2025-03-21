@@ -18,7 +18,7 @@ public class PutCacheEntryInput {
 
   private final int messagesUsed;
 
-  private final int bytesUsed;
+  private final long bytesUsed;
 
   protected PutCacheEntryInput(BuilderImpl builder) {
     this.identifier = builder.identifier();
@@ -49,7 +49,7 @@ public class PutCacheEntryInput {
     return this.messagesUsed;
   }
 
-  public int bytesUsed() {
+  public long bytesUsed() {
     return this.bytesUsed;
   }
 
@@ -82,9 +82,9 @@ public class PutCacheEntryInput {
 
     int messagesUsed();
 
-    Builder bytesUsed(int bytesUsed);
+    Builder bytesUsed(long bytesUsed);
 
-    int bytesUsed();
+    long bytesUsed();
 
     PutCacheEntryInput build();
   }
@@ -107,7 +107,7 @@ public class PutCacheEntryInput {
 
     private boolean _messagesUsedSet = false;
 
-    protected int bytesUsed;
+    protected long bytesUsed;
 
     private boolean _bytesUsedSet = false;
 
@@ -174,13 +174,13 @@ public class PutCacheEntryInput {
       return this.messagesUsed;
     }
 
-    public Builder bytesUsed(int bytesUsed) {
+    public Builder bytesUsed(long bytesUsed) {
       this.bytesUsed = bytesUsed;
       this._bytesUsedSet = true;
       return this;
     }
 
-    public int bytesUsed() {
+    public long bytesUsed() {
       return this.bytesUsed;
     }
 
