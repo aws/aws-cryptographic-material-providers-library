@@ -46,7 +46,7 @@ module {:options "/functionSyntax:4" } Structure {
   //Attribute Values
   // TODO-HV-2-Create: Refactor to allow HV-2 but defaults to HV-1
   const HIERARCHY_VERSION_VALUE := "1"
-  const HIERARCHY_VERSION_VALUE_2 := "2"
+  // const HIERARCHY_VERSION_VALUE_2 := "2"
   const HIERARCHY_VERSION_ATTRIBUTE_VALUE := DDB.AttributeValue.N(HIERARCHY_VERSION_VALUE)
   const BRANCH_KEY_TYPE_PREFIX := "branch:version:"
   const BRANCH_KEY_ACTIVE_TYPE := "branch:ACTIVE"
@@ -134,13 +134,13 @@ module {:options "/functionSyntax:4" } Structure {
   predicate Hv2EncryptionContext?(m: map<string, string>) {
 
     && (BRANCH_KEY_IDENTIFIER_FIELD !in m)
-       
+
     && (TYPE_FIELD !in m)
-       
+
     && (KEY_CREATE_TIME !in m)
-       
+
     && (HIERARCHY_VERSION !in m)
-       
+
     && (TABLE_FIELD !in m)
 
     && (KMS_FIELD !in m)
@@ -179,7 +179,8 @@ module {:options "/functionSyntax:4" } Structure {
     && ec[TYPE_FIELD] == BRANCH_KEY_ACTIVE_TYPE
   }
 
-
+  // TODO: Use this function to update the attribute map
+  // HV-2 Encryption Context
   function ToAttributeMap(
     key: Types.EncryptedHierarchicalKey
   ): (output: DDB.AttributeMap)
@@ -460,21 +461,19 @@ module {:options "/functionSyntax:4" } Structure {
     map i <- defixedCustomEncryptionContext :: i.0 := i.1
   }
 
-  opaque function DecryptOnlyBranchKeyEncryptionContextHV2(
+  opaque function Hv2DecryptOnlyBranchKeyEncryptionContext(
     branchKeyId: string,
     branchKeyVersion: string,
     timestamp: string,
-    logicalKeyStoreName: string,
     kmsKeyArn: string,
     customEncryptionContext: map<string, string>
   ): (output: map<string, string>)
     requires 0 < |branchKeyId|
     requires 0 < |branchKeyVersion|
-    ensures BranchKeyContext?(output)
+    ensures Hv2EncryptionContext?(output)
     ensures BRANCH_KEY_TYPE_PREFIX < output[TYPE_FIELD]
     ensures BRANCH_KEY_ACTIVE_VERSION_FIELD !in output
     ensures output[KMS_FIELD] == kmsKeyArn
-    ensures output[TABLE_FIELD] == logicalKeyStoreName
     ensures forall k <- customEncryptionContext
               ::
                 && ENCRYPTION_CONTEXT_PREFIX + k in output
@@ -494,9 +493,8 @@ module {:options "/functionSyntax:4" } Structure {
       BRANCH_KEY_IDENTIFIER_FIELD := branchKeyId,
       TYPE_FIELD := BRANCH_KEY_TYPE_PREFIX + branchKeyVersion,
       KEY_CREATE_TIME := timestamp,
-      // TABLE_FIELD := logicalKeyStoreName,
       KMS_FIELD := kmsKeyArn,
-      HIERARCHY_VERSION := HIERARCHY_VERSION_VALUE_2
+      HIERARCHY_VERSION := HIERARCHY_VERSION_2
     ] + map k <- customEncryptionContext :: ENCRYPTION_CONTEXT_PREFIX + k := customEncryptionContext[k]
   }
 
@@ -540,6 +538,22 @@ module {:options "/functionSyntax:4" } Structure {
     ] + map k <- customEncryptionContext :: ENCRYPTION_CONTEXT_PREFIX + k := customEncryptionContext[k]
   }
 
+  function Hv2ActiveBranchKeyEncryptionContext(
+    decryptOnlyEncryptionContext: map<string, string>
+  ): (output: map<string, string>)
+    requires Hv2EncryptionContext?(decryptOnlyEncryptionContext)
+    requires
+      && BRANCH_KEY_TYPE_PREFIX < decryptOnlyEncryptionContext[TYPE_FIELD]
+      && BRANCH_KEY_ACTIVE_VERSION_FIELD !in decryptOnlyEncryptionContext
+    ensures BranchKeyContext?(output)
+    ensures BRANCH_KEY_ACTIVE_VERSION_FIELD in output
+  {
+    decryptOnlyEncryptionContext + map[
+      BRANCH_KEY_ACTIVE_VERSION_FIELD := decryptOnlyEncryptionContext[TYPE_FIELD],
+      TYPE_FIELD := BRANCH_KEY_ACTIVE_TYPE
+    ]
+  }
+
   function ActiveBranchKeyEncryptionContext(
     decryptOnlyEncryptionContext: map<string, string>
   ): (output: map<string, string>)
@@ -553,6 +567,21 @@ module {:options "/functionSyntax:4" } Structure {
     decryptOnlyEncryptionContext + map[
       BRANCH_KEY_ACTIVE_VERSION_FIELD := decryptOnlyEncryptionContext[TYPE_FIELD],
       TYPE_FIELD := BRANCH_KEY_ACTIVE_TYPE
+    ]
+  }
+
+  function Hv2BeaconKeyEncryptionContext(
+    decryptOnlyEncryptionContext: map<string, string>
+  ): (output: map<string, string>)
+    requires Hv2EncryptionContext?(decryptOnlyEncryptionContext)
+    requires
+      && BRANCH_KEY_TYPE_PREFIX < decryptOnlyEncryptionContext[TYPE_FIELD]
+      && BRANCH_KEY_ACTIVE_VERSION_FIELD !in decryptOnlyEncryptionContext
+    ensures BranchKeyContext?(output)
+    ensures output[TYPE_FIELD] == BEACON_KEY_TYPE_VALUE
+  {
+    decryptOnlyEncryptionContext + map[
+      TYPE_FIELD := BEACON_KEY_TYPE_VALUE
     ]
   }
 

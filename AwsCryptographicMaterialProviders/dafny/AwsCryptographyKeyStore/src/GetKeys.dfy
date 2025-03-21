@@ -192,7 +192,7 @@ module GetKeys {
           message := ErrorMessages.INVALID_BRANCH_KEY_CONTEXT
         )
       );
-      // branchKeyItemFromStorage.EncryptionContext comes from storage is not the actual EC. 
+      // branchKeyItemFromStorage.EncryptionContext comes from storage is not the actual EC.
       // branchKeyItemFromStorage.EncryptionContext contains all the items in the dynamodb table and table name.
       var hv2EC := HierarchicalVersionUtils.GetHV2EC(branchKeyItemFromStorage.EncryptionContext);
       var hv2BranchKey := Types.EncryptedHierarchicalKey(
@@ -406,9 +406,9 @@ module GetKeys {
            && Structure.DecryptOnlyHierarchicalSymmetricKey?(branchKeyItemFromStorage)
            && branchKeyItemFromStorage.Identifier == input.branchKeyIdentifier
            && branchKeyItemFromStorage.Type == Types.HierarchicalSymmetricVersion(
-                                      Types.HierarchicalSymmetric(
-                                        Version := input.branchKeyVersion
-                                      ))
+                                                 Types.HierarchicalSymmetric(
+                                                   Version := input.branchKeyVersion
+                                                 ))
            && branchKeyItemFromStorage.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
          ),
       Types.KeyStoreException(

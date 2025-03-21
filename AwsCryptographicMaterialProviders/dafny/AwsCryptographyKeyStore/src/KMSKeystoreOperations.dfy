@@ -142,6 +142,10 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
               && kmsOperationOutput.value == res.value
   {
     var kmsKeyArn := GetKeyId(kmsConfiguration);
+
+    // TODO: Logging what actually is called to KMS EC
+    print encryptionContext;
+
     var generatorRequest := KMS.GenerateDataKeyWithoutPlaintextRequest(
       KeyId := kmsKeyArn,
       EncryptionContext := Some(encryptionContext),
