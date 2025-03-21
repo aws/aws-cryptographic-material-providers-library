@@ -20,6 +20,7 @@ module HierarchicalVersionUtils {
   import KMSKeystoreOperations
   import KmsArn
   import Structure
+  import CanonicalEncryptionContext
   
   function method GetMdDigestFromEC(
     item: Types.EncryptionContextString
@@ -124,5 +125,57 @@ module HierarchicalVersionUtils {
     // If we create the Crypto Client, it is fresh
     assume {:axiom} fresh(Crypto) && fresh(Crypto.Modifies);
     return Success(Crypto);
+  }
+
+  method ValidateMdDigest (
+    plainText: KMS.PlaintextType, 
+    branchKeyItemFromStorage: Types.EncryptedHierarchicalKey
+  )  
+    returns (output: Result<(), Types.Error>)
+    // The plaintext should be large enough to contain both AES key and MD digest
+    requires |plainText| == Structure.AES_256_LENGTH + Structure.MD_DIGEST_LENGTH
+    requires Structure.BranchKeyContext?(branchKeyItemFromStorage.EncryptionContext)
+
+    ensures output.Failure? ==>
+      // If failed, output contains appropriate error message
+      output.error.KeyStoreException?
+  {
+    var mdDigestMap := GetMdDigestFromEC(branchKeyItemFromStorage.EncryptionContext);
+    var utf8MDDigest :- UnstringifyEncryptionContext(mdDigestMap);
+    var crypto := ProvideCryptoClient();
+    if (crypto.Failure?) {
+      var e := Types.KeyStoreException(
+        message :=
+          "Local Cryptography error: " + AtomicPrimitives.ErrorUtils.MessageOrUnknown(crypto.error));
+      return Failure(e);
+    }
+    var digestResult := CanonicalEncryptionContext.EncryptionContextDigest(crypto.value, utf8MDDigest);
+    if (digestResult.Failure?) {
+      var error: Types.Error;
+      error := match digestResult.error {
+        case AwsCryptographyPrimitives(e) =>
+          // we cannot reliably serialize a Primitive error without work
+          Types.KeyStoreException(message:="Could not SHA-384 Content.")
+        case AwsCryptographicMaterialProvidersException(e) =>
+          Types.KeyStoreException(message:="Could not SHA-384 Content. " + e)
+      };
+      return Failure(error);
+    }
+    var plaintextBranchKeyWithMdDigest := plainText;
+    :- Need(
+      |plaintextBranchKeyWithMdDigest| == Structure.AES_256_LENGTH + Structure.MD_DIGEST_LENGTH,
+      Types.KeyStoreException(
+        message := ErrorMessages.BRANCH_KEY_MD_DIGEST_SHA_INCORRECT_LENGTH
+      )
+    );
+    var plaintextBranchKey := plaintextBranchKeyWithMdDigest[0..Structure.AES_256_LENGTH];
+    var decryptedMdDigest := plaintextBranchKeyWithMdDigest[Structure.AES_256_LENGTH..];
+    if (decryptedMdDigest != digestResult.value) {
+      var e := Types.KeyStoreException(
+        message :=
+          ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED);
+      return Failure(e);
+    }
+    return Success(());
   }
 }

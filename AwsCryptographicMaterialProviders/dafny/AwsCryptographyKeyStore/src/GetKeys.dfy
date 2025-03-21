@@ -98,13 +98,33 @@ module GetKeys {
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getactivebranchkey
               //= type=implication
               //# The operation MUST decrypt the EncryptedHierarchicalKey according to the [AWS KMS Branch Key Decryption](#aws-kms-branch-key-decryption) section.
-              && KMSKeystoreOperations.AwsKmsBranchKeyDecryption?(
-                   activeItem,
-                   kmsConfiguration,
-                   grantTokens,
-                   kmsClient,
-                   Seq.Last(kmsClient.History.Decrypt)
-                 )
+              // TODO: Verification
+              // && (activeItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2 
+              //     ==> 
+              //       && var hv2EC := HierarchicalVersionUtils.GetHV2EC(activeItem.EncryptionContext);
+              //       && var hv2ActiveItem := Types.EncryptedHierarchicalKey(
+              //           Identifier := activeItem.Identifier,
+              //           Type := activeItem.Type,
+              //           CreateTime := activeItem.CreateTime,
+              //           KmsArn := activeItem.KmsArn,
+              //           EncryptionContext := hv2EC,
+              //           CiphertextBlob := activeItem.CiphertextBlob
+              //         );
+              //       && KMSKeystoreOperations.AwsKmsBranchKeyHV2Decryption?(
+              //           activeItem,
+              //           kmsConfiguration,
+              //           grantTokens,
+              //           kmsClient,
+              //           Seq.Last(kmsClient.History.Decrypt)
+              //         )
+              //     ) 
+              && KMSKeystoreOperations.AwsKmsBranchKeyHV1Decryption?(
+                        activeItem,
+                        kmsConfiguration,
+                        grantTokens,
+                        kmsClient,
+                        Seq.Last(kmsClient.History.Decrypt)
+                      )
 
               && var decryptResponse := Seq.Last(kmsClient.History.Decrypt).output.value;
 
@@ -209,40 +229,13 @@ module GetKeys {
         grantTokens,
         kmsClient
       );
-      var mdDigestMap := HierarchicalVersionUtils.GetMdDigestFromEC(branchKeyItemFromStorage.EncryptionContext);
-      var utf8MDDigest :- HierarchicalVersionUtils.UnstringifyEncryptionContext(mdDigestMap);
-      var crypto := HierarchicalVersionUtils.ProvideCryptoClient();
-      if (crypto.Failure?) {
-        var e := Types.KeyStoreException(
-          message :=
-            "Local Cryptography error: " + AtomicPrimitives.ErrorUtils.MessageOrUnknown(crypto.error));
-        return Failure(e);
-      }
-      var mdDigestSha := CanonicalEncryptionContext.EncryptionContextDigest(crypto.value, utf8MDDigest);
-      if (mdDigestSha.Failure?) {
-        var e := Types.KeyStoreException(
-          message :=
-            "Failed to create SHA of MD Digest.");
-        return Failure(e);
-      }
-      var plaintextBranchKeyWithMdDigest := branchKey.Plaintext.value;
-      :- Need(
-        |plaintextBranchKeyWithMdDigest| == Structure.AES_256_LENGTH + Structure.MD_DIGEST_LENGTH,
-        Types.KeyStoreException(
-          message := ErrorMessages.INVALID_HIERARCHY_VERSION
-        )
-      );
-      var plaintextBranchKey := plaintextBranchKeyWithMdDigest[0..Structure.AES_256_LENGTH];
-      var decryptedMdDigest := plaintextBranchKeyWithMdDigest[Structure.AES_256_LENGTH..];
-      if (decryptedMdDigest != mdDigestSha.value) {
-        var e := Types.KeyStoreException(
-          message :=
-            ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED);
-        return Failure(e);
+      var validateResult := HierarchicalVersionUtils.ValidateMdDigest(branchKey.Plaintext.value, branchKeyItemFromStorage);
+      if (validateResult.Failure?) {
+        return Failure(validateResult.error);
       }
       var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
         branchKeyItemFromStorage,
-        plaintextBranchKey
+        branchKey.Plaintext.value[0..Structure.AES_256_LENGTH]
       );
       return Success(
           Types.GetActiveBranchKeyOutput(
@@ -341,7 +334,7 @@ module GetKeys {
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
               //= type=implication
               //# The operation MUST decrypt the branch key according to the [AWS KMS Branch Key Decryption](#aws-kms-branch-key-decryption) section.
-              && KMSKeystoreOperations.AwsKmsBranchKeyDecryption?(
+              && KMSKeystoreOperations.AwsKmsBranchKeyHV1Decryption?(
                    versionItem,
                    kmsConfiguration,
                    grantTokens,
@@ -520,7 +513,7 @@ module GetKeys {
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbeaconkey
               //= type=implication
               //# The operation MUST decrypt the beacon key according to the [AWS KMS Branch Key Decryption](#aws-kms-branch-key-decryption) section.
-              && KMSKeystoreOperations.AwsKmsBranchKeyDecryption?(
+              && KMSKeystoreOperations.AwsKmsBranchKeyHV1Decryption?(
                    beaconItem,
                    kmsConfiguration,
                    grantTokens,
