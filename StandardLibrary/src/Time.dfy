@@ -144,11 +144,6 @@ module {:extern "Time"} Time {
     PrintTimeLong(t, tag, file);
   }
 
-  function method BytesToBv(bits: seq<uint8>): seq<bv8>
-  {
-    seq(|bits|, i requires 0 <= i < |bits| => bits[i] as bv8)
-  }
-
   method PrintTimeLong(time : RelativeTime, tag : string, file : Option<string> :=  None)
   {
     var val := tag + " " + OsLang.GetOsShort() + " " + OsLang.GetLanguageShort() + " " + FormatMilli(time.ClockTime) + " " + FormatMilli(time.CpuTime) + "\n";
@@ -156,7 +151,7 @@ module {:extern "Time"} Time {
     if file.Some? {
       var utf8_val := UTF8.Encode(val);
       if utf8_val.Success? {
-        var _ := FileIO.AppendBytesToFile(file.value, BytesToBv(utf8_val.value));
+        var _ := FileIO.AppendBytesToFile(file.value, utf8_val.value);
       }
     }
   }
