@@ -119,12 +119,12 @@ module GetKeys {
               //         )
               //     ) 
               && KMSKeystoreOperations.AwsKmsBranchKeyHV1Decryption?(
-                        activeItem,
-                        kmsConfiguration,
-                        grantTokens,
-                        kmsClient,
-                        Seq.Last(kmsClient.History.Decrypt)
-                      )
+                   activeItem,
+                   kmsConfiguration,
+                   grantTokens,
+                   kmsClient,
+                   Seq.Last(kmsClient.History.Decrypt)
+                 )
 
               && var decryptResponse := Seq.Last(kmsClient.History.Decrypt).output.value;
 
@@ -212,12 +212,6 @@ module GetKeys {
             branchKeyMaterials := branchKeyMaterials
           ));
     } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2) {
-      :- Need(
-        Structure.BranchKeyContext?(branchKeyItemFromStorage.EncryptionContext),
-        Types.KeyStoreException(
-          message := ErrorMessages.INVALID_BRANCH_KEY_CONTEXT
-        )
-      );
       // branchKeyItemFromStorage.EncryptionContext comes from storage is not the actual EC.
       // branchKeyItemFromStorage.EncryptionContext contains all the items in the dynamodb table and table name.
       var hv2EC := Structure.ExtractCustomEncryptionContextAs(branchKeyItemFromStorage.EncryptionContext);

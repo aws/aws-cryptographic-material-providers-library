@@ -59,7 +59,7 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
 
   const BRANCH_KEY_MD_DIGEST_SHA_INCORRECT_LENGTH :=
     "Branch key + md digest sha is of incorrect length."
-    
+
   const MD_DIGEST_SHA_NOT_MATCHED :=
     "This Branch Key item has failed the authentication check. Either it has been tampered with or the wrong 'Logical Key Store Name' has been provided."
 

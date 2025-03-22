@@ -23,9 +23,9 @@ module HierarchicalVersionUtils {
   function method GetMdDigestFromEC(
     item: Types.EncryptionContextString
   ) : (output: Types.EncryptionContextString)
-  ensures output.Keys == item.Keys - {Structure.TABLE_FIELD}
-  ensures forall k :: k in output ==> output[k] == item[k]
-  ensures forall k :: k in output ==> k !in {Structure.TABLE_FIELD}
+    ensures output.Keys == item.Keys - {Structure.TABLE_FIELD}
+    ensures forall k :: k in output ==> output[k] == item[k]
+    ensures forall k :: k in output ==> k !in {Structure.TABLE_FIELD}
   {
     map k <- item.Keys - {Structure.TABLE_FIELD}
       :: k := item[k]
@@ -41,16 +41,16 @@ module HierarchicalVersionUtils {
     var newMap: map<string, string> := map[];
 
     while items != {}
-        decreases |items|
+      decreases |items|
     {
-        var item :| item in items;
-        items := items - { item };
-        if (|item.0| >= |Structure.ENCRYPTION_CONTEXT_PREFIX| && item.0[..|Structure.ENCRYPTION_CONTEXT_PREFIX|] == Structure.ENCRYPTION_CONTEXT_PREFIX) {
-          var newKey := item.0[|Structure.ENCRYPTION_CONTEXT_PREFIX|..];
-          newMap := newMap[newKey := item.1];
-        } else {
-          newMap := newMap[item.0 := item.1];
-        }
+      var item :| item in items;
+      items := items - { item };
+      if (|item.0| >= |Structure.ENCRYPTION_CONTEXT_PREFIX| && item.0[..|Structure.ENCRYPTION_CONTEXT_PREFIX|] == Structure.ENCRYPTION_CONTEXT_PREFIX) {
+        var newKey := item.0[|Structure.ENCRYPTION_CONTEXT_PREFIX|..];
+        newMap := newMap[newKey := item.1];
+      } else {
+        newMap := newMap[item.0 := item.1];
+      }
     }
     return withoutRestrictedField;
   }
@@ -135,8 +135,8 @@ module HierarchicalVersionUtils {
     requires Structure.BranchKeyContext?(branchKeyItemFromStorage.EncryptionContext)
 
     ensures output.Failure? ==>
-      // If failed, output contains appropriate error message
-      output.error.KeyStoreException?
+              // If failed, output contains appropriate error message
+              output.error.KeyStoreException?
   {
     var mdDigestMap := GetMdDigestFromEC(branchKeyItemFromStorage.EncryptionContext);
     var utf8MDDigest :- UnstringifyEncryptionContext(mdDigestMap);
