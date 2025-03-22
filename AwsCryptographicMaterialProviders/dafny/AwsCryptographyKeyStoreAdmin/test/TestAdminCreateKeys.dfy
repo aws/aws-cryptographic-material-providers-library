@@ -119,26 +119,31 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
     expect versionRoundTrip == versionString;
   }
 
-
   method {:test} TestCreateBranchAndBeaconKeysHV2()
   {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
     var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
     var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
-    var strategy :- expect AdminFixtures.DecryptEncrypKeyManagerStrategy(decryptKmsClient?:=Some(kmsClient), encryptKmsClient?;=Some(kmsClient));
+    var strategy :- expect AdminFixtures.DecryptEncrypKeyManagerStrategy(decryptKmsClient?:=Some(kmsClient), encryptKmsClient?:=Some(kmsClient));
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
 
+    var customEC: KeyStoreTypes.EncryptionContext := map[UTF8.EncodeAscii("Sport") := UTF8.EncodeAscii("Cricket")];
+
+    var uuid :- expect UUID.GenerateUUID();
+    var testId := "test-hv2-branch-key-" + uuid;
+
     var input := Types.CreateKeyInput(
-      Identifier := None,
-      EncryptionContext := None,
+      Identifier := Some(testId),
+      EncryptionContext := Some(customEC),
       KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(keyArn),
-      Strategy := Some(Kms),
+      Strategy := Some(strategy),
       HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
     );
     var identifier? :- expect underTest.CreateKey(input);
     var identifier := identifier?.Identifier;
 
+    expect testId == identifier;
     print identifier;
 
     // // TODO: The rest of this is a copy/paste from KeyStore/test/TestCreateKeys.dfy
@@ -148,10 +153,10 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
     //     branchKeyIdentifier := identifier
     //   ));
 
-    // var activeResult :- expect keyStore.GetActiveBranchKey(
-    //   KeyStoreTypes.GetActiveBranchKeyInput(
-    //     branchKeyIdentifier := identifier
-    //   ));
+    var activeResult :- expect keyStore.GetActiveBranchKey(
+      KeyStoreTypes.GetActiveBranchKeyInput(
+        branchKeyIdentifier := identifier
+      ));
 
     // var branchKeyVersion :- expect UTF8.Decode(activeResult.branchKeyMaterials.branchKeyVersion);
     // var versionResult :- expect keyStore.GetBranchKeyVersion(

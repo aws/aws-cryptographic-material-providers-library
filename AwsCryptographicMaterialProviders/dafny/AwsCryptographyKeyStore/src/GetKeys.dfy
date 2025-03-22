@@ -214,7 +214,7 @@ module GetKeys {
     } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2) {
       // branchKeyItemFromStorage.EncryptionContext comes from storage is not the actual EC. 
       // branchKeyItemFromStorage.EncryptionContext contains all the items in the dynamodb table and table name.
-      var hv2EC := HierarchicalVersionUtils.GetHV2EC(branchKeyItemFromStorage.EncryptionContext);
+      var hv2EC := Structure.ExtractCustomEncryptionContextAs(branchKeyItemFromStorage.EncryptionContext);
       var hv2BranchKey := Types.EncryptedHierarchicalKey(
         Identifier := branchKeyItemFromStorage.Identifier,
         Type := branchKeyItemFromStorage.Type,
@@ -223,6 +223,8 @@ module GetKeys {
         EncryptionContext := hv2EC,
         CiphertextBlob := branchKeyItemFromStorage.CiphertextBlob
       );
+      print "\nHv2 Branch Key: ";
+      print hv2BranchKey;
       var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHV2(
         hv2BranchKey,
         kmsConfiguration,
@@ -235,7 +237,7 @@ module GetKeys {
       }
       var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
         branchKeyItemFromStorage,
-        branchKey.Plaintext.value[0..Structure.AES_256_LENGTH]
+        branchKey.Plaintext.value[Structure.MD_DIGEST_LENGTH..]
       );
       return Success(
           Types.GetActiveBranchKeyOutput(

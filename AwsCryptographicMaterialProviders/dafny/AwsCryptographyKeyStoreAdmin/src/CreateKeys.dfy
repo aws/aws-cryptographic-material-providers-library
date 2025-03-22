@@ -255,50 +255,77 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
       kmsClient
     );
 
-    // var wrappedDecryptOnlyBranchKey :- wrappedDecryptOnlyBranchKey?
-    // .MapFailure(e => match e {
-    //             case ComAmazonawsKms(kmsErr) => Types.ComAmazonawsKms(kmsErr)
-    //             case KeyManagementException(msg) => Types.KeyStoreAdminException(message := msg)
-    //           });
-    // if (wrappedDecryptOnlyBranchKey?.Failure?) {
-    //   return Failure(wrappedDecryptOnlyBranchKey?.error);
-    // }
-    // var wrappedDecryptOnlyBranchKey := wrappedDecryptOnlyBranchKey?
-    // .MapFailure(e => KMSKeystoreOperations.KmsError(e));
+    var wrappedDecryptOnlyBranchKey :-
+      match wrappedDecryptOnlyBranchKey? {
+        case Success(s) => Success(s)
+        case Failure(e: KMSKeystoreOperations.KmsError) =>
+          match e {
+            case ComAmazonawsKms(kmsErr) =>
+              Failure(Types.ComAmazonawsKms(ComAmazonawsKms := kmsErr))
+            case KeyManagementException(msg) =>
+              Failure(Types.KeyStoreAdminException(message := msg))
+          }
+      };
 
-    // var wrappedActiveBranchKey :- MutateViaDecryptEncrypt.Encrypt(
-    //   activeDigest + activePlaintextMaterial,
-    //   customEncryptionContext,
-    //   kmsKeyArn,
-    //   grantTokens,
-    //   kmsClient
-    // );
 
-    // var wrappedBeaconKey :- MutateViaDecryptEncrypt.Encrypt(
-    //   beaconPlaintextMaterial,
-    //   customEncryptionContext,
-    //   kmsKeyArn,
-    //   grantTokens,
-    //   kmsClient
-    // );
+
+    var wrappedActiveBranchKey? := MutateViaDecryptEncrypt.Encrypt(
+      activeDigest.value + activePlaintextMaterial,
+      customEncryptionContext,
+      kmsKeyArn,
+      grantTokens,
+      kmsClient
+    );
+
+    var wrappedActiveBranchKey :-
+      match wrappedActiveBranchKey? {
+        case Success(s) => Success(s)
+        case Failure(e: KMSKeystoreOperations.KmsError) =>
+          match e {
+            case ComAmazonawsKms(kmsErr) =>
+              Failure(Types.ComAmazonawsKms(ComAmazonawsKms := kmsErr))
+            case KeyManagementException(msg) =>
+              Failure(Types.KeyStoreAdminException(message := msg))
+          }
+      };
+
+    var wrappedBeaconKey? := MutateViaDecryptEncrypt.Encrypt(
+      beaconDigest.value + beaconPlaintextMaterial,
+      customEncryptionContext,
+      kmsKeyArn,
+      grantTokens,
+      kmsClient
+    );
+
+    var wrappedBeaconKey :-
+      match wrappedBeaconKey? {
+        case Success(s) => Success(s)
+        case Failure(e: KMSKeystoreOperations.KmsError) =>
+          match e {
+            case ComAmazonawsKms(kmsErr) =>
+              Failure(Types.ComAmazonawsKms(ComAmazonawsKms := kmsErr))
+            case KeyManagementException(msg) =>
+              Failure(Types.KeyStoreAdminException(message := msg))
+          }
+      };
 
     // // Write to storage
-    // var writeResult :- storage.WriteNewEncryptedBranchKey(
-    //   KeyStoreTypes.WriteNewEncryptedBranchKeyInput(
-    //     Active := Structure.ConstructEncryptedHierarchicalKey(
-    //       activeEncryptionContext,
-    //       wrappedActiveBranchKey
-    //     ),
-    //     Version := Structure.ConstructEncryptedHierarchicalKey(
-    //       decryptOnlyEncryptionContext,
-    //       wrappedDecryptOnlyBranchKey
-    //     ),
-    //     Beacon := Structure.ConstructEncryptedHierarchicalKey(
-    //       beaconEncryptionContext,
-    //       wrappedBeaconKey
-    //     )
-    //   )
-    // );
+    var writeResult? := storage.WriteNewEncryptedBranchKey(
+      KeyStoreTypes.WriteNewEncryptedBranchKeyInput(
+        Active := Structure.ConstructEncryptedHierarchicalKey(
+          activeEncryptionContext,
+          wrappedActiveBranchKey
+        ),
+        Version := Structure.ConstructEncryptedHierarchicalKey(
+          decryptOnlyEncryptionContext,
+          wrappedDecryptOnlyBranchKey
+        ),
+        Beacon := Structure.ConstructEncryptedHierarchicalKey(
+          beaconEncryptionContext,
+          wrappedBeaconKey
+        )
+      )
+    );
 
     output := Success(
       Types.CreateKeyOutput(

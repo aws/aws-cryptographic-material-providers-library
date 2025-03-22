@@ -304,6 +304,8 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
 
     if (hierarchyVersion == KeyStoreTypes.HierarchyVersion.v2) {
+      print hierarchyVersion;
+
       var legacyConfig :- LegacyConfig(keyManagerStrat.encrypt, input.KmsArn, config);
 
       // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
