@@ -696,6 +696,9 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     );
 
     var kmsKeyArn := GetArn(kmsConfiguration, encryptedKey.KmsArn);
+    print "\n " + kmsKeyArn;
+    print "KMS Decrpt EC: ";
+    print encryptedKey.EncryptionContext;
     var maybeDecryptResponse := kmsClient.Decrypt(
       KMS.DecryptRequest(
         CiphertextBlob := encryptedKey.CiphertextBlob,
@@ -705,6 +708,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
         EncryptionAlgorithm := None
       )
     );
+    print "\n";
+    print maybeDecryptResponse;
     var decryptResponse :- maybeDecryptResponse.MapFailure(e => Types.ComAmazonawsKms(e));
 
     :- Need(

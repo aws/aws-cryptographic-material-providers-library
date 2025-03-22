@@ -161,13 +161,16 @@ module HierarchicalVersionUtils {
     }
     var plaintextBranchKeyWithMdDigest := plainText;
     :- Need(
-      |plaintextBranchKeyWithMdDigest| == Structure.AES_256_LENGTH + Structure.MD_DIGEST_LENGTH,
+      |plaintextBranchKeyWithMdDigest| == Structure.MD_DIGEST_LENGTH + Structure.AES_256_LENGTH,
       Types.KeyStoreException(
         message := ErrorMessages.BRANCH_KEY_MD_DIGEST_SHA_INCORRECT_LENGTH
       )
     );
-    var plaintextBranchKey := plaintextBranchKeyWithMdDigest[0..Structure.AES_256_LENGTH];
-    var decryptedMdDigest := plaintextBranchKeyWithMdDigest[Structure.AES_256_LENGTH..];
+    var decryptedMdDigest := plaintextBranchKeyWithMdDigest[..Structure.MD_DIGEST_LENGTH];
+    var plaintextBranchKey := plaintextBranchKeyWithMdDigest[Structure.MD_DIGEST_LENGTH..];
+
+    print "\nDecrypted Plaintext Branch Key: ";
+    print plaintextBranchKey;
     if (decryptedMdDigest != digestResult.value) {
       var e := Types.KeyStoreException(
         message :=

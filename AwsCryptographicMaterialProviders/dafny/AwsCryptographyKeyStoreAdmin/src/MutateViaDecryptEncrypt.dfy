@@ -114,6 +114,8 @@ module {:options "/functionSyntax:4" } MutateViaDecryptEncrypt {
       GrantTokens := Some(grantTokens)
     );
 
+    print "Plaintext: ";
+    print plaintext;
     var encryptResponse? := kmsClient.Encrypt(kmsEncryptRequest);
     var encryptResponse :- encryptResponse?
     .MapFailure(e => KMSKeystoreOperations.Types.ComAmazonawsKms(ComAmazonawsKms := e));
