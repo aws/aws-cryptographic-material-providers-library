@@ -25,14 +25,14 @@ module HierarchicalVersionUtils {
   function method GetMdDigestFromEC(
     item: Types.EncryptionContextString
   ) : (output: Types.EncryptionContextString)
-  ensures output.Keys == item.Keys - {Structure.TABLE_FIELD}
-  ensures forall k :: k in output ==> output[k] == item[k]
-  ensures forall k :: k in output ==> k !in {Structure.TABLE_FIELD}
+    ensures output.Keys == item.Keys - {Structure.TABLE_FIELD}
+    ensures forall k :: k in output ==> output[k] == item[k]
+    ensures forall k :: k in output ==> k !in {Structure.TABLE_FIELD}
   {
     map k <- item.Keys - {Structure.TABLE_FIELD}
       :: k := item[k]
   }
-  
+
   method GetHV2EC(
     ecStringMap: Types.EncryptionContextString
   ) returns (output: Types.EncryptionContextString)
@@ -43,16 +43,16 @@ module HierarchicalVersionUtils {
     var newMap: map<string, string> := map[];
 
     while items != {}
-        decreases |items|
+      decreases |items|
     {
-        var item :| item in items;
-        items := items - { item };
-        if (|item.0| >= |Structure.ENCRYPTION_CONTEXT_PREFIX| && item.0[..|Structure.ENCRYPTION_CONTEXT_PREFIX|] == Structure.ENCRYPTION_CONTEXT_PREFIX) {
-          var newKey := item.0[|Structure.ENCRYPTION_CONTEXT_PREFIX|..];
-          newMap := newMap[newKey := item.1];
-        } else {
-          newMap := newMap[item.0 := item.1];
-        }
+      var item :| item in items;
+      items := items - { item };
+      if (|item.0| >= |Structure.ENCRYPTION_CONTEXT_PREFIX| && item.0[..|Structure.ENCRYPTION_CONTEXT_PREFIX|] == Structure.ENCRYPTION_CONTEXT_PREFIX) {
+        var newKey := item.0[|Structure.ENCRYPTION_CONTEXT_PREFIX|..];
+        newMap := newMap[newKey := item.1];
+      } else {
+        newMap := newMap[item.0 := item.1];
+      }
     }
     return withoutRestrictedField;
   }
@@ -66,34 +66,34 @@ module HierarchicalVersionUtils {
   function method UnstringifyEncryptionContext(stringEncCtx: Types.EncryptionContextString) : (res: Result<Types.EncryptionContext, Types.Error>)
   {
     if |stringEncCtx| == 0 then
-        Success(map[])
+      Success(map[])
     else
-    var parseResults: map<string, Result<(UTF8.ValidUTF8Bytes, UTF8.ValidUTF8Bytes), Types.Error>> :=
+      var parseResults: map<string, Result<(UTF8.ValidUTF8Bytes, UTF8.ValidUTF8Bytes), Types.Error>> :=
         map strKey | strKey in stringEncCtx.Keys :: strKey := UnstringifyEncryptionContextPair(strKey, stringEncCtx[strKey]);
-    if exists r | r in parseResults.Values :: r.Failure?
-    then Failure(
-            Types.KeyStoreException(message := "Encryption context contains invalid UTF8")
-        )
-    else
+      if exists r | r in parseResults.Values :: r.Failure?
+      then Failure(
+             Types.KeyStoreException(message := "Encryption context contains invalid UTF8")
+           )
+      else
         assert forall r | r in parseResults.Values :: r.Success?;
         var utf8KeysUnique := forall k, k' | k in parseResults && k' in parseResults
                                 :: k != k' ==> parseResults[k].value.0 != parseResults[k'].value.0;
         if !utf8KeysUnique then Failure(Types.KeyStoreException(
-                                        message := "Encryption context keys are not unique"))  // this should never happen...
+                                          message := "Encryption context keys are not unique"))  // this should never happen...
         else Success(map r | r in parseResults.Values :: r.value.0 := r.value.1)
   }
 
   function method UnstringifyEncryptionContextPair(strKey: string, strValue: string) : (res: Result<(UTF8.ValidUTF8Bytes, UTF8.ValidUTF8Bytes), Types.Error>)
-      ensures (UTF8.Encode(strKey).Success? && UTF8.Encode(strValue).Success?) <==> res.Success?
+    ensures (UTF8.Encode(strKey).Success? && UTF8.Encode(strValue).Success?) <==> res.Success?
   {
-      var key :- UTF8
-                .Encode(strKey)
-                .MapFailure(WrapStringToError);
-      var value :- UTF8
-                  .Encode(strValue)
-                  .MapFailure(WrapStringToError);
+    var key :- UTF8
+               .Encode(strKey)
+               .MapFailure(WrapStringToError);
+    var value :- UTF8
+                 .Encode(strValue)
+                 .MapFailure(WrapStringToError);
 
-      Success((key, value))
+    Success((key, value))
   }
 
   function method WrapStringToError(e: string)
@@ -137,8 +137,8 @@ module HierarchicalVersionUtils {
     requires Structure.BranchKeyContext?(branchKeyItemFromStorage.EncryptionContext)
 
     ensures output.Failure? ==>
-      // If failed, output contains appropriate error message
-      output.error.KeyStoreException?
+              // If failed, output contains appropriate error message
+              output.error.KeyStoreException?
   {
     var mdDigestMap := GetMdDigestFromEC(branchKeyItemFromStorage.EncryptionContext);
     var utf8MDDigest :- UnstringifyEncryptionContext(mdDigestMap);
