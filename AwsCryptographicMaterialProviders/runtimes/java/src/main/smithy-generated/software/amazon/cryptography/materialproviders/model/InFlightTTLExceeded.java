@@ -5,6 +5,20 @@ package software.amazon.cryptography.materialproviders.model;
 
 import java.util.Objects;
 
+/**
+ * Thrown if a request is waiting for longer than `inflightTTL`.
+ * The Storm Tracking Cache protects against unbounded parallelism.
+ * The Storm Tracking Cache will only work `fanOut` number of concurrent requests.
+ * As requests are completed,
+ * queued requests are worked.
+ * If a request is not worked in less than `inflightTTL`,
+ * this exception is thrown.
+ *
+ * Note that this exception does NOT imply that the material requested
+ * is invalid or unreachable;
+ * it only implies that the cache had more requests to handle than it could
+ * with the given `fanOut` and `inflightTTL` constraints.
+ */
 public class InFlightTTLExceeded extends RuntimeException {
 
   protected InFlightTTLExceeded(BuilderImpl builder) {

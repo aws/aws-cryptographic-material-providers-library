@@ -227,8 +227,7 @@ module {:options "-functionSyntax:4"} TestManifests {
               && fresh(manifestData.value.keys.Modifies)
               && manifestData.value.keys.ValidState()
   {
-    var decryptManifestBv :- FileIO.ReadBytesFromFile(manifestPath + manifestFileName);
-    var decryptManifestBytes := BvToBytes(decryptManifestBv);
+    var decryptManifestBytes :- FileIO.ReadBytesFromFile(manifestPath + manifestFileName);
     var manifestJson :- API.Deserialize(decryptManifestBytes)
     .MapFailure(( e: Errors.DeserializationError ) => e.ToString());
     :- Need(manifestJson.Object?, "Not a JSON object");
