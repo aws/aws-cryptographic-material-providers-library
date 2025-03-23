@@ -62,7 +62,7 @@ module {:options "/functionSyntax:4" } KmsUtils {
       case decryptEncrypt(kmD, kmE) => false
       case reEncrypt(km) => false
       case kmsSimple(km) => true
-    }    
+    }
   }
 
   datatype InternalSystemKey =
