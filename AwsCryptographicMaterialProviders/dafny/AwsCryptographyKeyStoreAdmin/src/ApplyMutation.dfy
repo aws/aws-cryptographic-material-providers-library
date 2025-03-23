@@ -43,6 +43,8 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
                 logicalName := input.logicalKeyStoreName)
            && Structure.DecryptOnlyHierarchicalSymmetricKey?(item)
            && item.Type.HierarchicalSymmetricVersion?
+              // TODO-HV-2-M2 : allow for HV-2
+           && item.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1
        )
   }
 
