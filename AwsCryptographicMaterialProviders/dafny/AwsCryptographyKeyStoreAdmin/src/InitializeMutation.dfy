@@ -118,30 +118,17 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     requires StateStrucs.ValidMutations?(input.Mutations) // may not need this
     requires
       && input.storage.ValidState()
-      && match input.keyManagerStrategy {
-           case reEncrypt(km) => km.kmsClient.ValidState() && AwsKmsUtils.GetValidGrantTokens(Some(km.grantTokens)).Success?
-           case decryptEncrypt(kmD, kmE) =>
-             && kmD.kmsClient.ValidState() && kmE.kmsClient.ValidState()
-             && AwsKmsUtils.GetValidGrantTokens(Some(kmD.grantTokens)).Success?
-             && AwsKmsUtils.GetValidGrantTokens(Some(kmE.grantTokens)).Success?
-         }
+      && input.keyManagerStrategy.ValidState()
       && input.SystemKey.ValidState()
       && input.ValidState()
     ensures
       && input.storage.ValidState()
       && input.SystemKey.ValidState()
-      &&
-         match input.keyManagerStrategy {
-           case reEncrypt(km) => km.kmsClient.ValidState()
-           case decryptEncrypt(kmD, kmE) => kmD.kmsClient.ValidState() && kmE.kmsClient.ValidState()
-         }
+      && input.keyManagerStrategy.ValidState()
       && input.ValidState()
     modifies
       input.storage.Modifies,
-             match input.keyManagerStrategy {
-               case reEncrypt(km) => km.kmsClient.Modifies
-               case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
-             },
+             input.keyManagerStrategy.Modifies,
              input.SystemKey.Modifies
   {
     var resumeMutation? := false;

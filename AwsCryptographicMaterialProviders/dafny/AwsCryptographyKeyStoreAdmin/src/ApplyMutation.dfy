@@ -124,10 +124,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     ensures input.ValidState()
     modifies
       input.storage.Modifies,
-            match input.keyManagerStrategy {
-              case reEncrypt(km) => km.kmsClient.Modifies
-              case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
-            },
+            input.keyManagerStrategy.Modifies,
             input.SystemKey.Modifies
   {
     // -= Fetch Commitment and Index

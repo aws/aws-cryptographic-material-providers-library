@@ -337,15 +337,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
     var systemKey :- ResolveSystemKey(input.SystemKey, config);
     // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
-    if keyManagerStrat.reEncrypt? {
-      assume {:axiom} keyManagerStrat.reEncrypt.kmsClient.Modifies < MutationLie();
-    }
-
-    if keyManagerStrat.decryptEncrypt? {
-      assume {:axiom} keyManagerStrat.decrypt.kmsClient.Modifies < MutationLie();
-      assume {:axiom} keyManagerStrat.encrypt.kmsClient.Modifies < MutationLie();
-      assume {:axiom} keyManagerStrat.decrypt.kmsClient.Modifies !! keyManagerStrat.encrypt.kmsClient.Modifies;
-    }
+    assume {:axiom} keyManagerStrat.Modifies < MutationLie();
     assume {:axiom} keyManagerStrat.Modifies !! systemKey.Modifies;
 
     var internalInput := KSAInitializeMutation.InternalInitializeMutationInput(
@@ -372,14 +364,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
     var systemKey :- ResolveSystemKey(input.SystemKey, config);
     // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
-    if keyManagerStrat.reEncrypt? {
-      assume {:axiom} keyManagerStrat.reEncrypt.kmsClient.Modifies < MutationLie();
-    }
-    if keyManagerStrat.decryptEncrypt? {
-      assume {:axiom} keyManagerStrat.decrypt.kmsClient.Modifies < MutationLie();
-      assume {:axiom} keyManagerStrat.encrypt.kmsClient.Modifies < MutationLie();
-      assume {:axiom} keyManagerStrat.decrypt.kmsClient.Modifies !! keyManagerStrat.encrypt.kmsClient.Modifies;
-    }
+    assume {:axiom} keyManagerStrat.Modifies < MutationLie();
     assume {:axiom} keyManagerStrat.Modifies !! systemKey.Modifies;
 
     var internalInput := KSAApplyMutation.InternalApplyMutationInput(
