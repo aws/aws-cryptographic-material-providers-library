@@ -74,6 +74,27 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     return Success(strategy);
   }
 
+  method SimpleKeyManagerStrategy(
+    nameonly kmsClient?: Option<KMS.Types.IKMSClient> := None
+  )
+    returns (output: Result<Types.KeyManagementStrategy, Types.Error>)
+    requires kmsClient?.Some? ==> kmsClient?.value.ValidState()
+    ensures output.Success? ==>
+              && output.value.AwsKmsSimple?
+              && output.value.AwsKmsSimple.kmsClient.Some?
+              && output.value.AwsKmsSimple.kmsClient.value.ValidState()
+    modifies (if kmsClient?.Some? then kmsClient?.value.Modifies else {})
+  {
+    var kmsClient :- expect Fixtures.ProvideKMSClient(kmsClient?);
+    assume {:axiom} fresh(kmsClient) && fresh(kmsClient.Modifies);
+    var strategy := Types.KeyManagementStrategy.AwsKmsSimple(
+      KeyStoreTypes.AwsKms(
+        grantTokens := None,
+        kmsClient := Some(kmsClient)
+      ));
+    return Success(strategy);
+  }
+
   method DecryptEncrypKeyManagerStrategy(
     nameonly decryptKmsClient?: Option<KMS.Types.IKMSClient> := None,
     nameonly encryptKmsClient?: Option<KMS.Types.IKMSClient> := None

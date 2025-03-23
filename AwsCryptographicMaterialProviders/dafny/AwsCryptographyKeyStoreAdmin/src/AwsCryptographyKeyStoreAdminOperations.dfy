@@ -128,7 +128,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
         return Success(KmsUtils.keyManagerStrat.decryptEncrypt(decrypt, encrypt));
       case AwsKmsSimple(kms) =>
         var tuple :- ResolveKmsInput(kms, config);
-        return Success(KmsUtils.keyManagerStrat.reEncrypt(tuple));
+        return Success(KmsUtils.keyManagerStrat.kmsSimple(tuple));
     }
   }
 
@@ -280,6 +280,10 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
 
     var hvInput :- ResolveHierarchyVersion(input.HierarchyVersion, config);
+    :- Need(
+      hvInput.v1?,
+      Types.KeyStoreAdminException(message :="Only hierarchy-version-1 is supported at this time.")
+    );
 
     var output? := KeyStoreOperations.CreateKey(
       config := legacyConfig,
@@ -294,7 +298,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     output := Success(
       Types.CreateKeyOutput(
         Identifier := value.branchKeyIdentifier,
-        // TODO-HV-2-BLOCKER: this will need to be properly wired
+        // TODO-HV-2-M1: this will need to be properly wired
         HierarchyVersion := hvInput
       ));
   }
@@ -345,6 +349,11 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       Types.KeyStoreAdminException(message := "At this time, Mutations do not support KeyManagementStrategy#AwsKmsSimple.")
     );
 
+    var hvInput :- ResolveHierarchyVersion(input.Mutations.TerminalHierarchyVersion, config);
+    :- Need(
+      hvInput.v1?,
+      Types.KeyStoreAdminException(message :="Only hierarchy-version-1 is supported at this time.")
+    );
     var internalInput := KSAInitializeMutation.InternalInitializeMutationInput(
       Identifier := input.Identifier,
       Mutations := input.Mutations,
