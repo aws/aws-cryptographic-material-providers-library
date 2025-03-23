@@ -72,8 +72,8 @@ service KeyStore {
   "The hierarchy-version of a Branch Key;
   all items of the same Branch Key SHOULD
   have the same hierarchy-version.
-  The hierarchy-version determines how the Branch Key Store classes
-  treat the Branch Keys.")
+  The hierarchy-version determines how the Branch Key Store
+  protects and validates the branch key context (BKC).")
 @enum([
   { name: "v1", value: "1" },
   { name: "v2", value: "2" }
@@ -516,10 +516,10 @@ structure KeyManagementException {
 
 @error("client")
 @documentation("
-The cipher-text or additional authenticated data incorporated into the cipher-text,
+The cipher-text or branch key context incorporated into the cipher-text,
 such as the encryption context, is corrupted, missing, or otherwise invalid.
-For Branch Keys,
-the additional authenticated data is a combination of:
+For branch keys,
+the branch key context (BKC) is a combination of:
 - the encryption context
 - storage identifiers (partition key, sort key, logical name)
 - metadata that binds the Branch Key to encrypted data (version)
@@ -527,7 +527,7 @@ the additional authenticated data is a combination of:
 - hierarchy-version
 
 If any of the above are modified without calling KMS,
-the Branch Key's cipher-text becomes invalid.
+the branch key's cipher-text becomes invalid.
 ")
 structure BranchKeyCiphertextException {
   @required

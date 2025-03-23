@@ -180,19 +180,6 @@ structure AwsKmsDecryptEncrypt {
   encrypt: aws.cryptography.keyStore#AwsKms
 }
 
-// TODO-HV-2: complete this doc, and maybe change the name? 
-@documentation(
-"For HV-2, plain-text data keys (PDKs) are created by kms:GenerateRandom.
-The additional authenticated data (AAD) and the PDK are protected by kms:Encrypt.
-To validate a Branch Key item, kms:Decrypt un-wraps the AAD-PDK tuple, and the client verifies the AAD.")
-structure AwsKmsForHierarchyVersionTwo {
-  @documentation("The KMS Client (and Grant Tokens) used to generate the plain-text data key.")
-  generateRandom: aws.cryptography.keyStore#AwsKms
-  @documentation("The KMS Client (and Grant Tokens) used to Encrypt Branch Key Store Items.")
-  encrypt: aws.cryptography.keyStore#AwsKms
-  @documentation("The KMS Client (and Grant Tokens) used to Decrypt Branch Key Store Items.")
-  decrypt: aws.cryptography.keyStore#AwsKms  
-}
 
 @documentation(
   "This configures which Key Management Operations will be used
@@ -203,11 +190,20 @@ union KeyManagementStrategy {
   executed with the provided Grant Tokens and KMS Client.
   This is one request to Key Management, as compared to two.
   But only one set of credentials can be used.")
-  AwsKmsReEncrypt: aws.cryptography.keyStore#AwsKms,
+  AwsKmsReEncrypt: aws.cryptography.keyStore#AwsKms
 
   AwsKmsDecryptEncrypt: AwsKmsDecryptEncrypt
 
-  AwsKmsForHierarchyVersionTwo: AwsKmsForHierarchyVersionTwo
+  // TODO-HV-2: complete this doc, and maybe change the name? 
+  @documentation(
+  "This is the simple option, that uses one KMS Client (and Grant Token list) and supports both hierarchy-versions.
+  For HV-1, kms:GenerateDataKeyWithoutPlaintext followed by kms:ReEncrypt is used to create branch keys.
+  For HV-2, plain-text data keys (PDKs) are created locally via the hosts random number generator;
+  The branch key context (BKC) and the PDK are protected by kms:Encrypt.
+  For HV-1, to validate a branch key item, kms:ReEncrypt is used.
+  For HV-2, to validate a branch key item, kms:Decrypt un-wraps the BKC-PDK tuple,
+  and the client verifies the read BKC against the protected BKC.")
+  AwsKmsSimple: aws.cryptography.keyStore#AwsKms
 }
 
 @documentation(
@@ -238,7 +234,7 @@ structure CreateKeyInput {
 
   @documentation(
   "Custom encryption context for the Branch Key.
-  Required if branchKeyIdentifier is set OR if 'hierarchy-version-2' (HV-2).")
+  Required if branchKeyIdentifier is set.")
   EncryptionContext: aws.cryptography.keyStore#EncryptionContext
 
   @required
@@ -248,19 +244,22 @@ structure CreateKeyInput {
   KmsArn: KmsSymmetricKeyArn
 
   @documentation(
-  "For 'hierarchy-version-1' (HV-1), only ReEncrypt is supported (for now).
-  For 'hierarchy-version-2' (HV-2), only AwsKmsForHierarchyVersionTwo is supported.")
+  "For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or AwsKmsSimple are supported (for now).
+  For 'hierarchy-version-2' (HV-2), only AwsKmsDecryptEncrypt or AwsKmsSimple are supported.")
   Strategy: KeyManagementStrategy
 
   // Default is not supported by Smithy-Dafny, but conceptually, we want
   // @default(1)
-  hierarchyVersion: HierarchyVersion
+  HierarchyVersion: HierarchyVersion
 }
 
 structure CreateKeyOutput {
   @required
   @documentation("A identifier for the created Branch Key.")
   Identifier: String
+
+  @required
+  HierarchyVersion: HierarchyVersion
 }
 
 @documentation(
@@ -302,13 +301,13 @@ structure VersionKeyInput {
   KmsArn: KmsSymmetricKeyArn
 
   @documentation(
-  "For 'hierarchy-version-1' (HV-1), only ReEncrypt is supported (for now).
-  For 'hierarchy-version-2' (HV-2), only AwsKmsForHierarchyVersionTwo is supported.")
+  "For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or AwsKmsSimple are supported (for now).
+  For 'hierarchy-version-2' (HV-2), only AwsKmsDecryptEncrypt or AwsKmsSimple are supported.")
   Strategy: KeyManagementStrategy
 
   // Default is not supported by Smithy-Dafny, but conceptually, we want
   // @default(HierarchyVersionDefault)
-  hierarchyVersion: HierarchyVersion
+  HierarchyVersion: HierarchyVersion
 }
 
 structure VersionKeyOutput {
@@ -371,7 +370,7 @@ structure InitializeMutationInput {
   "Optional. Defaults to reEncrypt with a default KMS Client.
   However, if the Branch Key's 'hierarchy-version' is HV-2,
   or the Branch Key is being mutated to HV-2,
-  the Strategy MUST be AwsKmsForHierarchyVersionTwo.")
+  the Strategy MUST be AwsKmsDecryptEncrypt or AwsKmsSimple.")
   Strategy: KeyManagementStrategy
 
   // Smithy's Effective Docuemtnation will utilize System Key's documentation trait
@@ -519,7 +518,11 @@ structure ApplyMutationInput {
   Thus, if the pageSize is 24, 26 requests will be sent in the Transact Write Request.")
   PageSize: Integer
 
-  @documentation("Optional. Defaults to reEncrypt with a default KMS Client.")
+  @documentation(
+  "Optional. Defaults to reEncrypt with a default KMS Client.
+  However, if the Branch Key's 'hierarchy-version' is HV-2,
+  or the Branch Key is being mutated to HV-2,
+  the Strategy MUST be AwsKmsDecryptEncrypt or AwsKmsSimple.")
   Strategy: KeyManagementStrategy
 
   @required
