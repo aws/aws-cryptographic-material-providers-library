@@ -61,6 +61,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
       && keyManagerStrategy.ValidState()
       && storage.ValidState()
       && SystemKey.Modifies !! keyManagerStrategy.Modifies !! storage.Modifies
+      && keyManagerStrategy.SupportHV1()
     }
   }
 
@@ -344,10 +345,8 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     mutationToApply: StateStrucs.MutationToApply
   ) returns (output: Result<(seq<KeyStoreTypes.OverWriteEncryptedHierarchicalKey>, seq<Types.MutatedBranchKeyItem>), Types.Error>)
     requires keyManagerStrategy.ValidState() && mutationToApply.ValidState()
-    modifies
-      match keyManagerStrategy
-      case reEncrypt(km) => km.kmsClient.Modifies
-      case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
+    requires keyManagerStrategy.SupportHV1()
+    modifies keyManagerStrategy.Modifies
     ensures keyManagerStrategy.ValidState()
     requires forall item <- items :: item.item is KeyStoreTypes.EncryptedHierarchicalKey
     requires forall item <- items :: item.item.Type.HierarchicalSymmetricVersion?

@@ -340,6 +340,11 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     assume {:axiom} keyManagerStrat.Modifies < MutationLie();
     assume {:axiom} keyManagerStrat.Modifies !! systemKey.Modifies;
 
+    :- Need(
+      keyManagerStrat.SupportHV1(),
+      Types.KeyStoreAdminException(message := "At this time, Mutations do not support KeyManagementStrategy#AwsKmsSimple.")
+    );
+
     var internalInput := KSAInitializeMutation.InternalInitializeMutationInput(
       Identifier := input.Identifier,
       Mutations := input.Mutations,
@@ -367,6 +372,10 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     assume {:axiom} keyManagerStrat.Modifies < MutationLie();
     assume {:axiom} keyManagerStrat.Modifies !! systemKey.Modifies;
 
+    :- Need(
+      keyManagerStrat.SupportHV1(),
+      Types.KeyStoreAdminException(message := "At this time, Mutations do not support KeyManagementStrategy#AwsKmsSimple.")
+    );
     var internalInput := KSAApplyMutation.InternalApplyMutationInput(
       MutationToken := input.MutationToken,
       PageSize := input.PageSize,

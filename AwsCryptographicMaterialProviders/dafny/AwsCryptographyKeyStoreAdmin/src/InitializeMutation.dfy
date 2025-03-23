@@ -52,6 +52,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       && keyManagerStrategy.ValidState()
       && storage.ValidState()
       && SystemKey.Modifies !! keyManagerStrategy.Modifies !! storage.Modifies
+      && keyManagerStrategy.SupportHV1()
     }
   }
 
@@ -377,10 +378,8 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
                KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn), decryptOnlyEncryptionContext
              )
     requires keyManagerStrategy.ValidState()
-    modifies
-      match keyManagerStrategy
-      case reEncrypt(kms) => kms.kmsClient.Modifies
-      case decryptEncrypt(kmsD, kmsE) => kmsD.kmsClient.Modifies + kmsE.kmsClient.Modifies
+    requires keyManagerStrategy.SupportHV1()
+    modifies keyManagerStrategy.Modifies
     ensures keyManagerStrategy.ValidState()
     ensures res.Success? ==>
               && Structure.BranchKeyContext?(res.value.EncryptionContext)
@@ -560,13 +559,11 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       && 0 < |input.Identifier|
       && activeItem.KmsArn == mutationToApply.Original.kmsArn
       && Structure.EncryptedHierarchicalKey?(activeItem)
+      && input.keyManagerStrategy.SupportHV1()
     }
 
     ghost const Modifies :=
-      match input.keyManagerStrategy {
-        case reEncrypt(km) => multiset(km.kmsClient.Modifies)
-        case decryptEncrypt(kmD, kmE) => multiset(kmD.kmsClient.Modifies) + multiset(kmE.kmsClient.Modifies)
-      }
+      input.keyManagerStrategy.ModifiesMultiSet
       + multiset(input.SystemKey.Modifies)
       + multiset(input.storage.Modifies)
   }

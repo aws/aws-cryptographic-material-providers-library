@@ -36,18 +36,33 @@ module {:options "/functionSyntax:4" } KmsUtils {
         && kmE.Modifies == kmE.Modifies
         && kmD.Modifies !! kmE.Modifies
       // TODO : Check with Dafny team about collapsing reEncrypt & kmsSimple
-      case reEncrypt(km) =>
-        && km.ValidState()
-        && km.Modifies == km.Modifies
-      case kmsSimple(km) =>
-        && km.ValidState()
-        && km.Modifies == km.Modifies
+      case reEncrypt(km) => km.ValidState() && km.Modifies == km.Modifies
+      case kmsSimple(km) => km.ValidState() && km.Modifies == km.Modifies
     }
     ghost const Modifies := match this
-      case decryptEncrypt(kmD, kmE) =>
-        kmD.Modifies + kmE.Modifies
+      case decryptEncrypt(kmD, kmE) => kmD.Modifies + kmE.Modifies
       case reEncrypt(km) => km.Modifies
       case kmsSimple(km) => km.Modifies
+    ghost const ModifiesMultiSet := match this
+      case decryptEncrypt(kmD, kmE) => multiset(kmD.kmsClient.Modifies) + multiset(kmE.kmsClient.Modifies)
+      case reEncrypt(km) => multiset(km.kmsClient.Modifies)
+      case kmsSimple(km) => multiset(km.kmsClient.Modifies)
+
+    // TODO-HV-2-M2 :: work out complete support
+    predicate SupportHV1()
+    {
+      match this
+      case decryptEncrypt(kmD, kmE) => true
+      case reEncrypt(km) => true
+      case kmsSimple(km) => false
+    }
+    predicate SupportHV2()
+    {
+      match this
+      case decryptEncrypt(kmD, kmE) => false
+      case reEncrypt(km) => false
+      case kmsSimple(km) => true
+    }    
   }
 
   datatype InternalSystemKey =
