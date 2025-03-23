@@ -103,23 +103,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     //   && kmsStratgey?.value.AwsKmsReEncrypt.kmsClient.Some?
     //   then kmsStratgey?.value.AwsKmsReEncrypt.kmsClient.value.Modifies else {})
     requires ValidInternalConfig?(config)
-    ensures output.Success?
-            ==>
-              && match output.value {
-                   case reEncrypt(km) => km.kmsClient.ValidState()
-                   case decryptEncrypt(kmD, kmE) => kmD.kmsClient.ValidState() && kmE.kmsClient.ValidState()
-                 }
-              && match output.value {
-                   case reEncrypt(km) => config.storage.Modifies !! km.kmsClient.Modifies
-                   case decryptEncrypt(kmD, kmE) => config.storage.Modifies !! (kmD.kmsClient.Modifies + kmE.kmsClient.Modifies)
-                 }
-              && match output.value {
-                   case reEncrypt(km) => GetValidGrantTokens(Some(km.grantTokens)).Success?
-                   case decryptEncrypt(kmD, kmE) =>
-                     && AwsKmsUtils.GetValidGrantTokens(Some(kmD.grantTokens)).Success?
-                     && AwsKmsUtils.GetValidGrantTokens(Some(kmE.grantTokens)).Success?
-                 }
-
+    ensures output.Success? ==> output.value.ValidState() && config.storage.Modifies !! output.value.Modifies
   {
     var input: KeyManagementStrategy;
     if (kmsStratgey?.None?) {
@@ -231,8 +215,8 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     }
     return Success(hierarchyVersion?.value);
   }
-  
-  
+
+
   function method LegacyConfig(
     keyManagerStrat: KmsUtils.keyManagerStrat,
     kmsArn: Types.KmsSymmetricKeyArn,
@@ -296,7 +280,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
 
     var hvInput :- ResolveHierarchyVersion(input.HierarchyVersion, config);
-    
+
     var output? := KeyStoreOperations.CreateKey(
       config := legacyConfig,
       input := KeyStoreOperations.Types.CreateKeyInput(

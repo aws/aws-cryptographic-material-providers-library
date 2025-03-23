@@ -23,37 +23,31 @@ module {:options "/functionSyntax:4" } KmsUtils {
   datatype keyManagerStrat =
     | reEncrypt(reEncrypt: KMSTuple)
     | decryptEncrypt(decrypt: KMSTuple, encrypt: KMSTuple)
-    | kmsForHV2(generateRandom: KMSTuple, decrypt: KMSTuple, encrypt: KMSTuple)
+    | kmsSimple(kmsSimple: KMSTuple)
   {
     ghost predicate ValidState()
     {
       match this
+      case decryptEncrypt(kmD, kmE) =>
+        // We will assume this is the case in order to make verification happy
+        && kmD.ValidState()
+        && kmE.ValidState()
+        && kmD.Modifies == kmD.Modifies
+        && kmE.Modifies == kmE.Modifies
+        && kmD.Modifies !! kmE.Modifies
+      // TODO : Check with Dafny team about collapsing reEncrypt & kmsSimple
       case reEncrypt(km) =>
         && km.ValidState()
         && km.Modifies == km.Modifies
-      case decryptEncrypt(kmD, kmE) =>
-        // We will assume this is the case in order to make verification happy
-        && kmD.ValidState()
-        && kmE.ValidState()
-        && kmD.Modifies == kmD.Modifies
-        && kmE.Modifies == kmE.Modifies
-        && kmD.Modifies !! kmE.Modifies
-      case kmsForHV2(kmG, kmD, kmE) =>
-        // We will assume this is the case in order to make verification happy
-        && kmG.ValidState()
-        && kmD.ValidState()
-        && kmE.ValidState()
-        && kmG.Modifies == kmG.Modifies
-        && kmD.Modifies == kmD.Modifies
-        && kmE.Modifies == kmE.Modifies
-        && kmD.Modifies !! kmE.Modifies
+      case kmsSimple(km) =>
+        && km.ValidState()
+        && km.Modifies == km.Modifies
     }
     ghost const Modifies := match this
-      case reEncrypt(km) => km.Modifies
       case decryptEncrypt(kmD, kmE) =>
         kmD.Modifies + kmE.Modifies
-      case kmsForHV2(kmG, kmD, kmE) =>
-        kmG.Modifies + kmD.Modifies + kmE.Modifies
+      case reEncrypt(km) => km.Modifies
+      case kmsSimple(km) => km.Modifies
   }
 
   datatype InternalSystemKey =
