@@ -40,16 +40,20 @@ public class KeyManagementStrategy {
   private final AwsKmsDecryptEncrypt AwsKmsDecryptEncrypt;
 
   /**
-   * For HV-2, plain-text data keys (PDKs) are created by kms:GenerateRandom.
-   * The additional authenticated data (AAD) and the PDK are protected by kms:Encrypt.
-   * To validate a Branch Key item, kms:Decrypt un-wraps the AAD-PDK tuple, and the client verifies the AAD.
+   * This is the simple option, that uses one KMS Client (and Grant Token list) and supports both hierarchy-versions.
+   *   For HV-1, kms:GenerateDataKeyWithoutPlaintext followed by kms:ReEncrypt is used to create branch keys.
+   *   For HV-2, plain-text data keys (PDKs) are created locally via the hosts random number generator;
+   *   The branch key context (BKC) and the PDK are protected by kms:Encrypt.
+   *   For HV-1, to validate a branch key item, kms:ReEncrypt is used.
+   *   For HV-2, to validate a branch key item, kms:Decrypt un-wraps the BKC-PDK tuple,
+   *   and the client verifies the read BKC against the protected BKC.
    */
-  private final AwsKmsForHierarchyVersionTwo AwsKmsForHierarchyVersionTwo;
+  private final AwsKms AwsKmsSimple;
 
   protected KeyManagementStrategy(BuilderImpl builder) {
     this.AwsKmsReEncrypt = builder.AwsKmsReEncrypt();
     this.AwsKmsDecryptEncrypt = builder.AwsKmsDecryptEncrypt();
-    this.AwsKmsForHierarchyVersionTwo = builder.AwsKmsForHierarchyVersionTwo();
+    this.AwsKmsSimple = builder.AwsKmsSimple();
   }
 
   /**
@@ -84,12 +88,16 @@ public class KeyManagementStrategy {
   }
 
   /**
-   * @return For HV-2, plain-text data keys (PDKs) are created by kms:GenerateRandom.
-   * The additional authenticated data (AAD) and the PDK are protected by kms:Encrypt.
-   * To validate a Branch Key item, kms:Decrypt un-wraps the AAD-PDK tuple, and the client verifies the AAD.
+   * @return This is the simple option, that uses one KMS Client (and Grant Token list) and supports both hierarchy-versions.
+   *   For HV-1, kms:GenerateDataKeyWithoutPlaintext followed by kms:ReEncrypt is used to create branch keys.
+   *   For HV-2, plain-text data keys (PDKs) are created locally via the hosts random number generator;
+   *   The branch key context (BKC) and the PDK are protected by kms:Encrypt.
+   *   For HV-1, to validate a branch key item, kms:ReEncrypt is used.
+   *   For HV-2, to validate a branch key item, kms:Decrypt un-wraps the BKC-PDK tuple,
+   *   and the client verifies the read BKC against the protected BKC.
    */
-  public AwsKmsForHierarchyVersionTwo AwsKmsForHierarchyVersionTwo() {
-    return this.AwsKmsForHierarchyVersionTwo;
+  public AwsKms AwsKmsSimple() {
+    return this.AwsKmsSimple;
   }
 
   public Builder toBuilder() {
@@ -156,20 +164,26 @@ public class KeyManagementStrategy {
     AwsKmsDecryptEncrypt AwsKmsDecryptEncrypt();
 
     /**
-     * @param AwsKmsForHierarchyVersionTwo For HV-2, plain-text data keys (PDKs) are created by kms:GenerateRandom.
-     * The additional authenticated data (AAD) and the PDK are protected by kms:Encrypt.
-     * To validate a Branch Key item, kms:Decrypt un-wraps the AAD-PDK tuple, and the client verifies the AAD.
+     * @param AwsKmsSimple This is the simple option, that uses one KMS Client (and Grant Token list) and supports both hierarchy-versions.
+     *   For HV-1, kms:GenerateDataKeyWithoutPlaintext followed by kms:ReEncrypt is used to create branch keys.
+     *   For HV-2, plain-text data keys (PDKs) are created locally via the hosts random number generator;
+     *   The branch key context (BKC) and the PDK are protected by kms:Encrypt.
+     *   For HV-1, to validate a branch key item, kms:ReEncrypt is used.
+     *   For HV-2, to validate a branch key item, kms:Decrypt un-wraps the BKC-PDK tuple,
+     *   and the client verifies the read BKC against the protected BKC.
      */
-    Builder AwsKmsForHierarchyVersionTwo(
-      AwsKmsForHierarchyVersionTwo AwsKmsForHierarchyVersionTwo
-    );
+    Builder AwsKmsSimple(AwsKms AwsKmsSimple);
 
     /**
-     * @return For HV-2, plain-text data keys (PDKs) are created by kms:GenerateRandom.
-     * The additional authenticated data (AAD) and the PDK are protected by kms:Encrypt.
-     * To validate a Branch Key item, kms:Decrypt un-wraps the AAD-PDK tuple, and the client verifies the AAD.
+     * @return This is the simple option, that uses one KMS Client (and Grant Token list) and supports both hierarchy-versions.
+     *   For HV-1, kms:GenerateDataKeyWithoutPlaintext followed by kms:ReEncrypt is used to create branch keys.
+     *   For HV-2, plain-text data keys (PDKs) are created locally via the hosts random number generator;
+     *   The branch key context (BKC) and the PDK are protected by kms:Encrypt.
+     *   For HV-1, to validate a branch key item, kms:ReEncrypt is used.
+     *   For HV-2, to validate a branch key item, kms:Decrypt un-wraps the BKC-PDK tuple,
+     *   and the client verifies the read BKC against the protected BKC.
      */
-    AwsKmsForHierarchyVersionTwo AwsKmsForHierarchyVersionTwo();
+    AwsKms AwsKmsSimple();
 
     KeyManagementStrategy build();
   }
@@ -180,14 +194,14 @@ public class KeyManagementStrategy {
 
     protected AwsKmsDecryptEncrypt AwsKmsDecryptEncrypt;
 
-    protected AwsKmsForHierarchyVersionTwo AwsKmsForHierarchyVersionTwo;
+    protected AwsKms AwsKmsSimple;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(KeyManagementStrategy model) {
       this.AwsKmsReEncrypt = model.AwsKmsReEncrypt();
       this.AwsKmsDecryptEncrypt = model.AwsKmsDecryptEncrypt();
-      this.AwsKmsForHierarchyVersionTwo = model.AwsKmsForHierarchyVersionTwo();
+      this.AwsKmsSimple = model.AwsKmsSimple();
     }
 
     public Builder AwsKmsReEncrypt(AwsKms AwsKmsReEncrypt) {
@@ -210,15 +224,13 @@ public class KeyManagementStrategy {
       return this.AwsKmsDecryptEncrypt;
     }
 
-    public Builder AwsKmsForHierarchyVersionTwo(
-      AwsKmsForHierarchyVersionTwo AwsKmsForHierarchyVersionTwo
-    ) {
-      this.AwsKmsForHierarchyVersionTwo = AwsKmsForHierarchyVersionTwo;
+    public Builder AwsKmsSimple(AwsKms AwsKmsSimple) {
+      this.AwsKmsSimple = AwsKmsSimple;
       return this;
     }
 
-    public AwsKmsForHierarchyVersionTwo AwsKmsForHierarchyVersionTwo() {
-      return this.AwsKmsForHierarchyVersionTwo;
+    public AwsKms AwsKmsSimple() {
+      return this.AwsKmsSimple;
     }
 
     public KeyManagementStrategy build() {
@@ -234,7 +246,7 @@ public class KeyManagementStrategy {
       Object[] allValues = {
         this.AwsKmsReEncrypt,
         this.AwsKmsDecryptEncrypt,
-        this.AwsKmsForHierarchyVersionTwo,
+        this.AwsKmsSimple,
       };
       boolean haveOneNonNull = false;
       for (Object o : allValues) {

@@ -37,20 +37,16 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     nameonly decrypt: Option<AwsCryptographyKeyStoreTypes.AwsKms> := Option.None ,
     nameonly encrypt: Option<AwsCryptographyKeyStoreTypes.AwsKms> := Option.None
   )
-  datatype AwsKmsForHierarchyVersionTwo = | AwsKmsForHierarchyVersionTwo (
-    nameonly generateRandom: Option<AwsCryptographyKeyStoreTypes.AwsKms> := Option.None ,
-    nameonly encrypt: Option<AwsCryptographyKeyStoreTypes.AwsKms> := Option.None ,
-    nameonly decrypt: Option<AwsCryptographyKeyStoreTypes.AwsKms> := Option.None
-  )
   datatype CreateKeyInput = | CreateKeyInput (
     nameonly Identifier: Option<string> := Option.None ,
     nameonly EncryptionContext: Option<AwsCryptographyKeyStoreTypes.EncryptionContext> := Option.None ,
     nameonly KmsArn: KmsSymmetricKeyArn ,
     nameonly Strategy: Option<KeyManagementStrategy> := Option.None ,
-    nameonly hierarchyVersion: Option<AwsCryptographyKeyStoreTypes.HierarchyVersion> := Option.None
+    nameonly HierarchyVersion: Option<AwsCryptographyKeyStoreTypes.HierarchyVersion> := Option.None
   )
   datatype CreateKeyOutput = | CreateKeyOutput (
-    nameonly Identifier: string
+    nameonly Identifier: string ,
+    nameonly HierarchyVersion: AwsCryptographyKeyStoreTypes.HierarchyVersion
   )
   datatype DescribeMutationInput = | DescribeMutationInput (
     nameonly Identifier: string
@@ -77,7 +73,7 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   datatype KeyManagementStrategy =
     | AwsKmsReEncrypt(AwsKmsReEncrypt: AwsCryptographyKeyStoreTypes.AwsKms)
     | AwsKmsDecryptEncrypt(AwsKmsDecryptEncrypt: AwsKmsDecryptEncrypt)
-    | AwsKmsForHierarchyVersionTwo(AwsKmsForHierarchyVersionTwo: AwsKmsForHierarchyVersionTwo)
+    | AwsKmsSimple(AwsKmsSimple: AwsCryptographyKeyStoreTypes.AwsKms)
   class IKeyStoreAdminClientCallHistory {
     ghost constructor() {
       CreateKey := [];
@@ -254,7 +250,7 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     nameonly Identifier: string ,
     nameonly KmsArn: KmsSymmetricKeyArn ,
     nameonly Strategy: Option<KeyManagementStrategy> := Option.None ,
-    nameonly hierarchyVersion: Option<AwsCryptographyKeyStoreTypes.HierarchyVersion> := Option.None
+    nameonly HierarchyVersion: Option<AwsCryptographyKeyStoreTypes.HierarchyVersion> := Option.None
   )
   datatype VersionKeyOutput = | VersionKeyOutput (
 

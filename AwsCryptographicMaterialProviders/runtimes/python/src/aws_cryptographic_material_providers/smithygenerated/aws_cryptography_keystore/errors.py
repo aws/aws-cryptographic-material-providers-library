@@ -98,23 +98,23 @@ class BranchKeyCiphertextException(ApiError[Literal["BranchKeyCiphertextExceptio
         *,
         message: str,
     ):
-        """The cipher-text or additional authenticated data incorporated into
-        the cipher-text, such as the encryption context, is corrupted, missing,
-        or otherwise invalid. For Branch Keys, the additional authenticated
-        data is a combination.
+        """The cipher-text or branch key context incorporated into the cipher-
+        text, such as the encryption context, is corrupted, missing, or
+        otherwise invalid. For branch keys,
 
-        of:
-        - the encryption context
-        - storage identifiers (partition key, sort key,
-        logical name)
-        - metadata that binds the Branch Key to encrypted data (version)
+        the branch key context (BKC) is a combination of:
+        - the encryption
+        context
+        - storage identifiers (partition key, sort key, logical name)
+        - metadata
+        that binds the Branch Key to encrypted data (version)
+        - create-time
         -
-        create-time
-        - hierarchy-version
+        hierarchy-version
 
-        If any of the above are modified without
-        calling KMS,
-        the Branch Key's cipher-text becomes invalid.
+        If any of the above are modified without calling KMS,
+        the
+        branch key's cipher-text becomes invalid.
 
         :param message: A message associated with the specific error.
         """

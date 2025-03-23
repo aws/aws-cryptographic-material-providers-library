@@ -45,37 +45,6 @@ func (input AwsKmsDecryptEncrypt) Validate() error {
 	return nil
 }
 
-type AwsKmsForHierarchyVersionTwo struct {
-	Decrypt *awscryptographykeystoresmithygeneratedtypes.AwsKms
-
-	Encrypt *awscryptographykeystoresmithygeneratedtypes.AwsKms
-
-	GenerateRandom *awscryptographykeystoresmithygeneratedtypes.AwsKms
-}
-
-func (input AwsKmsForHierarchyVersionTwo) Validate() error {
-	if input.Decrypt != nil {
-		if input.Decrypt.Validate() != nil {
-			return input.Decrypt.Validate()
-		}
-
-	}
-	if input.Encrypt != nil {
-		if input.Encrypt.Validate() != nil {
-			return input.Encrypt.Validate()
-		}
-
-	}
-	if input.GenerateRandom != nil {
-		if input.GenerateRandom.Validate() != nil {
-			return input.GenerateRandom.Validate()
-		}
-
-	}
-
-	return nil
-}
-
 type KmsSymmetricEncryption struct {
 	AwsKms awscryptographykeystoresmithygeneratedtypes.AwsKms
 
@@ -164,7 +133,7 @@ func (input ApplyMutationInput) aws_cryptography_keyStoreAdmin_ApplyMutationInpu
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
-	case *KeyManagementStrategyMemberAwsKmsForHierarchyVersionTwo:
+	case *KeyManagementStrategyMemberAwsKmsSimple:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -316,7 +285,7 @@ func (input CreateKeyInput) aws_cryptography_keyStoreAdmin_CreateKeyInput_Strate
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
-	case *KeyManagementStrategyMemberAwsKmsForHierarchyVersionTwo:
+	case *KeyManagementStrategyMemberAwsKmsSimple:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -329,6 +298,8 @@ func (input CreateKeyInput) aws_cryptography_keyStoreAdmin_CreateKeyInput_Strate
 }
 
 type CreateKeyOutput struct {
+	HierarchyVersion awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
+
 	Identifier string
 }
 
@@ -515,7 +486,7 @@ func (input InitializeMutationInput) aws_cryptography_keyStoreAdmin_InitializeMu
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
-	case *KeyManagementStrategyMemberAwsKmsForHierarchyVersionTwo:
+	case *KeyManagementStrategyMemberAwsKmsSimple:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -610,7 +581,7 @@ func (input VersionKeyInput) aws_cryptography_keyStoreAdmin_VersionKeyInput_Stra
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
-	case *KeyManagementStrategyMemberAwsKmsForHierarchyVersionTwo:
+	case *KeyManagementStrategyMemberAwsKmsSimple:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -716,8 +687,8 @@ type ApplyMutationResultMemberContinueMutation struct {
 func (*ApplyMutationResultMemberContinueMutation) isApplyMutationResult() {}
 
 // KeyManagementStrategyMemberAwsKmsDecryptEncrypt
-// KeyManagementStrategyMemberAwsKmsForHierarchyVersionTwo
 // KeyManagementStrategyMemberAwsKmsReEncrypt
+// KeyManagementStrategyMemberAwsKmsSimple
 type KeyManagementStrategy interface {
 	isKeyManagementStrategy()
 }
@@ -728,17 +699,17 @@ type KeyManagementStrategyMemberAwsKmsDecryptEncrypt struct {
 
 func (*KeyManagementStrategyMemberAwsKmsDecryptEncrypt) isKeyManagementStrategy() {}
 
-type KeyManagementStrategyMemberAwsKmsForHierarchyVersionTwo struct {
-	Value AwsKmsForHierarchyVersionTwo
-}
-
-func (*KeyManagementStrategyMemberAwsKmsForHierarchyVersionTwo) isKeyManagementStrategy() {}
-
 type KeyManagementStrategyMemberAwsKmsReEncrypt struct {
 	Value awscryptographykeystoresmithygeneratedtypes.AwsKms
 }
 
 func (*KeyManagementStrategyMemberAwsKmsReEncrypt) isKeyManagementStrategy() {}
+
+type KeyManagementStrategyMemberAwsKmsSimple struct {
+	Value awscryptographykeystoresmithygeneratedtypes.AwsKms
+}
+
+func (*KeyManagementStrategyMemberAwsKmsSimple) isKeyManagementStrategy() {}
 
 // KmsSymmetricKeyArnMemberKmsKeyArn
 // KmsSymmetricKeyArnMemberKmsMRKeyArn

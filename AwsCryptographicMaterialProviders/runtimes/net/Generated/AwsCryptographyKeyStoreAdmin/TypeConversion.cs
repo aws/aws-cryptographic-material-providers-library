@@ -69,7 +69,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
       if (concrete._EncryptionContext.is_Some) converted.EncryptionContext = (System.Collections.Generic.Dictionary<string, string>)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S14_CreateKeyInput__M17_EncryptionContext(concrete._EncryptionContext);
       converted.KmsArn = (AWS.Cryptography.KeyStoreAdmin.KmsSymmetricKeyArn)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S14_CreateKeyInput__M6_KmsArn(concrete._KmsArn);
       if (concrete._Strategy.is_Some) converted.Strategy = (AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S14_CreateKeyInput__M8_Strategy(concrete._Strategy);
-      if (concrete._hierarchyVersion.is_Some) converted.HierarchyVersion = (AWS.Cryptography.KeyStore.HierarchyVersion)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S14_CreateKeyInput__M16_hierarchyVersion(concrete._hierarchyVersion); return converted;
+      if (concrete._HierarchyVersion.is_Some) converted.HierarchyVersion = (AWS.Cryptography.KeyStore.HierarchyVersion)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S14_CreateKeyInput__M16_HierarchyVersion(concrete._HierarchyVersion); return converted;
     }
     public static software.amazon.cryptography.keystoreadmin.internaldafny.types._ICreateKeyInput ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S14_CreateKeyInput(AWS.Cryptography.KeyStoreAdmin.CreateKeyInput value)
     {
@@ -78,17 +78,18 @@ namespace AWS.Cryptography.KeyStoreAdmin
       System.Collections.Generic.Dictionary<string, string> var_encryptionContext = value.IsSetEncryptionContext() ? value.EncryptionContext : (System.Collections.Generic.Dictionary<string, string>)null;
       AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy var_strategy = value.IsSetStrategy() ? value.Strategy : (AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy)null;
       AWS.Cryptography.KeyStore.HierarchyVersion var_hierarchyVersion = value.IsSetHierarchyVersion() ? value.HierarchyVersion : (AWS.Cryptography.KeyStore.HierarchyVersion)null;
-      return new software.amazon.cryptography.keystoreadmin.internaldafny.types.CreateKeyInput(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S14_CreateKeyInput__M10_Identifier(var_identifier), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S14_CreateKeyInput__M17_EncryptionContext(var_encryptionContext), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S14_CreateKeyInput__M6_KmsArn(value.KmsArn), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S14_CreateKeyInput__M8_Strategy(var_strategy), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S14_CreateKeyInput__M16_hierarchyVersion(var_hierarchyVersion));
+      return new software.amazon.cryptography.keystoreadmin.internaldafny.types.CreateKeyInput(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S14_CreateKeyInput__M10_Identifier(var_identifier), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S14_CreateKeyInput__M17_EncryptionContext(var_encryptionContext), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S14_CreateKeyInput__M6_KmsArn(value.KmsArn), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S14_CreateKeyInput__M8_Strategy(var_strategy), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S14_CreateKeyInput__M16_HierarchyVersion(var_hierarchyVersion));
     }
     public static AWS.Cryptography.KeyStoreAdmin.CreateKeyOutput FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_CreateKeyOutput(software.amazon.cryptography.keystoreadmin.internaldafny.types._ICreateKeyOutput value)
     {
-      software.amazon.cryptography.keystoreadmin.internaldafny.types.CreateKeyOutput concrete = (software.amazon.cryptography.keystoreadmin.internaldafny.types.CreateKeyOutput)value; AWS.Cryptography.KeyStoreAdmin.CreateKeyOutput converted = new AWS.Cryptography.KeyStoreAdmin.CreateKeyOutput(); converted.Identifier = (string)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_CreateKeyOutput__M10_Identifier(concrete._Identifier); return converted;
+      software.amazon.cryptography.keystoreadmin.internaldafny.types.CreateKeyOutput concrete = (software.amazon.cryptography.keystoreadmin.internaldafny.types.CreateKeyOutput)value; AWS.Cryptography.KeyStoreAdmin.CreateKeyOutput converted = new AWS.Cryptography.KeyStoreAdmin.CreateKeyOutput(); converted.Identifier = (string)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_CreateKeyOutput__M10_Identifier(concrete._Identifier);
+      converted.HierarchyVersion = (AWS.Cryptography.KeyStore.HierarchyVersion)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_CreateKeyOutput__M16_HierarchyVersion(concrete._HierarchyVersion); return converted;
     }
     public static software.amazon.cryptography.keystoreadmin.internaldafny.types._ICreateKeyOutput ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_CreateKeyOutput(AWS.Cryptography.KeyStoreAdmin.CreateKeyOutput value)
     {
       value.Validate();
 
-      return new software.amazon.cryptography.keystoreadmin.internaldafny.types.CreateKeyOutput(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_CreateKeyOutput__M10_Identifier(value.Identifier));
+      return new software.amazon.cryptography.keystoreadmin.internaldafny.types.CreateKeyOutput(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_CreateKeyOutput__M10_Identifier(value.Identifier), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_CreateKeyOutput__M16_HierarchyVersion(value.HierarchyVersion));
     }
     public static AWS.Cryptography.KeyStoreAdmin.DescribeMutationInput FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_DescribeMutationInput(software.amazon.cryptography.keystoreadmin.internaldafny.types._IDescribeMutationInput value)
     {
@@ -164,9 +165,9 @@ namespace AWS.Cryptography.KeyStoreAdmin
         converted.AwsKmsDecryptEncrypt = FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_KeyManagementStrategy__M20_AwsKmsDecryptEncrypt(concrete.dtor_AwsKmsDecryptEncrypt);
         return converted;
       }
-      if (value.is_AwsKmsForHierarchyVersionTwo)
+      if (value.is_AwsKmsSimple)
       {
-        converted.AwsKmsForHierarchyVersionTwo = FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_KeyManagementStrategy__M28_AwsKmsForHierarchyVersionTwo(concrete.dtor_AwsKmsForHierarchyVersionTwo);
+        converted.AwsKmsSimple = FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_KeyManagementStrategy__M12_AwsKmsSimple(concrete.dtor_AwsKmsSimple);
         return converted;
       }
       throw new System.ArgumentException("Invalid AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy state");
@@ -181,9 +182,9 @@ namespace AWS.Cryptography.KeyStoreAdmin
       {
         return software.amazon.cryptography.keystoreadmin.internaldafny.types.KeyManagementStrategy.create_AwsKmsDecryptEncrypt(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_KeyManagementStrategy__M20_AwsKmsDecryptEncrypt(value.AwsKmsDecryptEncrypt));
       }
-      if (value.IsSetAwsKmsForHierarchyVersionTwo())
+      if (value.IsSetAwsKmsSimple())
       {
-        return software.amazon.cryptography.keystoreadmin.internaldafny.types.KeyManagementStrategy.create_AwsKmsForHierarchyVersionTwo(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_KeyManagementStrategy__M28_AwsKmsForHierarchyVersionTwo(value.AwsKmsForHierarchyVersionTwo));
+        return software.amazon.cryptography.keystoreadmin.internaldafny.types.KeyManagementStrategy.create_AwsKmsSimple(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_KeyManagementStrategy__M12_AwsKmsSimple(value.AwsKmsSimple));
       }
       throw new System.ArgumentException("Invalid AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy state");
     }
@@ -388,14 +389,14 @@ namespace AWS.Cryptography.KeyStoreAdmin
       software.amazon.cryptography.keystoreadmin.internaldafny.types.VersionKeyInput concrete = (software.amazon.cryptography.keystoreadmin.internaldafny.types.VersionKeyInput)value; AWS.Cryptography.KeyStoreAdmin.VersionKeyInput converted = new AWS.Cryptography.KeyStoreAdmin.VersionKeyInput(); converted.Identifier = (string)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_VersionKeyInput__M10_Identifier(concrete._Identifier);
       converted.KmsArn = (AWS.Cryptography.KeyStoreAdmin.KmsSymmetricKeyArn)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_VersionKeyInput__M6_KmsArn(concrete._KmsArn);
       if (concrete._Strategy.is_Some) converted.Strategy = (AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_VersionKeyInput__M8_Strategy(concrete._Strategy);
-      if (concrete._hierarchyVersion.is_Some) converted.HierarchyVersion = (AWS.Cryptography.KeyStore.HierarchyVersion)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_VersionKeyInput__M16_hierarchyVersion(concrete._hierarchyVersion); return converted;
+      if (concrete._HierarchyVersion.is_Some) converted.HierarchyVersion = (AWS.Cryptography.KeyStore.HierarchyVersion)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_VersionKeyInput__M16_HierarchyVersion(concrete._HierarchyVersion); return converted;
     }
     public static software.amazon.cryptography.keystoreadmin.internaldafny.types._IVersionKeyInput ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_VersionKeyInput(AWS.Cryptography.KeyStoreAdmin.VersionKeyInput value)
     {
       value.Validate();
       AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy var_strategy = value.IsSetStrategy() ? value.Strategy : (AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy)null;
       AWS.Cryptography.KeyStore.HierarchyVersion var_hierarchyVersion = value.IsSetHierarchyVersion() ? value.HierarchyVersion : (AWS.Cryptography.KeyStore.HierarchyVersion)null;
-      return new software.amazon.cryptography.keystoreadmin.internaldafny.types.VersionKeyInput(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_VersionKeyInput__M10_Identifier(value.Identifier), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_VersionKeyInput__M6_KmsArn(value.KmsArn), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_VersionKeyInput__M8_Strategy(var_strategy), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_VersionKeyInput__M16_hierarchyVersion(var_hierarchyVersion));
+      return new software.amazon.cryptography.keystoreadmin.internaldafny.types.VersionKeyInput(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_VersionKeyInput__M10_Identifier(value.Identifier), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_VersionKeyInput__M6_KmsArn(value.KmsArn), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_VersionKeyInput__M8_Strategy(var_strategy), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_VersionKeyInput__M16_HierarchyVersion(var_hierarchyVersion));
     }
     public static AWS.Cryptography.KeyStoreAdmin.VersionKeyOutput FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S16_VersionKeyOutput(software.amazon.cryptography.keystoreadmin.internaldafny.types._IVersionKeyOutput value)
     {
@@ -503,11 +504,11 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       return value == null ? Wrappers_Compile.Option<software.amazon.cryptography.keystoreadmin.internaldafny.types._IKeyManagementStrategy>.create_None() : Wrappers_Compile.Option<software.amazon.cryptography.keystoreadmin.internaldafny.types._IKeyManagementStrategy>.create_Some(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_KeyManagementStrategy((AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy)value));
     }
-    public static AWS.Cryptography.KeyStore.HierarchyVersion FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S14_CreateKeyInput__M16_hierarchyVersion(Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IHierarchyVersion> value)
+    public static AWS.Cryptography.KeyStore.HierarchyVersion FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S14_CreateKeyInput__M16_HierarchyVersion(Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IHierarchyVersion> value)
     {
       return value.is_None ? (AWS.Cryptography.KeyStore.HierarchyVersion)null : FromDafny_N3_aws__N12_cryptography__N8_keyStore__S16_HierarchyVersion(value.Extract());
     }
-    public static Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IHierarchyVersion> ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S14_CreateKeyInput__M16_hierarchyVersion(AWS.Cryptography.KeyStore.HierarchyVersion value)
+    public static Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IHierarchyVersion> ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S14_CreateKeyInput__M16_HierarchyVersion(AWS.Cryptography.KeyStore.HierarchyVersion value)
     {
       return value == null ? Wrappers_Compile.Option<software.amazon.cryptography.keystore.internaldafny.types._IHierarchyVersion>.create_None() : Wrappers_Compile.Option<software.amazon.cryptography.keystore.internaldafny.types._IHierarchyVersion>.create_Some(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S16_HierarchyVersion((AWS.Cryptography.KeyStore.HierarchyVersion)value));
     }
@@ -518,6 +519,14 @@ namespace AWS.Cryptography.KeyStoreAdmin
     public static Dafny.ISequence<char> ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_CreateKeyOutput__M10_Identifier(string value)
     {
       return ToDafny_N6_smithy__N3_api__S6_String(value);
+    }
+    public static AWS.Cryptography.KeyStore.HierarchyVersion FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_CreateKeyOutput__M16_HierarchyVersion(software.amazon.cryptography.keystore.internaldafny.types._IHierarchyVersion value)
+    {
+      return FromDafny_N3_aws__N12_cryptography__N8_keyStore__S16_HierarchyVersion(value);
+    }
+    public static software.amazon.cryptography.keystore.internaldafny.types._IHierarchyVersion ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_CreateKeyOutput__M16_HierarchyVersion(AWS.Cryptography.KeyStore.HierarchyVersion value)
+    {
+      return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S16_HierarchyVersion(value);
     }
     public static string FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_DescribeMutationInput__M10_Identifier(Dafny.ISequence<char> value)
     {
@@ -615,13 +624,13 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       return ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S20_AwsKmsDecryptEncrypt(value);
     }
-    public static AWS.Cryptography.KeyStoreAdmin.AwsKmsForHierarchyVersionTwo FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_KeyManagementStrategy__M28_AwsKmsForHierarchyVersionTwo(software.amazon.cryptography.keystoreadmin.internaldafny.types._IAwsKmsForHierarchyVersionTwo value)
+    public static AWS.Cryptography.KeyStore.AwsKms FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_KeyManagementStrategy__M12_AwsKmsSimple(software.amazon.cryptography.keystore.internaldafny.types._IAwsKms value)
     {
-      return FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S28_AwsKmsForHierarchyVersionTwo(value);
+      return FromDafny_N3_aws__N12_cryptography__N8_keyStore__S6_AwsKms(value);
     }
-    public static software.amazon.cryptography.keystoreadmin.internaldafny.types._IAwsKmsForHierarchyVersionTwo ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_KeyManagementStrategy__M28_AwsKmsForHierarchyVersionTwo(AWS.Cryptography.KeyStoreAdmin.AwsKmsForHierarchyVersionTwo value)
+    public static software.amazon.cryptography.keystore.internaldafny.types._IAwsKms ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_KeyManagementStrategy__M12_AwsKmsSimple(AWS.Cryptography.KeyStore.AwsKms value)
     {
-      return ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S28_AwsKmsForHierarchyVersionTwo(value);
+      return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S6_AwsKms(value);
     }
     public static string FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S19_KeyStoreAdminConfig__M19_logicalKeyStoreName(Dafny.ISequence<char> value)
     {
@@ -775,11 +784,11 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       return value == null ? Wrappers_Compile.Option<software.amazon.cryptography.keystoreadmin.internaldafny.types._IKeyManagementStrategy>.create_None() : Wrappers_Compile.Option<software.amazon.cryptography.keystoreadmin.internaldafny.types._IKeyManagementStrategy>.create_Some(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S21_KeyManagementStrategy((AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy)value));
     }
-    public static AWS.Cryptography.KeyStore.HierarchyVersion FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_VersionKeyInput__M16_hierarchyVersion(Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IHierarchyVersion> value)
+    public static AWS.Cryptography.KeyStore.HierarchyVersion FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_VersionKeyInput__M16_HierarchyVersion(Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IHierarchyVersion> value)
     {
       return value.is_None ? (AWS.Cryptography.KeyStore.HierarchyVersion)null : FromDafny_N3_aws__N12_cryptography__N8_keyStore__S16_HierarchyVersion(value.Extract());
     }
-    public static Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IHierarchyVersion> ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_VersionKeyInput__M16_hierarchyVersion(AWS.Cryptography.KeyStore.HierarchyVersion value)
+    public static Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IHierarchyVersion> ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_VersionKeyInput__M16_HierarchyVersion(AWS.Cryptography.KeyStore.HierarchyVersion value)
     {
       return value == null ? Wrappers_Compile.Option<software.amazon.cryptography.keystore.internaldafny.types._IHierarchyVersion>.create_None() : Wrappers_Compile.Option<software.amazon.cryptography.keystore.internaldafny.types._IHierarchyVersion>.create_Some(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S16_HierarchyVersion((AWS.Cryptography.KeyStore.HierarchyVersion)value));
     }
@@ -896,20 +905,6 @@ namespace AWS.Cryptography.KeyStoreAdmin
       AWS.Cryptography.KeyStore.AwsKms var_decrypt = value.IsSetDecrypt() ? value.Decrypt : (AWS.Cryptography.KeyStore.AwsKms)null;
       AWS.Cryptography.KeyStore.AwsKms var_encrypt = value.IsSetEncrypt() ? value.Encrypt : (AWS.Cryptography.KeyStore.AwsKms)null;
       return new software.amazon.cryptography.keystoreadmin.internaldafny.types.AwsKmsDecryptEncrypt(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S20_AwsKmsDecryptEncrypt__M7_decrypt(var_decrypt), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S20_AwsKmsDecryptEncrypt__M7_encrypt(var_encrypt));
-    }
-    public static AWS.Cryptography.KeyStoreAdmin.AwsKmsForHierarchyVersionTwo FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S28_AwsKmsForHierarchyVersionTwo(software.amazon.cryptography.keystoreadmin.internaldafny.types._IAwsKmsForHierarchyVersionTwo value)
-    {
-      software.amazon.cryptography.keystoreadmin.internaldafny.types.AwsKmsForHierarchyVersionTwo concrete = (software.amazon.cryptography.keystoreadmin.internaldafny.types.AwsKmsForHierarchyVersionTwo)value; AWS.Cryptography.KeyStoreAdmin.AwsKmsForHierarchyVersionTwo converted = new AWS.Cryptography.KeyStoreAdmin.AwsKmsForHierarchyVersionTwo(); if (concrete._generateRandom.is_Some) converted.GenerateRandom = (AWS.Cryptography.KeyStore.AwsKms)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S28_AwsKmsForHierarchyVersionTwo__M14_generateRandom(concrete._generateRandom);
-      if (concrete._encrypt.is_Some) converted.Encrypt = (AWS.Cryptography.KeyStore.AwsKms)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S28_AwsKmsForHierarchyVersionTwo__M7_encrypt(concrete._encrypt);
-      if (concrete._decrypt.is_Some) converted.Decrypt = (AWS.Cryptography.KeyStore.AwsKms)FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S28_AwsKmsForHierarchyVersionTwo__M7_decrypt(concrete._decrypt); return converted;
-    }
-    public static software.amazon.cryptography.keystoreadmin.internaldafny.types._IAwsKmsForHierarchyVersionTwo ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S28_AwsKmsForHierarchyVersionTwo(AWS.Cryptography.KeyStoreAdmin.AwsKmsForHierarchyVersionTwo value)
-    {
-      value.Validate();
-      AWS.Cryptography.KeyStore.AwsKms var_generateRandom = value.IsSetGenerateRandom() ? value.GenerateRandom : (AWS.Cryptography.KeyStore.AwsKms)null;
-      AWS.Cryptography.KeyStore.AwsKms var_encrypt = value.IsSetEncrypt() ? value.Encrypt : (AWS.Cryptography.KeyStore.AwsKms)null;
-      AWS.Cryptography.KeyStore.AwsKms var_decrypt = value.IsSetDecrypt() ? value.Decrypt : (AWS.Cryptography.KeyStore.AwsKms)null;
-      return new software.amazon.cryptography.keystoreadmin.internaldafny.types.AwsKmsForHierarchyVersionTwo(ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S28_AwsKmsForHierarchyVersionTwo__M14_generateRandom(var_generateRandom), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S28_AwsKmsForHierarchyVersionTwo__M7_encrypt(var_encrypt), ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S28_AwsKmsForHierarchyVersionTwo__M7_decrypt(var_decrypt));
     }
     public static AWS.Cryptography.KeyStore.Storage FromDafny_N3_aws__N12_cryptography__N8_keyStore__S7_Storage(software.amazon.cryptography.keystore.internaldafny.types._IStorage value)
     {
@@ -1071,30 +1066,6 @@ namespace AWS.Cryptography.KeyStoreAdmin
       return value.is_None ? (AWS.Cryptography.KeyStore.AwsKms)null : FromDafny_N3_aws__N12_cryptography__N8_keyStore__S6_AwsKms(value.Extract());
     }
     public static Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IAwsKms> ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S20_AwsKmsDecryptEncrypt__M7_encrypt(AWS.Cryptography.KeyStore.AwsKms value)
-    {
-      return value == null ? Wrappers_Compile.Option<software.amazon.cryptography.keystore.internaldafny.types._IAwsKms>.create_None() : Wrappers_Compile.Option<software.amazon.cryptography.keystore.internaldafny.types._IAwsKms>.create_Some(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S6_AwsKms((AWS.Cryptography.KeyStore.AwsKms)value));
-    }
-    public static AWS.Cryptography.KeyStore.AwsKms FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S28_AwsKmsForHierarchyVersionTwo__M14_generateRandom(Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IAwsKms> value)
-    {
-      return value.is_None ? (AWS.Cryptography.KeyStore.AwsKms)null : FromDafny_N3_aws__N12_cryptography__N8_keyStore__S6_AwsKms(value.Extract());
-    }
-    public static Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IAwsKms> ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S28_AwsKmsForHierarchyVersionTwo__M14_generateRandom(AWS.Cryptography.KeyStore.AwsKms value)
-    {
-      return value == null ? Wrappers_Compile.Option<software.amazon.cryptography.keystore.internaldafny.types._IAwsKms>.create_None() : Wrappers_Compile.Option<software.amazon.cryptography.keystore.internaldafny.types._IAwsKms>.create_Some(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S6_AwsKms((AWS.Cryptography.KeyStore.AwsKms)value));
-    }
-    public static AWS.Cryptography.KeyStore.AwsKms FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S28_AwsKmsForHierarchyVersionTwo__M7_encrypt(Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IAwsKms> value)
-    {
-      return value.is_None ? (AWS.Cryptography.KeyStore.AwsKms)null : FromDafny_N3_aws__N12_cryptography__N8_keyStore__S6_AwsKms(value.Extract());
-    }
-    public static Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IAwsKms> ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S28_AwsKmsForHierarchyVersionTwo__M7_encrypt(AWS.Cryptography.KeyStore.AwsKms value)
-    {
-      return value == null ? Wrappers_Compile.Option<software.amazon.cryptography.keystore.internaldafny.types._IAwsKms>.create_None() : Wrappers_Compile.Option<software.amazon.cryptography.keystore.internaldafny.types._IAwsKms>.create_Some(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S6_AwsKms((AWS.Cryptography.KeyStore.AwsKms)value));
-    }
-    public static AWS.Cryptography.KeyStore.AwsKms FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S28_AwsKmsForHierarchyVersionTwo__M7_decrypt(Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IAwsKms> value)
-    {
-      return value.is_None ? (AWS.Cryptography.KeyStore.AwsKms)null : FromDafny_N3_aws__N12_cryptography__N8_keyStore__S6_AwsKms(value.Extract());
-    }
-    public static Wrappers_Compile._IOption<software.amazon.cryptography.keystore.internaldafny.types._IAwsKms> ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S28_AwsKmsForHierarchyVersionTwo__M7_decrypt(AWS.Cryptography.KeyStore.AwsKms value)
     {
       return value == null ? Wrappers_Compile.Option<software.amazon.cryptography.keystore.internaldafny.types._IAwsKms>.create_None() : Wrappers_Compile.Option<software.amazon.cryptography.keystore.internaldafny.types._IAwsKms>.create_Some(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S6_AwsKms((AWS.Cryptography.KeyStore.AwsKms)value));
     }

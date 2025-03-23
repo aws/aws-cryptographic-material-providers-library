@@ -149,90 +149,6 @@ class AwsKmsDecryptEncrypt:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
-class AwsKmsForHierarchyVersionTwo:
-    generate_random: Optional[AwsKms]
-    encrypt: Optional[AwsKms]
-    decrypt: Optional[AwsKms]
-
-    def __init__(
-        self,
-        *,
-        generate_random: Optional[AwsKms] = None,
-        encrypt: Optional[AwsKms] = None,
-        decrypt: Optional[AwsKms] = None,
-    ):
-        """For HV-2, plain-text data keys (PDKs) are created by
-        kms:GenerateRandom. The additional authenticated data (AAD) and the PDK
-        are protected by kms:Encrypt. To validate a Branch Key item,
-        kms:Decrypt un-wraps the AAD-PDK tuple, and the client verifies the
-        AAD.
-
-        :param generate_random: The KMS Client (and Grant Tokens) used
-            to generate the plain-text data key.
-        :param encrypt: The KMS Client (and Grant Tokens) used to
-            Encrypt Branch Key Store Items.
-        :param decrypt: The KMS Client (and Grant Tokens) used to
-            Decrypt Branch Key Store Items.
-        """
-        self.generate_random = generate_random
-        self.encrypt = encrypt
-        self.decrypt = decrypt
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the AwsKmsForHierarchyVersionTwo to a dictionary."""
-        d: Dict[str, Any] = {}
-
-        if self.generate_random is not None:
-            d["generate_random"] = self.generate_random.as_dict()
-
-        if self.encrypt is not None:
-            d["encrypt"] = self.encrypt.as_dict()
-
-        if self.decrypt is not None:
-            d["decrypt"] = self.decrypt.as_dict()
-
-        return d
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "AwsKmsForHierarchyVersionTwo":
-        """Creates a AwsKmsForHierarchyVersionTwo from a dictionary."""
-        kwargs: Dict[str, Any] = {}
-
-        if "generate_random" in d:
-            kwargs["generate_random"] = AwsKms.from_dict(d["generate_random"])
-
-        if "encrypt" in d:
-            kwargs["encrypt"] = AwsKms.from_dict(d["encrypt"])
-
-        if "decrypt" in d:
-            kwargs["decrypt"] = AwsKms.from_dict(d["decrypt"])
-
-        return AwsKmsForHierarchyVersionTwo(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "AwsKmsForHierarchyVersionTwo("
-        if self.generate_random is not None:
-            result += f"generate_random={repr(self.generate_random)}, "
-
-        if self.encrypt is not None:
-            result += f"encrypt={repr(self.encrypt)}, "
-
-        if self.decrypt is not None:
-            result += f"decrypt={repr(self.decrypt)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, AwsKmsForHierarchyVersionTwo):
-            return False
-        attributes: list[str] = [
-            "generate_random",
-            "encrypt",
-            "decrypt",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
-
 class KeyManagementStrategyAwsKmsReEncrypt:
     """Branch Key Store Items are authenticated and re-wrapped via KMS
     ReEncrypt,
@@ -306,38 +222,38 @@ class KeyManagementStrategyAwsKmsDecryptEncrypt:
         return self.value == other.value
 
 
-class KeyManagementStrategyAwsKmsForHierarchyVersionTwo:
-    """For HV-2, plain-text data keys (PDKs) are created by kms:GenerateRandom.
+class KeyManagementStrategyAwsKmsSimple:
+    """This is the simple option, that uses one KMS Client (and Grant Token
+    list) and supports both hierarchy-versions.
 
-    The additional authenticated data (AAD) and the PDK are protected by
-    kms:Encrypt. To validate a Branch Key item, kms:Decrypt un-wraps the
-    AAD-PDK tuple, and the client verifies the AAD.
+    For HV-1, kms:GenerateDataKeyWithoutPlaintext followed by
+    kms:ReEncrypt is used to create branch keys.   For HV-2, plain-text
+    data keys (PDKs) are created locally via the hosts random number
+    generator;   The branch key context (BKC) and the PDK are protected
+    by kms:Encrypt.   For HV-1, to validate a branch key item,
+    kms:ReEncrypt is used.   For HV-2, to validate a branch key item,
+    kms:Decrypt un-wraps the BKC-PDK tuple,   and the client verifies
+    the read BKC against the protected BKC.
     """
 
-    def __init__(self, value: AwsKmsForHierarchyVersionTwo):
+    def __init__(self, value: AwsKms):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
-        return {"AwsKmsForHierarchyVersionTwo": self.value.as_dict()}
+        return {"AwsKmsSimple": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(
-        d: Dict[str, Any],
-    ) -> "KeyManagementStrategyAwsKmsForHierarchyVersionTwo":
+    def from_dict(d: Dict[str, Any]) -> "KeyManagementStrategyAwsKmsSimple":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
-        return KeyManagementStrategyAwsKmsForHierarchyVersionTwo(
-            AwsKmsForHierarchyVersionTwo.from_dict(d["AwsKmsForHierarchyVersionTwo"])
-        )
+        return KeyManagementStrategyAwsKmsSimple(AwsKms.from_dict(d["AwsKmsSimple"]))
 
     def __repr__(self) -> str:
-        return (
-            f"KeyManagementStrategyAwsKmsForHierarchyVersionTwo(value=repr(self.value))"
-        )
+        return f"KeyManagementStrategyAwsKmsSimple(value=repr(self.value))"
 
     def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, KeyManagementStrategyAwsKmsForHierarchyVersionTwo):
+        if not isinstance(other, KeyManagementStrategyAwsKmsSimple):
             return False
         return self.value == other.value
 
@@ -372,7 +288,7 @@ class KeyManagementStrategyUnknown:
 KeyManagementStrategy = Union[
     KeyManagementStrategyAwsKmsReEncrypt,
     KeyManagementStrategyAwsKmsDecryptEncrypt,
-    KeyManagementStrategyAwsKmsForHierarchyVersionTwo,
+    KeyManagementStrategyAwsKmsSimple,
     KeyManagementStrategyUnknown,
 ]
 
@@ -384,8 +300,8 @@ def _key_management_strategy_from_dict(d: Dict[str, Any]) -> KeyManagementStrate
     if "AwsKmsDecryptEncrypt" in d:
         return KeyManagementStrategyAwsKmsDecryptEncrypt.from_dict(d)
 
-    if "AwsKmsForHierarchyVersionTwo" in d:
-        return KeyManagementStrategyAwsKmsForHierarchyVersionTwo.from_dict(d)
+    if "AwsKmsSimple" in d:
+        return KeyManagementStrategyAwsKmsSimple.from_dict(d)
 
     raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
@@ -636,6 +552,12 @@ class ApplyMutationInput:
           Thus, if the pageSize is 24, 26 requests will be sent in the
         Transact Write Request.
         :param strategy: Optional. Defaults to reEncrypt with a default KMS Client.
+
+        However, if the Branch Key's 'hierarchy-version' is HV-2,
+          or the Branch Key is
+        being mutated to HV-2,
+          the Strategy MUST be AwsKmsDecryptEncrypt or
+        AwsKmsSimple.
         """
         self.mutation_token = mutation_token
         self.system_key = system_key
@@ -1065,19 +987,19 @@ class CreateKeyInput:
         :param identifier: The identifier for the created Branch Key.
         :param encryption_context: Custom encryption context for the Branch Key.
 
-        Required if branchKeyIdentifier is set OR if 'hierarchy-version-2' (HV-2).
-        :param strategy: For 'hierarchy-version-1' (HV-1), only ReEncrypt is supported
-        (for now).
-          For 'hierarchy-version-2' (HV-2), only AwsKmsForHierarchyVersionTwo
-        is supported.
+        Required if branchKeyIdentifier is set.
+        :param strategy: For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or
+        AwsKmsSimple are supported (for now).
+          For 'hierarchy-version-2' (HV-2), only
+        AwsKmsDecryptEncrypt or AwsKmsSimple are supported.
         :param hierarchy_version: The hierarchy-version of a Branch Key;
           all items of
         the same Branch Key SHOULD
           have the same hierarchy-version.
           The
-        hierarchy-version determines how the Branch Key Store classes
-          treat the Branch
-        Keys.
+        hierarchy-version determines how the Branch Key Store
+          protects and validates
+        the branch key context (BKC).
         """
         self.kms_arn = kms_arn
         self.identifier = identifier
@@ -1160,21 +1082,33 @@ class CreateKeyInput:
 
 class CreateKeyOutput:
     identifier: str
+    hierarchy_version: str
 
     def __init__(
         self,
         *,
         identifier: str,
+        hierarchy_version: str,
     ):
         """
         :param identifier: A identifier for the created Branch Key.
+        :param hierarchy_version: The hierarchy-version of a Branch Key;
+          all items of
+        the same Branch Key SHOULD
+          have the same hierarchy-version.
+          The
+        hierarchy-version determines how the Branch Key Store
+          protects and validates
+        the branch key context (BKC).
         """
         self.identifier = identifier
+        self.hierarchy_version = hierarchy_version
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the CreateKeyOutput to a dictionary."""
         return {
             "identifier": self.identifier,
+            "hierarchy_version": self.hierarchy_version,
         }
 
     @staticmethod
@@ -1182,6 +1116,7 @@ class CreateKeyOutput:
         """Creates a CreateKeyOutput from a dictionary."""
         kwargs: Dict[str, Any] = {
             "identifier": d["identifier"],
+            "hierarchy_version": d["hierarchy_version"],
         }
 
         return CreateKeyOutput(**kwargs)
@@ -1189,7 +1124,10 @@ class CreateKeyOutput:
     def __repr__(self) -> str:
         result = "CreateKeyOutput("
         if self.identifier is not None:
-            result += f"identifier={repr(self.identifier)}"
+            result += f"identifier={repr(self.identifier)}, "
+
+        if self.hierarchy_version is not None:
+            result += f"hierarchy_version={repr(self.hierarchy_version)}"
 
         return result + ")"
 
@@ -1198,6 +1136,7 @@ class CreateKeyOutput:
             return False
         attributes: list[str] = [
             "identifier",
+            "hierarchy_version",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
@@ -1744,7 +1683,8 @@ class InitializeMutationInput:
         However, if the Branch Key's 'hierarchy-version' is HV-2,
           or the Branch Key is
         being mutated to HV-2,
-          the Strategy MUST be AwsKmsForHierarchyVersionTwo.
+          the Strategy MUST be AwsKmsDecryptEncrypt or
+        AwsKmsSimple.
         :param do_not_version: Optional. Defaults to False, which Versions (or Rotates)
         the Branch Key,
           creating a new Version that has only ever been in the terminal
@@ -1940,18 +1880,18 @@ class VersionKeyInput:
         :param identifier: The identifier for the Branch Key to be versioned.
         :param kms_arn: Multi-Region or Single Region AWS KMS Key ARN used to protect
         the Branch Key, but not aliases!
-        :param strategy: For 'hierarchy-version-1' (HV-1), only ReEncrypt is supported
-        (for now).
-          For 'hierarchy-version-2' (HV-2), only AwsKmsForHierarchyVersionTwo
-        is supported.
+        :param strategy: For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or
+        AwsKmsSimple are supported (for now).
+          For 'hierarchy-version-2' (HV-2), only
+        AwsKmsDecryptEncrypt or AwsKmsSimple are supported.
         :param hierarchy_version: The hierarchy-version of a Branch Key;
           all items of
         the same Branch Key SHOULD
           have the same hierarchy-version.
           The
-        hierarchy-version determines how the Branch Key Store classes
-          treat the Branch
-        Keys.
+        hierarchy-version determines how the Branch Key Store
+          protects and validates
+        the branch key context (BKC).
         """
         self.identifier = identifier
         self.kms_arn = kms_arn

@@ -3375,8 +3375,8 @@ class HierarchyVersion:
     """The hierarchy-version of a Branch Key; all items of the same Branch Key
     SHOULD have the same hierarchy-version.
 
-    The hierarchy-version determines how the Branch Key Store classes
-    treat the Branch Keys.
+    The hierarchy-version determines how the Branch Key Store   protects
+    and validates the branch key context (BKC).
     """
 
     V1 = "1"

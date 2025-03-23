@@ -19,8 +19,8 @@ public class VersionKeyInput {
   private final KmsSymmetricKeyArn KmsArn;
 
   /**
-   * For 'hierarchy-version-1' (HV-1), only ReEncrypt is supported (for now).
-   *   For 'hierarchy-version-2' (HV-2), only AwsKmsForHierarchyVersionTwo is supported.
+   * For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or AwsKmsSimple are supported (for now).
+   *   For 'hierarchy-version-2' (HV-2), only AwsKmsDecryptEncrypt or AwsKmsSimple are supported.
    */
   private final KeyManagementStrategy Strategy;
 
@@ -28,16 +28,16 @@ public class VersionKeyInput {
    * The hierarchy-version of a Branch Key;
    *   all items of the same Branch Key SHOULD
    *   have the same hierarchy-version.
-   *   The hierarchy-version determines how the Branch Key Store classes
-   *   treat the Branch Keys.
+   *   The hierarchy-version determines how the Branch Key Store
+   *   protects and validates the branch key context (BKC).
    */
-  private final HierarchyVersion hierarchyVersion;
+  private final HierarchyVersion HierarchyVersion;
 
   protected VersionKeyInput(BuilderImpl builder) {
     this.Identifier = builder.Identifier();
     this.KmsArn = builder.KmsArn();
     this.Strategy = builder.Strategy();
-    this.hierarchyVersion = builder.hierarchyVersion();
+    this.HierarchyVersion = builder.HierarchyVersion();
   }
 
   /**
@@ -55,8 +55,8 @@ public class VersionKeyInput {
   }
 
   /**
-   * @return For 'hierarchy-version-1' (HV-1), only ReEncrypt is supported (for now).
-   *   For 'hierarchy-version-2' (HV-2), only AwsKmsForHierarchyVersionTwo is supported.
+   * @return For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or AwsKmsSimple are supported (for now).
+   *   For 'hierarchy-version-2' (HV-2), only AwsKmsDecryptEncrypt or AwsKmsSimple are supported.
    */
   public KeyManagementStrategy Strategy() {
     return this.Strategy;
@@ -66,11 +66,11 @@ public class VersionKeyInput {
    * @return The hierarchy-version of a Branch Key;
    *   all items of the same Branch Key SHOULD
    *   have the same hierarchy-version.
-   *   The hierarchy-version determines how the Branch Key Store classes
-   *   treat the Branch Keys.
+   *   The hierarchy-version determines how the Branch Key Store
+   *   protects and validates the branch key context (BKC).
    */
-  public HierarchyVersion hierarchyVersion() {
-    return this.hierarchyVersion;
+  public HierarchyVersion HierarchyVersion() {
+    return this.HierarchyVersion;
   }
 
   public Builder toBuilder() {
@@ -103,34 +103,34 @@ public class VersionKeyInput {
     KmsSymmetricKeyArn KmsArn();
 
     /**
-     * @param Strategy For 'hierarchy-version-1' (HV-1), only ReEncrypt is supported (for now).
-     *   For 'hierarchy-version-2' (HV-2), only AwsKmsForHierarchyVersionTwo is supported.
+     * @param Strategy For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or AwsKmsSimple are supported (for now).
+     *   For 'hierarchy-version-2' (HV-2), only AwsKmsDecryptEncrypt or AwsKmsSimple are supported.
      */
     Builder Strategy(KeyManagementStrategy Strategy);
 
     /**
-     * @return For 'hierarchy-version-1' (HV-1), only ReEncrypt is supported (for now).
-     *   For 'hierarchy-version-2' (HV-2), only AwsKmsForHierarchyVersionTwo is supported.
+     * @return For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or AwsKmsSimple are supported (for now).
+     *   For 'hierarchy-version-2' (HV-2), only AwsKmsDecryptEncrypt or AwsKmsSimple are supported.
      */
     KeyManagementStrategy Strategy();
 
     /**
-     * @param hierarchyVersion The hierarchy-version of a Branch Key;
+     * @param HierarchyVersion The hierarchy-version of a Branch Key;
      *   all items of the same Branch Key SHOULD
      *   have the same hierarchy-version.
-     *   The hierarchy-version determines how the Branch Key Store classes
-     *   treat the Branch Keys.
+     *   The hierarchy-version determines how the Branch Key Store
+     *   protects and validates the branch key context (BKC).
      */
-    Builder hierarchyVersion(HierarchyVersion hierarchyVersion);
+    Builder HierarchyVersion(HierarchyVersion HierarchyVersion);
 
     /**
      * @return The hierarchy-version of a Branch Key;
      *   all items of the same Branch Key SHOULD
      *   have the same hierarchy-version.
-     *   The hierarchy-version determines how the Branch Key Store classes
-     *   treat the Branch Keys.
+     *   The hierarchy-version determines how the Branch Key Store
+     *   protects and validates the branch key context (BKC).
      */
-    HierarchyVersion hierarchyVersion();
+    HierarchyVersion HierarchyVersion();
 
     VersionKeyInput build();
   }
@@ -143,7 +143,7 @@ public class VersionKeyInput {
 
     protected KeyManagementStrategy Strategy;
 
-    protected HierarchyVersion hierarchyVersion;
+    protected HierarchyVersion HierarchyVersion;
 
     protected BuilderImpl() {}
 
@@ -151,7 +151,7 @@ public class VersionKeyInput {
       this.Identifier = model.Identifier();
       this.KmsArn = model.KmsArn();
       this.Strategy = model.Strategy();
-      this.hierarchyVersion = model.hierarchyVersion();
+      this.HierarchyVersion = model.HierarchyVersion();
     }
 
     public Builder Identifier(String Identifier) {
@@ -181,13 +181,13 @@ public class VersionKeyInput {
       return this.Strategy;
     }
 
-    public Builder hierarchyVersion(HierarchyVersion hierarchyVersion) {
-      this.hierarchyVersion = hierarchyVersion;
+    public Builder HierarchyVersion(HierarchyVersion HierarchyVersion) {
+      this.HierarchyVersion = HierarchyVersion;
       return this;
     }
 
-    public HierarchyVersion hierarchyVersion() {
-      return this.hierarchyVersion;
+    public HierarchyVersion HierarchyVersion() {
+      return this.HierarchyVersion;
     }
 
     public VersionKeyInput build() {

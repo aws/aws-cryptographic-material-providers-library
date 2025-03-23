@@ -7,8 +7,8 @@ package software.amazon.cryptography.keystore.model;
  * The hierarchy-version of a Branch Key;
  *   all items of the same Branch Key SHOULD
  *   have the same hierarchy-version.
- *   The hierarchy-version determines how the Branch Key Store classes
- *   treat the Branch Keys.
+ *   The hierarchy-version determines how the Branch Key Store
+ *   protects and validates the branch key context (BKC).
  */
 public enum HierarchyVersion {
   v1("1"),

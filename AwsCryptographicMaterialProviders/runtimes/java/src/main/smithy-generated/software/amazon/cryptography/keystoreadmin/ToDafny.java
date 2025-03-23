@@ -22,7 +22,6 @@ import software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutat
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationOutput;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationResult;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.AwsKmsDecryptEncrypt;
-import software.amazon.cryptography.keystoreadmin.internaldafny.types.AwsKmsForHierarchyVersionTwo;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.CreateKeyInput;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.CreateKeyOutput;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.DescribeMutationInput;
@@ -192,42 +191,6 @@ public class ToDafny {
     return new AwsKmsDecryptEncrypt(decrypt, encrypt);
   }
 
-  public static AwsKmsForHierarchyVersionTwo AwsKmsForHierarchyVersionTwo(
-    software.amazon.cryptography.keystoreadmin.model.AwsKmsForHierarchyVersionTwo nativeValue
-  ) {
-    Option<AwsKms> generateRandom;
-    generateRandom =
-      Objects.nonNull(nativeValue.generateRandom())
-        ? Option.create_Some(
-          AwsKms._typeDescriptor(),
-          software.amazon.cryptography.keystore.ToDafny.AwsKms(
-            nativeValue.generateRandom()
-          )
-        )
-        : Option.create_None(AwsKms._typeDescriptor());
-    Option<AwsKms> encrypt;
-    encrypt =
-      Objects.nonNull(nativeValue.encrypt())
-        ? Option.create_Some(
-          AwsKms._typeDescriptor(),
-          software.amazon.cryptography.keystore.ToDafny.AwsKms(
-            nativeValue.encrypt()
-          )
-        )
-        : Option.create_None(AwsKms._typeDescriptor());
-    Option<AwsKms> decrypt;
-    decrypt =
-      Objects.nonNull(nativeValue.decrypt())
-        ? Option.create_Some(
-          AwsKms._typeDescriptor(),
-          software.amazon.cryptography.keystore.ToDafny.AwsKms(
-            nativeValue.decrypt()
-          )
-        )
-        : Option.create_None(AwsKms._typeDescriptor());
-    return new AwsKmsForHierarchyVersionTwo(generateRandom, encrypt, decrypt);
-  }
-
   public static CreateKeyInput CreateKeyInput(
     software.amazon.cryptography.keystoreadmin.model.CreateKeyInput nativeValue
   ) {
@@ -279,11 +242,11 @@ public class ToDafny {
         : Option.create_None(KeyManagementStrategy._typeDescriptor());
     Option<HierarchyVersion> hierarchyVersion;
     hierarchyVersion =
-      Objects.nonNull(nativeValue.hierarchyVersion())
+      Objects.nonNull(nativeValue.HierarchyVersion())
         ? Option.create_Some(
           HierarchyVersion._typeDescriptor(),
           software.amazon.cryptography.keystore.ToDafny.HierarchyVersion(
-            nativeValue.hierarchyVersion()
+            nativeValue.HierarchyVersion()
           )
         )
         : Option.create_None(HierarchyVersion._typeDescriptor());
@@ -304,7 +267,12 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
         nativeValue.Identifier()
       );
-    return new CreateKeyOutput(identifier);
+    HierarchyVersion hierarchyVersion;
+    hierarchyVersion =
+      software.amazon.cryptography.keystore.ToDafny.HierarchyVersion(
+        nativeValue.HierarchyVersion()
+      );
+    return new CreateKeyOutput(identifier, hierarchyVersion);
   }
 
   public static DescribeMutationInput DescribeMutationInput(
@@ -610,11 +578,11 @@ public class ToDafny {
         : Option.create_None(KeyManagementStrategy._typeDescriptor());
     Option<HierarchyVersion> hierarchyVersion;
     hierarchyVersion =
-      Objects.nonNull(nativeValue.hierarchyVersion())
+      Objects.nonNull(nativeValue.HierarchyVersion())
         ? Option.create_Some(
           HierarchyVersion._typeDescriptor(),
           software.amazon.cryptography.keystore.ToDafny.HierarchyVersion(
-            nativeValue.hierarchyVersion()
+            nativeValue.HierarchyVersion()
           )
         )
         : Option.create_None(HierarchyVersion._typeDescriptor());
@@ -761,10 +729,10 @@ public class ToDafny {
         ToDafny.AwsKmsDecryptEncrypt(nativeValue.AwsKmsDecryptEncrypt())
       );
     }
-    if (Objects.nonNull(nativeValue.AwsKmsForHierarchyVersionTwo())) {
-      return KeyManagementStrategy.create_AwsKmsForHierarchyVersionTwo(
-        ToDafny.AwsKmsForHierarchyVersionTwo(
-          nativeValue.AwsKmsForHierarchyVersionTwo()
+    if (Objects.nonNull(nativeValue.AwsKmsSimple())) {
+      return KeyManagementStrategy.create_AwsKmsSimple(
+        software.amazon.cryptography.keystore.ToDafny.AwsKms(
+          nativeValue.AwsKmsSimple()
         )
       );
     }
