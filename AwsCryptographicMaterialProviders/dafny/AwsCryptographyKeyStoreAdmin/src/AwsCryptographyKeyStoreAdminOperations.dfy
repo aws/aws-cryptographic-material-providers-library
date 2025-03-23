@@ -142,18 +142,9 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
         var decrypt :- ResolveKmsInput(kmsDecryptEncrypt.decrypt.value, config);
         var encrypt :- ResolveKmsInput(kmsDecryptEncrypt.encrypt.value, config);
         return Success(KmsUtils.keyManagerStrat.decryptEncrypt(decrypt, encrypt));
-      case AwsKmsForHierarchyVersionTwo(kmsForHV2) =>
-        :- Need(
-          && kmsForHV2.generateRandom.Some?
-          && kmsForHV2.encrypt.Some?
-          && kmsForHV2.decrypt.Some?,
-          Types.KeyStoreAdminException(message :=
-                                         "At this time, users MUST supply KMS clients for generateRandom, encrypt, and decrypt."
-          ));
-        var generateRandom :- ResolveKmsInput(kmsForHV2.generateRandom.value, config);
-        var decrypt :- ResolveKmsInput(kmsForHV2.decrypt.value, config);
-        var encrypt :- ResolveKmsInput(kmsForHV2.encrypt.value, config);
-        return Success(KmsUtils.keyManagerStrat.kmsForHV2(generateRandom, decrypt, encrypt));
+      case AwsKmsSimple(kms) =>
+        var tuple :- ResolveKmsInput(kms, config);
+        return Success(KmsUtils.keyManagerStrat.reEncrypt(tuple));
     }
   }
 
@@ -229,6 +220,19 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     return Success(internal);
   }
 
+  method ResolveHierarchyVersion(
+    hierarchyVersion?: Option<KeyStoreTypes.HierarchyVersion>,
+    config: InternalConfig
+  )
+    returns (output: Result<KeyStoreTypes.HierarchyVersion, Error>)
+  {
+    if (hierarchyVersion?.None?) {
+      return Success(KeyStoreTypes.HierarchyVersion.v1);
+    }
+    return Success(hierarchyVersion?.value);
+  }
+  
+  
   function method LegacyConfig(
     keyManagerStrat: KmsUtils.keyManagerStrat,
     kmsArn: Types.KmsSymmetricKeyArn,
@@ -291,6 +295,8 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
     assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
 
+    var hvInput :- ResolveHierarchyVersion(input.HierarchyVersion, config);
+    
     var output? := KeyStoreOperations.CreateKey(
       config := legacyConfig,
       input := KeyStoreOperations.Types.CreateKeyInput(
@@ -303,7 +309,9 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
 
     output := Success(
       Types.CreateKeyOutput(
-        Identifier := value.branchKeyIdentifier
+        Identifier := value.branchKeyIdentifier,
+        // TODO-HV-2-BLOCKER: this will need to be properly wired
+        HierarchyVersion := hvInput
       ));
   }
 
