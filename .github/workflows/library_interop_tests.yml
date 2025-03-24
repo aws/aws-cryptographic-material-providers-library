@@ -28,11 +28,12 @@ jobs:
         # TODO-Rust-CI: Removing Rust Runtimes until the underlying issue resolved.
         # TODO-Rust-CI: Rust runtimes checks are failing to resolve dafny_runtime imports
         language: [
-          java,
-          net,
-          # rust,
-          python,
-          go]
+            java,
+            net,
+            # rust,
+            python,
+            go,
+          ]
         # https://taskei.amazon.dev/tasks/CrypTool-5284
         dotnet-version: ["6.0.x"]
     runs-on: ${{ matrix.os }}
