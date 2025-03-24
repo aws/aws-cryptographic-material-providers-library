@@ -47,10 +47,10 @@ module HierarchicalVersionUtils {
     return newMap;
   }
 
-  function method RemoveRestrictedFields(a:map<string, string>) : (output:map<string, string>)
+  function method RemoveRestrictedFields(input:map<string, string>) : (output:map<string, string>)
     ensures Structure.Hv2EncryptionContext?(output)
   {
-    a - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
+    input - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
   }
 
   function method UnstringifyEncryptionContext(stringEncCtx: Types.EncryptionContextString) : (res: Result<Types.EncryptionContext, Types.Error>)
