@@ -54,7 +54,7 @@ module HierarchicalVersionUtils {
         newMap := newMap[item.0 := item.1];
       }
     }
-    return withoutRestrictedField;
+    return newMap;
   }
 
   function method RemoveRestrictedFields(a:map<string, string>) : (output:map<string, string>)
@@ -171,8 +171,6 @@ module HierarchicalVersionUtils {
     var decryptedMdDigest := plaintextBranchKeyWithMdDigest[..Structure.MD_DIGEST_LENGTH];
     var plaintextBranchKey := plaintextBranchKeyWithMdDigest[Structure.MD_DIGEST_LENGTH..];
 
-    print "\nDecrypted Plaintext Branch Key: ";
-    print plaintextBranchKey;
     if (decryptedMdDigest != digestResult.value) {
       var e := Types.KeyStoreException(
         message :=
