@@ -25,8 +25,6 @@ module {:options "/functionSyntax:4" } Structure {
   const M_INPUT := "input" // The DDB Attribute name for the input, which is AttributeValue.B
   const M_UUID := "uuid" // The DDB Attribute name for the uuid, which is AttributeValue.S
   const M_PAGE_INDEX := "pageIndex" // The DDB Attribute name for the pageIndex, which is AttributeValue.B
-  const HIERARCHY_VERSION_1 := "1"
-  const HIERARCHY_VERSION_2 := "2"
   const AES_256_LENGTH := 32
   const MD_DIGEST_LENGTH := 48
   const AWS_CRYPTO_EC := "aws-crypto-ec"
@@ -44,8 +42,10 @@ module {:options "/functionSyntax:4" } Structure {
   }
 
   //Attribute Values
+  const HIERARCHY_VERSION_VALUE_1 := "1"
+  const HIERARCHY_VERSION_VALUE_2 := "2"
   // TODO-HV-2-Create: Refactor to allow HV-2 but defaults to HV-1
-  const HIERARCHY_VERSION_VALUE := "1"
+  const HIERARCHY_VERSION_VALUE := HIERARCHY_VERSION_VALUE_1
   // const HIERARCHY_VERSION_VALUE_2 := "2"
   const HIERARCHY_VERSION_ATTRIBUTE_VALUE := DDB.AttributeValue.N(HIERARCHY_VERSION_VALUE)
   const BRANCH_KEY_TYPE_PREFIX := "branch:version:"
@@ -495,7 +495,7 @@ module {:options "/functionSyntax:4" } Structure {
       TYPE_FIELD := BRANCH_KEY_TYPE_PREFIX + branchKeyVersion,
       KEY_CREATE_TIME := timestamp,
       KMS_FIELD := kmsKeyArn,
-      HIERARCHY_VERSION := HIERARCHY_VERSION_2
+      HIERARCHY_VERSION := HIERARCHY_VERSION_VALUE_2
     ] + map k <- customEncryptionContext :: ENCRYPTION_CONTEXT_PREFIX + k := customEncryptionContext[k]
   }
 
