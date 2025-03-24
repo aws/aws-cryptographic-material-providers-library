@@ -58,24 +58,11 @@ jobs:
         uses: actions-rust-lang/setup-rust-toolchain@v1.10.1
         with:
           components: rustfmt
-      # TODO - uncomment this after Rust formatter works
-      # - name: Rustfmt Check
-      #   uses: actions-rust-lang/rustfmt@v1
 
       - name: Setup Dafny
         uses: ./.github/actions/setup_dafny
         with:
           dafny-version: nightly-2025-01-30-7db1e5f
-
-      # TODO: Remove this after the formatting in Rust starts working
-      - name: smithy-dafny Rust hacks
-        shell: bash
-        run: |
-          if [ "$RUNNER_OS" == "macOS" ]; then
-            sed -i '' 's|rustfmt --edition 2021 runtimes/rust/src/implementation_from_dafny.rs|#&|' smithy-dafny/SmithyDafnyMakefile.mk
-          else
-            sed -i 's|rustfmt --edition 2021 runtimes/rust/src/implementation_from_dafny.rs|#&|' smithy-dafny/SmithyDafnyMakefile.mk
-          fi
 
       - name: Setup Java 17 for codegen
         uses: actions/setup-java@v3
@@ -109,3 +96,4 @@ jobs:
         working-directory: ./${{ matrix.library }}
         run: |
           make test_rust
+          make test_rust_debug

@@ -59,6 +59,7 @@ jobs:
     uses: ./.github/workflows/library_interop_tests.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
+    secrets: inherit
   pr-ci-all-required:
     if: always()
     needs:

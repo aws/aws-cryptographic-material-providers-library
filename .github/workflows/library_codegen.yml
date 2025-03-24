@@ -72,19 +72,6 @@ jobs:
           distribution: "corretto"
           java-version: "17"
 
-      - name: Install Smithy-Dafny codegen dependencies
-        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
-
-      - name: Setup Python, black, and docformatter for code formatting
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-          architecture: x64
-      - run: |
-          python -m pip install --upgrade pip
-          python -m pip install --upgrade black
-          python -m pip install --upgrade docformatter
-
       - name: Install Go
         uses: actions/setup-go@v5
         with:
