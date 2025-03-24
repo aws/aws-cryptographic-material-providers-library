@@ -98,7 +98,7 @@ module GetKeys {
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getactivebranchkey
               //= type=implication
               //# The operation MUST decrypt the EncryptedHierarchicalKey according to the [AWS KMS Branch Key Decryption](#aws-kms-branch-key-decryption) section.
-              // TODO: Verification
+              // TODO-HV-2-M1: Verification
               // && (activeItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2 
               //     ==> 
               //       && var hv2EC := HierarchicalVersionUtils.GetHV2EC(activeItem.EncryptionContext);
@@ -214,7 +214,7 @@ module GetKeys {
     } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2) {
       // branchKeyItemFromStorage.EncryptionContext comes from storage is not the actual EC.
       // branchKeyItemFromStorage.EncryptionContext contains all the items in the dynamodb table and table name.
-      var hv2EC := Structure.ExtractCustomEncryptionContextAs(branchKeyItemFromStorage.EncryptionContext);
+      var hv2EC := HierarchicalVersionUtils.GetHV2EC(branchKeyItemFromStorage.EncryptionContext);
       var hv2BranchKey := Types.EncryptedHierarchicalKey(
         Identifier := branchKeyItemFromStorage.Identifier,
         Type := branchKeyItemFromStorage.Type,
@@ -223,8 +223,6 @@ module GetKeys {
         EncryptionContext := hv2EC,
         CiphertextBlob := branchKeyItemFromStorage.CiphertextBlob
       );
-      print "\nHv2 Branch Key: ";
-      print hv2BranchKey;
       var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHV2(
         hv2BranchKey,
         kmsConfiguration,
@@ -336,6 +334,7 @@ module GetKeys {
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
               //= type=implication
               //# The operation MUST decrypt the branch key according to the [AWS KMS Branch Key Decryption](#aws-kms-branch-key-decryption) section.
+              // TODO-HV-2-M1: Verification
               && KMSKeystoreOperations.AwsKmsBranchKeyHV1Decryption?(
                    versionItem,
                    kmsConfiguration,
@@ -543,6 +542,7 @@ module GetKeys {
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbeaconkey
               //= type=implication
               //# The operation MUST decrypt the beacon key according to the [AWS KMS Branch Key Decryption](#aws-kms-branch-key-decryption) section.
+              // TODO-HV-2-M1: Verification
               && KMSKeystoreOperations.AwsKmsBranchKeyHV1Decryption?(
                    beaconItem,
                    kmsConfiguration,
