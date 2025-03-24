@@ -61,10 +61,10 @@ jobs:
       # The specification submodule is private so we don't have access, but we don't need
       # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
       - run: git submodule update --init libraries
-      - run: git submodule update --init smithy-dafny
+      - run: git submodule update --init --recursive smithy-dafny
 
       - name: Setup Dafny
-        uses: dafny-lang/setup-dafny-action@v1.7.0
+        uses: ./.github/actions/setup_dafny
         with:
           dafny-version: ${{ inputs.dafny }}
 
@@ -97,3 +97,11 @@ jobs:
         shell: bash
         run: |
           make test_go
+
+      # This is only to test AwsCryptographicMaterialProviders which has local cmc test inside it.
+      - name: Test local CMC
+        if: matrix.library == 'AwsCryptographicMaterialProviders'
+        working-directory: ./${{ matrix.library }}/runtimes/go/TestsFromDafny-go
+        shell: bash
+        run: |
+          go test
