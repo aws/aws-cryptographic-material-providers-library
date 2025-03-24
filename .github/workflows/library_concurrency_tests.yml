@@ -51,7 +51,7 @@ jobs:
           role-session-name: ConcurrencyTests
 
       - uses: actions/checkout@v3
-      #  Not all submodules are needed.
+      # Not all submodules are needed.
       # We manually pull the submodule we DO need.
       - run: git submodule update --init libraries
       - run: git submodule update --init --recursive smithy-dafny
