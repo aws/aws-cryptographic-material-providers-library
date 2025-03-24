@@ -22,7 +22,7 @@ module HierarchicalVersionUtils {
   import Structure
   import CanonicalEncryptionContext
 
-  function method GetMdDigestFromEC(
+  function method GetStoredBranchKeyContext(
     item: Types.EncryptionContextString
   ) : (output: Types.EncryptionContextString)
     ensures output.Keys == item.Keys - {Structure.TABLE_FIELD}
@@ -141,7 +141,7 @@ module HierarchicalVersionUtils {
               // If failed, output contains appropriate error message
               output.error.KeyStoreException?
   {
-    var mdDigestMap := GetMdDigestFromEC(branchKeyItemFromStorage.EncryptionContext);
+    var mdDigestMap := GetStoredBranchKeyContext(branchKeyItemFromStorage.EncryptionContext);
     var utf8MDDigest :- UnstringifyEncryptionContext(mdDigestMap);
     var crypto := ProvideCryptoClient();
     if (crypto.Failure?) {
@@ -169,10 +169,9 @@ module HierarchicalVersionUtils {
         message := ErrorMessages.BRANCH_KEY_MD_DIGEST_SHA_INCORRECT_LENGTH
       )
     );
-    var decryptedMdDigest := plaintextBranchKeyWithMdDigest[..Structure.MD_DIGEST_LENGTH];
-    var plaintextBranchKey := plaintextBranchKeyWithMdDigest[Structure.MD_DIGEST_LENGTH..];
+    var protectedMdDigest := plaintextBranchKeyWithMdDigest[..Structure.MD_DIGEST_LENGTH];
 
-    if (decryptedMdDigest != digestResult.value) {
+    if (protectedMdDigest != digestResult.value) {
       var e := Types.KeyStoreException(
         message :=
           ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED);
