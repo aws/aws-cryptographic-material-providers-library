@@ -223,19 +223,19 @@ module GetKeys {
         EncryptionContext := hv2EC,
         CiphertextBlob := branchKeyItemFromStorage.CiphertextBlob
       );
-      var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHV2(
+      var kmsDecryptRes: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHV2(
         hv2BranchKey,
         kmsConfiguration,
         grantTokens,
         kmsClient
       );
-      var validateResult := HierarchicalVersionUtils.ValidateMdDigest(branchKey.Plaintext.value, branchKeyItemFromStorage);
+      var validateResult := HierarchicalVersionUtils.ValidateMdDigest(kmsDecryptRes.Plaintext.value, branchKeyItemFromStorage);
       if (validateResult.Failure?) {
         return Failure(validateResult.error);
       }
       var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
         branchKeyItemFromStorage,
-        branchKey.Plaintext.value[Structure.MD_DIGEST_LENGTH..]
+        kmsDecryptRes.Plaintext.value[Structure.MD_DIGEST_LENGTH..]
       );
       return Success(
           Types.GetActiveBranchKeyOutput(
@@ -451,19 +451,19 @@ module GetKeys {
         EncryptionContext := hv2EC,
         CiphertextBlob := branchKeyItemFromStorage.CiphertextBlob
       );
-      var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHV2(
+      var kmsDecryptRes: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHV2(
         hv2BranchKey,
         kmsConfiguration,
         grantTokens,
         kmsClient
       );
-      var validateResult := HierarchicalVersionUtils.ValidateMdDigest(branchKey.Plaintext.value, branchKeyItemFromStorage);
+      var validateResult := HierarchicalVersionUtils.ValidateMdDigest(kmsDecryptRes.Plaintext.value, branchKeyItemFromStorage);
       if (validateResult.Failure?) {
         return Failure(validateResult.error);
       }
       var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
         branchKeyItemFromStorage,
-        branchKey.Plaintext.value[0..Structure.AES_256_LENGTH]
+        kmsDecryptRes.Plaintext.value[Structure.MD_DIGEST_LENGTH..]
       );
       return Success(
           Types.GetBranchKeyVersionOutput(
@@ -656,19 +656,19 @@ module GetKeys {
         EncryptionContext := hv2EC,
         CiphertextBlob := branchKeyItemFromStorage.CiphertextBlob
       );
-      var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHV2(
+      var kmsDecryptRes: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHV2(
         hv2BranchKey,
         kmsConfiguration,
         grantTokens,
         kmsClient
       );
-      var validateResult := HierarchicalVersionUtils.ValidateMdDigest(branchKey.Plaintext.value, branchKeyItemFromStorage);
+      var validateResult := HierarchicalVersionUtils.ValidateMdDigest(kmsDecryptRes.Plaintext.value, branchKeyItemFromStorage);
       if (validateResult.Failure?) {
         return Failure(validateResult.error);
       }
       var beaconKeyMaterials :- Structure.ToBeaconKeyMaterials(
         branchKeyItemFromStorage,
-        branchKey.Plaintext.value[0..Structure.AES_256_LENGTH]
+        kmsDecryptRes.Plaintext.value[Structure.MD_DIGEST_LENGTH..]
       );
       return Success(
           Types.GetBeaconKeyOutput(
