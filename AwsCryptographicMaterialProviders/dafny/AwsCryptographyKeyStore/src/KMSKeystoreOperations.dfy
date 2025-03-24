@@ -723,6 +723,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
 
   }
 
+  // TODO-HV-2-M1: We might not need this. If we need this then this predicate might need changes.
   ghost predicate AwsKmsBranchKeyHV2Decryption?(
     versionItem: Types.EncryptedHierarchicalKey,
     kmsConfiguration: Types.KMSConfiguration,
