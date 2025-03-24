@@ -22,17 +22,6 @@ module HierarchicalVersionUtils {
   import Structure
   import CanonicalEncryptionContext
 
-  function method GetStoredBranchKeyContext(
-    item: Types.EncryptionContextString
-  ) : (output: Types.EncryptionContextString)
-    ensures output.Keys == item.Keys - {Structure.TABLE_FIELD}
-    ensures forall k :: k in output ==> output[k] == item[k]
-    ensures forall k :: k in output ==> k !in {Structure.TABLE_FIELD}
-  {
-    map k <- item.Keys - {Structure.TABLE_FIELD}
-      :: k := item[k]
-  }
-
   // TODO-HV2-M1: Verification. This method could be changed into a function.
   method GetHv2KmsEc(
     ecStringMap: Types.EncryptionContextString
@@ -141,8 +130,7 @@ module HierarchicalVersionUtils {
               // If failed, output contains appropriate error message
               output.error.KeyStoreException?
   {
-    var mdDigestMap := GetStoredBranchKeyContext(branchKeyItemFromStorage.EncryptionContext);
-    var utf8MDDigest :- UnstringifyEncryptionContext(mdDigestMap);
+    var utf8MDDigest :- UnstringifyEncryptionContext(branchKeyItemFromStorage.EncryptionContext);
     var crypto := ProvideCryptoClient();
     if (crypto.Failure?) {
       var e := Types.KeyStoreException(
