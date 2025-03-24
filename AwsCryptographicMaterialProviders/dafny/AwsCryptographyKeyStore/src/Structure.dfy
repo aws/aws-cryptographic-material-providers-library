@@ -461,6 +461,7 @@ module {:options "/functionSyntax:4" } Structure {
     map i <- defixedCustomEncryptionContext :: i.0 := i.1
   }
 
+  // TODO-HV1-M1: This function MUST return map with logical keystore as well
   opaque function Hv2DecryptOnlyBranchKeyEncryptionContext(
     branchKeyId: string,
     branchKeyVersion: string,
