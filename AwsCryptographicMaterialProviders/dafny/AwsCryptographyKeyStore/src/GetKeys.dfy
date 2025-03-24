@@ -101,7 +101,7 @@ module GetKeys {
               // TODO-HV-2-M1: Verification
               // && (activeItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2
               //     ==>
-              //       && var hv2EC := HierarchicalVersionUtils.GetHV2EC(activeItem.EncryptionContext);
+              //       && var hv2EC := HierarchicalVersionUtils.GetHv2KmsEc(activeItem.EncryptionContext);
               //       && var hv2ActiveItem := Types.EncryptedHierarchicalKey(
               //           Identifier := activeItem.Identifier,
               //           Type := activeItem.Type,
@@ -214,7 +214,7 @@ module GetKeys {
     } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2) {
       // branchKeyItemFromStorage.EncryptionContext comes from storage is not the actual EC.
       // branchKeyItemFromStorage.EncryptionContext contains all the items in the dynamodb table and table name.
-      var hv2EC := HierarchicalVersionUtils.GetHV2EC(branchKeyItemFromStorage.EncryptionContext);
+      var hv2EC := HierarchicalVersionUtils.GetHv2KmsEc(branchKeyItemFromStorage.EncryptionContext);
       var hv2BranchKey := Types.EncryptedHierarchicalKey(
         Identifier := branchKeyItemFromStorage.Identifier,
         Type := branchKeyItemFromStorage.Type,
@@ -442,7 +442,7 @@ module GetKeys {
     } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2) {
       // branchKeyItemFromStorage.EncryptionContext comes from storage is not the actual EC.
       // branchKeyItemFromStorage.EncryptionContext contains all the items in the dynamodb table and table name.
-      var hv2EC := HierarchicalVersionUtils.GetHV2EC(branchKeyItemFromStorage.EncryptionContext);
+      var hv2EC := HierarchicalVersionUtils.GetHv2KmsEc(branchKeyItemFromStorage.EncryptionContext);
       var hv2BranchKey := Types.EncryptedHierarchicalKey(
         Identifier := branchKeyItemFromStorage.Identifier,
         Type := branchKeyItemFromStorage.Type,
@@ -647,7 +647,7 @@ module GetKeys {
     } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2) {
       // branchKeyItemFromStorage.EncryptionContext comes from storage is not the actual EC.
       // branchKeyItemFromStorage.EncryptionContext contains all the items in the dynamodb table and table name.
-      var hv2EC := HierarchicalVersionUtils.GetHV2EC(branchKeyItemFromStorage.EncryptionContext);
+      var hv2EC := HierarchicalVersionUtils.GetHv2KmsEc(branchKeyItemFromStorage.EncryptionContext);
       var hv2BranchKey := Types.EncryptedHierarchicalKey(
         Identifier := branchKeyItemFromStorage.Identifier,
         Type := branchKeyItemFromStorage.Type,

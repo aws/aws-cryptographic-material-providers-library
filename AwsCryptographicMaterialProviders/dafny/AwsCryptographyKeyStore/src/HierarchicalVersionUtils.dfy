@@ -33,8 +33,8 @@ module HierarchicalVersionUtils {
       :: k := item[k]
   }
 
-  // TODO-HV2-M1: Verification. 
-  method GetHV2EC(
+  // TODO-HV2-M1: Verification. This method could be changed into a function.
+  method GetHv2KmsEc(
     ecStringMap: Types.EncryptionContextString
   ) returns (output: Types.EncryptionContextString)
     ensures Structure.Hv2EncryptionContext?(output)
