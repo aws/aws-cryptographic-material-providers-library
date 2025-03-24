@@ -35,7 +35,7 @@ jobs:
       id-token: write
       contents: read
     env:
-      RUST_MIN_STACK: 104857600
+      RUST_MIN_STACK: 404857600
     steps:
       - name: Support longpaths on Git checkout
         run: |
@@ -62,11 +62,10 @@ jobs:
       # - name: Rustfmt Check
       #   uses: actions-rust-lang/rustfmt@v1
 
-      # TODO: Use setup-dafny-actions with correct version when Dafny releases 4.8.2
       - name: Setup Dafny
-        uses: dafny-lang/setup-dafny-action@v1.7.0
+        uses: ./.github/actions/setup_dafny
         with:
-          dafny-version: 4.9.0
+          dafny-version: nightly-2025-01-30-7db1e5f
 
       # TODO: Remove this after the formatting in Rust starts working
       - name: smithy-dafny Rust hacks
