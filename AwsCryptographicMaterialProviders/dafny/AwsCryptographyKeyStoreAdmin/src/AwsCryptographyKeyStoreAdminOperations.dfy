@@ -204,7 +204,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     return Success(internal);
   }
 
-  method ResolveHierarchyVersion(
+  method ResolveHierarchyVersionForCreateKey(
     hierarchyVersion?: Option<KeyStoreTypes.HierarchyVersion>,
     config: InternalConfig
   )
@@ -279,7 +279,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
     assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
 
-    var hvInput :- ResolveHierarchyVersion(input.HierarchyVersion, config);
+    var hvInput :- ResolveHierarchyVersionForCreateKey(input.HierarchyVersion, config);
     :- Need(
       hvInput.v1?,
       Types.KeyStoreAdminException(message :="Only hierarchy-version-1 is supported at this time.")
@@ -349,11 +349,12 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       Types.KeyStoreAdminException(message := "At this time, Mutations do not support KeyManagementStrategy#AwsKmsSimple.")
     );
 
-    var hvInput :- ResolveHierarchyVersion(input.Mutations.TerminalHierarchyVersion, config);
-    :- Need(
-      hvInput.v1?,
-      Types.KeyStoreAdminException(message :="Only hierarchy-version-1 is supported at this time.")
-    );
+    if (
+        && input.Mutations.TerminalHierarchyVersion.Some?
+        && input.Mutations.TerminalHierarchyVersion.value.v2?
+      ) {
+      return Failure(Types.KeyStoreAdminException(message :="At this time, Mutations do not support mutations to hierarchy-version-2."));
+    }
     var internalInput := KSAInitializeMutation.InternalInitializeMutationInput(
       Identifier := input.Identifier,
       Mutations := input.Mutations,

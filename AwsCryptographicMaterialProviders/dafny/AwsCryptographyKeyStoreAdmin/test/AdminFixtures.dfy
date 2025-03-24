@@ -176,7 +176,7 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     requires DDB.Types.IsValid_TableName(physicalName)
     requires UTF8.IsASCIIString(physicalName) && UTF8.IsASCIIString(logicalName)
     // Either the keyValue is NOT reserved, or this is violating a reserved attribute
-    requires !violateReservedAttribute || keyValue.key !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
+    requires violateReservedAttribute || keyValue.key !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
     requires DDB.Types.IsValid_AttributeName(keyValue.key)
     requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
     modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
@@ -217,7 +217,7 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
     // Either the keyValue is NOT reserved, or this is violating a reserved attribute
-    requires !violateReservedAttribute || keyValue.key !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
+    requires violateReservedAttribute || keyValue.key !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
     requires DDB.Types.IsValid_AttributeName(keyValue.key)
     requires DDB.Types.IsValid_TableName(physicalName)
   {
