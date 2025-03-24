@@ -128,9 +128,9 @@ module HierarchicalVersionUtils {
   }
 
   method ValidateMdDigest (
-    plainText: KMS.PlaintextType, 
+    plainText: KMS.PlaintextType,
     branchKeyItemFromStorage: Types.EncryptedHierarchicalKey
-  )  
+  )
     returns (output: Result<(), Types.Error>)
     // The plaintext should be large enough to contain both AES key and MD digest
     requires |plainText| == Structure.AES_256_LENGTH + Structure.MD_DIGEST_LENGTH
