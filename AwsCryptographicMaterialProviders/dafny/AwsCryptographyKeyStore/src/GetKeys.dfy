@@ -8,6 +8,8 @@ include "ErrorMessages.dfy"
 include "KmsArn.dfy"
 include "../../AwsCryptographicMaterialProviders/src/CanonicalEncryptionContext.dfy"
 include "HierarchicalVersionUtils.dfy"
+
+// TODO-HV-2-M1: We could probably extract out some logic from get active, beacon and version key into a single method.
 module GetKeys {
   import opened StandardLibrary
   import opened Wrappers
