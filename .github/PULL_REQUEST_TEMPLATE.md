@@ -1,7 +1,10 @@
-_Issue #, if available:_
+### Issue #, if available:
 
-_Description of changes:_
+### Description of changes:
 
-_Squash/merge commit message, if applicable:_
+### Squash/merge commit message, if applicable:
+```
+<message>
+```
 
 By submitting this pull request, I confirm that my contribution is made under the terms of the Apache 2.0 license.
