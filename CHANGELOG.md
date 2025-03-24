@@ -2,24 +2,19 @@
 
 ## [1.10.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.9.0...v1.10.0) (2025-03-24)
 
-### Features -- Go
+This release is available in the following languages:
 
-* **go:** Go smithy-dafny-standard-library v0.2.0 release ([#1219](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1219)) ([a6b9fb6](https://github.com/aws/aws-cryptographic-material-providers-library/commit/a6b9fb6cdf2fdccc3a532435219fb6e59f44e8f0))
+- Python
+
+### Miscellaneous -- Python
+
+* **deps:** extend supported version of pytz library ([#1333](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1333)) ([6f6876a](https://github.com/aws/aws-cryptographic-material-providers-library/commit/6f6876aea8be186555e6430e039f4a6c6883c5d5))
 
 ### Miscellaneous
 
-* add kms:GenerateRandom permission to CI role ([#1345](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1345)) ([56ebd5d](https://github.com/aws/aws-cryptographic-material-providers-library/commit/56ebd5d068a7f6a2dc81e87d26232af25ff8bdf5))
 * clarify InFlightTTLExceeded exception ([#1169](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1169)) ([d1c42a6](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d1c42a6840a7846934b6e9124b170ef710cf2aba))
-* **deps:** extend supported version of pytz library ([#1333](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1333)) ([6f6876a](https://github.com/aws/aws-cryptographic-material-providers-library/commit/6f6876aea8be186555e6430e039f4a6c6883c5d5))
-* Enable local testing ([#1282](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1282)) ([70e5809](https://github.com/aws/aws-cryptographic-material-providers-library/commit/70e580991678387ce897a286c4f7f449aa616785))
-* expand prettier ignore ([#1270](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1270)) ([094c01c](https://github.com/aws/aws-cryptographic-material-providers-library/commit/094c01cf9826a7cff22d258faedc33da0f9dd01e))
-* fix typos in smithy models ([#1326](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1326)) ([7f59a7e](https://github.com/aws/aws-cryptographic-material-providers-library/commit/7f59a7e073f2abe9effa89f7818ceb50bea9df26))
+* fix typos in documentation ([#1326](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1326)) ([7f59a7e](https://github.com/aws/aws-cryptographic-material-providers-library/commit/7f59a7e073f2abe9effa89f7818ceb50bea9df26))
 * let fileio deal in uint8 instead of bv8 ([#1347](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1347)) ([80e28f3](https://github.com/aws/aws-cryptographic-material-providers-library/commit/80e28f3f7816e99ed22120cca6a81628a3ae4892))
-* Mark Down headings for the PR template ([#1351](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1351)) ([8c4de2b](https://github.com/aws/aws-cryptographic-material-providers-library/commit/8c4de2ba02ffd2b3cf272b8e0573c9ce46915d98))
-* re-enable Dafny for MacOS ([#1343](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1343)) ([aa2bed1](https://github.com/aws/aws-cryptographic-material-providers-library/commit/aa2bed1f0f9fbc48503870fe1b500a6aac59b130))
-* re-enable macOS CI ([#1346](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1346)) ([ed1f804](https://github.com/aws/aws-cryptographic-material-providers-library/commit/ed1f8045f7faa6cbe622d0cf4859a5371620cb16))
-* remove mac os from CI and refactor base64Lemmas ([#1325](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1325)) ([6067d3e](https://github.com/aws/aws-cryptographic-material-providers-library/commit/6067d3e31be5e4c973ae306627e6c381bb5fba48))
-* update releaserc ([#1312](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1312)) ([1a43584](https://github.com/aws/aws-cryptographic-material-providers-library/commit/1a4358492ae17a9249b2c52fffe56ef72b02fc1d))
 
 # [1.9.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.8.0...v1.9.0) (2025-02-03)
 
