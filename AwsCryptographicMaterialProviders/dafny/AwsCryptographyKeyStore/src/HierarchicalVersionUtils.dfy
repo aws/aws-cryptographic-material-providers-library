@@ -13,12 +13,14 @@ module HierarchicalVersionUtils {
 
   import ErrorMessages = KeyStoreErrorMessages
   import Types = AwsCryptographyKeyStoreTypes
+  import KMS = ComAmazonawsKmsTypes
 
   import AtomicPrimitives
   import UTF8
   import KMSKeystoreOperations
   import KmsArn
   import Structure
+  import CanonicalEncryptionContext
 
   function method GetMdDigestFromEC(
     item: Types.EncryptionContextString
