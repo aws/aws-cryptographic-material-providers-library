@@ -99,7 +99,7 @@ module GetKeys {
               //= type=implication
               //# The operation MUST decrypt the EncryptedHierarchicalKey according to the [AWS KMS Branch Key Decryption](#aws-kms-branch-key-decryption) section.
               // TODO-HV-2-M1: Verification
-              // && (activeItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2
+              // && (activeItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2
               //     ==>
               //       && var hv2EC := HierarchicalVersionUtils.GetHv2KmsEc(activeItem.EncryptionContext);
               //       && var hv2ActiveItem := Types.EncryptedHierarchicalKey(
@@ -183,8 +183,8 @@ module GetKeys {
         message := ErrorMessages.INVALID_ACTIVE_BRANCH_KEY_FROM_STORAGE)
     );
     :- Need(
-      branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_1 ||
-      branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2,
+      branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1 ||
+      branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2,
       Types.KeyStoreException(
         message := ErrorMessages.INVALID_HIERARCHY_VERSION
       )
@@ -195,7 +195,7 @@ module GetKeys {
         message := ErrorMessages.INVALID_BRANCH_KEY_CONTEXT
       )
     );
-    if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_1) {
+    if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1) {
       var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHV1(
         branchKeyItemFromStorage,
         kmsConfiguration,
@@ -211,7 +211,7 @@ module GetKeys {
           Types.GetActiveBranchKeyOutput(
             branchKeyMaterials := branchKeyMaterials
           ));
-    } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2) {
+    } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2) {
       // branchKeyItemFromStorage.EncryptionContext comes from storage is not the actual EC.
       // branchKeyItemFromStorage.EncryptionContext contains all the items in the dynamodb table and table name.
       var hv2EC := HierarchicalVersionUtils.GetHv2KmsEc(branchKeyItemFromStorage.EncryptionContext);
@@ -409,8 +409,8 @@ module GetKeys {
         message := ErrorMessages.INVALID_BRANCH_KEY_VERSION_FROM_STORAGE)
     );
     :- Need(
-      branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_1 ||
-      branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2,
+      branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1 ||
+      branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2,
       Types.KeyStoreException(
         message := ErrorMessages.INVALID_HIERARCHY_VERSION
       )
@@ -422,7 +422,7 @@ module GetKeys {
       )
     );
 
-    if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_1) {
+    if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1) {
       var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHV1(
         branchKeyItemFromStorage,
         kmsConfiguration,
@@ -439,7 +439,7 @@ module GetKeys {
           Types.GetBranchKeyVersionOutput(
             branchKeyMaterials := branchKeyMaterials
           ));
-    } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2) {
+    } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2) {
       // branchKeyItemFromStorage.EncryptionContext comes from storage is not the actual EC.
       // branchKeyItemFromStorage.EncryptionContext contains all the items in the dynamodb table and table name.
       var hv2EC := HierarchicalVersionUtils.GetHv2KmsEc(branchKeyItemFromStorage.EncryptionContext);
@@ -614,8 +614,8 @@ module GetKeys {
         message := ErrorMessages.INVALID_BEACON_KEY_FROM_STORAGE)
     );
     :- Need(
-      branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_1 ||
-      branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2,
+      branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1 ||
+      branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2,
       Types.KeyStoreException(
         message := ErrorMessages.INVALID_HIERARCHY_VERSION
       )
@@ -627,7 +627,7 @@ module GetKeys {
       )
     );
 
-    if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_1) {
+    if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1) {
       var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHV1(
         branchKeyItemFromStorage,
         kmsConfiguration,
@@ -644,7 +644,7 @@ module GetKeys {
           Types.GetBeaconKeyOutput(
             beaconKeyMaterials := beaconKeyMaterials
           ));
-    } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_2) {
+    } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2) {
       // branchKeyItemFromStorage.EncryptionContext comes from storage is not the actual EC.
       // branchKeyItemFromStorage.EncryptionContext contains all the items in the dynamodb table and table name.
       var hv2EC := HierarchicalVersionUtils.GetHv2KmsEc(branchKeyItemFromStorage.EncryptionContext);
