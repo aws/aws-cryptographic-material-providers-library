@@ -22,18 +22,8 @@ module HierarchicalVersionUtils {
   import Structure
   import CanonicalEncryptionContext
 
-  function method GetMdDigestFromEC(
-    item: Types.EncryptionContextString
-  ) : (output: Types.EncryptionContextString)
-    ensures output.Keys == item.Keys - {Structure.TABLE_FIELD}
-    ensures forall k :: k in output ==> output[k] == item[k]
-    ensures forall k :: k in output ==> k !in {Structure.TABLE_FIELD}
-  {
-    map k <- item.Keys - {Structure.TABLE_FIELD}
-      :: k := item[k]
-  }
-
-  method GetHV2EC(
+  // TODO-HV2-M1: Verification. This method could be changed into a function.
+  method GetHv2KmsEc(
     ecStringMap: Types.EncryptionContextString
   ) returns (output: Types.EncryptionContextString)
     ensures Structure.Hv2EncryptionContext?(output)
@@ -54,13 +44,13 @@ module HierarchicalVersionUtils {
         newMap := newMap[item.0 := item.1];
       }
     }
-    return withoutRestrictedField;
+    return newMap;
   }
 
-  function method RemoveRestrictedFields(a:map<string, string>) : (output:map<string, string>)
+  function method RemoveRestrictedFields(input:map<string, string>) : (output:map<string, string>)
     ensures Structure.Hv2EncryptionContext?(output)
   {
-    a - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
+    input - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
   }
 
   function method UnstringifyEncryptionContext(stringEncCtx: Types.EncryptionContextString) : (res: Result<Types.EncryptionContext, Types.Error>)
@@ -128,20 +118,19 @@ module HierarchicalVersionUtils {
   }
 
   method ValidateMdDigest (
-    plainText: KMS.PlaintextType,
+    plainTextTuple: KMS.PlaintextType,
     branchKeyItemFromStorage: Types.EncryptedHierarchicalKey
   )
     returns (output: Result<(), Types.Error>)
-    // The plaintext should be large enough to contain both AES key and MD digest
-    requires |plainText| == Structure.AES_256_LENGTH + Structure.MD_DIGEST_LENGTH
+    // The plaintext-tuple MUST be large enough to contain both AES key and MD digest
+    requires |plainTextTuple| == Structure.AES_256_LENGTH + Structure.MD_DIGEST_LENGTH
     requires Structure.BranchKeyContext?(branchKeyItemFromStorage.EncryptionContext)
 
     ensures output.Failure? ==>
               // If failed, output contains appropriate error message
               output.error.KeyStoreException?
   {
-    var mdDigestMap := GetMdDigestFromEC(branchKeyItemFromStorage.EncryptionContext);
-    var utf8MDDigest :- UnstringifyEncryptionContext(mdDigestMap);
+    var utf8MDDigest :- UnstringifyEncryptionContext(branchKeyItemFromStorage.EncryptionContext);
     var crypto := ProvideCryptoClient();
     if (crypto.Failure?) {
       var e := Types.KeyStoreException(
@@ -161,19 +150,16 @@ module HierarchicalVersionUtils {
       };
       return Failure(error);
     }
-    var plaintextBranchKeyWithMdDigest := plainText;
+    var plaintextBranchKeyWithMdDigest := plainTextTuple;
     :- Need(
       |plaintextBranchKeyWithMdDigest| == Structure.MD_DIGEST_LENGTH + Structure.AES_256_LENGTH,
       Types.KeyStoreException(
         message := ErrorMessages.BRANCH_KEY_MD_DIGEST_SHA_INCORRECT_LENGTH
       )
     );
-    var decryptedMdDigest := plaintextBranchKeyWithMdDigest[..Structure.MD_DIGEST_LENGTH];
-    var plaintextBranchKey := plaintextBranchKeyWithMdDigest[Structure.MD_DIGEST_LENGTH..];
+    var protectedMdDigest := plaintextBranchKeyWithMdDigest[..Structure.MD_DIGEST_LENGTH];
 
-    print "\nDecrypted Plaintext Branch Key: ";
-    print plaintextBranchKey;
-    if (decryptedMdDigest != digestResult.value) {
+    if (protectedMdDigest != digestResult.value) {
       var e := Types.KeyStoreException(
         message :=
           ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED);
