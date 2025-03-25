@@ -15,7 +15,7 @@ public class CreateKeyInput {
   private final String Identifier;
 
   /**
-   * Custom encryption context for the Branch Key.
+   * Encryption context for the Branch Key.
    *   Required if branchKeyIdentifier is set.
    */
   private final Map<String, String> EncryptionContext;
@@ -57,7 +57,7 @@ public class CreateKeyInput {
   }
 
   /**
-   * @return Custom encryption context for the Branch Key.
+   * @return Encryption context for the Branch Key.
    *   Required if branchKeyIdentifier is set.
    */
   public Map<String, String> EncryptionContext() {
@@ -111,13 +111,13 @@ public class CreateKeyInput {
     String Identifier();
 
     /**
-     * @param EncryptionContext Custom encryption context for the Branch Key.
+     * @param EncryptionContext Encryption context for the Branch Key.
      *   Required if branchKeyIdentifier is set.
      */
     Builder EncryptionContext(Map<String, String> EncryptionContext);
 
     /**
-     * @return Custom encryption context for the Branch Key.
+     * @return Encryption context for the Branch Key.
      *   Required if branchKeyIdentifier is set.
      */
     Map<String, String> EncryptionContext();

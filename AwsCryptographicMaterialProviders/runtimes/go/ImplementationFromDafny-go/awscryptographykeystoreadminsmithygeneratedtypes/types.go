@@ -535,8 +535,6 @@ type VersionKeyInput struct {
 
 	KmsArn KmsSymmetricKeyArn
 
-	HierarchyVersion *awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
-
 	Strategy KeyManagementStrategy
 }
 

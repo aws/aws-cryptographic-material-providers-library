@@ -4,7 +4,6 @@
 package software.amazon.cryptography.keystoreadmin.model;
 
 import java.util.Objects;
-import software.amazon.cryptography.keystore.model.HierarchyVersion;
 
 public class VersionKeyInput {
 
@@ -24,20 +23,10 @@ public class VersionKeyInput {
    */
   private final KeyManagementStrategy Strategy;
 
-  /**
-   * The hierarchy-version of a Branch Key;
-   *   all items of the same Branch Key SHOULD
-   *   have the same hierarchy-version.
-   *   The hierarchy-version determines how the Branch Key Store
-   *   protects and validates the branch key context (BKC).
-   */
-  private final HierarchyVersion HierarchyVersion;
-
   protected VersionKeyInput(BuilderImpl builder) {
     this.Identifier = builder.Identifier();
     this.KmsArn = builder.KmsArn();
     this.Strategy = builder.Strategy();
-    this.HierarchyVersion = builder.HierarchyVersion();
   }
 
   /**
@@ -60,17 +49,6 @@ public class VersionKeyInput {
    */
   public KeyManagementStrategy Strategy() {
     return this.Strategy;
-  }
-
-  /**
-   * @return The hierarchy-version of a Branch Key;
-   *   all items of the same Branch Key SHOULD
-   *   have the same hierarchy-version.
-   *   The hierarchy-version determines how the Branch Key Store
-   *   protects and validates the branch key context (BKC).
-   */
-  public HierarchyVersion HierarchyVersion() {
-    return this.HierarchyVersion;
   }
 
   public Builder toBuilder() {
@@ -114,24 +92,6 @@ public class VersionKeyInput {
      */
     KeyManagementStrategy Strategy();
 
-    /**
-     * @param HierarchyVersion The hierarchy-version of a Branch Key;
-     *   all items of the same Branch Key SHOULD
-     *   have the same hierarchy-version.
-     *   The hierarchy-version determines how the Branch Key Store
-     *   protects and validates the branch key context (BKC).
-     */
-    Builder HierarchyVersion(HierarchyVersion HierarchyVersion);
-
-    /**
-     * @return The hierarchy-version of a Branch Key;
-     *   all items of the same Branch Key SHOULD
-     *   have the same hierarchy-version.
-     *   The hierarchy-version determines how the Branch Key Store
-     *   protects and validates the branch key context (BKC).
-     */
-    HierarchyVersion HierarchyVersion();
-
     VersionKeyInput build();
   }
 
@@ -143,15 +103,12 @@ public class VersionKeyInput {
 
     protected KeyManagementStrategy Strategy;
 
-    protected HierarchyVersion HierarchyVersion;
-
     protected BuilderImpl() {}
 
     protected BuilderImpl(VersionKeyInput model) {
       this.Identifier = model.Identifier();
       this.KmsArn = model.KmsArn();
       this.Strategy = model.Strategy();
-      this.HierarchyVersion = model.HierarchyVersion();
     }
 
     public Builder Identifier(String Identifier) {
@@ -179,15 +136,6 @@ public class VersionKeyInput {
 
     public KeyManagementStrategy Strategy() {
       return this.Strategy;
-    }
-
-    public Builder HierarchyVersion(HierarchyVersion HierarchyVersion) {
-      this.HierarchyVersion = HierarchyVersion;
-      return this;
-    }
-
-    public HierarchyVersion HierarchyVersion() {
-      return this.HierarchyVersion;
     }
 
     public VersionKeyInput build() {

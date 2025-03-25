@@ -88,9 +88,8 @@ func InitializeMutationOutput_FromDafny(dafnyOutput AwsCryptographyKeyStoreAdmin
 func VersionKeyInput_FromDafny(dafnyInput AwsCryptographyKeyStoreAdminTypes.VersionKeyInput) awscryptographykeystoreadminsmithygeneratedtypes.VersionKeyInput {
 
 	return awscryptographykeystoreadminsmithygeneratedtypes.VersionKeyInput{Identifier: Aws_cryptography_keyStoreAdmin_VersionKeyInput_Identifier_FromDafny(dafnyInput.Dtor_Identifier()),
-		KmsArn:           Aws_cryptography_keyStoreAdmin_VersionKeyInput_KmsArn_FromDafny(dafnyInput.Dtor_KmsArn()),
-		Strategy:         Aws_cryptography_keyStoreAdmin_VersionKeyInput_Strategy_FromDafny(dafnyInput.Dtor_Strategy().UnwrapOr(nil)),
-		HierarchyVersion: Aws_cryptography_keyStoreAdmin_VersionKeyInput_HierarchyVersion_FromDafny(dafnyInput.Dtor_HierarchyVersion().UnwrapOr(nil)),
+		KmsArn:   Aws_cryptography_keyStoreAdmin_VersionKeyInput_KmsArn_FromDafny(dafnyInput.Dtor_KmsArn()),
+		Strategy: Aws_cryptography_keyStoreAdmin_VersionKeyInput_Strategy_FromDafny(dafnyInput.Dtor_Strategy().UnwrapOr(nil)),
 	}
 
 }
@@ -932,27 +931,6 @@ func Aws_cryptography_keyStoreAdmin_VersionKeyInput_Strategy_FromDafny(input int
 
 	return union
 
-}
-func Aws_cryptography_keyStoreAdmin_VersionKeyInput_HierarchyVersion_FromDafny(input interface{}) *awscryptographykeystoresmithygeneratedtypes.HierarchyVersion {
-	return func() *awscryptographykeystoresmithygeneratedtypes.HierarchyVersion {
-		var u awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
-		if input == nil {
-			return nil
-		}
-		inputEnum := input.(AwsCryptographyKeyStoreTypes.HierarchyVersion)
-		index := -1
-		for allEnums := dafny.Iterate(AwsCryptographyKeyStoreTypes.CompanionStruct_HierarchyVersion_{}.AllSingletonConstructors()); ; {
-			enum, ok := allEnums()
-			if ok {
-				index++
-				if enum.(AwsCryptographyKeyStoreTypes.HierarchyVersion).Equals(inputEnum) {
-					break
-				}
-			}
-		}
-
-		return &u.Values()[index]
-	}()
 }
 func Aws_cryptography_keyStoreAdmin_KeyStoreAdminException_message_FromDafny(input interface{}) string {
 	return func() string {

@@ -985,9 +985,9 @@ class CreateKeyInput:
           used to protect the
         Branch Key, but not aliases!
         :param identifier: The identifier for the created Branch Key.
-        :param encryption_context: Custom encryption context for the Branch Key.
-
-        Required if branchKeyIdentifier is set.
+        :param encryption_context: Encryption context for the Branch Key.
+          Required if
+        branchKeyIdentifier is set.
         :param strategy: For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or
         AwsKmsSimple are supported (for now).
           For 'hierarchy-version-2' (HV-2), only
@@ -1866,7 +1866,6 @@ class VersionKeyInput:
     identifier: str
     kms_arn: KmsSymmetricKeyArn
     strategy: Optional[KeyManagementStrategy]
-    hierarchy_version: Optional[str]
 
     def __init__(
         self,
@@ -1874,7 +1873,6 @@ class VersionKeyInput:
         identifier: str,
         kms_arn: KmsSymmetricKeyArn,
         strategy: Optional[KeyManagementStrategy] = None,
-        hierarchy_version: Optional[str] = None,
     ):
         """
         :param identifier: The identifier for the Branch Key to be versioned.
@@ -1884,19 +1882,10 @@ class VersionKeyInput:
         AwsKmsSimple are supported (for now).
           For 'hierarchy-version-2' (HV-2), only
         AwsKmsDecryptEncrypt or AwsKmsSimple are supported.
-        :param hierarchy_version: The hierarchy-version of a Branch Key;
-          all items of
-        the same Branch Key SHOULD
-          have the same hierarchy-version.
-          The
-        hierarchy-version determines how the Branch Key Store
-          protects and validates
-        the branch key context (BKC).
         """
         self.identifier = identifier
         self.kms_arn = kms_arn
         self.strategy = strategy
-        self.hierarchy_version = hierarchy_version
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the VersionKeyInput to a dictionary."""
@@ -1907,9 +1896,6 @@ class VersionKeyInput:
 
         if self.strategy is not None:
             d["strategy"] = self.strategy.as_dict()
-
-        if self.hierarchy_version is not None:
-            d["hierarchy_version"] = self.hierarchy_version
 
         return d
 
@@ -1924,9 +1910,6 @@ class VersionKeyInput:
         if "strategy" in d:
             kwargs["strategy"] = (_key_management_strategy_from_dict(d["strategy"]),)
 
-        if "hierarchy_version" in d:
-            kwargs["hierarchy_version"] = d["hierarchy_version"]
-
         return VersionKeyInput(**kwargs)
 
     def __repr__(self) -> str:
@@ -1938,10 +1921,7 @@ class VersionKeyInput:
             result += f"kms_arn={repr(self.kms_arn)}, "
 
         if self.strategy is not None:
-            result += f"strategy={repr(self.strategy)}, "
-
-        if self.hierarchy_version is not None:
-            result += f"hierarchy_version={repr(self.hierarchy_version)}"
+            result += f"strategy={repr(self.strategy)}"
 
         return result + ")"
 
@@ -1952,7 +1932,6 @@ class VersionKeyInput:
             "identifier",
             "kms_arn",
             "strategy",
-            "hierarchy_version",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 

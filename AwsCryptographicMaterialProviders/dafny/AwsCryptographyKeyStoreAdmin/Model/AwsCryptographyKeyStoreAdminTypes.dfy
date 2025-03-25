@@ -249,8 +249,7 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   datatype VersionKeyInput = | VersionKeyInput (
     nameonly Identifier: string ,
     nameonly KmsArn: KmsSymmetricKeyArn ,
-    nameonly Strategy: Option<KeyManagementStrategy> := Option.None ,
-    nameonly HierarchyVersion: Option<AwsCryptographyKeyStoreTypes.HierarchyVersion> := Option.None
+    nameonly Strategy: Option<KeyManagementStrategy> := Option.None
   )
   datatype VersionKeyOutput = | VersionKeyOutput (
 

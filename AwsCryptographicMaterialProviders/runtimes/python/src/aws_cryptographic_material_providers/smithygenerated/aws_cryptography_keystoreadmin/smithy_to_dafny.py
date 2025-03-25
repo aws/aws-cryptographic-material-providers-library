@@ -251,17 +251,6 @@ def aws_cryptography_keystoreadmin_VersionKeyInput(native_input):
             if (native_input.strategy is not None)
             else (Option_None())
         ),
-        HierarchyVersion=(
-            (
-                Option_Some(
-                    aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_HierarchyVersion(
-                        native_input.hierarchy_version
-                    )
-                )
-            )
-            if (native_input.hierarchy_version is not None)
-            else (Option_None())
-        ),
     )
 
 

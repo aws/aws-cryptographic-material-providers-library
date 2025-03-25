@@ -620,13 +620,6 @@ public class ToNative {
         ToNative.KeyManagementStrategy(dafnyValue.dtor_Strategy().dtor_value())
       );
     }
-    if (dafnyValue.dtor_HierarchyVersion().is_Some()) {
-      nativeBuilder.HierarchyVersion(
-        software.amazon.cryptography.keystore.ToNative.HierarchyVersion(
-          dafnyValue.dtor_HierarchyVersion().dtor_value()
-        )
-      );
-    }
     return nativeBuilder.build();
   }
 

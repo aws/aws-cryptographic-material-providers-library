@@ -94,7 +94,7 @@ func VersionKeyInput_ToDafny(nativeInput awscryptographykeystoreadminsmithygener
 
 	return func() AwsCryptographyKeyStoreAdminTypes.VersionKeyInput {
 
-		return AwsCryptographyKeyStoreAdminTypes.Companion_VersionKeyInput_.Create_VersionKeyInput_(Aws_cryptography_keyStoreAdmin_VersionKeyInput_Identifier_ToDafny(nativeInput.Identifier), Aws_cryptography_keyStoreAdmin_VersionKeyInput_KmsArn_ToDafny(nativeInput.KmsArn), Aws_cryptography_keyStoreAdmin_VersionKeyInput_Strategy_ToDafny(nativeInput.Strategy), Aws_cryptography_keyStoreAdmin_VersionKeyInput_HierarchyVersion_ToDafny(nativeInput.HierarchyVersion))
+		return AwsCryptographyKeyStoreAdminTypes.Companion_VersionKeyInput_.Create_VersionKeyInput_(Aws_cryptography_keyStoreAdmin_VersionKeyInput_Identifier_ToDafny(nativeInput.Identifier), Aws_cryptography_keyStoreAdmin_VersionKeyInput_KmsArn_ToDafny(nativeInput.KmsArn), Aws_cryptography_keyStoreAdmin_VersionKeyInput_Strategy_ToDafny(nativeInput.Strategy))
 	}()
 
 }
@@ -1034,30 +1034,6 @@ func Aws_cryptography_keyStoreAdmin_VersionKeyInput_Strategy_ToDafny(input awscr
 		default:
 			panic("Unhandled union type")
 		}
-	}()
-}
-
-func Aws_cryptography_keyStoreAdmin_VersionKeyInput_HierarchyVersion_ToDafny(input *awscryptographykeystoresmithygeneratedtypes.HierarchyVersion) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		var index int
-		for _, enumVal := range input.Values() {
-			index++
-			if enumVal == *input {
-				break
-			}
-		}
-		var enum interface{}
-		for allEnums, i := dafny.Iterate(AwsCryptographyKeyStoreTypes.CompanionStruct_HierarchyVersion_{}.AllSingletonConstructors()), 0; i < index; i++ {
-			var ok bool
-			enum, ok = allEnums()
-			if !ok {
-				break
-			}
-		}
-		return Wrappers.Companion_Option_.Create_Some_(enum.(AwsCryptographyKeyStoreTypes.HierarchyVersion))
 	}()
 }
 
