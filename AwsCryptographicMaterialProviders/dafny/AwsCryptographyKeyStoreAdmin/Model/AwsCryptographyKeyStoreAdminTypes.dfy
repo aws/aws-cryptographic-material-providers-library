@@ -41,10 +41,12 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     nameonly Identifier: Option<string> := Option.None ,
     nameonly EncryptionContext: Option<AwsCryptographyKeyStoreTypes.EncryptionContext> := Option.None ,
     nameonly KmsArn: KmsSymmetricKeyArn ,
-    nameonly Strategy: Option<KeyManagementStrategy> := Option.None
+    nameonly Strategy: Option<KeyManagementStrategy> := Option.None ,
+    nameonly HierarchyVersion: Option<AwsCryptographyKeyStoreTypes.HierarchyVersion> := Option.None
   )
   datatype CreateKeyOutput = | CreateKeyOutput (
-    nameonly Identifier: string
+    nameonly Identifier: string ,
+    nameonly HierarchyVersion: AwsCryptographyKeyStoreTypes.HierarchyVersion
   )
   datatype DescribeMutationInput = | DescribeMutationInput (
     nameonly Identifier: string
@@ -71,6 +73,7 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   datatype KeyManagementStrategy =
     | AwsKmsReEncrypt(AwsKmsReEncrypt: AwsCryptographyKeyStoreTypes.AwsKms)
     | AwsKmsDecryptEncrypt(AwsKmsDecryptEncrypt: AwsKmsDecryptEncrypt)
+    | AwsKmsSimple(AwsKmsSimple: AwsCryptographyKeyStoreTypes.AwsKms)
   class IKeyStoreAdminClientCallHistory {
     ghost constructor() {
       CreateKey := [];
@@ -192,16 +195,21 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     nameonly logicalKeyStoreName: string ,
     nameonly storage: AwsCryptographyKeyStoreTypes.Storage
   )
+  datatype KmsMRKey = | KmsMRKey (
+    nameonly KeyArn: ComAmazonawsKmsTypes.KeyIdType ,
+    nameonly Region: ComAmazonawsKmsTypes.RegionType
+  )
   datatype KmsSymmetricEncryption = | KmsSymmetricEncryption (
     nameonly KmsArn: ComAmazonawsKmsTypes.KeyIdType ,
     nameonly AwsKms: AwsCryptographyKeyStoreTypes.AwsKms
   )
   datatype KmsSymmetricKeyArn =
     | KmsKeyArn(KmsKeyArn: string)
-    | KmsMRKeyArn(KmsMRKeyArn: string)
-  datatype MutableBranchKeyProperties = | MutableBranchKeyProperties (
+    | KmsMRKey(KmsMRKey: KmsMRKey)
+  datatype MutableBranchKeyContext = | MutableBranchKeyContext (
     nameonly KmsArn: string ,
-    nameonly CustomEncryptionContext: AwsCryptographyKeyStoreTypes.EncryptionContextString
+    nameonly EncryptionContext: AwsCryptographyKeyStoreTypes.EncryptionContextString ,
+    nameonly HierarchyVersion: AwsCryptographyKeyStoreTypes.HierarchyVersion
   )
   datatype MutatedBranchKeyItem = | MutatedBranchKeyItem (
     nameonly ItemType: string ,
@@ -216,8 +224,8 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     nameonly MutationToken: MutationToken
   )
   datatype MutationDetails = | MutationDetails (
-    nameonly Original: MutableBranchKeyProperties ,
-    nameonly Terminal: MutableBranchKeyProperties ,
+    nameonly Original: MutableBranchKeyContext ,
+    nameonly Terminal: MutableBranchKeyContext ,
     nameonly Input: Mutations ,
     nameonly SystemKey: string ,
     nameonly CreateTime: string ,
@@ -228,7 +236,8 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     | No(No: string)
   datatype Mutations = | Mutations (
     nameonly TerminalKmsArn: Option<string> := Option.None ,
-    nameonly TerminalEncryptionContext: Option<AwsCryptographyKeyStoreTypes.EncryptionContextString> := Option.None
+    nameonly TerminalEncryptionContext: Option<AwsCryptographyKeyStoreTypes.EncryptionContextString> := Option.None ,
+    nameonly TerminalHierarchyVersion: Option<AwsCryptographyKeyStoreTypes.HierarchyVersion> := Option.None
   )
   datatype MutationToken = | MutationToken (
     nameonly Identifier: string ,

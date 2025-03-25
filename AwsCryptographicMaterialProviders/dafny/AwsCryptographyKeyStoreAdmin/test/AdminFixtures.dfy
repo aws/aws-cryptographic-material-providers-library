@@ -74,6 +74,27 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     return Success(strategy);
   }
 
+  method SimpleKeyManagerStrategy(
+    nameonly kmsClient?: Option<KMS.Types.IKMSClient> := None
+  )
+    returns (output: Result<Types.KeyManagementStrategy, Types.Error>)
+    requires kmsClient?.Some? ==> kmsClient?.value.ValidState()
+    ensures output.Success? ==>
+              && output.value.AwsKmsSimple?
+              && output.value.AwsKmsSimple.kmsClient.Some?
+              && output.value.AwsKmsSimple.kmsClient.value.ValidState()
+    modifies (if kmsClient?.Some? then kmsClient?.value.Modifies else {})
+  {
+    var kmsClient :- expect Fixtures.ProvideKMSClient(kmsClient?);
+    assume {:axiom} fresh(kmsClient) && fresh(kmsClient.Modifies);
+    var strategy := Types.KeyManagementStrategy.AwsKmsSimple(
+      KeyStoreTypes.AwsKms(
+        grantTokens := None,
+        kmsClient := Some(kmsClient)
+      ));
+    return Success(strategy);
+  }
+
   method DecryptEncrypKeyManagerStrategy(
     nameonly decryptKmsClient?: Option<KMS.Types.IKMSClient> := None,
     nameonly encryptKmsClient?: Option<KMS.Types.IKMSClient> := None
@@ -148,12 +169,14 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     nameonly keyValue: KeyValue := KeyValue(key:="Robbie", value:="Is a dog."),
     nameonly alsoViolateBeacon?: bool := false,
     nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None,
-    nameonly kmsClient?: Option<KMS.Types.IKMSClient> := None
+    nameonly kmsClient?: Option<KMS.Types.IKMSClient> := None,
+    nameonly violateReservedAttribute: bool := false
   )
     returns (output: Result<bool, KmsDdbError>)
     requires DDB.Types.IsValid_TableName(physicalName)
     requires UTF8.IsASCIIString(physicalName) && UTF8.IsASCIIString(logicalName)
-    requires keyValue.key !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
+    // Either the keyValue is NOT reserved, or this is violating a reserved attribute
+    requires violateReservedAttribute || keyValue.key !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
     requires DDB.Types.IsValid_AttributeName(keyValue.key)
     requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
     modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
@@ -166,14 +189,14 @@ module {:options "/functionSyntax:4" } AdminFixtures {
 
     var allThree :- expect Fixtures.getItems(id:=id, underTest:=storage);
     var activeDDB :- expect ViolateItem(
-      item := allThree.active, keyValue:=keyValue, kmsClient:=kmsClient, physicalName:=physicalName);
+      item := allThree.active, keyValue:=keyValue, kmsClient:=kmsClient, physicalName:=physicalName, violateReservedAttribute:=violateReservedAttribute);
     var decryptDDB :- expect ViolateItem(
-      item := allThree.decrypt, keyValue:=keyValue, kmsClient:=kmsClient, physicalName:=physicalName);
+      item := allThree.decrypt, keyValue:=keyValue, kmsClient:=kmsClient, physicalName:=physicalName, violateReservedAttribute:=violateReservedAttribute);
     var TransactItems := [activeDDB, decryptDDB];
 
     if (alsoViolateBeacon?) {
       var beaconDDB :- expect ViolateItem(
-        item := allThree.beacon, keyValue:=keyValue, kmsClient:=kmsClient, physicalName:=physicalName);
+        item := allThree.beacon, keyValue:=keyValue, kmsClient:=kmsClient, physicalName:=physicalName, violateReservedAttribute:=violateReservedAttribute);
       TransactItems := TransactItems + [beaconDDB];
     }
 
@@ -186,22 +209,29 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     nameonly item: KeyStoreTypes.EncryptedHierarchicalKey,
     nameonly keyValue: KeyValue,
     nameonly kmsClient: KMS.Types.IKMSClient,
-    nameonly physicalName: string := Fixtures.branchKeyStoreName
+    nameonly physicalName: string := Fixtures.branchKeyStoreName,
+    nameonly violateReservedAttribute: bool := false
   )
     returns (ddbPutItem: Result<DDB.Types.TransactWriteItem, KmsDdbError>)
     requires kmsClient.ValidState()
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
-    requires keyValue.key !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
+    // Either the keyValue is NOT reserved, or this is violating a reserved attribute
+    requires violateReservedAttribute || keyValue.key !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
     requires DDB.Types.IsValid_AttributeName(keyValue.key)
     requires DDB.Types.IsValid_TableName(physicalName)
   {
     assume {:axiom} KMS.Types.IsValid_CiphertextType(item.CiphertextBlob);
     assume {:axiom} KMS.Types.IsValid_KeyIdType(item.KmsArn);
+    var violatedEC;
     var aMap := map[keyValue.key := keyValue.value];
-    expect keyValue.key !in item.EncryptionContext, "key of KeyValue cannot already be in EC";
-    var violatedEC := item.EncryptionContext + aMap;
-    expect Structure.BranchKeyContext?(violatedEC), "Library is too good and won't let Tony cheat";
+    if (!violateReservedAttribute) {
+      expect keyValue.key !in item.EncryptionContext, "key of KeyValue cannot already be in EC";
+      violatedEC := item.EncryptionContext + aMap;
+      expect Structure.BranchKeyContext?(violatedEC), "Library is too good and won't let Tony cheat";
+    } else {
+      violatedEC := item.EncryptionContext + aMap;
+    }
     var reEncryptReq := KMS.Types.ReEncryptRequest(
       CiphertextBlob := item.CiphertextBlob,
       SourceEncryptionContext := Some(item.EncryptionContext),
@@ -211,6 +241,8 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     var reEncryptRes :- expect kmsClient.ReEncrypt(reEncryptReq);
     expect reEncryptRes.CiphertextBlob.Some?, "KMS did not return ciphertext.";
 
+    // This assumption is a LIE; but I am not copying a bunch of methods
+    assume {:axiom} Structure.BranchKeyContext?(violatedEC);
     var violated := Structure.ConstructEncryptedHierarchicalKey(
       violatedEC, reEncryptRes.CiphertextBlob.value);
 

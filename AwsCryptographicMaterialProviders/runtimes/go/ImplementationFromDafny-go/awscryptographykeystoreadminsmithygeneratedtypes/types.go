@@ -133,6 +133,10 @@ func (input ApplyMutationInput) Aws_cryptography_keyStoreAdmin_ApplyMutationInpu
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
+	case *KeyManagementStrategyMemberAwsKmsSimple:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
 	// Default case should not be reached.
 	default:
 		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
@@ -213,10 +217,35 @@ func (input ApplyMutationOutput) Aws_cryptography_keyStoreAdmin_ApplyMutationOut
 	return nil
 }
 
+type KmsMRKey struct {
+	KeyArn string
+
+	Region string
+}
+
+func (input KmsMRKey) Validate() error {
+	if len(input.KeyArn) < 1 {
+		return fmt.Errorf("KeyIdType has a minimum length of 1 but has the length of %d.", len(input.KeyArn))
+	}
+	if len(input.KeyArn) > 2048 {
+		return fmt.Errorf("KeyIdType has a maximum length of 2048 but has the length of %d.", len(input.KeyArn))
+	}
+	if len(input.Region) < 1 {
+		return fmt.Errorf("RegionType has a minimum length of 1 but has the length of %d.", len(input.Region))
+	}
+	if len(input.Region) > 32 {
+		return fmt.Errorf("RegionType has a maximum length of 32 but has the length of %d.", len(input.Region))
+	}
+
+	return nil
+}
+
 type CreateKeyInput struct {
 	KmsArn KmsSymmetricKeyArn
 
 	EncryptionContext map[string]string
+
+	HierarchyVersion *awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
 
 	Identifier *string
 
@@ -246,7 +275,10 @@ func (input CreateKeyInput) Aws_cryptography_keyStoreAdmin_CreateKeyInput_KmsArn
 	}
 	switch unionType := input.KmsArn.(type) {
 	case *KmsSymmetricKeyArnMemberKmsKeyArn:
-	case *KmsSymmetricKeyArnMemberKmsMRKeyArn:
+	case *KmsSymmetricKeyArnMemberKmsMRKey:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
 	// Default case should not be reached.
 	default:
 		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
@@ -279,6 +311,10 @@ func (input CreateKeyInput) Aws_cryptography_keyStoreAdmin_CreateKeyInput_Strate
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
+	case *KeyManagementStrategyMemberAwsKmsSimple:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
 	// Default case should not be reached.
 	default:
 		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
@@ -288,6 +324,8 @@ func (input CreateKeyInput) Aws_cryptography_keyStoreAdmin_CreateKeyInput_Strate
 }
 
 type CreateKeyOutput struct {
+	HierarchyVersion awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
+
 	Identifier string
 }
 
@@ -308,6 +346,8 @@ func (input DescribeMutationInput) Validate() error {
 type Mutations struct {
 	TerminalEncryptionContext map[string]string
 
+	TerminalHierarchyVersion *awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
+
 	TerminalKmsArn *string
 }
 
@@ -316,15 +356,17 @@ func (input Mutations) Validate() error {
 	return nil
 }
 
-type MutableBranchKeyProperties struct {
-	CustomEncryptionContext map[string]string
+type MutableBranchKeyContext struct {
+	EncryptionContext map[string]string
+
+	HierarchyVersion awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
 
 	KmsArn string
 }
 
-func (input MutableBranchKeyProperties) Validate() error {
-	if input.CustomEncryptionContext == nil {
-		return fmt.Errorf("input.CustomEncryptionContext is required but has a nil value.")
+func (input MutableBranchKeyContext) Validate() error {
+	if input.EncryptionContext == nil {
+		return fmt.Errorf("input.EncryptionContext is required but has a nil value.")
 	}
 
 	return nil
@@ -335,11 +377,11 @@ type MutationDetails struct {
 
 	Input Mutations
 
-	Original MutableBranchKeyProperties
+	Original MutableBranchKeyContext
 
 	SystemKey string
 
-	Terminal MutableBranchKeyProperties
+	Terminal MutableBranchKeyContext
 
 	UUID string
 }
@@ -470,6 +512,10 @@ func (input InitializeMutationInput) Aws_cryptography_keyStoreAdmin_InitializeMu
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
+	case *KeyManagementStrategyMemberAwsKmsSimple:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
 	// Default case should not be reached.
 	default:
 		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
@@ -538,7 +584,10 @@ func (input VersionKeyInput) Aws_cryptography_keyStoreAdmin_VersionKeyInput_KmsA
 	}
 	switch unionType := input.KmsArn.(type) {
 	case *KmsSymmetricKeyArnMemberKmsKeyArn:
-	case *KmsSymmetricKeyArnMemberKmsMRKeyArn:
+	case *KmsSymmetricKeyArnMemberKmsMRKey:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
 	// Default case should not be reached.
 	default:
 		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
@@ -556,6 +605,10 @@ func (input VersionKeyInput) Aws_cryptography_keyStoreAdmin_VersionKeyInput_Stra
 			return unionType.Value.Validate()
 		}
 	case *KeyManagementStrategyMemberAwsKmsDecryptEncrypt:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	case *KeyManagementStrategyMemberAwsKmsSimple:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -662,6 +715,7 @@ func (*ApplyMutationResultMemberContinueMutation) isApplyMutationResult() {}
 
 // KeyManagementStrategyMemberAwsKmsDecryptEncrypt
 // KeyManagementStrategyMemberAwsKmsReEncrypt
+// KeyManagementStrategyMemberAwsKmsSimple
 type KeyManagementStrategy interface {
 	isKeyManagementStrategy()
 }
@@ -678,8 +732,14 @@ type KeyManagementStrategyMemberAwsKmsReEncrypt struct {
 
 func (*KeyManagementStrategyMemberAwsKmsReEncrypt) isKeyManagementStrategy() {}
 
+type KeyManagementStrategyMemberAwsKmsSimple struct {
+	Value awscryptographykeystoresmithygeneratedtypes.AwsKms
+}
+
+func (*KeyManagementStrategyMemberAwsKmsSimple) isKeyManagementStrategy() {}
+
 // KmsSymmetricKeyArnMemberKmsKeyArn
-// KmsSymmetricKeyArnMemberKmsMRKeyArn
+// KmsSymmetricKeyArnMemberKmsMRKey
 type KmsSymmetricKeyArn interface {
 	isKmsSymmetricKeyArn()
 }
@@ -690,11 +750,11 @@ type KmsSymmetricKeyArnMemberKmsKeyArn struct {
 
 func (*KmsSymmetricKeyArnMemberKmsKeyArn) isKmsSymmetricKeyArn() {}
 
-type KmsSymmetricKeyArnMemberKmsMRKeyArn struct {
-	Value string
+type KmsSymmetricKeyArnMemberKmsMRKey struct {
+	Value KmsMRKey
 }
 
-func (*KmsSymmetricKeyArnMemberKmsMRKeyArn) isKmsSymmetricKeyArn() {}
+func (*KmsSymmetricKeyArnMemberKmsMRKey) isKmsSymmetricKeyArn() {}
 
 // MutationInFlightMemberNo
 // MutationInFlightMemberYes

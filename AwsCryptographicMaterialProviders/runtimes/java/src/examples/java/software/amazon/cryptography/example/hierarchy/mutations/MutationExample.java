@@ -9,6 +9,7 @@ import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
+import software.amazon.cryptography.keystoreadmin.model.KmsSymmetricKeyArn;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
 import software.amazon.cryptography.keystoreadmin.model.SystemKey;
@@ -61,7 +62,7 @@ import software.amazon.cryptography.keystoreadmin.model.SystemKey;
 public class MutationExample {
 
   public static String End2End(
-    String kmsKeyArnTerminal,
+    String terminalKmsArn,
     String branchKeyId,
     @Nullable SystemKey systemKey,
     @Nullable KeyStoreAdmin admin
@@ -78,7 +79,7 @@ public class MutationExample {
     Mutations mutations = Mutations
       .builder()
       .TerminalEncryptionContext(terminalEC)
-      .TerminalKmsArn(kmsKeyArnTerminal)
+      .TerminalKmsArn(terminalKmsArn)
       .build();
 
     InitializeMutationInput initInput = InitializeMutationInput
