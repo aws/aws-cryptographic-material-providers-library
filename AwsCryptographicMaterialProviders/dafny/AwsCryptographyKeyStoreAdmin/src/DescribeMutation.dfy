@@ -90,13 +90,17 @@ module {:options "/functionSyntax:4" } DescribeMutation {
       Index := Index);
     assert CommitmentAndIndex.ValidState();
     var MutationToApply :- StateStrucs.DeserializeMutation(CommitmentAndIndex);
-    var original := Types.MutableBranchKeyProperties(
+    var original := Types.MutableBranchKeyContext(
       KmsArn := MutationToApply.Original.kmsArn,
-      CustomEncryptionContext := MutationToApply.Original.customEncryptionContext
+      EncryptionContext := MutationToApply.Original.customEncryptionContext,
+      // TODO-HV-2-BLOCKER : properly set this
+      HierarchyVersion := KeyStoreTypes.HierarchyVersion.v1
     );
-    var terminal := Types.MutableBranchKeyProperties(
+    var terminal := Types.MutableBranchKeyContext(
       KmsArn := MutationToApply.Terminal.kmsArn,
-      CustomEncryptionContext := MutationToApply.Terminal.customEncryptionContext
+      EncryptionContext := MutationToApply.Terminal.customEncryptionContext,
+      // TODO-HV-2-BLOCKER : properly set this
+      HierarchyVersion := KeyStoreTypes.HierarchyVersion.v1
     );
     var details := Types.MutationDetails(
       Original := original,

@@ -495,7 +495,12 @@ module {:options "/functionSyntax:4" } CreateKeys {
       Types.KeyStoreException(
         message := ErrorMessages.INVALID_ACTIVE_BRANCH_KEY_FROM_STORAGE)
     );
-
+    // TODO-HV-2-M3: Support Version in HV-2
+    :- Need(
+      oldActiveItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1,
+      Types.KeyStoreException(
+        message := "At this time, VersionKey ONLY supports HV-1; BK's Active Item is HV-2.")
+    );
     :- Need(
       && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, oldActiveItem.EncryptionContext),
       Types.KeyStoreException(

@@ -224,13 +224,13 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   ): (output: Result<KeyStoreTypes.MutationCommitment, Types.Error>)
     requires MutationToApply.ValidState() //MutationToApply?(MutationToApply)
     ensures
-      && output.Success?
-      ==>
-        && UTF8.ValidUTF8Seq(output.value.Original)
-        && UTF8.ValidUTF8Seq(output.value.Terminal)
-        && UTF8.ValidUTF8Seq(output.value.Input)
-        && 0 < |output.value.Identifier|
-        && 0 < |output.value.UUID|
+      (&& output.Success?
+       ==>
+         && UTF8.ValidUTF8Seq(output.value.Original)
+         && UTF8.ValidUTF8Seq(output.value.Terminal)
+         && UTF8.ValidUTF8Seq(output.value.Input)
+         && 0 < |output.value.Identifier|
+         && 0 < |output.value.UUID|)
   {
     var OriginalJson
       := JSONValues.Object(
@@ -292,11 +292,11 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   ): (output: Result<KeyStoreTypes.MutationIndex, Types.Error>)
     requires MutationToApply.ValidState() //MutationToApply?(MutationToApply)
     ensures
-      && output.Success?
-      ==>
-        && UTF8.ValidUTF8Seq(output.value.PageIndex)
-        && 0 < |output.value.Identifier|
-        && 0 < |output.value.UUID|
+      (&& output.Success?
+       ==>
+         && UTF8.ValidUTF8Seq(output.value.PageIndex)
+         && 0 < |output.value.Identifier|
+         && 0 < |output.value.UUID|)
   {
     var index := KeyStoreTypes.MutationIndex(
                    Identifier := MutationToApply.Identifier,

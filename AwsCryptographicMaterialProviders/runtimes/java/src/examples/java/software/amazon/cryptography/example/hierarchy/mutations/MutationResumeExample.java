@@ -10,6 +10,7 @@ import software.amazon.cryptography.keystoreadmin.model.ApplyMutationResult;
 import software.amazon.cryptography.keystoreadmin.model.DescribeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
+import software.amazon.cryptography.keystoreadmin.model.KmsSymmetricKeyArn;
 import software.amazon.cryptography.keystoreadmin.model.MutationConflictException;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
@@ -31,7 +32,7 @@ public class MutationResumeExample {
 
   public static String Resume2End(
     String branchKeyId,
-    String kmsKeyArnTerminal,
+    String terminalKmsArn,
     @Nullable KeyManagementStrategy strategy,
     @Nullable SystemKey systemKey,
     @Nullable KeyStoreAdmin admin
@@ -47,7 +48,7 @@ public class MutationResumeExample {
     final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
 
     System.out.println("BranchKey ID to mutate: " + branchKeyId);
-    Mutations mutations = MutationsProvider.defaultMutation(kmsKeyArnTerminal);
+    Mutations mutations = MutationsProvider.defaultMutation(terminalKmsArn);
 
     InitializeMutationInput initInput = InitializeMutationInput
       .builder()
@@ -125,7 +126,7 @@ public class MutationResumeExample {
       Mutations badMutations = Mutations
         .builder()
         .TerminalEncryptionContext(badTerminalEC)
-        .TerminalKmsArn(kmsKeyArnTerminal)
+        .TerminalKmsArn(terminalKmsArn)
         .build();
       InitializeMutationInput badInput = InitializeMutationInput
         .builder()

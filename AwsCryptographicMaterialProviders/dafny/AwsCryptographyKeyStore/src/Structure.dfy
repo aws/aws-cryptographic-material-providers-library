@@ -42,8 +42,14 @@ module {:options "/functionSyntax:4" } Structure {
   }
 
   //Attribute Values
-  const HIERARCHY_VERSION_VALUE := "1"
+  const HIERARCHY_VERSION_VALUE_1 := "1"
+  const HIERARCHY_VERSION_VALUE_2 := "2"
+  // TODO-HV-2-M1 : Find all HIERARCHY_VERSION_VALUE and replace them with something
+  const HIERARCHY_VERSION_VALUE := HIERARCHY_VERSION_VALUE_1
+  // TODO-HV-2-M1 : Find all HIERARCHY_VERSION_ATTRIBUTE_VALUE and replace them with something
   const HIERARCHY_VERSION_ATTRIBUTE_VALUE := DDB.AttributeValue.N(HIERARCHY_VERSION_VALUE)
+  const HIERARCHY_VERSION_ATTRIBUTE_VALUE_1 := DDB.AttributeValue.N(HIERARCHY_VERSION_VALUE_1)
+  const HIERARCHY_VERSION_ATTRIBUTE_VALUE_2 := DDB.AttributeValue.N(HIERARCHY_VERSION_VALUE_2)
   const BRANCH_KEY_TYPE_PREFIX := "branch:version:"
   const BRANCH_KEY_ACTIVE_TYPE := "branch:ACTIVE"
   const BEACON_KEY_TYPE_VALUE := "beacon:ACTIVE"
