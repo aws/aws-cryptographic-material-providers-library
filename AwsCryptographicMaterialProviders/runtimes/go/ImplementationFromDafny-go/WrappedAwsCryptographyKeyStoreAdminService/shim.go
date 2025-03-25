@@ -15,7 +15,7 @@ type Shim struct {
 	client *awscryptographykeystoreadminsmithygenerated.Client
 }
 
-func (_static *CompanionStruct_Default___) WrappedKeyStoreAdmin(inputConfig AwsCryptographyKeyStoreAdminTypes.KeyStoreAdminConfig) Wrappers.Result {
+func  WrappedKeyStoreAdmin(inputConfig AwsCryptographyKeyStoreAdminTypes.KeyStoreAdminConfig) Wrappers.Result {
 	var nativeConfig = awscryptographykeystoreadminsmithygenerated.KeyStoreAdminConfig_FromDafny(inputConfig)
 	var nativeClient, nativeError = awscryptographykeystoreadminsmithygenerated.NewClient(nativeConfig)
 	if nativeError != nil {
