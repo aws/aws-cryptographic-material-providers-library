@@ -21,7 +21,7 @@ module {:options "/functionSyntax:4" } TestContentHandler {
   import ContentHandler = SystemKey.ContentHandler
   import Structure
   import UTF8
-  import HierarchicalVersionUtils
+  import HvUtils = HierarchicalVersionUtils
 
   const MutationCommitmentContentToSHA :=
     map[
@@ -112,7 +112,7 @@ module {:options "/functionSyntax:4" } TestContentHandler {
     // print "running ";
     var kmsTuple :- expect AdminFixtures.ProvideKMSTuple();
     assert fresh(kmsTuple.Modifies);
-    var crypto :- expect HierarchicalVersionUtils.ProvideCryptoClient();
+    var crypto :- expect HvUtils.ProvideCryptoClient();
     assert fresh(crypto) && fresh(crypto.Modifies);
     var input := ContentHandler.SignInput(
       MaterialIdentifier := kmsId,
@@ -130,7 +130,7 @@ module {:options "/functionSyntax:4" } TestContentHandler {
   {
     // print "running ";
     var kmsTuple :- expect AdminFixtures.ProvideKMSTuple();
-    var crypto :- expect HierarchicalVersionUtils.ProvideCryptoClient();
+    var crypto :- expect HvUtils.ProvideCryptoClient();
     var signInput := ContentHandler.SignInput(
       MaterialIdentifier := kmsId,
       Content := MutationCommitmentContent,
@@ -155,7 +155,7 @@ module {:options "/functionSyntax:4" } TestContentHandler {
   {
     // print "running ";
     var kmsTuple :- expect AdminFixtures.ProvideKMSTuple();
-    var crypto :- expect HierarchicalVersionUtils.ProvideCryptoClient();
+    var crypto :- expect HvUtils.ProvideCryptoClient();
     var signInput := ContentHandler.SignInput(
       MaterialIdentifier := kmsId,
       Content := MutationCommitmentContent,
