@@ -5,21 +5,19 @@ using System;
 using AWS.Cryptography.KeyStoreAdmin;
 namespace AWS.Cryptography.KeyStoreAdmin
 {
-  public class CreateKeyInput
+  public class MutableBranchKeyContext
   {
-    private string _identifier;
+    private string _kmsArn;
     private System.Collections.Generic.Dictionary<string, string> _encryptionContext;
-    private AWS.Cryptography.KeyStoreAdmin.KmsSymmetricKeyArn _kmsArn;
-    private AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy _strategy;
     private AWS.Cryptography.KeyStore.HierarchyVersion _hierarchyVersion;
-    public string Identifier
+    public string KmsArn
     {
-      get { return this._identifier; }
-      set { this._identifier = value; }
+      get { return this._kmsArn; }
+      set { this._kmsArn = value; }
     }
-    public bool IsSetIdentifier()
+    public bool IsSetKmsArn()
     {
-      return this._identifier != null;
+      return this._kmsArn != null;
     }
     public System.Collections.Generic.Dictionary<string, string> EncryptionContext
     {
@@ -29,24 +27,6 @@ namespace AWS.Cryptography.KeyStoreAdmin
     public bool IsSetEncryptionContext()
     {
       return this._encryptionContext != null;
-    }
-    public AWS.Cryptography.KeyStoreAdmin.KmsSymmetricKeyArn KmsArn
-    {
-      get { return this._kmsArn; }
-      set { this._kmsArn = value; }
-    }
-    public bool IsSetKmsArn()
-    {
-      return this._kmsArn != null;
-    }
-    public AWS.Cryptography.KeyStoreAdmin.KeyManagementStrategy Strategy
-    {
-      get { return this._strategy; }
-      set { this._strategy = value; }
-    }
-    public bool IsSetStrategy()
-    {
-      return this._strategy != null;
     }
     public AWS.Cryptography.KeyStore.HierarchyVersion HierarchyVersion
     {
@@ -60,6 +40,8 @@ namespace AWS.Cryptography.KeyStoreAdmin
     public void Validate()
     {
       if (!IsSetKmsArn()) throw new System.ArgumentException("Missing value for required property 'KmsArn'");
+      if (!IsSetEncryptionContext()) throw new System.ArgumentException("Missing value for required property 'EncryptionContext'");
+      if (!IsSetHierarchyVersion()) throw new System.ArgumentException("Missing value for required property 'HierarchyVersion'");
 
     }
   }
