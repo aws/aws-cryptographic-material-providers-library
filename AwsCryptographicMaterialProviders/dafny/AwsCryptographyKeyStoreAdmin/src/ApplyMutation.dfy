@@ -43,6 +43,8 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
                 logicalName := input.logicalKeyStoreName)
            && Structure.DecryptOnlyHierarchicalSymmetricKey?(item)
            && item.Type.HierarchicalSymmetricVersion?
+              // TODO-HV-2-M2 : allow for HV-2
+           && item.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1
        )
   }
 
@@ -61,6 +63,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
       && keyManagerStrategy.ValidState()
       && storage.ValidState()
       && SystemKey.Modifies !! keyManagerStrategy.Modifies !! storage.Modifies
+      && keyManagerStrategy.SupportHV1()
     }
   }
 
@@ -124,10 +127,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     ensures input.ValidState()
     modifies
       input.storage.Modifies,
-            match input.keyManagerStrategy {
-              case reEncrypt(km) => km.kmsClient.Modifies
-              case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
-            },
+            input.keyManagerStrategy.Modifies,
             input.SystemKey.Modifies
   {
     // -= Fetch Commitment and Index
@@ -347,10 +347,8 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     mutationToApply: StateStrucs.MutationToApply
   ) returns (output: Result<(seq<KeyStoreTypes.OverWriteEncryptedHierarchicalKey>, seq<Types.MutatedBranchKeyItem>), Types.Error>)
     requires keyManagerStrategy.ValidState() && mutationToApply.ValidState()
-    modifies
-      match keyManagerStrategy
-      case reEncrypt(km) => km.kmsClient.Modifies
-      case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
+    requires keyManagerStrategy.SupportHV1()
+    modifies keyManagerStrategy.Modifies
     ensures keyManagerStrategy.ValidState()
     requires forall item <- items :: item.item is KeyStoreTypes.EncryptedHierarchicalKey
     requires forall item <- items :: item.item.Type.HierarchicalSymmetricVersion?

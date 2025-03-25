@@ -41,10 +41,12 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     nameonly Identifier: Option<string> := Option.None ,
     nameonly EncryptionContext: Option<AwsCryptographyKeyStoreTypes.EncryptionContext> := Option.None ,
     nameonly KmsArn: KmsSymmetricKeyArn ,
-    nameonly Strategy: Option<KeyManagementStrategy> := Option.None
+    nameonly Strategy: Option<KeyManagementStrategy> := Option.None ,
+    nameonly HierarchyVersion: Option<AwsCryptographyKeyStoreTypes.HierarchyVersion> := Option.None
   )
   datatype CreateKeyOutput = | CreateKeyOutput (
-    nameonly Identifier: string
+    nameonly Identifier: string ,
+    nameonly HierarchyVersion: AwsCryptographyKeyStoreTypes.HierarchyVersion
   )
   datatype DescribeMutationInput = | DescribeMutationInput (
     nameonly Identifier: string
@@ -71,6 +73,7 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   datatype KeyManagementStrategy =
     | AwsKmsReEncrypt(AwsKmsReEncrypt: AwsCryptographyKeyStoreTypes.AwsKms)
     | AwsKmsDecryptEncrypt(AwsKmsDecryptEncrypt: AwsKmsDecryptEncrypt)
+    | AwsKmsSimple(AwsKmsSimple: AwsCryptographyKeyStoreTypes.AwsKms)
   class IKeyStoreAdminClientCallHistory {
     ghost constructor() {
       CreateKey := [];
@@ -201,7 +204,8 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     | KmsMRKeyArn(KmsMRKeyArn: string)
   datatype MutableBranchKeyProperties = | MutableBranchKeyProperties (
     nameonly KmsArn: string ,
-    nameonly CustomEncryptionContext: AwsCryptographyKeyStoreTypes.EncryptionContextString
+    nameonly CustomEncryptionContext: AwsCryptographyKeyStoreTypes.EncryptionContextString ,
+    nameonly HierarchyVersion: AwsCryptographyKeyStoreTypes.HierarchyVersion
   )
   datatype MutatedBranchKeyItem = | MutatedBranchKeyItem (
     nameonly ItemType: string ,
@@ -228,7 +232,8 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     | No(No: string)
   datatype Mutations = | Mutations (
     nameonly TerminalKmsArn: Option<string> := Option.None ,
-    nameonly TerminalEncryptionContext: Option<AwsCryptographyKeyStoreTypes.EncryptionContextString> := Option.None
+    nameonly TerminalEncryptionContext: Option<AwsCryptographyKeyStoreTypes.EncryptionContextString> := Option.None ,
+    nameonly TerminalHierarchyVersion: Option<AwsCryptographyKeyStoreTypes.HierarchyVersion> := Option.None
   )
   datatype MutationToken = | MutationToken (
     nameonly Identifier: string ,

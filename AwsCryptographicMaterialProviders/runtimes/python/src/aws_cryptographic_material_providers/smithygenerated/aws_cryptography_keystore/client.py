@@ -113,8 +113,17 @@ class KeyStore:
         )
 
     def create_key(self, input: CreateKeyInput) -> CreateKeyOutput:
-        """Create a new Branch Key in the Key Store. Additionally create a
-        Beacon Key that is tied to this Branch Key.
+        """Create a new Branch Key in the Branch Key Store.
+        This method ONLY creates hierarchy-version-1 branch keys.
+        This creates 3 items: the ACTIVE branch key item, the DECRYPT_ONLY for the ACTIVE branch key item, and the beacon key.
+        In DynamoDB, the sort-key for the ACTIVE branch key is 'branch:ACTIVE`;
+        the sort-key for the decrypt_only is 'branch:version:<uuid>';
+        the sort-key for the beacon key is `beacon:ACTIVE'.
+        The active branch key and the decrypt_only items have the same plain-text data key.
+        The beacon key plain-text data key is unqiue.
+        KMS is called 3 times; GenerateDataKeyWithoutPlaintext is called twice, ReEncrypt is called once.
+        All three items are written to DDB by a TransactionWriteItems, conditioned on the absence of a conflicting Branch Key ID.
+        See Branch Key Store Developer Guide's 'Create Branch Keys': https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/create-branch-keys.html
 
         :param input: The operation's input.
         """
@@ -128,8 +137,18 @@ class KeyStore:
         )
 
     def version_key(self, input: VersionKeyInput) -> VersionKeyOutput:
-        """Create a new ACTIVE version of an existing Branch Key in the Key
-        Store, and set the previously ACTIVE version to DECRYPT_ONLY.
+        """Rotates an exsisting Branch Key;
+        this generates a fresh AES-256 key which all future encrypts will use
+        for the Key Derivation Function,
+        until VersionKey is executed again.
+        This method ONLY works with hierarchy-version-1 Branch Keys;
+        if a hierarchy-version-2 Branch Key is encountered, the operation fails before calling KMS.
+        Rotation is accomplished by first authenticating the ACTIVE branch key item via 'kms:ReEncrypt'.
+        'kms:GenerateDataKeyWithoutPlaintext', followed by 'kms:ReEncrypt' is used to create a new ACTIVE and matching DECRYPT_ONLY.
+        These two items are then writen to the Branch Key Store via a TransactionWriteItems;
+        this only overwrites the ACTIVE item, the DECRYPT_ONLY is a new item.
+        This leaves all the previous DECRYPT_ONLY items avabile to service decryption of previous rotations.
+        See Branch Key Store Developer Guide's 'Rotate your active branch key': https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/rotate-branch-key.html
 
         :param input: Inputs for versioning a Branch Key.
         """
