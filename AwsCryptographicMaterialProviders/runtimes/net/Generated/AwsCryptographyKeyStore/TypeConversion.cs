@@ -338,6 +338,31 @@ namespace AWS.Cryptography.KeyStore
       }
       throw new System.ArgumentException("Invalid AWS.Cryptography.KeyStore.HierarchicalKeyType state");
     }
+    public static AWS.Cryptography.KeyStore.HierarchyVersion FromDafny_N3_aws__N12_cryptography__N8_keyStore__S16_HierarchyVersion(software.amazon.cryptography.keystore.internaldafny.types._IHierarchyVersion value)
+    {
+      if (value.is_v1) return AWS.Cryptography.KeyStore.HierarchyVersion.v1;
+      if (value.is_v2) return AWS.Cryptography.KeyStore.HierarchyVersion.v2;
+      throw new System.ArgumentException("Invalid AWS.Cryptography.KeyStore.HierarchyVersion value");
+    }
+    public static software.amazon.cryptography.keystore.internaldafny.types._IHierarchyVersion ToDafny_N3_aws__N12_cryptography__N8_keyStore__S16_HierarchyVersion(AWS.Cryptography.KeyStore.HierarchyVersion value)
+    {
+      if (AWS.Cryptography.KeyStore.HierarchyVersion.v1.Equals(value)) return software.amazon.cryptography.keystore.internaldafny.types.HierarchyVersion.create_v1();
+      if (AWS.Cryptography.KeyStore.HierarchyVersion.v2.Equals(value)) return software.amazon.cryptography.keystore.internaldafny.types.HierarchyVersion.create_v2();
+      throw new System.ArgumentException("Invalid AWS.Cryptography.KeyStore.HierarchyVersion value");
+    }
+    public static AWS.Cryptography.KeyStore.HierarchyVersionException FromDafny_N3_aws__N12_cryptography__N8_keyStore__S25_HierarchyVersionException(software.amazon.cryptography.keystore.internaldafny.types.Error_HierarchyVersionException value)
+    {
+      return new AWS.Cryptography.KeyStore.HierarchyVersionException(
+      FromDafny_N3_aws__N12_cryptography__N8_keyStore__S25_HierarchyVersionException__M7_message(value._message)
+      );
+    }
+    public static software.amazon.cryptography.keystore.internaldafny.types.Error_HierarchyVersionException ToDafny_N3_aws__N12_cryptography__N8_keyStore__S25_HierarchyVersionException(AWS.Cryptography.KeyStore.HierarchyVersionException value)
+    {
+
+      return new software.amazon.cryptography.keystore.internaldafny.types.Error_HierarchyVersionException(
+      ToDafny_N3_aws__N12_cryptography__N8_keyStore__S25_HierarchyVersionException__M7_message(value.Message)
+      );
+    }
     public static AWS.Cryptography.KeyStore.KeyManagement FromDafny_N3_aws__N12_cryptography__N8_keyStore__S13_KeyManagement(software.amazon.cryptography.keystore.internaldafny.types._IKeyManagement value)
     {
       software.amazon.cryptography.keystore.internaldafny.types.KeyManagement concrete = (software.amazon.cryptography.keystore.internaldafny.types.KeyManagement)value;
@@ -1058,6 +1083,14 @@ namespace AWS.Cryptography.KeyStore
     public static software.amazon.cryptography.keystore.internaldafny.types._IActiveHierarchicalSymmetricBeacon ToDafny_N3_aws__N12_cryptography__N8_keyStore__S19_HierarchicalKeyType__M33_ActiveHierarchicalSymmetricBeacon(AWS.Cryptography.KeyStore.ActiveHierarchicalSymmetricBeacon value)
     {
       return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S33_ActiveHierarchicalSymmetricBeacon(value);
+    }
+    public static string FromDafny_N3_aws__N12_cryptography__N8_keyStore__S25_HierarchyVersionException__M7_message(Dafny.ISequence<char> value)
+    {
+      return FromDafny_N6_smithy__N3_api__S6_String(value);
+    }
+    public static Dafny.ISequence<char> ToDafny_N3_aws__N12_cryptography__N8_keyStore__S25_HierarchyVersionException__M7_message(string value)
+    {
+      return ToDafny_N6_smithy__N3_api__S6_String(value);
     }
     public static AWS.Cryptography.KeyStore.AwsKms FromDafny_N3_aws__N12_cryptography__N8_keyStore__S13_KeyManagement__M3_kms(software.amazon.cryptography.keystore.internaldafny.types._IAwsKms value)
     {
@@ -2203,6 +2236,8 @@ namespace AWS.Cryptography.KeyStore
           return FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_AlreadyExistsConditionFailed(dafnyVal);
         case software.amazon.cryptography.keystore.internaldafny.types.Error_BranchKeyCiphertextException dafnyVal:
           return FromDafny_N3_aws__N12_cryptography__N8_keyStore__S28_BranchKeyCiphertextException(dafnyVal);
+        case software.amazon.cryptography.keystore.internaldafny.types.Error_HierarchyVersionException dafnyVal:
+          return FromDafny_N3_aws__N12_cryptography__N8_keyStore__S25_HierarchyVersionException(dafnyVal);
         case software.amazon.cryptography.keystore.internaldafny.types.Error_KeyManagementException dafnyVal:
           return FromDafny_N3_aws__N12_cryptography__N8_keyStore__S22_KeyManagementException(dafnyVal);
         case software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStorageException dafnyVal:
@@ -2250,6 +2285,8 @@ namespace AWS.Cryptography.KeyStore
           return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_AlreadyExistsConditionFailed(exception);
         case AWS.Cryptography.KeyStore.BranchKeyCiphertextException exception:
           return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S28_BranchKeyCiphertextException(exception);
+        case AWS.Cryptography.KeyStore.HierarchyVersionException exception:
+          return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S25_HierarchyVersionException(exception);
         case AWS.Cryptography.KeyStore.KeyManagementException exception:
           return ToDafny_N3_aws__N12_cryptography__N8_keyStore__S22_KeyManagementException(exception);
         case AWS.Cryptography.KeyStore.KeyStorageException exception:
