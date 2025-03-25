@@ -25,14 +25,15 @@ jobs:
             ubuntu-22.04,
             macos-13,
           ]
-        # TODO-Rust-CI: Removing Rust Runtimes until the underlying issue resolved.
-        # TODO-Rust-CI: Rust runtimes checks are failing to resolve dafny_runtime imports
+        # TODO-HV-2-Rust: Removing Rust Runtimes until the underlying issue resolved.
+        # TODO-HV-2-Rust: Rust runtimes checks are failing to resolve dafny_runtime imports
+        # TODO-HV-2-Go: Removing Go CI until we rebase or need it
         language: [
             java,
             net,
             # rust,
             python,
-            go,
+            # go,
           ]
         # https://taskei.amazon.dev/tasks/CrypTool-5284
         dotnet-version: ["6.0.x"]
@@ -222,10 +223,10 @@ jobs:
             ubuntu-22.04,
             macos-13,
           ]
-        # TODO-Rust-CI: Removing Rust Runtimes until the underlying issue resolved.
-        # TODO-Rust-CI: Rust runtimes checks are failing to resolve dafny_runtime imports
-        encrypting_language: [java, net, python, go]
-        decrypting_language: [java, net, python, go]
+        # TODO-HV-2-Rust: Removing Rust Runtimes until the underlying issue resolved.
+        # TODO-HV-2-Go: Removing Go CI until we rebase or need it
+        encrypting_language: [java, net, python] # , go, rust]
+        decrypting_language: [java, net, python] # , go, rust]
         dotnet-version: ["6.0.x"]
     runs-on: ${{ matrix.os }}
     permissions:
