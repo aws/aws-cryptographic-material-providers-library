@@ -479,6 +479,11 @@ public class ToNative {
         dafnyValue.dtor_HierarchyVersion()
       )
     );
+    nativeBuilder.HierarchyVersion(
+      software.amazon.cryptography.keystore.ToNative.HierarchyVersion(
+        dafnyValue.dtor_HierarchyVersion()
+      )
+    );
     return nativeBuilder.build();
   }
 

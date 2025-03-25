@@ -334,6 +334,8 @@ type MutableBranchKeyContext struct {
 
 	HierarchyVersion awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
 
+	HierarchyVersion awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
+
 	KmsArn string
 }
 
