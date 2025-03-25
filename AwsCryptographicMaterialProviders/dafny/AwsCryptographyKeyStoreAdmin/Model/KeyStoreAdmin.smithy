@@ -233,7 +233,7 @@ structure CreateKeyInput {
   Identifier: String,
 
   @documentation(
-  "Custom encryption context for the Branch Key.
+  "Encryption context for the Branch Key.
   Required if branchKeyIdentifier is set.")
   EncryptionContext: aws.cryptography.keyStore#EncryptionContext
 
@@ -304,10 +304,6 @@ structure VersionKeyInput {
   "For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or AwsKmsSimple are supported (for now).
   For 'hierarchy-version-2' (HV-2), only AwsKmsDecryptEncrypt or AwsKmsSimple are supported.")
   Strategy: KeyManagementStrategy
-
-  // Default is not supported by Smithy-Dafny, but conceptually, we want
-  // @default(HierarchyVersionDefault)
-  HierarchyVersion: HierarchyVersion
 }
 
 structure VersionKeyOutput {
