@@ -171,7 +171,7 @@ public class KeyStoreAdmin {
    * KMS calls are determined by the 'hierarchy-version' and 'KeyManagementStrategy'.
    * These two items are then writen to the Branch Key Store via a TransactionWriteItems;
    * this only overwrites the ACTIVE item, the DECRYPT_ONLY is a new item.
-   * This leaves all the previous DECRYPT_ONLY items avabile to service decryption of previous rotations.
+   * This leaves all the previous DECRYPT_ONLY items available to service decryption of previous rotations.
    * This operation can race against other Version Key requests or Initialize Mutation requests for the same Branch Key.
    * Should that occur, all but one of the requests will fail.
    * Race errors are either 'Version Race Exceptions' or 'Key Storage Exceptions'.
