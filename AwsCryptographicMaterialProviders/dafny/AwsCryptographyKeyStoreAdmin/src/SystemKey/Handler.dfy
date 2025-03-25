@@ -1,5 +1,6 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
+include "../../../AwsCryptographyKeyStore/src/HierarchicalVersionUtils.dfy"
 include "../../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "../KmsUtils.dfy"
 include "ContentHandler.dfy"
@@ -16,6 +17,7 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
   import KmsUtils
   import AtomicPrimitives
   import ContentHandler // = SystemKey.ContentHandler
+  import HvUtils = HierarchicalVersionUtils
   import Structure
   import MPL = MaterialProviders
 
@@ -145,7 +147,7 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
       SortValue := Structure.MUTATION_COMMITMENT_TYPE,
       UUIDValue := MutationCommitment.UUID);
 
-    var crypto? := ContentHandler.ProvideCryptoClient();
+    var crypto? := HvUtils.ProvideCryptoClient();
     if (crypto?.Failure?) {
       var e := Types.MutationVerificationException(
         message :=
@@ -207,7 +209,7 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
       SortValue := Structure.MUTATION_INDEX_TYPE,
       UUIDValue := MutationIndex.UUID);
 
-    var crypto? := ContentHandler.ProvideCryptoClient();
+    var crypto? := HvUtils.ProvideCryptoClient();
     if (crypto?.Failure?) {
       var e := Types.MutationVerificationException(
         message :=
@@ -280,7 +282,7 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
       SortValue := Structure.MUTATION_COMMITMENT_TYPE,
       UUIDValue := MutationCommitment.UUID);
 
-    var crypto? := ContentHandler.ProvideCryptoClient();
+    var crypto? := HvUtils.ProvideCryptoClient();
     if (crypto?.Failure?) {
       var e := Types.MutationVerificationException(
         message :=
@@ -352,7 +354,7 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
       SortValue := Structure.MUTATION_INDEX_TYPE,
       UUIDValue := MutationIndex.UUID);
 
-    var crypto? := ContentHandler.ProvideCryptoClient();
+    var crypto? := HvUtils.ProvideCryptoClient();
     if (crypto?.Failure?) {
       var e := Types.MutationVerificationException(
         message :=
