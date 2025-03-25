@@ -1,15 +1,11 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
-include "../Model/AwsCryptographyKeyStoreTypes.dfy"
-include "Structure.dfy"
-
 include "../../../dafny/AwsCryptographicMaterialProviders/Model/AwsCryptographyMaterialProvidersTypes.dfy"
-include "KmsArn.dfy"
+include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 
 module HierarchicalVersionUtils {
 
   import opened Wrappers
-
   import AtomicPrimitives
 
   method ProvideCryptoClient(
