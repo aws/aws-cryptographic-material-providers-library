@@ -21,6 +21,7 @@ module {:options "/functionSyntax:4" } TestContentHandler {
   import ContentHandler = SystemKey.ContentHandler
   import Structure
   import UTF8
+  import HierarchicalVersionUtils
 
   const MutationCommitmentContentToSHA :=
     map[
