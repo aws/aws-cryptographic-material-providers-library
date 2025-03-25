@@ -44,10 +44,10 @@ structure PrimitivesReference {}
 service KeyStoreAdmin {
   version: "2023-04-01",
   operations: [
-    CreateKey,
-    VersionKey,
-    InitializeMutation,
-    ApplyMutation,
+    CreateKey
+    VersionKey
+    InitializeMutation
+    ApplyMutation
     DescribeMutation
   ],
   errors: [
@@ -141,7 +141,7 @@ instead of 'Trust Storage' to ensure that Branch Keys are
 only modified via actors with KMS key permissions.")
 structure TrustStorage {}
 
-// TODO: verify version before release
+// TODO-HV-2-GA: verify version before release
 @documentation(
 "Key Store Admin protects any non-cryptographic
 items stored with this Key.
@@ -154,7 +154,7 @@ union SystemKey {
   trustStorage: TrustStorage
 }
 
-// TODO update for HV-2
+// TODO-HV-2-M3 detail HV-2 treatment
 @documentation("
 Key Store Items are authenticated and re-wrapped via a Decrypt and then Encrypt request.
 This is two separate requests to Key Management, as compared to one.
@@ -273,7 +273,7 @@ followed by generation of a new ACTIVE and matching DECRYPT_ONLY.
 KMS calls are determined by the 'hierarchy-version' and 'KeyManagementStrategy'.
 These two items are then writen to the Branch Key Store via a TransactionWriteItems;
 this only overwrites the ACTIVE item, the DECRYPT_ONLY is a new item.
-This leaves all the previous DECRYPT_ONLY items avabile to service decryption of previous rotations.
+This leaves all the previous DECRYPT_ONLY items available to service decryption of previous rotations.
 This operation can race against other Version Key requests or Initialize Mutation requests for the same Branch Key.
 Should that occur, all but one of the requests will fail.
 Race errors are either 'Version Race Exceptions' or 'Key Storage Exceptions'.
