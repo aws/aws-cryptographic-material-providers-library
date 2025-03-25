@@ -39,6 +39,8 @@ jobs:
     uses: ./.github/workflows/library_net_tests.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
+  # TODO-Rust-CI: Removing Rust Runtimes until the underlying issue resolved.
+  # TODO-Rust-CI: Rust runtimes checks are failing to resolve dafny_runtime imports
   # pr-ci-rust:
   #   needs: getVersion
   #   uses: ./.github/workflows/library_rust_tests.yml
@@ -75,7 +77,7 @@ jobs:
       # - pr-ci-rust
       - pr-interop-test
       - pr-ci-examples
-    runs-on: ubuntu--22.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Verify all required jobs passed
         uses: re-actors/alls-green@release/v1

@@ -36,6 +36,8 @@ jobs:
     uses: ./.github/workflows/library_net_tests.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
+  # TODO-Rust-CI: Removing Rust Runtimes until the underlying issue resolved.
+  # TODO-Rust-CI: Rust runtimes checks are failing to resolve dafny_runtime imports
   # push-ci-rust:
   #   needs: getVersion
   #   uses: ./.github/workflows/library_rust_tests.yml
