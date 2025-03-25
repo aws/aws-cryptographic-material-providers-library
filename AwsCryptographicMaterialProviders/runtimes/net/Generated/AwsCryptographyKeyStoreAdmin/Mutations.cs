@@ -9,6 +9,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
   {
     private string _terminalKmsArn;
     private System.Collections.Generic.Dictionary<string, string> _terminalEncryptionContext;
+    private AWS.Cryptography.KeyStore.HierarchyVersion _terminalHierarchyVersion;
     public string TerminalKmsArn
     {
       get { return this._terminalKmsArn; }
@@ -26,6 +27,15 @@ namespace AWS.Cryptography.KeyStoreAdmin
     public bool IsSetTerminalEncryptionContext()
     {
       return this._terminalEncryptionContext != null;
+    }
+    public AWS.Cryptography.KeyStore.HierarchyVersion TerminalHierarchyVersion
+    {
+      get { return this._terminalHierarchyVersion; }
+      set { this._terminalHierarchyVersion = value; }
+    }
+    public bool IsSetTerminalHierarchyVersion()
+    {
+      return this._terminalHierarchyVersion != null;
     }
     public void Validate()
     {
