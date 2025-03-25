@@ -75,7 +75,7 @@ jobs:
       # - pr-ci-rust
       - pr-interop-test
       - pr-ci-examples
-    runs-on: ubuntu--22.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Verify all required jobs passed
         uses: re-actors/alls-green@release/v1
