@@ -39,8 +39,7 @@ jobs:
     uses: ./.github/workflows/library_net_tests.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
-  # TODO-Rust-CI: Removing Rust Runtimes until the underlying issue resolved.
-  # TODO-Rust-CI: Rust runtimes checks are failing to resolve dafny_runtime imports
+  # TODO-HV-2-Rust: Removing Rust until we rebase or need it
   # pr-ci-rust:
   #   needs: getVersion
   #   uses: ./.github/workflows/library_rust_tests.yml
@@ -51,6 +50,7 @@ jobs:
     uses: ./.github/workflows/library_python_tests.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
+  # TODO-HV-2-Go: Removing Go CI until we rebase or need it
   # pr-ci-go:
   #   needs: getVersion
   #   uses: ./.github/workflows/library_go_tests.yml
@@ -73,7 +73,9 @@ jobs:
       - pr-ci-java
       - pr-ci-net
       - pr-ci-python
+      # TODO-HV-2-Go: Removing Go CI until we rebase or need it
       # - pr-ci-go
+      # TODO-HV-2-Rust: Removing Rust until we rebase or need it
       # - pr-ci-rust
       - pr-interop-test
       - pr-ci-examples
