@@ -29,6 +29,9 @@ module {:options "/functionSyntax:4" } Structure {
   const AWS_CRYPTO_EC := "aws-crypto-ec"
   const ENCRYPTION_CONTEXT_PREFIX := AWS_CRYPTO_EC + ":"
 
+  const AES_256_LENGTH := 32
+  const MD_DIGEST_LENGTH := 48
+
   const BRANCH_KEY_RESTRICTED_FIELD_NAMES := {
     BRANCH_KEY_IDENTIFIER_FIELD,
     TYPE_FIELD,
