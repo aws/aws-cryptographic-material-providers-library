@@ -37,8 +37,7 @@ jobs:
     with:
       dafny: ${{ inputs.dafny }}
       regenerate-code: ${{ inputs.regenerate-code }}
-  # TODO-Rust-CI: Removing Rust Runtimes until the underlying issue resolved.
-  # TODO-Rust-CI: Rust runtimes checks are failing to resolve dafny_runtime imports.
+  # TODO-HV-2-Rust: Removing Rust Runtimes until the underlying issue resolved.
   #  manual-ci-rust:
   #    uses: ./.github/workflows/library_rust_tests.yml
   #    with:
@@ -49,11 +48,12 @@ jobs:
     with:
       dafny: ${{ inputs.dafny }}
       regenerate-code: ${{ inputs.regenerate-code }}
-  manual-ci-go:
-    uses: ./.github/workflows/library_go_tests.yml
-    with:
-      dafny: ${{ inputs.dafny }}
-      regenerate-code: ${{ inputs.regenerate-code }}
+  # TODO-HV-2-Go: Removing Go CI until we rebase or need it
+  # manual-ci-go:
+  #   uses: ./.github/workflows/library_go_tests.yml
+  #   with:
+  #     dafny: ${{ inputs.dafny }}
+  #     regenerate-code: ${{ inputs.regenerate-code }}
   manual-interop-test:
     uses: ./.github/workflows/library_interop_tests.yml
     with:
