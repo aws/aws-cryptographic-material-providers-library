@@ -4,6 +4,7 @@
 include "../../src/Index.dfy"
 include "../../../AwsCryptographyKeyStore/test/Fixtures.dfy"
 include "../../../AwsCryptographyKeyStore/Model/AwsCryptographyKeyStoreTypes.dfy"
+include "../../../AwsCryptographyKeyStore/src/HierarchicalVersionUtils.dfy"
 include "../AdminFixtures.dfy"
 include "../../src/SystemKey/ContentHandler.dfy"
 
@@ -20,6 +21,7 @@ module {:options "/functionSyntax:4" } TestContentHandler {
   import ContentHandler = SystemKey.ContentHandler
   import Structure
   import UTF8
+  import HvUtils = HierarchicalVersionUtils
 
   const MutationCommitmentContentToSHA :=
     map[
@@ -110,7 +112,7 @@ module {:options "/functionSyntax:4" } TestContentHandler {
     // print "running ";
     var kmsTuple :- expect AdminFixtures.ProvideKMSTuple();
     assert fresh(kmsTuple.Modifies);
-    var crypto :- expect ContentHandler.ProvideCryptoClient();
+    var crypto :- expect HvUtils.ProvideCryptoClient();
     assert fresh(crypto) && fresh(crypto.Modifies);
     var input := ContentHandler.SignInput(
       MaterialIdentifier := kmsId,
@@ -128,7 +130,7 @@ module {:options "/functionSyntax:4" } TestContentHandler {
   {
     // print "running ";
     var kmsTuple :- expect AdminFixtures.ProvideKMSTuple();
-    var crypto :- expect ContentHandler.ProvideCryptoClient();
+    var crypto :- expect HvUtils.ProvideCryptoClient();
     var signInput := ContentHandler.SignInput(
       MaterialIdentifier := kmsId,
       Content := MutationCommitmentContent,
@@ -153,7 +155,7 @@ module {:options "/functionSyntax:4" } TestContentHandler {
   {
     // print "running ";
     var kmsTuple :- expect AdminFixtures.ProvideKMSTuple();
-    var crypto :- expect ContentHandler.ProvideCryptoClient();
+    var crypto :- expect HvUtils.ProvideCryptoClient();
     var signInput := ContentHandler.SignInput(
       MaterialIdentifier := kmsId,
       Content := MutationCommitmentContent,
