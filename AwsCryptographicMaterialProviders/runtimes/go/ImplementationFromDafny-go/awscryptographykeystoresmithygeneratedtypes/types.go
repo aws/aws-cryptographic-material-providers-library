@@ -24,14 +24,14 @@ func (input BeaconKeyMaterials) Validate() error {
 	if input.EncryptionContext == nil {
 		return fmt.Errorf("input.EncryptionContext is required but has a nil value.")
 	}
-	if input.aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_Validate() != nil {
-		return input.aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_Validate()
+	if input.Aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_Validate() != nil {
+		return input.Aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_Validate()
 	}
 
 	return nil
 }
 
-func (input BeaconKeyMaterials) aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_Validate() error {
+func (input BeaconKeyMaterials) Aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
@@ -61,14 +61,14 @@ func (input BranchKeyMaterials) Validate() error {
 	if input.EncryptionContext == nil {
 		return fmt.Errorf("input.EncryptionContext is required but has a nil value.")
 	}
-	if input.aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_Validate() != nil {
-		return input.aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_Validate()
+	if input.Aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_Validate() != nil {
+		return input.Aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_Validate()
 	}
 
 	return nil
 }
 
-func (input BranchKeyMaterials) aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_Validate() error {
+func (input BranchKeyMaterials) Aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
@@ -88,14 +88,14 @@ type CreateKeyInput struct {
 }
 
 func (input CreateKeyInput) Validate() error {
-	if input.aws_cryptography_keyStore_CreateKeyInput_encryptionContext_Validate() != nil {
-		return input.aws_cryptography_keyStore_CreateKeyInput_encryptionContext_Validate()
+	if input.Aws_cryptography_keyStore_CreateKeyInput_encryptionContext_Validate() != nil {
+		return input.Aws_cryptography_keyStore_CreateKeyInput_encryptionContext_Validate()
 	}
 
 	return nil
 }
 
-func (input CreateKeyInput) aws_cryptography_keyStore_CreateKeyInput_encryptionContext_Validate() error {
+func (input CreateKeyInput) Aws_cryptography_keyStore_CreateKeyInput_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
@@ -247,14 +247,14 @@ func (input GetKeyStoreInfoOutput) Validate() error {
 	if input.KmsConfiguration == nil {
 		return fmt.Errorf("input.KmsConfiguration is required but has a nil value.")
 	}
-	if input.aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_Validate() != nil {
-		return input.aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_Validate()
+	if input.Aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_Validate() != nil {
+		return input.Aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_Validate()
 	}
 
 	return nil
 }
 
-func (input GetKeyStoreInfoOutput) aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_Validate() error {
+func (input GetKeyStoreInfoOutput) Aws_cryptography_keyStore_GetKeyStoreInfoOutput_kmsConfiguration_Validate() error {
 	if input.KmsConfiguration == nil {
 		return nil
 	}
@@ -438,14 +438,14 @@ func (input EncryptedHierarchicalKey) Validate() error {
 	if input.Type == nil {
 		return fmt.Errorf("input.Type is required but has a nil value.")
 	}
-	if input.aws_cryptography_keyStore_EncryptedHierarchicalKey_Type_Validate() != nil {
-		return input.aws_cryptography_keyStore_EncryptedHierarchicalKey_Type_Validate()
+	if input.Aws_cryptography_keyStore_EncryptedHierarchicalKey_Type_Validate() != nil {
+		return input.Aws_cryptography_keyStore_EncryptedHierarchicalKey_Type_Validate()
 	}
 
 	return nil
 }
 
-func (input EncryptedHierarchicalKey) aws_cryptography_keyStore_EncryptedHierarchicalKey_Type_Validate() error {
+func (input EncryptedHierarchicalKey) Aws_cryptography_keyStore_EncryptedHierarchicalKey_Type_Validate() error {
 	if input.Type == nil {
 		return nil
 	}
@@ -674,14 +674,14 @@ func (input QueryForVersionsOutput) Validate() error {
 	if input.Items == nil {
 		return fmt.Errorf("input.Items is required but has a nil value.")
 	}
-	if input.aws_cryptography_keyStore_QueryForVersionsOutput_Items_Validate() != nil {
-		return input.aws_cryptography_keyStore_QueryForVersionsOutput_Items_Validate()
+	if input.Aws_cryptography_keyStore_QueryForVersionsOutput_Items_Validate() != nil {
+		return input.Aws_cryptography_keyStore_QueryForVersionsOutput_Items_Validate()
 	}
 
 	return nil
 }
 
-func (input QueryForVersionsOutput) aws_cryptography_keyStore_QueryForVersionsOutput_Items_Validate() error {
+func (input QueryForVersionsOutput) Aws_cryptography_keyStore_QueryForVersionsOutput_Items_Validate() error {
 	for _, item := range input.Items {
 		if item.Validate() != nil {
 			return item.Validate()
@@ -728,20 +728,20 @@ func (input WriteAtomicMutationInput) Validate() error {
 	if input.Items == nil {
 		return fmt.Errorf("input.Items is required but has a nil value.")
 	}
-	if input.aws_cryptography_keyStore_WriteAtomicMutationInput_Items_Validate() != nil {
-		return input.aws_cryptography_keyStore_WriteAtomicMutationInput_Items_Validate()
+	if input.Aws_cryptography_keyStore_WriteAtomicMutationInput_Items_Validate() != nil {
+		return input.Aws_cryptography_keyStore_WriteAtomicMutationInput_Items_Validate()
 	}
 	if input.Version == nil {
 		return fmt.Errorf("input.Version is required but has a nil value.")
 	}
-	if input.aws_cryptography_keyStore_WriteAtomicMutationInput_Version_Validate() != nil {
-		return input.aws_cryptography_keyStore_WriteAtomicMutationInput_Version_Validate()
+	if input.Aws_cryptography_keyStore_WriteAtomicMutationInput_Version_Validate() != nil {
+		return input.Aws_cryptography_keyStore_WriteAtomicMutationInput_Version_Validate()
 	}
 
 	return nil
 }
 
-func (input WriteAtomicMutationInput) aws_cryptography_keyStore_WriteAtomicMutationInput_Items_Validate() error {
+func (input WriteAtomicMutationInput) Aws_cryptography_keyStore_WriteAtomicMutationInput_Items_Validate() error {
 	for _, item := range input.Items {
 		if item.Validate() != nil {
 			return item.Validate()
@@ -750,7 +750,7 @@ func (input WriteAtomicMutationInput) aws_cryptography_keyStore_WriteAtomicMutat
 
 	return nil
 }
-func (input WriteAtomicMutationInput) aws_cryptography_keyStore_WriteAtomicMutationInput_Version_Validate() error {
+func (input WriteAtomicMutationInput) Aws_cryptography_keyStore_WriteAtomicMutationInput_Version_Validate() error {
 	if input.Version == nil {
 		return nil
 	}
@@ -807,14 +807,14 @@ func (input WriteInitializeMutationInput) Validate() error {
 	if input.Version == nil {
 		return fmt.Errorf("input.Version is required but has a nil value.")
 	}
-	if input.aws_cryptography_keyStore_WriteInitializeMutationInput_Version_Validate() != nil {
-		return input.aws_cryptography_keyStore_WriteInitializeMutationInput_Version_Validate()
+	if input.Aws_cryptography_keyStore_WriteInitializeMutationInput_Version_Validate() != nil {
+		return input.Aws_cryptography_keyStore_WriteInitializeMutationInput_Version_Validate()
 	}
 
 	return nil
 }
 
-func (input WriteInitializeMutationInput) aws_cryptography_keyStore_WriteInitializeMutationInput_Version_Validate() error {
+func (input WriteInitializeMutationInput) Aws_cryptography_keyStore_WriteInitializeMutationInput_Version_Validate() error {
 	if input.Version == nil {
 		return nil
 	}
@@ -874,8 +874,8 @@ func (input WriteMutatedVersionsInput) Validate() error {
 	if input.Items == nil {
 		return fmt.Errorf("input.Items is required but has a nil value.")
 	}
-	if input.aws_cryptography_keyStore_WriteMutatedVersionsInput_Items_Validate() != nil {
-		return input.aws_cryptography_keyStore_WriteMutatedVersionsInput_Items_Validate()
+	if input.Aws_cryptography_keyStore_WriteMutatedVersionsInput_Items_Validate() != nil {
+		return input.Aws_cryptography_keyStore_WriteMutatedVersionsInput_Items_Validate()
 	}
 	if input.MutationCommitment.Validate() != nil {
 		return input.MutationCommitment.Validate()
@@ -887,7 +887,7 @@ func (input WriteMutatedVersionsInput) Validate() error {
 	return nil
 }
 
-func (input WriteMutatedVersionsInput) aws_cryptography_keyStore_WriteMutatedVersionsInput_Items_Validate() error {
+func (input WriteMutatedVersionsInput) Aws_cryptography_keyStore_WriteMutatedVersionsInput_Items_Validate() error {
 	for _, item := range input.Items {
 		if item.Validate() != nil {
 			return item.Validate()
@@ -1017,8 +1017,8 @@ func (input KeyStoreConfig) Validate() error {
 	if input.KmsConfiguration == nil {
 		return fmt.Errorf("input.KmsConfiguration is required but has a nil value.")
 	}
-	if input.aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate() != nil {
-		return input.aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate()
+	if input.Aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate() != nil {
+		return input.Aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate()
 	}
 	if input.DdbTableName != nil {
 		if len(*input.DdbTableName) < 3 {
@@ -1028,17 +1028,17 @@ func (input KeyStoreConfig) Validate() error {
 			return fmt.Errorf("TableName has a maximum length of 255 but has the length of %d.", len(*input.DdbTableName))
 		}
 	}
-	if input.aws_cryptography_keyStore_KeyStoreConfig_keyManagement_Validate() != nil {
-		return input.aws_cryptography_keyStore_KeyStoreConfig_keyManagement_Validate()
+	if input.Aws_cryptography_keyStore_KeyStoreConfig_keyManagement_Validate() != nil {
+		return input.Aws_cryptography_keyStore_KeyStoreConfig_keyManagement_Validate()
 	}
-	if input.aws_cryptography_keyStore_KeyStoreConfig_storage_Validate() != nil {
-		return input.aws_cryptography_keyStore_KeyStoreConfig_storage_Validate()
+	if input.Aws_cryptography_keyStore_KeyStoreConfig_storage_Validate() != nil {
+		return input.Aws_cryptography_keyStore_KeyStoreConfig_storage_Validate()
 	}
 
 	return nil
 }
 
-func (input KeyStoreConfig) aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate() error {
+func (input KeyStoreConfig) Aws_cryptography_keyStore_KeyStoreConfig_kmsConfiguration_Validate() error {
 	if input.KmsConfiguration == nil {
 		return nil
 	}
@@ -1072,7 +1072,7 @@ func (input KeyStoreConfig) aws_cryptography_keyStore_KeyStoreConfig_kmsConfigur
 
 	return nil
 }
-func (input KeyStoreConfig) aws_cryptography_keyStore_KeyStoreConfig_keyManagement_Validate() error {
+func (input KeyStoreConfig) Aws_cryptography_keyStore_KeyStoreConfig_keyManagement_Validate() error {
 	if input.KeyManagement == nil {
 		return nil
 	}
@@ -1088,7 +1088,7 @@ func (input KeyStoreConfig) aws_cryptography_keyStore_KeyStoreConfig_keyManageme
 
 	return nil
 }
-func (input KeyStoreConfig) aws_cryptography_keyStore_KeyStoreConfig_storage_Validate() error {
+func (input KeyStoreConfig) Aws_cryptography_keyStore_KeyStoreConfig_storage_Validate() error {
 	if input.Storage == nil {
 		return nil
 	}

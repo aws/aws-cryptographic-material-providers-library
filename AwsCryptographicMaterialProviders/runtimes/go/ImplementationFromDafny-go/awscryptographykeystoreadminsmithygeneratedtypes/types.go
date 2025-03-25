@@ -90,17 +90,17 @@ func (input ApplyMutationInput) Validate() error {
 	if input.SystemKey == nil {
 		return fmt.Errorf("input.SystemKey is required but has a nil value.")
 	}
-	if input.aws_cryptography_keyStoreAdmin_ApplyMutationInput_SystemKey_Validate() != nil {
-		return input.aws_cryptography_keyStoreAdmin_ApplyMutationInput_SystemKey_Validate()
+	if input.Aws_cryptography_keyStoreAdmin_ApplyMutationInput_SystemKey_Validate() != nil {
+		return input.Aws_cryptography_keyStoreAdmin_ApplyMutationInput_SystemKey_Validate()
 	}
-	if input.aws_cryptography_keyStoreAdmin_ApplyMutationInput_Strategy_Validate() != nil {
-		return input.aws_cryptography_keyStoreAdmin_ApplyMutationInput_Strategy_Validate()
+	if input.Aws_cryptography_keyStoreAdmin_ApplyMutationInput_Strategy_Validate() != nil {
+		return input.Aws_cryptography_keyStoreAdmin_ApplyMutationInput_Strategy_Validate()
 	}
 
 	return nil
 }
 
-func (input ApplyMutationInput) aws_cryptography_keyStoreAdmin_ApplyMutationInput_SystemKey_Validate() error {
+func (input ApplyMutationInput) Aws_cryptography_keyStoreAdmin_ApplyMutationInput_SystemKey_Validate() error {
 	if input.SystemKey == nil {
 		return nil
 	}
@@ -120,7 +120,7 @@ func (input ApplyMutationInput) aws_cryptography_keyStoreAdmin_ApplyMutationInpu
 
 	return nil
 }
-func (input ApplyMutationInput) aws_cryptography_keyStoreAdmin_ApplyMutationInput_Strategy_Validate() error {
+func (input ApplyMutationInput) Aws_cryptography_keyStoreAdmin_ApplyMutationInput_Strategy_Validate() error {
 	if input.Strategy == nil {
 		return nil
 	}
@@ -130,6 +130,10 @@ func (input ApplyMutationInput) aws_cryptography_keyStoreAdmin_ApplyMutationInpu
 			return unionType.Value.Validate()
 		}
 	case *KeyManagementStrategyMemberAwsKmsDecryptEncrypt:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	case *KeyManagementStrategyMemberAwsKmsSimple:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -170,20 +174,20 @@ func (input ApplyMutationOutput) Validate() error {
 	if input.MutatedBranchKeyItems == nil {
 		return fmt.Errorf("input.MutatedBranchKeyItems is required but has a nil value.")
 	}
-	if input.aws_cryptography_keyStoreAdmin_ApplyMutationOutput_MutatedBranchKeyItems_Validate() != nil {
-		return input.aws_cryptography_keyStoreAdmin_ApplyMutationOutput_MutatedBranchKeyItems_Validate()
+	if input.Aws_cryptography_keyStoreAdmin_ApplyMutationOutput_MutatedBranchKeyItems_Validate() != nil {
+		return input.Aws_cryptography_keyStoreAdmin_ApplyMutationOutput_MutatedBranchKeyItems_Validate()
 	}
 	if input.MutationResult == nil {
 		return fmt.Errorf("input.MutationResult is required but has a nil value.")
 	}
-	if input.aws_cryptography_keyStoreAdmin_ApplyMutationOutput_MutationResult_Validate() != nil {
-		return input.aws_cryptography_keyStoreAdmin_ApplyMutationOutput_MutationResult_Validate()
+	if input.Aws_cryptography_keyStoreAdmin_ApplyMutationOutput_MutationResult_Validate() != nil {
+		return input.Aws_cryptography_keyStoreAdmin_ApplyMutationOutput_MutationResult_Validate()
 	}
 
 	return nil
 }
 
-func (input ApplyMutationOutput) aws_cryptography_keyStoreAdmin_ApplyMutationOutput_MutatedBranchKeyItems_Validate() error {
+func (input ApplyMutationOutput) Aws_cryptography_keyStoreAdmin_ApplyMutationOutput_MutatedBranchKeyItems_Validate() error {
 	for _, item := range input.MutatedBranchKeyItems {
 		if item.Validate() != nil {
 			return item.Validate()
@@ -192,7 +196,7 @@ func (input ApplyMutationOutput) aws_cryptography_keyStoreAdmin_ApplyMutationOut
 
 	return nil
 }
-func (input ApplyMutationOutput) aws_cryptography_keyStoreAdmin_ApplyMutationOutput_MutationResult_Validate() error {
+func (input ApplyMutationOutput) Aws_cryptography_keyStoreAdmin_ApplyMutationOutput_MutationResult_Validate() error {
 	if input.MutationResult == nil {
 		return nil
 	}
@@ -218,6 +222,8 @@ type CreateKeyInput struct {
 
 	EncryptionContext map[string]string
 
+	HierarchyVersion *awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
+
 	Identifier *string
 
 	Strategy KeyManagementStrategy
@@ -227,20 +233,20 @@ func (input CreateKeyInput) Validate() error {
 	if input.KmsArn == nil {
 		return fmt.Errorf("input.KmsArn is required but has a nil value.")
 	}
-	if input.aws_cryptography_keyStoreAdmin_CreateKeyInput_KmsArn_Validate() != nil {
-		return input.aws_cryptography_keyStoreAdmin_CreateKeyInput_KmsArn_Validate()
+	if input.Aws_cryptography_keyStoreAdmin_CreateKeyInput_KmsArn_Validate() != nil {
+		return input.Aws_cryptography_keyStoreAdmin_CreateKeyInput_KmsArn_Validate()
 	}
-	if input.aws_cryptography_keyStoreAdmin_CreateKeyInput_EncryptionContext_Validate() != nil {
-		return input.aws_cryptography_keyStoreAdmin_CreateKeyInput_EncryptionContext_Validate()
+	if input.Aws_cryptography_keyStoreAdmin_CreateKeyInput_EncryptionContext_Validate() != nil {
+		return input.Aws_cryptography_keyStoreAdmin_CreateKeyInput_EncryptionContext_Validate()
 	}
-	if input.aws_cryptography_keyStoreAdmin_CreateKeyInput_Strategy_Validate() != nil {
-		return input.aws_cryptography_keyStoreAdmin_CreateKeyInput_Strategy_Validate()
+	if input.Aws_cryptography_keyStoreAdmin_CreateKeyInput_Strategy_Validate() != nil {
+		return input.Aws_cryptography_keyStoreAdmin_CreateKeyInput_Strategy_Validate()
 	}
 
 	return nil
 }
 
-func (input CreateKeyInput) aws_cryptography_keyStoreAdmin_CreateKeyInput_KmsArn_Validate() error {
+func (input CreateKeyInput) Aws_cryptography_keyStoreAdmin_CreateKeyInput_KmsArn_Validate() error {
 	if input.KmsArn == nil {
 		return nil
 	}
@@ -254,7 +260,7 @@ func (input CreateKeyInput) aws_cryptography_keyStoreAdmin_CreateKeyInput_KmsArn
 
 	return nil
 }
-func (input CreateKeyInput) aws_cryptography_keyStoreAdmin_CreateKeyInput_EncryptionContext_Validate() error {
+func (input CreateKeyInput) Aws_cryptography_keyStoreAdmin_CreateKeyInput_EncryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
@@ -266,7 +272,7 @@ func (input CreateKeyInput) aws_cryptography_keyStoreAdmin_CreateKeyInput_Encryp
 
 	return nil
 }
-func (input CreateKeyInput) aws_cryptography_keyStoreAdmin_CreateKeyInput_Strategy_Validate() error {
+func (input CreateKeyInput) Aws_cryptography_keyStoreAdmin_CreateKeyInput_Strategy_Validate() error {
 	if input.Strategy == nil {
 		return nil
 	}
@@ -279,6 +285,10 @@ func (input CreateKeyInput) aws_cryptography_keyStoreAdmin_CreateKeyInput_Strate
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
+	case *KeyManagementStrategyMemberAwsKmsSimple:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
 	// Default case should not be reached.
 	default:
 		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
@@ -288,6 +298,8 @@ func (input CreateKeyInput) aws_cryptography_keyStoreAdmin_CreateKeyInput_Strate
 }
 
 type CreateKeyOutput struct {
+	HierarchyVersion awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
+
 	Identifier string
 }
 
@@ -308,6 +320,8 @@ func (input DescribeMutationInput) Validate() error {
 type Mutations struct {
 	TerminalEncryptionContext map[string]string
 
+	TerminalHierarchyVersion *awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
+
 	TerminalKmsArn *string
 }
 
@@ -318,6 +332,8 @@ func (input Mutations) Validate() error {
 
 type MutableBranchKeyProperties struct {
 	CustomEncryptionContext map[string]string
+
+	HierarchyVersion awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
 
 	KmsArn string
 }
@@ -383,14 +399,14 @@ func (input DescribeMutationOutput) Validate() error {
 	if input.MutationInFlight == nil {
 		return fmt.Errorf("input.MutationInFlight is required but has a nil value.")
 	}
-	if input.aws_cryptography_keyStoreAdmin_DescribeMutationOutput_MutationInFlight_Validate() != nil {
-		return input.aws_cryptography_keyStoreAdmin_DescribeMutationOutput_MutationInFlight_Validate()
+	if input.Aws_cryptography_keyStoreAdmin_DescribeMutationOutput_MutationInFlight_Validate() != nil {
+		return input.Aws_cryptography_keyStoreAdmin_DescribeMutationOutput_MutationInFlight_Validate()
 	}
 
 	return nil
 }
 
-func (input DescribeMutationOutput) aws_cryptography_keyStoreAdmin_DescribeMutationOutput_MutationInFlight_Validate() error {
+func (input DescribeMutationOutput) Aws_cryptography_keyStoreAdmin_DescribeMutationOutput_MutationInFlight_Validate() error {
 	if input.MutationInFlight == nil {
 		return nil
 	}
@@ -427,17 +443,17 @@ func (input InitializeMutationInput) Validate() error {
 	if input.SystemKey == nil {
 		return fmt.Errorf("input.SystemKey is required but has a nil value.")
 	}
-	if input.aws_cryptography_keyStoreAdmin_InitializeMutationInput_SystemKey_Validate() != nil {
-		return input.aws_cryptography_keyStoreAdmin_InitializeMutationInput_SystemKey_Validate()
+	if input.Aws_cryptography_keyStoreAdmin_InitializeMutationInput_SystemKey_Validate() != nil {
+		return input.Aws_cryptography_keyStoreAdmin_InitializeMutationInput_SystemKey_Validate()
 	}
-	if input.aws_cryptography_keyStoreAdmin_InitializeMutationInput_Strategy_Validate() != nil {
-		return input.aws_cryptography_keyStoreAdmin_InitializeMutationInput_Strategy_Validate()
+	if input.Aws_cryptography_keyStoreAdmin_InitializeMutationInput_Strategy_Validate() != nil {
+		return input.Aws_cryptography_keyStoreAdmin_InitializeMutationInput_Strategy_Validate()
 	}
 
 	return nil
 }
 
-func (input InitializeMutationInput) aws_cryptography_keyStoreAdmin_InitializeMutationInput_SystemKey_Validate() error {
+func (input InitializeMutationInput) Aws_cryptography_keyStoreAdmin_InitializeMutationInput_SystemKey_Validate() error {
 	if input.SystemKey == nil {
 		return nil
 	}
@@ -457,7 +473,7 @@ func (input InitializeMutationInput) aws_cryptography_keyStoreAdmin_InitializeMu
 
 	return nil
 }
-func (input InitializeMutationInput) aws_cryptography_keyStoreAdmin_InitializeMutationInput_Strategy_Validate() error {
+func (input InitializeMutationInput) Aws_cryptography_keyStoreAdmin_InitializeMutationInput_Strategy_Validate() error {
 	if input.Strategy == nil {
 		return nil
 	}
@@ -467,6 +483,10 @@ func (input InitializeMutationInput) aws_cryptography_keyStoreAdmin_InitializeMu
 			return unionType.Value.Validate()
 		}
 	case *KeyManagementStrategyMemberAwsKmsDecryptEncrypt:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	case *KeyManagementStrategyMemberAwsKmsSimple:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -490,8 +510,8 @@ func (input InitializeMutationOutput) Validate() error {
 	if input.MutatedBranchKeyItems == nil {
 		return fmt.Errorf("input.MutatedBranchKeyItems is required but has a nil value.")
 	}
-	if input.aws_cryptography_keyStoreAdmin_InitializeMutationOutput_MutatedBranchKeyItems_Validate() != nil {
-		return input.aws_cryptography_keyStoreAdmin_InitializeMutationOutput_MutatedBranchKeyItems_Validate()
+	if input.Aws_cryptography_keyStoreAdmin_InitializeMutationOutput_MutatedBranchKeyItems_Validate() != nil {
+		return input.Aws_cryptography_keyStoreAdmin_InitializeMutationOutput_MutatedBranchKeyItems_Validate()
 	}
 	if input.MutationToken.Validate() != nil {
 		return input.MutationToken.Validate()
@@ -500,7 +520,7 @@ func (input InitializeMutationOutput) Validate() error {
 	return nil
 }
 
-func (input InitializeMutationOutput) aws_cryptography_keyStoreAdmin_InitializeMutationOutput_MutatedBranchKeyItems_Validate() error {
+func (input InitializeMutationOutput) Aws_cryptography_keyStoreAdmin_InitializeMutationOutput_MutatedBranchKeyItems_Validate() error {
 	for _, item := range input.MutatedBranchKeyItems {
 		if item.Validate() != nil {
 			return item.Validate()
@@ -522,17 +542,17 @@ func (input VersionKeyInput) Validate() error {
 	if input.KmsArn == nil {
 		return fmt.Errorf("input.KmsArn is required but has a nil value.")
 	}
-	if input.aws_cryptography_keyStoreAdmin_VersionKeyInput_KmsArn_Validate() != nil {
-		return input.aws_cryptography_keyStoreAdmin_VersionKeyInput_KmsArn_Validate()
+	if input.Aws_cryptography_keyStoreAdmin_VersionKeyInput_KmsArn_Validate() != nil {
+		return input.Aws_cryptography_keyStoreAdmin_VersionKeyInput_KmsArn_Validate()
 	}
-	if input.aws_cryptography_keyStoreAdmin_VersionKeyInput_Strategy_Validate() != nil {
-		return input.aws_cryptography_keyStoreAdmin_VersionKeyInput_Strategy_Validate()
+	if input.Aws_cryptography_keyStoreAdmin_VersionKeyInput_Strategy_Validate() != nil {
+		return input.Aws_cryptography_keyStoreAdmin_VersionKeyInput_Strategy_Validate()
 	}
 
 	return nil
 }
 
-func (input VersionKeyInput) aws_cryptography_keyStoreAdmin_VersionKeyInput_KmsArn_Validate() error {
+func (input VersionKeyInput) Aws_cryptography_keyStoreAdmin_VersionKeyInput_KmsArn_Validate() error {
 	if input.KmsArn == nil {
 		return nil
 	}
@@ -546,7 +566,7 @@ func (input VersionKeyInput) aws_cryptography_keyStoreAdmin_VersionKeyInput_KmsA
 
 	return nil
 }
-func (input VersionKeyInput) aws_cryptography_keyStoreAdmin_VersionKeyInput_Strategy_Validate() error {
+func (input VersionKeyInput) Aws_cryptography_keyStoreAdmin_VersionKeyInput_Strategy_Validate() error {
 	if input.Strategy == nil {
 		return nil
 	}
@@ -556,6 +576,10 @@ func (input VersionKeyInput) aws_cryptography_keyStoreAdmin_VersionKeyInput_Stra
 			return unionType.Value.Validate()
 		}
 	case *KeyManagementStrategyMemberAwsKmsDecryptEncrypt:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	case *KeyManagementStrategyMemberAwsKmsSimple:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -593,14 +617,14 @@ func (input KeyStoreAdminConfig) Validate() error {
 	if input.Storage == nil {
 		return fmt.Errorf("input.Storage is required but has a nil value.")
 	}
-	if input.aws_cryptography_keyStoreAdmin_KeyStoreAdminConfig_storage_Validate() != nil {
-		return input.aws_cryptography_keyStoreAdmin_KeyStoreAdminConfig_storage_Validate()
+	if input.Aws_cryptography_keyStoreAdmin_KeyStoreAdminConfig_storage_Validate() != nil {
+		return input.Aws_cryptography_keyStoreAdmin_KeyStoreAdminConfig_storage_Validate()
 	}
 
 	return nil
 }
 
-func (input KeyStoreAdminConfig) aws_cryptography_keyStoreAdmin_KeyStoreAdminConfig_storage_Validate() error {
+func (input KeyStoreAdminConfig) Aws_cryptography_keyStoreAdmin_KeyStoreAdminConfig_storage_Validate() error {
 	if input.Storage == nil {
 		return nil
 	}
@@ -662,6 +686,7 @@ func (*ApplyMutationResultMemberContinueMutation) isApplyMutationResult() {}
 
 // KeyManagementStrategyMemberAwsKmsDecryptEncrypt
 // KeyManagementStrategyMemberAwsKmsReEncrypt
+// KeyManagementStrategyMemberAwsKmsSimple
 type KeyManagementStrategy interface {
 	isKeyManagementStrategy()
 }
@@ -677,6 +702,12 @@ type KeyManagementStrategyMemberAwsKmsReEncrypt struct {
 }
 
 func (*KeyManagementStrategyMemberAwsKmsReEncrypt) isKeyManagementStrategy() {}
+
+type KeyManagementStrategyMemberAwsKmsSimple struct {
+	Value awscryptographykeystoresmithygeneratedtypes.AwsKms
+}
+
+func (*KeyManagementStrategyMemberAwsKmsSimple) isKeyManagementStrategy() {}
 
 // KmsSymmetricKeyArnMemberKmsKeyArn
 // KmsSymmetricKeyArnMemberKmsMRKeyArn

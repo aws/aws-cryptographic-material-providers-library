@@ -16,6 +16,7 @@ import java.lang.RuntimeException;
 import java.util.List;
 import java.util.Objects;
 import software.amazon.cryptography.keystore.internaldafny.types.AwsKms;
+import software.amazon.cryptography.keystore.internaldafny.types.HierarchyVersion;
 import software.amazon.cryptography.keystore.internaldafny.types.Storage;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationInput;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.ApplyMutationOutput;
@@ -239,7 +240,23 @@ public class ToDafny {
           ToDafny.KeyManagementStrategy(nativeValue.Strategy())
         )
         : Option.create_None(KeyManagementStrategy._typeDescriptor());
-    return new CreateKeyInput(identifier, encryptionContext, kmsArn, strategy);
+    Option<HierarchyVersion> hierarchyVersion;
+    hierarchyVersion =
+      Objects.nonNull(nativeValue.HierarchyVersion())
+        ? Option.create_Some(
+          HierarchyVersion._typeDescriptor(),
+          software.amazon.cryptography.keystore.ToDafny.HierarchyVersion(
+            nativeValue.HierarchyVersion()
+          )
+        )
+        : Option.create_None(HierarchyVersion._typeDescriptor());
+    return new CreateKeyInput(
+      identifier,
+      encryptionContext,
+      kmsArn,
+      strategy,
+      hierarchyVersion
+    );
   }
 
   public static CreateKeyOutput CreateKeyOutput(
@@ -250,7 +267,12 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
         nativeValue.Identifier()
       );
-    return new CreateKeyOutput(identifier);
+    HierarchyVersion hierarchyVersion;
+    hierarchyVersion =
+      software.amazon.cryptography.keystore.ToDafny.HierarchyVersion(
+        nativeValue.HierarchyVersion()
+      );
+    return new CreateKeyOutput(identifier, hierarchyVersion);
   }
 
   public static DescribeMutationInput DescribeMutationInput(
@@ -375,7 +397,16 @@ public class ToDafny {
       software.amazon.cryptography.keystore.ToDafny.EncryptionContextString(
         nativeValue.CustomEncryptionContext()
       );
-    return new MutableBranchKeyProperties(kmsArn, customEncryptionContext);
+    HierarchyVersion hierarchyVersion;
+    hierarchyVersion =
+      software.amazon.cryptography.keystore.ToDafny.HierarchyVersion(
+        nativeValue.HierarchyVersion()
+      );
+    return new MutableBranchKeyProperties(
+      kmsArn,
+      customEncryptionContext,
+      hierarchyVersion
+    );
   }
 
   public static MutatedBranchKeyItem MutatedBranchKeyItem(
@@ -483,7 +514,21 @@ public class ToDafny {
             DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
           )
         );
-    return new Mutations(terminalKmsArn, terminalEncryptionContext);
+    Option<HierarchyVersion> terminalHierarchyVersion;
+    terminalHierarchyVersion =
+      Objects.nonNull(nativeValue.TerminalHierarchyVersion())
+        ? Option.create_Some(
+          HierarchyVersion._typeDescriptor(),
+          software.amazon.cryptography.keystore.ToDafny.HierarchyVersion(
+            nativeValue.TerminalHierarchyVersion()
+          )
+        )
+        : Option.create_None(HierarchyVersion._typeDescriptor());
+    return new Mutations(
+      terminalKmsArn,
+      terminalEncryptionContext,
+      terminalHierarchyVersion
+    );
   }
 
   public static MutationToken MutationToken(
@@ -672,6 +717,13 @@ public class ToDafny {
     if (Objects.nonNull(nativeValue.AwsKmsDecryptEncrypt())) {
       return KeyManagementStrategy.create_AwsKmsDecryptEncrypt(
         ToDafny.AwsKmsDecryptEncrypt(nativeValue.AwsKmsDecryptEncrypt())
+      );
+    }
+    if (Objects.nonNull(nativeValue.AwsKmsSimple())) {
+      return KeyManagementStrategy.create_AwsKmsSimple(
+        software.amazon.cryptography.keystore.ToDafny.AwsKms(
+          nativeValue.AwsKmsSimple()
+        )
       );
     }
     throw new IllegalArgumentException(
