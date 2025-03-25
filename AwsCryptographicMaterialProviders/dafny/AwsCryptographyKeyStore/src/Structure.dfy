@@ -25,7 +25,10 @@ module {:options "/functionSyntax:4" } Structure {
   const M_INPUT := "input" // The DDB Attribute name for the input, which is AttributeValue.B
   const M_UUID := "uuid" // The DDB Attribute name for the uuid, which is AttributeValue.S
   const M_PAGE_INDEX := "pageIndex" // The DDB Attribute name for the pageIndex, which is AttributeValue.B
-
+  const HIERARCHY_VERSION_1 := "1"
+  const HIERARCHY_VERSION_2 := "2"
+  const AES_256_LENGTH := 32
+  const MD_DIGEST_LENGTH := 48
   const AWS_CRYPTO_EC := "aws-crypto-ec"
   const ENCRYPTION_CONTEXT_PREFIX := AWS_CRYPTO_EC + ":"
 
@@ -124,6 +127,25 @@ module {:options "/functionSyntax:4" } Structure {
            //= type=implication
            //# The `type` attribute MUST stores the branch key version formatted like `"branch:version:"` + `version`.
         || BRANCH_KEY_TYPE_PREFIX < m[TYPE_FIELD])
+  }
+
+  predicate Hv2EncryptionContext?(m: map<string, string>) {
+
+    && (BRANCH_KEY_IDENTIFIER_FIELD !in m)
+       
+    && (TYPE_FIELD !in m)
+       
+    && (KEY_CREATE_TIME !in m)
+       
+    && (HIERARCHY_VERSION !in m)
+       
+    && (TABLE_FIELD !in m)
+
+    && (KMS_FIELD !in m)
+
+    && (BRANCH_KEY_FIELD !in m.Keys)
+
+    && (BRANCH_KEY_ACTIVE_VERSION_FIELD !in m)
   }
 
   predicate EncryptedHierarchicalKey?(key: Types.EncryptedHierarchicalKey) {
