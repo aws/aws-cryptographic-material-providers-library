@@ -29,7 +29,7 @@ jobs:
             TestVectorsAwsCryptographicMaterialProviders,
             StandardLibrary,
           ]
-        os: [ubuntu-latest]
+        os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     defaults:
       run:
@@ -46,10 +46,10 @@ jobs:
       # The specification submodule is private so we don't have access, but we don't need
       # it to verify the Dafny code. Instead we manually pull the submodule we DO need.
       - run: git submodule update --init libraries
-      - run: git submodule update --init smithy-dafny
+      - run: git submodule update --init --recursive smithy-dafny
 
       - name: Setup Dafny
-        uses: dafny-lang/setup-dafny-action@v1.7.0
+        uses: ./.github/actions/setup_dafny
         with:
           dafny-version: ${{ inputs.dafny }}
 
@@ -60,6 +60,10 @@ jobs:
           dafny: ${{ env.DAFNY_VERSION }}
           library: ${{ matrix.library }}
           diff-generated-code: false
+
+      # make sure we always format for dotnet 6
+      - name: Create temporary global.json
+        run: echo '{"sdk":{"rollForward":"latestFeature","version":"6.0.0"}}' > ./global.json
 
       - name: Check format of ${{ matrix.library }} Dafny code
         working-directory: ./${{ matrix.library }}
@@ -77,7 +81,7 @@ jobs:
   format_java_misc:
     # Don't run the nightly build on forks
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Support longpaths

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aws-cryptography-internal-dynamodb"
-version = "1.8.0"
+version = "1.9.0"
 description = ""
 authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
 packages = [
@@ -33,5 +33,5 @@ twine = "5.1.1"
 wheel = "0.38.4"
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core<2.0.0"]
 build-backend = "poetry.core.masonry.api"

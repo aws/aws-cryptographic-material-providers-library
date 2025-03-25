@@ -17,7 +17,7 @@ transpile_implementation: STD_LIBRARY=
 transpile_test: STD_LIBRARY=
 transpile_dependencies: STD_LIBRARY=
 
-GO_MODULE_NAME="github.com/dafny-lang/DafnyStandardLibGo"
+GO_MODULE_NAME="github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library"
 
 # Python
 PYTHON_MODULE_NAME=smithy_dafny_standard_library

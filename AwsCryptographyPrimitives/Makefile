@@ -51,7 +51,7 @@ PYTHON_MODULE_NAME=aws_cryptography_primitives
 TRANSLATION_RECORD_PYTHON := \
     --translation-record ../StandardLibrary/runtimes/python/src/smithy_dafny_standard_library/internaldafny/generated/dafny_src-py.dtr
 
-GO_MODULE_NAME="github.com/aws/aws-cryptographic-material-providers-library/primitives"
+GO_MODULE_NAME="github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives"
 
 TRANSLATION_RECORD_GO := \
     StandardLibrary/runtimes/go/ImplementationFromDafny-go/ImplementationFromDafny-go.dtr

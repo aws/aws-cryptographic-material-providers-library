@@ -5,9 +5,9 @@ package WrappedAwsCryptographyPrimitivesService
 import (
 	"context"
 
-	"github.com/aws/aws-cryptographic-material-providers-library/primitives/AwsCryptographyPrimitivesTypes"
-	"github.com/aws/aws-cryptographic-material-providers-library/primitives/awscryptographyprimitivessmithygenerated"
-	"github.com/dafny-lang/DafnyStandardLibGo/Wrappers"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AwsCryptographyPrimitivesTypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/awscryptographyprimitivessmithygenerated"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Wrappers"
 )
 
 type Shim struct {

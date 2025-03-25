@@ -24,7 +24,7 @@ module Materials {
 
   // Encryption Materials
 
-  // This funciton is responsible for putting
+  // This function is responsible for putting
   // the validation key into the encryption context.
   function method InitializeEncryptionMaterials(
     input: Types.InitializeEncryptionMaterialsInput
@@ -182,8 +182,8 @@ module Materials {
          !oldMat.algorithmSuite.symmetricSignature.None?
          ==>
            && newMat.symmetricSigningKeys.Some?
-           && oldMat.symmetricSigningKeys.Some?
-           && multiset(oldMat.symmetricSigningKeys.value) <= multiset(newMat.symmetricSigningKeys.value))
+           && (oldMat.symmetricSigningKeys.Some? || (oldMat.symmetricSigningKeys.None? && |oldMat.encryptedDataKeys| == 0))
+           && multiset(oldMat.symmetricSigningKeys.UnwrapOr([])) <= multiset(newMat.symmetricSigningKeys.value))
     && ValidEncryptionMaterials(oldMat)
     && ValidEncryptionMaterials(newMat)
   }
@@ -255,7 +255,9 @@ module Materials {
        //# If the algorithm suite does contain a symmetric signing algorithm, this list MUST have length equal to the [encrypted data key list](#encrypted-data-keys).
     && (suite.symmetricSignature.HMAC? && encryptionMaterials.symmetricSigningKeys.Some? ==>
           |encryptionMaterials.symmetricSigningKeys.value| == |encryptionMaterials.encryptedDataKeys|)
-    && (suite.symmetricSignature.HMAC? ==> encryptionMaterials.symmetricSigningKeys.Some?)
+    && (suite.symmetricSignature.HMAC? ==>
+          || encryptionMaterials.symmetricSigningKeys.Some?
+          || (|encryptionMaterials.encryptedDataKeys| == 0 && encryptionMaterials.symmetricSigningKeys.None?))
        //= aws-encryption-sdk-specification/framework/structures.md#symmetric-signing-keys
        //= type=implication
        //# If the algorithm suite does not contain a symmetric signing algorithm, this list MUST NOT be included in the materials.
@@ -318,7 +320,7 @@ module Materials {
       if symmetricSigningKeysToAdd.None? then
         encryptionMaterials.symmetricSigningKeys
       else
-        Some(encryptionMaterials.symmetricSigningKeys.value + symmetricSigningKeysToAdd.value);
+        Some(encryptionMaterials.symmetricSigningKeys.UnwrapOr([]) + symmetricSigningKeysToAdd.value);
 
     Success(Types.EncryptionMaterials(
               plaintextDataKey := encryptionMaterials.plaintextDataKey,
@@ -361,7 +363,7 @@ module Materials {
       if symmetricSigningKeysToAdd.None? then
         encryptionMaterials.symmetricSigningKeys
       else
-        Some(encryptionMaterials.symmetricSigningKeys.value + symmetricSigningKeysToAdd.value);
+        Some(encryptionMaterials.symmetricSigningKeys.UnwrapOr([]) + symmetricSigningKeysToAdd.value);
 
     Success(Types.EncryptionMaterials(
               plaintextDataKey := Some(plaintextDataKey),

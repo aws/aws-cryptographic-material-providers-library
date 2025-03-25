@@ -96,6 +96,114 @@ class AwsCryptographicMaterialProvidersException(
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
+class EntryDoesNotExist(ApiError[Literal["EntryDoesNotExist"]]):
+    code: Literal["EntryDoesNotExist"] = "EntryDoesNotExist"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        """The requested element is not in the cache; AWS Crypto Tools intends
+        to deprecate this for a non-error control scheme.
+
+        :param message: A message associated with the specific error.
+        """
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the EntryDoesNotExist to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "EntryDoesNotExist":
+        """Creates a EntryDoesNotExist from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return EntryDoesNotExist(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "EntryDoesNotExist("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, EntryDoesNotExist):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class InFlightTTLExceeded(ApiError[Literal["InFlightTTLExceeded"]]):
+    code: Literal["InFlightTTLExceeded"] = "InFlightTTLExceeded"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        """Thrown if a request is waiting for longer than `inflightTTL`. The
+        Storm Tracking Cache protects against unbounded parallelism. The Storm
+        Tracking Cache will only work `fanOut` number of concurrent requests.
+        As requests are completed, queued requests are worked. If a request is
+        not worked in less than `inflightTTL`, this exception is thrown.
+
+        Note that this exception does NOT imply that the material
+        requested
+        is invalid or unreachable;
+        it only implies that the cache had more
+        requests to handle than it could
+        with the given `fanOut` and `inflightTTL`
+        constraints.
+        :param message: A message associated with the specific error.
+        """
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the InFlightTTLExceeded to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "InFlightTTLExceeded":
+        """Creates a InFlightTTLExceeded from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return InFlightTTLExceeded(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "InFlightTTLExceeded("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, InFlightTTLExceeded):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
 class InvalidDecryptionMaterials(ApiError[Literal["InvalidDecryptionMaterials"]]):
     code: Literal["InvalidDecryptionMaterials"] = "InvalidDecryptionMaterials"
     message: str
@@ -458,94 +566,6 @@ class EntryAlreadyExists(ApiError[Literal["EntryAlreadyExists"]]):
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, EntryAlreadyExists):
-            return False
-        attributes: list[str] = [
-            "message",
-            "message",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
-
-class EntryDoesNotExist(ApiError[Literal["EntryDoesNotExist"]]):
-    code: Literal["EntryDoesNotExist"] = "EntryDoesNotExist"
-    message: str
-
-    def __init__(
-        self,
-        *,
-        message: str,
-    ):
-        super().__init__(message)
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the EntryDoesNotExist to a dictionary."""
-        return {
-            "message": self.message,
-            "code": self.code,
-        }
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "EntryDoesNotExist":
-        """Creates a EntryDoesNotExist from a dictionary."""
-        kwargs: Dict[str, Any] = {
-            "message": d["message"],
-        }
-
-        return EntryDoesNotExist(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "EntryDoesNotExist("
-        if self.message is not None:
-            result += f"message={repr(self.message)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, EntryDoesNotExist):
-            return False
-        attributes: list[str] = [
-            "message",
-            "message",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
-
-class InFlightTTLExceeded(ApiError[Literal["InFlightTTLExceeded"]]):
-    code: Literal["InFlightTTLExceeded"] = "InFlightTTLExceeded"
-    message: str
-
-    def __init__(
-        self,
-        *,
-        message: str,
-    ):
-        super().__init__(message)
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the InFlightTTLExceeded to a dictionary."""
-        return {
-            "message": self.message,
-            "code": self.code,
-        }
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "InFlightTTLExceeded":
-        """Creates a InFlightTTLExceeded from a dictionary."""
-        kwargs: Dict[str, Any] = {
-            "message": d["message"],
-        }
-
-        return InFlightTTLExceeded(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "InFlightTTLExceeded("
-        if self.message is not None:
-            result += f"message={repr(self.message)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, InFlightTTLExceeded):
             return False
         attributes: list[str] = [
             "message",

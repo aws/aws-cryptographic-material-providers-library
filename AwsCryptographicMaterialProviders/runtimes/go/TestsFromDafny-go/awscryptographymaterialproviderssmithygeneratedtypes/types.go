@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"unicode/utf8"
 
-	"github.com/aws/aws-cryptographic-material-providers-library/mpl/awscryptographykeystoresmithygenerated"
-	"github.com/aws/aws-cryptographic-material-providers-library/mpl/awscryptographykeystoresmithygeneratedtypes"
-	"github.com/aws/aws-cryptographic-material-providers-library/primitives/awscryptographyprimitivessmithygeneratedtypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/awscryptographykeystoresmithygenerated"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/awscryptographykeystoresmithygeneratedtypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/awscryptographyprimitivessmithygeneratedtypes"
 	"github.com/aws/aws-sdk-go-v2/service/kms"
 	kmstypes "github.com/aws/aws-sdk-go-v2/service/kms/types"
 )
@@ -79,42 +79,26 @@ func (input IntermediateKeyWrapping) Validate() error {
 	if input.KeyEncryptionKeyKdf == nil {
 		return fmt.Errorf("input.KeyEncryptionKeyKdf is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_IntermediateKeyWrapping_keyEncryptionKeyKdf_Validate() != nil {
-		return input.aws_cryptography_materialProviders_IntermediateKeyWrapping_keyEncryptionKeyKdf_Validate()
+	if input.Aws_cryptography_materialProviders_IntermediateKeyWrapping_keyEncryptionKeyKdf_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_IntermediateKeyWrapping_keyEncryptionKeyKdf_Validate()
 	}
 	if input.MacKeyKdf == nil {
 		return fmt.Errorf("input.MacKeyKdf is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_IntermediateKeyWrapping_macKeyKdf_Validate() != nil {
-		return input.aws_cryptography_materialProviders_IntermediateKeyWrapping_macKeyKdf_Validate()
+	if input.Aws_cryptography_materialProviders_IntermediateKeyWrapping_macKeyKdf_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_IntermediateKeyWrapping_macKeyKdf_Validate()
 	}
 	if input.PdkEncryptAlgorithm == nil {
 		return fmt.Errorf("input.PdkEncryptAlgorithm is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_IntermediateKeyWrapping_pdkEncryptAlgorithm_Validate() != nil {
-		return input.aws_cryptography_materialProviders_IntermediateKeyWrapping_pdkEncryptAlgorithm_Validate()
+	if input.Aws_cryptography_materialProviders_IntermediateKeyWrapping_pdkEncryptAlgorithm_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_IntermediateKeyWrapping_pdkEncryptAlgorithm_Validate()
 	}
 
 	return nil
 }
 
-func (input IntermediateKeyWrapping) aws_cryptography_materialProviders_IntermediateKeyWrapping_pdkEncryptAlgorithm_Validate() error {
-	if input.PdkEncryptAlgorithm == nil {
-		return nil
-	}
-	switch unionType := input.PdkEncryptAlgorithm.(type) {
-	case *EncryptMemberAES_GCM:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
-	}
-
-	return nil
-}
-func (input IntermediateKeyWrapping) aws_cryptography_materialProviders_IntermediateKeyWrapping_keyEncryptionKeyKdf_Validate() error {
+func (input IntermediateKeyWrapping) Aws_cryptography_materialProviders_IntermediateKeyWrapping_keyEncryptionKeyKdf_Validate() error {
 	if input.KeyEncryptionKeyKdf == nil {
 		return nil
 	}
@@ -138,7 +122,7 @@ func (input IntermediateKeyWrapping) aws_cryptography_materialProviders_Intermed
 
 	return nil
 }
-func (input IntermediateKeyWrapping) aws_cryptography_materialProviders_IntermediateKeyWrapping_macKeyKdf_Validate() error {
+func (input IntermediateKeyWrapping) Aws_cryptography_materialProviders_IntermediateKeyWrapping_macKeyKdf_Validate() error {
 	if input.MacKeyKdf == nil {
 		return nil
 	}
@@ -152,6 +136,22 @@ func (input IntermediateKeyWrapping) aws_cryptography_materialProviders_Intermed
 			return unionType.Value.Validate()
 		}
 	case *DerivationAlgorithmMemberNone:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+func (input IntermediateKeyWrapping) Aws_cryptography_materialProviders_IntermediateKeyWrapping_pdkEncryptAlgorithm_Validate() error {
+	if input.PdkEncryptAlgorithm == nil {
+		return nil
+	}
+	switch unionType := input.PdkEncryptAlgorithm.(type) {
+	case *EncryptMemberAES_GCM:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -196,70 +196,50 @@ func (input AlgorithmSuiteInfo) Validate() error {
 	if input.Commitment == nil {
 		return fmt.Errorf("input.Commitment is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_commitment_Validate() != nil {
-		return input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_commitment_Validate()
+	if input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_commitment_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_commitment_Validate()
 	}
 	if input.EdkWrapping == nil {
 		return fmt.Errorf("input.EdkWrapping is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_edkWrapping_Validate() != nil {
-		return input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_edkWrapping_Validate()
+	if input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_edkWrapping_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_edkWrapping_Validate()
 	}
 	if input.Encrypt == nil {
 		return fmt.Errorf("input.Encrypt is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_Validate() != nil {
-		return input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_Validate()
+	if input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_Validate()
 	}
 	if input.Id == nil {
 		return fmt.Errorf("input.Id is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_Validate() != nil {
-		return input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_Validate()
+	if input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_Validate()
 	}
 	if input.Kdf == nil {
 		return fmt.Errorf("input.Kdf is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_Validate() != nil {
-		return input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_Validate()
+	if input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_Validate()
 	}
 	if input.Signature == nil {
 		return fmt.Errorf("input.Signature is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_Validate() != nil {
-		return input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_Validate()
+	if input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_Validate()
 	}
 	if input.SymmetricSignature == nil {
 		return fmt.Errorf("input.SymmetricSignature is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_Validate() != nil {
-		return input.aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_Validate()
+	if input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_Validate()
 	}
 
 	return nil
 }
 
-func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_Validate() error {
-	if input.Signature == nil {
-		return nil
-	}
-	switch unionType := input.Signature.(type) {
-	case *SignatureAlgorithmMemberECDSA:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	case *SignatureAlgorithmMemberNone:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
-	}
-
-	return nil
-}
-func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_commitment_Validate() error {
+func (input AlgorithmSuiteInfo) Aws_cryptography_materialProviders_AlgorithmSuiteInfo_commitment_Validate() error {
 	if input.Commitment == nil {
 		return nil
 	}
@@ -283,54 +263,7 @@ func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuit
 
 	return nil
 }
-func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_Validate() error {
-	if input.SymmetricSignature == nil {
-		return nil
-	}
-	switch unionType := input.SymmetricSignature.(type) {
-	case *SymmetricSignatureAlgorithmMemberHMAC:
-	case *SymmetricSignatureAlgorithmMemberNone:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
-	}
-
-	return nil
-}
-func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_Validate() error {
-	if input.Id == nil {
-		return nil
-	}
-	switch unionType := input.Id.(type) {
-	case *AlgorithmSuiteIdMemberESDK:
-	case *AlgorithmSuiteIdMemberDBE:
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
-	}
-
-	return nil
-}
-func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_Validate() error {
-	if input.Encrypt == nil {
-		return nil
-	}
-	switch unionType := input.Encrypt.(type) {
-	case *EncryptMemberAES_GCM:
-		if unionType.Value.Validate() != nil {
-			return unionType.Value.Validate()
-		}
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
-	}
-
-	return nil
-}
-func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_edkWrapping_Validate() error {
+func (input AlgorithmSuiteInfo) Aws_cryptography_materialProviders_AlgorithmSuiteInfo_edkWrapping_Validate() error {
 	if input.EdkWrapping == nil {
 		return nil
 	}
@@ -350,7 +283,37 @@ func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuit
 
 	return nil
 }
-func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_Validate() error {
+func (input AlgorithmSuiteInfo) Aws_cryptography_materialProviders_AlgorithmSuiteInfo_encrypt_Validate() error {
+	if input.Encrypt == nil {
+		return nil
+	}
+	switch unionType := input.Encrypt.(type) {
+	case *EncryptMemberAES_GCM:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+func (input AlgorithmSuiteInfo) Aws_cryptography_materialProviders_AlgorithmSuiteInfo_id_Validate() error {
+	if input.Id == nil {
+		return nil
+	}
+	switch unionType := input.Id.(type) {
+	case *AlgorithmSuiteIdMemberESDK:
+	case *AlgorithmSuiteIdMemberDBE:
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+func (input AlgorithmSuiteInfo) Aws_cryptography_materialProviders_AlgorithmSuiteInfo_kdf_Validate() error {
 	if input.Kdf == nil {
 		return nil
 	}
@@ -364,6 +327,43 @@ func (input AlgorithmSuiteInfo) aws_cryptography_materialProviders_AlgorithmSuit
 			return unionType.Value.Validate()
 		}
 	case *DerivationAlgorithmMemberNone:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+func (input AlgorithmSuiteInfo) Aws_cryptography_materialProviders_AlgorithmSuiteInfo_signature_Validate() error {
+	if input.Signature == nil {
+		return nil
+	}
+	switch unionType := input.Signature.(type) {
+	case *SignatureAlgorithmMemberECDSA:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	case *SignatureAlgorithmMemberNone:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+func (input AlgorithmSuiteInfo) Aws_cryptography_materialProviders_AlgorithmSuiteInfo_symmetricSignature_Validate() error {
+	if input.SymmetricSignature == nil {
+		return nil
+	}
+	switch unionType := input.SymmetricSignature.(type) {
+	case *SymmetricSignatureAlgorithmMemberHMAC:
+	case *SymmetricSignatureAlgorithmMemberNone:
 		if unionType.Value.Validate() != nil {
 			return unionType.Value.Validate()
 		}
@@ -519,14 +519,14 @@ func (input CreateAwsKmsEcdhKeyringInput) Validate() error {
 	if input.KeyAgreementScheme == nil {
 		return fmt.Errorf("input.KeyAgreementScheme is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_KeyAgreementScheme_Validate() != nil {
-		return input.aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_KeyAgreementScheme_Validate()
+	if input.Aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_KeyAgreementScheme_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_KeyAgreementScheme_Validate()
 	}
 
 	return nil
 }
 
-func (input CreateAwsKmsEcdhKeyringInput) aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_KeyAgreementScheme_Validate() error {
+func (input CreateAwsKmsEcdhKeyringInput) Aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_KeyAgreementScheme_Validate() error {
 	if input.KeyAgreementScheme == nil {
 		return nil
 	}
@@ -693,14 +693,14 @@ func (input CreateAwsKmsHierarchicalKeyringInput) Validate() error {
 	if input.TtlSeconds < 0 {
 		return fmt.Errorf("PositiveLong has a minimum of 0 but has the value of %d.", input.TtlSeconds)
 	}
-	if input.aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_Validate() != nil {
-		return input.aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_Validate()
+	if input.Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_Validate()
 	}
 
 	return nil
 }
 
-func (input CreateAwsKmsHierarchicalKeyringInput) aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_Validate() error {
+func (input CreateAwsKmsHierarchicalKeyringInput) Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_Validate() error {
 	if input.Cache == nil {
 		return nil
 	}
@@ -860,14 +860,14 @@ func (input CreateCryptographicMaterialsCacheInput) Validate() error {
 	if input.Cache == nil {
 		return fmt.Errorf("input.Cache is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_CreateCryptographicMaterialsCacheInput_cache_Validate() != nil {
-		return input.aws_cryptography_materialProviders_CreateCryptographicMaterialsCacheInput_cache_Validate()
+	if input.Aws_cryptography_materialProviders_CreateCryptographicMaterialsCacheInput_cache_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_CreateCryptographicMaterialsCacheInput_cache_Validate()
 	}
 
 	return nil
 }
 
-func (input CreateCryptographicMaterialsCacheInput) aws_cryptography_materialProviders_CreateCryptographicMaterialsCacheInput_cache_Validate() error {
+func (input CreateCryptographicMaterialsCacheInput) Aws_cryptography_materialProviders_CreateCryptographicMaterialsCacheInput_cache_Validate() error {
 	if input.Cache == nil {
 		return nil
 	}
@@ -1021,14 +1021,14 @@ func (input CreateRawEcdhKeyringInput) Validate() error {
 	if input.KeyAgreementScheme == nil {
 		return fmt.Errorf("input.KeyAgreementScheme is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_KeyAgreementScheme_Validate() != nil {
-		return input.aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_KeyAgreementScheme_Validate()
+	if input.Aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_KeyAgreementScheme_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_KeyAgreementScheme_Validate()
 	}
 
 	return nil
 }
 
-func (input CreateRawEcdhKeyringInput) aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_KeyAgreementScheme_Validate() error {
+func (input CreateRawEcdhKeyringInput) Aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_KeyAgreementScheme_Validate() error {
 	if input.KeyAgreementScheme == nil {
 		return nil
 	}
@@ -1082,14 +1082,14 @@ func (input CreateRequiredEncryptionContextCMMInput) Validate() error {
 	if input.RequiredEncryptionContextKeys == nil {
 		return fmt.Errorf("input.RequiredEncryptionContextKeys is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_CreateRequiredEncryptionContextCMMInput_requiredEncryptionContextKeys_Validate() != nil {
-		return input.aws_cryptography_materialProviders_CreateRequiredEncryptionContextCMMInput_requiredEncryptionContextKeys_Validate()
+	if input.Aws_cryptography_materialProviders_CreateRequiredEncryptionContextCMMInput_requiredEncryptionContextKeys_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_CreateRequiredEncryptionContextCMMInput_requiredEncryptionContextKeys_Validate()
 	}
 
 	return nil
 }
 
-func (input CreateRequiredEncryptionContextCMMInput) aws_cryptography_materialProviders_CreateRequiredEncryptionContextCMMInput_requiredEncryptionContextKeys_Validate() error {
+func (input CreateRequiredEncryptionContextCMMInput) Aws_cryptography_materialProviders_CreateRequiredEncryptionContextCMMInput_requiredEncryptionContextKeys_Validate() error {
 	for _, item := range input.RequiredEncryptionContextKeys {
 		if !utf8.ValidString(item) {
 			return fmt.Errorf("Invalid UTF bytes %s ", item)
@@ -1140,47 +1140,49 @@ func (input DecryptMaterialsInput) Validate() error {
 	if input.AlgorithmSuiteId == nil {
 		return fmt.Errorf("input.AlgorithmSuiteId is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_DecryptMaterialsInput_algorithmSuiteId_Validate() != nil {
-		return input.aws_cryptography_materialProviders_DecryptMaterialsInput_algorithmSuiteId_Validate()
+	if input.Aws_cryptography_materialProviders_DecryptMaterialsInput_algorithmSuiteId_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_DecryptMaterialsInput_algorithmSuiteId_Validate()
 	}
 	if input.CommitmentPolicy == nil {
 		return fmt.Errorf("input.CommitmentPolicy is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_DecryptMaterialsInput_commitmentPolicy_Validate() != nil {
-		return input.aws_cryptography_materialProviders_DecryptMaterialsInput_commitmentPolicy_Validate()
+	if input.Aws_cryptography_materialProviders_DecryptMaterialsInput_commitmentPolicy_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_DecryptMaterialsInput_commitmentPolicy_Validate()
 	}
 	if input.EncryptedDataKeys == nil {
 		return fmt.Errorf("input.EncryptedDataKeys is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_DecryptMaterialsInput_encryptedDataKeys_Validate() != nil {
-		return input.aws_cryptography_materialProviders_DecryptMaterialsInput_encryptedDataKeys_Validate()
+	if input.Aws_cryptography_materialProviders_DecryptMaterialsInput_encryptedDataKeys_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_DecryptMaterialsInput_encryptedDataKeys_Validate()
 	}
 	if input.EncryptionContext == nil {
 		return fmt.Errorf("input.EncryptionContext is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_DecryptMaterialsInput_encryptionContext_Validate() != nil {
-		return input.aws_cryptography_materialProviders_DecryptMaterialsInput_encryptionContext_Validate()
+	if input.Aws_cryptography_materialProviders_DecryptMaterialsInput_encryptionContext_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_DecryptMaterialsInput_encryptionContext_Validate()
 	}
-	if input.aws_cryptography_materialProviders_DecryptMaterialsInput_reproducedEncryptionContext_Validate() != nil {
-		return input.aws_cryptography_materialProviders_DecryptMaterialsInput_reproducedEncryptionContext_Validate()
-	}
-
-	return nil
-}
-
-func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMaterialsInput_reproducedEncryptionContext_Validate() error {
-	for key, value := range input.ReproducedEncryptionContext {
-		if !utf8.ValidString(key) {
-			return fmt.Errorf("Invalid UTF bytes %s ", key)
-		}
-		if !utf8.ValidString(value) {
-			return fmt.Errorf("Invalid UTF bytes %s ", value)
-		}
+	if input.Aws_cryptography_materialProviders_DecryptMaterialsInput_reproducedEncryptionContext_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_DecryptMaterialsInput_reproducedEncryptionContext_Validate()
 	}
 
 	return nil
 }
-func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMaterialsInput_commitmentPolicy_Validate() error {
+
+func (input DecryptMaterialsInput) Aws_cryptography_materialProviders_DecryptMaterialsInput_algorithmSuiteId_Validate() error {
+	if input.AlgorithmSuiteId == nil {
+		return nil
+	}
+	switch unionType := input.AlgorithmSuiteId.(type) {
+	case *AlgorithmSuiteIdMemberESDK:
+	case *AlgorithmSuiteIdMemberDBE:
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+func (input DecryptMaterialsInput) Aws_cryptography_materialProviders_DecryptMaterialsInput_commitmentPolicy_Validate() error {
 	if input.CommitmentPolicy == nil {
 		return nil
 	}
@@ -1194,7 +1196,7 @@ func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMat
 
 	return nil
 }
-func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMaterialsInput_encryptedDataKeys_Validate() error {
+func (input DecryptMaterialsInput) Aws_cryptography_materialProviders_DecryptMaterialsInput_encryptedDataKeys_Validate() error {
 	for _, item := range input.EncryptedDataKeys {
 		if item.Validate() != nil {
 			return item.Validate()
@@ -1203,7 +1205,7 @@ func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMat
 
 	return nil
 }
-func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMaterialsInput_encryptionContext_Validate() error {
+func (input DecryptMaterialsInput) Aws_cryptography_materialProviders_DecryptMaterialsInput_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
@@ -1215,16 +1217,14 @@ func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMat
 
 	return nil
 }
-func (input DecryptMaterialsInput) aws_cryptography_materialProviders_DecryptMaterialsInput_algorithmSuiteId_Validate() error {
-	if input.AlgorithmSuiteId == nil {
-		return nil
-	}
-	switch unionType := input.AlgorithmSuiteId.(type) {
-	case *AlgorithmSuiteIdMemberESDK:
-	case *AlgorithmSuiteIdMemberDBE:
-	// Default case should not be reached.
-	default:
-		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+func (input DecryptMaterialsInput) Aws_cryptography_materialProviders_DecryptMaterialsInput_reproducedEncryptionContext_Validate() error {
+	for key, value := range input.ReproducedEncryptionContext {
+		if !utf8.ValidString(key) {
+			return fmt.Errorf("Invalid UTF bytes %s ", key)
+		}
+		if !utf8.ValidString(value) {
+			return fmt.Errorf("Invalid UTF bytes %s ", value)
+		}
 	}
 
 	return nil
@@ -1251,35 +1251,35 @@ func (input DecryptionMaterials) Validate() error {
 	if input.EncryptionContext == nil {
 		return fmt.Errorf("input.EncryptionContext is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_Validate() != nil {
-		return input.aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_Validate()
+	if input.Aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_Validate()
 	}
 	if input.RequiredEncryptionContextKeys == nil {
 		return fmt.Errorf("input.RequiredEncryptionContextKeys is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_Validate() != nil {
-		return input.aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_Validate()
+	if input.Aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_Validate()
 	}
 
 	return nil
 }
 
-func (input DecryptionMaterials) aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_Validate() error {
-	for _, item := range input.RequiredEncryptionContextKeys {
-		if !utf8.ValidString(item) {
-			return fmt.Errorf("Invalid UTF bytes %s ", item)
-		}
-	}
-
-	return nil
-}
-func (input DecryptionMaterials) aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_Validate() error {
+func (input DecryptionMaterials) Aws_cryptography_materialProviders_DecryptionMaterials_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
 		}
 		if !utf8.ValidString(value) {
 			return fmt.Errorf("Invalid UTF bytes %s ", value)
+		}
+	}
+
+	return nil
+}
+func (input DecryptionMaterials) Aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_Validate() error {
+	for _, item := range input.RequiredEncryptionContextKeys {
+		if !utf8.ValidString(item) {
+			return fmt.Errorf("Invalid UTF bytes %s ", item)
 		}
 	}
 
@@ -1314,47 +1314,26 @@ func (input GetEncryptionMaterialsInput) Validate() error {
 	if input.CommitmentPolicy == nil {
 		return fmt.Errorf("input.CommitmentPolicy is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_GetEncryptionMaterialsInput_commitmentPolicy_Validate() != nil {
-		return input.aws_cryptography_materialProviders_GetEncryptionMaterialsInput_commitmentPolicy_Validate()
+	if input.Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_commitmentPolicy_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_commitmentPolicy_Validate()
 	}
 	if input.EncryptionContext == nil {
 		return fmt.Errorf("input.EncryptionContext is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_GetEncryptionMaterialsInput_encryptionContext_Validate() != nil {
-		return input.aws_cryptography_materialProviders_GetEncryptionMaterialsInput_encryptionContext_Validate()
+	if input.Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_encryptionContext_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_encryptionContext_Validate()
 	}
-	if input.aws_cryptography_materialProviders_GetEncryptionMaterialsInput_algorithmSuiteId_Validate() != nil {
-		return input.aws_cryptography_materialProviders_GetEncryptionMaterialsInput_algorithmSuiteId_Validate()
+	if input.Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_algorithmSuiteId_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_algorithmSuiteId_Validate()
 	}
-	if input.aws_cryptography_materialProviders_GetEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate() != nil {
-		return input.aws_cryptography_materialProviders_GetEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate()
-	}
-
-	return nil
-}
-
-func (input GetEncryptionMaterialsInput) aws_cryptography_materialProviders_GetEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate() error {
-	for _, item := range input.RequiredEncryptionContextKeys {
-		if !utf8.ValidString(item) {
-			return fmt.Errorf("Invalid UTF bytes %s ", item)
-		}
+	if input.Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate()
 	}
 
 	return nil
 }
-func (input GetEncryptionMaterialsInput) aws_cryptography_materialProviders_GetEncryptionMaterialsInput_encryptionContext_Validate() error {
-	for key, value := range input.EncryptionContext {
-		if !utf8.ValidString(key) {
-			return fmt.Errorf("Invalid UTF bytes %s ", key)
-		}
-		if !utf8.ValidString(value) {
-			return fmt.Errorf("Invalid UTF bytes %s ", value)
-		}
-	}
 
-	return nil
-}
-func (input GetEncryptionMaterialsInput) aws_cryptography_materialProviders_GetEncryptionMaterialsInput_commitmentPolicy_Validate() error {
+func (input GetEncryptionMaterialsInput) Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_commitmentPolicy_Validate() error {
 	if input.CommitmentPolicy == nil {
 		return nil
 	}
@@ -1368,7 +1347,19 @@ func (input GetEncryptionMaterialsInput) aws_cryptography_materialProviders_GetE
 
 	return nil
 }
-func (input GetEncryptionMaterialsInput) aws_cryptography_materialProviders_GetEncryptionMaterialsInput_algorithmSuiteId_Validate() error {
+func (input GetEncryptionMaterialsInput) Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_encryptionContext_Validate() error {
+	for key, value := range input.EncryptionContext {
+		if !utf8.ValidString(key) {
+			return fmt.Errorf("Invalid UTF bytes %s ", key)
+		}
+		if !utf8.ValidString(value) {
+			return fmt.Errorf("Invalid UTF bytes %s ", value)
+		}
+	}
+
+	return nil
+}
+func (input GetEncryptionMaterialsInput) Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_algorithmSuiteId_Validate() error {
 	if input.AlgorithmSuiteId == nil {
 		return nil
 	}
@@ -1378,6 +1369,15 @@ func (input GetEncryptionMaterialsInput) aws_cryptography_materialProviders_GetE
 	// Default case should not be reached.
 	default:
 		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+func (input GetEncryptionMaterialsInput) Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate() error {
+	for _, item := range input.RequiredEncryptionContextKeys {
+		if !utf8.ValidString(item) {
+			return fmt.Errorf("Invalid UTF bytes %s ", item)
+		}
 	}
 
 	return nil
@@ -1406,26 +1406,35 @@ func (input EncryptionMaterials) Validate() error {
 	if input.EncryptedDataKeys == nil {
 		return fmt.Errorf("input.EncryptedDataKeys is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_Validate() != nil {
-		return input.aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_Validate()
+	if input.Aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_Validate()
 	}
 	if input.EncryptionContext == nil {
 		return fmt.Errorf("input.EncryptionContext is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_Validate() != nil {
-		return input.aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_Validate()
+	if input.Aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_Validate()
 	}
 	if input.RequiredEncryptionContextKeys == nil {
 		return fmt.Errorf("input.RequiredEncryptionContextKeys is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_Validate() != nil {
-		return input.aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_Validate()
+	if input.Aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_Validate()
 	}
 
 	return nil
 }
 
-func (input EncryptionMaterials) aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_Validate() error {
+func (input EncryptionMaterials) Aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_Validate() error {
+	for _, item := range input.EncryptedDataKeys {
+		if item.Validate() != nil {
+			return item.Validate()
+		}
+	}
+
+	return nil
+}
+func (input EncryptionMaterials) Aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
@@ -1437,16 +1446,7 @@ func (input EncryptionMaterials) aws_cryptography_materialProviders_EncryptionMa
 
 	return nil
 }
-func (input EncryptionMaterials) aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_Validate() error {
-	for _, item := range input.EncryptedDataKeys {
-		if item.Validate() != nil {
-			return item.Validate()
-		}
-	}
-
-	return nil
-}
-func (input EncryptionMaterials) aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_Validate() error {
+func (input EncryptionMaterials) Aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_Validate() error {
 	for _, item := range input.RequiredEncryptionContextKeys {
 		if !utf8.ValidString(item) {
 			return fmt.Errorf("Invalid UTF bytes %s ", item)
@@ -1489,26 +1489,26 @@ func (input InitializeDecryptionMaterialsInput) Validate() error {
 	if input.AlgorithmSuiteId == nil {
 		return fmt.Errorf("input.AlgorithmSuiteId is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_algorithmSuiteId_Validate() != nil {
-		return input.aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_algorithmSuiteId_Validate()
+	if input.Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_algorithmSuiteId_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_algorithmSuiteId_Validate()
 	}
 	if input.EncryptionContext == nil {
 		return fmt.Errorf("input.EncryptionContext is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_encryptionContext_Validate() != nil {
-		return input.aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_encryptionContext_Validate()
+	if input.Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_encryptionContext_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_encryptionContext_Validate()
 	}
 	if input.RequiredEncryptionContextKeys == nil {
 		return fmt.Errorf("input.RequiredEncryptionContextKeys is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_requiredEncryptionContextKeys_Validate() != nil {
-		return input.aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_requiredEncryptionContextKeys_Validate()
+	if input.Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_requiredEncryptionContextKeys_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_requiredEncryptionContextKeys_Validate()
 	}
 
 	return nil
 }
 
-func (input InitializeDecryptionMaterialsInput) aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_algorithmSuiteId_Validate() error {
+func (input InitializeDecryptionMaterialsInput) Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_algorithmSuiteId_Validate() error {
 	if input.AlgorithmSuiteId == nil {
 		return nil
 	}
@@ -1522,7 +1522,7 @@ func (input InitializeDecryptionMaterialsInput) aws_cryptography_materialProvide
 
 	return nil
 }
-func (input InitializeDecryptionMaterialsInput) aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_encryptionContext_Validate() error {
+func (input InitializeDecryptionMaterialsInput) Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
@@ -1534,7 +1534,7 @@ func (input InitializeDecryptionMaterialsInput) aws_cryptography_materialProvide
 
 	return nil
 }
-func (input InitializeDecryptionMaterialsInput) aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_requiredEncryptionContextKeys_Validate() error {
+func (input InitializeDecryptionMaterialsInput) Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_requiredEncryptionContextKeys_Validate() error {
 	for _, item := range input.RequiredEncryptionContextKeys {
 		if !utf8.ValidString(item) {
 			return fmt.Errorf("Invalid UTF bytes %s ", item)
@@ -1560,26 +1560,26 @@ func (input InitializeEncryptionMaterialsInput) Validate() error {
 	if input.AlgorithmSuiteId == nil {
 		return fmt.Errorf("input.AlgorithmSuiteId is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_algorithmSuiteId_Validate() != nil {
-		return input.aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_algorithmSuiteId_Validate()
+	if input.Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_algorithmSuiteId_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_algorithmSuiteId_Validate()
 	}
 	if input.EncryptionContext == nil {
 		return fmt.Errorf("input.EncryptionContext is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_encryptionContext_Validate() != nil {
-		return input.aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_encryptionContext_Validate()
+	if input.Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_encryptionContext_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_encryptionContext_Validate()
 	}
 	if input.RequiredEncryptionContextKeys == nil {
 		return fmt.Errorf("input.RequiredEncryptionContextKeys is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate() != nil {
-		return input.aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate()
+	if input.Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate()
 	}
 
 	return nil
 }
 
-func (input InitializeEncryptionMaterialsInput) aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_algorithmSuiteId_Validate() error {
+func (input InitializeEncryptionMaterialsInput) Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_algorithmSuiteId_Validate() error {
 	if input.AlgorithmSuiteId == nil {
 		return nil
 	}
@@ -1593,7 +1593,7 @@ func (input InitializeEncryptionMaterialsInput) aws_cryptography_materialProvide
 
 	return nil
 }
-func (input InitializeEncryptionMaterialsInput) aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_encryptionContext_Validate() error {
+func (input InitializeEncryptionMaterialsInput) Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
@@ -1605,7 +1605,7 @@ func (input InitializeEncryptionMaterialsInput) aws_cryptography_materialProvide
 
 	return nil
 }
-func (input InitializeEncryptionMaterialsInput) aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate() error {
+func (input InitializeEncryptionMaterialsInput) Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_requiredEncryptionContextKeys_Validate() error {
 	for _, item := range input.RequiredEncryptionContextKeys {
 		if !utf8.ValidString(item) {
 			return fmt.Errorf("Invalid UTF bytes %s ", item)
@@ -1625,8 +1625,8 @@ func (input OnDecryptInput) Validate() error {
 	if input.EncryptedDataKeys == nil {
 		return fmt.Errorf("input.EncryptedDataKeys is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_OnDecryptInput_encryptedDataKeys_Validate() != nil {
-		return input.aws_cryptography_materialProviders_OnDecryptInput_encryptedDataKeys_Validate()
+	if input.Aws_cryptography_materialProviders_OnDecryptInput_encryptedDataKeys_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_OnDecryptInput_encryptedDataKeys_Validate()
 	}
 	if input.Materials.Validate() != nil {
 		return input.Materials.Validate()
@@ -1635,7 +1635,7 @@ func (input OnDecryptInput) Validate() error {
 	return nil
 }
 
-func (input OnDecryptInput) aws_cryptography_materialProviders_OnDecryptInput_encryptedDataKeys_Validate() error {
+func (input OnDecryptInput) Aws_cryptography_materialProviders_OnDecryptInput_encryptedDataKeys_Validate() error {
 	for _, item := range input.EncryptedDataKeys {
 		if item.Validate() != nil {
 			return item.Validate()
@@ -1691,26 +1691,26 @@ func (input ValidateCommitmentPolicyOnDecryptInput) Validate() error {
 	if input.Algorithm == nil {
 		return fmt.Errorf("input.Algorithm is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_algorithm_Validate() != nil {
-		return input.aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_algorithm_Validate()
+	if input.Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_algorithm_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_algorithm_Validate()
 	}
 	if input.CommitmentPolicy == nil {
 		return fmt.Errorf("input.CommitmentPolicy is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_commitmentPolicy_Validate() != nil {
-		return input.aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_commitmentPolicy_Validate()
+	if input.Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_commitmentPolicy_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_commitmentPolicy_Validate()
 	}
 
 	return nil
 }
 
-func (input ValidateCommitmentPolicyOnDecryptInput) aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_commitmentPolicy_Validate() error {
-	if input.CommitmentPolicy == nil {
+func (input ValidateCommitmentPolicyOnDecryptInput) Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_algorithm_Validate() error {
+	if input.Algorithm == nil {
 		return nil
 	}
-	switch unionType := input.CommitmentPolicy.(type) {
-	case *CommitmentPolicyMemberESDK:
-	case *CommitmentPolicyMemberDBE:
+	switch unionType := input.Algorithm.(type) {
+	case *AlgorithmSuiteIdMemberESDK:
+	case *AlgorithmSuiteIdMemberDBE:
 	// Default case should not be reached.
 	default:
 		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
@@ -1718,13 +1718,13 @@ func (input ValidateCommitmentPolicyOnDecryptInput) aws_cryptography_materialPro
 
 	return nil
 }
-func (input ValidateCommitmentPolicyOnDecryptInput) aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_algorithm_Validate() error {
-	if input.Algorithm == nil {
+func (input ValidateCommitmentPolicyOnDecryptInput) Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_commitmentPolicy_Validate() error {
+	if input.CommitmentPolicy == nil {
 		return nil
 	}
-	switch unionType := input.Algorithm.(type) {
-	case *AlgorithmSuiteIdMemberESDK:
-	case *AlgorithmSuiteIdMemberDBE:
+	switch unionType := input.CommitmentPolicy.(type) {
+	case *CommitmentPolicyMemberESDK:
+	case *CommitmentPolicyMemberDBE:
 	// Default case should not be reached.
 	default:
 		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
@@ -1743,26 +1743,26 @@ func (input ValidateCommitmentPolicyOnEncryptInput) Validate() error {
 	if input.Algorithm == nil {
 		return fmt.Errorf("input.Algorithm is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_algorithm_Validate() != nil {
-		return input.aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_algorithm_Validate()
+	if input.Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_algorithm_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_algorithm_Validate()
 	}
 	if input.CommitmentPolicy == nil {
 		return fmt.Errorf("input.CommitmentPolicy is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_commitmentPolicy_Validate() != nil {
-		return input.aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_commitmentPolicy_Validate()
+	if input.Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_commitmentPolicy_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_commitmentPolicy_Validate()
 	}
 
 	return nil
 }
 
-func (input ValidateCommitmentPolicyOnEncryptInput) aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_commitmentPolicy_Validate() error {
-	if input.CommitmentPolicy == nil {
+func (input ValidateCommitmentPolicyOnEncryptInput) Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_algorithm_Validate() error {
+	if input.Algorithm == nil {
 		return nil
 	}
-	switch unionType := input.CommitmentPolicy.(type) {
-	case *CommitmentPolicyMemberESDK:
-	case *CommitmentPolicyMemberDBE:
+	switch unionType := input.Algorithm.(type) {
+	case *AlgorithmSuiteIdMemberESDK:
+	case *AlgorithmSuiteIdMemberDBE:
 	// Default case should not be reached.
 	default:
 		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
@@ -1770,13 +1770,13 @@ func (input ValidateCommitmentPolicyOnEncryptInput) aws_cryptography_materialPro
 
 	return nil
 }
-func (input ValidateCommitmentPolicyOnEncryptInput) aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_algorithm_Validate() error {
-	if input.Algorithm == nil {
+func (input ValidateCommitmentPolicyOnEncryptInput) Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnEncryptInput_commitmentPolicy_Validate() error {
+	if input.CommitmentPolicy == nil {
 		return nil
 	}
-	switch unionType := input.Algorithm.(type) {
-	case *AlgorithmSuiteIdMemberESDK:
-	case *AlgorithmSuiteIdMemberDBE:
+	switch unionType := input.CommitmentPolicy.(type) {
+	case *CommitmentPolicyMemberESDK:
+	case *CommitmentPolicyMemberDBE:
 	// Default case should not be reached.
 	default:
 		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
@@ -1827,14 +1827,14 @@ func (input GetBranchKeyIdInput) Validate() error {
 	if input.EncryptionContext == nil {
 		return fmt.Errorf("input.EncryptionContext is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_Validate() != nil {
-		return input.aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_Validate()
+	if input.Aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_Validate()
 	}
 
 	return nil
 }
 
-func (input GetBranchKeyIdInput) aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_Validate() error {
+func (input GetBranchKeyIdInput) Aws_cryptography_materialProviders_GetBranchKeyIdInput_encryptionContext_Validate() error {
 	for key, value := range input.EncryptionContext {
 		if !utf8.ValidString(key) {
 			return fmt.Errorf("Invalid UTF bytes %s ", key)
@@ -1901,8 +1901,8 @@ func (input GetCacheEntryOutput) Validate() error {
 	if input.Materials == nil {
 		return fmt.Errorf("input.Materials is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_GetCacheEntryOutput_materials_Validate() != nil {
-		return input.aws_cryptography_materialProviders_GetCacheEntryOutput_materials_Validate()
+	if input.Aws_cryptography_materialProviders_GetCacheEntryOutput_materials_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_GetCacheEntryOutput_materials_Validate()
 	}
 	if input.MessagesUsed < 0 {
 		return fmt.Errorf("PositiveInteger has a minimum of 0 but has the value of %d.", input.MessagesUsed)
@@ -1911,7 +1911,7 @@ func (input GetCacheEntryOutput) Validate() error {
 	return nil
 }
 
-func (input GetCacheEntryOutput) aws_cryptography_materialProviders_GetCacheEntryOutput_materials_Validate() error {
+func (input GetCacheEntryOutput) Aws_cryptography_materialProviders_GetCacheEntryOutput_materials_Validate() error {
 	if input.Materials == nil {
 		return nil
 	}
@@ -1964,8 +1964,8 @@ func (input PutCacheEntryInput) Validate() error {
 	if input.Materials == nil {
 		return fmt.Errorf("input.Materials is required but has a nil value.")
 	}
-	if input.aws_cryptography_materialProviders_PutCacheEntryInput_materials_Validate() != nil {
-		return input.aws_cryptography_materialProviders_PutCacheEntryInput_materials_Validate()
+	if input.Aws_cryptography_materialProviders_PutCacheEntryInput_materials_Validate() != nil {
+		return input.Aws_cryptography_materialProviders_PutCacheEntryInput_materials_Validate()
 	}
 	if input.BytesUsed != nil {
 		if *input.BytesUsed < 0 {
@@ -1981,7 +1981,7 @@ func (input PutCacheEntryInput) Validate() error {
 	return nil
 }
 
-func (input PutCacheEntryInput) aws_cryptography_materialProviders_PutCacheEntryInput_materials_Validate() error {
+func (input PutCacheEntryInput) Aws_cryptography_materialProviders_PutCacheEntryInput_materials_Validate() error {
 	if input.Materials == nil {
 		return nil
 	}
@@ -2040,6 +2040,153 @@ func (input MaterialProvidersConfig) Validate() error {
 	return nil
 }
 
+// AlgorithmSuiteIdMemberDBE
+// AlgorithmSuiteIdMemberESDK
+type AlgorithmSuiteId interface {
+	isAlgorithmSuiteId()
+}
+
+type AlgorithmSuiteIdMemberDBE struct {
+	Value DBEAlgorithmSuiteId
+}
+
+func (*AlgorithmSuiteIdMemberDBE) isAlgorithmSuiteId() {}
+
+type AlgorithmSuiteIdMemberESDK struct {
+	Value ESDKAlgorithmSuiteId
+}
+
+func (*AlgorithmSuiteIdMemberESDK) isAlgorithmSuiteId() {}
+
+// CacheTypeMemberDefault
+// CacheTypeMemberMultiThreaded
+// CacheTypeMemberNo
+// CacheTypeMemberShared
+// CacheTypeMemberSingleThreaded
+// CacheTypeMemberStormTracking
+type CacheType interface {
+	isCacheType()
+}
+
+type CacheTypeMemberDefault struct {
+	Value DefaultCache
+}
+
+func (*CacheTypeMemberDefault) isCacheType() {}
+
+type CacheTypeMemberMultiThreaded struct {
+	Value MultiThreadedCache
+}
+
+func (*CacheTypeMemberMultiThreaded) isCacheType() {}
+
+type CacheTypeMemberNo struct {
+	Value NoCache
+}
+
+func (*CacheTypeMemberNo) isCacheType() {}
+
+type CacheTypeMemberShared struct {
+	Value ICryptographicMaterialsCache
+}
+
+func (*CacheTypeMemberShared) isCacheType() {}
+
+type CacheTypeMemberSingleThreaded struct {
+	Value SingleThreadedCache
+}
+
+func (*CacheTypeMemberSingleThreaded) isCacheType() {}
+
+type CacheTypeMemberStormTracking struct {
+	Value StormTrackingCache
+}
+
+func (*CacheTypeMemberStormTracking) isCacheType() {}
+
+// CommitmentPolicyMemberDBE
+// CommitmentPolicyMemberESDK
+type CommitmentPolicy interface {
+	isCommitmentPolicy()
+}
+
+type CommitmentPolicyMemberDBE struct {
+	Value DBECommitmentPolicy
+}
+
+func (*CommitmentPolicyMemberDBE) isCommitmentPolicy() {}
+
+type CommitmentPolicyMemberESDK struct {
+	Value ESDKCommitmentPolicy
+}
+
+func (*CommitmentPolicyMemberESDK) isCommitmentPolicy() {}
+
+// DerivationAlgorithmMemberHKDF
+// DerivationAlgorithmMemberIDENTITY
+// DerivationAlgorithmMemberNone
+type DerivationAlgorithm interface {
+	isDerivationAlgorithm()
+}
+
+type DerivationAlgorithmMemberHKDF struct {
+	Value HKDF
+}
+
+func (*DerivationAlgorithmMemberHKDF) isDerivationAlgorithm() {}
+
+type DerivationAlgorithmMemberIDENTITY struct {
+	Value IDENTITY
+}
+
+func (*DerivationAlgorithmMemberIDENTITY) isDerivationAlgorithm() {}
+
+type DerivationAlgorithmMemberNone struct {
+	Value None
+}
+
+func (*DerivationAlgorithmMemberNone) isDerivationAlgorithm() {}
+
+// EdkWrappingAlgorithmMemberDIRECT_KEY_WRAPPING
+// EdkWrappingAlgorithmMemberIntermediateKeyWrapping
+type EdkWrappingAlgorithm interface {
+	isEdkWrappingAlgorithm()
+}
+
+type EdkWrappingAlgorithmMemberDIRECT_KEY_WRAPPING struct {
+	Value DIRECT_KEY_WRAPPING
+}
+
+func (*EdkWrappingAlgorithmMemberDIRECT_KEY_WRAPPING) isEdkWrappingAlgorithm() {}
+
+type EdkWrappingAlgorithmMemberIntermediateKeyWrapping struct {
+	Value IntermediateKeyWrapping
+}
+
+func (*EdkWrappingAlgorithmMemberIntermediateKeyWrapping) isEdkWrappingAlgorithm() {}
+
+// EncryptMemberAES_GCM
+type Encrypt interface {
+	isEncrypt()
+}
+
+type EncryptMemberAES_GCM struct {
+	Value awscryptographyprimitivessmithygeneratedtypes.AES_GCM
+}
+
+func (*EncryptMemberAES_GCM) isEncrypt() {}
+
+// KeyAgreementSchemeMemberStaticConfiguration
+type KeyAgreementScheme interface {
+	isKeyAgreementScheme()
+}
+
+type KeyAgreementSchemeMemberStaticConfiguration struct {
+	Value StaticConfigurations
+}
+
+func (*KeyAgreementSchemeMemberStaticConfiguration) isKeyAgreementScheme() {}
+
 // KmsEcdhStaticConfigurationsMemberKmsPrivateKeyToStaticPublicKey
 // KmsEcdhStaticConfigurationsMemberKmsPublicKeyDiscovery
 type KmsEcdhStaticConfigurations interface {
@@ -2059,34 +2206,64 @@ type KmsEcdhStaticConfigurationsMemberKmsPublicKeyDiscovery struct {
 
 func (*KmsEcdhStaticConfigurationsMemberKmsPublicKeyDiscovery) isKmsEcdhStaticConfigurations() {}
 
-// AlgorithmSuiteIdMemberDBE
-// AlgorithmSuiteIdMemberESDK
-type AlgorithmSuiteId interface {
-	isAlgorithmSuiteId()
+// MaterialsMemberBeaconKey
+// MaterialsMemberBranchKey
+// MaterialsMemberDecryption
+// MaterialsMemberEncryption
+type Materials interface {
+	isMaterials()
 }
 
-type AlgorithmSuiteIdMemberDBE struct {
-	Value DBEAlgorithmSuiteId
+type MaterialsMemberBeaconKey struct {
+	Value awscryptographykeystoresmithygeneratedtypes.BeaconKeyMaterials
 }
 
-func (*AlgorithmSuiteIdMemberDBE) isAlgorithmSuiteId() {}
+func (*MaterialsMemberBeaconKey) isMaterials() {}
 
-type AlgorithmSuiteIdMemberESDK struct {
-	Value ESDKAlgorithmSuiteId
+type MaterialsMemberBranchKey struct {
+	Value awscryptographykeystoresmithygeneratedtypes.BranchKeyMaterials
 }
 
-func (*AlgorithmSuiteIdMemberESDK) isAlgorithmSuiteId() {}
+func (*MaterialsMemberBranchKey) isMaterials() {}
 
-// KeyAgreementSchemeMemberStaticConfiguration
-type KeyAgreementScheme interface {
-	isKeyAgreementScheme()
+type MaterialsMemberDecryption struct {
+	Value DecryptionMaterials
 }
 
-type KeyAgreementSchemeMemberStaticConfiguration struct {
-	Value StaticConfigurations
+func (*MaterialsMemberDecryption) isMaterials() {}
+
+type MaterialsMemberEncryption struct {
+	Value EncryptionMaterials
 }
 
-func (*KeyAgreementSchemeMemberStaticConfiguration) isKeyAgreementScheme() {}
+func (*MaterialsMemberEncryption) isMaterials() {}
+
+// RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey
+// RawEcdhStaticConfigurationsMemberPublicKeyDiscovery
+// RawEcdhStaticConfigurationsMemberRawPrivateKeyToStaticPublicKey
+type RawEcdhStaticConfigurations interface {
+	isRawEcdhStaticConfigurations()
+}
+
+type RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey struct {
+	Value EphemeralPrivateKeyToStaticPublicKeyInput
+}
+
+func (*RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey) isRawEcdhStaticConfigurations() {
+}
+
+type RawEcdhStaticConfigurationsMemberPublicKeyDiscovery struct {
+	Value PublicKeyDiscoveryInput
+}
+
+func (*RawEcdhStaticConfigurationsMemberPublicKeyDiscovery) isRawEcdhStaticConfigurations() {}
+
+type RawEcdhStaticConfigurationsMemberRawPrivateKeyToStaticPublicKey struct {
+	Value RawPrivateKeyToStaticPublicKeyInput
+}
+
+func (*RawEcdhStaticConfigurationsMemberRawPrivateKeyToStaticPublicKey) isRawEcdhStaticConfigurations() {
+}
 
 // SignatureAlgorithmMemberECDSA
 // SignatureAlgorithmMemberNone
@@ -2142,183 +2319,6 @@ type SymmetricSignatureAlgorithmMemberNone struct {
 
 func (*SymmetricSignatureAlgorithmMemberNone) isSymmetricSignatureAlgorithm() {}
 
-// CacheTypeMemberDefault
-// CacheTypeMemberMultiThreaded
-// CacheTypeMemberNo
-// CacheTypeMemberShared
-// CacheTypeMemberSingleThreaded
-// CacheTypeMemberStormTracking
-type CacheType interface {
-	isCacheType()
-}
-
-type CacheTypeMemberDefault struct {
-	Value DefaultCache
-}
-
-func (*CacheTypeMemberDefault) isCacheType() {}
-
-type CacheTypeMemberMultiThreaded struct {
-	Value MultiThreadedCache
-}
-
-func (*CacheTypeMemberMultiThreaded) isCacheType() {}
-
-type CacheTypeMemberNo struct {
-	Value NoCache
-}
-
-func (*CacheTypeMemberNo) isCacheType() {}
-
-type CacheTypeMemberShared struct {
-	Value ICryptographicMaterialsCache
-}
-
-func (*CacheTypeMemberShared) isCacheType() {}
-
-type CacheTypeMemberSingleThreaded struct {
-	Value SingleThreadedCache
-}
-
-func (*CacheTypeMemberSingleThreaded) isCacheType() {}
-
-type CacheTypeMemberStormTracking struct {
-	Value StormTrackingCache
-}
-
-func (*CacheTypeMemberStormTracking) isCacheType() {}
-
-// EncryptMemberAES_GCM
-type Encrypt interface {
-	isEncrypt()
-}
-
-type EncryptMemberAES_GCM struct {
-	Value awscryptographyprimitivessmithygeneratedtypes.AES_GCM
-}
-
-func (*EncryptMemberAES_GCM) isEncrypt() {}
-
-// RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey
-// RawEcdhStaticConfigurationsMemberPublicKeyDiscovery
-// RawEcdhStaticConfigurationsMemberRawPrivateKeyToStaticPublicKey
-type RawEcdhStaticConfigurations interface {
-	isRawEcdhStaticConfigurations()
-}
-
-type RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey struct {
-	Value EphemeralPrivateKeyToStaticPublicKeyInput
-}
-
-func (*RawEcdhStaticConfigurationsMemberEphemeralPrivateKeyToStaticPublicKey) isRawEcdhStaticConfigurations() {
-}
-
-type RawEcdhStaticConfigurationsMemberPublicKeyDiscovery struct {
-	Value PublicKeyDiscoveryInput
-}
-
-func (*RawEcdhStaticConfigurationsMemberPublicKeyDiscovery) isRawEcdhStaticConfigurations() {}
-
-type RawEcdhStaticConfigurationsMemberRawPrivateKeyToStaticPublicKey struct {
-	Value RawPrivateKeyToStaticPublicKeyInput
-}
-
-func (*RawEcdhStaticConfigurationsMemberRawPrivateKeyToStaticPublicKey) isRawEcdhStaticConfigurations() {
-}
-
-// MaterialsMemberBeaconKey
-// MaterialsMemberBranchKey
-// MaterialsMemberDecryption
-// MaterialsMemberEncryption
-type Materials interface {
-	isMaterials()
-}
-
-type MaterialsMemberBeaconKey struct {
-	Value awscryptographykeystoresmithygeneratedtypes.BeaconKeyMaterials
-}
-
-func (*MaterialsMemberBeaconKey) isMaterials() {}
-
-type MaterialsMemberBranchKey struct {
-	Value awscryptographykeystoresmithygeneratedtypes.BranchKeyMaterials
-}
-
-func (*MaterialsMemberBranchKey) isMaterials() {}
-
-type MaterialsMemberDecryption struct {
-	Value DecryptionMaterials
-}
-
-func (*MaterialsMemberDecryption) isMaterials() {}
-
-type MaterialsMemberEncryption struct {
-	Value EncryptionMaterials
-}
-
-func (*MaterialsMemberEncryption) isMaterials() {}
-
-// DerivationAlgorithmMemberHKDF
-// DerivationAlgorithmMemberIDENTITY
-// DerivationAlgorithmMemberNone
-type DerivationAlgorithm interface {
-	isDerivationAlgorithm()
-}
-
-type DerivationAlgorithmMemberHKDF struct {
-	Value HKDF
-}
-
-func (*DerivationAlgorithmMemberHKDF) isDerivationAlgorithm() {}
-
-type DerivationAlgorithmMemberIDENTITY struct {
-	Value IDENTITY
-}
-
-func (*DerivationAlgorithmMemberIDENTITY) isDerivationAlgorithm() {}
-
-type DerivationAlgorithmMemberNone struct {
-	Value None
-}
-
-func (*DerivationAlgorithmMemberNone) isDerivationAlgorithm() {}
-
-// EdkWrappingAlgorithmMemberDIRECT_KEY_WRAPPING
-// EdkWrappingAlgorithmMemberIntermediateKeyWrapping
-type EdkWrappingAlgorithm interface {
-	isEdkWrappingAlgorithm()
-}
-
-type EdkWrappingAlgorithmMemberDIRECT_KEY_WRAPPING struct {
-	Value DIRECT_KEY_WRAPPING
-}
-
-func (*EdkWrappingAlgorithmMemberDIRECT_KEY_WRAPPING) isEdkWrappingAlgorithm() {}
-
-type EdkWrappingAlgorithmMemberIntermediateKeyWrapping struct {
-	Value IntermediateKeyWrapping
-}
-
-func (*EdkWrappingAlgorithmMemberIntermediateKeyWrapping) isEdkWrappingAlgorithm() {}
-
-// CommitmentPolicyMemberDBE
-// CommitmentPolicyMemberESDK
-type CommitmentPolicy interface {
-	isCommitmentPolicy()
-}
-
-type CommitmentPolicyMemberDBE struct {
-	Value DBECommitmentPolicy
-}
-
-func (*CommitmentPolicyMemberDBE) isCommitmentPolicy() {}
-
-type CommitmentPolicyMemberESDK struct {
-	Value ESDKCommitmentPolicy
-}
-
-func (*CommitmentPolicyMemberESDK) isCommitmentPolicy() {}
-
 type AwsCryptographicMaterialProvidersBaseException interface {
 	// This is a dummy method to allow type assertion since Go empty interfaces
 	// aren't useful for type assertion checks. No concrete class is expected to implement
@@ -2332,12 +2332,6 @@ type IBranchKeyIdSupplier interface {
 
 type IClientSupplier interface {
 	GetClient(GetClientInput) (kms.Client, error)
-}
-
-type IKeyring interface {
-	OnEncrypt(OnEncryptInput) (*OnEncryptOutput, error)
-
-	OnDecrypt(OnDecryptInput) (*OnDecryptOutput, error)
 }
 
 type ICryptographicMaterialsCache interface {
@@ -2354,4 +2348,10 @@ type ICryptographicMaterialsManager interface {
 	GetEncryptionMaterials(GetEncryptionMaterialsInput) (*GetEncryptionMaterialsOutput, error)
 
 	DecryptMaterials(DecryptMaterialsInput) (*DecryptMaterialsOutput, error)
+}
+
+type IKeyring interface {
+	OnEncrypt(OnEncryptInput) (*OnEncryptOutput, error)
+
+	OnDecrypt(OnDecryptInput) (*OnDecryptOutput, error)
 }

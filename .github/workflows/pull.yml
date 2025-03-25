@@ -54,6 +54,7 @@ jobs:
     uses: ./.github/workflows/library_interop_tests.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
+    secrets: inherit
   pr-ci-all-required:
     if: always()
     needs:
@@ -64,8 +65,11 @@ jobs:
       - pr-ci-verification
       - pr-ci-java
       - pr-ci-net
+      - pr-ci-python
+      - pr-ci-go
+      - pr-ci-rust
       - pr-interop-test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Verify all required jobs passed
         uses: re-actors/alls-green@release/v1
