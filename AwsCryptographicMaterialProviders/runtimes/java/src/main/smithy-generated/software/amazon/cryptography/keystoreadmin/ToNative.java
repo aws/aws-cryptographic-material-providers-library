@@ -333,6 +333,13 @@ public class ToNative {
         ToNative.KeyManagementStrategy(dafnyValue.dtor_Strategy().dtor_value())
       );
     }
+    if (dafnyValue.dtor_HierarchyVersion().is_Some()) {
+      nativeBuilder.HierarchyVersion(
+        software.amazon.cryptography.keystore.ToNative.HierarchyVersion(
+          dafnyValue.dtor_HierarchyVersion().dtor_value()
+        )
+      );
+    }
     return nativeBuilder.build();
   }
 
@@ -343,6 +350,11 @@ public class ToNative {
     nativeBuilder.Identifier(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
         dafnyValue.dtor_Identifier()
+      )
+    );
+    nativeBuilder.HierarchyVersion(
+      software.amazon.cryptography.keystore.ToNative.HierarchyVersion(
+        dafnyValue.dtor_HierarchyVersion()
       )
     );
     return nativeBuilder.build();
@@ -462,6 +474,11 @@ public class ToNative {
         dafnyValue.dtor_CustomEncryptionContext()
       )
     );
+    nativeBuilder.HierarchyVersion(
+      software.amazon.cryptography.keystore.ToNative.HierarchyVersion(
+        dafnyValue.dtor_HierarchyVersion()
+      )
+    );
     return nativeBuilder.build();
   }
 
@@ -546,6 +563,13 @@ public class ToNative {
       nativeBuilder.TerminalEncryptionContext(
         software.amazon.cryptography.keystore.ToNative.EncryptionContextString(
           dafnyValue.dtor_TerminalEncryptionContext().dtor_value()
+        )
+      );
+    }
+    if (dafnyValue.dtor_TerminalHierarchyVersion().is_Some()) {
+      nativeBuilder.TerminalHierarchyVersion(
+        software.amazon.cryptography.keystore.ToNative.HierarchyVersion(
+          dafnyValue.dtor_TerminalHierarchyVersion().dtor_value()
         )
       );
     }
@@ -656,6 +680,13 @@ public class ToNative {
     if (dafnyValue.is_AwsKmsDecryptEncrypt()) {
       nativeBuilder.AwsKmsDecryptEncrypt(
         ToNative.AwsKmsDecryptEncrypt(dafnyValue.dtor_AwsKmsDecryptEncrypt())
+      );
+    }
+    if (dafnyValue.is_AwsKmsSimple()) {
+      nativeBuilder.AwsKmsSimple(
+        software.amazon.cryptography.keystore.ToNative.AwsKms(
+          dafnyValue.dtor_AwsKmsSimple()
+        )
       );
     }
     return nativeBuilder.build();

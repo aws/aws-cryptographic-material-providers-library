@@ -3371,6 +3371,23 @@ class DynamoDBTable:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
+class HierarchyVersion:
+    """The hierarchy-version of a Branch Key; all items of the same Branch Key
+    SHOULD have the same hierarchy-version.
+
+    The hierarchy-version determines how the Branch Key Store   protects
+    and validates the branch key context (BKC).
+    """
+
+    V1 = "1"
+
+    V2 = "2"
+
+    # This set contains every possible value known at the time this was generated. New
+    # values may be added in the future.
+    values = frozenset({"1", "2"})
+
+
 class KeyManagementKms:
     """The AWS KMS configuration this Key Store with use to authenticate branch
     keys."""
