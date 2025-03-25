@@ -53,7 +53,7 @@ jobs:
       # and to translate version strings such as "nightly-latest"
       # to an actual DAFNY_VERSION.
       - name: Setup Dafny
-        uses: dafny-lang/setup-dafny-action@v1.7.0
+        uses: ./.github/actions/setup_dafny
         with:
           dafny-version: ${{ inputs.dafny }}
 
@@ -62,24 +62,15 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
+      # even though we just installed dotnet 6, maybe dotnet 8 is out there somewhere
+      - name: Create temporary global.json
+        run: echo '{"sdk":{"rollForward":"latestFeature","version":"6.0.0"}}' > ./global.json
+
       - name: Setup Java 17 for codegen
         uses: actions/setup-java@v3
         with:
           distribution: "corretto"
           java-version: "17"
-
-      - name: Install Smithy-Dafny codegen dependencies
-        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
-
-      - name: Setup Python, black, and docformatter for code formatting
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-          architecture: x64
-      - run: |
-          python -m pip install --upgrade pip
-          python -m pip install --upgrade black
-          python -m pip install --upgrade docformatter
 
       - name: Install Go
         uses: actions/setup-go@v5
