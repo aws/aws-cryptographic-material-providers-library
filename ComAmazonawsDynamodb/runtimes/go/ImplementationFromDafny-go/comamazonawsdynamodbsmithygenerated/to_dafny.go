@@ -146,7 +146,7 @@ func DeleteItemInput_ToDafny(nativeInput dynamodb.DeleteItemInput) ComAmazonawsD
 
 	return func() ComAmazonawsDynamodbTypes.DeleteItemInput {
 
-		return ComAmazonawsDynamodbTypes.Companion_DeleteItemInput_.Create_DeleteItemInput_(Com_amazonaws_dynamodb_DeleteItemInput_TableName_ToDafny(nativeInput.TableName), Com_amazonaws_dynamodb_DeleteItemInput_Key_ToDafny(nativeInput.Key), Com_amazonaws_dynamodb_DeleteItemInput_Expected_ToDafny(nativeInput.Expected), Com_amazonaws_dynamodb_DeleteItemInput_ConditionalOperator_ToDafny(nativeInput.ConditionalOperator), Com_amazonaws_dynamodb_DeleteItemInput_ReturnValues_ToDafny(nativeInput.ReturnValues), Com_amazonaws_dynamodb_DeleteItemInput_ReturnConsumedCapacity_ToDafny(nativeInput.ReturnConsumedCapacity), Com_amazonaws_dynamodb_DeleteItemInput_ReturnItemCollectionMetrics_ToDafny(nativeInput.ReturnItemCollectionMetrics), Com_amazonaws_dynamodb_DeleteItemInput_ConditionExpression_ToDafny(nativeInput.ConditionExpression), Com_amazonaws_dynamodb_DeleteItemInput_ExpressionAttributeNames_ToDafny(nativeInput.ExpressionAttributeNames), Com_amazonaws_dynamodb_DeleteItemInput_ExpressionAttributeValues_ToDafny(nativeInput.ExpressionAttributeValues))
+		return ComAmazonawsDynamodbTypes.Companion_DeleteItemInput_.Create_DeleteItemInput_(Com_amazonaws_dynamodb_DeleteItemInput_TableName_ToDafny(nativeInput.TableName), Com_amazonaws_dynamodb_DeleteItemInput_Key_ToDafny(nativeInput.Key), Com_amazonaws_dynamodb_DeleteItemInput_Expected_ToDafny(nativeInput.Expected), Com_amazonaws_dynamodb_DeleteItemInput_ConditionalOperator_ToDafny(nativeInput.ConditionalOperator), Com_amazonaws_dynamodb_DeleteItemInput_ReturnValues_ToDafny(nativeInput.ReturnValues), Com_amazonaws_dynamodb_DeleteItemInput_ReturnConsumedCapacity_ToDafny(nativeInput.ReturnConsumedCapacity), Com_amazonaws_dynamodb_DeleteItemInput_ReturnItemCollectionMetrics_ToDafny(nativeInput.ReturnItemCollectionMetrics), Com_amazonaws_dynamodb_DeleteItemInput_ConditionExpression_ToDafny(nativeInput.ConditionExpression), Com_amazonaws_dynamodb_DeleteItemInput_ExpressionAttributeNames_ToDafny(nativeInput.ExpressionAttributeNames), Com_amazonaws_dynamodb_DeleteItemInput_ExpressionAttributeValues_ToDafny(nativeInput.ExpressionAttributeValues), Com_amazonaws_dynamodb_DeleteItemInput_ReturnValuesOnConditionCheckFailure_ToDafny(nativeInput.ReturnValuesOnConditionCheckFailure))
 	}()
 
 }
@@ -470,7 +470,7 @@ func ExecuteStatementInput_ToDafny(nativeInput dynamodb.ExecuteStatementInput) C
 
 	return func() ComAmazonawsDynamodbTypes.ExecuteStatementInput {
 
-		return ComAmazonawsDynamodbTypes.Companion_ExecuteStatementInput_.Create_ExecuteStatementInput_(Com_amazonaws_dynamodb_ExecuteStatementInput_Statement_ToDafny(nativeInput.Statement), Com_amazonaws_dynamodb_ExecuteStatementInput_Parameters_ToDafny(nativeInput.Parameters), Com_amazonaws_dynamodb_ExecuteStatementInput_ConsistentRead_ToDafny(nativeInput.ConsistentRead), Com_amazonaws_dynamodb_ExecuteStatementInput_NextToken_ToDafny(nativeInput.NextToken), Com_amazonaws_dynamodb_ExecuteStatementInput_ReturnConsumedCapacity_ToDafny(nativeInput.ReturnConsumedCapacity), Com_amazonaws_dynamodb_ExecuteStatementInput_Limit_ToDafny(nativeInput.Limit))
+		return ComAmazonawsDynamodbTypes.Companion_ExecuteStatementInput_.Create_ExecuteStatementInput_(Com_amazonaws_dynamodb_ExecuteStatementInput_Statement_ToDafny(nativeInput.Statement), Com_amazonaws_dynamodb_ExecuteStatementInput_Parameters_ToDafny(nativeInput.Parameters), Com_amazonaws_dynamodb_ExecuteStatementInput_ConsistentRead_ToDafny(nativeInput.ConsistentRead), Com_amazonaws_dynamodb_ExecuteStatementInput_NextToken_ToDafny(nativeInput.NextToken), Com_amazonaws_dynamodb_ExecuteStatementInput_ReturnConsumedCapacity_ToDafny(nativeInput.ReturnConsumedCapacity), Com_amazonaws_dynamodb_ExecuteStatementInput_Limit_ToDafny(nativeInput.Limit), Com_amazonaws_dynamodb_ExecuteStatementInput_ReturnValuesOnConditionCheckFailure_ToDafny(nativeInput.ReturnValuesOnConditionCheckFailure))
 	}()
 
 }
@@ -704,7 +704,7 @@ func PutItemInput_ToDafny(nativeInput dynamodb.PutItemInput) ComAmazonawsDynamod
 
 	return func() ComAmazonawsDynamodbTypes.PutItemInput {
 
-		return ComAmazonawsDynamodbTypes.Companion_PutItemInput_.Create_PutItemInput_(Com_amazonaws_dynamodb_PutItemInput_TableName_ToDafny(nativeInput.TableName), Com_amazonaws_dynamodb_PutItemInput_Item_ToDafny(nativeInput.Item), Com_amazonaws_dynamodb_PutItemInput_Expected_ToDafny(nativeInput.Expected), Com_amazonaws_dynamodb_PutItemInput_ReturnValues_ToDafny(nativeInput.ReturnValues), Com_amazonaws_dynamodb_PutItemInput_ReturnConsumedCapacity_ToDafny(nativeInput.ReturnConsumedCapacity), Com_amazonaws_dynamodb_PutItemInput_ReturnItemCollectionMetrics_ToDafny(nativeInput.ReturnItemCollectionMetrics), Com_amazonaws_dynamodb_PutItemInput_ConditionalOperator_ToDafny(nativeInput.ConditionalOperator), Com_amazonaws_dynamodb_PutItemInput_ConditionExpression_ToDafny(nativeInput.ConditionExpression), Com_amazonaws_dynamodb_PutItemInput_ExpressionAttributeNames_ToDafny(nativeInput.ExpressionAttributeNames), Com_amazonaws_dynamodb_PutItemInput_ExpressionAttributeValues_ToDafny(nativeInput.ExpressionAttributeValues))
+		return ComAmazonawsDynamodbTypes.Companion_PutItemInput_.Create_PutItemInput_(Com_amazonaws_dynamodb_PutItemInput_TableName_ToDafny(nativeInput.TableName), Com_amazonaws_dynamodb_PutItemInput_Item_ToDafny(nativeInput.Item), Com_amazonaws_dynamodb_PutItemInput_Expected_ToDafny(nativeInput.Expected), Com_amazonaws_dynamodb_PutItemInput_ReturnValues_ToDafny(nativeInput.ReturnValues), Com_amazonaws_dynamodb_PutItemInput_ReturnConsumedCapacity_ToDafny(nativeInput.ReturnConsumedCapacity), Com_amazonaws_dynamodb_PutItemInput_ReturnItemCollectionMetrics_ToDafny(nativeInput.ReturnItemCollectionMetrics), Com_amazonaws_dynamodb_PutItemInput_ConditionalOperator_ToDafny(nativeInput.ConditionalOperator), Com_amazonaws_dynamodb_PutItemInput_ConditionExpression_ToDafny(nativeInput.ConditionExpression), Com_amazonaws_dynamodb_PutItemInput_ExpressionAttributeNames_ToDafny(nativeInput.ExpressionAttributeNames), Com_amazonaws_dynamodb_PutItemInput_ExpressionAttributeValues_ToDafny(nativeInput.ExpressionAttributeValues), Com_amazonaws_dynamodb_PutItemInput_ReturnValuesOnConditionCheckFailure_ToDafny(nativeInput.ReturnValuesOnConditionCheckFailure))
 	}()
 
 }
@@ -938,7 +938,7 @@ func UpdateItemInput_ToDafny(nativeInput dynamodb.UpdateItemInput) ComAmazonawsD
 
 	return func() ComAmazonawsDynamodbTypes.UpdateItemInput {
 
-		return ComAmazonawsDynamodbTypes.Companion_UpdateItemInput_.Create_UpdateItemInput_(Com_amazonaws_dynamodb_UpdateItemInput_TableName_ToDafny(nativeInput.TableName), Com_amazonaws_dynamodb_UpdateItemInput_Key_ToDafny(nativeInput.Key), Com_amazonaws_dynamodb_UpdateItemInput_AttributeUpdates_ToDafny(nativeInput.AttributeUpdates), Com_amazonaws_dynamodb_UpdateItemInput_Expected_ToDafny(nativeInput.Expected), Com_amazonaws_dynamodb_UpdateItemInput_ConditionalOperator_ToDafny(nativeInput.ConditionalOperator), Com_amazonaws_dynamodb_UpdateItemInput_ReturnValues_ToDafny(nativeInput.ReturnValues), Com_amazonaws_dynamodb_UpdateItemInput_ReturnConsumedCapacity_ToDafny(nativeInput.ReturnConsumedCapacity), Com_amazonaws_dynamodb_UpdateItemInput_ReturnItemCollectionMetrics_ToDafny(nativeInput.ReturnItemCollectionMetrics), Com_amazonaws_dynamodb_UpdateItemInput_UpdateExpression_ToDafny(nativeInput.UpdateExpression), Com_amazonaws_dynamodb_UpdateItemInput_ConditionExpression_ToDafny(nativeInput.ConditionExpression), Com_amazonaws_dynamodb_UpdateItemInput_ExpressionAttributeNames_ToDafny(nativeInput.ExpressionAttributeNames), Com_amazonaws_dynamodb_UpdateItemInput_ExpressionAttributeValues_ToDafny(nativeInput.ExpressionAttributeValues))
+		return ComAmazonawsDynamodbTypes.Companion_UpdateItemInput_.Create_UpdateItemInput_(Com_amazonaws_dynamodb_UpdateItemInput_TableName_ToDafny(nativeInput.TableName), Com_amazonaws_dynamodb_UpdateItemInput_Key_ToDafny(nativeInput.Key), Com_amazonaws_dynamodb_UpdateItemInput_AttributeUpdates_ToDafny(nativeInput.AttributeUpdates), Com_amazonaws_dynamodb_UpdateItemInput_Expected_ToDafny(nativeInput.Expected), Com_amazonaws_dynamodb_UpdateItemInput_ConditionalOperator_ToDafny(nativeInput.ConditionalOperator), Com_amazonaws_dynamodb_UpdateItemInput_ReturnValues_ToDafny(nativeInput.ReturnValues), Com_amazonaws_dynamodb_UpdateItemInput_ReturnConsumedCapacity_ToDafny(nativeInput.ReturnConsumedCapacity), Com_amazonaws_dynamodb_UpdateItemInput_ReturnItemCollectionMetrics_ToDafny(nativeInput.ReturnItemCollectionMetrics), Com_amazonaws_dynamodb_UpdateItemInput_UpdateExpression_ToDafny(nativeInput.UpdateExpression), Com_amazonaws_dynamodb_UpdateItemInput_ConditionExpression_ToDafny(nativeInput.ConditionExpression), Com_amazonaws_dynamodb_UpdateItemInput_ExpressionAttributeNames_ToDafny(nativeInput.ExpressionAttributeNames), Com_amazonaws_dynamodb_UpdateItemInput_ExpressionAttributeValues_ToDafny(nativeInput.ExpressionAttributeValues), Com_amazonaws_dynamodb_UpdateItemInput_ReturnValuesOnConditionCheckFailure_ToDafny(nativeInput.ReturnValuesOnConditionCheckFailure))
 	}()
 
 }
@@ -1485,7 +1485,7 @@ func Com_amazonaws_dynamodb_BatchExecuteStatementInput_Statements_ToDafny(input 
 func Com_amazonaws_dynamodb_PartiQLBatchRequest_member_ToDafny(input types.BatchStatementRequest) ComAmazonawsDynamodbTypes.BatchStatementRequest {
 	return func() ComAmazonawsDynamodbTypes.BatchStatementRequest {
 
-		return ComAmazonawsDynamodbTypes.Companion_BatchStatementRequest_.Create_BatchStatementRequest_(Com_amazonaws_dynamodb_BatchStatementRequest_Statement_ToDafny(input.Statement), Com_amazonaws_dynamodb_BatchStatementRequest_Parameters_ToDafny(input.Parameters), Com_amazonaws_dynamodb_BatchStatementRequest_ConsistentRead_ToDafny(input.ConsistentRead))
+		return ComAmazonawsDynamodbTypes.Companion_BatchStatementRequest_.Create_BatchStatementRequest_(Com_amazonaws_dynamodb_BatchStatementRequest_Statement_ToDafny(input.Statement), Com_amazonaws_dynamodb_BatchStatementRequest_Parameters_ToDafny(input.Parameters), Com_amazonaws_dynamodb_BatchStatementRequest_ConsistentRead_ToDafny(input.ConsistentRead), Com_amazonaws_dynamodb_BatchStatementRequest_ReturnValuesOnConditionCheckFailure_ToDafny(input.ReturnValuesOnConditionCheckFailure))
 	}()
 }
 
@@ -1819,6 +1819,27 @@ func Com_amazonaws_dynamodb_BatchStatementRequest_ConsistentRead_ToDafny(input *
 	}()
 }
 
+func Com_amazonaws_dynamodb_BatchStatementRequest_ReturnValuesOnConditionCheckFailure_ToDafny(input types.ReturnValuesOnConditionCheckFailure) Wrappers.Option {
+	return func() Wrappers.Option {
+		var index int
+		for _, enumVal := range input.Values() {
+			index++
+			if enumVal == input {
+				break
+			}
+		}
+		var enum interface{}
+		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnValuesOnConditionCheckFailure_{}.AllSingletonConstructors()), 0; i < index; i++ {
+			var ok bool
+			enum, ok = allEnums()
+			if !ok {
+				break
+			}
+		}
+		return Wrappers.Companion_Option_.Create_Some_(enum.(ComAmazonawsDynamodbTypes.ReturnValuesOnConditionCheckFailure))
+	}()
+}
+
 func Com_amazonaws_dynamodb_BatchExecuteStatementInput_ReturnConsumedCapacity_ToDafny(input types.ReturnConsumedCapacity) Wrappers.Option {
 	return func() Wrappers.Option {
 		var index int
@@ -1866,7 +1887,7 @@ func Com_amazonaws_dynamodb_BatchStatementResponse_Error_ToDafny(input *types.Ba
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_BatchStatementError_.Create_BatchStatementError_(Com_amazonaws_dynamodb_BatchStatementError_Code_ToDafny(input.Code), Com_amazonaws_dynamodb_BatchStatementError_Message_ToDafny(input.Message)))
+		return Wrappers.Companion_Option_.Create_Some_(ComAmazonawsDynamodbTypes.Companion_BatchStatementError_.Create_BatchStatementError_(Com_amazonaws_dynamodb_BatchStatementError_Code_ToDafny(input.Code), Com_amazonaws_dynamodb_BatchStatementError_Message_ToDafny(input.Message), Com_amazonaws_dynamodb_BatchStatementError_Item_ToDafny(input.Item)))
 	}()
 }
 
@@ -1906,22 +1927,7 @@ func Com_amazonaws_dynamodb_BatchStatementError_Message_ToDafny(input *string) W
 	}()
 }
 
-func Com_amazonaws_dynamodb_BatchStatementResponse_TableName_ToDafny(input *string) Wrappers.Option {
-	return func() Wrappers.Option {
-		if input == nil {
-			return Wrappers.Companion_Option_.Create_None_()
-		}
-		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
-			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(*input))
-			if err != nil {
-				panic("invalid utf8 input provided")
-			}
-			return res
-		}())
-	}()
-}
-
-func Com_amazonaws_dynamodb_BatchStatementResponse_Item_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
+func Com_amazonaws_dynamodb_BatchStatementError_Item_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
 
 		fieldValue := dafny.NewMapBuilder()
@@ -1982,6 +1988,32 @@ func Com_amazonaws_dynamodb_AttributeMap_value_ToDafny(input types.AttributeValu
 		default:
 			panic("Unhandled union type")
 		}
+	}()
+}
+
+func Com_amazonaws_dynamodb_BatchStatementResponse_TableName_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(*input))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
+	}()
+}
+
+func Com_amazonaws_dynamodb_BatchStatementResponse_Item_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
+	return func() Wrappers.Option {
+
+		fieldValue := dafny.NewMapBuilder()
+		for key, val := range input {
+			fieldValue.Add(Com_amazonaws_dynamodb_AttributeMap_key_ToDafny(key), Com_amazonaws_dynamodb_AttributeMap_value_ToDafny(val))
+		}
+		return Wrappers.Companion_Option_.Create_Some_(fieldValue.ToMap())
 	}()
 }
 
@@ -5428,6 +5460,27 @@ func Com_amazonaws_dynamodb_ExpressionAttributeValueMap_value_ToDafny(input type
 	}()
 }
 
+func Com_amazonaws_dynamodb_DeleteItemInput_ReturnValuesOnConditionCheckFailure_ToDafny(input types.ReturnValuesOnConditionCheckFailure) Wrappers.Option {
+	return func() Wrappers.Option {
+		var index int
+		for _, enumVal := range input.Values() {
+			index++
+			if enumVal == input {
+				break
+			}
+		}
+		var enum interface{}
+		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnValuesOnConditionCheckFailure_{}.AllSingletonConstructors()), 0; i < index; i++ {
+			var ok bool
+			enum, ok = allEnums()
+			if !ok {
+				break
+			}
+		}
+		return Wrappers.Companion_Option_.Create_Some_(enum.(ComAmazonawsDynamodbTypes.ReturnValuesOnConditionCheckFailure))
+	}()
+}
+
 func Com_amazonaws_dynamodb_DeleteItemOutput_Attributes_ToDafny(input map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
 
@@ -7853,6 +7906,27 @@ func Com_amazonaws_dynamodb_ExecuteStatementInput_Limit_ToDafny(input *int32) Wr
 	}()
 }
 
+func Com_amazonaws_dynamodb_ExecuteStatementInput_ReturnValuesOnConditionCheckFailure_ToDafny(input types.ReturnValuesOnConditionCheckFailure) Wrappers.Option {
+	return func() Wrappers.Option {
+		var index int
+		for _, enumVal := range input.Values() {
+			index++
+			if enumVal == input {
+				break
+			}
+		}
+		var enum interface{}
+		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnValuesOnConditionCheckFailure_{}.AllSingletonConstructors()), 0; i < index; i++ {
+			var ok bool
+			enum, ok = allEnums()
+			if !ok {
+				break
+			}
+		}
+		return Wrappers.Companion_Option_.Create_Some_(enum.(ComAmazonawsDynamodbTypes.ReturnValuesOnConditionCheckFailure))
+	}()
+}
+
 func Com_amazonaws_dynamodb_ExecuteStatementOutput_Items_ToDafny(input []map[string]types.AttributeValue) Wrappers.Option {
 	return func() Wrappers.Option {
 		if input == nil {
@@ -7919,7 +7993,7 @@ func Com_amazonaws_dynamodb_ExecuteTransactionInput_TransactStatements_ToDafny(i
 func Com_amazonaws_dynamodb_ParameterizedStatements_member_ToDafny(input types.ParameterizedStatement) ComAmazonawsDynamodbTypes.ParameterizedStatement {
 	return func() ComAmazonawsDynamodbTypes.ParameterizedStatement {
 
-		return ComAmazonawsDynamodbTypes.Companion_ParameterizedStatement_.Create_ParameterizedStatement_(Com_amazonaws_dynamodb_ParameterizedStatement_Statement_ToDafny(input.Statement), Com_amazonaws_dynamodb_ParameterizedStatement_Parameters_ToDafny(input.Parameters))
+		return ComAmazonawsDynamodbTypes.Companion_ParameterizedStatement_.Create_ParameterizedStatement_(Com_amazonaws_dynamodb_ParameterizedStatement_Statement_ToDafny(input.Statement), Com_amazonaws_dynamodb_ParameterizedStatement_Parameters_ToDafny(input.Parameters), Com_amazonaws_dynamodb_ParameterizedStatement_ReturnValuesOnConditionCheckFailure_ToDafny(input.ReturnValuesOnConditionCheckFailure))
 	}()
 }
 
@@ -7949,6 +8023,27 @@ func Com_amazonaws_dynamodb_ParameterizedStatement_Parameters_ToDafny(input []ty
 			fieldValue = append(fieldValue, element)
 		}
 		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(fieldValue...))
+	}()
+}
+
+func Com_amazonaws_dynamodb_ParameterizedStatement_ReturnValuesOnConditionCheckFailure_ToDafny(input types.ReturnValuesOnConditionCheckFailure) Wrappers.Option {
+	return func() Wrappers.Option {
+		var index int
+		for _, enumVal := range input.Values() {
+			index++
+			if enumVal == input {
+				break
+			}
+		}
+		var enum interface{}
+		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnValuesOnConditionCheckFailure_{}.AllSingletonConstructors()), 0; i < index; i++ {
+			var ok bool
+			enum, ok = allEnums()
+			if !ok {
+				break
+			}
+		}
+		return Wrappers.Companion_Option_.Create_Some_(enum.(ComAmazonawsDynamodbTypes.ReturnValuesOnConditionCheckFailure))
 	}()
 }
 
@@ -9604,6 +9699,27 @@ func Com_amazonaws_dynamodb_PutItemInput_ExpressionAttributeValues_ToDafny(input
 			fieldValue.Add(Com_amazonaws_dynamodb_ExpressionAttributeValueMap_key_ToDafny(key), Com_amazonaws_dynamodb_ExpressionAttributeValueMap_value_ToDafny(val))
 		}
 		return Wrappers.Companion_Option_.Create_Some_(fieldValue.ToMap())
+	}()
+}
+
+func Com_amazonaws_dynamodb_PutItemInput_ReturnValuesOnConditionCheckFailure_ToDafny(input types.ReturnValuesOnConditionCheckFailure) Wrappers.Option {
+	return func() Wrappers.Option {
+		var index int
+		for _, enumVal := range input.Values() {
+			index++
+			if enumVal == input {
+				break
+			}
+		}
+		var enum interface{}
+		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnValuesOnConditionCheckFailure_{}.AllSingletonConstructors()), 0; i < index; i++ {
+			var ok bool
+			enum, ok = allEnums()
+			if !ok {
+				break
+			}
+		}
+		return Wrappers.Companion_Option_.Create_Some_(enum.(ComAmazonawsDynamodbTypes.ReturnValuesOnConditionCheckFailure))
 	}()
 }
 
@@ -12170,6 +12286,27 @@ func Com_amazonaws_dynamodb_UpdateItemInput_ExpressionAttributeValues_ToDafny(in
 			fieldValue.Add(Com_amazonaws_dynamodb_ExpressionAttributeValueMap_key_ToDafny(key), Com_amazonaws_dynamodb_ExpressionAttributeValueMap_value_ToDafny(val))
 		}
 		return Wrappers.Companion_Option_.Create_Some_(fieldValue.ToMap())
+	}()
+}
+
+func Com_amazonaws_dynamodb_UpdateItemInput_ReturnValuesOnConditionCheckFailure_ToDafny(input types.ReturnValuesOnConditionCheckFailure) Wrappers.Option {
+	return func() Wrappers.Option {
+		var index int
+		for _, enumVal := range input.Values() {
+			index++
+			if enumVal == input {
+				break
+			}
+		}
+		var enum interface{}
+		for allEnums, i := dafny.Iterate(ComAmazonawsDynamodbTypes.CompanionStruct_ReturnValuesOnConditionCheckFailure_{}.AllSingletonConstructors()), 0; i < index; i++ {
+			var ok bool
+			enum, ok = allEnums()
+			if !ok {
+				break
+			}
+		}
+		return Wrappers.Companion_Option_.Create_Some_(enum.(ComAmazonawsDynamodbTypes.ReturnValuesOnConditionCheckFailure))
 	}()
 }
 
