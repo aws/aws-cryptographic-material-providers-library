@@ -46,13 +46,13 @@ module Commitment {
              //= type=implication
              //# - [Get Encryption Materials](./cmm-interface.md#get-encryption-materials) MUST only support algorithm suites that have a [Key Commitment](./algorithm-suites.md#algorithm-suites-encryption-key-derivation-settings) value of True
              || commitmentPolicy == CommitmentPolicy.ESDK(REQUIRE_ENCRYPT_ALLOW_DECRYPT)
-             //= aws-encryption-sdk-specification/framework/commitment-policy.md#esdk-require-encrypt-require-decrypt
-             //= type=implication
-             //# - [Get Encryption Materials](./cmm-interface.md#get-encryption-materials) MUST only support algorithm suites that have a [Key Commitment](./algorithm-suites.md#algorithm-suites-encryption-key-derivation-settings) value of True
+                //= aws-encryption-sdk-specification/framework/commitment-policy.md#esdk-require-encrypt-require-decrypt
+                //= type=implication
+                //# - [Get Encryption Materials](./cmm-interface.md#get-encryption-materials) MUST only support algorithm suites that have a [Key Commitment](./algorithm-suites.md#algorithm-suites-encryption-key-derivation-settings) value of True
              || commitmentPolicy == CommitmentPolicy.ESDK(ESDKCommitmentPolicy.REQUIRE_ENCRYPT_REQUIRE_DECRYPT)
-             //= aws-encryption-sdk-specification/framework/commitment-policy.md#dbe-require-encrypt-require-decrypt
-             //= type=implication
-             //# - [Get Encryption Materials](./cmm-interface.md#get-encryption-materials) MUST only support algorithm suites that have a [Key Commitment](./algorithm-suites.md#algorithm-suites-encryption-key-derivation-settings) value of True
+                //= aws-encryption-sdk-specification/framework/commitment-policy.md#dbe-require-encrypt-require-decrypt
+                //= type=implication
+                //# - [Get Encryption Materials](./cmm-interface.md#get-encryption-materials) MUST only support algorithm suites that have a [Key Commitment](./algorithm-suites.md#algorithm-suites-encryption-key-derivation-settings) value of True
              || commitmentPolicy == CommitmentPolicy.DBE(DBECommitmentPolicy.REQUIRE_ENCRYPT_REQUIRE_DECRYPT)
            )
         && var suite := AlgorithmSuites.GetSuite(algorithm);
@@ -69,11 +69,11 @@ module Commitment {
              //= aws-encryption-sdk-specification/framework/commitment-policy.md#esdk-require-encrypt-allow-decrypt
              //# - [Get Encryption Materials](./cmm-interface.md#get-encryption-materials) MUST only support algorithm suites that have a [Key Commitment](./algorithm-suites.md#algorithm-suites-encryption-key-derivation-settings) value of True
              || commitmentPolicy == CommitmentPolicy.ESDK(REQUIRE_ENCRYPT_ALLOW_DECRYPT)
-             //= aws-encryption-sdk-specification/framework/commitment-policy.md#esdk-require-encrypt-require-decrypt
-             //# - [Get Encryption Materials](./cmm-interface.md#get-encryption-materials) MUST only support algorithm suites that have a [Key Commitment](./algorithm-suites.md#algorithm-suites-encryption-key-derivation-settings) value of True
+                //= aws-encryption-sdk-specification/framework/commitment-policy.md#esdk-require-encrypt-require-decrypt
+                //# - [Get Encryption Materials](./cmm-interface.md#get-encryption-materials) MUST only support algorithm suites that have a [Key Commitment](./algorithm-suites.md#algorithm-suites-encryption-key-derivation-settings) value of True
              || commitmentPolicy == CommitmentPolicy.ESDK(ESDKCommitmentPolicy.REQUIRE_ENCRYPT_REQUIRE_DECRYPT)
-             //= aws-encryption-sdk-specification/framework/commitment-policy.md#dbe-require-encrypt-require-decrypt
-             //# - [Get Encryption Materials](./cmm-interface.md#get-encryption-materials) MUST only support algorithm suites that have a [Key Commitment](./algorithm-suites.md#algorithm-suites-encryption-key-derivation-settings) value of True
+                //= aws-encryption-sdk-specification/framework/commitment-policy.md#dbe-require-encrypt-require-decrypt
+                //# - [Get Encryption Materials](./cmm-interface.md#get-encryption-materials) MUST only support algorithm suites that have a [Key Commitment](./algorithm-suites.md#algorithm-suites-encryption-key-derivation-settings) value of True
              || commitmentPolicy == CommitmentPolicy.DBE(DBECommitmentPolicy.REQUIRE_ENCRYPT_REQUIRE_DECRYPT)
            )
         && var suite := AlgorithmSuites.GetSuite(algorithm);
@@ -137,9 +137,9 @@ module Commitment {
              //= type=implication
              //# - [Decrypt Materials](./cmm-interface.md#decrypt-materials) MUST only support algorithm suites that have a [Key Commitment](./algorithm-suites.md#algorithm-suites-encryption-key-derivation-settings) value of True
              || commitmentPolicy == CommitmentPolicy.ESDK(ESDKCommitmentPolicy.REQUIRE_ENCRYPT_REQUIRE_DECRYPT)
-             //= aws-encryption-sdk-specification/framework/commitment-policy.md#dbe-require-encrypt-require-decrypt
-             //= type=implication
-             //# - [Decrypt Materials](./cmm-interface.md#decrypt-materials) MUST only support algorithm suites that have a [Key Commitment](./algorithm-suites.md#algorithm-suites-encryption-key-derivation-settings) value of True
+                //= aws-encryption-sdk-specification/framework/commitment-policy.md#dbe-require-encrypt-require-decrypt
+                //= type=implication
+                //# - [Decrypt Materials](./cmm-interface.md#decrypt-materials) MUST only support algorithm suites that have a [Key Commitment](./algorithm-suites.md#algorithm-suites-encryption-key-derivation-settings) value of True
              || commitmentPolicy == CommitmentPolicy.DBE(DBECommitmentPolicy.REQUIRE_ENCRYPT_REQUIRE_DECRYPT)
            )
         && var suite := AlgorithmSuites.GetSuite(algorithm);
@@ -156,8 +156,8 @@ module Commitment {
              //= aws-encryption-sdk-specification/framework/commitment-policy.md#esdk-require-encrypt-require-decrypt
              //# - [Decrypt Materials](./cmm-interface.md#decrypt-materials) MUST only support algorithm suites that have a [Key Commitment](./algorithm-suites.md#algorithm-suites-encryption-key-derivation-settings) value of True
              || commitmentPolicy == CommitmentPolicy.ESDK(ESDKCommitmentPolicy.REQUIRE_ENCRYPT_REQUIRE_DECRYPT)
-             //= aws-encryption-sdk-specification/framework/commitment-policy.md#dbe-require-encrypt-require-decrypt
-             //# - [Decrypt Materials](./cmm-interface.md#decrypt-materials) MUST only support algorithm suites that have a [Key Commitment](./algorithm-suites.md#algorithm-suites-encryption-key-derivation-settings) value of True
+                //= aws-encryption-sdk-specification/framework/commitment-policy.md#dbe-require-encrypt-require-decrypt
+                //# - [Decrypt Materials](./cmm-interface.md#decrypt-materials) MUST only support algorithm suites that have a [Key Commitment](./algorithm-suites.md#algorithm-suites-encryption-key-derivation-settings) value of True
              || commitmentPolicy == CommitmentPolicy.DBE(DBECommitmentPolicy.REQUIRE_ENCRYPT_REQUIRE_DECRYPT)
            )
         && var suite := AlgorithmSuites.GetSuite(algorithm);
@@ -175,9 +175,9 @@ module Commitment {
           //= type=implication
           //# - [Decrypt Materials](./cmm-interface.md#decrypt-materials) MUST support all algorithm suites
           || commitmentPolicy == CommitmentPolicy.ESDK(FORBID_ENCRYPT_ALLOW_DECRYPT)
-          //= aws-encryption-sdk-specification/framework/commitment-policy.md#esdk-require-encrypt-allow-decrypt
-          //= type=implication
-          //# - [Decrypt Materials](./cmm-interface.md#decrypt-materials) MUST support all algorithm suites
+             //= aws-encryption-sdk-specification/framework/commitment-policy.md#esdk-require-encrypt-allow-decrypt
+             //= type=implication
+             //# - [Decrypt Materials](./cmm-interface.md#decrypt-materials) MUST support all algorithm suites
           || commitmentPolicy == CommitmentPolicy.ESDK(REQUIRE_ENCRYPT_ALLOW_DECRYPT)
         )
       )

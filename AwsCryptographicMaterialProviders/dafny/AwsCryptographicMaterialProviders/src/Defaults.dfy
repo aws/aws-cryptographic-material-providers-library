@@ -23,9 +23,9 @@ module Defaults {
       //= type=implication
       //# - `05 78` MUST be the default algorithm suite
       || commitmentPolicy == CommitmentPolicy.ESDK(REQUIRE_ENCRYPT_ALLOW_DECRYPT)
-      //= aws-encryption-sdk-specification/framework/commitment-policy.md#esdk-require-encrypt-require-decrypt
-      //= type=implication
-      //# - `05 78` MUST be the default algorithm suite
+         //= aws-encryption-sdk-specification/framework/commitment-policy.md#esdk-require-encrypt-require-decrypt
+         //= type=implication
+         //# - `05 78` MUST be the default algorithm suite
       || commitmentPolicy == CommitmentPolicy.ESDK(ESDKCommitmentPolicy.REQUIRE_ENCRYPT_REQUIRE_DECRYPT)
       ==>
         output == AlgorithmSuiteId.ESDK(ALG_AES_256_GCM_HKDF_SHA512_COMMIT_KEY_ECDSA_P384)

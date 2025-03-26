@@ -72,7 +72,7 @@ module EdkWrapping {
   method WrapEdkMaterial<T>(
     nameonly encryptionMaterials: Types.EncryptionMaterials,
     nameonly wrap: MaterialWrapping.WrapMaterial<T>,
-                                                 nameonly generateAndWrap: MaterialWrapping.GenerateAndWrapMaterial<T>
+    nameonly generateAndWrap: MaterialWrapping.GenerateAndWrapMaterial<T>
   ) returns (ret: Result<WrapEdkMaterialOutput<T>, Types.Error>)
     requires wrap.Invariant()
     requires generateAndWrap.Invariant()
@@ -229,7 +229,7 @@ module EdkWrapping {
         );
     } else if (encryptionMaterials.plaintextDataKey.None?
                && encryptionMaterials.algorithmSuite.edkWrapping.IntermediateKeyWrapping?) {
-        // Generate pdk and wrap using Intermediate Key Wrapping
+      // Generate pdk and wrap using Intermediate Key Wrapping
       :- Need(encryptionMaterials.algorithmSuite.commitment.HKDF?,
               Types.AwsCryptographicMaterialProvidersException(
                 message := "Invalid algorithm suite: suites with intermediate key wrapping must use key commitment."));
@@ -318,8 +318,8 @@ module EdkWrapping {
           )
         );
     } else if (decryptionMaterials.algorithmSuite.edkWrapping.IntermediateKeyWrapping?) {
-        // Unwrap the EDK Ciphertext using the EdkWrapping method,
-        // and obtain both the pdk and a symmetric signing key
+      // Unwrap the EDK Ciphertext using the EdkWrapping method,
+      // and obtain both the pdk and a symmetric signing key
       :- Need(|wrappedMaterial| >= (decryptionMaterials.algorithmSuite.encrypt.AES_GCM.keyLength +
                                     decryptionMaterials.algorithmSuite.encrypt.AES_GCM.tagLength) as int,
               Types.AwsCryptographicMaterialProvidersException(

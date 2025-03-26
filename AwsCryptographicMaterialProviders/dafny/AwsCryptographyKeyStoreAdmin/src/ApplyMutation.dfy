@@ -13,12 +13,12 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
   import opened Wrappers
   import opened Seq
   import UTF8
-  // KeyStore Imports
+    // KeyStore Imports
   import KeyStoreTypes = AwsCryptographyKeyStoreAdminTypes.AwsCryptographyKeyStoreTypes
   import Structure
   import DefaultKeyStorageInterface
   import KmsArn
-  // KeyStoreAdmin Imports
+    // KeyStoreAdmin Imports
   import Types = AwsCryptographyKeyStoreAdminTypes
   import StateStrucs = MutationStateStructures
   import KmsUtils
@@ -43,7 +43,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
                 logicalName := input.logicalKeyStoreName)
            && Structure.DecryptOnlyHierarchicalSymmetricKey?(item)
            && item.Type.HierarchicalSymmetricVersion?
-           // TODO-HV-2-M2 : allow for HV-2
+              // TODO-HV-2-M2 : allow for HV-2
            && item.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1
        )
   }

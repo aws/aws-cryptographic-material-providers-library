@@ -187,9 +187,9 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
          && sourceEncryptionContext[Structure.KEY_CREATE_TIME] == destinationEncryptionContext[Structure.KEY_CREATE_TIME]
          && sourceEncryptionContext[Structure.HIERARCHY_VERSION] == destinationEncryptionContext[Structure.HIERARCHY_VERSION]
          && sourceEncryptionContext[Structure.TABLE_FIELD] == destinationEncryptionContext[Structure.TABLE_FIELD]
-         // @seebees for AttemptReEncrypt?, I do not think we need the following IFF:
-         // It would only apply to ACTIVE Items, which we never ReEncrypt.
-         // No other Items have `version` as a member of their EC
+            // @seebees for AttemptReEncrypt?, I do not think we need the following IFF:
+            // It would only apply to ACTIVE Items, which we never ReEncrypt.
+            // No other Items have `version` as a member of their EC
          && (Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD in sourceEncryptionContext
              <==>
              && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD in destinationEncryptionContext
@@ -483,7 +483,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       ==>
         && KMS.IsValid_CiphertextType(ciphertext)
         && |kmsClient.History.ReEncrypt| == |old(kmsClient.History.ReEncrypt)| + 1
-        // && var kmsKeyArn := GetKeyId(kmsConfiguration);
+           // && var kmsKeyArn := GetKeyId(kmsConfiguration);
         && KMS.ReEncryptRequest(
              CiphertextBlob := ciphertext,
              SourceEncryptionContext := Some(sourceEncryptionContext),
@@ -594,10 +594,10 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   {
     :- Need(
       && KmsArn.ValidKmsArn?(encryptedKey.KmsArn)
-      // This check is overloaded.
-      // It is incredibly unlikely that the the stored ciphertext
-      // has dropped to 0 or exceeds the KMS limit.
-      // So the error message is left unchanged.
+         // This check is overloaded.
+         // It is incredibly unlikely that the the stored ciphertext
+         // has dropped to 0 or exceeds the KMS limit.
+         // So the error message is left unchanged.
       && KMS.IsValid_CiphertextType(encryptedKey.CiphertextBlob),
       Types.KeyStoreException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
     );
@@ -629,7 +629,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     output := Success(decryptResponse);
 
   }
-
+ 
   ghost predicate AwsKmsBranchKeyDecryption?(
     versionItem: Types.EncryptedHierarchicalKey,
     kmsConfiguration: Types.KMSConfiguration,
@@ -672,9 +672,9 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
 
     && var decryptRequest := decryptHistory.input;
     && decryptRequest.KeyId.Some?
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
-    //= type=implication
-    //# - `KeyId`, if the KMS Configuration is Discovery, MUST be the `kms-arn` attribute value of the AWS DDB response item.
+       //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
+       //= type=implication
+       //# - `KeyId`, if the KMS Configuration is Discovery, MUST be the `kms-arn` attribute value of the AWS DDB response item.
     && (kmsConfiguration.discovery? ==> decryptRequest.KeyId == Some(versionItem.KmsArn))
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption

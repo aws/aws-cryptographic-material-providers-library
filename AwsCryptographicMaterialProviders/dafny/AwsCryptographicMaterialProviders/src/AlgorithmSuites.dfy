@@ -82,26 +82,26 @@ module AlgorithmSuites {
     // If there is a KDF, the output length MUST match the encrypt length
     && (a.kdf.HKDF? ==>
           && a.kdf.HKDF.outputKeyLength == a.encrypt.AES_GCM.keyLength)
-    // If there is a signature, there MUST be a KDF
+       // If there is a signature, there MUST be a KDF
     && (a.signature.ECDSA? ==> a.kdf.HKDF?)
-    // If there is commitment, the KDF MUST match
+       // If there is commitment, the KDF MUST match
     && (a.commitment.HKDF? ==>
           && a.commitment.HKDF.saltLength == 32
           && a.commitment == a.kdf)
-    // If there is a IntermediateKeyWrapping, the KDFs MUST match
+       // If there is a IntermediateKeyWrapping, the KDFs MUST match
     && (a.edkWrapping.IntermediateKeyWrapping? ==>
           && a.kdf.HKDF?
           && a.edkWrapping.IntermediateKeyWrapping.keyEncryptionKeyKdf == a.kdf
           && a.edkWrapping.IntermediateKeyWrapping.macKeyKdf == a.kdf)
-    // If there is a KDF and no commitment then salt MUST be 0
+       // If there is a KDF and no commitment then salt MUST be 0
     && (a.kdf.HKDF? && a.commitment.None? ==> a.kdf.HKDF.saltLength == 0)
-    //= aws-encryption-sdk-specification/framework/algorithm-suites.md#algorithm-suites-signature-settings
-    //= type=implication
-    //# An algorithm suite with a symmetric signature algorithm MUST use [intermediate key wrapping](#intermediate-key-wrapping).
-    //
-    // If the algorithm suite includes an symmetric signature algorithm:
-    //= aws-encryption-sdk-specification/framework/algorithm-suites.md#symmetric-signature-algorithm
-    //# - The algorithm suite MUST also use [Intermediate Key Wrapping](#intermediate-key-wrapping).
+       //= aws-encryption-sdk-specification/framework/algorithm-suites.md#algorithm-suites-signature-settings
+       //= type=implication
+       //# An algorithm suite with a symmetric signature algorithm MUST use [intermediate key wrapping](#intermediate-key-wrapping).
+       //
+       // If the algorithm suite includes an symmetric signature algorithm:
+       //= aws-encryption-sdk-specification/framework/algorithm-suites.md#symmetric-signature-algorithm
+       //# - The algorithm suite MUST also use [Intermediate Key Wrapping](#intermediate-key-wrapping).
     && (!a.symmetricSignature.None? ==>
           && a.edkWrapping.IntermediateKeyWrapping?)
   }
@@ -119,7 +119,7 @@ module AlgorithmSuites {
   {
     // Adheres to constraints for all algorithm suites
     && AlgorithmSuiteInfo?(a)
-    // All ESDK encrypt with AES_GCM
+       // All ESDK encrypt with AES_GCM
     && SupportedESDKEncrypt?(a.encrypt)
 
     // Specification for each supported ESDK Algorithm Suite

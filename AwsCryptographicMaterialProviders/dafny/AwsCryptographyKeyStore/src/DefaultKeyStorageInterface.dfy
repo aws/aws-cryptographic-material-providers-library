@@ -107,7 +107,7 @@ module DefaultKeyStorageInterface {
             && (output.value.MutationCommitment.Some? ==>
                   && output.value.MutationCommitment.value.Identifier == input.Identifier
                   && Structure.MutationCommitment?(output.value.MutationCommitment.value))
-            // Conditions for M-Index
+               // Conditions for M-Index
             && (output.value.MutationIndex.Some? ==>
                   && output.value.MutationIndex.value.Identifier == input.Identifier
                   && Structure.MutationIndex?(output.value.MutationIndex.value) )
@@ -130,14 +130,14 @@ module DefaultKeyStorageInterface {
             //= type=implication
             //# The returned EncryptedHierarchicalKey MUST have the same identifier as the input.
             && output.value.Item.Identifier == input.Identifier
-            //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#getencryptedactivebranchkey
-            //= type=implication
-            //# The returned EncryptedHierarchicalKey MUST have a type of ActiveHierarchicalSymmetricVersion.
+               //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#getencryptedactivebranchkey
+               //= type=implication
+               //# The returned EncryptedHierarchicalKey MUST have a type of ActiveHierarchicalSymmetricVersion.
             && Structure.ActiveHierarchicalSymmetricKey?(output.value.Item)
-            //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#logical-keystore-name
-            //= type=implication
-            //# It is not stored on the items in the so it MUST be added
-            //# to items retrieved from the table.
+               //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#logical-keystore-name
+               //= type=implication
+               //# It is not stored on the items in the so it MUST be added
+               //# to items retrieved from the table.
             && output.value.Item.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
       )
     }
@@ -151,9 +151,9 @@ module DefaultKeyStorageInterface {
             //= type=implication
             //# The returned EncryptedHierarchicalKey MUST have the same identifier as the input.
             && output.value.Item.Identifier == input.Identifier
-            //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#getencryptedbranchkeyversion
-            //= type=implication
-            //# The returned EncryptedHierarchicalKey MUST have a type of HierarchicalSymmetricVersion.
+               //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#getencryptedbranchkeyversion
+               //= type=implication
+               //# The returned EncryptedHierarchicalKey MUST have a type of HierarchicalSymmetricVersion.
             && Structure.DecryptOnlyHierarchicalSymmetricKey?(output.value.Item)
             && output.value.Item.Type == Types.HierarchicalSymmetricVersion(
                                            //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#getencryptedbranchkeyversion
@@ -161,10 +161,10 @@ module DefaultKeyStorageInterface {
                                            //# The returned EncryptedHierarchicalKey MUST have the same version as the input.
                                            Types.HierarchicalSymmetric( Version := input.Version )
                                          )
-            //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#logical-keystore-name
-            //= type=implication
-            //# It is not stored on the items in the so it MUST be added
-            //# to items retrieved from the table.
+               //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#logical-keystore-name
+               //= type=implication
+               //# It is not stored on the items in the so it MUST be added
+               //# to items retrieved from the table.
             && output.value.Item.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
       )
     }
@@ -185,14 +185,14 @@ module DefaultKeyStorageInterface {
             //= type=implication
             //# The returned EncryptedHierarchicalKey MUST have the same identifier as the input.
             && output.value.Item.Identifier == input.Identifier
-            //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#getencryptedbeaconkey
-            //= type=implication
-            //# The returned EncryptedHierarchicalKey MUST have a type of ActiveHierarchicalSymmetricBeacon.
+               //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#getencryptedbeaconkey
+               //= type=implication
+               //# The returned EncryptedHierarchicalKey MUST have a type of ActiveHierarchicalSymmetricBeacon.
             && Structure.ActiveHierarchicalSymmetricBeaconKey?(output.value.Item)
-            //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#logical-keystore-name
-            //= type=implication
-            //# It is not stored on the items in the so it MUST be added
-            //# to items retrieved from the table.
+               //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#logical-keystore-name
+               //= type=implication
+               //# It is not stored on the items in the so it MUST be added
+               //# to items retrieved from the table.
             && output.value.Item.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
       )
     }
@@ -220,16 +220,16 @@ module DefaultKeyStorageInterface {
             && Structure.ActiveHierarchicalSymmetricKey?(output.value.ActiveItem)
             && output.value.ActiveItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
             && KmsArn.ValidKmsArn?(output.value.ActiveItem.KmsArn)
-            // Conditions for Beacon
+               // Conditions for Beacon
             && output.value.BeaconItem.Identifier == input.Identifier
             && Structure.ActiveHierarchicalSymmetricBeaconKey?(output.value.BeaconItem)
             && output.value.BeaconItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
             && KmsArn.ValidKmsArn?(output.value.BeaconItem.KmsArn)
-            // Conditions for M-Lock
+               // Conditions for M-Lock
             && (output.value.MutationCommitment.Some? ==>
                   && output.value.MutationCommitment.value.Identifier == input.Identifier
                   && Structure.MutationCommitment?(output.value.MutationCommitment.value))
-            // Conditions for M-Index
+               // Conditions for M-Index
             && (output.value.MutationIndex.Some? ==>
                   && output.value.MutationIndex.value.Identifier == input.Identifier
                   && Structure.MutationIndex?(output.value.MutationIndex.value) )
@@ -456,10 +456,10 @@ module DefaultKeyStorageInterface {
         ==>
           && (forall k <- input.Version.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
           && (forall k <- input.Active.Item.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
-          //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#writenewencryptedbranchkeyversion
-          //= type=implication
-          //# To add the new branch key to the keystore,
-          //# the operation MUST call [Amazon DynamoDB API TransactWriteItems](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TransactWriteItems.html).
+             //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#writenewencryptedbranchkeyversion
+             //= type=implication
+             //# To add the new branch key to the keystore,
+             //# the operation MUST call [Amazon DynamoDB API TransactWriteItems](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TransactWriteItems.html).
           && Seq.Last(ddbClient.History.TransactWriteItems).input
              //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#writenewencryptedbranchkeyversion
              //= type=implication
@@ -530,7 +530,7 @@ module DefaultKeyStorageInterface {
       ensures ValidState() && unchanged(History)
       ensures WriteMutationIndexEnsuresPublicly(input, output)
     {
-        /** Validate Input */
+      /** Validate Input */
       :- Need(
         Structure.MutationCommitment?(input.MutationCommitment),
         Types.KeyStorageException(
@@ -694,9 +694,9 @@ module DefaultKeyStorageInterface {
               ==>
                 && Seq.Last(ddbClient.History.GetItem).output.Success?
                 && Seq.Last(ddbClient.History.GetItem).output.value.Item.Some?
-                //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#getencryptedactivebranchkey
-                //= type=implication
-                //# The AWS DDB response MUST contain the fields defined in the [branch keystore record format](#record-format).
+                   //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#getencryptedactivebranchkey
+                   //= type=implication
+                   //# The AWS DDB response MUST contain the fields defined in the [branch keystore record format](#record-format).
                 && Structure.BranchKeyItem?(Seq.Last(ddbClient.History.GetItem).output.value.Item.value)
 
       ensures
@@ -707,9 +707,9 @@ module DefaultKeyStorageInterface {
       ensures
         && Seq.Last(ddbClient.History.GetItem).output.Success?
         && Seq.Last(ddbClient.History.GetItem).output.value.Item.Some?
-        //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#getencryptedactivebranchkey
-        //= type=implication
-        //# If the record does not contain the defined fields, this operation MUST fail.
+           //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#getencryptedactivebranchkey
+           //= type=implication
+           //# If the record does not contain the defined fields, this operation MUST fail.
         && !Structure.BranchKeyItem?(Seq.Last(ddbClient.History.GetItem).output.value.Item.value)
         ==> output.Failure?
     {
@@ -790,18 +790,18 @@ module DefaultKeyStorageInterface {
               ==>
                 && Seq.Last(ddbClient.History.GetItem).output.Success?
                 && Seq.Last(ddbClient.History.GetItem).output.value.Item.Some?
-                //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#getencryptedbranchkeyversion
-                //= type=implication
-                //# The AWS DDB response MUST contain the fields defined in the [branch keystore record format](#record-format).
+                   //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#getencryptedbranchkeyversion
+                   //= type=implication
+                   //# The AWS DDB response MUST contain the fields defined in the [branch keystore record format](#record-format).
                 && Structure.BranchKeyItem?(Seq.Last(ddbClient.History.GetItem).output.value.Item.value)
 
       ensures
         && |ddbClient.History.GetItem| == |old(ddbClient.History.GetItem)| + 1
         && Seq.Last(ddbClient.History.GetItem).output.Success?
         && Seq.Last(ddbClient.History.GetItem).output.value.Item.Some?
-        //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#getencryptedbranchkeyversion
-        //= type=implication
-        //# If the record does not contain the defined fields, this operation MUST fail.
+           //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#getencryptedbranchkeyversion
+           //= type=implication
+           //# If the record does not contain the defined fields, this operation MUST fail.
         && !Structure.BranchKeyItem?(Seq.Last(ddbClient.History.GetItem).output.value.Item.value)
         ==> output.Failure?
     {
@@ -894,17 +894,17 @@ module DefaultKeyStorageInterface {
               ==>
                 && Seq.Last(ddbClient.History.GetItem).output.Success?
                 && Seq.Last(ddbClient.History.GetItem).output.value.Item.Some?
-                //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#getencryptedbeaconkey
-                //= type=implication
-                //# The AWS DDB response MUST contain the fields defined in the [branch keystore record format](#record-format).
+                   //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#getencryptedbeaconkey
+                   //= type=implication
+                   //# The AWS DDB response MUST contain the fields defined in the [branch keystore record format](#record-format).
                 && Structure.BranchKeyItem?(Seq.Last(ddbClient.History.GetItem).output.value.Item.value)
 
       ensures
         && Seq.Last(ddbClient.History.GetItem).output.Success?
         && Seq.Last(ddbClient.History.GetItem).output.value.Item.Some?
-        //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#getencryptedbeaconkey
-        //= type=implication
-        //# If the record does not contain the defined fields, this operation MUST fail.
+           //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#getencryptedbeaconkey
+           //= type=implication
+           //# If the record does not contain the defined fields, this operation MUST fail.
         && !Structure.BranchKeyItem?(Seq.Last(ddbClient.History.GetItem).output.value.Item.value)
         ==> output.Failure?
     {
@@ -1275,7 +1275,7 @@ module DefaultKeyStorageInterface {
       ensures unchanged(History) && ValidState()
       ensures WriteMutatedVersionsEnsuresPublicly(input, output)
     {
-        /** Validate Input */
+      /** Validate Input */
       :- Need(
         |input.Items| < DDB_MAX_MUTATION_WRITE_PAGE_SIZE,
         Types.KeyStorageException(message:="DynamoDB Encrypted Key Storage can only write page sizes less than " + DDB_MAX_MUTATION_WRITE_PAGE_SIZE_str + "."
@@ -1391,7 +1391,7 @@ module DefaultKeyStorageInterface {
                   ]
                 )
     {
-        /** Validate Input */
+      /** Validate Input */
       :- Need(
         Structure.MutationCommitment?(input.MutationCommitment),
         Types.KeyStorageException(message:="Mutation Index must be valid."));

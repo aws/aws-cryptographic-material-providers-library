@@ -356,23 +356,23 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
       ==>
         && Invariant()
         && 0 < |crypto.History.AESEncrypt|
-        //= aws-encryption-sdk-specification/framework/raw-ecdh-keyring.md#data-key-wrapping
-        //= type=implication
-        //# The keyring MUST encrypt the plaintext data key
-        //# using AES-GCM and use the shared wrapping key as the wrapping key.
+           //= aws-encryption-sdk-specification/framework/raw-ecdh-keyring.md#data-key-wrapping
+           //= type=implication
+           //# The keyring MUST encrypt the plaintext data key
+           //# using AES-GCM and use the shared wrapping key as the wrapping key.
         && Seq.Last(crypto.History.AESEncrypt).output.Success?
         && var AESEncryptInput := Seq.Last(crypto.History.AESEncrypt).input;
         && var AESEncryptOutput := Seq.Last(crypto.History.AESEncrypt).output.value;
         && var iv := seq(ECDH_AES_256_ENC_ALG.ivLength as nat, _ => 0);
         && AESEncryptInput.encAlg == ECDH_AES_256_ENC_ALG
         && AESEncryptInput.msg == input.plaintextMaterial
-        //= aws-encryption-sdk-specification/framework/raw-ecdh-keyring.md#data-key-wrapping
-        //= type=implication
-        //# - It MUST use a zeroed out 12 byte IV
+           //= aws-encryption-sdk-specification/framework/raw-ecdh-keyring.md#data-key-wrapping
+           //= type=implication
+           //# - It MUST use a zeroed out 12 byte IV
         && AESEncryptInput.iv == iv
-        //= aws-encryption-sdk-specification/framework/raw-ecdh-keyring.md#data-key-wrapping
-        //= type=implication
-        // - It MUST use the serialized [encryption context](structures.md#encryption-context-1) as the additional authenticated data (AAD).
+           //= aws-encryption-sdk-specification/framework/raw-ecdh-keyring.md#data-key-wrapping
+           //= type=implication
+           // - It MUST use the serialized [encryption context](structures.md#encryption-context-1) as the additional authenticated data (AAD).
         && AESEncryptInput.aad == fixedInfo
         && |res.value.wrappedMaterial| > |AESEncryptOutput.cipherText| + |AESEncryptOutput.authTag|
     }
@@ -486,10 +486,10 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
             )
     ensures res.Success? ==>
               && Last(crypto.History.KdfCounterMode).output.Success?
-              //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-ecdh-keyring.md#onencrypt
-              //= type=implication
-              //# If they Key Derivation step succeeds it MUST produce
-              //# keying material with a length of 64 bytes.
+                 //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-ecdh-keyring.md#onencrypt
+                 //= type=implication
+                 //# If they Key Derivation step succeeds it MUST produce
+                 //# keying material with a length of 64 bytes.
               && |Last(crypto.History.KdfCounterMode).output.value| == KDF_EXPECTED_LEN as int
               && |res.value| == |Last(crypto.History.KdfCounterMode).output.value|
   {

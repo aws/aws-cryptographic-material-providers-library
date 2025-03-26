@@ -116,16 +116,16 @@ module {:options "/functionSyntax:4" } LocalCMC {
       && (head.Ptr? <==> tail.Ptr?)
       && (head.Ptr? ==> head.deref.prev.Null?)
       && (tail.Ptr? ==> tail.deref.next.Null?)
-      // Every Cell in the DoublyLinkedList MUST be unique.
-      // Otherwise there would be loops in prev and next.
-      // For a Cell at 4, next MUST point to 5 or Null?.
-      // So if a Cell exists as 4 and 7
-      // then it's next would need to point to _both_ 5 and 8.
+         // Every Cell in the DoublyLinkedList MUST be unique.
+         // Otherwise there would be loops in prev and next.
+         // For a Cell at 4, next MUST point to 5 or Null?.
+         // So if a Cell exists as 4 and 7
+         // then it's next would need to point to _both_ 5 and 8.
       && (forall v <- Items :: multiset(Items)[v] == 1)
-      // Proving order is easier by being more specific
-      // and breaking up prev and next.
-      // Order means Cell 4 point to 3 and 5
-      // in prev and next respectively.
+         // Proving order is easier by being more specific
+         // and breaking up prev and next.
+         // Order means Cell 4 point to 3 and 5
+         // in prev and next respectively.
       && (forall i: nat | 0 <= i < |Items| ::
             && Prev?(i, Items[i], Items)
             && Next?(i, Items[i], Items)
@@ -331,7 +331,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
       && this in InternalModifies
       && queue in InternalModifies
       && cache in InternalModifies
-      // I want to say that `queue.Items` is somehow in InternalModifies
+                  // I want to say that `queue.Items` is somehow in InternalModifies
       && (forall i <- queue.Items :: i in InternalModifies)
       && Invariant()
     }
@@ -340,15 +340,15 @@ module {:options "/functionSyntax:4" } LocalCMC {
       reads this, queue, queue.Items, cache
     {
       && queue.Invariant()
-      // The cache is a cache of Cells, these Cells MUST be unique.
-      // The actual value that the Cell contains MAY be a duplicate.
-      // See the uniqueness comment on the DoublyLinkedList.Invariant.
+         // The cache is a cache of Cells, these Cells MUST be unique.
+         // The actual value that the Cell contains MAY be a duplicate.
+         // See the uniqueness comment on the DoublyLinkedList.Invariant.
       && MutableMapIsInjective(cache)
-      // Given that cache.Values and queue.Items are unique
-      // they MUST contain exactly the same elements.
+         // Given that cache.Values and queue.Items are unique
+         // they MUST contain exactly the same elements.
       && multiset(cache.Values()) == multiset(queue.Items)
-      // To remove the tail the key associated
-      // with the tail MUST be in the cache
+         // To remove the tail the key associated
+         // with the tail MUST be in the cache
       && (forall c <- queue.Items :: c.identifier in cache.Keys() && cache.Select(c.identifier) == c)
 
       && cache.Size() <= entryCapacity
