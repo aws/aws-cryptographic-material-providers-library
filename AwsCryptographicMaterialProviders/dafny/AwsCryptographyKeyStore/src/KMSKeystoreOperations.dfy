@@ -558,7 +558,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     return Success(reEncryptResponse.CiphertextBlob.value);
   }
 
-  method DecryptKey(
+  method DecryptKeyForHV1(
     encryptedKey: Types.EncryptedHierarchicalKey,
     kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
