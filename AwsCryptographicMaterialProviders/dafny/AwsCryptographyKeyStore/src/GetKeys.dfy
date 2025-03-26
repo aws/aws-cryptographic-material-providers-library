@@ -172,59 +172,23 @@ module GetKeys {
       )
     );
 
-    if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1) {
-      var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHV1(
-        branchKeyItemFromStorage,
-        kmsConfiguration,
-        grantTokens,
-        kmsClient
-      );
+    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
+      branchKeyItemFromStorage,
+      kmsConfiguration,
+      grantTokens,
+      kmsClient
+    );
 
-      var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
-        branchKeyItemFromStorage,
-        branchKey.Plaintext.value
-      );
-      return Success(
-          Types.GetActiveBranchKeyOutput(
-            branchKeyMaterials := branchKeyMaterials
-          ));
-    } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2) {
-      // branchKeyItemFromStorage.EncryptionContext comes from storage is not the actual EC.
-      // branchKeyItemFromStorage.EncryptionContext contains all the items in the dynamodb table and table name.
-      var hv2EC := HierarchicalVersionUtils.GetHv2KmsEc(branchKeyItemFromStorage.EncryptionContext);
-      var hv2BranchKey := Types.EncryptedHierarchicalKey(
-        Identifier := branchKeyItemFromStorage.Identifier,
-        Type := branchKeyItemFromStorage.Type,
-        CreateTime := branchKeyItemFromStorage.CreateTime,
-        KmsArn := branchKeyItemFromStorage.KmsArn,
-        EncryptionContext := hv2EC,
-        CiphertextBlob := branchKeyItemFromStorage.CiphertextBlob
-      );
-      var kmsDecryptRes: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHV2(
-        hv2BranchKey,
-        kmsConfiguration,
-        grantTokens,
-        kmsClient
-      );
-      var validateResult := HierarchicalVersionUtils.ValidateMdDigest(kmsDecryptRes.Plaintext.value, branchKeyItemFromStorage);
-      if (validateResult.Failure?) {
-        return Failure(validateResult.error);
-      }
-      var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
-        branchKeyItemFromStorage,
-        kmsDecryptRes.Plaintext.value[Structure.MD_DIGEST_LENGTH..]
-      );
-      return Success(
-          Types.GetActiveBranchKeyOutput(
-            branchKeyMaterials := branchKeyMaterials
-          ));
-    } else {
-      // This else block will never be reached because we have check for hierarchical keyring version before if-else.
-      var e := Types.KeyStoreException(
-        message := ErrorMessages.INVALID_HIERARCHY_VERSION
-      );
-      return Failure(e);
-    }
+    var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
+      branchKeyItemFromStorage,
+      branchKey.Plaintext.value
+    );
+
+    return Success(
+        Types.GetActiveBranchKeyOutput(
+          branchKeyMaterials := branchKeyMaterials
+        ));
+
   }
 
   method GetBranchKeyVersion(
@@ -384,7 +348,7 @@ module GetKeys {
         message := ErrorMessages.INVALID_BRANCH_KEY_VERSION_FROM_STORAGE)
     );
 
-    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHV1(
+    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
       branchKeyItem,
       kmsConfiguration,
       grantTokens,
@@ -536,7 +500,7 @@ module GetKeys {
         message := ErrorMessages.INVALID_BEACON_KEY_FROM_STORAGE)
     );
 
-    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHV1(
+    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
       branchKeyItem,
       kmsConfiguration,
       grantTokens,
